@@ -13,6 +13,14 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+
+
+// handle prod
+
+app.use(express.static(__dirname+'/public/'));
+app.get(/.*/,(req,res)=>res.sendFile(__dirname+'/public/index.html') );
+
+
 async function mongo_db(collection_name){
     const client = await mongodb.MongoClient.connect('',{
         useNewUrlParser:true
