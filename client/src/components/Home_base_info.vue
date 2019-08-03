@@ -33,8 +33,8 @@
       </div>
       <div class="col-md-2">
           <div class="hm_wdjt_itm_t1">
-               <span>Wallet Accounts</span>
-              <p>5,128,46</p>
+               <span>Nodes Online</span>
+              <p>400</p>
           </div>
       </div>
     </div>
