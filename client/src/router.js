@@ -1,6 +1,6 @@
 import Vue from "vue";
 import Router from "vue-router";
-import Home from "./views/Home.vue";
+
 
 Vue.use(Router);
 
@@ -12,7 +12,70 @@ export default new Router({
       component: () =>
         import("./views/Home.vue"),
       meta: {
-        title: 'Home Page - Example App',
+        title: '',
+      }
+    },
+    {
+      path: "/block",
+      name: "Blocks",
+      component: () =>
+        import("./views/Block.vue"),
+      meta: {
+        title: '',
+      }
+    },
+    {
+      path: "/transaction",
+      name: "transaction",
+      component: () =>
+        import("./views/Transaction.vue"),
+      meta: {
+        title: '',
+      }
+    },
+    {
+      path: "/account",
+      name: "account",
+      component: () =>
+        import("./views/Account.vue"),
+      meta: {
+        title: '',
+      }
+    },
+    {
+      path: "/Namespace",
+      name: "account",
+      component: () =>
+        import("./views/Namespace.vue"),
+      meta: {
+        title: '',
+      }
+    },
+    {
+      path: "/mosaic",
+      name: "account",
+      component: () =>
+        import("./views/Mosaic.vue"),
+      meta: {
+        title: '',
+      }
+    },
+    {
+      path: "/node",
+      name: "account",
+      component: () =>
+        import("./views/Mosaic.vue"),
+      meta: {
+        title: '',
+      }
+    },
+    {
+      path: "/stat",
+      name: "account",
+      component: () =>
+        import("./views/Stat.vue"),
+      meta: {
+        title: '',
       }
     },
     // {
