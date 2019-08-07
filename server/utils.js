@@ -1,5 +1,4 @@
-var nem2Sdk = require('nem2-sdk');
-const NodeHttp = nem2Sdk.NodeHttp;
+const { TransactionType } = require('nem2-sdk');
 
 const Nodes = [
 	{ protocol: 'http', domain: '52.194.207.217', port: 3000 },

@@ -1,7 +1,7 @@
-var getHomeInfo = require('./getHomeInfo');
-var getBlocks = require('./getBlocks');
+var homeInfo = require('./homeInfo');
+var blocks = require('./blocks');
 
 module.exports = {
-    getHomeInfo,
-    getBlocks
+    homeInfo,
+    blocks
 }
