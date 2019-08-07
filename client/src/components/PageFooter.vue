@@ -24,7 +24,7 @@
                     <li><a href="#">Network Stat</a></li>
                     <li><a href="#">Map</a></li>
                 </ul>
-            </div> --> 
+            </div> -->
             <div class="col-md-5">
                 <ul class="social-icon">
                     <li><a target="_blank" href="https://nemflash.io/"><i class="ico-news"></i> <span>NEM
@@ -50,9 +50,9 @@
 </template>
 <script>
 export default {
-  name: "Pagefooter",
+  name: 'Pagefooter',
   props: {
     msg: String
   }
-};
+}
 </script>

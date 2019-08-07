@@ -18,38 +18,33 @@
     </div>
     <page-footer></page-footer>
     <script type="application/javascript">
-  $(document).ready(function() {
-    var dt = $("#table-nodes-list").DataTable({
-      lengthMenu: [[10, 15, 20, -1], [10, 15, 20, "All"]],
-      order: []
-    });
-  });
+
     </script>
   </div>
 </template>
 <script>
-import tileWidjet from "@/components/widjet01.vue";
-import w1 from "@/components/Home_base_info.vue";
-import w2 from "@/components/nempricegraph.vue";
-import w3 from "@/components/recent_blocks.vue";
-import w4 from "@/components/recent_trxs.vue";
+import tileWidjet from '@/components/widjet01.vue'
+import w1 from '@/components/Home_base_info.vue'
+import w2 from '@/components/nempricegraph.vue'
+import w3 from '@/components/recent_blocks.vue'
+import w4 from '@/components/recent_trxs.vue'
 
 export default {
-  name: "home",
+  name: 'home',
   components: {
-    "Homebaseinfo": w1,
-    "nempricegraph": w2,
-    "recent-blocks":w3,
-    "recent-trxs":w4
+    'Homebaseinfo': w1,
+    'nempricegraph': w2,
+    'recent-blocks': w3,
+    'recent-trxs': w4
   },
-  data() {
+  data () {
     return {
-      last_block_time: "0 Seconds ago"
-    };
+      last_block_time: '0 Seconds ago'
+    }
   },
   methods: {},
-  mounted() {
-    this.last_block_time = 1;
+  mounted () {
+    this.last_block_time = 1
   }
-};
+}
 </script>

@@ -78,6 +78,7 @@ p {
     -moz-osx-font-smoothing: grayscale;
 }
 
+
 .ico-search-1:before {
     content: "\61";
   }
@@ -132,6 +133,19 @@ p {
   .ico-ios-arrow-thin-right:before {
     content: "\72";
   }
+  .ico-angle-double-right:before {
+    content: "\73";
+  }
+  .ico-angle-double-left:before {
+    content: "\74";
+  }
+  .ico-angle-left:before {
+    content: "\75";
+  }
+  .ico-angle-right:before {
+    content: "\76";
+  }
+  
   
 .ico-block-ch {
     background-image: url(../fonts/icon/blc-ht.png);
@@ -709,10 +723,12 @@ table {
 .table thead th {
     vertical-align: middle;
     border: 0 none;
-    padding: 18px 4px 18px 4px;
+    padding: 12px 6px 12px 6px;
     color: #0997a3;
-    font-weight: 600;
+    font-weight: 500;
     outline: none;
+    font-size: 12px;
+    letter-spacing: 1px;
 }
 
 table.dataTable thead .sorting:before, table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_asc:after, table.dataTable thead .sorting_desc:before, table.dataTable thead .sorting_desc:after, table.dataTable thead .sorting_asc_disabled:before, table.dataTable thead .sorting_asc_disabled:after, table.dataTable thead .sorting_desc_disabled:before, table.dataTable thead .sorting_desc_disabled:after {
@@ -750,33 +766,43 @@ table.dataTable thead .sorting:after, table.dataTable thead .sorting_asc:after, 
 table.dataTable thead .sorting_asc:before, table.dataTable thead .sorting_desc:after {
     opacity: 1;
 }
-
+table.table-bordered tbody tr td{
+    height: 40px;
+    border: 0;
+    border-bottom: 1px solid #dadee6;
+    font-size: 12px;
+}
 div.dataTables_wrapper div.dataTables_info {
     color: #98a8b4;
 }
 
+table.table-bordered tbody tr{
+    cursor: pointer;
+}
+
+table.table-bordered tbody  .info_append{
+    cursor: initial;
+    height: 100px;
+    width: 100%;
+}
+.table-footer{
+    width: 100%;
+    display: inline-block;
+    position: relative;
+    padding: 15px 0 0 0;
+}
+.pagination-container{
+    display: inline-block;
+    float:  right;
+}
 .pagination {
-    display: -ms-flexbox;
-    display: flex;
     padding-left: 0;
     list-style: none;
+    margin: 0;
+    display: block;
     border-radius: .25rem;
 }
 
-.pagination li {
-    list-style: none;
-}
-
-.page-link {
-    padding: .5rem;
-    line-height: 1rem;
-    text-align: center;
-    color: #aea9c3;
-    margin: 0 .3rem;
-    background-color: transparent;
-    border: 0 none;
-    font-size: 1rem;
-}
 
 .page-item:first-child .page-link {
     margin-left: 0;
@@ -1116,7 +1142,92 @@ table.table-bordered.dataTable tbody tr {
     float: left;
     max-width: 150px;
 }
+.pagination li {
+    list-style: none;
+    display: inline-block;
+}
+.page-link {
+    padding: .5rem;
+    line-height: 1rem;
+    text-align: center;
+    color: #aea9c3;
+    margin: 0 .3rem;
+    background-color: transparent;
+    border: 0 none;
+    font-size: 1rem;
+}
+.pagination li a,.pagination li span{
+    padding: 4px;
+    border: 1px solid #dadee6;
+    min-width: 36px;
+    text-align: center;
+    
+    color: #000;
+    display: inline-block;
+    text-decoration: none;
+}
+.pagination li span{
+    background: #0998a6;
+    color: #fff;
+}
+.pagination li:first-child a{
+    border-radius: 4px 0px 0px 4px;
+}
+.pagination li:last-child a{
+    border-radius: 0px 4px 4px 0px;
+}
+#table-block-list tbody tr td:nth-child(3){
+    padding-left: 2pc;
+}
+.box .box-title .info_append{
+    display: inline-block;
+    font-size: 16px;
+    padding: 0px 8px;
+    text-transform: none;
+    font-weight: 300;
+    color: #6f7788;
+}
+.list_info_con{
+    width: 100%;
+    position: relative;
+    display: inline-block;
+    padding: 15px;
+}
+.list_info_con .list_item{
+    border-bottom: 1px solid #dadee6;
+    width: 100%;
+    margin: 0px;
+    text-align: left;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+.list_info_con .list_item >*{
+    padding: 0px;
+}
+.list_info_con .list_item .label, .list_info_con .list_item .value{
+    color: #212529;
+    padding: 12px 0px;
+}
+.list_info_con .list_item .label{
+    font-weight: 500;
+    color: #1a4d60;
+}
+.select_type{
+    position: relative;
 
+}
+.select_type select{
+    border: 1px solid #039ba8;
+    border-radius: 4px;
+    color: #039ba8;
+    font-size: 10px;
+    padding: 6px 12px;
+    outline: none;
+}
+.select_type select option{
+    font-size: 10px;
+    padding: 6px 12px;
+}
 @media (max-width: 576px) {
     .ex-header {
         padding: 0px 15px;

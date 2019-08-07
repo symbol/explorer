@@ -14,7 +14,7 @@
           </div>
       </div>
       <div class="col-md-2">
-          <div class="hm_wdjt_itm_t1">         
+          <div class="hm_wdjt_itm_t1">
                <span>Average block time</span>
               <p>63 seconds</p>
           </div>
@@ -43,6 +43,6 @@
 <script>
 export default {
   props: {}
-  //['ItemTitle','ItemData','itemThumb']
-};
+  // ['ItemTitle','ItemData','itemThumb']
+}
 </script>

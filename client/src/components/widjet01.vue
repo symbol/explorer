@@ -11,15 +11,15 @@
 </template>
 <script>
 export default {
-    props:{
-        ItemTitle:{
-            type:String,
-            required:true,
-            default:''
-        },
-        ItemData:{ },
-        itemThumb:{ type:String}
-    }
-    //['ItemTitle','ItemData','itemThumb']
-};
+  props: {
+    ItemTitle: {
+      type: String,
+      required: true,
+      default: ''
+    },
+    ItemData: { },
+    itemThumb: { type: String }
+  }
+  // ['ItemTitle','ItemData','itemThumb']
+}
 </script>

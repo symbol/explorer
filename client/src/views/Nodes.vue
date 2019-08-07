@@ -3,7 +3,7 @@
     <top-header></top-header>
     <page-menu></page-menu>
     <div class="page_con">
-     
+
     </div>
     <page-footer></page-footer>
     <script type="application/javascript">
@@ -13,19 +13,18 @@
 </template>
 <script>
 
-
 export default {
-  name: "block",
+  name: 'block',
   components: {
   },
-  data() {
+  data () {
     return {
-      
-    };
+
+    }
   },
   methods: {},
-  mounted() {
-   
+  mounted () {
+
   }
-};
+}
 </script>
