@@ -55,7 +55,7 @@
                <li>
                 <router-link to="/stat" exact active-class="active">
                   <i class="ico-bar-chart"></i>
-                  <span>Statitics</span>
+                  <span>Statistics</span>
                 </router-link>
               </li>
             </ul>
@@ -76,9 +76,9 @@
 </template>
 <script>
 export default {
-  name: "PageMenu",
+  name: 'PageMenu',
   props: {
     msg: String
   }
-};
+}
 </script>

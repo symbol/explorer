@@ -2,8 +2,7 @@
   <div class="widget has-shadow m-0 z-1 nempricegraph_con">
     <canvas id="nempricegraph"  style="width:100%;height:150px"></canvas>
     <script type="application/javascript">
-     
-    
+
   $(document).ready(function() {
     var a = document.getElementById("nempricegraph").getContext("2d");
     var b = new Chart(a, {
@@ -73,7 +72,7 @@
               11,
               8,
               7,
-              
+
             ]
           }
         ]
@@ -130,14 +129,14 @@
   </div>
 </template>
 <script>
-import axios from "axios";
-import Chart from 'chart.js';
+import axios from 'axios'
+import Chart from 'chart.js'
 export default {
   props: {},
-  mounted() {
-   let loadScript = document.createElement("script");
-    loadScript.setAttribute("src", "/theme/js/chart.min.js");
-    document.head.appendChild(loadScript);
+  mounted () {
+    let loadScript = document.createElement('script')
+    loadScript.setAttribute('src', '/theme/js/chart.min.js')
+    document.head.appendChild(loadScript)
   }
-};
+}
 </script>

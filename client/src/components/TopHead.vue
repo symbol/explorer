@@ -34,9 +34,9 @@
 </template>
 <script>
 export default {
-  name: "TopHead",
+  name: 'TopHead',
   props: {
     msg: String
   }
-};
+}
 </script>
