@@ -1,16 +1,18 @@
 var express = require('express');
 var router = express.Router();
-var { getHomeInfo, getBlocks } = require('../controller/index');
+const { homeInfo, blocks } = require('../controller/index');
 
 router.get('/homeInfo', async function(req, res, next) {
 	// Todo: Average block time
-	let marketData = await getHomeInfo.getMarketData();
-	let chainInfo = await getHomeInfo.getChainInfo();
+	let marketData = await homeInfo.getMarketData();
+	let chainInfo = await homeInfo.getChainInfo();
+	let recentBlocks = await blocks.getBlocksWithLimit(5);
 
 	res.json({
 		data: {
 			marketData,
 			chainInfo,
+			recentBlocks
 		},
 	});
 });
@@ -32,25 +34,34 @@ router.get('/accounts/:address', async function(req, res, next) {
 });
 
 router.get('/blocks', async function(req, res, next) {
-	const blockHeight = await getBlocks.getBlockHeight();
-	const blockList = await getBlocks.getBlocksList(blockHeight);
+	const blockList = await blocks.getBlocksWithLimit(25);
 
 	res.json({
 		data: {
-			blockHeight,
 			blockList,
 		},
 	});
 });
 
-router.get('/blocks/:height', function(req, res, next) {
+router.get('/blocks/:fromBlockHeight', async function(req, res, next) {
+	const height = req.params.fromBlockHeight;
+	const blockList = await blocks.getBlocksWithLimit(25,height);
+
 	res.json({
-		blockInfo: {
-			height: req.params.height,
+		data: {
+			blockList,
 		},
-		status: 1,
-		data: 'Home',
-		message: 'Home API',
+	});
+});
+
+router.get('/block/:height', async function(req, res, next) {
+	const height = req.params.height;
+	const blockInfo = await blocks.getBlockInfoByHeight(height);
+	const blockTransactionList = await blocks.getBlockFullTransactionsList(height);
+
+	res.json({
+		blockInfo,
+		blockTransactionList
 	});
 });
 
