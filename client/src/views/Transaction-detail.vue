@@ -8,14 +8,13 @@
           <div class="widget has-shadow mt-4 m-0 z-1">
             <div class="box">
               <div class="box-title">
-                <h1 class="inline-block">Block</h1>
-                <span class="info_append">#{{trx_id}}</span>
+                <h1 class="inline-block">Transaction Details</h1>
               </div>
               <div class="box-con mt-0">
                 <div class="list_info_con">
                   <div class="row list_item">
                     <div class="col-md-2">
-                      <div class="label">Height</div>
+                      <div class="label">Transaction Hash:</div>
                     </div>
                     <div class="col-md-10">
                       <div class="value">{{trx_id}}</div>
@@ -23,26 +22,26 @@
                   </div>
                   <div class="row list_item">
                     <div class="col-md-2">
+                      <div class="label">Block</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">2270701</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
                       <div class="label">Timestamp</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">2019-08-06 17:23:26</div>
+                      <div class="value">38 secs ago (Aug-07-2019 04:23:19 AM +UTC)</div>
                     </div>
                   </div>
                   <div class="row list_item">
                     <div class="col-md-2">
-                      <div class="label">Difficulty</div>
+                      <div class="label">Type</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">135.20%</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Fees</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">0.4</div>
+                      <div class="value">Transfer</div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -63,72 +62,50 @@
                       >9a6915a2fda4623ce8e67da0bd4c87e99a7ad9814e33d2e63bf1855407a88ba2</div>
                     </div>
                   </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Sender</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">NAEQYBEMWAYS52GGV4XWIQ62RALKP6ZE5ATE3EWN</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Recipient</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">NC64UFOWRO6AVMWFV2BFX2NT6W2GURK2EOX6FFMZ</div>
+                    </div>
+                  </div>
+                   <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Amount        </div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">100,000</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Fee</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">0.55</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Message</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">107797548</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <div class="widget has-shadow">
-             <div class="box">
-            <div class="table-responsive">
-              <div
-                id="sorting-table_wrapper"
-                class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer p-0"
-              >
-                <table
-                  id="table-block-list"
-                  class="table table-striped table-bordered"
-                  cellspacing="0"
-                  width="100%"
-                >
-                  <thead>
-                    <tr>
-                      <th>#</th>
-                      <th>Timestamp</th>
-                      <th>Amount</th>
-                      <th>Fees</th>
-                      <th>Sender</th>
-                      <th>Recipient</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>1</td>
-                      <td>2019-08-06 17:22:17</td>
-                      <td>0.05</td>
-                      <td>0.05</td>
-                      <td>NCKZD7JGDLNDIVVPH6U2PG2QKD3PX3FX4CPZMF2A</td>
-                      <td>NALEA4T4SW7UP3EDYPPOVR7O2MBTIARMJ2IMB7PV</td>
-                    </tr>
-                    <tr>
-                      <td>2</td>
-                      <td>2019-08-06 17:22:17</td>
-                      <td>0.05</td>
-                      <td>0.05</td>
-                      <td>NCKZD7JGDLNDIVVPH6U2PG2QKD3PX3FX4CPZMF2A</td>
-                      <td>NALEA4T4SW7UP3EDYPPOVR7O2MBTIARMJ2IMB7PV</td>
-                    </tr>
-                    <tr>
-                      <td>3</td>
-                      <td>2019-08-06 17:22:17</td>
-                      <td>0.05</td>
-                      <td>0.05</td>
-                      <td>NCKZD7JGDLNDIVVPH6U2PG2QKD3PX3FX4CPZMF2A</td>
-                      <td>NALEA4T4SW7UP3EDYPPOVR7O2MBTIARMJ2IMB7PV</td>
-                    </tr>
-                    <tr>
-                      <td>4</td>
-                      <td>2019-08-06 17:22:17</td>
-                      <td>0.05</td>
-                      <td>0.05</td>
-                      <td>NCKZD7JGDLNDIVVPH6U2PG2QKD3PX3FX4CPZMF2A</td>
-                      <td>NALEA4T4SW7UP3EDYPPOVR7O2MBTIARMJ2IMB7PV</td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-            </div>
-             </div>
-          </div>
+          </div>      
         </div>
       </div>
     </div>
@@ -137,17 +114,17 @@
   </div>
 </template>
 <script>
-import router from '../router'
+import router from "../router";
 export default {
-  name: 'block',
+  name: "block",
   components: {},
-  created () {},
-  data () {
+  created() {},
+  data() {
     return {
       trx_id: this.$route.params.trx_id
-    }
+    };
   },
   methods: {},
-  mounted () {}
-}
+  mounted() {}
+};
 </script>
