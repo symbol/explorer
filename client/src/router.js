@@ -60,6 +60,15 @@ export default new Router({
       }
     },
     {
+      path: '/account/:acnt_adrs',
+      name: 'account detail',
+      component: () =>
+        import('./views/Account-detail.vue'),
+      meta: {
+        title: ''
+      }
+    },
+    {
       path: '/Namespace',
       name: 'Namespace',
       component: () =>
@@ -69,10 +78,28 @@ export default new Router({
       }
     },
     {
+      path: '/Namespace/:namespace_id',
+      name: 'Namespace detail',
+      component: () =>
+        import('./views/Namespace-detail.vue'),
+      meta: {
+        title: ''
+      }
+    },
+    {
       path: '/mosaic',
       name: 'mosaic',
       component: () =>
         import('./views/Mosaic.vue'),
+      meta: {
+        title: ''
+      }
+    },
+    {
+      path: '/mosaic/:ns/:m',
+      name: 'mosaic detail',
+      component: () =>
+        import('./views/Mosaic-detail.vue'),
       meta: {
         title: ''
       }
