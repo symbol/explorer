@@ -19,18 +19,10 @@ router.get('/homeInfo', async function(req, res, next) {
 
 router.get('/accounts', async function(req, res, next) {
 	// Todo: get AccountsList
-	res.json({
-		status: 1,
-		data: `accoutList`,
-	});
 });
 
 router.get('/accounts/:address', async function(req, res, next) {
 	// Todo:  get Account by Address
-	res.json({
-		status: 1,
-		data: req.params.address,
-	});
 });
 
 router.get('/blocks', async function(req, res, next) {

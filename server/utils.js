@@ -52,39 +52,79 @@ function formatBlocks(blockList) {
 	return;
 }
 
+function formatTransaction(tx) {
+	transactionObj = {
+		deadline: moment(new Date(tx.deadline.value)).format('YYYY-MM-DD HH:mm:ss'),
+		fee: tx.maxFee.compact(),
+		signature: tx.signature,
+		signer: tx.signer,
+		blocHeight: tx.transactionInfo.height.compact(),
+		transactionHash: tx.transactionInfo.hash,
+		transactionId: tx.transactionInfo.id,
+		transactionDetail: formatTx(tx),
+	};
+
+	return transactionObj;
+}
+
 function formatTx(tx) {
 	switch (tx.type) {
 		case TransactionType.TRANSFER:
+
 			transferObj = {
 				type: 'Transfer',
 				typeId: TransactionType.TRANSFER,
-				signer: tx.signer,
 				recipient: tx.recipient,
-				fee: tx.maxFee.compact(),
-				blockNumber: tx.transactionInfo.height.compact(),
-				transactionHash: tx.transactionInfo.hash,
-				transactionId: tx.transactionInfo.id,
-				deadline: moment(new Date(tx.deadline.value)).format(
-					'YYYY-MM-DD HH:mm:ss'
-				),
-				mosaics: tx.mosaics,
+				mosaics: formatMosaics(tx.mosaics),
 				message: tx.message.payload,
 			};
 			return transferObj;
 		case TransactionType.REGISTER_NAMESPACE:
-      registerNamespaceObj = {
-
-      }
-      console.log(tx);
+			registerNamespaceObj = {
+				type: 'RegisterNamespace',
+				typeId: TransactionType.REGISTER_NAMESPACE,
+				recipient: tx.recipient,
+				namespaceType: tx.namespaceType,
+				namespaceName: tx.namespaceName,
+				namespaceId: tx.namespaceId.id.toHex(),
+				parentId: tx.parentId ? '' : tx.parentId,
+				duration: tx.duration,
+			};
 			return registerNamespaceObj;
 		case TransactionType.ADDRESS_ALIAS:
 			return 'Address alias';
 		case TransactionType.MOSAIC_ALIAS:
-			return 'Mosaic alias';
+			mosaicAlias = {
+				type: 'MosaicAlias',
+				typeId: TransactionType.MOSAIC_ALIAS,
+				actionType: tx.actionType,
+				namespaceId: tx.namespaceId.id.toHex(),
+				mosaicId: tx.mosaicId.id.toHex(),
+			};
+			return mosaicAlias;
 		case TransactionType.MOSAIC_DEFINITION:
-			return 'Mosaic definition';
+			mosaicDefinitionObj = {
+				type: 'MosaicDefinition',
+				typeId: TransactionType.MOSAIC_DEFINITION,
+				mosaicId: tx.mosaicId.toHex().toLowerCase(),
+				mosaicProperties: {
+					divisibility: tx.mosaicProperties.divisibility,
+					duration: tx.mosaicProperties.duration,
+					supplyMutable: tx.mosaicProperties.supplyMutable,
+					transferable: tx.mosaicProperties.transferable,
+					restrictable: tx.mosaicProperties.restrictable,
+				},
+			};
+			return mosaicDefinitionObj;
 		case TransactionType.MOSAIC_SUPPLY_CHANGE:
-			return 'Mosaic supply change';
+			mosaicSupplyChangeObj = {
+				type: 'MosaicSupplyChange',
+				typeId: TransactionType.MOSAIC_SUPPLY_CHANGE,
+				mosaicId: tx.mosaicId.id.toHex(),
+				direction: tx.direction == 1 ? 'Increase' : 'Decrease',
+				delta: tx.delta.compact(),
+			};
+			return mosaicSupplyChangeObj;
 		case TransactionType.MODIFY_MULTISIG_ACCOUNT:
 			return 'Modify multisig account';
 		case TransactionType.AGGREGATE_COMPLETE:
@@ -111,10 +151,18 @@ function formatTx(tx) {
 function formatTxs(txList) {
 	if (txList) {
 		return txList.map(tx => {
-			return formatTx(tx);
+			return formatTransaction(tx);
 		});
 	}
 	return;
+}
+
+function formatMosaics(mosaics) {
+	mosaics.map(mosaic => {
+		mosaic.id = mosaic.id.toHex();
+		mosaic.amount = mosaic.amount.compact();
+	});
+	return mosaics;
 }
 
 module.exports = {
