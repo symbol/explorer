@@ -19,19 +19,13 @@ async function getBlocksWithLimit(numberOfBlock, fromBlockHeight) {
 		.getBlocksByHeightWithLimit(blockHeight, numberOfBlock)
 		.toPromise();
 
-	blocks.map(block => {
-		utils.formatBlock(block);
-	});
-
-	return blocks;
+	return await utils.formatBlocks(blocks);
 }
 
 async function getBlockInfoByHeight(blockHeight) {
 	const blockInfo = await blockHttp.getBlockByHeight(blockHeight).toPromise();
 
-	utils.formatBlock(blockInfo);
-
-	return blockInfo;
+	return await utils.formatBlock(blockInfo);
 }
 
 async function getTransactionsByBlockHeight(blockHeight, id) {
@@ -40,21 +34,22 @@ async function getTransactionsByBlockHeight(blockHeight, id) {
 
 	let transactionlist = await blockHttp
 		.getBlockTransactions(blockHeight, new QueryParams(pageSize, txId))
-    .toPromise();
+		.toPromise();
+
+	if (transactionlist.length > 0) {
+		return utils.formatTxs(transactionlist);
+	}
 
 	return transactionlist;
 }
 
 async function getBlockFullTransactionsList(blockHeight, id) {
-  let txList = await getTransactionsByBlockHeight(blockHeight, id);
-
+	let txList = await getTransactionsByBlockHeight(blockHeight, id);
 	if (txList.length > 0) {
-		id = txList[txList.length - 1].transactionInfo.id;
+		id = txList[txList.length - 1].transactionId;
 		txList.concat(await getBlockFullTransactionsList(blockHeight, id));
-  }
-
-  return txList;
-
+	}
+	return txList;
 }
 
 module.exports = {
