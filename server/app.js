@@ -4,7 +4,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongodb = require('mongodb');
 var indexRouter = require('./routes/index');
-
+conf = require('./config');
 var app = express();
 app.use(logger('dev'));
 app.use(express.json());
@@ -13,6 +13,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
+// run service for data sync
+var data_sync = require('./lib/data-driver');
+
 
 
 // handle prod
