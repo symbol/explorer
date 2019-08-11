@@ -8,9 +8,8 @@ var mongodb = require('mongodb');
 
 
 
-addCollectionRow({'name':'sdsd','sds':'sdsd'},'networkinfo').then(function(data){
-    console.log(data.result);
-});
+
+
 // getCollectionData('networkinfo').then(function(data){
 //     console.log(data);
 // });
@@ -27,7 +26,12 @@ async function addCollectionRow(data,collection){
     let temp = await loadDatabaseCollection(collection);
     return Promise.resolve(  temp.insertOne(data) ); //deleteMany({} ));
 }
+//deleteAll dev purpose
 
+// async function deleteAll(data,collection){
+//     let temp = await loadDatabaseCollection(collection);
+//     return Promise.resolve(  deleteMany({} ) ); //);
+// }
 
 // connect and load collection
 async function loadDatabaseCollection(collection = null) {
