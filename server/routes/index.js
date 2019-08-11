@@ -1,6 +1,12 @@
 var express = require('express');
 var router = express.Router();
-const { homeInfo, blocks } = require('../controller/index');
+const {
+	homeInfo,
+	blocks,
+	accounts,
+	transactions,
+	namespaces
+} = require('../controller/index');
 
 router.get('/homeInfo', async function(req, res, next) {
 	// Todo: Average block time
@@ -12,7 +18,7 @@ router.get('/homeInfo', async function(req, res, next) {
 		data: {
 			marketData,
 			chainInfo,
-			recentBlocks
+			recentBlocks,
 		},
 	});
 });
@@ -21,8 +27,22 @@ router.get('/accounts', async function(req, res, next) {
 	// Todo: get AccountsList
 });
 
-router.get('/accounts/:address', async function(req, res, next) {
-	// Todo:  get Account by Address
+router.get('/account/:address', async function(req, res, next) {
+	const address = req.params.address;
+	const accountInfo = await accounts.getAccountInfoByAddress(address);
+	const accountTransaction = await accounts.getAccountTransactionsByAddress(
+		address
+	);
+
+	const ownedNamespaceList = await namespaces.getNamespacesFromAccountByAddress(address);
+
+	res.json({
+		data: {
+			accountInfo,
+			accountTransaction,
+			ownedNamespaceList
+		},
+	});
 });
 
 router.get('/blocks', async function(req, res, next) {
@@ -37,7 +57,7 @@ router.get('/blocks', async function(req, res, next) {
 
 router.get('/blocks/:fromBlockHeight', async function(req, res, next) {
 	const height = req.params.fromBlockHeight;
-	const blockList = await blocks.getBlocksWithLimit(25,height);
+	const blockList = await blocks.getBlocksWithLimit(25, height);
 
 	res.json({
 		data: {
@@ -49,11 +69,15 @@ router.get('/blocks/:fromBlockHeight', async function(req, res, next) {
 router.get('/block/:height', async function(req, res, next) {
 	const height = req.params.height;
 	const blockInfo = await blocks.getBlockInfoByHeight(height);
-	const blockTransactionList = await blocks.getBlockFullTransactionsList(height);
+	const blockTransactionList = await blocks.getBlockFullTransactionsList(
+		height
+	);
 
 	res.json({
-		blockInfo,
-		blockTransactionList
+		data: {
+			blockInfo,
+			blockTransactionList,
+		},
 	});
 });
 
@@ -61,8 +85,15 @@ router.get('/transactions', (req, res, next) => {
 	// Todo: get transactions list
 });
 
-router.get('/transactions/:txHash', (req, res, next) => {
-	// Todo: get transactions by hash
+router.get('/transaction/:txHash', async (req, res, next) => {
+	const txHash = req.params.txHash;
+	const transactionInfo = await transactions.getTransactionInfoByHash(txHash);
+
+	res.json({
+		data: {
+			transactionInfo,
+		},
+	});
 });
 
 router.get('/namespaces', (req, res, next) => {
@@ -86,10 +117,6 @@ router.get('/node', (req, res, next) => {
 });
 
 router.get('/statitics', (req, res, next) => {
-	// Todo: get statitics info
-});
-
-router.get('/chainInfo', (req, res, next) => {
 	// Todo: get statitics info
 });
 

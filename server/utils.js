@@ -1,4 +1,4 @@
-const { TransactionType } = require('nem2-sdk');
+const { TransactionType, Address } = require('nem2-sdk');
 const moment = require('moment');
 
 const Nodes = [
@@ -70,7 +70,6 @@ function formatTransaction(tx) {
 function formatTx(tx) {
 	switch (tx.type) {
 		case TransactionType.TRANSFER:
-
 			transferObj = {
 				type: 'Transfer',
 				typeId: TransactionType.TRANSFER,
@@ -165,9 +164,56 @@ function formatMosaics(mosaics) {
 	return mosaics;
 }
 
+function formatNamespaces(namespaces) {
+  // active: true,
+  //   index: 0,
+  //   metaId: '5D467491671DE6000112A130',
+  //   type: 1,
+  //   depth: 2,
+  //   levels: [ [Object], [Object] ],
+  //   owner:
+  //    PublicAccount {
+  //      publicKey: 'EFF9BC7472263D03EF6362B1F200FD3061BCD1BABE78F82119FB88811227CE85',
+  //      address: [Object] },
+  //   alias: MosaicAlias { type: 1, mosaicId: [Array] } },
+
+	namespaces.map(namespace => {
+		namespace.startHeight = namespace.startHeight.compact();
+    namespace.endHeight = namespace.endHeight.compact();
+    namespace.parentId = namespace.parentId.id.toHex();
+	});
+	return namespaces;
+}
+
+function formatAccount(accountInfo) {
+	let importanceScore = accountInfo.importance.compact();
+
+	if (importanceScore) {
+		importanceScore /= 90000;
+		importanceScore = importanceScore.toFixed(4).split('.');
+		importanceScore = importanceScore[0] + '.' + importanceScore[1];
+	}
+
+	accountObj = {
+		meta: accountInfo.meta,
+		address: new Address(accountInfo.address.address).pretty(),
+		addressHeight: accountInfo.addressHeight.compact(),
+		publicKey: accountInfo.publicKey,
+		publicKeyHeight: accountInfo.publicKeyHeight.compact(),
+		mosaics: formatMosaics(accountInfo.mosaics),
+		importance: importanceScore,
+		importanceHeight: accountInfo.importanceHeight.compact(),
+	};
+
+	return accountObj;
+}
+
 module.exports = {
 	getNodeEndPoint,
 	formatBlock,
 	formatBlocks,
-	formatTxs,
+  formatTxs,
+  formatTransaction,
+  formatAccount,
+  formatNamespaces,
 };
