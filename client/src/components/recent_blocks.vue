@@ -12,79 +12,40 @@
       </div>
       <div class="box-con">
         <div class="row">
-          <div class="col-md-3">
+          <div  class="col-md-3" v-for="(item, index) in blocklist" v-if="index <4">
             <div class="rn_blk_con">
               <div class="blkht">
-                <span>2133021</span>
+                <span>{{ item.height }}</span>
               </div>
               <div class="blk-info">
                 <div class="inrw">
-                  <span>7 Transactions</span>
-                  <span>26 seconds ago</span>
+                  <span>{{ item.numTransactions }} Transactions</span>
+                  <span>{{timefix(item.date)}}</span>
                 </div>
-                <div class="inrw">
+                <div class="inrw flex">
                   <span>Harvester</span>
-                  <a href="#" class="acnt">NATDRYLUQDU2PAQI5 ...</a>
+                  <a href="#" class="acnt">{{item.signer.address.address}}</a>
                 </div>
               </div>
             </div>
           </div>
-          <div class="col-md-3">
-            <div class="rn_blk_con">
-              <div class="blkht">
-                <span>2133021</span>
-              </div>
-              <div class="blk-info">
-                <div class="inrw">
-                  <span>7 Transactions</span>
-                  <span>26 seconds ago</span>
-                </div>
-                <div class="inrw">
-                  <span>Harvester</span>
-                  <a href="#" class="acnt">NATDRYLUQDU2PAQI5 ...</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="rn_blk_con">
-              <div class="blkht">
-                <span>2133021</span>
-              </div>
-              <div class="blk-info">
-                <div class="inrw">
-                  <span>7 Transactions</span>
-                  <span>26 seconds ago</span>
-                </div>
-                <div class="inrw">
-                  <span>Harvester</span>
-                  <a href="#" class="acnt">NATDRYLUQDU2PAQI5 ...</a>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-md-3">
-            <div class="rn_blk_con">
-              <div class="blkht">
-                <span>2133021</span>
-              </div>
-              <div class="blk-info">
-                <div class="inrw">
-                  <span>7 Transactions</span>
-                  <span>26 seconds ago</span>
-                </div>
-                <div class="inrw">
-                  <span>Harvester</span>
-                  <a href="#" class="acnt">NATDRYLUQDU2PAQI5 ...</a>
-                </div>
-              </div>
-            </div>
-          </div>
+          
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
-export default {}
+import helper from "../helper";
+
+export default {
+  props: {
+      blocklist:{},
+  },
+  methods: {
+    timefix:function(time){
+      return helper.timeSince(new Date(time));
+    }
+  }
+}
 </script>

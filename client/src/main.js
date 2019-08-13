@@ -6,6 +6,7 @@ import store from './store'
 import TopHead from '@/components/TopHead.vue'
 import PageMenu from '@/components/PageMenu.vue'
 import Pagefooter from '@/components/PageFooter.vue'
+import helper from "./helper";
 
 Vue.config.productionTip = false
 Vue.component('top-header', TopHead)
