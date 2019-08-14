@@ -1,4 +1,9 @@
-const { TransactionType, Address } = require('nem2-sdk');
+const {
+	TransactionType,
+	Address,
+	UInt64,
+	AliasActionType,
+} = require('nem2-sdk');
 const moment = require('moment');
 
 const Nodes = [
@@ -8,12 +13,19 @@ const Nodes = [
 	{ protocol: 'http', domain: '47.107.245.217', port: 3000 },
 	{ protocol: 'https', domain: 'jp5.nemesis.land', port: 3001 },
 	{ protocol: 'http', domain: '13.114.200.132', port: 3001 },
+	{ protocol: 'http', domain: '167.71.13.249', port: 3000 },
 ];
 
 function getNodeEndPoint() {
 	// Todo: Check on node status before return
+
+	const pointer = 1;
 	let endPoint =
-		Nodes[1].protocol + '://' + Nodes[1].domain + ':' + Nodes[1].port;
+		Nodes[pointer].protocol +
+		'://' +
+		Nodes[pointer].domain +
+		':' +
+		Nodes[pointer].port;
 	return endPoint;
 }
 
@@ -164,26 +176,66 @@ function formatMosaics(mosaics) {
 	return mosaics;
 }
 
-function formatNamespaces(namespaces) {
-  // active: true,
-  //   index: 0,
-  //   metaId: '5D467491671DE6000112A130',
-  //   type: 1,
-  //   depth: 2,
-  //   levels: [ [Object], [Object] ],
-  //   owner:
-  //    PublicAccount {
-  //      publicKey: 'EFF9BC7472263D03EF6362B1F200FD3061BCD1BABE78F82119FB88811227CE85',
-  //      address: [Object] },
-  //   alias: MosaicAlias { type: 1, mosaicId: [Array] } },
-
-	namespaces.map(namespace => {
-		namespace.startHeight = namespace.startHeight.compact();
-    namespace.endHeight = namespace.endHeight.compact();
-    namespace.parentId = namespace.parentId.id.toHex();
-	});
-	return namespaces;
-}
+const formatNamespaces = namespacesInfo =>
+	namespacesInfo
+		.filter((ns, index, namespaces) => {
+			for (let i = 0; i < index; i += 1) {
+				if (ns === namespaces[i]) return false;
+			}
+			return true;
+		})
+		.sort((a, b) => {
+			const nameA = a.metaId;
+			const nameB = b.metaId;
+			if (nameA < nameB) {
+				return -1;
+			}
+			if (nameA > nameB) {
+				return 1;
+			}
+			return 0;
+		})
+		.map((ns, index, original) => {
+			const name = ns.levels
+				.map(level => original.find(n => n.id.equals(level)))
+				.map(n => n.name)
+				.join('.');
+			let aliasText;
+			let aliasType;
+			switch (ns.alias.type) {
+				case 1:
+					aliasText = new UInt64(ns.alias.mosaicId).toHex();
+					aliasType = 'mosaic alias:';
+					break;
+				case 2:
+					aliasText = Address.createFromEncoded(ns.alias.address).pretty();
+					aliasType = 'address alias:';
+					break;
+				default:
+					aliasText = '';
+					aliasType = 'no alias';
+					break;
+			}
+			return {
+				//   name,
+				hexId: ns.id.toHex(),
+				type: ns.type === 0 ? 'Root namespace' : 'Child namespace',
+				aliastype: aliasType,
+				alias: aliasText,
+				active: ns.active,
+				startHeight: ns.startHeight.compact(),
+				endHeight: ns.endHeight.compact(),
+				parentId: ns.parentId.id.toHex(),
+				expand: {
+					isExpandMore: false,
+					// namespaceName: name,
+					aliasActionType:
+						ns.alias.type === 0 ? AliasActionType.Link : AliasActionType.Unlink,
+					currentAliasType: ns.alias.type,
+					currentAlias: ns.alias.type === 0 ? '' : aliasText,
+				},
+			};
+		});
 
 function formatAccount(accountInfo) {
 	let importanceScore = accountInfo.importance.compact();
@@ -212,8 +264,8 @@ module.exports = {
 	getNodeEndPoint,
 	formatBlock,
 	formatBlocks,
-  formatTxs,
-  formatTransaction,
-  formatAccount,
-  formatNamespaces,
+	formatTxs,
+	formatTransaction,
+	formatAccount,
+	formatNamespaces,
 };
