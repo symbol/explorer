@@ -10,13 +10,11 @@
               <div class="box-title">
                 <h1 class="inline-block">Blocks</h1>
                 <div class="btn_grp inline-block flt-rt">
-                  <span>Last Block : 209234</span>
+                  <span>Last Block : {{this.blockhight}}</span>
                 </div>
               </div>
               <div class="box-con mt-0">
-                 <table-blocks>
-
-                 </table-blocks>
+                <table-blocks :blockslist="this.blockdata"></table-blocks>
               </div>
             </div>
           </div>
@@ -28,17 +26,46 @@
   </div>
 </template>
 <script>
-import w1 from '@/components/Table-block.vue'
-
+import w1 from "@/components/Table-block.vue";
+import DataService from "../data-service";
+import io from "socket.io-client";
+const socket = io.connect("http://localhost:3000", {
+  path: "/ws"
+});
 export default {
-  name: 'block',
+  name: "block",
   components: {
-    'table-blocks': w1
+    "table-blocks": w1
   },
-  data () {
-    return {}
+  data() {
+    return {
+      blockdata: {},
+      blockhight: ""
+    };
   },
-  methods: {},
-  mounted () {}
-}
+  methods: {
+     load_block_list: function(id) {
+      router.push({ path: `/block?` });
+    },
+  },
+  created: function() {},
+  mounted: function() {
+    let self = this;
+    DataService.getBlocks().then(function(data) {
+      self.blockdata = data.blockList;
+      self.blockhight = data.hight;
+      console.log(data);
+    });
+    DataService.syncWs("blocks").then(data => {
+      socket.on("update", function(data) {
+       // self.blockdata = data.data.blockList;
+        //self.blockhight =  data.data.hight;
+       // console.log(data);
+      });
+    });
+  },
+  destroyed: function() {
+    socket.disconnect();
+  }
+};
 </script>

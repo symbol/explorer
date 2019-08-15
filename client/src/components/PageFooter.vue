@@ -49,6 +49,7 @@
 </footer>
 </template>
 <script>
+
 export default {
   name: 'Pagefooter',
   props: {

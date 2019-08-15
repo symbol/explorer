@@ -22,7 +22,7 @@ class helper{
           return interval + " hours";
         }
         interval = Math.floor(seconds / 60);
-        if (interval > 1) {
+        if (interval >= 1) {
           return interval + " minutes";
         }
         return Math.floor(seconds) + " seconds";

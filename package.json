@@ -22,7 +22,7 @@
     "morgan": "~1.9.1",
     "nem2-sdk": "^0.13.1",
     "request": "^2.88.0",
-    "ws": "^7.1.1"
+    "socket.io": "^2.2.0"
   },
   "devDependencies": {
     "nodemon": "^1.19.1"

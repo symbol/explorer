@@ -18,10 +18,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', indexRouter);
 app.use('/api/', require('./routes/api'));
-
 // run service for data sync
 //var data_sync = require('./lib/data-driver');
-//require('./lib/web-socket');
+
 
 // handle prod
 

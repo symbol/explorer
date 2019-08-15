@@ -17,7 +17,6 @@ export default {
     var r2 = Math.round(date.getTime() / 1000);
     // const res = await axios.get("");
     // const data = res.data;
-    console.log(r1, r2);
     axios
       .all([
         axios.get(
@@ -29,7 +28,6 @@ export default {
       ])
       .then(
         axios.spread(res1 => {
-          console.log(res1.data);
           var x = [];
            var y = [];
           res1.data.prices.forEach( (item, index) => {
@@ -116,8 +114,6 @@ export default {
   methods: {
     createChart(chartId, chartData) {
       const ctx = document.getElementById(chartId);
-
-      console.log(chartData.options);
       const myChart = new Chart(ctx, {
         type: chartData.type,
         data: chartData.data,

@@ -6,13 +6,13 @@
       <div class="full-con mob_con">
         <div class="container p-0">
           <nempricegraph></nempricegraph>
-          <Homebaseinfo  :marketinfo="home_data.marketData" :chaininfo="home_data.chainInfo"></Homebaseinfo>
+          <Homebaseinfo :marketinfo="home_data.marketData" :chaininfo="home_data.chainInfo"></Homebaseinfo>
         </div>
         <div class="container p-0 mt-1">
           <recent-blocks :blocklist="home_data.recentBlocks"></recent-blocks>
         </div>
         <div class="container p-0 mt-1">
-          <recent-trxs ></recent-trxs>
+          <recent-trxs></recent-trxs>
         </div>
       </div>
     </div>
@@ -27,7 +27,10 @@ import w2 from "@/components/nempricegraph.vue";
 import w3 from "@/components/recent_blocks.vue";
 import w4 from "@/components/recent_trxs.vue";
 import DataService from "../data-service";
-
+import io from "socket.io-client";
+const socket = io.connect("http://localhost:3000", {
+  path: "/ws"
+});
 export default {
   name: "home",
   components: {
@@ -46,11 +49,19 @@ export default {
       this.home_data = await DataService.getHomeData();
     } catch (err) {}
   },
-  methods: {
-    get_home_data() {}
+  methods: {},
+  mounted() {},
+  created: function() {
+    let self = this;
+    DataService.syncWs("home").then(data => {
+      socket.on("update", function(data) {
+       // self.home_data.chaininfo = data.data.chaininfo;
+        //self.home_data.recentBlocks = data.data.recentBlocks;
+      });
+    });
   },
-  mounted() {
-    this.last_block_time = 1;
+  destroyed:function(){
+     socket.disconnect()
   }
 };
 </script>

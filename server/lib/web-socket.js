@@ -1,13 +1,16 @@
-const fs = require('fs');
-const https = require('https');
-const WebSocket = require('ws');
-
-const wss = new WebSocket.Server({ port: 8090 });
-
-wss.on('connection', function connection(ws) {
-  ws.on('message', function incoming(message) {
-    console.log('received: %s', message);
-  });
-
-  ws.send('something');
+var express = require('express');
+var router = express.Router();
+router.get('/init/', async function (req, res, next) {
+    req.app.io.on('connection', function (socket) {
+        console.log('client connect');
+        socket.on('ping',function(data){
+           console.log(data);
+        });
+        socket.on('disconnect', function () {
+          console.log('client disconnect');
+        });
+       
+      });
 });
+
+module.exports = router;
