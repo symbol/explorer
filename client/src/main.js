@@ -14,7 +14,10 @@ Vue.component('page-menu', PageMenu)
 Vue.component('page-footer', Pagefooter)
 
 var settings = {
-  networktime: 1459468800000
+  networktime: 1459468800000,
+  api:'http://localhost:3000/api/',
+  ws:'http://localhost:3000',
+  ws_path:'/ws'
 }
 
 window.conf = settings

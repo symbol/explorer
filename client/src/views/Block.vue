@@ -29,8 +29,8 @@
 import w1 from "@/components/Table-block.vue";
 import DataService from "../data-service";
 import io from "socket.io-client";
-const socket = io.connect("http://localhost:3000", {
-  path: "/ws"
+const socket = io.connect(window.conf.ws, {
+  path: window.conf.ws_path
 });
 export default {
   name: "block",

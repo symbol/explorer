@@ -28,8 +28,8 @@ import w3 from "@/components/recent_blocks.vue";
 import w4 from "@/components/recent_trxs.vue";
 import DataService from "../data-service";
 import io from "socket.io-client";
-const socket = io.connect("http://localhost:3000", {
-  path: "/ws"
+const socket = io.connect(window.conf.ws, {
+  path: window.conf.ws_path
 });
 export default {
   name: "home",

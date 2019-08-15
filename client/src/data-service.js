@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = 'http://localhost:3000/api/';
+const url = window.conf.api;
 
 class DataService {
     //get home assets
