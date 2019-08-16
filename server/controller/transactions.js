@@ -7,7 +7,7 @@ const transactionHttp = new TransactionHttp(endpoint);
 
 async function getTransactionInfoByHash(hash) {
 	// Todo getTransaction
-	// const transaction = await transactionHttp.getTransaction(hash).toPromise();
+	// const transaction = await transactionHttp.getTransaction(hash).toPromise(); // waiting SDK fix duel rest change
 	const transactionStatus = await transactionHttp
 		.getTransactionStatus(hash)
 		.toPromise();

@@ -5,7 +5,7 @@ const {
 	blocks,
 	accounts,
 	transactions,
-	namespaces
+	namespaces,
 } = require('../controller/index');
 
 router.get('/homeInfo', async function(req, res, next) {
@@ -34,13 +34,15 @@ router.get('/account/:address', async function(req, res, next) {
 		address
 	);
 
-	const ownedNamespaceList = await namespaces.getNamespacesFromAccountByAddress(address);
+	const ownedNamespaceList = await namespaces.getNamespacesFromAccountByAddress(
+		address
+	);
 
 	res.json({
 		data: {
 			accountInfo,
 			accountTransaction,
-			ownedNamespaceList
+			ownedNamespaceList,
 		},
 	});
 });
@@ -100,8 +102,19 @@ router.get('/namespaces', (req, res, next) => {
 	// Todo: get namespaces list
 });
 
-router.get('/namespaces/:namespace', (req, res, next) => {
-	// Todo: get namespaces by id or name
+router.get('/namespaces/:namespaceName', async (req, res, next) => {
+	// Todo: owned mosaic
+	const namespaceName = req.params.namespaceName;
+
+	const namespaceInfo = await namespaces.getNamespaceInfoByName(
+		namespaceName
+	);
+
+	res.json({
+		data: {
+			namespaceInfo,
+		},
+	});
 });
 
 router.get('/mosaics', (req, res, next) => {

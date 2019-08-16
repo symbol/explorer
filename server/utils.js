@@ -11,9 +11,6 @@ const Nodes = [
 	{ protocol: 'http', domain: '3.1.202.148', port: 3000 },
 	{ protocol: 'http', domain: '13.114.200.132', port: 3000 },
 	{ protocol: 'http', domain: '47.107.245.217', port: 3000 },
-	{ protocol: 'https', domain: 'jp5.nemesis.land', port: 3001 },
-	{ protocol: 'http', domain: '13.114.200.132', port: 3001 },
-	{ protocol: 'http', domain: '167.71.13.249', port: 3000 },
 ];
 
 function getNodeEndPoint() {
@@ -185,8 +182,8 @@ const formatNamespaces = namespacesInfo =>
 			return true;
 		})
 		.sort((a, b) => {
-			const nameA = a.metaId;
-			const nameB = b.metaId;
+			const nameA = a.namespaceInfo.metaId;
+			const nameB = b.namespaceInfo.metaId;
 			if (nameA < nameB) {
 				return -1;
 			}
@@ -196,44 +193,46 @@ const formatNamespaces = namespacesInfo =>
 			return 0;
 		})
 		.map((ns, index, original) => {
-			const name = ns.levels
-				.map(level => original.find(n => n.id.equals(level)))
-				.map(n => n.name)
+			const name = ns.namespaceInfo.levels
+				.map(level => original.find(n => n.namespaceInfo.id.equals(level)))
+				.map(n => n.namespaceName.name)
 				.join('.');
 			let aliasText;
 			let aliasType;
-			switch (ns.alias.type) {
+			switch (ns.namespaceInfo.alias.type) {
 				case 1:
-					aliasText = new UInt64(ns.alias.mosaicId).toHex();
+					aliasText = new UInt64(ns.namespaceInfo.alias.mosaicId).toHex();
 					aliasType = 'mosaic alias:';
 					break;
 				case 2:
-					aliasText = Address.createFromEncoded(ns.alias.address).pretty();
+					aliasText = Address.createFromEncoded(
+						ns.namespaceInfo.alias.address
+					).pretty();
 					aliasType = 'address alias:';
 					break;
 				default:
-					aliasText = '';
+					aliasText = false;
 					aliasType = 'no alias';
 					break;
 			}
 			return {
-				//   name,
-				hexId: ns.id.toHex(),
-				type: ns.type === 0 ? 'Root namespace' : 'Child namespace',
+        owner: ns.namespaceInfo.owner,
+				namespaceName: name,
+				hexId: ns.namespaceInfo.id.toHex(),
+				type:
+					ns.namespaceInfo.type === 0 ? 'Root namespace' : 'Child namespace',
 				aliastype: aliasType,
 				alias: aliasText,
-				active: ns.active,
-				startHeight: ns.startHeight.compact(),
-				endHeight: ns.endHeight.compact(),
-				parentId: ns.parentId.id.toHex(),
-				expand: {
-					isExpandMore: false,
-					// namespaceName: name,
-					aliasActionType:
-						ns.alias.type === 0 ? AliasActionType.Link : AliasActionType.Unlink,
-					currentAliasType: ns.alias.type,
-					currentAlias: ns.alias.type === 0 ? '' : aliasText,
-				},
+				aliasAction:
+					ns.namespaceInfo.alias.type === 0
+						? AliasActionType.Link
+						: AliasActionType.Unlink,
+				currentAliasType: ns.namespaceInfo.alias.type,
+
+				active: ns.namespaceInfo.active,
+				startHeight: ns.namespaceInfo.startHeight.compact(),
+				endHeight: ns.namespaceInfo.endHeight.compact(),
+				parentId: ns.namespaceInfo.parentId.id.toHex(),
 			};
 		});
 
