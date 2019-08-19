@@ -11,8 +11,8 @@
                 <h1 class="inline-block">Nodes List</h1>
                 <div class="btn_grp inline-block flt-rt">
                   <div class="select_type">
-                    
-Search : <input type="text" class="form-field">
+                    Search :
+                    <input type="text" class="form-field" />
                   </div>
                 </div>
               </div>
@@ -44,44 +44,43 @@ Search : <input type="text" class="form-field">
                         <tr>
                           <td>1</td>
                           <td>Unknown</td>
-                          <td>52.194.207.217	</td>
+                          <td>52.194.207.217</td>
                           <td>-</td>
-                          <td>Tokyo : Japan	</td>
-                          <td>Amazon.com, Inc.	</td>
+                          <td>Tokyo : Japan</td>
+                          <td>Amazon.com, Inc.</td>
                           <td>19602</td>
                           <td>Online</td>
                         </tr>
-                         <tr>
+                        <tr>
                           <td>2</td>
                           <td>Unknown</td>
-                          <td>52.194.207.217	</td>
+                          <td>52.194.207.217</td>
                           <td>-</td>
-                          <td>Tokyo : Japan	</td>
-                          <td>Amazon.com, Inc.	</td>
+                          <td>Tokyo : Japan</td>
+                          <td>Amazon.com, Inc.</td>
                           <td>19602</td>
                           <td>Online</td>
                         </tr>
-                         <tr>
+                        <tr>
                           <td>3</td>
                           <td>Unknown</td>
-                          <td>52.194.207.217	</td>
+                          <td>52.194.207.217</td>
                           <td>-</td>
-                          <td>Tokyo : Japan	</td>
-                          <td>Amazon.com, Inc.	</td>
+                          <td>Tokyo : Japan</td>
+                          <td>Amazon.com, Inc.</td>
                           <td>19602</td>
                           <td>Online</td>
                         </tr>
-                         <tr>
+                        <tr>
                           <td>4</td>
                           <td>Unknown</td>
-                          <td>52.194.207.217	</td>
+                          <td>52.194.207.217</td>
                           <td>-</td>
-                          <td>Tokyo : Japan	</td>
-                          <td>Amazon.com, Inc.	</td>
+                          <td>Tokyo : Japan</td>
+                          <td>Amazon.com, Inc.</td>
                           <td>19602</td>
                           <td>Online</td>
                         </tr>
-                       
                       </tbody>
                     </table>
                   </div>
@@ -122,25 +121,17 @@ Search : <input type="text" class="form-field">
       </div>
     </div>
     <page-footer></page-footer>
-    <script type="application/javascript">
-
-    </script>
+    <script type="application/javascript"></script>
   </div>
 </template>
 <script>
-
 export default {
-  name: 'block',
-  components: {
-  },
-  data () {
-    return {
-
-    }
+  name: "block",
+  components: {},
+  data() {
+    return {};
   },
   methods: {},
-  mounted () {
-
-  }
-}
+  mounted() {}
+};
 </script>

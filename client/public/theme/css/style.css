@@ -634,6 +634,7 @@ img {
     width: 100%;
     position: relative;
     display: block;
+    transition: all 0.5s ease-in-out;
 }
 .z-1{
     z-index: 1;
@@ -1040,6 +1041,7 @@ table.table-bordered.dataTable tbody tr {
     padding: 12px;
     position: relative;
     overflow: hidden;
+    margin-bottom: 15px;
 }
 .rn_blk_con::before{
     width: 4px;
@@ -1060,6 +1062,9 @@ table.table-bordered.dataTable tbody tr {
     display: inline-block;
     margin-bottom: 5px;
 }
+.flex{
+    display: flex !important;
+}
 .rn_blk_con .inrw span{
     display: inline-block;
     font-size: 10px;
@@ -1075,6 +1080,10 @@ table.table-bordered.dataTable tbody tr {
     font-weight: 600;
     font-size: 12px;
     text-decoration: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding-left: 15px;
 }
 .trx:before{
     background: #78b6e4;

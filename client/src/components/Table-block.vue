@@ -22,85 +22,17 @@
             </tr>
           </thead>
           <tbody>
-            <tr @click="load_block_info(2271554)">
-              <td>2271554</td>
-              <td>34m, 57s</td>
-              <td>14</td>
-              <td>1.15</td>
-              <td>2019-08-06 11:39:06</td>
-              <td>NAIPPHMWSIZ6GL2Q6LCCXSTEHMHZXVLL47P5PXA2</td>
-            </tr>
-            <tr @click="load_block_info(2271554)">
-              <td>2271554</td>
-              <td>34m, 57s</td>
-              <td>14</td>
-              <td>1.15</td>
-              <td>2019-08-06 11:39:06</td>
-              <td>NAIPPHMWSIZ6GL2Q6LCCXSTEHMHZXVLL47P5PXA2</td>
-            </tr>
-            <tr @click="load_block_info(2271554)">
-              <td>2271554</td>
-              <td>34m, 57s</td>
-              <td>14</td>
-              <td>1.15</td>
-              <td>2019-08-06 11:39:06</td>
-              <td>NAIPPHMWSIZ6GL2Q6LCCXSTEHMHZXVLL47P5PXA2</td>
-            </tr>
-            <tr @click="load_block_info(2271554)">
-              <td>2271554</td>
-              <td>34m, 57s</td>
-              <td>14</td>
-              <td>1.15</td>
-              <td>2019-08-06 11:39:06</td>
-              <td>NAIPPHMWSIZ6GL2Q6LCCXSTEHMHZXVLL47P5PXA2</td>
-            </tr>
-            <tr @click="load_block_info(2271554)">
-              <td>2271554</td>
-              <td>34m, 57s</td>
-              <td>14</td>
-              <td>1.15</td>
-              <td>2019-08-06 11:39:06</td>
-              <td>NAIPPHMWSIZ6GL2Q6LCCXSTEHMHZXVLL47P5PXA2</td>
-            </tr>
-            <tr @click="load_block_info(2271554)">
-              <td>2271554</td>
-              <td>34m, 57s</td>
-              <td>14</td>
-              <td>1.15</td>
-              <td>2019-08-06 11:39:06</td>
-              <td>NAIPPHMWSIZ6GL2Q6LCCXSTEHMHZXVLL47P5PXA2</td>
-            </tr>
-            <tr @click="load_block_info(2271554)">
-              <td>2271554</td>
-              <td>34m, 57s</td>
-              <td>14</td>
-              <td>1.15</td>
-              <td>2019-08-06 11:39:06</td>
-              <td>NAIPPHMWSIZ6GL2Q6LCCXSTEHMHZXVLL47P5PXA2</td>
-            </tr>
-            <tr @click="load_block_info(2271554)">
-              <td>2271554</td>
-              <td>34m, 57s</td>
-              <td>14</td>
-              <td>1.15</td>
-              <td>2019-08-06 11:39:06</td>
-              <td>NAIPPHMWSIZ6GL2Q6LCCXSTEHMHZXVLL47P5PXA2</td>
-            </tr>
-            <tr>
-              <td>2271554</td>
-              <td>34m, 57s</td>
-              <td>14</td>
-              <td>1.15</td>
-              <td>2019-08-06 11:39:06</td>
-              <td>NAIPPHMWSIZ6GL2Q6LCCXSTEHMHZXVLL47P5PXA2</td>
-            </tr>
-            <tr>
-              <td>2271554</td>
-              <td>34m, 57s</td>
-              <td>14</td>
-              <td>1.15</td>
-              <td>2019-08-06 11:39:06</td>
-              <td>NAIPPHMWSIZ6GL2Q6LCCXSTEHMHZXVLL47P5PXA2</td>
+            <tr
+              v-for="(item,index) in blockslist"
+              v-bind:key="item.height"
+              @click="load_block_info(item.height)"
+            >
+              <td>{{item.height}}</td>
+              <td>{{timefix(item.date)}}</td>
+              <td>{{item.numTransactions}}</td>
+              <td>{{item.totalFee}}</td>
+              <td>{{item.date}}</td>
+              <td>{{item.signer.address.address}}</td>
             </tr>
           </tbody>
         </table>
@@ -139,12 +71,20 @@
   </div>
 </template>
 <script>
-import router from '../router'
+import router from "../router";
+import helper from "../helper";
+
 export default {
+  props: {
+    blockslist: {}
+  },
   methods: {
-    load_block_info: function (id) {
-      router.push({ path: `/block/${id}` })
+    load_block_info: function(id) {
+      router.push({ path: `/block/${id}` });
+    },
+    timefix: function(time) {
+      return helper.timeSince(new Date(time));
     }
   }
-}
+};
 </script>
