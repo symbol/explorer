@@ -28,7 +28,7 @@
                           <th>#</th>
                           <th>MosaicID</th>
                           <th>Creator</th>
-                          <th>Supply	</th>
+                          <th>Supply</th>
                           <th>Divisibility</th>
                            <th>CreateTime</th>
                         </tr>
@@ -37,7 +37,7 @@
                         <tr @click="load_mosaic_info('nemona','xemona')">
                           <td>1</td>
                           <td>nemona:xemona</td>
-                          <td>NAAXHJM65OKDFSYGW4XW4EKJXUIRTKEZZWRK45YF	</td>
+                          <td>NAAXHJM65OKDFSYGW4XW4EKJXUIRTKEZZWRK45YF</td>
                           <td>100,000</td>
                           <td>0</td>
                           <td>2019-08-06 15:57:28</td>
@@ -46,7 +46,7 @@
                           <td>2</td>
                           <td>nemona:nemona</td>
                           <td>NAAXHJM65OKDFSYGW4XW4EKJXUIRTKEZZWRK45YF</td>
-                          <td>1,000,000	</td>
+                          <td>1,000,000</td>
                           <td>0</td>
                           <td>2019-08-06 15:57:28</td>
                         </tr>
@@ -97,11 +97,9 @@
 import router from '../router'
 export default {
   methods: {
-    load_mosaic_info: function (ns,m) {
-      
+    load_mosaic_info: function (ns, m) {
       router.push({ path: `/mosaic/${ns}/${m}` })
     }
   }
 }
-</script>
 </script>
