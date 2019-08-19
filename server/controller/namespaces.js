@@ -1,4 +1,9 @@
-const { NamespaceHttp, Address, NamespaceId } = require('nem2-sdk');
+const {
+	NamespaceHttp,
+	Address,
+	NamespaceId,
+	NamespaceService,
+} = require('nem2-sdk');
 const utils = require('../utils');
 const { mergeMap, map } = require('rxjs/operators');
 const endpoint = utils.getNodeEndPoint();
@@ -33,35 +38,12 @@ async function getNamespacesFromAccountByAddress(address) {
 }
 
 async function getNamespaceInfoByName(name) {
-	const namespaceIds = [];
 	const namespace = new NamespaceId(name);
-	const namespaceInfo = await namespaceHttp.getNamespace(namespace).toPromise();
 
-	namespaceIds.push(namespaceInfo.id);
-	// console.log(namespaceInfo);
+	const namespaceService = new NamespaceService(namespaceHttp);
+	const namespaceInfo = await namespaceService.namespace(namespace).toPromise();
 
-	const namespaceNames = await namespaceHttp
-		.getNamespacesName(namespaceIds)
-		.toPromise();
-
-	namespaceNames.map(x => {
-		namespaceInfo.namespaceName = x;
-	});
-
-	console.log(namespaceInfo);
-
-	// let namespaceName = namespaceNames;
-
-	const namespacesInfo = [{ namespaceInfo }];
-	return utils.formatNamespaces(namespacesInfo);
-}
-
-async function getLinkedMosaicIdByNamespaceId() {
-	// Todo: namespaceHttp.getLinkedMosaicId(defaultNamespaceId)
-}
-
-async function getLinkedAddressByNamespaceId() {
-	// Todo: namespaceHttp.getLinkedAddress(namespaceId)
+	return utils.formatNamespace(namespaceInfo);
 }
 
 module.exports = {

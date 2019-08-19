@@ -173,6 +173,43 @@ function formatMosaics(mosaics) {
 	return mosaics;
 }
 
+function formatNamespace(namespaceInfo) {
+	let aliasText;
+	let aliasType;
+	switch (namespaceInfo.alias.type) {
+		case 1:
+			aliasText = new UInt64(namespaceInfo.alias.mosaicId).toHex();
+			aliasType = 'mosaic alias:';
+			break;
+		case 2:
+			aliasText = Address.createFromEncoded(
+				namespaceInfo.alias.address
+			).pretty();
+			aliasType = 'address alias:';
+			break;
+		default:
+			aliasText = false;
+			aliasType = 'no alias';
+			break;
+	}
+
+	namespaceObj = {
+		owner: namespaceInfo.owner,
+		namespaceName: namespaceInfo.name,
+		hexId: namespaceInfo.id.toHex(),
+		type: namespaceInfo.type === 0 ? 'Root namespace' : 'Child namespace',
+		startHeight: namespaceInfo.startHeight.compact(),
+		endHeight: namespaceInfo.endHeight.compact(),
+		active: namespaceInfo.active,
+		aliastype: aliasType,
+		alias: aliasText,
+    parentHexId: namespaceInfo.parentId.id.toHex(),
+    parentName: namespaceInfo.type !== 0 ? namespaceInfo.name.split('.')[0] : '',
+	};
+
+	return namespaceObj;
+}
+
 const formatNamespaces = namespacesInfo =>
 	namespacesInfo
 		.filter((ns, index, namespaces) => {
@@ -216,7 +253,7 @@ const formatNamespaces = namespacesInfo =>
 					break;
 			}
 			return {
-        owner: ns.namespaceInfo.owner,
+				owner: ns.namespaceInfo.owner,
 				namespaceName: name,
 				hexId: ns.namespaceInfo.id.toHex(),
 				type:
@@ -266,5 +303,6 @@ module.exports = {
 	formatTxs,
 	formatTransaction,
 	formatAccount,
-	formatNamespaces,
+  formatNamespaces,
+  formatNamespace
 };
