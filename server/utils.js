@@ -1,4 +1,9 @@
-const { TransactionType } = require('nem2-sdk');
+const {
+	TransactionType,
+	Address,
+	UInt64,
+	AliasActionType,
+} = require('nem2-sdk');
 const moment = require('moment');
 
 const Nodes = [
@@ -6,14 +11,18 @@ const Nodes = [
 	{ protocol: 'http', domain: '3.1.202.148', port: 3000 },
 	{ protocol: 'http', domain: '13.114.200.132', port: 3000 },
 	{ protocol: 'http', domain: '47.107.245.217', port: 3000 },
-	{ protocol: 'https', domain: 'jp5.nemesis.land', port: 3001 },
-	{ protocol: 'http', domain: '13.114.200.132', port: 3001 },
 ];
 
 function getNodeEndPoint() {
 	// Todo: Check on node status before return
+
+	const pointer = 1;
 	let endPoint =
-		Nodes[1].protocol + '://' + Nodes[1].domain + ':' + Nodes[1].port;
+		Nodes[pointer].protocol +
+		'://' +
+		Nodes[pointer].domain +
+		':' +
+		Nodes[pointer].port;
 	return endPoint;
 }
 
@@ -70,7 +79,6 @@ function formatTransaction(tx) {
 function formatTx(tx) {
 	switch (tx.type) {
 		case TransactionType.TRANSFER:
-
 			transferObj = {
 				type: 'Transfer',
 				typeId: TransactionType.TRANSFER,
@@ -165,9 +173,98 @@ function formatMosaics(mosaics) {
 	return mosaics;
 }
 
+const formatNamespaces = namespacesInfo =>
+	namespacesInfo
+		.filter((ns, index, namespaces) => {
+			for (let i = 0; i < index; i += 1) {
+				if (ns === namespaces[i]) return false;
+			}
+			return true;
+		})
+		.sort((a, b) => {
+			const nameA = a.namespaceInfo.metaId;
+			const nameB = b.namespaceInfo.metaId;
+			if (nameA < nameB) {
+				return -1;
+			}
+			if (nameA > nameB) {
+				return 1;
+			}
+			return 0;
+		})
+		.map((ns, index, original) => {
+			const name = ns.namespaceInfo.levels
+				.map(level => original.find(n => n.namespaceInfo.id.equals(level)))
+				.map(n => n.namespaceName.name)
+				.join('.');
+			let aliasText;
+			let aliasType;
+			switch (ns.namespaceInfo.alias.type) {
+				case 1:
+					aliasText = new UInt64(ns.namespaceInfo.alias.mosaicId).toHex();
+					aliasType = 'mosaic alias:';
+					break;
+				case 2:
+					aliasText = Address.createFromEncoded(
+						ns.namespaceInfo.alias.address
+					).pretty();
+					aliasType = 'address alias:';
+					break;
+				default:
+					aliasText = false;
+					aliasType = 'no alias';
+					break;
+			}
+			return {
+        owner: ns.namespaceInfo.owner,
+				namespaceName: name,
+				hexId: ns.namespaceInfo.id.toHex(),
+				type:
+					ns.namespaceInfo.type === 0 ? 'Root namespace' : 'Child namespace',
+				aliastype: aliasType,
+				alias: aliasText,
+				aliasAction:
+					ns.namespaceInfo.alias.type === 0
+						? AliasActionType.Link
+						: AliasActionType.Unlink,
+				currentAliasType: ns.namespaceInfo.alias.type,
+
+				active: ns.namespaceInfo.active,
+				startHeight: ns.namespaceInfo.startHeight.compact(),
+				endHeight: ns.namespaceInfo.endHeight.compact(),
+				parentId: ns.namespaceInfo.parentId.id.toHex(),
+			};
+		});
+
+function formatAccount(accountInfo) {
+	let importanceScore = accountInfo.importance.compact();
+
+	if (importanceScore) {
+		importanceScore /= 90000;
+		importanceScore = importanceScore.toFixed(4).split('.');
+		importanceScore = importanceScore[0] + '.' + importanceScore[1];
+	}
+
+	accountObj = {
+		meta: accountInfo.meta,
+		address: new Address(accountInfo.address.address).pretty(),
+		addressHeight: accountInfo.addressHeight.compact(),
+		publicKey: accountInfo.publicKey,
+		publicKeyHeight: accountInfo.publicKeyHeight.compact(),
+		mosaics: formatMosaics(accountInfo.mosaics),
+		importance: importanceScore,
+		importanceHeight: accountInfo.importanceHeight.compact(),
+	};
+
+	return accountObj;
+}
+
 module.exports = {
 	getNodeEndPoint,
 	formatBlock,
 	formatBlocks,
 	formatTxs,
+	formatTransaction,
+	formatAccount,
+	formatNamespaces,
 };

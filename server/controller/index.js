@@ -1,7 +1,13 @@
-var homeInfo = require('./homeInfo');
-var blocks = require('./blocks');
+const homeInfo = require('./homeInfo');
+const blocks = require('./blocks');
+const accounts = require('./accounts');
+const transactions = require('./transactions');
+const namespaces = require('./namespaces');
 
 module.exports = {
     homeInfo,
-    blocks
+    blocks,
+    accounts,
+    transactions,
+    namespaces
 }
