@@ -36,6 +36,3 @@ cd server
 npm start
 ```
 
-#### Usage
-[API endpoint Doc](https://docs.google.com/document/d/1wKg1efHW3tHUFcIX3PS0NOh9RUCUdyqXaD4T3LRu0BU/edit?usp=sharing)
-
