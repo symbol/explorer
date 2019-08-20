@@ -173,6 +173,35 @@ function formatMosaics(mosaics) {
 	return mosaics;
 }
 
+function formatMosaicInfo(mosaic) {
+	const expirationHeight =
+		mosaic.height.compact() + mosaic.properties.duration.compact();
+
+	mosaicInfoObj = {
+		metaId: mosaic.metaId,
+		mosaicHex: mosaic.mosaicId.toHex(),
+		supply: mosaic.supply.compact(),
+		startHeight: mosaic.height.compact(),
+		expirationHeight:
+			mosaic.properties.duration.compact() === 0
+				? 'unlimited'
+				: expirationHeight,
+		owner: mosaic.owner,
+		properties: {
+			divisibility: mosaic.properties.divisibility,
+			duration:
+				mosaic.properties.duration.compact() === 0
+					? 'unlimited'
+					: mosaic.properties.duration.compact(),
+			supplyMutable: mosaic.properties.supplyMutable,
+			transferable: mosaic.properties.transferable,
+			restrictable: mosaic.properties.restrictable,
+		},
+	};
+
+	return mosaicInfoObj;
+}
+
 function formatNamespace(namespaceInfo) {
 	let aliasText;
 	let aliasType;
@@ -203,8 +232,9 @@ function formatNamespace(namespaceInfo) {
 		active: namespaceInfo.active,
 		aliastype: aliasType,
 		alias: aliasText,
-    parentHexId: namespaceInfo.parentId.id.toHex(),
-    parentName: namespaceInfo.type !== 0 ? namespaceInfo.name.split('.')[0] : '',
+		parentHexId: namespaceInfo.parentId.id.toHex(),
+		parentName:
+			namespaceInfo.type !== 0 ? namespaceInfo.name.split('.')[0] : '',
 	};
 
 	return namespaceObj;
@@ -303,6 +333,7 @@ module.exports = {
 	formatTxs,
 	formatTransaction,
 	formatAccount,
-  formatNamespaces,
-  formatNamespace
+	formatNamespaces,
+	formatNamespace,
+	formatMosaicInfo,
 };
