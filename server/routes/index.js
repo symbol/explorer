@@ -103,12 +103,9 @@ router.get('/namespaces', (req, res, next) => {
 });
 
 router.get('/namespaces/:namespaceName', async (req, res, next) => {
-	// Todo: owned mosaic
 	const namespaceName = req.params.namespaceName;
 
-	const namespaceInfo = await namespaces.getNamespaceInfoByName(
-		namespaceName
-	);
+	const namespaceInfo = await namespaces.getNamespaceInfoByName(namespaceName);
 
 	res.json({
 		data: {
