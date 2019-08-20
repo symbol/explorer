@@ -40,6 +40,18 @@ class DataService {
             }
         })
     }
+    static getTrxdetail(trx_id) {
+        return new Promise(async (resolve, reject) => {
+            try {
+                const res = await axios.get(url + 'transaction/'+trx_id);
+                const data = res.data;
+                //  console.log(data);
+                return resolve(data.data);
+            } catch (err) {
+                reject('request error getBlockinfo');
+            }
+        })
+    }
 
     static syncWs(update_id=null) {
         return new Promise(async (resolve, reject) => {

@@ -6,7 +6,8 @@
       <div class="full-con mob_con">
         <div class="container p-0">
           <div class="widget has-shadow mt-4 m-0 z-1">
-            <div class="box">
+            <inforow info_title="Transaction Details" :inforows="this.trx_detail"></inforow>
+            <!-- <div class="box">
               <div class="box-title">
                 <h1 class="inline-block">Transaction Details</h1>
               </div>
@@ -78,9 +79,9 @@
                       <div class="value">NC64UFOWRO6AVMWFV2BFX2NT6W2GURK2EOX6FFMZ</div>
                     </div>
                   </div>
-                   <div class="row list_item">
+                  <div class="row list_item">
                     <div class="col-md-2">
-                      <div class="label">Amount        </div>
+                      <div class="label">Amount</div>
                     </div>
                     <div class="col-md-10">
                       <div class="value">100,000</div>
@@ -104,8 +105,8 @@
                   </div>
                 </div>
               </div>
-            </div>
-          </div>      
+            </div>-->
+          </div>
         </div>
       </div>
     </div>
@@ -115,16 +116,51 @@
 </template>
 <script>
 import router from "../router";
+import w1 from "@/components/inforow.vue";
+import DataService from "../data-service";
 export default {
   name: "block",
-  components: {},
+  components: {
+    inforow: w1
+  },
   created() {},
   data() {
     return {
-      trx_id: this.$route.params.trx_id
+      trx_id: this.$route.params.trx_id,
+      trx_detail: {
+        "Transaction Hash": "",
+        Block: "",
+        Timestamp: "",
+        Type: "",
+        Harvester: "",
+        "Block Hash": "",
+        Sender: "",
+        Recipient: "",
+        Amount: "",
+        Fee: "",
+        Message: "",
+        Status: "",
+        confirmation: ""
+      }
     };
   },
-  methods: {},
-  mounted() {}
+  created() {
+    this.asyncData();
+  },
+  watch: {
+    $route: "asyncData"
+  },
+  methods: {
+    asyncData() {
+      this.trx_id = this.$route.params.trx_id;
+      let self = this;
+      DataService.getTrxdetail(this.trx_id).then(function(data) {
+        self.trx_detail["Transaction Hash"] = self.trx_id;
+        self.trx_detail["Status"] = data.transactionInfo.status;
+        self.trx_detail["confirmation"] = data.transactionInfo.confirm;
+        console.log(self.trx_detail);
+      });
+    }
+  }
 };
 </script>

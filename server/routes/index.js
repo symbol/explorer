@@ -61,7 +61,6 @@ router.get('/blocks', async function(req, res, next) {
 router.get('/blocks/:fromBlockHeight', async function(req, res, next) {
 	const height = req.params.fromBlockHeight;
 	const blockList = await blocks.getBlocksWithLimit(25, height);
-
 	res.json({
 		data: {
 			blockList,
@@ -91,7 +90,6 @@ router.get('/transactions', (req, res, next) => {
 router.get('/transaction/:txHash', async (req, res, next) => {
 	const txHash = req.params.txHash;
 	const transactionInfo = await transactions.getTransactionInfoByHash(txHash);
-
 	res.json({
 		data: {
 			transactionInfo,
