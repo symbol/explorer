@@ -15,6 +15,35 @@
               </div>
               <div class="box-con mt-0">
                 <table-blocks :blockslist="this.blockdata"></table-blocks>
+                <div class="table-footer">
+                  <div class="pagination-container">
+                    <ul class="pagination">
+                      <li class="page-item">
+                        <a href="#">
+                          <i class="ico-angle-double-left"></i>
+                        </a>
+                      </li>
+                      <li class="page-item">
+                        <a href="#">
+                          <i class="ico-angle-left"></i>
+                        </a>
+                      </li>
+                      <li class="page-item">
+                        <input type="number" value="1" min='1'>
+                      </li>
+                      <li class="page-item">
+                        <a href="#">
+                          <i class="ico-angle-right"></i>
+                        </a>
+                      </li>
+                      <li class="page-item">
+                        <a href="#">
+                          <i class="ico-angle-double-right"></i>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -28,7 +57,10 @@
 <script>
 import w1 from "@/components/Table-block.vue";
 import DataService from "../data-service";
+import moment from "moment-timezone";
+
 import io from "socket.io-client";
+
 const socket = io.connect(window.conf.ws, {
   path: window.conf.ws_path
 });
@@ -44,12 +76,12 @@ export default {
     };
   },
   methods: {
-     load_block_list: function(id) {
+    load_block_list: function(id) {
       router.push({ path: `/block?` });
-    },
+    }
   },
   created: function() {},
-  mounted: function() {
+  mounted() {
     let self = this;
     DataService.getBlocks().then(function(data) {
       self.blockdata = data.blockList;
@@ -58,9 +90,9 @@ export default {
     });
     DataService.syncWs("blocks").then(data => {
       socket.on("update", function(data) {
-       // self.blockdata = data.data.blockList;
+        // self.blockdata = data.data.blockList;
         //self.blockhight =  data.data.hight;
-       // console.log(data);
+        // console.log(data);
       });
     });
   },

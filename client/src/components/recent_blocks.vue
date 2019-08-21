@@ -4,7 +4,7 @@
       <div class="box-title">
         <h1 class="inline-block">Recent Blocks</h1>
         <div class="btn_grp inline-block flt-rt">
-          <router-link to="/block" exact active-class="active" class="btn btn-green">
+          <router-link to="/blocks" exact active-class="active" class="btn btn-green">
             <span>View all blocks</span>
             <i class="ico-ios-arrow-thin-right"></i>
           </router-link>
@@ -41,6 +41,7 @@
 </template>
 <script>
 import helper from "../helper";
+
 
 export default {
   props: {
