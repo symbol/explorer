@@ -5,23 +5,31 @@ const {
 	blocks,
 	accounts,
 	transactions,
-  namespaces,
-  mosaics
+	namespaces,
+	mosaics,
 } = require('../controller/index');
 
 router.get('/homeInfo', async function(req, res, next) {
-	// Todo: Average block time
-	let marketData = await homeInfo.getMarketData();
-	let chainInfo = await homeInfo.getChainInfo();
-	let recentBlocks = await blocks.getBlocksWithLimit(5);
+	try {
+		// Todo: Average block time
+		let marketData = await homeInfo.getMarketData();
+		let chainInfo = await homeInfo.getChainInfo();
+		let recentBlocks = await blocks.getBlocksWithLimit(5);
 
-	res.json({
-		data: {
-			marketData,
-			chainInfo,
-			recentBlocks,
-		},
-	});
+		res.status(200).json({
+			data: {
+				marketData,
+				chainInfo,
+				recentBlocks,
+			},
+		});
+	} catch (error) {
+		res.status(500).json({
+			data: {
+				message: error.message,
+			},
+		});
+	}
 });
 
 router.get('/accounts', async function(req, res, next) {
@@ -30,57 +38,92 @@ router.get('/accounts', async function(req, res, next) {
 
 router.get('/account/:address', async function(req, res, next) {
 	const address = req.params.address;
-	const accountInfo = await accounts.getAccountInfoByAddress(address);
-	const accountTransaction = await accounts.getAccountTransactionsByAddress(
-		address
-	);
 
-	const ownedNamespaceList = await namespaces.getNamespacesFromAccountByAddress(
-		address
-	);
+	try {
+		const accountInfo = await accounts.getAccountInfoByAddress(address);
+		const accountTransaction = await accounts.getAccountTransactionsByAddress(
+			address
+		);
 
-	res.json({
-		data: {
-			accountInfo,
-			accountTransaction,
-			ownedNamespaceList,
-		},
-	});
+		const ownedNamespaceList = await namespaces.getNamespacesFromAccountByAddress(
+			address
+		);
+
+		res.status(200).json({
+			data: {
+				accountInfo,
+				accountTransaction,
+				ownedNamespaceList,
+			},
+		});
+	} catch (error) {
+		res.status(500).json({
+			data: {
+				message: error.message,
+			},
+		});
+	}
 });
 
 router.get('/blocks', async function(req, res, next) {
-	const blockList = await blocks.getBlocksWithLimit(25);
+	try {
+		const blockList = await blocks.getBlocksWithLimit(25);
 
-	res.json({
-		data: {
-			blockList,
-		},
-	});
+		res.status(200).json({
+			data: {
+				blockList,
+			},
+		});
+	} catch (error) {
+		res.status(500).json({
+			data: {
+				message: error.message,
+			},
+		});
+	}
 });
 
 router.get('/blocks/:fromBlockHeight', async function(req, res, next) {
 	const height = req.params.fromBlockHeight;
-	const blockList = await blocks.getBlocksWithLimit(25, height);
-	res.json({
-		data: {
-			blockList,
-		},
-	});
+
+	try {
+		const blockList = await blocks.getBlocksWithLimit(25, height);
+		res.status(200).json({
+			data: {
+				blockList,
+			},
+		});
+	} catch (error) {
+		res.status(500).json({
+			data: {
+				message: error.message,
+			},
+		});
+	}
 });
 
 router.get('/block/:height', async function(req, res, next) {
 	const height = req.params.height;
-	const blockInfo = await blocks.getBlockInfoByHeight(height);
-	const blockTransactionList = await blocks.getBlockFullTransactionsList(
-		height
-	);
 
-	res.json({
-		data: {
-			blockInfo,
-			blockTransactionList,
-		},
-	});
+	try {
+		const blockInfo = await blocks.getBlockInfoByHeight(height);
+		const blockTransactionList = await blocks.getBlockFullTransactionsList(
+			height
+		);
+
+		res.status(200).json({
+			data: {
+				blockInfo,
+				blockTransactionList,
+			},
+		});
+	} catch (error) {
+		res.status(500).json({
+			data: {
+				message: error.message,
+			},
+		});
+	}
 });
 
 router.get('/transactions', (req, res, next) => {
@@ -89,12 +132,21 @@ router.get('/transactions', (req, res, next) => {
 
 router.get('/transaction/:txHash', async (req, res, next) => {
 	const txHash = req.params.txHash;
-	const transactionInfo = await transactions.getTransactionInfoByHash(txHash);
-	res.json({
-		data: {
-			transactionInfo,
-		},
-	});
+
+	try {
+		const transactionInfo = await transactions.getTransactionInfoByHash(txHash);
+		res.status(200).json({
+			data: {
+				transactionInfo,
+			},
+		});
+	} catch (error) {
+		res.status(500).json({
+			data: {
+				message: error.message,
+			},
+		});
+	}
 });
 
 router.get('/namespaces', (req, res, next) => {
@@ -104,13 +156,23 @@ router.get('/namespaces', (req, res, next) => {
 router.get('/namespace/:namespaceName', async (req, res, next) => {
 	const namespaceName = req.params.namespaceName;
 
-	const namespaceInfo = await namespaces.getNamespaceInfoByName(namespaceName);
+	try {
+		const namespaceInfo = await namespaces.getNamespaceInfoByName(
+			namespaceName
+		);
 
-	res.json({
-		data: {
-			namespaceInfo,
-		},
-	});
+		res.status(200).json({
+			data: {
+				namespaceInfo,
+			},
+		});
+	} catch (error) {
+		res.status(500).json({
+			data: {
+				message: error.message,
+			},
+		});
+	}
 });
 
 router.get('/mosaics', (req, res, next) => {
@@ -118,14 +180,22 @@ router.get('/mosaics', (req, res, next) => {
 });
 
 router.get('/mosaic/:mosaicHex', async (req, res, next) => {
-  const mosaicHex = req.params.mosaicHex;
-  const mosaicInfo = await mosaics.getMosaicInfoByHex(mosaicHex);
+	const mosaicHex = req.params.mosaicHex;
+	try {
+		const mosaicInfo = await mosaics.getMosaicInfoByHex(mosaicHex);
 
-  res.json({
-		data: {
-			mosaicInfo,
-		},
-	});
+		res.status(200).json({
+			data: {
+				mosaicInfo,
+			},
+		});
+	} catch (error) {
+		res.status(500).json({
+			data: {
+				message: error.message,
+			},
+		});
+	}
 });
 
 router.get('/node', (req, res, next) => {
@@ -134,6 +204,14 @@ router.get('/node', (req, res, next) => {
 
 router.get('/statitics', (req, res, next) => {
 	// Todo: get statitics info
+});
+
+router.get('*', (req, res, next) => {
+	res.status(404).json({
+		data: {
+			message: req.params[0] + ' does not exist',
+		},
+	});
 });
 
 module.exports = router;
