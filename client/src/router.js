@@ -15,17 +15,17 @@ export default new Router({
       }
     },
     {
-      path: '/block',
+      path: '/blocks',
       name: 'Blocks',
       component: () =>
-        import('./views/Block.vue'),
+        import('./views/Blocks.vue'),
       meta: {
         title: ''
       }
     },
     {
       path: '/block/:blockid',
-      name: 'Blocks details',
+      name: 'Blocks_details',
       component: () =>
         import('./views/Block-detail.vue'),
       meta: {

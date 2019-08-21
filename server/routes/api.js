@@ -1,7 +1,7 @@
 var express = require('express');
 var router = express.Router();
-const { homeInfo, blocks } = require('../controller/index');
-
+const { homeInfo, blocks,transactions,mosaics} = require('../controller/index');
+     
 router.get('/ws/:page_id', async function (req, res, next) {
     if (req.params.page_id == 'home') {
         setInterval(async () => {
@@ -78,7 +78,46 @@ router.get('/block/:blkhight', async function (req, res, next) {
         });
     }
 });
+router.get('/transactions', (req, res, next) => {
+	// Todo: get transactions list
+});
+router.get('/transaction/:txHash', async (req, res, next) => {
+    const txHash = req.params.txHash;
+    if (txHash) {
+	const transactionInfo = await transactions.getTransactionInfoByHash(txHash);
+	res.json({
+		data: {
+			transactionInfo,
+		},
+    });
+    }else{
+        res.json({
+            data: 0,
+        });
+    }
+});
+router.get('/accounts', async function(req, res, next) {
+	// Todo: get AccountsList
+});
 
+router.get('/account/:address', async function(req, res, next) {
+    const address = req.params.address;
+    if(address){
+	const accountInfo = await accounts.getAccountInfoByAddress(address);
+	const accountTransaction = await accounts.getAccountTransactionsByAddress(address);
+	const ownedNamespaceList = await namespaces.getNamespacesFromAccountByAddress(address);
+	res.json({
+		data: {
+			accountInfo,
+			accountTransaction,
+			ownedNamespaceList,
+		},
+	});}else{
+        res.json({
+            data: 0,
+        });
+    }
+});
 
 router.get('*', async function (req, res, next) {
     res.json({
