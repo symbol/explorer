@@ -17,7 +17,7 @@
                 </router-link>
               </li>
               <li>
-                <router-link to="/block" exact active-class="active">
+                <router-link to="/blocks" exact active-class="active">
                   <i class="ico-content-34"></i>
                   <span>Blocks</span>
                 </router-link>
