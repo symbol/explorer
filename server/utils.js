@@ -3,6 +3,8 @@ const {
 	Address,
 	UInt64,
 	AliasActionType,
+	MosaicId,
+	NamespaceId,
 } = require('nem2-sdk');
 const moment = require('moment');
 
@@ -59,6 +61,103 @@ function formatBlocks(blockList) {
 		});
 	}
 	return;
+}
+
+function formatTransactionFromApi(transactionJson) {
+	transactionObj = {
+		deadlineTimestamp:
+			(new UInt64(transactionJson.transaction.deadline).compact() / 1000 +
+				getTimestampNemesisBlock()) *
+			1000,
+		fee: new UInt64(transactionJson.transaction.maxFee).compact(),
+		signature: transactionJson.transaction.signature,
+		signer: transactionJson.transaction.signer,
+		blocHeight: new UInt64(transactionJson.meta.height).compact(),
+		transactionHash: transactionJson.meta.hash,
+		transactionId: transactionJson.meta.id,
+		transactionDetail: formatTransactionTypeFromApi(
+			transactionJson.transaction
+		),
+	};
+
+	return transactionObj;
+}
+
+function formatTransactionTypeFromApi(tx) {
+	switch (tx.type) {
+		case TransactionType.TRANSFER:
+			transferObj = {
+				type: 'Transfer',
+				typeId: TransactionType.TRANSFER,
+				recipient: tx.recipient,
+				mosaics: formatMosaics(tx.mosaics),
+				message: tx.message.payload,
+			};
+			return transferObj;
+		case TransactionType.REGISTER_NAMESPACE:
+			parentIdHex = tx.parentId ? new NamespaceId(tx.parentId).toHex() : '';
+			duration = tx.duration ? new UInt64(tx.duration).compact() : '';
+
+			registerNamespaceObj = {
+				type: 'RegisterNamespace',
+				typeId: TransactionType.REGISTER_NAMESPACE,
+				recipient: tx.recipient,
+				namespaceType: tx.namespaceType === 0 ? 'Root namespace' : 'Child namespace',
+				namespaceName: tx.namespaceName,
+				namespaceId: new NamespaceId(tx.namespaceId).toHex(),
+				parentId: parentIdHex === '' ? '' : parentIdHex,
+				duration: duration === 0 ? 'unlimited' : duration,
+			};
+			return registerNamespaceObj;
+		case TransactionType.ADDRESS_ALIAS:
+			return 'Address alias';
+		case TransactionType.MOSAIC_ALIAS:
+			mosaicAlias = {
+				type: 'MosaicAlias',
+				typeId: TransactionType.MOSAIC_ALIAS,
+				actionType: tx.actionType,
+				namespaceId: new NamespaceId(tx.namespaceId).toHex(),
+				mosaicId: new MosaicId(tx.mosaicId).toHex(),
+			};
+			return mosaicAlias;
+		case TransactionType.MOSAIC_DEFINITION:
+			mosaicDefinitionObj = {
+				type: 'MosaicDefinition',
+				typeId: TransactionType.MOSAIC_DEFINITION,
+        mosaicId: new MosaicId(tx.mosaicId).toHex().toLowerCase(),
+        mosaicProperties : tx.properties
+			};
+			return mosaicDefinitionObj;
+		case TransactionType.MOSAIC_SUPPLY_CHANGE:
+			mosaicSupplyChangeObj = {
+				type: 'MosaicSupplyChange',
+				typeId: TransactionType.MOSAIC_SUPPLY_CHANGE,
+				mosaicId: new MosaicId(tx.mosaicId).toHex(),
+				direction: tx.direction == 1 ? 'Increase' : 'Decrease',
+				delta: new UInt64(tx.delta).compact(),
+			};
+			return mosaicSupplyChangeObj;
+		case TransactionType.MODIFY_MULTISIG_ACCOUNT:
+			return 'Modify multisig account';
+		case TransactionType.AGGREGATE_COMPLETE:
+			return 'Aggregate complete';
+		case TransactionType.AGGREGATE_BONDED:
+			return 'Aggregate bonded';
+		case TransactionType.LOCK:
+			return 'Lock';
+		case TransactionType.SECRET_LOCK:
+			return 'Secrxwet lock';
+		case TransactionType.SECRET_PROOF:
+			return 'Secret proof';
+		case TransactionType.MODIFY_ACCOUNT_PROPERTY_ADDRESS:
+			return 'Mod. account address';
+		case TransactionType.MODIFY_ACCOUNT_PROPERTY_MOSAIC:
+			return 'Mod. account mosaic';
+		case TransactionType.MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE:
+			return 'Mod. account entity type';
+		case TransactionType.LINK_ACCOUNT:
+			return 'Link account';
+	}
 }
 
 function formatTransaction(tx) {
@@ -167,8 +266,8 @@ function formatTxs(txList) {
 
 function formatMosaics(mosaics) {
 	mosaics.map(mosaic => {
-		mosaic.id = mosaic.id.toHex();
-		mosaic.amount = mosaic.amount.compact();
+		mosaic.id = new MosaicId(mosaic.id).toHex();
+		mosaic.amount = new UInt64(mosaic.amount).compact();
 	});
 	return mosaics;
 }
@@ -336,4 +435,5 @@ module.exports = {
 	formatNamespaces,
 	formatNamespace,
 	formatMosaicInfo,
+	formatTransactionFromApi,
 };
