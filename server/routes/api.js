@@ -81,20 +81,23 @@ router.get('/block/:blkhight', async function (req, res, next) {
 router.get('/transactions', (req, res, next) => {
 	// Todo: get transactions list
 });
+
 router.get('/transaction/:txHash', async (req, res, next) => {
-    const txHash = req.params.txHash;
-    if (txHash) {
-	const transactionInfo = await transactions.getTransactionInfoByHash(txHash);
-	res.json({
-		data: {
-			transactionInfo,
-		},
-    });
-    }else{
-        res.json({
-            data: 0,
-        });
-    }
+	const txHash = req.params.txHash;
+	try {
+		const transactionInfo = await transactions.getTransactionInfoByHash(txHash);
+		res.status(200).json({
+			data: {
+				transactionInfo,
+			},
+		});
+	} catch (error) {
+		res.status(500).json({
+			data: {
+				message: error.message,
+			},
+		});
+	}
 });
 router.get('/accounts', async function(req, res, next) {
 	// Todo: get AccountsList

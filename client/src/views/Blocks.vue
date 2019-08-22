@@ -55,7 +55,7 @@
   </div>
 </template>
 <script>
-import w1 from "@/components/Table-block.vue";
+import w1 from "@/components/Table-block-list.vue";
 import DataService from "../data-service";
 import moment from "moment-timezone";
 

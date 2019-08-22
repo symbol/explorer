@@ -44,7 +44,7 @@
 </template>
 <script>
 import w1 from "@/components/inforow.vue";
-import w2 from "@/components/table_dyn.vue";
+import w2 from "@/components/Table-dynamic.vue";
 
 import DataService from "../data-service";
 var s = "";

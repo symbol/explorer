@@ -38,14 +38,14 @@
         </table>
       </div>
     </div>
-    
+
     <script type="application/javascript"></script>
   </div>
 </template>
 <script>
 import router from "../router";
 import helper from "../helper";
-import moment from "moment-timezone"
+import moment from "moment-timezone";
 export default {
   props: {
     blockslist: {}
@@ -55,7 +55,7 @@ export default {
       router.push({ path: `/block/${id}` });
     },
     timefix: function(time) {
-      var time_fx = new Date(time) ;
+      var time_fx = new Date(time);
       var offset = new Date().getTimezoneOffset();
       return helper.timeSince(time_fx);
     }

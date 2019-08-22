@@ -15,9 +15,9 @@ app.use(cors());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-
-app.use('/', indexRouter);
 app.use('/api/', require('./routes/api'));
+app.use('/', indexRouter);
+
 // run service for data sync
 //var data_sync = require('./lib/data-driver');
 

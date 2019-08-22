@@ -1,0 +1,56 @@
+/* #f4a900 */
+
+.gradinet_01 {
+    background: #f4a900;
+}
+
+.ex-header.bg01 {
+    background: #272030
+}
+
+.hm_wdjt_itm_t1 {
+    border-color: #f4a900
+}
+
+.btn-green {
+    border-color: #272030;
+    color: #272030;
+}
+
+.btn-green:hover {
+    background: #272030;
+    color: #fff;
+}
+
+.rn_blk_con::before {
+    background: #272030;
+}
+
+.rn_blk_con .inrw .acnt {
+    color: #272030;
+}
+
+.trx-clm .txh1 {
+    color: #272030;
+}
+.rn_blk_con.trx .trx-clm span.t1 {
+    color: #f4a900;
+}
+.trx-clm .tx_acnts span{
+    color: #272030;
+}
+.trx-clm .tx_acnts i {
+    color: #f4a900;
+}
+.footer {
+    background: #272030;
+}
+.table thead th{
+    color: #272030;
+}
+.pagination li input{
+    background: #f4a900;
+}
+.hdr-btn-con a{
+    background: #f4a900;
+}
