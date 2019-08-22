@@ -95,8 +95,7 @@ export default {
         self.blockdetails["Timestamp"] = data.blockdata.date;
         self.blockdetails["Difficulty"] = data.blockdata.difficulty;
         self.blockdetails["Fees"] = data.blockdata.totalFee;
-        self.blockdetails["Total Transactions"] =
-          data.blockdata.numTransactions;
+        self.blockdetails["Total Transactions"] =data.blockdata.numTransactions;
         self.blockdetails["Harvester"] = data.blockdata.signer.address.address;
         self.blockdetails["Block Hash"] = data.blockdata.blockTransactionsHash;
         if (data.blocktrx.length) {

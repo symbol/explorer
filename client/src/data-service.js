@@ -16,10 +16,10 @@ class DataService {
             }
         })
     }
-    static getBlocks() {
+    static getBlocks(page=1) {
         return new Promise(async (resolve, reject) => {
             try {
-                const res = await axios.get(url + 'blocks');
+                const res = await axios.get(url + 'blocks?page='+page);
                 const data = res.data;
                 //  console.log(data);
                 return resolve(data.data);

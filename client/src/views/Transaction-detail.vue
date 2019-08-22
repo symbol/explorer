@@ -162,7 +162,7 @@ export default {
         self.trx_detail["Harvester"] = 
         self.trx_detail["Status"] = data.transactionInfo.status;
         self.trx_detail["confirmation"] = data.transactionInfo.confirm;
-        console.log(self.trx_detail);
+        console.log(data);
       });
     }
   }
