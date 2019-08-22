@@ -30,6 +30,13 @@ cd server
 npm install
 ```
 
+#### Setup environment
+```
+cp .env.example .env
+
+** Configure all required variables in .env
+```
+
 #### Compiles and hot-reloads for development
 ```
 cd server
