@@ -44,7 +44,7 @@
 </template>
 <script>
 import w1 from "@/components/inforow.vue";
-import w2 from "@/components/table_dyn.vue";
+import w2 from "@/components/Table-dynamic.vue";
 
 import DataService from "../data-service";
 var s = "";
@@ -95,8 +95,7 @@ export default {
         self.blockdetails["Timestamp"] = data.blockdata.date;
         self.blockdetails["Difficulty"] = data.blockdata.difficulty;
         self.blockdetails["Fees"] = data.blockdata.totalFee;
-        self.blockdetails["Total Transactions"] =
-          data.blockdata.numTransactions;
+        self.blockdetails["Total Transactions"] =data.blockdata.numTransactions;
         self.blockdetails["Harvester"] = data.blockdata.signer.address.address;
         self.blockdetails["Block Hash"] = data.blockdata.blockTransactionsHash;
         if (data.blocktrx.length) {

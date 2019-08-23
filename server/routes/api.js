@@ -48,8 +48,17 @@ router.get('/homeInfo', async function (req, res, next) {
     });
 });
 router.get('/blocks', async function (req, res, next) {
-    if (req.query.fromblock == undefined) {
-        let ht = await blocks.getBlockHeight();
+    let ht = await blocks.getBlockHeight();
+    if (req.query.page) {   
+        fromblock = ht - (15*(req.query.page));
+        const blockList = await blocks.getBlocksWithLimit(20, fromblock);
+        res.json({
+            data: {
+                hight: ht,
+                blockList,
+            },
+        });
+    } else {
         const blockList = await blocks.getBlocksWithLimit(20, ht);
         res.json({
             data: {
@@ -57,9 +66,7 @@ router.get('/blocks', async function (req, res, next) {
                 blockList,
             },
         });
-    } else if (req.query.fromblock) {
-        console.log(req.query.fromblock)
-    }
+    }     
 });
 
 router.get('/block/:blkhight', async function (req, res, next) {
@@ -81,20 +88,23 @@ router.get('/block/:blkhight', async function (req, res, next) {
 router.get('/transactions', (req, res, next) => {
 	// Todo: get transactions list
 });
+
 router.get('/transaction/:txHash', async (req, res, next) => {
-    const txHash = req.params.txHash;
-    if (txHash) {
-	const transactionInfo = await transactions.getTransactionInfoByHash(txHash);
-	res.json({
-		data: {
-			transactionInfo,
-		},
-    });
-    }else{
-        res.json({
-            data: 0,
-        });
-    }
+	const txHash = req.params.txHash;
+	try {
+		const transactionInfo = await transactions.getTransactionInfoByHash(txHash);
+		res.status(200).json({
+			data: {
+				transactionInfo,
+			},
+		});
+	} catch (error) {
+		res.status(500).json({
+			data: {
+				message: error.message,
+			},
+		});
+	}
 });
 router.get('/accounts', async function(req, res, next) {
 	// Todo: get AccountsList
