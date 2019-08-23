@@ -54,3 +54,9 @@
 .hdr-btn-con a{
     background: #f4a900;
 }
+.act-copy{
+    background: #f4a900;
+}
+.tabs-con ul li[aria-selected="true"]{
+    background: #272030;
+}
