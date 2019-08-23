@@ -90,7 +90,7 @@ function formatTransactionTypeFromApi(tx) {
 				type: 'Transfer',
 				typeId: TransactionType.TRANSFER,
 				recipient: tx.recipient,
-				mosaics: formatMosaics(tx.mosaics),
+				mosaics: formatMosaicsFromApi(tx.mosaics),
 				message: tx.message.payload,
 			};
 			return transferObj;
@@ -102,7 +102,8 @@ function formatTransactionTypeFromApi(tx) {
 				type: 'RegisterNamespace',
 				typeId: TransactionType.REGISTER_NAMESPACE,
 				recipient: tx.recipient,
-				namespaceType: tx.namespaceType === 0 ? 'Root namespace' : 'Child namespace',
+				namespaceType:
+					tx.namespaceType === 0 ? 'Root namespace' : 'Child namespace',
 				namespaceName: tx.namespaceName,
 				namespaceId: new NamespaceId(tx.namespaceId).toHex(),
 				parentId: parentIdHex === '' ? '' : parentIdHex,
@@ -124,8 +125,8 @@ function formatTransactionTypeFromApi(tx) {
 			mosaicDefinitionObj = {
 				type: 'MosaicDefinition',
 				typeId: TransactionType.MOSAIC_DEFINITION,
-        mosaicId: new MosaicId(tx.mosaicId).toHex().toLowerCase(),
-        mosaicProperties : tx.properties
+				mosaicId: new MosaicId(tx.mosaicId).toHex().toLowerCase(),
+				mosaicProperties: tx.properties,
 			};
 			return mosaicDefinitionObj;
 		case TransactionType.MOSAIC_SUPPLY_CHANGE:
@@ -158,6 +159,14 @@ function formatTransactionTypeFromApi(tx) {
 		case TransactionType.LINK_ACCOUNT:
 			return 'Link account';
 	}
+}
+
+function formatMosaicsFromApi(mosaics) {
+	mosaics.map(mosaic => {
+		mosaic.id = new MosaicId(mosaic.id.id).toHex();
+		mosaic.amount = new UInt64(mosaic.amount).compact();
+	});
+	return mosaics;
 }
 
 function formatTransaction(tx) {
@@ -266,8 +275,8 @@ function formatTxs(txList) {
 
 function formatMosaics(mosaics) {
 	mosaics.map(mosaic => {
-		mosaic.id = new MosaicId(mosaic.id).toHex();
-		mosaic.amount = new UInt64(mosaic.amount).compact();
+		mosaic.id = mosaic.id.toHex();
+		mosaic.amount = mosaic.amount.compact();
 	});
 	return mosaics;
 }
