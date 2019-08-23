@@ -1,3 +1,21 @@
+/*
+ *
+ * Copyright (c) 2019-present for NEM
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License ");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 <template>
   <div>
     <top-header></top-header>
@@ -159,7 +177,7 @@ export default {
         self.trx_detail["Block"] = data.transactionInfo.transaction.blocHeight;
         self.trx_detail["Type"] = data.transactionInfo.transaction.transactionDetail.type;
         self.trx_detail["Harvester"] = data.transactionInfo.transaction.signer;
-        self.trx_detail["Harvester"] = 
+        self.trx_detail["Harvester"] =
         self.trx_detail["Status"] = data.transactionInfo.status;
         self.trx_detail["confirmation"] = data.transactionInfo.confirm;
         console.log(data);
