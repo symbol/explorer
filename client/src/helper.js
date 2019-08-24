@@ -46,11 +46,9 @@ class helper{
       }
 
     static uint64ToString(high, low) {
-        // Use a buffer to alloc a single allocation, the maximum a 64-bit integer
-        // can write is 20 digits (2**64 is ~4.2e19).
-        var result = ''
+        let result = ''
         while (true) {
-          var mod = (high % 10) * 0x100000000 + low
+          let mod = (high % 10) * 0x100000000 + low
           high = Math.floor(high / 10)
           low = Math.floor(mod / 10)
           result = (mod % radix).toString(radix) + result
@@ -59,6 +57,6 @@ class helper{
           }
         }
         result
-  }
+    }
 }
 export default helper;

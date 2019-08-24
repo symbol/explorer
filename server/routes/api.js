@@ -18,7 +18,8 @@
 
 var express = require('express');
 var router = express.Router();
-const { homeInfo, blocks,transactions,mosaics} = require('../controller/index');
+
+const { homeInfo, blocks,transactions,accounts,namespaces,mosaics} = require('../controller/index');
 
 router.get('/ws/:page_id', async function (req, res, next) {
     if (req.params.page_id == 'home') {
@@ -130,21 +131,24 @@ router.get('/accounts', async function(req, res, next) {
 
 router.get('/account/:address', async function(req, res, next) {
     const address = req.params.address;
-    if(address){
-	const accountInfo = await accounts.getAccountInfoByAddress(address);
-	const accountTransaction = await accounts.getAccountTransactionsByAddress(address);
-	const ownedNamespaceList = await namespaces.getNamespacesFromAccountByAddress(address);
-	res.json({
-		data: {
-			accountInfo,
-			accountTransaction,
-			ownedNamespaceList,
-		},
-	});}else{
-        res.json({
-            data: 0,
-        });
-    }
+	try {
+		const accountInfo = await accounts.getAccountInfoByAddress(address);
+		const accountTransaction = await accounts.getAccountTransactionsByAddress(address);
+		const ownedNamespaceList = await namespaces.getNamespacesFromAccountByAddress(address);
+		res.status(200).json({
+			data: {
+				accountInfo,
+				accountTransaction,
+				ownedNamespaceList,
+			},
+		});
+	} catch (error) {
+		res.status(500).json({
+			data: {
+				message: "account not found",
+			},
+		});
+	}
 });
 
 router.get('*', async function (req, res, next) {

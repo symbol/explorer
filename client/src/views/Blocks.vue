@@ -84,7 +84,12 @@
                         </a>
                       </li>
                       <li class="page-item">
-                        <input type="number" v-model="this.curnt_page" min="1" />
+                        <input
+                          type="number"
+                          v-model="curnt_page"
+                          min="1"
+                          v-on:keyup.enter="load_block_list('fromtxtfld')"
+                        />
                       </li>
                       <li class="page-item">
                         <a href="#" @click.prevent="load_block_list('next')">
@@ -140,6 +145,8 @@ export default {
         computed_page = this.curnt_page - 1;
       } else if (act == "prev2") {
         this.curnt_page - 2;
+      } else if (act == "fromtxtfld") {
+        computed_page = this.curnt_page;
       }
       if (computed_page > 1)
         this.$router.push({ path: "/blocks?page=" + computed_page });

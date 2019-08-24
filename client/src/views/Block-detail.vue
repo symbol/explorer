@@ -130,10 +130,10 @@ export default {
             self.table_data.data.push(temp);
           });
         } else {
-          self.table_data.data = [];
+          self.table_data.data = []
         }
-      });
+      })
     }
   }
-};
+}
 </script>

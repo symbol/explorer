@@ -57,7 +57,7 @@
         </div>
         <div class="col-md-3">
           <div class="hdr-btn-con btns_left">
-            <a href="#">Testnet</a>
+            <a href="#">Mainnet</a>
           </div>
         </div>
       </div>
