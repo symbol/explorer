@@ -115,82 +115,80 @@
   </div>
 </template>
 <script>
-import DataService from "../data-service";
-import router from "../router";
-import helper from "../helper";
-import io from "socket.io-client";
+import DataService from '../data-service'
+import router from '../router'
+import helper from '../helper'
+import io from 'socket.io-client'
 
 const socket = io.connect(window.conf.ws, {
   path: window.conf.ws_path
-});
+})
 export default {
-  name: "block",
+  name: 'block',
   components: {},
-  data() {
+  data () {
     return {
       blockdata: {},
-      blockhight: "",
+      blockhight: '',
       curnt_page: 1
-    };
-  },
-  methods: {
-    load_block_list: function(act) {
-      // router.push({ path: `/block?` });
-      var computed_page = "";
-      if (act == "next") {
-        computed_page = this.curnt_page + 1;
-      } else if (act == "next2") {
-        computed_page = this.curnt_page + 2;
-      } else if (act == "prev") {
-        computed_page = this.curnt_page - 1;
-      } else if (act == "prev2") {
-        this.curnt_page - 2;
-      } else if (act == "fromtxtfld") {
-        computed_page = this.curnt_page;
-      }
-      if (computed_page > 1)
-        this.$router.push({ path: "/blocks?page=" + computed_page });
-      else this.$router.push({ path: "/blocks?page=" + 1 });
-    },
-    load_block_info: function(id) {
-      router.push({ path: `/block/${id}` });
-    },
-    timefix: function(time) {
-      var time_fx = new Date(time);
-      var offset = new Date().getTimezoneOffset();
-      return helper.timeSince(time_fx);
-    },
-    load_data: function(page = 1) {
-      let self = this;
-      console.log(page);
-      DataService.getBlocks(page).then(function(data) {
-        self.curnt_page = parseInt(page);
-        self.blockdata = data.blockList;
-        self.blockhight = data.hight;
-        console.log(data);
-      });
-    },
-    pageUrlsync: function() {
-      this.load_data(this.$route.query.page);
     }
   },
-  created: function() {},
+  methods: {
+    load_block_list: function (act) {
+      // router.push({ path: `/block?` });
+      var computed_page = ''
+      if (act == 'next') {
+        computed_page = this.curnt_page + 1
+      } else if (act == 'next2') {
+        computed_page = this.curnt_page + 2
+      } else if (act == 'prev') {
+        computed_page = this.curnt_page - 1
+      } else if (act == 'prev2') {
+        this.curnt_page - 2
+      } else if (act == 'fromtxtfld') {
+        computed_page = this.curnt_page
+      }
+      if (computed_page > 1) { this.$router.push({ path: '/blocks?page=' + computed_page }) } else this.$router.push({ path: '/blocks?page=' + 1 })
+    },
+    load_block_info: function (id) {
+      router.push({ path: `/block/${id}` })
+    },
+    timefix: function (time) {
+      var time_fx = new Date(time)
+      var offset = new Date().getTimezoneOffset()
+      return helper.timeSince(time_fx)
+    },
+    load_data: function (page = 1) {
+      let self = this
+      console.log(page)
+      DataService.getBlocks(page).then(function (data) {
+        self.curnt_page = parseInt(page)
+        self.blockdata = data.blockList
+        self.blockhight = data.hight
+        console.log(data)
+      })
+    },
+    pageUrlsync: function () {
+      this.load_data(this.$route.query.page)
+    }
+  },
+  created: function () {},
   watch: {
-    $route: "pageUrlsync"
+    $route: 'pageUrlsync'
   },
-  mounted() {
-    this.curnt_page = this.$route.query.page;
-    this.load_data(this.curnt_page);
-    DataService.syncWs("blocks").then(data => {
-      socket.on("update", function(data) {
+  mounted () {
+    this.curnt_page = this.$route.query.page
+    this.load_data(this.curnt_page)
+    DataService.syncWs('blocks').then(data => {
+      socket.on('update', function (data) {
         // self.blockdata = data.data.blockList;
-        //self.blockhight =  data.data.hight;
+        // self.blockhight =  data.data.hight;
         // console.log(data);
-      });
-    });
+      })
+    })
   },
-  destroyed: function() {
-    socket.disconnect();
+  destroyed: function () {
+    socket.disconnect()
   }
-};
+}
 </script>

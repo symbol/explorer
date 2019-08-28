@@ -45,10 +45,10 @@
 
 export default {
   props: {
-    info_title: "",
-    info_title2: "",
+    info_title: '',
+    info_title2: '',
     inforows: {}
   },
   methods: {}
-};
+}
 </script>

@@ -36,7 +36,7 @@ const Nodes = [
 function getNodeEndPoint() {
 	// Todo: Check on node status before return
 
-	const pointer = 1;
+	const pointer = 0;
 	let endPoint =
 		Nodes[pointer].protocol +
 		'://' +

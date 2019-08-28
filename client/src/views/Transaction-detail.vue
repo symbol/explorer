@@ -133,56 +133,56 @@
   </div>
 </template>
 <script>
-import router from "../router";
-import w1 from "@/components/inforow.vue";
-import DataService from "../data-service";
+import router from '../router'
+import w1 from '@/components/inforow.vue'
+import DataService from '../data-service'
 export default {
-  name: "block",
+  name: 'block',
   components: {
     inforow: w1
   },
-  created() {},
-  data() {
+  created () {},
+  data () {
     return {
       trx_id: this.$route.params.trx_id,
       trx_detail: {
-        "Transaction Hash": "",
-        Block: "",
-       // Timestamp: "",
-        Type: "",
-        Harvester: "",
-        "Block Hash": "",
-        Sender: "",
-        Recipient: "",
-        Amount: "",
-        Fee: "",
-        Message: "",
-        Status: "",
-        confirmation: ""
+        'Transaction Hash': '',
+        Block: '',
+        // Timestamp: "",
+        Type: '',
+        Harvester: '',
+        'Block Hash': '',
+        Sender: '',
+        Recipient: '',
+        Amount: '',
+        Fee: '',
+        Message: '',
+        Status: '',
+        confirmation: ''
       }
-    };
+    }
   },
-  created() {
-    this.asyncData();
+  created () {
+    this.asyncData()
   },
   watch: {
-    $route: "asyncData"
+    $route: 'asyncData'
   },
   methods: {
-    asyncData() {
-      this.trx_id = this.$route.params.trx_id;
-      let self = this;
-      DataService.getTrxdetail(this.trx_id).then(function(data) {
-        self.trx_detail["Transaction Hash"] = self.trx_id;
-        self.trx_detail["Block"] = data.transactionInfo.transaction.blocHeight;
-        self.trx_detail["Type"] = data.transactionInfo.transaction.transactionDetail.type;
-        self.trx_detail["Harvester"] = data.transactionInfo.transaction.signer;
-        self.trx_detail["Harvester"] =
-        self.trx_detail["Status"] = data.transactionInfo.status;
-        self.trx_detail["confirmation"] = data.transactionInfo.confirm;
-        console.log(data);
-      });
+    asyncData () {
+      this.trx_id = this.$route.params.trx_id
+      let self = this
+      DataService.getTrxdetail(this.trx_id).then(function (data) {
+        self.trx_detail['Transaction Hash'] = self.trx_id
+        self.trx_detail['Block'] = data.transactionInfo.transaction.blocHeight
+        self.trx_detail['Type'] = data.transactionInfo.transaction.transactionDetail.type
+        self.trx_detail['Harvester'] = data.transactionInfo.transaction.signer
+        self.trx_detail['Harvester'] =
+        self.trx_detail['Status'] = data.transactionInfo.status
+        self.trx_detail['confirmation'] = data.transactionInfo.confirm
+        console.log(data)
+      })
     }
   }
-};
+}
 </script>

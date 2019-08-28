@@ -66,54 +66,54 @@
 </template>
 <script>
 export default {
-  name: "TopHead",
-  data: function() {
+  name: 'TopHead',
+  data: function () {
     return {
-      errors: "",
+      errors: '',
       search_string: null,
-      search_validate: ""
-    };
+      search_validate: ''
+    }
   },
   props: {},
   methods: {
-    checksearch: function(e) {
-      e.preventDefault();
-      if (this.search_string != null && this.search_string != "") {
+    checksearch: function (e) {
+      e.preventDefault()
+      if (this.search_string != null && this.search_string != '') {
         if (this.search_string.match(/^-{0,1}\d+$/)) {
-          //its a block
+          // its a block
           this.$router.push({
-            path: "/block/" + this.search_string,
+            path: '/block/' + this.search_string,
             params: { blockid: this.search_string }
-          });
-        }else if(this.search_string.match("^[A-z0-9]+$") && this.search_string.length === 64){
-          //transaction hash
-           this.$router.push({
-            path: "/transaction/" + this.search_string,
+          })
+        } else if (this.search_string.match('^[A-z0-9]+$') && this.search_string.length === 64) {
+          // transaction hash
+          this.$router.push({
+            path: '/transaction/' + this.search_string,
             params: { trx_id: this.search_string }
-          });
-        }else if(this.search_string.match("^[A-z0-9]+$") && (this.search_string.substring(0, 1) =='S' || this.search_string.substring(0, 1) =='s') && this.search_string.length === 40){
-           this.$router.push({
-            path: "/account/" + this.search_string,
+          })
+        } else if (this.search_string.match('^[A-z0-9]+$') && (this.search_string.substring(0, 1) == 'S' || this.search_string.substring(0, 1) == 's') && this.search_string.length === 40) {
+          this.$router.push({
+            path: '/account/' + this.search_string,
             params: { trx_id: this.search_string }
-          });
+          })
         } else {
-          this.search_validate = "srch_err";
-          let self = this;
-          setTimeout(function() {
-            self.search_validate = "";
-          }, 500);
+          this.search_validate = 'srch_err'
+          let self = this
+          setTimeout(function () {
+            self.search_validate = ''
+          }, 500)
         }
       } else {
-        this.search_validate = "srch_err";
-        let self = this;
-        setTimeout(function() {
-          self.search_validate = "";
-        }, 500);
+        this.search_validate = 'srch_err'
+        let self = this
+        setTimeout(function () {
+          self.search_validate = ''
+        }, 500)
       }
     },
-    route_to: function(rt) {
-      router.push({ path: `/block?` });
+    route_to: function (rt) {
+      router.push({ path: `/block?` })
     }
   }
-};
+}
 </script>

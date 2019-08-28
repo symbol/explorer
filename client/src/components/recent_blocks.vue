@@ -59,20 +59,19 @@
   </div>
 </template>
 <script>
-import helper from "../helper";
-
+import helper from '../helper'
 
 export default {
   props: {
     blocklist: {}
   },
   methods: {
-    timefix: function(time) {
-      return helper.timeSince(new Date(time)) + " ago";
+    timefix: function (time) {
+      return helper.timeSince(new Date(time)) + ' ago'
     },
-     load_block_info: function(id) {
-       this.$route.push({ path: `/block/${id}` });
-    },
+    load_block_info: function (id) {
+      this.$route.push({ path: `/block/${id}` })
+    }
   }
-};
+}
 </script>

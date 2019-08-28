@@ -3,9 +3,7 @@
 /**
  * Module dependencies.
  */
-
-require('dotenv').config();
-
+require('dotenv').config()
 var app = require('../app');
 var debug = require('debug')('server:server');
 var http = require('http');
@@ -17,6 +15,7 @@ var http = require('http');
 var port = normalizePort(process.env.PORT || 3000);
 app.set('port', port);
 
+console.log('server started at port: '+process.env.PORT);
 /**
  * Create HTTP server.
  */

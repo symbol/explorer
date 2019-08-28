@@ -127,7 +127,7 @@ import router from '../router'
 export default {
   methods: {
     load_name_space_info: function (id) {
-      console.log(id);
+      console.log(id)
       router.push({ path: `/namespace/${id}` })
     }
   }
