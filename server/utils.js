@@ -28,7 +28,7 @@ const moment = require('moment');
 
 const Nodes = [
 	{ protocol: 'http', domain: '52.194.207.217', port: 3000 },
-	{ protocol: 'http', domain: '3.1.202.148', port: 3000 },
+	{ protocol: 'http', domain: '103.3.60.174', port: 3000 },
 	{ protocol: 'http', domain: '13.114.200.132', port: 3000 },
 	{ protocol: 'http', domain: '47.107.245.217', port: 3000 },
 ];
@@ -36,7 +36,7 @@ const Nodes = [
 function getNodeEndPoint() {
 	// Todo: Check on node status before return
 
-	const pointer = 1;
+	const pointer = 0;
 	let endPoint =
 		Nodes[pointer].protocol +
 		'://' +
