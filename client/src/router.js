@@ -60,7 +60,7 @@ export default new Router({
       }
     },
     {
-      path: '/transaction/:trx_id',
+      path: '/transaction/:trx_hash',
       name: 'transaction details',
       component: () =>
         import('./views/Transaction-detail.vue'),

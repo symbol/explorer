@@ -272,7 +272,6 @@ export default {
       this.acnt_adrs = this.$route.params.acnt_adrs
       let self = this
       DataService.getAcntdetail(this.acnt_adrs).then(function (data) {
-        console.log(data)
         self.account_info = data.accountInfo
         // self.account_trx = data.accountTransaction;
         data.accountTransaction.forEach((el, idx) => {

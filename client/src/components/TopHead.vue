@@ -79,6 +79,7 @@ export default {
   methods: {
     checksearch: function (e) {
       e.preventDefault()
+      this.search_string = this.search_string.replace(/[^a-zA-Z0-9]/g,'');
       if (this.search_string != null && this.search_string != '') {
         if (this.search_string.match(/^-{0,1}\d+$/)) {
           // its a block

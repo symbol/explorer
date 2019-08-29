@@ -45,7 +45,7 @@ export default {
   created () {},
   data () {
     return {
-      trx_id: this.$route.params.trx_id,
+      trx_hash: this.$route.params.trx_hash,
       trx_detail: {
         'Transaction Hash': '',
         Block: '',
@@ -72,15 +72,15 @@ export default {
   },
   methods: {
     asyncData () {
-      this.trx_id = this.$route.params.trx_id
+      this.trx_hash = this.$route.params.trx_hash
       let self = this
-      DataService.getTrxdetail(this.trx_id).then(function (data) {
-        self.trx_detail['Transaction Hash'] = self.trx_id
+      DataService.getTrxdetail(this.trx_hash).then(function (data) {
+        self.trx_detail['Transaction Hash'] = self.trx_hash
         self.trx_detail['Block'] = data.transactionInfo.transaction.blocHeight
         self.trx_detail['Type'] = data.transactionInfo.transaction.transactionDetail.type
         self.trx_detail['Harvester'] = data.transactionInfo.transaction.signer
         self.trx_detail['Recipient'] = data.transactionInfo.transaction.transactionDetail.recipient
-        self.trx_detail['Amount'] = data.transactionInfo.transaction.transactionDetail.mosaics[0].amount
+       // self.trx_detail['Amount'] = data.transactionInfo.transaction.transactionDetail.mosaics[0].amount
         self.trx_detail['Fee'] = data.transactionInfo.transaction.fee
         self.trx_detail['Status'] = data.transactionInfo.status
         self.trx_detail['confirmation'] = data.transactionInfo.confirm

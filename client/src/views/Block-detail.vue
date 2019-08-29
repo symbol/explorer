@@ -119,7 +119,7 @@ export default {
         self.blockdetails['Fees'] = data.blockdata.totalFee
         self.blockdetails['Total Transactions'] = data.blockdata.numTransactions
         self.blockdetails['Harvester'] = data.blockdata.signer.address.address
-        self.blockdetails['Block Hash'] = data.blockdata.blockTransactionsHash
+        self.blockdetails['Block Hash'] = data.blockdata.hash
         if (data.blocktrx.length) {
           self.table_data.data = []
           var i = 0

@@ -36,10 +36,10 @@
             v-for="(item, index) in blocklist"
             v-bind:key="item.height"
             v-if="index < 4"
-            @click="load_block_info(item.height)"
+            
           >
             <div class="rn_blk_con">
-              <div class="blkht">
+              <div class="blkht" @click="load_block_info(item.height)">
                 <span>{{ item.height }}</span>
               </div>
               <div class="blk-info">
@@ -61,7 +61,7 @@
 </template>
 <script>
 import helper from '../helper'
-
+import router from "../router";
 export default {
   props: {
     blocklist: {}
@@ -71,7 +71,7 @@ export default {
       return helper.timeSince(new Date(time)) + ' ago'
     },
     load_block_info: function (id) {
-      this.$route.push({ path: `/block/${id}` })
+      router.push({ path: `/block/${id}` })
     }
   }
 }
