@@ -19,6 +19,11 @@
 const { TransactionHttp } = require('nem2-sdk');
 const utils = require('../utils');
 const request = require('request');
+const {
+	getBlockHeight,
+	getBlockInfoByHeight,
+	getBlockFullTransactionsList,
+} = require('./blocks');
 
 const endpoint = utils.getNodeEndPoint();
 
@@ -53,6 +58,34 @@ function getTransaction(hash) {
 	});
 }
 
+async function getTransactionList(blockHeight, txId) {
+	let currentHeight = await getBlockHeight();
+	let transactionId = txId || '';
+	let chainHeight = blockHeight || currentHeight;
+	const totalOfTransactionRequest = 5;
+
+	let transactionList = [];
+
+	while (
+		transactionList.length < totalOfTransactionRequest &&
+		chainHeight != 0
+	) {
+		let info = await getBlockInfoByHeight(chainHeight);
+
+		if (info.numTransactions != 0) {
+			let txs = await getBlockFullTransactionsList(info.height, transactionId);
+			txs.map(tx => {
+				transactionList.push(tx);
+			});
+		}
+		chainHeight--;
+		transactionId = '';
+	}
+
+	return transactionList;
+}
+
 module.exports = {
 	getTransactionInfoByHash,
+	getTransactionList,
 };

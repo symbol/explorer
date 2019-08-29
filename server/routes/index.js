@@ -29,16 +29,17 @@ const {
 
 router.get('/homeInfo', async function(req, res, next) {
 	try {
-		// Todo: Average block time
 		let marketData = await homeInfo.getMarketData();
 		let chainInfo = await homeInfo.getChainInfo();
 		let recentBlocks = await blocks.getBlocksWithLimit(5);
+		let recentTransactionList = await transactions.getTransactionList();
 
 		res.status(200).json({
 			data: {
 				marketData,
 				chainInfo,
 				recentBlocks,
+				recentTransactionList,
 			},
 		});
 	} catch (error) {
@@ -144,8 +145,25 @@ router.get('/block/:height', async function(req, res, next) {
 	}
 });
 
-router.get('/transactions', (req, res, next) => {
-	// Todo: get transactions list
+router.get('/transactions/:block?/:txId?', async (req, res, next) => {
+	const block = req.params.block;
+	const txId = req.params.txId;
+
+	try {
+		const transactionList = await transactions.getTransactionList(block,txId);
+
+		res.status(200).json({
+			data: {
+				transactionList,
+			},
+		});
+	} catch (error) {
+		res.status(500).json({
+			data: {
+				message: error.message,
+			},
+		});
+	}
 });
 
 router.get('/transaction/:txHash', async (req, res, next) => {
