@@ -1,3 +1,21 @@
+/*
+ *
+ * Copyright (c) 2019-present for NEM
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License ");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 const {
 	TransactionType,
 	Address,
@@ -10,7 +28,7 @@ const moment = require('moment');
 
 const Nodes = [
 	{ protocol: 'http', domain: '52.194.207.217', port: 3000 },
-	{ protocol: 'http', domain: '3.1.202.148', port: 3000 },
+	{ protocol: 'http', domain: '103.3.60.174', port: 3000 },
 	{ protocol: 'http', domain: '13.114.200.132', port: 3000 },
 	{ protocol: 'http', domain: '47.107.245.217', port: 3000 },
 ];
@@ -18,7 +36,7 @@ const Nodes = [
 function getNodeEndPoint() {
 	// Todo: Check on node status before return
 
-	const pointer = 1;
+	const pointer = 0;
 	let endPoint =
 		Nodes[pointer].protocol +
 		'://' +
