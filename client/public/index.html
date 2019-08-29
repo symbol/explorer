@@ -5,6 +5,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width,initial-scale=1.0">
 	<title>Nem Catapult Block Explorer</title>
+	<link rel="manifest" href="/manifest.json">
 	<link href="https://fonts.googleapis.com/css?family=Montserrat:300,400,500,600,700&display=swap" rel="stylesheet">
 	<link rel="apple-touch-icon" sizes="180x180" href="theme/img/favico.png">
 	<link rel="icon" type="image/png" sizes="32x32" href="theme/img/favico.png">
@@ -29,4 +30,14 @@
 	<!-- built files will be auto injected -->
 </body>
 <script src="/theme/js/main.js" type="text/javascript"></script>
+<script>
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('service-worker.js')
+      .then(function(reg){
+        console.log("service-worker registered");
+     }).catch(function(err) {
+        console.log("service-worker not registered", err)
+    });
+ }
+</script>
 </html>

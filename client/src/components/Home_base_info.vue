@@ -17,7 +17,8 @@
  */
 
 <template>
-  <div class="widget has-shadow bordr_rds_top0">
+  <div class="widget has-shadow bordr_rds_top0 network_info">
+    <loader v-if="!marketinfo"></loader>
     <div class="box">
         <div class="row">
       <div class="col-md-3">
@@ -61,6 +62,7 @@
   </div>
 </template>
 <script>
+
 export default {
   props: {
     marketinfo: {},

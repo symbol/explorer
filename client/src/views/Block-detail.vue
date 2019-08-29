@@ -22,11 +22,12 @@
     <page-menu></page-menu>
     <div class="page_con">
       <div class="full-con mob_con">
-        <div class="container p-0">
+        <div class="container p-0">    
           <div class="widget has-shadow mt-4 m-0 z-1">
             <inforow
               info_title="Block"
               :inforows="this.blockdetails"
+              :loading="this.loading"
               :info_title2="'# '+this.$route.params.blockid"
             ></inforow>
           </div>
@@ -34,6 +35,7 @@
             class="widget has-shadow"
             v-if="this.table_data.data.length || this.blockdetails.length"
           >
+          <loader v-if="!this.loading"></loader>
             <div class="box">
               <div class="table-responsive">
                 <div
@@ -74,6 +76,7 @@ export default {
   },
   data () {
     return {
+      loading:0,
       block_id: this.$route.params.blockid,
       blockdetails: {
         Height: '',
@@ -107,7 +110,8 @@ export default {
   methods: {
     asyncData () {
       let self = this
-      this.block_id = this.$route.params.blockid
+      this.block_id = this.$route.params.blockid;
+      this.loading=0;
       DataService.getBlockinfo(this.block_id).then(function (data) {
         self.blockdetails['Height'] = data.blockdata.height
         self.blockdetails['Timestamp'] = data.blockdata.date
@@ -132,6 +136,7 @@ export default {
         } else {
           self.table_data.data = []
         }
+        self.loading = 1;
       })
     }
   }

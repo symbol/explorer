@@ -18,58 +18,94 @@
 
 <template>
   <div class="widget has-shadow m-0 z-1 nempricegraph_con bordr_rds_top0">
-    <canvas id="nempricegraph" style="width:100%;height:150px"></canvas>
+    <loader v-if="!loading"></loader>
+    <canvas id="nempricegraph" style="width:100%;height:180px"></canvas>
   </div>
 </template>
 <script>
-import axios from 'axios'
-import Chart from 'chart.js'
+import axios from "axios";
+import Chart from "chart.js";
+import helper from "../helper";
 
 export default {
   props: {},
-  mounted () {
-    var date = new Date()
-    var r1 = Math.round(date.getTime() / 1000)
+  data() {
+    return {
+      loading: 0
+    };
+  },
+  mounted() {
+    var date = new Date();
+    var r1 = Math.round(date.getTime() / 1000);
 
-    date.setDate(date.getDate() - 5)
-    var r2 = Math.round(date.getTime() / 1000)
+    date.setDate(date.getDate() - 15);
+    var r2 = Math.round(date.getTime() / 1000);
     // const res = await axios.get("");
     // const data = res.data;
     axios
       .all([
         axios.get(
-          'https://api.coingecko.com/api/v3/coins/nem/market_chart/range?vs_currency=usd&from=' +
+          "https://api.coingecko.com/api/v3/coins/nem/market_chart/range?vs_currency=usd&from=" +
             r2 +
-            '&to=' +
+            "&to=" +
             r1
         )
       ])
       .then(
         axios.spread(res1 => {
-          var x = []
-          var y = []
+          var x = [];
+          var y = [];
+          var prev = 0;
+          var months = [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec"
+          ];
           res1.data.prices.forEach((item, index) => {
-            x.push('')
-            y.push(item[1])
-          })
-
-          const data = {
-            type: 'line',
+            var date = new Date(item[0]);
+            // if (prev != date.getDate()) {
+            //   prev = date.getDate();
+            // }
+            x.push(
+              months[date.getMonth()] +
+                " " +
+                date.getDate() +
+                " " +
+                date.getHours() +
+                ":" +
+                date.getMinutes()
+            );
+            y.push(item[1]);
+          });
+          this.loading = 1;
+          var config = {
+            type: "line",
             data: {
               labels: x,
               datasets: [
                 {
-                  label: 'Price',
-                  borderColor: '#08a6c3',
-                  pointBackgroundColor: '#08a6c3',
-                  pointHoverBorderColor: '#08a6c3',
-                  pointHoverBackgroundColor: '#08a6c3',
-                  pointBorderColor: '#fff',
+                  label: "Price",
+                  borderColor: "#4c8ac4",
+                  borderWidth: 2,
+                  lineTension: 0.4,
+                  pointBackgroundColor: "#0998a6",
+                  pointHoverBorderColor: "#0998a6",
+                  pointHoverBackgroundColor: "#0998a6",
+                  pointBorderColor: "#0998a6",
                   pointBorderWidth: 0,
-                  pointRadius: 1,
+                  pointHoverBorderWidth: 0,
+                  pointRadius: 0,
                   fill: false,
-                  backgroundColor: '#08a6c3',
-                  borderWidth: 0,
+                  backgroundColor: "#08a6c3",
                   data: y
                 }
               ]
@@ -77,68 +113,98 @@ export default {
             options: {
               legend: {
                 display: false,
-                position: 'top',
+                position: "top",
                 labels: {
-                  fontColor: '#2e3451',
+                  fontColor: "#2e3451",
                   usePointStyle: true,
-                  fontSize: 13
+                  fontSize: 14
                 }
               },
+              responsive: true,
+              title: {
+                display: false,
+                text: " "
+              },
               tooltips: {
-                backgroundColor: 'rgba(47, 49, 66, 0.8)',
+                mode: "nearest",
+                intersect: false,
+                displayColors: false,
+                backgroundColor: "#78B6E4",
                 titleFontSize: 13,
-                titleFontColor: '#fff',
+                titleFontColor: "#fff",
+                bodyFontSize:13,
                 caretSize: 0,
                 cornerRadius: 4,
                 xPadding: 10,
-                displayColors: false,
-                yPadding: 10
+                yPadding: 10,
+                callbacks: {
+                  label: function(tooltipItem, data) {
+                  
+                    var label =  data.datasets[tooltipItem.datasetIndex].label;
+                    label +=
+                      " $" + Number.parseFloat(tooltipItem.yLabel).toFixed(4);
+                    return label;
+                  }
+                }
+              },
+              hover: {
+                mode: "nearest",
+                intersect: true
               },
               scales: {
-                yAxes: [
+                xAxes: [
                   {
+                    display: true,
+                    scaleLabel: {
+                      display: false,
+                      labelString: "Day"
+                    },
                     ticks: {
                       display: true,
-                      beginAtZero: true
-                    },
-                    gridLines: {
-                      drawBorder: true,
-                      display: true
+                      beginAtZero: false,
+                      autoSkip: true,
+                      maxRotation: 0,
+                      maxTicksLimit: 14,
+                      callback: function(value, index, values) {
+                        return value.slice(0, 7);
+                      }
                     }
                   }
                 ],
-                xAxes: [
+                yAxes: [
                   {
-                    gridLines: {
-                      drawBorder: true,
-                      display: true
+                    display: true,
+                    scaleLabel: {
+                      display: true,
+                      labelString: "Price"
                     },
                     ticks: {
-                      display: true
+                      display: true,
+                      beginAtZero: false,
+                      autoSkip: true,
+                      maxTicksLimit: 5
                     }
                   }
                 ]
               }
             }
-          }
-          this.createChart('nempricegraph', data)
+          };
+          this.createChart("nempricegraph", config);
         })
       )
       .catch(error => {
-        console.log(error)
-      })
-    //
+        console.log(error);
+      });
   },
   methods: {
-    createChart (chartId, chartData) {
-      const ctx = document.getElementById(chartId)
+    createChart(chartId, chartData) {
+      const ctx = document.getElementById(chartId);
       const myChart = new Chart(ctx, {
         type: chartData.type,
         data: chartData.data,
         options: chartData.options
-      })
+      });
     }
-
   }
-}
+};
 </script>

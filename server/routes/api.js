@@ -118,9 +118,10 @@ router.get('/transaction/:txHash', async (req, res, next) => {
 			},
 		});
 	} catch (error) {
+        console.log(error);
 		res.status(500).json({
 			data: {
-				message: error.message,
+				message: error,
 			},
 		});
 	}

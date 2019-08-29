@@ -174,6 +174,14 @@ p {
     content: "\78";
 }
 
+.ico-navicon-round:before {
+    content: "\79";
+}
+
+.ico-close-round:before {
+    content: "\7a";
+}
+
 .ico-block-ch {
     background-image: url(../fonts/icon/blc-ht.png);
 }
@@ -245,8 +253,9 @@ html, body {
 }
 
 .ex-header.bg01 {
-    background: #1a4d60;
-    border-top: 1px solid rgba(251, 251, 251, 0.32);
+    background: #0998a6;
+    /* border-top: 1px solid rgba(251, 251, 251, 0.32); */
+    box-shadow: 0px 2px 10px 2px rgba(0, 0, 0, .2);
 }
 
 .n-p {
@@ -375,9 +384,13 @@ img {
 }
 
 .gradinet_01 {
-    background: linear-gradient(-70deg, #1a4d60 10%, #0998a6 90%);
+    background: linear-gradient(-70deg, #3e6b8c 10%, #0998a6 90%);
     background-size: 100% auto;
     position: relative;
+}
+
+.mobilemenu {
+    display: none;
 }
 
 .top_head::before {
@@ -390,13 +403,15 @@ img {
     width: 100%;
     height: 100%;
     background-repeat: no-repeat;
-    background-size: 40%;
+    background-size: 46%;
     background-position: 60% 0%;
 }
 
 .top_head {
     padding-top: 18px;
     padding-bottom: 20px;
+    display: block;
+    width: 100%;
 }
 
 .top_head .logo {
@@ -581,6 +596,10 @@ img {
     100% {
         -o-origin-transform: translate(0px);
     }
+}
+
+.bordr_rds_top0 {
+    border-radius: 0px 0px 4px 4px !important;
 }
 
 .lang-swtch .dropdown-toggle {
@@ -975,8 +994,8 @@ table.table-bordered.dataTable tbody tr {
 }
 
 .footer {
-    background: #0e2e3a;
-    padding: 30px 0px 0px;
+    background: linear-gradient(-25deg, #1d3b52 10%, #027c88 90%);
+    padding: 50px 0px 0px;
 }
 
 .footer .ftr_btm {
@@ -987,6 +1006,7 @@ table.table-bordered.dataTable tbody tr {
     position: relative;
     padding: 10px 0px;
     border-top: 1px solid #fff;
+    margin-top: 22px;
 }
 
 .footer .ft-logo a {
@@ -1038,6 +1058,10 @@ table.table-bordered.dataTable tbody tr {
     line-height: 1.5;
 }
 
+.social-icon li a i {
+    font-size: 15px;
+}
+
 .page-header {
     position: relative;
     z-index: 99;
@@ -1085,7 +1109,7 @@ table.table-bordered.dataTable tbody tr {
     display: inline-block;
     border-left: 4px solid #0998a6;
     padding: 1px 10px;
-    margin: 20px 0px 20px 22px;
+    margin: 15px 0px 15px 15px;
 }
 
 .hm_wdjt_itm_t1 span, .hm_wdjt_itm_t1 p {
@@ -1171,7 +1195,7 @@ table.table-bordered.dataTable tbody tr {
     position: relative;
     padding: 10px 0px;
     width: 100%;
-    min-height: 1px;
+    min-height: 60px;
     margin-top: 15px;
 }
 
@@ -1191,7 +1215,7 @@ table.table-bordered.dataTable tbody tr {
     position: absolute;
     left: 0px;
     top: 0px;
-    background: #1a4d60;
+    background: #3e6b8c;
 }
 
 .rn_blk_con .blkht {
@@ -1524,6 +1548,70 @@ table.table-bordered.dataTable tbody tr {
     }
     .footer .ftr_btm {
         font-size: 10px;
+    }
+    .hdr-btn-con.btns_left ,.nav-fixed .logo-wrap{
+        display: none !important;
+    }
+    .ex-header .container.n-p{
+        padding-right: 15px;
+        padding-left: 15px;
+    }
+    .ex-header {
+        position: absolute;
+        background: transparent !important;
+        box-shadow: none !important;
+        padding: 0px;
+        z-index: 5;
+    }
+    .mobilemenu {
+        display: block;
+        position: absolute;
+        right: 15px;
+        top: 15px;
+        font-size: 23px;
+        color: #fff;
+        text-decoration: none;
+        z-index: 5;
+    }
+    .nav-con {
+        max-width: 100%;
+        overflow: hidden;
+        background: #fff;
+        z-index: 2;
+        margin-top: 60px;
+        padding: 16px 0;
+        border-bottom: 1px solid #dadee6;
+        -webkit-box-shadow: 0 2px 5px #dadee6ab;
+        box-shadow: 0 2px 5px #dadee6ab;
+        display: none;
+    }
+    .nav-menu, .nav-menu li {
+        display: block;
+    }
+    .nav-menu li {
+        margin: 15px 10px;
+    }
+    .nav-menu li a {
+        display: inline-block;
+        width: 100%;
+        color: #6f7788;
+        font-size: 14px;
+    }
+    .nav-menu li a i {
+        font-size: 20px;
+        margin-right: 10px;
+    }
+    .nav-con.nav-active{
+        display: block;
+    }
+    .top_head {
+        padding-top: 10px;
+    }
+    .top_head .head-titl {
+        font-size: 18px;
+    }
+    .network_info .col-md-3{
+        width: 50%;
     }
 }
 

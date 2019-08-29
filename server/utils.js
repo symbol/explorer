@@ -181,7 +181,7 @@ function formatTransactionTypeFromApi(tx) {
 
 function formatMosaicsFromApi(mosaics) {
 	mosaics.map(mosaic => {
-		mosaic.id = new MosaicId(mosaic.id.id).toHex();
+		mosaic.id = new MosaicId(mosaic.id.id);
 		mosaic.amount = new UInt64(mosaic.amount).compact();
 	});
 	return mosaics;

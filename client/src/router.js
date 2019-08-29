@@ -51,10 +51,10 @@ export default new Router({
       }
     },
     {
-      path: '/transaction',
+      path: '/transactions',
       name: 'transaction',
       component: () =>
-        import('./views/Transaction.vue'),
+        import('./views/Transactions.vue'),
       meta: {
         title: ''
       }

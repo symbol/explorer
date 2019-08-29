@@ -41,7 +41,7 @@
 <script>
 export default {
   props: {
-    tableClass: '',
+    tableClass: String,
     tableHead: {},
     tableData: {},
     tableRowAction: { type: Function }

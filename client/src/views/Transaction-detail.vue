@@ -24,106 +24,7 @@
       <div class="full-con mob_con">
         <div class="container p-0">
           <div class="widget has-shadow mt-4 m-0 z-1">
-            <inforow info_title="Transaction Details" :inforows="this.trx_detail"></inforow>
-            <!-- <div class="box">
-              <div class="box-title">
-                <h1 class="inline-block">Transaction Details</h1>
-              </div>
-              <div class="box-con mt-0">
-                <div class="list_info_con">
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Transaction Hash:</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">{{trx_id}}</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Block</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">2270701</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Timestamp</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">38 secs ago (Aug-07-2019 04:23:19 AM +UTC)</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Type</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">Transfer</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Harvester</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">NAUARAIWN6WX4I2MDTT2VPB4W5MQDXYBL4XL3GGY</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Block Hash</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div
-                        class="value"
-                      >9a6915a2fda4623ce8e67da0bd4c87e99a7ad9814e33d2e63bf1855407a88ba2</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Sender</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">NAEQYBEMWAYS52GGV4XWIQ62RALKP6ZE5ATE3EWN</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Recipient</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">NC64UFOWRO6AVMWFV2BFX2NT6W2GURK2EOX6FFMZ</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Amount</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">100,000</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Fee</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">0.55</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Message</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">107797548</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>-->
+            <inforow info_title="Transaction Details" :inforows="this.trx_detail" :loading="this.loading"></inforow>
           </div>
         </div>
       </div>
@@ -159,7 +60,8 @@ export default {
         Message: '',
         Status: '',
         confirmation: ''
-      }
+      },
+      loading:0
     }
   },
   created () {
@@ -177,10 +79,12 @@ export default {
         self.trx_detail['Block'] = data.transactionInfo.transaction.blocHeight
         self.trx_detail['Type'] = data.transactionInfo.transaction.transactionDetail.type
         self.trx_detail['Harvester'] = data.transactionInfo.transaction.signer
-        self.trx_detail['Harvester'] =
+        self.trx_detail['Recipient'] = data.transactionInfo.transaction.transactionDetail.recipient
+        self.trx_detail['Amount'] = data.transactionInfo.transaction.transactionDetail.mosaics[0].amount
+        self.trx_detail['Fee'] = data.transactionInfo.transaction.fee
         self.trx_detail['Status'] = data.transactionInfo.status
         self.trx_detail['confirmation'] = data.transactionInfo.confirm
-        console.log(data)
+        self.loading=1;
       })
     }
   }

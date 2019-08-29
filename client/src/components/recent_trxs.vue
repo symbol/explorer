@@ -22,10 +22,11 @@
       <div class="box-title">
         <h1 class="inline-block">Recent Transactions</h1>
         <div class="btn_grp inline-block flt-rt">
-          <a href="#" class="btn btn-green">
+
+          <router-link to="/transactions" exact active-class="active" class="btn btn-green">
             <span>View all Transactions</span>
             <i class="ico-ios-arrow-thin-right"></i>
-          </a>
+          </router-link>
         </div>
       </div>
       <div class="box-con">
@@ -46,7 +47,7 @@
                       </div>
                        <div class="trx-clm p-0">
                             <span class="amt">425 XEM</span>
-                             <span class="fee">	0.15 Fee</span>
+                             <span class="fee">0.15 Fee</span>
                        </div>
                   </div>
                   <div class="col-md-2">
@@ -74,7 +75,7 @@
                       </div>
                        <div class="trx-clm p-0">
                             <span class="amt">425 XEM</span>
-                             <span class="fee">	0.15 Fee</span>
+                             <span class="fee">0.15 Fee</span>
                        </div>
                   </div>
                   <div class="col-md-2">
@@ -102,7 +103,7 @@
                       </div>
                        <div class="trx-clm p-0">
                             <span class="amt">425 XEM</span>
-                             <span class="fee">	0.15 Fee</span>
+                             <span class="fee">0.15 Fee</span>
                        </div>
                   </div>
                   <div class="col-md-2">
@@ -130,7 +131,7 @@
                       </div>
                        <div class="trx-clm p-0">
                             <span class="amt">425 XEM</span>
-                             <span class="fee">	0.15 Fee</span>
+                             <span class="fee">0.15 Fee</span>
                        </div>
                   </div>
                   <div class="col-md-2">

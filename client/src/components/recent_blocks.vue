@@ -29,6 +29,7 @@
         </div>
       </div>
       <div class="box-con">
+        <loader v-if="!blocklist"></loader>
         <div class="row">
           <div
             class="col-md-3"

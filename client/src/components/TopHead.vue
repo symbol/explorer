@@ -27,9 +27,10 @@
           </div>-->
         </div>
         <div class="col-md-6 text-center">
-          <a href="#" class="logo">
-            <img src="theme/img/logo-w.png" />
-          </a>
+          
+          <router-link to="/" class="logo">
+           <img src="theme/img/logo-w.png" />
+          </router-link>
           <div class="full-con">
             <h1 class="head-titl">Nem blockchain explorer</h1>
             <p
