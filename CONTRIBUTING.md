@@ -60,6 +60,10 @@ Once your changes and tests are ready to submit for review:
 
 1. Test your changes.
 
+    If you added a new component in `Client` or new features in `Server`:
+
+    please follow the step [here](https://github.com/nemfoundation/catapult-explorer#usage), ensure that is no error message, and your change or feature is working.
+
 2. Submit a pull request.
 
     Push your local changes to your forked copy of the repository and [submit a pull request](https://help.github.com/articles/about-pull-requests/). In the pull request, choose a title which sums up the changes that you have made, and in the body provide more details about what your changes do. Also mention the number of the issue where discussion has taken place, eg "Closes #123".
