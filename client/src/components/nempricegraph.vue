@@ -17,21 +17,28 @@
  */
 
 <template>
-  <div class="widget has-shadow m-0 z-1 nempricegraph_con">
-    <canvas id="nempricegraph" style="width:100%;height:150px"></canvas>
+  <div class="widget has-shadow m-0 z-1 nempricegraph_con bordr_rds_top0">
+    <loader v-if="!loading"></loader>
+    <canvas id="nempricegraph" style="width:100%;height:180px"></canvas>
   </div>
 </template>
 <script>
 import axios from "axios";
 import Chart from "chart.js";
+import helper from "../helper";
 
 export default {
   props: {},
+  data() {
+    return {
+      loading: 0
+    };
+  },
   mounted() {
     var date = new Date();
     var r1 = Math.round(date.getTime() / 1000);
 
-    date.setDate(date.getDate() - 5);
+    date.setDate(date.getDate() - 15);
     var r2 = Math.round(date.getTime() / 1000);
     // const res = await axios.get("");
     // const data = res.data;
@@ -47,29 +54,58 @@ export default {
       .then(
         axios.spread(res1 => {
           var x = [];
-           var y = [];
-          res1.data.prices.forEach( (item, index) => {
-            x.push('');
-            y.push(item[1])
+          var y = [];
+          var prev = 0;
+          var months = [
+            "Jan",
+            "Feb",
+            "Mar",
+            "Apr",
+            "May",
+            "Jun",
+            "Jul",
+            "Aug",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec"
+          ];
+          res1.data.prices.forEach((item, index) => {
+            var date = new Date(item[0]);
+            // if (prev != date.getDate()) {
+            //   prev = date.getDate();
+            // }
+            x.push(
+              months[date.getMonth()] +
+                " " +
+                date.getDate() +
+                " " +
+                date.getHours() +
+                ":" +
+                date.getMinutes()
+            );
+            y.push(item[1]);
           });
-
-          const data = {
+          this.loading = 1;
+          var config = {
             type: "line",
             data: {
               labels: x,
               datasets: [
                 {
                   label: "Price",
-                  borderColor: "#08a6c3",
-                  pointBackgroundColor: "#08a6c3",
-                  pointHoverBorderColor: "#08a6c3",
-                  pointHoverBackgroundColor: "#08a6c3",
-                  pointBorderColor: "#fff",
+                  borderColor: "#4c8ac4",
+                  borderWidth: 2,
+                  lineTension: 0.4,
+                  pointBackgroundColor: "#0998a6",
+                  pointHoverBorderColor: "#0998a6",
+                  pointHoverBackgroundColor: "#0998a6",
+                  pointBorderColor: "#0998a6",
                   pointBorderWidth: 0,
-                  pointRadius: 1,
+                  pointHoverBorderWidth: 0,
+                  pointRadius: 0,
                   fill: false,
                   backgroundColor: "#08a6c3",
-                  borderWidth: 0,
                   data: y
                 }
               ]
@@ -81,53 +117,84 @@ export default {
                 labels: {
                   fontColor: "#2e3451",
                   usePointStyle: true,
-                  fontSize: 13
+                  fontSize: 14
                 }
               },
+              responsive: true,
+              title: {
+                display: false,
+                text: " "
+              },
               tooltips: {
-                backgroundColor: "rgba(47, 49, 66, 0.8)",
+                mode: "nearest",
+                intersect: false,
+                displayColors: false,
+                backgroundColor: "#78B6E4",
                 titleFontSize: 13,
                 titleFontColor: "#fff",
+                bodyFontSize:13,
                 caretSize: 0,
                 cornerRadius: 4,
                 xPadding: 10,
-                displayColors: false,
-                yPadding: 10
+                yPadding: 10,
+                callbacks: {
+                  label: function(tooltipItem, data) {
+                  
+                    var label =  data.datasets[tooltipItem.datasetIndex].label;
+                    label +=
+                      " $" + Number.parseFloat(tooltipItem.yLabel).toFixed(4);
+                    return label;
+                  }
+                }
+              },
+              hover: {
+                mode: "nearest",
+                intersect: true
               },
               scales: {
-                yAxes: [
+                xAxes: [
                   {
+                    display: true,
+                    scaleLabel: {
+                      display: false,
+                      labelString: "Day"
+                    },
                     ticks: {
                       display: true,
-                      beginAtZero: true
-                    },
-                    gridLines: {
-                      drawBorder: true,
-                      display: true
+                      beginAtZero: false,
+                      autoSkip: true,
+                      maxRotation: 0,
+                      maxTicksLimit: 14,
+                      callback: function(value, index, values) {
+                        return value.slice(0, 7);
+                      }
                     }
                   }
                 ],
-                xAxes: [
+                yAxes: [
                   {
-                    gridLines: {
-                      drawBorder: true,
-                      display: true
+                    display: true,
+                    scaleLabel: {
+                      display: true,
+                      labelString: "Price"
                     },
                     ticks: {
-                      display: true
+                      display: true,
+                      beginAtZero: false,
+                      autoSkip: true,
+                      maxTicksLimit: 5
                     }
                   }
                 ]
               }
             }
           };
-          this.createChart("nempricegraph", data);
+          this.createChart("nempricegraph", config);
         })
       )
       .catch(error => {
         console.log(error);
       });
-    //
   },
   methods: {
     createChart(chartId, chartData) {
@@ -137,8 +204,7 @@ export default {
         data: chartData.data,
         options: chartData.options
       });
-    },
-
+    }
   }
 };
 </script>

@@ -148,7 +148,7 @@ import router from '../router'
 export default {
   methods: {
     load_acnt_info: function (id) {
-      console.log(id);
+      console.log(id)
       router.push({ path: `/account/${id}` })
     }
   }

@@ -128,17 +128,17 @@
   </div>
 </template>
 <script>
-import router from "../router";
+import router from '../router'
 export default {
-  name: "block",
+  name: 'block',
   components: {},
-  created() {},
-  data() {
+  created () {},
+  data () {
     return {
       namespace_id: this.$route.params.namespace_id
-    };
+    }
   },
   methods: {},
-  mounted() {}
-};
+  mounted () {}
+}
 </script>

@@ -233,68 +233,67 @@
   </div>
 </template>
 <script>
-import router from "../router";
-import { Tabs, Tab } from "vue-slim-tabs";
-import DataService from "../data-service";
-import w1 from "@/components/inforow.vue";
-import w2 from "@/components/Table-dynamic.vue";
+import router from '../router'
+import { Tabs, Tab } from 'vue-slim-tabs'
+import DataService from '../data-service'
+import w1 from '@/components/inforow.vue'
+import w2 from '@/components/Table-dynamic.vue'
 
 export default {
-  name: "block",
+  name: 'block',
   components: {
     Tabs,
     Tab,
     inforow: w1,
     datatable: w2
   },
-  data() {
+  data () {
     return {
       acnt_adrs: this.$route.params.acnt_adrs,
       account_info: {},
       account_trx: {
-        head: ["#", "Timestamp", "Amount", "Fee", "Transaction Hash", "Type"],
+        head: ['#', 'Timestamp', 'Amount', 'Fee', 'Transaction Hash', 'Type'],
         data: []
       },
       ownedNamespaceList: {
-        head: ["#", "Namespace", "Height"],
+        head: ['#', 'Namespace', 'Height'],
         data: []
       }
-    };
+    }
   },
-  created() {
-    this.asyncData();
+  created () {
+    this.asyncData()
   },
   watch: {
-    $route: "asyncData"
+    $route: 'asyncData'
   },
   methods: {
-    asyncData() {
-      this.acnt_adrs = this.$route.params.acnt_adrs;
-      let self = this;
-      DataService.getAcntdetail(this.acnt_adrs).then(function(data) {
-        console.log(data);
-        self.account_info = data.accountInfo;
+    asyncData () {
+      this.acnt_adrs = this.$route.params.acnt_adrs
+      let self = this
+      DataService.getAcntdetail(this.acnt_adrs).then(function (data) {
+        self.account_info = data.accountInfo
         // self.account_trx = data.accountTransaction;
         data.accountTransaction.forEach((el, idx) => {
-          var temp = [];
-          temp.push(idx + 1);
-          temp.push(el.deadline);
-          temp.push(0);
-          temp.push(el.fee);
-          temp.push(el.transactionHash);
-          temp.push(el.transactionDetail.type);
-          self.account_trx.data.push(temp);
-        });
+          var temp = []
+          temp.push(idx + 1)
+          temp.push(el.deadline)
+          temp.push(0)
+          temp.push(el.fee)
+          temp.push(el.transactionHash)
+          temp.push(el.transactionDetail.type)
+          self.account_trx.data.push(temp)
+        })
         data.ownedNamespaceList.forEach((el, idx) => {
-          var temp = [];
-          temp.push(idx + 1);
-          temp.push(el.namespaceName);
-           temp.push(el.startHeight);
-          self.ownedNamespaceList.data.push(temp);
-        });
-      });
+          var temp = []
+          temp.push(idx + 1)
+          temp.push(el.namespaceName)
+          temp.push(el.startHeight)
+          self.ownedNamespaceList.data.push(temp)
+        })
+      })
     },
-    copy_text: function(event) {}
+    copy_text: function (event) {}
   }
-};
+}
 </script>

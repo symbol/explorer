@@ -41,11 +41,11 @@
 <script>
 export default {
   props: {
-    tableClass: "",
+    tableClass: String,
     tableHead: {},
     tableData: {},
-    tableRowAction:{ type: Function }
+    tableRowAction: { type: Function }
   },
   methods: {}
-};
+}
 </script>

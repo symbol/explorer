@@ -144,12 +144,12 @@
 </template>
 <script>
 export default {
-  name: "block",
+  name: 'block',
   components: {},
-  data() {
-    return {};
+  data () {
+    return {}
   },
   methods: {},
-  mounted() {}
-};
+  mounted () {}
+}
 </script>

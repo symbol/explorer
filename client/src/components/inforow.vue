@@ -23,6 +23,7 @@
       <span class="info_append">{{info_title2}}</span>
     </div>
     <div class="box-con mt-0">
+       <loader v-if="!loading"></loader>
       <div class="list_info_con" >
         <div class="row list_item" v-for="(item,index) in inforows" v-bind:key="index">
           <div class="col-md-2">
@@ -45,10 +46,11 @@
 
 export default {
   props: {
-    info_title: "",
-    info_title2: "",
+    loading:0,
+    info_title: String,
+    info_title2: String,
     inforows: {}
   },
   methods: {}
-};
+}
 </script>

@@ -20,13 +20,16 @@
   <header class="ex-header bg01">
     <div class="container n-p">
       <div class="row flex-nowrap justify-content-between align-items-center">
+        <a href="#" class="mobilemenu" @click="showTopMenu = !showTopMenu">
+          <i class="ico-navicon-round"></i>
+        </a>
         <div class="col-md-1 logo-wrap">
-          <a href="#" class="logo-h">
+          <router-link to="/" class="logo-h">
             <img src="theme/img/logo-w.png" alt="Nem" />
-          </a>
+          </router-link>
         </div>
         <div class="col-md-11">
-          <div class="nav-con">
+          <div class="nav-con" v-bind:class="{'nav-active':(showTopMenu==1)}">
             <ul class="nav-menu">
               <li>
                 <router-link to="/" exact active-class="active">
@@ -35,13 +38,13 @@
                 </router-link>
               </li>
               <li>
-                <router-link to="/blocks" exact active-class="active">
+                <router-link to="/blocks" active-class="active">
                   <i class="ico-content-34"></i>
                   <span>Blocks</span>
                 </router-link>
               </li>
               <li>
-                <router-link to="/transaction" exact active-class="active">
+                <router-link to="/transactions" exact active-class="active">
                   <i class="ico-line-awesome-3"></i>
                   <span>Transactions</span>
                 </router-link>
@@ -70,7 +73,7 @@
                   <span>Nodes</span>
                 </router-link>
               </li>
-               <li>
+              <li>
                 <router-link to="/stat" exact active-class="active">
                   <i class="ico-bar-chart"></i>
                   <span>Statistics</span>
@@ -87,16 +90,21 @@
                             <a class="dropdown-item" href="#"><i class="flag-icon fl-i-jp"></i>日本語</a>
                         </div>
                     </div>
-        </div> -->
+        </div>-->
       </div>
     </div>
   </header>
 </template>
 <script>
 export default {
-  name: 'PageMenu',
+  name: "PageMenu",
   props: {
     msg: String
+  },
+  data: function() {
+    return {
+      showTopMenu: false
+    };
   }
-}
+};
 </script>

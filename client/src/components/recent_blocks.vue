@@ -29,16 +29,17 @@
         </div>
       </div>
       <div class="box-con">
+        <loader v-if="!blocklist"></loader>
         <div class="row">
           <div
             class="col-md-3"
             v-for="(item, index) in blocklist"
             v-bind:key="item.height"
             v-if="index < 4"
-            @click="load_block_info(item.height)"
+            
           >
             <div class="rn_blk_con">
-              <div class="blkht">
+              <div class="blkht" @click="load_block_info(item.height)">
                 <span>{{ item.height }}</span>
               </div>
               <div class="blk-info">
@@ -59,20 +60,19 @@
   </div>
 </template>
 <script>
-import helper from "../helper";
-
-
+import helper from '../helper'
+import router from "../router";
 export default {
   props: {
     blocklist: {}
   },
   methods: {
-    timefix: function(time) {
-      return helper.timeSince(new Date(time)) + " ago";
+    timefix: function (time) {
+      return helper.timeSince(new Date(time)) + ' ago'
     },
-     load_block_info: function(id) {
-       this.$route.push({ path: `/block/${id}` });
-    },
+    load_block_info: function (id) {
+      router.push({ path: `/block/${id}` })
+    }
   }
-};
+}
 </script>

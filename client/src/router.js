@@ -51,16 +51,16 @@ export default new Router({
       }
     },
     {
-      path: '/transaction',
+      path: '/transactions',
       name: 'transaction',
       component: () =>
-        import('./views/Transaction.vue'),
+        import('./views/Transactions.vue'),
       meta: {
         title: ''
       }
     },
     {
-      path: '/transaction/:trx_id',
+      path: '/transaction/:trx_hash',
       name: 'transaction details',
       component: () =>
         import('./views/Transaction-detail.vue'),

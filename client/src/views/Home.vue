@@ -39,47 +39,47 @@
   </div>
 </template>
 <script>
-import tileWidjet from "@/components/widjet01.vue";
-import w1 from "@/components/Home_base_info.vue";
-import w2 from "@/components/nempricegraph.vue";
-import w3 from "@/components/recent_blocks.vue";
-import w4 from "@/components/recent_trxs.vue";
-import DataService from "../data-service";
-import io from "socket.io-client";
+import tileWidjet from '@/components/widjet01.vue'
+import w1 from '@/components/Home_base_info.vue'
+import w2 from '@/components/nempricegraph.vue'
+import w3 from '@/components/recent_blocks.vue'
+import w4 from '@/components/recent_trxs.vue'
+import DataService from '../data-service'
+import io from 'socket.io-client'
 const socket = io.connect(window.conf.ws, {
   path: window.conf.ws_path
-});
+})
 export default {
-  name: "home",
+  name: 'home',
   components: {
     Homebaseinfo: w1,
     nempricegraph: w2,
-    "recent-blocks": w3,
-    "recent-trxs": w4
+    'recent-blocks': w3,
+    'recent-trxs': w4
   },
-  data() {
+  data () {
     return {
       home_data: {}
-    };
+    }
   },
-  async beforeCreate() {
+  async beforeCreate () {
     try {
-      this.home_data = await DataService.getHomeData();
+      this.home_data = await DataService.getHomeData()
     } catch (err) {}
   },
   methods: {},
-  mounted() {},
-  created: function() {
-    let self = this;
-    DataService.syncWs("home").then(data => {
-      socket.on("update", function(data) {
-       // self.home_data.chaininfo = data.data.chaininfo;
-        //self.home_data.recentBlocks = data.data.recentBlocks;
-      });
-    });
+  mounted () {},
+  created: function () {
+    let self = this
+    DataService.syncWs('home').then(data => {
+      socket.on('update', function (data) {
+        // self.home_data.chaininfo = data.data.chaininfo;
+        // self.home_data.recentBlocks = data.data.recentBlocks;
+      })
+    })
   },
-  destroyed:function(){
-     socket.disconnect()
+  destroyed: function () {
+    socket.disconnect()
   }
-};
+}
 </script>

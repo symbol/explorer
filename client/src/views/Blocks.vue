@@ -32,6 +32,7 @@
                 </div>
               </div>
               <div class="box-con mt-0">
+                <loader v-if="!this.loading"></loader>
                 <div class="table-responsive">
                   <div
                     id="sorting-table_wrapper"
@@ -130,7 +131,8 @@ export default {
     return {
       blockdata: {},
       blockhight: "",
-      curnt_page: 1
+      curnt_page: 1,
+      loading: 0
     };
   },
   methods: {
@@ -148,9 +150,9 @@ export default {
       } else if (act == "fromtxtfld") {
         computed_page = this.curnt_page;
       }
-      if (computed_page > 1)
+      if (computed_page > 1) {
         this.$router.push({ path: "/blocks?page=" + computed_page });
-      else this.$router.push({ path: "/blocks?page=" + 1 });
+      } else this.$router.push({ path: "/blocks?page=" + 1 });
     },
     load_block_info: function(id) {
       router.push({ path: `/block/${id}` });
@@ -163,11 +165,12 @@ export default {
     load_data: function(page = 1) {
       let self = this;
       console.log(page);
+      self.loading=0;
       DataService.getBlocks(page).then(function(data) {
         self.curnt_page = parseInt(page);
         self.blockdata = data.blockList;
         self.blockhight = data.hight;
-        console.log(data);
+         self.loading=1;
       });
     },
     pageUrlsync: function() {
@@ -184,7 +187,7 @@ export default {
     DataService.syncWs("blocks").then(data => {
       socket.on("update", function(data) {
         // self.blockdata = data.data.blockList;
-        //self.blockhight =  data.data.hight;
+        // self.blockhight =  data.data.hight;
         // console.log(data);
       });
     });

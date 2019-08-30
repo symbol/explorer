@@ -17,8 +17,10 @@
  */
 
 <template>
-  <div class="widget has-shadow">
-    <div class="row">
+  <div class="widget has-shadow bordr_rds_top0 network_info">
+    <loader v-if="!marketinfo"></loader>
+    <div class="box">
+        <div class="row">
       <div class="col-md-3">
           <div class="hm_wdjt_itm_t1">
               <span>Price</span>
@@ -56,13 +58,15 @@
           </div>
       </div> -->
     </div>
+    </div>
   </div>
 </template>
 <script>
+
 export default {
   props: {
-      marketinfo:{},
-      chaininfo:{}
+    marketinfo: {},
+    chaininfo: {}
   }
   // ['ItemTitle','ItemData','itemThumb']
 }
