@@ -101,6 +101,8 @@ cd client
 npm start
 ```
 
+3. Visit http://localhost:8080 in your browser.
+
 ## Contributing
 
 This project is developed and maintained by NEM Foundation. Contributions are welcome and appreciated. You can find [catapult-explorer on GitHub][self];
