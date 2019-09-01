@@ -90,7 +90,7 @@ function formatTransactionFromApi(transactionJson) {
 		fee: new UInt64(transactionJson.transaction.maxFee).compact(),
 		signature: transactionJson.transaction.signature,
 		signer: transactionJson.transaction.signer,
-		blocHeight: new UInt64(transactionJson.meta.height).compact(),
+		blockHeight: new UInt64(transactionJson.meta.height).compact(),
 		transactionHash: transactionJson.meta.hash,
 		transactionId: transactionJson.meta.id,
 		transactionDetail: formatTransactionTypeFromApi(
@@ -193,7 +193,7 @@ function formatTransaction(tx) {
 		fee: tx.maxFee.compact(),
 		signature: tx.signature,
 		signer: tx.signer,
-		blocHeight: tx.transactionInfo.height.compact(),
+		blockHeight: tx.transactionInfo.height.compact(),
 		transactionHash: tx.transactionInfo.hash,
 		transactionId: tx.transactionInfo.id,
 		transactionDetail: formatTx(tx),
