@@ -48,22 +48,6 @@
                   </div>
                   <div class="row list_item">
                     <div class="col-md-2">
-                      <div class="label">Balance</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">0</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Vested balance</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">0</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
                       <div class="label">Importance</div>
                     </div>
                     <div class="col-md-10">
@@ -78,6 +62,13 @@
             <div class="box">
               <div class="tabs-con">
                 <tabs>
+                  <tab title="Balance">
+                    <datatable
+                      tableClass="blocktrxtbl"
+                      :tableHead="this.balance.head"
+                      :tableData="this.balance.data"
+                    ></datatable>
+                  </tab>
                   <tab title="Owned Mosaics">
                     <div class="table-responsive">
                       <div
@@ -94,7 +85,8 @@
                             <tr>
                               <th>#</th>
                               <th>Mosaic</th>
-                              <th>Quantity</th>
+                              <th>Start Height</th>
+                              <th>End Height</th>
                             </tr>
                           </thead>
                           <tbody></tbody>
@@ -103,13 +95,14 @@
                     </div>
                   </tab>
                   <tab title="Owned Namespaces">
-                     <datatable
+                    <datatable
                       tableClass="blocktrxtbl"
                       :tableHead="this.ownedNamespaceList.head"
                       :tableData="this.ownedNamespaceList.data"
                     ></datatable>
                   </tab>
-                  <tab title="Harvest Info">
+
+                  <!-- <tab title="Harvest Info">
                     <div class="list_info_con p-0">
                       <div class="row list_item">
                         <div class="col-md-4">
@@ -120,7 +113,7 @@
                         </div>
                       </div>
                     </div>
-                  </tab>
+                  </tab>-->
                 </tabs>
               </div>
             </div>
@@ -194,33 +187,6 @@
                       </div>
                     </div>-->
                   </tab>
-                  <tab title="Mosaic Transactions">
-                    <div class="table-responsive">
-                      <div
-                        id="sorting-table_wrapper"
-                        class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer p-0"
-                      >
-                        <table
-                          id
-                          class="table table-striped table-bordered"
-                          cellspacing="0"
-                          width="100%"
-                        >
-                          <thead>
-                            <tr>
-                              <th>#</th>
-                              <th>Timestamp</th>
-                              <th>Mosaic</th>
-                              <th>Quantity</th>
-                              <th>Sender</th>
-                              <th>Recipient</th>
-                            </tr>
-                          </thead>
-                          <tbody></tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </tab>
                 </tabs>
               </div>
             </div>
@@ -238,6 +204,27 @@ import { Tabs, Tab } from 'vue-slim-tabs'
 import DataService from '../data-service'
 import w1 from '@/components/inforow.vue'
 import w2 from '@/components/Table-dynamic.vue'
+import { MosaicHttp, AccountHttp, MosaicService, Address } from 'nem2-sdk';
+
+
+
+      // mosaicService
+      //   .mosaicsAmountViewFromAddress(address)
+      //   .pipe(
+      //     flatMap(x => x),
+      //     map(mosaic => formatMosaics(mosaic, blockHeight)),
+      //     toArray(),
+      //   )
+      //   .subscribe(
+      //     (x) => {
+      //       if (x.length !== 0) {
+      //         resolve(sortMosaics(x));
+      //       } else {
+      //         resolve([]);
+      //       }
+      //     },
+      //     err => reject(err),
+      //   );
 
 export default {
   name: 'block',
@@ -258,11 +245,16 @@ export default {
       ownedNamespaceList: {
         head: ['#', 'Namespace', 'Height'],
         data: []
+      },
+      balance: {
+        head: ['MosaicID', 'Quantity'],
+        data: []
       }
     }
   },
   created () {
-    this.asyncData()
+    this.asyncData(),
+    this.getAccountBalance()
   },
   watch: {
     $route: 'asyncData'
@@ -291,7 +283,22 @@ export default {
           temp.push(el.startHeight)
           self.ownedNamespaceList.data.push(temp)
         })
+        data.accountInfo.mosaics.forEach((el, idx) => {
+          var temp = []
+          temp.push(el.id)
+          temp.push(el.amount)
+          self.balance.data.push(temp)
+        })
       })
+    },
+    async getAccountBalance  () {
+const mosaicService = new MosaicService(
+        new AccountHttp('http://52.194.207.217:3000'),
+        new MosaicHttp('http://52.194.207.217:3000'),
+      );
+      console.log(this.acnt_adrs)
+      const a = await mosaicService.mosaicsAmountViewFromAddress(new Address(this.acnt_adrs)).toPromise()
+      console.log(a);
     },
     copy_text: function (event) {}
   }
