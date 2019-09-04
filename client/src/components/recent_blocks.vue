@@ -36,7 +36,6 @@
             v-for="(item, index) in blocklist"
             v-bind:key="item.height"
             v-if="index < 4"
-            
           >
             <div class="rn_blk_con">
               <div class="blkht" @click="load_block_info(item.height)">
@@ -45,11 +44,11 @@
               <div class="blk-info">
                 <div class="inrw">
                   <span>{{ item.numTransactions }} Transactions</span>
-                  <span >{{timefix(item.date)}}</span>
+                  <span>{{timefix(item.date)}}</span>
                 </div>
                 <div class="inrw flex">
                   <span>Harvester</span>
-                  <a href class="acnt">{{item.signer.address.address}}</a>
+                  <a href="#" @click="load_accnt_info(item.signer.address.address)" class="acnt">{{item.signer.address.address}}</a>
                 </div>
               </div>
             </div>
@@ -60,19 +59,35 @@
   </div>
 </template>
 <script>
-import helper from '../helper'
+import helper from "../helper";
 import router from "../router";
+import moment from "moment";
+var zone = moment().utcOffset();
+
 export default {
   props: {
     blocklist: {}
   },
+  watch: {
+    blocklist: "auto_update_time"
+  },
+  created() {
+    this.auto_update_time()
+  },
   methods: {
-    timefix: function (time) {
-      return helper.timeSince(new Date(time)) + ' ago'
+    timefix: function(time) {
+      var time1 = moment.utc(time).utcOffset(zone);    
+      return helper.timeSince(new Date(time)) + " ago";
     },
-    load_block_info: function (id) {
-      router.push({ path: `/block/${id}` })
+    load_block_info: function(id) {
+      router.push({ path: `/block/${id}` });
+    },
+    load_accnt_info:function(acnt_adrs){
+      router.push({ path: `/account/${acnt_adrs}` });
+    },
+    auto_update_time: function() {
+      
     }
   }
-}
+};
 </script>

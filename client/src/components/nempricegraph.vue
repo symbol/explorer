@@ -17,14 +17,23 @@
  */
 
 <template>
-  <div class="widget has-shadow m-0 z-1 nempricegraph_con bordr_rds_top0">
+  <div class="widget has-shadow m-0 z-1 nempricegraph_con bordr_rds_top0 pt-0 pb-0">
     <loader v-if="!loading"></loader>
-    <canvas id="nempricegraph" style="width:100%;height:180px"></canvas>
+    <!-- <canvas id="nempricegraph" style="width:100%;height:180px"></canvas> -->
+    <div id="nempricegraph" style></div>
   </div>
 </template>
+<style scoped>
+#nempricegraph {
+  width: 100%;
+  min-height: 200px;
+  display: block;
+  transition: all 0.4s ease-in-out;
+}
+</style>
 <script>
 import axios from "axios";
-import Chart from "chart.js";
+import ApexCharts from "apexcharts";
 import helper from "../helper";
 
 export default {
@@ -35,161 +44,20 @@ export default {
     };
   },
   mounted() {
-    var date = new Date();
-    var r1 = Math.round(date.getTime() / 1000);
-
-    date.setDate(date.getDate() - 15);
-    var r2 = Math.round(date.getTime() / 1000);
-    // const res = await axios.get("");
-    // const data = res.data;
+    let self = this;
     axios
       .all([
         axios.get(
-          "https://api.coingecko.com/api/v3/coins/nem/market_chart/range?vs_currency=usd&from=" +
-            r2 +
-            "&to=" +
-            r1
+          "https://api.coingecko.com/api/v3/coins/nem/market_chart?vs_currency=usd&days=7"
         )
       ])
       .then(
         axios.spread(res1 => {
           var x = [];
           var y = [];
-          var prev = 0;
-          var months = [
-            "Jan",
-            "Feb",
-            "Mar",
-            "Apr",
-            "May",
-            "Jun",
-            "Jul",
-            "Aug",
-            "Sep",
-            "Oct",
-            "Nov",
-            "Dec"
-          ];
-          res1.data.prices.forEach((item, index) => {
-            var date = new Date(item[0]);
-            // if (prev != date.getDate()) {
-            //   prev = date.getDate();
-            // }
-            x.push(
-              months[date.getMonth()] +
-                " " +
-                date.getDate() +
-                " " +
-                date.getHours() +
-                ":" +
-                date.getMinutes()
-            );
-            y.push(item[1]);
-          });
-          this.loading = 1;
-          var config = {
-            type: "line",
-            data: {
-              labels: x,
-              datasets: [
-                {
-                  label: "Price",
-                  borderColor: "#4c8ac4",
-                  borderWidth: 2,
-                  lineTension: 0.4,
-                  pointBackgroundColor: "#0998a6",
-                  pointHoverBorderColor: "#0998a6",
-                  pointHoverBackgroundColor: "#0998a6",
-                  pointBorderColor: "#0998a6",
-                  pointBorderWidth: 0,
-                  pointHoverBorderWidth: 0,
-                  pointRadius: 0,
-                  fill: false,
-                  backgroundColor: "#08a6c3",
-                  data: y
-                }
-              ]
-            },
-            options: {
-              legend: {
-                display: false,
-                position: "top",
-                labels: {
-                  fontColor: "#2e3451",
-                  usePointStyle: true,
-                  fontSize: 14
-                }
-              },
-              responsive: true,
-              title: {
-                display: false,
-                text: " "
-              },
-              tooltips: {
-                mode: "nearest",
-                intersect: false,
-                displayColors: false,
-                backgroundColor: "#78B6E4",
-                titleFontSize: 13,
-                titleFontColor: "#fff",
-                bodyFontSize:13,
-                caretSize: 0,
-                cornerRadius: 4,
-                xPadding: 10,
-                yPadding: 10,
-                callbacks: {
-                  label: function(tooltipItem, data) {
-                  
-                    var label =  data.datasets[tooltipItem.datasetIndex].label;
-                    label +=
-                      " $" + Number.parseFloat(tooltipItem.yLabel).toFixed(4);
-                    return label;
-                  }
-                }
-              },
-              hover: {
-                mode: "nearest",
-                intersect: true
-              },
-              scales: {
-                xAxes: [
-                  {
-                    display: true,
-                    scaleLabel: {
-                      display: false,
-                      labelString: "Day"
-                    },
-                    ticks: {
-                      display: true,
-                      beginAtZero: false,
-                      autoSkip: true,
-                      maxRotation: 0,
-                      maxTicksLimit: 14,
-                      callback: function(value, index, values) {
-                        return value.slice(0, 7);
-                      }
-                    }
-                  }
-                ],
-                yAxes: [
-                  {
-                    display: true,
-                    scaleLabel: {
-                      display: true,
-                      labelString: "Price"
-                    },
-                    ticks: {
-                      display: true,
-                      beginAtZero: false,
-                      autoSkip: true,
-                      maxTicksLimit: 5
-                    }
-                  }
-                ]
-              }
-            }
-          };
-          this.createChart("nempricegraph", config);
+          self.loading = 1;
+          this.createcandlechart(res1, "#nempricegraph");
+          //this.createpointchart(res1, "#nempricegraph");
         })
       )
       .catch(error => {
@@ -197,13 +65,181 @@ export default {
       });
   },
   methods: {
-    createChart(chartId, chartData) {
-      const ctx = document.getElementById(chartId);
-      const myChart = new Chart(ctx, {
-        type: chartData.type,
-        data: chartData.data,
-        options: chartData.options
+    createcandlechart(res1, elemt) {
+      var graph_data = [];
+      var crnt_day = new Date(res1.data.prices[0][0]);
+      var day_trade = [];
+      var grph_intervl = 6;
+      var trigger_graphdata_add = 0;
+
+      res1.data.prices.forEach((item, index) => {
+        var temp_date = new Date(item[0]);
+        if (temp_date.getDate() === crnt_day.getDate()) {
+          day_trade.push([temp_date, item[1].toFixed(4)]);
+        } else if (index + 1 < res1.data.prices.length) {
+          var next_day = new Date(res1.data.prices[index + 1][0]);
+          trigger_graphdata_add = 1;
+          crnt_day = next_day;
+        }
+        if (index == res1.data.prices.length - 1) {
+          trigger_graphdata_add = 1;
+        }
+        if (trigger_graphdata_add === 1) {
+          var temp_hr_trade = [];
+          day_trade.forEach((item, idx) => {
+            var graph_data_item = {};
+            graph_data_item.y = [];
+            temp_hr_trade.push(item[1]);
+            if (idx % grph_intervl == 0 || idx == day_trade.length - 1) {
+              graph_data_item.x = item[0];
+              graph_data_item.y[0] = parseFloat(temp_hr_trade[0]);
+              graph_data_item.y[1] = Math.max(...temp_hr_trade);
+              graph_data_item.y[2] = Math.min(...temp_hr_trade);
+              graph_data_item.y[3] = Math.min(
+                temp_hr_trade[temp_hr_trade.length - 1]
+              );
+              graph_data.push(graph_data_item);
+              temp_hr_trade = [];
+            }
+          });
+          // proceess real api data ------ start-------
+          var graph_data_item = {};
+          graph_data_item.y = [];
+          graph_data_item.x = temp_date;
+          graph_data_item.y[0] = parseFloat(temp_hr_trade[0]);
+          graph_data_item.y[1] = Math.max(...temp_hr_trade);
+          graph_data_item.y[2] = Math.min(...temp_hr_trade);
+          graph_data_item.y[3] = Math.min(
+            temp_hr_trade[temp_hr_trade.length - 1]
+          );
+          graph_data.push(graph_data_item);
+          // proceess real api data ------ end-------
+          day_trade = [];
+          trigger_graphdata_add = 0;
+        }
       });
+      //console.log(graph_data);
+      var options = {
+        chart: {
+          height: 200,
+          type: "candlestick",
+          toolbar: {
+            show: false
+          }
+        },
+        stroke: {
+          show: true,
+          curve: "smooth",
+          lineCap: "butt",
+          colors: ["#3e6b8c"],
+          width: 2,
+          dashArray: 0
+        },
+        plotOptions: {
+          candlestick: {
+            colors: {
+              upward: "#0998a6",
+              downward: "#f78880"
+            },
+            wick: {
+              useFillColor: true
+            }
+          }
+        },
+        series: [
+          {
+            data: graph_data
+          }
+        ],
+        title: {
+          text: "",
+          align: "left",
+          display: false
+        },
+        xaxis: {
+          type: "datetime"
+        },
+        yaxis: {
+          tooltip: {
+            enabled: true
+          }
+        }
+      };
+
+      var chart = new ApexCharts(document.querySelector(elemt), options);
+      chart.render();
+    },
+    createpointchart(data_in, elemt) {
+      var graph_data = [];
+      var crnt_day = new Date(data_in.data.prices[0][0]);
+      var day_trade = [];
+      var grph_intervl = 6;
+      var trigger_graphdata_add = 0;
+
+      data_in.data.prices.forEach((item, index) => {
+
+      });
+
+      var options1 = {
+        chart: {
+          id: "chart2",
+          type: "area",
+          height: 230,
+          foreColor: "#ccc",
+          toolbar: {
+            autoSelected: "pan",
+            show: false
+          }
+        },
+        colors: ["#00BAEC"],
+        stroke: {
+          width: 3
+        },
+        grid: {
+          borderColor: "#555",
+          clipMarkers: false,
+          yaxis: {
+            lines: {
+              show: false
+            }
+          }
+        },
+        dataLabels: {
+          enabled: false
+        },
+        fill: {
+          gradient: {
+            enabled: true,
+            opacityFrom: 0.55,
+            opacityTo: 0
+          }
+        },
+        markers: {
+          size: 5,
+          colors: ["#000524"],
+          strokeColor: "#00BAEC",
+          strokeWidth: 3
+        },
+        series: [
+          {
+            data: graph_data
+          }
+        ],
+        tooltip: {
+          theme: "dark"
+        },
+        xaxis: {
+          type: "datetime"
+        },
+        yaxis: {
+          min: 0,
+          tickAmount: 4
+        }
+      };
+
+      var chart1 = new ApexCharts(document.querySelector(elemt), options1);
+
+      chart1.render();
     }
   }
 };

@@ -37,6 +37,7 @@
                 </div>
               </div>
               <div class="box-con mt-0">
+                 <loader v-if="!loading"></loader>
                 <div class="list_info_con">
                   <div class="row list_item">
                     <div class="col-md-2">
@@ -135,64 +136,6 @@
                       :tableHead="this.account_trx.head"
                       :tableData="this.account_trx.data"
                     ></datatable>
-                    <!-- <div class="table-responsive">
-                      <div
-                        id="sorting-table_wrapper"
-                        class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer p-0"
-                      >
-                        <table
-                          id
-                          class="table table-striped table-bordered"
-                          cellspacing="0"
-                          width="100%"
-                        >
-                          <thead>
-                            <tr>
-                              <th>#</th>
-                              <th>Timestamp</th>
-                              <th>Amount</th>
-                              <th>Fee</th>
-                              <th>Sender</th>
-                              <th>Recipient</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>1</td>
-                              <td>2019-08-06 04:34:37</td>
-                              <td>392</td>
-                              <td>0.15</td>
-                              <td>NCPAYOUTH2BGEGT3Q7K75PV27QKMVNN2IZRVZWMD</td>
-                              <td>NAJAGRSQQP75VJJDU7CDSHMASMM33A2R2W6DUHH7</td>
-                            </tr>
-                            <tr>
-                              <td>2</td>
-                              <td>2019-08-06 04:34:37</td>
-                              <td>392</td>
-                              <td>0.15</td>
-                              <td>NCPAYOUTH2BGEGT3Q7K75PV27QKMVNN2IZRVZWMD</td>
-                              <td>NAJAGRSQQP75VJJDU7CDSHMASMM33A2R2W6DUHH7</td>
-                            </tr>
-                            <tr>
-                              <td>3</td>
-                              <td>2019-08-06 04:34:37</td>
-                              <td>392</td>
-                              <td>0.15</td>
-                              <td>NCPAYOUTH2BGEGT3Q7K75PV27QKMVNN2IZRVZWMD</td>
-                              <td>NAJAGRSQQP75VJJDU7CDSHMASMM33A2R2W6DUHH7</td>
-                            </tr>
-                            <tr>
-                              <td>4</td>
-                              <td>2019-08-06 04:34:37</td>
-                              <td>392</td>
-                              <td>0.15</td>
-                              <td>NCPAYOUTH2BGEGT3Q7K75PV27QKMVNN2IZRVZWMD</td>
-                              <td>NAJAGRSQQP75VJJDU7CDSHMASMM33A2R2W6DUHH7</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>-->
                   </tab>
                   <tab title="Mosaic Transactions">
                     <div class="table-responsive">
@@ -258,7 +201,8 @@ export default {
       ownedNamespaceList: {
         head: ['#', 'Namespace', 'Height'],
         data: []
-      }
+      },
+      loading:0
     }
   },
   created () {
@@ -291,6 +235,7 @@ export default {
           temp.push(el.startHeight)
           self.ownedNamespaceList.data.push(temp)
         })
+        self.loading=1;
       })
     },
     copy_text: function (event) {}
