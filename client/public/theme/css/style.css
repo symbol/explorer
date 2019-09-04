@@ -236,9 +236,9 @@ p {
 /* main script  */
 
 html, body {
-    /* font-family: 'Open Sans', sans-serif; */
-    font-family: "Montserrat", sans-serif;
-    font-size: 12px;
+   
+    font-family:"proxima-nova";
+    font-size: 14px;
     min-height: 100vh;
 }
 
@@ -257,7 +257,10 @@ html, body {
     /* border-top: 1px solid rgba(251, 251, 251, 0.32); */
     box-shadow: 0px 2px 10px 2px rgba(0, 0, 0, .2);
 }
-
+.ex-header .container .col-md-11{
+    max-width: 100%;
+    flex: 1;
+} 
 .n-p {
     padding: 0px;
 }
@@ -408,8 +411,8 @@ img {
 }
 
 .top_head {
-    padding-top: 18px;
-    padding-bottom: 20px;
+    padding-top: 12px;
+    padding-bottom: 10px;
     display: block;
     width: 100%;
 }
@@ -422,7 +425,7 @@ img {
     color: #fff;
     font-weight: 500;
     text-transform: capitalize;
-    font-size: 16px;
+    font-size: 18px;
     text-align: center;
     margin-top: 14px;
     letter-spacing: 1px;
@@ -431,7 +434,7 @@ img {
 .top_head .head-sub-t {
     text-align: center;
     color: #e4e4e4;
-    font-size: 12px;
+    font-size: 14px;
     margin: 0px;
 }
 
@@ -673,7 +676,7 @@ img {
     text-align: left;
     display: flex;
     padding: 0px;
-    margin: 10px 0px 6px 0px;
+    margin:10px 0px 1px 0px;
 }
 
 .nav-menu li {
@@ -688,13 +691,13 @@ img {
     transition: all 0.2s ease-in-out;
     width: auto;
     display: inline-block;
-    font-size: 12px;
+    font-size: 14px;
 }
 
 .nav-menu li a i {
     font-size: 14px;
     display: inline-block;
-    line-height: .5;
+    line-height: 1.8;
     float: left;
 }
 
@@ -1140,7 +1143,7 @@ table.table-bordered.dataTable tbody tr {
     min-height: 1px;
     display: inline-block;
     position: relative;
-    padding: 20px;
+    padding: 10px 15px;
 }
 
 .box .box-title {
@@ -1452,8 +1455,8 @@ table.table-bordered.dataTable tbody tr {
 }
 
 .act-copy {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     display: inline-block;
     text-align: center;
     background: #1a4d60;
@@ -1565,6 +1568,7 @@ table.table-bordered.dataTable tbody tr {
         padding: 0px;
         z-index: 5;
     }
+
     .mobilemenu {
         display: block;
         position: absolute;
