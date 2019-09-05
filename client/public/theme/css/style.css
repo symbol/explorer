@@ -387,7 +387,8 @@ img {
 }
 
 .gradinet_01 {
-    background: linear-gradient(-70deg, #3e6b8c 10%, #0998a6 90%);
+    /* background: linear-gradient(-70deg, #3e6b8c 10%, #0998a6 90%); */
+    background:linear-gradient(120deg, #1eaaa6 0%, #3d6597 100%);
     background-size: 100% auto;
     position: relative;
 }
@@ -418,7 +419,7 @@ img {
 }
 
 .top_head .logo {
-    max-width: 40px;
+    max-width: 30px;
 }
 
 .top_head .head-titl {
@@ -691,11 +692,11 @@ img {
     transition: all 0.2s ease-in-out;
     width: auto;
     display: inline-block;
-    font-size: 14px;
+    font-size: 13px;
 }
 
 .nav-menu li a i {
-    font-size: 14px;
+    font-size: 13px;
     display: inline-block;
     line-height: 1.8;
     float: left;
@@ -711,6 +712,7 @@ img {
     content: '';
     position: absolute;
     top: -14px;
+    left: 0px;
     width: 100%;
     height: 4px;
     background: #fff;
@@ -997,7 +999,7 @@ table.table-bordered.dataTable tbody tr {
 }
 
 .footer {
-    background: linear-gradient(-25deg, #1d3b52 10%, #027c88 90%);
+    background: linear-gradient(-40deg, #37476b 20%, #0a879b 80%);
     padding: 50px 0px 0px;
 }
 
@@ -1026,7 +1028,8 @@ table.table-bordered.dataTable tbody tr {
 .footer .ft-desc p {
     font-size: 12px;
     text-align: justify;
-    color: #fff;
+    color: #ffffffa8;
+    font-weight: 200;
 }
 
 .social-icon {
@@ -1172,8 +1175,9 @@ table.table-bordered.dataTable tbody tr {
     border: 1px solid #039ba8;
     border-radius: 4px;
     color: #039ba8;
-    font-size: 10px;
-    padding: 6px 12px;
+    font-size: 12px;
+    padding: 6px 12px 4px 12px;
+    line-height: 1.6;
 }
 
 .btn-green i {
@@ -1182,6 +1186,7 @@ table.table-bordered.dataTable tbody tr {
     position: relative;
     top: -4px;
     right: -4px;
+    height: 20px;
 }
 
 .btn-green * {
@@ -1190,7 +1195,7 @@ table.table-bordered.dataTable tbody tr {
 }
 
 .btn-green:hover {
-    background: #039ba8;
+    background: linear-gradient(120deg, #25b4af, #6eb6de);
     color: #fff;
 }
 
@@ -1204,12 +1209,13 @@ table.table-bordered.dataTable tbody tr {
 
 .rn_blk_con {
     width: 100%;
-    box-shadow: 0px 0px 6px 0px rgba(0, 0, 0, 0.22);
+    box-shadow: 0px 1px 6px 0px rgba(0, 0, 0, 0.22);
     padding: 12px;
     position: relative;
     overflow: hidden;
     margin-bottom: 15px;
-    
+    border-radius: 4px;
+    border: 1px solid #DDDDDD;
 }
 
 .rn_blk_con::before {
