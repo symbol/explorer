@@ -77,7 +77,7 @@
           </ul>
         </div>
         <div class="col-md-3">
-          <div class="newslist"  v-html="this.loading">
+          <div class="newslist">
           </div>
         </div>
       </div>
@@ -98,7 +98,7 @@ export default {
   },
   data() {
     return {
-      loading: '<a href="https://google.com">test</a>'
+      loading: 1
     };
   },
   mounted() {

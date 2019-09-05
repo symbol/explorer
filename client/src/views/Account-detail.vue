@@ -28,8 +28,7 @@
               <div class="box-title">
                 <h1 class="inline-block">Account Detail</h1>
                 <div class="btn_grp inline-block flt-rt">
-                  <span>
-                    {{account_address}}
+                  <span> {{account_address}}</span>
                     <button
                       type="button"
                       class="ico-files-o act-copy"
@@ -37,7 +36,6 @@
                       v-clipboard:success="onCopy"
                       v-clipboard:error="onError"
                     ></button>
-                  </span>
                 </div>
               </div>
               <div class="box-con mt-0">

@@ -45,6 +45,17 @@
     background: rgba(58, 108, 153, 0.76);
     color: #fff;
 }
+.apexcharts-yaxistooltip {
+    background: #f8b526;
+    border: 1px solid #f8b526;
+    color: #ffffff;
+}
+.apexcharts-yaxistooltip-left:after {
+    border-left-color: #f8b526;
+}
+.apexcharts-yaxistooltip-left:before {
+    border-left-color: #f8b526;
+}
 </style>
 <script>
 import axios from "axios";
