@@ -168,7 +168,7 @@ export default {
       account_address: this.$route.params.acnt_adrs,
       account_info: {},
       account_transaction: {
-        head: ["#", "Timestamp", "Amount", "Fee", "Transaction Hash", "Type"],
+        head: ["#", "Deadline", "Fee", "Transaction Hash", "Type"],
         data: []
       },
       ownedNamespaceList: {
@@ -221,7 +221,6 @@ export default {
         var temp = [];
         temp.push(idx + 1);
         temp.push(el.deadline);
-        temp.push(0);
         temp.push(el.fee);
         temp.push(el.transactionHash);
         temp.push(el.transactionDetail.type);
