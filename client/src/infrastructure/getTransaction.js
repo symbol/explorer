@@ -16,17 +16,31 @@
  *
  */
 
-import { AccountHttp, Address } from 'nem2-sdk'
-import format from '../format'
+import {
+  TransactionHttp,
+  AccountHttp,
+  QueryParams,
+  PublicAccount,
+  NetworkType,
+} from 'nem2-sdk'
+import format from '../format';
 
 const accountHttp = new AccountHttp('http://52.194.207.217:3000')
 
-const getAccountInfoByAddress = async address => {
-  const accountInfo = await accountHttp
-    .getAccountInfo(new Address(address))
-    .toPromise()
+const getAccountTransactions = async (publicKey, txId = '') => {
+  let pageSize = 100;
+  let id = txId;
 
-  return format.formatAccount(accountInfo)
-}
+  const publicAccount = PublicAccount.createFromPublicKey(
+    publicKey,
+    NetworkType.MIJIN_TEST
+  );
 
-export { getAccountInfoByAddress }
+  const transactionsList = await accountHttp
+    .transactions(publicAccount, new QueryParams(pageSize, id))
+    .toPromise();
+
+  return format.formatTransactions(transactionsList);
+};
+
+export { getAccountTransactions };

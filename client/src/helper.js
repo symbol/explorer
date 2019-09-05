@@ -15,8 +15,6 @@
  * limitations under the License.
  *
  */
-
-import { Address } from 'nem2-sdk'
 class helper {
   static timeSince(date) {
     var seconds = Math.floor((new Date() - date) / 1000)
@@ -57,37 +55,6 @@ class helper {
       }
     }
     result
-  }
-
-  static formatAccount(accountInfo) {
-    let importanceScore = accountInfo.importance.compact()
-
-    if (importanceScore) {
-      importanceScore /= 90000
-      importanceScore = importanceScore.toFixed(4).split('.')
-      importanceScore = importanceScore[0] + '.' + importanceScore[1]
-    }
-
-    const accountObj = {
-      meta: accountInfo.meta,
-      address: new Address(accountInfo.address.address).pretty(),
-      addressHeight: accountInfo.addressHeight.compact(),
-      publicKey: accountInfo.publicKey,
-      publicKeyHeight: accountInfo.publicKeyHeight.compact(),
-      mosaics: this.formatMosaics(accountInfo.mosaics),
-      importance: importanceScore,
-      importanceHeight: accountInfo.importanceHeight.compact(),
-    }
-
-    return accountObj
-  }
-
-  static formatMosaics(mosaics) {
-    mosaics.map(mosaic => {
-      mosaic.hex = mosaic.id.toHex()
-      mosaic.amount = mosaic.amount.compact()
-    })
-    return mosaics
   }
 }
 export default helper

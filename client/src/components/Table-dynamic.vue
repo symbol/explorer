@@ -32,7 +32,7 @@
       </thead>
       <tbody>
         <tr v-for="(item,index) in tableData" v-bind:key="index">
-          <td v-for="(subitem,idx) in item" v-bind:key="idx">{{subitem}}</td>
+          <td v-for="(subitem,idx) in item" v-bind:key="idx" v-html="subitem">{{subitem}}</td>
         </tr>
       </tbody>
     </table>
@@ -42,8 +42,8 @@
 export default {
   props: {
     tableClass: String,
-    tableHead: {},
-    tableData: {},
+    tableHead: Array,
+    tableData: Array,
     tableRowAction: { type: Function }
   },
   methods: {}
