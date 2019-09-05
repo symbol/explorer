@@ -29,15 +29,19 @@
                 <h1 class="inline-block">Account Detail</h1>
                 <div class="btn_grp inline-block flt-rt">
                   <span>
-                    {{acnt_adrs}}
-                    <i id="adrscopy" class="ico-files-o act-copy" @click="copy_text">
-                      <input type="hidden" :value="this.acnt_adrs" />
-                    </i>
+                    {{account_address}}
+                    <button
+                      type="button"
+                      class="ico-files-o act-copy"
+                      v-clipboard:copy="account_address"
+                      v-clipboard:success="onCopy"
+                      v-clipboard:error="onError"
+                    ></button>
                   </span>
                 </div>
               </div>
               <div class="box-con mt-0">
-                 <loader v-if="!loading"></loader>
+                <loader v-if="!loading"></loader>
                 <div class="list_info_con">
                   <div class="row list_item">
                     <div class="col-md-2">
@@ -45,22 +49,6 @@
                     </div>
                     <div class="col-md-10">
                       <div class="value">{{account_info.publicKey}}</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Balance</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">0</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Vested balance</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">0</div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -79,7 +67,14 @@
             <div class="box">
               <div class="tabs-con">
                 <tabs>
-                  <tab title="Owned Mosaics">
+                  <tab title="Balance">
+                    <datatable
+                      tableClass="blocktrxtbl"
+                      :tableHead="this.balance.head"
+                      :tableData="this.balance.data"
+                    ></datatable>
+                  </tab>
+                  <!-- <tab title="Owned Mosaics">
                     <div class="table-responsive">
                       <div
                         id="sorting-table_wrapper"
@@ -95,22 +90,24 @@
                             <tr>
                               <th>#</th>
                               <th>Mosaic</th>
-                              <th>Quantity</th>
+                              <th>Start Height</th>
+                              <th>End Height</th>
                             </tr>
                           </thead>
                           <tbody></tbody>
                         </table>
                       </div>
                     </div>
-                  </tab>
+                  </tab>-->
                   <tab title="Owned Namespaces">
-                     <datatable
+                    <datatable
                       tableClass="blocktrxtbl"
                       :tableHead="this.ownedNamespaceList.head"
                       :tableData="this.ownedNamespaceList.data"
                     ></datatable>
                   </tab>
-                  <tab title="Harvest Info">
+
+                  <!-- <tab title="Harvest Info">
                     <div class="list_info_con p-0">
                       <div class="row list_item">
                         <div class="col-md-4">
@@ -121,7 +118,7 @@
                         </div>
                       </div>
                     </div>
-                  </tab>
+                  </tab>-->
                 </tabs>
               </div>
             </div>
@@ -133,36 +130,9 @@
                   <tab title="Transactions">
                     <datatable
                       tableClass="blocktrxtbl"
-                      :tableHead="this.account_trx.head"
-                      :tableData="this.account_trx.data"
+                      :tableHead="this.account_transaction.head"
+                      :tableData="this.account_transaction.data"
                     ></datatable>
-                  </tab>
-                  <tab title="Mosaic Transactions">
-                    <div class="table-responsive">
-                      <div
-                        id="sorting-table_wrapper"
-                        class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer p-0"
-                      >
-                        <table
-                          id
-                          class="table table-striped table-bordered"
-                          cellspacing="0"
-                          width="100%"
-                        >
-                          <thead>
-                            <tr>
-                              <th>#</th>
-                              <th>Timestamp</th>
-                              <th>Mosaic</th>
-                              <th>Quantity</th>
-                              <th>Sender</th>
-                              <th>Recipient</th>
-                            </tr>
-                          </thead>
-                          <tbody></tbody>
-                        </table>
-                      </div>
-                    </div>
                   </tab>
                 </tabs>
               </div>
@@ -176,69 +146,108 @@
   </div>
 </template>
 <script>
-import router from '../router'
-import { Tabs, Tab } from 'vue-slim-tabs'
-import DataService from '../data-service'
-import w1 from '@/components/inforow.vue'
-import w2 from '@/components/Table-dynamic.vue'
+import router from "../router";
+import { Tabs, Tab } from "vue-slim-tabs";
+import DataService from "../data-service";
+import w1 from "@/components/inforow.vue";
+import w2 from "@/components/Table-dynamic.vue";
+import { getAccountInfoByAddress } from "../infrastructure/getAccount";
+import { getAccountTransactions } from "../infrastructure/getTransaction";
+import { getNamespacesFromAccountByAddress } from "../infrastructure/getNamespace";
 
 export default {
-  name: 'block',
+  name: "block",
   components: {
     Tabs,
     Tab,
     inforow: w1,
     datatable: w2
   },
-  data () {
+  data() {
     return {
-      acnt_adrs: this.$route.params.acnt_adrs,
+      account_address: this.$route.params.acnt_adrs,
       account_info: {},
-      account_trx: {
-        head: ['#', 'Timestamp', 'Amount', 'Fee', 'Transaction Hash', 'Type'],
+      account_transaction: {
+        head: ["#", "Deadline", "Fee", "Transaction Hash", "Type"],
         data: []
       },
       ownedNamespaceList: {
-        head: ['#', 'Namespace', 'Height'],
+        head: [
+          "#",
+          "Namespace",
+          "Type",
+          "Status",
+          "Start Height",
+          "End Height"
+        ],
         data: []
       },
-      loading:0
-    }
+      balance: {
+        head: ["#", "MosaicID", "Quantity"],
+        data: []
+      },
+      loading: 0
+    };
   },
-  created () {
-    this.asyncData()
-  },
-  watch: {
-    $route: 'asyncData'
+  mounted() {
+    this.getAccountInfo();
+    this.getOwnedNamespace();
   },
   methods: {
-    asyncData () {
-      this.acnt_adrs = this.$route.params.acnt_adrs
-      let self = this
-      DataService.getAcntdetail(this.acnt_adrs).then(function (data) {
-        self.account_info = data.accountInfo
-        // self.account_trx = data.accountTransaction;
-        data.accountTransaction.forEach((el, idx) => {
-          var temp = []
-          temp.push(idx + 1)
-          temp.push(el.deadline)
-          temp.push(0)
-          temp.push(el.fee)
-          temp.push(el.transactionHash)
-          temp.push(el.transactionDetail.type)
-          self.account_trx.data.push(temp)
-        })
-        data.ownedNamespaceList.forEach((el, idx) => {
-          var temp = []
-          temp.push(idx + 1)
-          temp.push(el.namespaceName)
-          temp.push(el.startHeight)
-          self.ownedNamespaceList.data.push(temp)
-        })
-        self.loading=1;
-      })
+    onCopy(e) {
+      alert("You just copied: " + e.text);
     },
-    copy_text: function (event) {}
+    onError(e) {
+      alert("Failed to copy address");
+    },
+    async getAccountInfo() {
+      const accountInfo = await getAccountInfoByAddress(this.account_address);
+      const accountTransaction = await getAccountTransactions(
+        accountInfo.publicKey
+      );
+
+      this.account_info = accountInfo;
+
+      accountInfo.mosaics.forEach((el, idx) => {
+        var temp = [];
+        let mosaicLink = `<a href="/#/mosaic/${el.hex}">${el.hex}</a>`;
+        temp.push(idx + 1);
+        temp.push(mosaicLink);
+        temp.push(el.amount);
+        this.balance.data.push(temp);
+      });
+
+      accountTransaction.forEach((el, idx) => {
+        var temp = [];
+        temp.push(idx + 1);
+        temp.push(el.deadline);
+        temp.push(el.fee);
+        temp.push(el.transactionHash);
+        temp.push(el.transactionDetail.type);
+        this.account_transaction.data.push(temp);
+      });
+
+      this.loading = 1;
+    },
+    async getOwnedNamespace() {
+      const ownedNamespaceList = await getNamespacesFromAccountByAddress(
+        this.account_address
+      );
+
+      ownedNamespaceList.forEach((el, idx) => {
+        var temp = [];
+        let namespaceNameLink = `<a href="/#/namespace/${el.namespaceName}">${el.namespaceName}</a>`;
+        temp.push(idx + 1);
+        temp.push(namespaceNameLink);
+        temp.push(el.type);
+        temp.push(el.active);
+        temp.push(el.startHeight);
+        temp.push(el.endHeight);
+        this.ownedNamespaceList.data.push(temp);
+      });
+
+      this.loading = 1;
+    }
   }
-}
+};
 </script>

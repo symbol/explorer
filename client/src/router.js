@@ -87,7 +87,7 @@ export default new Router({
       }
     },
     {
-      path: '/Namespace',
+      path: '/namespace',
       name: 'Namespace',
       component: () =>
         import('./views/Namespace.vue'),
@@ -96,7 +96,7 @@ export default new Router({
       }
     },
     {
-      path: '/Namespace/:namespace_id',
+      path: '/namespace/:namespace_id',
       name: 'Namespace detail',
       component: () =>
         import('./views/Namespace-detail.vue'),

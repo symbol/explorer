@@ -17,6 +17,7 @@
  */
 
 import Vue from 'vue'
+import VueClipboard from 'vue-clipboard2'
 import App from './App.vue'
 import router from './router'
 import store from './store'
@@ -35,6 +36,7 @@ Vue.component('page-menu', PageMenu)
 Vue.component('page-footer', Pagefooter)
 Vue.component('time-since', TimeSince)
 Vue.component('loader', w1)
+Vue.use(VueClipboard)
 var settings = {
   networktime: 1459468800000,
   api: 'api/',

@@ -15,9 +15,8 @@
  * limitations under the License.
  *
  */
-
 class helper {
-  static timeSince (date) {
+  static timeSince(date) {
     var seconds = Math.floor((new Date() - date) / 1000)
 
     var interval = Math.floor(seconds / 31536000)
@@ -44,7 +43,7 @@ class helper {
     return Math.floor(seconds) + ' seconds'
   }
 
-  static uint64ToString (high, low) {
+  static uint64ToString(high, low) {
     let result = ''
     while (true) {
       let mod = (high % 10) * 0x100000000 + low
