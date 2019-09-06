@@ -22,7 +22,7 @@
     <page-menu></page-menu>
     <div class="page_con">
       <div class="full-con mob_con">
-        <div class="container p-0">    
+        <div class="container p-0">
           <div class="widget has-shadow mt-4 m-0 z-1">
             <inforow
               info_title="Block"
@@ -94,7 +94,7 @@ export default {
           'Transaction Type',
           'Fees',
           'Signer',
-          'Tx Hash'
+          'Transaction Hash'
         ],
         data: []
       },
@@ -113,24 +113,27 @@ export default {
       this.block_id = this.$route.params.blockid;
       this.loading=0;
       DataService.getBlockinfo(this.block_id).then(function (data) {
+
         self.blockdetails['Height'] = data.blockdata.height
         self.blockdetails['Timestamp'] = data.blockdata.date
         self.blockdetails['Difficulty'] = data.blockdata.difficulty
         self.blockdetails['Fees'] = data.blockdata.totalFee
         self.blockdetails['Total Transactions'] = data.blockdata.numTransactions
-        self.blockdetails['Harvester'] = data.blockdata.signer.address.address
+        self.blockdetails['Harvester'] = `<a href="/#/account/${data.blockdata.signer.address.address}">${data.blockdata.signer.address.address}</a>`
         self.blockdetails['Block Hash'] = data.blockdata.hash
         if (data.blocktrx.length) {
           self.table_data.data = []
           var i = 0
           data.blocktrx.forEach((el, idx) => {
             var temp = []
+            let singerLink =  `<a href="/#/account/${el.signer.address.address}">${el.signer.address.address}</a>`
+            let transactionHashLink =  `<a href="/#/transaction/${el.transactionHash}">${el.transactionHash}</a>`
             temp.push(idx + 1)
             temp.push(el.deadline)
             temp.push(el.transactionDetail.type)
             temp.push(el.fee)
-            temp.push(el.signer.address.address)
-            temp.push(el.transactionHash)
+            temp.push(singerLink)
+            temp.push(transactionHashLink)
             self.table_data.data.push(temp)
           })
         } else {
