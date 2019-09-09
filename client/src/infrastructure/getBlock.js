@@ -20,58 +20,58 @@
 // const blockTransactionList = await blocks.getBlockFullTransactionsList(
 //     height
 
-import { BlockHttp, ChainHttp } from 'nem2-sdk'
-import helper from '../helper'
+import { BlockHttp, ChainHttp, QueryParams } from 'nem2-sdk'
+import format from '../format'
 
-const chainHttp = new ChainHttp(endpoint);
-const blockHttp = new BlockHttp(endpoint);
+const chainHttp = new ChainHttp('http://52.194.207.217:3000')
+const blockHttp = new BlockHttp('http://52.194.207.217:3000')
 
 class sdkBlock {
-    static getBlockHeight() {
-        return (await chainHttp.getBlockchainHeight().toPromise()).compact();
+  static async getBlockHeight() {
+    return (await chainHttp.getBlockchainHeight().toPromise()).compact()
+  }
+
+  static async getBlockInfoByHeight(blockHeight) {
+    const blockInfo = await blockHttp.getBlockByHeight(blockHeight).toPromise()
+
+    return format.formatBlock(blockInfo)
+  }
+
+  static async getBlockFullTransactionsList(blockHeight, id) {
+    let txList = await this.getTransactionsByBlockHeight(blockHeight, id)
+    if (txList.length > 0) {
+      id = txList[txList.length - 1].transactionId
+      txList.concat(await this.getBlockFullTransactionsList(blockHeight, id))
+    }
+    return txList
+  }
+
+  static async getTransactionsByBlockHeight(blockHeight, id) {
+    let txId = id || ''
+    const pageSize = 100
+
+    let transactionlist = await blockHttp
+      .getBlockTransactions(blockHeight, new QueryParams(pageSize, txId))
+      .toPromise()
+
+    if (transactionlist.length > 0) {
+      return format.formatTransactions(transactionlist)
     }
 
-    static getBlockInfoByHeight(blockHeight) {
-        const blockInfo = await blockHttp.getBlockByHeight(blockHeight).toPromise();
+    return transactionlist
+  }
 
-        return blockInfo
-    }
+  static async getBlocksWithLimit(numberOfBlock, fromBlockHeight) {
+    const currentBlockHeight = await this.getBlockHeight()
 
-    static getBlockFullTransactionsList(blockHeight, id) {
-        let txList = await getTransactionsByBlockHeight(blockHeight, id);
-        if (txList.length > 0) {
-            id = txList[txList.length - 1].transactionId;
-            txList.concat(await getBlockFullTransactionsList(blockHeight, id));
-        }
-        return txList;
-    }
+    let blockHeight = fromBlockHeight || currentBlockHeight
 
-    static getTransactionsByBlockHeight(blockHeight, id) {
-        let txId = id || '';
-        const pageSize = 100;
+    const blocks = await blockHttp
+      .getBlocksByHeightWithLimit(blockHeight, numberOfBlock)
+      .toPromise()
 
-        let transactionlist = await blockHttp
-            .getBlockTransactions(blockHeight, new QueryParams(pageSize, txId))
-            .toPromise();
-
-        if (transactionlist.length > 0) {
-            return utils.formatTxs(transactionlist);
-        }
-
-        return transactionlist;
-    }
-
-    static getBlocksWithLimit(numberOfBlock, fromBlockHeight) {
-        const currentBlockHeight = await getBlockHeight();
-
-        let blockHeight = fromBlockHeight || currentBlockHeight;
-
-        const blocks = await blockHttp
-            .getBlocksByHeightWithLimit(blockHeight, numberOfBlock)
-            .toPromise();
-
-        return await utils.formatBlocks(blocks);
-    }
+    return await format.formatBlocks(blocks)
+  }
 }
 
 export default sdkBlock

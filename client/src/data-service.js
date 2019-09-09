@@ -17,12 +17,13 @@
  */
 
 import axios from 'axios'
+import sdkBlock from './infrastructure/getBlock'
 
 const url = window.conf.api
 
 class DataService {
   // get home assets
-  static getHomeData () {
+  static getHomeData() {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.get(url + 'homeInfo')
@@ -34,7 +35,7 @@ class DataService {
       }
     })
   }
-  static getBlocks (page = 1) {
+  static getBlocks(page = 1) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.get(url + 'blocks?page=' + page)
@@ -46,19 +47,22 @@ class DataService {
       }
     })
   }
-  static getBlockinfo (blockid) {
+  static getBlockinfo(blockID) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.get(url + 'block/' + blockid)
-        const data = res.data
-        //  console.log(data);
-        return resolve(data.data)
+        const blockInfo = await sdkBlock.getBlockInfoByHeight(blockID)
+        const blockTransactionList = await sdkBlock.getBlockFullTransactionsList(
+          blockID
+        )
+
+        const data = { blockInfo, blockTransactionList }
+        return resolve(data)
       } catch (err) {
         reject('request error getBlockinfo')
       }
     })
   }
-  static getTrxdetail (trx_id) {
+  static getTrxdetail(trx_id) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.get(url + 'transaction/' + trx_id)
@@ -70,7 +74,7 @@ class DataService {
       }
     })
   }
-  static getAcntdetail (addrs) {
+  static getAcntdetail(addrs) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.get(url + 'account/' + addrs)
@@ -83,7 +87,7 @@ class DataService {
     })
   }
 
-  static syncWs (update_id = null) {
+  static syncWs(update_id = null) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.get(url + 'ws/' + update_id)
