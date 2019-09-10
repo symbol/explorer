@@ -23,6 +23,7 @@
 import { BlockHttp, ChainHttp, QueryParams } from 'nem2-sdk'
 import format from '../format'
 import store from '../store'
+import { mapGetters } from 'vuex'
 
 const chainHttp = new ChainHttp('http://52.194.207.217:3000')
 const blockHttp = new BlockHttp('http://52.194.207.217:3000')
@@ -76,11 +77,14 @@ class sdkBlock {
       format.formatBlocks(blocks),
       { root: true },
     );
-    store.dispatch(
-      'SET_LATEST_CHAIN_STATUS',
-      format.formatBlock(blocks[0]),
-      { root: true },
-    );
+
+    if (store.getters.getCurrentBlockHeight == 0 && store.getters.getCurrentBlockHeight < blocks[0].height.compact()) {
+      store.dispatch(
+        'SET_LATEST_CHAIN_STATUS',
+        format.formatBlock(blocks[0]),
+        { root: true },
+      );
+    }
 
     return await format.formatBlocks(blocks)
   }
