@@ -52,7 +52,7 @@ export default new Vuex.Store({
   actions: {
     ADD_BLOCK({ commit, dispatch, state }, block) {
       dispatch('SET_LATEST_CHAIN_STATUS', block);
-      commit('addBlock', block);
+      state.blockList.map(function (e) { return e.height; }).indexOf(block.height) === -1 ? commit('addBlock', block) : '';
     },
     SET_LATEST_CHAIN_STATUS({ commit }, block) {
       commit('setLatestChainStatus', block);
