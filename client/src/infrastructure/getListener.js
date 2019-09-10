@@ -16,7 +16,7 @@
  *
  */
 
-import { Listener, ChainHttp, BlockHttp } from 'nem2-sdk';
+import { Listener } from 'nem2-sdk';
 import store from "../store"
 import format from "../format"
 
