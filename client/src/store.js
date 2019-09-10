@@ -22,7 +22,43 @@ import Vuex from 'vuex'
 Vue.use(Vuex)
 
 export default new Vuex.Store({
-  state: {},
-  mutations: {},
-  actions: {}
+  state: {
+    blockList: Array,
+    chainStatus: {
+      currentBlockHeight: Number,
+    }
+
+  },
+  getters: {
+    getCurrentBlockHeight(state) {
+      return state.chainStatus.currentBlockHeight;
+    },
+    getLatestBlockList(state) {
+      return state.blockList;
+    }
+  },
+  mutations: {
+    setLatestChainStatus(state, block) {
+      state.chainStatus.currentBlockHeight = block.height;
+    },
+    addBlock(state, formattedBlock) {
+      if (state.blockList.length >= 25) state.blockList.pop();
+      state.blockList.unshift(formattedBlock);
+    },
+    setBlockList(state, blocklist) {
+      state.blockList = blocklist
+    }
+  },
+  actions: {
+    ADD_BLOCK({ commit, dispatch, state }, block) {
+      dispatch('SET_LATEST_CHAIN_STATUS', block);
+      commit('addBlock', block);
+    },
+    SET_LATEST_CHAIN_STATUS({ commit }, block) {
+      commit('setLatestChainStatus', block);
+    },
+    SET_BLOCKS_LIST({ commit }, blocklist) {
+      commit('setBlockList', blocklist);
+    },
+  }
 })

@@ -27,7 +27,7 @@
           <Homebaseinfo :marketinfo="home_data.marketData" :chaininfo="home_data.chainInfo"></Homebaseinfo>
         </div>
         <div class="container p-0 mt-1">
-          <recent-blocks :blocklist="home_data.recentBlocks"></recent-blocks>
+          <recent-blocks :blocklist="getLatestBlockList"></recent-blocks>
         </div>
         <div class="container p-0 mt-1">
           <recent-trxs></recent-trxs>
@@ -46,6 +46,7 @@ import w3 from '@/components/recent_blocks.vue'
 import w4 from '@/components/recent_trxs.vue'
 import DataService from '../data-service'
 import io from 'socket.io-client'
+import { mapState, mapGetters } from "vuex"
 const socket = io.connect(window.conf.ws, {
   path: window.conf.ws_path
 })
@@ -56,6 +57,9 @@ export default {
     nempricegraph: w2,
     'recent-blocks': w3,
     'recent-trxs': w4
+  },
+  computed: {
+    ...mapGetters(['getLatestBlockList'])
   },
   data () {
     return {

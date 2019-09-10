@@ -22,11 +22,21 @@
   </div>
 </template>
 <script>
+import sdkListener from './infrastructure/getListener'
+import sdkBlock from './infrastructure/getBlock'
 export default {
   data: () => {
     return {
-      info: 1
+      info: 1,
     }
-  }
+  },
+  mounted() {
+    this.initApp()
+  },
+  methods: {
+    initApp() {
+      sdkListener.getNewBlock(), sdkBlock.getBlocksWithLimit(25)
+    },
+  },
 }
 </script>

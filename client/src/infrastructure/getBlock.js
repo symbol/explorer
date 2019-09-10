@@ -22,6 +22,7 @@
 
 import { BlockHttp, ChainHttp, QueryParams } from 'nem2-sdk'
 import format from '../format'
+import store from '../store'
 
 const chainHttp = new ChainHttp('http://52.194.207.217:3000')
 const blockHttp = new BlockHttp('http://52.194.207.217:3000')
@@ -69,6 +70,17 @@ class sdkBlock {
     const blocks = await blockHttp
       .getBlocksByHeightWithLimit(blockHeight, numberOfBlock)
       .toPromise()
+
+    store.dispatch(
+      'SET_BLOCKS_LIST',
+      format.formatBlocks(blocks),
+      { root: true },
+    );
+    store.dispatch(
+      'SET_LATEST_CHAIN_STATUS',
+      format.formatBlock(blocks[0]),
+      { root: true },
+    );
 
     return await format.formatBlocks(blocks)
   }
