@@ -46,7 +46,7 @@ import w3 from '@/components/recent_blocks.vue'
 import w4 from '@/components/recent_trxs.vue'
 import DataService from '../data-service'
 import io from 'socket.io-client'
-import { mapState, mapGetters } from "vuex"
+import { mapGetters } from "vuex"
 const socket = io.connect(window.conf.ws, {
   path: window.conf.ws_path
 })
@@ -71,19 +71,6 @@ export default {
       this.home_data = await DataService.getHomeData()
     } catch (err) {}
   },
-  methods: {},
-  mounted () {},
-  created: function () {
-    let self = this
-    DataService.syncWs('home').then(data => {
-      socket.on('update', function (data) {
-        // self.home_data.chaininfo = data.data.chaininfo;
-        // self.home_data.recentBlocks = data.data.recentBlocks;
-      })
-    })
-  },
-  destroyed: function () {
-    socket.disconnect()
-  }
+
 }
 </script>

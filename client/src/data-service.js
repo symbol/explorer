@@ -26,6 +26,7 @@ class DataService {
   static getHomeData() {
     return new Promise(async (resolve, reject) => {
       try {
+        sdkBlock.getBlocksWithLimit(25);
         const res = await axios.get(url + 'homeInfo')
         const data = res.data
         //  console.log(data);
