@@ -17,7 +17,8 @@
  */
 
 import axios from 'axios'
-
+import format from './format'
+import * as nemSdk from 'nem2-sdk'
 const url = window.conf.api
 
 class DataService {
@@ -71,16 +72,19 @@ class DataService {
     })
   }
   static getAcntdetail (addrs) {
-    return new Promise(async (resolve, reject) => {
-      try {
-        const res = await axios.get(url + 'account/' + addrs)
-        const data = res.data
-        //  console.log(data);
-        return resolve(data.data)
-      } catch (err) {
-        reject('request error getBlockinfo')
-      }
-    })
+    //nemSdk
+
+
+    // return new Promise(async (resolve, reject) => {
+    //   try {
+    //     const res = await axios.get(url + 'account/' + addrs)
+    //     const data = res.data
+    //     //  console.log(data);
+    //     return resolve(data.data)
+    //   } catch (err) {
+    //     reject('request error getBlockinfo')
+    //   }
+    // })
   }
 
   static syncWs (update_id = null) {

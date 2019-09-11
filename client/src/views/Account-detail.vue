@@ -146,12 +146,15 @@
 <script>
 import router from "../router";
 import { Tabs, Tab } from "vue-slim-tabs";
-import DataService from "../data-service";
+import dataService from "../data-service";
 import w1 from "@/components/inforow.vue";
 import w2 from "@/components/Table-dynamic.vue";
 import { getAccountInfoByAddress } from "../infrastructure/getAccount";
 import { getAccountTransactions } from "../infrastructure/getTransaction";
 import { getNamespacesFromAccountByAddress } from "../infrastructure/getNamespace";
+
+
+dataService.getAcntdetail('sd');
 
 export default {
   name: "block",
@@ -208,7 +211,7 @@ export default {
 
       accountInfo.mosaics.forEach((el, idx) => {
         var temp = [];
-        let mosaicLink = `<a href="/#/mosaic/${el.hex}">${el.hex}</a>`;
+        let mosaicLink = `<a href="#/mosaic/${el.hex}">${el.hex}</a>`;
         temp.push(idx + 1);
         temp.push(mosaicLink);
         temp.push(el.amount);

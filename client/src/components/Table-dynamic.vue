@@ -32,7 +32,7 @@
       </thead>
       <tbody>
         <tr v-for="(item,index) in tableData" v-bind:key="index">
-          <td v-for="(subitem,idx) in item" v-bind:key="idx" v-html="subitem">{{subitem}}</td>
+          <td v-for="(subitem,idx) in item" v-bind:key="idx" v-html=formatData(subitem)></td>
         </tr>
       </tbody>
     </table>
@@ -46,6 +46,11 @@ export default {
     tableData: Array,
     tableRowAction: { type: Function }
   },
-  methods: {}
-}
+methods: {
+    formatData: function(data) {
+      //check data is HTML
+      return data
+    }
+  }
+};
 </script>

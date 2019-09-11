@@ -942,10 +942,6 @@ div.dataTables_wrapper div.dataTables_info {
     color: #98a8b4;
 }
 
-table.table-bordered tbody tr {
-    cursor: pointer;
-}
-
 table.table-bordered tbody .info_append {
     cursor: initial;
     height: 100px;

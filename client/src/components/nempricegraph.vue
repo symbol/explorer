@@ -30,31 +30,37 @@
   display: block;
   transition: all 0.4s ease-in-out;
 }
-.apexcharts-xaxistooltip{
-  background: #1ea9a6;
-    color: #fff;
-}
-.apexcharts-xaxistooltip-bottom:before{
-      border-bottom-color: #59a7ab;
+
+.apexcharts-xaxistooltip-bottom:before {
+  border-bottom-color: #59a7ab !important;
 }
 .apexcharts-xaxistooltip-bottom:after {
-    border-bottom-color: #1ea9a6;
+  border-bottom-color: #1ea9a6 !important;
 }
 .apexcharts-tooltip.light {
-    border: 1px solid #e3e3e3;
-    background: rgba(58, 108, 153, 0.76);
-    color: #fff;
+  border: 1px solid #e3e3e3 !important;
+  /* background: rgba(58, 108, 153, 0.76) !important; */
+  background: #fff;
+  color: #555555 !important;
+}
+/* .apexcharts-xaxistooltip {
+  background: #1ea9a6 !important;
+  color: #fff !important;
 }
 .apexcharts-yaxistooltip {
-    background: #f8b526;
-    border: 1px solid #f8b526;
-    color: #ffffff;
-}
+  background: #1ea9a6 !important;
+  border: 1px solid #1ea9a6 !important;
+  color: #ffffff !important;
+} */
 .apexcharts-yaxistooltip-left:after {
-    border-left-color: #f8b526;
+  border-left-color: #1ea9a6 !important;
 }
 .apexcharts-yaxistooltip-left:before {
-    border-left-color: #f8b526;
+  border-left-color: #1ea9a6 !important;
+}
+.apexcharts-tooltip.light .apexcharts-tooltip-title {
+  background: #0998a6 !important;
+  color: #fff;
 }
 </style>
 <script>
@@ -82,7 +88,7 @@ export default {
           var x = [];
           var y = [];
           self.loading = 1;
-          this.candle_chart_draw(res1.data, "#nempricegraph");
+          this.drawCandleChart(res1.data, "#nempricegraph");
         })
       )
       .catch(error => {
@@ -90,7 +96,7 @@ export default {
       });
   },
   methods: {
-    candle_chart_draw(data, elmnt) {
+    drawCandleChart(data, elmnt) {
       var graph_data = [];
       data.Data.forEach((item, index) => {
         var graph_data_item = {};
@@ -105,7 +111,7 @@ export default {
       var options = {
         chart: {
           height: 200,
-          type: "candlestick",
+          type: "area",
           foreColor: "#0998a6",
           toolbar: {
             show: false
@@ -115,9 +121,20 @@ export default {
           show: true,
           curve: "smooth",
           lineCap: "butt",
-          colors: ["#3e6b8c"],
+          colors: ["#0998a6"],
           width: 2,
           dashArray: 0
+        },
+        dataLabels: {
+          enabled: false
+        },
+        colors: ["#1eaaa6"],
+        fill: {
+          gradient: {
+            enabled: true,
+            opacityFrom: 1,
+            opacityTo: 0.7
+          }
         },
         plotOptions: {
           candlestick: {
@@ -132,6 +149,7 @@ export default {
         },
         series: [
           {
+            name: "Price",
             data: graph_data
           }
         ],
@@ -152,8 +170,12 @@ export default {
             enabled: true
           },
           axisBorder: {
-            show: false,
+            show: true,
+            color: "#0998a6"
           }
+        },
+        tooltip: {
+          enabled: true
         }
       };
       var chart = new ApexCharts(document.querySelector(elmnt), options);
@@ -162,3 +184,4 @@ export default {
   }
 };
 </script>
+
