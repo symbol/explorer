@@ -24,17 +24,17 @@ const chainHttp = new ChainHttp('http://52.194.207.217:3000')
 const blockHttp = new BlockHttp('http://52.194.207.217:3000')
 
 class sdkBlock {
-  static async getBlockHeight() {
+  static getBlockHeight = async () => {
     return (await chainHttp.getBlockchainHeight().toPromise()).compact()
   }
 
-  static async getBlockInfoByHeight(blockHeight) {
+  static getBlockInfoByHeight = async (blockHeight) => {
     const blockInfo = await blockHttp.getBlockByHeight(blockHeight).toPromise()
 
     return format.formatBlock(blockInfo)
   }
 
-  static async getBlockFullTransactionsList(blockHeight, id) {
+  static getBlockFullTransactionsList = async (blockHeight, id) => {
     let txList = await this.getTransactionsByBlockHeight(blockHeight, id)
     if (txList.length > 0) {
       id = txList[txList.length - 1].transactionId
@@ -43,7 +43,7 @@ class sdkBlock {
     return txList
   }
 
-  static async getTransactionsByBlockHeight(blockHeight, id) {
+  static getTransactionsByBlockHeight = async (blockHeight, id) => {
     let txId = id || ''
     const pageSize = 100
 
@@ -58,7 +58,7 @@ class sdkBlock {
     return transactionlist
   }
 
-  static async getBlocksWithLimit(numberOfBlock, fromBlockHeight) {
+  static getBlocksWithLimit = async (numberOfBlock, fromBlockHeight) => {
     const currentBlockHeight = await this.getBlockHeight()
 
     let blockHeight = fromBlockHeight || currentBlockHeight

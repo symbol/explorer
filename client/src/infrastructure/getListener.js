@@ -24,7 +24,7 @@ const nodeEndPoint = '52.194.207.217:3000';
 const wsEndpoint = 'ws://' + nodeEndPoint;
 
 class sdkListener {
-    static getNewBlock() {
+    static getNewBlock = () => {
         const listener = new Listener(wsEndpoint, WebSocket)
         listener.open().then(() => {
             listener
