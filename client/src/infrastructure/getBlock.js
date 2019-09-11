@@ -16,14 +16,9 @@
  *
  */
 
-// const blockInfo = await blocks.getBlockInfoByHeight(height);
-// const blockTransactionList = await blocks.getBlockFullTransactionsList(
-//     height
-
 import { BlockHttp, ChainHttp, QueryParams } from 'nem2-sdk'
 import format from '../format'
 import store from '../store'
-import { mapGetters } from 'vuex'
 
 const chainHttp = new ChainHttp('http://52.194.207.217:3000')
 const blockHttp = new BlockHttp('http://52.194.207.217:3000')
