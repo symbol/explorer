@@ -23,40 +23,42 @@ import format from '../format'
 
 const namespaceHttp = new NamespaceHttp('http://52.194.207.217:3000')
 
-const getNamespacesFromAccountByAddress = async address => {
-  const addressObj = new Address(address)
-  const namespacesIds = []
-  const namespaceList = await namespaceHttp
-    .getNamespacesFromAccount(addressObj)
-    .pipe(
-      mergeMap(namespacesInfo => {
-        const namespaceIds = namespacesInfo.map(x => {
-          namespacesIds[x.id.toHex().toUpperCase()] = { namespaceInfo: x }
-          return x.id
-        })
-        return namespaceHttp.getNamespacesName(namespaceIds)
-      }),
-      map(namespacesNames =>
-        namespacesNames.map(namespaceName => {
-          const namespace =
-            namespacesIds[namespaceName.namespaceId.toHex().toUpperCase()]
-          namespace.namespaceName = namespaceName
-          return namespace
-        })
+class sdkNamespace {
+  static getNamespacesFromAccountByAddress = async (address) => {
+    const addressObj = new Address(address)
+    const namespacesIds = []
+    const namespaceList = await namespaceHttp
+      .getNamespacesFromAccount(addressObj)
+      .pipe(
+        mergeMap(namespacesInfo => {
+          const namespaceIds = namespacesInfo.map(x => {
+            namespacesIds[x.id.toHex().toUpperCase()] = { namespaceInfo: x }
+            return x.id
+          })
+          return namespaceHttp.getNamespacesName(namespaceIds)
+        }),
+        map(namespacesNames =>
+          namespacesNames.map(namespaceName => {
+            const namespace =
+              namespacesIds[namespaceName.namespaceId.toHex().toUpperCase()]
+            namespace.namespaceName = namespaceName
+            return namespace
+          })
+        )
       )
-    )
-    .toPromise()
+      .toPromise()
 
-  return format.formatNamespaces(namespaceList)
+    return format.formatNamespaces(namespaceList)
+  }
+
+  static getNamespaceInfoByName = async name => {
+    const namespace = new NamespaceId(name)
+
+    const namespaceService = new NamespaceService(namespaceHttp)
+    const namespaceInfo = await namespaceService.namespace(namespace).toPromise()
+
+    return format.formatNamespace(namespaceInfo)
+  }
 }
 
-const getNamespaceInfoByName = async name => {
-  const namespace = new NamespaceId(name)
-
-  const namespaceService = new NamespaceService(namespaceHttp)
-  const namespaceInfo = await namespaceService.namespace(namespace).toPromise()
-
-  return format.formatNamespace(namespaceInfo)
-}
-
-export { getNamespacesFromAccountByAddress, getNamespaceInfoByName }
+export default sdkNamespace
