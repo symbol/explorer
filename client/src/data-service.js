@@ -17,8 +17,9 @@
  */
 
 import axios from 'axios'
+import format from './format'
+import * as nemSdk from 'nem2-sdk'
 import sdkBlock from './infrastructure/getBlock'
-
 const url = window.conf.api
 
 class DataService {

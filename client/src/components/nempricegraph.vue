@@ -23,12 +23,44 @@
     <div id="nempricegraph" style></div>
   </div>
 </template>
-<style scoped>
+<style>
 #nempricegraph {
   width: 100%;
   min-height: 200px;
   display: block;
   transition: all 0.4s ease-in-out;
+}
+
+.apexcharts-xaxistooltip-bottom:before {
+  border-bottom-color: #59a7ab !important;
+}
+.apexcharts-xaxistooltip-bottom:after {
+  border-bottom-color: #1ea9a6 !important;
+}
+.apexcharts-tooltip.light {
+  border: 1px solid #e3e3e3 !important;
+  /* background: rgba(58, 108, 153, 0.76) !important; */
+  background: #fff;
+  color: #555555 !important;
+}
+/* .apexcharts-xaxistooltip {
+  background: #1ea9a6 !important;
+  color: #fff !important;
+}
+.apexcharts-yaxistooltip {
+  background: #1ea9a6 !important;
+  border: 1px solid #1ea9a6 !important;
+  color: #ffffff !important;
+} */
+.apexcharts-yaxistooltip-left:after {
+  border-left-color: #1ea9a6 !important;
+}
+.apexcharts-yaxistooltip-left:before {
+  border-left-color: #1ea9a6 !important;
+}
+.apexcharts-tooltip.light .apexcharts-tooltip-title {
+  background: #0998a6 !important;
+  color: #fff;
 }
 </style>
 <script>
@@ -48,7 +80,7 @@ export default {
     axios
       .all([
         axios.get(
-          "https://api.coingecko.com/api/v3/coins/nem/market_chart?vs_currency=usd&days=7"
+          "https://min-api.cryptocompare.com/data/histohour?fsym=XEM&tsym=USD&limit=168"
         )
       ])
       .then(
@@ -56,8 +88,7 @@ export default {
           var x = [];
           var y = [];
           self.loading = 1;
-          this.createcandlechart(res1, "#nempricegraph");
-          //this.createpointchart(res1, "#nempricegraph");
+          this.drawCandleChart(res1.data, "#nempricegraph");
         })
       )
       .catch(error => {
@@ -65,64 +96,23 @@ export default {
       });
   },
   methods: {
-    createcandlechart(res1, elemt) {
+    drawCandleChart(data, elmnt) {
       var graph_data = [];
-      var crnt_day = new Date(res1.data.prices[0][0]);
-      var day_trade = [];
-      var grph_intervl = 6;
-      var trigger_graphdata_add = 0;
-
-      res1.data.prices.forEach((item, index) => {
-        var temp_date = new Date(item[0]);
-        if (temp_date.getDate() === crnt_day.getDate()) {
-          day_trade.push([temp_date, item[1].toFixed(4)]);
-        } else if (index + 1 < res1.data.prices.length) {
-          var next_day = new Date(res1.data.prices[index + 1][0]);
-          trigger_graphdata_add = 1;
-          crnt_day = next_day;
-        }
-        if (index == res1.data.prices.length - 1) {
-          trigger_graphdata_add = 1;
-        }
-        if (trigger_graphdata_add === 1) {
-          var temp_hr_trade = [];
-          day_trade.forEach((item, idx) => {
-            var graph_data_item = {};
-            graph_data_item.y = [];
-            temp_hr_trade.push(item[1]);
-            if (idx % grph_intervl == 0 || idx == day_trade.length - 1) {
-              graph_data_item.x = item[0];
-              graph_data_item.y[0] = parseFloat(temp_hr_trade[0]);
-              graph_data_item.y[1] = Math.max(...temp_hr_trade);
-              graph_data_item.y[2] = Math.min(...temp_hr_trade);
-              graph_data_item.y[3] = Math.min(
-                temp_hr_trade[temp_hr_trade.length - 1]
-              );
-              graph_data.push(graph_data_item);
-              temp_hr_trade = [];
-            }
-          });
-          // proceess real api data ------ start-------
-          var graph_data_item = {};
-          graph_data_item.y = [];
-          graph_data_item.x = temp_date;
-          graph_data_item.y[0] = parseFloat(temp_hr_trade[0]);
-          graph_data_item.y[1] = Math.max(...temp_hr_trade);
-          graph_data_item.y[2] = Math.min(...temp_hr_trade);
-          graph_data_item.y[3] = Math.min(
-            temp_hr_trade[temp_hr_trade.length - 1]
-          );
-          graph_data.push(graph_data_item);
-          // proceess real api data ------ end-------
-          day_trade = [];
-          trigger_graphdata_add = 0;
-        }
+      data.Data.forEach((item, index) => {
+        var graph_data_item = {};
+        graph_data_item.y = [];
+        graph_data_item.x = new Date(item["time"] * 1000);
+        graph_data_item.y[0] = item["open"];
+        graph_data_item.y[1] = item["high"];
+        graph_data_item.y[2] = item["low"];
+        graph_data_item.y[3] = item["close"];
+        graph_data.push(graph_data_item);
       });
-      //console.log(graph_data);
       var options = {
         chart: {
           height: 200,
-          type: "candlestick",
+          type: "area",
+          foreColor: "#0998a6",
           toolbar: {
             show: false
           }
@@ -131,15 +121,26 @@ export default {
           show: true,
           curve: "smooth",
           lineCap: "butt",
-          colors: ["#3e6b8c"],
+          colors: ["#0998a6"],
           width: 2,
           dashArray: 0
+        },
+        dataLabels: {
+          enabled: false
+        },
+        colors: ["#1eaaa6"],
+        fill: {
+          gradient: {
+            enabled: true,
+            opacityFrom: 1,
+            opacityTo: 0.7
+          }
         },
         plotOptions: {
           candlestick: {
             colors: {
               upward: "#0998a6",
-              downward: "#f78880"
+              downward: "#f7a800"
             },
             wick: {
               useFillColor: true
@@ -148,6 +149,7 @@ export default {
         },
         series: [
           {
+            name: "Price",
             data: graph_data
           }
         ],
@@ -157,90 +159,29 @@ export default {
           display: false
         },
         xaxis: {
-          type: "datetime"
+          type: "datetime",
+          axisBorder: {
+            show: true,
+            color: "#0998a6"
+          }
         },
         yaxis: {
           tooltip: {
             enabled: true
-          }
-        }
-      };
-
-      var chart = new ApexCharts(document.querySelector(elemt), options);
-      chart.render();
-    },
-    createpointchart(data_in, elemt) {
-      var graph_data = [];
-      var crnt_day = new Date(data_in.data.prices[0][0]);
-      var day_trade = [];
-      var grph_intervl = 6;
-      var trigger_graphdata_add = 0;
-
-      data_in.data.prices.forEach((item, index) => {
-
-      });
-
-      var options1 = {
-        chart: {
-          id: "chart2",
-          type: "area",
-          height: 230,
-          foreColor: "#ccc",
-          toolbar: {
-            autoSelected: "pan",
-            show: false
+          },
+          axisBorder: {
+            show: true,
+            color: "#0998a6"
           }
         },
-        colors: ["#00BAEC"],
-        stroke: {
-          width: 3
-        },
-        grid: {
-          borderColor: "#555",
-          clipMarkers: false,
-          yaxis: {
-            lines: {
-              show: false
-            }
-          }
-        },
-        dataLabels: {
-          enabled: false
-        },
-        fill: {
-          gradient: {
-            enabled: true,
-            opacityFrom: 0.55,
-            opacityTo: 0
-          }
-        },
-        markers: {
-          size: 5,
-          colors: ["#000524"],
-          strokeColor: "#00BAEC",
-          strokeWidth: 3
-        },
-        series: [
-          {
-            data: graph_data
-          }
-        ],
         tooltip: {
-          theme: "dark"
-        },
-        xaxis: {
-          type: "datetime"
-        },
-        yaxis: {
-          min: 0,
-          tickAmount: 4
+          enabled: true
         }
       };
-
-      var chart1 = new ApexCharts(document.querySelector(elemt), options1);
-
-      chart1.render();
+      var chart = new ApexCharts(document.querySelector(elmnt), options);
+      chart.render();
     }
   }
 };
 </script>
+

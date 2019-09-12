@@ -23,7 +23,6 @@ import router from './router'
 import store from './store'
 import './filters'
 
-
 import TopHead from '@/components/TopHead.vue'
 import PageMenu from '@/components/PageMenu.vue'
 import Pagefooter from '@/components/PageFooter.vue'
@@ -37,15 +36,16 @@ Vue.component('page-footer', Pagefooter)
 Vue.component('time-since', TimeSince)
 Vue.component('loader', w1)
 Vue.use(VueClipboard)
+Vue.use(nem2Sdk)
+
 var settings = {
   networktime: 1459468800000,
   api: 'api/',
   ws: 'http://localhost:3000',
   ws_path: '/ws'
 }
-
+window.nemServer = 'http://52.194.207.217:3000'
 window.conf = settings
-
 new Vue({
   router,
   store,
