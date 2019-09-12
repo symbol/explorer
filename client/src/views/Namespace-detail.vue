@@ -79,7 +79,11 @@
                       <div class="label">Start Height</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">{{this.namespaceInfo.startHeight}}</div>
+                      <div class="value">
+                        <router-link
+                          :to="'/block/' + this.namespaceInfo.startHeight"
+                        >{{this.namespaceInfo.startHeight}}</router-link>
+                      </div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -87,7 +91,13 @@
                       <div class="label">End Height</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">{{this.namespaceInfo.endHeight}}</div>
+                      <div v-if="typeof this.namespaceInfo.endHeight == 'number'" class="value">
+                        <router-link
+                          :to="'/block/' + this.namespaceInfo.endHeight"
+                        >{{this.namespaceInfo.endHeight}}</router-link>
+                      </div>
+
+                      <div v-else class="value">{{this.namespaceInfo.endHeight}}</div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -95,11 +105,7 @@
                       <div class="label">Namespace ID</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">
-                        <router-link
-                          :to="'/namespace/' + this.namespaceInfo.hexId"
-                        >{{this.namespaceInfo.hexId}}</router-link>
-                      </div>
+                      <div class="value">{{this.namespaceInfo.hexId}}</div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -115,14 +121,9 @@
                       <div class="label">Parent ID</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">
-                        <router-link exact
-                          :to="'/namespace/' + this.namespaceInfo.parentHexId"
-                        >{{this.namespaceInfo.parentHexId}}</router-link>
-                        | <router-link
-                          :to="'/namespace/' + this.namespaceInfo.parentName"
-                        >{{this.namespaceInfo.parentName}}</router-link>
-                      </div>
+                      <div
+                        class="value"
+                      >{{this.namespaceInfo.parentHexId}} | {{this.namespaceInfo.parentName}}</div>
                     </div>
                   </div>
                   <div class="row list_item">
