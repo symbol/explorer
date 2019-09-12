@@ -48,6 +48,14 @@
                   </div>
                   <div class="row list_item">
                     <div class="col-md-2">
+                      <div class="label">Creator PublicKey</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">2271690</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
                       <div class="label">CreateTime</div>
                     </div>
                     <div class="col-md-10">
@@ -64,12 +72,38 @@
                   </div>
                   <div class="row list_item">
                     <div class="col-md-2">
-                      <div class="label">Height</div>
+                      <div class="label">Start Height</div>
                     </div>
                     <div class="col-md-10">
                       <div class="value">2271690</div>
                     </div>
                   </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">End Height</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">2271690</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Namespace ID</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">2271690</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Namespace Type</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">Root namespace</div>
+                    </div>
+                  </div>
+
+                  <!-- add Alias Data with detail infomation -->
                 </div>
               </div>
             </div>
@@ -77,7 +111,7 @@
           <div class="widget has-shadow">
             <div class="box">
                 <div class="box-title">
-                <h1 class="inline-block">Mosaics</h1>
+                <h1 class="inline-block">Alias</h1>
               </div>
               <div class="table-responsive">
                 <div
@@ -92,27 +126,47 @@
                   >
                     <thead>
                       <tr>
-                        <th>#</th>
-                        <th>Mosaic</th>
-                        <th>InitialSupply</th>
-                        <th>Divisibility</th>
-                        <th>TimeStamp</th>
+                        <th>MOSAIC ID</th>
+                        <th>TYPE</th>
                       </tr>
                     </thead>
                     <tbody>
                       <tr>
-                        <td>1</td>
                         <td>nemona:xemona</td>
-                        <td>100,000</td>
-                        <td>0</td>
-                        <td>2019-08-06 15:57:28</td>
+                        <td>Link</td>
                       </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="widget has-shadow">
+            <div class="box">
+                <div class="box-title">
+                <h1 class="inline-block">Level</h1>
+              </div>
+              <div class="table-responsive">
+                <div
+                  id="sorting-table_wrapper"
+                  class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer p-0"
+                >
+                  <table
+                    id="lst34"
+                    class="table table-striped table-bordered"
+                    cellspacing="0"
+                    width="100%"
+                  >
+                    <thead>
                       <tr>
-                        <td>2</td>
-                        <td>nemona:nemona</td>
-                        <td>1,000,000</td>
-                        <td>0</td>
-                        <td>2019-08-06 15:56:28</td>
+                        <th>Namespace ID</th>
+                        <th>Name</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1234</td>
+                        <td>NEM</td>
                       </tr>
                     </tbody>
                   </table>
@@ -132,13 +186,13 @@ import router from '../router'
 export default {
   name: 'block',
   components: {},
-  created () {},
-  data () {
+  created() {},
+  data() {
     return {
-      namespace_id: this.$route.params.namespace_id
+      namespace_id: this.$route.params.namespace_id,
     }
   },
   methods: {},
-  mounted () {}
+  mounted() {},
 }
 </script>
