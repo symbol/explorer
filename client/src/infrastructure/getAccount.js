@@ -21,9 +21,13 @@ import format from '../format'
 import { Endpoint } from '../config/'
 
 const accountHttp = new AccountHttp(Endpoint.api)
-  const accountInfo = await accountHttp
-    .getAccountInfo(new Address(address))
-    .toPromise()
-  return format.formatAccount(accountInfo)
+class sdkAccount {
+  static getAccountInfoByAddress = async address => {
+    const accountInfo = await accountHttp
+      .getAccountInfo(new Address(address))
+      .toPromise()
+    return format.formatAccount(accountInfo)
+  }
 }
-export { getAccountInfoByAddress }
+
+export default sdkAccount

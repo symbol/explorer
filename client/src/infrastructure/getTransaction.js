@@ -28,20 +28,23 @@ import { Endpoint } from '../config/'
 
 const accountHttp = new AccountHttp(Endpoint.api)
 
-const getAccountTransactions = async (publicKey, txId = '') => {
-  let pageSize = 100;
-  let id = txId;
+class sdkTransaction {
+  static getAccountTransactions = async (publicKey, txId = '') => {
+    let pageSize = 100;
+    let id = txId;
 
-  const publicAccount = PublicAccount.createFromPublicKey(
-    publicKey,
-    NetworkType.MIJIN_TEST
-  );
+    const publicAccount = PublicAccount.createFromPublicKey(
+      publicKey,
+      NetworkType.MIJIN_TEST
+    );
 
-  const transactionsList = await accountHttp
-    .transactions(publicAccount, new QueryParams(pageSize, id))
-    .toPromise();
+    const transactionsList = await accountHttp
+      .transactions(publicAccount, new QueryParams(pageSize, id))
+      .toPromise();
 
-  return format.formatTransactions(transactionsList);
-};
+    return format.formatTransactions(transactionsList);
+  };
 
-export { getAccountTransactions };
+}
+
+export default sdkTransaction
