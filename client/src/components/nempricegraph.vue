@@ -112,7 +112,7 @@ export default {
         chart: {
           height: 200,
           type: "area",
-          foreColor: "#0998a6",
+          foreColor: "#999",
           toolbar: {
             show: false
           }
@@ -161,7 +161,7 @@ export default {
         xaxis: {
           type: "datetime",
           axisBorder: {
-            show: true,
+            show: false,
             color: "#0998a6"
           }
         },
@@ -170,7 +170,7 @@ export default {
             enabled: true
           },
           axisBorder: {
-            show: true,
+            show: false,
             color: "#0998a6"
           }
         },
