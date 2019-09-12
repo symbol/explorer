@@ -22,7 +22,6 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './filters'
-import * as nem2Sdk from 'nem2-sdk'
 
 import TopHead from '@/components/TopHead.vue'
 import PageMenu from '@/components/PageMenu.vue'
