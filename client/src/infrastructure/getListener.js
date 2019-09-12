@@ -20,7 +20,8 @@ import { Listener } from 'nem2-sdk';
 import store from "../store"
 import format from "../format"
 
-const wsEndpoint = window.nemServer.replace('http','ws')
+const nodeEndPoint = '52.194.207.217:3000';
+const wsEndpoint = 'ws://' + nodeEndPoint;
 
 class sdkListener {
     static getNewBlock = () => {

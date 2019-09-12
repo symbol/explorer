@@ -20,8 +20,8 @@ import { BlockHttp, ChainHttp, QueryParams } from 'nem2-sdk'
 import format from '../format'
 import store from '../store'
 
-const chainHttp = new ChainHttp(window.nemServer)
-const blockHttp = new BlockHttp(window.nemServer)
+const chainHttp = new ChainHttp('http://52.194.207.217:3000')
+const blockHttp = new BlockHttp('http://52.194.207.217:3000')
 
 class sdkBlock {
   static getBlockHeight = async () => {
