@@ -28,7 +28,7 @@
               <div class="box-title">
                 <h1 class="inline-block">Blocks</h1>
                 <div class="btn_grp inline-block flt-rt">
-                  <span>Last Block : {{this.blockhight}}</span>
+                  <span>Current Block Height : {{getCurrentBlockHeight}}</span>
                 </div>
               </div>
               <div class="box-con mt-0">
@@ -55,17 +55,19 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr
-                          v-for="(item,index) in blockdata"
-                          v-bind:key="item.height"
-                          @click="load_block_info(item.height)"
-                        >
-                          <td>{{item.height}}</td>
+                        <tr v-for="(item,index) in getLatestBlockList" v-bind:key="item.height">
+                          <td>
+                            <router-link :to="'/block/' + item.height">{{item.height}}</router-link>
+                          </td>
                           <td>{{timefix(item.date)}}</td>
                           <td>{{item.numTransactions}}</td>
                           <td>{{item.totalFee}}</td>
                           <td>{{item.date}}</td>
-                          <td>{{item.signer.address.address}}</td>
+                          <td>
+                            <router-link
+                              :to="'/account/' + item.signer.address.address"
+                            >{{item.signer.address.address}}</router-link>
+                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -74,32 +76,14 @@
                 <div class="table-footer">
                   <div class="pagination-container">
                     <ul class="pagination">
-                      <li class="page-item">
-                        <a href="#" @click.prevent="load_block_list('prev2')">
-                          <i class="ico-angle-double-left"></i>
-                        </a>
-                      </li>
-                      <li class="page-item" @click.prevent="load_block_list('prev')">
+                      <li class="page-item" @click="previousPage()">
                         <a href="#">
                           <i class="ico-angle-left"></i>
                         </a>
                       </li>
                       <li class="page-item">
-                        <input
-                          type="number"
-                          v-model="curnt_page"
-                          min="1"
-                          v-on:keyup.enter="load_block_list('fromtxtfld')"
-                        />
-                      </li>
-                      <li class="page-item">
-                        <a href="#" @click.prevent="load_block_list('next')">
+                        <a href="#" @click="nextPage()">
                           <i class="ico-angle-right"></i>
-                        </a>
-                      </li>
-                      <li class="page-item">
-                        <a href="#" @click.prevent="load_block_list('next2')">
-                          <i class="ico-angle-double-right"></i>
                         </a>
                       </li>
                     </ul>
@@ -116,84 +100,62 @@
   </div>
 </template>
 <script>
-import DataService from "../data-service";
-import router from "../router";
-import helper from "../helper";
-import io from "socket.io-client";
+import DataService from '../data-service'
+import sdkBlock from '../infrastructure/getBlock'
+import router from '../router'
+import helper from '../helper'
+import io from 'socket.io-client'
+import { mapGetters } from 'vuex'
 
 const socket = io.connect(window.conf.ws, {
-  path: window.conf.ws_path
-});
+  path: window.conf.ws_path,
+})
 export default {
-  name: "block",
+  name: 'block',
   components: {},
   data() {
     return {
-      blockdata: {},
-      blockhight: "",
-      curnt_page: 1,
-      loading: 0
-    };
-  },
-  methods: {
-    load_block_list: function(act) {
-      // router.push({ path: `/block?` });
-      var computed_page = "";
-      if (act == "next") {
-        computed_page = this.curnt_page + 1;
-      } else if (act == "next2") {
-        computed_page = this.curnt_page + 2;
-      } else if (act == "prev") {
-        computed_page = this.curnt_page - 1;
-      } else if (act == "prev2") {
-        this.curnt_page - 2;
-      } else if (act == "fromtxtfld") {
-        computed_page = this.curnt_page;
-      }
-      if (computed_page > 1) {
-        this.$router.push({ path: "/blocks?page=" + computed_page });
-      } else this.$router.push({ path: "/blocks?page=" + 1 });
-    },
-    load_block_info: function(id) {
-      router.push({ path: `/block/${id}` });
-    },
-    timefix: function(time) {
-      var time_fx = new Date(time);
-      var offset = new Date().getTimezoneOffset();
-      return helper.timeSince(time_fx);
-    },
-    load_data: function(page = 1) {
-      let self = this;
-      console.log(page);
-      self.loading=0;
-      DataService.getBlocks(page).then(function(data) {
-        self.curnt_page = parseInt(page);
-        self.blockdata = data.blockList;
-        self.blockhight = data.hight;
-         self.loading=1;
-      });
-    },
-    pageUrlsync: function() {
-      this.load_data(this.$route.query.page);
+      loading: 0,
     }
   },
-  created: function() {},
-  watch: {
-    $route: "pageUrlsync"
+  computed: {
+    ...mapGetters([
+      'getCurrentBlockHeight',
+      'getLatestBlockList',
+      'getCurrentPage',
+    ]),
   },
-  mounted() {
-    this.curnt_page = this.$route.query.page;
-    this.load_data(this.curnt_page);
-    DataService.syncWs("blocks").then(data => {
-      socket.on("update", function(data) {
-        // self.blockdata = data.data.blockList;
-        // self.blockhight =  data.data.hight;
-        // console.log(data);
-      });
-    });
+  methods: {
+    timefix: function(time) {
+      var time_fx = new Date(time)
+      var offset = new Date().getTimezoneOffset()
+      return helper.timeSince(time_fx)
+    },
+    load_data: function() {
+      this.getLatestBlockList.length > 0
+        ? (this.loading = 1)
+        : (self.loading = 0)
+    },
+    nextPage() {
+      this.$store.dispatch('INCREASE_CURRENT_PAGE')
+      let getEndBlock = this.getLatestBlockList[
+        this.getLatestBlockList.length - 1
+      ]
+      sdkBlock.getBlocksWithLimit(25, getEndBlock.height - 1)
+    },
+    previousPage() {
+      if (this.getCurrentPage > 1) {
+        this.$store.dispatch('DECREASE_CURRENT_PAGE')
+        let getStartBlock = this.getLatestBlockList[0]
+        sdkBlock.getBlocksWithLimit(25, getStartBlock.height + 1)
+      }
+    },
   },
-  destroyed: function() {
-    socket.disconnect();
-  }
-};
+  created() {
+    this.load_data()
+  },
+  destroyed() {
+    this.$store.dispatch('RESET_CURRENT_PAGE')
+  },
+}
 </script>
