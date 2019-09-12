@@ -34,6 +34,39 @@ const dateToMoment = date => moment(String(date))
 const formatTimestamp = nemstamp =>
   dateToMoment(nemstampToDate(nemstamp)).format('YYYY-MM-DD H:mm:ss')
 
+// FORMAT BLOCK
+
+const formatBlocks = (blockList) => {
+  if (blockList) {
+    return blockList.map(block => {
+      return formatBlock(block);
+    });
+  }
+  return;
+}
+
+const formatBlock = (block) => {
+  let blockObj = {
+    height: block.height.compact(),
+    hash: block.hash,
+    timestamp: block.timestamp.compact() / 1000 + 1459468800,
+    date: moment(
+      (block.timestamp.compact() / 1000 + 1459468800) * 1000
+    ).format('YYYY-MM-DD HH:mm:ss'),
+    totalFee: block.totalFee.compact(),
+    difficulty: (block.difficulty.compact() / 1000000000000).toFixed(2),
+    numTransactions: block.numTransactions ? block.numTransactions : 0,
+    signature: block.signature,
+    signer: block.signer,
+    previousBlockHash: block.previousBlockHash,
+    blockTransactionsHash: block.blockTransactionsHash,
+    blockReceiptsHash: block.blockReceiptsHash,
+    stateHash: block.stateHash,
+  };
+
+  return blockObj;
+}
+
 // FORMAT ACCOUNT
 const formatAccount = accountInfo => {
   let importanceScore = accountInfo.importance.compact()
@@ -263,7 +296,7 @@ const formatNamespace = namespaceInfo => {
       break
   }
 
-  namespaceObj = {
+  let namespaceObj = {
     owner: namespaceInfo.owner,
     namespaceName: namespaceInfo.name,
     hexId: namespaceInfo.id.toHex(),
@@ -286,11 +319,13 @@ export default {
   formatFee,
   formatHeight,
   formatTimestamp,
+  formatBlocks,
+  formatBlock,
   formatAccount,
   formatMosaics,
   formatTransactions,
   formatTransaction,
   formatTransactionBody,
   formatNamespaces,
-  formatNamespace,
+  formatNamespace
 }
