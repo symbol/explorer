@@ -52,11 +52,24 @@ class sdkNamespace {
 
   static getNamespaceInfoByName = async name => {
     const namespace = new NamespaceId(name)
-
     const namespaceService = new NamespaceService(namespaceHttp)
-    const namespaceInfo = await namespaceService.namespace(namespace).toPromise()
+    let namespaceInfo = await namespaceService.namespace(namespace).toPromise()
 
-    return format.formatNamespace(namespaceInfo)
+    let namespaceNames = await namespaceHttp.getNamespacesName([namespace]).toPromise()
+
+    namespaceNames.map(namespace => {
+      if (namespace.parentId) {
+        let parent = namespaceNames.find(n => n.namespaceId.id.equals(namespace.parentId.id))
+        namespace.name = parent.name + '.' + namespace.name
+      }
+    })
+
+    namespaceNames.map(namespace => {
+      namespace.namespaceId = namespace.namespaceId.toHex().toUpperCase()
+      namespace.name = namespace.name.toUpperCase()
+    })
+
+    return format.formatNamespace(namespaceInfo,namespaceNames)
   }
 }
 
