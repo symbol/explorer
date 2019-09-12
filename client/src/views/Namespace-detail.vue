@@ -43,7 +43,11 @@
                       <div class="label">Creator</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">NAAXHJM65OKDFSYGW4XW4EKJXUIRTKEZZWRK45YF</div>
+                      <div class="value">
+                        <router-link
+                          :to="'/account/' + this.namespaceInfo.owner.address.plain()"
+                        >{{this.namespaceInfo.owner.address.plain()}}</router-link>
+                      </div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -51,10 +55,10 @@
                       <div class="label">Creator PublicKey</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">2271690</div>
+                      <div class="value">{{this.namespaceInfo.owner.publicKey}}</div>
                     </div>
                   </div>
-                  <div class="row list_item">
+                  <!-- <div class="row list_item">
                     <div class="col-md-2">
                       <div class="label">CreateTime</div>
                     </div>
@@ -69,13 +73,13 @@
                     <div class="col-md-10">
                       <div class="value">2020-08-06 13:48:40</div>
                     </div>
-                  </div>
+                  </div>-->
                   <div class="row list_item">
                     <div class="col-md-2">
                       <div class="label">Start Height</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">2271690</div>
+                      <div class="value">{{this.namespaceInfo.startHeight}}</div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -83,7 +87,7 @@
                       <div class="label">End Height</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">2271690</div>
+                      <div class="value">{{this.namespaceInfo.endHeight}}</div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -91,7 +95,11 @@
                       <div class="label">Namespace ID</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">2271690</div>
+                      <div class="value">
+                        <router-link
+                          :to="'/namespace/' + this.namespaceInfo.hexId"
+                        >{{this.namespaceInfo.hexId}}</router-link>
+                      </div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -99,18 +107,39 @@
                       <div class="label">Namespace Type</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">Root namespace</div>
+                      <div class="value">{{this.namespaceInfo.type}} Namespace</div>
                     </div>
                   </div>
-
-                  <!-- add Alias Data with detail infomation -->
+                  <div v-if="namespaceInfo.parentName" class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Parent ID</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">
+                        <router-link exact
+                          :to="'/namespace/' + this.namespaceInfo.parentHexId"
+                        >{{this.namespaceInfo.parentHexId}}</router-link>
+                        | <router-link
+                          :to="'/namespace/' + this.namespaceInfo.parentName"
+                        >{{this.namespaceInfo.parentName}}</router-link>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Status</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">{{this.namespaceInfo.active}}</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="widget has-shadow">
+          <div v-if="this.namespaceInfo.alias" class="widget has-shadow">
             <div class="box">
-                <div class="box-title">
+              <div class="box-title">
                 <h1 class="inline-block">Alias</h1>
               </div>
               <div class="table-responsive">
@@ -126,14 +155,26 @@
                   >
                     <thead>
                       <tr>
-                        <th>MOSAIC ID</th>
+                        <th>Alias ID</th>
                         <th>TYPE</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>nemona:xemona</td>
-                        <td>Link</td>
+                      <tr v-if="this.namespaceInfo.aliastype === 'Mosaic'">
+                        <td>
+                          <router-link
+                            :to="'/mosaic/' + this.namespaceInfo.alias"
+                          >{{this.namespaceInfo.alias}}</router-link>
+                        </td>
+                        <td>{{this.namespaceInfo.aliastype}}</td>
+                      </tr>
+                      <tr v-if="this.namespaceInfo.aliastype === 'Address'">
+                        <td>
+                          <router-link
+                            :to="'/account/' + this.namespaceInfo.alias"
+                          >{{this.namespaceInfo.alias}}</router-link>
+                        </td>
+                        <td>{{this.namespaceInfo.aliastype}}</td>
                       </tr>
                     </tbody>
                   </table>
@@ -141,9 +182,10 @@
               </div>
             </div>
           </div>
-          <div class="widget has-shadow">
+
+          <div v-if="this.levels.length > 0" class="widget has-shadow">
             <div class="box">
-                <div class="box-title">
+              <div class="box-title">
                 <h1 class="inline-block">Level</h1>
               </div>
               <div class="table-responsive">
@@ -159,14 +201,19 @@
                   >
                     <thead>
                       <tr>
-                        <th>Namespace ID</th>
                         <th>Name</th>
+                        <th>Namespace ID</th>
                       </tr>
                     </thead>
                     <tbody>
-                      <tr>
-                        <td>1234</td>
-                        <td>NEM</td>
+                      <tr></tr>
+                      <tr v-for="(item) in levels" v-bind:key="item.namespaceId">
+                        <td>
+                          <router-link :to="'/namespace/' + item.name">{{item.name}}</router-link>
+                        </td>
+                        <td>
+                          <router-link :to="'/namespace/' + item.name">{{item.namespaceId}}</router-link>
+                        </td>
                       </tr>
                     </tbody>
                   </table>
@@ -183,6 +230,7 @@
 </template>
 <script>
 import router from '../router'
+import sdkNamespace from '../infrastructure/getNamespace'
 export default {
   name: 'block',
   components: {},
@@ -190,9 +238,26 @@ export default {
   data() {
     return {
       namespace_id: this.$route.params.namespace_id,
+      loading: 0,
+      namespaceInfo: {},
+      alias: {},
+      levels: Array,
     }
   },
-  methods: {},
-  mounted() {},
+  mounted() {
+    this.getNamespaceInfo()
+  },
+  methods: {
+    async getNamespaceInfo() {
+      const namespaceInfo = await sdkNamespace.getNamespaceInfoByName(
+        this.namespace_id.toString().toLowerCase()
+      )
+
+      this.namespaceInfo = namespaceInfo
+      this.levels = namespaceInfo.levels
+
+      this.loading = 1
+    },
+  },
 }
 </script>

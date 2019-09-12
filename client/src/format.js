@@ -239,13 +239,13 @@ const formatNamespaces = namespacesInfo =>
       switch (ns.namespaceInfo.alias.type) {
         case 1:
           aliasText = new UInt64(ns.namespaceInfo.alias.mosaicId).toHex()
-          aliasType = 'mosaic alias:'
+          aliasType = 'Mosaic'
           break
         case 2:
           aliasText = Address.createFromEncoded(
             ns.namespaceInfo.alias.address
           ).pretty()
-          aliasType = 'address alias:'
+          aliasType = 'Address'
           break
         default:
           aliasText = false
@@ -257,7 +257,7 @@ const formatNamespaces = namespacesInfo =>
         namespaceName: name,
         hexId: ns.namespaceInfo.id.toHex(),
         type:
-          ns.namespaceInfo.type === 0 ? 'Root namespace' : 'Child namespace',
+          ns.namespaceInfo.type === 0 ? 'Root' : 'Child',
         aliastype: aliasType,
         alias: aliasText,
         aliasAction:
@@ -269,26 +269,26 @@ const formatNamespaces = namespacesInfo =>
         active: ns.namespaceInfo.active,
         startHeight: ns.namespaceInfo.startHeight.compact(),
         endHeight: name.includes('nem')
-          ? 'Unlimited'
+          ? 'Infinity'
           : ns.namespaceInfo.endHeight.compact(),
         parentId: ns.namespaceInfo.parentId.id.toHex(),
       }
     })
 
 // FORMAT NAMESPACE
-const formatNamespace = namespaceInfo => {
+const formatNamespace = (namespaceInfo, namespaceNames) => {
   let aliasText
   let aliasType
   switch (namespaceInfo.alias.type) {
     case 1:
       aliasText = new UInt64(namespaceInfo.alias.mosaicId).toHex()
-      aliasType = 'mosaic alias:'
+      aliasType = 'Mosaic'
       break
     case 2:
       aliasText = Address.createFromEncoded(
         namespaceInfo.alias.address
       ).pretty()
-      aliasType = 'address alias:'
+      aliasType = 'Address'
       break
     default:
       aliasText = false
@@ -299,16 +299,19 @@ const formatNamespace = namespaceInfo => {
   let namespaceObj = {
     owner: namespaceInfo.owner,
     namespaceName: namespaceInfo.name,
-    hexId: namespaceInfo.id.toHex(),
-    type: namespaceInfo.type === 0 ? 'Root namespace' : 'Child namespace',
+    hexId: namespaceInfo.id.toHex().toUpperCase(),
+    type: namespaceInfo.type === 0 ? 'ROOT' : 'SUB',
     startHeight: namespaceInfo.startHeight.compact(),
-    endHeight: namespaceInfo.endHeight.compact(),
-    active: namespaceInfo.active,
+    endHeight: namespaceInfo.name.includes('nem')
+      ? 'Infinity'
+      : namespaceInfo.endHeight.compact(),
+    active: namespaceInfo.active.toString().toUpperCase(),
     aliastype: aliasType,
     alias: aliasText,
-    parentHexId: namespaceInfo.parentId.id.toHex(),
+    parentHexId: namespaceInfo.parentId.id.toHex().toUpperCase(),
     parentName:
-      namespaceInfo.type !== 0 ? namespaceInfo.name.split('.')[0] : '',
+      namespaceInfo.type !== 0 ? namespaceInfo.name.split('.')[0].toUpperCase() : '',
+    levels: namespaceNames
   }
 
   return namespaceObj
@@ -327,5 +330,5 @@ export default {
   formatTransaction,
   formatTransactionBody,
   formatNamespaces,
-  formatNamespace
+  formatNamespace,
 }
