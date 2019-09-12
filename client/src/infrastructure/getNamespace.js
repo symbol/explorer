@@ -20,8 +20,7 @@ import { NamespaceHttp, Address, NamespaceId, NamespaceService } from 'nem2-sdk'
 import { mergeMap, map } from 'rxjs/operators'
 import format from '../format'
 
-
-const namespaceHttp = new NamespaceHttp('http://52.194.207.217:3000')
+const namespaceHttp = new NamespaceHttp(window.nemServer)
 
 class sdkNamespace {
   static getNamespacesFromAccountByAddress = async (address) => {
