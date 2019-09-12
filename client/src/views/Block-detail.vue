@@ -22,20 +22,86 @@
     <page-menu></page-menu>
     <div class="page_con">
       <div class="full-con mob_con">
-        <div class="container p-0">    
+        <div class="container p-0">
           <div class="widget has-shadow mt-4 m-0 z-1">
-            <inforow
-              info_title="Block"
-              :inforows="this.blockdetails"
-              :loading="this.loading"
-              :info_title2="'# '+this.$route.params.blockid"
-            ></inforow>
+            <div class="box">
+              <div class="box-title">
+                <h1 class="inline-block">Block</h1>
+                <span class="info_append">{{'# '+this.$route.params.blockid}}</span>
+              </div>
+              <div class="box-con mt-0">
+                <loader v-if="!loading"></loader>
+                <div class="list_info_con">
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Height</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">{{this.block_Info.height}}</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Timestamp</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">{{this.block_Info.date}}</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Difficulty</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">{{this.block_Info.difficulty}}</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Fees</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">{{this.block_Info.totalFee}}</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Total Transactions</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">{{this.block_Info.numTransactions}}</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Harvester</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">
+                        <router-link
+                          :to="'/account/' + this.block_Info.signer.address.address"
+                        >{{this.block_Info.signer.address.address}}</router-link>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Block Hash</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">{{this.block_Info.hash}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
+
           <div
             class="widget has-shadow"
-            v-if="this.table_data.data.length || this.blockdetails.length"
+            v-if="this.table_data.data.length || this.block_Info.length"
           >
-          <loader v-if="!this.loading"></loader>
+            <loader v-if="!this.loading"></loader>
             <div class="box">
               <div class="table-responsive">
                 <div
@@ -63,82 +129,64 @@
   </div>
 </template>
 <script>
-import w1 from '@/components/inforow.vue'
-import w2 from '@/components/Table-dynamic.vue'
+import w1 from "@/components/Table-dynamic.vue";
 
-import DataService from '../data-service'
-var s = ''
+import DataService from "../data-service";
+var s = "";
 export default {
-  name: 'block',
+  name: "block",
   components: {
-    inforow: w1,
-    datatable: w2
+    datatable: w1
   },
-  data () {
+  data() {
     return {
-      loading:0,
       block_id: this.$route.params.blockid,
-      blockdetails: {
-        Height: '',
-        Timestamp: '',
-        Difficulty: '',
-        Fees: '',
-        'Total Transactions': '',
-        Harvester: '',
-        'Block Hash': ''
-      },
+      block_Info: {},
       table_data: {
         head: [
-          '#',
-          'Timestamp',
-          'Transaction Type',
-          'Fees',
-          'Signer',
-          'Tx Hash'
+          "#",
+          "Timestamp",
+          "Transaction Type",
+          "Fees",
+          "Signer",
+          "Transaction Hash"
         ],
         data: []
       },
       loading: true
-    }
+    };
   },
-  created () {
-    this.asyncData()
-  },
-  watch: {
-    $route: 'asyncData'
+  mounted() {
+    this.asyncData();
   },
   methods: {
-    asyncData () {
-      let self = this
+    asyncData() {
+      let self = this;
       this.block_id = this.$route.params.blockid;
-      this.loading=0;
-      DataService.getBlockinfo(this.block_id).then(function (data) {
-        self.blockdetails['Height'] = data.blockdata.height
-        self.blockdetails['Timestamp'] = data.blockdata.date
-        self.blockdetails['Difficulty'] = data.blockdata.difficulty
-        self.blockdetails['Fees'] = data.blockdata.totalFee
-        self.blockdetails['Total Transactions'] = data.blockdata.numTransactions
-        self.blockdetails['Harvester'] = data.blockdata.signer.address.address
-        self.blockdetails['Block Hash'] = data.blockdata.hash
-        if (data.blocktrx.length) {
-          self.table_data.data = []
-          var i = 0
-          data.blocktrx.forEach((el, idx) => {
-            var temp = []
-            temp.push(idx + 1)
-            temp.push(el.deadline)
-            temp.push(el.transactionDetail.type)
-            temp.push(el.fee)
-            temp.push(el.signer.address.address)
-            temp.push(el.transactionHash)
-            self.table_data.data.push(temp)
-          })
+      this.loading = 0;
+      DataService.getBlockinfo(this.block_id).then(function(data) {
+        self.block_Info = data.blockInfo;
+        if (data.blockTransactionList.length) {
+          self.table_data.data = [];
+          let i = 0;
+          data.blockTransactionList.forEach((el, idx) => {
+            let temp = [];
+            let singerLink = `<a href="/#/account/${el.signer.address.address}">${el.signer.address.address}</a>`;
+            let transactionHashLink = `<a href="/#/transaction/${el.transactionHash}">${el.transactionHash}</a>`;
+            temp.push(idx + 1);
+            temp.push(el.deadline);
+            temp.push(el.transactionDetail.type);
+            temp.push(el.fee);
+            temp.push(singerLink);
+            temp.push(transactionHashLink);
+            self.table_data.data.push(temp);
+          });
         } else {
-          self.table_data.data = []
+          self.table_data.data = [];
         }
         self.loading = 1;
-      })
+      });
     }
   }
-}
+};
 </script>
