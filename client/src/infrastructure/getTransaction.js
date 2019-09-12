@@ -25,7 +25,7 @@ import {
 } from 'nem2-sdk'
 import format from '../format';
 
-const accountHttp = new AccountHttp('http://52.194.207.217:3000')
+const accountHttp = new AccountHttp(window.nemServer)
 
 const getAccountTransactions = async (publicKey, txId = '') => {
   let pageSize = 100;
