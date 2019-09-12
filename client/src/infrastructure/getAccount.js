@@ -18,8 +18,9 @@
 
 import { AccountHttp, Address } from 'nem2-sdk'
 import format from '../format'
-const accountHttp = new AccountHttp(window.nemServer)
-const getAccountInfoByAddress = async address => {
+import { Endpoint } from '../config/'
+
+const accountHttp = new AccountHttp(Endpoint.api)
   const accountInfo = await accountHttp
     .getAccountInfo(new Address(address))
     .toPromise()

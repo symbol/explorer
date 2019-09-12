@@ -19,12 +19,11 @@
 import { Listener } from 'nem2-sdk';
 import store from "../store"
 import format from "../format"
-
-const wsEndpoint = window.nemServer.replace('http','ws')
+import { Endpoint } from '../config/'
 
 class sdkListener {
     static getNewBlock = () => {
-        const listener = new Listener(wsEndpoint, WebSocket)
+        const listener = new Listener(Endpoint.ws, WebSocket)
         listener.open().then(() => {
             listener
                 .newBlock()

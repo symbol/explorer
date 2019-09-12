@@ -24,8 +24,9 @@ import {
   NetworkType,
 } from 'nem2-sdk'
 import format from '../format';
+import { Endpoint } from '../config/'
 
-const accountHttp = new AccountHttp(window.nemServer)
+const accountHttp = new AccountHttp(Endpoint.api)
 
 const getAccountTransactions = async (publicKey, txId = '') => {
   let pageSize = 100;

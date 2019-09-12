@@ -19,8 +19,9 @@
 import { NamespaceHttp, Address, NamespaceId, NamespaceService } from 'nem2-sdk'
 import { mergeMap, map } from 'rxjs/operators'
 import format from '../format'
+import { Endpoint } from '../config/'
 
-const namespaceHttp = new NamespaceHttp(window.nemServer)
+const namespaceHttp = new NamespaceHttp(Endpoint.api)
 
 class sdkNamespace {
   static getNamespacesFromAccountByAddress = async (address) => {
