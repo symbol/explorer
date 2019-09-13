@@ -67,7 +67,7 @@
                 <tabs>
                   <tab title="Balance">
                     <datatable
-                      tableClass="blocktrxtbl"
+                      tableClass="account_balance"
                       :tableHead="this.balance.head"
                       :tableData="this.balance.data"
                     ></datatable>
@@ -127,7 +127,7 @@
                 <tabs>
                   <tab title="Transactions">
                     <datatable
-                      tableClass="blocktrxtbl"
+                      tableClass=""
                       :tableHead="this.account_transaction.head"
                       :tableData="this.account_transaction.data"
                     ></datatable>

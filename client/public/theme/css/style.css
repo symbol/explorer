@@ -1556,6 +1556,17 @@ table.table-bordered.dataTable tbody tr {
     padding-left: 15px;
     max-width: 170px;
 }
+.blocktrxtbl{
+    margin-top: 20px;
+}
+#table-block-list a,.list_info_con a,.account_balance a,.blocktrxtbl a{
+    color: #84accb;
+    font-weight: 600;
+    text-decoration: none;
+}
+.border-bottom{
+    border-bottom: 1px solid #ccc;
+}
 
 @media (max-width: 576px) {
     .ex-header {
