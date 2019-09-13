@@ -221,10 +221,11 @@ export default {
 
       accountTransaction.forEach((el, idx) => {
         var temp = []
+        let transactionLink = `<a href="#/transaction/${el.transactionHash}">${el.transactionHash}</a>`
         temp.push(idx + 1)
         temp.push(el.deadline)
         temp.push(el.fee)
-        temp.push(el.transactionHash)
+        temp.push(transactionLink)
         temp.push(el.transactionDetail.type)
         this.account_transaction.data.push(temp)
       })
