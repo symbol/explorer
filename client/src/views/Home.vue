@@ -22,9 +22,9 @@
     <page-menu></page-menu>
     <div class="page_con">
       <div class="full-con mob_con">
-        <div class="container p-0">
-          <nempricegraph></nempricegraph>
-          <Homebaseinfo :marketinfo="home_data.marketData" :chaininfo="home_data.chainInfo"></Homebaseinfo>
+        <div class="container p-0 has-shadow">
+          <nempricegraph class="border-bottom"></nempricegraph>
+          <Homebaseinfo class="" :marketinfo="home_data.marketData" :chaininfo="home_data.chainInfo"></Homebaseinfo>
         </div>
         <div class="container p-0 mt-1">
           <recent-blocks :blocklist="getLatestBlockList"></recent-blocks>
@@ -45,11 +45,9 @@ import w2 from '@/components/nempricegraph.vue'
 import w3 from '@/components/recent_blocks.vue'
 import w4 from '@/components/recent_trxs.vue'
 import DataService from '../data-service'
-import io from 'socket.io-client'
+// import io from 'socket.io-client'
 import { mapGetters } from "vuex"
-const socket = io.connect(window.conf.ws, {
-  path: window.conf.ws_path
-})
+
 export default {
   name: 'home',
   components: {

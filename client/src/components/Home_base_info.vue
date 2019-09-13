@@ -17,7 +17,7 @@
  */
 
 <template>
-  <div class="widget has-shadow bordr_rds_top0 network_info">
+  <div class="widget bordr_rds_top0 network_info">
     <loader v-if="!marketinfo"></loader>
     <div class="box">
       <div class="row">

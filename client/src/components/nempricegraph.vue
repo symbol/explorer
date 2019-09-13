@@ -17,7 +17,7 @@
  */
 
 <template>
-  <div class="widget has-shadow m-0 z-1 nempricegraph_con bordr_rds_top0 pt-0 pb-0">
+  <div class="widget m-0 z-1 nempricegraph_con bordr_rds_top0 pt-0 pb-0">
     <loader v-if="!loading"></loader>
     <!-- <canvas id="nempricegraph" style="width:100%;height:180px"></canvas> -->
     <div id="nempricegraph" style></div>
@@ -61,6 +61,9 @@
 .apexcharts-tooltip.light .apexcharts-tooltip-title {
   background: #0998a6 !important;
   color: #fff;
+}
+.apexcharts-toolbar{
+  margin-top: 6px;
 }
 </style>
 <script>
@@ -112,9 +115,19 @@ export default {
         chart: {
           height: 200,
           type: "area",
-          foreColor: "#0998a6",
+          foreColor: "#999",
           toolbar: {
-            show: false
+            show: true,
+            tools: {
+              download: false,
+              selection: true,
+              zoom: false,
+              zoomin: true,
+              zoomout: true,
+              pan: '<i class="ico-arrow-move" style="font-size: 24px;"></i>',
+              reset: '<i class="ico-ios-refresh-outline" style="font-size: 22px;"></i>',
+              customIcons: []
+            }
           }
         },
         stroke: {
@@ -161,7 +174,7 @@ export default {
         xaxis: {
           type: "datetime",
           axisBorder: {
-            show: true,
+            show: false,
             color: "#0998a6"
           }
         },
@@ -170,7 +183,7 @@ export default {
             enabled: true
           },
           axisBorder: {
-            show: true,
+            show: false,
             color: "#0998a6"
           }
         },
