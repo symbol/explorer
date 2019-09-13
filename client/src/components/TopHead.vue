@@ -27,15 +27,14 @@
           </div>-->
         </div>
         <div class="col-md-6 text-center">
-          
           <router-link to="/" class="logo">
-           <img src="theme/img/logo-w.png" />
+            <img src="theme/img/logo-w.png" />
           </router-link>
           <div class="full-con">
             <h1 class="head-titl">Nem blockchain explorer</h1>
             <p
               class="head-sub-t"
-            >Search transactions, addresses, namespace & mosaic on the nem network</p>
+            >Search transactions, addresses, namespace & mosaic on the nem network.</p>
           </div>
           <div class="full-con">
             <form id="searchbox" @submit="checksearch">
@@ -57,65 +56,111 @@
           </div>
         </div>
         <div class="col-md-3">
-          <div class="hdr-btn-con btns_left">
-            <!-- <a href="#">Mainnet</a> -->
+          <div class="lang-swtch dropdown">
+            <a class="dropdown-toggle">Node : {{activeNode}}</a>
+            <div class="dropdown-menu dropdown-menu-right">
+              <a
+                class="dropdown-item"
+                href="#"
+                v-for="item in nodes"
+                @click="changenode(item)"
+              >{{item['domain']}}</a>
+            </div>
           </div>
+          <!-- <div class="hdr-btn-con btns_left">
+            <a href="#">Mainnet</a>
+          </div>-->
         </div>
       </div>
     </div>
   </div>
 </template>
 <script>
+import { Endpoint } from "../config/";
+import { Address, AccountHttp } from "nem2-sdk";
+
 export default {
-  name: 'TopHead',
-  data: function () {
+  name: "TopHead",
+  data: function() {
     return {
-      errors: '',
+      errors: "",
       search_string: null,
-      search_validate: ''
-    }
+      search_validate: "",
+      nodes: Endpoint.nodes,
+      activeNode: Endpoint.api.replace("http://", "").replace(":3000", "")
+    };
   },
   props: {},
   methods: {
-    checksearch: function (e) {
-      e.preventDefault()
-      this.search_string = this.search_string.replace(/[^a-zA-Z0-9]/g,'');
-      if (this.search_string != null && this.search_string != '') {
+    changenode: function(data) {
+      console.log(data);
+      var nodeurl = data.protocol + "://" + data.domain + ":" + data.port;
+      localStorage.setItem("defaultnode", nodeurl);
+      location.reload();
+    },
+    checksearch: async function(e) {
+      e.preventDefault();
+      this.search_string = this.search_string.replace(/[^a-zA-Z0-9]/g, "");
+      if (this.search_string != null && this.search_string != "") {
         if (this.search_string.match(/^-{0,1}\d+$/)) {
           // its a block
           this.$router.push({
-            path: '/block/' + this.search_string,
+            path: "/block/" + this.search_string,
             params: { blockid: this.search_string }
-          })
-        } else if (this.search_string.match('^[A-z0-9]+$') && this.search_string.length === 64) {
-          // transaction hash
+          });
+        } else if (
+          this.search_string.match("^[A-z0-9]+$") &&
+          this.search_string.length === 64
+        ) {
+          //check the string is a public key of an account
+          var accountHttp = new AccountHttp(Endpoint.api);
+          var accountAddress;
+          try {
+            var accountInfo = await accountHttp
+              .getAccountInfo(new Address(this.search_string))
+              .toPromise();
+            accountAddress = accountInfo.address.address;
+          } catch (e) {}
+          if (accountAddress) {
+            this.$router.push({
+              path: "/account/" + accountInfo.address.address,
+              params: { trx_id: accountInfo.address.address }
+            });
+          } else {
+            // transaction hash
+            this.$router.push({
+              path: "/transaction/" + this.search_string,
+              params: { trx_id: this.search_string }
+            });
+          }
+        } else if (
+          this.search_string.match("^[A-z0-9]+$") &&
+          (this.search_string.substring(0, 1) == "S" ||
+            this.search_string.substring(0, 1) == "s") &&
+          this.search_string.length === 40
+        ) {
           this.$router.push({
-            path: '/transaction/' + this.search_string,
+            path: "/account/" + this.search_string,
             params: { trx_id: this.search_string }
-          })
-        } else if (this.search_string.match('^[A-z0-9]+$') && (this.search_string.substring(0, 1) == 'S' || this.search_string.substring(0, 1) == 's') && this.search_string.length === 40) {
-          this.$router.push({
-            path: '/account/' + this.search_string,
-            params: { trx_id: this.search_string }
-          })
+          });
         } else {
-          this.search_validate = 'srch_err'
-          let self = this
-          setTimeout(function () {
-            self.search_validate = ''
-          }, 500)
+          this.search_validate = "srch_err";
+          let self = this;
+          setTimeout(function() {
+            self.search_validate = "";
+          }, 500);
         }
       } else {
-        this.search_validate = 'srch_err'
-        let self = this
-        setTimeout(function () {
-          self.search_validate = ''
-        }, 500)
+        this.search_validate = "srch_err";
+        let self = this;
+        setTimeout(function() {
+          self.search_validate = "";
+        }, 500);
       }
     },
-    route_to: function (rt) {
-      router.push({ path: `/block?` })
+    route_to: function(rt) {
+      router.push({ path: `/block?` });
     }
   }
-}
+};
 </script>

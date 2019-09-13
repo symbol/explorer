@@ -146,14 +146,14 @@
 <script>
 import router from '../router'
 import { Tabs, Tab } from 'vue-slim-tabs'
-import dataService from '../data-service'
+//import dataService from '../data-service'
 import w1 from '@/components/inforow.vue'
 import w2 from '@/components/Table-dynamic.vue'
 import sdkAccount from '../infrastructure/getAccount'
 import sdkTransaction from '../infrastructure/getTransaction'
 import sdkNamespace from '../infrastructure/getNamespace'
 
-dataService.getAcntdetail('sd')
+//dataService.getAcntdetail('sd')
 
 export default {
   name: 'block',

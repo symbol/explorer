@@ -124,8 +124,8 @@ export default {
               zoom: false,
               zoomin: true,
               zoomout: true,
-              pan: true,
-              reset: true,
+              pan: '<i class="ico-arrow-move" style="font-size: 24px;"></i>',
+              reset: '<i class="ico-ios-refresh-outline" style="font-size: 22px;"></i>',
               customIcons: []
             }
           }

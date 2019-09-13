@@ -77,119 +77,96 @@ p {
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
 }
-
 .ico-search-1:before {
     content: "\61";
-}
-
-.ico-arrow-combo:before {
+  }
+  .ico-arrow-combo:before {
     content: "\63";
-}
-
-.ico-line-awesome:before {
+  }
+  .ico-line-awesome:before {
     content: "\64";
-}
-
-.ico-line-awesome-1:before {
+  }
+  .ico-line-awesome-1:before {
     content: "\65";
-}
-
-.ico-news:before {
+  }
+  .ico-news:before {
     content: "\62";
-}
-
-.ico-github:before {
+  }
+  .ico-github:before {
     content: "\66";
-}
-
-.ico-paper-plane:before {
+  }
+  .ico-paper-plane:before {
     content: "\67";
-}
-
-.ico-reddit:before {
+  }
+  .ico-reddit:before {
     content: "\68";
-}
-
-.ico-forum:before {
+  }
+  .ico-forum:before {
     content: "\6a";
-}
-
-.ico-line-awesome-2:before {
+  }
+  .ico-line-awesome-2:before {
     content: "\69";
-}
-
-.ico-th-large:before {
+  }
+  .ico-th-large:before {
     content: "\6c";
-}
-
-.ico-line-awesome-3:before {
+  }
+  .ico-line-awesome-3:before {
     content: "\6b";
-}
-
-.ico-user-outline:before {
+  }
+  .ico-user-outline:before {
     content: "\6d";
-}
-
-.ico-data:before {
+  }
+  .ico-data:before {
     content: "\6e";
-}
-
-.ico-tags:before {
+  }
+  .ico-tags:before {
     content: "\6f";
-}
-
-.ico-content-34:before {
+  }
+  .ico-content-34:before {
     content: "\70";
-}
-
-.ico-bar-chart:before {
+  }
+  .ico-bar-chart:before {
     content: "\71";
-}
-
-.ico-ios-arrow-thin-right:before {
+  }
+  .ico-ios-arrow-thin-right:before {
     content: "\72";
-}
-
-.ico-angle-double-right:before {
+  }
+  .ico-angle-double-right:before {
     content: "\73";
-}
-
-.ico-angle-double-left:before {
+  }
+  .ico-angle-double-left:before {
     content: "\74";
-}
-
-.ico-angle-left:before {
+  }
+  .ico-angle-left:before {
     content: "\75";
-}
-
-.ico-angle-right:before {
+  }
+  .ico-angle-right:before {
     content: "\76";
-}
-
-.ico-files-o:before {
+  }
+  .ico-files-o:before {
     content: "\77";
-}
-
-.ico-qrcode:before {
+  }
+  .ico-qrcode:before {
     content: "\78";
-}
-
-.ico-navicon-round:before {
+  }
+  .ico-navicon-round:before {
     content: "\79";
-}
-
-.ico-close-round:before {
+  }
+  .ico-close-round:before {
     content: "\7a";
-}
-
-.ico-line-awesome-4:before {
+  }
+  .ico-line-awesome-4:before {
     content: "\41";
-}
-
-.ico-line-awesome-5:before {
+  }
+  .ico-line-awesome-5:before {
     content: "\42";
-}
-
+  }
+  .ico-ios-refresh-outline:before {
+    content: "\43";
+  }
+  .ico-arrow-move:before {
+    content: "\44";
+  }
 .ico-block-ch {
     background-image: url(../fonts/icon/blc-ht.png);
 }
@@ -619,6 +596,12 @@ img {
     color: #fff;
     font-size: 12px;
     cursor: pointer;
+    /* height: 22px; */
+    display: block;
+    padding: 4px 10px;
+    border: 1px solid #fff;
+    border-radius: 4px;
+    font-size: 12px;
 }
 
 .lang-swtch .dropdown-toggle i {
@@ -627,6 +610,7 @@ img {
 
 .lang-swtch:hover>.dropdown-menu {
     display: block;
+    top: 25px;
 }
 
 .lang-swtch .dropdown-menu {
@@ -638,10 +622,11 @@ img {
 }
 
 .lang-swtch .dropdown-menu a {
-    color: #0997a3;
+    color: #0998a6;
     text-align: right;
     padding: 0.25rem 0.8rem;
     text-decoration: none;
+    text-align: left;
 }
 
 .lang-swtch .dropdown-menu a i {
