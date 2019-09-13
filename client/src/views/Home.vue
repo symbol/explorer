@@ -29,9 +29,9 @@
         <div class="container p-0 mt-1">
           <recent-blocks :blocklist="getLatestBlockList"></recent-blocks>
         </div>
-        <div class="container p-0 mt-1">
+        <!-- <div class="container p-0 mt-1">
           <recent-trxs></recent-trxs>
-        </div>
+        </div> -->
       </div>
     </div>
     <page-footer></page-footer>

@@ -43,42 +43,42 @@
                   <span>Blocks</span>
                 </router-link>
               </li>
-              <li>
+              <!-- <li>
                 <router-link to="/transactions" exact active-class="active">
                   <i class="ico-line-awesome-3"></i>
                   <span>Transactions</span>
                 </router-link>
-              </li>
-              <li>
+              </li> -->
+              <!-- <li>
                 <router-link to="/account" exact active-class="active">
                   <i class="ico-user-outline"></i>
                   <span>Accounts</span>
                 </router-link>
-              </li>
-              <li>
+              </li> -->
+              <!-- <li>
                 <router-link to="/namespace" exact active-class="active">
                   <i class="ico-data"></i>
                   <span>Namespaces</span>
                 </router-link>
-              </li>
-              <li>
+              </li> -->
+              <!-- <li>
                 <router-link to="/mosaic" exact active-class="active">
                   <i class="ico-tags"></i>
                   <span>Mosaics</span>
                 </router-link>
-              </li>
-              <li>
+              </li> -->
+              <!-- <li>
                 <router-link to="/node" exact active-class="active">
                   <i class="ico-content-34"></i>
                   <span>Nodes</span>
                 </router-link>
-              </li>
-              <li>
+              </li> -->
+              <!-- <li>
                 <router-link to="/stat" exact active-class="active">
                   <i class="ico-bar-chart"></i>
                   <span>Statistics</span>
                 </router-link>
-              </li>
+              </li> -->
             </ul>
           </div>
         </div>
