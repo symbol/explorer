@@ -36,7 +36,7 @@ export default new Vuex.Store({
     getLatestBlockList(state) {
       return state.blockList;
     },
-    getCurrentPage(state){
+    getCurrentPage(state) {
       return state.currentPage;
     }
   },
@@ -51,22 +51,24 @@ export default new Vuex.Store({
     setBlockList(state, blocklist) {
       state.blockList = blocklist;
     },
-    resetCurrentPage(state){
+    resetCurrentPage(state) {
       state.currentPage = 1;
     },
-    increaseCurrentPage(state){
+    increaseCurrentPage(state) {
       state.currentPage++;
     },
-    decreaseCurrentPage(state){
+    decreaseCurrentPage(state) {
       state.currentPage--
     }
   },
   actions: {
     ADD_BLOCK({ commit, dispatch, state }, block) {
       dispatch('SET_LATEST_CHAIN_STATUS', block);
-      if(state.currentPage === 1){
-        if(state.blockList.map(function (e) { return e.height; }).indexOf(block.height) === -1){
-          commit('addBlock', block)
+      if (state.currentPage === 1) {
+        if (state.blockList.length > 0) {
+          if (state.blockList.map(function (e) { return e.height; }).indexOf(block.height) === -1) {
+            commit('addBlock', block)
+          }
         }
       }
     },
@@ -76,13 +78,13 @@ export default new Vuex.Store({
     SET_BLOCKS_LIST({ commit }, blocklist) {
       commit('setBlockList', blocklist);
     },
-    RESET_CURRENT_PAGE({ commit }){
+    RESET_CURRENT_PAGE({ commit }) {
       commit('resetCurrentPage');
     },
-    INCREASE_CURRENT_PAGE({ commit }){
+    INCREASE_CURRENT_PAGE({ commit }) {
       commit('increaseCurrentPage');
     },
-    DECREASE_CURRENT_PAGE({ commit }){
+    DECREASE_CURRENT_PAGE({ commit }) {
       commit('decreaseCurrentPage');
     }
   }

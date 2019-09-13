@@ -24,23 +24,27 @@ import {
   NetworkType,
 } from 'nem2-sdk'
 import format from '../format';
+import { Endpoint } from '../config/'
 
-const accountHttp = new AccountHttp('http://52.194.207.217:3000')
+const accountHttp = new AccountHttp(Endpoint.api)
 
-const getAccountTransactions = async (publicKey, txId = '') => {
-  let pageSize = 100;
-  let id = txId;
+class sdkTransaction {
+  static getAccountTransactions = async (publicKey, txId = '') => {
+    let pageSize = 100;
+    let id = txId;
 
-  const publicAccount = PublicAccount.createFromPublicKey(
-    publicKey,
-    NetworkType.MIJIN_TEST
-  );
+    const publicAccount = PublicAccount.createFromPublicKey(
+      publicKey,
+      NetworkType.MIJIN_TEST
+    );
 
-  const transactionsList = await accountHttp
-    .transactions(publicAccount, new QueryParams(pageSize, id))
-    .toPromise();
+    const transactionsList = await accountHttp
+      .transactions(publicAccount, new QueryParams(pageSize, id))
+      .toPromise();
 
-  return format.formatTransactions(transactionsList);
-};
+    return format.formatTransactions(transactionsList);
+  };
 
-export { getAccountTransactions };
+}
+
+export default sdkTransaction

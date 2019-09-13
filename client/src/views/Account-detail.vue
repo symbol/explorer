@@ -28,14 +28,14 @@
               <div class="box-title">
                 <h1 class="inline-block">Account Detail</h1>
                 <div class="btn_grp inline-block flt-rt">
-                  <span> {{account_address}}</span>
-                    <button
-                      type="button"
-                      class="ico-files-o act-copy"
-                      v-clipboard:copy="account_address"
-                      v-clipboard:success="onCopy"
-                      v-clipboard:error="onError"
-                    ></button>
+                  <span>{{account_address}}</span>
+                  <button
+                    type="button"
+                    class="ico-files-o act-copy"
+                    v-clipboard:copy="account_address"
+                    v-clipboard:success="onCopy"
+                    v-clipboard:error="onError"
+                  ></button>
                 </div>
               </div>
               <div class="box-con mt-0">
@@ -144,111 +144,112 @@
   </div>
 </template>
 <script>
-import router from "../router";
-import { Tabs, Tab } from "vue-slim-tabs";
-import dataService from "../data-service";
-import w1 from "@/components/inforow.vue";
-import w2 from "@/components/Table-dynamic.vue";
-import { getAccountInfoByAddress } from "../infrastructure/getAccount";
-import { getAccountTransactions } from "../infrastructure/getTransaction";
-import { getNamespacesFromAccountByAddress } from "../infrastructure/getNamespace";
+import router from '../router'
+import { Tabs, Tab } from 'vue-slim-tabs'
+import dataService from '../data-service'
+import w1 from '@/components/inforow.vue'
+import w2 from '@/components/Table-dynamic.vue'
+import sdkAccount from '../infrastructure/getAccount'
+import sdkTransaction from '../infrastructure/getTransaction'
+import sdkNamespace from '../infrastructure/getNamespace'
 
-
-dataService.getAcntdetail('sd');
+dataService.getAcntdetail('sd')
 
 export default {
-  name: "block",
+  name: 'block',
   components: {
     Tabs,
     Tab,
     inforow: w1,
-    datatable: w2
+    datatable: w2,
   },
   data() {
     return {
       account_address: this.$route.params.acnt_adrs,
       account_info: {},
       account_transaction: {
-        head: ["#", "Deadline", "Fee", "Transaction Hash", "Type"],
-        data: []
+        head: ['#', 'Deadline', 'Fee', 'Transaction Hash', 'Type'],
+        data: [],
       },
       ownedNamespaceList: {
         head: [
-          "#",
-          "Namespace",
-          "Type",
-          "Status",
-          "Start Height",
-          "End Height"
+          '#',
+          'Namespace',
+          'Type',
+          'Status',
+          'Start Height',
+          'End Height',
         ],
-        data: []
+        data: [],
       },
       balance: {
-        head: ["#", "MosaicID", "Quantity"],
-        data: []
+        head: ['#', 'MosaicID', 'Quantity'],
+        data: [],
       },
-      loading: 0
-    };
+      loading: 0,
+    }
   },
   mounted() {
-    this.getAccountInfo();
-    this.getOwnedNamespace();
+    this.getAccountInfo()
+    this.getOwnedNamespace()
   },
   methods: {
     onCopy(e) {
-      alert("You just copied: " + e.text);
+      alert('You just copied: ' + e.text)
     },
     onError(e) {
-      alert("Failed to copy address");
+      alert('Failed to copy address')
     },
     async getAccountInfo() {
-      const accountInfo = await getAccountInfoByAddress(this.account_address);
-      const accountTransaction = await getAccountTransactions(
+      const accountInfo = await sdkAccount.getAccountInfoByAddress(
+        this.account_address
+      )
+      const accountTransaction = await sdkTransaction.getAccountTransactions(
         accountInfo.publicKey
-      );
+      )
 
-      this.account_info = accountInfo;
+      this.account_info = accountInfo
 
       accountInfo.mosaics.forEach((el, idx) => {
-        var temp = [];
-        let mosaicLink = `<a href="#/mosaic/${el.hex}">${el.hex}</a>`;
-        temp.push(idx + 1);
-        temp.push(mosaicLink);
-        temp.push(el.amount);
-        this.balance.data.push(temp);
-      });
+        var temp = []
+        let mosaicLink = `<a href="#/mosaic/${el.hex}">${el.hex}</a>`
+        temp.push(idx + 1)
+        temp.push(mosaicLink)
+        temp.push(el.amount)
+        this.balance.data.push(temp)
+      })
 
       accountTransaction.forEach((el, idx) => {
-        var temp = [];
-        temp.push(idx + 1);
-        temp.push(el.deadline);
-        temp.push(el.fee);
-        temp.push(el.transactionHash);
-        temp.push(el.transactionDetail.type);
-        this.account_transaction.data.push(temp);
-      });
+        var temp = []
+        temp.push(idx + 1)
+        temp.push(el.deadline)
+        temp.push(el.fee)
+        temp.push(el.transactionHash)
+        temp.push(el.transactionDetail.type)
+        this.account_transaction.data.push(temp)
+      })
 
-      this.loading = 1;
+      this.loading = 1
     },
     async getOwnedNamespace() {
-      const ownedNamespaceList = await getNamespacesFromAccountByAddress(
+      const ownedNamespaceList = await sdkNamespace.getNamespacesFromAccountByAddress(
         this.account_address
-      );
+      )
 
       ownedNamespaceList.forEach((el, idx) => {
-        var temp = [];
-        let namespaceNameLink = `<a href="/#/namespace/${el.namespaceName}">${el.namespaceName}</a>`;
-        temp.push(idx + 1);
-        temp.push(namespaceNameLink);
-        temp.push(el.type);
-        temp.push(el.active);
-        temp.push(el.startHeight);
-        temp.push(el.endHeight);
-        this.ownedNamespaceList.data.push(temp);
-      });
+        var temp = []
+        let namespaceNameLink = `<a href="/#/namespace/${el.namespaceName}">${el.namespaceName}</a>`
+        temp.push(idx + 1)
+        temp.push(namespaceNameLink)
+        temp.push(el.type)
+        temp.push(el.active)
+        temp.push(el.startHeight)
+        temp.push(el.endHeight)
+        this.ownedNamespaceList.data.push(temp)
+      })
 
-      this.loading = 1;
-    }
-  }
-};
+      this.loading = 1
+    },
+  },
+}
 </script>

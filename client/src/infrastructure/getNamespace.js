@@ -19,44 +19,59 @@
 import { NamespaceHttp, Address, NamespaceId, NamespaceService } from 'nem2-sdk'
 import { mergeMap, map } from 'rxjs/operators'
 import format from '../format'
+import { Endpoint } from '../config/'
 
+const namespaceHttp = new NamespaceHttp(Endpoint.api)
 
-const namespaceHttp = new NamespaceHttp('http://52.194.207.217:3000')
-
-const getNamespacesFromAccountByAddress = async address => {
-  const addressObj = new Address(address)
-  const namespacesIds = []
-  const namespaceList = await namespaceHttp
-    .getNamespacesFromAccount(addressObj)
-    .pipe(
-      mergeMap(namespacesInfo => {
-        const namespaceIds = namespacesInfo.map(x => {
-          namespacesIds[x.id.toHex().toUpperCase()] = { namespaceInfo: x }
-          return x.id
-        })
-        return namespaceHttp.getNamespacesName(namespaceIds)
-      }),
-      map(namespacesNames =>
-        namespacesNames.map(namespaceName => {
-          const namespace =
-            namespacesIds[namespaceName.namespaceId.toHex().toUpperCase()]
-          namespace.namespaceName = namespaceName
-          return namespace
-        })
+class sdkNamespace {
+  static getNamespacesFromAccountByAddress = async (address) => {
+    const addressObj = new Address(address)
+    const namespacesIds = []
+    const namespaceList = await namespaceHttp
+      .getNamespacesFromAccount(addressObj)
+      .pipe(
+        mergeMap(namespacesInfo => {
+          const namespaceIds = namespacesInfo.map(x => {
+            namespacesIds[x.id.toHex().toUpperCase()] = { namespaceInfo: x }
+            return x.id
+          })
+          return namespaceHttp.getNamespacesName(namespaceIds)
+        }),
+        map(namespacesNames =>
+          namespacesNames.map(namespaceName => {
+            const namespace =
+              namespacesIds[namespaceName.namespaceId.toHex().toUpperCase()]
+            namespace.namespaceName = namespaceName
+            return namespace
+          })
+        )
       )
-    )
-    .toPromise()
+      .toPromise()
 
-  return format.formatNamespaces(namespaceList)
+    return format.formatNamespaces(namespaceList)
+  }
+
+  static getNamespaceInfoByName = async name => {
+    const namespace = new NamespaceId(name)
+    const namespaceService = new NamespaceService(namespaceHttp)
+    let namespaceInfo = await namespaceService.namespace(namespace).toPromise()
+
+    let namespaceNames = await namespaceHttp.getNamespacesName([namespace]).toPromise()
+
+    namespaceNames.map(namespace => {
+      if (namespace.parentId) {
+        let parent = namespaceNames.find(n => n.namespaceId.id.equals(namespace.parentId.id))
+        namespace.name = parent.name + '.' + namespace.name
+      }
+    })
+
+    namespaceNames.map(namespace => {
+      namespace.namespaceId = namespace.namespaceId.toHex().toUpperCase()
+      namespace.name = namespace.name.toUpperCase()
+    })
+
+    return format.formatNamespace(namespaceInfo,namespaceNames)
+  }
 }
 
-const getNamespaceInfoByName = async name => {
-  const namespace = new NamespaceId(name)
-
-  const namespaceService = new NamespaceService(namespaceHttp)
-  const namespaceInfo = await namespaceService.namespace(namespace).toPromise()
-
-  return format.formatNamespace(namespaceInfo)
-}
-
-export { getNamespacesFromAccountByAddress, getNamespaceInfoByName }
+export default sdkNamespace

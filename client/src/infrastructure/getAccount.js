@@ -18,11 +18,16 @@
 
 import { AccountHttp, Address } from 'nem2-sdk'
 import format from '../format'
-const accountHttp = new AccountHttp('http://52.194.207.217:3000')//
-const getAccountInfoByAddress = async address => {
-  const accountInfo = await accountHttp
-    .getAccountInfo(new Address(address))
-    .toPromise()
-  return format.formatAccount(accountInfo)
+import { Endpoint } from '../config/'
+
+const accountHttp = new AccountHttp(Endpoint.api)
+class sdkAccount {
+  static getAccountInfoByAddress = async address => {
+    const accountInfo = await accountHttp
+      .getAccountInfo(new Address(address))
+      .toPromise()
+    return format.formatAccount(accountInfo)
+  }
 }
-export { getAccountInfoByAddress }
+
+export default sdkAccount

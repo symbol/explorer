@@ -36,6 +36,7 @@ Vue.component('page-footer', Pagefooter)
 Vue.component('time-since', TimeSince)
 Vue.component('loader', w1)
 Vue.use(VueClipboard)
+// Vue.use(nem2Sdk)
 
 var settings = {
   networktime: 1459468800000,
