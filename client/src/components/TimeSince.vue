@@ -41,7 +41,7 @@ export default {
   },
   methods: {
     updateDateAge () {
-      let diff = Math.abs(Date.now() - this.date.getTime())
+      let diff = Math.abs(Date.now() - (new Date(this.date)).getTime())
       this.years = Math.floor(diff / this.intervals.year)
       diff -= this.years * this.intervals.year
       this.days = Math.floor(diff / this.intervals.day)

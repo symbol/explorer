@@ -16,31 +16,28 @@
  *
  */
 class helper {
-  static timeSince(date) {
-    var seconds = Math.floor((new Date() - date) / 1000)
-
-    var interval = Math.floor(seconds / 31536000)
-
-    if (interval > 1) {
-      return interval + ' years'
+  static timeSince(interval) {
+    if (interval.years > 1) {
+      return interval.years + ' years'
+    } else if (interval.years === 1) {
+      return interval.years + ' year'
+    } else if (interval.days > 1) {
+      return interval.days + ' days'
+    } else if (interval.days === 1) {
+      return interval.days + ' day'
+    } else if (interval.hours > 1) {
+      return interval.hours + ' hours'
+    } else if (interval.hours === 1) {
+      return interval.hours + ' hour'
+    } else if (interval.minutes > 1) {
+      return interval.minutes + ' minutes'
+    } else if (interval.minutes === 1) {
+      return interval.minutes + ' minute'
+    } else if (interval.seconds !== 1) {
+      return interval.seconds + ' seconds'
+    } else {
+      return interval.seconds + ' second'
     }
-    interval = Math.floor(seconds / 2592000)
-    if (interval > 1) {
-      return interval + ' months'
-    }
-    interval = Math.floor(seconds / 86400)
-    if (interval > 1) {
-      return interval + ' days'
-    }
-    interval = Math.floor(seconds / 3600)
-    if (interval > 1) {
-      return interval + ' hours'
-    }
-    interval = Math.floor(seconds / 60)
-    if (interval >= 1) {
-      return interval + ' minutes'
-    }
-    return Math.floor(seconds) + ' seconds'
   }
 
   static uint64ToString(high, low) {
