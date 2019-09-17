@@ -134,7 +134,7 @@ export default {
     load_data: function() {
       this.getLatestBlockList.length > 0
         ? (this.loading = 1)
-        : (self.loading = 0)
+        : (this.loading = 0)
     },
     nextPage() {
       this.$store.dispatch('INCREASE_CURRENT_PAGE')

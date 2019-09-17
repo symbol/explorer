@@ -30,7 +30,7 @@
         </div>
         <div class="col-md-11">
           <div class="nav-con" v-bind:class="{'nav-active':(showTopMenu==1)}">
-            <ul class="nav-menu">
+            <ul class="nav-menu ls1">
               <li>
                 <router-link to="/" exact active-class="active">
                   <i class="ico-th-large"></i>
