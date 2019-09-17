@@ -62,8 +62,12 @@
   background: #0998a6 !important;
   color: #fff;
 }
-.apexcharts-toolbar{
+.apexcharts-toolbar {
   margin-top: 6px;
+}
+.apexcharts-canvas svg {
+    margin: 0px 0px 0px -10px;
+    width: 100%;
 }
 </style>
 <script>
@@ -105,10 +109,10 @@ export default {
         var graph_data_item = {};
         graph_data_item.y = [];
         graph_data_item.x = new Date(item["time"] * 1000);
-        graph_data_item.y[0] = item["open"];
-        graph_data_item.y[1] = item["high"];
-        graph_data_item.y[2] = item["low"];
-        graph_data_item.y[3] = item["close"];
+        graph_data_item.y[0] = item["open"]; //parseFloat(item["open"]).toFixed(4);
+        graph_data_item.y[1] = item["high"]; //parseFloat(item["high"]).toFixed(4);
+        graph_data_item.y[2] = item["low"];//parseFloat(item["low"]).toFixed(4);
+        graph_data_item.y[3] = item["close"];//parseFloat(item["close"]).toFixed(4);
         graph_data.push(graph_data_item);
       });
       var options = {
@@ -117,17 +121,17 @@ export default {
           type: "area",
           foreColor: "#999",
           toolbar: {
-            show: true,
-            tools: {
-              download: false,
-              selection: true,
-              zoom: false,
-              zoomin: true,
-              zoomout: true,
-              pan: '<i class="ico-arrow-move" style="font-size: 24px;"></i>',
-              reset: '<i class="ico-ios-refresh-outline" style="font-size: 22px;"></i>',
-              customIcons: []
-            }
+            show: false
+            // tools: {
+            //   download: false,
+            //   selection: true,
+            //   zoom: false,
+            //   zoomin: true,
+            //   zoomout: true,
+            //   pan: '<i class="ico-arrow-move" style="font-size: 24px;"></i>',
+            //   reset: '<i class="ico-ios-refresh-outline" style="font-size: 22px;"></i>',
+            //   customIcons: []
+            // }
           }
         },
         stroke: {

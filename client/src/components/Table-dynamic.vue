@@ -18,24 +18,28 @@
 
 <template>
   <div>
-    <table
-      id="table-dynmic"
-      class="table table-striped table-bordered"
-      v-bind:class="tableClass"
-      cellspacing="0"
-      width="100%"
-    >
-      <thead>
-        <tr>
-          <th v-for="(item,index) in tableHead" v-bind:key="index">{{item}}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(item,index) in tableData" v-bind:key="index">
-          <td v-for="(subitem,idx) in item" v-bind:key="idx" v-html=formatData(subitem)></td>
-        </tr>
-      </tbody>
-    </table>
+    <div class="table-responsive">
+      <div class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer p-0">
+        <table
+          id="table-dynmic"
+          class="table table-striped table-bordered"
+          v-bind:class="tableClass"
+          cellspacing="0"
+          width="100%"
+        >
+          <thead>
+            <tr>
+              <th v-for="(item,index) in tableHead" v-bind:key="index">{{item}}</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item,index) in tableData" v-bind:key="index">
+              <td v-for="(subitem,idx) in item" v-bind:key="idx" v-html="formatData(subitem)"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
   </div>
 </template>
 <script>
@@ -46,10 +50,10 @@ export default {
     tableData: Array,
     tableRowAction: { type: Function }
   },
-methods: {
+  methods: {
     formatData: function(data) {
       //check data is HTML
-      return data
+      return data;
     }
   }
 };
