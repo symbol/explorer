@@ -59,7 +59,13 @@
                           <td>
                             <router-link :to="'/block/' + item.height">{{item.height}}</router-link>
                           </td>
-                          <td>{{timefix(item.date)}}</td>
+                          <td>
+                            <time-since :date="item.date">
+                              <template slot-scope="interval">
+                                {{timefix(interval)}}
+                              </template>
+                            </time-since>
+                          </td>
                           <td>{{item.numTransactions}}</td>
                           <td>{{item.totalFee}}</td>
                           <td>{{item.date}}</td>
@@ -126,10 +132,8 @@ export default {
     ]),
   },
   methods: {
-    timefix: function(time) {
-      var time_fx = new Date(time)
-      var offset = new Date().getTimezoneOffset()
-      return helper.timeSince(time_fx)
+    timefix: function(interval) {
+      return helper.timeSince(interval)
     },
     load_data: function() {
       this.getLatestBlockList.length > 0
