@@ -71,18 +71,18 @@ class sdkBlock {
     store.dispatch(
       'SET_BLOCKS_LIST',
       format.formatBlocks(blocks),
-      { root: true },
-    );
+      { root: true }
+    )
 
-    if (store.getters.getCurrentBlockHeight == 0 && store.getters.getCurrentBlockHeight < blocks[0].height.compact()) {
+    if (store.getters.getCurrentBlockHeight === 0 && store.getters.getCurrentBlockHeight < blocks[0].height.compact()) {
       store.dispatch(
         'SET_LATEST_CHAIN_STATUS',
         format.formatBlock(blocks[0]),
-        { root: true },
-      );
+        { root: true }
+      )
     }
 
-    return await format.formatBlocks(blocks)
+    return format.formatBlocks(blocks)
   }
 }
 

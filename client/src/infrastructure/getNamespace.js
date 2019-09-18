@@ -70,7 +70,7 @@ class sdkNamespace {
       namespace.name = namespace.name.toUpperCase()
     })
 
-    return format.formatNamespace(namespaceInfo,namespaceNames)
+    return format.formatNamespace(namespaceInfo, namespaceNames)
   }
 }
 

@@ -29,14 +29,9 @@
         </div>
       </div>
       <div class="box-con">
-        <loader v-if="!blocklist"></loader>
+        <loader v-if="!blockList"></loader>
         <div class="row">
-          <div
-            class="col-md-3"
-            v-for="(item, index) in blocklist"
-            v-bind:key="item.height"
-            v-if="index < 4"
-          >
+          <div class="col-md-3" v-for="item in recentBlockList" v-bind:key="item.height">
             <div class="rn_blk_con">
               <div class="blkht" @click="load_block_info(item.height)">
                 <span>{{ item.height }}</span>
@@ -59,35 +54,41 @@
   </div>
 </template>
 <script>
-import helper from "../helper";
-import router from "../router";
-import moment from "moment";
-var zone = moment().utcOffset();
+import helper from '../helper'
+import router from '../router'
+import moment from 'moment'
+let zone = moment().utcOffset()
 
 export default {
   props: {
-    blocklist: {}
+    blockList: []
   },
   watch: {
-    blocklist: "auto_update_time"
+    blockList: 'auto_update_time'
   },
   created() {
     this.auto_update_time()
   },
   methods: {
-    timefix: function(time) {
-      var time1 = moment.utc(time).utcOffset(zone);    
-      return helper.timeSince(new Date(time)) + " ago";
+    timefix(time) {
+      let time1 = moment.utc(time).utcOffset(zone)
+      return helper.timeSince(new Date(time1)) + ' ago'
     },
-    load_block_info: function(id) {
-      router.push({ path: `/block/${id}` });
+    load_block_info(id) {
+      router.push({ path: `/block/${id}` })
     },
-    load_accnt_info:function(acnt_adrs){
-      router.push({ path: `/account/${acnt_adrs}` });
+    load_accnt_info(address) {
+      router.push({ path: `/account/${address}` })
     },
-    auto_update_time: function() {
-      
+    auto_update_time() {
+    }
+  },
+  computed: {
+    recentBlockList() {
+      return this.blockList.filter(function (item, index) {
+        return index < 4
+      })
     }
   }
-};
+}
 </script>

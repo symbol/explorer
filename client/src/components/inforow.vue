@@ -46,7 +46,10 @@
 
 export default {
   props: {
-    loading:0,
+    loading: {
+      type: Number,
+      default: 0
+    },
     info_title: String,
     info_title2: String,
     inforows: {}

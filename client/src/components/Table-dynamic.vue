@@ -51,10 +51,10 @@ export default {
     tableRowAction: { type: Function }
   },
   methods: {
-    formatData: function(data) {
-      //check data is HTML
-      return data;
+    formatData(data) {
+      // check data is HTML
+      return data
     }
   }
-};
+}
 </script>

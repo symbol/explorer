@@ -27,7 +27,7 @@ import sdkBlock from './infrastructure/getBlock'
 export default {
   data: () => {
     return {
-      info: 1,
+      info: 1
     }
   },
   mounted() {
@@ -35,8 +35,9 @@ export default {
   },
   methods: {
     initApp() {
-      sdkListener.getNewBlock(), sdkBlock.getBlocksWithLimit(25)
-    },
-  },
+      sdkListener.getNewBlock()
+      sdkBlock.getBlocksWithLimit(25)
+    }
+  }
 }
 </script>

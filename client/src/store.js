@@ -26,36 +26,38 @@ export default new Vuex.Store({
     blockList: Array,
     currentBlockPage: 1,
     chainStatus: {
-      currentBlockHeight: 0,
+      currentBlockHeight: 0
     }
   },
   getters: {
     getCurrentBlockHeight(state) {
-      return state.chainStatus.currentBlockHeight;
+      return state.chainStatus.currentBlockHeight
     },
     getLatestBlockList(state) {
-      return state.blockList;
+      return state.blockList
     },
     getCurrentBlockPage(state) {
-      return state.currentBlockPage;
+      return state.currentBlockPage
     }
   },
   mutations: {
     setLatestChainStatus(state, block) {
-      state.chainStatus.currentBlockHeight = block.height;
+      state.chainStatus.currentBlockHeight = block.height
     },
     addBlock(state, formattedBlock) {
-      if (state.blockList.length >= 25) state.blockList.pop();
-      state.blockList.unshift(formattedBlock);
+      if (state.blockList.length >= 25) {
+        state.blockList.pop()
+      }
+      state.blockList.unshift(formattedBlock)
     },
     setBlockList(state, blocklist) {
-      state.blockList = blocklist;
+      state.blockList = blocklist
     },
     resetCurrentBlockPage(state) {
-      state.currentBlockPage = 1;
+      state.currentBlockPage = 1
     },
     increaseCurrentBlockPage(state) {
-      state.currentBlockPage++;
+      state.currentBlockPage++
     },
     decreaseCurrentBlockPage(state) {
       state.currentBlockPage--
@@ -63,29 +65,29 @@ export default new Vuex.Store({
   },
   actions: {
     ADD_BLOCK({ commit, dispatch, state }, block) {
-      dispatch('SET_LATEST_CHAIN_STATUS', block);
+      dispatch('SET_LATEST_CHAIN_STATUS', block)
       if (state.currentBlockPage === 1) {
         if (state.blockList.length > 0) {
-          if (state.blockList.map(function (e) { return e.height; }).indexOf(block.height) === -1) {
+          if (state.blockList.map(function (e) { return e.height }).indexOf(block.height) === -1) {
             commit('addBlock', block)
           }
         }
       }
     },
     SET_LATEST_CHAIN_STATUS({ commit }, block) {
-      commit('setLatestChainStatus', block);
+      commit('setLatestChainStatus', block)
     },
     SET_BLOCKS_LIST({ commit }, blocklist) {
-      commit('setBlockList', blocklist);
+      commit('setBlockList', blocklist)
     },
     RESET_CURRENT_BLOCK_PAGE({ commit }) {
-      commit('resetCurrentBlockPage');
+      commit('resetCurrentBlockPage')
     },
     INCREASE_CURRENT_BLOCK_PAGE({ commit }) {
-      commit('increaseCurrentBlockPage');
+      commit('increaseCurrentBlockPage')
     },
     DECREASE_CURRENT_BLOCK_PAGE({ commit }) {
-      commit('decreaseCurrentBlockPage');
+      commit('decreaseCurrentBlockPage')
     }
   }
 })

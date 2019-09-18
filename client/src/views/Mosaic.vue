@@ -52,7 +52,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr @click="load_mosaic_info('nemona','xemona')">
+                        <tr @click="loadMosaicInfo('nemona','xemona')">
                           <td>1</td>
                           <td>nemona:xemona</td>
                           <td>NAAXHJM65OKDFSYGW4XW4EKJXUIRTKEZZWRK45YF</td>
@@ -60,7 +60,7 @@
                           <td>0</td>
                           <td>2019-08-06 15:57:28</td>
                         </tr>
-                        <tr @click="load_mosaic_info('nemona','xemona')">
+                        <tr @click="loadMosaicInfo('nemona','xemona')">
                           <td>2</td>
                           <td>nemona:nemona</td>
                           <td>NAAXHJM65OKDFSYGW4XW4EKJXUIRTKEZZWRK45YF</td>
@@ -113,9 +113,10 @@
 </template>
 <script>
 import router from '../router'
+
 export default {
   methods: {
-    load_mosaic_info: function (ns, m) {
+    loadMosaicInfo(ns, m) {
       router.push({ path: `/mosaic/${ns}/${m}` })
     }
   }
