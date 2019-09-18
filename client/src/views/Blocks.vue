@@ -55,7 +55,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="(item,index) in getLatestBlockList" v-bind:key="item.height">
+                        <tr v-for="(item) in getLatestBlockList" v-bind:key="item.height">
                           <td>
                             <router-link :to="'/block/' + item.height">{{item.height}}</router-link>
                           </td>
@@ -89,7 +89,7 @@
                       </li>
                       <li class="page-item">
                         <a href="#" @click="nextPage()">
-                          <i class="ico-angle-right"></i>
+                          MORE
                         </a>
                       </li>
                     </ul>
