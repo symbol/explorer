@@ -171,11 +171,11 @@ export default {
           let i = 0;
           data.blockTransactionList.forEach((el, idx) => {
             let temp = [];
-            let singerLink = `<a href="/#/account/${el.signer.address.address}">${el.signer.address.address}</a>`;
+            let singerLink = `<a href="/#/account/${el.signer}">${el.signer}</a>`;
             let transactionHashLink = `<a href="/#/transaction/${el.transactionHash}">${el.transactionHash}</a>`;
             temp.push(idx + 1);
             temp.push(el.deadline);
-            temp.push(el.transactionDetail.type);
+            temp.push(el.transactionBody.type);
             temp.push(el.fee);
             temp.push(singerLink);
             temp.push(transactionHashLink);

@@ -226,7 +226,7 @@ export default {
         temp.push(el.deadline);
         temp.push(el.fee);
         temp.push(transactionLink);
-        temp.push(el.transactionDetail.type);
+        temp.push(el.transactionBody.type);
         this.account_transaction.data.push(temp);
       });
 
