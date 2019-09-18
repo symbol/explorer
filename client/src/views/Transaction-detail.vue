@@ -24,7 +24,93 @@
       <div class="full-con mob_con">
         <div class="container p-0">
           <div class="widget has-shadow mt-4 m-0 z-1">
-            <inforow info_title="Transaction Details" :inforows="this.trx_detail" :loading="this.loading"></inforow>
+            <div class="box">
+              <div class="box-title">
+                <h1 class="inline-block">Transaction Info</h1>
+              </div>
+              <div class="box-con mt-0">
+                <loader v-if="!loading"></loader>
+                <div class="list_info_con">
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Transaction Hash</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">{{this.transaction_Info.transaction.transactionHash}}</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Block</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">
+                        <router-link
+                          :to="'/block/' + this.transaction_Info.transaction.blockHeight"
+                        >{{this.transaction_Info.transaction.blockHeight}}</router-link></div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Fees</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">{{transaction_Info.transaction.fee}}</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Sender</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">
+                        <router-link
+                          :to="'/account/' + this.transaction_Info.transaction.signer"
+                        >{{this.transaction_Info.transaction.signer}}</router-link>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Signature</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">{{transaction_Info.transaction.signature}}</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Timestamp</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">{{transaction_Info.timestamp}}</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Status</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">{{transaction_Info.status}}</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Confirmation</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">{{transaction_Info.confirm}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <inforow
+              info_title="Transaction Details"
+              :inforows="this.transaction_body"
+              :loading="this.loading"
+            ></inforow>
           </div>
         </div>
       </div>
@@ -37,56 +123,37 @@
 import router from '../router'
 import w1 from '@/components/inforow.vue'
 import DataService from '../data-service'
+import sdkTransaction from '../infrastructure/getTransaction'
 export default {
   name: 'block',
   components: {
-    inforow: w1
+    inforow: w1,
   },
-  created () {},
-  data () {
+  created() {},
+  data() {
     return {
-      trx_hash: this.$route.params.trx_hash,
-      trx_detail: {
-        'Transaction Hash': '',
-        Block: '',
-        // Timestamp: "",
-        Type: '',
-        Harvester: '',
-        'Block Hash': '',
-        Sender: '',
-        Recipient: '',
-        Amount: '',
-        Fee: '',
-        Message: '',
-        Status: '',
-        confirmation: ''
-      },
-      loading:0
+      transaction_hash: this.$route.params.trx_hash,
+      transaction_Info: {},
+      transaction_body: {},
+      loading: 0,
     }
   },
-  created () {
-    this.asyncData()
+  created() {
+    // this.asyncData()
   },
-  watch: {
-    $route: 'asyncData'
+  mounted() {
+    this.getTransactionByHash()
   },
   methods: {
-    asyncData () {
-      this.trx_hash = this.$route.params.trx_hash
-      let self = this
-      DataService.getTrxdetail(this.trx_hash).then(function (data) {
-        self.trx_detail['Transaction Hash'] = self.trx_hash
-        self.trx_detail['Block'] = data.transactionInfo.transaction.blockHeight
-        self.trx_detail['Type'] = data.transactionInfo.transaction.transactionDetail.type
-        self.trx_detail['Harvester'] = data.transactionInfo.transaction.signer
-        self.trx_detail['Recipient'] = data.transactionInfo.transaction.transactionDetail.recipient
-       // self.trx_detail['Amount'] = data.transactionInfo.transaction.transactionDetail.mosaics[0].amount
-        self.trx_detail['Fee'] = data.transactionInfo.transaction.fee
-        self.trx_detail['Status'] = data.transactionInfo.status
-        self.trx_detail['confirmation'] = data.transactionInfo.confirm
-        self.loading=1;
-      })
-    }
-  }
+    async getTransactionByHash() {
+      const transactionInfo = await sdkTransaction.getTransactionInfoByHash(
+        this.transaction_hash
+      )
+      this.transaction_Info = transactionInfo
+      this.transaction_body = transactionInfo.transaction.transactionBody
+
+      this.loading = 1
+    },
+  },
 }
 </script>

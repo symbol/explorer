@@ -22,11 +22,15 @@ import {
   QueryParams,
   PublicAccount,
   NetworkType,
+  TransactionMapping
 } from 'nem2-sdk'
 import format from '../format';
 import { Endpoint } from '../config/'
+import request from 'request'
+import sdkBlock from '../infrastructure/getBlock'
 
 const accountHttp = new AccountHttp(Endpoint.api)
+const transactionHttp = new TransactionHttp(Endpoint.api);
 
 class sdkTransaction {
   static getAccountTransactions = async (publicKey, txId = '') => {
@@ -44,6 +48,36 @@ class sdkTransaction {
 
     return format.formatTransactions(transactionsList);
   };
+
+  static getTransaction(hash) {
+    return new Promise((resolve, reject) => {
+      request(Endpoint.api + '/transaction/' + hash, (error, response, body) => {
+        if (error) return reject(error);
+        let info = JSON.parse(body);
+        return resolve(info);
+      });
+    });
+  }
+
+  static getTransactionInfoByHash = async (hash) => {
+    const transaction = await this.getTransaction(hash);
+    // const transaction1 = await transactionHttp.getTransaction(hash).toPromise(); // waiting SDK fix duel rest change
+    const formattedTransaction = format.formatTransaction(TransactionMapping.createFromDTO(transaction))
+    const getBlockInfo = await sdkBlock.getBlockInfoByHeight(formattedTransaction.blockHeight)
+
+    const transactionStatus = await transactionHttp
+      .getTransactionStatus(hash)
+      .toPromise();
+
+    const transactionInfo = {
+      transaction: formattedTransaction,
+      status: transactionStatus.status,
+      confirm: transactionStatus.group,
+      timestamp: getBlockInfo.date
+    };
+
+    return transactionInfo;
+  }
 
 }
 
