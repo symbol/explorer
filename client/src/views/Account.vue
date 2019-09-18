@@ -60,7 +60,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr @click="load_acnt_info('NDEVPOSK4OMR4PRTLYFHX4W5QTOND7TZDT2DTU4Q')">
+                        <tr @click="loadAccountInfo('NDEVPOSK4OMR4PRTLYFHX4W5QTOND7TZDT2DTU4Q')">
                           <td>1</td>
                           <td>NDEVPOSK4OMR4PRTLYFHX4W5QTOND7TZDT2DTU4Q</td>
                           <td>900,000,216</td>
@@ -68,7 +68,7 @@
                           <td>2019-07-05 15:44:30</td>
                           <td>Post-V1 Fund - 400 - Fund stakes</td>
                         </tr>
-                        <tr @click="load_acnt_info('NDEVPOSK4OMR4PRTLYFHX4W5QTOND7TZDT2DTU4Q')">
+                        <tr @click="loadAccountInfo('NDEVPOSK4OMR4PRTLYFHX4W5QTOND7TZDT2DTU4Q')">
                           <td>2</td>
                           <td>NDEVPOSK4OMR4PRTLYFHX4W5QTOND7TZDT2DTU4Q</td>
                           <td>900,000,216</td>
@@ -76,7 +76,7 @@
                           <td>2019-07-05 15:44:30</td>
                           <td>Post-V1 Fund - 400 - Fund stakes</td>
                         </tr>
-                        <tr @click="load_acnt_info('NDEVPOSK4OMR4PRTLYFHX4W5QTOND7TZDT2DTU4Q')">
+                        <tr @click="loadAccountInfo('NDEVPOSK4OMR4PRTLYFHX4W5QTOND7TZDT2DTU4Q')">
                           <td>3</td>
                           <td>NDEVPOSK4OMR4PRTLYFHX4W5QTOND7TZDT2DTU4Q</td>
                           <td>900,000,216</td>
@@ -84,7 +84,7 @@
                           <td>2019-07-05 15:44:30</td>
                           <td>Post-V1 Fund - 400 - Fund stakes</td>
                         </tr>
-                        <tr @click="load_acnt_info('NDEVPOSK4OMR4PRTLYFHX4W5QTOND7TZDT2DTU4Q')">
+                        <tr @click="loadAccountInfo('NDEVPOSK4OMR4PRTLYFHX4W5QTOND7TZDT2DTU4Q')">
                           <td>4</td>
                           <td>NDEVPOSK4OMR4PRTLYFHX4W5QTOND7TZDT2DTU4Q</td>
                           <td>900,000,216</td>
@@ -92,7 +92,7 @@
                           <td>2019-07-05 15:44:30</td>
                           <td>Post-V1 Fund - 400 - Fund stakes</td>
                         </tr>
-                        <tr @click="load_acnt_info('NDEVPOSK4OMR4PRTLYFHX4W5QTOND7TZDT2DTU4Q')">
+                        <tr @click="loadAccountInfo('NDEVPOSK4OMR4PRTLYFHX4W5QTOND7TZDT2DTU4Q')">
                           <td>5</td>
                           <td>NDEVPOSK4OMR4PRTLYFHX4W5QTOND7TZDT2DTU4Q</td>
                           <td>900,000,216</td>
@@ -145,13 +145,13 @@
 </template>
 <script>
 import router from '../router'
+
 export default {
   methods: {
-    load_acnt_info: function (id) {
+    loadAccountInfo(id) {
       console.log(id)
       router.push({ path: `/account/${id}` })
     }
   }
 }
-</script>
 </script>

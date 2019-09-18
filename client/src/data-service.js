@@ -17,8 +17,6 @@
  */
 
 import axios from 'axios'
-import format from './format'
-import * as nemSdk from 'nem2-sdk'
 import sdkBlock from './infrastructure/getBlock'
 const url = window.conf.api
 
@@ -27,13 +25,13 @@ class DataService {
   static getHomeData() {
     return new Promise(async (resolve, reject) => {
       try {
-        sdkBlock.getBlocksWithLimit(25);
+        sdkBlock.getBlocksWithLimit(25)
         const res = await axios.get(url + 'homeInfo')
         const data = res.data
-        //  console.log(data);
+        //  console.log(data)
         return resolve(data.data)
       } catch (err) {
-        reject('request error homeinfo')
+        reject(new Error('request error homeinfo'))
       }
     })
   }
@@ -42,10 +40,10 @@ class DataService {
       try {
         const res = await axios.get(url + 'blocks?page=' + page)
         const data = res.data
-        //  console.log(data);
+        //  console.log(data)
         return resolve(data.data)
       } catch (err) {
-        reject('request error getBlocks')
+        reject(new Error('request error getBlocks'))
       }
     })
   }
@@ -56,47 +54,46 @@ class DataService {
         const blockTransactionList = await sdkBlock.getBlockFullTransactionsList(
           blockID
         )
-
         const data = { blockInfo, blockTransactionList }
         return resolve(data)
       } catch (err) {
-        reject('request error getBlockinfo')
+        reject(new Error('request error getBlockinfo'))
       }
     })
   }
-  static getTrxdetail(trx_id) {
+  static getTrxdetail(transactionId) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.get(url + 'transaction/' + trx_id)
+        const res = await axios.get(url + 'transaction/' + transactionId)
         const data = res.data
-        //  console.log(data);
+        //  console.log(data)
         return resolve(data.data)
       } catch (err) {
-        reject('request error getBlockinfo')
+        reject(new Error('request error getBlockinfo'))
       }
     })
   }
-  static getAcntdetail(addrs) {
+  static getAcntdetail(address) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.get(url + 'account/' + addrs)
+        const res = await axios.get(url + 'account/' + address)
         const data = res.data
-        //  console.log(data);
+        //  console.log(data)
         return resolve(data.data)
       } catch (err) {
-        reject('request error getBlockinfo')
+        reject(new Error('request error getBlockinfo'))
       }
     })
   }
 
-  static syncWs(update_id = null) {
+  static syncWs(updateId = null) {
     return new Promise(async (resolve, reject) => {
       try {
-        const res = await axios.get(url + 'ws/' + update_id)
+        const res = await axios.get(url + 'ws/' + updateId)
         const data = res.data
         return resolve(data)
       } catch (err) {
-        reject('request error syncWs ')
+        reject(new Error('request error syncWs'))
       }
     })
   }

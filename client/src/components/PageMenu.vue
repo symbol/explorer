@@ -97,14 +97,14 @@
 </template>
 <script>
 export default {
-  name: "PageMenu",
+  name: 'PageMenu',
   props: {
     msg: String
   },
-  data: function() {
+  data() {
     return {
       showTopMenu: false
-    };
+    }
   }
-};
+}
 </script>

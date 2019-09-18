@@ -63,7 +63,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr @click="load_trx_info('ec7398741cfd6d3716e')">
+                        <tr @click="loadTransactionInfo('ec7398741cfd6d3716e')">
                           <td>2271554</td>
                           <td>ec7398741cfd6d3716e...</td>
                           <td>transfer | mosaic</td>
@@ -72,7 +72,7 @@
                           <td>404 / 0.15</td>
                           <td>2019-08-06 21:20:17</td>
                         </tr>
-                        <tr @click="load_trx_info('ec7398741cfd6d3716e')">
+                        <tr @click="loadTransactionInfo('ec7398741cfd6d3716e')">
                           <td>2271554</td>
                           <td>ec7398741cfd6d3716e...</td>
                           <td>transfer | mosaic</td>
@@ -81,7 +81,7 @@
                           <td>404 / 0.15</td>
                           <td>2019-08-06 21:20:17</td>
                         </tr>
-                        <tr @click="load_trx_info('ec7398741cfd6d3716e')">
+                        <tr @click="loadTransactionInfo('ec7398741cfd6d3716e')">
                           <td>2271554</td>
                           <td>ec7398741cfd6d3716e...</td>
                           <td>transfer | mosaic</td>
@@ -90,7 +90,7 @@
                           <td>404 / 0.15</td>
                           <td>2019-08-06 21:20:17</td>
                         </tr>
-                        <tr @click="load_trx_info('ec7398741cfd6d3716e')">
+                        <tr @click="loadTransactionInfo('ec7398741cfd6d3716e')">
                           <td>2271554</td>
                           <td>ec7398741cfd6d3716e...</td>
                           <td>transfer | mosaic</td>
@@ -153,9 +153,10 @@
 </template>
 <script>
 import router from '../router'
+
 export default {
   methods: {
-    load_trx_info: function (id) {
+    loadTransactionInfo(id) {
       console.log(id)
       router.push({ path: `/transaction/${id}` })
     }

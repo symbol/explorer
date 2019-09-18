@@ -197,22 +197,22 @@
   </div>
 </template>
 <script>
-import router from '../router'
 import { Tabs, Tab } from 'vue-slim-tabs'
+
 export default {
   name: 'block',
   components: {
     Tabs,
     Tab
   },
-  created () {},
-  data () {
+  created() {},
+  data() {
     return {
       ns: this.$route.params.ns,
       msc: this.$route.params.m
     }
   },
   methods: {},
-  mounted () {}
+  mounted() {}
 }
 </script>

@@ -55,7 +55,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="(item,index) in getLatestBlockList" v-bind:key="item.height">
+                        <tr v-for="item in getLatestBlockList" v-bind:key="item.height">
                           <td>
                             <router-link :to="'/block/' + item.height">{{item.height}}</router-link>
                           </td>
@@ -106,45 +106,38 @@
   </div>
 </template>
 <script>
-import DataService from '../data-service'
 import sdkBlock from '../infrastructure/getBlock'
-import router from '../router'
 import helper from '../helper'
-import io from 'socket.io-client'
 import { mapGetters } from 'vuex'
 
-const socket = io.connect(window.conf.ws, {
-  path: window.conf.ws_path,
-})
 export default {
   name: 'block',
   components: {},
   data() {
     return {
-      loading: 0,
+      loading: 0
     }
   },
   computed: {
     ...mapGetters([
       'getCurrentBlockHeight',
       'getLatestBlockList',
-      'getCurrentBlockPage',
-    ]),
+      'getCurrentPage'
+    ])
   },
   methods: {
-    timefix: function(interval) {
+    timefix(interval) {
       return helper.timeSince(interval)
     },
-    load_data: function() {
+    load_data() {
       this.getLatestBlockList.length > 0
         ? (this.loading = 1)
         : (this.loading = 0)
     },
     nextPage() {
       this.$store.dispatch('INCREASE_CURRENT_BLOCK_PAGE')
-      let getEndBlock = this.getLatestBlockList[
-        this.getLatestBlockList.length - 1
-      ]
+      let index = this.getLatestBlockList.length - 1
+      let getEndBlock = this.getLatestBlockList[index]
       sdkBlock.getBlocksWithLimit(25, getEndBlock.height - 1)
     },
     previousPage() {
@@ -153,13 +146,13 @@ export default {
         let getStartBlock = this.getLatestBlockList[0]
         sdkBlock.getBlocksWithLimit(25, getStartBlock.height + 1)
       }
-    },
+    }
   },
   created() {
     this.load_data()
   },
   destroyed() {
     this.$store.dispatch('RESET_CURRENT_BLOCK_PAGE')
-  },
+  }
 }
 </script>

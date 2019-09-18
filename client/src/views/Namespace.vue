@@ -51,28 +51,28 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr @click="load_name_space_info('nemona')">
+                        <tr @click="loadNamespaceInfo('nemona')">
                           <td>1</td>
                           <td>nemona</td>
                           <td>NAAXHJM65OKDFSYGW4XW4EKJXUIRTKEZZWRK45Y</td>
                           <td>2019-08-06 13:48:40 / 2020-08-06 13:48:40</td>
                           <td>(1)</td>
                         </tr>
-                        <tr @click="load_name_space_info('hybseglobal')">
+                        <tr @click="loadNamespaceInfo('hybseglobal')">
                           <td>2</td>
                           <td>hybseglobal</td>
                           <td>NBX4SF63GXZBHRMBSL6QIQHE2FYMBPIRX3Z3MIZP</td>
                           <td>2019-08-02 15:34:15 / 2020-08-02 15:34:15</td>
                           <td>(1)</td>
                         </tr>
-                         <tr @click="load_name_space_info('hybseglobal')">
+                         <tr @click="loadNamespaceInfo('hybseglobal')">
                           <td>2</td>
                           <td>hybseglobal</td>
                           <td>NBX4SF63GXZBHRMBSL6QIQHE2FYMBPIRX3Z3MIZP</td>
                           <td>2019-08-02 15:34:15 / 2020-08-02 15:34:15</td>
                           <td>(1)</td>
                         </tr>
-                         <tr @click="load_name_space_info('hybseglobal')">
+                         <tr @click="loadNamespaceInfo('hybseglobal')">
                           <td>2</td>
                           <td>hybseglobal</td>
                           <td>NBX4SF63GXZBHRMBSL6QIQHE2FYMBPIRX3Z3MIZP</td>
@@ -124,13 +124,13 @@
 </template>
 <script>
 import router from '../router'
+
 export default {
   methods: {
-    load_name_space_info: function (id) {
+    loadNamespaceInfo(id) {
       console.log(id)
       router.push({ path: `/namespace/${id}` })
     }
   }
 }
-</script>
 </script>

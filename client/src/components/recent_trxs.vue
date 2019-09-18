@@ -172,18 +172,12 @@
   </div>
 </template>
 <script>
-import { TransactionHttp, QueryParams } from "nem2-sdk";
-import { Endpoint } from "../config/";
-
-import { async } from 'rxjs/internal/scheduler/async';
-
 export default {
   mounted() {
   },
   computed: {
-   
   },
   methods: {
   }
-};
+}
 </script>

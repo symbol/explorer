@@ -230,8 +230,8 @@
   </div>
 </template>
 <script>
-import router from '../router'
 import sdkNamespace from '../infrastructure/getNamespace'
+
 export default {
   name: 'block',
   components: {},
@@ -242,7 +242,7 @@ export default {
       loading: 0,
       namespaceInfo: {},
       alias: {},
-      levels: Array,
+      levels: Array
     }
   },
   mounted() {
@@ -256,9 +256,8 @@ export default {
 
       this.namespaceInfo = namespaceInfo
       this.levels = namespaceInfo.levels
-
       this.loading = 1
-    },
-  },
+    }
+  }
 }
 </script>

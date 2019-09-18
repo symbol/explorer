@@ -1,6 +1,5 @@
 import { Address, TransactionType, AliasActionType, UInt64 } from 'nem2-sdk'
 import moment from 'moment'
-import helper from './helper'
 
 // FORMAT FEE
 
@@ -33,10 +32,10 @@ const formatTimestamp = nemstamp =>
 const formatBlocks = (blockList) => {
   if (blockList) {
     return blockList.map(block => {
-      return formatBlock(block);
-    });
+      return formatBlock(block)
+    })
   }
-  return;
+  return []
 }
 
 const formatBlock = (block) => {
@@ -55,10 +54,10 @@ const formatBlock = (block) => {
     previousBlockHash: block.previousBlockHash,
     blockTransactionsHash: block.blockTransactionsHash,
     blockReceiptsHash: block.blockReceiptsHash,
-    stateHash: block.stateHash,
-  };
+    stateHash: block.stateHash
+  }
 
-  return blockObj;
+  return blockObj
 }
 
 // FORMAT ACCOUNT
@@ -79,7 +78,7 @@ const formatAccount = accountInfo => {
     publicKeyHeight: accountInfo.publicKeyHeight.compact(),
     mosaics: formatMosaics(accountInfo.mosaics),
     importance: importanceScore,
-    importanceHeight: accountInfo.importanceHeight.compact(),
+    importanceHeight: accountInfo.importanceHeight.compact()
   }
 
   return accountObj
@@ -101,7 +100,7 @@ const formatTransactions = transactions => {
       return formatTransaction(transaction)
     })
   }
-  return
+  return []
 }
 
 // FORMAT TRANSACTION
@@ -116,7 +115,7 @@ const formatTransaction = transaction => {
     blockHeight: transaction.transactionInfo.height.compact(),
     transactionHash: transaction.transactionInfo.hash,
     transactionId: transaction.transactionInfo.id,
-    transactionDetail: formatTransactionBody(transaction),
+    transactionDetail: formatTransactionBody(transaction)
   }
 
   return transactionObj
@@ -131,7 +130,7 @@ const formatTransactionBody = transactionBody => {
         typeId: TransactionType.TRANSFER,
         recipient: transactionBody.recipient,
         mosaics: formatMosaics(transactionBody.mosaics),
-        message: transactionBody.message.payload,
+        message: transactionBody.message.payload
       }
       return transferObj
     case TransactionType.REGISTER_NAMESPACE:
@@ -143,7 +142,7 @@ const formatTransactionBody = transactionBody => {
         namespaceName: transactionBody.namespaceName,
         namespaceId: transactionBody.namespaceId.id.toHex(),
         parentId: transactionBody.parentId ? '' : transactionBody.parentId,
-        duration: transactionBody.duration,
+        duration: transactionBody.duration
       }
       return registerNamespaceObj
     case TransactionType.ADDRESS_ALIAS:
@@ -154,7 +153,7 @@ const formatTransactionBody = transactionBody => {
         typeId: TransactionType.MOSAIC_ALIAS,
         actionType: transactionBody.actionType,
         namespaceId: transactionBody.namespaceId.id.toHex(),
-        mosaicId: transactionBody.mosaicId.id.toHex(),
+        mosaicId: transactionBody.mosaicId.id.toHex()
       }
       return mosaicAlias
     case TransactionType.MOSAIC_DEFINITION:
@@ -167,8 +166,8 @@ const formatTransactionBody = transactionBody => {
           duration: transactionBody.mosaicProperties.duration,
           supplyMutable: transactionBody.mosaicProperties.supplyMutable,
           transferable: transactionBody.mosaicProperties.transferable,
-          restrictable: transactionBody.mosaicProperties.restrictable,
-        },
+          restrictable: transactionBody.mosaicProperties.restrictable
+        }
       }
       return mosaicDefinitionObj
     case TransactionType.MOSAIC_SUPPLY_CHANGE:
@@ -176,8 +175,8 @@ const formatTransactionBody = transactionBody => {
         type: 'MosaicSupplyChange',
         typeId: TransactionType.MOSAIC_SUPPLY_CHANGE,
         mosaicId: transactionBody.mosaicId.id.toHex(),
-        direction: transactionBody.direction == 1 ? 'Increase' : 'Decrease',
-        delta: transactionBody.delta.compact(),
+        direction: transactionBody.direction === 1 ? 'Increase' : 'Decrease',
+        delta: transactionBody.delta.compact()
       }
       return mosaicSupplyChangeObj
     case TransactionType.MODIFY_MULTISIG_ACCOUNT:
@@ -265,7 +264,7 @@ const formatNamespaces = namespacesInfo =>
         endHeight: name.includes('nem')
           ? 'Infinity'
           : ns.namespaceInfo.endHeight.compact(),
-        parentId: ns.namespaceInfo.parentId.id.toHex(),
+        parentId: ns.namespaceInfo.parentId.id.toHex()
       }
     })
 
@@ -323,5 +322,5 @@ export default {
   formatTransaction,
   formatTransactionBody,
   formatNamespaces,
-  formatNamespace,
+  formatNamespace
 }

@@ -8,7 +8,7 @@
 <script>
 export default {
   name: 'TimeSince',
-  data () {
+  data() {
     return {
       interval: null,
       years: 0,
@@ -30,17 +30,17 @@ export default {
       required: true
     }
   },
-  mounted () {
+  mounted() {
     this.interval = setInterval(() => {
       this.updateDateAge()
     }, 1000)
     this.updateDateAge()
   },
-  destroyed () {
+  destroyed() {
     clearInterval(this.interval)
   },
   methods: {
-    updateDateAge () {
+    updateDateAge() {
       let diff = Math.abs(Date.now() - (new Date(this.date)).getTime())
       this.years = Math.floor(diff / this.intervals.year)
       diff -= this.years * this.intervals.year

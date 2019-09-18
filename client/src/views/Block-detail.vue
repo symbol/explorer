@@ -129,12 +129,11 @@
   </div>
 </template>
 <script>
-import w1 from "@/components/Table-dynamic.vue";
+import w1 from '@/components/Table-dynamic.vue'
+import DataService from '../data-service'
 
-import DataService from "../data-service";
-var s = "";
 export default {
-  name: "block",
+  name: 'block',
   components: {
     datatable: w1
   },
@@ -144,49 +143,48 @@ export default {
       block_Info: {},
       table_data: {
         head: [
-          "#",
-          "Timestamp",
-          "Transaction Type",
-          "Fees",
-          "Signer",
-          "Transaction Hash"
+          '#',
+          'Timestamp',
+          'Transaction Type',
+          'Fees',
+          'Signer',
+          'Transaction Hash'
         ],
         data: []
       },
       loading: true
-    };
+    }
   },
   mounted() {
-    this.asyncData();
+    this.asyncData()
   },
   methods: {
     asyncData() {
-      let self = this;
-      this.block_id = this.$route.params.blockid;
-      this.loading = 0;
-      DataService.getBlockinfo(this.block_id).then(function(data) {
-        self.block_Info = data.blockInfo;
+      let self = this
+      this.block_id = this.$route.params.blockid
+      this.loading = 0
+      DataService.getBlockinfo(this.block_id).then(function (data) {
+        self.block_Info = data.blockInfo
         if (data.blockTransactionList.length) {
-          self.table_data.data = [];
-          let i = 0;
+          self.table_data.data = []
           data.blockTransactionList.forEach((el, idx) => {
-            let temp = [];
-            let singerLink = `<a href="/#/account/${el.signer.address.address}">${el.signer.address.address}</a>`;
-            let transactionHashLink = `<a href="/#/transaction/${el.transactionHash}">${el.transactionHash}</a>`;
-            temp.push(idx + 1);
-            temp.push(el.deadline);
-            temp.push(el.transactionDetail.type);
-            temp.push(el.fee);
-            temp.push(singerLink);
-            temp.push(transactionHashLink);
-            self.table_data.data.push(temp);
-          });
+            let temp = []
+            let singerLink = `<a href="/#/account/${el.signer.address.address}">${el.signer.address.address}</a>`
+            let transactionHashLink = `<a href="/#/transaction/${el.transactionHash}">${el.transactionHash}</a>`
+            temp.push(idx + 1)
+            temp.push(el.deadline)
+            temp.push(el.transactionDetail.type)
+            temp.push(el.fee)
+            temp.push(singerLink)
+            temp.push(transactionHashLink)
+            self.table_data.data.push(temp)
+          })
         } else {
-          self.table_data.data = [];
+          self.table_data.data = []
         }
-        self.loading = 1;
-      });
+        self.loading = 1
+      })
     }
   }
-};
+}
 </script>

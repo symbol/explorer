@@ -45,8 +45,7 @@ import w2 from '@/components/nempricegraph.vue'
 import w3 from '@/components/recent_blocks.vue'
 import w4 from '@/components/recent_trxs.vue'
 import DataService from '../data-service'
-// import io from 'socket.io-client'
-import { mapGetters } from "vuex"
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'home',
@@ -59,16 +58,15 @@ export default {
   computed: {
     ...mapGetters(['getLatestBlockList'])
   },
-  data () {
+  data() {
     return {
       home_data: {}
     }
   },
-  async beforeCreate () {
+  async beforeCreate() {
     try {
       this.home_data = await DataService.getHomeData()
     } catch (err) {}
-  },
-
+  }
 }
 </script>

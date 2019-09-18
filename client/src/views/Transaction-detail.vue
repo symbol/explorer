@@ -34,7 +34,6 @@
   </div>
 </template>
 <script>
-import router from '../router'
 import w1 from '@/components/inforow.vue'
 import DataService from '../data-service'
 export default {
@@ -42,8 +41,7 @@ export default {
   components: {
     inforow: w1
   },
-  created () {},
-  data () {
+  data() {
     return {
       trx_hash: this.$route.params.trx_hash,
       trx_detail: {
@@ -61,17 +59,17 @@ export default {
         Status: '',
         confirmation: ''
       },
-      loading:0
+      loading: 0
     }
   },
-  created () {
+  created() {
     this.asyncData()
   },
   watch: {
     $route: 'asyncData'
   },
   methods: {
-    asyncData () {
+    asyncData() {
       this.trx_hash = this.$route.params.trx_hash
       let self = this
       DataService.getTrxdetail(this.trx_hash).then(function (data) {
@@ -80,11 +78,11 @@ export default {
         self.trx_detail['Type'] = data.transactionInfo.transaction.transactionDetail.type
         self.trx_detail['Harvester'] = data.transactionInfo.transaction.signer
         self.trx_detail['Recipient'] = data.transactionInfo.transaction.transactionDetail.recipient
-       // self.trx_detail['Amount'] = data.transactionInfo.transaction.transactionDetail.mosaics[0].amount
+        // self.trx_detail['Amount'] = data.transactionInfo.transaction.transactionDetail.mosaics[0].amount
         self.trx_detail['Fee'] = data.transactionInfo.transaction.fee
         self.trx_detail['Status'] = data.transactionInfo.status
         self.trx_detail['confirmation'] = data.transactionInfo.confirm
-        self.loading=1;
+        self.loading = 1
       })
     }
   }

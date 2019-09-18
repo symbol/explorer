@@ -146,10 +146,10 @@
 export default {
   name: 'block',
   components: {},
-  data () {
+  data() {
     return {}
   },
   methods: {},
-  mounted () {}
+  mounted() {}
 }
 </script>
