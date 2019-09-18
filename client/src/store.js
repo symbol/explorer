@@ -24,7 +24,7 @@ Vue.use(Vuex)
 export default new Vuex.Store({
   state: {
     blockList: Array,
-    currentPage: 1,
+    currentBlockPage: 1,
     chainStatus: {
       currentBlockHeight: 0,
     }
@@ -36,8 +36,8 @@ export default new Vuex.Store({
     getLatestBlockList(state) {
       return state.blockList;
     },
-    getCurrentPage(state) {
-      return state.currentPage;
+    getCurrentBlockPage(state) {
+      return state.currentBlockPage;
     }
   },
   mutations: {
@@ -51,20 +51,20 @@ export default new Vuex.Store({
     setBlockList(state, blocklist) {
       state.blockList = blocklist;
     },
-    resetCurrentPage(state) {
-      state.currentPage = 1;
+    resetCurrentBlockPage(state) {
+      state.currentBlockPage = 1;
     },
-    increaseCurrentPage(state) {
-      state.currentPage++;
+    increaseCurrentBlockPage(state) {
+      state.currentBlockPage++;
     },
-    decreaseCurrentPage(state) {
-      state.currentPage--
+    decreaseCurrentBlockPage(state) {
+      state.currentBlockPage--
     }
   },
   actions: {
     ADD_BLOCK({ commit, dispatch, state }, block) {
       dispatch('SET_LATEST_CHAIN_STATUS', block);
-      if (state.currentPage === 1) {
+      if (state.currentBlockPage === 1) {
         if (state.blockList.length > 0) {
           if (state.blockList.map(function (e) { return e.height; }).indexOf(block.height) === -1) {
             commit('addBlock', block)
@@ -78,14 +78,14 @@ export default new Vuex.Store({
     SET_BLOCKS_LIST({ commit }, blocklist) {
       commit('setBlockList', blocklist);
     },
-    RESET_CURRENT_PAGE({ commit }) {
-      commit('resetCurrentPage');
+    RESET_CURRENT_BLOCK_PAGE({ commit }) {
+      commit('resetCurrentBlockPage');
     },
-    INCREASE_CURRENT_PAGE({ commit }) {
-      commit('increaseCurrentPage');
+    INCREASE_CURRENT_BLOCK_PAGE({ commit }) {
+      commit('increaseCurrentBlockPage');
     },
-    DECREASE_CURRENT_PAGE({ commit }) {
-      commit('decreaseCurrentPage');
+    DECREASE_CURRENT_BLOCK_PAGE({ commit }) {
+      commit('decreaseCurrentBlockPage');
     }
   }
 })
