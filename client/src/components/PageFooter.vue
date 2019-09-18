@@ -91,11 +91,11 @@
   </div>
 </template>
 <script>
-import { Endpoint } from '../config/'
+import { Endpoint } from '../config'
 import helper from '../helper'
 
 export default {
-  name: 'Pagefooter',
+  name: 'PageFooter',
   props: {
     msg: String
   },

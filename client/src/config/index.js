@@ -1,7 +1,7 @@
 let defaultNode = 'http://52.194.207.217:3000'
 
-if (localStorage['defaultnode'] && validURL(localStorage['defaultnode'])) {
-  defaultNode = localStorage['defaultnode']
+if (localStorage['defaultNode'] && validURL(localStorage['defaultNode'])) {
+  defaultNode = localStorage['defaultNode']
 }
 
 export const Endpoint = {

@@ -33,17 +33,21 @@
         <div class="row">
           <div class="col-md-3" v-for="item in recentBlockList" v-bind:key="item.height">
             <div class="rn_blk_con">
-              <div class="blkht" @click="load_block_info(item.height)">
+              <div class="blkht" @click="loadBlockInfo(item.height)">
                 <span>{{ item.height }}</span>
               </div>
               <div class="blk-info">
                 <div class="inrw">
                   <span>{{ item.numTransactions }} Transactions</span>
-                  <span>{{timefix(item.date)}}</span>
+                  <time-since :date="item.date">
+                    <template slot-scope="interval">
+                      {{timeSince(interval)}}
+                    </template>
+                  </time-since>
                 </div>
                 <div class="inrw flex">
                   <span>Harvester</span>
-                  <a href="#" @click="load_accnt_info(item.signer.address.address)" class="acnt">{{item.signer.address.address}}</a>
+                  <a href="#" @click="loadAccountInfo(item.signer.address.address)" class="acnt">{{item.signer.address.address}}</a>
                 </div>
               </div>
             </div>
@@ -56,36 +60,25 @@
 <script>
 import helper from '../helper'
 import router from '../router'
-import moment from 'moment'
-let zone = moment().utcOffset()
 
 export default {
   props: {
-    blockList: []
-  },
-  watch: {
-    blockList: 'auto_update_time'
-  },
-  created() {
-    this.auto_update_time()
+    blockList: {}
   },
   methods: {
-    timefix(time) {
-      let time1 = moment.utc(time).utcOffset(zone)
-      return helper.timeSince(new Date(time1)) + ' ago'
+    timeSince(interval) {
+      return helper.timeSince(interval)
     },
-    load_block_info(id) {
+    loadBlockInfo(id) {
       router.push({ path: `/block/${id}` })
     },
-    load_accnt_info(address) {
+    loadAccountInfo(address) {
       router.push({ path: `/account/${address}` })
-    },
-    auto_update_time() {
     }
   },
   computed: {
     recentBlockList() {
-      return this.blockList.filter(function (item, index) {
+      return Array.prototype.filter.call(this.blockList, function (item, index) {
         return index < 4
       })
     }

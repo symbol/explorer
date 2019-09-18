@@ -28,11 +28,11 @@
               <div class="box-title">
                 <h1 class="inline-block">Account Detail</h1>
                 <div class="btn_grp inline-block flt-rt address_info">
-                  <span>{{account_address}}</span>
+                  <span>{{address}}</span>
                   <button
                     type="button"
                     class="ico-files-o act-copy"
-                    v-clipboard:copy="account_address"
+                    v-clipboard:copy="address"
                     v-clipboard:success="onCopy"
                     v-clipboard:error="onError"
                   ></button>
@@ -46,7 +46,7 @@
                       <div class="label">Public key</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">{{account_info.publicKey}}</div>
+                      <div class="value">{{accountInfo.publicKey}}</div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -54,7 +54,7 @@
                       <div class="label">Importance</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">{{account_info.importance}}</div>
+                      <div class="value">{{accountInfo.importance}}</div>
                     </div>
                   </div>
                 </div>
@@ -66,11 +66,11 @@
               <div class="tabs-con">
                 <tabs>
                   <tab title="Balance">
-                    <datatable
+                    <DataTable
                       tableClass="account_balance"
                       :tableHead="this.balance.head"
                       :tableData="this.balance.data"
-                    ></datatable>
+                    ></DataTable>
                   </tab>
                   <!-- <tab title="Owned Mosaics">
                     <div class="table-responsive">
@@ -98,11 +98,11 @@
                     </div>
                   </tab>-->
                   <tab title="Owned Namespaces">
-                    <datatable
+                    <DataTable
                       tableClass="blocktrxtbl"
                       :tableHead="this.ownedNamespaceList.head"
                       :tableData="this.ownedNamespaceList.data"
-                    ></datatable>
+                    ></DataTable>
                   </tab>
 
                   <!-- <tab title="Harvest Info">
@@ -126,11 +126,11 @@
               <div class="tabs-con">
                 <tabs>
                   <tab title="Transactions">
-                    <datatable
+                    <DataTable
                       tableClass
-                      :tableHead="this.account_transaction.head"
-                      :tableData="this.account_transaction.data"
-                    ></datatable>
+                      :tableHead="this.accountTransaction.head"
+                      :tableData="this.accountTransaction.data"
+                    ></DataTable>
                   </tab>
                 </tabs>
               </div>
@@ -145,8 +145,8 @@
 </template>
 <script>
 import { Tabs, Tab } from 'vue-slim-tabs'
-import w1 from '@/components/inforow.vue'
-import w2 from '@/components/Table-dynamic.vue'
+import w1 from '@/components/InfoRow.vue'
+import w2 from '@/components/TableDynamic.vue'
 import sdkAccount from '../infrastructure/getAccount'
 import sdkTransaction from '../infrastructure/getTransaction'
 import sdkNamespace from '../infrastructure/getNamespace'
@@ -156,14 +156,14 @@ export default {
   components: {
     Tabs,
     Tab,
-    inforow: w1,
-    datatable: w2
+    InfoRow: w1,
+    DataTable: w2
   },
   data() {
     return {
-      account_address: this.$route.params.acnt_adrs,
-      account_info: {},
-      account_transaction: {
+      address: this.$route.params.address,
+      accountInfo: {},
+      accountTransaction: {
         head: ['#', 'Deadline', 'Fee', 'Transaction Hash', 'Type'],
         data: []
       },
@@ -198,13 +198,13 @@ export default {
     },
     async getAccountInfo() {
       const accountInfo = await sdkAccount.getAccountInfoByAddress(
-        this.account_address
+        this.address
       )
       const accountTransaction = await sdkTransaction.getAccountTransactions(
         accountInfo.publicKey
       )
 
-      this.account_info = accountInfo
+      this.accountInfo = accountInfo
 
       accountInfo.mosaics.forEach((el, idx) => {
         let temp = []
@@ -223,14 +223,14 @@ export default {
         temp.push(el.fee)
         temp.push(transactionLink)
         temp.push(el.transactionDetail.type)
-        this.account_transaction.data.push(temp)
+        this.accountTransaction.data.push(temp)
       })
 
       this.loading = 1
     },
     async getOwnedNamespace() {
       const ownedNamespaceList = await sdkNamespace.getNamespacesFromAccountByAddress(
-        this.account_address
+        this.address
       )
 
       ownedNamespaceList.forEach((el, idx) => {

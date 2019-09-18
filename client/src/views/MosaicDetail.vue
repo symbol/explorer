@@ -32,10 +32,10 @@
                 <div class="list_info_con">
                   <div class="row list_item">
                     <div class="col-md-2">
-                      <div class="label">MosaicID</div>
+                      <div class="label">Mosaic ID</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">{{ns}}:{{msc}}</div>
+                      <div class="value">{{namespaceId}}:{{mosaicId}}</div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -43,7 +43,7 @@
                       <div class="label">Namespace</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">{{ns}}</div>
+                      <div class="value">{{namespaceId}}</div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -208,8 +208,8 @@ export default {
   created() {},
   data() {
     return {
-      ns: this.$route.params.ns,
-      msc: this.$route.params.m
+      namespaceId: this.$route.params.namespaceId,
+      mosaicId: this.$route.params.mosaicId
     }
   },
   methods: {},

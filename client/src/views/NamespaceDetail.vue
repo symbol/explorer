@@ -35,7 +35,7 @@
                       <div class="label">Namespace</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">{{namespace_id}}</div>
+                      <div class="value">{{namespaceId}}</div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -52,7 +52,7 @@
                   </div>
                   <div class="row list_item">
                     <div class="col-md-2">
-                      <div class="label">Creator PublicKey</div>
+                      <div class="label">Creator Public Key</div>
                     </div>
                     <div class="col-md-10">
                       <div class="value">{{this.namespaceInfo.owner.publicKey}}</div>
@@ -157,7 +157,7 @@
                     <thead>
                       <tr>
                         <th>Alias ID</th>
-                        <th>TYPE</th>
+                        <th>Type</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -238,7 +238,7 @@ export default {
   created() {},
   data() {
     return {
-      namespace_id: this.$route.params.namespace_id,
+      namespaceId: this.$route.params.namespaceId,
       loading: 0,
       namespaceInfo: {},
       alias: {},
@@ -251,7 +251,7 @@ export default {
   methods: {
     async getNamespaceInfo() {
       const namespaceInfo = await sdkNamespace.getNamespaceInfoByName(
-        this.namespace_id.toString().toLowerCase()
+        this.namespaceId.toString().toLowerCase()
       )
 
       this.namespaceInfo = namespaceInfo

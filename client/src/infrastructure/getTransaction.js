@@ -28,9 +28,8 @@ import { Endpoint } from '../config/'
 const accountHttp = new AccountHttp(Endpoint.api)
 
 class sdkTransaction {
-  static getAccountTransactions = async (publicKey, txId = '') => {
+  static getAccountTransactions = async (publicKey, transactionId = '') => {
     let pageSize = 100
-    let id = txId
 
     const publicAccount = PublicAccount.createFromPublicKey(
       publicKey,
@@ -38,7 +37,7 @@ class sdkTransaction {
     )
 
     const transactionsList = await accountHttp
-      .transactions(publicAccount, new QueryParams(pageSize, id))
+      .transactions(publicAccount, new QueryParams(pageSize, transactionId))
       .toPromise()
 
     return format.formatTransactions(transactionsList)
