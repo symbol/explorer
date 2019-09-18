@@ -30,7 +30,13 @@
             <div class="label">{{index}}</div>
           </div>
           <div class="col-md-10">
-            <div class="value">{{item}}</div>
+
+            <div v-if="index =='mosaics'">
+              <div v-for="(mosaic,index) in item" v-bind:key="index">
+                <div class="label">ID: {{mosaic.id}} : {{mosaic.amount}}</div>
+              </div>
+            </div>
+            <div v-else class="label">{{item}}</div>
           </div>
         </div>
       </div>
