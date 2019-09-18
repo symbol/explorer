@@ -128,7 +128,7 @@ export default {
     ...mapGetters([
       'getCurrentBlockHeight',
       'getLatestBlockList',
-      'getCurrentPage',
+      'getCurrentBlockPage',
     ]),
   },
   methods: {
@@ -141,15 +141,15 @@ export default {
         : (this.loading = 0)
     },
     nextPage() {
-      this.$store.dispatch('INCREASE_CURRENT_PAGE')
+      this.$store.dispatch('INCREASE_CURRENT_BLOCK_PAGE')
       let getEndBlock = this.getLatestBlockList[
         this.getLatestBlockList.length - 1
       ]
       sdkBlock.getBlocksWithLimit(25, getEndBlock.height - 1)
     },
     previousPage() {
-      if (this.getCurrentPage > 1) {
-        this.$store.dispatch('DECREASE_CURRENT_PAGE')
+      if (this.getCurrentBlockPage > 1) {
+        this.$store.dispatch('DECREASE_CURRENT_BLOCK_PAGE')
         let getStartBlock = this.getLatestBlockList[0]
         sdkBlock.getBlocksWithLimit(25, getStartBlock.height + 1)
       }
@@ -159,7 +159,7 @@ export default {
     this.load_data()
   },
   destroyed() {
-    this.$store.dispatch('RESET_CURRENT_PAGE')
+    this.$store.dispatch('RESET_CURRENT_BLOCK_PAGE')
   },
 }
 </script>
