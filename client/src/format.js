@@ -10,12 +10,6 @@ const microxemToXem = amount => amount / Math.pow(10, 6)
 // Format fee (in microxem) to string (in XEM).
 const formatFee = fee => microxemToXem(fee.compact()).toString()
 
-// FORMAT HEIGHT
-
-// Format block/chain height to string.
-const formatHeight = height =>
-  helper.uint64ToString(height.higher, height.lower)
-
 // FORMAT ADDRESS
 
 // Format address to pretty string.
@@ -320,7 +314,6 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
 export default {
   formatAddress,
   formatFee,
-  formatHeight,
   formatTimestamp,
   formatBlocks,
   formatBlock,

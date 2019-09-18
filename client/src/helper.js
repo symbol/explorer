@@ -39,19 +39,5 @@ class helper {
       return interval.seconds + ' second'
     }
   }
-
-  static uint64ToString(high, low) {
-    let result = ''
-    while (true) {
-      let mod = (high % 10) * 0x100000000 + low
-      high = Math.floor(high / 10)
-      low = Math.floor(mod / 10)
-      result = (mod % radix).toString(radix) + result
-      if (!high && !low) {
-        break
-      }
-    }
-    result
-  }
 }
 export default helper
