@@ -19,16 +19,21 @@
 import { MosaicService, Address, AccountHttp, MosaicHttp } from 'nem2-sdk'
 import { Endpoint } from '../config/'
 
-const getMosaicsAmountByAddress = async address => {
-  const mosaicService = new MosaicService(
-    new AccountHttp(Endpoint.api),
-    new MosaicHttp(Endpoint.api)
-  )
-  const mosaicAmount = await mosaicService
-    .mosaicsAmountViewFromAddress(new Address(address))
-    .toPromise()
+const accountHttp = new AccountHttp(Endpoint.api)
+const mosaicHttp = new MosaicHttp(Endpoint.api)
+class sdkMosaic {
+  static getMosaicsAmountByAddress = async address => {
+    const mosaicService = new MosaicService(
+      accountHttp,
+      mosaicHttp
+    )
+    const mosaicAmount = await mosaicService
+      .mosaicsAmountViewFromAddress(new Address(address))
+      .toPromise()
 
-  return mosaicAmount
+    return mosaicAmount
+  }
 }
 
-export { getMosaicsAmountByAddress }
+export default sdkMosaic
+
