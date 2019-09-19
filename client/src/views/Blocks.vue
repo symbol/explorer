@@ -55,14 +55,14 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="(item) in getLatestBlockList" v-bind:key="item.height">
+                        <tr v-for="item in getLatestBlockList" v-bind:key="item.height">
                           <td>
                             <router-link :to="'/block/' + item.height">{{item.height}}</router-link>
                           </td>
                           <td>
                             <time-since :date="item.date">
                               <template slot-scope="interval">
-                                {{timefix(interval)}}
+                                {{timeSince(interval)}}
                               </template>
                             </time-since>
                           </td>
@@ -106,60 +106,53 @@
   </div>
 </template>
 <script>
-import DataService from '../data-service'
 import sdkBlock from '../infrastructure/getBlock'
-import router from '../router'
 import helper from '../helper'
-import io from 'socket.io-client'
 import { mapGetters } from 'vuex'
 
-const socket = io.connect(window.conf.ws, {
-  path: window.conf.ws_path,
-})
 export default {
   name: 'block',
   components: {},
   data() {
     return {
-      loading: 0,
+      loading: 0
     }
   },
   computed: {
     ...mapGetters([
       'getCurrentBlockHeight',
       'getLatestBlockList',
-      'getCurrentPage',
-    ]),
+      'getCurrentPage'
+    ])
   },
   methods: {
-    timefix: function(interval) {
+    timeSince(interval) {
       return helper.timeSince(interval)
     },
-    load_data: function() {
+    loadData() {
       this.getLatestBlockList.length > 0
         ? (this.loading = 1)
         : (this.loading = 0)
     },
     nextPage() {
-      this.$store.dispatch('INCREASE_CURRENT_PAGE')
-      let getEndBlock = this.getLatestBlockList[
-        this.getLatestBlockList.length - 1
-      ]
+      this.$store.dispatch('INCREASE_CURRENT_BLOCK_PAGE')
+      let index = this.getLatestBlockList.length - 1
+      let getEndBlock = this.getLatestBlockList[index]
       sdkBlock.getBlocksWithLimit(25, getEndBlock.height - 1)
     },
     previousPage() {
-      if (this.getCurrentPage > 1) {
-        this.$store.dispatch('DECREASE_CURRENT_PAGE')
+      if (this.getCurrentBlockPage > 1) {
+        this.$store.dispatch('DECREASE_CURRENT_BLOCK_PAGE')
         let getStartBlock = this.getLatestBlockList[0]
         sdkBlock.getBlocksWithLimit(25, getStartBlock.height + 1)
       }
-    },
+    }
   },
   created() {
-    this.load_data()
+    this.loadData()
   },
   destroyed() {
-    this.$store.dispatch('RESET_CURRENT_PAGE')
-  },
+    this.$store.dispatch('RESET_CURRENT_BLOCK_PAGE')
+  }
 }
 </script>

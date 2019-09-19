@@ -16,28 +16,19 @@
  *
  */
 
-<template>
-  <div class="info-col">
-    <div class="info-ico">
-      <i v-bind:class=itemThumb></i>
-    </div>
-    <div class="info-desc">
-      <h3>{{ItemTitle}}</h3>
-      <p>{{ItemData}}</p>
-    </div>
-  </div>
-</template>
-<script>
-export default {
-  props: {
-    ItemTitle: {
-      type: String,
-      required: true,
-      default: ''
-    },
-    ItemData: { },
-    itemThumb: { type: String }
-  }
-  // ['ItemTitle','ItemData','itemThumb']
+import { MosaicService, Address, AccountHttp, MosaicHttp } from 'nem2-sdk'
+import { Endpoint } from '../config/'
+
+const getMosaicsAmountByAddress = async address => {
+  const mosaicService = new MosaicService(
+    new AccountHttp(Endpoint.api),
+    new MosaicHttp(Endpoint.api)
+  )
+  const mosaicAmount = await mosaicService
+    .mosaicsAmountViewFromAddress(new Address(address))
+    .toPromise()
+
+  return mosaicAmount
 }
-</script>
+
+export { getMosaicsAmountByAddress }

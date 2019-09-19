@@ -29,26 +29,25 @@
         </div>
       </div>
       <div class="box-con">
-        <loader v-if="!blocklist"></loader>
+        <loader v-if="!blockList"></loader>
         <div class="row">
-          <div
-            class="col-md-3"
-            v-for="(item, index) in blocklist"
-            v-bind:key="item.height"
-            v-if="index < 4"
-          >
+          <div class="col-md-3" v-for="item in recentBlockList" v-bind:key="item.height">
             <div class="rn_blk_con">
-              <div class="blkht" @click="load_block_info(item.height)">
+              <div class="blkht" @click="loadBlockInfo(item.height)">
                 <span>{{ item.height }}</span>
               </div>
               <div class="blk-info">
                 <div class="inrw">
                   <span>{{ item.numTransactions }} Transactions</span>
-                  <span>{{timefix(item.date)}}</span>
+                  <time-since :date="item.date">
+                    <template slot-scope="interval">
+                      {{timeSince(interval)}}
+                    </template>
+                  </time-since>
                 </div>
                 <div class="inrw flex">
                   <span>Harvester</span>
-                  <a href="#" @click="load_accnt_info(item.signer.address.address)" class="acnt">{{item.signer.address.address}}</a>
+                  <a href="#" @click="loadAccountInfo(item.signer.address.address)" class="acnt">{{item.signer.address.address}}</a>
                 </div>
               </div>
             </div>
@@ -59,35 +58,30 @@
   </div>
 </template>
 <script>
-import helper from "../helper";
-import router from "../router";
-import moment from "moment";
-var zone = moment().utcOffset();
+import helper from '../helper'
+import router from '../router'
 
 export default {
   props: {
-    blocklist: {}
-  },
-  watch: {
-    blocklist: "auto_update_time"
-  },
-  created() {
-    this.auto_update_time()
+    blockList: {}
   },
   methods: {
-    timefix: function(time) {
-      var time1 = moment.utc(time).utcOffset(zone);    
-      return helper.timeSince(new Date(time)) + " ago";
+    timeSince(interval) {
+      return helper.timeSince(interval)
     },
-    load_block_info: function(id) {
-      router.push({ path: `/block/${id}` });
+    loadBlockInfo(id) {
+      router.push({ path: `/block/${id}` })
     },
-    load_accnt_info:function(acnt_adrs){
-      router.push({ path: `/account/${acnt_adrs}` });
-    },
-    auto_update_time: function() {
-      
+    loadAccountInfo(address) {
+      router.push({ path: `/account/${address}` })
+    }
+  },
+  computed: {
+    recentBlockList() {
+      return Array.prototype.filter.call(this.blockList, function (item, index) {
+        return index < 4
+      })
     }
   }
-};
+}
 </script>

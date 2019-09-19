@@ -28,11 +28,11 @@
               <div class="box-title">
                 <h1 class="inline-block">Account Detail</h1>
                 <div class="btn_grp inline-block flt-rt address_info">
-                  <span>{{account_address}}</span>
+                  <span>{{address}}</span>
                   <button
                     type="button"
                     class="ico-files-o act-copy"
-                    v-clipboard:copy="account_address"
+                    v-clipboard:copy="address"
                     v-clipboard:success="onCopy"
                     v-clipboard:error="onError"
                   ></button>
@@ -46,7 +46,7 @@
                       <div class="label">Public key</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">{{account_info.publicKey}}</div>
+                      <div class="value">{{accountInfo.publicKey}}</div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -54,7 +54,7 @@
                       <div class="label">Importance</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">{{account_info.importance}}</div>
+                      <div class="value">{{accountInfo.importance}}</div>
                     </div>
                   </div>
                 </div>
@@ -66,11 +66,11 @@
               <div class="tabs-con">
                 <tabs>
                   <tab title="Balance">
-                    <datatable
+                    <DataTable
                       tableClass="account_balance"
                       :tableHead="this.balance.head"
                       :tableData="this.balance.data"
-                    ></datatable>
+                    ></DataTable>
                   </tab>
                   <!-- <tab title="Owned Mosaics">
                     <div class="table-responsive">
@@ -98,11 +98,11 @@
                     </div>
                   </tab>-->
                   <tab title="Owned Namespaces">
-                    <datatable
+                    <DataTable
                       tableClass="blocktrxtbl"
                       :tableHead="this.ownedNamespaceList.head"
                       :tableData="this.ownedNamespaceList.data"
-                    ></datatable>
+                    ></DataTable>
                   </tab>
 
                   <!-- <tab title="Harvest Info">
@@ -126,11 +126,11 @@
               <div class="tabs-con">
                 <tabs>
                   <tab title="Transactions">
-                    <datatable
+                    <DataTable
                       tableClass
-                      :tableHead="this.account_transaction.head"
-                      :tableData="this.account_transaction.data"
-                    ></datatable>
+                      :tableHead="this.accountTransaction.head"
+                      :tableData="this.accountTransaction.data"
+                    ></DataTable>
                   </tab>
                 </tabs>
               </div>
@@ -144,113 +144,109 @@
   </div>
 </template>
 <script>
-import router from "../router";
-import { Tabs, Tab } from "vue-slim-tabs";
-//import dataService from '../data-service'
-import w1 from "@/components/inforow.vue";
-import w2 from "@/components/Table-dynamic.vue";
-import sdkAccount from "../infrastructure/getAccount";
-import sdkTransaction from "../infrastructure/getTransaction";
-import sdkNamespace from "../infrastructure/getNamespace";
-
-//dataService.getAcntdetail('sd')
+import { Tabs, Tab } from 'vue-slim-tabs'
+import w1 from '@/components/InfoRow.vue'
+import w2 from '@/components/TableDynamic.vue'
+import sdkAccount from '../infrastructure/getAccount'
+import sdkTransaction from '../infrastructure/getTransaction'
+import sdkNamespace from '../infrastructure/getNamespace'
 
 export default {
-  name: "block",
+  name: 'block',
   components: {
     Tabs,
     Tab,
-    inforow: w1,
-    datatable: w2
+    InfoRow: w1,
+    DataTable: w2
   },
   data() {
     return {
-      account_address: this.$route.params.acnt_adrs,
-      account_info: {},
-      account_transaction: {
-        head: ["#", "Deadline", "Fee", "Transaction Hash", "Type"],
+      address: this.$route.params.address,
+      accountInfo: {},
+      accountTransaction: {
+        head: ['#', 'Deadline', 'Fee', 'Transaction Hash', 'Type'],
         data: []
       },
       ownedNamespaceList: {
         head: [
-          "#",
-          "Namespace",
-          "Type",
-          "Status",
-          "Start Height",
-          "End Height"
+          '#',
+          'Namespace',
+          'Type',
+          'Status',
+          'Start Height',
+          'End Height'
         ],
         data: []
       },
       balance: {
-        head: ["#", "MosaicID", "Quantity"],
+        head: ['#', 'MosaicID', 'Quantity'],
         data: []
       },
       loading: 0
-    };
+    }
   },
   mounted() {
-    this.getAccountInfo();
-    this.getOwnedNamespace();
+    this.getAccountInfo()
+    this.getOwnedNamespace()
   },
   methods: {
     onCopy(e) {
-      alert("You just copied: " + e.text);
+      alert('You just copied: ' + e.text)
     },
     onError(e) {
-      alert("Failed to copy address");
+      alert('Failed to copy address')
     },
     async getAccountInfo() {
       const accountInfo = await sdkAccount.getAccountInfoByAddress(
-        this.account_address
-      );
+        this.address
+      )
       const accountTransaction = await sdkTransaction.getAccountTransactions(
         accountInfo.publicKey
-      );
+      )
 
-      this.account_info = accountInfo;
+      this.accountInfo = accountInfo
 
       accountInfo.mosaics.forEach((el, idx) => {
-        var temp = [];
-        let mosaicLink = `<a href="#/mosaic/${el.hex}">${el.hex}</a>`;
-        temp.push(idx + 1);
-        temp.push(mosaicLink);
-        temp.push(el.amount);
-        this.balance.data.push(temp);
-      });
+        let temp = []
+        let mosaicLink = `<a href="#/mosaic/${el.hex}">${el.hex}</a>`
+        temp.push(idx + 1)
+        temp.push(mosaicLink)
+        temp.push(el.amount)
+        this.balance.data.push(temp)
+      })
 
       accountTransaction.forEach((el, idx) => {
-        var temp = [];
-        let transactionLink = `<a href="#/transaction/${el.transactionHash}">${el.transactionHash}</a>`;
-        temp.push(idx + 1);
-        temp.push(el.deadline);
-        temp.push(el.fee);
-        temp.push(transactionLink);
-        temp.push(el.transactionBody.type);
-        this.account_transaction.data.push(temp);
-      });
+        let temp = []
+        let transactionLink = `<a href="#/transaction/${el.transactionHash}">${el.transactionHash}</a>`
+        temp.push(idx + 1)
+        temp.push(el.deadline)
+        temp.push(el.fee)
+        temp.push(transactionLink)
+        temp.push(el.transactionBody.type)
+        this.accountTransaction.data.push(temp)
+      })
 
-      this.loading = 1;
+      this.loading = 1
     },
     async getOwnedNamespace() {
       const ownedNamespaceList = await sdkNamespace.getNamespacesFromAccountByAddress(
-        this.account_address
-      );
+        this.address
+      )
 
       ownedNamespaceList.forEach((el, idx) => {
-        var temp = [];
-        let namespaceNameLink = `<a href="/#/namespace/${el.namespaceName}">${el.namespaceName}</a>`;
-        temp.push(idx + 1);
-        temp.push(namespaceNameLink);
-        temp.push(el.type);
-        temp.push(el.active);
-        temp.push(el.startHeight);
-        temp.push(el.endHeight);
-        this.ownedNamespaceList.data.push(temp);
-      });
+        let temp = []
+        let namespaceNameLink = `<a href="/#/namespace/${el.namespaceName}">${el.namespaceName}</a>`
+        temp.push(idx + 1)
+        temp.push(namespaceNameLink)
+        temp.push(el.type)
+        temp.push(el.active)
+        temp.push(el.startHeight)
+        temp.push(el.endHeight)
+        this.ownedNamespaceList.data.push(temp)
+      })
 
-      this.loading = 1;
+      this.loading = 1
     }
   }
-};
+}
 </script>

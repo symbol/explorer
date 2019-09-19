@@ -36,7 +36,7 @@
                       <div class="label">Transaction Hash</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">{{this.transaction_Info.transaction.transactionHash}}</div>
+                      <div class="value">{{transactionInfo.transaction.transactionHash}}</div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -46,8 +46,8 @@
                     <div class="col-md-10">
                       <div class="value">
                         <router-link
-                          :to="'/block/' + this.transaction_Info.transaction.blockHeight"
-                        >{{this.transaction_Info.transaction.blockHeight}}</router-link></div>
+                          :to="'/block/' + transactionInfo.transaction.blockHeight"
+                        >{{transactionInfo.transaction.blockHeight}}</router-link></div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -55,7 +55,7 @@
                       <div class="label">Fees</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">{{transaction_Info.transaction.fee}}</div>
+                      <div class="value">{{transactionInfo.transaction.fee}}</div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -65,8 +65,8 @@
                     <div class="col-md-10">
                       <div class="value">
                         <router-link
-                          :to="'/account/' + this.transaction_Info.transaction.signer"
-                        >{{this.transaction_Info.transaction.signer}}</router-link>
+                          :to="'/account/' + transactionInfo.transaction.signer"
+                        >{{transactionInfo.transaction.signer}}</router-link>
                       </div>
                     </div>
                   </div>
@@ -75,7 +75,7 @@
                       <div class="label">Signature</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">{{transaction_Info.transaction.signature}}</div>
+                      <div class="value">{{transactionInfo.transaction.signature}}</div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -83,7 +83,7 @@
                       <div class="label">Timestamp</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">{{transaction_Info.timestamp}}</div>
+                      <div class="value">{{transactionInfo.timestamp}}</div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -91,7 +91,7 @@
                       <div class="label">Status</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">{{transaction_Info.status}}</div>
+                      <div class="value">{{transactionInfo.status}}</div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -99,7 +99,7 @@
                       <div class="label">Confirmation</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">{{transaction_Info.confirm}}</div>
+                      <div class="value">{{transactionInfo.confirm}}</div>
                     </div>
                   </div>
                 </div>
@@ -107,8 +107,8 @@
             </div>
 
             <inforow
-              info_title="Transaction Details"
-              :inforows="this.transaction_body"
+              infoTitle="Transaction Details"
+              :rows="this.transactionInfo.transaction.transactionBody"
               :loading="this.loading"
             ></inforow>
           </div>
@@ -120,8 +120,7 @@
   </div>
 </template>
 <script>
-import router from '../router'
-import w1 from '@/components/inforow.vue'
+import w1 from '@/components/InfoRow.vue'
 import DataService from '../data-service'
 import sdkTransaction from '../infrastructure/getTransaction'
 export default {
@@ -132,25 +131,20 @@ export default {
   created() {},
   data() {
     return {
-      transaction_hash: this.$route.params.trx_hash,
-      transaction_Info: {},
-      transaction_body: {},
+      transactionHash: this.$route.params.transactionHash,
+      transactionInfo: {},
       loading: 0,
     }
-  },
-  created() {
-    // this.asyncData()
   },
   mounted() {
     this.getTransactionByHash()
   },
   methods: {
     async getTransactionByHash() {
-      const transactionInfo = await sdkTransaction.getTransactionInfoByHash(
-        this.transaction_hash
+      const transaction = await sdkTransaction.getTransactionInfoByHash(
+        this.transactionHash
       )
-      this.transaction_Info = transactionInfo
-      this.transaction_body = transactionInfo.transaction.transactionBody
+      this.transactionInfo = transaction
 
       this.loading = 1
     },

@@ -6,9 +6,11 @@
     </span>
 </template>
 <script>
+import moment from 'moment'
+
 export default {
   name: 'TimeSince',
-  data () {
+  data() {
     return {
       interval: null,
       years: 0,
@@ -30,18 +32,20 @@ export default {
       required: true
     }
   },
-  mounted () {
+  mounted() {
     this.interval = setInterval(() => {
       this.updateDateAge()
     }, 1000)
     this.updateDateAge()
   },
-  destroyed () {
+  destroyed() {
     clearInterval(this.interval)
   },
   methods: {
-    updateDateAge () {
-      let diff = Math.abs(Date.now() - (new Date(this.date)).getTime())
+    updateDateAge() {
+      let now = moment.utc()
+      let date = moment(this.date, 'YYYY-MM-DD HH:mm:ss').utc()
+      let diff = now.diff(date)
       this.years = Math.floor(diff / this.intervals.year)
       diff -= this.years * this.intervals.year
       this.days = Math.floor(diff / this.intervals.day)

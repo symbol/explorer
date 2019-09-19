@@ -1,6 +1,5 @@
 import { Address, TransactionType, AliasActionType, UInt64 } from 'nem2-sdk'
 import moment from 'moment'
-import helper from './helper'
 
 // FORMAT FEE
 
@@ -9,12 +8,6 @@ const microxemToXem = amount => amount / Math.pow(10, 6)
 
 // Format fee (in microxem) to string (in XEM).
 const formatFee = fee => microxemToXem(fee.compact()).toString()
-
-// FORMAT HEIGHT
-
-// Format block/chain height to string.
-const formatHeight = height =>
-  helper.uint64ToString(height.higher, height.lower)
 
 // FORMAT ADDRESS
 
@@ -39,10 +32,10 @@ const formatTimestamp = nemstamp =>
 const formatBlocks = (blockList) => {
   if (blockList) {
     return blockList.map(block => {
-      return formatBlock(block);
-    });
+      return formatBlock(block)
+    })
   }
-  return;
+  return []
 }
 
 const formatBlock = (block) => {
@@ -50,7 +43,7 @@ const formatBlock = (block) => {
     height: block.height.compact(),
     hash: block.hash,
     timestamp: block.timestamp.compact() / 1000 + 1459468800,
-    date: moment(
+    date: moment.utc(
       (block.timestamp.compact() / 1000 + 1459468800) * 1000
     ).format('YYYY-MM-DD HH:mm:ss'),
     totalFee: formatFee(block.totalFee),
@@ -61,10 +54,10 @@ const formatBlock = (block) => {
     previousBlockHash: block.previousBlockHash,
     blockTransactionsHash: block.blockTransactionsHash,
     blockReceiptsHash: block.blockReceiptsHash,
-    stateHash: block.stateHash,
-  };
+    stateHash: block.stateHash
+  }
 
-  return blockObj;
+  return blockObj
 }
 
 // FORMAT ACCOUNT
@@ -85,7 +78,7 @@ const formatAccount = accountInfo => {
     publicKeyHeight: accountInfo.publicKeyHeight.compact(),
     mosaics: formatMosaics(accountInfo.mosaics),
     importance: importanceScore,
-    importanceHeight: accountInfo.importanceHeight.compact(),
+    importanceHeight: accountInfo.importanceHeight.compact()
   }
 
   return accountObj
@@ -107,7 +100,7 @@ const formatTransactions = transactions => {
       return formatTransaction(transaction)
     })
   }
-  return
+  return []
 }
 
 // FORMAT TRANSACTION
@@ -138,7 +131,7 @@ const formatTransactionBody = transactionBody => {
         // typeId: TransactionType.TRANSFER,
         recipient: transactionBody.recipient.address,
         mosaics: formatMosaics(transactionBody.mosaics),
-        message: transactionBody.message.payload,
+        message: transactionBody.message.payload
       }
       return transferObj
     case TransactionType.REGISTER_NAMESPACE:
@@ -173,7 +166,7 @@ const formatTransactionBody = transactionBody => {
         // actionType: transactionBody.actionType,
         aliasAction: transactionBody.actionType === 0 ? 'Link' : 'Unlink',
         namespaceId: transactionBody.namespaceId.id.toHex(),
-        mosaicId: transactionBody.mosaicId.id.toHex(),
+        mosaicId: transactionBody.mosaicId.id.toHex()
       }
       return mosaicAlias
     case TransactionType.MOSAIC_DEFINITION:
@@ -192,8 +185,8 @@ const formatTransactionBody = transactionBody => {
         type: 'MosaicSupplyChange',
         // typeId: TransactionType.MOSAIC_SUPPLY_CHANGE,
         mosaicId: transactionBody.mosaicId.id.toHex(),
-        direction: transactionBody.direction == 1 ? 'Increase' : 'Decrease',
-        delta: transactionBody.delta.compact(),
+        direction: transactionBody.direction === 1 ? 'Increase' : 'Decrease',
+        delta: transactionBody.delta.compact()
       }
       return mosaicSupplyChangeObj
     case TransactionType.MODIFY_MULTISIG_ACCOUNT:
@@ -325,7 +318,7 @@ const formatNamespaces = namespacesInfo =>
         endHeight: name.includes('nem')
           ? 'Infinity'
           : ns.namespaceInfo.endHeight.compact(),
-        parentId: ns.namespaceInfo.parentId.id.toHex(),
+        parentId: ns.namespaceInfo.parentId.id.toHex()
       }
     })
 
@@ -374,7 +367,6 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
 export default {
   formatAddress,
   formatFee,
-  formatHeight,
   formatTimestamp,
   formatBlocks,
   formatBlock,
@@ -384,5 +376,5 @@ export default {
   formatTransaction,
   formatTransactionBody,
   formatNamespaces,
-  formatNamespace,
+  formatNamespace
 }

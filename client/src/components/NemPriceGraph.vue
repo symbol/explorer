@@ -71,55 +71,54 @@
 }
 </style>
 <script>
-import axios from "axios";
-import ApexCharts from "apexcharts";
-import helper from "../helper";
+import axios from 'axios'
+import ApexCharts from 'apexcharts'
 
 export default {
   props: {},
   data() {
     return {
       loading: 0
-    };
+    }
   },
   mounted() {
-    let self = this;
+    let self = this
     axios
       .all([
         axios.get(
-          "https://min-api.cryptocompare.com/data/histohour?fsym=XEM&tsym=USD&limit=168"
+          'https://min-api.cryptocompare.com/data/histohour?fsym=XEM&tsym=USD&limit=168'
         )
       ])
       .then(
         axios.spread(res1 => {
-          var x = [];
-          var y = [];
-          self.loading = 1;
-          this.drawCandleChart(res1.data, "#nempricegraph");
+          // var x = []
+          // var y = []
+          self.loading = 1
+          this.drawCandleChart(res1.data, '#nempricegraph')
         })
       )
       .catch(error => {
-        console.log(error);
-      });
+        console.log(error)
+      })
   },
   methods: {
     drawCandleChart(data, elmnt) {
-      var graph_data = [];
+      let graphData = []
       data.Data.forEach((item, index) => {
-        var graph_data_item = {};
-        graph_data_item.y = [];
-        graph_data_item.x = new Date(item["time"] * 1000);
-        graph_data_item.y[0] = item["open"]; //parseFloat(item["open"]).toFixed(4);
-        graph_data_item.y[1] = item["high"]; //parseFloat(item["high"]).toFixed(4);
-        graph_data_item.y[2] = item["low"];//parseFloat(item["low"]).toFixed(4);
-        graph_data_item.y[3] = item["close"];//parseFloat(item["close"]).toFixed(4);
-        graph_data.push(graph_data_item);
-      });
-      var options = {
+        let graphDataItem = {}
+        graphDataItem.y = []
+        graphDataItem.x = new Date(item['time'] * 1000)
+        graphDataItem.y[0] = item['open'] // parseFloat(item['open']).toFixed(4)
+        graphDataItem.y[1] = item['high'] // parseFloat(item['high']).toFixed(4)
+        graphDataItem.y[2] = item['low'] // parseFloat(item['low']).toFixed(4)
+        graphDataItem.y[3] = item['close'] // parseFloat(item['close']).toFixed(4)
+        graphData.push(graphDataItem)
+      })
+      let options = {
         chart: {
           height: 200,
-          type: "area",
-          foreColor: "#999",
+          type: 'area',
+          foreColor: '#999',
           toolbar: {
             show: false
             // tools: {
@@ -136,16 +135,16 @@ export default {
         },
         stroke: {
           show: true,
-          curve: "smooth",
-          lineCap: "butt",
-          colors: ["#0998a6"],
+          curve: 'smooth',
+          lineCap: 'butt',
+          colors: ['#0998a6'],
           width: 2,
           dashArray: 0
         },
         dataLabels: {
           enabled: false
         },
-        colors: ["#1eaaa6"],
+        colors: ['#1eaaa6'],
         fill: {
           gradient: {
             enabled: true,
@@ -156,8 +155,8 @@ export default {
         plotOptions: {
           candlestick: {
             colors: {
-              upward: "#0998a6",
-              downward: "#f7a800"
+              upward: '#0998a6',
+              downward: '#f7a800'
             },
             wick: {
               useFillColor: true
@@ -166,20 +165,20 @@ export default {
         },
         series: [
           {
-            name: "Price",
-            data: graph_data
+            name: 'Price',
+            data: graphData
           }
         ],
         title: {
-          text: "",
-          align: "left",
+          text: '',
+          align: 'left',
           display: false
         },
         xaxis: {
-          type: "datetime",
+          type: 'datetime',
           axisBorder: {
             show: false,
-            color: "#0998a6"
+            color: '#0998a6'
           }
         },
         yaxis: {
@@ -188,17 +187,16 @@ export default {
           },
           axisBorder: {
             show: false,
-            color: "#0998a6"
+            color: '#0998a6'
           }
         },
         tooltip: {
           enabled: true
         }
-      };
-      var chart = new ApexCharts(document.querySelector(elmnt), options);
-      chart.render();
+      }
+      let chart = new ApexCharts(document.querySelector(elmnt), options)
+      chart.render()
     }
   }
-};
+}
 </script>
-

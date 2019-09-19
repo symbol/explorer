@@ -63,14 +63,15 @@
 </template>
 <script>
 import { mapGetters } from 'vuex'
+
 export default {
   props: {
     marketinfo: {},
-    chaininfo: {},
+    chaininfo: {}
   },
   computed: {
-    ...mapGetters(['getCurrentBlockHeight']),
-  },
+    ...mapGetters(['getCurrentBlockHeight'])
+  }
   // ['ItemTitle','ItemData','itemThumb']
 }
 </script>

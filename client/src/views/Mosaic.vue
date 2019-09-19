@@ -26,7 +26,7 @@
           <div class="widget has-shadow mt-4">
             <div class="box">
               <div class="box-title">
-                <h1 class="inline-block">Mosaic List </h1>
+                <h1 class="inline-block">Mosaic List</h1>
                 <div class="btn_grp inline-block flt-rt"></div>
               </div>
               <div class="box-con mt-0">
@@ -44,15 +44,15 @@
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th>MosaicID</th>
+                          <th>Mosaic ID</th>
                           <th>Creator</th>
                           <th>Supply</th>
                           <th>Divisibility</th>
-                           <th>CreateTime</th>
+                           <th>Create Time</th>
                         </tr>
                       </thead>
                       <tbody>
-                        <tr @click="load_mosaic_info('nemona','xemona')">
+                        <tr @click="loadMosaicInfo('nemona','xemona')">
                           <td>1</td>
                           <td>nemona:xemona</td>
                           <td>NAAXHJM65OKDFSYGW4XW4EKJXUIRTKEZZWRK45YF</td>
@@ -60,7 +60,7 @@
                           <td>0</td>
                           <td>2019-08-06 15:57:28</td>
                         </tr>
-                        <tr @click="load_mosaic_info('nemona','xemona')">
+                        <tr @click="loadMosaicInfo('nemona','xemona')">
                           <td>2</td>
                           <td>nemona:nemona</td>
                           <td>NAAXHJM65OKDFSYGW4XW4EKJXUIRTKEZZWRK45YF</td>
@@ -113,10 +113,11 @@
 </template>
 <script>
 import router from '../router'
+
 export default {
   methods: {
-    load_mosaic_info: function (ns, m) {
-      router.push({ path: `/mosaic/${ns}/${m}` })
+    loadMosaicInfo(namespaceId, mosaicId) {
+      router.push({ path: `/mosaic/${namespaceId}/${mosaicId}` })
     }
   }
 }

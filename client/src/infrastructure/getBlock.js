@@ -31,25 +31,24 @@ class sdkBlock {
 
   static getBlockInfoByHeight = async (blockHeight) => {
     const blockInfo = await blockHttp.getBlockByHeight(blockHeight).toPromise()
-
     return format.formatBlock(blockInfo)
   }
 
-  static getBlockFullTransactionsList = async (blockHeight, id) => {
-    let txList = await this.getTransactionsByBlockHeight(blockHeight, id)
+  static getBlockFullTransactionsList = async (blockHeight, transactionId) => {
+    let txList = await this.getTransactionsByBlockHeight(blockHeight, transactionId)
     if (txList.length > 0) {
-      id = txList[txList.length - 1].transactionId
-      txList.concat(await this.getBlockFullTransactionsList(blockHeight, id))
+      transactionId = txList[txList.length - 1].transactionId
+      txList.concat(await this.getBlockFullTransactionsList(blockHeight, transactionId))
     }
     return txList
   }
 
-  static getTransactionsByBlockHeight = async (blockHeight, id) => {
-    let txId = id || ''
+  static getTransactionsByBlockHeight = async (blockHeight, transactionId) => {
+    transactionId = transactionId || ''
     const pageSize = 100
 
     let transactionlist = await blockHttp
-      .getBlockTransactions(blockHeight, new QueryParams(pageSize, txId))
+      .getBlockTransactions(blockHeight, new QueryParams(pageSize, transactionId))
       .toPromise()
 
     if (transactionlist.length > 0) {
@@ -61,7 +60,6 @@ class sdkBlock {
 
   static getBlocksWithLimit = async (numberOfBlock, fromBlockHeight) => {
     const currentBlockHeight = await this.getBlockHeight()
-
     let blockHeight = fromBlockHeight || currentBlockHeight
 
     const blocks = await blockHttp
@@ -71,18 +69,18 @@ class sdkBlock {
     store.dispatch(
       'SET_BLOCKS_LIST',
       format.formatBlocks(blocks),
-      { root: true },
-    );
+      { root: true }
+    )
 
-    if (store.getters.getCurrentBlockHeight == 0 && store.getters.getCurrentBlockHeight < blocks[0].height.compact()) {
+    if (store.getters.getCurrentBlockHeight === 0 && store.getters.getCurrentBlockHeight < blocks[0].height.compact()) {
       store.dispatch(
         'SET_LATEST_CHAIN_STATUS',
         format.formatBlock(blocks[0]),
-        { root: true },
-      );
+        { root: true }
+      )
     }
 
-    return await format.formatBlocks(blocks)
+    return format.formatBlocks(blocks)
   }
 }
 

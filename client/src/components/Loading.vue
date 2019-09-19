@@ -249,5 +249,5 @@ svg:nth-child(4) circle {
 }
 </style>
 <script>
-export default {};
+export default {}
 </script>

@@ -27,7 +27,7 @@ import TopHead from '@/components/TopHead.vue'
 import PageMenu from '@/components/PageMenu.vue'
 import Pagefooter from '@/components/PageFooter.vue'
 import TimeSince from '@/components/TimeSince.vue'
-import w1 from '@/components/loading.vue'
+import w1 from '@/components/Loading.vue'
 
 Vue.config.productionTip = false
 Vue.component('top-header', TopHead)
@@ -38,11 +38,11 @@ Vue.component('loader', w1)
 Vue.use(VueClipboard)
 // Vue.use(nem2Sdk)
 
-var settings = {
+let settings = {
   networktime: 1459468800000,
   api: 'api/',
   ws: 'http://localhost:3000',
-  nemServer :'http://52.194.207.217:3000',
+  nemServer: 'http://52.194.207.217:3000',
   ws_path: '/ws'
 }
 window.conf = settings
