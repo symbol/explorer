@@ -62,7 +62,7 @@
                           <td>
                             <time-since :date="item.date">
                               <template slot-scope="interval">
-                                {{timefix(interval)}}
+                                {{timeSince(interval)}}
                               </template>
                             </time-since>
                           </td>
@@ -126,10 +126,10 @@ export default {
     ])
   },
   methods: {
-    timefix(interval) {
+    timeSince(interval) {
       return helper.timeSince(interval)
     },
-    load_data() {
+    loadData() {
       this.getLatestBlockList.length > 0
         ? (this.loading = 1)
         : (this.loading = 0)
@@ -149,7 +149,7 @@ export default {
     }
   },
   created() {
-    this.load_data()
+    this.loadData()
   },
   destroyed() {
     this.$store.dispatch('RESET_CURRENT_BLOCK_PAGE')

@@ -23,14 +23,14 @@
     <div class="page_con">
       <div class="full-con mob_con">
         <div class="container p-0 has-shadow">
-          <nempricegraph class="border-bottom"></nempricegraph>
-          <Homebaseinfo class="" :marketinfo="home_data.marketData" :chaininfo="home_data.chainInfo"></Homebaseinfo>
+          <NemPriceGraph class="border-bottom"></NemPriceGraph>
+          <HomeBaseInfo class="" :marketinfo="homeData.marketData" :chaininfo="homeData.chainInfo"></HomeBaseInfo>
         </div>
         <div class="container p-0 mt-1">
-          <recent-blocks :blocklist="getLatestBlockList"></recent-blocks>
+          <RecentBlocks :blockList="getLatestBlockList"></RecentBlocks>
         </div>
         <!-- <div class="container p-0 mt-1">
-          <recent-trxs></recent-trxs>
+          <RecentTransactions></RecentTransactions>
         </div> -->
       </div>
     </div>
@@ -39,33 +39,32 @@
   </div>
 </template>
 <script>
-import tileWidjet from '@/components/widjet01.vue'
-import w1 from '@/components/Home_base_info.vue'
-import w2 from '@/components/nempricegraph.vue'
-import w3 from '@/components/recent_blocks.vue'
-import w4 from '@/components/recent_trxs.vue'
+import w1 from '@/components/HomeBaseInfo.vue'
+import w2 from '@/components/NemPriceGraph.vue'
+import w3 from '@/components/RecentBlocks.vue'
+import w4 from '@/components/RecentTransactions.vue'
 import DataService from '../data-service'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'home',
   components: {
-    Homebaseinfo: w1,
-    nempricegraph: w2,
-    'recent-blocks': w3,
-    'recent-trxs': w4
+    HomeBaseInfo: w1,
+    NemPriceGraph: w2,
+    RecentBlocks: w3,
+    RecentTransactions: w4
   },
   computed: {
     ...mapGetters(['getLatestBlockList'])
   },
   data() {
     return {
-      home_data: {}
+      homeData: {}
     }
   },
   async beforeCreate() {
     try {
-      this.home_data = await DataService.getHomeData()
+      this.homeData = await DataService.getHomeData()
     } catch (err) {}
   }
 }

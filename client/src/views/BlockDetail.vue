@@ -27,7 +27,7 @@
             <div class="box">
               <div class="box-title">
                 <h1 class="inline-block">Block</h1>
-                <span class="info_append">{{'# '+this.$route.params.blockid}}</span>
+                <span class="info_append">{{'# '+this.$route.params.blockId}}</span>
               </div>
               <div class="box-con mt-0">
                 <loader v-if="!loading"></loader>
@@ -37,7 +37,7 @@
                       <div class="label">Height</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">{{this.block_Info.height}}</div>
+                      <div class="value">{{this.blockInfo.height}}</div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -45,7 +45,7 @@
                       <div class="label">Timestamp</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">{{this.block_Info.date}}</div>
+                      <div class="value">{{this.blockInfo.date}}</div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -53,7 +53,7 @@
                       <div class="label">Difficulty</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">{{this.block_Info.difficulty}}</div>
+                      <div class="value">{{this.blockInfo.difficulty}}</div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -61,7 +61,7 @@
                       <div class="label">Fees</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">{{this.block_Info.totalFee}}</div>
+                      <div class="value">{{this.blockInfo.totalFee}}</div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -69,7 +69,7 @@
                       <div class="label">Total Transactions</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">{{this.block_Info.numTransactions}}</div>
+                      <div class="value">{{this.blockInfo.numTransactions}}</div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -79,8 +79,8 @@
                     <div class="col-md-10">
                       <div class="value">
                         <router-link
-                          :to="'/account/' + this.block_Info.signer.address.address"
-                        >{{this.block_Info.signer.address.address}}</router-link>
+                          :to="'/account/' + this.blockInfo.signer.address.address"
+                        >{{this.blockInfo.signer.address.address}}</router-link>
                       </div>
                     </div>
                   </div>
@@ -89,7 +89,7 @@
                       <div class="label">Block Hash</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">{{this.block_Info.hash}}</div>
+                      <div class="value">{{this.blockInfo.hash}}</div>
                     </div>
                   </div>
                 </div>
@@ -99,7 +99,7 @@
 
           <div
             class="widget has-shadow"
-            v-if="this.table_data.data.length || this.block_Info.length"
+            v-if="this.tableData.data.length || this.blockInfo.length"
           >
             <loader v-if="!this.loading"></loader>
             <div class="box">
@@ -108,14 +108,14 @@
                   id="sorting-table_wrapper"
                   class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer p-0"
                 >
-                  <datatable
+                  <DataTable
                     tableClass="blocktrxtbl"
-                    :tableHead="this.table_data.head"
-                    :tableData="this.table_data.data"
-                    v-if="this.table_data.data.length"
-                  ></datatable>
+                    :tableHead="this.tableData.head"
+                    :tableData="this.tableData.data"
+                    v-if="this.tableData.data.length"
+                  ></DataTable>
                   <div v-else>
-                    <p class="lblwarn">Block {{this.$route.params.blockid}} has no transactions</p>
+                    <p class="lblwarn">Block {{this.$route.params.blockId}} has no transactions</p>
                   </div>
                 </div>
               </div>
@@ -129,19 +129,19 @@
   </div>
 </template>
 <script>
-import w1 from '@/components/Table-dynamic.vue'
+import w1 from '@/components/TableDynamic.vue'
 import DataService from '../data-service'
 
 export default {
   name: 'block',
   components: {
-    datatable: w1
+    DataTable: w1
   },
   data() {
     return {
-      block_id: this.$route.params.blockid,
-      block_Info: {},
-      table_data: {
+      blockId: this.$route.params.blockId,
+      blockInfo: {},
+      tableData: {
         head: [
           '#',
           'Timestamp',
@@ -161,12 +161,12 @@ export default {
   methods: {
     asyncData() {
       let self = this
-      this.block_id = this.$route.params.blockid
+      this.blockId = this.$route.params.blockId
       this.loading = 0
-      DataService.getBlockinfo(this.block_id).then(function (data) {
-        self.block_Info = data.blockInfo
+      DataService.getBlockInfo(this.blockId).then(function (data) {
+        self.blockInfo = data.blockInfo
         if (data.blockTransactionList.length) {
-          self.table_data.data = []
+          self.tableData.data = []
           data.blockTransactionList.forEach((el, idx) => {
             let temp = []
             let singerLink = `<a href="/#/account/${el.signer.address.address}">${el.signer.address.address}</a>`
@@ -177,10 +177,10 @@ export default {
             temp.push(el.fee)
             temp.push(singerLink)
             temp.push(transactionHashLink)
-            self.table_data.data.push(temp)
+            self.tableData.data.push(temp)
           })
         } else {
-          self.table_data.data = []
+          self.tableData.data = []
         }
         self.loading = 1
       })

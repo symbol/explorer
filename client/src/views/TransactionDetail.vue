@@ -24,7 +24,7 @@
       <div class="full-con mob_con">
         <div class="container p-0">
           <div class="widget has-shadow mt-4 m-0 z-1">
-            <inforow info_title="Transaction Details" :inforows="this.trx_detail" :loading="this.loading"></inforow>
+            <InfoRow infoTitle="Transaction Details" :rows="this.transactionDetail" :loading="this.loading"></InfoRow>
           </div>
         </div>
       </div>
@@ -34,17 +34,18 @@
   </div>
 </template>
 <script>
-import w1 from '@/components/inforow.vue'
+import w1 from '@/components/InfoRow.vue'
 import DataService from '../data-service'
+
 export default {
   name: 'block',
   components: {
-    inforow: w1
+    InfoRow: w1
   },
   data() {
     return {
-      trx_hash: this.$route.params.trx_hash,
-      trx_detail: {
+      transactionHash: this.$route.params.transactionHash,
+      transactionDetail: {
         'Transaction Hash': '',
         Block: '',
         // Timestamp: "",
@@ -70,18 +71,18 @@ export default {
   },
   methods: {
     asyncData() {
-      this.trx_hash = this.$route.params.trx_hash
+      this.transactionHash = this.$route.params.transactionHash
       let self = this
-      DataService.getTrxdetail(this.trx_hash).then(function (data) {
-        self.trx_detail['Transaction Hash'] = self.trx_hash
-        self.trx_detail['Block'] = data.transactionInfo.transaction.blockHeight
-        self.trx_detail['Type'] = data.transactionInfo.transaction.transactionDetail.type
-        self.trx_detail['Harvester'] = data.transactionInfo.transaction.signer
-        self.trx_detail['Recipient'] = data.transactionInfo.transaction.transactionDetail.recipient
-        // self.trx_detail['Amount'] = data.transactionInfo.transaction.transactionDetail.mosaics[0].amount
-        self.trx_detail['Fee'] = data.transactionInfo.transaction.fee
-        self.trx_detail['Status'] = data.transactionInfo.status
-        self.trx_detail['confirmation'] = data.transactionInfo.confirm
+      DataService.getTransactionDetail(this.transactionHash).then(function (data) {
+        self.transactionDetail['Transaction Hash'] = self.transactionHash
+        self.transactionDetail['Block'] = data.transactionInfo.transaction.blockHeight
+        self.transactionDetail['Type'] = data.transactionInfo.transaction.transactionDetail.type
+        self.transactionDetail['Harvester'] = data.transactionInfo.transaction.signer
+        self.transactionDetail['Recipient'] = data.transactionInfo.transaction.transactionDetail.recipient
+        // self.transactionDetail['Amount'] = data.transactionInfo.transaction.transactionDetail.mosaics[0].amount
+        self.transactionDetail['Fee'] = data.transactionInfo.transaction.fee
+        self.transactionDetail['Status'] = data.transactionInfo.status
+        self.transactionDetail['confirmation'] = data.transactionInfo.confirm
         self.loading = 1
       })
     }

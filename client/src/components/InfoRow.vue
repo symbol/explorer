@@ -19,13 +19,13 @@
 <template>
   <div class="box">
     <div class="box-title">
-      <h1 class="inline-block">{{info_title}}</h1>
-      <span class="info_append">{{info_title2}}</span>
+      <h1 class="inline-block">{{infoTitle}}</h1>
+      <span class="info_append">{{infoDescription}}</span>
     </div>
     <div class="box-con mt-0">
        <loader v-if="!loading"></loader>
       <div class="list_info_con" >
-        <div class="row list_item" v-for="(item,index) in inforows" v-bind:key="index">
+        <div class="row list_item" v-for="(item,index) in rows" v-bind:key="index">
           <div class="col-md-2">
             <div class="label">{{index}}</div>
           </div>
@@ -50,9 +50,9 @@ export default {
       type: Number,
       default: 0
     },
-    info_title: String,
-    info_title2: String,
-    inforows: {}
+    infoTitle: String,
+    infoDescription: String,
+    rows: {}
   },
   methods: {}
 }

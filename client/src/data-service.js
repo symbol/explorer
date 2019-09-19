@@ -31,7 +31,7 @@ class DataService {
         //  console.log(data)
         return resolve(data.data)
       } catch (err) {
-        reject(new Error('request error homeinfo'))
+        reject(new Error('Request error in homeinfo'))
       }
     })
   }
@@ -43,11 +43,11 @@ class DataService {
         //  console.log(data)
         return resolve(data.data)
       } catch (err) {
-        reject(new Error('request error getBlocks'))
+        reject(new Error('Request error in getBlocks'))
       }
     })
   }
-  static getBlockinfo(blockID) {
+  static getBlockInfo(blockID) {
     return new Promise(async (resolve, reject) => {
       try {
         const blockInfo = await sdkBlock.getBlockInfoByHeight(blockID)
@@ -57,11 +57,11 @@ class DataService {
         const data = { blockInfo, blockTransactionList }
         return resolve(data)
       } catch (err) {
-        reject(new Error('request error getBlockinfo'))
+        reject(new Error('Request error in getBlockInfo'))
       }
     })
   }
-  static getTrxdetail(transactionId) {
+  static getTransactionDetail(transactionId) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.get(url + 'transaction/' + transactionId)
@@ -69,11 +69,11 @@ class DataService {
         //  console.log(data)
         return resolve(data.data)
       } catch (err) {
-        reject(new Error('request error getBlockinfo'))
+        reject(new Error('Request error in getTransactionDetail'))
       }
     })
   }
-  static getAcntdetail(address) {
+  static getAccountDetail(address) {
     return new Promise(async (resolve, reject) => {
       try {
         const res = await axios.get(url + 'account/' + address)
@@ -81,7 +81,7 @@ class DataService {
         //  console.log(data)
         return resolve(data.data)
       } catch (err) {
-        reject(new Error('request error getBlockinfo'))
+        reject(new Error('Request error in getAccountDetail'))
       }
     })
   }
@@ -93,7 +93,7 @@ class DataService {
         const data = res.data
         return resolve(data)
       } catch (err) {
-        reject(new Error('request error syncWs'))
+        reject(new Error('Request error in syncWs'))
       }
     })
   }

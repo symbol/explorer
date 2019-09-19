@@ -50,8 +50,8 @@ export default new Vuex.Store({
       }
       state.blockList.unshift(formattedBlock)
     },
-    setBlockList(state, blocklist) {
-      state.blockList = blocklist
+    setBlockList(state, blockList) {
+      state.blockList = blockList
     },
     resetCurrentBlockPage(state) {
       state.currentBlockPage = 1
@@ -77,8 +77,8 @@ export default new Vuex.Store({
     SET_LATEST_CHAIN_STATUS({ commit }, block) {
       commit('setLatestChainStatus', block)
     },
-    SET_BLOCKS_LIST({ commit }, blocklist) {
-      commit('setBlockList', blocklist)
+    SET_BLOCKS_LIST({ commit }, blockList) {
+      commit('setBlockList', blockList)
     },
     RESET_CURRENT_BLOCK_PAGE({ commit }) {
       commit('resetCurrentBlockPage')

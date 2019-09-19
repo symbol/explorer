@@ -27,7 +27,7 @@ import TopHead from '@/components/TopHead.vue'
 import PageMenu from '@/components/PageMenu.vue'
 import Pagefooter from '@/components/PageFooter.vue'
 import TimeSince from '@/components/TimeSince.vue'
-import w1 from '@/components/loading.vue'
+import w1 from '@/components/Loading.vue'
 
 Vue.config.productionTip = false
 Vue.component('top-header', TopHead)

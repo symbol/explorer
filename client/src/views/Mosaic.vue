@@ -26,7 +26,7 @@
           <div class="widget has-shadow mt-4">
             <div class="box">
               <div class="box-title">
-                <h1 class="inline-block">Mosaic List </h1>
+                <h1 class="inline-block">Mosaic List</h1>
                 <div class="btn_grp inline-block flt-rt"></div>
               </div>
               <div class="box-con mt-0">
@@ -44,11 +44,11 @@
                       <thead>
                         <tr>
                           <th>#</th>
-                          <th>MosaicID</th>
+                          <th>Mosaic ID</th>
                           <th>Creator</th>
                           <th>Supply</th>
                           <th>Divisibility</th>
-                           <th>CreateTime</th>
+                           <th>Create Time</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -116,8 +116,8 @@ import router from '../router'
 
 export default {
   methods: {
-    loadMosaicInfo(ns, m) {
-      router.push({ path: `/mosaic/${ns}/${m}` })
+    loadMosaicInfo(namespaceId, mosaicId) {
+      router.push({ path: `/mosaic/${namespaceId}/${mosaicId}` })
     }
   }
 }

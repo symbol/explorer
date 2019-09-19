@@ -34,7 +34,7 @@ export default new Router({
     },
     {
       path: '/blocks',
-      name: 'Blocks',
+      name: 'blocks',
       component: () =>
         import('./views/Blocks.vue'),
       meta: {
@@ -42,10 +42,10 @@ export default new Router({
       }
     },
     {
-      path: '/block/:blockid',
-      name: 'Blocks_details',
+      path: '/block/:blockId',
+      name: 'block-detail',
       component: () =>
-        import('./views/Block-detail.vue'),
+        import('./views/BlockDetail.vue'),
       meta: {
         title: ''
       }
@@ -60,10 +60,10 @@ export default new Router({
       }
     },
     {
-      path: '/transaction/:trx_hash',
-      name: 'transaction details',
+      path: '/transaction/:transactionHash',
+      name: 'transaction-detail',
       component: () =>
-        import('./views/Transaction-detail.vue'),
+        import('./views/TransactionDetail.vue'),
       meta: {
         title: ''
       }
@@ -78,17 +78,17 @@ export default new Router({
       }
     },
     {
-      path: '/account/:acnt_adrs',
-      name: 'account detail',
+      path: '/account/:address',
+      name: 'account-detail',
       component: () =>
-        import('./views/Account-detail.vue'),
+        import('./views/AccountDetail.vue'),
       meta: {
         title: ''
       }
     },
     {
       path: '/namespace',
-      name: 'Namespace',
+      name: 'namespace',
       component: () =>
         import('./views/Namespace.vue'),
       meta: {
@@ -96,10 +96,10 @@ export default new Router({
       }
     },
     {
-      path: '/namespace/:namespace_id',
-      name: 'Namespace detail',
+      path: '/namespace/:namespaceId',
+      name: 'namespace-detail',
       component: () =>
-        import('./views/Namespace-detail.vue'),
+        import('./views/NamespaceDetail.vue'),
       meta: {
         title: ''
       }
@@ -114,10 +114,10 @@ export default new Router({
       }
     },
     {
-      path: '/mosaic/:ns/:m',
-      name: 'mosaic detail',
+      path: '/mosaic/:namespaceId/:mosaicId',
+      name: 'mosaic-detail',
       component: () =>
-        import('./views/Mosaic-detail.vue'),
+        import('./views/MosaicDetail.vue'),
       meta: {
         title: ''
       }
