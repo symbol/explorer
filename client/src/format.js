@@ -43,9 +43,9 @@ const formatBlock = (block) => {
     height: block.height.compact(),
     hash: block.hash,
     timestamp: block.timestamp.compact() / 1000 + 1459468800,
-    date: moment(
+    date: moment.utc(
       (block.timestamp.compact() / 1000 + 1459468800) * 1000
-    ).format('YYYY-MM-DD HH:mm:ss'),
+    ).local().format('YYYY-MM-DD HH:mm:ss'),
     totalFee: block.totalFee.compact(),
     difficulty: (block.difficulty.compact() / 1000000000000).toFixed(2),
     numTransactions: block.numTransactions ? block.numTransactions : 0,
