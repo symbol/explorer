@@ -18,6 +18,7 @@
 
 import {
   AccountHttp,
+  TransactionHttp,
   QueryParams,
   PublicAccount,
   NetworkType,
@@ -43,6 +44,7 @@ class sdkTransaction {
     const transactionsList = await accountHttp
       .transactions(publicAccount, new QueryParams(pageSize, transactionId))
       .toPromise()
+
     return format.formatTransactions(transactionsList)
   }
 
