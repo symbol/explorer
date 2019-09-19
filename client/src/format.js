@@ -45,7 +45,7 @@ const formatBlock = (block) => {
     timestamp: block.timestamp.compact() / 1000 + 1459468800,
     date: moment.utc(
       (block.timestamp.compact() / 1000 + 1459468800) * 1000
-    ).format('YYYY-MM-DD HH:mm:ss'),
+    ).local().format('YYYY-MM-DD HH:mm:ss'),
     totalFee: formatFee(block.totalFee),
     difficulty: (block.difficulty.compact() / 1000000000000).toFixed(2),
     numTransactions: block.numTransactions ? block.numTransactions : 0,
@@ -119,6 +119,15 @@ const formatTransaction = transaction => {
   }
 
   return transactionObj
+}
+
+// FORMAT AggregateCosignatures
+const formatCosignatures = cosignatures => {
+   cosignatures.map(cosigner => {
+    cosigner.signer = cosigner.signer.address.address
+  })
+
+  return cosignatures
 }
 
 // FORMAT TRANSACTION BODY
@@ -204,9 +213,10 @@ const formatTransactionBody = transactionBody => {
       }
       return aggregateCompleteObj
     case TransactionType.AGGREGATE_BONDED:
-
       let aggregateBondedObj = {
         type: 'AggregateBonded',
+        innerTransactions: formatTransactions(transactionBody.innerTransactions),
+        cosignatures: formatCosignatures(transactionBody.cosignatures)
         // typeId: TransactionType.AGGREGATE_BONDED,
       }
       return aggregateBondedObj
@@ -215,6 +225,9 @@ const formatTransactionBody = transactionBody => {
       let lockObj = {
         type: 'Lock',
         // typeId: TransactionType.LOCK,
+        duration: transactionBody.duration.compact(),
+        mosaic: transactionBody.mosaic.id.toHex(),
+        amount: formatFee(transactionBody.mosaic.amount)
       }
       return lockObj
     case TransactionType.SECRET_LOCK:
