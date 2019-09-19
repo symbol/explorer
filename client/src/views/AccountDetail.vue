@@ -208,7 +208,7 @@ export default {
 
       accountInfo.mosaics.forEach((el, idx) => {
         let temp = []
-        let mosaicLink = `<a href="#/mosaic/${el.hex}">${el.hex}</a>`
+        let mosaicLink = `<a href="#/mosaic/${el.id}">${el.id}</a>`
         temp.push(idx + 1)
         temp.push(mosaicLink)
         temp.push(el.amount)
