@@ -25,7 +25,11 @@
     <div class="box-con mt-0">
        <loader v-if="!loading"></loader>
       <div class="list_info_con" >
-        <div class="row list_item" v-for="(item,index) in rows" v-bind:key="index">
+        <div
+          class="row list_item"
+          v-for="(item,index) in rows"
+          v-bind:key="index"
+        >
           <div class="col-md-2">
             <div class="label">{{index}}</div>
           </div>
@@ -43,7 +47,6 @@
   </div>
 </template>
 <script>
-
 export default {
   props: {
     loading: {

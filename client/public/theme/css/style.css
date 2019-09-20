@@ -1288,6 +1288,11 @@ table.table-bordered.dataTable tbody tr {
     cursor: pointer;
 }
 
+.rn_blk_con .blkht:link {
+    text-decoration: none;
+    color: #212529;
+}
+
 .rn_blk_con .inrw {
     width: 100%;
     display: inline-block;

@@ -17,44 +17,48 @@
  */
 
 <template>
-  <div class="widget has-shadow">
-    <div class="box">
-      <div class="box-title">
-        <h1 class="inline-block">Recent Blocks</h1>
-        <div class="btn_grp inline-block flt-rt">
-          <router-link to="/blocks" exact active-class="active" class="btn btn-green">
-            <span>View all blocks</span>
-            <i class="ico-ios-arrow-thin-right"></i>
-          </router-link>
-        </div>
-      </div>
-      <div class="box-con">
-        <loader v-if="loading"></loader>
-        <div class="row">
-          <RecentBlockRow
+  <div class="table-responsive">
+    <div
+      id="sorting-table_wrapper"
+      class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer p-0"
+    >
+      <table
+        id="table-block-list"
+        class="table table-striped table-bordered"
+        cellspacing="0"
+        width="100%"
+      >
+        <thead>
+          <tr>
+            <th>Block Height</th>
+            <th>Age</th>
+            <th>Transactions</th>
+            <th>Fee</th>
+            <th>Timestamp</th>
+            <th>Harvester</th>
+          </tr>
+        </thead>
+        <tbody>
+          <BlockRow
             :item="item"
             v-for="item in blockList"
             v-bind:key="item.height"
           />
-        </div>
-      </div>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
 <script>
-import w1 from '@/components/RecentBlockRow.vue'
-import { mapGetters } from 'vuex'
+import w1 from '@/components/BlockRow.vue'
 
 export default {
-  name: 'RecentBlocks',
+  name: 'BlockTable',
   components: {
-    RecentBlockRow: w1
+    BlockRow: w1
   },
-  computed: {
-    ...mapGetters({
-      blockList: 'block/getRecentList',
-      loading: 'block/getLoading'
-    })
+  props: {
+    blockList: {}
   }
 }
 </script>
