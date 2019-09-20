@@ -18,6 +18,7 @@
 
 import block from './block'
 import chain from './chain'
+import transaction from './transaction'
 import Vue from 'vue'
 import Vuex from 'vuex'
 
@@ -28,17 +29,20 @@ export default new Vuex.Store({
   strict: false,
   modules: {
     block,
-    chain
+    chain,
+    transaction
   },
   actions: {
     // Initialize the stores (call on app load).
     async initialize({ dispatch }) {
       await dispatch('block/initialize')
+      await dispatch('transaction/initialize')
     },
 
     // Uninitialize the stores (call on app destroyed).
     uninitialize({ dispatch }) {
       dispatch('block/uninitialize')
+      dispatch('transaction/uninitialize')
     }
   }
 })

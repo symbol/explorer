@@ -33,11 +33,11 @@
               </div>
               <div class="box-con mt-0">
                 <loader v-if="loading"></loader>
-                <BlockTable :blockList="blockList"></BlockTable>
+                <BlockTable :blockList="blockList"/>
                 <Pagination class="table-footer"
                   :nextPageAction="'block/fetchNextPage'"
                   :previousPageAction="'block/fetchPreviousPage'"
-                ></Pagination>
+                />
               </div>
             </div>
           </div>

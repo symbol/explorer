@@ -23,9 +23,9 @@ import sdkListener from '../infrastructure/getListener'
 export default {
   namespaced: true,
   state: {
-    // Holds the latest PAGE_SIZE transactions.
+    // Holds the latest PAGE_SIZE blocks.
     latestList: [],
-    // Holds the PAGE_SIZE transactions starting from current page.
+    // Holds the PAGE_SIZE blocks starting from current page.
     pageList: [],
     // The current page index (0-indexed).
     pageIndex: 0,
@@ -54,14 +54,14 @@ export default {
     }
   },
   actions: {
-    // Initialize the block.
+    // Initialize the block model.
     // First fetch the page, then subscribe.
     async initialize({ dispatch }) {
       await dispatch('initializePage')
       await dispatch('subscribe')
     },
 
-    // Uninitialize the block.
+    // Uninitialize the block model.
     uninitialize({ dispatch }) {
       dispatch('unsubscribe')
     },

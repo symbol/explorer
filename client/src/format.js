@@ -102,7 +102,7 @@ const formatTransactions = transactions => {
 // FORMAT TRANSACTION
 const formatTransaction = transaction => {
   let transactionObj = {
-    deadline: moment(new Date(transaction.deadline.value)).format(
+    deadline: moment.utc(new Date(transaction.deadline.value)).local().format(
       'YYYY-MM-DD HH:mm:ss'
     ),
     fee: transaction.maxFee.compact(),
@@ -131,7 +131,7 @@ const formatTransactionBody = transactionBody => {
       return transferObj
     case TransactionType.REGISTER_NAMESPACE:
       let registerNamespaceObj = {
-        type: 'RegisterNamespace',
+        type: 'Register Namespace',
         typeId: TransactionType.REGISTER_NAMESPACE,
         recipient: transactionBody.recipient,
         namespaceType: transactionBody.namespaceType,
@@ -142,10 +142,10 @@ const formatTransactionBody = transactionBody => {
       }
       return registerNamespaceObj
     case TransactionType.ADDRESS_ALIAS:
-      return 'Address alias'
+      return 'Address Alias'
     case TransactionType.MOSAIC_ALIAS:
       let mosaicAlias = {
-        type: 'MosaicAlias',
+        type: 'Mosaic Alias',
         typeId: TransactionType.MOSAIC_ALIAS,
         actionType: transactionBody.actionType,
         namespaceId: transactionBody.namespaceId.id.toHex(),
@@ -154,7 +154,7 @@ const formatTransactionBody = transactionBody => {
       return mosaicAlias
     case TransactionType.MOSAIC_DEFINITION:
       let mosaicDefinitionObj = {
-        type: 'MosaicDefinition',
+        type: 'Mosaic Definition',
         typeId: TransactionType.MOSAIC_DEFINITION,
         mosaicId: transactionBody.mosaicId.toHex().toLowerCase(),
         mosaicProperties: {
@@ -168,7 +168,7 @@ const formatTransactionBody = transactionBody => {
       return mosaicDefinitionObj
     case TransactionType.MOSAIC_SUPPLY_CHANGE:
       let mosaicSupplyChangeObj = {
-        type: 'MosaicSupplyChange',
+        type: 'Mosaic Supply Change',
         typeId: TransactionType.MOSAIC_SUPPLY_CHANGE,
         mosaicId: transactionBody.mosaicId.id.toHex(),
         direction: transactionBody.direction === 1 ? 'Increase' : 'Decrease',
@@ -184,7 +184,7 @@ const formatTransactionBody = transactionBody => {
     case TransactionType.LOCK:
       return 'Lock'
     case TransactionType.SECRET_LOCK:
-      return 'Secrxwet lock'
+      return 'Secret lock'
     case TransactionType.SECRET_PROOF:
       return 'Secret proof'
     case TransactionType.MODIFY_ACCOUNT_PROPERTY_ADDRESS:

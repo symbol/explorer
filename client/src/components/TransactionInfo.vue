@@ -17,26 +17,24 @@
  */
 
 <template>
-  <tr>
-    <td><BlockHeightLink :height="item.height"/></td>
-    <td><Age :date="item.date"/></td>
-    <td>{{item.numTransactions}}</td>
-    <td>{{item.totalFee}}</td>
-    <td>{{item.date}}</td>
-    <td><AddressLink :address="item.signer.address.address"/></td>
-  </tr>
+<div class="trx-info">
+  <div class="inrw">
+    <span>Block Height {{ item.blockHeight }}</span>
+    <span>{{item.transactionDetail.type}}</span>
+  </div>
+  <div class="inrw flex">
+    <span>Sender</span>
+    <AddressLink :address="item.signer.address.address" class="acnt"/>
+  </div>
+</div>
 </template>
 <script>
-import w1 from '@/components/BlockHeightLink.vue'
-import w2 from '@/components/Age.vue'
-import w3 from '@/components/AddressLink.vue'
+import w1 from '@/components/AddressLink.vue'
 
 export default {
-  name: 'BlockRow',
+  name: 'TransactionInfo',
   components: {
-    BlockHeightLink: w1,
-    Age: w2,
-    AddressLink: w3
+    AddressLink: w1
   },
   props: {
     item: {}
