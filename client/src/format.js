@@ -84,8 +84,11 @@ const formatAccount = accountInfo => {
 // FORMAT MOSAICS
 const formatMosaics = mosaics => {
   return mosaics.map(mosaic => {
-    mosaic.hex = mosaic.id.toHex()
-    mosaic.amount = mosaic.amount.compact()
+    return {
+      ...mosaic,
+      hex: mosaic.id.toHex(),
+      amount: mosaic.amount.compact()
+    }
   })
 }
 
