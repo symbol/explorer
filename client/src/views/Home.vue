@@ -46,7 +46,7 @@ import w4 from '@/components/RecentTransactions.vue'
 import DataService from '../data-service'
 
 export default {
-  name: 'home',
+  name: 'Home',
   components: {
     HomeBaseInfo: w1,
     NemPriceGraph: w2,

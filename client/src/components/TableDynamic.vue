@@ -29,12 +29,24 @@
         >
           <thead>
             <tr>
-              <th v-for="(item,index) in tableHead" v-bind:key="index">{{item}}</th>
+              <th
+                v-for="(item,index) in tableHead"
+                v-bind:key="index"
+              >
+                {{item}}
+              </th>
             </tr>
           </thead>
           <tbody>
-            <tr v-for="(item,index) in tableData" v-bind:key="index">
-              <td v-for="(subitem,idx) in item" v-bind:key="idx" v-html="formatData(subitem)"></td>
+            <tr
+              v-for="(item,index) in tableData"
+              v-bind:key="index"
+            >
+              <td
+                v-for="(subitem,idx) in item"
+                v-bind:key="idx"
+                v-html="formatData(subitem)"
+              />
             </tr>
           </tbody>
         </table>

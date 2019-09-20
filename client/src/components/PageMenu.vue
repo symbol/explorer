@@ -31,54 +31,13 @@
         <div class="col-md-11">
           <div class="nav-con" v-bind:class="{'nav-active':(showTopMenu==1)}">
             <ul class="nav-menu ls1">
-              <li>
-                <router-link to="/" exact active-class="active">
-                  <i class="ico-th-large"></i>
-                  <span>Home</span>
-                </router-link>
-              </li>
-              <li>
-                <router-link to="/blocks" active-class="active">
-                  <i class="ico-content-34"></i>
-                  <span>Blocks</span>
-                </router-link>
-              </li>
-              <!-- <li>
-                <router-link to="/transactions" exact active-class="active">
-                  <i class="ico-line-awesome-3"></i>
-                  <span>Transactions</span>
-                </router-link>
-              </li> -->
-              <!-- <li>
-                <router-link to="/account" exact active-class="active">
-                  <i class="ico-user-outline"></i>
-                  <span>Accounts</span>
-                </router-link>
-              </li> -->
-              <!-- <li>
-                <router-link to="/namespace" exact active-class="active">
-                  <i class="ico-data"></i>
-                  <span>Namespaces</span>
-                </router-link>
-              </li> -->
-              <!-- <li>
-                <router-link to="/mosaic" exact active-class="active">
-                  <i class="ico-tags"></i>
-                  <span>Mosaics</span>
-                </router-link>
-              </li> -->
-              <!-- <li>
-                <router-link to="/node" exact active-class="active">
-                  <i class="ico-content-34"></i>
-                  <span>Nodes</span>
-                </router-link>
-              </li> -->
-              <!-- <li>
-                <router-link to="/stat" exact active-class="active">
-                  <i class="ico-bar-chart"></i>
-                  <span>Statistics</span>
-                </router-link>
-              </li> -->
+              <PageMenuItem
+                :to="item.to"
+                :text="item.text"
+                :classname="item.classname"
+                v-for="item in items"
+                v-bind:key="item.text"
+              />
             </ul>
           </div>
         </div>
@@ -96,14 +55,29 @@
   </header>
 </template>
 <script>
+import w1 from '@/components/PageMenuItem.vue'
+
 export default {
   name: 'PageMenu',
+  components: {
+    PageMenuItem: w1
+  },
   props: {
     msg: String
   },
   data() {
     return {
-      showTopMenu: false
+      showTopMenu: false,
+      items: [
+        { to: '/', text: 'Home', classname: 'ico-th-large' },
+        { to: '/blocks', text: 'Blocks', classname: 'ico-content-34' }
+        // { to: '/transactions', text: 'Transactions', classname: 'ico-line-awesome-3' },
+        // { to: '/account', text: 'Accounts', classname: 'ico-user-outline' },
+        // { to: '/namespace', text: 'Namespaces', classname: 'ico-data' },
+        // { to: '/mosaic', text: 'Mosaics', classname: 'ico-tags' },
+        // { to: '/node', text: 'Nodes', classname: 'ico-content-34' },
+        // { to: '/stats', text: 'Statistics', classname: 'ico-bar-chart' },
+      ]
     }
   }
 }

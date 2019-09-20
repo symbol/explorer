@@ -32,69 +32,12 @@
                 </div>
               </div>
               <div class="box-con mt-0">
-                <loader v-if="this.loading"></loader>
-                <div class="table-responsive">
-                  <div
-                    id="sorting-table_wrapper"
-                    class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer p-0"
-                  >
-                    <table
-                      id="table-block-list"
-                      class="table table-striped table-bordered"
-                      cellspacing="0"
-                      width="100%"
-                    >
-                      <thead>
-                        <tr>
-                          <th>Block Height</th>
-                          <th>Age</th>
-                          <th>Transactions</th>
-                          <th>Fee</th>
-                          <th>Timestamp</th>
-                          <th>Harvester</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <tr v-for="item in blockList" v-bind:key="item.height">
-                          <td>
-                            <router-link :to="'/block/' + item.height">{{item.height}}</router-link>
-                          </td>
-                          <td>
-                            <time-since :date="item.date">
-                              <template slot-scope="interval">
-                                {{timeSince(interval)}}
-                              </template>
-                            </time-since>
-                          </td>
-                          <td>{{item.numTransactions}}</td>
-                          <td>{{item.totalFee}}</td>
-                          <td>{{item.date}}</td>
-                          <td>
-                            <router-link
-                              :to="'/account/' + item.signer.address.address"
-                            >{{item.signer.address.address}}</router-link>
-                          </td>
-                        </tr>
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-                <div class="table-footer">
-                  <div class="pagination-container">
-                    <ul class="pagination">
-                      <li class="page-item" @click="previousPage()">
-                        <a href="#">
-                          <i class="ico-angle-left"></i>
-                        </a>
-                      </li>
-                      <li class="page-item">
-                        <a href="#" @click="nextPage()">
-                          <i class="ico-angle-right"></i>
-                        </a>
-                      </li>
-                    </ul>
-                  </div>
-                </div>
+                <loader v-if="loading"></loader>
+                <BlockTable :blockList="blockList"></BlockTable>
+                <Pagination class="table-footer"
+                  :nextPageAction="'block/fetchNextPage'"
+                  :previousPageAction="'block/fetchPreviousPage'"
+                ></Pagination>
               </div>
             </div>
           </div>
@@ -106,30 +49,22 @@
   </div>
 </template>
 <script>
-import helper from '../helper'
+import w1 from '@/components/BlockTable.vue'
+import w2 from '@/components/Pagination.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'Blocks',
+  components: {
+    BlockTable: w1,
+    Pagination: w2
+  },
   computed: {
     ...mapGetters({
       blockHeight: 'chain/getBlockHeight',
       blockList: 'block/getPageList',
       loading: 'block/getLoading'
     })
-  },
-  methods: {
-    timeSince(interval) {
-      return helper.timeSince(interval)
-    },
-    nextPage() {
-      this.$store.dispatch('block/fetchNextPage')
-        .catch(error => console.log(error))
-    },
-    previousPage() {
-      this.$store.dispatch('block/fetchPreviousPage')
-        .catch(error => console.log(error))
-    }
   },
   destroyed() {
     this.$store.dispatch('block/resetPage')

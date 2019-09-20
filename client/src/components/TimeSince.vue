@@ -1,9 +1,19 @@
 <template>
-    <span>
-        <slot :years="years" :days="days" :hours="hours" :minutes="minutes" :seconds="seconds">
-            {{years}} years {{days}} days {{hours}} hours {{ minutes}} minutes {{ seconds}} seconds
-        </slot>
-    </span>
+  <span>
+    <slot
+      :years="years"
+      :days="days"
+      :hours="hours"
+      :minutes="minutes"
+      :seconds="seconds"
+    >
+      {{years}} years
+      {{days}} days
+      {{hours}} hours
+      {{minutes}} minutes
+      {{seconds}} seconds
+    </slot>
+  </span>
 </template>
 <script>
 import moment from 'moment'
