@@ -17,32 +17,22 @@
  */
 
 import { Listener } from 'nem2-sdk'
-import store from '../store'
 import format from '../format'
 import { Endpoint } from '../config/'
 
 class sdkListener {
-  static getNewBlock = () => {
+  // Subscribe to new blocks announced to the chain.
+  static subscribeNewBlock = async (dispatch) => {
     const listener = new Listener(Endpoint.ws, WebSocket)
-    listener.open().then(() => {
-      listener
-        .newBlock()
-        .subscribe(
-          (block) => {
-            store.dispatch(
-              'ADD_BLOCK',
-              format.formatBlock(block),
-              { root: true }
-            )
-            store.dispatch(
-              'SET_LATEST_CHAIN_STATUS',
-              format.formatBlock(block),
-              { root: true }
-            )
-          },
-          err => console.log(err)
-        )
-    })
+    await listener.open()
+    let subscription = listener
+      .newBlock()
+      .subscribe(
+        block => dispatch('add', format.formatBlock(block)),
+        err => console.log(err)
+      )
+
+    return [listener, subscription]
   }
 }
 

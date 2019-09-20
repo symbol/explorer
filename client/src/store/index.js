@@ -16,19 +16,29 @@
  *
  */
 
-import { AccountHttp, Address } from 'nem2-sdk'
-import format from '../format'
-import { Endpoint } from '../config/'
+import block from './block'
+import chain from './chain'
+import Vue from 'vue'
+import Vuex from 'vuex'
 
-const ACCOUNT_HTTP = new AccountHttp(Endpoint.api)
+Vue.use(Vuex)
 
-class sdkAccount {
-  static getAccountInfoByAddress = async address => {
-    const accountInfo = await ACCOUNT_HTTP
-      .getAccountInfo(new Address(address))
-      .toPromise()
-    return format.formatAccount(accountInfo)
+export default new Vuex.Store({
+  // Disable use-strict mode because it fails with the SDK listener.
+  strict: false,
+  modules: {
+    block,
+    chain
+  },
+  actions: {
+    // Initialize the stores (call on app load).
+    async initialize({ dispatch }) {
+      await dispatch('block/initialize')
+    },
+
+    // Uninitialize the stores (call on app destroyed).
+    uninitialize({ dispatch }) {
+      dispatch('block/uninitialize')
+    }
   }
-}
-
-export default sdkAccount
+})

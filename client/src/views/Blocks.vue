@@ -28,11 +28,11 @@
               <div class="box-title">
                 <h1 class="inline-block">Blocks</h1>
                 <div class="btn_grp inline-block flt-rt">
-                  <span>Current Block Height : {{getCurrentBlockHeight}}</span>
+                  <span>Current Block Height: {{blockHeight}}</span>
                 </div>
               </div>
               <div class="box-con mt-0">
-                <loader v-if="!this.loading"></loader>
+                <loader v-if="this.loading"></loader>
                 <div class="table-responsive">
                   <div
                     id="sorting-table_wrapper"
@@ -55,7 +55,7 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="item in getLatestBlockList" v-bind:key="item.height">
+                        <tr v-for="item in blockList" v-bind:key="item.height">
                           <td>
                             <router-link :to="'/block/' + item.height">{{item.height}}</router-link>
                           </td>
@@ -106,53 +106,33 @@
   </div>
 </template>
 <script>
-import sdkBlock from '../infrastructure/getBlock'
 import helper from '../helper'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'block',
-  components: {},
-  data() {
-    return {
-      loading: 0
-    }
-  },
+  name: 'Blocks',
   computed: {
-    ...mapGetters([
-      'getCurrentBlockHeight',
-      'getLatestBlockList',
-      'getCurrentPage'
-    ])
+    ...mapGetters({
+      blockHeight: 'chain/getBlockHeight',
+      blockList: 'block/getPageList',
+      loading: 'block/getLoading'
+    })
   },
   methods: {
     timeSince(interval) {
       return helper.timeSince(interval)
     },
-    loadData() {
-      this.getLatestBlockList.length > 0
-        ? (this.loading = 1)
-        : (this.loading = 0)
-    },
     nextPage() {
-      this.$store.dispatch('INCREASE_CURRENT_BLOCK_PAGE')
-      let index = this.getLatestBlockList.length - 1
-      let getEndBlock = this.getLatestBlockList[index]
-      sdkBlock.getBlocksWithLimit(25, getEndBlock.height - 1)
+      this.$store.dispatch('block/fetchNextPage')
+        .catch(error => console.log(error))
     },
     previousPage() {
-      if (this.getCurrentBlockPage > 1) {
-        this.$store.dispatch('DECREASE_CURRENT_BLOCK_PAGE')
-        let getStartBlock = this.getLatestBlockList[0]
-        sdkBlock.getBlocksWithLimit(25, getStartBlock.height + 1)
-      }
+      this.$store.dispatch('block/fetchPreviousPage')
+        .catch(error => console.log(error))
     }
   },
-  created() {
-    this.loadData()
-  },
   destroyed() {
-    this.$store.dispatch('RESET_CURRENT_BLOCK_PAGE')
+    this.$store.dispatch('block/resetPage')
   }
 }
 </script>

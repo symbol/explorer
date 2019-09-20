@@ -22,8 +22,8 @@
   </div>
 </template>
 <script>
-import sdkListener from './infrastructure/getListener'
-import sdkBlock from './infrastructure/getBlock'
+import store from './store'
+
 export default {
   data: () => {
     return {
@@ -31,12 +31,18 @@ export default {
     }
   },
   mounted() {
-    this.initApp()
+    this.initialize()
+  },
+  destroyed() {
+    this.uninitialize()
   },
   methods: {
-    initApp() {
-      sdkListener.getNewBlock()
-      sdkBlock.getBlocksWithLimit(25)
+    initialize() {
+      store.dispatch('initialize')
+        .catch(error => console.log(error))
+    },
+    uninitialize() {
+      store.dispatch('uninitialize')
     }
   }
 }

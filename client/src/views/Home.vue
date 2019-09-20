@@ -27,7 +27,7 @@
           <HomeBaseInfo class="" :marketinfo="homeData.marketData" :chaininfo="homeData.chainInfo"></HomeBaseInfo>
         </div>
         <div class="container p-0 mt-1">
-          <RecentBlocks :blockList="getLatestBlockList"></RecentBlocks>
+          <RecentBlocks></RecentBlocks>
         </div>
         <!-- <div class="container p-0 mt-1">
           <RecentTransactions></RecentTransactions>
@@ -44,7 +44,6 @@ import w2 from '@/components/NemPriceGraph.vue'
 import w3 from '@/components/RecentBlocks.vue'
 import w4 from '@/components/RecentTransactions.vue'
 import DataService from '../data-service'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'home',
@@ -53,9 +52,6 @@ export default {
     NemPriceGraph: w2,
     RecentBlocks: w3,
     RecentTransactions: w4
-  },
-  computed: {
-    ...mapGetters(['getLatestBlockList'])
   },
   data() {
     return {

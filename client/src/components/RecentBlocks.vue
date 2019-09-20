@@ -29,9 +29,9 @@
         </div>
       </div>
       <div class="box-con">
-        <loader v-if="!blockList"></loader>
+        <loader v-if="this.loading"></loader>
         <div class="row">
-          <div class="col-md-3" v-for="item in recentBlockList" v-bind:key="item.height">
+          <div class="col-md-3" v-for="item in blockList" v-bind:key="item.height">
             <div class="rn_blk_con">
               <div class="blkht" @click="loadBlockInfo(item.height)">
                 <span>{{ item.height }}</span>
@@ -60,10 +60,15 @@
 <script>
 import helper from '../helper'
 import router from '../router'
+import { mapGetters } from 'vuex'
 
 export default {
-  props: {
-    blockList: {}
+  name: 'RecentBlocks',
+  computed: {
+    ...mapGetters({
+      blockList: 'block/getRecentList',
+      loading: 'block/getLoading'
+    })
   },
   methods: {
     timeSince(interval) {
@@ -74,13 +79,6 @@ export default {
     },
     loadAccountInfo(address) {
       router.push({ path: `/account/${address}` })
-    }
-  },
-  computed: {
-    recentBlockList() {
-      return Array.prototype.filter.call(this.blockList, function (item, index) {
-        return index < 4
-      })
     }
   }
 }
