@@ -25,7 +25,7 @@ import {
 import format from '../format'
 import { Endpoint } from '../config/'
 
-const accountHttp = new AccountHttp(Endpoint.api)
+const ACCOUNT_HTTP = new AccountHttp(Endpoint.api)
 
 class sdkTransaction {
   static getAccountTransactions = async (publicKey, transactionId = '') => {
@@ -36,7 +36,7 @@ class sdkTransaction {
       NetworkType.MIJIN_TEST
     )
 
-    const transactionsList = await accountHttp
+    const transactionsList = await ACCOUNT_HTTP
       .transactions(publicAccount, new QueryParams(pageSize, transactionId))
       .toPromise()
 

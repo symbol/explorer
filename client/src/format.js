@@ -30,12 +30,9 @@ const formatTimestamp = nemstamp =>
 // FORMAT BLOCK
 
 const formatBlocks = (blockList) => {
-  if (blockList) {
-    return blockList.map(block => {
-      return formatBlock(block)
-    })
-  }
-  return []
+  return blockList.map(block => {
+    return formatBlock(block)
+  })
 }
 
 const formatBlock = (block) => {
@@ -86,21 +83,20 @@ const formatAccount = accountInfo => {
 
 // FORMAT MOSAICS
 const formatMosaics = mosaics => {
-  mosaics.map(mosaic => {
-    mosaic.hex = mosaic.id.toHex()
-    mosaic.amount = mosaic.amount.compact()
+  return mosaics.map(mosaic => {
+    return {
+      ...mosaic,
+      hex: mosaic.id.toHex(),
+      amount: mosaic.amount.compact()
+    }
   })
-  return mosaics
 }
 
 // FORMAT TRANSACTIONS
 const formatTransactions = transactions => {
-  if (transactions) {
-    return transactions.map(transaction => {
-      return formatTransaction(transaction)
-    })
-  }
-  return []
+  return transactions.map(transaction => {
+    return formatTransaction(transaction)
+  })
 }
 
 // FORMAT TRANSACTION
