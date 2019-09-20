@@ -107,11 +107,11 @@
               </div>
             </div>
 
-            <div v-if='transactionInfo.transaction.transactionBody.type === "AggregateBonded"' class="widget has-shadow">
+            <div v-if='transactionInfo.transaction.transactionBody.type === "AggregateBonded" || transactionInfo.transaction.transactionBody.type === "AggregateComplete"' class="widget has-shadow">
               <div class="box">
                 <div class="tabs-con">
                   <tabs>
-                    <tab title="Transactions">
+                    <tab title="InnerTransactions">
                       <DataTable
                         :tableHead="this.innerTransactions.head"
                         :tableData="this.innerTransactions.data"
@@ -167,8 +167,6 @@ export default {
           '#',
           'Transaction ID',
           'Type',
-          'Message',
-          'Mosaics',
           'Sender',
           'Recipient',
         ],
@@ -190,23 +188,18 @@ export default {
       )
       this.transactionInfo = transactionDetail
 
-      if (transactionDetail.transaction.transactionBody.type === "AggregateBonded") {
+      let transactionType = transactionDetail.transaction.transactionBody.type
+
+      if ( transactionType=== "AggregateBonded" || transactionType === "AggregateComplete" ) {
         transactionDetail.transaction.transactionBody.innerTransactions.forEach((el, idx) => {
 
           let temp = []
           let singerLink = `<a href="/#/account/${el.signer}">${el.signer}</a>`
           let recipientLink = `<a href="/#/account/${el.transactionBody.recipient}">${el.transactionBody.recipient}</a>`
-          let displayMosaics = ``
-
-          el.transactionBody.mosaics.map(mosaic => {
-            displayMosaics = displayMosaics + `<span><a href="/#/mosaic/${mosaic.id}">${mosaic.id}</a> : ${mosaic.amount}</span>`
-          })
 
           temp.push(idx + 1)
           temp.push(el.transactionId)
           temp.push(el.transactionBody.type)
-          temp.push(el.transactionBody.message)
-          temp.push(displayMosaics)
           temp.push(singerLink)
           temp.push(recipientLink)
           this.innerTransactions.data.push(temp)

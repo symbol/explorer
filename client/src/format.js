@@ -1,4 +1,4 @@
-import { Address, TransactionType, AliasActionType, UInt64 } from 'nem2-sdk'
+import { Address, TransactionType, AliasActionType, UInt64, NetworkType } from 'nem2-sdk'
 import moment from 'moment'
 
 // FORMAT FEE
@@ -209,6 +209,8 @@ const formatTransactionBody = transactionBody => {
     case TransactionType.AGGREGATE_COMPLETE:
       let aggregateCompleteObj = {
         type: 'AggregateComplete',
+        innerTransactions: formatTransactions(transactionBody.innerTransactions),
+        cosignatures: formatCosignatures(transactionBody.cosignatures)
         // typeId: TransactionType.AGGREGATE_COMPLETE,
       }
       return aggregateCompleteObj
@@ -263,6 +265,9 @@ const formatTransactionBody = transactionBody => {
     case TransactionType.LINK_ACCOUNT:
       let linkAccountObj = {
         type: 'LinkAccount',
+        linkAction: transactionBody.linkAction === 0 ? 'Link' : 'Unlink',
+        remoteAccountPublicKey: transactionBody.remoteAccountKey,
+        remoteAccountAddress: Address.createFromPublicKey(transactionBody.remoteAccountKey, NetworkType.MIJIN_TEST).plain()
         // typeId: TransactionType.LINK_ACCOUNT,
       }
       return linkAccountObj
