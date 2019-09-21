@@ -18,24 +18,31 @@
 
 <template>
   <tr>
-    <td><BlockHeightLink :height="item.height"/></td>
-    <td><Age :date="item.date"/></td>
-    <td>{{item.numTransactions}}</td>
-    <td>{{item.totalFee}}</td>
-    <td>{{item.date}}</td>
-    <td><AddressLink :address="item.signer.address.address"/></td>
+    <td><BlockHeightLink :height="item.blockHeight"/></td>
+    <td><TransactionHashLink :hash="item.transactionHash"/></td>
+    <td>{{item.transactionDetail.type}}</td>
+    <td><AddressLink :address="item.signer.address.address" :count="20"/></td>
+    <td>
+      <AddressLink
+        v-if="item.transactionDetail.recipient"
+        :address="item.transactionDetail.recipient.address"
+        :count="20"
+      />
+    </td>
+    <td>{{item.fee}}</td>
+    <td>{{item.deadline}}</td>
   </tr>
 </template>
 <script>
 import w1 from '@/components/BlockHeightLink.vue'
-import w2 from '@/components/Age.vue'
+import w2 from '@/components/TransactionHashLink.vue'
 import w3 from '@/components/AddressLink.vue'
 
 export default {
-  name: 'BlockRow',
+  name: 'TransactionRow',
   components: {
     BlockHeightLink: w1,
-    Age: w2,
+    TransactionHashLink: w2,
     AddressLink: w3
   },
   props: {

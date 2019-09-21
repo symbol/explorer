@@ -17,26 +17,22 @@
  */
 
 <template>
-  <tr>
-    <td><BlockHeightLink :height="item.height"/></td>
-    <td><Age :date="item.date"/></td>
-    <td>{{item.numTransactions}}</td>
-    <td>{{item.totalFee}}</td>
-    <td>{{item.date}}</td>
-    <td><AddressLink :address="item.signer.address.address"/></td>
-  </tr>
+  <div class="col-md-3">
+    <div class="rn_blk_con trx">
+      <TransactionHashLink :hash="item.transactionHash" :count="20" tag="span" class="txh1"/>
+      <TransactionInfo :item="item"/>
+    </div>
+  </div>
 </template>
 <script>
-import w1 from '@/components/BlockHeightLink.vue'
-import w2 from '@/components/Age.vue'
-import w3 from '@/components/AddressLink.vue'
+import w1 from '@/components/TransactionHashLink.vue'
+import w2 from '@/components/TransactionInfo.vue'
 
 export default {
-  name: 'BlockRow',
+  name: 'RecentBlockRow',
   components: {
-    BlockHeightLink: w1,
-    Age: w2,
-    AddressLink: w3
+    TransactionHashLink: w1,
+    TransactionInfo: w2
   },
   props: {
     item: {}

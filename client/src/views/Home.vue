@@ -27,11 +27,11 @@
           <HomeBaseInfo class="" :marketinfo="homeData.marketData" :chaininfo="homeData.chainInfo"></HomeBaseInfo>
         </div>
         <div class="container p-0 mt-1">
-          <RecentBlocks></RecentBlocks>
+          <RecentBlocks/>
         </div>
-        <!-- <div class="container p-0 mt-1">
-          <RecentTransactions></RecentTransactions>
-        </div> -->
+        <div class="container p-0 mt-1">
+          <RecentTransactions/>
+        </div>
       </div>
     </div>
     <page-footer></page-footer>
