@@ -30,7 +30,7 @@ class sdkBlock {
   }
 
   static getBlockInfoByHeight = async (blockHeight) => {
-    const blockInfo = await BLOCK_HTTP.getBlockByHeight(blockHeight)
+    const blockInfo = await BLOCK_HTTP.getBlockByHeight(blockHeight).toPromise()
     return format.formatBlock(blockInfo)
   }
 
