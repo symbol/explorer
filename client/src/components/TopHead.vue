@@ -76,8 +76,13 @@
           </div>
         </div>
       </div>
+      <div class="mobtopbar">
+        <a class="mobilemenu mmtoggle" href="#">
+          <i class="ico-navicon-round"></i>
+        </a>
+      </div>
     </div>
-    <MobileMenu :nodes="nodes"/>
+    <MobileMenu :nodes="nodes" :activenode="activeNode"/>
   </div>
 </template>
 <script>
@@ -95,7 +100,9 @@ export default {
       searchString: null,
       searchValidate: '',
       nodes: Endpoint.nodes,
-      activeNode: Endpoint.api.replace('http://', '').replace(':3000', '')
+      activeNode: Endpoint.api.replace('http://', '').replace(':3000', ''),
+      mobmenu_active: 0,
+      nodemenu_active: 0
     }
   },
   components: {
@@ -103,6 +110,22 @@ export default {
   },
   props: {},
   methods: {
+    togglenodemenu: function (e) {
+      e.preventDefault()
+      if (this.nodemenu_active == 0) {
+        this.nodemenu_active = 1
+      } else {
+        this.nodemenu_active = 0
+      }
+    },
+    togglemenu: function (e) {
+      e.preventDefault()
+      if (this.mobmenu_active == 0) {
+        this.mobmenu_active = 1
+      } else {
+        this.mobmenu_active = 0
+      }
+    },
     nodeUrl(data) {
       return helper.nodeUrl(data)
     },
