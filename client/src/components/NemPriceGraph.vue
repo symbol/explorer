@@ -66,42 +66,38 @@
   margin-top: 6px;
 }
 .apexcharts-canvas svg {
-    margin: 0px 0px 0px -10px;
-    width: 100%;
+  margin: 0px 0px 0px -10px;
+  width: 100%;
 }
 </style>
 <script>
 import axios from 'axios'
+import { mapGetters } from 'vuex'
 import ApexCharts from 'apexcharts'
 
 export default {
   props: {},
   data() {
     return {
-      loading: 0
+      loading: 0,
     }
   },
+  computed: {
+    ...mapGetters({
+      marketData: 'chain/getMarketData',
+    }),
+  },
   mounted() {
-    let self = this
-    axios
-      .all([
-        axios.get(
-          'https://min-api.cryptocompare.com/data/histohour?fsym=XEM&tsym=USD&limit=168'
-        )
-      ])
-      .then(
-        axios.spread(res1 => {
-          // var x = []
-          // var y = []
-          self.loading = 1
-          this.drawCandleChart(res1.data, '#nempricegraph')
-        })
-      )
-      .catch(error => {
-        console.log(error)
-      })
+    this.initializeGraph()
   },
   methods: {
+    initializeGraph() {
+      this.drawCandleChart(
+        this.marketData.historicalHourlyGraph,
+        '#nempricegraph'
+      )
+      this.loading = 1
+    },
     drawCandleChart(data, elmnt) {
       let graphData = []
       data.Data.forEach((item, index) => {
@@ -120,7 +116,7 @@ export default {
           type: 'area',
           foreColor: '#999',
           toolbar: {
-            show: false
+            show: false,
             // tools: {
             //   download: false,
             //   selection: true,
@@ -131,7 +127,7 @@ export default {
             //   reset: '<i class="ico-ios-refresh-outline" style="font-size: 22px;"></i>',
             //   customIcons: []
             // }
-          }
+          },
         },
         stroke: {
           show: true,
@@ -139,64 +135,64 @@ export default {
           lineCap: 'butt',
           colors: ['#0998a6'],
           width: 2,
-          dashArray: 0
+          dashArray: 0,
         },
         dataLabels: {
-          enabled: false
+          enabled: false,
         },
         colors: ['#1eaaa6'],
         fill: {
           gradient: {
             enabled: true,
             opacityFrom: 1,
-            opacityTo: 0.7
-          }
+            opacityTo: 0.7,
+          },
         },
         plotOptions: {
           candlestick: {
             colors: {
               upward: '#0998a6',
-              downward: '#f7a800'
+              downward: '#f7a800',
             },
             wick: {
-              useFillColor: true
-            }
-          }
+              useFillColor: true,
+            },
+          },
         },
         series: [
           {
             name: 'Price',
-            data: graphData
-          }
+            data: graphData,
+          },
         ],
         title: {
           text: '',
           align: 'left',
-          display: false
+          display: false,
         },
         xaxis: {
           type: 'datetime',
           axisBorder: {
             show: false,
-            color: '#0998a6'
-          }
+            color: '#0998a6',
+          },
         },
         yaxis: {
           tooltip: {
-            enabled: true
+            enabled: true,
           },
           axisBorder: {
             show: false,
-            color: '#0998a6'
-          }
+            color: '#0998a6',
+          },
         },
         tooltip: {
-          enabled: true
-        }
+          enabled: true,
+        },
       }
       let chart = new ApexCharts(document.querySelector(elmnt), options)
       chart.render()
-    }
-  }
+    },
+  },
 }
 </script>

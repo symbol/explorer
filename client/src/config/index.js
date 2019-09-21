@@ -12,7 +12,8 @@ export const Endpoint = {
     { protocol: 'http', domain: '103.3.60.174', port: 3000 },
     { protocol: 'http', domain: '13.114.200.132', port: 3000 },
     { protocol: 'http', domain: '47.107.245.217', port: 3000 }
-  ]
+  ],
+  marketDataURL: 'https://min-api.cryptocompare.com/'
 }
 
 function validURL(str) {

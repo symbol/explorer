@@ -18,19 +18,19 @@
 
 <template>
   <div class="widget bordr_rds_top0 network_info">
-    <loader v-if="!marketinfo"></loader>
+    <loader v-if="!marketData"></loader>
     <div class="box">
       <div class="row">
         <div class="col-md-3">
           <div class="hm_wdjt_itm_t1">
             <span>Price</span>
-            <p v-if="marketinfo">{{marketinfo.price}}</p>
+            <p v-if="marketData">{{marketData.price}}</p>
           </div>
         </div>
         <div class="col-md-3">
           <div class="hm_wdjt_itm_t1">
             <span>Market Cap</span>
-            <p v-if="marketinfo">${{marketinfo.marketCap}}</p>
+            <p v-if="marketData">{{marketData.marketCap}}</p>
           </div>
         </div>
         <!-- <div class="col-md-2">
@@ -42,13 +42,13 @@
         <div class="col-md-3">
           <div class="hm_wdjt_itm_t1">
             <span>Total Transactions</span>
-            <p v-if="chaininfo">{{chaininfo.totalTransactions}}</p>
+            <p v-if="chainInfo">{{chainInfo.numTransactions}}</p>
           </div>
         </div>
         <div class="col-md-3">
           <div class="hm_wdjt_itm_t1">
             <span>Block Height</span>
-            <p v-if="chaininfo">{{getCurrentBlockHeight}}</p>
+            <p v-if="blockHeight">{{blockHeight}}</p>
           </div>
         </div>
         <!-- <div class="col-md-2">
@@ -65,13 +65,13 @@
 import { mapGetters } from 'vuex'
 
 export default {
-  props: {
-    marketinfo: {},
-    chaininfo: {}
-  },
+  props: {},
   computed: {
-    ...mapGetters(['getCurrentBlockHeight'])
-  }
-  // ['ItemTitle','ItemData','itemThumb']
+    ...mapGetters({
+      blockHeight: 'chain/getBlockHeight',
+      chainInfo: 'chain/getChainInfo',
+      marketData: 'chain/getMarketData'
+    }),
+  },
 }
 </script>

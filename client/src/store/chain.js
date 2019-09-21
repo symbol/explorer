@@ -16,13 +16,29 @@
  *
  */
 
+import sdkDiagnostic from '../infrastructure/getDiagnostic'
+import apiMarketData from '../infrastructure/getMarketData'
+
 export default {
   namespaced: true,
   state: {
     // The current block height.
     blockHeight: 0,
     // The latest transaction hash.
-    transactionHash: ''
+    transactionHash: '',
+    // The chain info.
+    chainInfo: {
+      // The total transactions.
+      numTransactions: 0,
+      // The total Accounts.
+      numAccounts: 0
+    },
+    // The Market Data.
+    marketData: {
+      marketCap: 0,
+      price: 0,
+      historicalHourlyGraph: {}
+    }
   },
   getters: {
     getBlockHeight(state) {
@@ -30,6 +46,12 @@ export default {
     },
     getTransactionHash(state) {
       return state.transactionHash
+    },
+    getChainInfo(state) {
+      return state.chainInfo
+    },
+    getMarketData(state) {
+      return state.marketData
     }
   },
   mutations: {
@@ -38,6 +60,30 @@ export default {
     },
     setTransactionHash(state, transactionHash) {
       state.transactionHash = transactionHash
+    },
+    setChainInfo(state, chainInfo) {
+      state.chainInfo.numTransactions = chainInfo.numTransactions
+      state.chainInfo.numAccounts = chainInfo.numAccounts
+    },
+    setMarketData(state, { marketData, xemGraph }) {
+      state.marketData.price = marketData.XEM.USD.PRICE
+      state.marketData.marketCap = marketData.XEM.USD.MKTCAP
+      state.marketData.historicalHourlyGraph = xemGraph
     }
+  },
+  actions: {
+    // Initialize the chain model.
+    async initialize({ dispatch }) {
+      await dispatch('initializePage')
+    },
+
+    // Fetch data from the SDK / API and initialize the page.
+    async initializePage({ commit }) {
+      let chainInfo = await sdkDiagnostic.getChainInfo()
+      let marketData = await apiMarketData.getXemPriceData()
+      let xemGraph = await apiMarketData.getXemHistoricalHourlyGraph()
+      commit('setChainInfo', chainInfo)
+      commit('setMarketData', { marketData, xemGraph })
+    },
   }
 }
