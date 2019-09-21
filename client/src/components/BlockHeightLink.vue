@@ -16,19 +16,14 @@
  *
  */
 
-import { AccountHttp, Address } from 'nem2-sdk'
-import format from '../format'
-import { Endpoint } from '../config/'
-
-const ACCOUNT_HTTP = new AccountHttp(Endpoint.api)
-
-class sdkAccount {
-  static getAccountInfoByAddress = async address => {
-    const accountInfo = await ACCOUNT_HTTP
-      .getAccountInfo(new Address(address))
-      .toPromise()
-    return format.formatAccount(accountInfo)
+<template>
+  <router-link :to="'/block/' + height">{{height}}</router-link>
+</template>
+<script>
+export default {
+  name: 'BlockHeightLink',
+  props: {
+    height: Number
   }
 }
-
-export default sdkAccount
+</script>

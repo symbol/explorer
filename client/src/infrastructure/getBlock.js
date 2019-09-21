@@ -18,19 +18,19 @@
 
 import { BlockHttp, ChainHttp, QueryParams } from 'nem2-sdk'
 import format from '../format'
-import store from '../store'
 import { Endpoint } from '../config/'
 
-const chainHttp = new ChainHttp(Endpoint.api)
-const blockHttp = new BlockHttp(Endpoint.api)
+const CHAIN_HTTP = new ChainHttp(Endpoint.api)
+const BLOCK_HTTP = new BlockHttp(Endpoint.api)
 
 class sdkBlock {
   static getBlockHeight = async () => {
-    return (await chainHttp.getBlockchainHeight().toPromise()).compact()
+    const blockHeight = await CHAIN_HTTP.getBlockchainHeight().toPromise()
+    return blockHeight.compact()
   }
 
   static getBlockInfoByHeight = async (blockHeight) => {
-    const blockInfo = await blockHttp.getBlockByHeight(blockHeight).toPromise()
+    const blockInfo = await BLOCK_HTTP.getBlockByHeight(blockHeight).toPromise()
     return format.formatBlock(blockInfo)
   }
 
@@ -47,38 +47,23 @@ class sdkBlock {
     transactionId = transactionId || ''
     const pageSize = 100
 
-    let transactionlist = await blockHttp
+    let transactions = await BLOCK_HTTP
       .getBlockTransactions(blockHeight, new QueryParams(pageSize, transactionId))
       .toPromise()
 
-    if (transactionlist.length > 0) {
-      return format.formatTransactions(transactionlist)
-    }
-
-    return transactionlist
+    return format.formatTransactions(transactions)
   }
 
-  static getBlocksWithLimit = async (numberOfBlock, fromBlockHeight) => {
-    const currentBlockHeight = await this.getBlockHeight()
-    let blockHeight = fromBlockHeight || currentBlockHeight
-
-    const blocks = await blockHttp
-      .getBlocksByHeightWithLimit(blockHeight, numberOfBlock)
-      .toPromise()
-
-    store.dispatch(
-      'SET_BLOCKS_LIST',
-      format.formatBlocks(blocks),
-      { root: true }
-    )
-
-    if (store.getters.getCurrentBlockHeight === 0 && store.getters.getCurrentBlockHeight < blocks[0].height.compact()) {
-      store.dispatch(
-        'SET_LATEST_CHAIN_STATUS',
-        format.formatBlock(blocks[0]),
-        { root: true }
-      )
+  static getBlocksWithLimit = async (limit, fromBlockHeight) => {
+    // Break into 2 steps to avoid make expensive request if possible.
+    let blockHeight = fromBlockHeight
+    if (blockHeight === undefined) {
+      blockHeight = await this.getBlockHeight()
     }
+
+    const blocks = await BLOCK_HTTP
+      .getBlocksByHeightWithLimit(blockHeight, limit)
+      .toPromise()
 
     return format.formatBlocks(blocks)
   }

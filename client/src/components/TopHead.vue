@@ -76,61 +76,17 @@
           </div>
         </div>
       </div>
-    </div>
-
-    <div class="mobile-menu" v-if="isMobile()">
-      <div class="container">
-        <div class="row">
-          <ul class="m-list">
-            <li>
-              <router-link to="/" exact active-class="active">
-                <i class="ico-home"></i>
-              </router-link>
-            </li>
-            <li>
-              <a href="#" @click="setFocusOnSearch">
-                <i class="ico-search-1"></i>
-              </a>
-            </li>
-
-            <li>
-              <div class="lang-swtch dropdown">
-                <a class="dropdown-toggle">
-                  <i class="ico-content-34"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                  <a
-                    class="dropdown-item"
-                    href="#"
-                    v-for="item in nodes"
-                    v-bind:key="nodeUrl(item)"
-                    @click="changeNode(item)"
-                  >{{item['domain']}}</a>
-                </div>
-              </div>
-            </li>
-            <li>
-              <div class="lang-swtch dropdown pagenavmenu">
-                <a class="mobilemenu" href="#">
-                  <i class="ico-navicon-round"></i>
-                </a>
-                <div class="dropdown-menu dropdown-menu-right">
-                  <router-link to="/" exact active-class="active">
-                    <span>Home</span>
-                  </router-link>
-                  <router-link to="/blocks" active-class="active">
-                    <span>Blocks</span>
-                  </router-link>
-                </div>
-              </div>
-            </li>
-          </ul>
-        </div>
+      <div class="mobtopbar">
+        <a class="mobilemenu mmtoggle" href="#">
+          <i class="ico-navicon-round"></i>
+        </a>
       </div>
     </div>
+    <MobileMenu :nodes="nodes" :activenode="activeNode"/>
   </div>
 </template>
 <script>
+import w2 from '@/components/MobileMenu.vue'
 import { Endpoint } from '../config/'
 import helper from '../helper'
 import router from '../router'
@@ -144,18 +100,37 @@ export default {
       searchString: null,
       searchValidate: '',
       nodes: Endpoint.nodes,
-      activeNode: Endpoint.api.replace('http://', '').replace(':3000', '')
+      activeNode: Endpoint.api.replace('http://', '').replace(':3000', ''),
+      mobmenu_active: 0,
+      nodemenu_active: 0
     }
+  },
+  components: {
+    MobileMenu: w2
   },
   props: {},
   methods: {
+    togglenodemenu: function (e) {
+      e.preventDefault()
+      if (this.nodemenu_active == 0) {
+        this.nodemenu_active = 1
+      } else {
+        this.nodemenu_active = 0
+      }
+    },
+    togglemenu: function (e) {
+      e.preventDefault()
+      if (this.mobmenu_active == 0) {
+        this.mobmenu_active = 1
+      } else {
+        this.mobmenu_active = 0
+      }
+    },
     nodeUrl(data) {
-      return data.protocol + '://' + data.domain + ':' + data.port
+      return helper.nodeUrl(data)
     },
     changeNode(data) {
-      console.log(data)
-      localStorage.setItem('defaultNode', this.nodeUrl(data))
-      location.reload()
+      helper.changeNode(data)
     },
     async checkSearch(e) {
       e.preventDefault()

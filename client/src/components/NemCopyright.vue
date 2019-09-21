@@ -16,19 +16,10 @@
  *
  */
 
-import { AccountHttp, Address } from 'nem2-sdk'
-import format from '../format'
-import { Endpoint } from '../config/'
-
-const ACCOUNT_HTTP = new AccountHttp(Endpoint.api)
-
-class sdkAccount {
-  static getAccountInfoByAddress = async address => {
-    const accountInfo = await ACCOUNT_HTTP
-      .getAccountInfo(new Address(address))
-      .toPromise()
-    return format.formatAccount(accountInfo)
-  }
-}
-
-export default sdkAccount
+<template>
+  <div class="row">
+    <div class="col-md-12">
+      <p class="ftr_btm">© NEM.io Foundation 2019 | All Rights Reserved | NEM ™</p>
+    </div>
+  </div>
+</template>

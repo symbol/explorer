@@ -16,19 +16,30 @@
  *
  */
 
-import { AccountHttp, Address } from 'nem2-sdk'
-import format from '../format'
-import { Endpoint } from '../config/'
+<template>
+<div class="blk-info">
+  <div class="inrw">
+    <span>{{ item.numTransactions }} Transactions</span>
+    <Age :date="item.date"/>
+  </div>
+  <div class="inrw flex">
+    <span>Harvester</span>
+    <AddressLink :address="item.signer.address.address" class="acnt"/>
+  </div>
+</div>
+</template>
+<script>
+import w1 from '@/components/Age.vue'
+import w2 from '@/components/AddressLink.vue'
 
-const ACCOUNT_HTTP = new AccountHttp(Endpoint.api)
-
-class sdkAccount {
-  static getAccountInfoByAddress = async address => {
-    const accountInfo = await ACCOUNT_HTTP
-      .getAccountInfo(new Address(address))
-      .toPromise()
-    return format.formatAccount(accountInfo)
+export default {
+  name: 'BlockInfo',
+  components: {
+    Age: w1,
+    AddressLink: w2
+  },
+  props: {
+    item: {}
   }
 }
-
-export default sdkAccount
+</script>

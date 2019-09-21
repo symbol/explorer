@@ -8,7 +8,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
-    "apexcharts": "^3.8.5",
+    "apexcharts": "^3.8.6",
     "axios": "^0.19.0",
     "chart.js": "^2.8.0",
     "core-js": "^2.6.5",
@@ -16,6 +16,7 @@
     "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0",
     "vue": "^2.6.10",
+    "vue-apexcharts": "^1.5.0",
     "vue-clipboard2": "^0.3.1",
     "vue-router": "^3.0.3",
     "vue-slim-tabs": "^0.3.0",

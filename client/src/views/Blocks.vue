@@ -28,11 +28,11 @@
               <div class="box-title">
                 <h1 class="inline-block">Blocks</h1>
                 <div class="btn_grp inline-block flt-rt">
-                  <span>Current Block Height : {{getCurrentBlockHeight}}</span>
+                  <span>Current Block Height: {{blockHeight}}</span>
                 </div>
               </div>
               <div class="box-con mt-0">
-                <loader v-if="!this.loading"></loader>
+                <!-- <loader v-if="!this.loading"></loader>
                 <div class="table-responsive">
                   <div
                     id="sorting-table_wrapper"
@@ -94,7 +94,13 @@
                       </li>
                     </ul>
                   </div>
-                </div>
+                </div> -->
+                <loader v-if="loading"></loader>
+                <BlockTable :blockList="blockList"></BlockTable>
+                <Pagination class="table-footer"
+                  :nextPageAction="'block/fetchNextPage'"
+                  :previousPageAction="'block/fetchPreviousPage'"
+                ></Pagination>
               </div>
             </div>
           </div>
@@ -106,53 +112,25 @@
   </div>
 </template>
 <script>
-import sdkBlock from '../infrastructure/getBlock'
-import helper from '../helper'
+import w1 from '@/components/BlockTable.vue'
+import w2 from '@/components/Pagination.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'block',
-  components: {},
-  data() {
-    return {
-      loading: 0
-    }
+  name: 'Blocks',
+  components: {
+    BlockTable: w1,
+    Pagination: w2
   },
   computed: {
-    ...mapGetters([
-      'getCurrentBlockHeight',
-      'getLatestBlockList',
-      'getCurrentPage'
-    ])
-  },
-  methods: {
-    timeSince(interval) {
-      return helper.timeSince(interval)
-    },
-    loadData() {
-      this.getLatestBlockList.length > 0
-        ? (this.loading = 1)
-        : (this.loading = 0)
-    },
-    nextPage() {
-      this.$store.dispatch('INCREASE_CURRENT_BLOCK_PAGE')
-      let index = this.getLatestBlockList.length - 1
-      let getEndBlock = this.getLatestBlockList[index]
-      sdkBlock.getBlocksWithLimit(25, getEndBlock.height - 1)
-    },
-    previousPage() {
-      if (this.getCurrentBlockPage > 1) {
-        this.$store.dispatch('DECREASE_CURRENT_BLOCK_PAGE')
-        let getStartBlock = this.getLatestBlockList[0]
-        sdkBlock.getBlocksWithLimit(25, getStartBlock.height + 1)
-      }
-    }
-  },
-  created() {
-    this.loadData()
+    ...mapGetters({
+      blockHeight: 'chain/getBlockHeight',
+      blockList: 'block/getPageList',
+      loading: 'block/getLoading'
+    })
   },
   destroyed() {
-    this.$store.dispatch('RESET_CURRENT_BLOCK_PAGE')
+    this.$store.dispatch('block/resetPage')
   }
 }
 </script>

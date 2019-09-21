@@ -16,19 +16,26 @@
  *
  */
 
-import { AccountHttp, Address } from 'nem2-sdk'
-import format from '../format'
-import { Endpoint } from '../config/'
+<template>
+  <div class="col-md-3">
+    <div class="rn_blk_con">
+      <BlockHeightLink :height="item.height" tag="div" class="blkht"></BlockHeightLink>
+      <BlockInfo :item="item"></BlockInfo>
+    </div>
+  </div>
+</template>
+<script>
+import w1 from '@/components/BlockHeightLink.vue'
+import w2 from '@/components/BlockInfo.vue'
 
-const ACCOUNT_HTTP = new AccountHttp(Endpoint.api)
-
-class sdkAccount {
-  static getAccountInfoByAddress = async address => {
-    const accountInfo = await ACCOUNT_HTTP
-      .getAccountInfo(new Address(address))
-      .toPromise()
-    return format.formatAccount(accountInfo)
+export default {
+  name: 'RecentBlockRow',
+  components: {
+    BlockHeightLink: w1,
+    BlockInfo: w2
+  },
+  props: {
+    item: {}
   }
 }
-
-export default sdkAccount
+</script>

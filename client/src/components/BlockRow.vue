@@ -17,32 +17,34 @@
  */
 
 <template>
-  <div id="app">
-    <router-view />
-  </div>
+  <tr>
+    <td><BlockHeightLink :height="item.height"/></td>
+    <td><Age :date="item.date"/></td>
+    <td>{{item.numTransactions}}</td>
+    <td>{{item.totalFee}}</td>
+    <td>{{item.date}}</td>
+    <td><AddressLink :address="item.signer.address.address"/></td>
+  </tr>
 </template>
 <script>
-import store from './store'
+import w1 from '@/components/BlockHeightLink.vue'
+import w2 from '@/components/Age.vue'
+import w3 from '@/components/AddressLink.vue'
+import helper from '../helper'
 
 export default {
-  data: () => {
-    return {
-      info: 1
-    }
+  name: 'BlockRow',
+  components: {
+    BlockHeightLink: w1,
+    Age: w2,
+    AddressLink: w3
   },
-  mounted() {
-    this.initialize()
-  },
-  destroyed() {
-    this.uninitialize()
+  props: {
+    item: {}
   },
   methods: {
-    initialize() {
-      store.dispatch('initialize')
-        .catch(error => console.log(error))
-    },
-    uninitialize() {
-      store.dispatch('uninitialize')
+    timeSince(interval) {
+      return helper.timeSince(interval)
     }
   }
 }

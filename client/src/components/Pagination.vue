@@ -17,32 +17,38 @@
  */
 
 <template>
-  <div id="app">
-    <router-view />
+  <div>
+    <div class="pagination-container">
+      <ul class="pagination">
+        <li class="page-item" @click="previousPage()">
+          <a href="#">
+            <i class="ico-angle-left"></i>
+          </a>
+        </li>
+        <li class="page-item">
+          <a href="#" @click="nextPage()">
+            <i class="ico-angle-right"></i>
+          </a>
+        </li>
+      </ul>
+    </div>
   </div>
 </template>
 <script>
-import store from './store'
-
 export default {
-  data: () => {
-    return {
-      info: 1
-    }
-  },
-  mounted() {
-    this.initialize()
-  },
-  destroyed() {
-    this.uninitialize()
+  name: 'Pagination',
+  props: {
+    nextPageAction: String,
+    previousPageAction: String
   },
   methods: {
-    initialize() {
-      store.dispatch('initialize')
+    nextPage() {
+      this.$store.dispatch(this.nextPageAction)
         .catch(error => console.log(error))
     },
-    uninitialize() {
-      store.dispatch('uninitialize')
+    previousPage() {
+      this.$store.dispatch(this.previousPageAction)
+        .catch(error => console.log(error))
     }
   }
 }

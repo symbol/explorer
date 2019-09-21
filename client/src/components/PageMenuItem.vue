@@ -16,19 +16,21 @@
  *
  */
 
-import { AccountHttp, Address } from 'nem2-sdk'
-import format from '../format'
-import { Endpoint } from '../config/'
-
-const ACCOUNT_HTTP = new AccountHttp(Endpoint.api)
-
-class sdkAccount {
-  static getAccountInfoByAddress = async address => {
-    const accountInfo = await ACCOUNT_HTTP
-      .getAccountInfo(new Address(address))
-      .toPromise()
-    return format.formatAccount(accountInfo)
+<template>
+  <li>
+    <router-link :to="to" exact active-class="active">
+      <i v-bind:class="classname"></i>
+      <span>{{text}}</span>
+    </router-link>
+  </li>
+</template>
+<script>
+export default {
+  name: 'BlocksLink',
+  props: {
+    to: String,
+    text: String,
+    classname: String
   }
 }
-
-export default sdkAccount
+</script>

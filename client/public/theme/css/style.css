@@ -349,12 +349,12 @@ img {
     color: #212529;
     text-align: left;
     list-style: none;
-    background-color: #fff;
+    background-color: transparent;
     background-clip: padding-box;
-    border: 1px solid rgba(0, 0, 0, 0.15);
+    border: 1px solid rgb(255, 255, 255) ;
     border-radius: 0.25rem;
+    width: 100%;
 }
-
 .dropdown-menu-left {
     right: auto;
     left: 0;
@@ -387,12 +387,17 @@ img {
     text-decoration: none;
     background-color: #f8f9fa;
 }
-
+.dropdown-menu.shown{
+    display: block;
+}
 .lang-swtch {
     display: block;
     float: right;
 }
-
+.mobmenuslide .dropdown{
+    display: inline-block;
+    margin-top: 20px;
+}
 @media (min-width: 1200px) {
     .container {
         max-width: 86%;
@@ -418,7 +423,7 @@ img {
     display: none;
 }
 
-.top_head::before {
+.top_head::before,.mobmenuslide .menu_bkg::before {
     content: '';
     background-image: url(../img/logo_bkg.png);
     position: absolute;
@@ -643,7 +648,7 @@ img {
     padding-right: 24px;
 }
 
-.lang-swtch:hover>.dropdown-menu {
+.lang-swtch.shown >.dropdown-menu {
     display: block;
     top: 25px;
     width: 100%;
@@ -1286,6 +1291,8 @@ table.table-bordered.dataTable tbody tr {
     font-weight: 600;
     margin-bottom: 6px;
     cursor: pointer;
+    color: #84accb;
+    text-decoration: underline;
 }
 
 .rn_blk_con .inrw {
@@ -1626,7 +1633,7 @@ table.table-bordered.dataTable tbody tr {
     width: 100%;
     display: block;
     margin: 0px;
-    padding: 10px 10px;
+    padding: 10px 15px;
 }
 
 .mobile-menu .m-list li {
@@ -1714,6 +1721,83 @@ table.table-bordered.dataTable tbody tr {
     display: block;
 }
 
+.mobmenuslide {
+    position: fixed;
+    top: 0px;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: #fff;
+    z-index: 11111;
+    transition: all 0.5s ease-in-out;
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.mobmenuslide.active {
+    left: 0%;
+}
+
+.mobmenuslide .sliderow {
+    width: 100%;
+    display: inline-block;
+    position: relative;
+    padding: 15px 20px;
+}
+
+.mobmenuslide .logo {
+    display: inline-block;
+    text-decoration: none;
+    text-align: center;
+    width: 100%;
+}
+
+.mobmenuslide .logo img {
+    display: inline-block;
+    max-width: 26px;
+}
+
+.mobmenuslide .logo span {
+    font-size: 18px;
+    display: block;
+    width: 100%;
+    color: #ffffff;
+    margin-left: 0px;
+    margin-top: 10px;
+}
+
+.mobmenuslide .mmtoggle {
+    position: absolute;
+    float: right;
+    top: 10px;
+    left: auto;
+    right: 15px;
+    width: 30px;
+    height: 30px;
+    background: #ffffff;
+    text-align: center;
+    text-decoration: none;
+    color: #3b6998;
+    border-radius: 50%;
+    line-height: 2;
+    font-size: 18px
+}
+.mobmenuslide .dropdown-toggle{
+    padding: 6px 12px;
+    border-radius: 4px;
+    background: #a5a5a5;
+    color: #fff;
+
+}
+.mobmenuslide .dropdown-menu{
+    background: #a5a5a5;
+    top: 112%;
+}
+.mobmenuslide .dropdown-menu .dropdown-item{
+    color: #fff;
+    text-decoration: none;
+    text-align: left;
+}
 @media (max-width: 576px) {
     .ex-header {
         padding: 0px 15px;
@@ -1756,7 +1840,7 @@ table.table-bordered.dataTable tbody tr {
     }
     .mobilemenu {
         display: block;
-        font-size: 23px;
+        font-size: 30px;
         color: #fff;
         text-decoration: none;
         z-index: 5;
@@ -1805,7 +1889,7 @@ table.table-bordered.dataTable tbody tr {
         display: none !important;
     }
     .top_head .logo {}
-    .top_head::before {
+    .top_head::before,.mobmenuslide .menu_bkg::before {
         background-size: 96%;
     }
     .address_info {
@@ -1815,10 +1899,30 @@ table.table-bordered.dataTable tbody tr {
         margin-top: 12px;
         color: #0998a6;
     }
-    .address_info .act-copy{
+    .address_info .act-copy {
         position: absolute;
-    right: 0px;
-    top: 0px;
+        right: 0px;
+        top: 0px;
+    }
+    /* mobile menu slide from left toggle */
+    .mmtoggle {
+        position: absolute;
+        top: 12px;
+        left: 12px;
+    }
+    .mobmenuslide .nav-menu.ls1 {
+        margin-top: 25px;
+    }
+    .mobmenuslide .nav-menu.ls1 li {
+        width: 100%;
+        margin-left: 0px;
+        margin: 4px 4px;
+    }
+    .mobmenuslide .nav-menu.ls1 li a {
+        border-bottom: 1px solid #e6e6e6;
+    }
+    .mobmenuslide .nav-menu.ls1 li a i {
+        font-size: 16px;
     }
 }
 

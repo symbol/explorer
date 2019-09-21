@@ -17,33 +17,23 @@
  */
 
 <template>
-  <div id="app">
-    <router-view />
+  <div class="col-md-4">
+    <div class="ft-logo">
+      <a href="https://nem.io/" target="_blank">
+        <img src="theme/img/logo-f-w.png" />
+      </a>
+    </div>
+    <div class="ft-desc mt-3">
+      <p>
+        NEM is a platform built on revolutionary blockchain
+        technology, reimagining from scratch the ideal
+        blockchain.
+        NEM does not only allow for standard peer-to-peer
+        value transfer transactions, but instead does much
+        more – store data, make transactions, prove identity,
+        timestamp documents, and create arbitrary digital
+        assets.
+      </p>
+    </div>
   </div>
 </template>
-<script>
-import store from './store'
-
-export default {
-  data: () => {
-    return {
-      info: 1
-    }
-  },
-  mounted() {
-    this.initialize()
-  },
-  destroyed() {
-    this.uninitialize()
-  },
-  methods: {
-    initialize() {
-      store.dispatch('initialize')
-        .catch(error => console.log(error))
-    },
-    uninitialize() {
-      store.dispatch('uninitialize')
-    }
-  }
-}
-</script>

@@ -101,7 +101,7 @@
             class="widget has-shadow"
             v-if="this.tableData.data.length || this.blockInfo.length"
           >
-            <loader v-if="!this.loading"></loader>
+            <loader v-if="!loading"></loader>
             <div class="box">
               <div class="table-responsive">
                 <div

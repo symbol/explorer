@@ -29,8 +29,8 @@ import { Endpoint } from '../config/'
 import request from 'request'
 import sdkBlock from '../infrastructure/getBlock'
 
-const accountHttp = new AccountHttp(Endpoint.api)
-const transactionHttp = new TransactionHttp(Endpoint.api);
+const TRANSACTION_HTTP = new TransactionHttp(Endpoint.api);
+const ACCOUNT_HTTP = new AccountHttp(Endpoint.api)
 
 class sdkTransaction {
   static getAccountTransactions = async (publicKey, transactionId = '') => {
@@ -41,7 +41,7 @@ class sdkTransaction {
       NetworkType.MIJIN_TEST
     )
 
-    const transactionsList = await accountHttp
+    const transactionsList = await ACCOUNT_HTTP
       .transactions(publicAccount, new QueryParams(pageSize, transactionId))
       .toPromise()
 
@@ -64,7 +64,7 @@ class sdkTransaction {
     const formattedTransaction = format.formatTransaction(TransactionMapping.createFromDTO(transaction))
     const getBlockInfo = await sdkBlock.getBlockInfoByHeight(formattedTransaction.blockHeight)
 
-    const transactionStatus = await transactionHttp
+    const transactionStatus = await TRANSACTION_HTTP
       .getTransactionStatus(hash)
       .toPromise();
 

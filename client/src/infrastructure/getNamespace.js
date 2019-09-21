@@ -21,13 +21,13 @@ import { mergeMap, map } from 'rxjs/operators'
 import format from '../format'
 import { Endpoint } from '../config/'
 
-const namespaceHttp = new NamespaceHttp(Endpoint.api)
+const NAMESPACE_HTTP = new NamespaceHttp(Endpoint.api)
 
 class sdkNamespace {
   static getNamespacesFromAccountByAddress = async (address) => {
     const addressObj = new Address(address)
     const namespacesIds = []
-    const namespaceList = await namespaceHttp
+    const namespaceList = await NAMESPACE_HTTP
       .getNamespacesFromAccount(addressObj)
       .pipe(
         mergeMap(namespacesInfo => {
@@ -35,7 +35,7 @@ class sdkNamespace {
             namespacesIds[x.id.toHex().toUpperCase()] = { namespaceInfo: x }
             return x.id
           })
-          return namespaceHttp.getNamespacesName(namespaceIds)
+          return NAMESPACE_HTTP.getNamespacesName(namespaceIds)
         }),
         map(namespacesNames =>
           namespacesNames.map(namespaceName => {
@@ -53,10 +53,10 @@ class sdkNamespace {
 
   static getNamespaceInfoByName = async name => {
     const namespace = new NamespaceId(name)
-    const namespaceService = new NamespaceService(namespaceHttp)
+    const namespaceService = new NamespaceService(NAMESPACE_HTTP)
     let namespaceInfo = await namespaceService.namespace(namespace).toPromise()
 
-    let namespaceNames = await namespaceHttp.getNamespacesName([namespace]).toPromise()
+    let namespaceNames = await NAMESPACE_HTTP.getNamespacesName([namespace]).toPromise()
 
     namespaceNames.map(namespace => {
       if (namespace.parentId) {
