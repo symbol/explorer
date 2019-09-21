@@ -48,7 +48,7 @@
         <div class="col-md-3">
           <div class="hm_wdjt_itm_t1">
             <span>Block Height</span>
-            <p v-if="chaininfo">{{getCurrentBlockHeight}}</p>
+            <p v-if="chaininfo">{{blockHeight}}</p>
           </div>
         </div>
         <!-- <div class="col-md-2">
@@ -67,11 +67,11 @@ import { mapGetters } from 'vuex'
 export default {
   props: {
     marketinfo: {},
-    chaininfo: {}
+    chaininfo: {},
   },
   computed: {
-    ...mapGetters(['getCurrentBlockHeight'])
-  }
+    ...mapGetters({ blockHeight: 'chain/getBlockHeight' }),
+  },
   // ['ItemTitle','ItemData','itemThumb']
 }
 </script>
