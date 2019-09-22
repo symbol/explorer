@@ -84,6 +84,6 @@ export default {
       let xemGraph = await apiMarketData.getXemHistoricalHourlyGraph()
       commit('setChainInfo', chainInfo)
       commit('setMarketData', { marketData, xemGraph })
-    },
+    }
   }
 }
