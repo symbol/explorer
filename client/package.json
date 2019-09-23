@@ -13,6 +13,7 @@
     "chart.js": "^2.8.0",
     "core-js": "^2.6.5",
     "moment-timezone": "^0.5.26",
+    "nem2-sdk": "^0.13.2",
     "socket.io": "^2.2.0",
     "socket.io-client": "^2.2.0",
     "vue": "^2.6.10",

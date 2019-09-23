@@ -45,7 +45,7 @@ export default {
 
         colors: {
             type: Array,
-            default: ["#1eaaa6", "#f2e013", "#f29913"]
+            default: function () { return ["#1eaaa6", "#f2e013", "#f29913"] }
         },
 
         toolbar: {
