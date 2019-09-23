@@ -102,7 +102,7 @@ const formatTransactions = transactions => {
 // FORMAT TRANSACTION
 const formatTransaction = transaction => {
   let transactionObj = {
-    deadline: moment(new Date(transaction.deadline.value)).format(
+    deadline: moment.utc(new Date(transaction.deadline.value)).local().format(
       'YYYY-MM-DD HH:mm:ss'
     ),
     fee: formatFee(transaction.maxFee),
@@ -144,7 +144,7 @@ const formatTransactionBody = transactionBody => {
       let duration = transactionBody.duration ? transactionBody.duration.compact() : 0;
 
       let registerNamespaceObj = {
-        type: 'RegisterNamespace',
+        type: 'Register Namespace',
         // typeId: TransactionType.REGISTER_NAMESPACE,
         // recipient: transactionBody.recipient,
         namespaceType: transactionBody.namespaceType === 0 ? 'Root namespace' : 'Child namespace',
@@ -156,7 +156,7 @@ const formatTransactionBody = transactionBody => {
       return registerNamespaceObj
     case TransactionType.ADDRESS_ALIAS:
       let addressAliasObj = {
-        type: 'ADDRESS ALIAS',
+        type: 'Address Alias',
         recipient: 'NO AVAILABLE',
         // typeId: TransactionType.ADDRESS_ALIAS,
         aliasAction: transactionBody.actionType === 0 ? 'Link' : 'Unlink',
@@ -166,7 +166,7 @@ const formatTransactionBody = transactionBody => {
 
     case TransactionType.MOSAIC_ALIAS:
       let mosaicAlias = {
-        type: 'MosaicAlias',
+        type: 'Mosaic Alias',
         // typeId: TransactionType.MOSAIC_ALIAS,
         // actionType: transactionBody.actionType,
         aliasAction: transactionBody.actionType === 0 ? 'Link' : 'Unlink',
@@ -176,7 +176,7 @@ const formatTransactionBody = transactionBody => {
       return mosaicAlias
     case TransactionType.MOSAIC_DEFINITION:
       let mosaicDefinitionObj = {
-        type: 'MosaicDefinition',
+        type: 'Mosaic Definition',
         // typeId: TransactionType.MOSAIC_DEFINITION,
         mosaicId: transactionBody.mosaicId.toHex().toLowerCase(),
         divisibility: transactionBody.mosaicProperties.divisibility,
@@ -187,7 +187,7 @@ const formatTransactionBody = transactionBody => {
       return mosaicDefinitionObj
     case TransactionType.MOSAIC_SUPPLY_CHANGE:
       let mosaicSupplyChangeObj = {
-        type: 'MosaicSupplyChange',
+        type: 'Mosaic Supply Change',
         // typeId: TransactionType.MOSAIC_SUPPLY_CHANGE,
         mosaicId: transactionBody.mosaicId.id.toHex(),
         direction: transactionBody.direction === 1 ? 'Increase' : 'Decrease',
@@ -230,7 +230,7 @@ const formatTransactionBody = transactionBody => {
       return lockObj
     case TransactionType.SECRET_LOCK:
       let secretLockObj = {
-        type: 'SecretLock',
+        type: 'Secret lock',
         // typeId: TransactionType.SECRET_LOCK,
       }
       return secretLockObj

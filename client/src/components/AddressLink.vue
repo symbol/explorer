@@ -17,13 +17,23 @@
  */
 
 <template>
-  <router-link :to="'/account/' + address">{{address}}</router-link>
+  <router-link :to="'/account/' + address">
+    {{
+      count >= address.length ?
+        address :
+        address.substring(0, count) + '...'
+    }}
+  </router-link>
 </template>
 <script>
 export default {
   name: 'AddressLink',
   props: {
-    address: String
+    address: String,
+    count: {
+      type: Number,
+      default: 40
+    }
   }
 }
 </script>

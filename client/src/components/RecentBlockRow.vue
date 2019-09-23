@@ -20,7 +20,7 @@
   <div class="col-md-3">
     <div class="rn_blk_con">
       <BlockHeightLink :height="item.height" tag="div" class="blkht"></BlockHeightLink>
-      <BlockInfo :item="item"></BlockInfo>
+      <BlockInfo :item="item"/>
     </div>
   </div>
 </template>
