@@ -19,8 +19,7 @@
 <template>
   <div class="widget m-0 z-1 nempricegraph_con bordr_rds_top0 pt-0 pb-0">
     <loader v-if="!loading"></loader>
-    <!-- <canvas id="nempricegraph" style="width:100%;height:180px"></canvas> -->
-    <div id="nempricegraph" style></div>
+    <ApexCharts type="area" :data="chartData" />
   </div>
 </template>
 <style>
@@ -71,128 +70,52 @@
 }
 </style>
 <script>
-import axios from 'axios'
 import { mapGetters } from 'vuex'
+import w1 from '@/components/Chart.vue'
 import ApexCharts from 'apexcharts'
 
 export default {
+  components: {
+    ApexCharts: w1,
+  },
   props: {},
+
   data() {
     return {
       loading: 0,
     }
   },
   computed: {
+    historicalHourlyGraph() {
+      let graphData = []
+      if (this.marketData.historicalHourlyGraph.Data) {
+        this.marketData.historicalHourlyGraph.Data.forEach((item, index) => {
+          let graphDataItem = {}
+          graphDataItem.y = []
+          graphDataItem.x = new Date(item['time'] * 1000)
+          graphDataItem.y[0] = item['open'] // parseFloat(item['open']).toFixed(4)
+          graphDataItem.y[1] = item['high'] // parseFloat(item['high']).toFixed(4)
+          graphDataItem.y[2] = item['low'] // parseFloat(item['low']).toFixed(4)
+          graphDataItem.y[3] = item['close'] // parseFloat(item['close']).toFixed(4)
+          graphData.push(graphDataItem)
+        })
+        this.loading = 1
+      }
+      return graphData
+    },
+    chartData() {
+      return [
+        {
+          name: 'Historical Hourly Graph',
+          data: this.historicalHourlyGraph,
+        },
+      ]
+    },
     ...mapGetters({
       marketData: 'chain/getMarketData',
     }),
   },
-  mounted() {
-    this.initializeGraph()
-  },
-  methods: {
-    initializeGraph() {
-      this.drawCandleChart(
-        this.marketData.historicalHourlyGraph,
-        '#nempricegraph'
-      )
-      this.loading = 1
-    },
-    drawCandleChart(data, elmnt) {
-      let graphData = []
-      data.Data.forEach((item, index) => {
-        let graphDataItem = {}
-        graphDataItem.y = []
-        graphDataItem.x = new Date(item['time'] * 1000)
-        graphDataItem.y[0] = item['open'] // parseFloat(item['open']).toFixed(4)
-        graphDataItem.y[1] = item['high'] // parseFloat(item['high']).toFixed(4)
-        graphDataItem.y[2] = item['low'] // parseFloat(item['low']).toFixed(4)
-        graphDataItem.y[3] = item['close'] // parseFloat(item['close']).toFixed(4)
-        graphData.push(graphDataItem)
-      })
-      let options = {
-        chart: {
-          height: 200,
-          type: 'area',
-          foreColor: '#999',
-          toolbar: {
-            show: false,
-            // tools: {
-            //   download: false,
-            //   selection: true,
-            //   zoom: false,
-            //   zoomin: true,
-            //   zoomout: true,
-            //   pan: '<i class="ico-arrow-move" style="font-size: 24px;"></i>',
-            //   reset: '<i class="ico-ios-refresh-outline" style="font-size: 22px;"></i>',
-            //   customIcons: []
-            // }
-          },
-        },
-        stroke: {
-          show: true,
-          curve: 'smooth',
-          lineCap: 'butt',
-          colors: ['#0998a6'],
-          width: 2,
-          dashArray: 0,
-        },
-        dataLabels: {
-          enabled: false,
-        },
-        colors: ['#1eaaa6'],
-        fill: {
-          gradient: {
-            enabled: true,
-            opacityFrom: 1,
-            opacityTo: 0.7,
-          },
-        },
-        plotOptions: {
-          candlestick: {
-            colors: {
-              upward: '#0998a6',
-              downward: '#f7a800',
-            },
-            wick: {
-              useFillColor: true,
-            },
-          },
-        },
-        series: [
-          {
-            name: 'Price',
-            data: graphData,
-          },
-        ],
-        title: {
-          text: '',
-          align: 'left',
-          display: false,
-        },
-        xaxis: {
-          type: 'datetime',
-          axisBorder: {
-            show: false,
-            color: '#0998a6',
-          },
-        },
-        yaxis: {
-          tooltip: {
-            enabled: true,
-          },
-          axisBorder: {
-            show: false,
-            color: '#0998a6',
-          },
-        },
-        tooltip: {
-          enabled: true,
-        },
-      }
-      let chart = new ApexCharts(document.querySelector(elmnt), options)
-      chart.render()
-    },
-  },
+  mounted() {},
+  methods: {},
 }
 </script>
