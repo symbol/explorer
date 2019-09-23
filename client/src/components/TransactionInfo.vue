@@ -20,11 +20,11 @@
 <div class="trx-info">
   <div class="inrw">
     <span>Block Height {{ item.blockHeight }}</span>
-    <span>{{item.transactionDetail.type}}</span>
+    <span>{{item.transactionBody.type}}</span>
   </div>
   <div class="inrw flex">
     <span>Sender</span>
-    <AddressLink :address="item.signer.address.address" class="acnt"/>
+    <AddressLink :address="item.signer" class="acnt"/>
   </div>
 </div>
 </template>
