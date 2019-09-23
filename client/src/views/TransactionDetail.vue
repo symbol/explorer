@@ -26,11 +26,11 @@
           <div class="widget has-shadow mt-4 m-0 z-1">
             <div class="box">
               <div class="box-title">
-                <h1 class="inline-block">Transaction Info - {{transactionInfo.transaction.transactionBody.type}}</h1>
+                <h1 class="inline-block">Transaction Info</h1>
               </div>
               <div class="box-con mt-0">
                 <loader v-if="!loading"></loader>
-                <div class="list_info_con">
+                <div v-if="transactionInfo.transaction" class="list_info_con">
                   <div class="row list_item">
                     <div class="col-md-2">
                       <div class="label">Transaction Hash</div>
@@ -45,9 +45,7 @@
                     </div>
                     <div class="col-md-10">
                       <div class="value">
-                        <router-link
-                          :to="'/block/' + transactionInfo.transaction.blockHeight"
-                        >{{transactionInfo.transaction.blockHeight}}</router-link>
+                        <BlockHeightLink :height="transactionInfo.transaction.blockHeight" />
                       </div>
                     </div>
                   </div>
@@ -65,9 +63,7 @@
                     </div>
                     <div class="col-md-10">
                       <div class="value">
-                        <router-link
-                          :to="'/account/' + transactionInfo.transaction.signer"
-                        >{{transactionInfo.transaction.signer}}</router-link>
+                        <AddressLink :address="transactionInfo.transaction.signer" />
                       </div>
                     </div>
                   </div>
@@ -107,33 +103,38 @@
               </div>
             </div>
 
-            <div v-if='transactionInfo.transaction.transactionBody.type === "AggregateBonded" || transactionInfo.transaction.transactionBody.type === "AggregateComplete"' class="widget has-shadow">
-              <div class="box">
-                <div class="tabs-con">
-                  <tabs>
-                    <tab title="InnerTransactions">
-                      <DataTable
-                        :tableHead="this.innerTransactions.head"
-                        :tableData="this.innerTransactions.data"
-                      ></DataTable>
-                    </tab>
-                    <tab title="Cosignatures">
-                      <DataTable
-                        :tableHead="this.cosignatures.head"
-                        :tableData="this.cosignatures.data"
-                      ></DataTable>
-                    </tab>
-                  </tabs>
+            <div v-if="transactionBody">
+              <div
+                v-if='transactionBody.type === "AggregateBonded" || transactionBody.type === "AggregateComplete"'
+                class="widget has-shadow"
+              >
+                <div class="box">
+                  <div class="tabs-con">
+                    <tabs>
+                      <tab title="InnerTransactions">
+                        <DataTable
+                          :tableHead="this.aggrateInnerTransactions.head"
+                          :tableData="this.aggrateInnerTransactions.data"
+                        ></DataTable>
+                      </tab>
+                      <tab title="Cosignatures">
+                        <DataTable
+                          :tableHead="this.aggrateCosigner.head"
+                          :tableData="this.aggrateCosigner.data"
+                        ></DataTable>
+                      </tab>
+                    </tabs>
+                  </div>
                 </div>
               </div>
+
+              <InfoRow
+                v-else
+                infoTitle="Transaction Details"
+                :rows="transactionBody"
+                :loading="this.loading"
+              ></InfoRow>
             </div>
-
-            <InfoRow v-else
-              infoTitle="Transaction Details"
-              :rows="this.transactionInfo.transaction.transactionBody"
-              :loading="this.loading"
-            ></InfoRow>
-
           </div>
         </div>
       </div>
@@ -145,9 +146,11 @@
 <script>
 import w1 from '@/components/InfoRow.vue'
 import w2 from '@/components/TableDynamic.vue'
+import w3 from '@/components/AddressLink.vue'
+import w4 from '@/components/BlockHeightLink.vue'
 import { Tabs, Tab } from 'vue-slim-tabs'
-import DataService from '../data-service'
-import sdkTransaction from '../infrastructure/getTransaction'
+import { mapGetters } from 'vuex'
+
 export default {
   name: 'block',
   components: {
@@ -155,21 +158,15 @@ export default {
     Tab,
     InfoRow: w1,
     DataTable: w2,
+    AddressLink: w3,
+    BlockHeightLink: w4,
   },
-  created() {},
   data() {
     return {
       transactionHash: this.$route.params.transactionHash,
-      transactionInfo: {},
       loading: 0,
       innerTransactions: {
-        head: [
-          '#',
-          'Transaction ID',
-          'Type',
-          'Sender',
-          'Recipient',
-        ],
+        head: ['#', 'Transaction ID', 'Type', 'Sender', 'Recipient'],
         data: [],
       },
       cosignatures: {
@@ -178,44 +175,49 @@ export default {
       },
     }
   },
+  computed: {
+    ...mapGetters({ transactionInfo: 'transaction/getTransactionInfo' }),
+    transactionBody() {
+      if (this.transactionInfo.transaction) {
+        return this.transactionInfo.transaction.transactionBody
+      }
+    },
+    aggrateInnerTransactions() {
+      this.transactionBody.innerTransactions.forEach((el, idx) => {
+        let temp = []
+        let singerLink = `<a href="/#/account/${el.signer}">${el.signer}</a>`
+        let recipientLink = `<a href="/#/account/${el.transactionBody.recipient}">${el.transactionBody.recipient}</a>`
+
+        temp.push(idx + 1)
+        temp.push(el.transactionId)
+        temp.push(el.transactionBody.type)
+        temp.push(singerLink)
+        temp.push(recipientLink)
+        this.innerTransactions.data.push(temp)
+      })
+      return this.innerTransactions
+    },
+    aggrateCosigner() {
+      this.transactionBody.cosignatures.forEach((el, idx) => {
+        let temp = []
+        let singerLink = `<a href="/#/account/${el.signer}">${el.signer}</a>`
+        temp.push(idx + 1)
+        temp.push(el.signature)
+        temp.push(singerLink)
+        this.cosignatures.data.push(temp)
+      })
+      return this.cosignatures
+    },
+  },
   mounted() {
     this.getTransactionByHash()
   },
   methods: {
-    async getTransactionByHash() {
-      const transactionDetail = await sdkTransaction.getTransactionInfoByHash(
+    getTransactionByHash() {
+      this.$store.dispatch(
+        'transaction/getTransactionInfoByHash',
         this.transactionHash
       )
-      this.transactionInfo = transactionDetail
-
-      let transactionType = transactionDetail.transaction.transactionBody.type
-
-      if ( transactionType=== "AggregateBonded" || transactionType === "AggregateComplete" ) {
-        transactionDetail.transaction.transactionBody.innerTransactions.forEach((el, idx) => {
-
-          let temp = []
-          let singerLink = `<a href="/#/account/${el.signer}">${el.signer}</a>`
-          let recipientLink = `<a href="/#/account/${el.transactionBody.recipient}">${el.transactionBody.recipient}</a>`
-
-          temp.push(idx + 1)
-          temp.push(el.transactionId)
-          temp.push(el.transactionBody.type)
-          temp.push(singerLink)
-          temp.push(recipientLink)
-          this.innerTransactions.data.push(temp)
-        })
-
-        transactionDetail.transaction.transactionBody.cosignatures.forEach((el, idx) => {
-
-          let temp = []
-          let singerLink = `<a href="/#/account/${el.signer}">${el.signer}</a>`
-          temp.push(idx + 1)
-          temp.push(el.signature)
-          temp.push(singerLink)
-          this.cosignatures.data.push(temp)
-        })
-      }
-
       this.loading = 1
     },
   },
