@@ -20,12 +20,12 @@ import * as nem from 'nem2-sdk'
 import format from '../format'
 import util from './util'
 
-const REGISTER_NAMESPACE_TRANSACTION = new nem.RegisterNamespaceTransaction(
+const REGISTER_NAMESPACE_TRANSACTION = new nem.NamespaceRegistrationTransaction(
   nem.NetworkType.MIJIN_TEST,
   0x01,
   nem.Deadline.createFromDTO([1, 0]),
   new nem.UInt64([0, 0]),
-  nem.NamespaceType.RootNamespace,
+  nem.NamespaceRegistrationType.RootNamespace,
   'cat',
   nem.NamespaceId.createFromEncoded('B1497F5FBA651B4F'),
   new nem.UInt64([0, 0]),
