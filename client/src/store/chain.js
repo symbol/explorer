@@ -65,10 +65,10 @@ export default {
       state.chainInfo.numTransactions = chainInfo.numTransactions
       state.chainInfo.numAccounts = chainInfo.numAccounts
     },
-    setMarketData(state, { marketData, xemGraph }) {
+    setMarketData(state, { marketData, graphData }) {
       state.marketData.price = marketData.XEM.USD.PRICE
       state.marketData.marketCap = marketData.XEM.USD.MKTCAP
-      state.marketData.historicalHourlyGraph = xemGraph
+      state.marketData.historicalHourlyGraph = graphData
     }
   },
   actions: {
@@ -80,10 +80,25 @@ export default {
     // Fetch data from the SDK / API and initialize the page.
     async initializePage({ commit }) {
       let chainInfo = await sdkDiagnostic.getChainInfo()
+      commit('setChainInfo', chainInfo)
+
       let marketData = await apiMarketData.getXemPriceData()
       let xemGraph = await apiMarketData.getXemHistoricalHourlyGraph()
-      commit('setChainInfo', chainInfo)
-      commit('setMarketData', { marketData, xemGraph })
+
+      let graphData = []
+      if (xemGraph) {
+        xemGraph.Data.map((item, index) => {
+          let graphDataItem = {}
+          graphDataItem.y = []
+          graphDataItem.x = new Date(item['time'] * 1000)
+          graphDataItem.y[0] = item['open'] // parseFloat(item['open']).toFixed(4)
+          graphDataItem.y[1] = item['high'] // parseFloat(item['high']).toFixed(4)
+          graphDataItem.y[2] = item['low'] // parseFloat(item['low']).toFixed(4)
+          graphDataItem.y[3] = item['close'] // parseFloat(item['close']).toFixed(4)
+          graphData.push(graphDataItem)
+        })
+      }
+      commit('setMarketData', { marketData, graphData })
     }
   }
 }

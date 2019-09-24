@@ -18,7 +18,7 @@
 
 <template>
   <div class="widget m-0 z-1 nempricegraph_con bordr_rds_top0 pt-0 pb-0">
-    <loader v-if="!loading"></loader>
+    <loader v-if="!marketData.historicalHourlyGraph.length > 0"></loader>
     <ApexCharts type="area" :data="chartData" />
   </div>
 </template>
@@ -72,42 +72,22 @@
 <script>
 import { mapGetters } from 'vuex'
 import w1 from '@/components/Chart.vue'
-import ApexCharts from 'apexcharts'
 
 export default {
   components: {
     ApexCharts: w1,
   },
   props: {},
-
   data() {
     return {
-      loading: 0,
     }
   },
   computed: {
-    historicalHourlyGraph() {
-      let graphData = []
-      if (this.marketData.historicalHourlyGraph.Data) {
-        this.marketData.historicalHourlyGraph.Data.forEach((item, index) => {
-          let graphDataItem = {}
-          graphDataItem.y = []
-          graphDataItem.x = new Date(item['time'] * 1000)
-          graphDataItem.y[0] = item['open'] // parseFloat(item['open']).toFixed(4)
-          graphDataItem.y[1] = item['high'] // parseFloat(item['high']).toFixed(4)
-          graphDataItem.y[2] = item['low'] // parseFloat(item['low']).toFixed(4)
-          graphDataItem.y[3] = item['close'] // parseFloat(item['close']).toFixed(4)
-          graphData.push(graphDataItem)
-        })
-        this.loading = 1
-      }
-      return graphData
-    },
     chartData() {
       return [
         {
           name: 'Historical Hourly Graph',
-          data: this.historicalHourlyGraph,
+          data: this.marketData.historicalHourlyGraph,
         },
       ]
     },
