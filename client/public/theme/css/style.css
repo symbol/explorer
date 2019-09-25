@@ -1291,8 +1291,8 @@ table.table-bordered.dataTable tbody tr {
     font-weight: 600;
     margin-bottom: 6px;
     cursor: pointer;
-    color: #84accb;
-    text-decoration: underline;
+    color: #212529;
+    text-decoration: none;
 }
 
 .rn_blk_con .inrw {
