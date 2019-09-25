@@ -201,7 +201,7 @@ export default {
         this.address
       )
       const accountTransaction = await sdkTransaction.getAccountTransactions(
-        accountInfo.publicKey
+        this.address
       )
 
       this.accountInfo = accountInfo

@@ -25,7 +25,7 @@ const ACCOUNT_HTTP = new AccountHttp(Endpoint.api)
 class sdkAccount {
   static getAccountInfoByAddress = async address => {
     const accountInfo = await ACCOUNT_HTTP
-      .getAccountInfo(new Address(address))
+      .getAccountInfo(Address.createFromRawAddress(address))
       .toPromise()
     return format.formatAccount(accountInfo)
   }

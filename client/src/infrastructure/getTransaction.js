@@ -19,8 +19,7 @@
 import {
   AccountHttp,
   QueryParams,
-  PublicAccount,
-  NetworkType
+  Address,
 } from 'nem2-sdk'
 import format from '../format'
 import { Endpoint } from '../config/'
@@ -28,16 +27,11 @@ import { Endpoint } from '../config/'
 const ACCOUNT_HTTP = new AccountHttp(Endpoint.api)
 
 class sdkTransaction {
-  static getAccountTransactions = async (publicKey, transactionId = '') => {
+  static getAccountTransactions = async (address, transactionId = '') => {
     let pageSize = 100
 
-    const publicAccount = PublicAccount.createFromPublicKey(
-      publicKey,
-      NetworkType.MIJIN_TEST
-    )
-
     const transactionsList = await ACCOUNT_HTTP
-      .transactions(publicAccount, new QueryParams(pageSize, transactionId))
+      .transactions(Address.createFromRawAddress(address), new QueryParams(pageSize, transactionId))
       .toPromise()
 
     return format.formatTransactions(transactionsList)

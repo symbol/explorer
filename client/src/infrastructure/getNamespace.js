@@ -25,10 +25,9 @@ const NAMESPACE_HTTP = new NamespaceHttp(Endpoint.api)
 
 class sdkNamespace {
   static getNamespacesFromAccountByAddress = async (address) => {
-    const addressObj = new Address(address)
     const namespacesIds = []
     const namespaceList = await NAMESPACE_HTTP
-      .getNamespacesFromAccount(addressObj)
+      .getNamespacesFromAccount(Address.createFromRawAddress(address))
       .pipe(
         mergeMap(namespacesInfo => {
           const namespaceIds = namespacesInfo.map(x => {

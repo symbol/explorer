@@ -66,18 +66,19 @@ const formatAccount = accountInfo => {
     importanceScore = importanceScore.toFixed(4).split('.')
     importanceScore = importanceScore[0] + '.' + importanceScore[1]
   }
-
   const accountObj = {
     meta: accountInfo.meta,
-    address: new Address(accountInfo.address.address).pretty(),
+    address: accountInfo.address,
     addressHeight: accountInfo.addressHeight.compact(),
     publicKey: accountInfo.publicKey,
     publicKeyHeight: accountInfo.publicKeyHeight.compact(),
     mosaics: formatMosaics(accountInfo.mosaics),
     importance: importanceScore,
-    importanceHeight: accountInfo.importanceHeight.compact()
+    importanceHeight: accountInfo.importanceHeight.compact(),
+    accountType: accountInfo.accountType,
+    activityBucket: accountInfo.activityBucket,
+    linkedAccountKey: accountInfo.linkedAccountKey
   }
-
   return accountObj
 }
 
@@ -157,13 +158,10 @@ const formatTransactionBody = transactionBody => {
         type: 'Mosaic Definition',
         typeId: TransactionType.MOSAIC_DEFINITION,
         mosaicId: transactionBody.mosaicId.toHex().toLowerCase(),
-        mosaicProperties: {
-          divisibility: transactionBody.mosaicProperties.divisibility,
-          duration: transactionBody.mosaicProperties.duration,
-          supplyMutable: transactionBody.mosaicProperties.supplyMutable,
-          transferable: transactionBody.mosaicProperties.transferable,
-          restrictable: transactionBody.mosaicProperties.restrictable
-        }
+        divisibility: transactionBody.divisibility,
+        duration: transactionBody.duration,
+        nonce: transactionBody.nonce,
+        flags: transactionBody.flags,
       }
       return mosaicDefinitionObj
     case TransactionType.MOSAIC_SUPPLY_CHANGE:
