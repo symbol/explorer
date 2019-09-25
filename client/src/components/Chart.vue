@@ -1,10 +1,10 @@
 <template>
     <div>
-        <apexchart 
-            :width="width" 
+        <apexchart
+            :width="width"
             :height="height"
-            :type="type" 
-            :options="options" 
+            :type="type"
+            :options="options"
             :series="series"
         >
         </apexchart>
@@ -45,7 +45,9 @@ export default {
 
         colors: {
             type: Array,
-            default: function () { return ["#1eaaa6", "#f2e013", "#f29913"] }
+            
+            default: () => ["#1eaaa6", "#f2e013", "#f29913"]
+
         },
 
         toolbar: {

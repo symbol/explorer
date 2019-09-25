@@ -20,12 +20,12 @@
   <tr>
     <td><BlockHeightLink :height="item.blockHeight"/></td>
     <td><TransactionHashLink :hash="item.transactionHash"/></td>
-    <td>{{item.transactionDetail.type}}</td>
-    <td><AddressLink :address="item.signer.address.address" :count="20"/></td>
+    <td>{{item.transactionBody.type}}</td>
+    <td><AddressLink :address="item.signer" :count="20"/></td>
     <td>
       <AddressLink
-        v-if="item.transactionDetail.recipient"
-        :address="item.transactionDetail.recipient.address"
+        v-if="item.transactionBody.recipient"
+        :address="item.transactionBody.recipient.address"
         :count="20"
       />
     </td>

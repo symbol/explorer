@@ -16,28 +16,16 @@
  *
  */
 
-<template>
-<div class="trx-info">
-  <div class="inrw">
-    <span>Block Height {{ item.blockHeight }}</span>
-    <span>{{item.transactionBody.type}}</span>
-  </div>
-  <div class="inrw flex">
-    <span>Sender</span>
-    <AddressLink :address="item.signer" class="acnt"/>
-  </div>
-</div>
-</template>
-<script>
-import w1 from '@/components/AddressLink.vue'
+import { DiagnosticHttp } from 'nem2-sdk'
+import { Endpoint } from '../config'
 
-export default {
-  name: 'TransactionInfo',
-  components: {
-    AddressLink: w1
-  },
-  props: {
-    item: {}
-  }
+const DIAGNOSTIC_HTTP = new DiagnosticHttp(Endpoint.api)
+
+class sdkDiagnostic {
+    static getChainInfo = async () => {
+        const chainInfo = await DIAGNOSTIC_HTTP.getDiagnosticStorage().toPromise()
+        return chainInfo;
+    }
 }
-</script>
+
+export default sdkDiagnostic

@@ -19,13 +19,14 @@
 import * as nem from 'nem2-sdk'
 import format from '../format'
 import util from './util'
+import sdkTransaction from '../infrastructure/getTransaction'
 
-const REGISTER_NAMESPACE_TRANSACTION = new nem.RegisterNamespaceTransaction(
+const REGISTER_NAMESPACE_TRANSACTION = new nem.NamespaceRegistrationTransaction(
   nem.NetworkType.MIJIN_TEST,
   0x01,
   nem.Deadline.createFromDTO([1, 0]),
   new nem.UInt64([0, 0]),
-  nem.NamespaceType.RootNamespace,
+  nem.NamespaceRegistrationType.RootNamespace,
   'cat',
   nem.NamespaceId.createFromEncoded('B1497F5FBA651B4F'),
   new nem.UInt64([0, 0]),
@@ -98,7 +99,10 @@ export default {
     // Subscription to new transactions.
     subscription: null,
     // Determine if the transactions model is loading.
-    loading: false
+    loading: false,
+    // TransactionInfo by hash.
+    transactionsInfo: {}
+
   },
   getters: {
     getLatestList: util.getLatestList,
@@ -106,7 +110,10 @@ export default {
     getPageList: util.getPageList,
     getPageIndex: util.getPageIndex,
     getSubscription: util.getSubscription,
-    getLoading: util.getLoading
+    getLoading: util.getLoading,
+    getTransactionInfo(state){
+      return state.transactionsInfo
+    }
   },
   mutations: {
     setLatestList: util.setLatestList,
@@ -117,6 +124,9 @@ export default {
     resetPageIndex: util.resetPageIndex,
     addLatestItem(state, item) {
       util.addLatestItemByKey(state, item, 'hash', 1)
+    },
+    setTransactionsInfo(state, transactionsInfoByHash){
+      state.transactionsInfo = transactionsInfoByHash
     }
   },
   actions: {
@@ -207,6 +217,11 @@ export default {
         commit('setPageList', getters.getLatestList)
         commit('resetPageIndex')
       }
+    },
+
+    async getTransactionInfoByHash({commit}, hash) {
+      let transactionInfo = await sdkTransaction.getTransactionInfoByHash(hash)
+      commit('setTransactionsInfo', transactionInfo)
     }
   }
 }

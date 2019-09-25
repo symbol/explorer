@@ -1,4 +1,4 @@
-import { Address, TransactionType, AliasActionType, UInt64 } from 'nem2-sdk'
+import { Address, TransactionType, AliasActionType, UInt64, NetworkType } from 'nem2-sdk'
 import moment from 'moment'
 
 // FORMAT FEE
@@ -43,7 +43,7 @@ const formatBlock = (block) => {
     date: moment.utc(
       (block.timestamp.compact() / 1000 + 1459468800) * 1000
     ).local().format('YYYY-MM-DD HH:mm:ss'),
-    totalFee: block.totalFee.compact(),
+    totalFee: formatFee(block.totalFee),
     difficulty: (block.difficulty.compact() / 1000000000000).toFixed(2),
     numTransactions: block.numTransactions ? block.numTransactions : 0,
     signature: block.signature,
@@ -66,18 +66,19 @@ const formatAccount = accountInfo => {
     importanceScore = importanceScore.toFixed(4).split('.')
     importanceScore = importanceScore[0] + '.' + importanceScore[1]
   }
-
   const accountObj = {
     meta: accountInfo.meta,
-    address: new Address(accountInfo.address.address).pretty(),
+    address: accountInfo.address,
     addressHeight: accountInfo.addressHeight.compact(),
     publicKey: accountInfo.publicKey,
     publicKeyHeight: accountInfo.publicKeyHeight.compact(),
     mosaics: formatMosaics(accountInfo.mosaics),
     importance: importanceScore,
-    importanceHeight: accountInfo.importanceHeight.compact()
+    importanceHeight: accountInfo.importanceHeight.compact(),
+    accountType: accountInfo.accountType,
+    activityBucket: accountInfo.activityBucket,
+    linkedAccountKey: accountInfo.linkedAccountKey
   }
-
   return accountObj
 }
 
@@ -105,49 +106,71 @@ const formatTransaction = transaction => {
     deadline: moment.utc(new Date(transaction.deadline.value)).local().format(
       'YYYY-MM-DD HH:mm:ss'
     ),
-    fee: transaction.maxFee.compact(),
+    fee: formatFee(transaction.maxFee),
     signature: transaction.signature,
-    signer: transaction.signer,
+    signer: transaction.signer.address.plain(),
     blockHeight: transaction.transactionInfo.height.compact(),
     transactionHash: transaction.transactionInfo.hash,
     transactionId: transaction.transactionInfo.id,
-    transactionDetail: formatTransactionBody(transaction)
+    transactionBody: formatTransactionBody(transaction),
   }
 
   return transactionObj
 }
 
+// FORMAT AggregateCosignatures
+const formatCosignatures = cosignatures => {
+   cosignatures.map(cosigner => {
+    cosigner.signer = cosigner.signer.address.address
+  })
+
+  return cosignatures
+}
+
 // FORMAT TRANSACTION BODY
 const formatTransactionBody = transactionBody => {
+  console.log(transactionBody)
   switch (transactionBody.type) {
     case TransactionType.TRANSFER:
       let transferObj = {
         type: 'Transfer',
-        typeId: TransactionType.TRANSFER,
-        recipient: transactionBody.recipient,
+        // typeId: TransactionType.TRANSFER,
+        recipient: transactionBody.recipientAddress,
         mosaics: formatMosaics(transactionBody.mosaics),
         message: transactionBody.message.payload
       }
       return transferObj
     case TransactionType.REGISTER_NAMESPACE:
+      let parentIdHex = transactionBody.parentId ? transactionBody.parentId.toHex() : '';
+      let duration = transactionBody.duration ? transactionBody.duration.compact() : 0;
+
       let registerNamespaceObj = {
         type: 'Register Namespace',
-        typeId: TransactionType.REGISTER_NAMESPACE,
-        recipient: transactionBody.recipient,
-        namespaceType: transactionBody.namespaceType,
+        // typeId: TransactionType.REGISTER_NAMESPACE,
+        // recipient: transactionBody.recipient,
+        namespaceType: transactionBody.namespaceType === 0 ? 'Root namespace' : 'Child namespace',
         namespaceName: transactionBody.namespaceName,
-        namespaceId: transactionBody.namespaceId.id.toHex(),
-        parentId: transactionBody.parentId ? '' : transactionBody.parentId,
-        duration: transactionBody.duration
+        namespaceId: transactionBody.namespaceId.toHex(),
+        parentId: parentIdHex === '' ? 'NO AVAILABLE' : parentIdHex,
+        duration: duration === 0 ? 'unlimited' : duration,
       }
       return registerNamespaceObj
     case TransactionType.ADDRESS_ALIAS:
-      return 'Address Alias'
+      let addressAliasObj = {
+        type: 'Address Alias',
+        recipient: 'NO AVAILABLE',
+        // typeId: TransactionType.ADDRESS_ALIAS,
+        aliasAction: transactionBody.actionType === 0 ? 'Link' : 'Unlink',
+        namespaceId: transactionBody.namespaceId.toHex(),
+      };
+      return addressAliasObj;
+
     case TransactionType.MOSAIC_ALIAS:
       let mosaicAlias = {
         type: 'Mosaic Alias',
-        typeId: TransactionType.MOSAIC_ALIAS,
-        actionType: transactionBody.actionType,
+        // typeId: TransactionType.MOSAIC_ALIAS,
+        // actionType: transactionBody.actionType,
+        aliasAction: transactionBody.actionType === 0 ? 'Link' : 'Unlink',
         namespaceId: transactionBody.namespaceId.id.toHex(),
         mosaicId: transactionBody.mosaicId.id.toHex()
       }
@@ -155,46 +178,96 @@ const formatTransactionBody = transactionBody => {
     case TransactionType.MOSAIC_DEFINITION:
       let mosaicDefinitionObj = {
         type: 'Mosaic Definition',
-        typeId: TransactionType.MOSAIC_DEFINITION,
+        // typeId: TransactionType.MOSAIC_DEFINITION,
         mosaicId: transactionBody.mosaicId.toHex().toLowerCase(),
-        mosaicProperties: {
-          divisibility: transactionBody.mosaicProperties.divisibility,
-          duration: transactionBody.mosaicProperties.duration,
-          supplyMutable: transactionBody.mosaicProperties.supplyMutable,
-          transferable: transactionBody.mosaicProperties.transferable,
-          restrictable: transactionBody.mosaicProperties.restrictable
-        }
+        divisibility: transactionBody.divisibility,
+        duration: transactionBody.duration,
+        nonce: transactionBody.nonce,
+        flags: transactionBody.flags,
       }
       return mosaicDefinitionObj
     case TransactionType.MOSAIC_SUPPLY_CHANGE:
       let mosaicSupplyChangeObj = {
         type: 'Mosaic Supply Change',
-        typeId: TransactionType.MOSAIC_SUPPLY_CHANGE,
+        // typeId: TransactionType.MOSAIC_SUPPLY_CHANGE,
         mosaicId: transactionBody.mosaicId.id.toHex(),
         direction: transactionBody.direction === 1 ? 'Increase' : 'Decrease',
         delta: transactionBody.delta.compact()
       }
       return mosaicSupplyChangeObj
     case TransactionType.MODIFY_MULTISIG_ACCOUNT:
-      return 'Modify multisig account'
+
+      let modifyMultisigAccountObj = {
+        type: 'ModifyMultisigAccount',
+        // typeId: TransactionType.MODIFY_MULTISIG_ACCOUNT,
+      }
+      return modifyMultisigAccountObj
+
     case TransactionType.AGGREGATE_COMPLETE:
-      return 'Aggregate complete'
+      let aggregateCompleteObj = {
+        type: 'AggregateComplete',
+        innerTransactions: formatTransactions(transactionBody.innerTransactions),
+        cosignatures: formatCosignatures(transactionBody.cosignatures)
+        // typeId: TransactionType.AGGREGATE_COMPLETE,
+      }
+      return aggregateCompleteObj
     case TransactionType.AGGREGATE_BONDED:
-      return 'Aggregate bonded'
+      let aggregateBondedObj = {
+        type: 'AggregateBonded',
+        innerTransactions: formatTransactions(transactionBody.innerTransactions),
+        cosignatures: formatCosignatures(transactionBody.cosignatures)
+        // typeId: TransactionType.AGGREGATE_BONDED,
+      }
+      return aggregateBondedObj
+
     case TransactionType.LOCK:
-      return 'Lock'
+      let lockObj = {
+        type: 'Lock',
+        // typeId: TransactionType.LOCK,
+        duration: transactionBody.duration.compact(),
+        mosaic: transactionBody.mosaic.id.toHex(),
+        amount: formatFee(transactionBody.mosaic.amount)
+      }
+      return lockObj
     case TransactionType.SECRET_LOCK:
-      return 'Secret lock'
+      let secretLockObj = {
+        type: 'Secret lock',
+        // typeId: TransactionType.SECRET_LOCK,
+      }
+      return secretLockObj
     case TransactionType.SECRET_PROOF:
-      return 'Secret proof'
+      let secretProofObj = {
+        type: 'SecretProof',
+        // typeId: TransactionType.SECRET_PROOF,
+      }
+      return secretProofObj
     case TransactionType.MODIFY_ACCOUNT_PROPERTY_ADDRESS:
-      return 'Mod. account address'
+      let modifyAccountPropertyAddressObj = {
+        type: 'ModifyAccountPropertyAddress',
+        // typeId: TransactionType.MODIFY_ACCOUNT_PROPERTY_ADDRESS,
+      }
+      return modifyAccountPropertyAddressObj
     case TransactionType.MODIFY_ACCOUNT_PROPERTY_MOSAIC:
-      return 'Mod. account mosaic'
+      let modifyAccountPropertyMosaicObj = {
+        type: 'ModifyAccountPropertyMosaic',
+        // typeId: TransactionType.MODIFY_ACCOUNT_PROPERTY_MOSAIC,
+      }
+      return modifyAccountPropertyMosaicObj
     case TransactionType.MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE:
-      return 'Mod. account entity type'
+      let modifyAccountPropertyEntityTypeObj = {
+        type: 'ModifyAccountPropertyEntityType',
+        // typeId: TransactionType.MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE,
+      }
+      return modifyAccountPropertyEntityTypeObj
     case TransactionType.LINK_ACCOUNT:
-      return 'Link account'
+      let linkAccountObj = {
+        type: 'LinkAccount',
+        linkAction: transactionBody.linkAction === 0 ? 'Link' : 'Unlink',
+        remoteAccountPublicKey: transactionBody.remoteAccountKey,
+        remoteAccountAddress: Address.createFromPublicKey(transactionBody.remoteAccountKey, NetworkType.MIJIN_TEST).plain()
+        // typeId: TransactionType.LINK_ACCOUNT,
+      }
+      return linkAccountObj
   }
 }
 
