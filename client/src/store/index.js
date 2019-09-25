@@ -37,6 +37,7 @@ export default new Vuex.Store({
     async initialize({ dispatch }) {
       await dispatch('block/initialize')
       await dispatch('transaction/initialize')
+      await dispatch('chain/initialize')
     },
 
     // Uninitialize the stores (call on app destroyed).
