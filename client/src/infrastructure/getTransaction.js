@@ -18,12 +18,16 @@
 
 import {
   AccountHttp,
+  TransactionHttp,
   QueryParams,
   Address,
 } from 'nem2-sdk'
 import format from '../format'
 import { Endpoint } from '../config/'
+import request from 'request'
+import sdkBlock from '../infrastructure/getBlock'
 
+const TRANSACTION_HTTP = new TransactionHttp(Endpoint.api);
 const ACCOUNT_HTTP = new AccountHttp(Endpoint.api)
 
 class sdkTransaction {
@@ -35,6 +39,25 @@ class sdkTransaction {
       .toPromise()
 
     return format.formatTransactions(transactionsList)
+  }
+
+  static getTransactionInfoByHash = async (hash) => {
+    const transaction = await TRANSACTION_HTTP.getTransaction(hash).toPromise();
+    const formattedTransaction = format.formatTransaction(transaction)
+    const getBlockInfo = await sdkBlock.getBlockInfoByHeight(formattedTransaction.blockHeight)
+
+    const transactionStatus = await TRANSACTION_HTTP
+      .getTransactionStatus(hash)
+      .toPromise();
+
+    const transactionInfo = {
+      transaction: formattedTransaction,
+      status: transactionStatus.status,
+      confirm: transactionStatus.group,
+      timestamp: getBlockInfo.date
+    };
+
+    return transactionInfo;
   }
 }
 

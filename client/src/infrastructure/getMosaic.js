@@ -16,28 +16,24 @@
  *
  */
 
-<template>
-<div class="trx-info">
-  <div class="inrw">
-    <span>Block Height {{ item.blockHeight }}</span>
-    <span>{{item.transactionBody.type}}</span>
-  </div>
-  <div class="inrw flex">
-    <span>Sender</span>
-    <AddressLink :address="item.signer" class="acnt"/>
-  </div>
-</div>
-</template>
-<script>
-import w1 from '@/components/AddressLink.vue'
+import { MosaicService, Address, AccountHttp, MosaicHttp } from 'nem2-sdk'
+import { Endpoint } from '../config/'
 
-export default {
-  name: 'TransactionInfo',
-  components: {
-    AddressLink: w1
-  },
-  props: {
-    item: {}
+const accountHttp = new AccountHttp(Endpoint.api)
+const mosaicHttp = new MosaicHttp(Endpoint.api)
+class sdkMosaic {
+  static getMosaicsAmountByAddress = async address => {
+    const mosaicService = new MosaicService(
+      accountHttp,
+      mosaicHttp
+    )
+    const mosaicAmount = await mosaicService
+      .mosaicsAmountViewFromAddress(new Address(address))
+      .toPromise()
+
+    return mosaicAmount
   }
 }
-</script>
+
+export default sdkMosaic
+
