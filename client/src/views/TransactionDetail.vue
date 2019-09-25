@@ -24,7 +24,117 @@
       <div class="full-con mob_con">
         <div class="container p-0">
           <div class="widget has-shadow mt-4 m-0 z-1">
-            <InfoRow infoTitle="Transaction Details" :rows="this.transactionDetail" :loading="this.loading"></InfoRow>
+            <div class="box">
+              <div class="box-title">
+                <h1 class="inline-block">Transaction Info</h1>
+              </div>
+              <div class="box-con mt-0">
+                <loader v-if="!loading"></loader>
+                <div v-if="transactionInfo.transaction" class="list_info_con">
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Transaction Hash</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">{{transactionInfo.transaction.transactionHash}}</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Block</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">
+                        <BlockHeightLink :height="transactionInfo.transaction.blockHeight" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Fees</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">{{transactionInfo.transaction.fee}}</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Sender</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">
+                        <AddressLink :address="transactionInfo.transaction.signer" />
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Signature</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">{{transactionInfo.transaction.signature}}</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Timestamp</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">{{transactionInfo.timestamp}}</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Status</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">{{transactionInfo.status}}</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Confirmation</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">{{transactionInfo.confirm}}</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div v-if="transactionBody">
+              <div
+                v-if='transactionBody.type === "AggregateBonded" || transactionBody.type === "AggregateComplete"'
+                class="widget has-shadow"
+              >
+                <div class="box">
+                  <div class="tabs-con">
+                    <tabs>
+                      <tab title="InnerTransactions">
+                        <DataTable
+                          :tableHead="this.aggrateInnerTransactions.head"
+                          :tableData="this.aggrateInnerTransactions.data"
+                        ></DataTable>
+                      </tab>
+                      <tab title="Cosignatures">
+                        <DataTable
+                          :tableHead="this.aggrateCosigner.head"
+                          :tableData="this.aggrateCosigner.data"
+                        ></DataTable>
+                      </tab>
+                    </tabs>
+                  </div>
+                </div>
+              </div>
+
+              <InfoRow
+                v-else
+                infoTitle="Transaction Details"
+                :rows="transactionBody"
+                :loading="this.loading"
+              ></InfoRow>
+            </div>
           </div>
         </div>
       </div>
@@ -35,57 +145,81 @@
 </template>
 <script>
 import w1 from '@/components/InfoRow.vue'
-import DataService from '../data-service'
+import w2 from '@/components/TableDynamic.vue'
+import w3 from '@/components/AddressLink.vue'
+import w4 from '@/components/BlockHeightLink.vue'
+import { Tabs, Tab } from 'vue-slim-tabs'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'block',
   components: {
-    InfoRow: w1
+    Tabs,
+    Tab,
+    InfoRow: w1,
+    DataTable: w2,
+    AddressLink: w3,
+    BlockHeightLink: w4,
   },
   data() {
     return {
       transactionHash: this.$route.params.transactionHash,
-      transactionDetail: {
-        'Transaction Hash': '',
-        Block: '',
-        // Timestamp: "",
-        Type: '',
-        Harvester: '',
-        'Block Hash': '',
-        Sender: '',
-        Recipient: '',
-        Amount: '',
-        Fee: '',
-        Message: '',
-        Status: '',
-        confirmation: ''
+      loading: 0,
+      innerTransactions: {
+        head: ['#', 'Transaction ID', 'Type', 'Sender', 'Recipient'],
+        data: [],
       },
-      loading: 0
+      cosignatures: {
+        head: ['#', 'signature', 'signer'],
+        data: [],
+      },
     }
   },
-  created() {
-    this.asyncData()
+  computed: {
+    ...mapGetters({ transactionInfo: 'transaction/getTransactionInfo' }),
+    transactionBody() {
+      if (this.transactionInfo.transaction) {
+        return this.transactionInfo.transaction.transactionBody
+      }
+    },
+    aggrateInnerTransactions() {
+      this.transactionBody.innerTransactions.forEach((el, idx) => {
+        let temp = []
+        let singerLink = `<a href="/#/account/${el.signer}">${el.signer}</a>`
+        let recipientLink = `<a href="/#/account/${el.transactionBody.recipient}">${el.transactionBody.recipient}</a>`
+
+        temp.push(idx + 1)
+        temp.push(el.transactionId)
+        temp.push(el.transactionBody.type)
+        temp.push(singerLink)
+        temp.push(recipientLink)
+        this.innerTransactions.data.push(temp)
+      })
+      return this.innerTransactions
+    },
+    aggrateCosigner() {
+      this.transactionBody.cosignatures.forEach((el, idx) => {
+        let temp = []
+        let singerLink = `<a href="/#/account/${el.signer}">${el.signer}</a>`
+        temp.push(idx + 1)
+        temp.push(el.signature)
+        temp.push(singerLink)
+        this.cosignatures.data.push(temp)
+      })
+      return this.cosignatures
+    },
   },
-  watch: {
-    $route: 'asyncData'
+  mounted() {
+    this.getTransactionByHash()
   },
   methods: {
-    asyncData() {
-      this.transactionHash = this.$route.params.transactionHash
-      let self = this
-      DataService.getTransactionDetail(this.transactionHash).then(function (data) {
-        self.transactionDetail['Transaction Hash'] = self.transactionHash
-        self.transactionDetail['Block'] = data.transactionInfo.transaction.blockHeight
-        self.transactionDetail['Type'] = data.transactionInfo.transaction.transactionDetail.type
-        self.transactionDetail['Harvester'] = data.transactionInfo.transaction.signer
-        self.transactionDetail['Recipient'] = data.transactionInfo.transaction.transactionDetail.recipient
-        // self.transactionDetail['Amount'] = data.transactionInfo.transaction.transactionDetail.mosaics[0].amount
-        self.transactionDetail['Fee'] = data.transactionInfo.transaction.fee
-        self.transactionDetail['Status'] = data.transactionInfo.status
-        self.transactionDetail['confirmation'] = data.transactionInfo.confirm
-        self.loading = 1
-      })
-    }
-  }
+    getTransactionByHash() {
+      this.$store.dispatch(
+        'transaction/getTransactionInfoByHash',
+        this.transactionHash
+      )
+      this.loading = 1
+    },
+  },
 }
 </script>
