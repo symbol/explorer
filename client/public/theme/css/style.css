@@ -1362,6 +1362,18 @@ table.table-bordered.dataTable tbody tr {
     font-weight: 500;
 }
 
+.rn_blk_con .txh1 {
+    width: 100%;
+    font-weight: 600;
+    margin-bottom: 6px;
+    cursor: pointer;
+}
+
+.rn_blk_con .txh1:link {
+    text-decoration: none;
+    color: #212529;
+}
+
 .text-right {
     text-align: right
 }
@@ -1473,6 +1485,10 @@ table.table-bordered.dataTable tbody tr {
 }
 
 #table-block-list tbody tr td:nth-child(3) {
+    padding-left: 2pc;
+}
+
+#table-transaction-list tbody tr td:nth-child(3) {
     padding-left: 2pc;
 }
 
@@ -1602,7 +1618,7 @@ table.table-bordered.dataTable tbody tr {
     margin-top: 20px;
 }
 
-#table-block-list a, .list_info_con a, .account_balance a, .blocktrxtbl a {
+#table-block-list a, #table-transaction-list a, .list_info_con a, .account_balance a, .blocktrxtbl a {
     color: #84accb;
     font-weight: 600;
     text-decoration: none;

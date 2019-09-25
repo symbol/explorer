@@ -24,14 +24,14 @@
       <div class="full-con mob_con">
         <div class="container p-0 has-shadow">
           <NemPriceGraph class="border-bottom"></NemPriceGraph>
-          <HomeBaseInfo class="" :marketinfo="homeData.marketData" :chaininfo="homeData.chainInfo"></HomeBaseInfo>
+          <HomeBaseInfo class=""></HomeBaseInfo>
         </div>
         <div class="container p-0 mt-1">
-          <RecentBlocks></RecentBlocks>
+          <RecentBlocks />
         </div>
-        <!-- <div class="container p-0 mt-1">
-          <RecentTransactions></RecentTransactions>
-        </div> -->
+        <div class="container p-0 mt-1">
+          <RecentTransactions />
+        </div>
       </div>
     </div>
     <page-footer></page-footer>
@@ -51,17 +51,7 @@ export default {
     HomeBaseInfo: w1,
     NemPriceGraph: w2,
     RecentBlocks: w3,
-    RecentTransactions: w4
+    RecentTransactions: w4,
   },
-  data() {
-    return {
-      homeData: {}
-    }
-  },
-  async beforeCreate() {
-    try {
-      this.homeData = await DataService.getHomeData()
-    } catch (err) {}
-  }
 }
 </script>

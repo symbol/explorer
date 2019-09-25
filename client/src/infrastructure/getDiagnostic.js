@@ -16,30 +16,16 @@
  *
  */
 
-<template>
-  <tr>
-    <td><BlockHeightLink :height="item.height"/></td>
-    <td><Age :date="item.date"/></td>
-    <td>{{item.numTransactions}}</td>
-    <td>{{item.totalFee}}</td>
-    <td>{{item.date}}</td>
-    <td><AddressLink :address="item.signer.address.address"/></td>
-  </tr>
-</template>
-<script>
-import w1 from '@/components/BlockHeightLink.vue'
-import w2 from '@/components/Age.vue'
-import w3 from '@/components/AddressLink.vue'
+import { DiagnosticHttp } from 'nem2-sdk'
+import { Endpoint } from '../config'
 
-export default {
-  name: 'BlockRow',
-  components: {
-    BlockHeightLink: w1,
-    Age: w2,
-    AddressLink: w3
-  },
-  props: {
-    item: {}
-  }
+const DIAGNOSTIC_HTTP = new DiagnosticHttp(Endpoint.api)
+
+class sdkDiagnostic {
+    static getChainInfo = async () => {
+        const chainInfo = await DIAGNOSTIC_HTTP.getDiagnosticStorage().toPromise()
+        return chainInfo;
+    }
 }
-</script>
+
+export default sdkDiagnostic
