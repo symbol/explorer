@@ -1,6 +1,6 @@
 <template>
     <div 
-        class="table-list"
+        class="table-wrapper"
     >
         <table class="table">
             
@@ -10,7 +10,7 @@
                     :key="view+'r'+itemKey"
                 >
                     <td
-                        class="table-left-header"
+                        class="table-titles table-titles-ver table-title-item"
                     >
                         {{getKeyName(itemKey)}}
                     </td>
@@ -32,15 +32,15 @@ export default {
     extends: TableView,
 
     props: {
-        // data: {
-        //     type: Object,
+        data: {
+            type: Object,
+            required: true
+        },
+        
+        // infoId: {
+        //     type: String,
         //     required: true
         // }
-
-        infoId: {
-            type: String,
-            required: true
-        }
     },
 
     created() {
@@ -48,17 +48,17 @@ export default {
     },
 
     mounted() {
-        this.$store.dispatch(this.view + "/fetchInfo", this.infoId);
+        //this.$store.dispatch(this.view + "/fetchInfo", this.infoId);
     },
 
     computed: {
-        data() {
-            let data = this.$store.getters[this.view + "/getPageInfo"];
-            if(typeof data === 'object')
-                return data;
-            else
-                return null;
-        },
+        // data() {
+        //     let data = this.$store.getters[this.view + "/getPageInfo"];
+        //     if(typeof data === 'object')
+        //         return data;
+        //     else
+        //         return null;
+        // },
 
         header() {
             let header = ["", ""];
@@ -70,12 +70,11 @@ export default {
 
 <style lang="scss" scoped>
 
-.table-pagination {
-    float: right;
-}
+.table-wrapper {
+    overflow:auto;
 
-.table-left-header {
-    font-weight: bold;
+    .table-left-header {
+        font-weight: bold;
+    }
 }
-
 </style>

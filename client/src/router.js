@@ -145,10 +145,16 @@ export default new Router({
       name: 'tablePageInfo',
       component: () => import('./views/TablePage.vue'),
     },
+    // {
+    //   path: '/test/:view',
+    //   name: 'tablePageList',
+    //   component: () => import('./views/TablePage.vue'),
+    // },
+
     {
-      path: '/test/:view',
-      name: 'tablePageList',
-      component: () => import('./views/TablePage.vue'),
+      path: '/test/account',
+      name: 'account',
+      component: () => import('./views/test/AccountDetail.vue'),
     },
     // {
     //   path: '/404',

@@ -44,4 +44,25 @@ export default {
     cursor: pointer;
 }
 
+.table-titles {
+    background-color: rgba(52, 40, 104, .05);
+    //border-radius: 4px;
+}
+
+.table-title-item {
+    vertical-align: middle;
+    border: 0 none;
+    padding: 12px 6px 12px 6px;
+    color: #0997a3;
+    font-weight: 500;
+    outline: none;
+    font-size: 12px;
+    letter-spacing: 1px;
+}
+
+.table-titles-ver {
+    width: 30%;
+    max-width: 200px;
+}
+
 </style>

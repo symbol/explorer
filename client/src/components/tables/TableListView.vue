@@ -31,7 +31,7 @@
                 </tbody>
             </table>
         </div>
-
+<!--
         <div 
             v-if="pagination"
             class="table-pagination"
@@ -47,14 +47,14 @@
                 :nextPageAction="nextPageAction"
                 :previousPageAction="previousPageAction"
             />
-        </div>
+        </div> -->
     </div>
 </template>
 
 <script>
 import TableView from './TableView.vue'
-import ButtonMore from './ButtonMore.vue'
-import Pagination from './Pagination.vue'
+import ButtonMore from '../controls/ButtonMore.vue'
+import Pagination from '../controls/Pagination.vue'
 export default {
     extends: TableView,
     
@@ -67,10 +67,10 @@ export default {
         Pagination 
     },
     props: {
-        // data: {
-        //     type: Array,
-        //     required: true
-        // },
+        data: {
+            type: Array,
+            required: true
+        },
 
         pagination: {
             type: Boolean,
@@ -79,13 +79,13 @@ export default {
     },
 
     computed: {
-        data() {
-            let data = this.$store.getters[this.view + "/getPageList"];
-            if(Array.isArray(data))
-                return data;
-            else
-                return null;
-        },
+        // data() {
+        //     let data = this.$store.getters[this.view + "/getPageList"];
+        //     if(Array.isArray(data))
+        //         return data;
+        //     else
+        //         return null;
+        // },
 
         header() {
             let header = [];
@@ -95,17 +95,17 @@ export default {
             return header;
         },
 
-        pageIndex() {
-            return this.$store.getters[this.view + '/getPageIndex'];
-        },
+        // pageIndex() {
+        //     return this.$store.getters[this.view + '/getPageIndex'];
+        // },
 
-        nextPageAction() {
-            return this.view + '/fetchNextPage';
-        },
+        // nextPageAction() {
+        //     return this.view + '/fetchNextPage';
+        // },
 
-        previousPageAction() {
-            return this.view + '/fetchPreviousPage';
-        }
+        // previousPageAction() {
+        //     return this.view + '/fetchPreviousPage';
+        // }
     },
 
     methods: {
