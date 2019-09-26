@@ -43,6 +43,10 @@ export default {
         }
     },
 
+    created() {
+        this.componentType = 'info';
+    },
+
     mounted() {
         this.$store.dispatch(this.view + "/fetchInfo", this.infoId);
     },

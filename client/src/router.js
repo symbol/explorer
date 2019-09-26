@@ -139,7 +139,17 @@ export default new Router({
       meta: {
         title: ''
       }
-    }
+    },
+    {
+      path: '/test/:view/:infoId',
+      name: 'tablePageInfo',
+      component: () => import('./views/TablePage.vue'),
+    },
+    {
+      path: '/test/:view',
+      name: 'tablePageList',
+      component: () => import('./views/TablePage.vue'),
+    },
     // {
     //   path: '/404',
     //   component: import(/* webpackChunkName: "about" */ "./views/About.vue")

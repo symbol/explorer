@@ -2,33 +2,35 @@
     <div 
         class="table-list"
     >
-        <table class="table">
-            <thead>
-                <tr>
-                    <th 
-                        v-for="(columnName, index) in header"
-                        :key="view+'h'+index"
+        <div class="table-wrapper">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th 
+                            v-for="(columnName, index) in header"
+                            :key="view+'h'+index"
+                        >
+                        {{getKeyName(columnName)}}
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        v-for="(row, rowIndex) in data"
+                        :key="view+'r'+rowIndex"
                     >
-                    {{getKeyName(columnName)}}
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                <tr
-                    v-for="(row, rowIndex) in data"
-                    :key="view+'r'+rowIndex"
-                >
-                    <td
-                        v-for="(item, itemKey) in row"
-                        :key="view+'r'+rowIndex+'i'+itemKey"
-                        :class="{'table-item-clickable': isItemClickable(itemKey)}"
-                        @click="onItemClick(itemKey, item)"
-                    >
-                    {{item}}
-                    </td>
-                </tr>
-            </tbody>
-        </table>
+                        <td
+                            v-for="(item, itemKey) in row"
+                            :key="view+'r'+rowIndex+'i'+itemKey"
+                            :class="{'table-item-clickable': isItemClickable(itemKey)}"
+                            @click="onItemClick(itemKey, item)"
+                        >
+                        {{item}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
 
         <div 
             v-if="pagination"
@@ -55,6 +57,11 @@ import ButtonMore from './ButtonMore.vue'
 import Pagination from './Pagination.vue'
 export default {
     extends: TableView,
+    
+    created() {
+        this.componentType = 'list';
+    },
+
     components: { 
         ButtonMore, 
         Pagination 
@@ -110,9 +117,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
-.table-pagination {
-    float: right;
+.table-wrapper{
+    overflow:auto;
+    .table-pagination {
+        float: right;
+    }
 }
 
 </style>

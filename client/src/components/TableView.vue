@@ -9,41 +9,14 @@ export default {
 
     data() {
         return {
+            componentType: 'list',
             clickableItems: [
                 'account',
                 'block'
             ],
-            keyNames: {
-                'datetime': 'Date',
-                'address': 'Address',
-                'account': 'Account',
-                'block': 'Block',
-                'mosaic': 'Mosaic',
-                'namespace': 'Namespace',
-                'transaction': 'Transaction',
-
-                'accounts': 'Account',
-                'blocks': 'Block',
-                'mosaics': 'Mosaic',
-                'namespaces': 'Namespace',
-                'transactions': 'Transaction',
-            },
-            actionMiddleNames: {
-                'account': 'Account',
-                'block': 'Block',
-                'mosaic': 'Mosaic',
-                'namespace': 'Namespace',
-                'transaction': 'Transaction',
-
-                'accounts': 'Account',
-                'blocks': 'Block',
-                'mosaics': 'Mosaic',
-                'namespaces': 'Namespace',
-                'transactions': 'Transaction',
-            }
+            
         }
     },
-
 
     methods: {
         isItemClickable(itemKey) {
@@ -52,19 +25,12 @@ export default {
 
         onItemClick(itemKey, item) {
             if(this.isItemClickable(itemKey))
-            {
-                let actionMiddleName = this.actionMiddleNames[itemKey];
-    
-                if(actionMiddleName != null)
-                    this.$store.dispatch(`open${actionMiddleName}Page`, item);
-            }
+                this.$store.dispatch(`ui/openPage`, { pageName: itemKey, param: item });
+            
         },
 
-
-
         getKeyName(key){
-            const name = this.keyNames[key];
-            return name != null ? name : key;
+            return this.$store.getters['ui/getNameByKey'](key)
         }
     }
 }
