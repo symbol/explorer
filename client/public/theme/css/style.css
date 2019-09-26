@@ -1291,8 +1291,8 @@ table.table-bordered.dataTable tbody tr {
     font-weight: 600;
     margin-bottom: 6px;
     cursor: pointer;
-    color: #84accb;
-    text-decoration: underline;
+    color: #212529;
+    text-decoration: none;
 }
 
 .rn_blk_con .inrw {
@@ -1758,7 +1758,7 @@ table.table-bordered.dataTable tbody tr {
     width: 100%;
     display: inline-block;
     position: relative;
-    padding: 15px 20px;
+    padding: 10px 20px;
 }
 
 .mobmenuslide .logo {
@@ -1770,7 +1770,7 @@ table.table-bordered.dataTable tbody tr {
 
 .mobmenuslide .logo img {
     display: inline-block;
-    max-width: 26px;
+    max-width: 30px;
 }
 
 .mobmenuslide .logo span {
@@ -1814,7 +1814,41 @@ table.table-bordered.dataTable tbody tr {
     text-decoration: none;
     text-align: left;
 }
+.mobtopbar{
+    width: 100%;
+    position: absolute;
+    height: auto;
+    z-index: 10;
+    top: 0px;
+    display: none;
+    padding-bottom: 8px;
+    transition: all 0.5s ease-in-out;
+}
+.mobtopbar.sticked{
+    position: fixed;
+    background: #0998a6;
+}
+.mobmenuslide .sliderow .title{
+    font-size: 18px;
+    color: #fff;
+    width: 100%;
+    text-align: center;
+    display: block;
+    margin-top: 16px;
+    text-transform: capitalize;
+    margin-bottom: 36px;
+}
 @media (max-width: 576px) {
+    .mobtopbar{
+        display: block;
+    }
+    .top_head .logo{
+        display: none;
+    }
+    .mobtopbar .logo{
+        display: block;
+        margin-top: 10px;
+    }
     .ex-header {
         padding: 0px 15px;
     }
@@ -1893,7 +1927,7 @@ table.table-bordered.dataTable tbody tr {
         display: block;
     }
     .top_head {
-        padding-top: 10px;
+        padding-top: 40px;
     }
     .top_head .head-titl {
         font-size: 18px;
@@ -1904,7 +1938,7 @@ table.table-bordered.dataTable tbody tr {
     .top_head .network_switch, .ex-header {
         display: none !important;
     }
-    .top_head .logo {}
+    
     .top_head::before,.mobmenuslide .menu_bkg::before {
         background-size: 96%;
     }
@@ -1923,8 +1957,8 @@ table.table-bordered.dataTable tbody tr {
     /* mobile menu slide from left toggle */
     .mmtoggle {
         position: absolute;
-        top: 12px;
-        left: 12px;
+        top: 5px;
+        left: 10px;
     }
     .mobmenuslide .nav-menu.ls1 {
         margin-top: 25px;

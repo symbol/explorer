@@ -7,10 +7,18 @@
         var scroll = $(window).scrollTop();
         if (scroll >= 150) {
             $('header').addClass('nav-fixed');
+            $('.mobtopbar').addClass('sticked');
+            
         } else {
             $('header').removeClass('nav-fixed');
+            $('.mobtopbar').removeClass('sticked');
         }
     });
+    $(window).on( "swipe", function( event ) {  
+        console.log(event);
+
+    } )
+
     $(function(){
         var current = location.pathname;
         var act_stat=0;
@@ -30,8 +38,8 @@
         return check;
     };
     
-    $('body').on('click','.mmtoggle',function(){
-        
+    $('body').on('click','.mmtoggle',function(e){  
+        e.preventDefault();   
         if($('.mobmenuslide').hasClass('active')){
             $('.mobmenuslide').removeClass('active')
         }else{
