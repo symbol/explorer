@@ -77,12 +77,13 @@ export default {
 
       let accountBalance = []
       accountInfo.mosaics.forEach((el, idx) => {
-        let temp = []
         let mosaicLink = `<a href="#/mosaic/${el.hex}">${el.hex}</a>`
-        temp.push(idx + 1)
-        temp.push(mosaicLink)
-        temp.push(el.amount)
-        accountBalance.push(temp)
+        let balanceObject = {
+          idx : idx+1,
+          mosaicId: mosaicLink,
+          amount: el.amount
+        }
+        accountBalance.push(balanceObject)
       })
       commit('setAccountBalance', accountBalance)
 
@@ -90,14 +91,15 @@ export default {
 
       let accountTransactions = []
       transactionList.forEach((el, idx) => {
-        let temp = []
         let transactionLink = `<a href="#/transaction/${el.transactionHash}">${el.transactionHash}</a>`
-        temp.push(idx + 1)
-        temp.push(el.deadline)
-        temp.push(el.fee)
-        temp.push(transactionLink)
-        temp.push(el.transactionBody.type)
-        accountTransactions.push(temp)
+        let transactionObject = {
+          idx : idx+1,
+          deadline: el.deadline,
+          fee: el.fee,
+          transactionHash: transactionLink,
+          transactionType: el.transactionBody.type
+        }
+        accountTransactions.push(transactionObject)
       })
       commit('setAccountTransactions', accountTransactions)
 
@@ -105,15 +107,16 @@ export default {
 
       let ownedNamespaces = []
       ownedNamespaceList.forEach((el, idx) => {
-        let temp = []
         let namespaceNameLink = `<a href="/#/namespace/${el.namespaceName}">${el.namespaceName}</a>`
-        temp.push(idx + 1)
-        temp.push(namespaceNameLink)
-        temp.push(el.type)
-        temp.push(el.active)
-        temp.push(el.startHeight)
-        temp.push(el.endHeight)
-        ownedNamespaces.push(temp)
+        let ownedNamespaceObject = {
+          idx : idx+1,
+          namespaceName: namespaceNameLink,
+          namespaceType: el.type,
+          status: el.active,
+          namespaceStartHeight: el.startHeight,
+          namespaceEndHeight: el.endHeight
+        }
+        ownedNamespaces.push(ownedNamespaceObject)
       })
       commit('setAccountOwnNamespaces', ownedNamespaces)
     }
