@@ -20,9 +20,7 @@ import {
   AccountHttp,
   TransactionHttp,
   QueryParams,
-  PublicAccount,
-  NetworkType,
-  TransactionMapping
+  Address,
 } from 'nem2-sdk'
 import format from '../format'
 import { Endpoint } from '../config/'
@@ -33,35 +31,19 @@ const TRANSACTION_HTTP = new TransactionHttp(Endpoint.api);
 const ACCOUNT_HTTP = new AccountHttp(Endpoint.api)
 
 class sdkTransaction {
-  static getAccountTransactions = async (publicKey, transactionId = '') => {
+  static getAccountTransactions = async (address, transactionId = '') => {
     let pageSize = 100
 
-    const publicAccount = PublicAccount.createFromPublicKey(
-      publicKey,
-      NetworkType.MIJIN_TEST
-    )
-
     const transactionsList = await ACCOUNT_HTTP
-      .transactions(publicAccount, new QueryParams(pageSize, transactionId))
+      .transactions(Address.createFromRawAddress(address), new QueryParams(pageSize, transactionId))
       .toPromise()
 
     return format.formatTransactions(transactionsList)
   }
 
-  static getTransaction(hash) {
-    return new Promise((resolve, reject) => {
-      request(Endpoint.api + '/transaction/' + hash, (error, response, body) => {
-        if (error) return reject(error);
-        let info = JSON.parse(body);
-        return resolve(info);
-      });
-    });
-  }
-
   static getTransactionInfoByHash = async (hash) => {
-    const transaction = await this.getTransaction(hash);
-    // const transaction1 = await transactionHttp.getTransaction(hash).toPromise(); // waiting SDK fix duel rest change
-    const formattedTransaction = format.formatTransaction(TransactionMapping.createFromDTO(transaction))
+    const transaction = await TRANSACTION_HTTP.getTransaction(hash).toPromise();
+    const formattedTransaction = format.formatTransaction(transaction)
     const getBlockInfo = await sdkBlock.getBlockInfoByHeight(formattedTransaction.blockHeight)
 
     const transactionStatus = await TRANSACTION_HTTP
