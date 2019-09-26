@@ -1,7 +1,7 @@
 
   
 <template>
-    <div class="btn-group">
+    <div class="btn-group noselect">
         <div 
             v-if="value !== void 0"
             class="dropdown-c-toggle"
@@ -90,25 +90,24 @@
     min-width: 160px;
     font-size: 12px;
     position: relative;
-    margin: 10px 1px;
     display: inline-block;
     vertical-align: middle;
 
     border: 1px solid #039ba8;
     border-radius: 4px;
     color: #039ba8;
-    
-    
 }
 
-.btn-group a:hover {
+.btn-group:hover {
     text-decoration: none;
+    color: #04b4c4;
 }
 
 .dropdown-c-toggle {
 
     min-width: 160px;
     padding: 6px 12px;
+    padding-bottom: 5px;
     text-transform: none;
 
     border: 0;

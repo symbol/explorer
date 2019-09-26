@@ -3,7 +3,12 @@ export default {
     props: {
         view: {
             type: String,
-            required: true
+            default: 'block'
+            //required: true
+        },
+
+        height: {
+            type: Number
         }
     },
 
@@ -63,6 +68,14 @@ export default {
 .table-titles-ver {
     width: 30%;
     max-width: 200px;
+}
+
+.table-striped tbody tr:nth-child(odd) td {
+    background-color: #fff;
+}
+
+.table-striped tbody tr:nth-child(even) td {
+    background-color: rgba(52, 40, 104, 0.014);
 }
 
 </style>

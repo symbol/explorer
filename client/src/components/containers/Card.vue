@@ -2,6 +2,8 @@
     <div class="card">
         <div class="card-header">
             <slot name="header" />
+            <slot name="title" />
+            <slot name="control" />
         </div>
 
         <div class="card-body">

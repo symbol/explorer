@@ -2,7 +2,7 @@
     <div 
         class="table-wrapper"
     >
-        <table class="table">
+        <table class="table table-striped">
             
             <tbody>
                 <tr
