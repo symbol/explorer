@@ -1,4 +1,4 @@
-let defaultNode = 'http://47.107.245.217:3000'
+let defaultNode = 'http://52.194.207.217:3000'
 
 if (localStorage['defaultNode'] && validURL(localStorage['defaultNode'])) {
   defaultNode = localStorage['defaultNode']
@@ -14,6 +14,19 @@ export const Endpoint = {
     { protocol: 'http', domain: '47.107.245.217', port: 3000 }
   ],
   marketDataURL: 'https://min-api.cryptocompare.com/'
+}
+
+export const pageMenu = {
+  items:  [
+    { to: "/", text: "Home", classname: "ico-th-large" },
+    { to: "/blocks", text: "Blocks", classname: "ico-content-34" },
+    { to: '/transactions', text: 'Transactions', classname: 'ico-line-awesome-3' },
+    // { to: '/account', text: 'Accounts', classname: 'ico-user-outline' },
+    // { to: '/namespace', text: 'Namespaces', classname: 'ico-data' },
+    // { to: '/mosaic', text: 'Mosaics', classname: 'ico-tags' },
+    // { to: '/node', text: 'Nodes', classname: 'ico-content-34' },
+    // { to: '/stats', text: 'Statistics', classname: 'ico-bar-chart' },
+  ]
 }
 
 function validURL(str) {

@@ -86,7 +86,7 @@ export default {
     chartData() {
       return [
         {
-          name: 'Historical Hourly Graph',
+          name: 'Price (USD)',
           data: this.marketData.historicalHourlyGraph,
         },
       ]

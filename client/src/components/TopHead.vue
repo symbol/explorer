@@ -80,6 +80,9 @@
         <a class="mobilemenu mmtoggle" href="#">
           <i class="ico-navicon-round"></i>
         </a>
+         <router-link to="/" class="logo">
+              <img src="theme/img/logo-w.png" />
+            </router-link>
       </div>
     </div>
     <MobileMenu :nodes="nodes" :activenode="activeNode"/>
