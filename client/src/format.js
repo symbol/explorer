@@ -1,4 +1,4 @@
-import { Address, TransactionType, AliasActionType, UInt64, NetworkType } from 'nem2-sdk'
+import { Address, TransactionType, AliasActionType, UInt64, NetworkType, AccountType } from 'nem2-sdk'
 import moment from 'moment'
 
 // FORMAT FEE
@@ -75,11 +75,25 @@ const formatAccount = accountInfo => {
     mosaics: formatMosaics(accountInfo.mosaics),
     importance: importanceScore,
     importanceHeight: accountInfo.importanceHeight.compact(),
-    accountType: accountInfo.accountType,
+    accountType: formatAccounType(accountInfo.accountType),
     activityBucket: accountInfo.activityBucket,
     linkedAccountKey: accountInfo.linkedAccountKey
   }
   return accountObj
+}
+
+// FORMAT ACCOUNT TYPE
+const formatAccounType = accountType => {
+  switch (accountType) {
+    case AccountType.Unlinked:
+      return 'Unlinked'
+    case AccountType.Main:
+      return 'Main'
+    case AccountType.Remote:
+      return 'Remote'
+    case AccountType.Remote_Unlinked:
+      return 'Remote Unlinked'
+  }
 }
 
 // FORMAT MOSAICS
@@ -120,7 +134,7 @@ const formatTransaction = transaction => {
 
 // FORMAT AggregateCosignatures
 const formatCosignatures = cosignatures => {
-   cosignatures.map(cosigner => {
+  cosignatures.map(cosigner => {
     cosigner.signer = cosigner.signer.address.address
   })
 
