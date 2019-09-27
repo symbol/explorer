@@ -39,7 +39,7 @@
                 </div>
               </div>
               <div class="box-con mt-0">
-                <loader v-if="!loading"></loader>
+                <loader v-if="!accountInfo"></loader>
                 <div class="list_info_con">
                   <div class="row list_item">
                     <div class="col-md-2">
@@ -57,6 +57,22 @@
                       <div class="value">{{accountInfo.importance}}</div>
                     </div>
                   </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Account Type</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">{{accountInfo.accountType}}</div>
+                    </div>
+                  </div>
+                  <div v-if="!accountInfo.accountType==='Unlinked'" class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">linked Account Key</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div class="value">{{accountInfo.linkedAccountKey}}</div>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -69,7 +85,7 @@
                     <DataTable
                       tableClass="account_balance"
                       :tableHead="this.balance.head"
-                      :tableData="this.balance.data"
+                      :tableData="accountBalance"
                     ></DataTable>
                   </tab>
                   <!-- <tab title="Owned Mosaics">
@@ -101,7 +117,7 @@
                     <DataTable
                       tableClass="blocktrxtbl"
                       :tableHead="this.ownedNamespaceList.head"
-                      :tableData="this.ownedNamespaceList.data"
+                      :tableData="accountOwnNamespaces"
                     ></DataTable>
                   </tab>
 
@@ -129,7 +145,7 @@
                     <DataTable
                       tableClass
                       :tableHead="this.accountTransaction.head"
-                      :tableData="this.accountTransaction.data"
+                      :tableData="accountTransactions"
                     ></DataTable>
                   </tab>
                 </tabs>
@@ -147,9 +163,7 @@
 import { Tabs, Tab } from 'vue-slim-tabs'
 import w1 from '@/components/InfoRow.vue'
 import w2 from '@/components/TableDynamic.vue'
-import sdkAccount from '../infrastructure/getAccount'
-import sdkTransaction from '../infrastructure/getTransaction'
-import sdkNamespace from '../infrastructure/getNamespace'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'block',
@@ -157,15 +171,13 @@ export default {
     Tabs,
     Tab,
     InfoRow: w1,
-    DataTable: w2
+    DataTable: w2,
   },
   data() {
     return {
       address: this.$route.params.address,
-      accountInfo: {},
       accountTransaction: {
         head: ['#', 'Deadline', 'Fee', 'Transaction Hash', 'Type'],
-        data: []
       },
       ownedNamespaceList: {
         head: [
@@ -174,20 +186,24 @@ export default {
           'Type',
           'Status',
           'Start Height',
-          'End Height'
+          'End Height',
         ],
-        data: []
       },
       balance: {
         head: ['#', 'MosaicID', 'Quantity'],
-        data: []
       },
-      loading: 0
     }
   },
+  computed: {
+    ...mapGetters({
+      accountInfo: 'account/getAccountInfo',
+      accountBalance: 'account/getAccountBalance',
+      accountOwnNamespaces: 'account/getAccountOwnNamespaces',
+      accountTransactions: 'account/getAccountTransactions',
+    }),
+  },
   mounted() {
-    this.getAccountInfo()
-    this.getOwnedNamespace()
+    this.$store.dispatch('account/fetchAccountDataByAddress', this.address)
   },
   methods: {
     onCopy(e) {
@@ -196,57 +212,6 @@ export default {
     onError(e) {
       alert('Failed to copy address')
     },
-    async getAccountInfo() {
-      const accountInfo = await sdkAccount.getAccountInfoByAddress(
-        this.address
-      )
-      const accountTransaction = await sdkTransaction.getAccountTransactions(
-        this.address
-      )
-
-      this.accountInfo = accountInfo
-
-      accountInfo.mosaics.forEach((el, idx) => {
-        let temp = []
-        let mosaicLink = `<a href="#/mosaic/${el.hex}">${el.hex}</a>`
-        temp.push(idx + 1)
-        temp.push(mosaicLink)
-        temp.push(el.amount)
-        this.balance.data.push(temp)
-      })
-
-      accountTransaction.forEach((el, idx) => {
-        let temp = []
-        let transactionLink = `<a href="#/transaction/${el.transactionHash}">${el.transactionHash}</a>`
-        temp.push(idx + 1)
-        temp.push(el.deadline)
-        temp.push(el.fee)
-        temp.push(transactionLink)
-        temp.push(el.transactionBody.type)
-        this.accountTransaction.data.push(temp)
-      })
-
-      this.loading = 1
-    },
-    async getOwnedNamespace() {
-      const ownedNamespaceList = await sdkNamespace.getNamespacesFromAccountByAddress(
-        this.address
-      )
-
-      ownedNamespaceList.forEach((el, idx) => {
-        let temp = []
-        let namespaceNameLink = `<a href="/#/namespace/${el.namespaceName}">${el.namespaceName}</a>`
-        temp.push(idx + 1)
-        temp.push(namespaceNameLink)
-        temp.push(el.type)
-        temp.push(el.active)
-        temp.push(el.startHeight)
-        temp.push(el.endHeight)
-        this.ownedNamespaceList.data.push(temp)
-      })
-
-      this.loading = 1
-    }
-  }
+  },
 }
 </script>

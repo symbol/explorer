@@ -19,6 +19,7 @@
 import block from './block'
 import chain from './chain'
 import transaction from './transaction'
+import account from './account'
 import Vue from 'vue'
 import Vuex from 'vuex'
 
@@ -30,7 +31,8 @@ export default new Vuex.Store({
   modules: {
     block,
     chain,
-    transaction
+    transaction,
+    account
   },
   actions: {
     // Initialize the stores (call on app load).
