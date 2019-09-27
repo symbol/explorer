@@ -16,14 +16,56 @@
  *
  */
 
-import { MosaicService, Address, AccountHttp, MosaicHttp, NamespaceHttp, MosaicId, NamespaceId} from 'nem2-sdk'
+import {
+  MosaicService,
+  Address,
+  AccountHttp,
+  MosaicHttp,
+  NamespaceHttp,
+  MosaicId,
+  NamespaceId,
+  UInt64,
+  PublicAccount,
+  NetworkType,
+  MosaicInfo,
+  MosaicFlags
+} from 'nem2-sdk'
 import { Endpoint } from '../config/'
 import helper from '../helper'
+import format from '../format'
 
 const ACCOUNT_HTTP = new AccountHttp(Endpoint.api)
 const MOSAIC_HTTP = new MosaicHttp(Endpoint.api)
 const NAMESPACE_HTTP = new NamespaceHttp(Endpoint.api)
 
+// Mock data mosaicInfoDTO
+const mosaicInfoDTO = {
+  meta: {
+    id: '59FDA0733F17CF0001772CBC',
+  },
+  mosaic: {
+    mosaicId: new MosaicId([3646934825, 3576016193]),
+    supply: new UInt64([3403414400, 2095475]),
+    height: new UInt64([1, 0]),
+    owner: PublicAccount.createFromPublicKey(
+      'B4F12E7C9F6946091E2CB8B6D3A12B50D17CCBBF646386EA27CE2946A7423DCF',
+      NetworkType.MIJIN_TEST),
+    revision: 1,
+    flags: 7,
+    divisibility: 3,
+    duration: '1000',
+  },
+};
+const mosaicInfo = new MosaicInfo(
+  mosaicInfoDTO.mosaic.mosaicId,
+  mosaicInfoDTO.mosaic.supply,
+  mosaicInfoDTO.mosaic.height,
+  mosaicInfoDTO.mosaic.owner,
+  mosaicInfoDTO.mosaic.revision,
+  new MosaicFlags(mosaicInfoDTO.mosaic.flags),
+  mosaicInfoDTO.mosaic.divisibility,
+  UInt64.fromNumericString(mosaicInfoDTO.mosaic.duration),
+);
 class sdkMosaic {
   static getMosaicsAmountByAddress = async address => {
     const mosaicService = new MosaicService(
@@ -37,25 +79,20 @@ class sdkMosaic {
     return mosaicAmount
   }
 
-  static getMosaicInfoByHex = async mosaicHexOrNamespace => {
+  static getMosaicInfo = async mosaicHexOrNamespace => {
 
-    let getMosaicID = ''
-    // if (!helper.isHexadecimal(mosaicHexOrNamespace)){
-    //   getMosaicID = await NAMESPACE_HTTP.getLinkedMosaicId(a).toPromise()
-    // }
-    // const mosaic = new MosaicId(mosaicHex);
-    const a = new NamespaceId(mosaicHexOrNamespace)
-    // const mosaicInfo = await MOSAIC_HTTP.getMosaics([mosaic]).toPromise(); // SDK Break
-    // const mosaicName = await MOSAIC_HTTP.getMosaicsNames([mosaic]).toPromise();
-    getMosaicID = await NAMESPACE_HTTP.getLinkedMosaicId(a).toPromise()
-    // console.log(mosaicInfo)
-    // 77A1969932D987D7
-    // console.log(getMosaicID.toHex())
-    console.log(getMosaicID)
+    let mosaicID = ''
 
-    return '123'
+    if (helper.isHexadecimal(mosaicHexOrNamespace)) {
+      mosaicID = new MosaicId(mosaicHexOrNamespace);
+    } else {
+      let namespaceId = new NamespaceId(mosaicHexOrNamespace)
+      mosaicID = await NAMESPACE_HTTP.getLinkedMosaicId(namespaceId).toPromise()
+    }
+    // const mosaicInfo = await MOSAIC_HTTP.getMosaic(mosaicID).toPromise(); // SDK Break
+    const mosaicName = await MOSAIC_HTTP.getMosaicsNames([mosaicID]).toPromise();
 
-    // return utils.formatMosaicInfo(mosaicInfo[0]);
+    return format.formatMosaicInfo(mosaicInfo,mosaicName[0])
   }
 }
 
