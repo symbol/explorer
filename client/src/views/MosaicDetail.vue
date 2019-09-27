@@ -43,7 +43,7 @@
                       <div class="label">Namespace</div>
                     </div>
                     <div class="col-md-10">
-                      <div class="value">{{namespaceId}}</div>
+                      <div class="value">123</div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -52,22 +52,6 @@
                     </div>
                     <div class="col-md-10">
                       <div class="value">NAAXHJM65OKDFSYGW4XW4EKJXUIRTKEZZWRK45YF</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Create / Update Time</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">2019-08-06 15:57:28</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Create / Update Height</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">2271813</div>
                     </div>
                   </div>
                   <div class="row list_item">
@@ -104,19 +88,49 @@
                   </div>
                   <div class="row list_item">
                     <div class="col-md-2">
-                      <div class="label">Description</div>
+                      <div class="label">Start Height</div>
                     </div>
                     <div class="col-md-10">
                       <div
                         class="value"
-                      >oa:020cf6c3061842385ba9861192e7c48899c2e658eec55180b4edf67990af1d9a</div>
+                      >1</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">End Height</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div
+                        class="value"
+                      >2</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Status</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div
+                        class="value"
+                      >Active</div>
+                    </div>
+                  </div>
+                  <div class="row list_item">
+                    <div class="col-md-2">
+                      <div class="label">Duration</div>
+                    </div>
+                    <div class="col-md-10">
+                      <div
+                        class="value"
+                      >Time</div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-          <div class="widget has-shadow">
+          <!-- <div class="widget has-shadow">
             <div class="box">
               <div class="tabs-con">
                 <tabs>
@@ -188,7 +202,7 @@
                 </tabs>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -198,6 +212,7 @@
 </template>
 <script>
 import { Tabs, Tab } from 'vue-slim-tabs'
+import sdkMosaic from '../infrastructure/getMosaic'
 
 export default {
   name: 'block',
@@ -208,11 +223,16 @@ export default {
   created() {},
   data() {
     return {
-      namespaceId: this.$route.params.namespaceId,
       mosaicId: this.$route.params.mosaicId
     }
   },
-  methods: {},
-  mounted() {}
+  methods: {
+    getMosaic() {
+      sdkMosaic.getMosaicInfoByHex(this.mosaicId)
+    }
+  },
+  mounted() {
+    this.getMosaic()
+  }
 }
 </script>
