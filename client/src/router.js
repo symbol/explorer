@@ -114,7 +114,7 @@ export default new Router({
       }
     },
     {
-      path: '/mosaic/:namespaceId/:mosaicId',
+      path: '/mosaic/:mosaicId',
       name: 'mosaic-detail',
       component: () =>
         import('./views/MosaicDetail.vue'),
