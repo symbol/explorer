@@ -17,222 +17,53 @@
  */
 
 <template>
-  <div>
-    <top-header></top-header>
-    <page-menu></page-menu>
-    <div class="page_con">
-      <div class="full-con mob_con">
-        <div class="container p-0">
-          <div class="widget has-shadow mt-4 m-0 z-1">
-            <div class="box">
-              <div class="box-title">
-                <h1 class="inline-block">Mosaic Detail</h1>
-              </div>
-              <div class="box-con mt-0">
-                <div class="list_info_con">
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Mosaic ID</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">{{namespaceId}}:{{mosaicId}}</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Namespace</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">123</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Creator</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">NAAXHJM65OKDFSYGW4XW4EKJXUIRTKEZZWRK45YF</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Supply</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">100,000</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Divisibility</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">0</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">SupplyMutable</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">Yes</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Transferable</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">Yes</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Start Height</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div
-                        class="value"
-                      >1</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">End Height</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div
-                        class="value"
-                      >2</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Status</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div
-                        class="value"
-                      >Active</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Duration</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div
-                        class="value"
-                      >Time</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <!-- <div class="widget has-shadow">
-            <div class="box">
-              <div class="tabs-con">
-                <tabs>
-                  <tab title="Mosaic Transfer">
-                    <div class="table-responsive">
-                      <div
-                        id="sorting-table_wrapper"
-                        class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer p-0"
-                      >
-                        <table
-                          id
-                          class="table table-striped table-bordered"
-                          cellspacing="0"
-                          width="100%"
-                        >
-                          <thead>
-                            <tr>
-                              <th>#</th>
-                              <th>Sender</th>
-                              <th>Recipient</th>
-                              <th>Quantity</th>
-                              <th>TimeStamp</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>1</td>
-                              <td>NCL3LNFH7IZTAE3JOK5TEWPLF6DOF3YIDWTJUOAY</td>
-                              <td>NCL3LNFH7IZTAE3JOK5TEWPLF6DOF3YIDWTJUOAY</td>
-                              <td>1.085357</td>
-                              <td>2019-08-03 20:52:49</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </tab>
-                  <tab title="Rich List">
-                      <div class="table-responsive">
-                      <div
-                        id="sorting-table_wrapper"
-                        class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer p-0"
-                      >
-                        <table
-                          id
-                          class="table table-striped table-bordered"
-                          cellspacing="0"
-                          width="100%"
-                        >
-                          <thead>
-                            <tr>
-                              <th>#</th>
-                              <th>Address</th>
-                              <th>Quantity</th>
+  <div class="page">
+    <top-header />
+    <page-menu />
+    <div class="page-content-card-f">
+      <Card class="card-f card-full-width"> <!-- Mosaic Detail -->
+                <template v-slot:title>
+                    Mosaic Detail
+                </template>
 
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>1</td>
-                              <td>NCL3LNFH7IZTAE3JOK5TEWPLF6DOF3YIDWTJUOAY</td>
-                              <td>9,000,000,000.000000</td>
-                            </tr>
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-                  </tab>
-                </tabs>
-              </div>
-            </div>
-          </div> -->
-        </div>
-      </div>
+                <template v-slot:body>
+                    <TableInfoView
+                        :data="mosaicInfo"
+                    />
+                </template>
+            </Card>
+
     </div>
-    <page-footer></page-footer>
-    <script type="application/javascript"></script>
+    <page-footer />
   </div>
 </template>
 <script>
-import { Tabs, Tab } from 'vue-slim-tabs'
-import sdkMosaic from '../infrastructure/getMosaic'
+import View from './test/View';
+import TableInfoView from '@/components/tables/TableInfoView.vue'
+import Card from '@/components/containers/Card.vue'
+import { mapGetters } from 'vuex'
 
 export default {
-  name: 'block',
+  name: 'MosaicDetail',
+  extends: View,
   components: {
-    Tabs,
-    Tab
+    Card,
+    TableInfoView,
   },
   created() {},
   data() {
     return {
-      mosaicId: this.$route.params.mosaicId
+      mosaicId: this.$route.params.mosaicId,
     }
   },
-  methods: {
-    getMosaic() {
-      sdkMosaic.getMosaicInfoByHex(this.mosaicId)
-    }
+  computed: {
+    ...mapGetters({
+      mosaicInfo: 'mosaic/getMosaicInfo',
+    }),
   },
+  methods: {},
   mounted() {
-    this.getMosaic()
-  }
+    this.$store.dispatch('mosaic/fetchMosaicInfo', this.mosaicId)
+  },
 }
 </script>
