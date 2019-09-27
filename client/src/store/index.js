@@ -21,6 +21,7 @@ import chain from './chain'
 import transaction from './transaction'
 import ui from './ui'
 import account from './account'
+import mosaic from './mosaic'
 import Vue from 'vue'
 import Vuex from 'vuex'
 
@@ -34,7 +35,8 @@ export default new Vuex.Store({
     chain,
     transaction,
     ui,
-    account
+    account,
+    mosaic
   },
   actions: {
     // Initialize the stores (call on app load).
