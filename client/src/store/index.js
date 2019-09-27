@@ -19,6 +19,7 @@
 import block from './block'
 import chain from './chain'
 import transaction from './transaction'
+import ui from './ui'
 import account from './account'
 import Vue from 'vue'
 import Vuex from 'vuex'
@@ -32,6 +33,7 @@ export default new Vuex.Store({
     block,
     chain,
     transaction,
+    ui,
     account
   },
   actions: {
