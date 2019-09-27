@@ -87,9 +87,9 @@ export default {
     },
 
     mounted() {
-        this.$store.dispatch('ui/hardCodeInit');
+        this.$store.dispatch('ui/hardCodeInit'); //TODO: remove
         this.$store.dispatch("account/getAccount", { 
-            account: this.account 
+            address: this.accountAddress 
         });
     },
 
@@ -99,17 +99,16 @@ export default {
                 { name: "Transactions", value: 1 },
                 { name: "Mosaic Transactions", value: 2 }
             ],
-            selectedTransactionType: 2
+            selectedTransactionType: 2 // TODO: store.getters
         }
     },
 
     computed: {
-
-        accountName() {
-            return "account Name"
+        accountAddress() {
+            return this.$route.params.address;
         },
 
-        accountInfo() {
+        accountInfo() { //TODO: store.getters
             return {
                 'address': 'NDEVPOSK4OMR4PRTLYFHX4W5QTOND7TZDT2DTU4Q',
                 'Public Key': '56a7ae8caca7356fffe98e1dfdf3f4218bb837b5ec6aae927a964e2ff1861e20',
@@ -128,7 +127,7 @@ export default {
             }
         },
 
-        ownedMosaicList() {
+        ownedMosaicList() { //TODO: store.getters
             return [{
                 'mosaic': 'unpontify.pontifier:spam-removal',
                 'Quantity': '1',
@@ -139,7 +138,7 @@ export default {
             }]
         },
 
-        ownedNamespaceList() {
+        ownedNamespaceList() { //TODO: store.getters
             return [{
                 'mosaic': 'unpontify.pontifier:spam-removal',
                 'Quantity': '1',
@@ -150,7 +149,7 @@ export default {
             }]
         },
 
-        trsnsactionList() {
+        trsnsactionList() { //TODO: store.getters
             return [{
                 'address': '2134234234',
                 'transactions': 'transaction',

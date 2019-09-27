@@ -17,7 +17,12 @@ export default {
             componentType: 'list',
             clickableItems: [
                 'account',
-                'block'
+                'block',
+                'address',
+                'height',
+                'mosaic',
+                'namespace',
+                'transaction'
             ],
             
         }
