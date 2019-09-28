@@ -38,7 +38,21 @@ export default {
     // Fetch data from the SDK.
     async fetchMosaicInfo({ commit }, mosaicHexOrNamespace) {
       let mosaicInfo = await sdkMosaic.getMosaicInfo(mosaicHexOrNamespace)
-      commit('setMosaicInfo', mosaicInfo)
+
+      let mosaicInfoObject = {
+        'Mosaic': mosaicInfo.mosaic,
+        'Namespace': mosaicInfo.namespace,
+        'Divisibility': mosaicInfo.divisibility,
+        'Owner Address': mosaicInfo.address,
+        'Supply': mosaicInfo.supply,
+        'Revision': mosaicInfo.revision,
+        'Start Height': mosaicInfo.startHeight,
+        'Duration': mosaicInfo.duration,
+        'SupplyMutable': mosaicInfo.supplyMutable,
+        'Transferable': mosaicInfo.transferable,
+        'Restrictable': mosaicInfo.restrictable
+      }
+      commit('setMosaicInfo', mosaicInfoObject)
     }
   }
 }

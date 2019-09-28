@@ -26,7 +26,7 @@
                     Mosaic Detail
                 </template>
 
-                <template v-slot:body>
+                <template v-slot:body v-if="mosaicInfo">
                     <TableInfoView
                         :data="mosaicInfo"
                     />

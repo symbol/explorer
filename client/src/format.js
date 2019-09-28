@@ -112,15 +112,15 @@ const formatMosaicInfo = (mosaicInfo, mosaicName) => {
   let mosaicObj = {
     mosaic: mosaicName.mosaicId.toHex(),
     namespace: mosaicName.names[0].name,
-    Divisibility: mosaicInfo.divisibility,
-    'Owner Address': mosaicInfo.owner.address.plain(),
-    Supply: mosaicInfo.supply.compact(),
-    Revision: mosaicInfo.revision,
-    'Start Height': mosaicInfo.height.compact(),
-    Duration: mosaicInfo.duration.compact(),
-    SupplyMutable: mosaicInfo.flags.supplyMutable,
-    Transferable: mosaicInfo.flags.transferable,
-    Restrictable: mosaicInfo.flags.restrictable
+    divisibility: mosaicInfo.divisibility,
+    address: mosaicInfo.owner.address.plain(),
+    supply: mosaicInfo.supply.compact(),
+    revision: mosaicInfo.revision,
+    startHeight: mosaicInfo.height.compact(),
+    duration: mosaicInfo.duration.compact(),
+    supplyMutable: mosaicInfo.flags.supplyMutable,
+    transferable: mosaicInfo.flags.transferable,
+    restrictable: mosaicInfo.flags.restrictable
   }
 
   return mosaicObj
