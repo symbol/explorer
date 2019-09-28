@@ -52,7 +52,7 @@ class sdkNamespace {
 
   static getNamespaceInfo = async name => {
 
-    // if hex convert to id
+    // TODO: Read params if hex, convert to uint64 id
     const namespace = new NamespaceId(name)
     const namespaceService = new NamespaceService(NAMESPACE_HTTP)
 
