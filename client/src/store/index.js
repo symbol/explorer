@@ -22,6 +22,7 @@ import transaction from './transaction'
 import ui from './ui'
 import account from './account'
 import mosaic from './mosaic'
+import namespace from './namespace'
 import Vue from 'vue'
 import Vuex from 'vuex'
 
@@ -36,7 +37,8 @@ export default new Vuex.Store({
     transaction,
     ui,
     account,
-    mosaic
+    mosaic,
+    namespace
   },
   actions: {
     // Initialize the stores (call on app load).
