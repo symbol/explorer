@@ -62,7 +62,7 @@ export default {
       let namespaceLevels = []
       namespaceInfo.levels.forEach((el) => {
         let namespaceLevelObject = {
-          name: "nem",
+          name: el.name,
           'Namespace ID': el.namespaceId.toHex(),
           'Parent ID': el.parentId.toHex()
         }
