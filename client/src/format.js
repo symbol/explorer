@@ -112,15 +112,15 @@ const formatMosaicInfo = (mosaicInfo, mosaicName) => {
   let mosaicObj = {
     mosaic: mosaicName.mosaicId.toHex(),
     namespace: mosaicName.names[0].name,
-    Divisibility: mosaicInfo.divisibility,
-    'Owner Address': mosaicInfo.owner.address.plain(),
-    Supply: mosaicInfo.supply.compact(),
-    Revision: mosaicInfo.revision,
-    'Start Height': mosaicInfo.height.compact(),
-    Duration: mosaicInfo.duration.compact(),
-    SupplyMutable: mosaicInfo.flags.supplyMutable,
-    Transferable: mosaicInfo.flags.transferable,
-    Restrictable: mosaicInfo.flags.restrictable
+    divisibility: mosaicInfo.divisibility,
+    address: mosaicInfo.owner.address.plain(),
+    supply: mosaicInfo.supply.compact(),
+    revision: mosaicInfo.revision,
+    startHeight: mosaicInfo.height.compact(),
+    duration: mosaicInfo.duration.compact(),
+    supplyMutable: mosaicInfo.flags.supplyMutable,
+    transferable: mosaicInfo.flags.transferable,
+    restrictable: mosaicInfo.flags.restrictable
   }
 
   return mosaicObj
@@ -376,7 +376,7 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
   let aliasType
   switch (namespaceInfo.alias.type) {
     case 1:
-      aliasText = new UInt64(namespaceInfo.alias.mosaicId).toHex()
+      aliasText = namespaceInfo.alias.mosaicId.toHex()
       aliasType = 'Mosaic'
       break
     case 2:
@@ -392,20 +392,19 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
   }
 
   let namespaceObj = {
-    owner: namespaceInfo.owner,
-    namespaceName: namespaceInfo.name,
-    hexId: namespaceInfo.id.toHex().toUpperCase(),
-    type: namespaceInfo.type === 0 ? 'ROOT' : 'SUB',
+    owner: namespaceInfo.owner.address.plain(),
+    namespaceName: namespaceNames[0].name,
+    namespaceNameHexId: namespaceInfo.id.toHex().toUpperCase(),
+    registrationType: namespaceInfo.registrationType === 0 ? 'ROOT' : 'SUB',
     startHeight: namespaceInfo.startHeight.compact(),
-    endHeight: namespaceInfo.name.includes('nem')
+    endHeight: namespaceNames[0].name.includes('nem')
       ? 'Infinity'
       : namespaceInfo.endHeight.compact(),
     active: namespaceInfo.active.toString().toUpperCase(),
-    aliastype: aliasType,
-    alias: aliasText,
-    parentHexId: namespaceInfo.parentId.id.toHex().toUpperCase(),
-    parentName:
-      namespaceInfo.type !== 0 ? namespaceInfo.name.split('.')[0].toUpperCase() : '',
+    alias: aliasText ? aliasType + ' | ' + aliasText : aliasType ,
+    // parentHexId: namespaceInfo.parentId.id.toHex().toUpperCase(),
+    // parentName:
+    //   namespaceInfo.registrationType !== 0 ? namespaceNames[0].name.split('.')[0].toUpperCase() : '',
     levels: namespaceNames
   }
 

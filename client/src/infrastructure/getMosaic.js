@@ -24,13 +24,8 @@ import {
   NamespaceHttp,
   MosaicId,
   NamespaceId,
-  UInt64,
-  PublicAccount,
-  NetworkType,
-  MosaicInfo,
-  MosaicFlags
 } from 'nem2-sdk'
-import { Endpoint } from '../config/'
+import { Endpoint, mosaicInfo } from '../config/'
 import helper from '../helper'
 import format from '../format'
 
@@ -38,34 +33,6 @@ const ACCOUNT_HTTP = new AccountHttp(Endpoint.api)
 const MOSAIC_HTTP = new MosaicHttp(Endpoint.api)
 const NAMESPACE_HTTP = new NamespaceHttp(Endpoint.api)
 
-// Mock data mosaicInfoDTO
-const mosaicInfoDTO = {
-  meta: {
-    id: '59FDA0733F17CF0001772CBC',
-  },
-  mosaic: {
-    mosaicId: new MosaicId([3646934825, 3576016193]),
-    supply: new UInt64([3403414400, 2095475]),
-    height: new UInt64([1, 0]),
-    owner: PublicAccount.createFromPublicKey(
-      'B4F12E7C9F6946091E2CB8B6D3A12B50D17CCBBF646386EA27CE2946A7423DCF',
-      NetworkType.MIJIN_TEST),
-    revision: 1,
-    flags: 7,
-    divisibility: 3,
-    duration: '1000',
-  },
-};
-const mosaicInfo = new MosaicInfo(
-  mosaicInfoDTO.mosaic.mosaicId,
-  mosaicInfoDTO.mosaic.supply,
-  mosaicInfoDTO.mosaic.height,
-  mosaicInfoDTO.mosaic.owner,
-  mosaicInfoDTO.mosaic.revision,
-  new MosaicFlags(mosaicInfoDTO.mosaic.flags),
-  mosaicInfoDTO.mosaic.divisibility,
-  UInt64.fromNumericString(mosaicInfoDTO.mosaic.duration),
-);
 class sdkMosaic {
   static getMosaicsAmountByAddress = async address => {
     const mosaicService = new MosaicService(

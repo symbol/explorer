@@ -19,7 +19,7 @@
 import { NamespaceHttp, Address, NamespaceId, NamespaceService } from 'nem2-sdk'
 import { mergeMap, map } from 'rxjs/operators'
 import format from '../format'
-import { Endpoint } from '../config/'
+import { Endpoint, rootNamespace, subNamespace, namespaceName } from '../config/'
 
 const NAMESPACE_HTTP = new NamespaceHttp(Endpoint.api)
 
@@ -50,24 +50,29 @@ class sdkNamespace {
     return format.formatNamespaces(namespaceList)
   }
 
-  static getNamespaceInfoByName = async name => {
+  static getNamespaceInfo = async name => {
+
+    // TODO: Read params if hex, convert to uint64 id
     const namespace = new NamespaceId(name)
     const namespaceService = new NamespaceService(NAMESPACE_HTTP)
-    let namespaceInfo = await namespaceService.namespace(namespace).toPromise()
 
-    let namespaceNames = await NAMESPACE_HTTP.getNamespacesName([namespace]).toPromise()
+    // let namespaceInfo = await namespaceService.namespace(namespace).toPromise()
+    let namespaceInfo = rootNamespace
 
-    namespaceNames.map(namespace => {
-      if (namespace.parentId) {
-        let parent = namespaceNames.find(n => n.namespaceId.id.equals(namespace.parentId.id))
-        namespace.name = parent.name + '.' + namespace.name
-      }
-    })
+    // let namespaceNames = await NAMESPACE_HTTP.getNamespacesName([namespace]).toPromise()
+    let namespaceNames = [namespaceName]
 
-    namespaceNames.map(namespace => {
-      namespace.namespaceId = namespace.namespaceId.toHex().toUpperCase()
-      namespace.name = namespace.name.toUpperCase()
-    })
+    // namespaceNames.map(namespace => {
+    //   if (namespace.parentId) {
+    //     let parent = namespaceNames.find(n => n.namespaceId.id.equals(namespace.parentId.id))
+    //     namespace.name = parent.name + '.' + namespace.name
+    //   }
+    // })
+
+    // namespaceNames.map(namespace => {
+    //   namespace.namespaceId = namespace.namespaceId.toHex().toUpperCase()
+    //   namespace.name = namespace.name.toUpperCase()
+    // })
 
     return format.formatNamespace(namespaceInfo, namespaceNames)
   }
