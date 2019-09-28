@@ -69,6 +69,18 @@ class helper {
     }
     return check
   }
+
+  static isHexadecimal(str) {
+    let regexp = /^[0-9a-fA-F]+$/;
+
+    if (regexp.test(str)) {
+      return true;
+    }
+    else {
+      return false;
+    }
+  }
+
 }
 
 export default helper

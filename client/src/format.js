@@ -107,6 +107,25 @@ const formatMosaics = mosaics => {
   })
 }
 
+// FORMAT MOSAICS INFO
+const formatMosaicInfo = (mosaicInfo, mosaicName) => {
+  let mosaicObj = {
+    mosaic: mosaicName.mosaicId.toHex(),
+    namespace: mosaicName.names[0].name,
+    Divisibility: mosaicInfo.divisibility,
+    'Owner Address': mosaicInfo.owner.address.plain(),
+    Supply: mosaicInfo.supply.compact(),
+    Revision: mosaicInfo.revision,
+    'Start Height': mosaicInfo.height.compact(),
+    Duration: mosaicInfo.duration.compact(),
+    SupplyMutable: mosaicInfo.flags.supplyMutable,
+    Transferable: mosaicInfo.flags.transferable,
+    Restrictable: mosaicInfo.flags.restrictable
+  }
+
+  return mosaicObj
+}
+
 // FORMAT TRANSACTIONS
 const formatTransactions = transactions => {
   return transactions.map(transaction => {
@@ -405,5 +424,6 @@ export default {
   formatTransaction,
   formatTransactionBody,
   formatNamespaces,
-  formatNamespace
+  formatNamespace,
+  formatMosaicInfo
 }
