@@ -21,6 +21,12 @@ export default {
     namespaced: true,
     state: {
         keyNames: {
+            'age': 'Age',
+            'amount': 'Amount',
+            'height': 'Height',
+            'fee': 'Fee',
+            'date': 'Date',
+            'harvester': 'Harvester',
             'datetime': 'Date',
             'address': 'Address',
             'account': 'Account',
@@ -28,12 +34,25 @@ export default {
             'mosaic': 'Mosaic',
             'namespace': 'Namespace',
             'transaction': 'Transaction',
+            'transactionHash': 'Transaction hash',
 
             'accounts': 'Accounts',
             'blocks': 'Blocks',
             'mosaics': 'Mosaics',
             'namespaces': 'Namespaces',
             'transactions': 'Transactions',
+            'mosaicId': 'Name'
+        },
+
+        keyPages: {
+            'height': 'block',
+
+            'harvester': 'account',
+            'address': 'account',
+
+            'transactionHash': 'transaction',
+
+            'mosaicId': 'mosaic',
         }
     },
 
@@ -45,9 +64,14 @@ export default {
     
     },
     actions: {
-        openPage: (context, payload) => {
+        openPage: ({state}, payload) => {
             if(payload.pageName && payload.param);
-                router.push({ path: `/test/${payload.pageName}/${payload.param}` });
+            {
+                let key = payload.pageName;
+                let pageName = state.keyPages[key] || key;
+                let value = payload.param;
+                router.push({ path: `/test/${pageName}/${value}` });
+            }
         },
 
         hardCodeInit: ({rootState}) => {

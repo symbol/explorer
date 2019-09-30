@@ -1,5 +1,6 @@
 <template>
     <div 
+        v-if="data"
         class="table-list"
     >
         <div class="table-wrapper">
@@ -25,7 +26,13 @@
                             :class="{'table-item-clickable': isItemClickable(itemKey)}"
                             @click="onItemClick(itemKey, item)"
                         >
-                        {{item}}
+                            <Age
+                                v-if="itemKey === 'age'"
+                                :date="item"
+                            />
+                            <div v-else>
+                                {{ item }}
+                            </div>
                         </td>
                     </tr>
                 </tbody>

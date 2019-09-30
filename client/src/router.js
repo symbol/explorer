@@ -140,11 +140,11 @@ export default new Router({
         title: ''
       }
     },
-    {
-      path: '/test/:view/:infoId',
-      name: 'tablePageInfo',
-      component: () => import('./views/TablePage.vue'),
-    },
+    // {
+    //   path: '/test/:view/:infoId',
+    //   name: 'tablePageInfo',
+    //   component: () => import('./views/TablePage.vue'),
+    // },
     // {
     //   path: '/test/:view',
     //   name: 'tablePageList',
@@ -152,9 +152,14 @@ export default new Router({
     // },
 
     {
-      path: '/test/account',
+      path: '/test/account/:address',
       name: 'account',
       component: () => import('./views/test/AccountDetail.vue'),
+    },
+    {
+      path: '/test/blocks',
+      name: 'blocklist',
+      component: () => import('./views/test/Blocks.vue'),
     },
     // {
     //   path: '/404',

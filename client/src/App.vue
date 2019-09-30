@@ -58,4 +58,8 @@ export default {
   user-select: none;
   outline: 0;
 }
+
+.pointer{
+  cursor: pointer;
+}
 </style>

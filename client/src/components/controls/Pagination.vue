@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="pagination-wrapper">
         <ButtonMore 
             v-if="pageIndex === 0"
             @click="nextPage"
@@ -30,11 +30,11 @@
 </template>
 
 <script>
-import Pagination from '../Pagination.vue';
+import ButtonMore from './ButtonMore.vue';
 
 export default {
     components: {
-        Pagination
+        ButtonMore
     },
 
     props: {
@@ -70,3 +70,9 @@ export default {
     }
 }
 </script>
+
+<style lang="scss" scoped>
+.pagination-wrapper{
+    float: right;
+}
+</style>

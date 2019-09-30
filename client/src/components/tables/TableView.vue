@@ -1,5 +1,7 @@
 <script>
+import Age from '../Age.vue'
 export default {
+    components: { Age },
     props: {
         view: {
             type: String,
@@ -22,7 +24,10 @@ export default {
                 'height',
                 'mosaic',
                 'namespace',
-                'transaction'
+                'transaction',
+                'harvester',
+                'mosaicId',
+                'transactionHash'
             ],
             
         }
@@ -41,7 +46,7 @@ export default {
 
         getKeyName(key){
             return this.$store.getters['ui/getNameByKey'](key)
-        }
+        },
     }
 }
 </script>

@@ -38,6 +38,14 @@ export default {
     getLatestList: util.getLatestList,
     getRecentList: util.getRecentList,
     getPageList: util.getPageList,
+    getPageListFormatted: (state, getters) => getters.getPageList?.map(el => ({
+      height: el.height,
+      age: el.date,
+      transactions: el.numTransactions,
+      fee: el.totalFee,
+      date: el.date,
+      harvester: el.signer?.address?.address
+    })),
     getPageIndex: util.getPageIndex,
     getSubscription: util.getSubscription,
     getLoading: util.getLoading

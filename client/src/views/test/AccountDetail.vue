@@ -25,7 +25,7 @@
 
                 <template v-slot:body>
                     <TableListView 
-                        :data="ownedMosaicList"
+                        :data="mosaicList"
                     />
                 </template>
             </Card>
@@ -38,7 +38,7 @@
 
                 <template v-slot:body>
                     <TableListView
-                        :data="ownedNamespaceList"
+                        :data="namespaceList"
                     />
                 </template>
             </Card>
@@ -58,7 +58,7 @@
                 
                 <template v-slot:body>
                     <TableListView
-                        :data="trsnsactionList"
+                        :data="transactionList"
                     />
                 </template>
             </Card>
@@ -71,26 +71,13 @@
 
 <script>
 import View from './View.vue';
-import TableListView from '@/components/tables/TableListView.vue'
-import TableInfoView from '@/components/tables/TableInfoView.vue'
-import DropDown from '@/components/controls/DropDown.vue'
-import Card from '@/components/containers/Card.vue'
+import { mapGetters } from 'vuex'
 
 export default {
     extends: View,
 
-    components: {
-        TableListView,
-        TableInfoView,
-        Card,
-        DropDown
-    },
-
     mounted() {
-        this.$store.dispatch('ui/hardCodeInit'); //TODO: remove
-        this.$store.dispatch("account/getAccount", { 
-            address: this.accountAddress 
-        });
+        this.$store.dispatch('account/fetchAccountDataByAddress', this.address)
     },
 
     data() {
@@ -104,75 +91,37 @@ export default {
     },
 
     computed: {
-        accountAddress() {
-            return this.$route.params.address;
+        ...mapGetters({
+            accountInfo: 'account/accountInfo',
+            accountBalance: 'account/getAccountBalance',
+            namespaceList: 'account/namespaceList',
+            mosaicList: 'account/mosaicList',
+            transactionList: 'account/transactionList',
+        }),
+
+        address() {
+            return this.$route.params.address || 123;
         },
 
-        accountInfo() { //TODO: store.getters
-            return {
-                'address': 'NDEVPOSK4OMR4PRTLYFHX4W5QTOND7TZDT2DTU4Q',
-                'Public Key': '56a7ae8caca7356fffe98e1dfdf3f4218bb837b5ec6aae927a964e2ff1861e20',
-                'balance': '900000216',
-                'Vested Balance': '900,000,215.985989',
-                'Importance': '8.88583%',
-                'Info': 'Post-V1 Fund - 400 - Fund stakes',
-                'Multisig account': 'Yes',
-                'Min signatures': '6',
-                'Cosignatories': `NCYP7E7S67LB4G4Y4RJWE7REFBZI4EXJ73MRKIWW
-                                    NDKICABB2EXCLIQ6DHWL66CK7QPYUGLMDVTLUIEB
-                                    NADMEHCFJD45GPTDL4HZP2LJLZVAZRLYWYPNEMLY
-                                    NALICEXDMHEAVGSWHLSXDMUMCCHTBJLPKPI63IFY
-                                    NCOSIGIMCITYNRE7XUR77OREOYFLPAILCNUYLTPD
-                                    NCOJAG5GFBUEKABEQQK74PO6QLB65TIKISGLMGS3`
-            }
-        },
+        // accountInfo() { //TODO: store.getters
+        //     return {}
+        // },
 
-        ownedMosaicList() { //TODO: store.getters
-            return [{
-                'mosaic': 'unpontify.pontifier:spam-removal',
-                'Quantity': '1',
-            },
-            {
-                'mosaic': 'wallet-tokens',
-                'Quantity': '1221212',
-            }]
-        },
+        // ownedMosaicList() { //TODO: store.getters
+        //     return []
+        // },
 
-        ownedNamespaceList() { //TODO: store.getters
-            return [{
-                'mosaic': 'unpontify.pontifier:spam-removal',
-                'Quantity': '1',
-            },
-            {
-                'mosaic': 'wallet-tokens.najagrsqqp75',
-                'Quantity': '1221212',
-            }]
-        },
+        // ownedNamespaceList() { //TODO: store.getters
+        //     return []
+        // },
 
-        trsnsactionList() { //TODO: store.getters
-            return [{
-                'address': '2134234234',
-                'transactions': 'transaction',
-                'namespaces': 'namespace',
-                'mosaics': 'mosaic',
-                'account': 'account'
-            },
-            {
-                'address': '2134234234',
-                'transactions': 'transaction',
-                'namespaces': 'namespace',
-                'mosaics': 'mosaic',
-                'account': 'account'
-            }]
-        },
+        // trsnsactionList() { //TODO: store.getters
+        //     return []
+        // },
 
     },
 
     methods: {
-        getNameByKey(key){
-            return this.$store.getters['ui/getNameByKey'](key)
-        },
-
         changeTransactionType(v){
             this.selectedTransactionType = v;
             this.$store.dispatch("account/getTransactions", { 

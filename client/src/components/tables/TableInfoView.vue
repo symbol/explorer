@@ -1,5 +1,6 @@
 <template>
     <div 
+        v-if="data"
         class="table-wrapper"
     >
         <table class="table table-striped">
