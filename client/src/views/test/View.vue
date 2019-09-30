@@ -1,16 +1,14 @@
 <style lang="scss">
 .page {
     .page-content-card-f {
-        padding-top: 20px;
-        padding-left: 20px;
+        padding: 10px;
         display: flex;
         justify-content: space-between;
         flex-wrap: wrap
     }
 
     .card-f {
-        margin-right: 20px;
-        margin-bottom: 20px;
+        margin: 10px;
     }
 
     .card-adaptive {
@@ -24,6 +22,16 @@
 
     .max-height-medium {
         max-height: 100px;
+    }
+
+    @media screen and (max-width: 40em) {
+        .page-content-card-f {
+            padding: 0;
+        }
+
+        .card-f {
+            margin: 0;
+        }
     }
 }
 </style>
