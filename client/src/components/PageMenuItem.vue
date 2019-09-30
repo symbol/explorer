@@ -17,7 +17,7 @@
  */
 
 <template>
-  <li>
+  <li @click="onItemClick">
     <router-link :to="to" exact active-class="active">
       <i v-bind:class="classname"></i>
       <span>{{text}}</span>
@@ -31,6 +31,11 @@ export default {
     to: String,
     text: String,
     classname: String
+  },
+  methods: {
+    onItemClick() {
+      this.$store.dispatch('ui/openPage', {pageName: this.to.slice(1)})
+    }
   }
 }
 </script>

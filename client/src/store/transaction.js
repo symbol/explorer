@@ -101,8 +101,11 @@ export default {
     // Determine if the transactions model is loading.
     loading: false,
     // TransactionInfo by hash.
-    transactionsInfo: {}
+    transactionsInfo: {},
 
+
+    transactionInfo: {},
+    transactionInfoLoading: false
   },
   getters: {
     getLatestList: util.getLatestList,
@@ -113,7 +116,11 @@ export default {
     getLoading: util.getLoading,
     getTransactionInfo(state){
       return state.transactionsInfo
-    }
+    },
+
+    transactionInfo: state => state.transactionInfo,
+    pageListFormatted: state => state.pageListFormatted,
+    transactionInfoLoading: state => state.transactionInfoLoading
   },
   mutations: {
     setLatestList: util.setLatestList,
@@ -127,7 +134,10 @@ export default {
     },
     setTransactionsInfo(state, transactionsInfoByHash){
       state.transactionsInfo = transactionsInfoByHash
-    }
+    },
+
+    transactionInfo: (state, transactionInfo) => Vue.set(state, 'transactionInfo', transactionInfo),
+    pageListFormatted: (state, pageListFormatted) => Vue.set(state, 'pageListFormatted', pageListFormatted),
   },
   actions: {
     // Initialize the transaction model.
@@ -168,6 +178,15 @@ export default {
       commit('setLoading', true)
       let transactionList = await getTransactionsWithLimit(util.PAGE_SIZE)
       commit('setPageList', transactionList)
+      let transactionListFormatted = []
+      transactionList?.forEach(el => transactionListFormatted.push({
+        deadline: el.deadline,
+        blockHeight: el.blockHeight,
+        transactionId: el.transactionId,
+        transactionHash: el.transactionHash,
+        fee: el.fee,
+      }))
+      commit('pageListFormatted', transactionListFormatted);
       if (transactionList.length > 0) {
         commit('chain/setTransactionHash', transactionList[0].transactionHash, { root: true })
       }
@@ -222,6 +241,24 @@ export default {
     async getTransactionInfoByHash({commit}, hash) {
       let transactionInfo = await sdkTransaction.getTransactionInfoByHash(hash)
       commit('setTransactionsInfo', transactionInfo)
+
+      let foramttedTransactionInfo = {
+        transactionId: transactionInfo.transaction.transactionId,
+        timestamp: transactionInfo.timestamp,
+        deadline: transactionInfo.transaction.deadline,
+        status: transactionInfo.status,
+        confirm: transactionInfo.confirm,
+        fee: transactionInfo.transaction.fee,
+        signature: transactionInfo.transaction.signature,
+        signer: transactionInfo.transaction.signer,
+        blockHeight: transactionInfo.transaction.blockHeight,
+        transactionHash: transactionInfo.transaction.transactionHash,
+
+        type: transactionInfo.transaction.transactionBody.type,
+        recipient: transactionInfo.transaction.transactionBody.recipient.address,
+        mosaics: transactionInfo.transaction.transactionBody.mosaics,
+      }
+      commit('transactionInfo', foramttedTransactionInfo)
     }
   }
 }

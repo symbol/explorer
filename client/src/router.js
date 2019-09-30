@@ -143,6 +143,16 @@ export default new Router({
     },
 
     {
+      path: '/test',
+      name: 'test',
+      component: () =>
+        import('./views/Home.vue'),
+      meta: {
+        title: ''
+      }
+    },
+
+    {
       path: '/test/account/:address',
       name: 'account',
       component: () => import('./views/test/AccountDetail.vue'),
@@ -157,6 +167,21 @@ export default new Router({
       name: 'blockdetail',
       component: () => import('./views/test/BlockDetail.vue'),
     },
+    {
+      path: '/test/transactions',
+      name: 'transactionlist',
+      component: () => import('./views/test/Transactions.vue'),
+    },
+    {
+      path: '/test/transaction/:id',
+      name: 'transactiondetail',
+      component: () => import('./views/test/TransactionDetail.vue'),
+    },
+    {
+      path: '*',
+      name: '404',
+      component: () => import('./views/test/NotFound.vue'),
+    }
     // {
     //   path: '/404',
     //   component: import(/* webpackChunkName: "about" */ "./views/About.vue")

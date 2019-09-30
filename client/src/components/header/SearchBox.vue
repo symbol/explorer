@@ -11,7 +11,10 @@
                 @keyup.enter="onSearch"
             />
             <button @click="onSearch">
-                <i class="ico-search-1"></i>
+                <i 
+                    class="ico-search-1 transition" 
+                    v-bind:class="{'search-error': isError}"
+                />
             </button>
         </div>
     </div>
@@ -72,5 +75,10 @@ export default {
     -moz-transition: border-color 0.5s ease-out;
     -o-transition: border-color 0.5s ease-out;
     transition: border-color 0.5s ease-out;
+
+    -webkit-transition: color 0.2s ease-out;
+    -moz-transition: color 0.2s ease-out;
+    -o-transition: color 0.2s ease-out;
+    transition: color 0.2s ease-out;
 }
 </style>

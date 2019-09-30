@@ -30,7 +30,7 @@
                                 v-if="itemKey === 'age'"
                                 :date="item"
                             />
-                            <div v-else>
+                            <div v-else class="max-item-width">
                                 {{ item }}
                             </div>
                         </td>

@@ -37,7 +37,7 @@ export default {
 
 
     blockInfo: {},
-    blosckTransactionList: [],
+    blockTransactionList: [],
     currentBlockHeight: null,
     blockInfoLoading: false
   },
@@ -196,7 +196,7 @@ export default {
                 deadline: el.deadline,
                 transactionHash: el.transactionHash,
                 fee: el.fee,
-                singer: el.signer,
+                signer: el.signer,
                 type: el.transactionBody.type
               });
             })

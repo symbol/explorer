@@ -86,7 +86,7 @@ export default {
                 { name: "Transactions", value: 1 },
                 { name: "Mosaic Transactions", value: 2 }
             ],
-            selectedTransactionType: 2 // TODO: store.getters
+            selectedTransactionType: 1 // TODO: store.getters
         }
     },
 

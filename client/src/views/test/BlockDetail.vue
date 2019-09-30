@@ -38,6 +38,7 @@
 
                 
                 <template v-slot:body>
+                    <loader v-if="loading" />
                     <TableListView
                         :data="blockTransactionList"
                     />

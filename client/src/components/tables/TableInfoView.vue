@@ -16,6 +16,7 @@
                         {{getKeyName(itemKey)}}
                     </td>
                     <td
+                        class="max-item-width"
                         :class="{'table-item-clickable': isItemClickable(itemKey)}"
                         @click="onItemClick(itemKey, item)"
                     >

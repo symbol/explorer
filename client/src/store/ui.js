@@ -51,7 +51,10 @@ export default {
             'mosaics': 'Mosaics',
             'namespaces': 'Namespaces',
             'transactions': 'Transactions',
-            'mosaicId': 'Name'
+            'mosaicId': 'Name',
+
+            'blockHeight': 'Block height',
+            'signer': 'Signer',
         },
 
         keyPages: {
@@ -59,7 +62,7 @@ export default {
 
             'harvester': 'account',
             'address': 'account',
-            'singer': 'account',
+            'signer': 'account',
 
             'transactionHash': 'transaction',
             'mosaicId': 'mosaic',
@@ -68,6 +71,7 @@ export default {
             'publicKeyHeight': 'block',
             'importanceHeight': 'block',
 
+            'blockHeight': 'block'
         }
     },
 
@@ -80,12 +84,15 @@ export default {
     },
     actions: {
         openPage: ({ state }, payload) => {
-            if (payload.pageName && payload.param);
+            if (payload.pageName);
             {
                 let key = payload.pageName;
                 let pageName = state.keyPages[key] || key;
                 let value = payload.param;
-                router.push({ path: `/test/${pageName}/${value}` });
+                if(value != null)
+                    router.push({ path: `/test/${pageName}/${value}` });
+                else
+                    router.push({ path: `/test/${pageName}` });
             }
         },
 
