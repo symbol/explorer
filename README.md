@@ -4,13 +4,6 @@
 
 Browser for Catapult. Search for transactions, accounts, assets, and blocks.
 
-## Architecture
-
-The catapult-server is composed of two separate modules:
-
-* `client`: Handles the UI / UX of the explorer.
-* `server` Handles the API / SDK request from Catapult Network.
-
 ## Requirements
 
 The catapult-explorer works on NodeJS versions:
@@ -21,42 +14,21 @@ The catapult-explorer works on NodeJS versions:
 
 ## Installation
 
-1. Install the client required dependencies.
+1. Install the required dependencies.
 
 ```
-cd client
-
 npm install
-```
-
-2. Install the server required dependencies.
-
-```
-cd server
-
-npm install
-
-cp .env.example .env
-
 ```
 
 ## Usage
 
-1. Run the client application.
+1. Run the application.
 
 ```
-cd client
 npm run serve
 ```
 
-2. Open a new terminal and run the server.
-
-```
-cd client
-npm start
-```
-
-3. Visit http://localhost:8080 in your browser.
+2. Visit http://localhost:8080 in your browser.
 
 ## Contributing
 
