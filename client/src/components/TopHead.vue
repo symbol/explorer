@@ -18,6 +18,7 @@
 
 <template>
   <div>
+    
     <div class="full-con gradinet_01 top_head">
       <div class="container">
         <div class="row">
@@ -27,21 +28,27 @@
                     <a href="#" class="btn">Testnet</a>
             </div>-->
           </div>
+
           <div class="col-md-6 text-center">
             <router-link to="/" class="logo">
               <img src="theme/img/logo-w.png" />
             </router-link>
             <div class="full-con">
-              <h1 class="head-titl">Nem blockchain explorer</h1>
-              <p
-                class="head-sub-t"
-              >Search transactions, addresses, namespace & mosaic on the nem network.</p>
+              <h1 class="head-titl">
+                Nem blockchain explorer
+              </h1>
+              <p class="head-sub-t">
+                Search transactions, addresses, namespace & mosaic on the nem network.
+              </p>
             </div>
+
             <SearchBox />
           </div>
           <NodeSelector />
         </div>
       </div>
+
+
       <div class="mobtopbar">
         <a class="mobilemenu mmtoggle" href="#">
           <i class="ico-navicon-round"></i>
@@ -51,14 +58,19 @@
             </router-link>
       </div>
     </div>
-    <MobileMenu :nodes="nodes" :activenode="activeNode"/>
+    
+    <MobileMenu 
+      :nodes="nodes" 
+      :activenode="activeNode"
+    />
+
   </div>
 </template>
 
 
 
 <script>
-import w2 from '@/components/MobileMenu.vue'
+import MobileMenu from '@/components/MobileMenu.vue'
 import NodeSelector from '@/components/header/NodeSelector.vue'
 import SearchBox from '@/components/header/SearchBox.vue'
 import { Endpoint } from '../config/'
@@ -69,14 +81,13 @@ export default {
   name: 'TopHead',
 
   components: {
-    MobileMenu: w2,
+    MobileMenu,
     NodeSelector,
     SearchBox
   },
 
   data() {
     return {
-
       nodes: Endpoint.nodes,
       activeNode: Endpoint.api.replace('http://', '').replace(':3000', ''),
       mobmenu_active: 0,

@@ -100,24 +100,8 @@ export default {
         }),
 
         address() {
-            return this.$route.params.address || 123;
+            return this.$route.params.address || 0;
         },
-
-        // accountInfo() { //TODO: store.getters
-        //     return {}
-        // },
-
-        // ownedMosaicList() { //TODO: store.getters
-        //     return []
-        // },
-
-        // ownedNamespaceList() { //TODO: store.getters
-        //     return []
-        // },
-
-        // trsnsactionList() { //TODO: store.getters
-        //     return []
-        // },
 
     },
 

@@ -17,6 +17,7 @@
  */
 import router from '../router';
 import { Address, AccountHttp } from 'nem2-sdk'
+import { Endpoint } from '../config'
 
 export default {
     namespaced: true,
@@ -37,6 +38,14 @@ export default {
             'transaction': 'Transaction',
             'transactionHash': 'Transaction hash',
 
+            'addressHeight': 'Address height',
+            'publicKey': 'Public key',
+            'publicKeyHeight': 'PublicKey height',
+            'importance': 'Importance',
+            'importanceHeight': 'Importance height',
+            'accountType': 'Account type',
+            'linkedAccountKey': 'Linked account key',
+
             'accounts': 'Accounts',
             'blocks': 'Blocks',
             'mosaics': 'Mosaics',
@@ -50,10 +59,15 @@ export default {
 
             'harvester': 'account',
             'address': 'account',
+            'singer': 'account',
 
             'transactionHash': 'transaction',
-
             'mosaicId': 'mosaic',
+
+            'addressHeight': 'block',
+            'publicKeyHeight': 'block',
+            'importanceHeight': 'block',
+
         }
     },
 
@@ -75,24 +89,6 @@ export default {
             }
         },
 
-        hardCodeInit: ({ rootState }) => {
-            let blockList = [
-                {
-                    address: "address1",
-                    account: "account1",
-                    block: "block1",
-                    datetime: 1213234213
-                },
-                {
-                    address: "address2",
-                    account: "account2",
-                    block: "block2",
-                    datetime: 1213234212
-                },
-            ];
-
-            rootState.block.pageList = blockList;
-        },
 
         search: ({dispatch}, searchString) => {
             return new Promise(async (resolve, reject) => {
@@ -102,8 +98,8 @@ export default {
                         dispatch('openPage', {
                             pageName: 'block',
                             param: searchString
-                        })
-            
+                        });
+                        resolve();
                     } else if (
                         searchString.match('^[A-z0-9]+$') &&
                         searchString.length === 64
@@ -122,13 +118,15 @@ export default {
                             dispatch('openPage', {
                                 pageName: 'account',
                                 param: accountInfo.address.address
-                            })
+                            });
+                            resolve();
                         } else {
                             // transaction hash
                             dispatch('openPage', {
                                 pageName: 'transaction',
                                 param: searchString
-                            })
+                            });
+                            resolve();
                         }
                     } else if (
                         searchString.match('^[A-z0-9]+$') &&
@@ -139,7 +137,8 @@ export default {
                         dispatch('openPage', {
                             pageName: 'account',
                             param: searchString
-                        })
+                        });
+                        resolve();
                     } else {
                         reject(new Error("Nothing found"));
                     }

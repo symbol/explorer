@@ -27,7 +27,13 @@ export default {
                 'transaction',
                 'harvester',
                 'mosaicId',
-                'transactionHash'
+                'transactionHash',
+
+                'addressHeight',
+                'publicKeyHeight',
+                'importanceHeight',
+
+                'signer'
             ],
             
         }
@@ -86,6 +92,12 @@ export default {
 
 .table-striped tbody tr:nth-child(even) td {
     background-color: rgba(52, 40, 104, 0.014);
+}
+
+.table-view{
+    td{
+        border-bottom: 1px solid #dadee6;
+    }
 }
 
 </style>

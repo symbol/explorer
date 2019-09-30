@@ -19,6 +19,7 @@
 import util from './util'
 import sdkBlock from '../infrastructure/getBlock'
 import sdkListener from '../infrastructure/getListener'
+import DataService from '../data-service'
 
 export default {
   namespaced: true,
@@ -32,7 +33,13 @@ export default {
     // Subscription to new blocks.
     subscription: null,
     // Determine if the blocks model is loading.
-    loading: false
+    loading: false,
+
+
+    blockInfo: {},
+    blosckTransactionList: [],
+    currentBlockHeight: null,
+    blockInfoLoading: false
   },
   getters: {
     getLatestList: util.getLatestList,
@@ -48,7 +55,12 @@ export default {
     })),
     getPageIndex: util.getPageIndex,
     getSubscription: util.getSubscription,
-    getLoading: util.getLoading
+    getLoading: util.getLoading,
+
+    blockInfo: state => state.blockInfo,
+    blockTransactionList: state => state.blockTransactionList,
+    currentBlockHeight: state => state.currentBlockHeight,
+    blockInfoLoading: state => state.blockInfoLoading,
   },
   mutations: {
     setLatestList: util.setLatestList,
@@ -59,7 +71,12 @@ export default {
     resetPageIndex: util.resetPageIndex,
     addLatestItem(state, item) {
       util.addLatestItemByKey(state, item, 'height', 1)
-    }
+    },
+
+    blockInfo: (state, blockInfo) => Vue.set(state, 'blockInfo', blockInfo),
+    blockTransactionList: (state, blockTransactionList) => Vue.set(state, 'blockTransactionList', blockTransactionList),
+    currentBlockHeight: (state, currentBlockHeight) => state.currentBlockHeight = currentBlockHeight,
+    blockInfoLoading: (state, blockInfoLoading) => state.blockInfoLoading = blockInfoLoading,
   },
   actions: {
     // Initialize the block model.
@@ -154,6 +171,54 @@ export default {
         commit('setPageList', getters.getLatestList)
         commit('resetPageIndex')
       }
-    }
+    },
+
+
+    getBlockInfo: async ({commit}, height) => {
+      commit('blockInfoLoading', true);
+      return DataService.getBlockInfo(height)
+        .then(data => {
+          commit('currentBlockHeight', data?.blockInfo?.height); 
+          let blockInfo = {
+            height: data?.blockInfo?.height,
+            date: data?.blockInfo?.date,
+            fee: data?.blockInfo?.totalFee,
+            height: data?.blockInfo?.height,
+            transactions:  data?.blockInfo?.numTransactions,
+            harvester:  data?.blockInfo?.signer.address.address,
+            hash:  data?.blockInfo?.hash,
+          }
+          let blockTransactionList = [];
+
+          if (data.blockTransactionList.length) {
+            data.blockTransactionList.forEach((el, idx) => {
+              blockTransactionList.push({
+                deadline: el.deadline,
+                transactionHash: el.transactionHash,
+                fee: el.fee,
+                singer: el.signer,
+                type: el.transactionBody.type
+              });
+            })
+          }
+          commit('blockInfo', blockInfo); 
+          commit('blockTransactionList', blockTransactionList);
+          commit('blockInfoLoading', false);
+        })
+        .catch(err => commit('blockInfoLoading', false))
+    },
+
+    nextBlock: ({commit, getters, dispatch}) => { 
+      dispatch('ui/openPage', {
+        pageName: 'block', 
+        param: getters.currentBlockHeight + 1
+      }, { root: true });
+    },
+    previousBlock: ({commit, getters, dispatch}) => { 
+      dispatch('ui/openPage', {
+        pageName: 'block', 
+        param: getters.currentBlockHeight - 1
+      }, { root: true });
+    },
   }
 }

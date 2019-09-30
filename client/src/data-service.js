@@ -18,7 +18,8 @@
 
 import axios from 'axios'
 import sdkBlock from './infrastructure/getBlock'
-const url = window.conf.api
+import {Endpoint} from './config'
+const url = Endpoint.api;
 
 class DataService {
   // get home assets

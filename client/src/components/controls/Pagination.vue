@@ -15,12 +15,12 @@
                 <ul class="pagination">
                     <li class="page-item" @click="previousPage">
                         <a href="#">
-                            <i class="ico-angle-left"></i>
+                            <i class="ico-angle-left pagination-arrow"></i>
                         </a>
                     </li>
                     <li class="page-item">
                         <a href="#" @click="nextPage">
-                            <i class="ico-angle-right"></i>
+                            <i class="ico-angle-right pagination-arrow"></i>
                         </a>
                     </li>
                 </ul>
@@ -74,5 +74,10 @@ export default {
 <style lang="scss" scoped>
 .pagination-wrapper{
     float: right;
+    .pagination-arrow{
+        justify-content: center;
+        flex-direction: column;
+        display: flex;
+    }
 }
 </style>

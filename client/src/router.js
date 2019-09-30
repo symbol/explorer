@@ -22,6 +22,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 export default new Router({
+  //mode: 'history',
   routes: [
     {
       path: '/',
@@ -140,16 +141,6 @@ export default new Router({
         title: ''
       }
     },
-    // {
-    //   path: '/test/:view/:infoId',
-    //   name: 'tablePageInfo',
-    //   component: () => import('./views/TablePage.vue'),
-    // },
-    // {
-    //   path: '/test/:view',
-    //   name: 'tablePageList',
-    //   component: () => import('./views/TablePage.vue'),
-    // },
 
     {
       path: '/test/account/:address',
@@ -160,6 +151,11 @@ export default new Router({
       path: '/test/blocks',
       name: 'blocklist',
       component: () => import('./views/test/Blocks.vue'),
+    },
+    {
+      path: '/test/block/:height',
+      name: 'blockdetail',
+      component: () => import('./views/test/BlockDetail.vue'),
     },
     // {
     //   path: '/404',

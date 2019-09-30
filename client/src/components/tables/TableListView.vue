@@ -1,7 +1,7 @@
 <template>
     <div 
         v-if="data"
-        class="table-list"
+        class="table-view"
     >
         <div class="table-wrapper">
             <table class="table table-striped">
@@ -124,7 +124,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.table-wrapper{
+.table-view{
     overflow:auto;
     .table-pagination {
         float: right;

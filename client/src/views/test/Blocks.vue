@@ -7,11 +7,12 @@
             
             <Card class="card-f card-full-width"> 
                 <template v-slot:title>
-                    Blocks
+                    Blocks 
                 </template>
                 <template v-slot:control>
-                    Chain height: {{chainHeight}}
+                    <h5 v-if="pageIndex === 0"> Chain height: {{chainHeight}} </h5>
                     <Pagination
+                        v-else
                         :pageIndex="pageIndex"
                         :nextPageAction="nextPageAction"
                         :previousPageAction="previousPageAction"

@@ -4,7 +4,7 @@
             <a class="dropdown-toggle">
                 Node : {{currentNode}}
             </a>
-            <div class="dropdown-menu dropdown-menu-right">
+            <div class="dropdown-menu dropdown-menu-right node-selector-menu">
                 <a
                     class="dropdown-item"
                     href="#"
@@ -38,3 +38,10 @@ export default {
     }
 }
 </script>
+
+
+<style lang="scss" scoped>
+.node-selector-menu{
+    background: #3d7397c4;
+}
+</style>
