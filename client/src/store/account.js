@@ -77,7 +77,7 @@ export default {
 
       let accountBalance = []
       accountInfo.mosaics.forEach((el, idx) => {
-        let mosaicLink = `<a href="#/mosaic/${el.hex}">${el.hex}</a>`
+        let mosaicLink = `<a href="#/mosaic/${el.id}">${el.id}</a>`
         let balanceObject = {
           idx : idx+1,
           mosaicId: mosaicLink,

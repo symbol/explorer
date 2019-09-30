@@ -24,7 +24,6 @@ import {
 } from 'nem2-sdk'
 import format from '../format'
 import { Endpoint } from '../config/'
-import request from 'request'
 import sdkBlock from '../infrastructure/getBlock'
 
 const TRANSACTION_HTTP = new TransactionHttp(Endpoint.api);

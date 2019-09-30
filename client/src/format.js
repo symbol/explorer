@@ -101,7 +101,7 @@ const formatMosaics = mosaics => {
   return mosaics.map(mosaic => {
     return {
       ...mosaic,
-      hex: mosaic.id.toHex(),
+      id: mosaic.id.toHex(),
       amount: mosaic.amount.compact()
     }
   })
@@ -168,7 +168,7 @@ const formatTransactionBody = transactionBody => {
       let transferObj = {
         type: 'Transfer',
         // typeId: TransactionType.TRANSFER,
-        recipient: transactionBody.recipientAddress,
+        recipient: transactionBody.recipientAddress.plain(),
         mosaics: formatMosaics(transactionBody.mosaics),
         message: transactionBody.message.payload
       }
@@ -203,7 +203,7 @@ const formatTransactionBody = transactionBody => {
         type: 'Mosaic Alias',
         // typeId: TransactionType.MOSAIC_ALIAS,
         // actionType: transactionBody.actionType,
-        aliasAction: transactionBody.actionType === 0 ? 'Link' : 'Unlink',
+        aliasAction: transactionBody.aliasAction === 0 ? 'Link' : 'Unlink',
         namespaceId: transactionBody.namespaceId.id.toHex(),
         mosaicId: transactionBody.mosaicId.id.toHex()
       }
@@ -216,7 +216,9 @@ const formatTransactionBody = transactionBody => {
         divisibility: transactionBody.divisibility,
         duration: transactionBody.duration,
         nonce: transactionBody.nonce,
-        flags: transactionBody.flags,
+        supplyMutable: transactionBody.flags.supplyMutable,
+        transferable: transactionBody.flags.transferable,
+        restrictable: transactionBody.flags.restrictable
       }
       return mosaicDefinitionObj
     case TransactionType.MOSAIC_SUPPLY_CHANGE:
