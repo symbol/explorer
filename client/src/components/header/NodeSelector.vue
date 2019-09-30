@@ -9,10 +9,10 @@
                     class="dropdown-item"
                     href="#"
                     v-for="(node, index) in nodeList"
-                    :key="'dd'+node.value + index"
-                    @click="setNode(node.value)"
+                    :key="'ns'+node.domain + index"
+                    @click="setNode(node)"
                 >
-                {{node.name}}
+                {{node.domain}}
                 </a>
             </div>
         </div>
@@ -22,7 +22,7 @@
 <script>
 export default {
     computed: {
-        nodelist() {
+        nodeList() {
             return this.$store.getters['api/nodeList'];
         },
 
@@ -33,7 +33,7 @@ export default {
 
     methods: {
         setNode(value) {
-            this.$store.dispatch('api/nodeChange', value);
+            this.$store.dispatch('api/changeNode', value);
         }
     }
 }

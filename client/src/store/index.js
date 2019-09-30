@@ -15,7 +15,7 @@
  * limitations under the License.
  *
  */
-
+import api from './api'
 import block from './block'
 import chain from './chain'
 import transaction from './transaction'
@@ -32,6 +32,7 @@ export default new Vuex.Store({
   // Disable use-strict mode because it fails with the SDK listener.
   strict: false,
   modules: {
+    api,
     block,
     chain,
     transaction,

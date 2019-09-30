@@ -16,6 +16,7 @@
  *
  */
 import router from '../router';
+import { Address, AccountHttp } from 'nem2-sdk'
 
 export default {
     namespaced: true,
@@ -59,13 +60,13 @@ export default {
     getters: {
         getNameByKey: state => key => state.keyNames[key] != null ? state.keyNames[key] : key
     },
-    
+
     mutations: {
-    
+
     },
     actions: {
-        openPage: ({state}, payload) => {
-            if(payload.pageName && payload.param);
+        openPage: ({ state }, payload) => {
+            if (payload.pageName && payload.param);
             {
                 let key = payload.pageName;
                 let pageName = state.keyPages[key] || key;
@@ -74,7 +75,7 @@ export default {
             }
         },
 
-        hardCodeInit: ({rootState}) => {
+        hardCodeInit: ({ rootState }) => {
             let blockList = [
                 {
                     address: "address1",
@@ -91,6 +92,63 @@ export default {
             ];
 
             rootState.block.pageList = blockList;
+        },
+
+        search: ({dispatch}, searchString) => {
+            return new Promise(async (resolve, reject) => {
+                searchString = searchString.replace(/[^a-zA-Z0-9]/g, '')
+                if (searchString !== null && searchString !== '') {
+                    if (searchString.match(/^-{0,1}\d+$/)) {
+                        dispatch('openPage', {
+                            pageName: 'block',
+                            param: searchString
+                        })
+            
+                    } else if (
+                        searchString.match('^[A-z0-9]+$') &&
+                        searchString.length === 64
+                    ) {
+                        // check the string is a public key of an account
+                        let accountHttp = new AccountHttp(Endpoint.api)
+                        let accountAddress
+                        let accountInfo
+                        try {
+                            accountInfo = await accountHttp
+                                .getAccountInfo(new Address(searchString))
+                                .toPromise()
+                            accountAddress = accountInfo.address.address
+                        } catch (e) { }
+                        if (accountAddress) {
+                            dispatch('openPage', {
+                                pageName: 'account',
+                                param: accountInfo.address.address
+                            })
+                        } else {
+                            // transaction hash
+                            dispatch('openPage', {
+                                pageName: 'transaction',
+                                param: searchString
+                            })
+                        }
+                    } else if (
+                        searchString.match('^[A-z0-9]+$') &&
+                        (searchString.substring(0, 1) === 'S' ||
+                            searchString.substring(0, 1) === 's') &&
+                        searchString.length === 40
+                    ) {
+                        dispatch('openPage', {
+                            pageName: 'account',
+                            param: searchString
+                        })
+                    } else {
+                        reject(new Error("Nothing found"));
+                    }
+                } else {
+                    reject(new Error("Nothing found"));
+                }
+            }); 
         }
     }
 }
+
+
