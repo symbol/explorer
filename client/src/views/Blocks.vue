@@ -1,72 +1,76 @@
-/*
- *
- * Copyright (c) 2019-present for NEM
- *
- * Licensed under the Apache License, Version 2.0 (the "License ");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- */
-
 <template>
-  <div>
-    <top-header />
-    <page-menu />
-    <div class="page_con">
-      <div class="full-con mob_con">
-        <div class="container p-0">
-          <div class="widget has-shadow mt-4">
-            <div class="box">
-              <div class="box-title">
-                <h1 class="inline-block">Blocks</h1>
-                <div class="btn_grp inline-block flt-rt">
-                  <span>Current Block Height: {{blockHeight}}</span>
-                </div>
-              </div>
-              <div class="box-con mt-0">
-                <loader v-if="loading"></loader>
-                <BlockTable :blockList="blockList"/>
-                <Pagination class="table-footer"
-                  :nextPageAction="'block/fetchNextPage'"
-                  :previousPageAction="'block/fetchPreviousPage'"
-                />
-              </div>
-            </div>
-          </div>
+    <div class="page">
+        <top-header />
+        <page-menu />
+        <div class="page-content-card-f">
+
+            
+            <Card class="card-f card-full-width"> 
+                <template v-slot:title>
+                    Blocks 
+                </template>
+                <template v-slot:control>
+                    <h5 v-if="pageIndex === 0"> Chain height: {{chainHeight}} </h5>
+                    <Pagination
+                        v-else
+                        :pageIndex="pageIndex"
+                        :nextPageAction="nextPageAction"
+                        :previousPageAction="previousPageAction"
+                    />
+                </template>
+                
+                <template v-slot:body>
+                    <loader v-if="loading" />
+                    <TableListView
+                        :data="blockList"
+                    />
+                    <Pagination
+                        style="margin-top: 20px;"
+                        :pageIndex="pageIndex"
+                        :nextPageAction="nextPageAction"
+                        :previousPageAction="previousPageAction"
+                    />
+                </template>
+            </Card>
         </div>
-      </div>
+        <page-footer/>
     </div>
-    <page-footer />
-  </div>
 </template>
+
 <script>
-import w1 from '@/components/BlockTable.vue'
-import w2 from '@/components/Pagination.vue'
+import View from './View.vue';
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'Blocks',
-  components: {
-    BlockTable: w1,
-    Pagination: w2
-  },
-  computed: {
-    ...mapGetters({
-      blockHeight: 'chain/getBlockHeight',
-      blockList: 'block/getPageList',
-      loading: 'block/getLoading'
-    })
-  },
-  destroyed() {
-    this.$store.dispatch('block/resetPage')
-  }
+    extends: View,
+
+    mounted() {
+        this.$store.dispatch('block/initialize')
+    },
+
+    data() {
+        return {
+            nextPageAction: 'block/fetchNextPage',
+            previousPageAction: 'block/fetchPreviousPage',
+        }
+    },
+
+    computed: {
+        ...mapGetters({
+            chainHeight: 'chain/getBlockHeight',
+            blockList: 'block/getPageListFormatted',
+            loading: 'block/getLoading',
+            pageIndex: 'block/getPageIndex'
+        }),
+
+    },
+
+    destroyed() {
+        this.$store.dispatch('block/resetPage')
+    }
 }
 </script>
+
+<style lang="scss" scoped>
+
+</style>
