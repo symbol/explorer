@@ -19,6 +19,7 @@
 import { NamespaceHttp, Address, NamespaceId, NamespaceService } from 'nem2-sdk'
 import { mergeMap, map } from 'rxjs/operators'
 import format from '../format'
+import helper from '../helper'
 import { Endpoint, rootNamespace, subNamespace, namespaceName } from '../config/'
 
 const NAMESPACE_HTTP = new NamespaceHttp(Endpoint.api)
@@ -50,10 +51,17 @@ class sdkNamespace {
     return format.formatNamespaces(namespaceList)
   }
 
-  static getNamespaceInfo = async name => {
+  static getNamespaceInfo = async namespaceOrHex => {
 
-    // TODO: Read params if hex, convert to uint64 id
-    const namespace = new NamespaceId(name)
+    let namespaceID = ''
+
+    if (helper.isHexadecimal(namespaceOrHex)) {
+      namespaceID = NamespaceId.createFromEncoded(namespaceOrHex);
+    } else {
+      namespaceID = new NamespaceId(namespaceOrHex)
+    }
+
+    const namespace = new NamespaceId(namespaceID)
     const namespaceService = new NamespaceService(NAMESPACE_HTTP)
 
     // let namespaceInfo = await namespaceService.namespace(namespace).toPromise()

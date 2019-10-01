@@ -53,19 +53,20 @@ export default {
   components: {
     Card,
     TableInfoView,
-    TableListView
+    TableListView,
   },
   created() {},
   data() {
-    return {
-      namespaceId: this.$route.params.namespaceId,
-    }
+    return {}
   },
   computed: {
     ...mapGetters({
       namespaceInfo: 'namespace/getNamespaceInfo',
       namespaceLevels: 'namespace/getNamespaceLevels',
     }),
+    namespaceId() {
+      return this.$route.params.namespaceId || 0
+    },
   },
   mounted() {
     this.$store.dispatch('namespace/fetchNamespaceInfo', this.namespaceId)
