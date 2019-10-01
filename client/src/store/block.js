@@ -34,9 +34,9 @@ export default {
     subscription: null,
     // Determine if the blocks model is loading.
     loading: false,
-
-
+    // The Block Infomation.
     blockInfo: {},
+    // The Block Transaction list
     blockTransactionList: [],
     currentBlockHeight: null,
     blockInfoLoading: false
@@ -45,13 +45,13 @@ export default {
     getLatestList: util.getLatestList,
     getRecentList: util.getRecentList,
     getPageList: util.getPageList,
-    getPageListFormatted: (state, getters) => getters.getPageList?.map(el => ({
+    getPageListFormatted: (state, getters) => getters.getPageList.map(el => ({
       height: el.height,
       age: el.date,
       transactions: el.numTransactions,
       fee: el.totalFee,
       date: el.date,
-      harvester: el.signer?.address?.address
+      harvester: el.signer.address.address
     })),
     getPageIndex: util.getPageIndex,
     getSubscription: util.getSubscription,
@@ -174,49 +174,52 @@ export default {
     },
 
 
-    getBlockInfo: async ({commit}, height) => {
+    getBlockInfo: async ({ commit }, height) => {
       commit('blockInfoLoading', true);
-      return DataService.getBlockInfo(height)
-        .then(data => {
-          commit('currentBlockHeight', data?.blockInfo?.height); 
-          let blockInfo = {
-            height: data?.blockInfo?.height,
-            date: data?.blockInfo?.date,
-            fee: data?.blockInfo?.totalFee,
-            height: data?.blockInfo?.height,
-            transactions:  data?.blockInfo?.numTransactions,
-            harvester:  data?.blockInfo?.signer.address.address,
-            hash:  data?.blockInfo?.hash,
-          }
-          let blockTransactionList = [];
 
-          if (data.blockTransactionList.length) {
-            data.blockTransactionList.forEach((el, idx) => {
-              blockTransactionList.push({
-                deadline: el.deadline,
-                transactionHash: el.transactionHash,
-                fee: el.fee,
-                signer: el.signer,
-                type: el.transactionBody.type
-              });
-            })
-          }
-          commit('blockInfo', blockInfo); 
-          commit('blockTransactionList', blockTransactionList);
-          commit('blockInfoLoading', false);
-        })
-        .catch(err => commit('blockInfoLoading', false))
+      const blockInfo = await sdkBlock.getBlockInfoByHeight(height)
+      commit('currentBlockHeight', blockInfo.height)
+
+      const blockTransactionList = await sdkBlock.getBlockFullTransactionsList(
+        height
+      )
+
+      let blockInfoObject = {
+        height: blockInfo.height,
+        date: blockInfo.date,
+        fee: blockInfo.totalFee,
+        height: blockInfo.height,
+        difficulty: blockInfo.difficulty,
+        totalTransactions: blockInfo.numTransactions,
+        harvester: blockInfo.signer.address.address,
+        blockHash: blockInfo.hash,
+      }
+
+      let blockTransactionListObject = [];
+      if (blockTransactionList.length) {
+        blockTransactionListObject = blockTransactionList.map((el) => ({
+          deadline: el.deadline,
+            transactionHash: el.transactionHash,
+            fee: el.fee,
+            signer: el.signer,
+            type: el.transactionBody.type
+        }))
+      }
+      commit('blockInfo', blockInfoObject);
+      commit('blockTransactionList', blockTransactionListObject);
+      commit('blockInfoLoading', false);
+
     },
 
-    nextBlock: ({commit, getters, dispatch}) => { 
+    nextBlock: ({ commit, getters, dispatch }) => {
       dispatch('ui/openPage', {
-        pageName: 'block', 
+        pageName: 'block',
         param: getters.currentBlockHeight + 1
       }, { root: true });
     },
-    previousBlock: ({commit, getters, dispatch}) => { 
+    previousBlock: ({ commit, getters, dispatch }) => {
       dispatch('ui/openPage', {
-        pageName: 'block', 
+        pageName: 'block',
         param: getters.currentBlockHeight - 1
       }, { root: true });
     },
