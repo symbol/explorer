@@ -1,224 +1,96 @@
-/*
- *
- * Copyright (c) 2019-present for NEM
- *
- * Licensed under the Apache License, Version 2.0 (the "License ");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- */
-
 <template>
-  <div>
+  <div class="page">
     <top-header />
     <page-menu />
-    <div class="page_con">
-      <div class="full-con mob_con">
-        <div class="container p-0">
-          <div class="widget has-shadow mt-4 m-0 z-1">
-            <div class="box">
-              <div class="box-title">
-                <h1 class="inline-block">Transaction Info</h1>
-              </div>
-              <div class="box-con mt-0">
-                <loader v-if="!loading"></loader>
-                <div v-if="transactionInfo.transaction" class="list_info_con">
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Transaction Hash</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">{{transactionInfo.transaction.transactionHash}}</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Block</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">
-                        <BlockHeightLink :height="transactionInfo.transaction.blockHeight" />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Fees</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">{{transactionInfo.transaction.fee}}</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Sender</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">
-                        <AddressLink :address="transactionInfo.transaction.signer" />
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Signature</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">{{transactionInfo.transaction.signature}}</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Timestamp</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">{{transactionInfo.timestamp}}</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Status</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">{{transactionInfo.status}}</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Confirmation</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">{{transactionInfo.confirm}}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
+    <div class="page-content-card-f">
+      <Card class="card-f card-full-width">
+        <template v-slot:title>Transaction Info</template>
+        <template v-slot:control></template>
 
-            <div v-if="transactionBody">
-              <div
-                v-if='transactionBody.type === "AggregateBonded" || transactionBody.type === "AggregateComplete"'
-                class="widget has-shadow"
-              >
-                <div class="box">
-                  <div class="tabs-con">
-                    <tabs>
-                      <tab title="InnerTransactions">
-                        <DataTable
-                          :tableHead="this.aggrateInnerTransactions.head"
-                          :tableData="this.aggrateInnerTransactions.data"
-                        ></DataTable>
-                      </tab>
-                      <tab title="Cosignatures">
-                        <DataTable
-                          :tableHead="this.aggrateCosigner.head"
-                          :tableData="this.aggrateCosigner.data"
-                        ></DataTable>
-                      </tab>
-                    </tabs>
-                  </div>
-                </div>
-              </div>
+        <template v-slot:body>
+          <loader v-if="loading" />
+          <TableInfoView :data="transactionInfo" />
+        </template>
+      </Card>
+      <Card class="card-f card-adaptive">
+        <template v-slot:title>Transaction Detail</template>
+        <template v-slot:control></template>
 
-              <InfoRow
-                v-else
-                infoTitle="Transaction Details"
-                :rows="transactionBody"
-                :loading="this.loading"
-              ></InfoRow>
-            </div>
-          </div>
-        </div>
-      </div>
+        <template v-slot:body>
+          <loader v-if="loading" />
+          <TableInfoView :data="transactionDetail" />
+        </template>
+      </Card>
+
+      <Card class="card-f card-adaptive" v-if="transferMosaics.length > 0">
+        <template v-slot:title>Mosaics</template>
+
+        <template v-slot:body>
+          <TableListView :data="transferMosaics" />
+        </template>
+      </Card>
+
+      <Card class="card-f card-full-width" v-if="aggregateInnerTransactions.length > 0">
+        <template v-slot:title>Aggregate InnerTransactions</template>
+        <template v-slot:control></template>
+
+        <template v-slot:body>
+          <loader v-if="loading" />
+          <TableInfoView :data="aggregateInnerTransactions" />
+        </template>
+      </Card>
+
+      <Card class="card-f card-full-width" v-if="aggregateCosignatures.length > 0">
+        <template v-slot:title>Aggregate Cosignatures</template>
+        <template v-slot:control></template>
+
+        <template v-slot:body>
+          <loader v-if="loading" />
+          <TableInfoView :data="aggregateCosignatures" />
+        </template>
+      </Card>
     </div>
     <page-footer />
   </div>
 </template>
+
 <script>
-import w1 from '@/components/InfoRow.vue'
-import w2 from '@/components/TableDynamic.vue'
-import w3 from '@/components/AddressLink.vue'
-import w4 from '@/components/BlockHeightLink.vue'
-import { Tabs, Tab } from 'vue-slim-tabs'
+import View from './View.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'block',
-  components: {
-    Tabs,
-    Tab,
-    InfoRow: w1,
-    DataTable: w2,
-    AddressLink: w3,
-    BlockHeightLink: w4,
+  extends: View,
+
+  mounted() {
+    this.$store.dispatch(
+      'transaction/getTransactionInfoByHash',
+      this.transactionHash
+    )
   },
+
   data() {
     return {
-      transactionHash: this.$route.params.transactionHash,
-      loading: 0,
-      innerTransactions: {
-        head: ['#', 'Transaction ID', 'Type', 'Sender', 'Recipient'],
-        data: [],
-      },
-      cosignatures: {
-        head: ['#', 'signature', 'signer'],
-        data: [],
-      },
+      nextPageAction: 'transaction/nextTransaction',
+      previousPageAction: 'transaction/previousTransaction'
     }
   },
-  computed: {
-    ...mapGetters({ transactionInfo: 'transaction/getTransactionInfo' }),
-    transactionBody() {
-      if (this.transactionInfo.transaction) {
-        return this.transactionInfo.transaction.transactionBody
-      }
-    },
-    aggrateInnerTransactions() {
-      this.transactionBody.innerTransactions.forEach((el, idx) => {
-        let temp = []
-        let singerLink = `<a href="/#/account/${el.signer}">${el.signer}</a>`
-        let recipientLink = `<a href="/#/account/${el.transactionBody.recipient}">${el.transactionBody.recipient}</a>`
 
-        temp.push(idx + 1)
-        temp.push(el.transactionId)
-        temp.push(el.transactionBody.type)
-        temp.push(singerLink)
-        temp.push(recipientLink)
-        this.innerTransactions.data.push(temp)
-      })
-      return this.innerTransactions
-    },
-    aggrateCosigner() {
-      this.transactionBody.cosignatures.forEach((el, idx) => {
-        let temp = []
-        let singerLink = `<a href="/#/account/${el.signer}">${el.signer}</a>`
-        temp.push(idx + 1)
-        temp.push(el.signature)
-        temp.push(singerLink)
-        this.cosignatures.data.push(temp)
-      })
-      return this.cosignatures
-    },
-  },
-  mounted() {
-    this.getTransactionByHash()
-  },
-  methods: {
-    getTransactionByHash() {
-      this.$store.dispatch(
-        'transaction/getTransactionInfoByHash',
-        this.transactionHash
-      )
-      this.loading = 1
-    },
-  },
+  computed: {
+    ...mapGetters({
+      transactionInfo: 'transaction/transactionInfo',
+      transactionDetail: 'transaction/transactionDetail',
+      transferMosaics: 'transaction/transferMosaics',
+      aggregateInnerTransactions: 'transaction/aggregateInnerTransactions',
+      aggregateCosignatures: 'transaction/aggregateCosignatures',
+      loading: 'transaction/transactionInfoLoading'
+    }),
+
+    transactionHash() {
+      return this.$route.params.transactionHash
+    }
+  }
 }
 </script>
+
+<style lang="scss" scoped>
+</style>

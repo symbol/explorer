@@ -167,7 +167,7 @@ const formatTransactionBody = transactionBody => {
     case TransactionType.TRANSFER:
       let transferObj = {
         type: 'Transfer',
-        // typeId: TransactionType.TRANSFER,
+        typeId: TransactionType.TRANSFER,
         recipient: transactionBody.recipientAddress.plain(),
         mosaics: formatMosaics(transactionBody.mosaics),
         message: transactionBody.message.payload
@@ -179,9 +179,9 @@ const formatTransactionBody = transactionBody => {
 
       let registerNamespaceObj = {
         type: 'Register Namespace',
-        // typeId: TransactionType.REGISTER_NAMESPACE,
-        // recipient: transactionBody.recipient,
-        namespaceType: transactionBody.namespaceType === 0 ? 'Root namespace' : 'Child namespace',
+        typeId: TransactionType.REGISTER_NAMESPACE,
+        // recipient: transactionBody.recipient,registrationType
+        registrationType: transactionBody.registrationType === 0 ? 'Root namespace' : 'Child namespace',
         namespaceName: transactionBody.namespaceName,
         namespaceId: transactionBody.namespaceId.toHex(),
         parentId: parentIdHex === '' ? 'NO AVAILABLE' : parentIdHex,
@@ -192,7 +192,7 @@ const formatTransactionBody = transactionBody => {
       let addressAliasObj = {
         type: 'Address Alias',
         recipient: 'NO AVAILABLE',
-        // typeId: TransactionType.ADDRESS_ALIAS,
+        typeId: TransactionType.ADDRESS_ALIAS,
         aliasAction: transactionBody.actionType === 0 ? 'Link' : 'Unlink',
         namespaceId: transactionBody.namespaceId.toHex(),
       };
@@ -201,7 +201,7 @@ const formatTransactionBody = transactionBody => {
     case TransactionType.MOSAIC_ALIAS:
       let mosaicAlias = {
         type: 'Mosaic Alias',
-        // typeId: TransactionType.MOSAIC_ALIAS,
+        typeId: TransactionType.MOSAIC_ALIAS,
         // actionType: transactionBody.actionType,
         aliasAction: transactionBody.aliasAction === 0 ? 'Link' : 'Unlink',
         namespaceId: transactionBody.namespaceId.id.toHex(),
@@ -211,7 +211,7 @@ const formatTransactionBody = transactionBody => {
     case TransactionType.MOSAIC_DEFINITION:
       let mosaicDefinitionObj = {
         type: 'Mosaic Definition',
-        // typeId: TransactionType.MOSAIC_DEFINITION,
+        typeId: TransactionType.MOSAIC_DEFINITION,
         mosaicId: transactionBody.mosaicId.toHex().toLowerCase(),
         divisibility: transactionBody.divisibility,
         duration: transactionBody.duration,
@@ -224,7 +224,7 @@ const formatTransactionBody = transactionBody => {
     case TransactionType.MOSAIC_SUPPLY_CHANGE:
       let mosaicSupplyChangeObj = {
         type: 'Mosaic Supply Change',
-        // typeId: TransactionType.MOSAIC_SUPPLY_CHANGE,
+        typeId: TransactionType.MOSAIC_SUPPLY_CHANGE,
         mosaicId: transactionBody.mosaicId.id.toHex(),
         direction: transactionBody.direction === 1 ? 'Increase' : 'Decrease',
         delta: transactionBody.delta.compact()
@@ -234,73 +234,73 @@ const formatTransactionBody = transactionBody => {
 
       let modifyMultisigAccountObj = {
         type: 'ModifyMultisigAccount',
-        // typeId: TransactionType.MODIFY_MULTISIG_ACCOUNT,
+        typeId: TransactionType.MODIFY_MULTISIG_ACCOUNT,
       }
       return modifyMultisigAccountObj
 
     case TransactionType.AGGREGATE_COMPLETE:
       let aggregateCompleteObj = {
         type: 'AggregateComplete',
+        typeId: TransactionType.AGGREGATE_COMPLETE,
         innerTransactions: formatTransactions(transactionBody.innerTransactions),
         cosignatures: formatCosignatures(transactionBody.cosignatures)
-        // typeId: TransactionType.AGGREGATE_COMPLETE,
       }
       return aggregateCompleteObj
     case TransactionType.AGGREGATE_BONDED:
       let aggregateBondedObj = {
         type: 'AggregateBonded',
+        typeId: TransactionType.AGGREGATE_BONDED,
         innerTransactions: formatTransactions(transactionBody.innerTransactions),
         cosignatures: formatCosignatures(transactionBody.cosignatures)
-        // typeId: TransactionType.AGGREGATE_BONDED,
       }
       return aggregateBondedObj
 
     case TransactionType.LOCK:
       let lockObj = {
         type: 'Lock',
-        // typeId: TransactionType.LOCK,
+        typeId: TransactionType.LOCK,
         duration: transactionBody.duration.compact(),
-        mosaic: transactionBody.mosaic.id.toHex(),
+        mosaicId: transactionBody.mosaic.id.toHex(),
         amount: formatFee(transactionBody.mosaic.amount)
       }
       return lockObj
     case TransactionType.SECRET_LOCK:
       let secretLockObj = {
         type: 'Secret lock',
-        // typeId: TransactionType.SECRET_LOCK,
+        typeId: TransactionType.SECRET_LOCK,
       }
       return secretLockObj
     case TransactionType.SECRET_PROOF:
       let secretProofObj = {
         type: 'SecretProof',
-        // typeId: TransactionType.SECRET_PROOF,
+        typeId: TransactionType.SECRET_PROOF,
       }
       return secretProofObj
     case TransactionType.MODIFY_ACCOUNT_PROPERTY_ADDRESS:
       let modifyAccountPropertyAddressObj = {
         type: 'ModifyAccountPropertyAddress',
-        // typeId: TransactionType.MODIFY_ACCOUNT_PROPERTY_ADDRESS,
+        typeId: TransactionType.MODIFY_ACCOUNT_PROPERTY_ADDRESS,
       }
       return modifyAccountPropertyAddressObj
     case TransactionType.MODIFY_ACCOUNT_PROPERTY_MOSAIC:
       let modifyAccountPropertyMosaicObj = {
         type: 'ModifyAccountPropertyMosaic',
-        // typeId: TransactionType.MODIFY_ACCOUNT_PROPERTY_MOSAIC,
+        typeId: TransactionType.MODIFY_ACCOUNT_PROPERTY_MOSAIC,
       }
       return modifyAccountPropertyMosaicObj
     case TransactionType.MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE:
       let modifyAccountPropertyEntityTypeObj = {
         type: 'ModifyAccountPropertyEntityType',
-        // typeId: TransactionType.MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE,
+        typeId: TransactionType.MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE,
       }
       return modifyAccountPropertyEntityTypeObj
     case TransactionType.LINK_ACCOUNT:
       let linkAccountObj = {
         type: 'LinkAccount',
+        typeId: TransactionType.LINK_ACCOUNT,
         linkAction: transactionBody.linkAction === 0 ? 'Link' : 'Unlink',
         remoteAccountPublicKey: transactionBody.remoteAccountKey,
         remoteAccountAddress: Address.createFromPublicKey(transactionBody.remoteAccountKey, NetworkType.MIJIN_TEST).plain()
-        // typeId: TransactionType.LINK_ACCOUNT,
       }
       return linkAccountObj
   }

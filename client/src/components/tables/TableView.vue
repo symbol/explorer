@@ -27,6 +27,8 @@ export default {
                 'transaction',
                 'harvester',
                 'mosaicId',
+                'namespaceId',
+                'parentId',
                 'transactionHash',
 
                 'addressHeight',
@@ -34,9 +36,13 @@ export default {
                 'importanceHeight',
 
                 'signer',
-                'blockHeight'
+                'recipient',
+                'owneraddress',
+                'blockHeight',
+                'endHeight',
+                'startHeight'
             ],
-            
+
         }
     },
 
@@ -48,7 +54,7 @@ export default {
         onItemClick(itemKey, item) {
             if(this.isItemClickable(itemKey))
                 this.$store.dispatch(`ui/openPage`, { pageName: itemKey, param: item });
-            
+
         },
 
         getKeyName(key){
