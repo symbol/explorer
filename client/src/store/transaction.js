@@ -243,9 +243,9 @@ export default {
       commit('setTransactionsInfo', transactionInfo)
 
 
-      let foramttedTransactionInfo = {};
+      let formattedAccountInfo = {};
       if(transactionInfo)
-        foramttedTransactionInfo = {
+        formattedAccountInfo = {
           transactionId: transactionInfo.transaction?.transactionId,
           timestamp: transactionInfo.timestamp,
           deadline: transactionInfo.transaction?.deadline,
@@ -261,7 +261,8 @@ export default {
           recipient: transactionInfo.transaction?.transactionBody?.recipient?.address,
           mosaics: transactionInfo.transaction?.transactionBody?.mosaics,
         }
-      commit('transactionInfo', foramttedTransactionInfo)
+        console.log('transactionInfo', formattedAccountInfo)
+      commit('transactionInfo', formattedAccountInfo)
     }
   }
 }

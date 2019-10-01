@@ -45,6 +45,10 @@ export default {
             return this.clickableItems.indexOf(itemKey) !== -1;
         },
 
+        isItemShown(itemKey, item) {
+            return item != null;
+        },
+
         onItemClick(itemKey, item) {
             if(this.isItemClickable(itemKey))
                 this.$store.dispatch(`ui/openPage`, { pageName: itemKey, param: item });

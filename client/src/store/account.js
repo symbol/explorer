@@ -35,7 +35,7 @@ export default {
     // The Account Transactions list.
     accountTransactions: [],
 
-    accountInfo2: {},
+    formattedAccountInfo: {},
     transactionList: [],
     namespaceList: [],
     mosaicList: [], 
@@ -58,7 +58,7 @@ export default {
       return state.accountTransactions
     },
 
-    accountInfo: state => state.accountInfo2,
+    accountInfo: state => state.formattedAccountInfo,
     transactionList: state => state.transactionList,
     namespaceList: state => state.namespaceList,
     mosaicList: state => state.mosaicList,
@@ -84,7 +84,7 @@ export default {
     },
 
 
-    accountInfo: (state, payload) => Vue.set(state, "accountInfo2", payload),
+    accountInfo: (state, payload) => Vue.set(state, "formattedAccountInfo", payload),
     transactionList: (state, payload) => Vue.set(state, "transactionList", payload),
     namespaceList: (state, payload) => Vue.set(state, "namespaceList", payload),
     mosaicList: (state, payload) => Vue.set(state, "mosaicList", payload),
