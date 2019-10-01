@@ -242,22 +242,25 @@ export default {
       let transactionInfo = await sdkTransaction.getTransactionInfoByHash(hash)
       commit('setTransactionsInfo', transactionInfo)
 
-      let foramttedTransactionInfo = {
-        transactionId: transactionInfo.transaction.transactionId,
-        timestamp: transactionInfo.timestamp,
-        deadline: transactionInfo.transaction.deadline,
-        status: transactionInfo.status,
-        confirm: transactionInfo.confirm,
-        fee: transactionInfo.transaction.fee,
-        signature: transactionInfo.transaction.signature,
-        signer: transactionInfo.transaction.signer,
-        blockHeight: transactionInfo.transaction.blockHeight,
-        transactionHash: transactionInfo.transaction.transactionHash,
 
-        type: transactionInfo.transaction.transactionBody.type,
-        recipient: transactionInfo.transaction.transactionBody.recipient.address,
-        mosaics: transactionInfo.transaction.transactionBody.mosaics,
-      }
+      let foramttedTransactionInfo = {};
+      if(transactionInfo)
+        foramttedTransactionInfo = {
+          transactionId: transactionInfo.transaction?.transactionId,
+          timestamp: transactionInfo.timestamp,
+          deadline: transactionInfo.transaction?.deadline,
+          status: transactionInfo.status,
+          confirm: transactionInfo.confirm,
+          fee: transactionInfo.transaction?.fee,
+          signature: transactionInfo.transaction?.signature,
+          signer: transactionInfo.transaction?.signer,
+          blockHeight: transactionInfo.transaction?.blockHeight,
+          transactionHash: transactionInfo.transaction?.transactionHash,
+
+          type: transactionInfo.transaction?.transactionBody?.type,
+          recipient: transactionInfo.transaction?.transactionBody?.recipient?.address,
+          mosaics: transactionInfo.transaction?.transactionBody?.mosaics,
+        }
       commit('transactionInfo', foramttedTransactionInfo)
     }
   }
