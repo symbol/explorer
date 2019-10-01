@@ -18,7 +18,7 @@
 
 <template>
   <div id="app">
-    <router-view />
+    <router-view :key="$route.fullPath"/>
   </div>
 </template>
 <script>
@@ -57,5 +57,9 @@ export default {
   -ms-user-select: none;
   user-select: none;
   outline: 0;
+}
+
+.pointer{
+  cursor: pointer;
 }
 </style>

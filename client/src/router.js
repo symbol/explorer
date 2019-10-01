@@ -22,6 +22,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 export default new Router({
+  //mode: 'history',
   routes: [
     {
       path: '/',
@@ -140,22 +141,47 @@ export default new Router({
         title: ''
       }
     },
-    {
-      path: '/test/:view/:infoId',
-      name: 'tablePageInfo',
-      component: () => import('./views/TablePage.vue'),
-    },
-    // {
-    //   path: '/test/:view',
-    //   name: 'tablePageList',
-    //   component: () => import('./views/TablePage.vue'),
-    // },
 
     {
-      path: '/test/account',
+      path: '/test',
+      name: 'test',
+      component: () =>
+        import('./views/Home.vue'),
+      meta: {
+        title: ''
+      }
+    },
+
+    {
+      path: '/test/account/:address',
       name: 'account',
       component: () => import('./views/test/AccountDetail.vue'),
     },
+    {
+      path: '/test/blocks',
+      name: 'blocklist',
+      component: () => import('./views/test/Blocks.vue'),
+    },
+    {
+      path: '/test/block/:height',
+      name: 'blockdetail',
+      component: () => import('./views/test/BlockDetail.vue'),
+    },
+    {
+      path: '/test/transactions',
+      name: 'transactionlist',
+      component: () => import('./views/test/Transactions.vue'),
+    },
+    {
+      path: '/test/transaction/:id',
+      name: 'transactiondetail',
+      component: () => import('./views/test/TransactionDetail.vue'),
+    },
+    {
+      path: '*',
+      name: '404',
+      component: () => import('./views/test/NotFound.vue'),
+    }
     // {
     //   path: '/404',
     //   component: import(/* webpackChunkName: "about" */ "./views/About.vue")

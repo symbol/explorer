@@ -1,6 +1,7 @@
 <template>
     <div 
-        class="table-list"
+        v-if="data"
+        class="table-view"
     >
         <div class="table-wrapper">
             <table class="table table-striped">
@@ -25,7 +26,13 @@
                             :class="{'table-item-clickable': isItemClickable(itemKey)}"
                             @click="onItemClick(itemKey, item)"
                         >
-                        {{item}}
+                            <Age
+                                v-if="itemKey === 'age'"
+                                :date="item"
+                            />
+                            <div v-else class="max-item-width">
+                                {{ item }}
+                            </div>
                         </td>
                     </tr>
                 </tbody>
@@ -117,7 +124,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.table-wrapper{
+.table-view{
     overflow:auto;
     .table-pagination {
         float: right;

@@ -1,6 +1,7 @@
 <template>
     <div 
-        class="table-wrapper"
+        v-if="data"
+        class="table-view"
     >
         <table class="table table-striped">
             
@@ -15,6 +16,7 @@
                         {{getKeyName(itemKey)}}
                     </td>
                     <td
+                        class="max-item-width"
                         :class="{'table-item-clickable': isItemClickable(itemKey)}"
                         @click="onItemClick(itemKey, item)"
                     >
@@ -70,7 +72,7 @@ export default {
 
 <style lang="scss" scoped>
 
-.table-wrapper {
+.table-view {
     overflow:auto;
 
     .table-left-header {

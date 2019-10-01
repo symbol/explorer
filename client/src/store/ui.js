@@ -16,11 +16,19 @@
  *
  */
 import router from '../router';
+import { Address, AccountHttp } from 'nem2-sdk'
+import { Endpoint } from '../config'
 
 export default {
     namespaced: true,
     state: {
         keyNames: {
+            'age': 'Age',
+            'amount': 'Amount',
+            'height': 'Height',
+            'fee': 'Fee',
+            'date': 'Date',
+            'harvester': 'Harvester',
             'datetime': 'Date',
             'address': 'Address',
             'account': 'Account',
@@ -28,45 +36,125 @@ export default {
             'mosaic': 'Mosaic',
             'namespace': 'Namespace',
             'transaction': 'Transaction',
+            'transactionHash': 'Transaction hash',
+
+            'addressHeight': 'Address height',
+            'publicKey': 'Public key',
+            'publicKeyHeight': 'PublicKey height',
+            'importance': 'Importance',
+            'importanceHeight': 'Importance height',
+            'accountType': 'Account type',
+            'linkedAccountKey': 'Linked account key',
 
             'accounts': 'Accounts',
             'blocks': 'Blocks',
             'mosaics': 'Mosaics',
             'namespaces': 'Namespaces',
             'transactions': 'Transactions',
+            'mosaicId': 'Name',
+
+            'blockHeight': 'Block height',
+            'signer': 'Signer',
+        },
+
+        keyPages: {
+            'height': 'block',
+
+            'harvester': 'account',
+            'address': 'account',
+            'signer': 'account',
+
+            'transactionHash': 'transaction',
+            'mosaicId': 'mosaic',
+
+            'addressHeight': 'block',
+            'publicKeyHeight': 'block',
+            'importanceHeight': 'block',
+
+            'blockHeight': 'block'
         }
     },
 
     getters: {
         getNameByKey: state => key => state.keyNames[key] != null ? state.keyNames[key] : key
     },
-    
+
     mutations: {
-    
+
     },
     actions: {
-        openPage: (context, payload) => {
-            if(payload.pageName && payload.param);
-                router.push({ path: `/test/${payload.pageName}/${payload.param}` });
+        openPage: ({ state }, payload) => {
+            if (payload.pageName);
+            {
+                let key = payload.pageName;
+                let pageName = state.keyPages[key] || key;
+                let value = payload.param;
+                if(value != null)
+                    router.push({ path: `/test/${pageName}/${value}` });
+                else
+                    router.push({ path: `/test/${pageName}` });
+            }
         },
 
-        hardCodeInit: ({rootState}) => {
-            let blockList = [
-                {
-                    address: "address1",
-                    account: "account1",
-                    block: "block1",
-                    datetime: 1213234213
-                },
-                {
-                    address: "address2",
-                    account: "account2",
-                    block: "block2",
-                    datetime: 1213234212
-                },
-            ];
 
-            rootState.block.pageList = blockList;
+        search: ({dispatch}, searchString) => {
+            return new Promise(async (resolve, reject) => {
+                searchString = searchString.replace(/[^a-zA-Z0-9]/g, '')
+                if (searchString !== null && searchString !== '') {
+                    if (searchString.match(/^-{0,1}\d+$/)) {
+                        dispatch('openPage', {
+                            pageName: 'block',
+                            param: searchString
+                        });
+                        resolve();
+                    } else if (
+                        searchString.match('^[A-z0-9]+$') &&
+                        searchString.length === 64
+                    ) {
+                        // check the string is a public key of an account
+                        let accountHttp = new AccountHttp(Endpoint.api)
+                        let accountAddress
+                        let accountInfo
+                        try {
+                            accountInfo = await accountHttp
+                                .getAccountInfo(new Address(searchString))
+                                .toPromise()
+                            accountAddress = accountInfo.address.address
+                        } catch (e) { }
+                        if (accountAddress) {
+                            dispatch('openPage', {
+                                pageName: 'account',
+                                param: accountInfo.address.address
+                            });
+                            resolve();
+                        } else {
+                            // transaction hash
+                            dispatch('openPage', {
+                                pageName: 'transaction',
+                                param: searchString
+                            });
+                            resolve();
+                        }
+                    } else if (
+                        searchString.match('^[A-z0-9]+$') &&
+                        (searchString.substring(0, 1) === 'S' ||
+                            searchString.substring(0, 1) === 's') &&
+                        searchString.length === 40
+                    ) {
+                        dispatch('openPage', {
+                            pageName: 'account',
+                            param: searchString
+                        });
+                        resolve();
+                    } else {
+                        reject(new Error("Nothing found"));
+                    }
+                } else {
+                    reject(new Error("Nothing found"));
+                }
+            }); 
         }
     }
 }
+
+

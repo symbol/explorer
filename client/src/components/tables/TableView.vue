@@ -1,5 +1,7 @@
 <script>
+import Age from '../Age.vue'
 export default {
+    components: { Age },
     props: {
         view: {
             type: String,
@@ -22,7 +24,17 @@ export default {
                 'height',
                 'mosaic',
                 'namespace',
-                'transaction'
+                'transaction',
+                'harvester',
+                'mosaicId',
+                'transactionHash',
+
+                'addressHeight',
+                'publicKeyHeight',
+                'importanceHeight',
+
+                'signer',
+                'blockHeight'
             ],
             
         }
@@ -41,23 +53,14 @@ export default {
 
         getKeyName(key){
             return this.$store.getters['ui/getNameByKey'](key)
-        }
+        },
     }
 }
 </script>
 
 <style lang="scss">
 
-.table-item-clickable {
-    color: #0997a3;
-    font-weight: bold;
-    cursor: pointer;
-}
 
-.table-titles {
-    background-color: rgba(52, 40, 104, .05);
-    //border-radius: 4px;
-}
 
 .table-title-item {
     vertical-align: middle;
@@ -81,6 +84,33 @@ export default {
 
 .table-striped tbody tr:nth-child(even) td {
     background-color: rgba(52, 40, 104, 0.014);
+}
+
+.table-view{
+
+    td{
+        border-bottom: 1px solid #dadee6;
+        font-weight: none;
+        padding: 10px 5px;
+        min-height: 50px;
+    }
+
+    .max-item-width{
+        word-wrap:break-word;
+        max-width: 300px;
+    }
+
+    .table-item-clickable {
+        color: #84accb;
+        font-weight: 600;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .table-titles {
+        background-color: rgba(52, 40, 104, .05);
+        //border-radius: 4px;
+}
 }
 
 </style>
