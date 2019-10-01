@@ -1,7 +1,7 @@
 <template>
     <div class="full-con">
-        <div 
-            class="search-grp transition" 
+        <div
+            class="search-grp transition"
             v-bind:class="{'search-error': isError}"
         >
             <input
@@ -11,8 +11,8 @@
                 @keyup.enter="onSearch"
             />
             <button @click="onSearch">
-                <i 
-                    class="ico-search-1 transition" 
+                <i
+                    class="ico-search-1 transition"
                     v-bind:class="{'search-error': isError}"
                 />
             </button>
@@ -46,7 +46,7 @@ export default {
         },
 
         fail() {
-            this.placeholder = "Nothing found.."
+            this.placeholder = 'Nothing found..'
             this.searchString = '';
             this.isError = true;
             setTimeout(() => {
@@ -62,10 +62,10 @@ export default {
 <style scoped>
 .search-error {
     border-color: rgb(255, 78, 78);
-    color: rgb(255, 78, 78); 
+    color: rgb(255, 78, 78);
 }
 
-::placeholder { 
+::placeholder {
   color: red;
   opacity: 1; /* Firefox */
 }

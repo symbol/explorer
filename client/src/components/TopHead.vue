@@ -18,7 +18,6 @@
 
 <template>
   <div>
-    
     <div class="full-con gradinet_01 top_head">
       <div class="container">
         <div class="row">
@@ -34,12 +33,10 @@
               <img src="theme/img/logo-w.png" />
             </router-link>
             <div class="full-con">
-              <h1 class="head-titl">
-                Nem blockchain explorer
-              </h1>
-              <p class="head-sub-t">
-                Search transactions, addresses, namespace & mosaic on the nem network.
-              </p>
+              <h1 class="head-titl">Nem blockchain explorer</h1>
+              <p
+                class="head-sub-t"
+              >Search transactions, addresses, namespace & mosaic on the nem network.</p>
             </div>
 
             <SearchBox />
@@ -48,22 +45,17 @@
         </div>
       </div>
 
-
       <div class="mobtopbar">
         <a class="mobilemenu mmtoggle" href="#">
           <i class="ico-navicon-round"></i>
         </a>
-         <router-link to="/" class="logo">
-              <img src="theme/img/logo-w.png" />
-            </router-link>
+        <router-link to="/" class="logo">
+          <img src="theme/img/logo-w.png" />
+        </router-link>
       </div>
     </div>
-    
-    <MobileMenu 
-      :nodes="nodes" 
-      :activenode="activeNode"
-    />
 
+    <MobileMenu :nodes="nodes" :activenode="activeNode" />
   </div>
 </template>
 
@@ -83,7 +75,7 @@ export default {
   components: {
     MobileMenu,
     NodeSelector,
-    SearchBox
+    SearchBox,
   },
 
   data() {
@@ -91,14 +83,16 @@ export default {
       nodes: Endpoint.nodes,
       activeNode: Endpoint.api.replace('http://', '').replace(':3000', ''),
       mobmenu_active: 0,
-      nodemenu_active: 0
+      nodemenu_active: 0,
     }
   },
 
   methods: {
     isMobile() {
-      return helper.isMobile(navigator.userAgent || navigator.vendor || window.opera)
-    }
-  }
+      return helper.isMobile(
+        navigator.userAgent || navigator.vendor || window.opera
+      )
+    },
+  },
 }
 </script>
