@@ -189,14 +189,14 @@ export default {
             hash:  data?.blockInfo?.hash,
           }
           let blockTransactionList = [];
-
+          console.log(data.blockTransactionList)
           if (data.blockTransactionList.length) {
             data.blockTransactionList.forEach((el, idx) => {
               blockTransactionList.push({
                 deadline: el.deadline,
-                transactionHash: el.transactionHash,
+                transactionId: el.transactionId,
                 fee: el.fee,
-                signer: el.signer,
+                transactionHash: el.transactionHash,
                 type: el.transactionBody.type
               });
             })
