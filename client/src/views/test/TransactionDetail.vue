@@ -16,9 +16,15 @@
                 
                 <template v-slot:body>
                     <loader v-if="loading" />
-                    <TableInfoView
-                        :data="transactionInfo"
-                    />
+                    <div v-else>
+                        <TableInfoView
+                            v-if="transactionInfo"
+                            :data="transactionInfo"
+                        />
+                        <div v-else style="font-size: 14px; color: #98a8b4">
+                            Transaction <b>{{id}}</b> is not exist
+                        </div>
+                    </div>
                 </template>
             </Card>
 

@@ -28,8 +28,10 @@ export default {
             'height': 'Height',
             'fee': 'Fee',
             'date': 'Date',
-            'harvester': 'Harvester',
             'datetime': 'Date',
+            'deadline': 'Deadline',
+            'harvester': 'Harvester',
+            
             'address': 'Address',
             'account': 'Account',
             'block': 'Block',
@@ -37,6 +39,7 @@ export default {
             'namespace': 'Namespace',
             'transaction': 'Transaction',
             'transactionHash': 'Transaction hash',
+            'transactionId': 'Transaction id',
 
             'addressHeight': 'Address height',
             'publicKey': 'Public key',
@@ -65,6 +68,7 @@ export default {
             'signer': 'account',
 
             'transactionHash': 'transaction',
+            'transactionId': 'transaction',
             'mosaicId': 'mosaic',
 
             'addressHeight': 'block',
@@ -110,11 +114,11 @@ export default {
                     } 
                     else
                     if(isTransactionId(searchString)) {
-                        dispatch('openPage', {
-                            pageName: 'transaction',
-                            param: searchString
-                        });
-                        resolve();
+                        reject("Search by tx id is not supported yet..")
+                        // dispatch('openPage', {
+                        //     pageName: 'transaction',
+                        //     param: searchString
+                        // });
                     }
                     else
                     if (isAccountPublicKey(searchString)) {
@@ -126,12 +130,12 @@ export default {
                             accountInfo = await accountHttp
                                 .getAccountInfo(new Address(searchString))
                                 .toPromise()
-                            accountAddress = accountInfo.address.address
+                            accountAddress = accountInfo?.address?.address
                         } catch (e) { }
                         if (accountAddress) {
                             dispatch('openPage', {
                                 pageName: 'account',
-                                param: accountInfo.address.address
+                                param: accountAddress
                             });
                             resolve();
                         } 
@@ -153,11 +157,11 @@ export default {
                         resolve();
                     } 
                     else {
-                        reject(new Error("Nothing found"));
+                        reject(new Error("Nothing found.."));
                     }
                 } 
                 else {
-                    reject(new Error("Nothing found"));
+                    reject(new Error("Nothing found.."));
                 }
             }); 
         }

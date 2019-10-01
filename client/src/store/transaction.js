@@ -138,6 +138,7 @@ export default {
 
     transactionInfo: (state, transactionInfo) => Vue.set(state, 'transactionInfo', transactionInfo),
     pageListFormatted: (state, pageListFormatted) => Vue.set(state, 'pageListFormatted', pageListFormatted),
+    transactionInfoLoading: (state, v) => state.transactionInfoLoading = v,
   },
   actions: {
     // Initialize the transaction model.
@@ -239,12 +240,20 @@ export default {
     },
 
     async getTransactionInfoByHash({commit}, hash) {
-      let transactionInfo = await sdkTransaction.getTransactionInfoByHash(hash)
-      commit('setTransactionsInfo', transactionInfo)
+      commit('transactionInfo', null)
+      commit("transactionInfoLoading", true);
+      let transactionInfo = null;
+      let formattedAccountInfo = null;
 
-
-      let formattedAccountInfo = {};
-      if(transactionInfo)
+      try{
+        transactionInfo = await sdkTransaction.getTransactionInfoByHash(hash)
+        commit('setTransactionsInfo', transactionInfo)
+      }
+      catch(e){}
+      
+      
+      
+      if(transactionInfo != null)
         formattedAccountInfo = {
           transactionId: transactionInfo.transaction?.transactionId,
           timestamp: transactionInfo.timestamp,
@@ -263,6 +272,7 @@ export default {
         }
         console.log('transactionInfo', formattedAccountInfo)
       commit('transactionInfo', formattedAccountInfo)
+      commit("transactionInfoLoading", false);
     }
   }
 }

@@ -190,7 +190,7 @@ export default {
           }
           let blockTransactionList = [];
           console.log(data.blockTransactionList)
-          if (data.blockTransactionList.length) {
+          if (data?.blockTransactionList.length) {
             data.blockTransactionList.forEach((el, idx) => {
               blockTransactionList.push({
                 deadline: el.deadline,
