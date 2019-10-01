@@ -21,18 +21,14 @@
     <top-header />
     <page-menu />
     <div class="page-content-card-f">
-      <Card class="card-f card-full-width"> <!-- Mosaic Detail -->
-                <template v-slot:title>
-                    Mosaic Detail
-                </template>
+      <Card class="card-f card-full-width">
+        <!-- Mosaic Detail -->
+        <template v-slot:title>Mosaic Detail</template>
 
-                <template v-slot:body v-if="mosaicInfo">
-                    <TableInfoView
-                        :data="mosaicInfo"
-                    />
-                </template>
-            </Card>
-
+        <template v-slot:body v-if="mosaicInfo">
+          <TableInfoView :data="mosaicInfo" />
+        </template>
+      </Card>
     </div>
     <page-footer />
   </div>
@@ -50,14 +46,15 @@ export default {
   },
   created() {},
   data() {
-    return {
-      mosaicId: this.$route.params.mosaicId,
-    }
+    return {}
   },
   computed: {
     ...mapGetters({
       mosaicInfo: 'mosaic/getMosaicInfo',
     }),
+    mosaicId() {
+      return this.$route.params.mosaicId || 0
+    },
   },
   methods: {},
   mounted() {
@@ -67,30 +64,30 @@ export default {
 </script>
 <style lang="scss">
 .page {
-    .page-content-card-f {
-        padding-top: 20px;
-        padding-left: 20px;
-        display: flex;
-        justify-content: space-between;
-        flex-wrap: wrap
-    }
+  .page-content-card-f {
+    padding-top: 20px;
+    padding-left: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
 
-    .card-f {
-        margin-right: 20px;
-        margin-bottom: 20px;
-    }
+  .card-f {
+    margin-right: 20px;
+    margin-bottom: 20px;
+  }
 
-    .card-adaptive {
-        flex: 1 1 auto;
-        max-width: 100%
-    }
+  .card-adaptive {
+    flex: 1 1 auto;
+    max-width: 100%;
+  }
 
-    .card-full-width {
-        width: 100%;
-    }
+  .card-full-width {
+    width: 100%;
+  }
 
-    .max-height-medium {
-        max-height: 100px;
-    }
+  .max-height-medium {
+    max-height: 100px;
+  }
 }
 </style>

@@ -40,17 +40,17 @@ export default {
       let mosaicInfo = await sdkMosaic.getMosaicInfo(mosaicHexOrNamespace)
 
       let mosaicInfoObject = {
-        'Mosaic': mosaicInfo.mosaic,
-        'Namespace': mosaicInfo.namespace,
-        'Divisibility': mosaicInfo.divisibility,
-        'Owner Address': mosaicInfo.address,
-        'Supply': mosaicInfo.supply,
-        'Revision': mosaicInfo.revision,
-        'Start Height': mosaicInfo.startHeight,
-        'Duration': mosaicInfo.duration,
-        'SupplyMutable': mosaicInfo.supplyMutable,
-        'Transferable': mosaicInfo.transferable,
-        'Restrictable': mosaicInfo.restrictable
+        mosaicId: mosaicInfo.mosaic,
+        namespace: mosaicInfo.namespace,
+        divisibility: mosaicInfo.divisibility,
+        owneraddress: mosaicInfo.address,
+        supply: mosaicInfo.supply,
+        revision: mosaicInfo.revision,
+        startHeight: mosaicInfo.startHeight,
+        duration: mosaicInfo.duration,
+        supplyMutable: mosaicInfo.supplyMutable,
+        transferable: mosaicInfo.transferable,
+        restrictable: mosaicInfo.restrictable
       }
       commit('setMosaicInfo', mosaicInfoObject)
     }
