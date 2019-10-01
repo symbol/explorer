@@ -43,7 +43,7 @@ export default new Router({
       }
     },
     {
-      path: '/block/:blockId',
+      path: '/block/:height',
       name: 'block-detail',
       component: () =>
         import('./views/BlockDetail.vue'),
