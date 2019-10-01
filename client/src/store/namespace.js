@@ -48,14 +48,15 @@ export default {
       let namespaceInfo = await sdkNamespace.getNamespaceInfo(namespaceOrHex)
 
       let namespaceInfoObject = {
-        'Owner Address': namespaceInfo.owner,
-        'Name': namespaceInfo.namespaceName,
-        'Namespace ID': namespaceInfo.namespaceNameHexId,
-        'Registration Type': namespaceInfo.registrationType,
-        'Start Height': namespaceInfo.startHeight,
-        'End Height': namespaceInfo.endHeight,
-        'Active': namespaceInfo.active,
-        'Alias': namespaceInfo.alias,
+        owneraddress: namespaceInfo.owner,
+        namespaceName: namespaceInfo.namespaceName,
+        namespaceId: namespaceInfo.namespaceNameHexId,
+        registrationType: namespaceInfo.registrationType,
+        startHeight: namespaceInfo.startHeight,
+        endHeight: namespaceInfo.endHeight,
+        active: namespaceInfo.active,
+        aliasType: namespaceInfo.aliasType,
+        alias: namespaceInfo.alias,
       }
       commit('setNamespaceInfo', namespaceInfoObject)
 
@@ -63,8 +64,8 @@ export default {
       namespaceInfo.levels.forEach((el) => {
         let namespaceLevelObject = {
           name: el.name,
-          'Namespace ID': el.namespaceId.toHex(),
-          'Parent ID': el.parentId.toHex()
+          namespaceId: el.namespaceId.toHex(),
+          parentId: el.parentId.toHex()
         }
         namespaceLevels.push(namespaceLevelObject)
       })

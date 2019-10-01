@@ -24,6 +24,7 @@ export default {
                 'height',
                 'mosaic',
                 'namespace',
+                'namespaceName',
                 'transaction',
                 'harvester',
                 'mosaicId',
@@ -40,7 +41,7 @@ export default {
                 'owneraddress',
                 'blockHeight',
                 'endHeight',
-                'startHeight'
+                'startHeight',
             ],
 
         }

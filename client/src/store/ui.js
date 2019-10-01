@@ -77,7 +77,10 @@ export default {
       'startHeight': 'Start Height',
       'endHeight': 'End Height',
       'divisibility': 'Divisibility',
-      'owneraddress': 'Owner Address'
+      'owneraddress': 'Owner Address',
+      'active': 'Active',
+      'alias' : 'Alias',
+      'aliasType': 'Alias Type'
     },
 
     keyPages: {
@@ -119,6 +122,7 @@ export default {
         let key = payload.pageName;
         let pageName = state.keyPages[key] || key;
         let value = payload.param;
+
         if (value != null)
           router.push({ path: `/${pageName}/${value}` });
         else

@@ -403,7 +403,8 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
       ? 'Infinity'
       : namespaceInfo.endHeight.compact(),
     active: namespaceInfo.active.toString().toUpperCase(),
-    alias: aliasText ? aliasType + ' | ' + aliasText : aliasType ,
+    aliasType: aliasType,
+    alias: aliasText ? aliasText : aliasType ,
     // parentHexId: namespaceInfo.parentId.id.toHex().toUpperCase(),
     // parentName:
     //   namespaceInfo.registrationType !== 0 ? namespaceNames[0].name.split('.')[0].toUpperCase() : '',
