@@ -195,6 +195,7 @@ export default {
           self.searchValidate = ''
         }, 500)
       }
+      this.searchString ='';
     },
     route_to(rt) {
       router.push({ path: `/block?` })

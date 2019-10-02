@@ -28,7 +28,7 @@
               <div class="box-title">
                 <h1 class="inline-block">Account Detail</h1>
                 <div class="btn_grp inline-block flt-rt address_info">
-                  <span>{{address}}</span>
+                  <span>{{this.$route.params.address}}</span>
                   <button
                     type="button"
                     class="ico-files-o act-copy"
@@ -201,10 +201,16 @@ export default {
       accountTransactions: 'account/getAccountTransactions',
     }),
   },
+  watch: {
+    $route: "asyncData"
+  },
   mounted() {
-    this.$store.dispatch('account/fetchAccountDataByAddress', this.address)
+    this.asyncData()
   },
   methods: {
+    asyncData(){
+      this.$store.dispatch('account/fetchAccountDataByAddress', this.$route.params.address)
+    },
     onCopy(e) {
       alert('You just copied: ' + e.text)
     },

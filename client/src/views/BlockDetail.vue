@@ -28,6 +28,20 @@
               <div class="box-title">
                 <h1 class="inline-block">Block</h1>
                 <span class="info_append">{{'# '+this.$route.params.blockId}}</span>
+                <div class="btn_grp inline-block flt-rt">
+                  <ul class="pagination">
+                    <li class="page-item">
+                      <a @click="prevBlcok()" title="Previous Block">
+                        <i class="ico-angle-left"></i>
+                      </a>
+                    </li>
+                    <li class="page-item">
+                      <a @click="nextBlock()"  title="Next Block">
+                        <i class="ico-angle-right"></i>
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
               <div class="box-con mt-0">
                 <loader v-if="!loading"></loader>
@@ -97,10 +111,7 @@
             </div>
           </div>
 
-          <div
-            class="widget has-shadow"
-            v-if="this.tableData.data.length || this.blockInfo.length"
-          >
+          <div class="widget has-shadow" v-if="this.tableData.data.length || this.blockInfo.length">
             <loader v-if="!loading"></loader>
             <div class="box">
               <div class="table-responsive">
@@ -128,11 +139,11 @@
   </div>
 </template>
 <script>
-import w1 from '@/components/TableDynamic.vue'
-import DataService from '../data-service'
+import w1 from "@/components/TableDynamic.vue";
+import DataService from "../data-service";
 
 export default {
-  name: 'block',
+  name: "block",
   components: {
     DataTable: w1
   },
@@ -142,48 +153,63 @@ export default {
       blockInfo: {},
       tableData: {
         head: [
-          '#',
-          'Timestamp',
-          'Transaction Type',
-          'Fees',
-          'Signer',
-          'Transaction Hash'
+          "#",
+          "Timestamp",
+          "Transaction Type",
+          "Fees",
+          "Signer",
+          "Transaction Hash"
         ],
         data: []
       },
       loading: true
-    }
+    };
+  },
+  watch: {
+    $route: "asyncData"
   },
   mounted() {
-    this.asyncData()
+    this.asyncData();
   },
   methods: {
+    prevBlcok() {
+      var prevBlock = Number(this.blockId) - 1;
+      this.$router.push({
+        path: "/block/" + prevBlock
+      });
+    },
+    nextBlock() {
+      var nextBlock = Number(this.blockId) + 1;
+      this.$router.push({
+        path: "/block/" + nextBlock
+      });
+    },
     asyncData() {
-      let self = this
-      this.blockId = this.$route.params.blockId
-      this.loading = 0
-      DataService.getBlockInfo(this.blockId).then(function (data) {
-        self.blockInfo = data.blockInfo
+      let self = this;
+      this.blockId = this.$route.params.blockId;
+      this.loading = 0;
+      DataService.getBlockInfo(this.blockId).then(function(data) {
+        self.blockInfo = data.blockInfo;
         if (data.blockTransactionList.length) {
-          self.tableData.data = []
+          self.tableData.data = [];
           data.blockTransactionList.forEach((el, idx) => {
-            let temp = []
-            let singerLink = `<a href="/#/account/${el.signer}">${el.signer}</a>`
-            let transactionHashLink = `<a href="/#/transaction/${el.transactionHash}">${el.transactionHash}</a>`
-            temp.push(idx + 1)
-            temp.push(el.deadline)
-            temp.push(el.transactionBody.type)
-            temp.push(el.fee)
-            temp.push(singerLink)
-            temp.push(transactionHashLink)
-            self.tableData.data.push(temp)
-          })
+            let temp = [];
+            let singerLink = `<a href="/#/account/${el.signer}">${el.signer}</a>`;
+            let transactionHashLink = `<a href="/#/transaction/${el.transactionHash}">${el.transactionHash}</a>`;
+            temp.push(idx + 1);
+            temp.push(el.deadline);
+            temp.push(el.transactionBody.type);
+            temp.push(el.fee);
+            temp.push(singerLink);
+            temp.push(transactionHashLink);
+            self.tableData.data.push(temp);
+          });
         } else {
-          self.tableData.data = []
+          self.tableData.data = [];
         }
-        self.loading = 1
-      })
+        self.loading = 1;
+      });
     }
   }
-}
+};
 </script>

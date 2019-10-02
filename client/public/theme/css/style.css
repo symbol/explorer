@@ -1194,6 +1194,8 @@ table.table-bordered.dataTable tbody tr {
 .box .box-title {
     position: relative;
     padding: 10px 0px;
+    display: inline-block;
+    width: 100%;
 }
 
 .box .box-title h1 {
@@ -1483,7 +1485,22 @@ table.table-bordered.dataTable tbody tr {
     -webkit-appearance: none;
     margin: 0;
 }
+.pagination li a, .pagination li a i{
+    font-size: 20px;
+    line-height: 14px;
+   
+}
 
+.pagination li a{
+    color: #828282;
+    transition: all 0.2s ease-in-out;
+    padding: 8px 0px;
+    cursor: pointer;
+}
+.pagination li a:hover{
+    background: #0998a6;
+    color: #fff;
+}
 #table-block-list tbody tr td:nth-child(3) {
     padding-left: 2pc;
 }
