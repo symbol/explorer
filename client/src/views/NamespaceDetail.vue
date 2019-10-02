@@ -17,247 +17,88 @@
  */
 
 <template>
-  <div>
-    <top-header></top-header>
-    <page-menu></page-menu>
-    <div class="page_con">
-      <div class="full-con mob_con">
-        <div class="container p-0">
-          <div class="widget has-shadow mt-4 m-0 z-1">
-            <div class="box">
-              <div class="box-title">
-                <h1 class="inline-block">Namespace Detail</h1>
-              </div>
-              <div class="box-con mt-0">
-                <div class="list_info_con">
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Namespace</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">{{namespaceId}}</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Creator</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">
-                        <router-link
-                          :to="'/account/' + this.namespaceInfo.owner.address.plain()"
-                        >{{this.namespaceInfo.owner.address.plain()}}</router-link>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Creator Public Key</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">{{this.namespaceInfo.owner.publicKey}}</div>
-                    </div>
-                  </div>
-                  <!-- <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">CreateTime</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">2019-08-06 13:48:40</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">ExpiredTime</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">2020-08-06 13:48:40</div>
-                    </div>
-                  </div>-->
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Start Height</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">
-                        <router-link
-                          :to="'/block/' + this.namespaceInfo.startHeight"
-                        >{{this.namespaceInfo.startHeight}}</router-link>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">End Height</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div v-if="typeof this.namespaceInfo.endHeight == 'number'" class="value">
-                        <router-link
-                          :to="'/block/' + this.namespaceInfo.endHeight"
-                        >{{this.namespaceInfo.endHeight}}</router-link>
-                      </div>
+  <div class="page">
+    <top-header />
+    <page-menu />
+    <div class="page-content-card-f">
+      <Card class="card-f card-full-width">
+        <!-- Namespace Detail -->
+        <template v-slot:title>Namespace Detail</template>
 
-                      <div v-else class="value">{{this.namespaceInfo.endHeight}}</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Namespace ID</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">{{this.namespaceInfo.hexId}}</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Namespace Type</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">{{this.namespaceInfo.type}} Namespace</div>
-                    </div>
-                  </div>
-                  <div v-if="namespaceInfo.parentName" class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Parent ID</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div
-                        class="value"
-                      >{{this.namespaceInfo.parentHexId}} | {{this.namespaceInfo.parentName}}</div>
-                    </div>
-                  </div>
-                  <div class="row list_item">
-                    <div class="col-md-2">
-                      <div class="label">Status</div>
-                    </div>
-                    <div class="col-md-10">
-                      <div class="value">{{this.namespaceInfo.active}}</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div v-if="this.namespaceInfo.alias" class="widget has-shadow">
-            <div class="box">
-              <div class="box-title">
-                <h1 class="inline-block">Alias</h1>
-              </div>
-              <div class="table-responsive">
-                <div
-                  id="sorting-table_wrapper"
-                  class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer p-0"
-                >
-                  <table
-                    id="lst34"
-                    class="table table-striped table-bordered"
-                    cellspacing="0"
-                    width="100%"
-                  >
-                    <thead>
-                      <tr>
-                        <th>Alias ID</th>
-                        <th>Type</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr v-if="this.namespaceInfo.aliastype === 'Mosaic'">
-                        <td>
-                          <router-link
-                            :to="'/mosaic/' + this.namespaceInfo.alias"
-                          >{{this.namespaceInfo.alias}}</router-link>
-                        </td>
-                        <td>{{this.namespaceInfo.aliastype}}</td>
-                      </tr>
-                      <tr v-if="this.namespaceInfo.aliastype === 'Address'">
-                        <td>
-                          <router-link
-                            :to="'/account/' + this.namespaceInfo.alias"
-                          >{{this.namespaceInfo.alias}}</router-link>
-                        </td>
-                        <td>{{this.namespaceInfo.aliastype}}</td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
+        <template v-slot:body v-if="namespaceInfo">
+          <TableInfoView :data="namespaceInfo" />
+        </template>
+      </Card>
 
-          <div v-if="this.levels.length > 0" class="widget has-shadow">
-            <div class="box">
-              <div class="box-title">
-                <h1 class="inline-block">Level</h1>
-              </div>
-              <div class="table-responsive">
-                <div
-                  id="sorting-table_wrapper"
-                  class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer p-0"
-                >
-                  <table
-                    id="lst34"
-                    class="table table-striped table-bordered"
-                    cellspacing="0"
-                    width="100%"
-                  >
-                    <thead>
-                      <tr>
-                        <th>Name</th>
-                        <th>Namespace ID</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr></tr>
-                      <tr v-for="(item) in levels" v-bind:key="item.namespaceId">
-                        <td>
-                          <router-link :to="'/namespace/' + item.name">{{item.name}}</router-link>
-                        </td>
-                        <td>
-                          <router-link :to="'/namespace/' + item.name">{{item.namespaceId}}</router-link>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+      <!-- Namespace Level -->
+      <Card class="card-f card-adaptive">
+        <template v-slot:title>Namespaces Level</template>
+
+        <template v-slot:body>
+          <TableListView :data="namespaceLevels" />
+        </template>
+      </Card>
     </div>
-    <page-footer></page-footer>
-    <script type="application/javascript"></script>
+    <page-footer />
   </div>
 </template>
 <script>
-import sdkNamespace from '../infrastructure/getNamespace'
+import TableInfoView from '@/components/tables/TableInfoView.vue'
+import TableListView from '@/components/tables/TableListView.vue'
+import Card from '@/components/containers/Card.vue'
+import { mapGetters } from 'vuex'
 
 export default {
-  name: 'block',
-  components: {},
+  name: 'NamespaceDetail',
+  components: {
+    Card,
+    TableInfoView,
+    TableListView
+  },
   created() {},
   data() {
     return {
       namespaceId: this.$route.params.namespaceId,
-      loading: 0,
-      namespaceInfo: {},
-      alias: {},
-      levels: Array
     }
+  },
+  computed: {
+    ...mapGetters({
+      namespaceInfo: 'namespace/getNamespaceInfo',
+      namespaceLevels: 'namespace/getNamespaceLevels',
+    }),
   },
   mounted() {
-    this.getNamespaceInfo()
+    this.$store.dispatch('namespace/fetchNamespaceInfo', this.namespaceId)
   },
-  methods: {
-    async getNamespaceInfo() {
-      const namespaceInfo = await sdkNamespace.getNamespaceInfoByName(
-        this.namespaceId.toString().toLowerCase()
-      )
-
-      this.namespaceInfo = namespaceInfo
-      this.levels = namespaceInfo.levels
-      this.loading = 1
-    }
-  }
+  methods: {},
 }
 </script>
+<style lang="scss">
+.page {
+  .page-content-card-f {
+    padding-top: 20px;
+    padding-left: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+  }
+
+  .card-f {
+    margin-right: 20px;
+    margin-bottom: 20px;
+  }
+
+  .card-adaptive {
+    flex: 1 1 auto;
+    max-width: 100%;
+  }
+
+  .card-full-width {
+    width: 100%;
+  }
+
+  .max-height-medium {
+    max-height: 100px;
+  }
+}
+</style>

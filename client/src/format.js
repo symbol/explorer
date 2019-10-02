@@ -1,4 +1,4 @@
-import { Address, TransactionType, AliasActionType, UInt64, NetworkType } from 'nem2-sdk'
+import { Address, TransactionType, AliasActionType, UInt64, NetworkType, AccountType } from 'nem2-sdk'
 import moment from 'moment'
 
 // FORMAT FEE
@@ -75,11 +75,25 @@ const formatAccount = accountInfo => {
     mosaics: formatMosaics(accountInfo.mosaics),
     importance: importanceScore,
     importanceHeight: accountInfo.importanceHeight.compact(),
-    accountType: accountInfo.accountType,
+    accountType: formatAccounType(accountInfo.accountType),
     activityBucket: accountInfo.activityBucket,
     linkedAccountKey: accountInfo.linkedAccountKey
   }
   return accountObj
+}
+
+// FORMAT ACCOUNT TYPE
+const formatAccounType = accountType => {
+  switch (accountType) {
+    case AccountType.Unlinked:
+      return 'Unlinked'
+    case AccountType.Main:
+      return 'Main'
+    case AccountType.Remote:
+      return 'Remote'
+    case AccountType.Remote_Unlinked:
+      return 'Remote Unlinked'
+  }
 }
 
 // FORMAT MOSAICS
@@ -87,10 +101,29 @@ const formatMosaics = mosaics => {
   return mosaics.map(mosaic => {
     return {
       ...mosaic,
-      hex: mosaic.id.toHex(),
+      id: mosaic.id.toHex(),
       amount: mosaic.amount.compact()
     }
   })
+}
+
+// FORMAT MOSAICS INFO
+const formatMosaicInfo = (mosaicInfo, mosaicName) => {
+  let mosaicObj = {
+    mosaic: mosaicName.mosaicId.toHex(),
+    namespace: mosaicName.names[0].name,
+    divisibility: mosaicInfo.divisibility,
+    address: mosaicInfo.owner.address.plain(),
+    supply: mosaicInfo.supply.compact(),
+    revision: mosaicInfo.revision,
+    startHeight: mosaicInfo.height.compact(),
+    duration: mosaicInfo.duration.compact(),
+    supplyMutable: mosaicInfo.flags.supplyMutable,
+    transferable: mosaicInfo.flags.transferable,
+    restrictable: mosaicInfo.flags.restrictable
+  }
+
+  return mosaicObj
 }
 
 // FORMAT TRANSACTIONS
@@ -120,7 +153,7 @@ const formatTransaction = transaction => {
 
 // FORMAT AggregateCosignatures
 const formatCosignatures = cosignatures => {
-   cosignatures.map(cosigner => {
+  cosignatures.map(cosigner => {
     cosigner.signer = cosigner.signer.address.address
   })
 
@@ -135,7 +168,7 @@ const formatTransactionBody = transactionBody => {
       let transferObj = {
         type: 'Transfer',
         // typeId: TransactionType.TRANSFER,
-        recipient: transactionBody.recipientAddress,
+        recipient: transactionBody.recipientAddress.plain(),
         mosaics: formatMosaics(transactionBody.mosaics),
         message: transactionBody.message.payload
       }
@@ -170,7 +203,7 @@ const formatTransactionBody = transactionBody => {
         type: 'Mosaic Alias',
         // typeId: TransactionType.MOSAIC_ALIAS,
         // actionType: transactionBody.actionType,
-        aliasAction: transactionBody.actionType === 0 ? 'Link' : 'Unlink',
+        aliasAction: transactionBody.aliasAction === 0 ? 'Link' : 'Unlink',
         namespaceId: transactionBody.namespaceId.id.toHex(),
         mosaicId: transactionBody.mosaicId.id.toHex()
       }
@@ -183,7 +216,9 @@ const formatTransactionBody = transactionBody => {
         divisibility: transactionBody.divisibility,
         duration: transactionBody.duration,
         nonce: transactionBody.nonce,
-        flags: transactionBody.flags,
+        supplyMutable: transactionBody.flags.supplyMutable,
+        transferable: transactionBody.flags.transferable,
+        restrictable: transactionBody.flags.restrictable
       }
       return mosaicDefinitionObj
     case TransactionType.MOSAIC_SUPPLY_CHANGE:
@@ -343,7 +378,7 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
   let aliasType
   switch (namespaceInfo.alias.type) {
     case 1:
-      aliasText = new UInt64(namespaceInfo.alias.mosaicId).toHex()
+      aliasText = namespaceInfo.alias.mosaicId.toHex()
       aliasType = 'Mosaic'
       break
     case 2:
@@ -359,20 +394,19 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
   }
 
   let namespaceObj = {
-    owner: namespaceInfo.owner,
-    namespaceName: namespaceInfo.name,
-    hexId: namespaceInfo.id.toHex().toUpperCase(),
-    type: namespaceInfo.type === 0 ? 'ROOT' : 'SUB',
+    owner: namespaceInfo.owner.address.plain(),
+    namespaceName: namespaceNames[0].name,
+    namespaceNameHexId: namespaceInfo.id.toHex().toUpperCase(),
+    registrationType: namespaceInfo.registrationType === 0 ? 'ROOT' : 'SUB',
     startHeight: namespaceInfo.startHeight.compact(),
-    endHeight: namespaceInfo.name.includes('nem')
+    endHeight: namespaceNames[0].name.includes('nem')
       ? 'Infinity'
       : namespaceInfo.endHeight.compact(),
     active: namespaceInfo.active.toString().toUpperCase(),
-    aliastype: aliasType,
-    alias: aliasText,
-    parentHexId: namespaceInfo.parentId.id.toHex().toUpperCase(),
-    parentName:
-      namespaceInfo.type !== 0 ? namespaceInfo.name.split('.')[0].toUpperCase() : '',
+    alias: aliasText ? aliasType + ' | ' + aliasText : aliasType ,
+    // parentHexId: namespaceInfo.parentId.id.toHex().toUpperCase(),
+    // parentName:
+    //   namespaceInfo.registrationType !== 0 ? namespaceNames[0].name.split('.')[0].toUpperCase() : '',
     levels: namespaceNames
   }
 
@@ -391,5 +425,6 @@ export default {
   formatTransaction,
   formatTransactionBody,
   formatNamespaces,
-  formatNamespace
+  formatNamespace,
+  formatMosaicInfo
 }

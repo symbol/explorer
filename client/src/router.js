@@ -114,7 +114,7 @@ export default new Router({
       }
     },
     {
-      path: '/mosaic/:namespaceId/:mosaicId',
+      path: '/mosaic/:mosaicId',
       name: 'mosaic-detail',
       component: () =>
         import('./views/MosaicDetail.vue'),
@@ -139,7 +139,23 @@ export default new Router({
       meta: {
         title: ''
       }
-    }
+    },
+    {
+      path: '/test/:view/:infoId',
+      name: 'tablePageInfo',
+      component: () => import('./views/TablePage.vue'),
+    },
+    // {
+    //   path: '/test/:view',
+    //   name: 'tablePageList',
+    //   component: () => import('./views/TablePage.vue'),
+    // },
+
+    {
+      path: '/test/account',
+      name: 'account',
+      component: () => import('./views/test/AccountDetail.vue'),
+    },
     // {
     //   path: '/404',
     //   component: import(/* webpackChunkName: "about" */ "./views/About.vue")

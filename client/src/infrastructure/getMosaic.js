@@ -16,22 +16,50 @@
  *
  */
 
-import { MosaicService, Address, AccountHttp, MosaicHttp } from 'nem2-sdk'
-import { Endpoint } from '../config/'
+import {
+  MosaicService,
+  Address,
+  AccountHttp,
+  MosaicHttp,
+  NamespaceHttp,
+  MosaicId,
+  NamespaceId,
+} from 'nem2-sdk'
+import { Endpoint, mosaicInfo } from '../config/'
+import helper from '../helper'
+import format from '../format'
 
-const accountHttp = new AccountHttp(Endpoint.api)
-const mosaicHttp = new MosaicHttp(Endpoint.api)
+const ACCOUNT_HTTP = new AccountHttp(Endpoint.api)
+const MOSAIC_HTTP = new MosaicHttp(Endpoint.api)
+const NAMESPACE_HTTP = new NamespaceHttp(Endpoint.api)
+
 class sdkMosaic {
   static getMosaicsAmountByAddress = async address => {
     const mosaicService = new MosaicService(
-      accountHttp,
-      mosaicHttp
+      ACCOUNT_HTTP,
+      MOSAIC_HTTP
     )
     const mosaicAmount = await mosaicService
       .mosaicsAmountViewFromAddress(new Address(address))
       .toPromise()
 
     return mosaicAmount
+  }
+
+  static getMosaicInfo = async mosaicHexOrNamespace => {
+
+    let mosaicID = ''
+
+    if (helper.isHexadecimal(mosaicHexOrNamespace)) {
+      mosaicID = new MosaicId(mosaicHexOrNamespace);
+    } else {
+      let namespaceId = new NamespaceId(mosaicHexOrNamespace)
+      mosaicID = await NAMESPACE_HTTP.getLinkedMosaicId(namespaceId).toPromise()
+    }
+    // const mosaicInfo = await MOSAIC_HTTP.getMosaic(mosaicID).toPromise(); // SDK Break
+    const mosaicName = await MOSAIC_HTTP.getMosaicsNames([mosaicID]).toPromise();
+
+    return format.formatMosaicInfo(mosaicInfo,mosaicName[0])
   }
 }
 
