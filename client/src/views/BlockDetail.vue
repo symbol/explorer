@@ -31,7 +31,7 @@
                 <div class="btn_grp inline-block flt-rt">
                   <ul class="pagination">
                     <li class="page-item">
-                      <a @click="previousBlcok()" title="Previous Block">
+                      <a @click="previousBlock()" title="Previous Block">
                         <i class="ico-angle-left"></i>
                       </a>
                     </li>
@@ -172,10 +172,10 @@ export default {
     this.asyncData();
   },
   methods: {
-    previousBlcok() {
-      var previousBlcok = Number(this.blockId) - 1;
+    previousBlock() {
+      var previousBlock = Number(this.blockId) - 1;
       this.$router.push({
-        path: "/block/" + previousBlcok
+        path: "/block/" + previousBlock
       });
     },
     nextBlock() {
