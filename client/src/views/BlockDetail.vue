@@ -194,13 +194,13 @@ export default {
           self.tableData.data = [];
           data.blockTransactionList.forEach((el, idx) => {
             let temp = [];
-            let singerLink = `<a href="/#/account/${el.signer}">${el.signer}</a>`;
+            let signerLink = `<a href="/#/account/${el.signer}">${el.signer}</a>`;
             let transactionHashLink = `<a href="/#/transaction/${el.transactionHash}">${el.transactionHash}</a>`;
             temp.push(idx + 1);
             temp.push(el.deadline);
             temp.push(el.transactionBody.type);
             temp.push(el.fee);
-            temp.push(singerLink);
+            temp.push(signerLink);
             temp.push(transactionHashLink);
             self.tableData.data.push(temp);
           });
