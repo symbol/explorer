@@ -33,7 +33,13 @@ export default {
     // The Account Created mosaic.
     accountCreatedMosaics: [], // Wait for Rest team apply
     // The Account Transactions list.
-    accountTransactions: []
+    accountTransactions: [],
+
+    formattedAccountInfo: {},
+    transactionList: [],
+    namespaceList: [],
+    mosaicList: [], 
+    transactionList: []
   },
   getters: {
     getAccountInfo(state) {
@@ -50,7 +56,13 @@ export default {
     },
     getAccountTransactions(state) {
       return state.accountTransactions
-    }
+    },
+
+    accountInfo: state => state.formattedAccountInfo,
+    transactionList: state => state.transactionList,
+    namespaceList: state => state.namespaceList,
+    mosaicList: state => state.mosaicList,
+    transactionList: state => state.transactionList
   },
   mutations: {
     setAccountInfo(state, accountInfo) {
@@ -60,20 +72,48 @@ export default {
       state.accountBalance = accountBalance
     },
     setAccountOwnNamespaces(state, accountOwnNamespaces) {
+      
       state.accountOwnNamespaces = accountOwnNamespaces
     },
     setAccountCreatedMosaics(state, accountCreatedMosaics) {
+      
       state.accountCreatedMosaics = accountCreatedMosaics
     },
     setAccountTransactions(state, accountTransactions) {
       state.accountTransactions = accountTransactions
-    }
+    },
+
+
+    accountInfo: (state, payload) => Vue.set(state, "formattedAccountInfo", payload),
+    transactionList: (state, payload) => Vue.set(state, "transactionList", payload),
+    namespaceList: (state, payload) => Vue.set(state, "namespaceList", payload),
+    mosaicList: (state, payload) => Vue.set(state, "mosaicList", payload),
+    transactionList: (state, payload) => Vue.set(state, "transactionList", payload),
   },
   actions: {
     // Fetch data from the SDK By Address.
     async fetchAccountDataByAddress({ commit }, address) {
       let accountInfo = await sdkAccount.getAccountInfoByAddress(address)
+      let formattedAccountInfo = {
+        address: accountInfo?.address?.address,
+        addressHeight: accountInfo?.addressHeight,
+        publicKey: accountInfo?.publicKey,
+        publicKeyHeight: accountInfo?.publicKeyHeight,
+        importance: accountInfo?.importance,
+        importanceHeight: accountInfo?.importanceHeight,
+        accountType: accountInfo?.accountType,
+        linkedAccountKey: accountInfo?.linkedAccountKey,
+      };
+      let mosaicList = Array.isArray(accountInfo?.mosaics) 
+      ? accountInfo.mosaics.map( el => ({
+        mosaicId: el.hex, 
+        amount: el.amount
+      })) 
+      : [];
+
       commit('setAccountInfo', accountInfo)
+      commit('accountInfo', formattedAccountInfo)
+      commit('mosaicList', mosaicList)
 
       let accountBalance = []
       accountInfo.mosaics.forEach((el, idx) => {
@@ -85,9 +125,20 @@ export default {
         }
         accountBalance.push(balanceObject)
       })
+
       commit('setAccountBalance', accountBalance)
 
       const transactionList = await sdkTransaction.getAccountTransactions(address)
+
+      let formattedTansactionList = [];
+      formattedTansactionList = transactionList.map(el => ({
+        deadline: el.deadline,
+        fee: el.fee,
+        transactionHash: el.transactionHash,
+        transactionType: el.transactionBody?.type
+      }));
+
+      commit('transactionList', formattedTansactionList);
 
       let accountTransactions = []
       transactionList.forEach((el, idx) => {
@@ -103,7 +154,11 @@ export default {
       })
       commit('setAccountTransactions', accountTransactions)
 
+
+
+
       const ownedNamespaceList = await sdkNamespace.getNamespacesFromAccountByAddress(address)
+      commit('namespaceList', ownedNamespaceList);
 
       let ownedNamespaces = []
       ownedNamespaceList.forEach((el, idx) => {

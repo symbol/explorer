@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="pagination-wrapper">
         <ButtonMore 
             v-if="pageIndex === 0"
             @click="nextPage"
@@ -15,12 +15,12 @@
                 <ul class="pagination">
                     <li class="page-item" @click="previousPage">
                         <a href="#">
-                            <i class="ico-angle-left"></i>
+                            <i class="ico-angle-left pagination-arrow"></i>
                         </a>
                     </li>
                     <li class="page-item">
                         <a href="#" @click="nextPage">
-                            <i class="ico-angle-right"></i>
+                            <i class="ico-angle-right pagination-arrow"></i>
                         </a>
                     </li>
                 </ul>
@@ -30,11 +30,11 @@
 </template>
 
 <script>
-import Pagination from '../Pagination.vue';
+import ButtonMore from './ButtonMore.vue';
 
 export default {
     components: {
-        Pagination
+        ButtonMore
     },
 
     props: {
@@ -70,3 +70,14 @@ export default {
     }
 }
 </script>
+
+<style lang="scss" scoped>
+.pagination-wrapper{
+    float: right;
+    .pagination-arrow{
+        justify-content: center;
+        flex-direction: column;
+        display: flex;
+    }
+}
+</style>

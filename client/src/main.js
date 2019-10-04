@@ -17,6 +17,7 @@
  */
 
 import Vue from 'vue'
+window.Vue = Vue;
 import VueClipboard from 'vue-clipboard2'
 import App from './App.vue'
 import router from './router'

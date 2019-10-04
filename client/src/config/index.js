@@ -10,7 +10,9 @@ import {
   MosaicFlags
 } from 'nem2-sdk'
 
-let defaultNode = 'http://52.194.207.217:3000'
+const PORT = '3000';
+let defaultNode = 'http://52.194.207.217:' + PORT;
+
 
 if (localStorage['defaultNode'] && validURL(localStorage['defaultNode'])) {
   defaultNode = localStorage['defaultNode']
@@ -18,12 +20,13 @@ if (localStorage['defaultNode'] && validURL(localStorage['defaultNode'])) {
 
 export const Endpoint = {
   api: defaultNode,
-  ws: 'ws://47.107.245.217:3000',
+  getCurrentNode: () => defaultNode.replace(/(^\w+:|^)\/\//, '').replace(':' + PORT, ''),
+  ws: 'ws://47.107.245.217:' + PORT,
   nodes: [
-    { protocol: 'http', domain: '52.194.207.217', port: 3000 },
-    { protocol: 'http', domain: '103.3.60.174', port: 3000 },
-    { protocol: 'http', domain: '13.114.200.132', port: 3000 },
-    { protocol: 'http', domain: '47.107.245.217', port: 3000 }
+    { protocol: 'http', domain: '52.194.207.217', port: ':' + PORT },
+    { protocol: 'http', domain: '103.3.60.174',   port: ':' + PORT },
+    { protocol: 'http', domain: '13.114.200.132', port: ':' + PORT },
+    { protocol: 'http', domain: '47.107.245.217', port: ':' + PORT }
   ],
   marketDataURL: 'https://min-api.cryptocompare.com/'
 }

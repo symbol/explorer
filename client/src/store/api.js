@@ -15,27 +15,24 @@
  * limitations under the License.
  *
  */
+import { Endpoint } from '../config/'
+import helper from '../helper'
 
-<template>
-  <li @click="onItemClick">
-    <router-link :to="to" exact active-class="active">
-      <i v-bind:class="classname"></i>
-      <span>{{text}}</span>
-    </router-link>
-  </li>
-</template>
-<script>
 export default {
-  name: 'BlocksLink',
-  props: {
-    to: String,
-    text: String,
-    classname: String
-  },
-  methods: {
-    onItemClick() {
-      this.$store.dispatch('ui/openPage', {pageName: this.to.slice(1)})
+    namespaced: true,
+    state: {
+    
+    },
+    getters: {
+        nodeList: state => Endpoint.nodes,
+        currentNode: state => Endpoint.getCurrentNode(),
+    },
+    mutations: {
+        
+    },
+    actions: {
+        changeNode: (context, node)  => {
+            helper.changeNode(node);
+        }
     }
-  }
 }
-</script>

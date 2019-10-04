@@ -1,12 +1,13 @@
 <template>
     <div 
-        class="table-wrapper"
+        v-if="data"
+        class="table-view"
     >
         <table class="table table-striped">
             
             <tbody>
                 <tr
-                    v-for="(item, itemKey) in data"
+                    v-for="(item, itemKey) in formattedData"
                     :key="view+'r'+itemKey"
                 >
                     <td
@@ -15,6 +16,7 @@
                         {{getKeyName(itemKey)}}
                     </td>
                     <td
+                        class="max-item-width"
                         :class="{'table-item-clickable': isItemClickable(itemKey)}"
                         @click="onItemClick(itemKey, item)"
                     >
@@ -36,11 +38,6 @@ export default {
             type: Object,
             required: true
         },
-        
-        // infoId: {
-        //     type: String,
-        //     required: true
-        // }
     },
 
     created() {
@@ -52,13 +49,13 @@ export default {
     },
 
     computed: {
-        // data() {
-        //     let data = this.$store.getters[this.view + "/getPageInfo"];
-        //     if(typeof data === 'object')
-        //         return data;
-        //     else
-        //         return null;
-        // },
+        formattedData() {
+            let formattedData = {};
+            for(var key in this.data)
+                if(this.isItemShown(key, this.data[key]))
+                    formattedData[key] = this.data[key];
+            return formattedData;
+        },
 
         header() {
             let header = ["", ""];
@@ -70,7 +67,7 @@ export default {
 
 <style lang="scss" scoped>
 
-.table-wrapper {
+.table-view {
     overflow:auto;
 
     .table-left-header {
