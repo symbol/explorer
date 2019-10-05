@@ -44,8 +44,11 @@ npm run dev
 
 2. Visit http://localhost:8080/#/ in your browser.
 
-## Build
+## Production Build
 
+```
+npm run build
+```
 
 
 ## Contributing
