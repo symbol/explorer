@@ -25,7 +25,7 @@ export default {
     },
     getters: {
         nodeList: state => Endpoint.nodes,
-        currentNode: state => Endpoint.api.replace('http://', '').replace(':3000', ''),
+        currentNode: state => Endpoint.getCurrentNode(),
     },
     mutations: {
         

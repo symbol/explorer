@@ -7,7 +7,7 @@
             
             <Card class="card-f card-full-width"> 
                 <template v-slot:title>
-                    transactions 
+                    Transactions 
                 </template>
                 <template v-slot:control>
                     <Pagination

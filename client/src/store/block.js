@@ -199,10 +199,10 @@ export default {
       if (blockTransactionList.length) {
         blockTransactionListObject = blockTransactionList.map((el) => ({
           deadline: el.deadline,
-            transactionHash: el.transactionHash,
-            fee: el.fee,
-            signer: el.signer,
-            type: el.transactionBody.type
+          transactionHash: el.transactionHash,
+          fee: el.fee,
+          signer: el.signer,
+          type: el.transactionBody.type
         }))
       }
       commit('blockInfo', blockInfoObject);

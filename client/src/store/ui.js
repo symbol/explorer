@@ -24,7 +24,7 @@ export default {
   state: {
     keyNames: {
       'age': 'Age',
-      'aliasAction':'Alias Action',
+      'aliasAction': 'Alias Action',
       'linkAction': 'Link Action',
       'amount': 'Amount',
       'height': 'Height',
@@ -61,7 +61,7 @@ export default {
       'blocks': 'Blocks',
       'mosaics': 'Mosaics',
       'namespaces': 'Namespaces',
-      'namespaceId':'Namespace ID',
+      'namespaceId': 'Namespace ID',
       'transactions': 'Transactions',
       'mosaicId': 'Mosaic ID',
 
@@ -72,14 +72,14 @@ export default {
       'registrationType': 'Registration Type',
       'parentId': 'Parent ID',
       'duration': 'Duration',
-      'remoteAccountPublicKey':'Remote Account PublicKey',
+      'remoteAccountPublicKey': 'Remote Account PublicKey',
       'remoteAccountAddress': 'Remote Account Address',
       'startHeight': 'Start Height',
       'endHeight': 'End Height',
       'divisibility': 'Divisibility',
       'owneraddress': 'Owner Address',
       'active': 'Active',
-      'alias' : 'Alias',
+      'alias': 'Alias',
       'aliasType': 'Alias Type'
     },
 
@@ -130,65 +130,87 @@ export default {
       }
     },
 
-
     search: ({ dispatch }, searchString) => {
       return new Promise(async (resolve, reject) => {
-        searchString = searchString.replace(/[^a-zA-Z0-9]/g, '')
         if (searchString !== null && searchString !== '') {
-          if (searchString.match(/^-{0,1}\d+$/)) {
+          searchString = searchString.replace(/[^a-zA-Z0-9]/g, '')
+          if (isBlockHeight(searchString)) {
             dispatch('openPage', {
               pageName: 'block',
               param: searchString
             });
             resolve();
-          } else if (
-            searchString.match('^[A-z0-9]+$') &&
-            searchString.length === 64
-          ) {
-            // check the string is a public key of an account
-            let accountHttp = new AccountHttp(Endpoint.api)
-            let accountAddress
-            let accountInfo
-            try {
-              accountInfo = await accountHttp
-                .getAccountInfo(new Address(searchString))
-                .toPromise()
-              accountAddress = accountInfo.address.address
-            } catch (e) { }
-            if (accountAddress) {
-              dispatch('openPage', {
-                pageName: 'account',
-                param: accountInfo.address.address
-              });
-              resolve();
-            } else {
-              // transaction hash
-              dispatch('openPage', {
-                pageName: 'transaction',
-                param: searchString
-              });
-              resolve();
-            }
-          } else if (
-            searchString.match('^[A-z0-9]+$') &&
-            (searchString.substring(0, 1) === 'S' ||
-              searchString.substring(0, 1) === 's') &&
-            searchString.length === 40
-          ) {
-            dispatch('openPage', {
-              pageName: 'account',
-              param: searchString
-            });
-            resolve();
-          } else {
-            reject(new Error("Nothing found"));
           }
-        } else {
-          reject(new Error("Nothing found"));
+          else
+            if (isTransactionId(searchString)) {
+              reject("Search by tx id is not supported yet..")
+              // dispatch('openPage', {
+              //     pageName: 'transaction',
+              //     param: searchString
+              // });
+            }
+            else
+              if (isAccountPublicKey(searchString)) {
+                // check the string is a public key of an account
+                let accountHttp = new AccountHttp(Endpoint.api)
+                let accountAddress
+                let accountInfo
+                try {
+                  accountInfo = await accountHttp
+                    .getAccountInfo(new Address(searchString))
+                    .toPromise()
+                  accountAddress = accountInfo.address.address
+                } catch (e) { }
+                if (accountAddress) {
+                  dispatch('openPage', {
+                    pageName: 'account',
+                    param: accountAddress
+                  });
+                  resolve();
+                }
+                else {
+                  // transaction hash
+                  dispatch('openPage', {
+                    pageName: 'transaction',
+                    param: searchString
+                  });
+                  resolve();
+                }
+              }
+              else
+                if (isAccountAddress(searchString)) {
+                  dispatch('openPage', {
+                    pageName: 'account',
+                    param: searchString
+                  });
+                  resolve();
+                }
+                else {
+                  reject(new Error("Nothing found.."));
+                }
+        }
+        else {
+          reject(new Error("Nothing found.."));
         }
       });
     }
   }
 }
+
+const isTransactionId = (str) =>
+  str.length === 24
+
+const isAccountPublicKey = (str) =>
+  str.length === 64
+  && str.match('^[A-z0-9]+$');
+
+const isAccountAddress = (str) =>
+  str.length === 40
+  && str.match('^[A-z0-9]+$')
+  && (str.substring(0, 1) === 'S' || str.substring(0, 1) === 's');
+
+const isBlockHeight = (str) =>
+  str.match(/^-{0,1}\d+$/);
+
 
 

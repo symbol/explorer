@@ -145,6 +145,7 @@ export default {
     aggregateInnerTransactions: (state, aggregateInnerTransactions) => Vue.set(state, 'aggregateInnerTransactions', aggregateInnerTransactions),
     aggregateCosignatures: (state, aggregateCosignatures) => Vue.set(state, 'aggregateCosignatures', aggregateCosignatures),
     pageListFormatted: (state, pageListFormatted) => Vue.set(state, 'pageListFormatted', pageListFormatted),
+    transactionInfoLoading: (state, v) => state.transactionInfoLoading = v,
   },
   actions: {
     // Initialize the transaction model.

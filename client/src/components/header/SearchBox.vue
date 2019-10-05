@@ -1,13 +1,15 @@
 <template>
     <div class="full-con">
         <div
-            class="search-grp transition"
+            class="search-grp search transition"
             v-bind:class="{'search-error': isError}"
         >
             <input
                 type="text"
                 :placeholder="placeholder"
                 v-model="searchString"
+                class="transition"
+                v-bind:class="{'search-error': isError}"
                 @keyup.enter="onSearch"
             />
             <button @click="onSearch">
@@ -23,7 +25,7 @@
 <script>
 export default {
     mounted() {
-        this.placeholder = this.defaultPlaceholder;
+
     },
 
     data() {
@@ -31,8 +33,7 @@ export default {
             searchString: "",
             searchValidate: '',
             isError: false,
-            placeholder: '',
-            defaultPlaceholder: "Search block / tx id / account"
+            placeholder: 'Search block / tx hash / account',
         }
     },
 
@@ -42,16 +43,16 @@ export default {
     methods: {
         onSearch() {
             this.$store.dispatch('ui/search', this.searchString)
-                .catch(() => this.fail());
+                .then(() => this.searchString = '')
+                .catch(e => this.fail(e));
         },
 
-        fail() {
-            this.placeholder = 'Nothing found..'
-            this.searchString = '';
+        fail(e) {
+            this.searchString = e;
             this.isError = true;
             setTimeout(() => {
                 this.isError = false;
-                this.placeholder = this.defaultPlaceholder;
+                this.searchString = '';
             }, 1000);
         },
     }
@@ -59,15 +60,16 @@ export default {
 </script>
 
 
-<style scoped>
+<style lang="scss" scoped>
+$error-color: rgb(255, 208, 78);
+
 .search-error {
-    border-color: rgb(255, 78, 78);
-    color: rgb(255, 78, 78);
+    border-color: $error-color;
+    color: $error-color;
 }
 
-::placeholder {
-  color: red;
-  opacity: 1; /* Firefox */
+.search{
+    color: #fff;
 }
 
 .transition {

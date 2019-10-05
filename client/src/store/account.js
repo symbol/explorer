@@ -31,7 +31,9 @@ export default {
     // The Account Holding mosaics.
     mosaicList: [],
     // The Account Transactions list.
-    transactionList: []
+    transactionList: [],
+    // The Account Created mosaic.
+    createdMosaics: [], // Wait for Rest team apply
   },
   getters: {
     accountInfo: state => state.accountInfo,
