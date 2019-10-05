@@ -6,10 +6,9 @@ Browser for Catapult. Search for transactions, accounts, assets, and blocks.
 
 ## Architecture
 
-The catapult-server is composed of two separate modules:
-
-* `client`: Handles the UI / UX of the explorer.
-* `server` Handles the API / SDK request from Catapult Network.
+* `/src/store`: Handles the application logic with state management.
+* `/src/infrastructure`: Handles the API / SDK request from Catapult Network.
+* `/src/views`: Handles the UI / UX of the explorer.
 
 ## Requirements
 
@@ -21,42 +20,33 @@ The catapult-explorer works on NodeJS versions:
 
 ## Installation
 
-1. Install the client required dependencies.
+1. Clone Explorer project.
 
 ```
-cd client
+git clone https://github.com/nemfoundation/nem2-explorer.git
+```
+
+2. Install required dependencies.
+
+```
+cd nem2-explorer
 
 npm install
-```
-
-2. Install the server required dependencies.
-
-```
-cd server
-
-npm install
-
-cp .env.example .env
-
 ```
 
 ## Usage
 
-1. Run the client application.
+1. Run the Explorer application.
 
 ```
-cd client
-npm run serve
+npm run dev
 ```
 
-2. Open a new terminal and run the server.
+2. Visit http://localhost:8080/#/ in your browser.
 
-```
-cd client
-npm start
-```
+## Build
 
-3. Visit http://localhost:8080 in your browser.
+
 
 ## Contributing
 
