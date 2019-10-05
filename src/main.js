@@ -37,16 +37,7 @@ Vue.component('page-footer', Pagefooter)
 Vue.component('time-since', TimeSince)
 Vue.component('loader', w1)
 Vue.use(VueClipboard)
-// Vue.use(nem2Sdk)
 
-let settings = {
-  networktime: 1459468800000,
-  api: 'api/',
-  ws: 'http://localhost:3000',
-  nemServer: 'http://52.194.207.217:3000',
-  ws_path: '/ws'
-}
-window.conf = settings
 new Vue({
   router,
   store,

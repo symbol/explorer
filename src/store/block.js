@@ -19,7 +19,6 @@
 import util from './util'
 import sdkBlock from '../infrastructure/getBlock'
 import sdkListener from '../infrastructure/getListener'
-import DataService from '../data-service'
 
 export default {
   namespaced: true,

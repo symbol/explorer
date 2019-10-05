@@ -42,7 +42,6 @@ import w1 from '@/components/HomeBaseInfo.vue'
 import w2 from '@/components/NemPriceGraph.vue'
 import w3 from '@/components/RecentBlocks.vue'
 import w4 from '@/components/RecentTransactions.vue'
-import DataService from '../data-service'
 
 export default {
   name: 'Home',

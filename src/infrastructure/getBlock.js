@@ -18,7 +18,7 @@
 
 import { BlockHttp, ChainHttp, QueryParams } from 'nem2-sdk'
 import format from '../format'
-import { Endpoint } from '../config/'
+import { Endpoint } from '../config'
 
 const CHAIN_HTTP = new ChainHttp(Endpoint.api)
 const BLOCK_HTTP = new BlockHttp(Endpoint.api)

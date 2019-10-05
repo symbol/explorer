@@ -16,23 +16,24 @@
  *
  */
 
-const {
-	MosaicHttp,
-    MosaicId,
-} = require('nem2-sdk');
-const utils = require('../utils');
-const endpoint = utils.getNodeEndPoint();
+import { Listener } from 'nem2-sdk'
+import format from '../format'
+import { Endpoint } from '../config'
 
-const mosaicHttp = new MosaicHttp(endpoint);
+class sdkListener {
+  // Subscribe to new blocks announced to the chain.
+  static subscribeNewBlock = async (dispatch) => {
+    const listener = new Listener(Endpoint.ws, WebSocket)
+    await listener.open()
+    let subscription = listener
+      .newBlock()
+      .subscribe(
+        block => dispatch('add', format.formatBlock(block)),
+        err => console.log(err)
+      )
 
-async function getMosaicInfoByHex(mosaicHex){
-    const mosaic = new MosaicId(mosaicHex);
-    const mosaicInfo = await mosaicHttp.getMosaics([mosaic]).toPromise();
-    // Todo: waiting SDK fix duel rest change
-    // const mosaicName = await mosaicHttp.getMosaicsNames([mosaic]).toPromise();
-
-    return utils.formatMosaicInfo(mosaicInfo[0]);
+    return [listener, subscription]
+  }
 }
-module.exports = {
-    getMosaicInfoByHex
-}
+
+export default sdkListener
