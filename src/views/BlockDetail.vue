@@ -6,6 +6,7 @@
             <Card 
                 class="card-f card-full-width"
                 :loading="loading"
+                :error="error"
             >
                 <template #title>
                     Block Detail
@@ -23,6 +24,9 @@
                     <TableInfoView
                         :data="blockInfo"
                     />
+                </template>
+                <template #error>
+                    Block {{height}} is not exist
                 </template>
             </Card>
 
@@ -70,7 +74,8 @@ export default {
         ...mapGetters({
             blockInfo: 'block/blockInfo',
             blockTransactionList: 'block/blockTransactionList',
-            loading: 'block/blockInfoLoading'
+            loading: 'block/blockInfoLoading',
+            error: 'block/blockInfoError'
         }),
 
         height() {

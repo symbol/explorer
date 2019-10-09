@@ -12,6 +12,10 @@
         <div class="card-body">
             <slot name="body" />
         </div>
+
+        <div v-if="error" class="card-error">
+            <slot name="error" />
+        </div>
     </div>
 </template>
 
@@ -22,7 +26,12 @@ export default {
         loading: {
             type: Boolean,
             default: false
-        }
+        },
+
+        error: {
+            type: Boolean,
+            default: false
+        },
     }
 }
 </script>
@@ -52,6 +61,11 @@ export default {
         .card-body {
             position: relative;
             display: block;
+        }
+
+        .slot-error {
+            font-size: 14px; 
+            color: #98a8b4;
         }
     }
 </style>
