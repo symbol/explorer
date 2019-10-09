@@ -38,7 +38,8 @@ export default {
     // The Block Transaction list
     blockTransactionList: [],
     currentBlockHeight: null,
-    blockInfoLoading: false
+    blockInfoLoading: false,
+    blockInfoError: false
   },
   getters: {
     getLatestList: util.getLatestList,
@@ -60,6 +61,7 @@ export default {
     blockTransactionList: state => state.blockTransactionList,
     currentBlockHeight: state => state.currentBlockHeight,
     blockInfoLoading: state => state.blockInfoLoading,
+    blockInfoError: state => state.blockInfoError
   },
   mutations: {
     setLatestList: util.setLatestList,
@@ -76,6 +78,7 @@ export default {
     blockTransactionList: (state, blockTransactionList) => Vue.set(state, 'blockTransactionList', blockTransactionList),
     currentBlockHeight: (state, currentBlockHeight) => state.currentBlockHeight = currentBlockHeight,
     blockInfoLoading: (state, blockInfoLoading) => state.blockInfoLoading = blockInfoLoading,
+    blockInfoError: (state, v) => state.blockInfoError = v,
   },
   actions: {
     // Initialize the block model.
@@ -174,6 +177,7 @@ export default {
 
 
     getBlockInfo: async ({ commit }, height) => {
+      commit('blockInfoError', false);
       commit('blockInfoLoading', true);
 
       try {
@@ -210,6 +214,7 @@ export default {
       }
       catch(e) {
         console.error(e);
+        commit('blockInfoError', true);
         commit('blockInfo', {});
         commit('blockTransactionList', []);
       }

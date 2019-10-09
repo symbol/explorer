@@ -63,9 +63,11 @@ export default {
             display: block;
         }
 
-        .slot-error {
+        .card-error {
             font-size: 14px; 
             color: #98a8b4;
+            display: flex;
+            justify-content: center;
         }
     }
 </style>
