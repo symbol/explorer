@@ -176,36 +176,43 @@ export default {
     getBlockInfo: async ({ commit }, height) => {
       commit('blockInfoLoading', true);
 
-      const blockInfo = await sdkBlock.getBlockInfoByHeight(height)
-      commit('currentBlockHeight', blockInfo.height)
+      try {
+        const blockInfo = await sdkBlock.getBlockInfoByHeight(height)
+        commit('currentBlockHeight', blockInfo.height)
 
-      const blockTransactionList = await sdkBlock.getBlockFullTransactionsList(
-        height
-      )
+        const blockTransactionList = await sdkBlock.getBlockFullTransactionsList(
+          height
+        )
+          
+        let blockInfoObject = {
+          height: blockInfo.height,
+          date: blockInfo.date,
+          fee: blockInfo.totalFee,
+          height: blockInfo.height,
+          difficulty: blockInfo.difficulty,
+          totalTransactions: blockInfo.numTransactions,
+          harvester: blockInfo.signer.address.address,
+          blockHash: blockInfo.hash,
+        }
 
-      let blockInfoObject = {
-        height: blockInfo.height,
-        date: blockInfo.date,
-        fee: blockInfo.totalFee,
-        height: blockInfo.height,
-        difficulty: blockInfo.difficulty,
-        totalTransactions: blockInfo.numTransactions,
-        harvester: blockInfo.signer.address.address,
-        blockHash: blockInfo.hash,
+        let blockTransactionListObject = [];
+        if (blockTransactionList.length) {
+          blockTransactionListObject = blockTransactionList.map((el) => ({
+            deadline: el.deadline,
+            transactionHash: el.transactionHash,
+            fee: el.fee,
+            signer: el.signer,
+            type: el.transactionBody.type
+          }))
+        }
+        commit('blockInfo', blockInfoObject);
+        commit('blockTransactionList', blockTransactionListObject);
       }
-
-      let blockTransactionListObject = [];
-      if (blockTransactionList.length) {
-        blockTransactionListObject = blockTransactionList.map((el) => ({
-          deadline: el.deadline,
-          transactionHash: el.transactionHash,
-          fee: el.fee,
-          signer: el.signer,
-          type: el.transactionBody.type
-        }))
+      catch(e) {
+        console.error(e);
+        commit('blockInfo', {});
+        commit('blockTransactionList', []);
       }
-      commit('blockInfo', blockInfoObject);
-      commit('blockTransactionList', blockTransactionListObject);
       commit('blockInfoLoading', false);
 
     },

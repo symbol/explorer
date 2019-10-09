@@ -1,5 +1,8 @@
 <template>
     <div class="card">
+        <div v-if="loading" class="card-loading">
+            <loader />
+        </div>
         <div class="card-header">
             <slot name="header" />
             <slot name="title" />
@@ -15,7 +18,12 @@
 <script>
 
 export default {
-    
+    props: {
+        loading: {
+            type: Boolean,
+            default: false
+        }
+    }
 }
 </script>
 
@@ -28,6 +36,10 @@ export default {
         border: none;
         margin-bottom: 20px;
         transition: all 0.5s ease-in-out;
+        position: relative;
+        .card-loading {
+            ///height: 100px;
+        }
         .card-header {
             display: flex;
             justify-content: space-between;

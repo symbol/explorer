@@ -3,11 +3,14 @@
         <div class="page-content-card-f">
 
 
-            <Card class="card-f card-full-width">
-                <template v-slot:title>
+            <Card 
+                class="card-f card-full-width"
+                :loading="loading"
+            >
+                <template #title>
                     Block Detail
                 </template>
-                <template v-slot:control>
+                <template #control>
                     <Pagination
                         :pageIndex="1"
                         :nextPageAction="nextPageAction"
@@ -16,8 +19,7 @@
                 </template>
 
 
-                <template v-slot:body>
-                    <loader v-if="loading" />
+                <template #body>
                     <TableInfoView
                         :data="blockInfo"
                     />
@@ -30,13 +32,12 @@
                 class="card-f card-full-width"
                 v-if="isTransactions"
             >
-                <template v-slot:title>
+                <template #title>
                     Block Transactions
                 </template>
 
 
-                <template v-slot:body>
-                    <loader v-if="loading" />
+                <template #body>
                     <TableListView
                         :data="blockTransactionList"
                     />
