@@ -1,5 +1,5 @@
 const PORT = '3000'
-const DEFAULT_DOMAIN = 'api-01.mt.us-west-2.nemtech.network'
+const DEFAULT_DOMAIN = '127.0.0.1'  // 'api-01.mt.us-west-2.nemtech.network'
 
 let defaultNode = `http://${DEFAULT_DOMAIN}:${PORT}`
 

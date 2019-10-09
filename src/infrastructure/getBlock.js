@@ -16,7 +16,9 @@
  *
  */
 
+import axios from 'axios'
 import { BlockHttp, ChainHttp, QueryParams } from 'nem2-sdk'
+import dto from './dto'
 import format from '../format'
 import { Endpoint } from '../config'
 
@@ -54,16 +56,34 @@ class sdkBlock {
     return format.formatTransactions(transactions)
   }
 
-  static getBlocksWithLimit = async (limit, fromBlockHeight) => {
-    // Break into 2 steps to avoid make expensive request if possible.
-    let blockHeight = fromBlockHeight
-    if (blockHeight === undefined) {
-      blockHeight = await this.getBlockHeight()
+  static getBlocksFromHeightWithLimit = async (limit, fromBlockHeight) => {
+    let blockHeight
+    if (fromBlockHeight === undefined) {
+      blockHeight = 'latest'
+    } else {
+      blockHeight = fromBlockHeight.toString()
     }
 
-    const blocks = await BLOCK_HTTP
-      .getBlocksByHeightWithLimit(blockHeight, limit)
-      .toPromise()
+    // Make request.
+    const path = `/blocks/from/${blockHeight}/limit/${limit}`
+    const response = await axios.get(Endpoint.api + path)
+    const blocks = response.data.map(dto.createBlockFromDTO)
+
+    return format.formatBlocks(blocks)
+  }
+
+  static getBlocksSinceHeightWithLimit = async (limit, sinceBlockHeight) => {
+    let blockHeight
+    if (sinceBlockHeight === undefined) {
+      blockHeight = 'earliest'
+    } else {
+      blockHeight = sinceBlockHeight.toString()
+    }
+
+    // Make request.
+    const path = `/blocks/since/${blockHeight}/limit/${limit}`
+    const response = await axios.get(Endpoint.api + path)
+    const blocks = response.data.map(dto.createBlockFromDTO)
 
     return format.formatBlocks(blocks)
   }

@@ -121,7 +121,7 @@ export default {
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit }) {
       commit('setLoading', true)
-      let blockList = await sdkBlock.getBlocksWithLimit(util.PAGE_SIZE)
+      let blockList = await sdkBlock.getBlocksFromHeightWithLimit(util.PAGE_SIZE)
       commit('setPageList', blockList)
       if (blockList.length > 0) {
         commit('chain/setBlockHeight', blockList[0].height, { root: true })
@@ -136,10 +136,8 @@ export default {
       const pageIndex = getters.getPageIndex
       if (pageList.length > 0) {
         // Page is loaded, need to fetch next page.
-        const index = pageList.length - 1
-        const earliestBlock = pageList[index]
-        const fromBlockHeight = earliestBlock.height - 1
-        let blockList = await sdkBlock.getBlocksWithLimit(util.PAGE_SIZE, fromBlockHeight)
+        const block = pageList[pageList.length - 1]
+        let blockList = await sdkBlock.getBlocksFromHeightWithLimit(util.PAGE_SIZE, block.height)
         commit('setPageIndex', pageIndex + 1)
         commit('setPageList', blockList)
       }
@@ -157,11 +155,8 @@ export default {
         commit('setPageIndex', 0)
       } else if (pageIndex > 0 && pageList.length > 0) {
         // Page is loaded, not the first page, need to fetch previous page.
-        // We don't have a better way, so increment the page size until we have
-        // a way to specify the max block height.
-        const latestBlock = pageList[0]
-        const fromBlockHeight = latestBlock.height + util.PAGE_SIZE
-        let blockList = await sdkBlock.getBlocksWithLimit(util.PAGE_SIZE, fromBlockHeight)
+        const block = pageList[0]
+        let blockList = await sdkBlock.getBlocksSinceHeightWithLimit(util.PAGE_SIZE, block.height)
         commit('setPageList', blockList)
         commit('setPageIndex', pageIndex - 1)
       }
