@@ -1,7 +1,5 @@
 <template>
     <div class="page">
-        <top-header />
-        <page-menu />
         <div class="page-content-card-f">
 
 
@@ -46,7 +44,6 @@
             </Card>
 
         </div>
-        <page-footer/>
     </div>
 </template>
 
