@@ -58,6 +58,8 @@ class sdkTransaction {
 
     return transactionInfo
   }
+
+  // TODO(ahuszagh) Need to get transactions by type...
 }
 
 export default sdkTransaction

@@ -32,9 +32,9 @@ export default {
     mosaicInfo: {}
   },
   getters: {
-    getPageList: util.getPageList,
-    getPageIndex: util.getPageIndex,
-    getLoading: util.getLoading,
+    getPageList: state => state.pageList,
+    getPageIndex: state => state.pageIndex,
+    getLoading: state => state.loading,
     getPageListFormatted: (state, getters) => getters.getPageList.map(el => ({
       mosaicId: el.mosaic,
       owneraddress: el.address,
@@ -42,20 +42,14 @@ export default {
       divisibility: el.divisibility,
       startHeight: el.startHeight
     })),
-
-    getMosaicInfo(state) {
-      return state.mosaicInfo
-    }
+    getMosaicInfo: state => state.mosaicInfo
   },
   mutations: {
-    setPageList: (state, list) => state.pageList = list,
-    setPageIndex: util.setPageIndex,
-    setLoading: util.setLoading,
-    resetPageIndex: util.resetPageIndex,
-
-    setMosaicInfo(state, mosaicInfo) {
-      state.mosaicInfo = mosaicInfo
-    }
+    setPageList: (state, list) => { state.pageList = list },
+    setPageIndex: (state, pageIndex) => { state.pageIndex = pageIndex },
+    setLoading: (state, loading) => { state.loading = loading },
+    resetPageIndex: (state) => { state.pageIndex = 0 },
+    setMosaicInfo: (state, mosaicInfo) => { state.mosaicInfo = mosaicInfo }
   },
   actions: {
     // Initialize the mosaic model.

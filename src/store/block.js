@@ -43,9 +43,11 @@ export default {
     blockInfoError: false
   },
   getters: {
-    getLatestList: util.getLatestList,
-    getRecentList: util.getRecentList,
-    getPageList: util.getPageList,
+    getLatestList: state => state.latestList,
+    getRecentList: state => Array.prototype.filter.call(state.latestList, (item, index) => {
+      return index < 4
+    }),
+    getPageList: state => state.pageList,
     getPageListFormatted: (state, getters) => getters.getPageList.map(el => ({
       height: el.height,
       age: el.date,
@@ -54,10 +56,9 @@ export default {
       date: el.date,
       harvester: el.signer.address.address
     })),
-    getPageIndex: util.getPageIndex,
-    getSubscription: util.getSubscription,
-    getLoading: util.getLoading,
-
+    getPageIndex: state => state.pageIndex,
+    getSubscription: state => state.subscription,
+    getLoading: state => state.loading,
     blockInfo: state => state.blockInfo,
     blockTransactionList: state => state.blockTransactionList,
     currentBlockHeight: state => state.currentBlockHeight,
@@ -65,14 +66,20 @@ export default {
     blockInfoError: state => state.blockInfoError
   },
   mutations: {
-    setLatestList: util.setLatestList,
-    setPageList: util.setPageList,
-    setPageIndex: util.setPageIndex,
-    setSubscription: util.setSubscription,
-    setLoading: util.setLoading,
-    resetPageIndex: util.resetPageIndex,
-    addLatestItem(state, item) {
-      util.addLatestItemByKey(state, item, 'height', 1)
+    setLatestList: (state, list) => { state.latestList = list },
+    setPageList: (state, list) => { state.pageList = list },
+    setPageIndex: (state, pageIndex) => { state.pageIndex = pageIndex },
+    setSubscription: (state, subscription) => { state.subscription = subscription },
+    setLoading: (state, loading) => { state.loading = loading },
+    resetPageIndex: (state) => { state.pageIndex = 0 },
+
+    addLatestItem: (state, item) => {
+      if (state.latestList.length > 0 && state.latestList[0].height !== item.height) {
+        util.prependItem(state.latestList, item)
+        if (state.pageIndex === 0) {
+          util.prependItem(state.pageList, item)
+        }
+      }
     },
 
     blockInfo: (state, blockInfo) => Vue.set(state, 'blockInfo', blockInfo),
@@ -122,7 +129,8 @@ export default {
     async initializePage({ commit }) {
       commit('setLoading', true)
       let blockList = await sdkBlock.getBlocksFromHeightWithLimit(util.PAGE_SIZE)
-      commit('setPageList', blockList)
+      commit('setLatestList', blockList)
+      commit('setPageList', [...blockList])
       if (blockList.length > 0) {
         commit('chain/setBlockHeight', blockList[0].height, { root: true })
       }
@@ -151,20 +159,20 @@ export default {
       const pageIndex = getters.getPageIndex
       if (pageIndex === 1) {
         // Can specialize for the latest list.
-        commit('setPageList', getters.getLatestList)
         commit('setPageIndex', 0)
+        commit('setPageList', getters.getLatestList)
       } else if (pageIndex > 0 && pageList.length > 0) {
         // Page is loaded, not the first page, need to fetch previous page.
         const block = pageList[0]
         let blockList = await sdkBlock.getBlocksSinceHeightWithLimit(util.PAGE_SIZE, block.height)
-        commit('setPageList', blockList)
         commit('setPageIndex', pageIndex - 1)
+        commit('setPageList', blockList)
       }
       commit('setLoading', false)
     },
 
     // Reset the block page to the latest list (index 0)
-    resetPage({ commit, getters }) {
+    async resetPage({ commit, getters }) {
       if (getters.getPageIndex > 0) {
         commit('setPageList', getters.getLatestList)
         commit('resetPageIndex')

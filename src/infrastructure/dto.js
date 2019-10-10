@@ -66,9 +66,9 @@ const createMosaicInfoFromDTO = (mosaicInfoDTO, networkType) =>
     createUInt64FromDTO(mosaicInfoDTO.mosaic.startHeight),
     createPublicAccountFromDTO(mosaicInfoDTO.mosaic.ownerPublicKey, networkType),
     mosaicInfoDTO.mosaic.revision,
-    new nem.MosaicFlags(mosaicInfoDTO.mosaic.properties.flags),
-    mosaicInfoDTO.mosaic.properties.divisibility,
-    createUInt64FromDTO(mosaicInfoDTO.mosaic.properties.duration)
+    new nem.MosaicFlags(mosaicInfoDTO.mosaic.flags),
+    mosaicInfoDTO.mosaic.divisibility,
+    createUInt64FromDTO(mosaicInfoDTO.mosaic.duration)
   )
 
 const createNamespaceIdFromDTO = (namespaceIdDTO) =>

@@ -34,9 +34,9 @@ export default {
     namespaceLevels: []
   },
   getters: {
-    getPageList: util.getPageList,
-    getPageIndex: util.getPageIndex,
-    getLoading: util.getLoading,
+    getPageList: state => state.pageList,
+    getPageIndex: state => state.pageIndex,
+    getLoading: state => state.loading,
     getPageListFormatted: (state, getters) => getters.getPageList.map(el => ({
       namespaceId: el.namespace,
       owneraddress: el.address,
@@ -44,26 +44,16 @@ export default {
       startHeight: el.startHeight,
       depth: el.depth
     })),
-
-    getNamespaceInfo(state) {
-      return state.namespaceInfo
-    },
-    getNamespaceLevels(state) {
-      return state.namespaceLevels
-    }
+    getNamespaceInfo: state => state.namespaceInfo,
+    getNamespaceLevels: state => state.namespaceLevels
   },
   mutations: {
-    setPageList: (state, list) => state.pageList = list,
-    setPageIndex: util.setPageIndex,
-    setLoading: util.setLoading,
-    resetPageIndex: util.resetPageIndex,
-
-    setNamespaceInfo(state, namespaceInfo) {
-      state.namespaceInfo = namespaceInfo
-    },
-    setNamespaceLevels(state, namespaceLevels) {
-      state.namespaceLevels = namespaceLevels
-    }
+    setPageList: (state, list) => { state.pageList = list },
+    setPageIndex: (state, pageIndex) => { state.pageIndex = pageIndex },
+    setLoading: (state, loading) => { state.loading = loading },
+    resetPageIndex: (state) => { state.pageIndex = 0 },
+    setNamespaceInfo: (state, info) => { state.namespaceInfo = info },
+    setNamespaceLevels: (state, levels) => { state.namespaceLevels = levels }
   },
   actions: {
     // Initialize the namespace model.
