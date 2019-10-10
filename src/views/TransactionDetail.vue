@@ -1,49 +1,66 @@
 <template>
   <div class="page">
     <div class="page-content-card-f">
-      <Card class="card-f card-full-width">
-        <template v-slot:title>Transaction Info</template>
-        <template v-slot:control></template>
+      <Card 
+        class="card-f card-full-width"
+        :loading="loading"
+        :error="error"
+      >
+        <template #title>Transaction Info</template>
+        <template #control></template>
 
-        <template v-slot:body>
-          <loader v-if="loading" />
+        <template #body>
           <TableInfoView :data="transactionInfo" />
         </template>
+        <template #error>Transaction with hash - {{transactionHash}} is not exist</template>
       </Card>
-      <Card class="card-f card-adaptive">
-        <template v-slot:title>Transaction Detail</template>
-        <template v-slot:control></template>
+      <Card 
+        class="card-f card-adaptive"
+        v-if="showTransactionDetail"
+        :loading="loading"
+      >
+        <template #title>Transaction Detail</template>
+        <template #control></template>
 
-        <template v-slot:body>
-          <loader v-if="loading" />
+        <template #body>
           <TableInfoView :data="transactionDetail" />
         </template>
       </Card>
 
-      <Card class="card-f card-adaptive" v-if="transferMosaics.length > 0">
-        <template v-slot:title>Mosaics</template>
+      <Card 
+        class="card-f card-adaptive" 
+        v-if="transferMosaics.length > 0"
+        :loading="loading"
+      >
+        <template #title>Mosaics</template>
 
-        <template v-slot:body>
+        <template #body>
           <TableListView :data="transferMosaics" />
         </template>
       </Card>
 
-      <Card class="card-f card-full-width" v-if="aggregateInnerTransactions.length > 0">
-        <template v-slot:title>Aggregate InnerTransactions</template>
-        <template v-slot:control></template>
+      <Card 
+        class="card-f card-full-width" 
+        v-if="aggregateInnerTransactions.length > 0"
+        :loading="loading"
+      >
+        <template #title>Aggregate InnerTransactions</template>
+        <template #control></template>
 
-        <template v-slot:body>
-          <loader v-if="loading" />
+        <template #body>
           <TableInfoView :data="aggregateInnerTransactions" />
         </template>
       </Card>
 
-      <Card class="card-f card-full-width" v-if="aggregateCosignatures.length > 0">
-        <template v-slot:title>Aggregate Cosignatures</template>
-        <template v-slot:control></template>
+      <Card 
+        class="card-f card-full-width" 
+        v-if="aggregateCosignatures.length > 0"
+        :loading="loading"
+      >
+        <template #title>Aggregate Cosignatures</template>
+        <template #control></template>
 
-        <template v-slot:body>
-          <loader v-if="loading" />
+        <template #body>
           <TableInfoView :data="aggregateCosignatures" />
         </template>
       </Card>
@@ -79,11 +96,16 @@ export default {
       transferMosaics: 'transaction/transferMosaics',
       aggregateInnerTransactions: 'transaction/aggregateInnerTransactions',
       aggregateCosignatures: 'transaction/aggregateCosignatures',
-      loading: 'transaction/transactionInfoLoading'
+      loading: 'transaction/transactionInfoLoading',
+      error: 'transaction/transactionInfoError'
     }),
 
     transactionHash() {
       return this.$route.params.transactionHash
+    },
+
+    showTransactionDetail() {
+      return !this.error;
     }
   }
 }
