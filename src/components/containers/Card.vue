@@ -1,19 +1,20 @@
 <template>
     <div class="card">
-        <div v-if="loading" class="card-loading">
-            <loader />
-        </div>
         <div class="card-header">
             <slot name="header" />
             <slot name="title" />
             <slot name="control" />
         </div>
 
+        <div v-if="loading" class="card-loading">
+            <loader />
+        </div>
+
         <div v-if="error" class="card-error">
             <slot name="error" />
         </div>
 
-        <div v-else class="card-body">
+        <div v-if="!error && !loading" class="card-body">
             <slot name="body" />
         </div>
 
@@ -49,7 +50,7 @@ export default {
         transition: all 0.5s ease-in-out;
         position: relative;
         .card-loading {
-            ///height: 100px;
+            height: 187px;
         }
         .card-header {
             display: flex;
