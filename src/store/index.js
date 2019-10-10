@@ -45,6 +45,8 @@ export default new Vuex.Store({
     // Initialize the stores (call on app load).
     async initialize({ dispatch }) {
       await dispatch('block/initialize')
+      await dispatch('mosaic/initialize')
+      await dispatch('namespace/initialize')
       await dispatch('transaction/initialize')
       await dispatch('chain/initialize')
     },

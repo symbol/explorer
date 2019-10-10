@@ -122,22 +122,23 @@ const formatMosaics = mosaics => {
 }
 
 // FORMAT MOSAICS INFO
-const formatMosaicInfo = (mosaicInfo, mosaicName) => {
-  let mosaicObj = {
-    mosaic: mosaicName.mosaicId.toHex(),
-    namespace: mosaicName.names[0]?.name,
-    divisibility: mosaicInfo.divisibility,
-    address: mosaicInfo.owner.address.plain(),
-    supply: mosaicInfo.supply.compact(),
-    revision: mosaicInfo.revision,
-    startHeight: mosaicInfo.height.compact(),
-    duration: mosaicInfo.duration.compact(),
-    supplyMutable: mosaicInfo.flags.supplyMutable,
-    transferable: mosaicInfo.flags.transferable,
-    restrictable: mosaicInfo.flags.restrictable
-  }
+const formatMosaicInfo = mosaicInfo => ({
+  mosaic: mosaicInfo.id.toHex(),
+  divisibility: mosaicInfo.divisibility,
+  address: mosaicInfo.owner.address.plain(),
+  supply: mosaicInfo.supply.compact(),
+  revision: mosaicInfo.revision,
+  startHeight: mosaicInfo.height.compact(),
+  duration: mosaicInfo.duration.compact(),
+  supplyMutable: mosaicInfo.flags.supplyMutable,
+  transferable: mosaicInfo.flags.transferable,
+  restrictable: mosaicInfo.flags.restrictable
+})
 
-  return mosaicObj
+const formatMosaicInfos = mosaicInfos => {
+  return mosaicInfos.map(mosaicInfo => {
+    return formatMosaicInfo(mosaicInfo)
+  })
 }
 
 // FORMAT TRANSACTIONS
@@ -428,6 +429,24 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
   return namespaceObj
 }
 
+const formatNamespaceInfo = namespaceInfo => ({
+  active: namespaceInfo.active,
+  namespace: namespaceInfo.metaId,
+  index: namespaceInfo.index,
+  registrationType: namespaceInfo.registrationType,
+  depth: namespaceInfo.depth,
+  levels: namespaceInfo.levels,
+  parent: namespaceInfo.parentId.toHex(),
+  address: namespaceInfo.owner.address.plain(),
+  startHeight: namespaceInfo.startHeight.compact(),
+})
+
+const formatNamespaceInfos = namespaceInfos => {
+  return namespaceInfos.map(namespaceInfo => {
+    return formatNamespaceInfo(namespaceInfo)
+  })
+}
+
 export default {
   formatAddress,
   formatFee,
@@ -441,5 +460,8 @@ export default {
   formatTransactionBody,
   formatNamespaces,
   formatNamespace,
-  formatMosaicInfo
+  formatMosaicInfo,
+  formatMosaicInfos,
+  formatNamespaceInfo,
+  formatNamespaceInfos
 }

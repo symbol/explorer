@@ -17,11 +17,12 @@
  */
 
 import axios from 'axios'
-import { BlockHttp, ChainHttp, QueryParams } from 'nem2-sdk'
+import { BlockHttp, ChainHttp, NetworkHttp, QueryParams } from 'nem2-sdk'
 import dto from './dto'
 import format from '../format'
 import { Endpoint } from '../config'
 
+const NETWORK_HTTP = new NetworkHttp(Endpoint.api)
 const CHAIN_HTTP = new ChainHttp(Endpoint.api)
 const BLOCK_HTTP = new BlockHttp(Endpoint.api)
 
@@ -65,9 +66,10 @@ class sdkBlock {
     }
 
     // Make request.
+    const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
     const path = `/blocks/from/${blockHeight}/limit/${limit}`
     const response = await axios.get(Endpoint.api + path)
-    const blocks = response.data.map(dto.createBlockFromDTO)
+    const blocks = response.data.map(info => dto.createBlockFromDTO(info, networkType))
 
     return format.formatBlocks(blocks)
   }
@@ -81,9 +83,10 @@ class sdkBlock {
     }
 
     // Make request.
+    const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
     const path = `/blocks/since/${blockHeight}/limit/${limit}`
     const response = await axios.get(Endpoint.api + path)
-    const blocks = response.data.map(dto.createBlockFromDTO)
+    const blocks = response.data.map(info => dto.createBlockFromDTO(info, networkType))
 
     return format.formatBlocks(blocks)
   }

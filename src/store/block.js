@@ -34,7 +34,7 @@ export default {
     subscription: null,
     // Determine if the blocks model is loading.
     loading: false,
-    // The Block Infomation.
+    // The Block Information.
     blockInfo: {},
     // The Block Transaction list
     blockTransactionList: [],

@@ -18,8 +18,16 @@
 
 import * as nem from 'nem2-sdk'
 
+// Parse the network type field from the version/network type field.
+const createNetworkTypeFromDTO = (version) =>
+  parseInt(version.toString(16).substr(0, 2), 16)
+
+// Parse the version field from the version/network type field.
+const createVersionFromDTO = (version) =>
+  parseInt(version.toString(16).substr(2, 2), 16)
+
 const createUInt64FromDTO = (uint64DTO) =>
-  nem.UInt64.fromUint(parseInt(uint64DTO))
+  nem.UInt64.fromNumericString(uint64DTO)
 
 const createPublicAccountFromDTO = (publicKey, networkType) => {
   if (undefined === publicKey) {
@@ -28,8 +36,7 @@ const createPublicAccountFromDTO = (publicKey, networkType) => {
   return nem.PublicAccount.createFromPublicKey(publicKey, networkType)
 }
 
-const createBlockFromDTO = (blockDTO) => {
-  const networkType = parseInt(blockDTO.block.version.toString(16).substr(0, 2), 16)
+const createBlockFromDTO = (blockDTO, networkType) => {
   return new nem.BlockInfo(
     blockDTO.meta.hash,
     blockDTO.meta.generationHash,
@@ -38,7 +45,7 @@ const createBlockFromDTO = (blockDTO) => {
     blockDTO.block.signature,
     createPublicAccountFromDTO(blockDTO.block.signerPublicKey, networkType),
     networkType,
-    parseInt(blockDTO.block.version.toString(16).substr(2, 2), 16),
+    createVersionFromDTO(blockDTO.block.version),
     blockDTO.block.type,
     createUInt64FromDTO(blockDTO.block.height),
     createUInt64FromDTO(blockDTO.block.timestamp),
@@ -52,7 +59,64 @@ const createBlockFromDTO = (blockDTO) => {
   )
 }
 
+const createMosaicInfoFromDTO = (mosaicInfoDTO, networkType) =>
+  new nem.MosaicInfo(
+    new nem.MosaicId(mosaicInfoDTO.mosaic.id),
+    createUInt64FromDTO(mosaicInfoDTO.mosaic.supply),
+    createUInt64FromDTO(mosaicInfoDTO.mosaic.startHeight),
+    createPublicAccountFromDTO(mosaicInfoDTO.mosaic.ownerPublicKey, networkType),
+    mosaicInfoDTO.mosaic.revision,
+    new nem.MosaicFlags(mosaicInfoDTO.mosaic.properties.flags),
+    mosaicInfoDTO.mosaic.properties.divisibility,
+    createUInt64FromDTO(mosaicInfoDTO.mosaic.properties.duration)
+  )
+
+const createNamespaceIdFromDTO = (namespaceIdDTO) =>
+  nem.NamespaceId.createFromEncoded(namespaceIdDTO)
+
+const extractLevels = (namespaceDTO) => {
+  const result = []
+  if (namespaceDTO.level0) {
+    result.push(createNamespaceIdFromDTO(namespaceDTO.level0))
+  }
+  if (namespaceDTO.level1) {
+    result.push(createNamespaceIdFromDTO(namespaceDTO.level1))
+  }
+  if (namespaceDTO.level2) {
+    result.push(createNamespaceIdFromDTO(namespaceDTO.level2))
+  }
+  return result
+}
+
+const extractAlias = (namespaceDTO) => {
+  if (namespaceDTO.alias && namespaceDTO.alias.type === nem.AliasType.Mosaic) {
+    return new nem.Alias(nem.AliasType.Mosaic, undefined, namespaceDTO.alias.mosaicId)
+  }
+  else if (namespaceDTO.alias && namespaceDTO.alias.type === nem.AliasType.Address) {
+    return new nem.Alias(nem.AliasType.Address, namespaceDTO.alias.address, undefined)
+  }
+  return new nem.Alias(nem.AliasType.None, undefined, undefined)
+}
+
+const createNamespaceInfoFromDTO = (namespaceInfoDTO, networkType) =>
+  new nem.NamespaceInfo(
+    namespaceInfoDTO.meta.active,
+    namespaceInfoDTO.meta.index,
+    namespaceInfoDTO.meta.id,
+    namespaceInfoDTO.namespace.registrationType,
+    namespaceInfoDTO.namespace.depth,
+    extractLevels(namespaceInfoDTO.namespace),
+    createNamespaceIdFromDTO(namespaceInfoDTO.namespace.parentId),
+    createPublicAccountFromDTO(namespaceInfoDTO.namespace.ownerPublicKey, networkType),
+    createUInt64FromDTO(namespaceInfoDTO.namespace.startHeight),
+    createUInt64FromDTO(namespaceInfoDTO.namespace.endHeight),
+    extractAlias(namespaceInfoDTO.namespace)
+  )
+
+// TODO(ahuszagh) Need createTransactionFromDTO
+
 export default {
-  createUInt64FromDTO,
-  createBlockFromDTO
+  createBlockFromDTO,
+  createMosaicInfoFromDTO,
+  createNamespaceInfoFromDTO
 }

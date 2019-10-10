@@ -1,7 +1,6 @@
 <template>
     <div class="page">
         <div class="page-content-card-f">
-
             <Card
                 class="card-f card-full-width"
                 :loading="loading"
@@ -18,7 +17,6 @@
                         :previousPageAction="previousPageAction"
                     />
                 </template>
-
                 <template #body>
                     <TableListView
                         :data="blockList"
