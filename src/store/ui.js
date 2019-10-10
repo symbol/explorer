@@ -78,6 +78,11 @@ export default {
       'endHeight': 'End Height',
       'divisibility': 'Divisibility',
       'owneraddress': 'Owner Address',
+      'supply': 'Supply',
+      'revision': 'Revision',
+      'supplyMutable': 'Supply Mutable',
+      'transferable': 'Transferable',
+      'restrictable': 'Restrictable',
       'active': 'Active',
       'alias': 'Alias',
       'aliasType': 'Alias Type'
@@ -123,8 +128,12 @@ export default {
         let pageName = state.keyPages[key] || key;
         let value = payload.param;
 
-        if (value != null)
+        if (value != null) {
+          if (typeof value != 'number') {
+            value = value.toLowerCase()
+          }
           router.push({ path: `/${pageName}/${value}` });
+        }
         else
           router.push({ path: `/${pageName}` });
       }
