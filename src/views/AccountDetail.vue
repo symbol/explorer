@@ -75,7 +75,7 @@
 
                 <template #body>
                     <TableListView
-                        :data="transactionList"
+                        :data="filteredTransactionList"
                     />
                 </template>
             </Card>
@@ -99,8 +99,10 @@ export default {
     data() {
         return {
             transactionTypes: [
-                { name: "Transactions", value: 1 },
-                { name: "Mosaic Transactions", value: 2 }
+                { name: "All transactions", value: 1 },
+                { name: "Mosaic transactions", value: 2 },
+                { name: "Namespace transactions", value: 3 },
+                { name: "Transfers", value: 4 }
             ],
             selectedTransactionType: 1 // TODO: store.getters
         }
@@ -123,16 +125,36 @@ export default {
         showDeatail() { return !this.error && this.accountInfo },
         showMosaics() { return !this.error && this.mosaicList?.length },
         showNamespaces() { return !this.error && this.namespaceList?.length },
-        showTransactions() {return !this.error}
+        showTransactions() {return !this.error},
+
+        filteredTransactionList() {
+            if(Array.isArray(this.transactionList))
+                switch(this.selectedTransactionType) {
+                    case 1:
+                        return this.transactionList;
+                    case 2:
+                        return this.transactionList.filter( transaction => 
+                            transaction.transactionType?.toUpperCase().indexOf("MOSAIC") !== -1
+                        )
+                    case 3:
+                        return this.transactionList.filter( transaction => 
+                            transaction.transactionType?.toUpperCase().indexOf("NAMESPACE") !== -1
+                        )
+                    case 4:
+                        return this.transactionList.filter( transaction => 
+                            transaction.transactionType?.toUpperCase().indexOf("TRANSFER") !== -1
+                        )
+                }
+        }
 
     },
 
     methods: {
         changeTransactionType(v){
             this.selectedTransactionType = v;
-            this.$store.dispatch("account/getTransactions", {
-                transactionType: this.selectedTransactionType
-            });
+            // this.$store.dispatch("account/getTransactions", {
+            //     transactionType: this.selectedTransactionType
+            // });
         }
     }
 }
