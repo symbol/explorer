@@ -3,9 +3,8 @@
         <div class="page-content-card-f">
 
 
-            <Card 
+            <Card
                 class="card-f card-full-width"
-                :loading="loading"
             > <!-- Account Detail -->
                 <template #title>
                     Account Detail
@@ -19,7 +18,7 @@
             </Card>
 
 
-            <Card 
+            <Card
                 v-if="hasMosaics"
                 class="card-f card-adaptive"
             > <!-- Mosaics -->
@@ -34,8 +33,7 @@
                 </template>
             </Card>
 
-
-            <Card 
+            <Card
                 v-if="hasNamespaces"
                 class="card-f card-adaptive"
             > <!-- NS -->
