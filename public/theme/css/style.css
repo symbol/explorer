@@ -498,6 +498,7 @@ img {
     position: relative;
     margin-top: 14px;
     border-radius: 6px;
+    margin-bottom: 15px;
     overflow: hidden;
 }
 
@@ -1033,7 +1034,7 @@ table.table-bordered.dataTable tbody tr {
 .page_con {
     width: 100%;
     position: relative;
-    min-height: 70vh;
+    min-height: 55vh;
 }
 
 .page_con.nav_fx {
@@ -1073,12 +1074,32 @@ table.table-bordered.dataTable tbody tr {
     color: #ffffffa8;
     font-weight: 200;
 }
+.t-c-p{
 
+}
+.t-c-p h1{
+    width: 100%;
+    text-align: center;
+}
+.t-c-p p{
+    font-size: 15px;
+    line-height: 1.6;
+    color: #5d5d5d;
+}
+.t-c-p p a{
+    color: #84accb;
+    text-decoration: none;
+}
+.t-c-p h2{
+    width: 100%;
+    font-weight: 300;
+}
 .social-icon {
     list-style: none;
     text-align: justify;
     display: flex;
     margin-top: 40px;
+    padding: 0px;
 }
 
 .social-icon li {
@@ -1105,7 +1126,19 @@ table.table-bordered.dataTable tbody tr {
     text-decoration: none;
     line-height: 1.5;
 }
-
+.ftr_btm-menu{
+    margin: 0px;
+    list-style: none;
+    display: inline-block;
+}
+.ftr_btm-menu li,.ftr_btm p{ 
+    display: inline-block;
+} 
+.ftr_btm-menu li a{ 
+    margin-left: 15px;
+    color: #fff;
+    font-size: 12px;
+} 
 .social-icon li a i {
     font-size: 15px;
 }
@@ -1375,7 +1408,10 @@ table.table-bordered.dataTable tbody tr {
 }
 
 .text-right {
-    text-align: right
+    text-align: right;
+}
+.text-center{
+    text-align: center;
 }
 
 .trx-clm .tx_acnts {
