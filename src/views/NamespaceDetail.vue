@@ -18,8 +18,6 @@
 
 <template>
   <div class="page">
-    <top-header />
-    <page-menu />
     <div class="page-content-card-f">
       <Card class="card-f card-full-width">
         <!-- Namespace Detail -->
@@ -39,7 +37,6 @@
         </template>
       </Card>
     </div>
-    <page-footer />
   </div>
 </template>
 <script>

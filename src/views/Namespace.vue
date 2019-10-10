@@ -18,8 +18,6 @@
 
 <template>
   <div>
-    <top-header />
-    <page-menu />
     <div class="page_con">
       <div class="full-con mob_con">
         <div class="container p-0">
@@ -118,7 +116,6 @@
         </div>
       </div>
     </div>
-    <page-footer />
   </div>
 </template>
 <script>

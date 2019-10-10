@@ -1,7 +1,5 @@
 <template>
     <div class="table-page">
-        <top-header />
-        <page-menu />
         <div class="table-page-content">
             <div class="card">
                 <div class="card-title">

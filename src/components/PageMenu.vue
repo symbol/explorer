@@ -18,7 +18,7 @@
 
 <template>
   <header class="ex-header bg01">
-    <div class="container n-p">
+    <div class="container">
       <div class="row flex-nowrap justify-content-between align-items-center">
         <a href="#" class="mobilemenu" @click="showTopMenu = !showTopMenu">
           <i class="ico-navicon-round"></i>
