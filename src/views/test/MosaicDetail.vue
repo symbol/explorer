@@ -3,11 +3,7 @@
         <div class="page-content-card-f">
 
 
-            <Card 
-                class="card-f card-full-width"
-                :loading="loading"
-                :error="error"
-            > <!-- Account Detail -->
+            <Card class="card-f card-full-width"> <!-- Account Detail -->
                 <template #title>
                     Account Detail
                 </template>
@@ -16,9 +12,6 @@
                     <TableInfoView
                         :data="accountInfo"
                     />
-                </template>
-                <template #error>
-                    Account {{address}} is not exist
                 </template>
             </Card>
 
@@ -101,8 +94,6 @@ export default {
             namespaceList: 'account/namespaceList',
             mosaicList: 'account/mosaicList',
             transactionList: 'account/transactionList',
-            loading: 'account/accountInfoLoading',
-            error: 'account/accountInfoError',
         }),
 
         address() {

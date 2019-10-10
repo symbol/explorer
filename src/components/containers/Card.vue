@@ -9,13 +9,15 @@
             <slot name="control" />
         </div>
 
-        <div class="card-body">
-            <slot name="body" />
-        </div>
-
         <div v-if="error" class="card-error">
             <slot name="error" />
         </div>
+
+        <div v-else class="card-body">
+            <slot name="body" />
+        </div>
+
+        
     </div>
 </template>
 

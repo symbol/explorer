@@ -6,28 +6,33 @@
             <Card 
                 class="card-f card-full-width"
                 :loading="loading"
+                :error="error"
             > <!-- Account Detail -->
                 <template #title>
                     Account Detail
                 </template>
-
+                
                 <template #body>
                     <TableInfoView
                         :data="accountInfo"
                     />
                 </template>
+                <template #error>
+                    Account {{address}} is not exist
+                </template>
             </Card>
 
 
             <Card 
-                v-if="hasMosaics"
+                v-if="showMosaics"
                 class="card-f card-adaptive"
+                :loading="loading"
             > <!-- Mosaics -->
-                <template v-slot:title>
+                <template #title>
                     Owned Mosaics
                 </template>
 
-                <template v-slot:body>
+                <template #body>
                     <TableListView
                         :data="mosaicList"
                     />
@@ -36,14 +41,15 @@
 
 
             <Card 
-                v-if="hasNamespaces"
+                v-if="showNamespaces"
                 class="card-f card-adaptive"
+                :loading="loading"
             > <!-- NS -->
-                <template v-slot:title>
+                <template #title>
                     Owned Namespaces
                 </template>
 
-                <template v-slot:body>
+                <template #body>
                     <TableListView
                         :data="namespaceList"
                     />
@@ -51,11 +57,15 @@
             </Card>
 
 
-            <Card class="card-f card-full-width"> <!-- Transactions -->
-                <template v-slot:title>
+            <Card 
+                v-if="showTransactions"
+                class="card-f card-full-width"
+                :loading="loading"
+            > <!-- Transactions -->
+                <template #title>
                     Transactions
                 </template>
-                <template v-slot:control>
+                <template #control>
                     <DropDown
                         :value="selectedTransactionType"
                         :options="transactionTypes"
@@ -63,7 +73,7 @@
                     />
                 </template>
 
-                <template v-slot:body>
+                <template #body>
                     <TableListView
                         :data="transactionList"
                     />
@@ -102,15 +112,18 @@ export default {
             namespaceList: 'account/namespaceList',
             mosaicList: 'account/mosaicList',
             transactionList: 'account/transactionList',
+            loading: 'account/accountInfoLoading',
+            error: 'account/accountInfoError',
         }),
 
         address() {
             return this.$route.params.address || 0;
         },
 
-        hasDeatail() { return this.accountInfo },
-        hasMosaics() { return this.mosaicList?.length },
-        hasNamespaces() { return this.namespaceList?.length },
+        showDeatail() { return !this.error && this.accountInfo },
+        showMosaics() { return !this.error && this.mosaicList?.length },
+        showNamespaces() { return !this.error && this.namespaceList?.length },
+        showTransactions() {return !this.error}
 
     },
 
