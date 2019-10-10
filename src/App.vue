@@ -18,7 +18,10 @@
 
 <template>
   <div id="app">
+    <top-header />
+    <page-menu />
     <router-view :key="$route.fullPath"/>
+    <page-footer/>
   </div>
 </template>
 <script>
@@ -49,6 +52,11 @@ export default {
 </script>
 
 <style lang="scss">
+#app{
+  // width: 100vw;
+  // height: 100vh;
+}
+
 .noselect{
   -webkit-touch-callout: none;
   -webkit-user-select: none;

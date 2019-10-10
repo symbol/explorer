@@ -1,5 +1,8 @@
 <template>
     <div class="card">
+        <div v-if="loading" class="card-loading">
+            <loader />
+        </div>
         <div class="card-header">
             <slot name="header" />
             <slot name="title" />
@@ -9,13 +12,27 @@
         <div class="card-body">
             <slot name="body" />
         </div>
+
+        <div v-if="error" class="card-error">
+            <slot name="error" />
+        </div>
     </div>
 </template>
 
 <script>
 
 export default {
-    
+    props: {
+        loading: {
+            type: Boolean,
+            default: false
+        },
+
+        error: {
+            type: Boolean,
+            default: false
+        },
+    }
 }
 </script>
 
@@ -28,6 +45,10 @@ export default {
         border: none;
         margin-bottom: 20px;
         transition: all 0.5s ease-in-out;
+        position: relative;
+        .card-loading {
+            ///height: 100px;
+        }
         .card-header {
             display: flex;
             justify-content: space-between;
@@ -40,6 +61,13 @@ export default {
         .card-body {
             position: relative;
             display: block;
+        }
+
+        .card-error {
+            font-size: 14px; 
+            color: #98a8b4;
+            display: flex;
+            justify-content: center;
         }
     }
 </style>

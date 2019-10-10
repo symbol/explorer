@@ -18,12 +18,9 @@
 
 <template>
   <div>
-    <top-header />
-    <page-menu />
     <div class="page_con">
 
     </div>
-    <page-footer />
   </div>
 </template>
 <script>

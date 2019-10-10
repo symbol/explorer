@@ -1,15 +1,17 @@
 <template>
     <div class="page">
-        <top-header />
-        <page-menu />
         <div class="page-content-card-f">
 
 
-            <Card class="card-f card-full-width">
-                <template v-slot:title>
+            <Card 
+                class="card-f card-full-width"
+                :loading="loading"
+                :error="error"
+            >
+                <template #title>
                     Block Detail
                 </template>
-                <template v-slot:control>
+                <template #control>
                     <Pagination
                         :pageIndex="1"
                         :nextPageAction="nextPageAction"
@@ -18,11 +20,13 @@
                 </template>
 
 
-                <template v-slot:body>
-                    <loader v-if="loading" />
+                <template #body>
                     <TableInfoView
                         :data="blockInfo"
                     />
+                </template>
+                <template #error>
+                    Block {{height}} is not exist
                 </template>
             </Card>
 
@@ -32,13 +36,12 @@
                 class="card-f card-full-width"
                 v-if="isTransactions"
             >
-                <template v-slot:title>
+                <template #title>
                     Block Transactions
                 </template>
 
 
-                <template v-slot:body>
-                    <loader v-if="loading" />
+                <template #body>
                     <TableListView
                         :data="blockTransactionList"
                     />
@@ -46,7 +49,6 @@
             </Card>
 
         </div>
-        <page-footer/>
     </div>
 </template>
 
@@ -72,7 +74,8 @@ export default {
         ...mapGetters({
             blockInfo: 'block/blockInfo',
             blockTransactionList: 'block/blockTransactionList',
-            loading: 'block/blockInfoLoading'
+            loading: 'block/blockInfoLoading',
+            error: 'block/blockInfoError'
         }),
 
         height() {

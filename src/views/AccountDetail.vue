@@ -1,16 +1,17 @@
 <template>
     <div class="page">
-        <top-header />
-        <page-menu />
         <div class="page-content-card-f">
 
 
-            <Card class="card-f card-full-width"> <!-- Account Detail -->
-                <template v-slot:title>
+            <Card 
+                class="card-f card-full-width"
+                :loading="loading"
+            > <!-- Account Detail -->
+                <template #title>
                     Account Detail
                 </template>
 
-                <template v-slot:body>
+                <template #body>
                     <TableInfoView
                         :data="accountInfo"
                     />
@@ -18,7 +19,10 @@
             </Card>
 
 
-            <Card class="card-f card-adaptive "> <!-- Mosaics -->
+            <Card 
+                v-if="hasMosaics"
+                class="card-f card-adaptive"
+            > <!-- Mosaics -->
                 <template v-slot:title>
                     Owned Mosaics
                 </template>
@@ -31,7 +35,10 @@
             </Card>
 
 
-            <Card class="card-f card-adaptive"> <!-- NS -->
+            <Card 
+                v-if="hasNamespaces"
+                class="card-f card-adaptive"
+            > <!-- NS -->
                 <template v-slot:title>
                     Owned Namespaces
                 </template>
@@ -65,7 +72,6 @@
 
 
         </div>
-        <page-footer/>
     </div>
 </template>
 
@@ -101,6 +107,10 @@ export default {
         address() {
             return this.$route.params.address || 0;
         },
+
+        hasDeatail() { return this.accountInfo },
+        hasMosaics() { return this.mosaicList?.length },
+        hasNamespaces() { return this.namespaceList?.length },
 
     },
 
