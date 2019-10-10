@@ -62,10 +62,11 @@ export default {
 
       let namespaceLevels = []
       namespaceInfo.levels.forEach((el) => {
+        let parentId = el.parentId ? el.parentId : '';
         let namespaceLevelObject = {
           name: el.name,
-          namespaceId: el.namespaceId.toHex(),
-          parentId: el.parentId.toHex()
+          namespaceId: el.namespaceId,
+          parentId: parentId === '' ? 'NO AVAILABLE' : parentId.toHex()
         }
         namespaceLevels.push(namespaceLevelObject)
       })

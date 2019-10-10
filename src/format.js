@@ -389,7 +389,7 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
       break
     default:
       aliasText = false
-      aliasType = 'no alias'
+      aliasType = 'No Alias'
       break
   }
 
@@ -399,15 +399,15 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
     namespaceNameHexId: namespaceInfo.id.toHex().toUpperCase(),
     registrationType: namespaceInfo.registrationType === 0 ? 'ROOT' : 'SUB',
     startHeight: namespaceInfo.startHeight.compact(),
-    endHeight: namespaceNames[0].name.includes('nem')
+    endHeight: namespaceNames[0].name.includes('NEM')
       ? 'Infinity'
       : namespaceInfo.endHeight.compact(),
     active: namespaceInfo.active.toString().toUpperCase(),
     aliasType: aliasType,
     alias: aliasText ? aliasText : aliasType ,
     // parentHexId: namespaceInfo.parentId.id.toHex().toUpperCase(),
-    // parentName:
-    //   namespaceInfo.registrationType !== 0 ? namespaceNames[0].name.split('.')[0].toUpperCase() : '',
+    parentName:
+      namespaceInfo.registrationType !== 0 ? namespaceNames[0].name.split('.')[0].toUpperCase() : '',
     levels: namespaceNames
   }
 
