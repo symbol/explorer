@@ -1,6 +1,5 @@
 <template>
   <div>
-    <page-menu />
     <div class="page_con">
       <div class="container p-0 mt-5 t-c-p">
         <div class="row">
@@ -45,7 +44,6 @@
         </div>
       </div>
     </div>
-    <page-footer />
   </div>
 </template>
 <script>
