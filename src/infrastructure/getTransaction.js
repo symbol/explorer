@@ -16,17 +16,21 @@
  *
  */
 
+import axios from 'axios'
 import {
   AccountHttp,
+  NetworkHttp,
   TransactionHttp,
   QueryParams,
   Address
 } from 'nem2-sdk'
+import dto from './dto'
 import format from '../format'
 import { Endpoint } from '../config/'
 import sdkBlock from '../infrastructure/getBlock'
 
-const TRANSACTION_HTTP = new TransactionHttp(Endpoint.api)
+const NETWORK_HTTP = new NetworkHttp(Endpoint.api)
+const TRANSACTION_HTTP = new TransactionHttp(Endpoint.api);
 const ACCOUNT_HTTP = new AccountHttp(Endpoint.api)
 
 class sdkTransaction {
@@ -57,6 +61,25 @@ class sdkTransaction {
     }
 
     return transactionInfo
+  }
+
+  static getTransactionsFromHashWithLimit = async (limit, fromHash) => {
+    let hash
+    if (fromHash === undefined) {
+      hash = 'latest'
+    } else {
+      hash = fromHash.toString()
+    }
+
+    // Make request.
+    const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
+    const path = `/transactions/from/${hash}/limit/${limit}`
+    const response = await axios.get(Endpoint.api + path)
+    const transactions = response.data.map(info => dto.createTransactionFromDTO(info, networkType))
+
+    // TODO(ahuszagh) Ensure this works well...
+    //return format.formatTransactions(blocks)
+    return []
   }
 
   // TODO(ahuszagh) Need to get transactions by type...

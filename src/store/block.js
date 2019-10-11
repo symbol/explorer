@@ -173,10 +173,12 @@ export default {
 
     // Reset the block page to the latest list (index 0)
     async resetPage({ commit, getters }) {
+      commit('setLoading', true)
       if (getters.getPageIndex > 0) {
         commit('setPageList', getters.getLatestList)
         commit('resetPageIndex')
       }
+      commit('setLoading', false)
     },
 
     getBlockInfo: async ({ commit }, height) => {
