@@ -1,7 +1,5 @@
 <template>
   <div>
-    <top-header />
-    <page-menu />
     <div class="page_con">
       <div class="container">
         <div class="content">
@@ -11,7 +9,6 @@
         </div>
       </div>
     </div>
-    <page-footer />
   </div>
 </template>
 
