@@ -63,7 +63,7 @@ class sdkTransaction {
     return transactionInfo
   }
 
-  static getTransactionsFromHashWithLimit = async (limit, fromHash) => {
+  static getTransactionsFromHashWithLimit = async (limit, transactionType, fromHash) => {
     let hash
     if (fromHash === undefined) {
       hash = 'latest'
@@ -71,18 +71,52 @@ class sdkTransaction {
       hash = fromHash.toString()
     }
 
+    // Get the path to the URL dependent on the config
+    let path
+    if (transactionType === undefined) {
+      path = `/transactions/from/${hash}/limit/${limit}`
+    } else if (transactionType === 'unconfirmed') {
+      path = `/transactions/unconfirmed/from/${hash}/limit/${limit}`
+    } else if (transactionType === 'partial') {
+      path = `/transactions/partial/from/${hash}/limit/${limit}`
+    } else {
+      path = `/transactions/from/${hash}/type/${transactionType}/limit/${limit}`
+    }
+
     // Make request.
     const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
-    const path = `/transactions/from/${hash}/limit/${limit}`
     const response = await axios.get(Endpoint.api + path)
     const transactions = response.data.map(info => dto.createTransactionFromDTO(info, networkType))
 
-    // TODO(ahuszagh) Ensure this works well...
-    //return format.formatTransactions(blocks)
-    return []
+    return format.formatTransactions(transactions)
   }
 
-  // TODO(ahuszagh) Need to get transactions by type...
+  static getTransactionsSinceHashWithLimit = async (limit, transactionType, sinceHash) => {
+    let hash
+    if (sinceHash === undefined) {
+      hash = 'earliest'
+    } else {
+      hash = sinceHash.toString()
+    }
+
+    let path
+    if (transactionType === undefined) {
+      path = `/transactions/from/${hash}/limit/${limit}`
+    } else if (transactionType === 'unconfirmed') {
+      path = `/transactions/unconfirmed/from/${hash}/limit/${limit}`
+    } else if (transactionType === 'partial') {
+      path = `/transactions/partial/from/${hash}/limit/${limit}`
+    } else {
+      path = `/transactions/from/${hash}/type/${transactionType}/limit/${limit}`
+    }
+
+    // Make request.
+    const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
+    const response = await axios.get(Endpoint.api + path)
+    const transactions = response.data.map(info => dto.createTransactionFromDTO(info, networkType))
+
+    return format.formatTransactions(transactions)
+  }
 }
 
 export default sdkTransaction

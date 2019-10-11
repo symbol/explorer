@@ -240,7 +240,7 @@ const createTransferTransactionFromDTO = (transactionDTO, networkType) =>
     createMosaicsFromDTO(transactionDTO.transaction.mosaics),
     createMessageFromDTO(transactionDTO.transaction.message),
     transactionDTO.transaction.signature,
-    createPublicAccountFromDTO(transactionDTO.transaction.signerPublicKey),
+    createPublicAccountFromDTO(transactionDTO.transaction.signerPublicKey, networkType),
     createTransactionInfoFromDTO(transactionDTO.meta)
   )
 
@@ -257,37 +257,201 @@ const createRegisterNamespaceTransactionFromDTO = (transactionDTO, networkType) 
     isRoot ? createUInt64FromDTO(transactionDTO.transaction.duration) : undefined,
     isRoot ? undefined : nem.NamespaceId.createFromEncoded(transactionDTO.transaction.parentId),
     transactionDTO.transaction.signature,
-    createPublicAccountFromDTO(transactionDTO.transaction.signerPublicKey),
+    createPublicAccountFromDTO(transactionDTO.transaction.signerPublicKey, networkType),
     createTransactionInfoFromDTO(transactionDTO.meta)
   )
 }
 
-const createMosaicDefinitionTransactionFromDTO = (transactionDTO, networkType) => {
-  // TODO(ahuszagh) Implement...
-  throw new Error('MOSAIC_DEFINITION')
+const createMosaicDefinitionTransactionFromDTO = (transactionDTO, networkType) =>
+  new nem.MosaicDefinitionTransaction(
+    networkType,
+    createVersionFromDTO(transactionDTO.transaction.version),
+    nem.Deadline.createFromDTO(transactionDTO.transaction.deadline),
+    createUInt64FromDTO(transactionDTO.transaction.maxFee || '0'),
+    transactionDTO.transaction.nonce,
+    new nem.MosaicId(transactionDTO.transaction.id),
+    new nem.MosaicFlags(transactionDTO.transaction.flags),
+    transactionDTO.transaction.divisibility,
+    createUInt64FromDTO(transactionDTO.transaction.duration),
+    transactionDTO.transaction.signature,
+    createPublicAccountFromDTO(transactionDTO.transaction.signerPublicKey, networkType),
+    createTransactionInfoFromDTO(transactionDTO.meta)
+  )
+
+const createMosaicSupplyChangeTransactionFromDTO = (transactionDTO, networkType) =>
+  new nem.MosaicSupplyChangeTransaction(
+    networkType,
+    createVersionFromDTO(transactionDTO.transaction.version),
+    nem.Deadline.createFromDTO(transactionDTO.transaction.deadline),
+    createUInt64FromDTO(transactionDTO.transaction.maxFee || '0'),
+    new nem.MosaicId(transactionDTO.transaction.mosaicId),
+    transactionDTO.transaction.direction,
+    createUInt64FromDTO(transactionDTO.transaction.delta),
+    transactionDTO.transaction.signature,
+    createPublicAccountFromDTO(transactionDTO.transaction.signerPublicKey, networkType),
+    createTransactionInfoFromDTO(transactionDTO.meta)
+  )
+
+const createMultisigModificationFromDTO = (modificationDTO, networkType) =>
+  new nem.MultisigCosignatoryModification(
+    modificationDTO.modificiationType,
+    createPublicAccountFromDTO(modificationDTO.cosignatoryPublicKey, networkType),
+  )
+
+const createMultisigModificationsFromDTO = (modifications, networkType) => {
+  if (undefined === modifications) {
+    return []
+  }
+  return modifications.map(modificationDTO => createMultisigModificationFromDTO(modificationDTO, networkType))
 }
 
-const createMosaicSupplyChangeTransactionFromDTO = (transactionDTO, networkType) => {
-  // TODO(ahuszagh) Implement
-  throw new Error('MOSAIC_SUPPLY_CHANGE')
-}
-
-const createModifyMultisigAccountTransactionFromDTO = (transactionDTO, networkType) => {
-  // TODO(ahuszagh) Implement
-  throw new Error('MODIFY_MULTISIG_ACCOUNT')
-}
+const createModifyMultisigAccountTransactionFromDTO = (transactionDTO, networkType) =>
+  new nem.MultisigAccountModificationTransaction(
+    networkType,
+    createVersionFromDTO(transactionDTO.transaction.version),
+    nem.Deadline.createFromDTO(transactionDTO.transaction.deadline),
+    createUInt64FromDTO(transactionDTO.transaction.maxFee || '0'),
+    transactionDTO.transaction.minApprovalDelta,
+    transactionDTO.transaction.minRemovalDelta,
+    createMultisigModificationFromDTO(transactionDTO.transaction.modifications, networkType),
+    transactionDTO.transaction.signature,
+    createPublicAccountFromDTO(transactionDTO.transaction.signerPublicKey, networkType),
+    createTransactionInfoFromDTO(transactionDTO.meta)
+  )
 
 const createLockTransactionFromDTO = (transactionDTO, networkType) => {
-  // TODO(ahuszagh) Implement
-  throw new Error('LOCK')
+  const mosaicId = new nem.MosaicId(transactionDTO.transaction.mosaicId)
+  const amount = createUInt64FromDTO(transactionDTO.transaction.amount)
+  const signedTransaction = new nem.SignedTransaction(
+    '',
+    transactionDTO.transaction.hash,
+    '',
+    TransactionType.AGGREGATE_BONDED,
+    networkType
+  )
+  return new nem.LockFundsTransaction(
+    networkType,
+    createVersionFromDTO(transactionDTO.transaction.version),
+    nem.Deadline.createFromDTO(transactionDTO.transaction.deadline),
+    createUInt64FromDTO(transactionDTO.transaction.maxFee || '0'),
+    new nem.Mosaic(mosaicId, amount),
+    createUInt64FromDTO(transactionDTO.transaction.duration),
+    signedTransaction,
+    transactionDTO.transaction.signature,
+    createPublicAccountFromDTO(transactionDTO.transaction.signerPublicKey, networkType),
+    createTransactionInfoFromDTO(transactionDTO.meta)
+  )
 }
 
 const createSecretLockTransactionFromDTO = (transactionDTO, networkType) => {
-  // TODO(ahuszagh) Implement
-  throw new Error('SECRET_LOCK')
+  const mosaicId = new nem.MosaicId(transactionDTO.transaction.mosaicId)
+  const amount = createUInt64FromDTO(transactionDTO.transaction.amount)
+  return new nem.SecretLockTransaction(
+    networkType,
+    createVersionFromDTO(transactionDTO.transaction.version),
+    nem.Deadline.createFromDTO(transactionDTO.transaction.deadline),
+    createUInt64FromDTO(transactionDTO.transaction.maxFee || '0'),
+    new nem.Mosaic(mosaicId, amount),
+    createUInt64FromDTO(transactionDTO.transaction.duration),
+    transactionDTO.transaction.hashAlgorithm,
+    transactionDTO.transaction.secret,
+    createRecipientFromDTO(transactionDTO.transaction.recipientAddress),
+    transactionDTO.transaction.signature,
+    createPublicAccountFromDTO(transactionDTO.transaction.signerPublicKey, networkType),
+    createTransactionInfoFromDTO(transactionDTO.meta)
+  )
+}
+
+const createSecretProofTransactionFromDTO = (transactionDTO, networkType) =>
+  new nem.SecretProofTransaction(
+    networkType,
+    createVersionFromDTO(transactionDTO.transaction.version),
+    nem.Deadline.createFromDTO(transactionDTO.transaction.deadline),
+    createUInt64FromDTO(transactionDTO.transaction.maxFee || '0'),
+    transactionDTO.transaction.hashAlgorithm,
+    transactionDTO.transaction.secret,
+    createRecipientFromDTO(transactionDTO.transaction.recipientAddress),
+    transactionDTO.transaction.proof,
+    transactionDTO.transaction.signature,
+    createPublicAccountFromDTO(transactionDTO.transaction.signerPublicKey, networkType),
+    createTransactionInfoFromDTO(transactionDTO.meta)
+  )
+
+const createMosaicAliasTransactionFromDTO = (transactionDTO, networkType) =>
+  new nem.MosaicAliasTransaction(
+    networkType,
+    createVersionFromDTO(transactionDTO.transaction.version),
+    nem.Deadline.createFromDTO(transactionDTO.transaction.deadline),
+    createUInt64FromDTO(transactionDTO.transaction.maxFee || '0'),
+    transactionDTO.transaction.aliasAction,
+    nem.NamespaceId.createFromEncoded(transactionDTO.transaction.namespaceId),
+    new nem.MosaicId(transactionDTO.transaction.mosaicId),
+    transactionDTO.transaction.signature,
+    createPublicAccountFromDTO(transactionDTO.transaction.signerPublicKey, networkType),
+    createTransactionInfoFromDTO(transactionDTO.meta)
+  )
+
+const createAddressAliasTransactionFromDTO = (transactionDTO, networkType) =>
+  new nem.AddressAliasTransaction(
+    networkType,
+    createVersionFromDTO(transactionDTO.transaction.version),
+    nem.Deadline.createFromDTO(transactionDTO.transaction.deadline),
+    createUInt64FromDTO(transactionDTO.transaction.maxFee || '0'),
+    transactionDTO.transaction.aliasAction,
+    nem.NamespaceId.createFromEncoded(transactionDTO.transaction.namespaceId),
+    createRecipientFromDTO(transactionDTO.transaction.address),
+    transactionDTO.transaction.signature,
+    createPublicAccountFromDTO(transactionDTO.transaction.signerPublicKey, networkType),
+    createTransactionInfoFromDTO(transactionDTO.meta)
+  )
+
+const createAccountRestrictionAddressTransactionFromDTO = (transactionDTO, networkType) => {
+  // TODO(ahuszagh) Need to implement...
+  throw new Error('ACCOUNT_RESTRICTION_ADDRESS')
+}
+
+const createAccountRestrictionOperationTransactionFromDTO = (transactionDTO, networkType) => {
+  // TODO(ahuszagh) Need to implement...
+  throw new Error('ACCOUNT_RESTRICTION_OPERATION')
+}
+
+const createAccountRestrictionMosaicTransactionFromDTO = (transactionDTO, networkType) => {
+  // TODO(ahuszagh) Need to implement...
+  throw new Error('ACCOUNT_RESTRICTION_MOSAIC')
+}
+
+const createLinkAccountTransactionFromDTO = (transactionDTO, networkType) => {
+  // TODO(ahuszagh) Need to implement...
+  throw new Error('LINK_ACCOUNT')
+}
+
+const createMosaicGlobalRestrictionTransactionFromDTO = (transactionDTO, networkType) => {
+  // TODO(ahuszagh) Need to implement...
+  throw new Error('MOSAIC_GLOBAL_RESTRICTION')
+}
+
+const createMosaicAddressRestrictionTransactionFromDTO = (transactionDTO, networkType) => {
+  // TODO(ahuszagh) Need to implement...
+  throw new Error('MOSAIC_ADDRESS_RESTRICTION')
+}
+
+const createAccountMetadataTransactionFromDTO = (transactionDTO, networkType) => {
+  // TODO(ahuszagh) Need to implement...
+  throw new Error('ACCOUNT_METADATA_TRANSACTION')
+}
+
+const createMosaicMetadataTransactionFromDTO = (transactionDTO, networkType) => {
+  // TODO(ahuszagh) Need to implement...
+  throw new Error('MOSAIC_METADATA_TRANSACTION')
+}
+
+const createNamespaceMetadataTransactionFromDTO = (transactionDTO, networkType) => {
+  // TODO(ahuszagh) Need to implement...
+  throw new Error('NAMESPACE_METADATA_TRANSACTION')
 }
 
 const createTransactionFromDTO = (transactionDTO, networkType) => {
+  // TODO(ahuszagh) Need to add support for aggregate transactions.
   switch (transactionDTO.transaction.type) {
     case nem.TransactionType.TRANSFER:
       return createTransferTransactionFromDTO(transactionDTO, networkType)
@@ -303,14 +467,34 @@ const createTransactionFromDTO = (transactionDTO, networkType) => {
       return createLockTransactionFromDTO(transactionDTO, networkType)
     case nem.TransactionType.SECRET_LOCK:
       return createSecretLockTransactionFromDTO(transactionDTO, networkType)
-    // TODO(ahuszagh) Add more cases.
+    case nem.TransactionType.SECRET_PROOF:
+      return createSecretProofTransactionFromDTO(transactionDTO, networkType)
+    case nem.TransactionType.MOSAIC_ALIAS:
+      return createMosaicAliasTransactionFromDTO(transactionDTO, networkType)
+    case nem.TransactionType.ADDRESS_ALIAS:
+      return createAddressAliasTransactionFromDTO(transactionDTO, networkType)
+    case nem.TransactionType.ACCOUNT_RESTRICTION_ADDRESS:
+      return createAccountRestrictionAddressTransactionFromDTO(transactionDTO, networkType)
+    case nem.TransactionType.ACCOUNT_RESTRICTION_OPERATION:
+      return createAccountRestrictionOperationTransactionFromDTO(transactionDTO, networkType)
+    case nem.TransactionType.ACCOUNT_RESTRICTION_MOSAIC:
+      return createAccountRestrictionMosaicTransactionFromDTO(transactionDTO, networkType)
+    case nem.TransactionType.LINK_ACCOUNT:
+      return createLinkAccountTransactionFromDTO(transactionDTO, networkType)
+    case nem.TransactionType.MOSAIC_GLOBAL_RESTRICTION:
+      return createMosaicGlobalRestrictionTransactionFromDTO(transactionDTO, networkType)
+    case nem.TransactionType.MOSAIC_ADDRESS_RESTRICTION:
+      return createMosaicAddressRestrictionTransactionFromDTO(transactionDTO, networkType)
+    case nem.TransactionType.ACCOUNT_METADATA_TRANSACTION:
+      return createAccountMetadataTransactionFromDTO(transactionDTO, networkType)
+    case nem.TransactionType.MOSAIC_METADATA_TRANSACTION:
+      return createMosaicMetadataTransactionFromDTO(transactionDTO, networkType)
+    case nem.TransactionType.NAMESPACE_METADATA_TRANSACTION:
+      return createNamespaceMetadataTransactionFromDTO(transactionDTO, networkType)
     default:
-      throw new Error('unexpected transaction type.')
+      throw new Error(`unexpected transaction type ${transactionDTO.transaction.type}.`)
   }
 }
-
-
-// TODO(ahuszagh) Need createTransactionFromDTO
 
 export default {
   createBlockFromDTO,
