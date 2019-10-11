@@ -21,7 +21,7 @@
     <footer class="full-con mt-5 footer">
       <div class="container">
         <div class="row">
-          <NemDescription/>
+          <NemDescription />
           <div class="col-md-5">
             <ul class="social-icon">
               <PageFooterItem
@@ -33,24 +33,21 @@
               />
             </ul>
           </div>
-          <div class="col-md-3">
-            <div class="newslist"></div>
-          </div>
         </div>
-        <NemCopyright/>
+        <NemCopyright />
       </div>
     </footer>
   </div>
 </template>
 <script>
-import w1 from '@/components/PageFooterItem.vue'
-import w2 from '@/components/NemDescription.vue'
-import w3 from '@/components/NemCopyright.vue'
-import { Endpoint } from '../config'
-import helper from '../helper'
+import w1 from "@/components/PageFooterItem.vue";
+import w2 from "@/components/NemDescription.vue";
+import w3 from "@/components/NemCopyright.vue";
+import { Endpoint } from "../config";
+import helper from "../helper";
 
 export default {
-  name: 'PageFooter',
+  name: "PageFooter",
   components: {
     PageFooterItem: w1,
     NemDescription: w2,
@@ -61,23 +58,45 @@ export default {
   },
   methods: {
     isMobile() {
-      return helper.isMobile(navigator.userAgent || navigator.vendor || window.opera)
+      return helper.isMobile(
+        navigator.userAgent || navigator.vendor || window.opera
+      );
     }
   },
   data() {
     return {
       loading: 1,
       nodes: Endpoint.nodes,
-      activeNode: Endpoint.api.replace('http://', '').replace(':3000', ''),
+      activeNode: Endpoint.api.replace("http://", "").replace(":3000", ""),
       items: [
-        { href: 'https://nemflash.io/', text: 'NEM News', classname: 'ico-news' },
-        { href: 'https://forum.nem.io/', text: 'Forum', classname: 'ico-forum' },
-        { href: 'https://github.com/nemtech', text: 'Github', classname: 'ico-github' },
-        { href: 'https://t.me/nemred', text: 'Telegram', classname: 'ico-paper-plane' },
-        { href: 'https://www.reddit.com/r/nem/', text: 'Reddit', classname: 'ico-reddit' }
+        {
+          href: "https://nemflash.io/",
+          text: "NEM News",
+          classname: "ico-news"
+        },
+        {
+          href: "https://forum.nem.io/",
+          text: "Forum",
+          classname: "ico-forum"
+        },
+        {
+          href: "https://github.com/nemtech",
+          text: "Github",
+          classname: "ico-github"
+        },
+        {
+          href: "https://t.me/nemred",
+          text: "Telegram",
+          classname: "ico-paper-plane"
+        },
+        {
+          href: "https://www.reddit.com/r/nem/",
+          text: "Reddit",
+          classname: "ico-reddit"
+        }
       ]
-    }
+    };
   },
   mounted() {}
-}
+};
 </script>

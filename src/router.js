@@ -104,7 +104,30 @@ export default new Router({
       component: () =>
         import('./views/Stat.vue')
     },
-    //////test
+
+
+
+    {
+      path: '/terms',
+      name: 'Terms',
+      component: () =>
+        import('./views/Terms.vue'),
+      meta: {
+        title: ''
+      }
+    },
+    {
+      path: '/privacy',
+      name: 'Privacy',
+      component: () =>
+        import('./views/Privacy.vue'),
+      meta: {
+        title: ''
+      }
+    },
+
+
+
     {
       path: '/test',
       name: 'test',
@@ -139,7 +162,7 @@ export default new Router({
     {
       path: '*',
       name: '404',
-      component: () => import('./views/test/NotFound.vue'),
+      component: () => import('./views/NotFound.vue'),
     }
     // {
     //   path: '/404',

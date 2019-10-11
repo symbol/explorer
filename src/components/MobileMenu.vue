@@ -19,15 +19,30 @@
 <template>
   <div>
     <div class="mobmenuslide">
-      <div class="sliderow gradinet_01  menu_bkg">
+      <div class="sliderow gradinet_01 menu_bkg">
         <router-link to="/" class="logo">
-          <img src="theme/img/logo-w.png" /> 
+          <img src="theme/img/logo-w.png" />
         </router-link>
         <span class="title">Nem blockchain explorer</span>
         <a class="mmtoggle" href="#">
           <i class="ico-line-awesome-4"></i>
         </a>
+        <div class="sliderow p-0">
+          <div class="dropdown flt-r">
+            <a class="dropdown-toggle">Node : {{activenode}}</a>
+            <div class="dropdown-menu dropdown-menu-right">
+              <a
+                class="dropdown-item"
+                href="#"
+                v-for="item in nodes"
+                v-bind:key="nodeUrl(item)"
+                @click="changeNode(item)"
+              >{{item['domain']}}</a>
+            </div>
+          </div>
+        </div>
       </div>
+
       <div class="sliderow">
         <ul class="nav-menu ls1">
           <PageMenuItem
@@ -39,32 +54,18 @@
           />
         </ul>
       </div>
-      <div class="sliderow pt-0">
-        <div class="dropdown">
-          <a class="dropdown-toggle">Node :{{activenode}}</a>
-          <div class="dropdown-menu dropdown-menu-right">
-            <a
-              class="dropdown-item"
-              href="#"
-              v-for="item in nodes"
-              v-bind:key="nodeUrl(item)"
-              @click="changeNode(item)"
-            >{{item['domain']}}</a>
-          </div>
-        </div>
-      </div>
     </div>
   </div>
 </template>
 <script>
 import helper from "../helper";
 import w1 from "@/components/PageMenuItem.vue";
-import { pageMenu } from '../config/'
+import { pageMenu } from "../config/";
 export default {
   name: "MobileMenu",
   props: {
     nodes: {},
-    activenode:''
+    activenode: ""
   },
   components: {
     PageMenuItem: w1
@@ -72,7 +73,7 @@ export default {
   data() {
     return {
       showTopMenu: false,
-      items:pageMenu.items
+      items: pageMenu.items
     };
   },
   methods: {
