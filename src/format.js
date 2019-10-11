@@ -177,7 +177,6 @@ const formatCosignatures = cosignatures => {
 
 // FORMAT TRANSACTION BODY
 const formatTransactionBody = transactionBody => {
-  console.log(transactionBody)
   switch (transactionBody.type) {
     case TransactionType.TRANSFER:
       let transferObj = {

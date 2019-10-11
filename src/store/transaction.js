@@ -109,6 +109,15 @@ const PAGES = {
   mosaic: { ...PAGE_DEFAULT },
 }
 
+// Map the page name to the transaction type.
+const TRANSACTION_TYPE_MAP = {
+  recent: undefined,
+  pending: 'unconfirmed',
+  transfer: 'transfer',
+  multisig: undefined,    // TODO(ahuszagh) Not correct
+  mosaic: undefined,      // TODO(ahuszagh) Not correct
+}
+
 export default {
   namespaced: true,
   state: {
@@ -156,6 +165,7 @@ export default {
     setLatestList: (state, list) => { state.latestList = list },
     setTransactionType: (state, transactionType) => { state.transactionType = transactionType },
     setPageList: (state, list) => { state[state.transactionType].pageList = list },
+    setPageListWithType: (state, { list, type }) => { state[type].pageList = list },
     setPageIndex: (state, pageIndex) => { state[state.transactionType].pageIndex = pageIndex },
     setSubscription: (state, subscription) => { state.subscription = subscription },
     setLoading: (state, loading) => { state.loading = loading },
@@ -214,17 +224,11 @@ export default {
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit }) {
       commit('setLoading', true)
-      // TODO(ahuszagh) Need to do this for all the page types.
-      // Use Object.keys(PAGES) to iterate over it.
-      let transactionList = await sdkTransaction.getTransactionsFromHashWithLimit(util.PAGE_SIZE)
-      // TODO(ahuszagh) Also need to rework this.
-      // Need to fetch for all SDK variants.
-      // Need to consider transaction type.
-//      let transactionList = await getTransactionsWithLimit(util.PAGE_SIZE)
-//      commit('setPageList', transactionList)
-//      if (transactionList.length > 0) {
-//        commit('chain/setTransactionHash', transactionList[0].transactionHash, { root: true })
-//      }
+      for (var transactionType of Object.keys(PAGES)) {
+        const type = TRANSACTION_TYPE_MAP[transactionType]
+        let transactionList = await sdkTransaction.getTransactionsFromHashWithLimit(util.PAGE_SIZE, type)
+        commit('setPageListWithType', { list: transactionList, type: transactionType})
+      }
       commit('setLoading', false)
     },
 
@@ -271,6 +275,7 @@ export default {
 
     // Change the current page.
     changePage({ commit, getters }) {
+      // TODO(ahuszagh) Implement....
     },
 
     // Reset the current page type and page index.
