@@ -246,7 +246,7 @@ const createTransferTransactionFromDTO = (transactionDTO, networkType) =>
 
 const createRegisterNamespaceTransactionFromDTO = (transactionDTO, networkType) => {
   const isRoot = transactionDTO.transaction.registrationType === nem.NamespaceRegistrationType.RootNamespace
-  return new NamespaceRegistrationTransaction(
+  return new nem.NamespaceRegistrationTransaction(
     networkType,
     createVersionFromDTO(transactionDTO.transaction.version),
     nem.Deadline.createFromDTO(transactionDTO.transaction.deadline),

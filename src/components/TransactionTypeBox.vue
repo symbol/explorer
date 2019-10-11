@@ -50,11 +50,11 @@ export default {
     },
 
     mounted() {
-        this.$store.dispatch('transaction/changePage', 'recent')
+        this.$store.dispatch('transaction/resetPage')
     },
 
     destroyed() {
-        this.$store.dispatch('transaction/changePage', 'recent')
+        this.$store.dispatch('transaction/resetPage')
     },
 
     methods: {
