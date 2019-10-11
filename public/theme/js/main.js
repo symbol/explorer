@@ -46,6 +46,9 @@
             $('.mobmenuslide').addClass('active')
         }
    })
+   $('body').on('click','.nav-menu li a',function(e){
+    $('.mobmenuslide').removeClass('active')
+   });
    $('body').on('click','.dropdown .dropdown-toggle',function(){
        var menu = $(this).parent(0).find('.dropdown-menu')
     if(menu.hasClass('shown')){

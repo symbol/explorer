@@ -20,44 +20,45 @@
   <div id="app">
     <top-header />
     <page-menu />
-    <router-view :key="$route.fullPath"/>
-    <page-footer/>
+    <div class="page_con mt-4">
+      <router-view :key="$route.fullPath" />
+    </div>
+    <page-footer />
   </div>
 </template>
 <script>
-import store from './store'
+import store from "./store";
 
 export default {
   data: () => {
     return {
       info: 1
-    }
+    };
   },
   mounted() {
-    this.initialize()
+    this.initialize();
   },
   destroyed() {
-    this.uninitialize()
+    this.uninitialize();
   },
   methods: {
     initialize() {
-      store.dispatch('initialize')
-        .catch(error => console.log(error))
+      store.dispatch("initialize").catch(error => console.log(error));
     },
     uninitialize() {
-      store.dispatch('uninitialize')
+      store.dispatch("uninitialize");
     }
   }
-}
+};
 </script>
 
 <style lang="scss">
-#app{
+#app {
   // width: 100vw;
   // height: 100vh;
 }
 
-.noselect{
+.noselect {
   -webkit-touch-callout: none;
   -webkit-user-select: none;
   -khtml-user-select: none;
@@ -67,7 +68,7 @@ export default {
   outline: 0;
 }
 
-.pointer{
+.pointer {
   cursor: pointer;
 }
 </style>

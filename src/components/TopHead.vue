@@ -44,7 +44,6 @@
           <NodeSelector />
         </div>
       </div>
-
       <div class="mobtopbar">
         <a class="mobilemenu mmtoggle" href="#">
           <i class="ico-navicon-round"></i>
@@ -54,7 +53,6 @@
         </router-link>
       </div>
     </div>
-
     <MobileMenu :nodes="nodes" :activenode="activeNode" />
   </div>
 </template>
@@ -62,37 +60,37 @@
 
 
 <script>
-import MobileMenu from '@/components/MobileMenu.vue'
-import NodeSelector from '@/components/header/NodeSelector.vue'
-import SearchBox from '@/components/header/SearchBox.vue'
-import { Endpoint } from '../config/'
-import helper from '../helper'
-import router from '../router'
+import MobileMenu from "@/components/MobileMenu.vue";
+import NodeSelector from "@/components/header/NodeSelector.vue";
+import SearchBox from "@/components/header/SearchBox.vue";
+import { Endpoint } from "../config/";
+import helper from "../helper";
+import router from "../router";
 
 export default {
-  name: 'TopHead',
+  name: "TopHead",
 
   components: {
     MobileMenu,
     NodeSelector,
-    SearchBox,
+    SearchBox
   },
 
   data() {
     return {
       nodes: Endpoint.nodes,
-      activeNode: Endpoint.api.replace('http://', '').replace(':3000', ''),
+      activeNode: Endpoint.api.replace("http://", "").replace(":3000", ""),
       mobmenu_active: 0,
-      nodemenu_active: 0,
-    }
+      nodemenu_active: 0
+    };
   },
 
   methods: {
     isMobile() {
       return helper.isMobile(
         navigator.userAgent || navigator.vendor || window.opera
-      )
-    },
-  },
-}
+      );
+    }
+  }
+};
 </script>

@@ -19,7 +19,7 @@
               @click="onItemClick(itemKey, item)"
             >
               <Age v-if="itemKey === 'age'" :date="item" />
-              <div v-else class="max-item-width">{{ item }}</div>
+              <div v-else class>{{ item }}</div>
             </td>
           </tr>
         </tbody>
@@ -46,19 +46,19 @@
 </template>
 
 <script>
-import TableView from './TableView.vue'
-import ButtonMore from '../controls/ButtonMore.vue'
-import Pagination from '../controls/Pagination.vue'
+import TableView from "./TableView.vue";
+import ButtonMore from "../controls/ButtonMore.vue";
+import Pagination from "../controls/Pagination.vue";
 export default {
   extends: TableView,
 
   created() {
-    this.componentType = 'list'
+    this.componentType = "list";
   },
 
   components: {
     ButtonMore,
-    Pagination,
+    Pagination
   },
   props: {
     data: {
@@ -82,10 +82,10 @@ export default {
     // },
 
     header() {
-      let header = []
-      if (this.data) for (let key in this.data[0]) header.push(key)
-      return header
-    },
+      let header = [];
+      if (this.data) for (let key in this.data[0]) header.push(key);
+      return header;
+    }
 
     // pageIndex() {
     //     return this.$store.getters[this.view + '/getPageIndex'];
@@ -102,10 +102,10 @@ export default {
 
   methods: {
     onMoreClick() {
-      this.$store.dispatch(this.nextPageAction)
-    },
-  },
-}
+      this.$store.dispatch(this.nextPageAction);
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>

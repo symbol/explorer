@@ -1,10 +1,9 @@
 <template>
-    <div class="page">
-        <div class="page-content-card-f">
-
-
+   <div class="full-con mob_con">
+       <div class="container p-0 mt-1">
+            
             <Card 
-                class="card-f card-full-width"
+                class="widget has-shadow"
                 :loading="loading"
             > <!-- Account Detail -->
                 <template #title>
@@ -21,7 +20,7 @@
 
             <Card 
                 v-if="hasMosaics"
-                class="card-f card-adaptive"
+               class="widget has-shadow"
             > <!-- Mosaics -->
                 <template v-slot:title>
                     Owned Mosaics
@@ -37,7 +36,7 @@
 
             <Card 
                 v-if="hasNamespaces"
-                class="card-f card-adaptive"
+               class="widget has-shadow"
             > <!-- NS -->
                 <template v-slot:title>
                     Owned Namespaces
@@ -51,16 +50,18 @@
             </Card>
 
 
-            <Card class="card-f card-full-width"> <!-- Transactions -->
+            <Card class="widget has-shadow"> <!-- Transactions -->
                 <template v-slot:title>
                     Transactions
                 </template>
-                <template v-slot:control>
+                <template v-slot:control >
+                    <div class="inline-block flt-rt">
                     <DropDown
                         :value="selectedTransactionType"
                         :options="transactionTypes"
                         @change="changeTransactionType"
                     />
+                    </div>
                 </template>
 
                 <template v-slot:body>

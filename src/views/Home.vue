@@ -17,36 +17,32 @@
  */
 
 <template>
-  <div>
-    <div class="page_con">
-      <div class="full-con mob_con">
-        <div class="container p-0 has-shadow mt-4">
-          <NemPriceGraph class="border-bottom"></NemPriceGraph>
-          <HomeBaseInfo class=""></HomeBaseInfo>
-        </div>
-        <div class="container p-0 mt-1">
-          <RecentBlocks />
-        </div>
-        <div class="container p-0 mt-1">
-          <RecentTransactions />
-        </div>
-      </div>
+  <div class="full-con mob_con">
+    <div class="container p-0 has-shadow">
+      <NemPriceGraph class="border-bottom"></NemPriceGraph>
+      <HomeBaseInfo class></HomeBaseInfo>
+    </div>
+    <div class="container p-0 mt-1">
+      <RecentBlocks />
+    </div>
+    <div class="container p-0 mt-1">
+      <RecentTransactions />
     </div>
   </div>
 </template>
 <script>
-import w1 from '@/components/HomeBaseInfo.vue'
-import w2 from '@/components/NemPriceGraph.vue'
-import w3 from '@/components/RecentBlocks.vue'
-import w4 from '@/components/RecentTransactions.vue'
+import w1 from "@/components/HomeBaseInfo.vue";
+import w2 from "@/components/NemPriceGraph.vue";
+import w3 from "@/components/RecentBlocks.vue";
+import w4 from "@/components/RecentTransactions.vue";
 
 export default {
-  name: 'Home',
+  name: "Home",
   components: {
     HomeBaseInfo: w1,
     NemPriceGraph: w2,
     RecentBlocks: w3,
-    RecentTransactions: w4,
-  },
-}
+    RecentTransactions: w4
+  }
+};
 </script>

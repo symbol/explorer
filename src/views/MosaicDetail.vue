@@ -17,12 +17,11 @@
  */
 
 <template>
-  <div class="page">
-    <div class="page-content-card-f">
-      <Card class="card-f card-full-width">
+  <div class="full-con mob_con">
+    <div class="container p-0 mt-1">
+      <Card class="widget has-shadow">
         <!-- Mosaic Detail -->
         <template v-slot:title>Mosaic Detail</template>
-
         <template v-slot:body v-if="mosaicInfo">
           <TableInfoView :data="mosaicInfo" />
         </template>
@@ -31,33 +30,33 @@
   </div>
 </template>
 <script>
-import TableInfoView from '@/components/tables/TableInfoView.vue'
-import Card from '@/components/containers/Card.vue'
-import { mapGetters } from 'vuex'
+import TableInfoView from "@/components/tables/TableInfoView.vue";
+import Card from "@/components/containers/Card.vue";
+import { mapGetters } from "vuex";
 
 export default {
-  name: 'MosaicDetail',
+  name: "MosaicDetail",
   components: {
     Card,
-    TableInfoView,
+    TableInfoView
   },
   created() {},
   data() {
-    return {}
+    return {};
   },
   computed: {
     ...mapGetters({
-      mosaicInfo: 'mosaic/getMosaicInfo',
+      mosaicInfo: "mosaic/getMosaicInfo"
     }),
     mosaicId() {
-      return this.$route.params.mosaicId || 0
-    },
+      return this.$route.params.mosaicId || 0;
+    }
   },
   methods: {},
   mounted() {
-    this.$store.dispatch('mosaic/fetchMosaicInfo', this.mosaicId)
-  },
-}
+    this.$store.dispatch("mosaic/fetchMosaicInfo", this.mosaicId);
+  }
+};
 </script>
 <style lang="scss">
 .page {

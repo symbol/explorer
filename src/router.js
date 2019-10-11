@@ -173,7 +173,7 @@ export default new Router({
 
     {
       path: '/test/account/:address',
-      name: 'account',
+      name: 'account test',
       component: () => import('./views/test/AccountDetail.vue'),
     },
     {
