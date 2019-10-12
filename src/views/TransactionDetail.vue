@@ -34,7 +34,7 @@
 
         <template v-slot:body>
           <loader v-if="loading" />
-          <TableInfoView :data="aggregateInnerTransactions" />
+          <TableListView :data="aggregateInnerTransactions" />
         </template>
       </Card>
 
@@ -44,7 +44,7 @@
 
         <template v-slot:body>
           <loader v-if="loading" />
-          <TableInfoView :data="aggregateCosignatures" />
+          <TableListView :data="aggregateCosignatures" />
         </template>
       </Card>
     </div>

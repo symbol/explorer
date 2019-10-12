@@ -11,8 +11,9 @@ import {
 } from 'nem2-sdk'
 
 const PORT = '3000';
-let defaultNode = 'http://172.105.115.19:' + PORT;
+const DEFAULT_HOST = 'api-01.mt.us-west-2.nemtech.network'
 
+let defaultNode = `http://${DEFAULT_HOST}:${PORT}`;
 
 if (localStorage['defaultNode'] && validURL(localStorage['defaultNode'])) {
   defaultNode = localStorage['defaultNode']
@@ -21,12 +22,13 @@ if (localStorage['defaultNode'] && validURL(localStorage['defaultNode'])) {
 export const Endpoint = {
   api: defaultNode,
   getCurrentNode: () => defaultNode.replace(/(^\w+:|^)\/\//, '').replace(':' + PORT, ''),
-  ws: 'ws://172.105.115.19:' + PORT,
+  ws: `ws://${DEFAULT_HOST}:${PORT}`,
   nodes: [
+    { protocol: 'http', domain: 'api-01.mt.us-west-2.nemtech.network', port: ':' + PORT },
     { protocol: 'http', domain: '52.194.207.217', port: ':' + PORT },
-    { protocol: 'http', domain: '103.3.60.174',   port: ':' + PORT },
+    { protocol: 'http', domain: '103.3.60.174', port: ':' + PORT },
     { protocol: 'http', domain: '13.114.200.132', port: ':' + PORT },
-    { protocol: 'http', domain: '47.107.245.217', port: ':' + PORT }
+    { protocol: 'http', domain: '47.107.245.217', port: ':' + PORT },
   ],
   marketDataURL: 'https://min-api.cryptocompare.com/'
 }

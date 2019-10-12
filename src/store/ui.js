@@ -85,7 +85,9 @@ export default {
       'restrictable': 'Restrictable',
       'active': 'Active',
       'alias': 'Alias',
-      'aliasType': 'Alias Type'
+      'aliasType': 'Alias Type',
+      'hashType': 'Hash Type',
+      'secret': 'Secret'
     },
 
     keyPages: {
@@ -132,6 +134,11 @@ export default {
           if (typeof value != 'number') {
             value = value.toLowerCase()
           }
+
+          if (value === 'infinity'){
+            return ''
+          }
+
           router.push({ path: `/${pageName}/${value}` });
         }
         else

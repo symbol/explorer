@@ -352,7 +352,7 @@ export default {
             transactionType: transactionBody.type,
           }
 
-          formattedAggregateInnerTransactions = transactionBody.aggregateInnerTransactions.map((el) => ({
+          formattedAggregateInnerTransactions = transactionBody.innerTransactions.map((el) => ({
             transactionId: el.transactionId,
             type: el.transactionBody.type,
             signer: el.signer,
@@ -374,7 +374,7 @@ export default {
             transactionType: transactionBody.type,
           }
 
-          formattedAggregateInnerTransactions = transactionBody.aggregateInnerTransactions.map((el) => ({
+          formattedAggregateInnerTransactions = transactionBody.innerTransactions.map((el) => ({
             transactionId: el.transactionId,
             type: el.transactionBody.type,
             signer: el.signer,
@@ -403,6 +403,11 @@ export default {
         case nem.TransactionType.SECRET_LOCK:
           formattedTransactionDetail = {
             transactionType: transactionBody.type,
+            duration: transactionBody.duration,
+            mosaicId: transactionBody.mosaicId,
+            secret: transactionBody.secret,
+            recipient: transactionBody.recipient,
+            hashType: transactionBody.hashType
           }
           break;
 
