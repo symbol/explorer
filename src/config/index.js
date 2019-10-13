@@ -11,9 +11,9 @@ import {
 } from 'nem2-sdk'
 
 const PORT = '3000';
-const DEFAULT_HOST = 'api-01.mt.us-west-2.nemtech.network'
+const DEFAULT_DOMAIN = 'api-01.mt.us-west-2.nemtech.network'
 
-let defaultNode = `http://${DEFAULT_HOST}:${PORT}`;
+let defaultNode = `http://${DEFAULT_DOMAIN}:${PORT}`;
 
 if (localStorage['defaultNode'] && validURL(localStorage['defaultNode'])) {
   defaultNode = localStorage['defaultNode']
@@ -22,7 +22,7 @@ if (localStorage['defaultNode'] && validURL(localStorage['defaultNode'])) {
 export const Endpoint = {
   api: defaultNode,
   getCurrentNode: () => defaultNode.replace(/(^\w+:|^)\/\//, '').replace(':' + PORT, ''),
-  ws: `ws://${DEFAULT_HOST}:${PORT}`,
+  ws: `ws://${DEFAULT_DOMAIN}:${PORT}`,
   nodes: [
     { protocol: 'http', domain: 'api-01.mt.us-west-2.nemtech.network', port: ':' + PORT },
     { protocol: 'http', domain: '52.194.207.217', port: ':' + PORT },
