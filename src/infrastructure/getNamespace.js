@@ -72,11 +72,7 @@ class sdkNamespace {
         let parent = namespaceNames.find(n => n.namespaceId.id.equals(namespace.parentId.id))
         namespace.name = parent.name + '.' + namespace.name
       }
-    })
-
-    namespaceNames.map(namespace => {
-      namespace.namespaceId = namespace.namespaceId.toHex().toUpperCase()
-      namespace.name = namespace.name.toUpperCase()
+      namespace.namespaceId = namespace.namespaceId.toHex()
     })
 
     return format.formatNamespace(namespaceInfo, namespaceNames)
