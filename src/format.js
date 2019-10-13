@@ -125,7 +125,7 @@ const formatMosaics = mosaics => {
 const formatMosaicInfo = (mosaicInfo, mosaicName) => {
   let mosaicObj = {
     mosaic: mosaicName.mosaicId.toHex(),
-    namespace: mosaicName.names[0].name,
+    namespace: mosaicName.names[0]?.name,
     divisibility: mosaicInfo.divisibility,
     address: mosaicInfo.owner.address.plain(),
     supply: mosaicInfo.supply.compact(),

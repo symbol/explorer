@@ -5,6 +5,8 @@
 
             <Card
                 class="card-f card-full-width"
+                :loading="loading"
+                :error="error"
             > <!-- Account Detail -->
                 <template #title>
                     Account Detail
@@ -15,33 +17,39 @@
                         :data="accountInfo"
                     />
                 </template>
+                <template #error>
+                    Account {{address}} is not exist
+                </template>
             </Card>
 
 
             <Card
-                v-if="hasMosaics"
+                v-if="showMosaics"
                 class="card-f card-adaptive"
+                :loading="loading"
             > <!-- Mosaics -->
-                <template v-slot:title>
+                <template #title>
                     Owned Mosaics
                 </template>
 
-                <template v-slot:body>
+                <template #body>
                     <TableListView
                         :data="mosaicList"
                     />
                 </template>
             </Card>
 
+
             <Card
-                v-if="hasNamespaces"
+                v-if="showNamespaces"
                 class="card-f card-adaptive"
+                :loading="loading"
             > <!-- NS -->
-                <template v-slot:title>
+                <template #title>
                     Owned Namespaces
                 </template>
 
-                <template v-slot:body>
+                <template #body>
                     <TableListView
                         :data="namespaceList"
                     />
@@ -49,11 +57,15 @@
             </Card>
 
 
-            <Card class="card-f card-full-width"> <!-- Transactions -->
-                <template v-slot:title>
+            <Card
+                v-if="showTransactions"
+                class="card-f card-full-width"
+                :loading="loading"
+            > <!-- Transactions -->
+                <template #title>
                     Transactions
                 </template>
-                <template v-slot:control>
+                <template #control>
                     <DropDown
                         :value="selectedTransactionType"
                         :options="transactionTypes"
@@ -61,9 +73,9 @@
                     />
                 </template>
 
-                <template v-slot:body>
+                <template #body>
                     <TableListView
-                        :data="transactionList"
+                        :data="filteredTransactionList"
                     />
                 </template>
             </Card>
@@ -87,8 +99,10 @@ export default {
     data() {
         return {
             transactionTypes: [
-                { name: "Transactions", value: 1 },
-                { name: "Mosaic Transactions", value: 2 }
+                { name: "All transactions", value: 1 },
+                { name: "Mosaic transactions", value: 2 },
+                { name: "Namespace transactions", value: 3 },
+                { name: "Transfers", value: 4 }
             ],
             selectedTransactionType: 1 // TODO: store.getters
         }
@@ -100,24 +114,47 @@ export default {
             namespaceList: 'account/namespaceList',
             mosaicList: 'account/mosaicList',
             transactionList: 'account/transactionList',
+            loading: 'account/accountInfoLoading',
+            error: 'account/accountInfoError',
         }),
 
         address() {
             return this.$route.params.address || 0;
         },
 
-        hasDeatail() { return this.accountInfo },
-        hasMosaics() { return this.mosaicList?.length },
-        hasNamespaces() { return this.namespaceList?.length },
+        showDeatail() { return !this.error && this.accountInfo },
+        showMosaics() { return !this.error && this.mosaicList?.length },
+        showNamespaces() { return !this.error && this.namespaceList?.length },
+        showTransactions() {return !this.error},
+
+        filteredTransactionList() {
+            if(Array.isArray(this.transactionList))
+                switch(this.selectedTransactionType) {
+                    case 1:
+                        return this.transactionList;
+                    case 2:
+                        return this.transactionList.filter( transaction =>
+                            transaction.transactionType?.toUpperCase().indexOf("MOSAIC") !== -1
+                        )
+                    case 3:
+                        return this.transactionList.filter( transaction =>
+                            transaction.transactionType?.toUpperCase().indexOf("NAMESPACE") !== -1
+                        )
+                    case 4:
+                        return this.transactionList.filter( transaction =>
+                            transaction.transactionType?.toUpperCase().indexOf("TRANSFER") !== -1
+                        )
+                }
+        }
 
     },
 
     methods: {
         changeTransactionType(v){
             this.selectedTransactionType = v;
-            this.$store.dispatch("account/getTransactions", {
-                transactionType: this.selectedTransactionType
-            });
+            // this.$store.dispatch("account/getTransactions", {
+            //     transactionType: this.selectedTransactionType
+            // });
         }
     }
 }
