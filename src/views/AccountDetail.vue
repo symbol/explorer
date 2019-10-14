@@ -3,7 +3,7 @@
         <div class="page-content-card-f">
 
 
-            <Card 
+            <Card
                 class="card-f card-full-width"
                 :loading="loading"
                 :error="error"
@@ -11,7 +11,7 @@
                 <template #title>
                     Account Detail
                 </template>
-                
+
                 <template #body>
                     <TableInfoView
                         :data="accountInfo"
@@ -23,7 +23,7 @@
             </Card>
 
 
-            <Card 
+            <Card
                 v-if="showMosaics"
                 class="card-f card-adaptive"
                 :loading="loading"
@@ -40,7 +40,7 @@
             </Card>
 
 
-            <Card 
+            <Card
                 v-if="showNamespaces"
                 class="card-f card-adaptive"
                 :loading="loading"
@@ -57,7 +57,7 @@
             </Card>
 
 
-            <Card 
+            <Card
                 v-if="showTransactions"
                 class="card-f card-full-width"
                 :loading="loading"
@@ -133,15 +133,15 @@ export default {
                     case 1:
                         return this.transactionList;
                     case 2:
-                        return this.transactionList.filter( transaction => 
+                        return this.transactionList.filter( transaction =>
                             transaction.transactionType?.toUpperCase().indexOf("MOSAIC") !== -1
                         )
                     case 3:
-                        return this.transactionList.filter( transaction => 
+                        return this.transactionList.filter( transaction =>
                             transaction.transactionType?.toUpperCase().indexOf("NAMESPACE") !== -1
                         )
                     case 4:
-                        return this.transactionList.filter( transaction => 
+                        return this.transactionList.filter( transaction =>
                             transaction.transactionType?.toUpperCase().indexOf("TRANSFER") !== -1
                         )
                 }

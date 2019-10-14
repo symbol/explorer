@@ -20,7 +20,7 @@ import { NamespaceHttp, Address, NamespaceId, NamespaceService } from 'nem2-sdk'
 import { mergeMap, map } from 'rxjs/operators'
 import format from '../format'
 import helper from '../helper'
-import { Endpoint, rootNamespace, subNamespace, namespaceName } from '../config/'
+import { Endpoint } from '../config/'
 
 const NAMESPACE_HTTP = new NamespaceHttp(Endpoint.api)
 
@@ -53,34 +53,27 @@ class sdkNamespace {
 
   static getNamespaceInfo = async namespaceOrHex => {
 
-    let namespaceID = ''
+    let namespace = ''
 
     if (helper.isHexadecimal(namespaceOrHex)) {
-      namespaceID = NamespaceId.createFromEncoded(namespaceOrHex);
+      namespace = NamespaceId.createFromEncoded(namespaceOrHex);
     } else {
-      namespaceID = new NamespaceId(namespaceOrHex)
+      namespace = new NamespaceId(namespaceOrHex)
     }
 
-    const namespace = new NamespaceId(namespaceID)
     const namespaceService = new NamespaceService(NAMESPACE_HTTP)
 
-    // let namespaceInfo = await namespaceService.namespace(namespace).toPromise()
-    let namespaceInfo = rootNamespace
+    let namespaceInfo = await namespaceService.namespace(namespace).toPromise()
 
-    // let namespaceNames = await NAMESPACE_HTTP.getNamespacesName([namespace]).toPromise()
-    let namespaceNames = [namespaceName]
+    let namespaceNames = await NAMESPACE_HTTP.getNamespacesName([namespace]).toPromise()
 
-    // namespaceNames.map(namespace => {
-    //   if (namespace.parentId) {
-    //     let parent = namespaceNames.find(n => n.namespaceId.id.equals(namespace.parentId.id))
-    //     namespace.name = parent.name + '.' + namespace.name
-    //   }
-    // })
-
-    // namespaceNames.map(namespace => {
-    //   namespace.namespaceId = namespace.namespaceId.toHex().toUpperCase()
-    //   namespace.name = namespace.name.toUpperCase()
-    // })
+    namespaceNames.map(namespace => {
+      if (namespace.parentId) {
+        let parent = namespaceNames.find(n => n.namespaceId.id.equals(namespace.parentId.id))
+        namespace.name = parent.name + '.' + namespace.name
+      }
+      namespace.namespaceId = namespace.namespaceId.toHex()
+    })
 
     return format.formatNamespace(namespaceInfo, namespaceNames)
   }

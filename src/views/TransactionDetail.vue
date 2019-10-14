@@ -1,7 +1,7 @@
 <template>
   <div class="page">
     <div class="page-content-card-f">
-      <Card 
+      <Card
         class="card-f card-full-width"
         :loading="loading"
         :error="error"
@@ -14,7 +14,7 @@
         </template>
         <template #error>Transaction with hash - {{transactionHash}} is not exist</template>
       </Card>
-      <Card 
+      <Card
         class="card-f card-adaptive"
         v-if="showTransactionDetail"
         :loading="loading"
@@ -27,8 +27,8 @@
         </template>
       </Card>
 
-      <Card 
-        class="card-f card-adaptive" 
+      <Card
+        class="card-f card-adaptive"
         v-if="transferMosaics.length > 0"
         :loading="loading"
       >
@@ -39,8 +39,8 @@
         </template>
       </Card>
 
-      <Card 
-        class="card-f card-full-width" 
+      <Card
+        class="card-f card-full-width"
         v-if="aggregateInnerTransactions.length > 0"
         :loading="loading"
       >
@@ -52,8 +52,8 @@
         </template>
       </Card>
 
-      <Card 
-        class="card-f card-full-width" 
+      <Card
+        class="card-f card-full-width"
         v-if="aggregateCosignatures.length > 0"
         :loading="loading"
       >
