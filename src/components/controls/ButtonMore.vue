@@ -1,8 +1,8 @@
 <template>
-    <div 
-        exact 
-        active-class="active" 
-        class="btn btn-green noselect pointer" 
+    <div
+        exact
+        active-class="active"
+        class="btn btn-green noselect pointer"
         @click="$emit('click')"
     >
         <span><slot/></span>

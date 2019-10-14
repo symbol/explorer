@@ -59,8 +59,6 @@
   </div>
 </template>
 
-
-
 <script>
 import MobileMenu from '@/components/MobileMenu.vue'
 import NodeSelector from '@/components/header/NodeSelector.vue'
@@ -75,7 +73,7 @@ export default {
   components: {
     MobileMenu,
     NodeSelector,
-    SearchBox,
+    SearchBox
   },
 
   data() {
@@ -83,7 +81,7 @@ export default {
       nodes: Endpoint.nodes,
       activeNode: Endpoint.api.replace('http://', '').replace(':3000', ''),
       mobmenu_active: 0,
-      nodemenu_active: 0,
+      nodemenu_active: 0
     }
   },
 
@@ -92,7 +90,7 @@ export default {
       return helper.isMobile(
         navigator.userAgent || navigator.vendor || window.opera
       )
-    },
-  },
+    }
+  }
 }
 </script>

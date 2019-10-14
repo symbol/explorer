@@ -21,24 +21,23 @@
 
 <script>
 export default {
-    computed: {
-        nodeList() {
-            return this.$store.getters['api/nodeList'];
-        },
-
-        currentNode() {
-            return this.$store.getters['api/currentNode'];
-        },
+  computed: {
+    nodeList() {
+      return this.$store.getters['api/nodeList']
     },
 
-    methods: {
-        setNode(value) {
-            this.$store.dispatch('api/changeNode', value);
-        }
+    currentNode() {
+      return this.$store.getters['api/currentNode']
     }
+  },
+
+  methods: {
+    setNode(value) {
+      this.$store.dispatch('api/changeNode', value)
+    }
+  }
 }
 </script>
-
 
 <style lang="scss" scoped>
 .node-selector-menu{

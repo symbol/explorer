@@ -20,7 +20,6 @@ import sdkAccount from '../infrastructure/getAccount'
 import sdkTransaction from '../infrastructure/getTransaction'
 import sdkNamespace from '../infrastructure/getNamespace'
 
-
 export default {
   namespaced: true,
   state: {
@@ -43,15 +42,15 @@ export default {
     mosaicList: state => state.mosaicList,
     transactionList: state => state.transactionList,
     accountInfoLoading: state => state.accountInfoLoading,
-    accountInfoError: state => state.accountInfoError, 
+    accountInfoError: state => state.accountInfoError
   },
   mutations: {
-    accountInfo: (state, payload) => Vue.set(state, "accountInfo", payload),
-    namespaceList: (state, payload) => Vue.set(state, "namespaceList", payload),
-    mosaicList: (state, payload) => Vue.set(state, "mosaicList", payload),
-    transactionList: (state, payload) => Vue.set(state, "transactionList", payload),
-    accountInfoLoading: (state, payload) => Vue.set(state, "accountInfoLoading", payload),
-    accountInfoError: (state, payload) => Vue.set(state, "accountInfoError", payload),
+    accountInfo: (state, payload) => Vue.set(state, 'accountInfo', payload),
+    namespaceList: (state, payload) => Vue.set(state, 'namespaceList', payload),
+    mosaicList: (state, payload) => Vue.set(state, 'mosaicList', payload),
+    transactionList: (state, payload) => Vue.set(state, 'transactionList', payload),
+    accountInfoLoading: (state, payload) => Vue.set(state, 'accountInfoLoading', payload),
+    accountInfoError: (state, payload) => Vue.set(state, 'accountInfoError', payload)
   },
   actions: {
     // Fetch data from the SDK By Address.
@@ -63,18 +62,16 @@ export default {
       commit('transactionList', [])
       commit('namespaceList', [])
 
-
-      let accountInfo;
+      let accountInfo
 
       try {
         accountInfo = await sdkAccount.getAccountInfoByAddress(address)
-      }
-      catch(e) {
+      } catch (e) {
         console.error(e)
-        commit('accountInfoError', true);
+        commit('accountInfoError', true)
       }
 
-      if(accountInfo){
+      if (accountInfo) {
         let formattedAccountInfo = {
           address: accountInfo.address.address,
           addressHeight: accountInfo.addressHeight,
@@ -83,63 +80,62 @@ export default {
           importance: accountInfo.importance,
           // importanceHeight: accountInfo.importanceHeight,
           accountType: accountInfo.accountType,
-          linkedAccountKey: accountInfo.linkedAccountKey,
-        };
+          linkedAccountKey: accountInfo.linkedAccountKey
+        }
         let mosaicList = Array.isArray(accountInfo.mosaics)
-        ? accountInfo.mosaics.map( el => ({
-          mosaicId: el.id,
-          amount: el.amount
-        }))
-        : [];
+          ? accountInfo.mosaics.map(el => ({
+            mosaicId: el.id,
+            amount: el.amount
+          }))
+          : []
 
         commit('accountInfo', formattedAccountInfo)
         commit('mosaicList', mosaicList)
       }
 
-
-      let transactionList;
+      let transactionList
 
       try {
         transactionList = await sdkTransaction.getAccountTransactions(address)
-      }
-      catch(e) {
+      } catch (e) {
         console.error(e)
-        //commit('accountInfoError', true);
+        // commit('accountInfoError', true);
       }
-      
-      let formattedTansactionList = [];
-      if(transactionList)
-      formattedTansactionList = transactionList.map(el => ({
-        deadline: el.deadline,
-        fee: el.fee,
-        transactionHash: el.transactionHash,
-        transactionType: el.transactionBody.type
-      }));
 
-      commit('transactionList', formattedTansactionList);
+      let formattedTansactionList = []
+      if (transactionList) {
+        formattedTansactionList = transactionList.map(el => ({
+          deadline: el.deadline,
+          fee: el.fee,
+          transactionHash: el.transactionHash,
+          transactionType: el.transactionBody.type
+        }))
+      }
 
-      let namespaceList;
+      commit('transactionList', formattedTansactionList)
+
+      let namespaceList
       try {
         namespaceList = await sdkNamespace.getNamespacesFromAccountByAddress(address)
-      }
-      catch(e) {
+      } catch (e) {
         console.error(e)
-        //commit('accountInfoError', true)
+        // commit('accountInfoError', true)
       }
 
-      let formattedNamespaceList = [];
-      if(namespaceList)
-      formattedNamespaceList = namespaceList.map(
-        el => ({
-          namespaceName: el.namespaceName,
-          registrationType: el.type,
-          status: el.active,
-          startHeight: el.startHeight,
-          endHeight: el.endHeight
-        })
-      );
-      commit('namespaceList', formattedNamespaceList);
-      commit('accountInfoLoading', false);
+      let formattedNamespaceList = []
+      if (namespaceList) {
+        formattedNamespaceList = namespaceList.map(
+          el => ({
+            namespaceName: el.namespaceName,
+            registrationType: el.type,
+            status: el.active,
+            startHeight: el.startHeight,
+            endHeight: el.endHeight
+          })
+        )
+      }
+      commit('namespaceList', formattedNamespaceList)
+      commit('accountInfoLoading', false)
     }
   }
 }

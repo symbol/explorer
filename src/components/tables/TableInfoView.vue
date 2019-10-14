@@ -1,10 +1,10 @@
 <template>
-    <div 
+    <div
         v-if="data"
         class="table-view"
     >
         <table class="table table-striped">
-            
+
             <tbody>
                 <tr
                     v-for="(item, itemKey) in formattedData"
@@ -31,37 +31,37 @@
 <script>
 import TableView from './TableView.vue'
 export default {
-    extends: TableView,
+  extends: TableView,
 
-    props: {
-        data: {
-            type: Object,
-            required: true
-        },
-    },
-
-    created() {
-        this.componentType = 'info';
-    },
-
-    mounted() {
-        //this.$store.dispatch(this.view + "/fetchInfo", this.infoId);
-    },
-
-    computed: {
-        formattedData() {
-            let formattedData = {};
-            for(var key in this.data)
-                if(this.isItemShown(key, this.data[key]))
-                    formattedData[key] = this.data[key];
-            return formattedData;
-        },
-
-        header() {
-            let header = ["", ""];
-            return header;
-        }
+  props: {
+    data: {
+      type: Object,
+      required: true
     }
+  },
+
+  created() {
+    this.componentType = 'info'
+  },
+
+  mounted() {
+    // this.$store.dispatch(this.view + "/fetchInfo", this.infoId);
+  },
+
+  computed: {
+    formattedData() {
+      let formattedData = {}
+      for (let key in this.data) {
+        if (this.isItemShown(key, this.data[key])) { formattedData[key] = this.data[key] }
+      }
+      return formattedData
+    },
+
+    header() {
+      let header = ['', '']
+      return header
+    }
+  }
 }
 </script>
 

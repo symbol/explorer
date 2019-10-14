@@ -2,16 +2,14 @@
     <div class="page">
         <div class="page-content-card-f">
 
-
-            <Card class="card-f card-full-width"> 
+            <Card class="card-f card-full-width">
                 <template v-slot:title>
                     Transaction Detail
                 </template>
                 <template v-slot:control>
-                    
+
                 </template>
 
-                
                 <template v-slot:body>
                     <loader v-if="loading" />
                     <div v-else>
@@ -26,39 +24,38 @@
                 </template>
             </Card>
 
-
         </div>
     </div>
 </template>
 
 <script>
-import View from './View.vue';
+import View from './View.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-    extends: View,
+  extends: View,
 
-    mounted() {
-        this.$store.dispatch('transaction/getTransactionInfoByHash', this.id)
-    },
+  mounted() {
+    this.$store.dispatch('transaction/getTransactionInfoByHash', this.id)
+  },
 
-    data() {
-        return {
-            nextPageAction: "transaction/nextTransaction",
-            previousPageAction: "transaction/previousTransaction"
-        }
-    },
+  data() {
+    return {
+      nextPageAction: 'transaction/nextTransaction',
+      previousPageAction: 'transaction/previousTransaction'
+    }
+  },
 
-    computed: {
-        ...mapGetters({
-            transactionInfo: 'transaction/transactionInfo',
-            loading: 'transaction/transactionInfoLoading'
-        }),
+  computed: {
+    ...mapGetters({
+      transactionInfo: 'transaction/transactionInfo',
+      loading: 'transaction/transactionInfoLoading'
+    }),
 
-        id() {
-            return this.$route.params.id
-        },
-    },
+    id() {
+      return this.$route.params.id
+    }
+  }
 }
 </script>
 

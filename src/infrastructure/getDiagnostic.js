@@ -23,8 +23,8 @@ const DIAGNOSTIC_HTTP = new DiagnosticHttp(Endpoint.api)
 
 class sdkDiagnostic {
     static getChainInfo = async () => {
-        const chainInfo = await DIAGNOSTIC_HTTP.getDiagnosticStorage().toPromise()
-        return chainInfo;
+      const chainInfo = await DIAGNOSTIC_HTTP.getDiagnosticStorage().toPromise()
+      return chainInfo
     }
 }
 

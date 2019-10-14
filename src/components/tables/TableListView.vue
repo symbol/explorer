@@ -58,7 +58,7 @@ export default {
 
   components: {
     ButtonMore,
-    Pagination,
+    Pagination
   },
   props: {
     data: {
@@ -85,7 +85,7 @@ export default {
       let header = []
       if (this.data) for (let key in this.data[0]) header.push(key)
       return header
-    },
+    }
 
     // pageIndex() {
     //     return this.$store.getters[this.view + '/getPageIndex'];
@@ -103,8 +103,8 @@ export default {
   methods: {
     onMoreClick() {
       this.$store.dispatch(this.nextPageAction)
-    },
-  },
+    }
+  }
 }
 </script>
 

@@ -25,13 +25,12 @@ class apiMarketData {
       axios
         .all([axios.get(Endpoint.marketDataURL + 'data/pricemultifull?fsyms=XEM&tsyms=USD')])
         .then(res => {
-          return resolve(res[0].data.DISPLAY);
+          return resolve(res[0].data.DISPLAY)
         })
         .catch(error => {
-          reject(new Error('Fail to request XEM price.'));
+          reject(new Error('Fail to request XEM price.'))
         })
-
-    });
+    })
   }
 
   static getXemHistoricalHourlyGraph = () => {
@@ -39,13 +38,12 @@ class apiMarketData {
       axios
         .all([axios.get(Endpoint.marketDataURL + 'data/histohour?fsym=XEM&tsym=USD&limit=168')])
         .then(res => {
-          return resolve(res[0].data);
+          return resolve(res[0].data)
         })
         .catch(error => {
-          reject(new Error('Fail to request Xem historical hourly graph.'));
+          reject(new Error('Fail to request Xem historical hourly graph.'))
         })
-
-    });
+    })
   }
 }
 

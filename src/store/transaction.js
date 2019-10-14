@@ -128,7 +128,7 @@ export default {
     aggregateCosignatures: state => state.aggregateCosignatures,
     pageListFormatted: state => state.pageListFormatted,
     transactionInfoLoading: state => state.transactionInfoLoading,
-    transactionInfoError: state => state.transactionInfoError,
+    transactionInfoError: state => state.transactionInfoError
   },
   mutations: {
     setLatestList: util.setLatestList,
@@ -148,7 +148,7 @@ export default {
     aggregateCosignatures: (state, aggregateCosignatures) => Vue.set(state, 'aggregateCosignatures', aggregateCosignatures),
     pageListFormatted: (state, pageListFormatted) => Vue.set(state, 'pageListFormatted', pageListFormatted),
     transactionInfoLoading: (state, v) => state.transactionInfoLoading = v,
-    transactionInfoError: (state, v) => state.transactionInfoError = v,
+    transactionInfoError: (state, v) => state.transactionInfoError = v
   },
   actions: {
     // Initialize the transaction model.
@@ -195,9 +195,9 @@ export default {
         blockHeight: el.blockHeight,
         transactionId: el.transactionId,
         transactionHash: el.transactionHash,
-        fee: el.fee,
+        fee: el.fee
       }))
-      commit('pageListFormatted', transactionListFormatted);
+      commit('pageListFormatted', transactionListFormatted)
       if (transactionList.length > 0) {
         commit('chain/setTransactionHash', transactionList[0].transactionHash, { root: true })
       }
@@ -258,11 +258,10 @@ export default {
       commit('aggregateInnerTransactions', [])
       commit('aggregateCosignatures', [])
 
-      let transactionInfo;
+      let transactionInfo
       try {
         transactionInfo = await sdkTransaction.getTransactionInfoByHash(hash)
-      }
-      catch (e) {
+      } catch (e) {
         console.error(e)
         commit('transactionInfoError', true)
       }
@@ -278,7 +277,7 @@ export default {
           signature: transactionInfo.transaction.signature,
           signer: transactionInfo.transaction.signer,
           status: transactionInfo.status,
-          confirm: transactionInfo.confirm,
+          confirm: transactionInfo.confirm
         }
 
         commit('transactionInfo', formattedTransactionInfo)
@@ -308,7 +307,7 @@ export default {
             }))
 
             commit('transferMosaics', formattedTransferMosaics)
-            break;
+            break
 
           case nem.TransactionType.REGISTER_NAMESPACE:
             formattedTransactionDetail = {
@@ -319,7 +318,7 @@ export default {
               parentId: transactionBody.parentId,
               duration: transactionBody.duration
             }
-            break;
+            break
 
           case nem.TransactionType.ADDRESS_ALIAS:
             formattedTransactionDetail = {
@@ -327,7 +326,7 @@ export default {
               aliasAction: transactionBody.aliasAction,
               namespaceId: transactionBody.namespaceId
             }
-            break;
+            break
 
           case nem.TransactionType.MOSAIC_ALIAS:
             formattedTransactionDetail = {
@@ -336,7 +335,7 @@ export default {
               namespaceId: transactionBody.namespaceId,
               mosaicId: transactionBody.mosaicId
             }
-            break;
+            break
 
           case nem.TransactionType.MOSAIC_DEFINITION:
             formattedTransactionDetail = {
@@ -349,7 +348,7 @@ export default {
               transferable: transactionBody.transferable,
               restrictable: transactionBody.restrictable
             }
-            break;
+            break
 
           case nem.TransactionType.MOSAIC_SUPPLY_CHANGE:
             formattedTransactionDetail = {
@@ -358,17 +357,17 @@ export default {
               direction: transactionBody.direction,
               delta: transactionBody.delta
             }
-            break;
+            break
 
           case nem.TransactionType.MODIFY_MULTISIG_ACCOUNT:
             formattedTransactionDetail = {
-              transactionType: transactionBody.type,
+              transactionType: transactionBody.type
             }
-            break;
+            break
 
           case nem.TransactionType.AGGREGATE_COMPLETE:
             formattedTransactionDetail = {
-              transactionType: transactionBody.type,
+              transactionType: transactionBody.type
             }
 
             formattedAggregateInnerTransactions = transactionBody.innerTransactions.map((el) => ({
@@ -382,15 +381,15 @@ export default {
 
             formattedAggregateCosignatures = transactionBody.cosignatures.map((el) => ({
               signature: el.signature,
-              signer: el.signer,
+              signer: el.signer
             }))
 
             commit('aggregateCosignatures', formattedAggregateCosignatures)
-            break;
+            break
 
           case nem.TransactionType.AGGREGATE_BONDED:
             formattedTransactionDetail = {
-              transactionType: transactionBody.type,
+              transactionType: transactionBody.type
             }
 
             formattedAggregateInnerTransactions = transactionBody.innerTransactions.map((el) => ({
@@ -404,20 +403,20 @@ export default {
 
             formattedAggregateCosignatures = transactionBody.cosignatures.map((el) => ({
               signature: el.signature,
-              signer: el.signer,
+              signer: el.signer
             }))
 
             commit('aggregateCosignatures', formattedAggregateCosignatures)
-            break;
+            break
 
           case nem.TransactionType.LOCK:
             formattedTransactionDetail = {
               transactionType: transactionBody.type,
               duration: transactionBody.duration,
               mosaicId: transactionBody.mosaicId,
-              amount: transactionBody.amount,
+              amount: transactionBody.amount
             }
-            break;
+            break
 
           case nem.TransactionType.SECRET_LOCK:
             formattedTransactionDetail = {
@@ -428,54 +427,53 @@ export default {
               recipient: transactionBody.recipient,
               hashType: transactionBody.hashType
             }
-            break;
+            break
 
           case nem.TransactionType.SECRET_PROOF:
             // Todo: Anthony
             formattedTransactionDetail = {
-              transactionType: transactionBody.type,
+              transactionType: transactionBody.type
             }
-            break;
+            break
 
           case nem.TransactionType.MODIFY_ACCOUNT_PROPERTY_ADDRESS:
             // Todo: Anthony
             formattedTransactionDetail = {
-              transactionType: transactionBody.type,
+              transactionType: transactionBody.type
             }
-            break;
+            break
 
           case nem.TransactionType.MODIFY_ACCOUNT_PROPERTY_MOSAIC:
             // Todo: Anthony
             formattedTransactionDetail = {
-              transactionType: transactionBody.type,
+              transactionType: transactionBody.type
             }
-            break;
+            break
 
           case nem.TransactionType.MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE:
             // Todo: Anthony
             formattedTransactionDetail = {
-              transactionType: transactionBody.type,
+              transactionType: transactionBody.type
             }
-            break;
+            break
 
           case nem.TransactionType.LINK_ACCOUNT:
             formattedTransactionDetail = {
               transactionType: transactionBody.type,
               linkAction: transactionBody.linkAction,
               remoteAccountPublicKey: transactionBody.remoteAccountPublicKey,
-              remoteAccountAddress: transactionBody.remoteAccountAddress,
+              remoteAccountAddress: transactionBody.remoteAccountAddress
             }
-            break;
+            break
 
           default:
-            break;
+            break
         }
 
         commit('transactionDetail', formattedTransactionDetail)
       }
 
       commit('transactionInfoLoading', false)
-
     }
   }
 }

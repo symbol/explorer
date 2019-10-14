@@ -24,41 +24,40 @@
 
 <script>
 export default {
-    mounted() {
+  mounted() {
 
-    },
+  },
 
-    data() {
-        return {
-            searchString: "",
-            searchValidate: '',
-            isError: false,
-            placeholder: 'Search block / tx hash / account',
-        }
-    },
-
-    computed: {
-    },
-
-    methods: {
-        onSearch() {
-            this.$store.dispatch('ui/search', this.searchString)
-                .then(() => this.searchString = '')
-                .catch(e => this.fail(e));
-        },
-
-        fail(e) {
-            this.searchString = e;
-            this.isError = true;
-            setTimeout(() => {
-                this.isError = false;
-                this.searchString = '';
-            }, 1000);
-        },
+  data() {
+    return {
+      searchString: '',
+      searchValidate: '',
+      isError: false,
+      placeholder: 'Search block / tx hash / account'
     }
+  },
+
+  computed: {
+  },
+
+  methods: {
+    onSearch() {
+      this.$store.dispatch('ui/search', this.searchString)
+        .then(() => this.searchString = '')
+        .catch(e => this.fail(e))
+    },
+
+    fail(e) {
+      this.searchString = e
+      this.isError = true
+      setTimeout(() => {
+        this.isError = false
+        this.searchString = ''
+      }, 1000)
+    }
+  }
 }
 </script>
-
 
 <style lang="scss" scoped>
 $error-color: rgb(255, 208, 78);

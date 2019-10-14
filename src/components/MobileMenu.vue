@@ -58,14 +58,14 @@
   </div>
 </template>
 <script>
-import helper from "../helper";
-import w1 from "@/components/PageMenuItem.vue";
-import { pageMenu } from "../config/";
+import helper from '../helper'
+import w1 from '@/components/PageMenuItem.vue'
+import { pageMenu } from '../config/'
 export default {
-  name: "MobileMenu",
+  name: 'MobileMenu',
   props: {
     nodes: {},
-    activenode: ""
+    activenode: 
   },
   components: {
     PageMenuItem: w1
@@ -74,23 +74,23 @@ export default {
     return {
       showTopMenu: false,
       items: pageMenu.items
-    };
+    }
   },
   methods: {
     nodeUrl(data) {
-      return helper.nodeUrl(data);
+      return helper.nodeUrl(data)
     },
     changeNode(data) {
-      helper.changeNode(data);
+      helper.changeNode(data)
     },
     setFocusOnSearch() {
-      document.getElementById("pagesearchinput").focus();
+      document.getElementById('pagesearchinput').focus()
     },
     isMobile() {
       return helper.isMobile(
         navigator.userAgent || navigator.vendor || window.opera
-      );
+      )
     }
   }
-};
+}
 </script>

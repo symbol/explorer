@@ -1,77 +1,73 @@
 <script>
 import Age from '../Age.vue'
 export default {
-    components: { Age },
-    props: {
-        view: {
-            type: String,
-            default: 'block'
-            //required: true
-        },
-
-        height: {
-            type: Number
-        }
+  components: { Age },
+  props: {
+    view: {
+      type: String,
+      default: 'block'
+      // required: true
     },
 
-    data() {
-        return {
-            componentType: 'list',
-            clickableItems: [
-                'account',
-                'block',
-                'address',
-                'height',
-                'mosaic',
-                'namespace',
-                'namespaceName',
-                'transaction',
-                'harvester',
-                'mosaicId',
-                'namespaceId',
-                'parentId',
-                'transactionHash',
-
-                'addressHeight',
-                'publicKeyHeight',
-                'importanceHeight',
-
-                'signer',
-                'recipient',
-                'owneraddress',
-                'blockHeight',
-                'endHeight',
-                'startHeight',
-            ],
-
-        }
-    },
-
-    methods: {
-        isItemClickable(itemKey) {
-            return this.clickableItems.indexOf(itemKey) !== -1;
-        },
-
-        isItemShown(itemKey, item) {
-            return item != null;
-        },
-
-        onItemClick(itemKey, item) {
-            if(this.isItemClickable(itemKey))
-                this.$store.dispatch(`ui/openPage`, { pageName: itemKey, param: item });
-
-        },
-
-        getKeyName(key){
-            return this.$store.getters['ui/getNameByKey'](key)
-        },
+    height: {
+      type: Number
     }
+  },
+
+  data() {
+    return {
+      componentType: 'list',
+      clickableItems: [
+        'account',
+        'block',
+        'address',
+        'height',
+        'mosaic',
+        'namespace',
+        'namespaceName',
+        'transaction',
+        'harvester',
+        'mosaicId',
+        'namespaceId',
+        'parentId',
+        'transactionHash',
+
+        'addressHeight',
+        'publicKeyHeight',
+        'importanceHeight',
+
+        'signer',
+        'recipient',
+        'owneraddress',
+        'blockHeight',
+        'endHeight',
+        'startHeight'
+      ]
+
+    }
+  },
+
+  methods: {
+    isItemClickable(itemKey) {
+      return this.clickableItems.indexOf(itemKey) !== -1
+    },
+
+    isItemShown(itemKey, item) {
+      return item != null
+    },
+
+    onItemClick(itemKey, item) {
+      if (this.isItemClickable(itemKey)) { this.$store.dispatch(`ui/openPage`, { pageName: itemKey, param: item }) }
+    },
+
+    getKeyName(key) {
+      return this.$store.getters['ui/getNameByKey'](key)
+    }
+  }
 }
 </script>
 
 <style lang="scss">
-
-
 
 .table-title-item {
     vertical-align: middle;
