@@ -1,4 +1,4 @@
-import { Address, TransactionType, NetworkType, AccountType, HashType } from 'nem2-sdk'
+import { Address, TransactionType, NetworkType, AccountType } from 'nem2-sdk'
 import moment from 'moment'
 
 // FORMAT FEE

@@ -65,7 +65,6 @@ import NodeSelector from '@/components/header/NodeSelector.vue'
 import SearchBox from '@/components/header/SearchBox.vue'
 import { Endpoint } from '../config/'
 import helper from '../helper'
-import router from '../router'
 
 export default {
   name: 'TopHead',

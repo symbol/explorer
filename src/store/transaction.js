@@ -16,6 +16,7 @@
  *
  */
 
+import Vue from 'vue'
 import * as nem from 'nem2-sdk'
 import format from '../format'
 import util from './util'
@@ -147,8 +148,8 @@ export default {
     aggregateInnerTransactions: (state, aggregateInnerTransactions) => Vue.set(state, 'aggregateInnerTransactions', aggregateInnerTransactions),
     aggregateCosignatures: (state, aggregateCosignatures) => Vue.set(state, 'aggregateCosignatures', aggregateCosignatures),
     pageListFormatted: (state, pageListFormatted) => Vue.set(state, 'pageListFormatted', pageListFormatted),
-    transactionInfoLoading: (state, v) => state.transactionInfoLoading = v,
-    transactionInfoError: (state, v) => state.transactionInfoError = v
+    transactionInfoLoading: (state, transactionInfoLoading) => Vue.set(state, 'transactionInfoLoading', transactionInfoLoading),
+    transactionInfoError: (state, transactionInfoError) => Vue.set(state, 'transactionInfoError', transactionInfoError)
   },
   actions: {
     // Initialize the transaction model.

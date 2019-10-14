@@ -16,6 +16,7 @@
  *
  */
 
+import Vue from 'vue'
 import util from './util'
 import sdkBlock from '../infrastructure/getBlock'
 import sdkListener from '../infrastructure/getListener'
@@ -76,9 +77,9 @@ export default {
 
     blockInfo: (state, blockInfo) => Vue.set(state, 'blockInfo', blockInfo),
     blockTransactionList: (state, blockTransactionList) => Vue.set(state, 'blockTransactionList', blockTransactionList),
-    currentBlockHeight: (state, currentBlockHeight) => state.currentBlockHeight = currentBlockHeight,
-    blockInfoLoading: (state, blockInfoLoading) => state.blockInfoLoading = blockInfoLoading,
-    blockInfoError: (state, v) => state.blockInfoError = v
+    currentBlockHeight: (state, currentBlockHeight) => Vue.set(state, 'currentBlockHeight', currentBlockHeight),
+    blockInfoLoading: (state, blockInfoLoading) => Vue.set(state, 'blockInfoLoading', blockInfoLoading),
+    blockInfoError: (state, blockInfoError) => Vue.set(state, 'blockInfoError', blockInfoError)
   },
   actions: {
     // Initialize the block model.
@@ -191,7 +192,6 @@ export default {
           height: blockInfo.height,
           date: blockInfo.date,
           fee: blockInfo.totalFee,
-          height: blockInfo.height,
           difficulty: blockInfo.difficulty,
           totalTransactions: blockInfo.numTransactions,
           harvester: blockInfo.signer.address.address,

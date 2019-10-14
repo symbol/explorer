@@ -65,7 +65,7 @@ export default {
   name: 'MobileMenu',
   props: {
     nodes: {},
-    activenode: 
+    activenode: String
   },
   components: {
     PageMenuItem: w1

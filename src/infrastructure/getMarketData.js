@@ -28,7 +28,8 @@ class apiMarketData {
           return resolve(res[0].data.DISPLAY)
         })
         .catch(error => {
-          reject(new Error('Fail to request XEM price.'))
+          // reject(new Error('Fail to request XEM price.'))
+          reject(new Error(error))
         })
     })
   }
@@ -41,7 +42,8 @@ class apiMarketData {
           return resolve(res[0].data)
         })
         .catch(error => {
-          reject(new Error('Fail to request Xem historical hourly graph.'))
+          // reject(new Error('Fail to request Xem historical hourly graph.'))
+          reject(new Error(error))
         })
     })
   }

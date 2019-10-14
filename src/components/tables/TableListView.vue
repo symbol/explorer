@@ -47,8 +47,6 @@
 
 <script>
 import TableView from './TableView.vue'
-import ButtonMore from '../controls/ButtonMore.vue'
-import Pagination from '../controls/Pagination.vue'
 export default {
   extends: TableView,
 
@@ -56,10 +54,7 @@ export default {
     this.componentType = 'list'
   },
 
-  components: {
-    ButtonMore,
-    Pagination
-  },
+  components: {},
   props: {
     data: {
       type: Array,

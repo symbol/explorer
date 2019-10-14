@@ -1,15 +1,3 @@
-import {
-  NamespaceId,
-  MosaicInfo,
-  NamespaceInfo,
-  PublicAccount,
-  UInt64,
-  MosaicId,
-  NetworkType,
-  NamespaceName,
-  MosaicFlags
-} from 'nem2-sdk'
-
 const PORT = '3000'
 const DEFAULT_DOMAIN = 'api-01.mt.us-west-2.nemtech.network'
 

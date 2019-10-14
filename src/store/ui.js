@@ -156,7 +156,7 @@ export default {
             resolve()
           } else
           if (isTransactionId(searchString)) {
-            reject('Search by tx id is not supported yet..')
+            reject(new Error('Search by tx id is not supported yet..'))
             // dispatch('openPage', {
             //     pageName: 'transaction',
             //     param: searchString

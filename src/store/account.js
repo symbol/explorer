@@ -16,6 +16,7 @@
  *
  */
 
+import Vue from 'vue'
 import sdkAccount from '../infrastructure/getAccount'
 import sdkTransaction from '../infrastructure/getTransaction'
 import sdkNamespace from '../infrastructure/getNamespace'

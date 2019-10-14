@@ -76,7 +76,7 @@ export default {
     getValueName(value) {
       let name = value
 
-      if (Array.isArray(this.options)) { name = this.options.find(el => el.value == value).name }
+      if (Array.isArray(this.options)) { name = this.options.find(el => el.value === value).name }
       return name
     }
   }

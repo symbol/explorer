@@ -1,83 +1,51 @@
 <template>
-    <div class="page">
-        <div class="page-content-card-f">
+  <div class="page">
+    <div class="page-content-card-f">
+      <Card class="card-f card-full-width" :loading="loading" :error="error">
+        <!-- Account Detail -->
+        <template #title>Account Detail</template>
 
-            <Card
-                class="card-f card-full-width"
-                :loading="loading"
-                :error="error"
-            > <!-- Account Detail -->
-                <template #title>
-                    Account Detail
-                </template>
+        <template #body>
+          <TableInfoView :data="accountInfo" />
+        </template>
+        <template #error>Account {{address}} is not exist</template>
+      </Card>
 
-                <template #body>
-                    <TableInfoView
-                        :data="accountInfo"
-                    />
-                </template>
-                <template #error>
-                    Account {{address}} is not exist
-                </template>
-            </Card>
+      <Card v-if="showMosaics" class="card-f card-adaptive" :loading="loading">
+        <!-- Mosaics -->
+        <template #title>Owned Mosaics</template>
 
-            <Card
-                v-if="showMosaics"
-                class="card-f card-adaptive"
-                :loading="loading"
-            > <!-- Mosaics -->
-                <template #title>
-                    Owned Mosaics
-                </template>
+        <template #body>
+          <TableListView :data="mosaicList" />
+        </template>
+      </Card>
 
-                <template #body>
-                    <TableListView
-                        :data="mosaicList"
-                    />
-                </template>
-            </Card>
+      <Card v-if="showNamespaces" class="card-f card-adaptive" :loading="loading">
+        <!-- NS -->
+        <template #title>Owned Namespaces</template>
 
-            <Card
-                v-if="showNamespaces"
-                class="card-f card-adaptive"
-                :loading="loading"
-            > <!-- NS -->
-                <template #title>
-                    Owned Namespaces
-                </template>
+        <template #body>
+          <TableListView :data="namespaceList" />
+        </template>
+      </Card>
 
-                <template #body>
-                    <TableListView
-                        :data="namespaceList"
-                    />
-                </template>
-            </Card>
+      <Card v-if="showTransactions" class="card-f card-full-width" :loading="loading">
+        <!-- Transactions -->
+        <template #title>Transactions</template>
+        <template #control>
+          <DropDown
+            :value="selectedTransactionType"
+            :options="transactionTypes"
+            @change="changeTransactionType"
+          />
+        </template>
 
-            <Card
-                v-if="showTransactions"
-                class="card-f card-full-width"
-                :loading="loading"
-            > <!-- Transactions -->
-                <template #title>
-                    Transactions
-                </template>
-                <template #control>
-                    <DropDown
-                        :value="selectedTransactionType"
-                        :options="transactionTypes"
-                        @change="changeTransactionType"
-                    />
-                </template>
-
-                <template #body>
-                    <TableListView
-                        :data="filteredTransactionList"
-                    />
-                </template>
-            </Card>
-
-        </div>
+        <template #body>
+          <TableListView :data="filteredTransactionList" />
+        </template>
+      </Card>
     </div>
+  </div>
 </template>
 
 <script>
@@ -117,10 +85,18 @@ export default {
       return this.$route.params.address || 0
     },
 
-    showDeatail() { return !this.error && this.accountInfo },
-    showMosaics() { return !this.error && this.mosaicList?.length },
-    showNamespaces() { return !this.error && this.namespaceList?.length },
-    showTransactions() { return !this.error },
+    showDeatail() {
+      return !this.error && this.accountInfo
+    },
+    showMosaics() {
+      return !this.error && this.mosaicList?.length
+    },
+    showNamespaces() {
+      return !this.error && this.namespaceList?.length
+    },
+    showTransactions() {
+      return !this.error
+    },
 
     filteredTransactionList() {
       if (Array.isArray(this.transactionList)) {
@@ -128,21 +104,29 @@ export default {
           case 1:
             return this.transactionList
           case 2:
-            return this.transactionList.filter(transaction =>
-                            transaction.transactionType?.toUpperCase().indexOf('MOSAIC') !== -1
+            return this.transactionList.filter(
+              transaction =>
+                transaction.transactionType?.toUpperCase().indexOf('MOSAIC') !==
+                -1
             )
           case 3:
-            return this.transactionList.filter(transaction =>
-                            transaction.transactionType?.toUpperCase().indexOf('NAMESPACE') !== -1
+            return this.transactionList.filter(
+              transaction =>
+                transaction.transactionType
+                  ?.toUpperCase()
+                  .indexOf('NAMESPACE') !== -1
             )
           case 4:
-            return this.transactionList.filter(transaction =>
-                            transaction.transactionType?.toUpperCase().indexOf('TRANSFER') !== -1
+            return this.transactionList.filter(
+              transaction =>
+                transaction.transactionType
+                  ?.toUpperCase()
+                  .indexOf('TRANSFER') !== -1
             )
         }
       }
+      return undefined
     }
-
   },
 
   methods: {
@@ -157,5 +141,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>
