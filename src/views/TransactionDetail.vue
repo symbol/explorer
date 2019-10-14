@@ -18,6 +18,7 @@
           <TableInfoView :data="transactionDetail" />
         </template>
       </Card>
+      
 
       <Card class="card-f card-adaptive" v-if="transferMosaics.length > 0" :loading="loading">
         <template #title>Mosaics</template>

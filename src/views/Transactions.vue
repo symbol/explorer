@@ -21,7 +21,7 @@
     <div class="page_con">
       <div class="full-con mob_con">
         <div class="container p-0">
-          <div class="widget has-shadow mt-4">
+          <div class="widget has-shadow">
             <div class="box">
               <TransactionTypeBox/>
               <div class="box-con mt-0">

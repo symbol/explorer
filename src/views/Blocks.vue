@@ -1,15 +1,16 @@
 <template>
-    <div class="page">
-        <div class="page-content-card-f"> 
+    <div class="page_con">
+      <div class="full-con mob_con">
+         <div class="container p-0">
             <Card 
-                class="card-f card-full-width"
+                class="widget has-shadow"
                 :loading="loading"
             > 
-                <template #title>
-                    Blocks 
+                <template #title>                  
+                    <h1 class="inline-block">Blocks</h1>
                 </template>
-                <template #control>
-                    <h5 v-if="pageIndex === 0"> Chain height: {{chainHeight}} </h5>
+                <template #control class="inline-block">
+                    <h5 v-if="pageIndex === 0" class="inline-block flt-rt" > Chain height: {{chainHeight}} </h5>
                     <Pagination
                         v-else
                         :pageIndex="pageIndex"
@@ -30,6 +31,7 @@
                     />
                 </template>
             </Card>
+         </div>
         </div>
     </div>
 </template>

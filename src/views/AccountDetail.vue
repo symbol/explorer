@@ -1,43 +1,46 @@
 <template>
   <div class="full-con mob_con">
-    <div class="container p-0 mt-1">
+    <div class="container p-0">
       <Card class="widget has-shadow" :loading="loading" :error="error">
         <!-- Account Detail -->
         <template #title>Account Detail</template>
-
         <template #body>
           <TableInfoView :data="accountInfo" />
         </template>
         <template #error>Account {{address}} is not exist</template>
       </Card>
-
-      <Card v-if="showMosaics" class="card-f card-adaptive" :loading="loading">
-        <!-- Mosaics -->
-        <template #title>Owned Mosaics</template>
-
-        <template #body>
-          <TableListView :data="mosaicList" />
-        </template>
-      </Card>
-
-      <Card v-if="showNamespaces" class="card-f card-adaptive" :loading="loading">
-        <!-- NS -->
-        <template #title>Owned Namespaces</template>
-
-        <template #body>
-          <TableListView :data="namespaceList" />
-        </template>
-      </Card>
-
-      <Card v-if="showTransactions" class="card-f card-full-width" :loading="loading">
+    </div>
+    <div class="container p-0">
+      <div class="row">
+        <Card v-if="showNamespaces" class="widget has-shadow card-adaptive" :loading="loading">
+          <!-- NS -->
+          <template #title>Owned Namespaces</template>
+          <template #body>
+            <TableListView :data="namespaceList" />
+          </template>
+        </Card>
+      
+        <Card v-if="showMosaics" class="widget has-shadow card-adaptive" :loading="loading">
+          <!-- Mosaics -->
+          <template #title>Owned Mosaics</template>
+          <template #body>
+            <TableListView :data="mosaicList" />
+          </template>
+        </Card>
+      </div>
+    </div>
+    <div class="container p-0">
+      <Card v-if="showTransactions" class="widget has-shadow" :loading="loading">
         <!-- Transactions -->
         <template #title>Transactions</template>
         <template #control>
+        <div class="inline-block flt-rt">
           <DropDown
             :value="selectedTransactionType"
             :options="transactionTypes"
             @change="changeTransactionType"
           />
+        </div>
         </template>
 
         <template #body>
