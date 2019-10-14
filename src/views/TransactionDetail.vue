@@ -48,7 +48,7 @@
         <template #control></template>
 
         <template #body>
-          <TableInfoView :data="aggregateInnerTransactions" />
+          <TableListView :data="aggregateInnerTransactions" />
         </template>
       </Card>
 
@@ -61,7 +61,7 @@
         <template #control></template>
 
         <template #body>
-          <TableInfoView :data="aggregateCosignatures" />
+          <TableListView :data="aggregateCosignatures" />
         </template>
       </Card>
     </div>
