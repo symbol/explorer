@@ -34,46 +34,81 @@ export default {
     transactionList: [],
     // The Account Created mosaic.
     createdMosaics: [], // Wait for Rest team apply
+    accountInfoLoading: false,
+    accountInfoError: false
   },
   getters: {
     accountInfo: state => state.accountInfo,
     namespaceList: state => state.namespaceList,
     mosaicList: state => state.mosaicList,
-    transactionList: state => state.transactionList
+    transactionList: state => state.transactionList,
+    accountInfoLoading: state => state.accountInfoLoading,
+    accountInfoError: state => state.accountInfoError, 
   },
   mutations: {
     accountInfo: (state, payload) => Vue.set(state, "accountInfo", payload),
     namespaceList: (state, payload) => Vue.set(state, "namespaceList", payload),
     mosaicList: (state, payload) => Vue.set(state, "mosaicList", payload),
     transactionList: (state, payload) => Vue.set(state, "transactionList", payload),
+    accountInfoLoading: (state, payload) => Vue.set(state, "accountInfoLoading", payload),
+    accountInfoError: (state, payload) => Vue.set(state, "accountInfoError", payload),
   },
   actions: {
     // Fetch data from the SDK By Address.
     async fetchAccountDataByAddress({ commit }, address) {
-      let accountInfo = await sdkAccount.getAccountInfoByAddress(address)
-      let formattedAccountInfo = {
-        address: accountInfo.address.address,
-        addressHeight: accountInfo.addressHeight,
-        publicKey: accountInfo.publicKey,
-        // publicKeyHeight: accountInfo.publicKeyHeight,
-        importance: accountInfo.importance,
-        // importanceHeight: accountInfo.importanceHeight,
-        accountType: accountInfo.accountType,
-        linkedAccountKey: accountInfo.linkedAccountKey,
-      };
-      let mosaicList = Array.isArray(accountInfo.mosaics)
-      ? accountInfo.mosaics.map( el => ({
-        mosaicId: el.id,
-        amount: el.amount
-      }))
-      : [];
+      commit('accountInfoLoading', true)
+      commit('accountInfoError', false)
+      commit('accountInfo', [])
+      commit('mosaicList', [])
+      commit('transactionList', [])
+      commit('namespaceList', [])
 
-      commit('accountInfo', formattedAccountInfo)
-      commit('mosaicList', mosaicList)
 
-      const transactionList = await sdkTransaction.getAccountTransactions(address)
+      let accountInfo;
 
+      try {
+        accountInfo = await sdkAccount.getAccountInfoByAddress(address)
+      }
+      catch(e) {
+        console.error(e)
+        commit('accountInfoError', true);
+      }
+
+      if(accountInfo){
+        let formattedAccountInfo = {
+          address: accountInfo.address.address,
+          addressHeight: accountInfo.addressHeight,
+          publicKey: accountInfo.publicKey,
+          // publicKeyHeight: accountInfo.publicKeyHeight,
+          importance: accountInfo.importance,
+          // importanceHeight: accountInfo.importanceHeight,
+          accountType: accountInfo.accountType,
+          linkedAccountKey: accountInfo.linkedAccountKey,
+        };
+        let mosaicList = Array.isArray(accountInfo.mosaics)
+        ? accountInfo.mosaics.map( el => ({
+          mosaicId: el.id,
+          amount: el.amount
+        }))
+        : [];
+
+        commit('accountInfo', formattedAccountInfo)
+        commit('mosaicList', mosaicList)
+      }
+
+
+      let transactionList;
+
+      try {
+        transactionList = await sdkTransaction.getAccountTransactions(address)
+      }
+      catch(e) {
+        console.error(e)
+        //commit('accountInfoError', true);
+      }
+      
       let formattedTansactionList = [];
+      if(transactionList)
       formattedTansactionList = transactionList.map(el => ({
         deadline: el.deadline,
         fee: el.fee,
@@ -83,9 +118,17 @@ export default {
 
       commit('transactionList', formattedTansactionList);
 
-      const namespaceList = await sdkNamespace.getNamespacesFromAccountByAddress(address)
+      let namespaceList;
+      try {
+        namespaceList = await sdkNamespace.getNamespacesFromAccountByAddress(address)
+      }
+      catch(e) {
+        console.error(e)
+        //commit('accountInfoError', true)
+      }
 
       let formattedNamespaceList = [];
+      if(namespaceList)
       formattedNamespaceList = namespaceList.map(
         el => ({
           namespaceName: el.namespaceName,
@@ -96,6 +139,7 @@ export default {
         })
       );
       commit('namespaceList', formattedNamespaceList);
+      commit('accountInfoLoading', false);
     }
   }
 }

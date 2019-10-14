@@ -1,131 +1,142 @@
 <template>
-   <div class="full-con mob_con">
-       <div class="container p-0 mt-1">
-            
-            <Card 
-                class="widget has-shadow"
-                :loading="loading"
-            > <!-- Account Detail -->
-                <template #title>
-                    Account Detail
-                </template>
+  <div class="full-con mob_con">
+    <div class="container p-0 mt-1">
+      <Card class="widget has-shadow" :loading="loading" :error="error">
+        <!-- Account Detail -->
+        <template #title>Account Detail</template>
 
-                <template #body>
-                    <TableInfoView
-                        :data="accountInfo"
-                    />
-                </template>
-            </Card>
+        <template #body>
+          <TableInfoView :data="accountInfo" />
+        </template>
+        <template #error>Account {{address}} is not exist</template>
+      </Card>
 
+      <Card v-if="showMosaics" class="card-f card-adaptive" :loading="loading">
+        <!-- Mosaics -->
+        <template #title>Owned Mosaics</template>
 
-            <Card 
-                v-if="hasMosaics"
-               class="widget has-shadow"
-            > <!-- Mosaics -->
-                <template v-slot:title>
-                    Owned Mosaics
-                </template>
+        <template #body>
+          <TableListView :data="mosaicList" />
+        </template>
+      </Card>
 
-                <template v-slot:body>
-                    <TableListView
-                        :data="mosaicList"
-                    />
-                </template>
-            </Card>
+      <Card v-if="showNamespaces" class="card-f card-adaptive" :loading="loading">
+        <!-- NS -->
+        <template #title>Owned Namespaces</template>
 
+        <template #body>
+          <TableListView :data="namespaceList" />
+        </template>
+      </Card>
 
-            <Card 
-                v-if="hasNamespaces"
-               class="widget has-shadow"
-            > <!-- NS -->
-                <template v-slot:title>
-                    Owned Namespaces
-                </template>
+      <Card v-if="showTransactions" class="card-f card-full-width" :loading="loading">
+        <!-- Transactions -->
+        <template #title>Transactions</template>
+        <template #control>
+          <DropDown
+            :value="selectedTransactionType"
+            :options="transactionTypes"
+            @change="changeTransactionType"
+          />
+        </template>
 
-                <template v-slot:body>
-                    <TableListView
-                        :data="namespaceList"
-                    />
-                </template>
-            </Card>
-
-
-            <Card class="widget has-shadow"> <!-- Transactions -->
-                <template v-slot:title>
-                    Transactions
-                </template>
-                <template v-slot:control >
-                    <div class="inline-block flt-rt">
-                    <DropDown
-                        :value="selectedTransactionType"
-                        :options="transactionTypes"
-                        @change="changeTransactionType"
-                    />
-                    </div>
-                </template>
-
-                <template v-slot:body>
-                    <TableListView
-                        :data="transactionList"
-                    />
-                </template>
-            </Card>
-
-
-        </div>
+        <template #body>
+          <TableListView :data="filteredTransactionList" />
+        </template>
+      </Card>
     </div>
+  </div>
 </template>
 
 <script>
-import View from './View.vue';
-import { mapGetters } from 'vuex'
+import View from "./View.vue";
+import { mapGetters } from "vuex";
 
 export default {
-    extends: View,
+  extends: View,
 
-    mounted() {
-        this.$store.dispatch('account/fetchAccountDataByAddress', this.address)
+  mounted() {
+    this.$store.dispatch("account/fetchAccountDataByAddress", this.address);
+  },
+
+  data() {
+    return {
+      transactionTypes: [
+        { name: "All transactions", value: 1 },
+        { name: "Mosaic transactions", value: 2 },
+        { name: "Namespace transactions", value: 3 },
+        { name: "Transfers", value: 4 }
+      ],
+      selectedTransactionType: 1 // TODO: store.getters
+    };
+  },
+
+  computed: {
+    ...mapGetters({
+      accountInfo: "account/accountInfo",
+      namespaceList: "account/namespaceList",
+      mosaicList: "account/mosaicList",
+      transactionList: "account/transactionList",
+      loading: "account/accountInfoLoading",
+      error: "account/accountInfoError"
+    }),
+
+    address() {
+      return this.$route.params.address || 0;
     },
 
-    data() {
-        return {
-            transactionTypes: [
-                { name: "Transactions", value: 1 },
-                { name: "Mosaic Transactions", value: 2 }
-            ],
-            selectedTransactionType: 1 // TODO: store.getters
-        }
+    showDeatail() {
+      return !this.error && this.accountInfo;
+    },
+    showMosaics() {
+      return !this.error && this.mosaicList?.length;
+    },
+    showNamespaces() {
+      return !this.error && this.namespaceList?.length;
+    },
+    showTransactions() {
+      return !this.error;
     },
 
-    computed: {
-        ...mapGetters({
-            accountInfo: 'account/accountInfo',
-            namespaceList: 'account/namespaceList',
-            mosaicList: 'account/mosaicList',
-            transactionList: 'account/transactionList',
-        }),
-
-        address() {
-            return this.$route.params.address || 0;
-        },
-
-        hasDeatail() { return this.accountInfo },
-        hasMosaics() { return this.mosaicList?.length },
-        hasNamespaces() { return this.namespaceList?.length },
-
-    },
-
-    methods: {
-        changeTransactionType(v){
-            this.selectedTransactionType = v;
-            this.$store.dispatch("account/getTransactions", {
-                transactionType: this.selectedTransactionType
-            });
+    filteredTransactionList() {
+      if (Array.isArray(this.transactionList))
+        switch (this.selectedTransactionType) {
+          case 1:
+            return this.transactionList;
+          case 2:
+            return this.transactionList.filter(
+              transaction =>
+                transaction.transactionType?.toUpperCase().indexOf("MOSAIC") !==
+                -1
+            );
+          case 3:
+            return this.transactionList.filter(
+              transaction =>
+                transaction.transactionType
+                  ?.toUpperCase()
+                  .indexOf("NAMESPACE") !== -1
+            );
+          case 4:
+            return this.transactionList.filter(
+              transaction =>
+                transaction.transactionType
+                  ?.toUpperCase()
+                  .indexOf("TRANSFER") !== -1
+            );
         }
     }
-}
+  },
+
+  methods: {
+    changeTransactionType(v) {
+      this.selectedTransactionType = v;
+      // this.$store.dispatch("account/getTransactions", {
+      //     transactionType: this.selectedTransactionType
+      // });
+    }
+  }
+};
 </script>
 
 <style lang="scss" scoped>
-
 </style>

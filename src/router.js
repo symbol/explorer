@@ -21,126 +21,92 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
+
+
 export default new Router({
-  //mode: 'history',
+  mode: 'history',
   routes: [
     {
       path: '/',
       name: 'home',
       component: () =>
-        import('./views/Home.vue'),
-      meta: {
-        title: ''
-      }
+        import('./views/Home.vue')
     },
     {
       path: '/blocks',
       name: 'blocks',
       component: () =>
-        import('./views/Blocks.vue'),
-      meta: {
-        title: ''
-      }
+        import('./views/Blocks.vue')
     },
     {
       path: '/block/:height',
       name: 'block-detail',
       component: () =>
-        import('./views/BlockDetail.vue'),
-      meta: {
-        title: ''
-      }
+        import('./views/BlockDetail.vue')
     },
     {
       path: '/transactions',
       name: 'transaction',
       component: () =>
-        import('./views/Transactions.vue'),
-      meta: {
-        title: ''
-      }
+        import('./views/Transactions.vue')
     },
     {
       path: '/transaction/:transactionHash',
       name: 'transaction-detail',
       component: () =>
-        import('./views/TransactionDetail.vue'),
-      meta: {
-        title: ''
-      }
+        import('./views/TransactionDetail.vue')
     },
     {
       path: '/account',
       name: 'account',
       component: () =>
-        import('./views/Account.vue'),
-      meta: {
-        title: ''
-      }
+        import('./views/Account.vue')
     },
     {
       path: '/account/:address',
       name: 'account-detail',
       component: () =>
-        import('./views/AccountDetail.vue'),
-      meta: {
-        title: ''
-      }
+        import('./views/AccountDetail.vue')
     },
     {
       path: '/namespace',
       name: 'namespace',
       component: () =>
-        import('./views/Namespace.vue'),
-      meta: {
-        title: ''
-      }
+        import('./views/Namespace.vue')
     },
     {
       path: '/namespace/:namespaceId',
       name: 'namespace-detail',
       component: () =>
-        import('./views/NamespaceDetail.vue'),
-      meta: {
-        title: ''
-      }
+        import('./views/NamespaceDetail.vue')
     },
     {
       path: '/mosaic',
       name: 'mosaic',
       component: () =>
-        import('./views/Mosaic.vue'),
-      meta: {
-        title: ''
-      }
+        import('./views/Mosaic.vue')
     },
     {
       path: '/mosaic/:mosaicId',
       name: 'mosaic-detail',
       component: () =>
-        import('./views/MosaicDetail.vue'),
-      meta: {
-        title: ''
-      }
+        import('./views/MosaicDetail.vue')
     },
     {
       path: '/node',
       name: 'Nodes',
       component: () =>
-        import('./views/Nodes.vue'),
-      meta: {
-        title: ''
-      }
+        import('./views/Nodes.vue')
     },
     {
       path: '/stat',
       name: 'Stat',
       component: () =>
-        import('./views/Stat.vue'),
-      meta: {
-        title: ''
-      }
+        import('./views/Stat.vue')
     },
+
+
+
     {
       path: '/terms',
       name: 'Terms',
@@ -161,16 +127,13 @@ export default new Router({
     },
 
 
+
     {
       path: '/test',
       name: 'test',
       component: () =>
-        import('./views/Home.vue'),
-      meta: {
-        title: ''
-      }
+        import('./views/test/Test.vue')
     },
-
     {
       path: '/test/account/:address',
       name: 'account test',

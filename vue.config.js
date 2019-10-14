@@ -14,4 +14,5 @@ module.exports = {
     before: app => {
     }
   },
+  chainWebpack: config => config.plugins.delete('named-chunks')
 }
