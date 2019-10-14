@@ -75,7 +75,7 @@ import w1 from '@/components/Chart.vue'
 
 export default {
   components: {
-    ApexCharts: w1,
+    ApexCharts: w1
   },
   props: {},
   data() {
@@ -87,15 +87,15 @@ export default {
       return [
         {
           name: 'Price (USD)',
-          data: this.marketData.historicalHourlyGraph,
-        },
+          data: this.marketData.historicalHourlyGraph
+        }
       ]
     },
     ...mapGetters({
-      marketData: 'chain/getMarketData',
-    }),
+      marketData: 'chain/getMarketData'
+    })
   },
   mounted() {},
-  methods: {},
+  methods: {}
 }
 </script>

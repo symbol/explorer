@@ -19,20 +19,20 @@ import { Endpoint } from '../config/'
 import helper from '../helper'
 
 export default {
-    namespaced: true,
-    state: {
-    
-    },
-    getters: {
-        nodeList: state => Endpoint.nodes,
-        currentNode: state => Endpoint.getCurrentNode(),
-    },
-    mutations: {
-        
-    },
-    actions: {
-        changeNode: (context, node)  => {
-            helper.changeNode(node);
-        }
+  namespaced: true,
+  state: {
+
+  },
+  getters: {
+    nodeList: state => Endpoint.nodes,
+    currentNode: state => Endpoint.getCurrentNode()
+  },
+  mutations: {
+
+  },
+  actions: {
+    changeNode: (context, node) => {
+      helper.changeNode(node)
     }
+  }
 }

@@ -38,7 +38,7 @@
             <p>If you have any questions about this Privacy Policy, please contact us:</p>
             <ul>
         <li>By email: contact@nem.io</li>
-          
+
         </ul>
           </div>
         </div>
@@ -47,5 +47,5 @@
   </div>
 </template>
 <script>
-export default {};
+export default {}
 </script>

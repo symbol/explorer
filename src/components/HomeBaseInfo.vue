@@ -71,7 +71,7 @@ export default {
       blockHeight: 'chain/getBlockHeight',
       chainInfo: 'chain/getChainInfo',
       marketData: 'chain/getMarketData'
-    }),
-  },
+    })
+  }
 }
 </script>

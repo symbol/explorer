@@ -24,59 +24,54 @@ import TableListView from '@/components/tables/TableListView.vue'
 import TableInfoView from '@/components/tables/TableInfoView.vue'
 
 export default {
-    components: {
-        TableListView,
-        TableInfoView
-    },
+  components: {
+    TableListView,
+    TableInfoView
+  },
 
-    mounted() {
-        this.$store.dispatch('ui/hardCodeInit')
-    },
+  mounted() {
+    this.$store.dispatch('ui/hardCodeInit')
+  },
 
-    data() {
-        return {
-            viewListMap: {
-                'blocks': 'block',
-                'transactions': 'transaction',
-                'namespaces': 'namespace',
-                'mosaics': 'mosaic',
-                'accounts': 'account'
-            }
-        }
-    },
-
-    computed: {
-        tableType() {
-            if(this.$route.params.infoId == null)
-                return 'TableListView';
-            else
-                return 'TableInfoView';
-        },
-
-        view() {
-            let view = this.$route.params.view;
-            if(this.tableType === 'TableListView') 
-                view = this.viewListMap[view] || "";
-            return view;
-        },
-
-        infoId() {
-            let infoId = this.$route.params.infoId;
-            return infoId;
-        },
-
-        
-        title() {
-            let view = this.$route.params.view;
-            return this.getKeyName(view)
-        }
-    },
-
-    methods: {
-        getKeyName(key){
-            return this.$store.getters['ui/getNameByKey'](key)
-        },
+  data() {
+    return {
+      viewListMap: {
+        'blocks': 'block',
+        'transactions': 'transaction',
+        'namespaces': 'namespace',
+        'mosaics': 'mosaic',
+        'accounts': 'account'
+      }
     }
+  },
+
+  computed: {
+    tableType() {
+      if (this.$route.params.infoId == null) { return 'TableListView' } else { return 'TableInfoView' }
+    },
+
+    view() {
+      let view = this.$route.params.view
+      if (this.tableType === 'TableListView') { view = this.viewListMap[view] || '' }
+      return view
+    },
+
+    infoId() {
+      let infoId = this.$route.params.infoId
+      return infoId
+    },
+
+    title() {
+      let view = this.$route.params.view
+      return this.getKeyName(view)
+    }
+  },
+
+  methods: {
+    getKeyName(key) {
+      return this.$store.getters['ui/getNameByKey'](key)
+    }
+  }
 }
 </script>
 

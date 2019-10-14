@@ -23,9 +23,9 @@ import {
   MosaicHttp,
   NamespaceHttp,
   MosaicId,
-  NamespaceId,
+  NamespaceId
 } from 'nem2-sdk'
-import { Endpoint, mosaicInfo } from '../config/'
+import { Endpoint } from '../config/'
 import helper from '../helper'
 import format from '../format'
 
@@ -47,21 +47,19 @@ class sdkMosaic {
   }
 
   static getMosaicInfo = async mosaicHexOrNamespace => {
-
     let mosaicID = ''
 
     if (helper.isHexadecimal(mosaicHexOrNamespace)) {
-      mosaicID = new MosaicId(mosaicHexOrNamespace);
+      mosaicID = new MosaicId(mosaicHexOrNamespace)
     } else {
       let namespaceId = new NamespaceId(mosaicHexOrNamespace)
       mosaicID = await NAMESPACE_HTTP.getLinkedMosaicId(namespaceId).toPromise()
     }
-    // const mosaicInfo = await MOSAIC_HTTP.getMosaic(mosaicID).toPromise(); // SDK Break
-    const mosaicName = await MOSAIC_HTTP.getMosaicsNames([mosaicID]).toPromise();
+    const mosaicInfo = await MOSAIC_HTTP.getMosaic(mosaicID).toPromise()
+    const mosaicName = await MOSAIC_HTTP.getMosaicsNames([mosaicID]).toPromise()
 
-    return format.formatMosaicInfo(mosaicInfo,mosaicName[0])
+    return format.formatMosaicInfo(mosaicInfo, mosaicName[0])
   }
 }
 
 export default sdkMosaic
-

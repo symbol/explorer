@@ -25,29 +25,29 @@ import ButtonMore from './ButtonMore.vue'
 
 export default {
   components: {
-    ButtonMore,
+    ButtonMore
   },
 
   props: {
     pageIndex: {
       type: Number,
-      default: 1,
+      default: 1
     },
 
     buttonText: {
       type: String,
-      default: 'More',
+      default: 'More'
     },
 
     nextPageAction: {
       type: String,
-      required: true,
+      required: true
     },
 
     previousPageAction: {
       type: String,
-      required: true,
-    },
+      required: true
+    }
   },
 
   methods: {
@@ -57,8 +57,8 @@ export default {
 
     previousPage() {
       this.$store.dispatch(this.previousPageAction)
-    },
-  },
+    }
+  }
 }
 </script>
 

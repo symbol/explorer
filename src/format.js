@@ -1,4 +1,4 @@
-import { Address, TransactionType, AliasActionType, UInt64, NetworkType, AccountType } from 'nem2-sdk'
+import { Address, TransactionType, NetworkType, AccountType } from 'nem2-sdk'
 import moment from 'moment'
 
 // FORMAT FEE
@@ -96,6 +96,20 @@ const formatAccounType = accountType => {
   }
 }
 
+// Format HashType
+const formatHashType = hashType => {
+  switch (hashType) {
+    case 0:
+      return 'Op_Sha3_256'
+    case 1:
+      return 'Op_Keccak_256'
+    case 2:
+      return 'Op_Hash_160'
+    case 3:
+      return 'Op_Hash_256'
+  }
+}
+
 // FORMAT MOSAICS
 const formatMosaics = mosaics => {
   return mosaics.map(mosaic => {
@@ -145,7 +159,7 @@ const formatTransaction = transaction => {
     blockHeight: transaction.transactionInfo.height.compact(),
     transactionHash: transaction.transactionInfo.hash,
     transactionId: transaction.transactionInfo.id,
-    transactionBody: formatTransactionBody(transaction),
+    transactionBody: formatTransactionBody(transaction)
   }
 
   return transactionObj
@@ -168,24 +182,23 @@ const formatTransactionBody = transactionBody => {
       let transferObj = {
         type: 'Transfer',
         typeId: TransactionType.TRANSFER,
-        recipient: transactionBody.recipientAddress.plain(),
+        recipient: transactionBody.recipientAddress.address,
         mosaics: formatMosaics(transactionBody.mosaics),
         message: transactionBody.message.payload
       }
       return transferObj
     case TransactionType.REGISTER_NAMESPACE:
-      let parentIdHex = transactionBody.parentId ? transactionBody.parentId.toHex() : '';
-      let duration = transactionBody.duration ? transactionBody.duration.compact() : 0;
+      let parentIdHex = transactionBody.parentId ? transactionBody.parentId.toHex() : ''
+      let duration = transactionBody.duration ? transactionBody.duration.compact() : 0
 
       let registerNamespaceObj = {
         type: 'Register Namespace',
         typeId: TransactionType.REGISTER_NAMESPACE,
-        // recipient: transactionBody.recipient,registrationType
         registrationType: transactionBody.registrationType === 0 ? 'Root namespace' : 'Child namespace',
         namespaceName: transactionBody.namespaceName,
         namespaceId: transactionBody.namespaceId.toHex(),
         parentId: parentIdHex === '' ? 'NO AVAILABLE' : parentIdHex,
-        duration: duration === 0 ? 'unlimited' : duration,
+        duration: duration === 0 ? 'unlimited' : duration
       }
       return registerNamespaceObj
     case TransactionType.ADDRESS_ALIAS:
@@ -193,17 +206,17 @@ const formatTransactionBody = transactionBody => {
         type: 'Address Alias',
         recipient: 'NO AVAILABLE',
         typeId: TransactionType.ADDRESS_ALIAS,
-        aliasAction: transactionBody.actionType === 0 ? 'Link' : 'Unlink',
-        namespaceId: transactionBody.namespaceId.toHex(),
-      };
-      return addressAliasObj;
+        aliasAction: transactionBody.actionType === 0 ? 'Unlink' : 'Link',
+        namespaceId: transactionBody.namespaceId.toHex()
+      }
+      return addressAliasObj
 
     case TransactionType.MOSAIC_ALIAS:
       let mosaicAlias = {
         type: 'Mosaic Alias',
         typeId: TransactionType.MOSAIC_ALIAS,
         // actionType: transactionBody.actionType,
-        aliasAction: transactionBody.aliasAction === 0 ? 'Link' : 'Unlink',
+        aliasAction: transactionBody.aliasAction === 0 ? 'Unlink' : 'Link',
         namespaceId: transactionBody.namespaceId.id.toHex(),
         mosaicId: transactionBody.mosaicId.id.toHex()
       }
@@ -212,7 +225,7 @@ const formatTransactionBody = transactionBody => {
       let mosaicDefinitionObj = {
         type: 'Mosaic Definition',
         typeId: TransactionType.MOSAIC_DEFINITION,
-        mosaicId: transactionBody.mosaicId.toHex().toLowerCase(),
+        mosaicId: transactionBody.mosaicId.toHex(),
         divisibility: transactionBody.divisibility,
         duration: transactionBody.duration,
         nonce: transactionBody.nonce,
@@ -234,7 +247,7 @@ const formatTransactionBody = transactionBody => {
 
       let modifyMultisigAccountObj = {
         type: 'ModifyMultisigAccount',
-        typeId: TransactionType.MODIFY_MULTISIG_ACCOUNT,
+        typeId: TransactionType.MODIFY_MULTISIG_ACCOUNT
       }
       return modifyMultisigAccountObj
 
@@ -268,30 +281,35 @@ const formatTransactionBody = transactionBody => {
       let secretLockObj = {
         type: 'Secret lock',
         typeId: TransactionType.SECRET_LOCK,
+        duration: transactionBody.duration.compact(),
+        mosaicId: transactionBody.mosaic.id.toHex(),
+        secret: transactionBody.secret,
+        recipient: transactionBody.recipientAddress.address,
+        hashType: formatHashType(transactionBody.hashType)
       }
       return secretLockObj
     case TransactionType.SECRET_PROOF:
       let secretProofObj = {
         type: 'SecretProof',
-        typeId: TransactionType.SECRET_PROOF,
+        typeId: TransactionType.SECRET_PROOF
       }
       return secretProofObj
     case TransactionType.MODIFY_ACCOUNT_PROPERTY_ADDRESS:
       let modifyAccountPropertyAddressObj = {
         type: 'ModifyAccountPropertyAddress',
-        typeId: TransactionType.MODIFY_ACCOUNT_PROPERTY_ADDRESS,
+        typeId: TransactionType.MODIFY_ACCOUNT_PROPERTY_ADDRESS
       }
       return modifyAccountPropertyAddressObj
     case TransactionType.MODIFY_ACCOUNT_PROPERTY_MOSAIC:
       let modifyAccountPropertyMosaicObj = {
         type: 'ModifyAccountPropertyMosaic',
-        typeId: TransactionType.MODIFY_ACCOUNT_PROPERTY_MOSAIC,
+        typeId: TransactionType.MODIFY_ACCOUNT_PROPERTY_MOSAIC
       }
       return modifyAccountPropertyMosaicObj
     case TransactionType.MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE:
       let modifyAccountPropertyEntityTypeObj = {
         type: 'ModifyAccountPropertyEntityType',
-        typeId: TransactionType.MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE,
+        typeId: TransactionType.MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE
       }
       return modifyAccountPropertyEntityTypeObj
     case TransactionType.LINK_ACCOUNT:
@@ -335,18 +353,16 @@ const formatNamespaces = namespacesInfo =>
       let aliasType
       switch (ns.namespaceInfo.alias.type) {
         case 1:
-          aliasText = new UInt64(ns.namespaceInfo.alias.mosaicId).toHex()
+          aliasText = ns.namespaceInfo.alias.mosaicId.toHex()
           aliasType = 'Mosaic'
           break
         case 2:
-          aliasText = Address.createFromEncoded(
-            ns.namespaceInfo.alias.address
-          ).pretty()
+          aliasText = ns.namespaceInfo.alias.address
           aliasType = 'Address'
           break
         default:
           aliasText = false
-          aliasType = 'no alias'
+          aliasType = 'No Alias'
           break
       }
       return {
@@ -359,8 +375,8 @@ const formatNamespaces = namespacesInfo =>
         alias: aliasText,
         aliasAction:
           ns.namespaceInfo.alias.type === 0
-            ? AliasActionType.Link
-            : AliasActionType.Unlink,
+            ? 'Unlink'
+            : 'Link',
         currentAliasType: ns.namespaceInfo.alias.type,
 
         active: ns.namespaceInfo.active,
@@ -382,14 +398,12 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
       aliasType = 'Mosaic'
       break
     case 2:
-      aliasText = Address.createFromEncoded(
-        namespaceInfo.alias.address
-      ).pretty()
+      aliasText = namespaceInfo.alias.address.plain()
       aliasType = 'Address'
       break
     default:
       aliasText = false
-      aliasType = 'no alias'
+      aliasType = 'No Alias'
       break
   }
 
@@ -399,15 +413,15 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
     namespaceNameHexId: namespaceInfo.id.toHex().toUpperCase(),
     registrationType: namespaceInfo.registrationType === 0 ? 'ROOT' : 'SUB',
     startHeight: namespaceInfo.startHeight.compact(),
-    endHeight: namespaceNames[0].name.includes('nem')
+    endHeight: namespaceNames[0].name.includes('NEM')
       ? 'Infinity'
       : namespaceInfo.endHeight.compact(),
     active: namespaceInfo.active.toString().toUpperCase(),
     aliasType: aliasType,
-    alias: aliasText ? aliasText : aliasType ,
+    alias: aliasText || aliasType,
     // parentHexId: namespaceInfo.parentId.id.toHex().toUpperCase(),
-    // parentName:
-    //   namespaceInfo.registrationType !== 0 ? namespaceNames[0].name.split('.')[0].toUpperCase() : '',
+    parentName:
+      namespaceInfo.registrationType !== 0 ? namespaceNames[0].name.split('.')[0].toUpperCase() : '',
     levels: namespaceNames
   }
 

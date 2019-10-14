@@ -34,7 +34,7 @@ export default {
   },
   methods: {
     onItemClick() {
-      this.$store.dispatch('ui/openPage', {pageName: this.to.slice(1)})
+      this.$store.dispatch('ui/openPage', { pageName: this.to.slice(1) })
     }
   }
 }
