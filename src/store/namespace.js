@@ -32,7 +32,7 @@ export default {
     },
     getNamespaceLevels(state) {
       return state.namespaceLevels
-    },
+    }
   },
   mutations: {
     setNamespaceInfo(state, namespaceInfo) {
@@ -40,7 +40,7 @@ export default {
     },
     setNamespaceLevels(state, namespaceLevels) {
       state.namespaceLevels = namespaceLevels
-    },
+    }
   },
   actions: {
     // Fetch data from the SDK.
@@ -56,13 +56,13 @@ export default {
         endHeight: namespaceInfo.endHeight,
         active: namespaceInfo.active,
         aliasType: namespaceInfo.aliasType,
-        alias: namespaceInfo.alias,
+        alias: namespaceInfo.alias
       }
       commit('setNamespaceInfo', namespaceInfoObject)
 
       let namespaceLevels = []
       namespaceInfo.levels.forEach((el) => {
-        let parentId = el.parentId ? el.parentId : '';
+        let parentId = el.parentId ? el.parentId : ''
         let namespaceLevelObject = {
           name: el.name,
           namespaceId: el.namespaceId,
@@ -71,7 +71,6 @@ export default {
         namespaceLevels.push(namespaceLevelObject)
       })
       commit('setNamespaceLevels', namespaceLevels)
-
     }
   }
 }

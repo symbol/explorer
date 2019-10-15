@@ -21,8 +21,6 @@ import Router from 'vue-router'
 
 Vue.use(Router)
 
-
-
 export default new Router({
   mode: 'history',
   routes: [
@@ -105,8 +103,6 @@ export default new Router({
         import('./views/Stat.vue')
     },
 
-
-
     {
       path: '/terms',
       name: 'Terms',
@@ -126,8 +122,6 @@ export default new Router({
       }
     },
 
-
-
     {
       path: '/test',
       name: 'test',
@@ -137,32 +131,32 @@ export default new Router({
     {
       path: '/test/account/:address',
       name: 'account',
-      component: () => import('./views/test/AccountDetail.vue'),
+      component: () => import('./views/test/AccountDetail.vue')
     },
     {
       path: '/test/blocks',
       name: 'blocklist',
-      component: () => import('./views/test/Blocks.vue'),
+      component: () => import('./views/test/Blocks.vue')
     },
     {
       path: '/test/block/:height',
       name: 'blockdetail',
-      component: () => import('./views/test/BlockDetail.vue'),
+      component: () => import('./views/test/BlockDetail.vue')
     },
     {
       path: '/test/transactions',
       name: 'transactionlist',
-      component: () => import('./views/test/Transactions.vue'),
+      component: () => import('./views/test/Transactions.vue')
     },
     {
       path: '/test/transaction/:id',
       name: 'transactiondetail',
-      component: () => import('./views/test/TransactionDetail.vue'),
+      component: () => import('./views/test/TransactionDetail.vue')
     },
     {
       path: '*',
       name: '404',
-      component: () => import('./views/NotFound.vue'),
+      component: () => import('./views/NotFound.vue')
     }
     // {
     //   path: '/404',

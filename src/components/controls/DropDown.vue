@@ -1,35 +1,34 @@
 
-  
 <template>
     <div class="btn-group noselect">
-        <div 
+        <div
             v-if="value !== void 0"
             class="dropdown-c-toggle"
-            @click="toggleMenu()" 
+            @click="toggleMenu()"
         >
           {{ getValueName(value) }}
           <span class="caret"></span>
         </div>
 
-        <div 
+        <div
             v-if="value === void 0"
-            class="dropdown-c-toggle" 
-            @click="toggleMenu()" 
+            class="dropdown-c-toggle"
+            @click="toggleMenu()"
         >
           {{ placeholder }}
           <span class="caret"></span>
         </div>
 
-        <div 
-            class="dropdown-c-menu" 
+        <div
+            class="dropdown-c-menu"
             v-if="isExpanded"
         >
-            <div 
+            <div
                 v-for="(option, index) in options"
                 :key="'dd'+ index + option.value"
             >
-                <a 
-                    href="javascript:void(0)" 
+                <a
+                    href="javascript:void(0)"
                     @click="select(option.value)"
                 >
                     {{ option.name }}
@@ -40,49 +39,48 @@
 </template>
 
 <script>
-    export default {
-        props: {
-            options: {
-                type: Array,
-                required: true
-            },
+export default {
+  props: {
+    options: {
+      type: Array,
+      required: true
+    },
 
-            value: {
-                required: true
-            },
+    value: {
+      required: true
+    },
 
-            placeholder: {
-                type: String,
-                default: 'Please select'
-            }
-        },
-
-        data() {
-            return {
-                isExpanded: false
-            }
-        },
-        
-        methods: {
-            select(value) {
-                this.isExpanded = false;
-                this.$emit('change', value);
-            },
-
-            toggleMenu() {
-                console.log(this.isExpanded)
-                this.isExpanded = !this.isExpanded;
-            },
-
-            getValueName(value) {
-                let name = value;
-
-                if(Array.isArray(this.options))
-                    name = this.options.find(el => el.value == value).name;
-                return name;
-            }
-        }
+    placeholder: {
+      type: String,
+      default: 'Please select'
     }
+  },
+
+  data() {
+    return {
+      isExpanded: false
+    }
+  },
+
+  methods: {
+    select(value) {
+      this.isExpanded = false
+      this.$emit('change', value)
+    },
+
+    toggleMenu() {
+      console.log(this.isExpanded)
+      this.isExpanded = !this.isExpanded
+    },
+
+    getValueName(value) {
+      let name = value
+
+      if (Array.isArray(this.options)) { name = this.options.find(el => el.value === value).name }
+      return name
+    }
+  }
+}
 </script>
 
 <style scoped>
@@ -183,4 +181,3 @@
 }
 
 </style>
-

@@ -2,10 +2,9 @@
     <div class="page">
         <div class="page-content-card-f">
 
-            
-            <Card class="card-f card-full-width"> 
+            <Card class="card-f card-full-width">
                 <template v-slot:title>
-                    Transactions 
+                    Transactions
                 </template>
                 <template v-slot:control>
                     <Pagination
@@ -14,14 +13,14 @@
                         :nextPageAction="nextPageAction"
                         :previousPageAction="previousPageAction"
                     />
-                    <DropDown 
+                    <DropDown
                         v-else
                         :value="selectedTransactionType"
                         :options="transactionTypes"
                         @change="changeTransactionType"
                     />
                 </template>
-                
+
                 <template v-slot:body>
                     <loader v-if="loading" />
                     <TableListView
@@ -40,46 +39,46 @@
 </template>
 
 <script>
-import View from './View.vue';
+import View from './View.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-    extends: View,
+  extends: View,
 
-    mounted() {
-        this.$store.dispatch('transaction/initialize')
-    },
+  mounted() {
+    this.$store.dispatch('transaction/initialize')
+  },
 
-    data() {
-        return {
-            nextPageAction: 'transaction/fetchNextPage',
-            previousPageAction: 'transaction/fetchPreviousPage',
-            transactionTypes: [
-                { name: "Transactions", value: 1 },
-                { name: "Mosaic Transactions", value: 2 }
-            ],
-            selectedTransactionType: 1 // TODO: store.getters
-        }
-    },
-
-    computed: {
-        ...mapGetters({
-            transactionList: 'transaction/pageListFormatted',
-            loading: 'transaction/getLoading',
-            pageIndex: 'transaction/getPageIndex'
-        }),
-
-    },
-
-    methods: {
-        changeTransactionType(e) {
-            this.selectedTransactionType = e;
-        }
-    },
-
-    destroyed() {
-        this.$store.dispatch('transaction/resetPage')
+  data() {
+    return {
+      nextPageAction: 'transaction/fetchNextPage',
+      previousPageAction: 'transaction/fetchPreviousPage',
+      transactionTypes: [
+        { name: 'Transactions', value: 1 },
+        { name: 'Mosaic Transactions', value: 2 }
+      ],
+      selectedTransactionType: 1 // TODO: store.getters
     }
+  },
+
+  computed: {
+    ...mapGetters({
+      transactionList: 'transaction/pageListFormatted',
+      loading: 'transaction/getLoading',
+      pageIndex: 'transaction/getPageIndex'
+    })
+
+  },
+
+  methods: {
+    changeTransactionType(e) {
+      this.selectedTransactionType = e
+    }
+  },
+
+  destroyed() {
+    this.$store.dispatch('transaction/resetPage')
+  }
 }
 </script>
 

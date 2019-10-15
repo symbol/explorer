@@ -52,11 +52,10 @@ class sdkNamespace {
   }
 
   static getNamespaceInfo = async namespaceOrHex => {
-
     let namespace = ''
 
     if (helper.isHexadecimal(namespaceOrHex)) {
-      namespace = NamespaceId.createFromEncoded(namespaceOrHex);
+      namespace = NamespaceId.createFromEncoded(namespaceOrHex)
     } else {
       namespace = new NamespaceId(namespaceOrHex)
     }

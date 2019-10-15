@@ -1,4 +1,4 @@
-import { Address, TransactionType, NetworkType, AccountType, HashType } from 'nem2-sdk'
+import { Address, TransactionType, NetworkType, AccountType } from 'nem2-sdk'
 import moment from 'moment'
 
 // FORMAT FEE
@@ -159,7 +159,7 @@ const formatTransaction = transaction => {
     blockHeight: transaction.transactionInfo.height.compact(),
     transactionHash: transaction.transactionInfo.hash,
     transactionId: transaction.transactionInfo.id,
-    transactionBody: formatTransactionBody(transaction),
+    transactionBody: formatTransactionBody(transaction)
   }
 
   return transactionObj
@@ -188,8 +188,8 @@ const formatTransactionBody = transactionBody => {
       }
       return transferObj
     case TransactionType.REGISTER_NAMESPACE:
-      let parentIdHex = transactionBody.parentId ? transactionBody.parentId.toHex() : '';
-      let duration = transactionBody.duration ? transactionBody.duration.compact() : 0;
+      let parentIdHex = transactionBody.parentId ? transactionBody.parentId.toHex() : ''
+      let duration = transactionBody.duration ? transactionBody.duration.compact() : 0
 
       let registerNamespaceObj = {
         type: 'Register Namespace',
@@ -198,7 +198,7 @@ const formatTransactionBody = transactionBody => {
         namespaceName: transactionBody.namespaceName,
         namespaceId: transactionBody.namespaceId.toHex(),
         parentId: parentIdHex === '' ? 'NO AVAILABLE' : parentIdHex,
-        duration: duration === 0 ? 'unlimited' : duration,
+        duration: duration === 0 ? 'unlimited' : duration
       }
       return registerNamespaceObj
     case TransactionType.ADDRESS_ALIAS:
@@ -207,9 +207,9 @@ const formatTransactionBody = transactionBody => {
         recipient: 'NO AVAILABLE',
         typeId: TransactionType.ADDRESS_ALIAS,
         aliasAction: transactionBody.actionType === 0 ? 'Unlink' : 'Link',
-        namespaceId: transactionBody.namespaceId.toHex(),
-      };
-      return addressAliasObj;
+        namespaceId: transactionBody.namespaceId.toHex()
+      }
+      return addressAliasObj
 
     case TransactionType.MOSAIC_ALIAS:
       let mosaicAlias = {
@@ -247,7 +247,7 @@ const formatTransactionBody = transactionBody => {
 
       let modifyMultisigAccountObj = {
         type: 'ModifyMultisigAccount',
-        typeId: TransactionType.MODIFY_MULTISIG_ACCOUNT,
+        typeId: TransactionType.MODIFY_MULTISIG_ACCOUNT
       }
       return modifyMultisigAccountObj
 
@@ -291,25 +291,25 @@ const formatTransactionBody = transactionBody => {
     case TransactionType.SECRET_PROOF:
       let secretProofObj = {
         type: 'SecretProof',
-        typeId: TransactionType.SECRET_PROOF,
+        typeId: TransactionType.SECRET_PROOF
       }
       return secretProofObj
     case TransactionType.MODIFY_ACCOUNT_PROPERTY_ADDRESS:
       let modifyAccountPropertyAddressObj = {
         type: 'ModifyAccountPropertyAddress',
-        typeId: TransactionType.MODIFY_ACCOUNT_PROPERTY_ADDRESS,
+        typeId: TransactionType.MODIFY_ACCOUNT_PROPERTY_ADDRESS
       }
       return modifyAccountPropertyAddressObj
     case TransactionType.MODIFY_ACCOUNT_PROPERTY_MOSAIC:
       let modifyAccountPropertyMosaicObj = {
         type: 'ModifyAccountPropertyMosaic',
-        typeId: TransactionType.MODIFY_ACCOUNT_PROPERTY_MOSAIC,
+        typeId: TransactionType.MODIFY_ACCOUNT_PROPERTY_MOSAIC
       }
       return modifyAccountPropertyMosaicObj
     case TransactionType.MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE:
       let modifyAccountPropertyEntityTypeObj = {
         type: 'ModifyAccountPropertyEntityType',
-        typeId: TransactionType.MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE,
+        typeId: TransactionType.MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE
       }
       return modifyAccountPropertyEntityTypeObj
     case TransactionType.LINK_ACCOUNT:
@@ -418,7 +418,7 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
       : namespaceInfo.endHeight.compact(),
     active: namespaceInfo.active.toString().toUpperCase(),
     aliasType: aliasType,
-    alias: aliasText ? aliasText : aliasType,
+    alias: aliasText || aliasType,
     // parentHexId: namespaceInfo.parentId.id.toHex().toUpperCase(),
     parentName:
       namespaceInfo.registrationType !== 0 ? namespaceNames[0].name.split('.')[0].toUpperCase() : '',

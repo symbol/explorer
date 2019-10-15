@@ -2,8 +2,7 @@
     <div class="page">
         <div class="page-content-card-f">
 
-
-            <Card class="card-f card-full-width"> 
+            <Card class="card-f card-full-width">
                 <template v-slot:title>
                     Block Detail
                 </template>
@@ -15,7 +14,6 @@
                     />
                 </template>
 
-                
                 <template v-slot:body>
                     <loader v-if="loading" />
                     <TableInfoView
@@ -24,17 +22,14 @@
                 </template>
             </Card>
 
-
-
-            <Card 
-                class="card-f card-full-width" 
+            <Card
+                class="card-f card-full-width"
                 v-if="isTransactions"
-            > 
+            >
                 <template v-slot:title>
                     Block Transactions
                 </template>
 
-                
                 <template v-slot:body>
                     <loader v-if="loading" />
                     <TableListView
@@ -48,38 +43,38 @@
 </template>
 
 <script>
-import View from './View.vue';
+import View from './View.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-    extends: View,
+  extends: View,
 
-    mounted() {
-        this.$store.dispatch('block/getBlockInfo', this.height)
+  mounted() {
+    this.$store.dispatch('block/getBlockInfo', this.height)
+  },
+
+  data() {
+    return {
+      nextPageAction: 'block/nextBlock',
+      previousPageAction: 'block/previousBlock'
+    }
+  },
+
+  computed: {
+    ...mapGetters({
+      blockInfo: 'block/blockInfo',
+      blockTransactionList: 'block/blockTransactionList',
+      loading: 'block/blockInfoLoading'
+    }),
+
+    height() {
+      return this.$route.params.height
     },
 
-    data() {
-        return {
-            nextPageAction: "block/nextBlock",
-            previousPageAction: "block/previousBlock"
-        }
-    },
-
-    computed: {
-        ...mapGetters({
-            blockInfo: 'block/blockInfo',
-            blockTransactionList: 'block/blockTransactionList',
-            loading: 'block/blockInfoLoading'
-        }),
-
-        height() {
-            return this.$route.params.height
-        },
-
-        isTransactions() {
-            return this.blockTransactionList?.length
-        }
-    },
+    isTransactions() {
+      return this.blockTransactionList?.length
+    }
+  }
 }
 </script>
 

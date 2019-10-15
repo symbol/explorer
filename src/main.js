@@ -17,7 +17,6 @@
  */
 
 import Vue from 'vue'
-window.Vue = Vue;
 import VueClipboard from 'vue-clipboard2'
 import App from './App.vue'
 import router from './router'
@@ -29,6 +28,7 @@ import PageMenu from '@/components/PageMenu.vue'
 import Pagefooter from '@/components/PageFooter.vue'
 import TimeSince from '@/components/TimeSince.vue'
 import w1 from '@/components/Loading.vue'
+window.Vue = Vue
 
 Vue.config.productionTip = false
 Vue.component('top-header', TopHead)
