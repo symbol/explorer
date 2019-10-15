@@ -19,7 +19,7 @@
 <template>
   <div class="box-title">
     <h1 class="inline-block">Transactions</h1>
-    <div class="btn_grp inline-block flt-rt">
+    <div class="btn_grp inline-block float-r">
       <div class="select_type">
         <select>
           <option>Recent Transactions</option>

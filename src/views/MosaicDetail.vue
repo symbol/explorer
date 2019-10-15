@@ -17,11 +17,12 @@
  */
 
 <template>
-  <div class="page">
-    <div class="page-content-card-f">
-      <Card class="card-f card-full-width">
+ <div class="page-con">
+    <div class="full-con mob_con">
+      <div class="container p-0">
+      <Card class="">
         <!-- Mosaic Detail -->
-        <template v-slot:title>Mosaic Detail</template>
+        <template v-slot:title><h1 class="inline-block">Mosaic Detail</h1> </template>
 
         <template v-slot:body v-if="mosaicInfo">
           <TableInfoView :data="mosaicInfo" />
@@ -29,6 +30,7 @@
       </Card>
     </div>
   </div>
+ </div>
 </template>
 <script>
 import TableInfoView from '@/components/tables/TableInfoView.vue'

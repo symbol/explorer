@@ -17,11 +17,12 @@
  */
 
 <template>
-  <div class="page">
-    <div class="page-content-card-f">
-      <Card class="card-f card-full-width">
+  <div class="page-con">
+    <div class="full-con mob_con">
+      <div class="container p-0">
+      <Card class="">
         <!-- Namespace Detail -->
-        <template v-slot:title>Namespace Detail</template>
+        <template v-slot:title><h1 class="inline-block">Namespace Detail</h1></template>
 
         <template v-slot:body v-if="namespaceInfo">
           <TableInfoView :data="namespaceInfo" />
@@ -29,7 +30,7 @@
       </Card>
 
       <!-- Namespace Level -->
-      <Card class="card-f card-adaptive">
+      <Card class="card-adaptive">
         <template v-slot:title>Namespaces Level</template>
 
         <template v-slot:body>
@@ -37,6 +38,7 @@
         </template>
       </Card>
     </div>
+  </div>
   </div>
 </template>
 <script>

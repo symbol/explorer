@@ -1,15 +1,16 @@
 <template>
-    <div class="page">
-        <div class="page-content-card-f">
+     <div class="page-con">
+       <div class="full-con mob_con">
+        <div class="container p-0">
 
 
             <Card
-                class="card-f card-full-width"
+                class=""
                 :loading="loading"
                 :error="error"
             > <!-- Account Detail -->
                 <template #title>
-                    Account Detail
+                   <h1 class="inline-block">Account Detail</h1>     
                 </template>
 
                 <template #body>
@@ -21,11 +22,14 @@
                     Account {{address}} is not exist
                 </template>
             </Card>
+        </div>
 
 
+        <div class="container p-0">
+            <div class="multi-w-row">
             <Card
                 v-if="showMosaics"
-                class="card-f card-adaptive"
+                class=""
                 :loading="loading"
             > <!-- Mosaics -->
                 <template #title>
@@ -42,7 +46,7 @@
 
             <Card
                 v-if="showNamespaces"
-                class="card-f card-adaptive"
+                class=""
                 :loading="loading"
             > <!-- NS -->
                 <template #title>
@@ -55,22 +59,27 @@
                     />
                 </template>
             </Card>
+            </div>
+        </div>
 
 
+        <div class="container p-0">
             <Card
                 v-if="showTransactions"
-                class="card-f card-full-width"
+                class=""
                 :loading="loading"
             > <!-- Transactions -->
                 <template #title>
                     Transactions
                 </template>
                 <template #control>
+                    <div class="inline-block float-r">
                     <DropDown
                         :value="selectedTransactionType"
                         :options="transactionTypes"
                         @change="changeTransactionType"
                     />
+                    </div>
                 </template>
 
                 <template #body>
@@ -79,6 +88,7 @@
                     />
                 </template>
             </Card>
+        </div>
 
 
         </div>

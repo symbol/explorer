@@ -1,12 +1,13 @@
 <template>
-  <div class="page">
-    <div class="page-content-card-f">
+    <div class="page-con">
+    <div class="full-con mob_con">
+      <div class="container p-0">
       <Card
         class="card-f card-full-width"
         :loading="loading"
         :error="error"
       >
-        <template #title>Transaction Info</template>
+        <template #title><h1 class="inline-block">Transaction Info</h1></template>
         <template #control></template>
 
         <template #body>
@@ -65,6 +66,7 @@
         </template>
       </Card>
     </div>
+  </div>
   </div>
 </template>
 

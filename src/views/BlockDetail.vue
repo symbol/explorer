@@ -1,6 +1,7 @@
 <template>
-    <div class="page">
-        <div class="page-content-card-f">
+    <div class="page-con">
+       <div class="full-con mob_con">
+        <div class="container p-0">
 
 
             <Card 
@@ -9,14 +10,16 @@
                 :error="error"
             >
                 <template #title>
-                    Block Detail
+                     <h1 class="inline-block">Block Detail</h1>                
                 </template>
                 <template #control>
+                    <div class="inline-block float-r">
                     <Pagination
                         :pageIndex="1"
                         :nextPageAction="nextPageAction"
                         :previousPageAction="previousPageAction"
                     />
+                    </div>
                 </template>
 
 
@@ -49,6 +52,7 @@
             </Card>
 
         </div>
+    </div>
     </div>
 </template>
 

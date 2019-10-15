@@ -1,6 +1,7 @@
 <template>
-    <div class="card">
-        <div class="card-header">
+    <div class="widget has-shadow">
+        <div class="box">
+        <div class="box-title">
             <slot name="header" />
             <slot name="title" />
             <slot name="control" />
@@ -10,15 +11,14 @@
             <loader />
         </div>
 
-        <div v-if="error" class="card-error">
+        <div v-if="error" class="box-data-error">
             <slot name="error" />
         </div>
 
-        <div v-if="!error && !loading" class="card-body">
+        <div v-if="!error && !loading" class="box-con">
             <slot name="body" />
         </div>
-
-        
+        </div>   
     </div>
 </template>
 
