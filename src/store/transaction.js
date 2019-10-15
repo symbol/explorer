@@ -47,8 +47,8 @@ const TRANSACTION_TYPE_MAP = {
   recent: undefined,
   pending: 'unconfirmed',
   transfer: 'transfer',
-  multisig: undefined,    // TODO(ahuszagh) Not correct
-  mosaic: undefined,      // TODO(ahuszagh) Not correct
+  multisig: 'transfer/multisig',
+  mosaic: 'transfer/mosaic',
 }
 
 export default {

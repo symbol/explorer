@@ -80,7 +80,14 @@ class sdkTransaction {
     } else if (transactionType === 'partial') {
       path = `/transactions/partial/from/${hash}/limit/${limit}`
     } else {
-      path = `/transactions/from/${hash}/type/${transactionType}/limit/${limit}`
+      const array = transactionType.split('/')
+      if (array.length === 1) {
+        // No filter present
+        path = `/transactions/from/${hash}/type/${transactionType}/limit/${limit}`
+      } else {
+        // We have a filter.
+        path = `/transactions/from/${hash}/type/${array[0]}/filter/${array[1]}/limit/${limit}`
+      }
     }
 
     // Make request.
@@ -101,13 +108,20 @@ class sdkTransaction {
 
     let path
     if (transactionType === undefined) {
-      path = `/transactions/from/${hash}/limit/${limit}`
+      path = `/transactions/since/${hash}/limit/${limit}`
     } else if (transactionType === 'unconfirmed') {
-      path = `/transactions/unconfirmed/from/${hash}/limit/${limit}`
+      path = `/transactions/unconfirmed/since/${hash}/limit/${limit}`
     } else if (transactionType === 'partial') {
-      path = `/transactions/partial/from/${hash}/limit/${limit}`
+      path = `/transactions/partial/since/${hash}/limit/${limit}`
     } else {
-      path = `/transactions/from/${hash}/type/${transactionType}/limit/${limit}`
+      const array = transactionType.split('/')
+      if (array.length === 1) {
+        // No filter present
+        path = `/transactions/since/${hash}/type/${transactionType}/limit/${limit}`
+      } else {
+        // We have a filter.
+        path = `/transactions/since/${hash}/type/${array[0]}/filter/${array[1]}/limit/${limit}`
+      }
     }
 
     // Make request.
