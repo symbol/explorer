@@ -1,8 +1,6 @@
 module.exports = {
   // base url
-  publicPath: process.env.NODE_ENV === 'production'
-    ? './'
-    : '/',
+  publicPath: '/',
   // output dir
   outputDir: './www',
   // eslint-loader check
