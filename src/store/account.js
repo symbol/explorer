@@ -75,6 +75,7 @@ export default {
       if (accountInfo) {
         let formattedAccountInfo = {
           address: accountInfo.address.address,
+          linkedNamespace: accountInfo.accountAliasName,
           addressHeight: accountInfo.addressHeight,
           publicKey: accountInfo.publicKey,
           // publicKeyHeight: accountInfo.publicKeyHeight,

@@ -58,7 +58,7 @@ const formatBlock = (block) => {
 }
 
 // FORMAT ACCOUNT
-const formatAccount = accountInfo => {
+const formatAccount = (accountInfo, accountName) => {
   let importanceScore = accountInfo.importance.compact()
 
   if (importanceScore) {
@@ -79,6 +79,12 @@ const formatAccount = accountInfo => {
     activityBucket: accountInfo.activityBucket,
     linkedAccountKey: accountInfo.linkedAccountKey
   }
+
+  if (accountName[0].names.length > 0) {
+    accountObj.accountAliasName = accountName[0].names[0].name
+    accountObj.accountAliasNameHex = accountName[0].names[0].namespaceId.toHex()
+  }
+
   return accountObj
 }
 

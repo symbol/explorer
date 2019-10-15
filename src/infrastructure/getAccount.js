@@ -27,7 +27,12 @@ class sdkAccount {
     const accountInfo = await ACCOUNT_HTTP
       .getAccountInfo(Address.createFromRawAddress(address))
       .toPromise()
-    return format.formatAccount(accountInfo)
+
+    const accountNames = await ACCOUNT_HTTP
+      .getAccountsNames([Address.createFromRawAddress(address)])
+      .toPromise()
+
+    return format.formatAccount(accountInfo, accountNames)
   }
 }
 
