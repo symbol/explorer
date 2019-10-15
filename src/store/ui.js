@@ -15,7 +15,7 @@
  * limitations under the License.
  *
  */
-import router from '../router';
+import router from '../router'
 import { Address, AccountHttp } from 'nem2-sdk'
 import { Endpoint } from '../config'
 
@@ -111,7 +111,7 @@ export default {
 
       'namespaceName': 'namespace',
       'namespaceId': 'namespace',
-      'parentId': 'namespace',
+      'parentId': 'namespace'
     }
   },
 
@@ -126,23 +126,21 @@ export default {
     openPage: ({ state }, payload) => {
       if (payload.pageName);
       {
-        let key = payload.pageName;
-        let pageName = state.keyPages[key] || key;
-        let value = payload.param;
+        let key = payload.pageName
+        let pageName = state.keyPages[key] || key
+        let value = payload.param
 
         if (value != null) {
-          if (typeof value != 'number') {
+          if (typeof value !== 'number') {
             value = value.toLowerCase()
           }
 
-          if (value === 'infinity'){
+          if (value === 'infinity') {
             return ''
           }
 
-          router.push({ path: `/${pageName}/${value}` });
-        }
-        else
-          router.push({ path: `/${pageName}` });
+          router.push({ path: `/${pageName}/${value}` })
+        } else { router.push({ path: `/${pageName}` }) }
       }
     },
 
@@ -154,61 +152,55 @@ export default {
             dispatch('openPage', {
               pageName: 'block',
               param: searchString
-            });
-            resolve();
-          }
-          else
-            if (isTransactionId(searchString)) {
-              reject("Search by tx id is not supported yet..")
-              // dispatch('openPage', {
-              //     pageName: 'transaction',
-              //     param: searchString
-              // });
+            })
+            resolve()
+          } else
+          if (isTransactionId(searchString)) {
+            reject(new Error('Search by tx id is not supported yet..'))
+            // dispatch('openPage', {
+            //     pageName: 'transaction',
+            //     param: searchString
+            // });
+          } else
+          if (isAccountPublicKey(searchString)) {
+            // check the string is a public key of an account
+            let accountHttp = new AccountHttp(Endpoint.api)
+            let accountAddress
+            let accountInfo
+            try {
+              accountInfo = await accountHttp
+                .getAccountInfo(new Address(searchString))
+                .toPromise()
+              accountAddress = accountInfo.address.address
+            } catch (e) { }
+            if (accountAddress) {
+              dispatch('openPage', {
+                pageName: 'account',
+                param: accountAddress
+              })
+              resolve()
+            } else {
+              // transaction hash
+              dispatch('openPage', {
+                pageName: 'transaction',
+                param: searchString
+              })
+              resolve()
             }
-            else
-              if (isAccountPublicKey(searchString)) {
-                // check the string is a public key of an account
-                let accountHttp = new AccountHttp(Endpoint.api)
-                let accountAddress
-                let accountInfo
-                try {
-                  accountInfo = await accountHttp
-                    .getAccountInfo(new Address(searchString))
-                    .toPromise()
-                  accountAddress = accountInfo.address.address
-                } catch (e) { }
-                if (accountAddress) {
-                  dispatch('openPage', {
-                    pageName: 'account',
-                    param: accountAddress
-                  });
-                  resolve();
-                }
-                else {
-                  // transaction hash
-                  dispatch('openPage', {
-                    pageName: 'transaction',
-                    param: searchString
-                  });
-                  resolve();
-                }
-              }
-              else
-                if (isAccountAddress(searchString)) {
-                  dispatch('openPage', {
-                    pageName: 'account',
-                    param: searchString
-                  });
-                  resolve();
-                }
-                else {
-                  reject(new Error("Nothing found.."));
-                }
+          } else
+          if (isAccountAddress(searchString)) {
+            dispatch('openPage', {
+              pageName: 'account',
+              param: searchString
+            })
+            resolve()
+          } else {
+            reject(new Error('Nothing found..'))
+          }
+        } else {
+          reject(new Error('Nothing found..'))
         }
-        else {
-          reject(new Error("Nothing found.."));
-        }
-      });
+      })
     }
   }
 }
@@ -217,16 +209,13 @@ const isTransactionId = (str) =>
   str.length === 24
 
 const isAccountPublicKey = (str) =>
-  str.length === 64
-  && str.match('^[A-z0-9]+$');
+  str.length === 64 &&
+  str.match('^[A-z0-9]+$')
 
 const isAccountAddress = (str) =>
-  str.length === 40
-  && str.match('^[A-z0-9]+$')
-  && (str.substring(0, 1) === 'S' || str.substring(0, 1) === 's');
+  str.length === 40 &&
+  str.match('^[A-z0-9]+$') &&
+  (str.substring(0, 1) === 'S' || str.substring(0, 1) === 's')
 
 const isBlockHeight = (str) =>
-  str.match(/^-{0,1}\d+$/);
-
-
-
+  str.match(/^-{0,1}\d+$/)

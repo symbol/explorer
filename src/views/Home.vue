@@ -44,7 +44,7 @@ export default {
     HomeBaseInfo: w1,
     NemPriceGraph: w2,
     RecentBlocks: w3,
-    RecentTransactions: w4,
-  },
+    RecentTransactions: w4
+  }
 }
 </script>

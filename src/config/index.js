@@ -1,19 +1,7 @@
-import {
-  NamespaceId,
-  MosaicInfo,
-  NamespaceInfo,
-  PublicAccount,
-  UInt64,
-  MosaicId,
-  NetworkType,
-  NamespaceName,
-  MosaicFlags
-} from 'nem2-sdk'
-
-const PORT = '3000';
+const PORT = '3000'
 const DEFAULT_DOMAIN = 'api-01.mt.us-west-2.nemtech.network'
 
-let defaultNode = `http://${DEFAULT_DOMAIN}:${PORT}`;
+let defaultNode = `http://${DEFAULT_DOMAIN}:${PORT}`
 
 if (localStorage['defaultNode'] && validURL(localStorage['defaultNode'])) {
   defaultNode = localStorage['defaultNode']
@@ -28,16 +16,16 @@ export const Endpoint = {
     { protocol: 'http', domain: '52.194.207.217', port: ':' + PORT },
     { protocol: 'http', domain: '103.3.60.174', port: ':' + PORT },
     { protocol: 'http', domain: '13.114.200.132', port: ':' + PORT },
-    { protocol: 'http', domain: '47.107.245.217', port: ':' + PORT },
+    { protocol: 'http', domain: '47.107.245.217', port: ':' + PORT }
   ],
   marketDataURL: 'https://min-api.cryptocompare.com/'
 }
 
 export const pageMenu = {
   items: [
-    { to: "/", text: "Home", classname: "ico-th-large" },
-    { to: "/blocks", text: "Blocks", classname: "ico-content-34" },
-    { to: '/transactions', text: 'Transactions', classname: 'ico-line-awesome-3' },
+    { to: '/', text: 'Home', classname: 'ico-th-large' },
+    { to: '/blocks', text: 'Blocks', classname: 'ico-content-34' },
+    { to: '/transactions', text: 'Transactions', classname: 'ico-line-awesome-3' }
     // { to: '/account', text: 'Accounts', classname: 'ico-user-outline' },
     // { to: '/namespace', text: 'Namespaces', classname: 'ico-data' },
     // { to: '/mosaic', text: 'Mosaics', classname: 'ico-tags' },

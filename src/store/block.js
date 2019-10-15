@@ -16,6 +16,7 @@
  *
  */
 
+import Vue from 'vue'
 import util from './util'
 import sdkBlock from '../infrastructure/getBlock'
 import sdkListener from '../infrastructure/getListener'
@@ -76,9 +77,9 @@ export default {
 
     blockInfo: (state, blockInfo) => Vue.set(state, 'blockInfo', blockInfo),
     blockTransactionList: (state, blockTransactionList) => Vue.set(state, 'blockTransactionList', blockTransactionList),
-    currentBlockHeight: (state, currentBlockHeight) => state.currentBlockHeight = currentBlockHeight,
-    blockInfoLoading: (state, blockInfoLoading) => state.blockInfoLoading = blockInfoLoading,
-    blockInfoError: (state, v) => state.blockInfoError = v,
+    currentBlockHeight: (state, currentBlockHeight) => Vue.set(state, 'currentBlockHeight', currentBlockHeight),
+    blockInfoLoading: (state, blockInfoLoading) => Vue.set(state, 'blockInfoLoading', blockInfoLoading),
+    blockInfoError: (state, blockInfoError) => Vue.set(state, 'blockInfoError', blockInfoError)
   },
   actions: {
     // Initialize the block model.
@@ -175,10 +176,9 @@ export default {
       }
     },
 
-
     getBlockInfo: async ({ commit }, height) => {
-      commit('blockInfoError', false);
-      commit('blockInfoLoading', true);
+      commit('blockInfoError', false)
+      commit('blockInfoLoading', true)
 
       try {
         const blockInfo = await sdkBlock.getBlockInfoByHeight(height)
@@ -187,19 +187,18 @@ export default {
         const blockTransactionList = await sdkBlock.getBlockFullTransactionsList(
           height
         )
-          
+
         let blockInfoObject = {
           height: blockInfo.height,
           date: blockInfo.date,
           fee: blockInfo.totalFee,
-          height: blockInfo.height,
           difficulty: blockInfo.difficulty,
           totalTransactions: blockInfo.numTransactions,
           harvester: blockInfo.signer.address.address,
-          blockHash: blockInfo.hash,
+          blockHash: blockInfo.hash
         }
 
-        let blockTransactionListObject = [];
+        let blockTransactionListObject = []
         if (blockTransactionList.length) {
           blockTransactionListObject = blockTransactionList.map((el) => ({
             deadline: el.deadline,
@@ -209,30 +208,28 @@ export default {
             type: el.transactionBody.type
           }))
         }
-        commit('blockInfo', blockInfoObject);
-        commit('blockTransactionList', blockTransactionListObject);
+        commit('blockInfo', blockInfoObject)
+        commit('blockTransactionList', blockTransactionListObject)
+      } catch (e) {
+        console.error(e)
+        commit('blockInfoError', true)
+        commit('blockInfo', {})
+        commit('blockTransactionList', [])
       }
-      catch(e) {
-        console.error(e);
-        commit('blockInfoError', true);
-        commit('blockInfo', {});
-        commit('blockTransactionList', []);
-      }
-      commit('blockInfoLoading', false);
-
+      commit('blockInfoLoading', false)
     },
 
     nextBlock: ({ commit, getters, dispatch }) => {
       dispatch('ui/openPage', {
         pageName: 'block',
         param: getters.currentBlockHeight + 1
-      }, { root: true });
+      }, { root: true })
     },
     previousBlock: ({ commit, getters, dispatch }) => {
       dispatch('ui/openPage', {
         pageName: 'block',
         param: getters.currentBlockHeight - 1
-      }, { root: true });
-    },
+      }, { root: true })
+    }
   }
 }

@@ -41,7 +41,7 @@ export default {
   name: 'MosaicDetail',
   components: {
     Card,
-    TableInfoView,
+    TableInfoView
   },
   created() {},
   data() {
@@ -49,16 +49,16 @@ export default {
   },
   computed: {
     ...mapGetters({
-      mosaicInfo: 'mosaic/getMosaicInfo',
+      mosaicInfo: 'mosaic/getMosaicInfo'
     }),
     mosaicId() {
       return this.$route.params.mosaicId || 0
-    },
+    }
   },
   methods: {},
   mounted() {
     this.$store.dispatch('mosaic/fetchMosaicInfo', this.mosaicId)
-  },
+  }
 }
 </script>
 <style lang="scss">

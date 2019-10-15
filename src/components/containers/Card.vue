@@ -18,24 +18,24 @@
         <div v-if="!error && !loading" class="box-con">
             <slot name="body" />
         </div>
-        </div>   
+        </div>
     </div>
 </template>
 
 <script>
 
 export default {
-    props: {
-        loading: {
-            type: Boolean,
-            default: false
-        },
+  props: {
+    loading: {
+      type: Boolean,
+      default: false
+    },
 
-        error: {
-            type: Boolean,
-            default: false
-        },
+    error: {
+      type: Boolean,
+      default: false
     }
+  }
 }
 </script>
 
@@ -67,7 +67,7 @@ export default {
         }
 
         .card-error {
-            font-size: 14px; 
+            font-size: 14px;
             color: #98a8b4;
             display: flex;
             justify-content: center;

@@ -5,16 +5,15 @@ import DropDown from '@/components/controls/DropDown.vue'
 import Pagination from '@/components/controls/Pagination.vue'
 import Card from '@/components/containers/Card.vue'
 export default {
-    components: {
-        TableListView,
-        TableInfoView,
-        Card,
-        DropDown,
-        Pagination
-    },
+  components: {
+    TableListView,
+    TableInfoView,
+    Card,
+    DropDown,
+    Pagination
+  }
 }
 </script>
-
 
 <style lang="scss">
 .page {

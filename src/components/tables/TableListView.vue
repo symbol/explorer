@@ -47,8 +47,6 @@
 
 <script>
 import TableView from './TableView.vue'
-import ButtonMore from '../controls/ButtonMore.vue'
-import Pagination from '../controls/Pagination.vue'
 export default {
   extends: TableView,
 
@@ -56,10 +54,7 @@ export default {
     this.componentType = 'list'
   },
 
-  components: {
-    ButtonMore,
-    Pagination,
-  },
+  components: {},
   props: {
     data: {
       type: Array,
@@ -85,7 +80,7 @@ export default {
       let header = []
       if (this.data) for (let key in this.data[0]) header.push(key)
       return header
-    },
+    }
 
     // pageIndex() {
     //     return this.$store.getters[this.view + '/getPageIndex'];
@@ -103,8 +98,8 @@ export default {
   methods: {
     onMoreClick() {
       this.$store.dispatch(this.nextPageAction)
-    },
-  },
+    }
+  }
 }
 </script>
 

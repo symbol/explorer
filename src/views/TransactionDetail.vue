@@ -107,7 +107,7 @@ export default {
     },
 
     showTransactionDetail() {
-      return !this.error;
+      return !this.error
     }
   }
 }

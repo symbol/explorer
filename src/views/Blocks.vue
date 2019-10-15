@@ -3,11 +3,10 @@
        <div class="full-con mob_con">
         <div class="container p-0">
 
-            
-            <Card 
-                class=""
+            <Card
+                class="card-f card-full-width"
                 :loading="loading"
-            > 
+            >
                 <template #title>
                     <h1 class="inline-block">Blocks</h1>  
                 </template>
@@ -22,7 +21,7 @@
                     />
                     </div>
                 </template>
-                
+
                 <template #body>
                     <TableListView
                         :data="blockList"
@@ -41,36 +40,36 @@
 </template>
 
 <script>
-import View from './View.vue';
+import View from './View.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-    extends: View,
+  extends: View,
 
-    mounted() {
-        this.$store.dispatch('block/initialize')
-    },
+  mounted() {
+    this.$store.dispatch('block/initialize')
+  },
 
-    data() {
-        return {
-            nextPageAction: 'block/fetchNextPage',
-            previousPageAction: 'block/fetchPreviousPage',
-        }
-    },
-
-    computed: {
-        ...mapGetters({
-            chainHeight: 'chain/getBlockHeight',
-            blockList: 'block/getPageListFormatted',
-            loading: 'block/getLoading',
-            pageIndex: 'block/getPageIndex'
-        }),
-
-    },
-
-    destroyed() {
-        this.$store.dispatch('block/resetPage')
+  data() {
+    return {
+      nextPageAction: 'block/fetchNextPage',
+      previousPageAction: 'block/fetchPreviousPage'
     }
+  },
+
+  computed: {
+    ...mapGetters({
+      chainHeight: 'chain/getBlockHeight',
+      blockList: 'block/getPageListFormatted',
+      loading: 'block/getLoading',
+      pageIndex: 'block/getPageIndex'
+    })
+
+  },
+
+  destroyed() {
+    this.$store.dispatch('block/resetPage')
+  }
 }
 </script>
 

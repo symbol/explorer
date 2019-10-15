@@ -22,17 +22,17 @@ export default {
   namespaced: true,
   state: {
     // The Mosaic detail infomation.
-    mosaicInfo: {},
+    mosaicInfo: {}
   },
   getters: {
     getMosaicInfo(state) {
       return state.mosaicInfo
-    },
+    }
   },
   mutations: {
     setMosaicInfo(state, mosaicInfo) {
       state.mosaicInfo = mosaicInfo
-    },
+    }
   },
   actions: {
     // Fetch data from the SDK.
