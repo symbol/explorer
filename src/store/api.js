@@ -16,7 +16,6 @@
  *
  */
 import { Endpoint } from '../config/'
-import helper from '../helper'
 
 export default {
   namespaced: true,
