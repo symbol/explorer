@@ -24,15 +24,34 @@ const ACCOUNT_HTTP = new AccountHttp(Endpoint.api)
 
 class sdkAccount {
   static getAccountInfoByAddress = async address => {
+    let addressObj = Address.createFromRawAddress(address)
+
     const accountInfo = await ACCOUNT_HTTP
-      .getAccountInfo(Address.createFromRawAddress(address))
+      .getAccountInfo(addressObj)
       .toPromise()
 
     const accountNames = await ACCOUNT_HTTP
-      .getAccountsNames([Address.createFromRawAddress(address)])
+      .getAccountsNames([addressObj])
       .toPromise()
 
     return format.formatAccount(accountInfo, accountNames)
+  }
+
+  static getMultisigAccountByAddress = async address => {
+    let addressObj = Address.createFromRawAddress(address)
+    let accountMultisig
+
+    try {
+      accountMultisig = await ACCOUNT_HTTP
+        .getMultisigAccountInfo(addressObj)
+        .toPromise()
+    } catch (e) {
+      // To Catach statusCode 404 if Address is not belong to Multisig
+      Error(e)
+      return undefined
+    }
+
+    return format.formatAccountMultisig(accountMultisig)
   }
 }
 

@@ -88,7 +88,9 @@ export default {
       'aliasType': 'Alias Type',
       'hashType': 'Hash Type',
       'secret': 'Secret',
-      'linkedNamespace': 'Linked Namespace'
+      'linkedNamespace': 'Linked Namespace',
+      'minApproval': 'Minimum Approval',
+      'minRemoval': 'Minimum Removal'
     },
 
     keyPages: {

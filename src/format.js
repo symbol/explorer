@@ -88,6 +88,19 @@ const formatAccount = (accountInfo, accountName) => {
   return accountObj
 }
 
+// FORMAT MultiSig Account
+
+const formatAccountMultisig = accountMultisig => {
+  const accountMultisigObj = {
+    ...accountMultisig,
+    cosignatories: accountMultisig.cosignatories.map(cosigner => ({
+      address: cosigner.address.plain(),
+      publicKey: cosigner.publicKey
+    }))
+  }
+  return accountMultisigObj
+}
+
 // FORMAT ACCOUNT TYPE
 const formatAccounType = accountType => {
   switch (accountType) {
@@ -441,6 +454,7 @@ export default {
   formatBlocks,
   formatBlock,
   formatAccount,
+  formatAccountMultisig,
   formatMosaics,
   formatTransactions,
   formatTransaction,
