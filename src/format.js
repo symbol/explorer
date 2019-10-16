@@ -370,7 +370,7 @@ const formatNamespaces = namespacesInfo =>
         namespaceName: name,
         hexId: ns.namespaceInfo.id.toHex(),
         type:
-          ns.namespaceInfo.type === 0 ? 'Root' : 'Child',
+          ns.namespaceInfo.registrationType === 0 ? 'Root' : 'Child',
         aliastype: aliasType,
         alias: aliasText,
         aliasAction:
