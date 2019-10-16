@@ -132,9 +132,9 @@ const formatMosaicInfo = (mosaicInfo, mosaicName) => {
     revision: mosaicInfo.revision,
     startHeight: mosaicInfo.height.compact(),
     duration: mosaicInfo.duration.compact(),
-    supplyMutable: mosaicInfo.flags.supplyMutable,
-    transferable: mosaicInfo.flags.transferable,
-    restrictable: mosaicInfo.flags.restrictable
+    supplyMutable: mosaicInfo.flags.supplyMutable.toString().toUpperCase(),
+    transferable: mosaicInfo.flags.transferable.toString().toUpperCase(),
+    restrictable: mosaicInfo.flags.restrictable.toString().toUpperCase()
   }
 
   return mosaicObj
@@ -379,7 +379,7 @@ const formatNamespaces = namespacesInfo =>
             : 'Link',
         currentAliasType: ns.namespaceInfo.alias.type,
 
-        active: ns.namespaceInfo.active,
+        active: ns.namespaceInfo.active.toString().toUpperCase(),
         startHeight: ns.namespaceInfo.startHeight.compact(),
         endHeight: name.includes('nem')
           ? 'Infinity'
