@@ -25,14 +25,14 @@ export default {
   },
   getters: {
     nodeList: state => Endpoint.nodes,
-    currentNode: state => Endpoint.getCurrentNode()
+    currentNode: state => Endpoint.currentNode
   },
   mutations: {
 
   },
   actions: {
-    changeNode: (context, node) => {
-      helper.changeNode(node)
+    changeNode: (context, index) => {
+      Endpoint.setCurrentNodeByIndex(index);
     }
   }
 }

@@ -35,7 +35,7 @@ const setCurrentNode = (index) => {
         && nodes[index]
     ) 
         localStorage.setItem('currentNodeIndex', index);
-    Location.reload();
+    location.reload();
 } 
 
 
@@ -44,7 +44,7 @@ class Endpoint {
     constructor() {}
 
     get currentNode() { return getCurrentNode() }
-    set currentNode(index) { return setCurrentNode(index) }
+    setCurrentNodeByIndex(index) { return setCurrentNode(index) }
 
     get nodes() { return nodes }
 

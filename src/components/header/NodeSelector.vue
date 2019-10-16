@@ -1,18 +1,19 @@
 <template>
-    <div class="col-md-3 network_switch">
-        <div class="lang-swtch dropdown">
+    <div class="col-md-3 network_switch noselect">
+        <div class="lang-swtch dropdown node-selector">
             <a class="dropdown-toggle">
                 Node : {{currentNode}}
             </a>
             <div class="dropdown-menu dropdown-menu-right node-selector-menu">
                 <a
-                    class="dropdown-item"
-                    href="#"
                     v-for="(node, index) in nodeList"
-                    :key="'ns'+node.domain + index"
-                    @click="setNode(node)"
+                    class="dropdown-item node-selector-item"
+                    href="#"
+                    :title="node.scheme + '://' + node.host + ':' + node.port"
+                    :key="'ns'+node.host + index"
+                    @click="setNode(index)"
                 >
-                {{node.domain}}
+                {{node.host}}
                 </a>
             </div>
         </div>
@@ -27,20 +28,29 @@ export default {
     },
 
     currentNode() {
-      return this.$store.getters['api/currentNode']
+      return this.$store.getters['api/currentNode']?.host
     }
   },
 
   methods: {
-    setNode(value) {
-      this.$store.dispatch('api/changeNode', value)
+    setNode(index) {
+      this.$store.dispatch('api/changeNode', index)
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
+.node-selector {
+  //min-width: 200px;
+}
 .node-selector-menu{
     background: #3d7397c4;
+}
+
+.node-selector-item {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden; 
 }
 </style>
