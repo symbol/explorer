@@ -1,6 +1,5 @@
 import pageMenu from './menu';
 import Endpoint from './endpoint';
-import helper from '../helper'
 
 // const PORT = '3000'
 // const DEFAULT_DOMAIN = 'api-01.mt.us-west-2.nemtech.network'

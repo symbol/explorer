@@ -1,5 +1,3 @@
-import helper from '../helper'
-
 const PORT = '3000'
 const DEFAULT_DOMAIN = 'api-01.mt.us-west-2.nemtech.network'
 const DEFAULT_NODE = { scheme: 'http', host: DEFAULT_DOMAIN, port: PORT }
@@ -41,7 +39,6 @@ const setCurrentNode = (index) => {
 
 
 class Endpoint {
-    constructor() {}
 
     get currentNode() { return getCurrentNode() }
     setCurrentNodeByIndex(index) { return setCurrentNode(index) }
