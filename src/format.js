@@ -208,7 +208,7 @@ const formatTransactionBody = transactionBody => {
         type: Constants.TransactionType[TransactionType.MOSAIC_SUPPLY_CHANGE],
         typeId: TransactionType.MOSAIC_SUPPLY_CHANGE,
         mosaicId: transactionBody.mosaicId.id.toHex(),
-        direction: Constants.MosaicSupplyChangeAction[transactionBody.direction],
+        action: Constants.MosaicSupplyChangeAction[transactionBody.action],
         delta: transactionBody.delta.compact()
       }
       return mosaicSupplyChangeObj
