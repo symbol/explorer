@@ -121,8 +121,6 @@ export default {
         commit('accountMultisigCosignatories', accountMultisig.cosignatories)
       }
 
-
-
       let transactionList
 
       try {
