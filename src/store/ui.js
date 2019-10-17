@@ -80,7 +80,6 @@ export default {
       'divisibility': 'Divisibility',
       'supply': 'Supply',
       'owneraddress': 'Owner Address',
-      'supply': 'Supply',
       'revision': 'Revision',
       'supplyMutable': 'Supply Mutable',
       'transferable': 'Transferable',

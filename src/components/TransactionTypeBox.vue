@@ -23,10 +23,10 @@
       <div class="select_type">
         <select @change="onChange($event)">
             <option
-                v-for="option in Object.keys(transactionTypeMap)"
+                v-for="(value, option) in transactionTypeMap"
                 :value="option"
             >
-                {{transactionTypeMap[option]}}
+                {{value}}
             </option>
         </select>
       </div>

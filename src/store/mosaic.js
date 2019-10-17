@@ -22,11 +22,11 @@ import sdkMosaic from '../infrastructure/getMosaic'
 export default {
   namespaced: true,
   state: {
-    // Holds the PAGE_SIZE blocks starting from current page.
+    // Holds the PAGE_SIZE mosaics starting from current page.
     pageList: [],
     // The current page index (0-indexed).
     pageIndex: 0,
-    // Determine if the blocks model is loading.
+    // Determine if the mosaics model is loading.
     loading: false,
     // The Mosaic detail information.
     mosaicInfo: {}
@@ -96,7 +96,7 @@ export default {
       commit('setLoading', false)
     },
 
-    // Reset the block page to the latest list (index 0)
+    // Reset the mosaic page to the latest list (index 0)
     async resetPage({ commit, getters }) {
       commit('setLoading', true)
       const pageIndex = getters.getPageIndex
