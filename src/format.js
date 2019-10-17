@@ -1,5 +1,5 @@
 import { Address, TransactionType, NetworkType } from 'nem2-sdk'
-import Constants from './config/constants'
+import { Constants } from './config'
 import moment from 'moment'
 
 // FORMAT FEE
@@ -88,6 +88,20 @@ const formatAccount = (accountInfo, accountName) => {
 
   return accountObj
 }
+
+// FORMAT MultiSig Account
+
+const formatAccountMultisig = accountMultisig => {
+  const accountMultisigObj = {
+    ...accountMultisig,
+    cosignatories: accountMultisig.cosignatories.map(cosigner => ({
+      address: cosigner.address.plain(),
+      publicKey: cosigner.publicKey
+    }))
+  }
+  return accountMultisigObj
+}
+
 // FORMAT MOSAICS
 const formatMosaics = mosaics => {
   return mosaics.map(mosaic => {
