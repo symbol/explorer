@@ -17,7 +17,7 @@
  */
 import router from '../router'
 import { Address, AccountHttp } from 'nem2-sdk'
-import { Endpoint } from '../config'
+import { Endpoint, i18n } from '../config'
 
 export default {
   namespaced: true,
@@ -91,7 +91,7 @@ export default {
       'linkedNamespace': 'Linked Namespace',
       'minApproval': 'Minimum Approval',
       'minRemoval': 'Minimum Removal'
-    },
+    }, /// put new names here => src/config/i18n/en-us.json
 
     keyPages: {
       'height': 'block',
@@ -120,7 +120,7 @@ export default {
   },
 
   getters: {
-    getNameByKey: state => key => state.keyNames[key] != null ? state.keyNames[key] : key
+    getNameByKey: state => key => i18n.getName(key)
   },
 
   mutations: {
