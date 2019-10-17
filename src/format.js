@@ -58,7 +58,7 @@ const formatBlock = (block) => {
 }
 
 // FORMAT ACCOUNT
-const formatAccount = accountInfo => {
+const formatAccount = (accountInfo, accountName) => {
   let importanceScore = accountInfo.importance.compact()
 
   if (importanceScore) {
@@ -79,7 +79,26 @@ const formatAccount = accountInfo => {
     activityBucket: accountInfo.activityBucket,
     linkedAccountKey: accountInfo.linkedAccountKey
   }
+
+  if (accountName[0].names.length > 0) {
+    accountObj.accountAliasName = accountName[0].names[0].name
+    accountObj.accountAliasNameHex = accountName[0].names[0].namespaceId.toHex()
+  }
+
   return accountObj
+}
+
+// FORMAT MultiSig Account
+
+const formatAccountMultisig = accountMultisig => {
+  const accountMultisigObj = {
+    ...accountMultisig,
+    cosignatories: accountMultisig.cosignatories.map(cosigner => ({
+      address: cosigner.address.plain(),
+      publicKey: cosigner.publicKey
+    }))
+  }
+  return accountMultisigObj
 }
 
 // FORMAT ACCOUNT TYPE
@@ -435,6 +454,7 @@ export default {
   formatBlocks,
   formatBlock,
   formatAccount,
+  formatAccountMultisig,
   formatMosaics,
   formatTransactions,
   formatTransaction,
