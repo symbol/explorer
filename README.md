@@ -1,6 +1,8 @@
 # Catapult-explorer
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
+[![Build Status](https://travis-ci.org/nemfoundation/nem2-explorer.svg?branch=master)](https://travis-ci.org/nemfoundation/nem2-explorer)
+
 
 Browser for Catapult. Search for transactions, accounts, assets, and blocks.
 
@@ -14,9 +16,9 @@ Browser for Catapult. Search for transactions, accounts, assets, and blocks.
 
 The catapult-explorer works on NodeJS versions:
 
-- 8.9.X
+- 8.X.X
 - 9.X.X
-- 10.16.X
+- 10.X.X
 
 ## Installation
 
