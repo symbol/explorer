@@ -11,6 +11,25 @@
         <template #error>Account {{address}} is not exist</template>
       </Card>
 
+      <Card v-if="showMultiSigDeatail" class="card-f card-adaptive" :loading="loading">
+        <!-- MultiSig Info -->
+        <template #title>Multsig Info</template>
+
+        <template #body>
+          <TableInfoView :data="accountMultisig" />
+        </template>
+      </Card>
+
+      <Card v-if="showMultiSigDeatail" class="card-f card-adaptive" :loading="loading">
+        <!-- MultiSig Cosignatories -->
+        <template #title>Multsig Cosignatories</template>
+
+        <template #body>
+          <TableListView :data="accountMultisigCosignatories" />
+        </template>
+
+      </Card>
+
       <Card v-if="showMosaics" class="card-f card-adaptive" :loading="loading">
         <!-- Mosaics -->
         <template #title>Owned Mosaics</template>
@@ -74,6 +93,8 @@ export default {
   computed: {
     ...mapGetters({
       accountInfo: 'account/accountInfo',
+      accountMultisig: 'account/accountMultisig',
+      accountMultisigCosignatories: 'account/accountMultisigCosignatories',
       namespaceList: 'account/namespaceList',
       mosaicList: 'account/mosaicList',
       transactionList: 'account/transactionList',
@@ -87,6 +108,9 @@ export default {
 
     showDeatail() {
       return !this.error && this.accountInfo
+    },
+    showMultiSigDeatail() {
+      return !this.error && this.accountMultisigCosignatories?.length
     },
     showMosaics() {
       return !this.error && this.mosaicList?.length
