@@ -47,8 +47,7 @@ class sdkAccount {
         .toPromise()
     } catch (e) {
       // To Catach statusCode 404 if Address is not belong to Multisig
-      Error(e)
-      return undefined
+      throw Error('Address is not belong to Multisig')
     }
 
     return format.formatAccountMultisig(accountMultisig)
