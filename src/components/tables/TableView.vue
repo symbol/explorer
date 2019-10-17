@@ -25,6 +25,7 @@ export default {
         'mosaic',
         'namespace',
         'namespaceName',
+        'linkedNamespace',
         'transaction',
         'harvester',
         'mosaicId',

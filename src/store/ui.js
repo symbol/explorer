@@ -88,7 +88,10 @@ export default {
       'alias': 'Alias',
       'aliasType': 'Alias Type',
       'hashType': 'Hash Type',
-      'secret': 'Secret'
+      'secret': 'Secret',
+      'linkedNamespace': 'Linked Namespace',
+      'minApproval': 'Minimum Approval',
+      'minRemoval': 'Minimum Removal'
     },
 
     keyPages: {
@@ -112,7 +115,8 @@ export default {
 
       'namespaceName': 'namespace',
       'namespaceId': 'namespace',
-      'parentId': 'namespace'
+      'parentId': 'namespace',
+      'linkedNamespace': 'namespace'
     }
   },
 
