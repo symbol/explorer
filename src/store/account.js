@@ -26,6 +26,9 @@ export default {
   state: {
     // The Account detail infomation.
     accountInfo: {},
+    // The Account Multisig Infomation.
+    accountMultisig: {},
+    accountMultisigCosignatories: [],
     // The Account Created namespace.
     namespaceList: [],
     // The Account Holding mosaics.
@@ -39,6 +42,8 @@ export default {
   },
   getters: {
     accountInfo: state => state.accountInfo,
+    accountMultisig: state => state.accountMultisig,
+    accountMultisigCosignatories: state => state.accountMultisigCosignatories,
     namespaceList: state => state.namespaceList,
     mosaicList: state => state.mosaicList,
     transactionList: state => state.transactionList,
@@ -47,6 +52,8 @@ export default {
   },
   mutations: {
     accountInfo: (state, payload) => Vue.set(state, 'accountInfo', payload),
+    accountMultisig: (state, payload) => Vue.set(state, 'accountMultisig', payload),
+    accountMultisigCosignatories: (state, payload) => Vue.set(state, 'accountMultisigCosignatories', payload),
     namespaceList: (state, payload) => Vue.set(state, 'namespaceList', payload),
     mosaicList: (state, payload) => Vue.set(state, 'mosaicList', payload),
     transactionList: (state, payload) => Vue.set(state, 'transactionList', payload),
@@ -58,10 +65,12 @@ export default {
     async fetchAccountDataByAddress({ commit }, address) {
       commit('accountInfoLoading', true)
       commit('accountInfoError', false)
-      commit('accountInfo', [])
+      commit('accountInfo', {})
+      commit('accountMultisig', {})
       commit('mosaicList', [])
       commit('transactionList', [])
       commit('namespaceList', [])
+      commit('accountMultisigCosignatories', [])
 
       let accountInfo
 
@@ -75,6 +84,7 @@ export default {
       if (accountInfo) {
         let formattedAccountInfo = {
           address: accountInfo.address.address,
+          linkedNamespace: accountInfo.accountAliasName,
           addressHeight: accountInfo.addressHeight,
           publicKey: accountInfo.publicKey,
           // publicKeyHeight: accountInfo.publicKeyHeight,
@@ -92,6 +102,23 @@ export default {
 
         commit('accountInfo', formattedAccountInfo)
         commit('mosaicList', mosaicList)
+      }
+
+      let accountMultisig
+      try {
+        accountMultisig = await sdkAccount.getMultisigAccountByAddress(address)
+      } catch (e) {
+        console.error(e)
+      }
+
+      if (accountMultisig) {
+        let formattedAccountMultisig = {
+          minApproval: accountMultisig.minApproval,
+          minRemoval: accountMultisig.minRemoval
+        }
+
+        commit('accountMultisig', formattedAccountMultisig)
+        commit('accountMultisigCosignatories', accountMultisig.cosignatories)
       }
 
       let transactionList
