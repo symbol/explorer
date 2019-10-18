@@ -333,7 +333,7 @@ export default {
             formattedTransactionDetail = {
               transactionType: transactionBody.type,
               mosaicId: transactionBody.mosaicId,
-              direction: transactionBody.direction,
+              action: transactionBody.action,
               delta: transactionBody.delta
             }
             break
