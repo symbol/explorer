@@ -18,10 +18,6 @@
 
 import * as nem from 'nem2-sdk'
 
-// Parse the network type field from the version/network type field.
-const createNetworkTypeFromDTO = version =>
-  parseInt(version.toString(16).substr(0, 2), 16)
-
 // Parse the version field from the version/network type field.
 const createVersionFromDTO = version =>
   parseInt(version.toString(16).substr(2, 2), 16)
@@ -43,7 +39,7 @@ const createRecipientFromDTO = recipient => {
     // If least-significant bit of byte 0 is not set, then it is an
     // address, otherwise, it is a namespace ID.
     const byte0 = parseInt(recipient.substr(0, 2), 16)
-    if ((byte0 & 0x1) == 0x1) {
+    if ((byte0 & 0x1) === 0x1) {
       // Hex-encoded namespace ID
       return nem.NamespaceId.createFromEncoded(recipient.substr(1, 16))
     } else {
@@ -150,7 +146,7 @@ const createMosaicFromDTO = (mosaicDTO) => {
   } else {
     // Mosaic ID
     const mosaicId = new nem.MosaicId(mosaicDTO.id)
-    return new nem.Mosaic(namespaceId, amount)
+    return new nem.Mosaic(mosaicId, amount)
   }
 }
 
@@ -313,7 +309,7 @@ const createModifyMultisigAccountTransactionFromDTO = (transactionDTO, networkTy
     createUInt64FromDTO(transactionDTO.transaction.maxFee || '0'),
     transactionDTO.transaction.minApprovalDelta,
     transactionDTO.transaction.minRemovalDelta,
-    createMultisigModificationFromDTO(transactionDTO.transaction.modifications, networkType),
+    createMultisigModificationsFromDTO(transactionDTO.transaction.modifications, networkType),
     transactionDTO.transaction.signature,
     createPublicAccountFromDTO(transactionDTO.transaction.signerPublicKey, networkType),
     createTransactionInfoFromDTO(transactionDTO.meta)
@@ -326,7 +322,7 @@ const createLockTransactionFromDTO = (transactionDTO, networkType) => {
     '',
     transactionDTO.transaction.hash,
     '',
-    TransactionType.AGGREGATE_BONDED,
+    nem.TransactionType.AGGREGATE_BONDED,
     networkType
   )
   return new nem.LockFundsTransaction(

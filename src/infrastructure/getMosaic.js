@@ -22,20 +22,16 @@ import {
   Address,
   AccountHttp,
   MosaicHttp,
-  NamespaceHttp,
   NetworkHttp,
-  MosaicId,
   NamespaceId
 } from 'nem2-sdk'
-import { Endpoint, mosaicInfo } from '../config/'
+import { Endpoint } from '../config/'
 import dto from './dto'
-import helper from '../helper'
 import format from '../format'
 
 const NETWORK_HTTP = new NetworkHttp(Endpoint.api)
 const ACCOUNT_HTTP = new AccountHttp(Endpoint.api)
 const MOSAIC_HTTP = new MosaicHttp(Endpoint.api)
-const NAMESPACE_HTTP = new NamespaceHttp(Endpoint.api)
 
 class sdkMosaic {
   static getMosaicsAmountByAddress = async address => {

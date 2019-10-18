@@ -18,7 +18,6 @@
 
 import Vue from 'vue'
 import * as nem from 'nem2-sdk'
-import format from '../format'
 import util from './util'
 import sdkTransaction from '../infrastructure/getTransaction'
 
@@ -116,7 +115,7 @@ export default {
     transferMosaics: (state, transferMosaics) => Vue.set(state, 'transferMosaics', transferMosaics),
     aggregateInnerTransactions: (state, aggregateInnerTransactions) => Vue.set(state, 'aggregateInnerTransactions', aggregateInnerTransactions),
     aggregateCosignatures: (state, aggregateCosignatures) => Vue.set(state, 'aggregateCosignatures', aggregateCosignatures),
-    transactionInfoLoading: (state, v) => state.transactionInfoLoading = v,
+    transactionInfoLoading: (state, v) => { state.transactionInfoLoading = v },
   },
   actions: {
     // Initialize the transaction model.

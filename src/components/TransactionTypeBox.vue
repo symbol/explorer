@@ -24,6 +24,7 @@
         <select @change="onChange($event)">
             <option
                 v-for="(value, option) in transactionTypeMap"
+                v-bind:key="option"
                 :value="option"
             >
                 {{value}}
@@ -34,8 +35,6 @@
   </div>
 </template>
 <script>
-import { mapGetters } from 'vuex'
-
 export default {
     data() {
         return {
