@@ -32,7 +32,7 @@
       v-else
       class="empty-data"
     >
-      {{emptyDataMessage}}
+      {{emptyDataMessageFormatted}}
     </div>
   </div>
 </template>

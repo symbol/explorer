@@ -11,6 +11,11 @@ export default {
 
     height: {
       type: Number
+    },
+
+    emptyDataMessage: {
+      type: String,
+      default: 'nothingToShow'
     }
   },
 
@@ -49,8 +54,8 @@ export default {
   },
 
   computed: {
-    emptyDataMessage() {
-      return this.$store.getters['ui/getNameByKey']('nothingToShow')
+    emptyDataMessageFormatted() {
+      return this.$store.getters['ui/getNameByKey'](this.emptyDataMessage)
     }
   },
 
