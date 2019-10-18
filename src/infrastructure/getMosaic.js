@@ -22,8 +22,7 @@ import {
   Address,
   AccountHttp,
   MosaicHttp,
-  NetworkHttp,
-  NamespaceId
+  NetworkHttp
 } from 'nem2-sdk'
 import { Endpoint } from '../config/'
 import dto from './dto'
