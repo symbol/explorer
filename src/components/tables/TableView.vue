@@ -48,6 +48,12 @@ export default {
     }
   },
 
+  computed: {
+    emptyDataMessage() {
+      return this.$store.getters['ui/getNameByKey']('nothingToShow')
+    }
+  },
+
   methods: {
     isItemClickable(itemKey) {
       return this.clickableItems.indexOf(itemKey) !== -1
@@ -94,7 +100,15 @@ export default {
     background-color: rgba(52, 40, 104, 0.014);
 }
 
+
 .table-view{
+
+    .empty-data {
+      font-size: 14px;
+      color: #98a8b4;
+      display: flex;
+      justify-content: center;
+    }
 
     td{
         border-bottom: 1px solid #dadee6;
@@ -118,7 +132,7 @@ export default {
     .table-titles {
         background-color: rgba(52, 40, 104, .05);
         //border-radius: 4px;
-}
+    }
 }
 
 </style>

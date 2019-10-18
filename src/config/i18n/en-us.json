@@ -64,5 +64,6 @@
     "secret": "Secret",
     "linkedNamespace": "Linked Namespace",
     "minApproval": "Minimum Approval",
-    "minRemoval": "Minimum Removal"
+    "minRemoval": "Minimum Removal",
+    "nothingToShow": "Nothing to show.."
 }

@@ -3,8 +3,10 @@
         v-if="data"
         class="table-view"
     >
-        <table class="table table-striped">
-
+        <table 
+            v-if="dataIsNotEmpty"
+            class="table table-striped"
+        >
             <tbody>
                 <tr
                     v-for="(item, itemKey) in formattedData"
@@ -25,6 +27,12 @@
                 </tr>
             </tbody>
         </table>
+        <div 
+            v-else
+            class="empty-data"
+        >
+            {{emptyDataMessage}}
+        </div>
     </div>
 </template>
 
@@ -60,6 +68,10 @@ export default {
     header() {
       let header = ['', '']
       return header
+    },
+
+    dataIsNotEmpty() {
+      return Object.keys(this.data).length
     }
   }
 }
