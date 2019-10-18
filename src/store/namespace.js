@@ -18,6 +18,7 @@
 
 import util from './util'
 import sdkNamespace from '../infrastructure/getNamespace'
+import Constants from '../config/constants'
 
 export default {
   namespaced: true,
@@ -135,7 +136,7 @@ export default {
         let namespaceLevelObject = {
           name: el.name,
           namespaceId: el.namespaceId,
-          parentId: parentId === '' ? 'NO AVAILABLE' : parentId.toHex()
+          parentId: parentId === '' ? Constants.Message.UNAVAILABLE : parentId.toHex()
         }
         namespaceLevels.push(namespaceLevelObject)
       })
