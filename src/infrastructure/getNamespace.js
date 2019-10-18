@@ -16,12 +16,15 @@
  *
  */
 
-import { NamespaceHttp, Address, NamespaceId, NamespaceService } from 'nem2-sdk'
+import axios from 'axios'
+import { NamespaceHttp, NetworkHttp, Address, NamespaceId, NamespaceService } from 'nem2-sdk'
 import { mergeMap, map } from 'rxjs/operators'
+import dto from './dto'
 import format from '../format'
 import helper from '../helper'
 import { Endpoint } from '../config/'
 
+const NETWORK_HTTP = new NetworkHttp(Endpoint.api)
 const NAMESPACE_HTTP = new NamespaceHttp(Endpoint.api)
 
 class sdkNamespace {
@@ -75,6 +78,40 @@ class sdkNamespace {
     })
 
     return format.formatNamespace(namespaceInfo, namespaceNames)
+  }
+
+  static getNamespacesFromIdWithLimit = async (limit, fromNamespaceId) => {
+    let namespaceId
+    if (fromNamespaceId === undefined) {
+      namespaceId = 'latest'
+    } else {
+      namespaceId = fromNamespaceId
+    }
+
+    // Make request.
+    const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
+    const path = `/namespaces/from/${namespaceId}/limit/${limit}`
+    const response = await axios.get(Endpoint.api + path)
+    const namespaces = response.data.map(info => dto.createNamespaceInfoFromDTO(info, networkType))
+
+    return format.formatNamespaceInfos(namespaces)
+  }
+
+  static getNamespacesSinceIdWithLimit = async (limit, sinceNamespaceId) => {
+    let namespaceId
+    if (sinceNamespaceId === undefined) {
+      namespaceId = 'earliest'
+    } else {
+      namespaceId = sinceNamespaceId
+    }
+
+    // Make request.
+    const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
+    const path = `/namespaces/since/${namespaceId}/limit/${limit}`
+    const response = await axios.get(Endpoint.api + path)
+    const namespaces = response.data.map(info => dto.createNamespaceInfoFromDTO(info, networkType))
+
+    return format.formatNamespaceInfos(namespaces)
   }
 }
 

@@ -67,10 +67,13 @@ export default new Router({
         import('./views/AccountDetail.vue')
     },
     {
-      path: '/namespace',
-      name: 'namespace',
+      path: '/namespaces',
+      name: 'namespaces',
       component: () =>
-        import('./views/Namespace.vue')
+        import('./views/Namespaces.vue'),
+      meta: {
+        title: ''
+      }
     },
     {
       path: '/namespace/:namespaceId',
@@ -79,10 +82,13 @@ export default new Router({
         import('./views/NamespaceDetail.vue')
     },
     {
-      path: '/mosaic',
-      name: 'mosaic',
+      path: '/mosaics',
+      name: 'mosaics',
       component: () =>
-        import('./views/Mosaic.vue')
+        import('./views/Mosaics.vue'),
+      meta: {
+        title: ''
+      }
     },
     {
       path: '/mosaic/:mosaicId',

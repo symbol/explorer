@@ -16,25 +16,98 @@
  *
  */
 
+import util from './util'
 import sdkMosaic from '../infrastructure/getMosaic'
 
 export default {
   namespaced: true,
   state: {
-    // The Mosaic detail infomation.
+    // Holds the PAGE_SIZE mosaics starting from current page.
+    pageList: [],
+    // The current page index (0-indexed).
+    pageIndex: 0,
+    // Determine if the mosaics model is loading.
+    loading: false,
+    // The Mosaic detail information.
     mosaicInfo: {}
   },
   getters: {
-    getMosaicInfo(state) {
-      return state.mosaicInfo
-    }
+    getPageList: state => state.pageList,
+    getPageIndex: state => state.pageIndex,
+    getLoading: state => state.loading,
+    getPageListFormatted: (state, getters) => getters.getPageList.map(el => ({
+      mosaicId: el.mosaic,
+      owneraddress: el.address,
+      supply: el.supply,
+      divisibility: el.divisibility,
+      startHeight: el.startHeight
+    })),
+    getMosaicInfo: state => state.mosaicInfo
   },
   mutations: {
-    setMosaicInfo(state, mosaicInfo) {
-      state.mosaicInfo = mosaicInfo
-    }
+    setPageList: (state, list) => { state.pageList = list },
+    setPageIndex: (state, pageIndex) => { state.pageIndex = pageIndex },
+    setLoading: (state, loading) => { state.loading = loading },
+    resetPageIndex: (state) => { state.pageIndex = 0 },
+    setMosaicInfo: (state, mosaicInfo) => { state.mosaicInfo = mosaicInfo }
   },
   actions: {
+    // Initialize the mosaic model.
+    // First fetch the page, then subscribe.
+    async initialize({ dispatch }) {
+      await dispatch('initializePage')
+    },
+
+    // Fetch data from the SDK and initialize the page.
+    async initializePage({ commit }) {
+      commit('setLoading', true)
+      let mosaicList = await sdkMosaic.getMosaicsFromIdWithLimit(util.PAGE_SIZE)
+      commit('setPageList', mosaicList)
+      commit('setLoading', false)
+    },
+
+    // Fetch the next page of data.
+    async fetchNextPage({ commit, getters }) {
+      commit('setLoading', true)
+      const pageList = getters.getPageList
+      const pageIndex = getters.getPageIndex
+      if (pageList.length > 0) {
+        // Page is loaded, need to fetch next page.
+        const mosaic = pageList[pageList.length - 1]
+        let mosaicList = await sdkMosaic.getMosaicsFromIdWithLimit(util.PAGE_SIZE, mosaic.id)
+        commit('setPageIndex', pageIndex + 1)
+        commit('setPageList', mosaicList)
+      }
+      commit('setLoading', false)
+    },
+
+    // Fetch the previous page of data.
+    async fetchPreviousPage({ commit, getters }) {
+      commit('setLoading', true)
+      const pageList = getters.getPageList
+      const pageIndex = getters.getPageIndex
+      if (pageList.length > 0) {
+        // Page is loaded, need to fetch previous page.
+        const mosaic = pageList[0]
+        let mosaicList = await sdkMosaic.getMosaicsSinceIdWithLimit(util.PAGE_SIZE, mosaic.id)
+        commit('setPageIndex', pageIndex + 1)
+        commit('setPageList', mosaicList)
+      }
+      commit('setLoading', false)
+    },
+
+    // Reset the mosaic page to the latest list (index 0)
+    async resetPage({ commit, getters }) {
+      commit('setLoading', true)
+      const pageIndex = getters.getPageIndex
+      if (pageIndex > 0) {
+        let mosaicList = await sdkMosaic.getMosaicsFromIdWithLimit(util.PAGE_SIZE)
+        commit('setPageIndex', 0)
+        commit('setPageList', mosaicList)
+      }
+      commit('setLoading', false)
+    },
+
     // Fetch data from the SDK.
     async fetchMosaicInfo({ commit }, mosaicHexOrNamespace) {
       let mosaicInfo = await sdkMosaic.getMosaicInfo(mosaicHexOrNamespace)

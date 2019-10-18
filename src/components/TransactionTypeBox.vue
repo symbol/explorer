@@ -21,14 +21,45 @@
     <h1 class="inline-block">Transactions</h1>
     <div class="btn_grp inline-block flt-rt">
       <div class="select_type">
-        <select>
-          <option>Recent Transactions</option>
-          <option>Pending Transactions</option>
-          <option>Transfer Transactions</option>
-          <option>Multisig Transactions</option>
-          <option>Mosaic Transactions</option>
+        <select @change="onChange($event)">
+            <option
+                v-for="(value, option) in transactionTypeMap"
+                v-bind:key="option"
+                :value="option"
+            >
+                {{value}}
+            </option>
         </select>
       </div>
     </div>
   </div>
 </template>
+<script>
+export default {
+    data() {
+        return {
+            transactionTypeMap: {
+                'recent': 'Recent Transactions',
+                'pending': 'Pending Transactions',
+                'transfer': 'Transfer Transactions',
+                'multisig': 'Multisig Transactions',
+                'mosaic': 'Mosaic Transactions'
+            }
+        }
+    },
+
+    mounted() {
+        this.$store.dispatch('transaction/resetPage')
+    },
+
+    destroyed() {
+        this.$store.dispatch('transaction/resetPage')
+    },
+
+    methods: {
+        onChange(event) {
+            this.$store.dispatch('transaction/changePage', event.target.value)
+        }
+    }
+}
+</script>

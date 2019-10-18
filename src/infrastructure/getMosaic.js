@@ -16,22 +16,21 @@
  *
  */
 
+import axios from 'axios'
 import {
   MosaicService,
   Address,
   AccountHttp,
   MosaicHttp,
-  NamespaceHttp,
-  MosaicId,
-  NamespaceId
+  NetworkHttp
 } from 'nem2-sdk'
 import { Endpoint } from '../config/'
-import helper from '../helper'
+import dto from './dto'
 import format from '../format'
 
+const NETWORK_HTTP = new NetworkHttp(Endpoint.api)
 const ACCOUNT_HTTP = new AccountHttp(Endpoint.api)
 const MOSAIC_HTTP = new MosaicHttp(Endpoint.api)
-const NAMESPACE_HTTP = new NamespaceHttp(Endpoint.api)
 
 class sdkMosaic {
   static getMosaicsAmountByAddress = async address => {
@@ -46,19 +45,55 @@ class sdkMosaic {
     return mosaicAmount
   }
 
-  static getMosaicInfo = async mosaicHexOrNamespace => {
-    let mosaicID = ''
+// TODO(ahuszagh) Remove...
+//  static getMosaicInfo = async mosaicHexOrNamespace => {
+//
+//    let mosaicID = ''
+//
+//    if (helper.isHexadecimal(mosaicHexOrNamespace)) {
+//      mosaicID = new MosaicId(mosaicHexOrNamespace);
+//    } else {
+//      let namespaceId = new NamespaceId(mosaicHexOrNamespace)
+//      mosaicID = await NAMESPACE_HTTP.getLinkedMosaicId(namespaceId).toPromise()
+//    }
+//    // const mosaicInfo = await MOSAIC_HTTP.getMosaic(mosaicID).toPromise(); // SDK Break
+//    const mosaicName = await MOSAIC_HTTP.getMosaicsNames([mosaicID]).toPromise();
+//
+//    return format.formatMosaicInfo(mosaicInfo,mosaicName[0])
+//  }
 
-    if (helper.isHexadecimal(mosaicHexOrNamespace)) {
-      mosaicID = new MosaicId(mosaicHexOrNamespace)
+  static getMosaicsFromIdWithLimit = async (limit, fromMosaicId) => {
+    let mosaicId
+    if (fromMosaicId === undefined) {
+      mosaicId = 'latest'
     } else {
-      let namespaceId = new NamespaceId(mosaicHexOrNamespace)
-      mosaicID = await NAMESPACE_HTTP.getLinkedMosaicId(namespaceId).toPromise()
+      mosaicId = fromMosaicId
     }
-    const mosaicInfo = await MOSAIC_HTTP.getMosaic(mosaicID).toPromise()
-    const mosaicName = await MOSAIC_HTTP.getMosaicsNames([mosaicID]).toPromise()
 
-    return format.formatMosaicInfo(mosaicInfo, mosaicName[0])
+    // Make request.
+    const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
+    const path = `/mosaics/from/${mosaicId}/limit/${limit}`
+    const response = await axios.get(Endpoint.api + path)
+    const mosaics = response.data.map(info => dto.createMosaicInfoFromDTO(info, networkType))
+
+    return format.formatMosaicInfos(mosaics)
+  }
+
+  static getMosaicsSinceIdWithLimit = async (limit, sinceMosaicId) => {
+    let mosaicId
+    if (sinceMosaicId === undefined) {
+      mosaicId = 'earliest'
+    } else {
+      mosaicId = sinceMosaicId
+    }
+
+    // Make request.
+    const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
+    const path = `/mosaics/since/${mosaicId}/limit/${limit}`
+    const response = await axios.get(Endpoint.api + path)
+    const mosaics = response.data.map(info => dto.createMosaicInfoFromDTO(info, networkType))
+
+    return format.formatMosaicInfos(mosaics)
   }
 }
 
