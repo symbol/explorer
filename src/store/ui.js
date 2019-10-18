@@ -91,7 +91,9 @@ export default {
       'linkedNamespace': 'Linked Namespace',
       'minApproval': 'Minimum Approval',
       'minRemoval': 'Minimum Removal'
+
     }, /// put new names here => src/config/i18n/en-us.json
+
 
     keyPages: {
       'height': 'block',

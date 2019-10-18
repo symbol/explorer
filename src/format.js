@@ -1,4 +1,5 @@
-import { Address, TransactionType, NetworkType, AccountType } from 'nem2-sdk'
+import { Address, TransactionType, NetworkType } from 'nem2-sdk'
+import { Constants } from './config'
 import moment from 'moment'
 
 // FORMAT FEE
@@ -75,7 +76,7 @@ const formatAccount = (accountInfo, accountName) => {
     mosaics: formatMosaics(accountInfo.mosaics),
     importance: importanceScore,
     importanceHeight: accountInfo.importanceHeight.compact(),
-    accountType: formatAccounType(accountInfo.accountType),
+    accountType: Constants.AccountType[accountInfo.accountType],
     activityBucket: accountInfo.activityBucket,
     linkedAccountKey: accountInfo.linkedAccountKey
   }
@@ -101,34 +102,6 @@ const formatAccountMultisig = accountMultisig => {
   return accountMultisigObj
 }
 
-// FORMAT ACCOUNT TYPE
-const formatAccounType = accountType => {
-  switch (accountType) {
-    case AccountType.Unlinked:
-      return 'Unlinked'
-    case AccountType.Main:
-      return 'Main'
-    case AccountType.Remote:
-      return 'Remote'
-    case AccountType.Remote_Unlinked:
-      return 'Remote Unlinked'
-  }
-}
-
-// Format HashType
-const formatHashType = hashType => {
-  switch (hashType) {
-    case 0:
-      return 'Op_Sha3_256'
-    case 1:
-      return 'Op_Keccak_256'
-    case 2:
-      return 'Op_Hash_160'
-    case 3:
-      return 'Op_Hash_256'
-  }
-}
-
 // FORMAT MOSAICS
 const formatMosaics = mosaics => {
   return mosaics.map(mosaic => {
@@ -151,9 +124,9 @@ const formatMosaicInfo = (mosaicInfo, mosaicName) => {
     revision: mosaicInfo.revision,
     startHeight: mosaicInfo.height.compact(),
     duration: mosaicInfo.duration.compact(),
-    supplyMutable: mosaicInfo.flags.supplyMutable,
-    transferable: mosaicInfo.flags.transferable,
-    restrictable: mosaicInfo.flags.restrictable
+    supplyMutable: mosaicInfo.flags.supplyMutable.toString().toUpperCase(),
+    transferable: mosaicInfo.flags.transferable.toString().toUpperCase(),
+    restrictable: mosaicInfo.flags.restrictable.toString().toUpperCase()
   }
 
   return mosaicObj
@@ -195,11 +168,10 @@ const formatCosignatures = cosignatures => {
 
 // FORMAT TRANSACTION BODY
 const formatTransactionBody = transactionBody => {
-  console.log(transactionBody)
   switch (transactionBody.type) {
     case TransactionType.TRANSFER:
       let transferObj = {
-        type: 'Transfer',
+        type: Constants.TransactionType[TransactionType.TRANSFER],
         typeId: TransactionType.TRANSFER,
         recipient: transactionBody.recipientAddress.address,
         mosaics: formatMosaics(transactionBody.mosaics),
@@ -211,38 +183,36 @@ const formatTransactionBody = transactionBody => {
       let duration = transactionBody.duration ? transactionBody.duration.compact() : 0
 
       let registerNamespaceObj = {
-        type: 'Register Namespace',
+        type: Constants.TransactionType[TransactionType.REGISTER_NAMESPACE],
         typeId: TransactionType.REGISTER_NAMESPACE,
-        registrationType: transactionBody.registrationType === 0 ? 'Root namespace' : 'Child namespace',
+        registrationType: Constants.NamespaceRegistrationType[transactionBody.registrationType],
         namespaceName: transactionBody.namespaceName,
         namespaceId: transactionBody.namespaceId.toHex(),
-        parentId: parentIdHex === '' ? 'NO AVAILABLE' : parentIdHex,
-        duration: duration === 0 ? 'unlimited' : duration
+        parentId: parentIdHex === '' ? Constants.Message.UNAVAILABLE : parentIdHex,
+        duration: duration === 0 ? Constants.Message.UNLIMITED : duration
       }
       return registerNamespaceObj
     case TransactionType.ADDRESS_ALIAS:
       let addressAliasObj = {
-        type: 'Address Alias',
-        recipient: 'NO AVAILABLE',
+        type: Constants.TransactionType[TransactionType.ADDRESS_ALIAS],
         typeId: TransactionType.ADDRESS_ALIAS,
-        aliasAction: transactionBody.actionType === 0 ? 'Unlink' : 'Link',
+        aliasAction: Constants.AliasAction[transactionBody.actionType],
         namespaceId: transactionBody.namespaceId.toHex()
       }
       return addressAliasObj
 
     case TransactionType.MOSAIC_ALIAS:
       let mosaicAlias = {
-        type: 'Mosaic Alias',
+        type: Constants.TransactionType[TransactionType.MOSAIC_ALIAS],
         typeId: TransactionType.MOSAIC_ALIAS,
-        // actionType: transactionBody.actionType,
-        aliasAction: transactionBody.aliasAction === 0 ? 'Unlink' : 'Link',
+        aliasAction: Constants.AliasAction[transactionBody.aliasAction],
         namespaceId: transactionBody.namespaceId.id.toHex(),
         mosaicId: transactionBody.mosaicId.id.toHex()
       }
       return mosaicAlias
     case TransactionType.MOSAIC_DEFINITION:
       let mosaicDefinitionObj = {
-        type: 'Mosaic Definition',
+        type: Constants.TransactionType[TransactionType.MOSAIC_DEFINITION],
         typeId: TransactionType.MOSAIC_DEFINITION,
         mosaicId: transactionBody.mosaicId.toHex(),
         divisibility: transactionBody.divisibility,
@@ -255,24 +225,23 @@ const formatTransactionBody = transactionBody => {
       return mosaicDefinitionObj
     case TransactionType.MOSAIC_SUPPLY_CHANGE:
       let mosaicSupplyChangeObj = {
-        type: 'Mosaic Supply Change',
+        type: Constants.TransactionType[TransactionType.MOSAIC_SUPPLY_CHANGE],
         typeId: TransactionType.MOSAIC_SUPPLY_CHANGE,
         mosaicId: transactionBody.mosaicId.id.toHex(),
-        direction: transactionBody.direction === 1 ? 'Increase' : 'Decrease',
+        action: Constants.MosaicSupplyChangeAction[transactionBody.action],
         delta: transactionBody.delta.compact()
       }
       return mosaicSupplyChangeObj
     case TransactionType.MODIFY_MULTISIG_ACCOUNT:
-
       let modifyMultisigAccountObj = {
-        type: 'ModifyMultisigAccount',
+        type: Constants.TransactionType[TransactionType.MODIFY_MULTISIG_ACCOUNT],
         typeId: TransactionType.MODIFY_MULTISIG_ACCOUNT
       }
       return modifyMultisigAccountObj
 
     case TransactionType.AGGREGATE_COMPLETE:
       let aggregateCompleteObj = {
-        type: 'AggregateComplete',
+        type: Constants.TransactionType[TransactionType.AGGREGATE_COMPLETE],
         typeId: TransactionType.AGGREGATE_COMPLETE,
         innerTransactions: formatTransactions(transactionBody.innerTransactions),
         cosignatures: formatCosignatures(transactionBody.cosignatures)
@@ -280,7 +249,7 @@ const formatTransactionBody = transactionBody => {
       return aggregateCompleteObj
     case TransactionType.AGGREGATE_BONDED:
       let aggregateBondedObj = {
-        type: 'AggregateBonded',
+        type: Constants.TransactionType[TransactionType.AGGREGATE_BONDED],
         typeId: TransactionType.AGGREGATE_BONDED,
         innerTransactions: formatTransactions(transactionBody.innerTransactions),
         cosignatures: formatCosignatures(transactionBody.cosignatures)
@@ -289,7 +258,7 @@ const formatTransactionBody = transactionBody => {
 
     case TransactionType.LOCK:
       let lockObj = {
-        type: 'Lock',
+        type: Constants.TransactionType[TransactionType.LOCK],
         typeId: TransactionType.LOCK,
         duration: transactionBody.duration.compact(),
         mosaicId: transactionBody.mosaic.id.toHex(),
@@ -298,48 +267,78 @@ const formatTransactionBody = transactionBody => {
       return lockObj
     case TransactionType.SECRET_LOCK:
       let secretLockObj = {
-        type: 'Secret lock',
+        type: Constants.TransactionType[TransactionType.SECRET_LOCK],
         typeId: TransactionType.SECRET_LOCK,
         duration: transactionBody.duration.compact(),
         mosaicId: transactionBody.mosaic.id.toHex(),
         secret: transactionBody.secret,
         recipient: transactionBody.recipientAddress.address,
-        hashType: formatHashType(transactionBody.hashType)
+        hashType: Constants.HashType[transactionBody.hashType]
       }
       return secretLockObj
     case TransactionType.SECRET_PROOF:
       let secretProofObj = {
-        type: 'SecretProof',
+        type: Constants.TransactionType[TransactionType.SECRET_PROOF],
         typeId: TransactionType.SECRET_PROOF
       }
       return secretProofObj
-    case TransactionType.MODIFY_ACCOUNT_PROPERTY_ADDRESS:
-      let modifyAccountPropertyAddressObj = {
-        type: 'ModifyAccountPropertyAddress',
-        typeId: TransactionType.MODIFY_ACCOUNT_PROPERTY_ADDRESS
+    case TransactionType.ACCOUNT_RESTRICTION_ADDRESS:
+      let accountRestrictionAddressObj = {
+        type: Constants.TransactionType[TransactionType.ACCOUNT_RESTRICTION_ADDRESS],
+        typeId: TransactionType.ACCOUNT_RESTRICTION_ADDRESS
       }
-      return modifyAccountPropertyAddressObj
-    case TransactionType.MODIFY_ACCOUNT_PROPERTY_MOSAIC:
-      let modifyAccountPropertyMosaicObj = {
-        type: 'ModifyAccountPropertyMosaic',
-        typeId: TransactionType.MODIFY_ACCOUNT_PROPERTY_MOSAIC
+      return accountRestrictionAddressObj
+    case TransactionType.ACCOUNT_RESTRICTION_MOSAIC:
+      let accountRestrictionMosaicObj = {
+        type: Constants.TransactionType[TransactionType.ACCOUNT_RESTRICTION_MOSAIC],
+        typeId: TransactionType.ACCOUNT_RESTRICTION_MOSAIC
       }
-      return modifyAccountPropertyMosaicObj
-    case TransactionType.MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE:
-      let modifyAccountPropertyEntityTypeObj = {
-        type: 'ModifyAccountPropertyEntityType',
-        typeId: TransactionType.MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE
+      return accountRestrictionMosaicObj
+    case TransactionType.ACCOUNT_RESTRICTION_OPERATION:
+      let accountRestrictionOperationObj = {
+        type: Constants.TransactionType[TransactionType.ACCOUNT_RESTRICTION_OPERATION],
+        typeId: TransactionType.ACCOUNT_RESTRICTION_OPERATION
       }
-      return modifyAccountPropertyEntityTypeObj
+      return accountRestrictionOperationObj
     case TransactionType.LINK_ACCOUNT:
       let linkAccountObj = {
-        type: 'LinkAccount',
+        type: Constants.TransactionType[TransactionType.LINK_ACCOUNT],
         typeId: TransactionType.LINK_ACCOUNT,
-        linkAction: transactionBody.linkAction === 0 ? 'Link' : 'Unlink',
+        linkAction: Constants.LinkAction[transactionBody.linkAction],
         remoteAccountPublicKey: transactionBody.remoteAccountKey,
         remoteAccountAddress: Address.createFromPublicKey(transactionBody.remoteAccountKey, NetworkType.MIJIN_TEST).plain()
       }
       return linkAccountObj
+    case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
+      let mosaicAddressRestrictionObj = {
+        type: Constants.TransactionType[TransactionType.MOSAIC_ADDRESS_RESTRICTION],
+        typeId: TransactionType.MOSAIC_ADDRESS_RESTRICTION
+      }
+      return mosaicAddressRestrictionObj
+    case TransactionType.MOSAIC_GLOBAL_RESTRICTION:
+      let mosaicGlobalRestrictionObj = {
+        type: Constants.TransactionType[TransactionType.MOSAIC_GLOBAL_RESTRICTION],
+        typeId: TransactionType.MOSAIC_GLOBAL_RESTRICTION
+      }
+      return mosaicGlobalRestrictionObj
+    case TransactionType.ACCOUNT_METADATA_TRANSACTION:
+      let accountMetadataTransactionObj = {
+        type: Constants.TransactionType[TransactionType.ACCOUNT_METADATA_TRANSACTION],
+        typeId: TransactionType.ACCOUNT_METADATA_TRANSACTION
+      }
+      return accountMetadataTransactionObj
+    case TransactionType.MOSAIC_METADATA_TRANSACTION:
+      let mosaicMetadataTransactionObj = {
+        type: Constants.TransactionType[TransactionType.MOSAIC_METADATA_TRANSACTION],
+        typeId: TransactionType.MOSAIC_METADATA_TRANSACTION
+      }
+      return mosaicMetadataTransactionObj
+    case TransactionType.NAMESPACE_METADATA_TRANSACTION:
+      let namespaceMetadataTransactionObj = {
+        type: Constants.TransactionType[TransactionType.NAMESPACE_METADATA_TRANSACTION],
+        typeId: TransactionType.NAMESPACE_METADATA_TRANSACTION
+      }
+      return namespaceMetadataTransactionObj
   }
 }
 
@@ -373,35 +372,31 @@ const formatNamespaces = namespacesInfo =>
       switch (ns.namespaceInfo.alias.type) {
         case 1:
           aliasText = ns.namespaceInfo.alias.mosaicId.toHex()
-          aliasType = 'Mosaic'
+          aliasType = Constants.Message.MOSAIC
           break
         case 2:
           aliasText = ns.namespaceInfo.alias.address
-          aliasType = 'Address'
+          aliasType = Constants.Message.ADDRESS
           break
         default:
           aliasText = false
-          aliasType = 'No Alias'
+          aliasType = Constants.Message.NO_ALIAS
           break
       }
       return {
         owner: ns.namespaceInfo.owner,
         namespaceName: name,
         hexId: ns.namespaceInfo.id.toHex(),
-        type:
-          ns.namespaceInfo.type === 0 ? 'Root' : 'Child',
+        type: Constants.NamespaceRegistrationType[ns.namespaceInfo.registrationType],
         aliastype: aliasType,
         alias: aliasText,
-        aliasAction:
-          ns.namespaceInfo.alias.type === 0
-            ? 'Unlink'
-            : 'Link',
+        aliasAction: Constants.AliasAction[ns.namespaceInfo.alias.type],
         currentAliasType: ns.namespaceInfo.alias.type,
 
-        active: ns.namespaceInfo.active,
+        active: ns.namespaceInfo.active.toString().toUpperCase(),
         startHeight: ns.namespaceInfo.startHeight.compact(),
         endHeight: name.includes('nem')
-          ? 'Infinity'
+          ? Constants.Message.INFINITY
           : ns.namespaceInfo.endHeight.compact(),
         parentId: ns.namespaceInfo.parentId.id.toHex()
       }
@@ -414,15 +409,15 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
   switch (namespaceInfo.alias.type) {
     case 1:
       aliasText = namespaceInfo.alias.mosaicId.toHex()
-      aliasType = 'Mosaic'
+      aliasType = Constants.Message.MOSAIC
       break
     case 2:
       aliasText = namespaceInfo.alias.address.plain()
-      aliasType = 'Address'
+      aliasType = Constants.Message.ADDRESS
       break
     default:
       aliasText = false
-      aliasType = 'No Alias'
+      aliasType = Constants.Message.NO_ALIAS
       break
   }
 
@@ -430,10 +425,10 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
     owner: namespaceInfo.owner.address.plain(),
     namespaceName: namespaceNames[0].name,
     namespaceNameHexId: namespaceInfo.id.toHex().toUpperCase(),
-    registrationType: namespaceInfo.registrationType === 0 ? 'ROOT' : 'SUB',
+    registrationType: Constants.NamespaceRegistrationType[namespaceInfo.registrationType],
     startHeight: namespaceInfo.startHeight.compact(),
     endHeight: namespaceNames[0].name.includes('NEM')
-      ? 'Infinity'
+      ? Constants.Message.INFINITY
       : namespaceInfo.endHeight.compact(),
     active: namespaceInfo.active.toString().toUpperCase(),
     aliasType: aliasType,
