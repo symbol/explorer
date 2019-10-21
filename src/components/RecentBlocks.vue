@@ -21,7 +21,7 @@
     <div class="box">
       <div class="box-title">
         <h1 class="inline-block">Recent Blocks</h1>
-        <div class="btn_grp inline-block flt-rt">
+        <div class="btn_grp inline-block float-r">
           <router-link to="/blocks" exact active-class="active" class="btn btn-green">
             <span>View all blocks</span>
             <i class="ico-ios-arrow-thin-right"></i>

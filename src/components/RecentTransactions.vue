@@ -21,7 +21,7 @@
     <div class="box">
       <div class="box-title">
         <h1 class="inline-block">Recent Transactions</h1>
-        <div class="btn_grp inline-block flt-rt">
+        <div class="btn_grp inline-block float-r">
           <router-link to="/transactions" exact active-class="active" class="btn btn-green">
             <span>View all Transactions</span>
             <i class="ico-ios-arrow-thin-right"></i>

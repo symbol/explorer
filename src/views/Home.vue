@@ -17,10 +17,9 @@
  */
 
 <template>
-  <div>
-    <div class="page_con">
-      <div class="full-con mob_con">
-        <div class="container p-0 has-shadow mt-4">
+    <div class="page-con">
+      <div class="full-con mob-c-p">
+        <div class="container p-0 has-shadow">
           <NemPriceGraph class="border-bottom"></NemPriceGraph>
           <HomeBaseInfo class=""></HomeBaseInfo>
         </div>
@@ -32,7 +31,6 @@
         </div>
       </div>
     </div>
-  </div>
 </template>
 <script>
 import w1 from '@/components/HomeBaseInfo.vue'
