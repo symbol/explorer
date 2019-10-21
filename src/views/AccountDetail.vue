@@ -11,7 +11,7 @@
         <template #error>Account {{address}} is not exist</template>
       </Card>
 
-      <Card v-if="1||showMultiSigDeatail" class="card-f card-adaptive" :loading="loading">
+      <Card class="card-f card-adaptive" :loading="loading">
         <!-- MultiSig Info -->
         <template #title>Multsig Info</template>
 
@@ -20,7 +20,7 @@
         </template>
       </Card>
 
-      <Card v-if="1||showMultiSigDeatail" class="card-f card-adaptive" :loading="loading">
+      <Card class="card-f card-adaptive" :loading="loading">
         <!-- MultiSig Cosignatories -->
         <template #title>Multsig Cosignatories</template>
 
@@ -30,7 +30,7 @@
 
       </Card>
 
-      <Card v-if="1||showMosaics" class="card-f card-adaptive" :loading="loading">
+      <Card class="card-f card-adaptive" :loading="loading">
         <!-- Mosaics -->
         <template #title>Owned Mosaics</template>
 
@@ -39,7 +39,7 @@
         </template>
       </Card>
 
-      <Card v-if="1||showNamespaces" class="card-f card-adaptive" :loading="loading">
+      <Card class="card-f card-adaptive" :loading="loading">
         <!-- NS -->
         <template #title>Owned Namespaces</template>
 
@@ -48,7 +48,7 @@
         </template>
       </Card>
 
-      <Card v-if="1||showTransactions" class="card-f card-full-width" :loading="loading">
+      <Card class="card-f card-full-width" :loading="loading">
         <!-- Transactions -->
         <template #title>Transactions</template>
         <template #control>
