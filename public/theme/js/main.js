@@ -53,5 +53,10 @@
     }else{
         menu.addClass('shown');
     }
+   
    })
+   $('body').on('click','.mobmenuslide .nav-menu a ',function(e){
+    if($('.mobmenuslide').hasClass('active'))
+    $('.mobmenuslide').removeClass('active')
+   });
 })(jQuery);

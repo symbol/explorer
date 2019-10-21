@@ -32,6 +32,16 @@
                 v-bind:key="item.text"
               />
             </ul>
+            <div class="footer-sub">
+              <ul class="ftr_btm-menu">
+                <li>
+                  <router-link v-bind:to="'terms'">Terms</router-link>
+                </li>
+                <li>
+                  <router-link v-bind:to="'privacy'">Privacy</router-link>
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
         <NemCopyright />
@@ -40,14 +50,14 @@
   </div>
 </template>
 <script>
-import w1 from '@/components/PageFooterItem.vue'
-import w2 from '@/components/NemDescription.vue'
-import w3 from '@/components/NemCopyright.vue'
-import { Endpoint } from '../config'
-import helper from '../helper'
+import w1 from "@/components/PageFooterItem.vue";
+import w2 from "@/components/NemDescription.vue";
+import w3 from "@/components/NemCopyright.vue";
+import { Endpoint } from "../config";
+import helper from "../helper";
 
 export default {
-  name: 'PageFooter',
+  name: "PageFooter",
   components: {
     PageFooterItem: w1,
     NemDescription: w2,
@@ -60,43 +70,43 @@ export default {
     isMobile() {
       return helper.isMobile(
         navigator.userAgent || navigator.vendor || window.opera
-      )
+      );
     }
   },
   data() {
     return {
       loading: 1,
       nodes: Endpoint.nodes,
-      activeNode: Endpoint.api.replace('http://', '').replace(':3000', ''),
+      activeNode: Endpoint.api.replace("http://", "").replace(":3000", ""),
       items: [
         {
-          href: 'https://nemflash.io/',
-          text: 'NEM News',
-          classname: 'ico-news'
+          href: "https://nemflash.io/",
+          text: "NEM News",
+          classname: "ico-news"
         },
         {
-          href: 'https://forum.nem.io/',
-          text: 'Forum',
-          classname: 'ico-forum'
+          href: "https://forum.nem.io/",
+          text: "Forum",
+          classname: "ico-forum"
         },
         {
-          href: 'https://github.com/nemtech',
-          text: 'Github',
-          classname: 'ico-github'
+          href: "https://github.com/nemtech",
+          text: "Github",
+          classname: "ico-github"
         },
         {
-          href: 'https://t.me/nemred',
-          text: 'Telegram',
-          classname: 'ico-paper-plane'
+          href: "https://t.me/nemred",
+          text: "Telegram",
+          classname: "ico-paper-plane"
         },
         {
-          href: 'https://www.reddit.com/r/nem/',
-          text: 'Reddit',
-          classname: 'ico-reddit'
+          href: "https://www.reddit.com/r/nem/",
+          text: "Reddit",
+          classname: "ico-reddit"
         }
       ]
-    }
+    };
   },
   mounted() {}
-}
+};
 </script>
