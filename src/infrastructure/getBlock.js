@@ -20,10 +20,15 @@ import { BlockHttp, ChainHttp, QueryParams } from 'nem2-sdk'
 import format from '../format'
 import { Endpoint } from '../config'
 
-const CHAIN_HTTP = new ChainHttp(Endpoint.api)
-const BLOCK_HTTP = new BlockHttp(Endpoint.api)
+let CHAIN_HTTP// = new ChainHttp(Endpoint.api)
+let BLOCK_HTTP// = new BlockHttp(Endpoint.api)
 
 class sdkBlock {
+  static connect = async nodeUrl => {
+    CHAIN_HTTP = new ChainHttp(nodeUrl)
+    BLOCK_HTTP = new BlockHttp(nodeUrl)
+  }
+
   static getBlockHeight = async () => {
     const blockHeight = await CHAIN_HTTP.getBlockchainHeight().toPromise()
     return blockHeight.compact()
