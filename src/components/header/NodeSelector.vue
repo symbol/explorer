@@ -4,7 +4,10 @@
             <a class="dropdown-toggle">
                 Node : {{currentNode}}
             </a>
-            <div class="dropdown-menu dropdown-menu-right node-selector-menu">
+            <div 
+              ref="nodeSelector"
+              class="dropdown-menu dropdown-menu-right node-selector-menu"
+            >
                 <a
                     v-for="(node, index) in nodeList"
                     class="dropdown-item node-selector-item"
@@ -35,6 +38,7 @@ export default {
   methods: {
     setNode(url) {
       this.$store.dispatch('api/changeNode', url)
+      this.$refs.nodeSelector.classList.remove('shown')
     }
   }
 }
@@ -43,6 +47,7 @@ export default {
 <style lang="scss" scoped>
 .node-selector {
   //min-width: 200px;
+  z-index: 9000;
 }
 .node-selector-menu{
     background: #3d7397c4;
