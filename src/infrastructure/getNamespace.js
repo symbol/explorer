@@ -20,12 +20,11 @@ import { NamespaceHttp, Address, NamespaceId, NamespaceService } from 'nem2-sdk'
 import { mergeMap, map } from 'rxjs/operators'
 import format from '../format'
 import helper from '../helper'
-import { Endpoint } from '../config/'
 
 let NAMESPACE_HTTP
 
 class sdkNamespace {
-  static connect = async nodeUrl => {
+  static init = async nodeUrl => {
     NAMESPACE_HTTP = new NamespaceHttp(nodeUrl)
   }
 

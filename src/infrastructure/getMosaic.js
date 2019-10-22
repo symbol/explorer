@@ -25,7 +25,6 @@ import {
   MosaicId,
   NamespaceId
 } from 'nem2-sdk'
-import { Endpoint } from '../config/'
 import helper from '../helper'
 import format from '../format'
 
@@ -34,7 +33,7 @@ let MOSAIC_HTTP
 let NAMESPACE_HTTP
 
 class sdkMosaic {
-  static connect = async nodeUrl => {
+  static init = async nodeUrl => {
     ACCOUNT_HTTP = new AccountHttp(nodeUrl)
     MOSAIC_HTTP = new MosaicHttp(nodeUrl)
     NAMESPACE_HTTP = new NamespaceHttp(nodeUrl)

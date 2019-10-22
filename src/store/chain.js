@@ -77,6 +77,12 @@ export default {
       await dispatch('initializePage')
     },
 
+    // Set node url to SDK
+    initializeSdk({rootGetters}) {
+      sdkDiagnostic.init(rootGetters['api/currentNode'].url)
+      apiMarketData.init(rootGetters['api/currentNode'].url)
+    },
+
     // Fetch data from the SDK / API and initialize the page.
     async initializePage({ commit }) {
       let chainInfo = await sdkDiagnostic.getChainInfo()

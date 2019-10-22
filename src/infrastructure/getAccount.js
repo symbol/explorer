@@ -18,12 +18,11 @@
 
 import { AccountHttp, Address } from 'nem2-sdk'
 import format from '../format'
-import { Endpoint } from '../config/'
 
-let ACCOUNT_HTTP// = new AccountHttp(Endpoint.api)
+let ACCOUNT_HTTP
 
 class sdkAccount {
-  static connect = async nodeUrl => {
+  static init = async nodeUrl => {
     ACCOUNT_HTTP = new AccountHttp(nodeUrl)
   }
 

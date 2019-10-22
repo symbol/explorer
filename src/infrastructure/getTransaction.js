@@ -23,14 +23,13 @@ import {
   Address
 } from 'nem2-sdk'
 import format from '../format'
-import { Endpoint } from '../config/'
 import sdkBlock from '../infrastructure/getBlock'
 
 let TRANSACTION_HTTP
 let ACCOUNT_HTTP
 
 class sdkTransaction {
-  static connect = async nodeUrl => {
+  static init = async nodeUrl => {
     TRANSACTION_HTTP = new TransactionHttp(nodeUrl)
     ACCOUNT_HTTP = new AccountHttp(nodeUrl)
   }

@@ -159,6 +159,11 @@ export default {
       await dispatch('subscribe')
     },
 
+    // Set node url to SDK
+    initializeSdk({rootGetters}) {
+      sdkTransaction.init(rootGetters['api/currentNode'].url)
+    },
+
     // Uninitialize the transaction model.
     uninitialize({ dispatch }) {
       dispatch('unsubscribe')

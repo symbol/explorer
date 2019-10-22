@@ -35,6 +35,11 @@ export default {
     }
   },
   actions: {
+    // Set node url to SDK
+    initializeSdk({rootGetters}) {
+      sdkMosaic.init(rootGetters['api/currentNode'].url)
+    },
+
     // Fetch data from the SDK.
     async fetchMosaicInfo({ commit }, mosaicHexOrNamespace) {
       let mosaicInfo = await sdkMosaic.getMosaicInfo(mosaicHexOrNamespace)

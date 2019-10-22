@@ -18,13 +18,12 @@
 
 import { BlockHttp, ChainHttp, QueryParams } from 'nem2-sdk'
 import format from '../format'
-import { Endpoint } from '../config'
 
-let CHAIN_HTTP// = new ChainHttp(Endpoint.api)
-let BLOCK_HTTP// = new BlockHttp(Endpoint.api)
+let CHAIN_HTTP
+let BLOCK_HTTP
 
 class sdkBlock {
-  static connect = async nodeUrl => {
+  static init = async nodeUrl => {
     CHAIN_HTTP = new ChainHttp(nodeUrl)
     BLOCK_HTTP = new BlockHttp(nodeUrl)
   }

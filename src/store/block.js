@@ -96,9 +96,8 @@ export default {
 
     // Subscribe to the latest blocks.
     async subscribe({ commit, dispatch, getters, rootGetters }) {
-      sdkListener.connect(rootGetters['api/currentNode'].url)
       if (getters.getSubscription === null) {
-        let subscription = await sdkListener.subscribeNewBlock(dispatch)
+        let subscription = await sdkListener.subscribeNewBlock(dispatch, rootGetters['api/currentNode'].url)
         commit('setSubscription', subscription)
       }
     },
@@ -119,9 +118,13 @@ export default {
       commit('addLatestItem', item)
     },
 
+    // Set node url to SDK
+    initializeSdk({rootGetters}) {
+      sdkBlock.init(rootGetters['api/currentNode'].url)
+    },
+
     // Fetch data from the SDK and initialize the page.
-    async initializePage({ commit, rootGetters }) {
-      sdkBlock.connect(rootGetters['api/currentNode'].url)
+    async initializePage({ commit }) {
       commit('setLoading', true)
       let blockList = await sdkBlock.getBlocksWithLimit(util.PAGE_SIZE)
       commit('setPageList', blockList)
