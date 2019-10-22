@@ -80,8 +80,8 @@ export default {
 
     // Set node url to SDK
     initializeSdk({rootGetters}) {
+      apiMarketData.init(rootGetters['api/marketData'].url)
       sdkDiagnostic.init(rootGetters['api/currentNode'].url)
-      apiMarketData.init(rootGetters['api/currentNode'].url)
     },
 
     // Fetch data from the SDK / API and initialize the page.

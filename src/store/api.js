@@ -29,7 +29,7 @@ export default {
         defaultNode: helper.formatUrl(peersApi.defaultNode.url),
         currentNode: helper.formatUrl(peersApi.defaultNode.url),
         wsEndpoint: peersApi.defaultNode.url |> helper.httpToWsUrl |> helper.formatUrl,
-        marketData: endpoints.marketData,
+        marketData: helper.formatUrl(endpoints.MARKET_DATA),
     },
 
     getters: {
