@@ -19,7 +19,6 @@
 import Vue from 'vue'
 import * as nem from 'nem2-sdk'
 import Timeline from './timeline'
-import util from './util'
 import sdkTransaction from '../infrastructure/getTransaction'
 
 const PAGES = {
