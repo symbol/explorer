@@ -25,7 +25,7 @@
     <td>
       <AddressLink
         v-if="item.transactionBody.recipient"
-        :address="item.transactionBody.recipient.address"
+        :address="item.transactionBody.recipient"
         :count="20"
       />
     </td>
@@ -46,7 +46,9 @@ export default {
     AddressLink: w3
   },
   props: {
-    item: {}
+    item: {
+      required: true
+    }
   }
 }
 </script>

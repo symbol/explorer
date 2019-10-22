@@ -16,22 +16,29 @@
  *
  */
 
+import axios from 'axios'
 import {
   AccountHttp,
+  NetworkHttp,
   TransactionHttp,
   QueryParams,
   Address
 } from 'nem2-sdk'
+import dto from './dto'
 import format from '../format'
 import sdkBlock from '../infrastructure/getBlock'
 
+
 let TRANSACTION_HTTP
 let ACCOUNT_HTTP
+let NETWORK_HTTP
+
 
 class sdkTransaction {
   static init = async nodeUrl => {
     TRANSACTION_HTTP = new TransactionHttp(nodeUrl)
     ACCOUNT_HTTP = new AccountHttp(nodeUrl)
+    NETWORK_HTTP = new NetworkHttp(nodeUrl)
   }
 
   static getAccountTransactions = async (address, transactionId = '') => {
@@ -61,6 +68,75 @@ class sdkTransaction {
     }
 
     return transactionInfo
+  }
+
+  static getTransactionsFromHashWithLimit = async (limit, transactionType, fromHash) => {
+    let hash
+    if (fromHash === undefined) {
+      hash = 'latest'
+    } else {
+      hash = fromHash.toString()
+    }
+
+    // Get the path to the URL dependent on the config
+    let path
+    if (transactionType === undefined) {
+      path = `/transactions/from/${hash}/limit/${limit}`
+    } else if (transactionType === 'unconfirmed') {
+      path = `/transactions/unconfirmed/from/${hash}/limit/${limit}`
+    } else if (transactionType === 'partial') {
+      path = `/transactions/partial/from/${hash}/limit/${limit}`
+    } else {
+      const array = transactionType.split('/')
+      if (array.length === 1) {
+        // No filter present
+        path = `/transactions/from/${hash}/type/${transactionType}/limit/${limit}`
+      } else {
+        // We have a filter.
+        path = `/transactions/from/${hash}/type/${array[0]}/filter/${array[1]}/limit/${limit}`
+      }
+    }
+
+    // Make request.
+    const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
+    const response = await axios.get(Endpoint.api + path)
+    const transactions = response.data.map(info => dto.createTransactionFromDTO(info, networkType))
+
+    return format.formatTransactions(transactions)
+  }
+
+  static getTransactionsSinceHashWithLimit = async (limit, transactionType, sinceHash) => {
+    let hash
+    if (sinceHash === undefined) {
+      hash = 'earliest'
+    } else {
+      hash = sinceHash.toString()
+    }
+
+    let path
+    if (transactionType === undefined) {
+      path = `/transactions/since/${hash}/limit/${limit}`
+    } else if (transactionType === 'unconfirmed') {
+      path = `/transactions/unconfirmed/since/${hash}/limit/${limit}`
+    } else if (transactionType === 'partial') {
+      path = `/transactions/partial/since/${hash}/limit/${limit}`
+    } else {
+      const array = transactionType.split('/')
+      if (array.length === 1) {
+        // No filter present
+        path = `/transactions/since/${hash}/type/${transactionType}/limit/${limit}`
+      } else {
+        // We have a filter.
+        path = `/transactions/since/${hash}/type/${array[0]}/filter/${array[1]}/limit/${limit}`
+      }
+    }
+
+    // Make request.
+    const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
+    const response = await axios.get(Endpoint.api + path)
+    const transactions = response.data.map(info => dto.createTransactionFromDTO(info, networkType))
+
+    return format.formatTransactions(transactions)
   }
 }
 

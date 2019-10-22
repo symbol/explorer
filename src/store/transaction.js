@@ -18,74 +18,36 @@
 
 import Vue from 'vue'
 import * as nem from 'nem2-sdk'
-import format from '../format'
 import util from './util'
 import sdkTransaction from '../infrastructure/getTransaction'
 
-const REGISTER_NAMESPACE_TRANSACTION = new nem.NamespaceRegistrationTransaction(
-  nem.NetworkType.MIJIN_TEST,
-  0x01,
-  nem.Deadline.createFromDTO([1, 0]),
-  new nem.UInt64([0, 0]),
-  nem.NamespaceRegistrationType.RootNamespace,
-  'cat',
-  nem.NamespaceId.createFromEncoded('B1497F5FBA651B4F'),
-  new nem.UInt64([0, 0]),
-  undefined,
-  '02E8B286E73B915AE95D9FB94E4EE4EED8FF9C83CE9114A72174C7A7EB95C4DD05E72EA31E01725219E713D2EDDF2F57AEC7125C21B7AD1F297D5E1FE316EC0B',
-  nem.PublicAccount.createFromPublicKey(
-    '50B14146D48F931788F3ADAEE6B5C05CF2A09B75FB3FC2ACF8E9C95AF1393024',
-    nem.NetworkType.MIJIN_TEST
-  ),
-  new nem.TransactionInfo(
-    new nem.UInt64([1, 0]),
-    0,
-    '5D7FA14E02F1E60001529B04',
-    '979ACF8EB76B756B8B465F0F09D72777931260E20810E51F211B3CA61CFB4CE6',
-    '979ACF8EB76B756B8B465F0F09D72777931260E20810E51F211B3CA61CFB4CE6'
-  )
-)
-
-const TRANSFER_TRANSACTION = new nem.TransferTransaction(
-  nem.NetworkType.MIJIN_TEST,
-  0x01,
-  nem.Deadline.createFromDTO([1, 0]),
-  new nem.UInt64([0, 0]),
-  nem.Address.createFromEncoded('907201499665FB8835086760365556EA5BC0553921B89BD48D'),
-  [
-    new nem.Mosaic(new nem.MosaicId('85BBEA6CC462B244'), nem.UInt64.fromUint(449949999900000)),
-    new nem.Mosaic(new nem.MosaicId('941299B2B7E1291C'), nem.UInt64.fromUint(3750000))
-  ],
-  nem.PlainMessage.create('Hello World!'),
-  '4E7129E03791F5D38483E64B0BB327BF6BE40C4DC63315AFB486789BF0BEA2DD0AE34D2AAFD1B3EF275B7EA338F19AFE60BE194366213D8CEC6509798FB55609',
-  nem.PublicAccount.createFromPublicKey(
-    '50B14146D48F931788F3ADAEE6B5C05CF2A09B75FB3FC2ACF8E9C95AF1393024',
-    nem.NetworkType.MIJIN_TEST
-  ),
-  new nem.TransactionInfo(
-    new nem.UInt64([1, 0]),
-    0,
-    '5D7FA14E02F1E60001529B07',
-    '90F1F645D6AEA45D750BA1ECFEF686619C7C149C9B8096D3D34C2F3346372E8E',
-    '90F1F645D6AEA45D750BA1ECFEF686619C7C149C9B8096D3D34C2F3346372E8E'
-  )
-)
-
-const TRANSACTION_LIST = [
-  REGISTER_NAMESPACE_TRANSACTION,
-  TRANSFER_TRANSACTION
-]
-
-const getTransactionsWithLimit = async (pageSize) => {
-  return format.formatTransactions(TRANSACTION_LIST)
+const PAGE_DEFAULT = {
+  // Holds the PAGE_SIZE transactions starting from current page.
+  pageList: [],
+  // The current page index (0-indexed).
+  pageIndex: 0,
 }
 
-const getTransactionsSinceHashWithLimit = async (pageSize, hash) => {
-  return format.formatTransactions(TRANSACTION_LIST)
+const PAGES = {
+  // Recent block pages.
+  recent: { ...PAGE_DEFAULT },
+  // Pending block pages.
+  pending: { ...PAGE_DEFAULT },
+  // Transfer block pages.
+  transfer: { ...PAGE_DEFAULT },
+  // Multisig block pages.
+  multisig: { ...PAGE_DEFAULT },
+  // Mosaic block pages.
+  mosaic: { ...PAGE_DEFAULT },
 }
 
-const getTransactionsMaxHashWithLimit = async (pageSize, hash) => {
-  return format.formatTransactions(TRANSACTION_LIST)
+// Map the page name to the transaction type.
+const TRANSACTION_TYPE_MAP = {
+  recent: undefined,
+  pending: 'unconfirmed',
+  transfer: 'transfer',
+  multisig: 'transfer/multisig',
+  mosaic: 'transfer/mosaic',
 }
 
 export default {
@@ -93,10 +55,9 @@ export default {
   state: {
     // Holds the latest PAGE_SIZE transactions.
     latestList: [],
-    // Holds the PAGE_SIZE transactions starting from current page.
-    pageList: [],
-    // The current page index (0-indexed).
-    pageIndex: 0,
+    // The current transaction type key, as defined in `PAGES`.
+    transactionType: 'recent',
+    ...PAGES,
     // Subscription to new transactions.
     subscription: null,
     // Determine if the transactions model is loading.
@@ -105,51 +66,56 @@ export default {
     transactionInfo: {},
     // Transaction Body Info.
     transactionDetail: {},
-    // Mosaic info for Transaction Type: Transfer.
-    transferMosaics: [],
-    // InnerTransactions Info for Transaction Type: Aggregate.
-    aggregateInnerTransactions: [],
-    // Cosignatures Info for Transaction Type: Aggregate.
-    aggregateCosignatures: [],
-    transactionInfoLoading: false,
-    transactionInfoError: false
+    transactionInfoLoading: false
   },
   getters: {
-    getLatestList: util.getLatestList,
-    getRecentList: util.getRecentList,
-    getPageList: util.getPageList,
-    getPageIndex: util.getPageIndex,
-    getSubscription: util.getSubscription,
-    getLoading: util.getLoading,
-
+    getLatestList: state => state.latestList,
+    getRecentList: state => Array.prototype.filter.call(state.latestList, (item, index) => {
+      return index < 4
+    }),
+    getTransactionType: state => state.transactionType,
+    getPageList: state => state[state.transactionType].pageList,
+    getPageIndex: state => state[state.transactionType].pageIndex,
+    getPageListFormatted: (state, getters) => getters.getPageList.map(el => ({
+      // TODO(ahuszagh) Likely need to rework this.
+      deadline: el.deadline,
+      blockHeight: el.blockHeight,
+      transactionId: el.transactionId,
+      transactionHash: el.transactionHash,
+      fee: el.fee
+    })),
+    getSubscription: state => state.subscription,
+    getLoading: state => state.loading,
     transactionInfo: state => state.transactionInfo,
     transactionDetail: state => state.transactionDetail,
     transferMosaics: state => state.transferMosaics,
     aggregateInnerTransactions: state => state.aggregateInnerTransactions,
     aggregateCosignatures: state => state.aggregateCosignatures,
-    pageListFormatted: state => state.pageListFormatted,
-    transactionInfoLoading: state => state.transactionInfoLoading,
-    transactionInfoError: state => state.transactionInfoError
+    transactionInfoLoading: state => state.transactionInfoLoading
   },
   mutations: {
-    setLatestList: util.setLatestList,
-    setPageList: util.setPageList,
-    setPageIndex: util.setPageIndex,
-    setSubscription: util.setSubscription,
-    setLoading: util.setLoading,
-    resetPageIndex: util.resetPageIndex,
+    setLatestList: (state, list) => { state.latestList = list },
+    setTransactionType: (state, transactionType) => { state.transactionType = transactionType },
+    setPageList: (state, list) => { state[state.transactionType].pageList = list },
+    setPageListWithType: (state, { list, type }) => { state[type].pageList = list },
+    setPageIndex: (state, pageIndex) => { state[state.transactionType].pageIndex = pageIndex },
+    setSubscription: (state, subscription) => { state.subscription = subscription },
+    setLoading: (state, loading) => { state.loading = loading },
+    // TODO(ahuszagh) Likely need to rework this.
+    // This isn't great.
+    resetPageIndex: (state) => { state[state.transactionType].pageIndex = 0 },
     addLatestItem(state, item) {
-      util.addLatestItemByKey(state, item, 'hash', 1)
+      // TODO(ahuszagh) Actually implement...
+      //util.addLatestItemByKey(state, item, 'hash', 1)
     },
 
+    // TODO(ahuszagh) Bad names....
     transactionInfo: (state, transactionInfo) => Vue.set(state, 'transactionInfo', transactionInfo),
     transactionDetail: (state, transactionDetail) => Vue.set(state, 'transactionDetail', transactionDetail),
     transferMosaics: (state, transferMosaics) => Vue.set(state, 'transferMosaics', transferMosaics),
     aggregateInnerTransactions: (state, aggregateInnerTransactions) => Vue.set(state, 'aggregateInnerTransactions', aggregateInnerTransactions),
     aggregateCosignatures: (state, aggregateCosignatures) => Vue.set(state, 'aggregateCosignatures', aggregateCosignatures),
-    pageListFormatted: (state, pageListFormatted) => Vue.set(state, 'pageListFormatted', pageListFormatted),
-    transactionInfoLoading: (state, transactionInfoLoading) => Vue.set(state, 'transactionInfoLoading', transactionInfoLoading),
-    transactionInfoError: (state, transactionInfoError) => Vue.set(state, 'transactionInfoError', transactionInfoError)
+    transactionInfoLoading: (state, v) => { state.transactionInfoLoading = v },
   },
   actions: {
     // Initialize the transaction model.
@@ -187,26 +153,19 @@ export default {
 
     // Add block to latest transactions.
     add({ commit }, item) {
-      commit('chain/setTransactionHash', item.transactionHash, { root: true })
-      commit('addLatestItem', item)
+      // TODO(ahuszagh) Also need to rework this.
+      // Need to consider transaction type.
+//      commit('chain/setTransactionHash', item.transactionHash, { root: true })
+//      commit('addLatestItem', item)
     },
 
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit }) {
       commit('setLoading', true)
-      let transactionList = await getTransactionsWithLimit(util.PAGE_SIZE)
-      commit('setPageList', transactionList)
-      let transactionListFormatted = []
-      transactionList.forEach(el => transactionListFormatted.push({
-        deadline: el.deadline,
-        blockHeight: el.blockHeight,
-        transactionId: el.transactionId,
-        transactionHash: el.transactionHash,
-        fee: el.fee
-      }))
-      commit('pageListFormatted', transactionListFormatted)
-      if (transactionList.length > 0) {
-        commit('chain/setTransactionHash', transactionList[0].transactionHash, { root: true })
+      for (var transactionType of Object.keys(PAGES)) {
+        const type = TRANSACTION_TYPE_MAP[transactionType]
+        let transactionList = await sdkTransaction.getTransactionsFromHashWithLimit(util.PAGE_SIZE, type)
+        commit('setPageListWithType', { list: transactionList, type: transactionType})
       }
       commit('setLoading', false)
     },
@@ -218,10 +177,9 @@ export default {
       const pageIndex = getters.getPageIndex
       if (pageList.length > 0) {
         // Page is loaded, need to fetch next page.
-        const index = pageList.length - 1
-        const earliestTransaction = pageList[index]
-        const maxTransactionHash = earliestTransaction.transactionHash
-        let transactionList = await getTransactionsMaxHashWithLimit(util.PAGE_SIZE, maxTransactionHash)
+        const transaction = pageList[pageList.length - 1]
+        const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
+        let transactionList = await sdkTransaction.getTransactionsFromHashWithLimit(util.PAGE_SIZE, type, transaction.transactionHash)
         commit('setPageIndex', pageIndex + 1)
         commit('setPageList', transactionList)
       }
@@ -233,27 +191,47 @@ export default {
       commit('setLoading', true)
       const pageList = getters.getPageList
       const pageIndex = getters.getPageIndex
-      if (pageIndex === 1) {
-        // Can specialize for the latest list.
-        commit('setPageList', getters.getLatestList)
-        commit('setPageIndex', 0)
-      } else if (pageIndex > 0 && pageList.length > 0) {
+      if (pageIndex > 0 && pageList.length > 0) {
         // Page is loaded, need to fetch previous page.
-        const latestTransaction = pageList[0]
-        const sinceTransactionHash = latestTransaction.transactionHash
-        let transactionList = await getTransactionsSinceHashWithLimit(util.PAGE_SIZE, sinceTransactionHash)
-        commit('setPageList', transactionList)
+        const transaction = pageList[0]
+        const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
+        let transactionList = await sdkTransaction.getTransactionsSinceHashWithLimit(util.PAGE_SIZE, type, transaction.transactionHash)
         commit('setPageIndex', pageIndex - 1)
+        commit('setPageList', transactionList)
       }
       commit('setLoading', false)
     },
 
-    // Reset the block page to the latest list (index 0)
-    resetPage({ commit, getters }) {
-      if (getters.getPageIndex > 0) {
-        commit('setPageList', getters.getLatestList)
-        commit('resetPageIndex')
+    // Change the current page.
+    async changePage({ commit, getters }, transactionType) {
+      commit('setLoading', true)
+      if (getters.getTransactionType !== transactionType) {
+        if (getters.getPageIndex !== 0) {
+          // Reset to the first page.
+          const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
+          let transactionList = await sdkTransaction.getTransactionsFromHashWithLimit(util.PAGE_SIZE, type)
+          commit('setPageIndex', 0)
+          commit('setPageList', transactionList)
+        }
+        commit('setTransactionType', transactionType)
       }
+      commit('setLoading', false)
+    },
+
+    // Reset the current page type and page index.
+    async resetPage({ commit, getters }) {
+      commit('setLoading', true)
+      if (getters.getTransactionType !== 'recent') {
+        if (getters.getPageIndex !== 0) {
+          // Reset to the first page.
+          const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
+          let transactionList = await sdkTransaction.getTransactionsFromHashWithLimit(util.PAGE_SIZE, type)
+          commit('setPageIndex', 0)
+          commit('setPageList', transactionList)
+        }
+        commit('setTransactionType', 'recent')
+      }
+      commit('setLoading', false)
     },
 
     async getTransactionInfoByHash({ commit }, hash) {

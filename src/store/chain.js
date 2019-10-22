@@ -41,31 +41,19 @@ export default {
     }
   },
   getters: {
-    getBlockHeight(state) {
-      return state.blockHeight
-    },
-    getTransactionHash(state) {
-      return state.transactionHash
-    },
-    getChainInfo(state) {
-      return state.chainInfo
-    },
-    getMarketData(state) {
-      return state.marketData
-    }
+    getBlockHeight: state => state.blockHeight,
+    getTransactionHash: state => state.transactionHash,
+    getChainInfo: state => state.chainInfo,
+    getMarketData: state => state.marketData
   },
   mutations: {
-    setBlockHeight(state, blockHeight) {
-      state.blockHeight = blockHeight
-    },
-    setTransactionHash(state, transactionHash) {
-      state.transactionHash = transactionHash
-    },
-    setChainInfo(state, chainInfo) {
+    setBlockHeight: (state, blockHeight) => { state.blockHeight = blockHeight },
+    setTransactionHash: (state, transactionHash) => { state.transactionHash = transactionHash },
+    setChainInfo: (state, chainInfo) => {
       state.chainInfo.numTransactions = chainInfo.numTransactions
       state.chainInfo.numAccounts = chainInfo.numAccounts
     },
-    setMarketData(state, { marketData, graphData }) {
+    setMarketData: (state, { marketData, graphData }) => {
       state.marketData.price = marketData.XEM.USD.PRICE
       state.marketData.marketCap = marketData.XEM.USD.MKTCAP
       state.marketData.historicalHourlyGraph = graphData

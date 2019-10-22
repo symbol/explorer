@@ -62,6 +62,7 @@ export default {
       'mosaics': 'Mosaics',
       'namespaces': 'Namespaces',
       'namespaceId': 'Namespace ID',
+      'depth': 'Depth',
       'transactions': 'Transactions',
       'mosaicId': 'Mosaic ID',
 
@@ -77,8 +78,8 @@ export default {
       'startHeight': 'Start Height',
       'endHeight': 'End Height',
       'divisibility': 'Divisibility',
-      'owneraddress': 'Owner Address',
       'supply': 'Supply',
+      'owneraddress': 'Owner Address',
       'revision': 'Revision',
       'supplyMutable': 'Supply Mutable',
       'transferable': 'Transferable',

@@ -16,16 +16,21 @@
  *
  */
 
-import { BlockHttp, ChainHttp, QueryParams } from 'nem2-sdk'
+import axios from 'axios'
+import { BlockHttp, ChainHttp, NetworkHttp, QueryParams } from 'nem2-sdk'
+import dto from './dto'
 import format from '../format'
+
 
 let CHAIN_HTTP
 let BLOCK_HTTP
+let NETWORK_HTTP
 
 class sdkBlock {
   static init = async nodeUrl => {
     CHAIN_HTTP = new ChainHttp(nodeUrl)
     BLOCK_HTTP = new BlockHttp(nodeUrl)
+    NETWORK_HTTP = new NetworkHttp(nodeUrl)
   }
 
   static getBlockHeight = async () => {
@@ -58,16 +63,36 @@ class sdkBlock {
     return format.formatTransactions(transactions)
   }
 
-  static getBlocksWithLimit = async (limit, fromBlockHeight) => {
-    // Break into 2 steps to avoid make expensive request if possible.
-    let blockHeight = fromBlockHeight
-    if (blockHeight === undefined) {
-      blockHeight = await this.getBlockHeight()
+  static getBlocksFromHeightWithLimit = async (limit, fromBlockHeight) => {
+    let blockHeight
+    if (fromBlockHeight === undefined) {
+      blockHeight = 'latest'
+    } else {
+      blockHeight = fromBlockHeight.toString()
     }
 
-    const blocks = await BLOCK_HTTP
-      .getBlocksByHeightWithLimit(blockHeight, limit)
-      .toPromise()
+    // Make request.
+    const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
+    const path = `/blocks/from/${blockHeight}/limit/${limit}`
+    const response = await axios.get(Endpoint.api + path)
+    const blocks = response.data.map(info => dto.createBlockFromDTO(info, networkType))
+
+    return format.formatBlocks(blocks)
+  }
+
+  static getBlocksSinceHeightWithLimit = async (limit, sinceBlockHeight) => {
+    let blockHeight
+    if (sinceBlockHeight === undefined) {
+      blockHeight = 'earliest'
+    } else {
+      blockHeight = sinceBlockHeight.toString()
+    }
+
+    // Make request.
+    const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
+    const path = `/blocks/since/${blockHeight}/limit/${limit}`
+    const response = await axios.get(Endpoint.api + path)
+    const blocks = response.data.map(info => dto.createBlockFromDTO(info, networkType))
 
     return format.formatBlocks(blocks)
   }

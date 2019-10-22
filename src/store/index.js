@@ -61,7 +61,6 @@ export default new Vuex.Store({
 
       try { await dispatch('namespace/initialize') } 
         catch (e) { console.error('Failed to initialize namespace', e) }
-  
     },
 
     // Uninitialize the stores (call on app destroyed).
