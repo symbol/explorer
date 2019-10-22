@@ -32,10 +32,12 @@ import sdkBlock from '../infrastructure/getBlock'
 let TRANSACTION_HTTP
 let ACCOUNT_HTTP
 let NETWORK_HTTP
+NODE_URL
 
 
 class sdkTransaction {
   static init = async nodeUrl => {
+    NODE_URL = nodeUrl
     TRANSACTION_HTTP = new TransactionHttp(nodeUrl)
     ACCOUNT_HTTP = new AccountHttp(nodeUrl)
     NETWORK_HTTP = new NetworkHttp(nodeUrl)
@@ -99,7 +101,7 @@ class sdkTransaction {
 
     // Make request.
     const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
-    const response = await axios.get(Endpoint.api + path)
+    const response = await axios.get(NODE_URL + path)
     const transactions = response.data.map(info => dto.createTransactionFromDTO(info, networkType))
 
     return format.formatTransactions(transactions)
@@ -133,7 +135,7 @@ class sdkTransaction {
 
     // Make request.
     const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
-    const response = await axios.get(Endpoint.api + path)
+    const response = await axios.get(NODE_URL + path)
     const transactions = response.data.map(info => dto.createTransactionFromDTO(info, networkType))
 
     return format.formatTransactions(transactions)
