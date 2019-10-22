@@ -19,7 +19,7 @@ const getConfig = () => {
                     config = { ...data };
                 resolve(config);
             })
-            .catch( err => reject(Error("Config file is not provided")))
+            .catch( err => reject(Error("Config file is not provided", err)))
 
         // import('../config/peers-api.json') 
         //     .then( res => console.log("Config", res))
