@@ -63,6 +63,11 @@ export default {
                         key: 'nodes',
                         value: config.nodes
                     })
+                    if(config.defaultNode)
+                        commit('mutate', {
+                            key: 'defaultNode',
+                            value: config.defaultNode
+                        })
                 })
                 .catch(() => {})
                 .then(() => {
@@ -72,6 +77,8 @@ export default {
                         && getters.nodes.find( node => node.url === currentNodeUrl)
                     )
                         commit('currentNode', currentNodeUrl)
+                    else
+                        commit('currentNode', getters.defaultNode)
                 })
         },
 

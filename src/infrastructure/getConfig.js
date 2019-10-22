@@ -1,5 +1,5 @@
 import axios from 'axios';
-const CONFIG_ROUTE = 'http://46.101.151.173/config/peers-api.json';
+const CONFIG_ROUTE = '/config/peers-api.json';
 
 
 const getConfig = () => {
