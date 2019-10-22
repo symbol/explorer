@@ -11,6 +11,11 @@ export default {
 
     height: {
       type: Number
+    },
+
+    emptyDataMessage: {
+      type: String,
+      default: 'nothingToShow'
     }
   },
 
@@ -45,6 +50,12 @@ export default {
         'startHeight'
       ]
 
+    }
+  },
+
+  computed: {
+    emptyDataMessageFormatted() {
+      return this.$store.getters['ui/getNameByKey'](this.emptyDataMessage)
     }
   },
 
@@ -94,7 +105,15 @@ export default {
     background-color: rgba(52, 40, 104, 0.014);
 }
 
+
 .table-view{
+
+    .empty-data {
+      font-size: 14px;
+      color: #98a8b4;
+      display: flex;
+      justify-content: center;
+    }
 
     td{
         border-bottom: 1px solid #dadee6;
@@ -118,7 +137,7 @@ export default {
     .table-titles {
         background-color: rgba(52, 40, 104, .05);
         //border-radius: 4px;
-}
+    }
 }
 
 </style>

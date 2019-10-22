@@ -1,6 +1,9 @@
 <template>
   <div v-if="data" class="table-view">
-    <div class="table-wrapper">
+    <div 
+      v-if="dataIsNotEmpty" 
+      class="table-wrapper"
+    >
       <table class="table table-striped">
         <thead>
           <tr>
@@ -25,23 +28,12 @@
         </tbody>
       </table>
     </div>
-    <!--
-        <div
-            v-if="pagination"
-            class="table-pagination"
-        >
-            <ButtonMore
-                v-if="pageIndex===0"
-                @click="onMoreClick"
-            >
-                More
-            </ButtonMore>
-            <Pagination
-                v-else
-                :nextPageAction="nextPageAction"
-                :previousPageAction="previousPageAction"
-            />
-    </div>-->
+    <div 
+      v-else
+      class="empty-data"
+    >
+      {{emptyDataMessageFormatted}}
+    </div>
   </div>
 </template>
 
@@ -68,31 +60,15 @@ export default {
   },
 
   computed: {
-    // data() {
-    //     let data = this.$store.getters[this.view + "/getPageList"];
-    //     if(Array.isArray(data))
-    //         return data;
-    //     else
-    //         return null;
-    // },
-
     header() {
       let header = []
       if (this.data) for (let key in this.data[0]) header.push(key)
       return header
+    },
+
+    dataIsNotEmpty() {
+      return this.data.length
     }
-
-    // pageIndex() {
-    //     return this.$store.getters[this.view + '/getPageIndex'];
-    // },
-
-    // nextPageAction() {
-    //     return this.view + '/fetchNextPage';
-    // },
-
-    // previousPageAction() {
-    //     return this.view + '/fetchPreviousPage';
-    // }
   },
 
   methods: {

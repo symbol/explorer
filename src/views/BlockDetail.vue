@@ -28,10 +28,7 @@
                 </template>
             </Card>
 
-            <Card
-                class="card-f card-full-width"
-                v-if="isTransactions"
-            >
+            <Card class="card-f card-full-width">
                 <template #title>
                     Block Transactions
                 </template>
@@ -39,6 +36,7 @@
                 <template #body>
                     <TableListView
                         :data="blockTransactionList"
+                        :emptyDataMessage="'No transactions to display for this block'"
                     />
                 </template>
             </Card>
