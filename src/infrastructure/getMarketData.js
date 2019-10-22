@@ -19,11 +19,17 @@
 import axios from 'axios'
 import { Endpoint } from '../config'
 
+let marketDataUrl
+
 class apiMarketData {
+  static init = async _marketDataUrl => {
+    marketDataUrl = _marketDataUrl
+  }
+
   static getXemPriceData = () => {
     return new Promise((resolve, reject) => {
       axios
-        .all([axios.get(Endpoint.marketDataURL + 'data/pricemultifull?fsyms=XEM&tsyms=USD')])
+        .all([axios.get(marketDataURL + 'data/pricemultifull?fsyms=XEM&tsyms=USD')])
         .then(res => {
           return resolve(res[0].data.DISPLAY)
         })
@@ -37,7 +43,7 @@ class apiMarketData {
   static getXemHistoricalHourlyGraph = () => {
     return new Promise((resolve, reject) => {
       axios
-        .all([axios.get(Endpoint.marketDataURL + 'data/histohour?fsym=XEM&tsym=USD&limit=168')])
+        .all([axios.get(marketDataURL + 'data/histohour?fsym=XEM&tsym=USD&limit=168')])
         .then(res => {
           return resolve(res[0].data)
         })

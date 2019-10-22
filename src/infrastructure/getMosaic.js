@@ -29,11 +29,17 @@ import { Endpoint } from '../config/'
 import helper from '../helper'
 import format from '../format'
 
-const ACCOUNT_HTTP = new AccountHttp(Endpoint.api)
-const MOSAIC_HTTP = new MosaicHttp(Endpoint.api)
-const NAMESPACE_HTTP = new NamespaceHttp(Endpoint.api)
+let ACCOUNT_HTTP
+let MOSAIC_HTTP
+let NAMESPACE_HTTP
 
 class sdkMosaic {
+  static connect = async nodeUrl => {
+    ACCOUNT_HTTP = new AccountHttp(nodeUrl)
+    MOSAIC_HTTP = new MosaicHttp(nodeUrl)
+    NAMESPACE_HTTP = new NamespaceHttp(nodeUrl)
+  }
+
   static getMosaicsAmountByAddress = async address => {
     const mosaicService = new MosaicService(
       ACCOUNT_HTTP,

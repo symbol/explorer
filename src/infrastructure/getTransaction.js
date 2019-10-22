@@ -26,10 +26,15 @@ import format from '../format'
 import { Endpoint } from '../config/'
 import sdkBlock from '../infrastructure/getBlock'
 
-const TRANSACTION_HTTP = new TransactionHttp(Endpoint.api)
-const ACCOUNT_HTTP = new AccountHttp(Endpoint.api)
+let TRANSACTION_HTTP
+let ACCOUNT_HTTP
 
 class sdkTransaction {
+  static connect = async nodeUrl => {
+    TRANSACTION_HTTP = new TransactionHttp(nodeUrl)
+    ACCOUNT_HTTP = new AccountHttp(nodeUrl)
+  }
+
   static getAccountTransactions = async (address, transactionId = '') => {
     let pageSize = 100
 

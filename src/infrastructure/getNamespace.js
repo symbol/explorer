@@ -22,9 +22,13 @@ import format from '../format'
 import helper from '../helper'
 import { Endpoint } from '../config/'
 
-const NAMESPACE_HTTP = new NamespaceHttp(Endpoint.api)
+let NAMESPACE_HTTP
 
 class sdkNamespace {
+  static connect = async nodeUrl => {
+    NAMESPACE_HTTP = new NamespaceHttp(nodeUrl)
+  }
+
   static getNamespacesFromAccountByAddress = async (address) => {
     const namespacesIds = []
     const namespaceList = await NAMESPACE_HTTP

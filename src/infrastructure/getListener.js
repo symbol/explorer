@@ -20,10 +20,11 @@ import { Listener } from 'nem2-sdk'
 import format from '../format'
 import { Endpoint } from '../config'
 
+
 class sdkListener {
   // Subscribe to new blocks announced to the chain.
-  static subscribeNewBlock = async (dispatch) => {
-    const listener = new Listener(Endpoint.ws, WebSocket)
+  static subscribeNewBlock = async (dispatch, wsEndpoint) => {
+    const listener = new Listener(wsEndpoint, WebSocket)
     await listener.open()
     let subscription = listener
       .newBlock()
