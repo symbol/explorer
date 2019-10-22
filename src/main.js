@@ -22,6 +22,7 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 import './filters'
+import getConfig from './infrastructure/getConfig'
 
 import TopHead from '@/components/TopHead.vue'
 import PageMenu from '@/components/PageMenu.vue'
@@ -38,8 +39,18 @@ Vue.component('time-since', TimeSince)
 Vue.component('loader', w1)
 Vue.use(VueClipboard)
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount('#app')
+function initVue() {
+  new Vue({
+    router,
+    store,
+    render: h => h(App)
+  }).$mount('#app')
+}
+initVue()
+getConfig()
+  .then( config => {
+    window.config = config;
+    
+  })
+  .catch( () => {})
+

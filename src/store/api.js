@@ -23,8 +23,8 @@ export default {
 
   },
   getters: {
-    nodeList: state => Endpoint.nodes,
-    currentNode: state => Endpoint.currentNode
+    nodeList: state => Endpoint.nodesFormatted,
+    currentNodeHostname: state => Endpoint.currentNodeHostname
   },
   mutations: {
 

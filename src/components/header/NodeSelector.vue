@@ -9,11 +9,11 @@
                     v-for="(node, index) in nodeList"
                     class="dropdown-item node-selector-item"
                     href="#"
-                    :title="node.scheme + '://' + node.host + ':' + node.port"
+                    :title="node.url"
                     :key="'ns'+node.host + index"
                     @click="setNode(index)"
                 >
-                {{node.host}}
+                {{node.hostname}}
                 </a>
             </div>
         </div>
@@ -28,7 +28,7 @@ export default {
     },
 
     currentNode() {
-      return this.$store.getters['api/currentNode']?.host
+      return this.$store.getters['api/currentNodeHostname']
     }
   },
 

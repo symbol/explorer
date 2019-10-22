@@ -1,23 +1,22 @@
 const PORT = '3000'
-const DEFAULT_DOMAIN = 'api-01.mt.us-west-2.nemtech.network'
-const DEFAULT_NODE = { scheme: 'http', host: DEFAULT_DOMAIN, port: PORT }
-
+const DEFAULT_NODE = { url: 'http://api-01.mt.us-west-2.nemtech.network:' +  PORT }
 const MARKET_DATA_URL = 'https://min-api.cryptocompare.com/'
 
 const nodes = [
-    { scheme: 'http', host: 'api-01.mt.us-west-2.nemtech.network', port: PORT },
-    { scheme: 'http', host: '52.194.207.217', port: PORT },
-    { scheme: 'http', host: '103.3.60.174', port: PORT },
-    { scheme: 'http', host: '13.114.200.132', port: PORT },
-    { scheme: 'http', host: '47.107.245.217', port: PORT }
+    { url: 'http://api-01.mt.us-west-2.nemtech.network:' + PORT },
+    { url: 'http://52.194.207.217:' + PORT },
+    { url: 'http://103.3.60.174:' + PORT },
+    { url: 'http://13.114.200.132:' + PORT },
+    { url: 'http://47.107.245.217:' + PORT }
 ]
 
 
 
-const getCurrentNode = () => {
+const getCurrentNode = (nodes) => {
     const currentNodeIndex = localStorage.getItem('currentNodeIndex');
     if(
-        currentNodeIndex !== null 
+        nodes
+        &&currentNodeIndex !== null 
         && currentNodeIndex !== void 0 
         && nodes[currentNodeIndex]
     )
@@ -26,9 +25,10 @@ const getCurrentNode = () => {
         return DEFAULT_NODE;
 } 
 
-const setCurrentNode = (index) => {
+const setCurrentNode = (index, nodes) => {
     if(
-        index !== null 
+        nodes
+        &&index !== null 
         && index !== void 0 
         && nodes[index]
     ) 
@@ -36,32 +36,46 @@ const setCurrentNode = (index) => {
     location.reload();
 } 
 
+const getNodes = (nodes) => {
+    return nodes.map( node => {
+        let url = new URL(node.url)
+        return {
+            protocol: url.protocol, 
+            hostname: url.hostname,
+            port: url.port,
+            url: node.url
+        }
+    })
+}
+
+const getCurrentNodeHostname = (nodes) => {
+    return new URL (getCurrentNode(nodes).url).hostname
+}
+
 
 
 class Endpoint {
+    constructor () {
+        console.log(window.config)
+        this.nodes = window.config?.nodes 
+            ? window.config.nodes 
+            : nodes;
+    }
+    get currentNode() { return getCurrentNode(this.nodes) }
+    get currentNodeHostname() { return getCurrentNodeHostname(this.nodes) }
+    setCurrentNodeByIndex(index) { return setCurrentNode(index, this.nodes) }
 
-    get currentNode() { return getCurrentNode() }
-    setCurrentNodeByIndex(index) { return setCurrentNode(index) }
-
-    get nodes() { return nodes }
+    get nodesFormatted() { return getNodes(this.nodes) }
 
     get ws() { return (
-            getCurrentNode().scheme.replace('http', 'ws')
-            + '://'
-            + getCurrentNode().host
-            + ':'
-            + getCurrentNode().port
+            getCurrentNode().url.replace('http', 'ws')
         )
     }
 
     get marketDataURL() { return MARKET_DATA_URL }
 
     get api() { return (
-            getCurrentNode().scheme 
-            + '://'
-            + getCurrentNode().host
-            + ':'
-            + getCurrentNode().port
+            getCurrentNode().url 
         )
     }
 }
