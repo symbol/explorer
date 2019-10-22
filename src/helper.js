@@ -80,7 +80,8 @@ class helper {
     }
   }
 
-  static validURL(str) {
+  static validURL(_str) {
+    let str = _str.replace('ws', 'http')
     let pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
       '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.)+[a-z]{2,}|' + // domain name
       '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
@@ -99,6 +100,12 @@ class helper {
           port: url.port,
           url: rawUrl
       }
+    }
+  }
+
+  static httpToWsUrl(url) {
+    if(this.validURL(url)){
+      return url.replace('http', 'ws')
     }
   }
 }

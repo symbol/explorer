@@ -28,6 +28,7 @@ export default {
         nodes: [...peersApi.nodes],
         defaultNode: helper.formatUrl(peersApi.defaultNode.url),
         currentNode: helper.formatUrl(peersApi.defaultNode.url),
+        wsEndpoint: peersApi.defaultNode.url |> helper.httpToWsUrl |> helper.formatUrl,
         marketData: endpoints.marketData,
     },
 
@@ -39,13 +40,18 @@ export default {
         ,
         currentNode: state => state.currentNode,
         currentNodeHostname: state => state.currentNode.hostname,
+        wsEndpoint: state => state.wsEndpoint,
         marketData: state => state.marketData
     },
 
     mutations: {
         mutate: (state, {key, value}) => Vue.set(state, key, value),
-        currentNode: (state, payload) => 
-            Vue.set(state, 'currentNode', helper.formatUrl(payload))
+        currentNode: (state, payload) => {
+            let currentNode = helper.formatUrl(payload)
+            let wsEndpoint = currentNode.url |> helper.httpToWsUrl |> helper.formatUrl
+            Vue.set(state, 'currentNode', currentNode)
+            Vue.set(state, 'wsEndpoint', wsEndpoint)
+        }
     },
 
     actions: {

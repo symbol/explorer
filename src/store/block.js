@@ -98,7 +98,7 @@ export default {
     // Subscribe to the latest blocks.
     async subscribe({ commit, dispatch, getters, rootGetters }) {
       if (getters.getSubscription === null) {
-        let subscription = await sdkListener.subscribeNewBlock(dispatch, rootGetters['api/currentNode'].url)
+        let subscription = await sdkListener.subscribeNewBlock(dispatch, rootGetters['api/wsEndpoint'].url)
         commit('setSubscription', subscription)
       }
     },
