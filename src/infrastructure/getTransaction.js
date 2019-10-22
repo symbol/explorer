@@ -32,7 +32,7 @@ import sdkBlock from '../infrastructure/getBlock'
 let TRANSACTION_HTTP
 let ACCOUNT_HTTP
 let NETWORK_HTTP
-NODE_URL
+let NODE_URL
 
 
 class sdkTransaction {
