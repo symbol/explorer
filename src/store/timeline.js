@@ -41,7 +41,7 @@ export default class Timeline {
   }
 
   get isLive() {
-    return !this.canFetchPrevious
+    return this.index === 0
   }
 
   get canFetchPrevious() {

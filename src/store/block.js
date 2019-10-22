@@ -172,7 +172,7 @@ export default {
     // Reset the block page to the latest list (index 0)
     async resetPage({ commit, getters }) {
       commit('setLoading', true)
-      if (getters.getTimeline.index > 0) {
+      if (!getters.getTimeline.isLive) {
         const data = await sdkBlock.getBlocksFromHeightWithLimit(2 * Timeline.pageSize)
         commit('setTimeline', Timeline.fromData(data))
       }

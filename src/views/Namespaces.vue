@@ -19,12 +19,16 @@
 <template>
     <div class="page">
         <div class="page-content-card-f">
-            <Card class="card-f card-full-width">
-                <template v-slot:title>
+            <Card
+                class="card-f card-full-width"
+                :loading="loading"
+            >
+                <template #title>
                     Namespaces
                 </template>
-                <template v-slot:control>
+                <template #control>
                     <PaginationV2
+                        v-if="canFetchPrevious"
                         :canFetchPrevious="canFetchPrevious"
                         :canFetchNext="canFetchNext"
                         :nextPageAction="nextPageAction"
@@ -32,8 +36,7 @@
                     />
                 </template>
 
-                <template v-slot:body>
-                    <loader v-if="loading" />
+                <template #body>
                     <TableListView
                         :data="namespaceList"
                     />

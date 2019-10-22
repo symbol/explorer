@@ -107,7 +107,7 @@ export default {
     // Reset the namespace page to the latest list (index 0)
     async resetPage({ commit, getters }) {
       commit('setLoading', true)
-      if (getters.getTimeline.index > 0) {
+      if (!getters.getTimeline.isLive) {
         const data = await sdkNamespace.getNamespacesFromIdWithLimit(2 * Timeline.pageSize)
         commit('setTimeline', Timeline.fromData(data))
       }
