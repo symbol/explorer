@@ -68,7 +68,7 @@ export default {
       // Set node url to SDK
     initializeSdk({rootGetters}) {
       sdkNamespace.init(rootGetters['api/currentNode'].url)
-    }
+    },
 
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit }) {
