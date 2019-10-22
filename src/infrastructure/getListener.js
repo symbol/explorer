@@ -18,7 +18,6 @@
 
 import { Listener } from 'nem2-sdk'
 import format from '../format'
-import { Endpoint } from '../config'
 
 
 class sdkListener {
