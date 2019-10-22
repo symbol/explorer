@@ -24,8 +24,9 @@
                     Mosaics
                 </template>
                 <template v-slot:control>
-                    <Pagination
-                        :pageIndex="pageIndex"
+                    <PaginationV2
+                        :canFetchPrevious="canFetchPrevious"
+                        :canFetchNext="canFetchNext"
                         :nextPageAction="nextPageAction"
                         :previousPageAction="previousPageAction"
                     />
@@ -36,9 +37,10 @@
                     <TableListView
                         :data="mosaicList"
                     />
-                    <Pagination
+                    <PaginationV2
                         style="margin-top: 20px;"
-                        :pageIndex="pageIndex"
+                        :canFetchPrevious="canFetchPrevious"
+                        :canFetchNext="canFetchNext"
                         :nextPageAction="nextPageAction"
                         :previousPageAction="previousPageAction"
                     />
@@ -67,9 +69,10 @@ export default {
 
     computed: {
         ...mapGetters({
-            mosaicList: 'mosaic/getPageListFormatted',
-            loading: 'mosaic/getLoading',
-            pageIndex: 'mosaic/getPageIndex'
+            mosaicList: 'mosaic/getTimelineFormatted',
+            canFetchPrevious: 'mosaic/getCanFetchPrevious',
+            canFetchNext: 'mosaic/getCanFetchNext',
+            loading: 'mosaic/getLoading'
         }),
 
     },

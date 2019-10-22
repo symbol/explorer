@@ -49,7 +49,6 @@ export default {
     getTimeline: state => state.timeline,
     getCanFetchPrevious: state => state.timeline.canFetchPrevious,
     getCanFetchNext: state => state.timeline.canFetchNext,
-    getTimelineIndex: state => state.timeline.index,  // TODO(ahuszagh) Remove
     getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
       height: el.height,
       age: el.date,

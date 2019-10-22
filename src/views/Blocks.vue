@@ -9,7 +9,7 @@
                     Blocks
                 </template>
                 <template #control>
-                    <h5 v-if="pageIndex === 0"> Chain height: {{chainHeight}} </h5>
+                    <h5 v-if="!canFetchPrevious"> Chain height: {{chainHeight}} </h5>
                     <PaginationV2
                         v-else
                         :canFetchPrevious="canFetchPrevious"
@@ -60,8 +60,7 @@ export default {
       blockList: 'block/getTimelineFormatted',
       canFetchPrevious: 'block/getCanFetchPrevious',
       canFetchNext: 'block/getCanFetchNext',
-      loading: 'block/getLoading',
-      pageIndex: 'block/getTimelineIndex' // TODO(ahuszagh) Remove, change to timeline.
+      loading: 'block/getLoading'
     })
 
   },
