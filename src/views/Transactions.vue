@@ -31,7 +31,7 @@
                     <TransactionTable
                         :transactionList="transactionList"
                     />
-                    <PaginationV2
+                    <Pagination
                         style="margin-top: 20px;"
                         :canFetchPrevious="canFetchPrevious"
                         :canFetchNext="canFetchNext"

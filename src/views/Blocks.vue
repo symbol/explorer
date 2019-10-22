@@ -10,7 +10,7 @@
                 </template>
                 <template #control>
                     <h5 v-if="!canFetchPrevious"> Chain height: {{chainHeight}} </h5>
-                    <PaginationV2
+                    <Pagination
                         v-else
                         :canFetchPrevious="canFetchPrevious"
                         :canFetchNext="canFetchNext"
@@ -22,7 +22,7 @@
                     <TableListView
                         :data="blockList"
                     />
-                    <PaginationV2
+                    <Pagination
                         style="margin-top: 20px;"
                         :canFetchPrevious="canFetchPrevious"
                         :canFetchNext="canFetchNext"

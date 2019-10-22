@@ -27,7 +27,7 @@
                     Namespaces
                 </template>
                 <template #control>
-                    <PaginationV2
+                    <Pagination
                         v-if="canFetchPrevious"
                         :canFetchPrevious="canFetchPrevious"
                         :canFetchNext="canFetchNext"
@@ -40,7 +40,7 @@
                     <TableListView
                         :data="namespaceList"
                     />
-                    <PaginationV2
+                    <Pagination
                         style="margin-top: 20px;"
                         :canFetchPrevious="canFetchPrevious"
                         :canFetchNext="canFetchNext"

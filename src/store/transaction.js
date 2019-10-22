@@ -156,11 +156,14 @@ export default {
     },
 
     // Fetch data from the SDK and initialize the page.
-    async initializePage({ commit }) {
+    async initializePage({ commit, getters }) {
       commit('setLoading', true)
       for (let transactionType of Object.keys(PAGES)) {
         const type = TRANSACTION_TYPE_MAP[transactionType]
         let data = await sdkTransaction.getTransactionsFromHashWithLimit(2 * Timeline.pageSize, type)
+        if (transactionType === 'recent') {
+          commit('setLatestList', data.slice(0, Timeline.pageSize))
+        }
         commit('setTimelineWithType', { timeline: Timeline.fromData(data), type: transactionType })
       }
       commit('setLoading', false)
