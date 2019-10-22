@@ -15,6 +15,7 @@
  * limitations under the License.
  *
  */
+import Vue from 'vue'
 import helper from '../helper'
 //import { Endpoint } from '../config/'
 import getConfig from '../infrastructure/getConfig'
