@@ -74,6 +74,7 @@ export default {
   actions: {
     // Initialize the chain model.
     async initialize({ dispatch }) {
+      dispatch('initializeSdk')
       await dispatch('initializePage')
     },
 

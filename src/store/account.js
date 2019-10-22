@@ -61,6 +61,10 @@ export default {
     accountInfoError: (state, payload) => Vue.set(state, 'accountInfoError', payload)
   },
   actions: {
+    async initialize({ dispatch }) {
+      dispatch('initializeSdk')
+    },
+
     // Set node url to SDK
     initializeSdk({rootGetters}) {
       sdkAccount.init(rootGetters['api/currentNode'].url)

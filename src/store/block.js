@@ -85,6 +85,7 @@ export default {
     // Initialize the block model.
     // First fetch the page, then subscribe.
     async initialize({ dispatch }) {
+      dispatch('initializeSdk')
       await dispatch('initializePage')
       await dispatch('subscribe')
     },

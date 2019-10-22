@@ -44,6 +44,10 @@ export default {
     }
   },
   actions: {
+    async initialize({ dispatch }) {
+      dispatch('initializeSdk')
+    },
+
     // Set node url to SDK
     initializeSdk({rootGetters}) {
       sdkNamespace.init(rootGetters['api/currentNode'].url)
