@@ -25,7 +25,6 @@ import {
   NetworkHttp
 } from 'nem2-sdk'
 
-import helper from '../helper'
 import format from '../format'
 import dto from './dto'
 
