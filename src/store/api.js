@@ -75,10 +75,11 @@ export default {
                 })
         },
 
-        changeNode: ({commit}, currentNodeUrl) => {
+        changeNode: ({commit, dispatch}, currentNodeUrl) => {
             if(helper.validURL(currentNodeUrl)) {
                 commit('currentNode', currentNodeUrl)
                 localStorage.setItem('currentNodeUrl', currentNodeUrl);
+                dispatch('initialize', null, { root: true })
             }
             else 
                 throw Error("Cannot change node. URL is not valid: " + currentNodeUrl);
