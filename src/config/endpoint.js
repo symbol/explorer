@@ -1,17 +1,10 @@
-const store = window.store
-console.warn("store", store)
+import peersApi from '../config/peers-api.json';
+import endpoints from '../config/endpoints.json';
 
-const PORT = '3000'
-const DEFAULT_NODE = { url: 'http://api-01.mt.us-west-2.nemtech.network:' +  PORT }
-const MARKET_DATA_URL = 'https://min-api.cryptocompare.com/'
 
-const nodes = [
-    { url: 'http://api-01.mt.us-west-2.nemtech.network:' + PORT },
-    { url: 'http://52.194.207.217:' + PORT },
-    { url: 'http://103.3.60.174:' + PORT },
-    { url: 'http://13.114.200.132:' + PORT },
-    { url: 'http://47.107.245.217:' + PORT }
-]
+const DEFAULT_NODE = peersApi.defaultNode;
+const MARKET_DATA_URL = endpoints.MARKET_DATA;
+const nodes = peersApi.nodes;
 
 
 
@@ -23,7 +16,7 @@ const getCurrentNode = (nodes) => {
         && currentNodeIndex !== void 0 
         && nodes[currentNodeIndex]
     )
-        return nodes[currentNodeIndex]
+        return nodes[currentNodeIndex];
     else
         return DEFAULT_NODE;
 } 
