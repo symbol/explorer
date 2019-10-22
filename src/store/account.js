@@ -61,6 +61,13 @@ export default {
     accountInfoError: (state, payload) => Vue.set(state, 'accountInfoError', payload)
   },
   actions: {
+    // Set node url to SDK
+    initializeSdk({rootGetters}) {
+      sdkAccount.init(rootGetters['api/currentNode'].url)
+      sdkTransaction.init(rootGetters['api/currentNode'].url)
+      sdkNamespace.init(rootGetters['api/currentNode'].url)
+    },
+
     // Fetch data from the SDK By Address.
     async fetchAccountDataByAddress({ commit }, address) {
       commit('accountInfoLoading', true)
