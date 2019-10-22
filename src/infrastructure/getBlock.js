@@ -25,9 +25,11 @@ import format from '../format'
 let CHAIN_HTTP
 let BLOCK_HTTP
 let NETWORK_HTTP
+let NODE_URL
 
 class sdkBlock {
   static init = async nodeUrl => {
+    NODE_URL = nodeUrl
     CHAIN_HTTP = new ChainHttp(nodeUrl)
     BLOCK_HTTP = new BlockHttp(nodeUrl)
     NETWORK_HTTP = new NetworkHttp(nodeUrl)
@@ -74,7 +76,7 @@ class sdkBlock {
     // Make request.
     const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
     const path = `/blocks/from/${blockHeight}/limit/${limit}`
-    const response = await axios.get(Endpoint.api + path)
+    const response = await axios.get(NODE_URL + path)
     const blocks = response.data.map(info => dto.createBlockFromDTO(info, networkType))
 
     return format.formatBlocks(blocks)
@@ -91,7 +93,7 @@ class sdkBlock {
     // Make request.
     const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
     const path = `/blocks/since/${blockHeight}/limit/${limit}`
-    const response = await axios.get(Endpoint.api + path)
+    const response = await axios.get(NODE_URL + path)
     const blocks = response.data.map(info => dto.createBlockFromDTO(info, networkType))
 
     return format.formatBlocks(blocks)
