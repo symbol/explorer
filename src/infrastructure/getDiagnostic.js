@@ -22,9 +22,12 @@ import { Endpoint } from '../config'
 const DIAGNOSTIC_HTTP = new DiagnosticHttp(Endpoint.api)
 
 class sdkDiagnostic {
+    static connect = async nodeUrl => {
+        DIAGNOSTIC_HTTP = new DiagnosticHttp(nodeUrl)
+    }
     static getChainInfo = async () => {
-      const chainInfo = await DIAGNOSTIC_HTTP.getDiagnosticStorage().toPromise()
-      return chainInfo
+        const chainInfo = await DIAGNOSTIC_HTTP.getDiagnosticStorage().toPromise()
+        return chainInfo
     }
 }
 
