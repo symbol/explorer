@@ -89,6 +89,18 @@ class helper {
       '(\\#[-a-z\\d_]*)?$', 'i') // fragment locator
     return !!pattern.test(str)
   }
+
+  static formatUrl(rawUrl) {
+    if(this.validURL(rawUrl)){
+      let url = new URL(rawUrl)
+      return {
+          protocol: url.protocol, 
+          hostname: url.hostname,
+          port: url.port,
+          url: rawUrl
+      }
+    }
+  }
 }
 
 export default helper

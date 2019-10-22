@@ -17,19 +17,21 @@
  */
 
 import Vue from 'vue'
+window.Vue = Vue
 import VueClipboard from 'vue-clipboard2'
 import App from './App.vue'
 import router from './router'
-import store from './store'
 import './filters'
-import getConfig from './infrastructure/getConfig'
+
+import store from './store'
+window.store = store
 
 import TopHead from '@/components/TopHead.vue'
 import PageMenu from '@/components/PageMenu.vue'
 import Pagefooter from '@/components/PageFooter.vue'
 import TimeSince from '@/components/TimeSince.vue'
 import w1 from '@/components/Loading.vue'
-window.Vue = Vue
+
 
 Vue.config.productionTip = false
 Vue.component('top-header', TopHead)
@@ -39,18 +41,12 @@ Vue.component('time-since', TimeSince)
 Vue.component('loader', w1)
 Vue.use(VueClipboard)
 
-function initVue() {
-  new Vue({
-    router,
-    store,
-    render: h => h(App)
-  }).$mount('#app')
-}
-initVue()
-getConfig()
-  .then( config => {
-    window.config = config;
-    
-  })
-  .catch( () => {})
+
+new Vue({
+  router,
+  store,
+  render: h => h(App)
+}).$mount('#app')
+
+
 

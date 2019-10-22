@@ -1,3 +1,6 @@
+const store = window.store
+console.warn("store", store)
+
 const PORT = '3000'
 const DEFAULT_NODE = { url: 'http://api-01.mt.us-west-2.nemtech.network:' +  PORT }
 const MARKET_DATA_URL = 'https://min-api.cryptocompare.com/'
@@ -75,9 +78,16 @@ class Endpoint {
     get marketDataURL() { return MARKET_DATA_URL }
 
     get api() { return (
-            getCurrentNode().url 
+            console.log("store", store)
+            //getCurrentNode().url 
         )
     }
 }
 
-export default new Endpoint;
+export default {
+    get api() {
+        console.log("store", window.store?.getters['api/currentNode']?.url);
+        return window.store?.getters['api/currentNode']?.url
+    }
+}
+//new Endpoint;

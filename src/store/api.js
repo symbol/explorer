@@ -15,23 +15,69 @@
  * limitations under the License.
  *
  */
-import { Endpoint } from '../config/'
+import helper from '../helper'
+//import { Endpoint } from '../config/'
+import getConfig from '../infrastructure/getConfig'
+import peersApi from '../config/peers-api.json'
+import endpoints from '../config/endpoints.json'
 
 export default {
-  namespaced: true,
-  state: {
+    namespaced: true,
 
-  },
-  getters: {
-    nodeList: state => Endpoint.nodesFormatted,
-    currentNodeHostname: state => Endpoint.currentNodeHostname
-  },
-  mutations: {
+    state: {
+        nodes: [...peersApi.nodes],
+        defaultNode: helper.formatUrl(peersApi.defaultNode.url),
+        currentNode: helper.formatUrl(peersApi.defaultNode.url),
+        marketData: endpoints.marketData,
+    },
 
-  },
-  actions: {
-    changeNode: (context, index) => {
-      Endpoint.setCurrentNodeByIndex(index);
+    getters: {
+        nodes: state => 
+            Array.isArray(state.nodes) 
+            ? state.nodes.map(node => helper.formatUrl(node.url))
+            : []
+        ,
+        currentNode: state => state.currentNode,
+        currentNodeHostname: state => state.currentNode.hostname,
+        marketData: state => state.marketData
+    },
+
+    mutations: {
+        mutate: (state, {key, value}) => Vue.set(state, key, value),
+        currentNode: (state, payload) => 
+            Vue.set(state, 'currentNode', helper.formatUrl(payload))
+    },
+
+    actions: {
+        initialize: ({commit, getters}) => {
+            
+            getConfig()
+                .then( config => {
+                    commit('mutate', {
+                        key: 'nodes',
+                        value: config.nodes
+                    })
+                })
+                .catch(() => {})
+                .then(() => {
+                    let currentNodeUrl = localStorage.getItem('currentNodeUrl');
+                    if(
+                        helper.validURL(currentNodeUrl)
+                        && getters.nodes.find( node => node.url === currentNodeUrl)
+                    )
+                        commit('currentNode', currentNodeUrl)
+                })
+        },
+
+        changeNode: ({commit}, currentNodeUrl) => {
+            if(helper.validURL(currentNodeUrl)) {
+                commit('currentNode', currentNodeUrl)
+                localStorage.setItem('currentNodeUrl', currentNodeUrl);
+            }
+            else 
+                throw Error("Cannot change node. URL is not valid: " + currentNodeUrl);
+        }
     }
-  }
 }
+
+

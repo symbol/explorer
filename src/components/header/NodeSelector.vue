@@ -11,7 +11,7 @@
                     href="#"
                     :title="node.url"
                     :key="'ns'+node.host + index"
-                    @click="setNode(index)"
+                    @click="setNode(node.url)"
                 >
                 {{node.hostname}}
                 </a>
@@ -24,7 +24,7 @@
 export default {
   computed: {
     nodeList() {
-      return this.$store.getters['api/nodeList']
+      return this.$store.getters['api/nodes']
     },
 
     currentNode() {
@@ -33,8 +33,8 @@ export default {
   },
 
   methods: {
-    setNode(index) {
-      this.$store.dispatch('api/changeNode', index)
+    setNode(url) {
+      this.$store.dispatch('api/changeNode', url)
     }
   }
 }
