@@ -30,15 +30,14 @@ import dto from './dto'
 
 let ACCOUNT_HTTP
 let MOSAIC_HTTP
-let NAMESPACE_HTTP
 let NETWORK_HTTP
-
+let NODE_URL
 
 class sdkMosaic {
   static init = async nodeUrl => {
+    NODE_URL = nodeUrl
     ACCOUNT_HTTP = new AccountHttp(nodeUrl)
     MOSAIC_HTTP = new MosaicHttp(nodeUrl)
-    NAMESPACE_HTTP = new NamespaceHttp(nodeUrl)
     NETWORK_HTTP = new NetworkHttp(nodeUrl)
   }
 
@@ -82,7 +81,7 @@ class sdkMosaic {
     // Make request.
     const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
     const path = `/mosaics/from/${mosaicId}/limit/${limit}`
-    const response = await axios.get(Endpoint.api + path)
+    const response = await axios.get(NODE_URL + path)
     const mosaics = response.data.map(info => dto.createMosaicInfoFromDTO(info, networkType))
 
     return format.formatMosaicInfos(mosaics)
@@ -99,7 +98,7 @@ class sdkMosaic {
     // Make request.
     const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
     const path = `/mosaics/since/${mosaicId}/limit/${limit}`
-    const response = await axios.get(Endpoint.api + path)
+    const response = await axios.get(NODE_URL + path)
     const mosaics = response.data.map(info => dto.createMosaicInfoFromDTO(info, networkType))
 
     return format.formatMosaicInfos(mosaics)
