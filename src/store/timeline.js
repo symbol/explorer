@@ -1,0 +1,86 @@
+/*
+ *
+ * Copyright (c) 2019-present for NEM
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License ");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+export default class Timeline {
+  static get pageSize() {
+    return 25
+  }
+
+  constructor(previous, current, next, index) {
+    this.previous = previous
+    this.current = current
+    this.next = next
+    this.index = index
+  }
+
+  static empty() {
+    return new Timeline([], [], [], 0)
+  }
+
+  static fromData(data) {
+    // Break data for the initial list into the current and next.
+    const previous = []
+    const current = data.slice(0, Timeline.pageSize)
+    const next = data.slice(Timeline.pageSize, 2 * Timeline.pageSize)
+    const index = 0
+    return new Timeline(previous, current, next, index)
+  }
+
+  get isLive() {
+    return !this.canFetchPrevious
+  }
+
+  get canFetchPrevious() {
+    return this.previous.length !== 0
+  }
+
+  get canFetchNext() {
+    return this.next.length !== 0
+  }
+
+  // Add latest item to current.
+  addLatestItem(item, key) {
+    if (!this.isLive) {
+      throw new Error('internal error: attempted to addLatestItem for non-live timeline.')
+    }
+    if (this.current[0][key] === item[key]) {
+      throw new Error('internal error: attempted to add duplicate item to timeline.')
+    }
+
+    const data = [item, ...this.current, ...this.next]
+    return Timeline.fromData(data)
+  }
+
+  // Add data fetched from previous.
+  async shiftPrevious(fetchPrevious, fetchLive) {
+    if (this.index > 1) {
+      // Fetch previous.
+      const previous = await fetchPrevious(Timeline.pageSize)
+      return new Timeline(previous, this.previous, this.current, this.index - 1)
+    } else {
+      // Fetch live.
+      const data = await fetchLive(2 * Timeline.pageSize)
+      return Timeline.fromData(data)
+    }
+  }
+
+  // Add data fetched from next.
+  async shiftNext(fetchNext) {
+    const next = await fetchNext(Timeline.pageSize)
+    return new Timeline(this.current, this.next, next, this.index + 1)
+  }
+}

@@ -10,9 +10,10 @@
                 </template>
                 <template #control>
                     <h5 v-if="pageIndex === 0"> Chain height: {{chainHeight}} </h5>
-                    <Pagination
+                    <PaginationV2
                         v-else
-                        :pageIndex="pageIndex"
+                        :canFetchPrevious="canFetchPrevious"
+                        :canFetchNext="canFetchNext"
                         :nextPageAction="nextPageAction"
                         :previousPageAction="previousPageAction"
                     />
@@ -21,9 +22,10 @@
                     <TableListView
                         :data="blockList"
                     />
-                    <Pagination
+                    <PaginationV2
                         style="margin-top: 20px;"
-                        :pageIndex="pageIndex"
+                        :canFetchPrevious="canFetchPrevious"
+                        :canFetchNext="canFetchNext"
                         :nextPageAction="nextPageAction"
                         :previousPageAction="previousPageAction"
                     />
@@ -54,9 +56,12 @@ export default {
   computed: {
     ...mapGetters({
       chainHeight: 'chain/getBlockHeight',
-      blockList: 'block/getPageListFormatted',
+      timeline: 'block/getTimeline',
+      blockList: 'block/getTimelineFormatted',
+      canFetchPrevious: 'block/getCanFetchPrevious',
+      canFetchNext: 'block/getCanFetchNext',
       loading: 'block/getLoading',
-      pageIndex: 'block/getPageIndex'
+      pageIndex: 'block/getTimelineIndex' // TODO(ahuszagh) Remove, change to timeline.
     })
 
   },

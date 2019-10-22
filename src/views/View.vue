@@ -3,6 +3,7 @@ import TableListView from '@/components/tables/TableListView.vue'
 import TableInfoView from '@/components/tables/TableInfoView.vue'
 import DropDown from '@/components/controls/DropDown.vue'
 import Pagination from '@/components/controls/Pagination.vue'
+import PaginationV2 from '@/components/controls/PaginationV2.vue' // TODO(ahuszagh) Remove
 import Card from '@/components/containers/Card.vue'
 import Modal from '@/components/containers/Modal.vue'
 export default {
@@ -12,7 +13,8 @@ export default {
     Card,
     DropDown,
     Pagination,
-    Modal
+    Modal,
+    PaginationV2 // TODO(ahuszagh) Remove
   }
 }
 </script>
