@@ -8,9 +8,9 @@ const getConfig = () => {
             nodes: []
         };
 
-        let url = process.env.NODE_ENV === 'production' 
-            ? CONFIG_ROUTE
-            : process.env.BASE_URL + CONFIG_ROUTE;
+//         let url = process.env.NODE_ENV === 'production' 
+//             ? CONFIG_ROUTE
+//             : process.env.BASE_URL + CONFIG_ROUTE;
 
         axios.get(CONFIG_ROUTE)
             .then( res => {
