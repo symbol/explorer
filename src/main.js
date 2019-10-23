@@ -27,7 +27,7 @@ import store from './store'
 window.store = store
 
 import TopHead from '@/components/TopHead.vue'
-import PageMenu from '@/components/PageMenu.vue'
+import PageMenu from './components/menu/PageMenu.vue'
 import Pagefooter from '@/components/PageFooter.vue'
 import TimeSince from '@/components/TimeSince.vue'
 import w1 from '@/components/Loading.vue'
