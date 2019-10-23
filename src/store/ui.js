@@ -99,7 +99,9 @@ export default {
           } else
           if (isAccountPublicKey(searchString)) {
             // check the string is a public key of an account
-            let accountHttp = new AccountHttp(rootGetters['api/currentNode'].url)
+
+            const api = rootGetters['api/currentNode'].url
+            let accountHttp = new AccountHttp(api)
             let accountAddress
             let accountInfo
             try {
