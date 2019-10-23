@@ -17,13 +17,7 @@
  */
 
 import axios from 'axios'
-import {
-  AccountHttp,
-  NetworkHttp,
-  TransactionHttp,
-  QueryParams,
-  Address
-} from 'nem2-sdk'
+import { QueryParams, Address } from 'nem2-sdk'
 import dto from './dto'
 import http from './http'
 import format from '../format'
