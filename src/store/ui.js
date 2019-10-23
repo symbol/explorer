@@ -16,7 +16,7 @@
  *
  */
 import router from '../router'
-import { Address } from 'nem2-sdk'
+import { Address, AccountHttp } from 'nem2-sdk'
 import { i18n } from '../config'
 
 export default {
