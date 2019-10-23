@@ -34,8 +34,8 @@ export default {
     },
 
     getters: {
-        nodes: state => 
-            Array.isArray(state.nodes) 
+        nodes: state =>
+            Array.isArray(state.nodes)
             ? state.nodes.map(node => helper.formatUrl(node.url))
             : []
         ,
@@ -48,16 +48,18 @@ export default {
     mutations: {
         mutate: (state, {key, value}) => Vue.set(state, key, value),
         currentNode: (state, payload) => {
-            let currentNode = helper.formatUrl(payload)
-            let wsEndpoint = currentNode.url |> helper.httpToWsUrl |> helper.formatUrl
-            Vue.set(state, 'currentNode', currentNode)
-            Vue.set(state, 'wsEndpoint', wsEndpoint)
+            if (undefined !== payload) {
+                let currentNode = helper.formatUrl(payload)
+                let wsEndpoint = currentNode.url |> helper.httpToWsUrl |> helper.formatUrl
+                Vue.set(state, 'currentNode', currentNode)
+                Vue.set(state, 'wsEndpoint', wsEndpoint)
+            }
         }
     },
 
     actions: {
         initialize: ({commit, getters}) => {
-            
+
             getConfig()
                 .then( config => {
                     commit('mutate', {
@@ -89,7 +91,7 @@ export default {
                 localStorage.setItem('currentNodeUrl', currentNodeUrl);
                 dispatch('initialize', null, { root: true })
             }
-            else 
+            else
                 throw Error("Cannot change node. URL is not valid: " + currentNodeUrl);
         }
     }
