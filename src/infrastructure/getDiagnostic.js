@@ -19,10 +19,6 @@
 import http from './http'
 
 class sdkDiagnostic {
-    // TODO(ahuszagh) Remove
-    static init = async nodeUrl => {
-    }
-
     static getChainInfo = async () => {
         const chainInfo = await http.diagnostic.getDiagnosticStorage().toPromise()
         return chainInfo

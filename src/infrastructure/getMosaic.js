@@ -26,10 +26,6 @@ import http from './http'
 import format from '../format'
 
 class sdkMosaic {
-  // TODO(ahuszagh) Remove
-  static init = async nodeUrl => {
-  }
-
   static getMosaicsAmountByAddress = async address => {
     const mosaicAmount = await http.mosaicService
       .mosaicsAmountViewFromAddress(new Address(address))

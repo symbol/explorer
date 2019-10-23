@@ -23,10 +23,6 @@ import http from './http'
 import format from '../format'
 
 class sdkBlock {
-  // TODO(ahuszagh) Remove
-  static init = async nodeUrl => {
-  }
-
   static getBlockHeight = async () => {
     const blockHeight = await http.chain.getBlockchainHeight().toPromise()
     return blockHeight.compact()

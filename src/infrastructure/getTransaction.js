@@ -30,10 +30,6 @@ import format from '../format'
 import sdkBlock from '../infrastructure/getBlock'
 
 class sdkTransaction {
-  // TODO(ahuszagh) Remove
-  static init = async nodeUrl => {
-  }
-
   static getAccountTransactions = async (address, transactionId = '') => {
     let pageSize = 100
 

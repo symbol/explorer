@@ -21,10 +21,6 @@ import http from './http'
 import format from '../format'
 
 class sdkAccount {
-  // TODO(ahuszagh) Remove
-  static init = async nodeUrl => {
-  }
-
   static getAccountInfoByAddress = async address => {
     let addressObj = Address.createFromRawAddress(address)
 

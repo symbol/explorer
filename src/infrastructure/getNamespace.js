@@ -25,10 +25,6 @@ import format from '../format'
 import helper from '../helper'
 
 class sdkNamespace {
-  // TODO(ahuszagh) Remove
-  static init = async nodeUrl => {
-  }
-
   static getNamespacesFromAccountByAddress = async (address) => {
     const namespacesIds = []
     const namespaceList = await http.namespace
