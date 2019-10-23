@@ -17,14 +17,16 @@
  */
 
 import { DiagnosticHttp } from 'nem2-sdk'
-import { Endpoint } from '../config'
 
-const DIAGNOSTIC_HTTP = new DiagnosticHttp(Endpoint.api)
+let DIAGNOSTIC_HTTP
 
 class sdkDiagnostic {
+    static init = async nodeUrl => {
+        DIAGNOSTIC_HTTP = new DiagnosticHttp(nodeUrl)
+    }
     static getChainInfo = async () => {
-      const chainInfo = await DIAGNOSTIC_HTTP.getDiagnosticStorage().toPromise()
-      return chainInfo
+        const chainInfo = await DIAGNOSTIC_HTTP.getDiagnosticStorage().toPromise()
+        return chainInfo
     }
 }
 

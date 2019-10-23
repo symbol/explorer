@@ -57,10 +57,17 @@ export default {
     setNamespaceLevels: (state, levels) => { state.namespaceLevels = levels }
   },
   actions: {
+
     // Initialize the namespace model.
     // First fetch the page, then subscribe.
     async initialize({ dispatch }) {
+      dispatch('initializeSdk')
       await dispatch('initializePage')
+    },
+      
+      // Set node url to SDK
+    initializeSdk({rootGetters}) {
+      sdkNamespace.init(rootGetters['api/currentNode'].url)
     },
 
     // Fetch data from the SDK and initialize the page.

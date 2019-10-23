@@ -92,6 +92,7 @@ export default {
     // Initialize the block model.
     // First fetch the page, then subscribe.
     async initialize({ dispatch }) {
+      dispatch('initializeSdk')
       await dispatch('initializePage')
       await dispatch('subscribe')
     },
@@ -102,9 +103,9 @@ export default {
     },
 
     // Subscribe to the latest blocks.
-    async subscribe({ commit, dispatch, getters }) {
+    async subscribe({ commit, dispatch, getters, rootGetters }) {
       if (getters.getSubscription === null) {
-        let subscription = await sdkListener.subscribeNewBlock(dispatch)
+        let subscription = await sdkListener.subscribeNewBlock(dispatch, rootGetters['api/wsEndpoint'].url)
         commit('setSubscription', subscription)
       }
     },
@@ -123,6 +124,11 @@ export default {
     add({ commit }, item) {
       commit('chain/setBlockHeight', item.height, { root: true })
       commit('addLatestItem', item)
+    },
+
+    // Set node url to SDK
+    initializeSdk({rootGetters}) {
+      sdkBlock.init(rootGetters['api/currentNode'].url)
     },
 
     // Fetch data from the SDK and initialize the page.
