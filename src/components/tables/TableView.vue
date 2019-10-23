@@ -47,7 +47,9 @@ export default {
         'owneraddress',
         'blockHeight',
         'endHeight',
-        'startHeight'
+        'startHeight',
+        'transactionBody',
+        'transactionId',
       ]
 
     }

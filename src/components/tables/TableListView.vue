@@ -1,9 +1,6 @@
 <template>
   <div v-if="data" class="table-view">
-    <div 
-      v-if="dataIsNotEmpty" 
-      class="table-wrapper"
-    >
+    <div v-if="dataIsNotEmpty" class="table-wrapper">
       <table class="table table-striped">
         <thead>
           <tr>
@@ -22,23 +19,27 @@
               @click="onItemClick(itemKey, item)"
             >
               <Age v-if="itemKey === 'age'" :date="item" />
-              <div v-else class="max-item-width">{{ item }}</div>
+
+              <div v-else>
+                <div v-if="itemKey === 'transactionBody'">
+                  <div @click="showModal = true">Show Detail</div>
+                  <Modal v-if="showModal" :transactionInfo="item" @close="showModal = false" />
+                </div>
+
+                <div v-else class="max-item-width">{{ item }}</div>
+              </div>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <div 
-      v-else
-      class="empty-data"
-    >
-      {{emptyDataMessageFormatted}}
-    </div>
+    <div v-else class="empty-data">{{emptyDataMessageFormatted}}</div>
   </div>
 </template>
 
 <script>
 import TableView from './TableView.vue'
+import Modal from '../containers/Modal.vue'
 export default {
   extends: TableView,
 
@@ -46,17 +47,22 @@ export default {
     this.componentType = 'list'
   },
 
-  components: {},
+  components: { Modal },
   props: {
     data: {
       type: Array,
-      required: true
+      required: true,
     },
 
     pagination: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
+
+    showModal: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   computed: {
@@ -68,14 +74,14 @@ export default {
 
     dataIsNotEmpty() {
       return this.data.length
-    }
+    },
   },
 
   methods: {
     onMoreClick() {
       this.$store.dispatch(this.nextPageAction)
-    }
-  }
+    },
+  },
 }
 </script>
 
