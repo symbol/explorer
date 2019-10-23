@@ -43,7 +43,6 @@
 import w1 from '@/components/PageFooterItem.vue'
 import w2 from '@/components/NemDescription.vue'
 import w3 from '@/components/NemCopyright.vue'
-import { Endpoint } from '../config'
 import helper from '../helper'
 
 export default {
@@ -66,8 +65,6 @@ export default {
   data() {
     return {
       loading: 1,
-      nodes: Endpoint.nodes,
-      activeNode: Endpoint.api.replace('http://', '').replace(':3000', ''),
       items: [
         {
           href: 'https://nemflash.io/',
