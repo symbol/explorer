@@ -17,28 +17,21 @@
  */
 
 import axios from 'axios'
-import { NamespaceHttp, NetworkHttp, Address, NamespaceId, NamespaceService } from 'nem2-sdk'
+import { Address, NamespaceId } from 'nem2-sdk'
 import { mergeMap, map } from 'rxjs/operators'
 import dto from './dto'
+import http from './http'
 import format from '../format'
 import helper from '../helper'
 
-
-let NAMESPACE_HTTP
-let NETWORK_HTTP
-let NODE_URL
-
-
 class sdkNamespace {
+  // TODO(ahuszagh) Remove
   static init = async nodeUrl => {
-    NODE_URL = nodeUrl
-    NAMESPACE_HTTP = new NamespaceHttp(nodeUrl)
-    NETWORK_HTTP = new NetworkHttp(nodeUrl)
   }
 
   static getNamespacesFromAccountByAddress = async (address) => {
     const namespacesIds = []
-    const namespaceList = await NAMESPACE_HTTP
+    const namespaceList = await http.namespace
       .getNamespacesFromAccount(Address.createFromRawAddress(address))
       .pipe(
         mergeMap(namespacesInfo => {
@@ -46,7 +39,7 @@ class sdkNamespace {
             namespacesIds[x.id.toHex().toUpperCase()] = { namespaceInfo: x }
             return x.id
           })
-          return NAMESPACE_HTTP.getNamespacesName(namespaceIds)
+          return http.namespace.getNamespacesName(namespaceIds)
         }),
         map(namespacesNames =>
           namespacesNames.map(namespaceName => {
@@ -71,11 +64,8 @@ class sdkNamespace {
       namespace = new NamespaceId(namespaceOrHex)
     }
 
-    const namespaceService = new NamespaceService(NAMESPACE_HTTP)
-
-    let namespaceInfo = await namespaceService.namespace(namespace).toPromise()
-
-    let namespaceNames = await NAMESPACE_HTTP.getNamespacesName([namespace]).toPromise()
+    let namespaceInfo = await http.namespaceService.namespace(namespace).toPromise()
+    let namespaceNames = await http.namespace.getNamespacesName([namespace]).toPromise()
 
     namespaceNames.map(namespace => {
       if (namespace.parentId) {
@@ -97,9 +87,9 @@ class sdkNamespace {
     }
 
     // Make request.
-    const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
+    const networkType = await http.network.getNetworkType().toPromise()
     const path = `/namespaces/from/${namespaceId}/limit/${limit}`
-    const response = await axios.get(NODE_URL + path)
+    const response = await axios.get(http.url + path)
     const namespaces = response.data.map(info => dto.createNamespaceInfoFromDTO(info, networkType))
 
     return format.formatNamespaceInfos(namespaces)
@@ -114,9 +104,9 @@ class sdkNamespace {
     }
 
     // Make request.
-    const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
+    const networkType = await http.network.getNetworkType().toPromise()
     const path = `/namespaces/since/${namespaceId}/limit/${limit}`
-    const response = await axios.get(NODE_URL + path)
+    const response = await axios.get(http.url + path)
     const namespaces = response.data.map(info => dto.createNamespaceInfoFromDTO(info, networkType))
 
     return format.formatNamespaceInfos(namespaces)

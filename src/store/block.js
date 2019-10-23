@@ -92,7 +92,6 @@ export default {
     // Initialize the block model.
     // First fetch the page, then subscribe.
     async initialize({ dispatch }) {
-      dispatch('initializeSdk')
       await dispatch('initializePage')
       await dispatch('subscribe')
     },
@@ -124,11 +123,6 @@ export default {
     add({ commit }, item) {
       commit('chain/setBlockHeight', item.height, { root: true })
       commit('addLatestItem', item)
-    },
-
-    // Set node url to SDK
-    initializeSdk({rootGetters}) {
-      sdkBlock.init(rootGetters['api/currentNode'].url)
     },
 
     // Fetch data from the SDK and initialize the page.
