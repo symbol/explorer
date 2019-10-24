@@ -26,14 +26,23 @@ import {
 } from 'nem2-sdk'
 import dto from './dto'
 import format from '../format'
-import { Endpoint } from '../config/'
 import sdkBlock from '../infrastructure/getBlock'
 
-const NETWORK_HTTP = new NetworkHttp(Endpoint.api)
-const TRANSACTION_HTTP = new TransactionHttp(Endpoint.api);
-const ACCOUNT_HTTP = new AccountHttp(Endpoint.api)
+
+let TRANSACTION_HTTP
+let ACCOUNT_HTTP
+let NETWORK_HTTP
+let NODE_URL
+
 
 class sdkTransaction {
+  static init = async nodeUrl => {
+    NODE_URL = nodeUrl
+    TRANSACTION_HTTP = new TransactionHttp(nodeUrl)
+    ACCOUNT_HTTP = new AccountHttp(nodeUrl)
+    NETWORK_HTTP = new NetworkHttp(nodeUrl)
+  }
+
   static getAccountTransactions = async (address, transactionId = '') => {
     let pageSize = 100
 
@@ -92,7 +101,7 @@ class sdkTransaction {
 
     // Make request.
     const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
-    const response = await axios.get(Endpoint.api + path)
+    const response = await axios.get(NODE_URL + path)
     const transactions = response.data.map(info => dto.createTransactionFromDTO(info, networkType))
 
     return format.formatTransactions(transactions)
@@ -126,7 +135,7 @@ class sdkTransaction {
 
     // Make request.
     const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
-    const response = await axios.get(Endpoint.api + path)
+    const response = await axios.get(NODE_URL + path)
     const transactions = response.data.map(info => dto.createTransactionFromDTO(info, networkType))
 
     return format.formatTransactions(transactions)

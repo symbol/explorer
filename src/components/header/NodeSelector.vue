@@ -4,16 +4,19 @@
             <a class="dropdown-toggle">
                 Node : {{currentNode}}
             </a>
-            <div class="dropdown-menu dropdown-menu-right node-selector-menu">
+            <div 
+              ref="nodeSelector"
+              class="dropdown-menu dropdown-menu-right node-selector-menu"
+            >
                 <a
                     v-for="(node, index) in nodeList"
                     class="dropdown-item node-selector-item"
                     href="#"
-                    :title="node.scheme + '://' + node.host + ':' + node.port"
+                    :title="node.url"
                     :key="'ns'+node.host + index"
-                    @click="setNode(index)"
+                    @click="setNode(node.url)"
                 >
-                {{node.host}}
+                {{node.hostname}}
                 </a>
             </div>
         </div>
@@ -24,17 +27,18 @@
 export default {
   computed: {
     nodeList() {
-      return this.$store.getters['api/nodeList']
+      return this.$store.getters['api/nodes']
     },
 
     currentNode() {
-      return this.$store.getters['api/currentNode']?.host
+      return this.$store.getters['api/currentNodeHostname']
     }
   },
 
   methods: {
-    setNode(index) {
-      this.$store.dispatch('api/changeNode', index)
+    setNode(url) {
+      this.$store.dispatch('api/changeNode', url)
+      this.$refs.nodeSelector.classList.remove('shown')
     }
   }
 }
@@ -43,6 +47,7 @@ export default {
 <style lang="scss" scoped>
 .node-selector {
   //min-width: 200px;
+  z-index: 9000;
 }
 .node-selector-menu{
     background: #3d7397c4;

@@ -29,15 +29,16 @@
         </a>
         <div class="sliderow p-0">
           <div class="dropdown flt-r">
-            <a class="dropdown-toggle">Node : {{activenode}}</a>
+            <a class="dropdown-toggle">Node : {{currentNode}}</a>
             <div class="dropdown-menu dropdown-menu-right">
               <a
                 class="dropdown-item"
                 href="#"
-                v-for="item in nodes"
-                v-bind:key="nodeUrl(item)"
-                @click="changeNode(item)"
-              >{{item['domain']}}</a>
+                v-for="(node, index) in nodeList"
+                :title="node.url"
+                :key="'ns'+node.host + index"
+                @click="changeNode(node.url)"
+              >{{node.hostname}}</a>
             </div>
           </div>
         </div>
@@ -63,10 +64,6 @@ import w1 from '@/components/PageMenuItem.vue'
 import { pageMenu } from '../config/'
 export default {
   name: 'MobileMenu',
-  props: {
-    nodes: {},
-    activenode: String
-  },
   components: {
     PageMenuItem: w1
   },
@@ -76,12 +73,18 @@ export default {
       items: pageMenu.items
     }
   },
-  methods: {
-    nodeUrl(data) {
-      return helper.nodeUrl(data)
+  computed: {
+    nodeList() {
+      return this.$store.getters['api/nodes']
     },
-    changeNode(data) {
-      helper.changeNode(data)
+
+    currentNode() {
+      return this.$store.getters['api/currentNodeHostname']
+    }
+  },
+  methods: {
+    changeNode(url) {
+      this.$store.dispatch('api/changeNode', url)
     },
     setFocusOnSearch() {
       document.getElementById('pagesearchinput').focus()

@@ -15,23 +15,86 @@
  * limitations under the License.
  *
  */
-import { Endpoint } from '../config/'
+import Vue from 'vue'
+import helper from '../helper'
+//import { Endpoint } from '../config/'
+import getConfig from '../infrastructure/getConfig'
+import peersApi from '../config/peers-api.json'
+import endpoints from '../config/endpoints.json'
 
 export default {
-  namespaced: true,
-  state: {
+    namespaced: true,
 
-  },
-  getters: {
-    nodeList: state => Endpoint.nodes,
-    currentNode: state => Endpoint.currentNode
-  },
-  mutations: {
+    state: {
+        nodes: [...peersApi.nodes],
+        defaultNode: helper.formatUrl(peersApi.defaultNode.url),
+        currentNode: helper.formatUrl(peersApi.defaultNode.url),
+        wsEndpoint: peersApi.defaultNode.url |> helper.httpToWsUrl |> helper.formatUrl,
+        marketData: helper.formatUrl(endpoints.MARKET_DATA),
+    },
 
-  },
-  actions: {
-    changeNode: (context, index) => {
-      Endpoint.setCurrentNodeByIndex(index);
+    getters: {
+        nodes: state =>
+            Array.isArray(state.nodes)
+            ? state.nodes.map(node => helper.formatUrl(node.url))
+            : []
+        ,
+        currentNode: state => state.currentNode,
+        currentNodeHostname: state => state.currentNode.hostname,
+        wsEndpoint: state => state.wsEndpoint,
+        marketData: state => state.marketData
+    },
+
+    mutations: {
+        mutate: (state, {key, value}) => Vue.set(state, key, value),
+        currentNode: (state, payload) => {
+            if (undefined !== payload) {
+                let currentNode = helper.formatUrl(payload)
+                let wsEndpoint = currentNode.url |> helper.httpToWsUrl |> helper.formatUrl
+                Vue.set(state, 'currentNode', currentNode)
+                Vue.set(state, 'wsEndpoint', wsEndpoint)
+            }
+        }
+    },
+
+    actions: {
+        initialize: ({commit, getters}) => {
+
+            getConfig()
+                .then( config => {
+                    commit('mutate', {
+                        key: 'nodes',
+                        value: config.nodes
+                    })
+                    if(config.defaultNode)
+                        commit('mutate', {
+                            key: 'defaultNode',
+                            value: config.defaultNode
+                        })
+                })
+                .catch(() => {})
+                .then(() => {
+                    let currentNodeUrl = localStorage.getItem('currentNodeUrl');
+                    if(
+                        helper.validURL(currentNodeUrl)
+                        && getters.nodes.find( node => node.url === currentNodeUrl)
+                    )
+                        commit('currentNode', currentNodeUrl)
+                    else
+                        commit('currentNode', getters.defaultNode)
+                })
+        },
+
+        changeNode: ({commit, dispatch}, currentNodeUrl) => {
+            if(helper.validURL(currentNodeUrl)) {
+                commit('currentNode', currentNodeUrl)
+                localStorage.setItem('currentNodeUrl', currentNodeUrl);
+                dispatch('initialize', null, { root: true })
+            }
+            else
+                throw Error("Cannot change node. URL is not valid: " + currentNodeUrl);
+        }
     }
-  }
 }
+
+

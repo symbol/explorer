@@ -17,7 +17,7 @@
  */
 import router from '../router'
 import { Address, AccountHttp } from 'nem2-sdk'
-import { Endpoint, i18n } from '../config'
+import { i18n } from '../config'
 
 export default {
   namespaced: true,
@@ -151,7 +151,7 @@ export default {
       }
     },
 
-    search: ({ dispatch }, searchString) => {
+    search: ({ dispatch, rootGetters }, searchString) => {
       return new Promise(async (resolve, reject) => {
         if (searchString !== null && searchString !== '') {
           searchString = searchString.replace(/[^a-zA-Z0-9]/g, '')
@@ -171,7 +171,8 @@ export default {
           } else
           if (isAccountPublicKey(searchString)) {
             // check the string is a public key of an account
-            let accountHttp = new AccountHttp(Endpoint.api)
+            const api = rootGetters['api/currentNode'].url
+            let accountHttp = new AccountHttp(api)
             let accountAddress
             let accountInfo
             try {
