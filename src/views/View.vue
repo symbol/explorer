@@ -4,13 +4,15 @@ import TableInfoView from '@/components/tables/TableInfoView.vue'
 import DropDown from '@/components/controls/DropDown.vue'
 import Pagination from '@/components/controls/Pagination.vue'
 import Card from '@/components/containers/Card.vue'
+import Modal from '@/components/containers/Modal.vue'
 export default {
   components: {
     TableListView,
     TableInfoView,
     Card,
     DropDown,
-    Pagination
+    Pagination,
+    Modal
   }
 }
 </script>
