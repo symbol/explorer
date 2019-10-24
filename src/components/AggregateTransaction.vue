@@ -1,17 +1,14 @@
 <template>
   <div>
-    <TableInfoView :data="data" />
-    <TableListView :data="data.mosaics" />
+    <TableInfoView :data="transactionBody" />
+    <TableListView :data="transactionBody.mosaics" />
   </div>
 </template>
 
 <script>
-import View from '../views/View'
-
 export default {
-  extends: View,
   props: {
-    data: {
+    transactionBody: {
       type: Object,
       required: true,
     },

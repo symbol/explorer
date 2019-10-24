@@ -18,7 +18,6 @@
 
 import Vue from 'vue'
 window.Vue = Vue
-import VueClipboard from 'vue-clipboard2'
 import App from './App.vue'
 import router from './router'
 import './filters'
@@ -31,6 +30,8 @@ import PageMenu from '@/components/PageMenu.vue'
 import Pagefooter from '@/components/PageFooter.vue'
 import TimeSince from '@/components/TimeSince.vue'
 import w1 from '@/components/Loading.vue'
+import TableListView from '@/components/tables/TableListView.vue'
+import TableInfoView from '@/components/tables/TableInfoView.vue'
 
 
 Vue.config.productionTip = false
@@ -39,7 +40,8 @@ Vue.component('page-menu', PageMenu)
 Vue.component('page-footer', Pagefooter)
 Vue.component('time-since', TimeSince)
 Vue.component('loader', w1)
-Vue.use(VueClipboard)
+Vue.component('TableListView', TableListView)
+Vue.component('TableInfoView', TableInfoView)
 
 
 new Vue({

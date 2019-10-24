@@ -30,7 +30,7 @@
                   >
                     <div slot="header">{{item.type}}</div>
                     <div slot="body">
-                      <AggregateTransaction slot="body" :data="item" />
+                      <AggregateTransaction slot="body" :transactionBody="item" />
                     </div>
                   </Modal>
                 </div>
