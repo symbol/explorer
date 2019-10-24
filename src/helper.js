@@ -43,16 +43,6 @@ class helper {
     }
   }
 
-  static nodeUrl(data) {
-    return data.protocol + '://' + data.domain + ':' + data.port
-  }
-
-  static changeNode(data) {
-    console.log(data)
-    localStorage.setItem('defaultNode', this.nodeUrl(data))
-    location.reload()
-  }
-
   static isMobile(agent) {
     let check = false
     if (
@@ -97,7 +87,7 @@ class helper {
     if(this.validURL(rawUrl)){
       let url = new URL(rawUrl)
       return {
-          protocol: url.protocol, 
+          protocol: url.protocol,
           hostname: url.hostname,
           port: url.port,
           url: rawUrl

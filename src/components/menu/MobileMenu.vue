@@ -27,6 +27,7 @@
         <a class="mmtoggle" href="#">
           <i class="ico-line-awesome-4"></i>
         </a>
+
         <NodeSelector />
 
       </div>
@@ -64,9 +65,6 @@ export default {
       items: pageMenu.items
     }
   },
-  
-  methods: {
-  
-  }
+
 }
 </script>
