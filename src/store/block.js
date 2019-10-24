@@ -127,7 +127,7 @@ export default {
     },
 
     // Set node url to SDK
-    initializeSdk({rootGetters}) {
+    initializeSdk({ rootGetters }) {
       sdkBlock.init(rootGetters['api/currentNode'].url)
     },
 

@@ -25,7 +25,6 @@
   </div>
 </template>
 <script>
-import store from './store'
 
 export default {
   data: () => {
@@ -33,7 +32,7 @@ export default {
       info: 1
     }
   },
-  mounted() {
+  created() {
     this.initialize()
   },
   destroyed() {
@@ -41,11 +40,11 @@ export default {
   },
   methods: {
     initialize() {
-      store.dispatch('initialize')
+      this.$store.dispatch('initialize')
         .catch(error => console.log(error))
     },
     uninitialize() {
-      store.dispatch('uninitialize')
+      this.$store.dispatch('uninitialize')
     }
   }
 }

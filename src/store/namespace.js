@@ -64,9 +64,9 @@ export default {
       dispatch('initializeSdk')
       await dispatch('initializePage')
     },
-      
-      // Set node url to SDK
-    initializeSdk({rootGetters}) {
+
+    // Set node url to SDK
+    initializeSdk({ rootGetters }) {
       sdkNamespace.init(rootGetters['api/currentNode'].url)
     },
 

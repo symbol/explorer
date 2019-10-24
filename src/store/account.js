@@ -66,7 +66,7 @@ export default {
     },
 
     // Set node url to SDK
-    initializeSdk({rootGetters}) {
+    initializeSdk({ rootGetters }) {
       sdkAccount.init(rootGetters['api/currentNode'].url)
       sdkTransaction.init(rootGetters['api/currentNode'].url)
       sdkNamespace.init(rootGetters['api/currentNode'].url)

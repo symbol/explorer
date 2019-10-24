@@ -54,9 +54,9 @@ import NodeSelector from '@/components/controls/NodeSelector.vue'
 export default {
   name: 'MobileMenu',
 
-  components: { 
-    NodeSelector, 
-    PageMenuItem 
+  components: {
+    NodeSelector,
+    PageMenuItem
   },
 
   data() {
@@ -64,7 +64,7 @@ export default {
       showTopMenu: false,
       items: pageMenu.items
     }
-  },
+  }
 
 }
 </script>
