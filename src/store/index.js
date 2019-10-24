@@ -51,7 +51,7 @@ export default new Vuex.Store({
         catch (e) { console.error('Failed to initialize block', e) }
 
       try { await dispatch('account/initialize') }
-        catch (e) { console.error('Failed to initialize block', e) }
+        catch (e) { console.error('Failed to initialize account', e) }
 
       try { await dispatch('transaction/initialize') }
         catch (e) { console.error('Failed to initialize transaction', e) }
