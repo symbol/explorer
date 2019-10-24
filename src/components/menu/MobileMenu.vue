@@ -47,7 +47,6 @@
   </div>
 </template>
 <script>
-import helper from '../../helper'
 import PageMenuItem from './PageMenuItem.vue'
 import { pageMenu } from '../../config/'
 import NodeSelector from '@/components/controls/NodeSelector.vue'
