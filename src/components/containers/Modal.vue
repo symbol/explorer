@@ -4,13 +4,11 @@
       <div class="modal-wrapper" @click="$emit('close')">
         <div class="modal-container">
           <div class="modal-header">
-            <slot name="header">{{ transactionInfo.type }}</slot>
+            <slot name="header" />
           </div>
 
           <div class="modal-body">
-            <slot name="body">
-              <TableInfoView :data="transactionInfo" />
-            </slot>
+            <slot name="body" />
           </div>
         </div>
       </div>
@@ -20,19 +18,9 @@
 
 
 <script>
-import TableInfoView from '../tables/TableInfoView'
-
 export default {
-  components: {TableInfoView},
-  props: {
-    showModal: {
-      type: Boolean,
-      default: false,
-    },
-    transactionInfo: {
-      type: Object,
-    }
-  },
+  components: {},
+  props: {},
 }
 </script>
 
