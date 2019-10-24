@@ -362,7 +362,7 @@ export default {
               transactionId: el.transactionId,
               type: el.transactionBody.type,
               signer: el.signer,
-              recipient: el.transactionBody.recipient
+              transactionBody: el.transactionBody
             }))
 
             commit('aggregateInnerTransactions', formattedAggregateInnerTransactions)
@@ -384,7 +384,7 @@ export default {
               transactionId: el.transactionId,
               type: el.transactionBody.type,
               signer: el.signer,
-              recipient: el.transactionBody.recipient
+              transactionBody: el.transactionBody
             }))
 
             commit('aggregateInnerTransactions', formattedAggregateInnerTransactions)
