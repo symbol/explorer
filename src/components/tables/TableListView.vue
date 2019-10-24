@@ -22,8 +22,17 @@
 
               <div v-else>
                 <div v-if="itemKey === 'transactionBody'">
-                  <div @click="showModal = true">Show Detail</div>
-                  <Modal v-if="showModal" :transactionInfo="item" @close="showModal = false" />
+                  <div @click="onOpenModal(view+'r'+rowIndex)">Show Detail</div>
+                  <Modal
+                    :id="view+'r'+rowIndex"
+                    v-show="openedModal === view+'r'+rowIndex"
+                    @close="openedModal = null"
+                  >
+                    <div slot="header">{{item.type}}</div>
+                    <div slot="body">
+                      <AggregateTransaction slot="body" :data="item" />
+                    </div>
+                  </Modal>
                 </div>
 
                 <div v-else class="max-item-width">{{ item }}</div>
@@ -40,14 +49,17 @@
 <script>
 import TableView from './TableView.vue'
 import Modal from '../containers/Modal.vue'
+import AggregateTransaction from '../AggregateTransaction.vue'
 export default {
   extends: TableView,
-
+  data() {
+    return { openedModal: null }
+  },
   created() {
     this.componentType = 'list'
   },
 
-  components: { Modal },
+  components: { Modal, AggregateTransaction },
   props: {
     data: {
       type: Array,
@@ -80,6 +92,9 @@ export default {
   methods: {
     onMoreClick() {
       this.$store.dispatch(this.nextPageAction)
+    },
+    onOpenModal(id) {
+      this.openedModal = id
     },
   },
 }
