@@ -49,7 +49,6 @@ export default {
         'endHeight',
         'startHeight',
         'transactionBody',
-        'transactionId',
       ]
 
     }
