@@ -4,7 +4,7 @@
             <a class="dropdown-toggle">
                 Node : {{currentNode}}
             </a>
-            <div 
+            <div
               ref="nodeSelector"
               class="dropdown-menu dropdown-menu-right node-selector-menu"
             >
@@ -56,6 +56,6 @@ export default {
 .node-selector-item {
   text-overflow: ellipsis;
   white-space: nowrap;
-  overflow: hidden; 
+  overflow: hidden;
 }
 </style>

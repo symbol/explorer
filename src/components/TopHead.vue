@@ -56,13 +56,14 @@
     </div>
 
     <MobileMenu />
+
   </div>
 </template>
 
 <script>
-import MobileMenu from '@/components/MobileMenu.vue'
-import NodeSelector from '@/components/header/NodeSelector.vue'
-import SearchBox from '@/components/header/SearchBox.vue'
+import MobileMenu from '@/components/menu/MobileMenu.vue'
+import NodeSelector from '@/components/controls/NodeSelector.vue'
+import SearchBox from '@/components/controls/SearchBox.vue'
 import helper from '../helper'
 
 export default {

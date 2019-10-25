@@ -17,7 +17,6 @@
  */
 import Vue from 'vue'
 import helper from '../helper'
-//import { Endpoint } from '../config/'
 import getConfig from '../infrastructure/getConfig'
 import peersApi from '../config/peers-api.json'
 import endpoints from '../config/endpoints.json'

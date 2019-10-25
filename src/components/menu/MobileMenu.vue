@@ -27,21 +27,9 @@
         <a class="mmtoggle" href="#">
           <i class="ico-line-awesome-4"></i>
         </a>
-        <div class="sliderow p-0">
-          <div class="dropdown flt-r">
-            <a class="dropdown-toggle">Node : {{currentNode}}</a>
-            <div class="dropdown-menu dropdown-menu-right">
-              <a
-                class="dropdown-item"
-                href="#"
-                v-for="(node, index) in nodeList"
-                :title="node.url"
-                :key="'ns'+node.host + index"
-                @click="changeNode(node.url)"
-              >{{node.hostname}}</a>
-            </div>
-          </div>
-        </div>
+
+        <NodeSelector />
+
       </div>
 
       <div class="sliderow">
@@ -59,41 +47,23 @@
   </div>
 </template>
 <script>
-import helper from '../helper'
-import w1 from '@/components/PageMenuItem.vue'
-import { pageMenu } from '../config/'
+import PageMenuItem from './PageMenuItem.vue'
+import { pageMenu } from '../../config/'
+import NodeSelector from '@/components/controls/NodeSelector.vue'
 export default {
   name: 'MobileMenu',
+
   components: {
-    PageMenuItem: w1
+    NodeSelector,
+    PageMenuItem
   },
+
   data() {
     return {
       showTopMenu: false,
       items: pageMenu.items
     }
-  },
-  computed: {
-    nodeList() {
-      return this.$store.getters['api/nodes']
-    },
-
-    currentNode() {
-      return this.$store.getters['api/currentNodeHostname']
-    }
-  },
-  methods: {
-    changeNode(url) {
-      this.$store.dispatch('api/changeNode', url)
-    },
-    setFocusOnSearch() {
-      document.getElementById('pagesearchinput').focus()
-    },
-    isMobile() {
-      return helper.isMobile(
-        navigator.userAgent || navigator.vendor || window.opera
-      )
-    }
   }
+
 }
 </script>

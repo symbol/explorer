@@ -17,38 +17,31 @@
  */
 
 import Vue from 'vue'
-window.Vue = Vue
 import App from './App.vue'
 import router from './router'
 import './filters'
-
 import store from './store'
-window.store = store
-
 import TopHead from '@/components/TopHead.vue'
-import PageMenu from '@/components/PageMenu.vue'
+import PageMenu from './components/menu/PageMenu.vue'
 import Pagefooter from '@/components/PageFooter.vue'
 import TimeSince from '@/components/TimeSince.vue'
-import w1 from '@/components/Loading.vue'
+import Loading from '@/components/Loading.vue'
 import TableListView from '@/components/tables/TableListView.vue'
 import TableInfoView from '@/components/tables/TableInfoView.vue'
 
 
+window.Vue = Vue
 Vue.config.productionTip = false
 Vue.component('top-header', TopHead)
 Vue.component('page-menu', PageMenu)
 Vue.component('page-footer', Pagefooter)
 Vue.component('time-since', TimeSince)
-Vue.component('loader', w1)
+Vue.component('loader', Loading)
 Vue.component('TableListView', TableListView)
 Vue.component('TableInfoView', TableInfoView)
-
 
 new Vue({
   router,
   store,
   render: h => h(App)
 }).$mount('#app')
-
-
-
