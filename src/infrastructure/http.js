@@ -16,7 +16,6 @@
  *
  */
 
-import store from '../store'
 import * as nem from 'nem2-sdk'
 
 let NODE_URL

@@ -16,7 +16,7 @@
  *
  */
 
-import { AccountHttp, Address } from 'nem2-sdk'
+import { Address } from 'nem2-sdk'
 import http from './http'
 import format from '../format'
 
