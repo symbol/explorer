@@ -55,16 +55,16 @@
       </div>
     </div>
 
-    <MobileMenu :nodes="nodes" :activenode="currentNode" />
+    <MobileMenu />
+
   </div>
 </template>
 
 <script>
-import MobileMenu from '@/components/MobileMenu.vue'
-import NodeSelector from '@/components/header/NodeSelector.vue'
-import SearchBox from '@/components/header/SearchBox.vue'
+import MobileMenu from '@/components/menu/MobileMenu.vue'
+import NodeSelector from '@/components/controls/NodeSelector.vue'
+import SearchBox from '@/components/controls/SearchBox.vue'
 import helper from '../helper'
-import { mapGetters } from 'vuex'
 
 export default {
   name: 'TopHead',
@@ -73,12 +73,6 @@ export default {
     MobileMenu,
     NodeSelector,
     SearchBox
-  },
-  computed: {
-    ...mapGetters({
-      nodes: 'api/nodes',
-      currentNode: 'api/currentNode'
-    })
   },
 
   data() {

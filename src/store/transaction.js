@@ -25,7 +25,7 @@ const PAGE_DEFAULT = {
   // Holds the PAGE_SIZE transactions starting from current page.
   pageList: [],
   // The current page index (0-indexed).
-  pageIndex: 0,
+  pageIndex: 0
 }
 
 const PAGES = {
@@ -38,7 +38,7 @@ const PAGES = {
   // Multisig block pages.
   multisig: { ...PAGE_DEFAULT },
   // Mosaic block pages.
-  mosaic: { ...PAGE_DEFAULT },
+  mosaic: { ...PAGE_DEFAULT }
 }
 
 // Map the page name to the transaction type.
@@ -47,7 +47,7 @@ const TRANSACTION_TYPE_MAP = {
   pending: 'unconfirmed',
   transfer: 'transfer',
   multisig: 'transfer/multisig',
-  mosaic: 'transfer/mosaic',
+  mosaic: 'transfer/mosaic'
 }
 
 export default {
@@ -66,7 +66,8 @@ export default {
     transactionInfo: {},
     // Transaction Body Info.
     transactionDetail: {},
-    transactionInfoLoading: false
+    transactionInfoLoading: false,
+    transactionInfoError: false
   },
   getters: {
     getLatestList: state => state.latestList,
@@ -91,7 +92,8 @@ export default {
     transferMosaics: state => state.transferMosaics,
     aggregateInnerTransactions: state => state.aggregateInnerTransactions,
     aggregateCosignatures: state => state.aggregateCosignatures,
-    transactionInfoLoading: state => state.transactionInfoLoading
+    transactionInfoLoading: state => state.transactionInfoLoading,
+    transactionInfoError: state => state.transactionInfoError
   },
   mutations: {
     setLatestList: (state, list) => { state.latestList = list },
@@ -106,7 +108,7 @@ export default {
     resetPageIndex: (state) => { state[state.transactionType].pageIndex = 0 },
     addLatestItem(state, item) {
       // TODO(ahuszagh) Actually implement...
-      //util.addLatestItemByKey(state, item, 'hash', 1)
+      // util.addLatestItemByKey(state, item, 'hash', 1)
     },
 
     // TODO(ahuszagh) Bad names....
@@ -116,6 +118,7 @@ export default {
     aggregateInnerTransactions: (state, aggregateInnerTransactions) => Vue.set(state, 'aggregateInnerTransactions', aggregateInnerTransactions),
     aggregateCosignatures: (state, aggregateCosignatures) => Vue.set(state, 'aggregateCosignatures', aggregateCosignatures),
     transactionInfoLoading: (state, v) => { state.transactionInfoLoading = v },
+    transactionInfoError: (state, v) => { state.transactionInfoError = v }
   },
   actions: {
     // Initialize the transaction model.
@@ -149,17 +152,17 @@ export default {
     add({ commit }, item) {
       // TODO(ahuszagh) Also need to rework this.
       // Need to consider transaction type.
-//      commit('chain/setTransactionHash', item.transactionHash, { root: true })
-//      commit('addLatestItem', item)
+      //      commit('chain/setTransactionHash', item.transactionHash, { root: true })
+      //      commit('addLatestItem', item)
     },
 
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit }) {
       commit('setLoading', true)
-      for (var transactionType of Object.keys(PAGES)) {
+      for (let transactionType of Object.keys(PAGES)) {
         const type = TRANSACTION_TYPE_MAP[transactionType]
         let transactionList = await sdkTransaction.getTransactionsFromHashWithLimit(util.PAGE_SIZE, type)
-        commit('setPageListWithType', { list: transactionList, type: transactionType})
+        commit('setPageListWithType', { list: transactionList, type: transactionType })
       }
       commit('setLoading', false)
     },
@@ -353,7 +356,7 @@ export default {
               transactionId: el.transactionId,
               type: el.transactionBody.type,
               signer: el.signer,
-              recipient: el.transactionBody.recipient
+              transactionBody: el.transactionBody
             }))
 
             commit('aggregateInnerTransactions', formattedAggregateInnerTransactions)
@@ -375,7 +378,7 @@ export default {
               transactionId: el.transactionId,
               type: el.transactionBody.type,
               signer: el.signer,
-              recipient: el.transactionBody.recipient
+              transactionBody: el.transactionBody
             }))
 
             commit('aggregateInnerTransactions', formattedAggregateInnerTransactions)

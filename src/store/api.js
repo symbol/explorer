@@ -48,10 +48,12 @@ export default {
     mutations: {
         mutate: (state, {key, value}) => Vue.set(state, key, value),
         currentNode: (state, payload) => {
-            let currentNode = helper.formatUrl(payload)
-            let wsEndpoint = currentNode.url |> helper.httpToWsUrl |> helper.formatUrl
-            Vue.set(state, 'currentNode', currentNode)
-            Vue.set(state, 'wsEndpoint', wsEndpoint)
+            if (undefined !== payload) {
+                let currentNode = helper.formatUrl(payload)
+                let wsEndpoint = currentNode.url |> helper.httpToWsUrl |> helper.formatUrl
+                Vue.set(state, 'currentNode', currentNode)
+                Vue.set(state, 'wsEndpoint', wsEndpoint)
+            }
         }
     },
 

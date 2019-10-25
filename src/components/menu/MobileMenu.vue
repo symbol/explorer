@@ -27,20 +27,9 @@
         <a class="mmtoggle" href="#">
           <i class="ico-line-awesome-4"></i>
         </a>
-        <div class="sliderow p-0">
-          <div class="dropdown flt-r">
-            <a class="dropdown-toggle">Node : {{activenode}}</a>
-            <div class="dropdown-menu dropdown-menu-right">
-              <a
-                class="dropdown-item"
-                href="#"
-                v-for="item in nodes"
-                v-bind:key="nodeUrl(item)"
-                @click="changeNode(item)"
-              >{{item['domain']}}</a>
-            </div>
-          </div>
-        </div>
+
+        <NodeSelector />
+
       </div>
 
       <div class="sliderow">
@@ -58,39 +47,23 @@
   </div>
 </template>
 <script>
-import helper from '../helper'
-import w1 from '@/components/PageMenuItem.vue'
-import { pageMenu } from '../config/'
+import PageMenuItem from './PageMenuItem.vue'
+import { pageMenu } from '../../config/'
+import NodeSelector from '@/components/controls/NodeSelector.vue'
 export default {
   name: 'MobileMenu',
-  props: {
-    nodes: {},
-    activenode: String
-  },
+
   components: {
-    PageMenuItem: w1
+    NodeSelector,
+    PageMenuItem
   },
+
   data() {
     return {
       showTopMenu: false,
       items: pageMenu.items
     }
-  },
-  methods: {
-    nodeUrl(data) {
-      return helper.nodeUrl(data)
-    },
-    changeNode(data) {
-      helper.changeNode(data)
-    },
-    setFocusOnSearch() {
-      document.getElementById('pagesearchinput').focus()
-    },
-    isMobile() {
-      return helper.isMobile(
-        navigator.userAgent || navigator.vendor || window.opera
-      )
-    }
   }
+
 }
 </script>

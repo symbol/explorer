@@ -44,22 +44,25 @@ export default new Vuex.Store({
   actions: {
     // Initialize the stores (call on app load).
     async initialize({ dispatch }) {
-      try { await dispatch('api/initialize') } 
+      try { await dispatch('api/initialize') }
         catch (e) { console.error('Failed to initialize API', e) }
-        
-      try { await dispatch('block/initialize') } 
+
+      try { await dispatch('account/initialize') }
+        catch (e) { console.error('Failed to initialize account', e) }
+
+      try { await dispatch('block/initialize') }
         catch (e) { console.error('Failed to initialize block', e) }
 
-      try { await dispatch('transaction/initialize') } 
+      try { await dispatch('transaction/initialize') }
         catch (e) { console.error('Failed to initialize transaction', e) }
 
-      try { await dispatch('chain/initialize') } 
+      try { await dispatch('chain/initialize') }
         catch (e) { console.error('Failed to initialize chain', e) }
 
-      try { await dispatch('mosaic/initialize') } 
+      try { await dispatch('mosaic/initialize') }
         catch (e) { console.error('Failed to initialize mosaic', e) }
 
-      try { await dispatch('namespace/initialize') } 
+      try { await dispatch('namespace/initialize') }
         catch (e) { console.error('Failed to initialize namespace', e) }
     },
 

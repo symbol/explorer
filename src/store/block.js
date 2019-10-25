@@ -124,7 +124,7 @@ export default {
       commit('chain/setBlockHeight', item.height, { root: true })
       commit('addLatestItem', item)
     },
-
+    
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit }) {
       commit('setLoading', true)
