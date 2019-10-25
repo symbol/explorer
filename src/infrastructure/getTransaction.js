@@ -82,7 +82,7 @@ class sdkTransaction {
 
     // Make request.
     const networkType = await http.network.getNetworkType().toPromise()
-    const response = await axios.get(http.url + path)
+    const response = await axios.get(http.nodeUrl + path)
     const transactions = response.data.map(info => dto.createTransactionFromDTO(info, networkType))
 
     return format.formatTransactions(transactions)
@@ -116,7 +116,7 @@ class sdkTransaction {
 
     // Make request.
     const networkType = await http.network.getNetworkType().toPromise()
-    const response = await axios.get(http.url + path)
+    const response = await axios.get(http.nodeUrl + path)
     const transactions = response.data.map(info => dto.createTransactionFromDTO(info, networkType))
 
     return format.formatTransactions(transactions)

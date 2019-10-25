@@ -19,29 +19,41 @@
 import store from '../store'
 import * as nem from 'nem2-sdk'
 
+let NODE_URL
+let MARKET_DATA_URL
+
 export default class http {
-  static get url() {
-    return store.getters['api/currentNode'].url
+  static init = async (nodeUrl, marketDataUrl) => {
+    NODE_URL = nodeUrl
+    MARKET_DATA_URL = marketDataUrl
+  }
+
+  static get marketDataUrl() {
+    return MARKET_DATA_URL
+  }
+
+  static get nodeUrl() {
+    return NODE_URL
   }
 
   static get account() {
-    return new nem.AccountHttp(http.url)
+    return new nem.AccountHttp(http.nodeUrl)
   }
 
   static get block() {
-    return new nem.BlockHttp(http.url)
+    return new nem.BlockHttp(http.nodeUrl)
   }
 
   static get chain() {
-    return new nem.ChainHttp(http.url)
+    return new nem.ChainHttp(http.nodeUrl)
   }
 
   static get diagnostic() {
-    return new nem.DiagnosticHttp(http.url)
+    return new nem.DiagnosticHttp(http.nodeUrl)
   }
 
   static get mosaic() {
-    return new nem.MosaicHttp(http.url)
+    return new nem.MosaicHttp(http.nodeUrl)
   }
 
   static get mosaicService() {
@@ -49,7 +61,7 @@ export default class http {
   }
 
   static get namespace() {
-    return new nem.NamespaceHttp(http.url)
+    return new nem.NamespaceHttp(http.nodeUrl)
   }
 
   static get namespaceService() {
@@ -57,10 +69,10 @@ export default class http {
   }
 
   static get network() {
-    return new nem.NetworkHttp(http.url)
+    return new nem.NetworkHttp(http.nodeUrl)
   }
 
   static get transaction() {
-    return new nem.TransactionHttp(http.url)
+    return new nem.TransactionHttp(http.nodeUrl)
   }
 }

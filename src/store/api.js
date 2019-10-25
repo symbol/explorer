@@ -17,8 +17,8 @@
  */
 import Vue from 'vue'
 import helper from '../helper'
-//import { Endpoint } from '../config/'
 import getConfig from '../infrastructure/getConfig'
+import http from '../infrastructure/http'
 import peersApi from '../config/peers-api.json'
 import endpoints from '../config/endpoints.json'
 
@@ -34,8 +34,8 @@ export default {
     },
 
     getters: {
-        nodes: state => 
-            Array.isArray(state.nodes) 
+        nodes: state =>
+            Array.isArray(state.nodes)
             ? state.nodes.map(node => helper.formatUrl(node.url))
             : []
         ,
@@ -57,7 +57,7 @@ export default {
 
     actions: {
         initialize: ({commit, getters}) => {
-            
+
             getConfig()
                 .then( config => {
                     commit('mutate', {
@@ -80,6 +80,10 @@ export default {
                         commit('currentNode', currentNodeUrl)
                     else
                         commit('currentNode', getters.defaultNode)
+
+                    const nodeUrl = getters['currentNode'].url
+                    const marketDataUrl = getters['marketData'].url
+                    http.init(nodeUrl, marketDataUrl)
                 })
         },
 
@@ -87,12 +91,11 @@ export default {
             if(helper.validURL(currentNodeUrl)) {
                 commit('currentNode', currentNodeUrl)
                 localStorage.setItem('currentNodeUrl', currentNodeUrl);
+                dispatch('uninitialize', null, { root: true })
                 dispatch('initialize', null, { root: true })
             }
-            else 
+            else
                 throw Error("Cannot change node. URL is not valid: " + currentNodeUrl);
         }
     }
 }
-
-

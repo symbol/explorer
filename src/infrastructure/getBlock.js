@@ -64,7 +64,7 @@ class sdkBlock {
     // Make request.
     const networkType = await http.network.getNetworkType().toPromise()
     const path = `/blocks/from/${blockHeight}/limit/${limit}`
-    const response = await axios.get(http.url + path)
+    const response = await axios.get(http.nodeUrl + path)
     const blocks = response.data.map(info => dto.createBlockFromDTO(info, networkType))
 
     return format.formatBlocks(blocks)
@@ -81,7 +81,7 @@ class sdkBlock {
     // Make request.
     const networkType = await http.network.getNetworkType().toPromise()
     const path = `/blocks/since/${blockHeight}/limit/${limit}`
-    const response = await axios.get(http.url + path)
+    const response = await axios.get(http.nodeUrl + path)
     const blocks = response.data.map(info => dto.createBlockFromDTO(info, networkType))
 
     return format.formatBlocks(blocks)
