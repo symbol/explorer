@@ -18,35 +18,16 @@
 
 import axios from 'axios'
 import {
-  MosaicService,
-  Address,
-  AccountHttp,
-  MosaicHttp,
-  NetworkHttp
+  Address
 } from 'nem2-sdk'
 
-import format from '../format'
 import dto from './dto'
-
-let ACCOUNT_HTTP
-let MOSAIC_HTTP
-let NETWORK_HTTP
-let NODE_URL
+import http from './http'
+import format from '../format'
 
 class sdkMosaic {
-  static init = async nodeUrl => {
-    NODE_URL = nodeUrl
-    ACCOUNT_HTTP = new AccountHttp(nodeUrl)
-    MOSAIC_HTTP = new MosaicHttp(nodeUrl)
-    NETWORK_HTTP = new NetworkHttp(nodeUrl)
-  }
-
   static getMosaicsAmountByAddress = async address => {
-    const mosaicService = new MosaicService(
-      ACCOUNT_HTTP,
-      MOSAIC_HTTP
-    )
-    const mosaicAmount = await mosaicService
+    const mosaicAmount = await http.mosaicService
       .mosaicsAmountViewFromAddress(new Address(address))
       .toPromise()
 
@@ -64,8 +45,8 @@ class sdkMosaic {
 //      let namespaceId = new NamespaceId(mosaicHexOrNamespace)
 //      mosaicID = await NAMESPACE_HTTP.getLinkedMosaicId(namespaceId).toPromise()
 //    }
-//    // const mosaicInfo = await MOSAIC_HTTP.getMosaic(mosaicID).toPromise(); // SDK Break
-//    const mosaicName = await MOSAIC_HTTP.getMosaicsNames([mosaicID]).toPromise();
+//    // const mosaicInfo = await http.mosaic.getMosaic(mosaicID).toPromise(); // SDK Break
+//    const mosaicName = await http.mosaic.getMosaicsNames([mosaicID]).toPromise();
 //
 //    return format.formatMosaicInfo(mosaicInfo,mosaicName[0])
 //  }
@@ -79,9 +60,9 @@ class sdkMosaic {
     }
 
     // Make request.
-    const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
+    const networkType = await http.network.getNetworkType().toPromise()
     const path = `/mosaics/from/${mosaicId}/limit/${limit}`
-    const response = await axios.get(NODE_URL + path)
+    const response = await axios.get(http.nodeUrl + path)
     const mosaics = response.data.map(info => dto.createMosaicInfoFromDTO(info, networkType))
 
     return format.formatMosaicInfos(mosaics)
@@ -96,9 +77,9 @@ class sdkMosaic {
     }
 
     // Make request.
-    const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
+    const networkType = await http.network.getNetworkType().toPromise()
     const path = `/mosaics/since/${mosaicId}/limit/${limit}`
-    const response = await axios.get(NODE_URL + path)
+    const response = await axios.get(http.nodeUrl + path)
     const mosaics = response.data.map(info => dto.createMosaicInfoFromDTO(info, networkType))
 
     return format.formatMosaicInfos(mosaics)

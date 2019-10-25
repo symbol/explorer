@@ -16,16 +16,11 @@
  *
  */
 
-import { DiagnosticHttp } from 'nem2-sdk'
-
-let DIAGNOSTIC_HTTP
+import http from './http'
 
 class sdkDiagnostic {
-    static init = async nodeUrl => {
-        DIAGNOSTIC_HTTP = new DiagnosticHttp(nodeUrl)
-    }
     static getChainInfo = async () => {
-        const chainInfo = await DIAGNOSTIC_HTTP.getDiagnosticStorage().toPromise()
+        const chainInfo = await http.diagnostic.getDiagnosticStorage().toPromise()
         return chainInfo
     }
 }

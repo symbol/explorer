@@ -17,36 +17,17 @@
  */
 
 import axios from 'axios'
-import {
-  AccountHttp,
-  NetworkHttp,
-  TransactionHttp,
-  QueryParams,
-  Address
-} from 'nem2-sdk'
+import { QueryParams, Address } from 'nem2-sdk'
 import dto from './dto'
+import http from './http'
 import format from '../format'
 import sdkBlock from '../infrastructure/getBlock'
 
-
-let TRANSACTION_HTTP
-let ACCOUNT_HTTP
-let NETWORK_HTTP
-let NODE_URL
-
-
 class sdkTransaction {
-  static init = async nodeUrl => {
-    NODE_URL = nodeUrl
-    TRANSACTION_HTTP = new TransactionHttp(nodeUrl)
-    ACCOUNT_HTTP = new AccountHttp(nodeUrl)
-    NETWORK_HTTP = new NetworkHttp(nodeUrl)
-  }
-
   static getAccountTransactions = async (address, transactionId = '') => {
     let pageSize = 100
 
-    const transactionsList = await ACCOUNT_HTTP
+    const transactionsList = await http.account
       .transactions(Address.createFromRawAddress(address), new QueryParams(pageSize, transactionId))
       .toPromise()
 
@@ -54,11 +35,11 @@ class sdkTransaction {
   }
 
   static getTransactionInfoByHash = async (hash) => {
-    const transaction = await TRANSACTION_HTTP.getTransaction(hash).toPromise()
+    const transaction = await http.transaction.getTransaction(hash).toPromise()
     const formattedTransaction = format.formatTransaction(transaction)
     const getBlockInfo = await sdkBlock.getBlockInfoByHeight(formattedTransaction.blockHeight)
 
-    const transactionStatus = await TRANSACTION_HTTP
+    const transactionStatus = await http.transaction
       .getTransactionStatus(hash)
       .toPromise()
 
@@ -100,8 +81,8 @@ class sdkTransaction {
     }
 
     // Make request.
-    const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
-    const response = await axios.get(NODE_URL + path)
+    const networkType = await http.network.getNetworkType().toPromise()
+    const response = await axios.get(http.nodeUrl + path)
     const transactions = response.data.map(info => dto.createTransactionFromDTO(info, networkType))
 
     return format.formatTransactions(transactions)
@@ -134,8 +115,8 @@ class sdkTransaction {
     }
 
     // Make request.
-    const networkType = await NETWORK_HTTP.getNetworkType().toPromise()
-    const response = await axios.get(NODE_URL + path)
+    const networkType = await http.network.getNetworkType().toPromise()
+    const response = await axios.get(http.nodeUrl + path)
     const transactions = response.data.map(info => dto.createTransactionFromDTO(info, networkType))
 
     return format.formatTransactions(transactions)

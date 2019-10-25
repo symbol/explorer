@@ -16,24 +16,19 @@
  *
  */
 
-import { AccountHttp, Address } from 'nem2-sdk'
+import { Address } from 'nem2-sdk'
+import http from './http'
 import format from '../format'
 
-let ACCOUNT_HTTP
-
 class sdkAccount {
-  static init = async nodeUrl => {
-    ACCOUNT_HTTP = new AccountHttp(nodeUrl)
-  }
-
   static getAccountInfoByAddress = async address => {
     let addressObj = Address.createFromRawAddress(address)
 
-    const accountInfo = await ACCOUNT_HTTP
+    const accountInfo = await http.account
       .getAccountInfo(addressObj)
       .toPromise()
 
-    const accountNames = await ACCOUNT_HTTP
+    const accountNames = await http.account
       .getAccountsNames([addressObj])
       .toPromise()
 
@@ -45,7 +40,7 @@ class sdkAccount {
     let accountMultisig
 
     try {
-      accountMultisig = await ACCOUNT_HTTP
+      accountMultisig = await http.account
         .getMultisigAccountInfo(addressObj)
         .toPromise()
     } catch (e) {

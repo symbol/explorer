@@ -18,6 +18,7 @@
 import Vue from 'vue'
 import helper from '../helper'
 import getConfig from '../infrastructure/getConfig'
+import http from '../infrastructure/http'
 
 export default {
     namespaced: true,
@@ -79,6 +80,10 @@ export default {
                         commit('currentNode', currentNodeUrl)
                     else
                         commit('currentNode', getters.defaultNode)
+
+                    const nodeUrl = getters['currentNode'].url
+                    const marketDataUrl = getters['marketData'].url
+                    http.init(nodeUrl, marketDataUrl)
                 })
         },
 
@@ -86,6 +91,7 @@ export default {
             if(helper.validURL(currentNodeUrl)) {
                 commit('currentNode', currentNodeUrl)
                 localStorage.setItem('currentNodeUrl', currentNodeUrl);
+                dispatch('uninitialize', null, { root: true })
                 dispatch('initialize', null, { root: true })
             }
             else
@@ -93,5 +99,3 @@ export default {
         }
     }
 }
-
-
