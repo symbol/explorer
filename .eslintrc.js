@@ -19,6 +19,10 @@ module.exports = {
       'asyncArrow': 'always'
     }]
   },
+  globals: {
+    'PEERS_API': true,
+    'ENDPOINTS': true
+  },
   parserOptions: {
     parser: 'babel-eslint'
   }

@@ -19,18 +19,16 @@ import Vue from 'vue'
 import helper from '../helper'
 import getConfig from '../infrastructure/getConfig'
 import http from '../infrastructure/http'
-import peersApi from '../config/peers-api.json'
-import endpoints from '../config/endpoints.json'
 
 export default {
     namespaced: true,
 
     state: {
-        nodes: [...peersApi.nodes],
-        defaultNode: helper.formatUrl(peersApi.defaultNode.url),
-        currentNode: helper.formatUrl(peersApi.defaultNode.url),
-        wsEndpoint: peersApi.defaultNode.url |> helper.httpToWsUrl |> helper.formatUrl,
-        marketData: helper.formatUrl(endpoints.MARKET_DATA),
+        nodes: [...PEERS_API.nodes],
+        defaultNode: helper.formatUrl(PEERS_API.defaultNode.url),
+        currentNode: helper.formatUrl(PEERS_API.defaultNode.url),
+        wsEndpoint: PEERS_API.defaultNode.url |> helper.httpToWsUrl |> helper.formatUrl,
+        marketData: helper.formatUrl(ENDPOINTS.MARKET_DATA),
     },
 
     getters: {

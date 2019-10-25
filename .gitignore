@@ -20,3 +20,7 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+
+# Custom config files.
+src/config/endpoints.json
+src/config/peers-api.json
