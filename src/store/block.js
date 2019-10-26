@@ -17,6 +17,7 @@
  */
 
 import Vue from 'vue'
+import Timeline from './timeline'
 import util from './util'
 import sdkBlock from '../infrastructure/getBlock'
 import sdkListener from '../infrastructure/getListener'
@@ -26,10 +27,8 @@ export default {
   state: {
     // Holds the latest PAGE_SIZE blocks.
     latestList: [],
-    // Holds the PAGE_SIZE blocks starting from current page.
-    pageList: [],
-    // The current page index (0-indexed).
-    pageIndex: 0,
+    // Timeline of data current in the view.
+    timeline: Timeline.empty(),
     // Subscription to new blocks.
     subscription: null,
     // Determine if the blocks model is loading.
@@ -47,8 +46,10 @@ export default {
     getRecentList: state => Array.prototype.filter.call(state.latestList, (item, index) => {
       return index < 4
     }),
-    getPageList: state => state.pageList,
-    getPageListFormatted: (state, getters) => getters.getPageList.map(el => ({
+    getTimeline: state => state.timeline,
+    getCanFetchPrevious: state => state.timeline.canFetchPrevious,
+    getCanFetchNext: state => state.timeline.canFetchNext,
+    getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
       height: el.height,
       age: el.date,
       transactions: el.numTransactions,
@@ -56,7 +57,7 @@ export default {
       date: el.date,
       harvester: el.signer.address.address
     })),
-    getPageIndex: state => state.pageIndex,
+
     getSubscription: state => state.subscription,
     getLoading: state => state.loading,
     blockInfo: state => state.blockInfo,
@@ -67,18 +68,14 @@ export default {
   },
   mutations: {
     setLatestList: (state, list) => { state.latestList = list },
-    setPageList: (state, list) => { state.pageList = list },
-    setPageIndex: (state, pageIndex) => { state.pageIndex = pageIndex },
+    setTimeline: (state, timeline) => { state.timeline = timeline },
     setSubscription: (state, subscription) => { state.subscription = subscription },
     setLoading: (state, loading) => { state.loading = loading },
-    resetPageIndex: (state) => { state.pageIndex = 0 },
 
     addLatestItem: (state, item) => {
       if (state.latestList.length > 0 && state.latestList[0].height !== item.height) {
         util.prependItem(state.latestList, item)
-        if (state.pageIndex === 0) {
-          util.prependItem(state.pageList, item)
-        }
+        state.timeline = state.timeline.addLatestItem(item, 'height')
       }
     },
 
@@ -128,55 +125,50 @@ export default {
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit }) {
       commit('setLoading', true)
-      let blockList = await sdkBlock.getBlocksFromHeightWithLimit(util.PAGE_SIZE)
-      commit('setLatestList', blockList)
-      commit('setPageList', [...blockList])
+      let blockList = await sdkBlock.getBlocksFromHeightWithLimit(2 * Timeline.pageSize)
+      commit('setLatestList', blockList.slice(0, Timeline.pageSize))
       if (blockList.length > 0) {
         commit('chain/setBlockHeight', blockList[0].height, { root: true })
       }
+      commit('setTimeline', Timeline.fromData(blockList))
       commit('setLoading', false)
     },
 
     // Fetch the next page of data.
     async fetchNextPage({ commit, getters }) {
       commit('setLoading', true)
-      const pageList = getters.getPageList
-      const pageIndex = getters.getPageIndex
-      if (pageList.length > 0) {
-        // Page is loaded, need to fetch next page.
-        const block = pageList[pageList.length - 1]
-        let blockList = await sdkBlock.getBlocksFromHeightWithLimit(util.PAGE_SIZE, block.height)
-        commit('setPageIndex', pageIndex + 1)
-        commit('setPageList', blockList)
+      const timeline = getters.getTimeline
+      const list = timeline.next
+      if (list.length === 0) {
+        throw new Error('internal error: next list is 0.')
       }
+      const block = list[list.length - 1]
+      const fetchNext = pageSize => sdkBlock.getBlocksFromHeightWithLimit(pageSize, block.height)
+      commit('setTimeline', await timeline.shiftNext(fetchNext))
       commit('setLoading', false)
     },
 
     // Fetch the previous page of data.
     async fetchPreviousPage({ commit, getters }) {
       commit('setLoading', true)
-      const pageList = getters.getPageList
-      const pageIndex = getters.getPageIndex
-      if (pageIndex === 1) {
-        // Can specialize for the latest list.
-        commit('setPageIndex', 0)
-        commit('setPageList', getters.getLatestList)
-      } else if (pageIndex > 0 && pageList.length > 0) {
-        // Page is loaded, not the first page, need to fetch previous page.
-        const block = pageList[0]
-        let blockList = await sdkBlock.getBlocksSinceHeightWithLimit(util.PAGE_SIZE, block.height)
-        commit('setPageIndex', pageIndex - 1)
-        commit('setPageList', blockList)
+      const timeline = getters.getTimeline
+      const list = timeline.previous
+      if (list.length === 0) {
+        throw new Error('internal error: previous list is 0.')
       }
+      const block = list[0]
+      const fetchPrevious = pageSize => sdkBlock.getBlocksSinceHeightWithLimit(pageSize, block.height)
+      const fetchLive = pageSize => sdkBlock.getBlocksSinceHeightWithLimit(pageSize)
+      commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
       commit('setLoading', false)
     },
 
     // Reset the block page to the latest list (index 0)
     async resetPage({ commit, getters }) {
       commit('setLoading', true)
-      if (getters.getPageIndex > 0) {
-        commit('setPageList', getters.getLatestList)
-        commit('resetPageIndex')
+      if (!getters.getTimeline.isLive) {
+        const data = await sdkBlock.getBlocksFromHeightWithLimit(2 * Timeline.pageSize)
+        commit('setTimeline', Timeline.fromData(data))
       }
       commit('setLoading', false)
     },

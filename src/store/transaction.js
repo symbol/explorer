@@ -18,27 +18,20 @@
 
 import Vue from 'vue'
 import * as nem from 'nem2-sdk'
-import util from './util'
+import Timeline from './timeline'
 import sdkTransaction from '../infrastructure/getTransaction'
-
-const PAGE_DEFAULT = {
-  // Holds the PAGE_SIZE transactions starting from current page.
-  pageList: [],
-  // The current page index (0-indexed).
-  pageIndex: 0
-}
 
 const PAGES = {
   // Recent block pages.
-  recent: { ...PAGE_DEFAULT },
+  recent: Timeline.empty(),
   // Pending block pages.
-  pending: { ...PAGE_DEFAULT },
+  pending: Timeline.empty(),
   // Transfer block pages.
-  transfer: { ...PAGE_DEFAULT },
+  transfer: Timeline.empty(),
   // Multisig block pages.
-  multisig: { ...PAGE_DEFAULT },
+  multisig: Timeline.empty(),
   // Mosaic block pages.
-  mosaic: { ...PAGE_DEFAULT }
+  mosaic: Timeline.empty()
 }
 
 // Map the page name to the transaction type.
@@ -75,16 +68,19 @@ export default {
       return index < 4
     }),
     getTransactionType: state => state.transactionType,
-    getPageList: state => state[state.transactionType].pageList,
-    getPageIndex: state => state[state.transactionType].pageIndex,
-    getPageListFormatted: (state, getters) => getters.getPageList.map(el => ({
-      // TODO(ahuszagh) Likely need to rework this.
-      deadline: el.deadline,
-      blockHeight: el.blockHeight,
-      transactionId: el.transactionId,
-      transactionHash: el.transactionHash,
-      fee: el.fee
+    getTimeline: state => state[state.transactionType],
+    getCanFetchPrevious: (state, getters) => getters.getTimeline.canFetchPrevious,
+    getCanFetchNext: (state, getters) => getters.getTimeline.canFetchNext,
+    getTimelineList: (state, getters) => getters.getTimeline.current,
+    getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
+      height: el.height,
+      age: el.date,
+      transactions: el.numTransactions,
+      fee: el.totalFee,
+      date: el.date,
+      harvester: el.signer.address.address
     })),
+
     getSubscription: state => state.subscription,
     getLoading: state => state.loading,
     transactionInfo: state => state.transactionInfo,
@@ -98,20 +94,16 @@ export default {
   mutations: {
     setLatestList: (state, list) => { state.latestList = list },
     setTransactionType: (state, transactionType) => { state.transactionType = transactionType },
-    setPageList: (state, list) => { state[state.transactionType].pageList = list },
-    setPageListWithType: (state, { list, type }) => { state[type].pageList = list },
-    setPageIndex: (state, pageIndex) => { state[state.transactionType].pageIndex = pageIndex },
+    setTimeline: (state, timeline) => { state[state.transactionType] = timeline },
+    setTimelineWithType: (state, { timeline, type }) => { state[type] = timeline },
+
     setSubscription: (state, subscription) => { state.subscription = subscription },
     setLoading: (state, loading) => { state.loading = loading },
-    // TODO(ahuszagh) Likely need to rework this.
-    // This isn't great.
-    resetPageIndex: (state) => { state[state.transactionType].pageIndex = 0 },
     addLatestItem(state, item) {
       // TODO(ahuszagh) Actually implement...
       // util.addLatestItemByKey(state, item, 'hash', 1)
     },
 
-    // TODO(ahuszagh) Bad names....
     transactionInfo: (state, transactionInfo) => Vue.set(state, 'transactionInfo', transactionInfo),
     transactionDetail: (state, transactionDetail) => Vue.set(state, 'transactionDetail', transactionDetail),
     transferMosaics: (state, transferMosaics) => Vue.set(state, 'transferMosaics', transferMosaics),
@@ -148,7 +140,7 @@ export default {
       }
     },
 
-    // Add block to latest transactions.
+    // Add transaction to latest transactions.
     add({ commit }, item) {
       // TODO(ahuszagh) Also need to rework this.
       // Need to consider transaction type.
@@ -157,12 +149,15 @@ export default {
     },
 
     // Fetch data from the SDK and initialize the page.
-    async initializePage({ commit }) {
+    async initializePage({ commit, getters }) {
       commit('setLoading', true)
       for (let transactionType of Object.keys(PAGES)) {
         const type = TRANSACTION_TYPE_MAP[transactionType]
-        let transactionList = await sdkTransaction.getTransactionsFromHashWithLimit(util.PAGE_SIZE, type)
-        commit('setPageListWithType', { list: transactionList, type: transactionType })
+        let data = await sdkTransaction.getTransactionsFromHashWithLimit(2 * Timeline.pageSize, type)
+        if (transactionType === 'recent') {
+          commit('setLatestList', data.slice(0, Timeline.pageSize))
+        }
+        commit('setTimelineWithType', { timeline: Timeline.fromData(data), type: transactionType })
       }
       commit('setLoading', false)
     },
@@ -170,32 +165,31 @@ export default {
     // Fetch the next page of data.
     async fetchNextPage({ commit, getters }) {
       commit('setLoading', true)
-      const pageList = getters.getPageList
-      const pageIndex = getters.getPageIndex
-      if (pageList.length > 0) {
-        // Page is loaded, need to fetch next page.
-        const transaction = pageList[pageList.length - 1]
-        const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
-        let transactionList = await sdkTransaction.getTransactionsFromHashWithLimit(util.PAGE_SIZE, type, transaction.transactionHash)
-        commit('setPageIndex', pageIndex + 1)
-        commit('setPageList', transactionList)
+      const timeline = getters.getTimeline
+      const list = timeline.next
+      if (list.length === 0) {
+        throw new Error('internal error: next list is 0.')
       }
+      const transaction = list[list.length - 1]
+      const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
+      const fetchNext = pageSize => sdkTransaction.getTransactionsFromHashWithLimit(pageSize, type, transaction.transactionHash)
+      commit('setTimeline', await timeline.shiftNext(fetchNext))
       commit('setLoading', false)
     },
 
     // Fetch the previous page of data.
     async fetchPreviousPage({ commit, getters }) {
       commit('setLoading', true)
-      const pageList = getters.getPageList
-      const pageIndex = getters.getPageIndex
-      if (pageIndex > 0 && pageList.length > 0) {
-        // Page is loaded, need to fetch previous page.
-        const transaction = pageList[0]
-        const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
-        let transactionList = await sdkTransaction.getTransactionsSinceHashWithLimit(util.PAGE_SIZE, type, transaction.transactionHash)
-        commit('setPageIndex', pageIndex - 1)
-        commit('setPageList', transactionList)
+      const timeline = getters.getTimeline
+      const list = timeline.previous
+      if (list.length === 0) {
+        throw new Error('internal error: previous list is 0.')
       }
+      const transaction = list[0]
+      const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
+      const fetchPrevious = pageSize => sdkTransaction.getTransactionsSinceHashWithLimit(pageSize, type, transaction.transactionHash)
+      const fetchLive = pageSize => sdkTransaction.getTransactionsSinceHashWithLimit(pageSize, type)
+      commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
       commit('setLoading', false)
     },
 
@@ -203,12 +197,11 @@ export default {
     async changePage({ commit, getters }, transactionType) {
       commit('setLoading', true)
       if (getters.getTransactionType !== transactionType) {
-        if (getters.getPageIndex !== 0) {
-          // Reset to the first page.
+        if (!getters.getTimeline.isLive) {
+          // Reset to the live page.
           const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
-          let transactionList = await sdkTransaction.getTransactionsFromHashWithLimit(util.PAGE_SIZE, type)
-          commit('setPageIndex', 0)
-          commit('setPageList', transactionList)
+          let data = await sdkTransaction.getTransactionsFromHashWithLimit(Timeline.pageSize, type)
+          commit('setTimeline', Timeline.fromData(data))
         }
         commit('setTransactionType', transactionType)
       }
@@ -220,11 +213,10 @@ export default {
       commit('setLoading', true)
       if (getters.getTransactionType !== 'recent') {
         if (getters.getPageIndex !== 0) {
-          // Reset to the first page.
+          // Reset to the live page.
           const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
-          let transactionList = await sdkTransaction.getTransactionsFromHashWithLimit(util.PAGE_SIZE, type)
-          commit('setPageIndex', 0)
-          commit('setPageList', transactionList)
+          let data = await sdkTransaction.getTransactionsFromHashWithLimit(Timeline.pageSize, type)
+          commit('setTimeline', Timeline.fromData(data))
         }
         commit('setTransactionType', 'recent')
       }
