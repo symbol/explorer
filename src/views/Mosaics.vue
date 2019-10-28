@@ -19,26 +19,31 @@
 <template>
     <div class="page">
         <div class="page-content-card-f">
-            <Card class="card-f card-full-width">
-                <template v-slot:title>
+            <Card
+                class="card-f card-full-width"
+                :loading="loading"
+            >
+                <template #title>
                     Mosaics
                 </template>
-                <template v-slot:control>
+                <template #control>
                     <Pagination
-                        :pageIndex="pageIndex"
+                        v-if="canFetchPrevious"
+                        :canFetchPrevious="canFetchPrevious"
+                        :canFetchNext="canFetchNext"
                         :nextPageAction="nextPageAction"
                         :previousPageAction="previousPageAction"
                     />
                 </template>
 
-                <template v-slot:body>
-                    <loader v-if="loading" />
+                <template #body>
                     <TableListView
                         :data="mosaicList"
                     />
                     <Pagination
                         style="margin-top: 20px;"
-                        :pageIndex="pageIndex"
+                        :canFetchPrevious="canFetchPrevious"
+                        :canFetchNext="canFetchNext"
                         :nextPageAction="nextPageAction"
                         :previousPageAction="previousPageAction"
                     />
@@ -67,9 +72,10 @@ export default {
 
     computed: {
         ...mapGetters({
-            mosaicList: 'mosaic/getPageListFormatted',
-            loading: 'mosaic/getLoading',
-            pageIndex: 'mosaic/getPageIndex'
+            mosaicList: 'mosaic/getTimelineFormatted',
+            canFetchPrevious: 'mosaic/getCanFetchPrevious',
+            canFetchNext: 'mosaic/getCanFetchNext',
+            loading: 'mosaic/getLoading'
         }),
 
     },

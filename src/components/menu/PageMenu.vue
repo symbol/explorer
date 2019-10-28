@@ -55,8 +55,8 @@
   </header>
 </template>
 <script>
-import w1 from '@/components/PageMenuItem.vue'
-import { pageMenu } from '../config/'
+import w1 from './PageMenuItem.vue'
+import { pageMenu } from '../../config/'
 export default {
   name: 'PageMenu',
   components: {

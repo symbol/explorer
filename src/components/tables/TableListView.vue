@@ -1,6 +1,6 @@
 <template>
   <div v-if="data" class="table-view">
-    <div class="table-wrapper">
+    <div v-if="dataIsNotEmpty" class="table-wrapper">
       <table class="table table-striped">
         <thead>
           <tr>
@@ -19,87 +19,84 @@
               @click="onItemClick(itemKey, item)"
             >
               <Age v-if="itemKey === 'age'" :date="item" />
-              <div v-else class="max-item-width">{{ item }}</div>
+
+              <div v-else>
+                <div v-if="itemKey === 'transactionBody'">
+                  <div @click="onOpenModal(view+'r'+rowIndex)">Show Detail</div>
+                  <Modal
+                    :id="view+'r'+rowIndex"
+                    v-show="openedModal === view+'r'+rowIndex"
+                    @close="openedModal = null"
+                  >
+                    <div slot="header">{{item.type}}</div>
+                    <div slot="body">
+                      <AggregateTransaction slot="body" :transactionBody="item" />
+                    </div>
+                  </Modal>
+                </div>
+
+                <div v-else class="max-item-width">{{ item }}</div>
+              </div>
             </td>
           </tr>
         </tbody>
       </table>
     </div>
-    <!--
-        <div
-            v-if="pagination"
-            class="table-pagination"
-        >
-            <ButtonMore
-                v-if="pageIndex===0"
-                @click="onMoreClick"
-            >
-                More
-            </ButtonMore>
-            <Pagination
-                v-else
-                :nextPageAction="nextPageAction"
-                :previousPageAction="previousPageAction"
-            />
-    </div>-->
+    <div v-else class="empty-data">{{emptyDataMessageFormatted}}</div>
   </div>
 </template>
 
 <script>
 import TableView from './TableView.vue'
+import Modal from '../containers/Modal.vue'
+import AggregateTransaction from '../AggregateTransaction.vue'
 export default {
   extends: TableView,
-
+  data() {
+    return { openedModal: null }
+  },
   created() {
     this.componentType = 'list'
   },
 
-  components: {},
+  components: { Modal, AggregateTransaction },
   props: {
     data: {
       type: Array,
-      required: true
+      required: true,
     },
 
     pagination: {
       type: Boolean,
-      default: false
-    }
+      default: false,
+    },
+
+    showModal: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   computed: {
-    // data() {
-    //     let data = this.$store.getters[this.view + "/getPageList"];
-    //     if(Array.isArray(data))
-    //         return data;
-    //     else
-    //         return null;
-    // },
-
     header() {
       let header = []
       if (this.data) for (let key in this.data[0]) header.push(key)
       return header
-    }
+    },
 
-    // pageIndex() {
-    //     return this.$store.getters[this.view + '/getPageIndex'];
-    // },
-
-    // nextPageAction() {
-    //     return this.view + '/fetchNextPage';
-    // },
-
-    // previousPageAction() {
-    //     return this.view + '/fetchPreviousPage';
-    // }
+    dataIsNotEmpty() {
+      return this.data.length
+    },
   },
 
   methods: {
     onMoreClick() {
       this.$store.dispatch(this.nextPageAction)
-    }
-  }
+    },
+    onOpenModal(id) {
+      this.openedModal = id
+    },
+  },
 }
 </script>
 

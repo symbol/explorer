@@ -29,7 +29,7 @@
 
       <Card
         class="card-f card-adaptive"
-        v-if="transferMosaics.length > 0"
+        v-if="showTransferMosaics"
         :loading="loading"
       >
         <template #title>Mosaics</template>
@@ -41,7 +41,7 @@
 
       <Card
         class="card-f card-full-width"
-        v-if="aggregateInnerTransactions.length > 0"
+        v-if="showAggregateInnerTransactions"
         :loading="loading"
       >
         <template #title>Aggregate InnerTransactions</template>
@@ -54,7 +54,7 @@
 
       <Card
         class="card-f card-full-width"
-        v-if="aggregateCosignatures.length > 0"
+        v-if="showAggregateCosignatures"
         :loading="loading"
       >
         <template #title>Aggregate Cosignatures</template>
@@ -106,6 +106,18 @@ export default {
 
     showTransactionDetail() {
       return !this.error
+    },
+
+    showTransferMosaics() {
+      return this.transferMosaics?.length > 0
+    },
+
+    showAggregateInnerTransactions() {
+      return this.aggregateInnerTransactions?.length > 0
+    },
+
+    showAggregateCosignatures() {
+      return this.aggregateCosignatures?.length > 0
     }
   }
 }

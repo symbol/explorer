@@ -16,17 +16,15 @@
  *
  */
 
-import util from './util'
+import Timeline from './timeline'
 import sdkNamespace from '../infrastructure/getNamespace'
 import Constants from '../config/constants'
 
 export default {
   namespaced: true,
   state: {
-    // Holds the PAGE_SIZE namespaces starting from current page.
-    pageList: [],
-    // The current page index (0-indexed).
-    pageIndex: 0,
+    // Timeline of data current in the view.
+    timeline: Timeline.empty(),
     // Determine if the namespaces model is loading.
     loading: false,
     // The Namespace detail infomation.
@@ -35,28 +33,28 @@ export default {
     namespaceLevels: []
   },
   getters: {
-    getPageList: state => state.pageList,
-    getPageIndex: state => state.pageIndex,
-    getLoading: state => state.loading,
-    getPageListFormatted: (state, getters) => getters.getPageList.map(el => ({
+    getTimeline: state => state.timeline,
+    getCanFetchPrevious: state => state.timeline.canFetchPrevious,
+    getCanFetchNext: state => state.timeline.canFetchNext,
+    getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
       namespaceId: el.namespace,
       owneraddress: el.address,
       parentId: el.parent,
       startHeight: el.startHeight,
       depth: el.depth
     })),
+    getLoading: state => state.loading,
     getNamespaceInfo: state => state.namespaceInfo,
     getNamespaceLevels: state => state.namespaceLevels
   },
   mutations: {
-    setPageList: (state, list) => { state.pageList = list },
-    setPageIndex: (state, pageIndex) => { state.pageIndex = pageIndex },
+    setTimeline: (state, timeline) => { state.timeline = timeline },
     setLoading: (state, loading) => { state.loading = loading },
-    resetPageIndex: (state) => { state.pageIndex = 0 },
     setNamespaceInfo: (state, info) => { state.namespaceInfo = info },
     setNamespaceLevels: (state, levels) => { state.namespaceLevels = levels }
   },
   actions: {
+
     // Initialize the namespace model.
     // First fetch the page, then subscribe.
     async initialize({ dispatch }) {
@@ -66,49 +64,46 @@ export default {
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit }) {
       commit('setLoading', true)
-      let namespaceList = await sdkNamespace.getNamespacesFromIdWithLimit(util.PAGE_SIZE)
-      commit('setPageList', namespaceList)
+      let namespaceList = await sdkNamespace.getNamespacesFromIdWithLimit(2 * Timeline.pageSize)
+      commit('setTimeline', Timeline.fromData(namespaceList))
       commit('setLoading', false)
     },
 
     // Fetch the next page of data.
     async fetchNextPage({ commit, getters }) {
       commit('setLoading', true)
-      const pageList = getters.getPageList
-      const pageIndex = getters.getPageIndex
-      if (pageList.length > 0) {
-        // Page is loaded, need to fetch next page.
-        const namespace = pageList[pageList.length - 1]
-        let namespaceList = await sdkNamespace.getNamespacesFromIdWithLimit(util.PAGE_SIZE, namespace.id)
-        commit('setPageIndex', pageIndex + 1)
-        commit('setPageList', namespaceList)
+      const timeline = getters.getTimeline
+      const list = timeline.next
+      if (list.length === 0) {
+        throw new Error('internal error: next list is 0.')
       }
+      const namespace = list[list.length - 1]
+      const fetchNext = pageSize => sdkNamespace.getNamespacesFromIdWithLimit(pageSize, namespace.id)
+      commit('setTimeline', await timeline.shiftNext(fetchNext))
       commit('setLoading', false)
     },
 
     // Fetch the previous page of data.
     async fetchPreviousPage({ commit, getters }) {
       commit('setLoading', true)
-      const pageList = getters.getPageList
-      const pageIndex = getters.getPageIndex
-      if (pageList.length > 0) {
-        // Page is loaded, need to fetch previous page.
-        const namespace = pageList[0]
-        let namespaceList = await sdkNamespace.getNamespacesSinceIdWithLimit(util.PAGE_SIZE, namespace.id)
-        commit('setPageIndex', pageIndex + 1)
-        commit('setPageList', namespaceList)
+      const timeline = getters.getTimeline
+      const list = timeline.previous
+      if (list.length === 0) {
+        throw new Error('internal error: previous list is 0.')
       }
+      const namespace = list[0]
+      const fetchPrevious = pageSize => sdkNamespace.getNamespacesSinceIdWithLimit(pageSize, namespace.id)
+      const fetchLive = pageSize => sdkNamespace.getNamespacesSinceIdWithLimit(pageSize)
+      commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
       commit('setLoading', false)
     },
 
     // Reset the namespace page to the latest list (index 0)
     async resetPage({ commit, getters }) {
       commit('setLoading', true)
-      const pageIndex = getters.getPageIndex
-      if (pageIndex > 0) {
-        let namespaceList = await sdkNamespace.getNamespacesFromIdWithLimit(util.PAGE_SIZE)
-        commit('setPageIndex', 0)
-        commit('setPageList', namespaceList)
+      if (!getters.getTimeline.isLive) {
+        const data = await sdkNamespace.getNamespacesFromIdWithLimit(2 * Timeline.pageSize)
+        commit('setTimeline', Timeline.fromData(data))
       }
       commit('setLoading', false)
     },

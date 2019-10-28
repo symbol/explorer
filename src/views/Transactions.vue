@@ -17,46 +17,64 @@
  */
 
 <template>
-  <div>
-    <div class="page_con">
-      <div class="full-con mob_con">
-        <div class="container p-0">
-          <div class="widget has-shadow mt-4">
-            <div class="box">
-              <TransactionTypeBox/>
-              <div class="box-con mt-0">
-                <loader v-if="loading"></loader>
-                <TransactionTable :transactionList="transactionList"/>
-                <Pagination class="table-footer"
-                  :nextPageAction="'transaction/fetchNextPage'"
-                  :previousPageAction="'transaction/fetchPreviousPage'"
-                />
-              </div>
-            </div>
-          </div>
+    <div class="page">
+        <div class="page-content-card-f">
+            <Card
+                class="card-f card-full-width"
+                :loading="loading"
+            >
+                <template #title>
+                    Transactions
+                </template>
+                <template #body>
+                    <TransactionTypeBox/>
+                    <TransactionTable
+                        :transactionList="transactionList"
+                    />
+                    <Pagination
+                        style="margin-top: 20px;"
+                        :canFetchPrevious="canFetchPrevious"
+                        :canFetchNext="canFetchNext"
+                        :nextPageAction="nextPageAction"
+                        :previousPageAction="previousPageAction"
+                    />
+                </template>
+            </Card>
         </div>
-      </div>
     </div>
-  </div>
 </template>
 <script>
 import w1 from '@/components/TransactionTypeBox.vue'
 import w2 from '@/components/TransactionTable.vue'
-import w3 from '@/components/Pagination.vue'
+import View from './View.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'Transactions',
-  components: {
-    TransactionTypeBox: w1,
-    TransactionTable: w2,
-    Pagination: w3
-  },
-  computed: {
-    ...mapGetters({
-      transactionList: 'transaction/getPageList',
-      loading: 'transaction/getLoading'
-    })
-  }
+    extends: View,
+
+    components: {
+        TransactionTypeBox: w1,
+        TransactionTable: w2
+    },
+
+    mounted() {
+        this.$store.dispatch('transaction/initialize')
+    },
+
+    data() {
+        return {
+            nextPageAction: 'transaction/fetchNextPage',
+            previousPageAction: 'transaction/fetchPreviousPage'
+        }
+    },
+
+    computed: {
+        ...mapGetters({
+            transactionList: 'transaction/getTimelineList',
+            canFetchPrevious: 'transaction/getCanFetchPrevious',
+            canFetchNext: 'transaction/getCanFetchNext',
+            loading: 'transaction/getLoading'
+        })
+    }
 }
 </script>

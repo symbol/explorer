@@ -452,7 +452,7 @@ const formatNamespaceInfo = namespaceInfo => ({
   levels: namespaceInfo.levels,
   parent: namespaceInfo.parentId.toHex(),
   address: namespaceInfo.owner.address.plain(),
-  startHeight: namespaceInfo.startHeight.compact(),
+  startHeight: namespaceInfo.startHeight.compact()
 })
 
 const formatNamespaceInfos = namespaceInfos => {

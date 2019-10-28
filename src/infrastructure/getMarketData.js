@@ -17,15 +17,16 @@
  */
 
 import axios from 'axios'
-import { Endpoint } from '../config'
+import http from './http'
 
 class apiMarketData {
   static getXemPriceData = () => {
     return new Promise((resolve, reject) => {
+      let url = http.marketDataUrl + 'data/pricemultifull?fsyms=XEM&tsyms=USD'
       axios
-        .all([axios.get(Endpoint.marketDataURL + 'data/pricemultifull?fsyms=XEM&tsyms=USD')])
+        .get(url)
         .then(res => {
-          return resolve(res[0].data.DISPLAY)
+          return resolve(res.data.DISPLAY)
         })
         .catch(error => {
           // reject(new Error('Fail to request XEM price.'))
@@ -36,10 +37,11 @@ class apiMarketData {
 
   static getXemHistoricalHourlyGraph = () => {
     return new Promise((resolve, reject) => {
+      let url = http.marketDataUrl + 'data/histohour?fsym=XEM&tsym=USD&limit=168'
       axios
-        .all([axios.get(Endpoint.marketDataURL + 'data/histohour?fsym=XEM&tsym=USD&limit=168')])
+        .get(url)
         .then(res => {
-          return resolve(res[0].data)
+          return resolve(res.data)
         })
         .catch(error => {
           // reject(new Error('Fail to request Xem historical hourly graph.'))

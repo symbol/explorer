@@ -17,84 +17,12 @@
  */
 import router from '../router'
 import { Address, AccountHttp } from 'nem2-sdk'
-import { Endpoint, i18n } from '../config'
+import { i18n } from '../config'
 
 export default {
   namespaced: true,
   state: {
-    keyNames: {
-      'age': 'Age',
-      'aliasAction': 'Alias Action',
-      'linkAction': 'Link Action',
-      'amount': 'Amount',
-      'height': 'Height',
-      'fee': 'Fee',
-      'date': 'Date',
-      'deadline': 'Deadline',
-      'status': 'Status',
-      'confirm': 'Confirmation',
-      'signature': 'Signature',
-      'harvester': 'Harvester',
-      'datetime': 'Date',
-      'difficulty': 'Difficulty',
-      'address': 'Address',
-      'account': 'Account',
-      'block': 'Block',
-      'mosaic': 'Mosaic',
-      'namespace': 'Namespace',
-      'namespaceName': 'Name',
-      'transaction': 'Transaction',
-      'transactionHash': 'Transaction Hash',
-      'transactionId': 'Transaction ID',
-      'totalTransactions': 'Total Transactions',
-      'transactionType': 'Transaction Type',
-
-      'addressHeight': 'Address height',
-      'publicKey': 'Public key',
-      'publicKeyHeight': 'PublicKey height',
-      'importance': 'Importance',
-      'importanceHeight': 'Importance height',
-      'accountType': 'Account type',
-      'linkedAccountKey': 'Linked account key',
-
-      'accounts': 'Accounts',
-      'blocks': 'Blocks',
-      'mosaics': 'Mosaics',
-      'namespaces': 'Namespaces',
-      'namespaceId': 'Namespace ID',
-      'depth': 'Depth',
-      'transactions': 'Transactions',
-      'mosaicId': 'Mosaic ID',
-
-      'blockHeight': 'Block Height',
-      'blockHash': 'Block Hash',
-      'signer': 'Signer',
-      'recipient': 'Recipient',
-      'registrationType': 'Registration Type',
-      'parentId': 'Parent ID',
-      'duration': 'Duration',
-      'remoteAccountPublicKey': 'Remote Account PublicKey',
-      'remoteAccountAddress': 'Remote Account Address',
-      'startHeight': 'Start Height',
-      'endHeight': 'End Height',
-      'divisibility': 'Divisibility',
-      'supply': 'Supply',
-      'owneraddress': 'Owner Address',
-      'revision': 'Revision',
-      'supplyMutable': 'Supply Mutable',
-      'transferable': 'Transferable',
-      'restrictable': 'Restrictable',
-      'active': 'Active',
-      'alias': 'Alias',
-      'aliasType': 'Alias Type',
-      'hashType': 'Hash Type',
-      'secret': 'Secret',
-      'linkedNamespace': 'Linked Namespace',
-      'minApproval': 'Minimum Approval',
-      'minRemoval': 'Minimum Removal'
-
-    }, /// put new names here => src/config/i18n/en-us.json
-
+    keyNames: {}, /// put new names here => src/config/i18n/en-us.json
 
     keyPages: {
       'height': 'block',
@@ -151,7 +79,7 @@ export default {
       }
     },
 
-    search: ({ dispatch }, searchString) => {
+    search: ({ dispatch, rootGetters }, searchString) => {
       return new Promise(async (resolve, reject) => {
         if (searchString !== null && searchString !== '') {
           searchString = searchString.replace(/[^a-zA-Z0-9]/g, '')
@@ -171,7 +99,9 @@ export default {
           } else
           if (isAccountPublicKey(searchString)) {
             // check the string is a public key of an account
-            let accountHttp = new AccountHttp(Endpoint.api)
+
+            const api = rootGetters['api/currentNode'].url
+            let accountHttp = new AccountHttp(api)
             let accountAddress
             let accountInfo
             try {

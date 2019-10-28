@@ -55,15 +55,15 @@
       </div>
     </div>
 
-    <MobileMenu :nodes="nodes" :activenode="activeNode" />
+    <MobileMenu />
+
   </div>
 </template>
 
 <script>
-import MobileMenu from '@/components/MobileMenu.vue'
-import NodeSelector from '@/components/header/NodeSelector.vue'
-import SearchBox from '@/components/header/SearchBox.vue'
-import { Endpoint } from '../config/'
+import MobileMenu from '@/components/menu/MobileMenu.vue'
+import NodeSelector from '@/components/controls/NodeSelector.vue'
+import SearchBox from '@/components/controls/SearchBox.vue'
 import helper from '../helper'
 
 export default {
@@ -77,8 +77,6 @@ export default {
 
   data() {
     return {
-      nodes: Endpoint.nodes,
-      activeNode: Endpoint.api.replace('http://', '').replace(':3000', ''),
       mobmenu_active: 0,
       nodemenu_active: 0
     }

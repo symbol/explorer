@@ -61,6 +61,9 @@ export default {
     accountInfoError: (state, payload) => Vue.set(state, 'accountInfoError', payload)
   },
   actions: {
+    async initialize({ dispatch }) {
+    },
+
     // Fetch data from the SDK By Address.
     async fetchAccountDataByAddress({ commit }, address) {
       commit('accountInfoLoading', true)

@@ -9,10 +9,11 @@
                     Blocks
                 </template>
                 <template #control>
-                    <h5 v-if="pageIndex === 0"> Chain height: {{chainHeight}} </h5>
+                    <h5 v-if="!canFetchPrevious"> Chain height: {{chainHeight}} </h5>
                     <Pagination
                         v-else
-                        :pageIndex="pageIndex"
+                        :canFetchPrevious="canFetchPrevious"
+                        :canFetchNext="canFetchNext"
                         :nextPageAction="nextPageAction"
                         :previousPageAction="previousPageAction"
                     />
@@ -23,7 +24,8 @@
                     />
                     <Pagination
                         style="margin-top: 20px;"
-                        :pageIndex="pageIndex"
+                        :canFetchPrevious="canFetchPrevious"
+                        :canFetchNext="canFetchNext"
                         :nextPageAction="nextPageAction"
                         :previousPageAction="previousPageAction"
                     />
@@ -54,9 +56,11 @@ export default {
   computed: {
     ...mapGetters({
       chainHeight: 'chain/getBlockHeight',
-      blockList: 'block/getPageListFormatted',
-      loading: 'block/getLoading',
-      pageIndex: 'block/getPageIndex'
+      timeline: 'block/getTimeline',
+      blockList: 'block/getTimelineFormatted',
+      canFetchPrevious: 'block/getCanFetchPrevious',
+      canFetchNext: 'block/getCanFetchNext',
+      loading: 'block/getLoading'
     })
 
   },
