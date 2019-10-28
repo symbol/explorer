@@ -17,8 +17,8 @@
  */
 
 import Timeline from './timeline'
-import sdkNamespace from '../infrastructure/getNamespace'
 import Constants from '../config/constants'
+import sdkNamespace from '../infrastructure/getNamespace'
 
 export default {
   namespaced: true,
@@ -64,7 +64,7 @@ export default {
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit }) {
       commit('setLoading', true)
-      let namespaceList = await sdkNamespace.getNamespacesFromIdWithLimit(2 * Timeline.pageSize)
+      let namespaceList = await sdkNamespace.getNamespacesFromIdWithLimit(2 * Constants.PageSize)
       commit('setTimeline', Timeline.fromData(namespaceList))
       commit('setLoading', false)
     },
@@ -102,7 +102,7 @@ export default {
     async resetPage({ commit, getters }) {
       commit('setLoading', true)
       if (!getters.getTimeline.isLive) {
-        const data = await sdkNamespace.getNamespacesFromIdWithLimit(2 * Timeline.pageSize)
+        const data = await sdkNamespace.getNamespacesFromIdWithLimit(2 * Constants.PageSize)
         commit('setTimeline', Timeline.fromData(data))
       }
       commit('setLoading', false)
