@@ -77,51 +77,17 @@ export default {
 
       let accountInfo
 
-      try {
-        accountInfo = await sdkAccount.getAccountInfoByAddress(address)
-      } catch (e) {
-        console.error(e)
-        commit('accountInfoError', true)
+      try { accountInfo = await sdkAccount.getAccountInfoByAddressFormatted(address) }
+        catch (e) {
+          console.error(e)
+          commit('accountInfoError', true)
       }
 
       if (accountInfo) {
-        let formattedAccountInfo = {
-          address: accountInfo.address.address,
-          linkedNamespace: accountInfo.accountAliasName,
-          addressHeight: accountInfo.addressHeight,
-          publicKey: accountInfo.publicKey,
-          // publicKeyHeight: accountInfo.publicKeyHeight,
-          importance: accountInfo.importance,
-          // importanceHeight: accountInfo.importanceHeight,
-          accountType: accountInfo.accountType,
-          linkedAccountKey: accountInfo.linkedAccountKey
-        }
-        let mosaicList = Array.isArray(accountInfo.mosaics)
-          ? accountInfo.mosaics.map(el => ({
-            mosaicId: el.id,
-            amount: el.amount
-          }))
-          : []
-
-        commit('accountInfo', formattedAccountInfo)
-        commit('mosaicList', mosaicList)
-      }
-
-      let accountMultisig
-      try {
-        accountMultisig = await sdkAccount.getMultisigAccountByAddress(address)
-      } catch (e) {
-        console.error(e)
-      }
-
-      if (accountMultisig) {
-        let formattedAccountMultisig = {
-          minApproval: accountMultisig.minApproval,
-          minRemoval: accountMultisig.minRemoval
-        }
-
-        commit('accountMultisig', formattedAccountMultisig)
-        commit('accountMultisigCosignatories', accountMultisig.cosignatories)
+        commit('accountInfo', accountInfo.formattedAccountInfo)
+        commit('mosaicList', accountInfo.mosaicList)
+        commit('accountMultisig', accountInfo.formattedAccountMultisig)
+        commit('accountMultisigCosignatories', accountInfo.accountMultisigCosignatories)
       }
 
       let transactionList

@@ -50,6 +50,79 @@ class sdkAccount {
 
     return format.formatAccountMultisig(accountMultisig)
   }
+
+  static getAccountInfoByAddressFormatted = async address => {
+    let rawAccountInfo
+    let formattedAccountInfo
+    let mosaicList
+    let accountMultisig
+    let formattedAccountMultisig
+    let accountMultisigCosignatories
+
+    try { rawAccountInfo = await this.getAccountInfoByAddress(address) } 
+      catch (e) { throw Error('Failed to get account info', e) }
+    
+    try { accountMultisig = await sdkAccount.getMultisigAccountByAddress(address) } 
+      catch (e) {
+        console.log(e)
+      }
+    
+    if (rawAccountInfo) {
+      formattedAccountInfo = {
+        address: rawAccountInfo.address.address,
+        linkedNamespace: rawAccountInfo.accountAliasName,
+        addressHeight: rawAccountInfo.addressHeight,
+        publicKey: rawAccountInfo.publicKey,
+        // publicKeyHeight: rawAccountInfo.publicKeyHeight,
+        importance: rawAccountInfo.importance,
+        // importanceHeight: rawAccountInfo.importanceHeight,
+        accountType: rawAccountInfo.accountType,
+        linkedAccountKey: rawAccountInfo.linkedAccountKey
+      }
+      mosaicList = Array.isArray(rawAccountInfo.mosaics)
+        ? rawAccountInfo.mosaics.map(el => ({
+          mosaicId: el.id,
+          amount: el.amount
+        }))
+        : []
+    }
+
+    if (accountMultisig) {
+      formattedAccountMultisig = {
+        minApproval: accountMultisig.minApproval,
+        minRemoval: accountMultisig.minRemoval
+      }
+      if(accountMultisig.cosignatories)
+        accountMultisigCosignatories = accountMultisig.cosignatories
+    }
+
+    return {
+      rawAccountInfo: rawAccountInfo || {},
+      formattedAccountInfo: formattedAccountInfo || {},
+      mosaicList: mosaicList || [],
+      formattedAccountMultisig: formattedAccountMultisig || {},
+      accountMultisigCosignatories: accountMultisigCosignatories || []
+    } 
+  }
+
+  static getMultisigAccountByAddressFormatted = async address => {
+    let accountMultisig = {}
+
+    try { accountMultisig = await sdkAccount.getMultisigAccountByAddress(address) } 
+    catch (e) {
+      throw e
+    }
+
+    if (accountMultisig) {
+      let formattedAccountMultisig = {
+        minApproval: accountMultisig.minApproval,
+        minRemoval: accountMultisig.minRemoval
+      }
+
+      commit('accountMultisig', formattedAccountMultisig)
+      commit('accountMultisigCosignatories', accountMultisig.cosignatories)
+    }
+  }
 }
 
 export default sdkAccount
