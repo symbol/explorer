@@ -17,6 +17,7 @@
  */
 
 import Timeline from './timeline'
+import Constants from '../config/constants'
 import sdkMosaic from '../infrastructure/getMosaic'
 
 export default {
@@ -59,7 +60,7 @@ export default {
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit }) {
       commit('setLoading', true)
-      let mosaicList = await sdkMosaic.getMosaicsFromIdWithLimit(2 * Timeline.pageSize)
+      let mosaicList = await sdkMosaic.getMosaicsFromIdWithLimit(2 * Constants.PageSize)
       commit('setTimeline', Timeline.fromData(mosaicList))
       commit('setLoading', false)
     },
@@ -97,7 +98,7 @@ export default {
     async resetPage({ commit, getters }) {
       commit('setLoading', true)
       if (!getters.getTimeline.isLive) {
-        const data = await sdkMosaic.getMosaicsFromIdWithLimit(2 * Timeline.pageSize)
+        const data = await sdkMosaic.getMosaicsFromIdWithLimit(2 * Constants.PageSize)
         commit('setTimeline', Timeline.fromData(data))
       }
       commit('setLoading', false)

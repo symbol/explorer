@@ -9,6 +9,8 @@ import {
 } from 'nem2-sdk'
 
 class Constants {
+  static PageSize = 25
+
   static Message = {
     UNLIMITED: 'UNLIMITED',
     UNAVAILABLE: 'UNAVAILABLE',
