@@ -86,6 +86,49 @@ class sdkBlock {
 
     return format.formatBlocks(blocks)
   }
+
+  static getBlockInfoByHeightFormatted = async height => {
+    let rawBlockInfo
+    let formattedBlockInfo
+    let blockTransactionList
+    let transactionList
+
+    try { rawBlockInfo = await this.getBlockInfoByHeight(height) }
+      catch(e) { throw Error('Failed to fetch block info', e) }
+
+    try { blockTransactionList = await this.getBlockFullTransactionsList(height) }
+      catch(e) { console.warn(e) }
+
+
+    if(rawBlockInfo) {
+  
+      formattedBlockInfo = {
+        height: rawBlockInfo.height,
+        date: rawBlockInfo.date,
+        fee: rawBlockInfo.totalFee,
+        difficulty: rawBlockInfo.difficulty,
+        totalTransactions: rawBlockInfo.numTransactions,
+        harvester: rawBlockInfo.signer?.address?.address,
+        blockHash: rawBlockInfo.hash
+      }
+
+      transactionList = []
+      if (blockTransactionList.length) {
+        transactionList = blockTransactionList.map((el) => ({
+          deadline: el.deadline,
+          transactionHash: el.transactionHash,
+          fee: el.fee,
+          signer: el.signer,
+          type: el.transactionBody.type
+        }))
+      }
+
+      return {
+        blockInfo: formattedBlockInfo || {},
+        transactionList: transactionList || []
+      }
+    }
+  }
 }
 
 export default sdkBlock

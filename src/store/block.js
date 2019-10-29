@@ -176,43 +176,21 @@ export default {
     getBlockInfo: async ({ commit }, height) => {
       commit('blockInfoError', false)
       commit('blockInfoLoading', true)
+      commit('blockInfo', {})
+      commit('blockTransactionList', [])
 
-      try {
-        const blockInfo = await sdkBlock.getBlockInfoByHeight(height)
-        commit('currentBlockHeight', blockInfo.height)
-
-        const blockTransactionList = await sdkBlock.getBlockFullTransactionsList(
-          height
-        )
-
-        let blockInfoObject = {
-          height: blockInfo.height,
-          date: blockInfo.date,
-          fee: blockInfo.totalFee,
-          difficulty: blockInfo.difficulty,
-          totalTransactions: blockInfo.numTransactions,
-          harvester: blockInfo.signer.address.address,
-          blockHash: blockInfo.hash
-        }
-
-        let blockTransactionListObject = []
-        if (blockTransactionList.length) {
-          blockTransactionListObject = blockTransactionList.map((el) => ({
-            deadline: el.deadline,
-            transactionHash: el.transactionHash,
-            fee: el.fee,
-            signer: el.signer,
-            type: el.transactionBody.type
-          }))
-        }
-        commit('blockInfo', blockInfoObject)
-        commit('blockTransactionList', blockTransactionListObject)
-      } catch (e) {
+      let blockInfo
+      try { blockInfo = await sdkBlock.getBlockInfoByHeightFormatted(height) } 
+      catch (e) {
         console.error(e)
         commit('blockInfoError', true)
-        commit('blockInfo', {})
-        commit('blockTransactionList', [])
       }
+        
+      if(blockInfo) {
+        commit('blockInfo', blockInfo.blockInfo)
+        commit('blockTransactionList', blockInfo.transactionList)
+      }
+
       commit('blockInfoLoading', false)
     },
 
