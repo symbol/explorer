@@ -19,6 +19,9 @@
 import { Address } from 'nem2-sdk'
 import http from './http'
 import format from '../format'
+import sdkTransaction from '../infrastructure/getTransaction'
+import sdkNamespace from '../infrastructure/getNamespace'
+
 
 class sdkAccount {
   static getAccountInfoByAddress = async address => {
@@ -59,13 +62,23 @@ class sdkAccount {
     let formattedAccountMultisig
     let accountMultisigCosignatories
 
+    let transactionList
+    let formattedTansactionList
+
+    let namespaceList
+    let formattedNamespaceList
+
     try { rawAccountInfo = await this.getAccountInfoByAddress(address) } 
       catch (e) { throw Error('Failed to get account info', e) }
     
     try { accountMultisig = await sdkAccount.getMultisigAccountByAddress(address) } 
-      catch (e) {
-        console.log(e)
-      }
+      catch (e) { console.warn(e) }
+    
+    try { transactionList = await sdkTransaction.getAccountTransactions(address) } 
+      catch (e) { console.warn(e) }
+
+    try { namespaceList = await sdkNamespace.getNamespacesFromAccountByAddress(address) } 
+      catch (e) { console.warn(e) }
     
     if (rawAccountInfo) {
       formattedAccountInfo = {
@@ -96,32 +109,36 @@ class sdkAccount {
         accountMultisigCosignatories = accountMultisig.cosignatories
     }
 
+    if (transactionList) {
+      formattedTansactionList = transactionList.map(el => ({
+        deadline: el.deadline,
+        fee: el.fee,
+        transactionHash: el.transactionHash,
+        transactionType: el.transactionBody.type
+      }))
+    }
+
+    if (namespaceList) {
+      formattedNamespaceList = namespaceList.map(
+        el => ({
+          namespaceName: el.namespaceName,
+          registrationType: el.type,
+          status: el.active,
+          startHeight: el.startHeight,
+          endHeight: el.endHeight
+        })
+      )
+    }
+
     return {
-      rawAccountInfo: rawAccountInfo || {},
-      formattedAccountInfo: formattedAccountInfo || {},
+      //rawAccountInfo: rawAccountInfo || {},
+      accountInfo: formattedAccountInfo || {},
       mosaicList: mosaicList || [],
-      formattedAccountMultisig: formattedAccountMultisig || {},
-      accountMultisigCosignatories: accountMultisigCosignatories || []
+      multisigInfo: formattedAccountMultisig || {},
+      multisigCosignatoriesList: accountMultisigCosignatories || [],
+      tansactionList: formattedTansactionList || [],
+      namespaceList: formattedNamespaceList || []
     } 
-  }
-
-  static getMultisigAccountByAddressFormatted = async address => {
-    let accountMultisig = {}
-
-    try { accountMultisig = await sdkAccount.getMultisigAccountByAddress(address) } 
-    catch (e) {
-      throw e
-    }
-
-    if (accountMultisig) {
-      let formattedAccountMultisig = {
-        minApproval: accountMultisig.minApproval,
-        minRemoval: accountMultisig.minRemoval
-      }
-
-      commit('accountMultisig', formattedAccountMultisig)
-      commit('accountMultisigCosignatories', accountMultisig.cosignatories)
-    }
   }
 }
 

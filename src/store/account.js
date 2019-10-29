@@ -18,8 +18,7 @@
 
 import Vue from 'vue'
 import sdkAccount from '../infrastructure/getAccount'
-import sdkTransaction from '../infrastructure/getTransaction'
-import sdkNamespace from '../infrastructure/getNamespace'
+
 
 export default {
   namespaced: true,
@@ -66,7 +65,9 @@ export default {
 
     // Fetch data from the SDK By Address.
     async fetchAccountDataByAddress({ commit }, address) {
+      // Loading start
       commit('accountInfoLoading', true)
+      //Clear data
       commit('accountInfoError', false)
       commit('accountInfo', {})
       commit('accountMultisig', {})
@@ -75,63 +76,25 @@ export default {
       commit('namespaceList', [])
       commit('accountMultisigCosignatories', [])
 
+      // Fetch account info from SDK
       let accountInfo
-
       try { accountInfo = await sdkAccount.getAccountInfoByAddressFormatted(address) }
         catch (e) {
           console.error(e)
           commit('accountInfoError', true)
-      }
+        }
 
+      // Commit data to the Store
       if (accountInfo) {
-        commit('accountInfo', accountInfo.formattedAccountInfo)
+        commit('accountInfo', accountInfo.accountInfo)
         commit('mosaicList', accountInfo.mosaicList)
-        commit('accountMultisig', accountInfo.formattedAccountMultisig)
-        commit('accountMultisigCosignatories', accountInfo.accountMultisigCosignatories)
+        commit('accountMultisig', accountInfo.multisigInfo)
+        commit('accountMultisigCosignatories', accountInfo.multisigCosignatoriesList)
+        commit('transactionList', accountInfo.tansactionList)
+        commit('namespaceList', accountInfo.namespaceList)
       }
-
-      let transactionList
-
-      try {
-        transactionList = await sdkTransaction.getAccountTransactions(address)
-      } catch (e) {
-        console.error(e)
-        // commit('accountInfoError', true);
-      }
-
-      let formattedTansactionList = []
-      if (transactionList) {
-        formattedTansactionList = transactionList.map(el => ({
-          deadline: el.deadline,
-          fee: el.fee,
-          transactionHash: el.transactionHash,
-          transactionType: el.transactionBody.type
-        }))
-      }
-
-      commit('transactionList', formattedTansactionList)
-
-      let namespaceList
-      try {
-        namespaceList = await sdkNamespace.getNamespacesFromAccountByAddress(address)
-      } catch (e) {
-        console.error(e)
-        // commit('accountInfoError', true)
-      }
-
-      let formattedNamespaceList = []
-      if (namespaceList) {
-        formattedNamespaceList = namespaceList.map(
-          el => ({
-            namespaceName: el.namespaceName,
-            registrationType: el.type,
-            status: el.active,
-            startHeight: el.startHeight,
-            endHeight: el.endHeight
-          })
-        )
-      }
-      commit('namespaceList', formattedNamespaceList)
+     
+      // Loading end
       commit('accountInfoLoading', false)
     }
   }
