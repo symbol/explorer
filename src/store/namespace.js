@@ -30,7 +30,9 @@ export default {
     // The Namespace detail infomation.
     namespaceInfo: {},
     // The Namespace Level.
-    namespaceLevels: []
+    namespaceLevels: [],
+    namespaceInfoLoading: false,
+    namespaceInfoError: false,
   },
   getters: {
     getTimeline: state => state.timeline,
@@ -45,13 +47,17 @@ export default {
     })),
     getLoading: state => state.loading,
     getNamespaceInfo: state => state.namespaceInfo,
-    getNamespaceLevels: state => state.namespaceLevels
+    getNamespaceLevels: state => state.namespaceLevels,
+    namespaceInfoLoading: state => state.namespaceInfoLoading,
+    namespaceInfoError: state => state.namespaceInfoError,
   },
   mutations: {
     setTimeline: (state, timeline) => { state.timeline = timeline },
     setLoading: (state, loading) => { state.loading = loading },
     setNamespaceInfo: (state, info) => { state.namespaceInfo = info },
-    setNamespaceLevels: (state, levels) => { state.namespaceLevels = levels }
+    setNamespaceLevels: (state, levels) => { state.namespaceLevels = levels },
+    namespaceInfoLoading: (state, v) => { state.namespaceInfoLoading = v },
+    namespaceInfoError: (state, v) => { state.namespaceInfoError = v }
   },
   actions: {
 
@@ -110,32 +116,23 @@ export default {
 
     // Fetch data from the SDK.
     async fetchNamespaceInfo({ commit }, namespaceOrHex) {
-      let namespaceInfo = await sdkNamespace.getNamespaceInfo(namespaceOrHex)
+      commit('namespaceInfoError', false)
+      commit('namespaceInfoLoading', true)
 
-      let namespaceInfoObject = {
-        owneraddress: namespaceInfo.owner,
-        namespaceName: namespaceInfo.namespaceName,
-        namespaceId: namespaceInfo.namespaceNameHexId,
-        registrationType: namespaceInfo.registrationType,
-        startHeight: namespaceInfo.startHeight,
-        endHeight: namespaceInfo.endHeight,
-        active: namespaceInfo.active,
-        aliasType: namespaceInfo.aliasType,
-        alias: namespaceInfo.alias
+      let namespaceInfo
+      
+      try { namespaceInfo = await sdkNamespace.getNamespaceInfoFormatted(namespaceOrHex) }
+      catch(e) {
+        console.error(e)
+        commit('namespaceInfoError', true)
       }
-      commit('setNamespaceInfo', namespaceInfoObject)
 
-      let namespaceLevels = []
-      namespaceInfo.levels.forEach((el) => {
-        let parentId = el.parentId ? el.parentId : ''
-        let namespaceLevelObject = {
-          name: el.name,
-          namespaceId: el.namespaceId,
-          parentId: parentId === '' ? Constants.Message.UNAVAILABLE : parentId.toHex()
-        }
-        namespaceLevels.push(namespaceLevelObject)
-      })
-      commit('setNamespaceLevels', namespaceLevels)
+      if(namespaceInfo){
+        commit('setNamespaceInfo', namespaceInfo.namespaceInfo)
+        commit('setNamespaceLevels', namespaceInfo.namespaceLevels)
+      }
+
+      commit('namespaceInfoLoading', false)
     }
   }
 }

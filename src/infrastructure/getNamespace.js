@@ -23,6 +23,7 @@ import dto from './dto'
 import http from './http'
 import format from '../format'
 import helper from '../helper'
+import Constants from '../config/constants'
 
 class sdkNamespace {
   static getNamespacesFromAccountByAddress = async (address) => {
@@ -106,6 +107,46 @@ class sdkNamespace {
     const namespaces = response.data.map(info => dto.createNamespaceInfoFromDTO(info, networkType))
 
     return format.formatNamespaceInfos(namespaces)
+  }
+
+  static getNamespaceInfoFormatted = async namespaceOrHex => {
+    let namespaceInfo 
+    let namespaceLevels
+    let namespaceInfoFormatted
+
+    try { namespaceInfo = await sdkNamespace.getNamespaceInfo(namespaceOrHex) }
+      catch(e) { throw Error('Failed to fetch namespace info', e) }
+
+    if(namespaceInfo) {
+      namespaceInfoFormatted = {
+        owneraddress: namespaceInfo.owner,
+        namespaceName: namespaceInfo.namespaceName,
+        namespaceId: namespaceInfo.namespaceNameHexId,
+        registrationType: namespaceInfo.registrationType,
+        startHeight: namespaceInfo.startHeight,
+        endHeight: namespaceInfo.endHeight,
+        active: namespaceInfo.active,
+        aliasType: namespaceInfo.aliasType,
+        alias: namespaceInfo.alias
+      }
+
+      namespaceLevels = []
+      if(namespaceInfo.levels?.length)
+        namespaceInfo.levels.forEach((el) => {
+          let parentId = el.parentId ? el.parentId : ''
+          let namespaceLevelObject = {
+            name: el.name,
+            namespaceId: el.namespaceId,
+            parentId: parentId === '' ? Constants.Message.UNAVAILABLE : parentId.toHex()
+          }
+          namespaceLevels.push(namespaceLevelObject)
+        })
+      }
+
+      return {
+        namespaceInfo: namespaceInfoFormatted || {},
+        namespaceLevels: namespaceLevels || []
+      }
   }
 }
 
