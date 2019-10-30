@@ -27,9 +27,8 @@
         <a class="mmtoggle" href="#">
           <i class="ico-line-awesome-4"></i>
         </a>
-
         <NodeSelector />
-
+        <LanguageSelector />
       </div>
 
       <div class="sliderow">
@@ -50,20 +49,21 @@
 import PageMenuItem from './PageMenuItem.vue'
 import { pageMenu } from '../../config/'
 import NodeSelector from '@/components/controls/NodeSelector.vue'
+import LanguageSelector from '@/components/controls/LanguageSelector.vue'
 export default {
   name: 'MobileMenu',
 
   components: {
     NodeSelector,
-    PageMenuItem
+    LanguageSelector,
+    PageMenuItem,
   },
 
   data() {
     return {
       showTopMenu: false,
-      items: pageMenu.items
+      items: pageMenu.items,
     }
-  }
-
+  },
 }
 </script>

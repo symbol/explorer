@@ -22,10 +22,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-3">
-            <!-- <div class="btn-grp">
-                    <a href="#" class="btn active">Nem</a>
-                    <a href="#" class="btn">Testnet</a>
-            </div>-->
+            <LanguageSelector />
           </div>
 
           <div class="col-md-6 text-center">
@@ -63,6 +60,7 @@
 <script>
 import MobileMenu from '@/components/menu/MobileMenu.vue'
 import NodeSelector from '@/components/controls/NodeSelector.vue'
+import LanguageSelector from '@/components/controls/LanguageSelector.vue'
 import SearchBox from '@/components/controls/SearchBox.vue'
 import helper from '../helper'
 
@@ -72,6 +70,7 @@ export default {
   components: {
     MobileMenu,
     NodeSelector,
+    LanguageSelector,
     SearchBox
   },
 

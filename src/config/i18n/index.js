@@ -1,13 +1,16 @@
 const languages = {
-    'en-us': require('./en-us.json')
-};
+    'en-us': require('./en-us.json'),
+    '中文': require('./zh.json'),
+    '日本语': require('./ja.json'),
+    'português': require('./pt.json'),
+    'espanhol': require('./es.json')
+}
 
-const DEFAULT_LANGUAGE = 'en-us';
+const DEFAULT_LANGUAGE = 'En-us';
 
 
 const getUserLanguage = () => {
-    let storedLang = localStorage.getItem('userLanguage'); 
-
+    let storedLang = localStorage.getItem('userLanguage');
     if(storedLang != null && languages[storedLang] != null)
         return languages[storedLang];
     else
@@ -16,7 +19,7 @@ const getUserLanguage = () => {
 
 const setCurrentLanguage = (lang) => {
     if(lang != null && languages[lang] != null){
-        localStorage.getItem('userLanguage', lang);
+        localStorage.setItem('userLanguage', lang);
         location.reload();
     }
     else
@@ -25,9 +28,9 @@ const setCurrentLanguage = (lang) => {
 
 
 const getName = (language, key) => {
-    
+
     if(
-        language[key] !== null 
+        language[key] !== null
         && language[key] !== void 0
     )
         return language[key]
@@ -35,7 +38,7 @@ const getName = (language, key) => {
         console.warn("I18n: Cannot find name for '" + key + "' in language '" + language.langName + "'");
         return key
     }
-         
+
 }
 
 

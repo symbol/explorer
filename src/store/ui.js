@@ -22,6 +22,8 @@ import { i18n } from '../config'
 export default {
   namespaced: true,
   state: {
+    languages: i18n.languages,
+    currentLanguage: localStorage.getItem('userLanguage'),
     keyNames: {}, /// put new names here => src/config/i18n/en-us.json
 
     keyPages: {
@@ -51,7 +53,9 @@ export default {
   },
 
   getters: {
-    getNameByKey: state => key => i18n.getName(key)
+    getNameByKey: state => key => i18n.getName(key),
+    languages: state => state.languages,
+    currentLanguage: state => state.currentLanguage
   },
 
   mutations: {
@@ -90,54 +94,64 @@ export default {
             })
             resolve()
           } else
-          if (isTransactionId(searchString)) {
-            reject(new Error('Search by tx id is not supported yet..'))
-            // dispatch('openPage', {
-            //     pageName: 'transaction',
-            //     param: searchString
-            // });
-          } else
-          if (isAccountPublicKey(searchString)) {
-            // check the string is a public key of an account
+            if (isTransactionId(searchString)) {
+              reject(new Error('Search by tx id is not supported yet..'))
+              // dispatch('openPage', {
+              //     pageName: 'transaction',
+              //     param: searchString
+              // });
+            } else
+              if (isAccountPublicKey(searchString)) {
+                // check the string is a public key of an account
 
-            const api = rootGetters['api/currentNode'].url
-            let accountHttp = new AccountHttp(api)
-            let accountAddress
-            let accountInfo
-            try {
-              accountInfo = await accountHttp
-                .getAccountInfo(new Address(searchString))
-                .toPromise()
-              accountAddress = accountInfo.address.address
-            } catch (e) { }
-            if (accountAddress) {
-              dispatch('openPage', {
-                pageName: 'account',
-                param: accountAddress
-              })
-              resolve()
-            } else {
-              // transaction hash
-              dispatch('openPage', {
-                pageName: 'transaction',
-                param: searchString
-              })
-              resolve()
-            }
-          } else
-          if (isAccountAddress(searchString)) {
-            dispatch('openPage', {
-              pageName: 'account',
-              param: searchString
-            })
-            resolve()
-          } else {
-            reject(new Error('Nothing found..'))
-          }
+                const api = rootGetters['api/currentNode'].url
+                let accountHttp = new AccountHttp(api)
+                let accountAddress
+                let accountInfo
+                try {
+                  accountInfo = await accountHttp
+                    .getAccountInfo(new Address(searchString))
+                    .toPromise()
+                  accountAddress = accountInfo.address.address
+                } catch (e) { }
+                if (accountAddress) {
+                  dispatch('openPage', {
+                    pageName: 'account',
+                    param: accountAddress
+                  })
+                  resolve()
+                } else {
+                  // transaction hash
+                  dispatch('openPage', {
+                    pageName: 'transaction',
+                    param: searchString
+                  })
+                  resolve()
+                }
+              } else
+                if (isAccountAddress(searchString)) {
+                  dispatch('openPage', {
+                    pageName: 'account',
+                    param: searchString
+                  })
+                  resolve()
+                } else {
+                  reject(new Error('Nothing found..'))
+                }
         } else {
           reject(new Error('Nothing found..'))
         }
       })
+    },
+
+    changeLanguage: ({ }, language) => {
+
+      if (language !== null
+        && language !== void 0) {
+        i18n.setCurrentLanguage(language)
+      }
+      else
+        throw Error("Cannot change language. language is not supported: " + language);
     }
   }
 }
