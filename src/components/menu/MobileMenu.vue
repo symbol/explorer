@@ -56,14 +56,14 @@ export default {
   components: {
     NodeSelector,
     LanguageSelector,
-    PageMenuItem,
+    PageMenuItem
   },
 
   data() {
     return {
       showTopMenu: false,
-      items: pageMenu.items,
+      items: pageMenu.items
     }
-  },
+  }
 }
 </script>

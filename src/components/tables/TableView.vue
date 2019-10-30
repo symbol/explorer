@@ -48,7 +48,7 @@ export default {
         'blockHeight',
         'endHeight',
         'startHeight',
-        'transactionBody',
+        'transactionBody'
       ]
 
     }
@@ -105,7 +105,6 @@ export default {
 .table-striped tbody tr:nth-child(even) td {
     background-color: rgba(52, 40, 104, 0.014);
 }
-
 
 .table-view{
 
