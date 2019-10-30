@@ -24,7 +24,7 @@ import http from './http'
 import format from '../format'
 import sdkBlock from '../infrastructure/getBlock'
 const QueryParams = nem.QueryParams  //Travis patch
-const Address = nem.QueryParam  //Travis patch
+const Address = nem.Address  //Travis patch
 
 class sdkTransaction {
   static getAccountTransactions = async (address, transactionId = '') => {
