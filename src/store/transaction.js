@@ -17,7 +17,6 @@
  */
 
 import Vue from 'vue'
-import * as nem from 'nem2-sdk'
 import Timeline from './timeline'
 import Constants from '../config/constants'
 import sdkTransaction from '../infrastructure/getTransaction'

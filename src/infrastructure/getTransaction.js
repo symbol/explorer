@@ -17,12 +17,14 @@
  */
 
 import axios from 'axios'
-import { QueryParams, Address } from 'nem2-sdk'
+//import { QueryParams, Address } from 'nem2-sdk'
 import * as nem from 'nem2-sdk'
 import dto from './dto'
 import http from './http'
 import format from '../format'
 import sdkBlock from '../infrastructure/getBlock'
+const QueryParams = nem.QueryParams  //Travis patch
+const Address = nem.QueryParam  //Travis patch
 
 class sdkTransaction {
   static getAccountTransactions = async (address, transactionId = '') => {
