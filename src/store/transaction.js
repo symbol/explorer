@@ -19,6 +19,7 @@
 import Vue from 'vue'
 import * as nem from 'nem2-sdk'
 import Timeline from './timeline'
+import Constants from '../config/constants'
 import sdkTransaction from '../infrastructure/getTransaction'
 
 const PAGES = {
@@ -46,7 +47,7 @@ const TRANSACTION_TYPE_MAP = {
 export default {
   namespaced: true,
   state: {
-    // Holds the latest PAGE_SIZE transactions.
+    // Holds the latest PageSize transactions.
     latestList: [],
     // The current transaction type key, as defined in `PAGES`.
     transactionType: 'recent',
@@ -101,7 +102,6 @@ export default {
     setLoading: (state, loading) => { state.loading = loading },
     addLatestItem(state, item) {
       // TODO(ahuszagh) Actually implement...
-      // util.addLatestItemByKey(state, item, 'hash', 1)
     },
 
     transactionInfo: (state, transactionInfo) => Vue.set(state, 'transactionInfo', transactionInfo),
@@ -153,9 +153,9 @@ export default {
       commit('setLoading', true)
       for (let transactionType of Object.keys(PAGES)) {
         const type = TRANSACTION_TYPE_MAP[transactionType]
-        let data = await sdkTransaction.getTransactionsFromHashWithLimit(2 * Timeline.pageSize, type)
+        let data = await sdkTransaction.getTransactionsFromHashWithLimit(2 * Constants.PageSize, type)
         if (transactionType === 'recent') {
-          commit('setLatestList', data.slice(0, Timeline.pageSize))
+          commit('setLatestList', data.slice(0, Constants.PageSize))
         }
         commit('setTimelineWithType', { timeline: Timeline.fromData(data), type: transactionType })
       }
@@ -200,7 +200,7 @@ export default {
         if (!getters.getTimeline.isLive) {
           // Reset to the live page.
           const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
-          let data = await sdkTransaction.getTransactionsFromHashWithLimit(Timeline.pageSize, type)
+          let data = await sdkTransaction.getTransactionsFromHashWithLimit(Constants.PageSize, type)
           commit('setTimeline', Timeline.fromData(data))
         }
         commit('setTransactionType', transactionType)
@@ -215,7 +215,7 @@ export default {
         if (getters.getPageIndex !== 0) {
           // Reset to the live page.
           const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
-          let data = await sdkTransaction.getTransactionsFromHashWithLimit(Timeline.pageSize, type)
+          let data = await sdkTransaction.getTransactionsFromHashWithLimit(Constants.PageSize, type)
           commit('setTimeline', Timeline.fromData(data))
         }
         commit('setTransactionType', 'recent')

@@ -18,14 +18,14 @@
 
 import Vue from 'vue'
 import Timeline from './timeline'
-import util from './util'
+import Constants from '../config/constants'
 import sdkBlock from '../infrastructure/getBlock'
 import sdkListener from '../infrastructure/getListener'
 
 export default {
   namespaced: true,
   state: {
-    // Holds the latest PAGE_SIZE blocks.
+    // Holds the latest PageSize blocks.
     latestList: [],
     // Timeline of data current in the view.
     timeline: Timeline.empty(),
@@ -74,7 +74,7 @@ export default {
 
     addLatestItem: (state, item) => {
       if (state.latestList.length > 0 && state.latestList[0].height !== item.height) {
-        util.prependItem(state.latestList, item)
+        Timeline.prependItem(state.latestList, item)
         state.timeline = state.timeline.addLatestItem(item, 'height')
       }
     },
@@ -121,12 +121,12 @@ export default {
       commit('chain/setBlockHeight', item.height, { root: true })
       commit('addLatestItem', item)
     },
-    
+
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit }) {
       commit('setLoading', true)
-      let blockList = await sdkBlock.getBlocksFromHeightWithLimit(2 * Timeline.pageSize)
-      commit('setLatestList', blockList.slice(0, Timeline.pageSize))
+      let blockList = await sdkBlock.getBlocksFromHeightWithLimit(2 * Constants.PageSize)
+      commit('setLatestList', blockList.slice(0, Constants.PageSize))
       if (blockList.length > 0) {
         commit('chain/setBlockHeight', blockList[0].height, { root: true })
       }
@@ -167,7 +167,7 @@ export default {
     async resetPage({ commit, getters }) {
       commit('setLoading', true)
       if (!getters.getTimeline.isLive) {
-        const data = await sdkBlock.getBlocksFromHeightWithLimit(2 * Timeline.pageSize)
+        const data = await sdkBlock.getBlocksFromHeightWithLimit(2 * Constants.PageSize)
         commit('setTimeline', Timeline.fromData(data))
       }
       commit('setLoading', false)
