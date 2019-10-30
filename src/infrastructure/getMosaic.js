@@ -34,22 +34,22 @@ class sdkMosaic {
     return mosaicAmount
   }
 
-// TODO(ahuszagh) Remove...
-//  static getMosaicInfo = async mosaicHexOrNamespace => {
-//
-//    let mosaicID = ''
-//
-//    if (helper.isHexadecimal(mosaicHexOrNamespace)) {
-//      mosaicID = new MosaicId(mosaicHexOrNamespace);
-//    } else {
-//      let namespaceId = new NamespaceId(mosaicHexOrNamespace)
-//      mosaicID = await NAMESPACE_HTTP.getLinkedMosaicId(namespaceId).toPromise()
-//    }
-//    // const mosaicInfo = await http.mosaic.getMosaic(mosaicID).toPromise(); // SDK Break
-//    const mosaicName = await http.mosaic.getMosaicsNames([mosaicID]).toPromise();
-//
-//    return format.formatMosaicInfo(mosaicInfo,mosaicName[0])
-//  }
+  // TODO(ahuszagh) Remove...
+  //  static getMosaicInfo = async mosaicHexOrNamespace => {
+  //
+  //    let mosaicID = ''
+  //
+  //    if (helper.isHexadecimal(mosaicHexOrNamespace)) {
+  //      mosaicID = new MosaicId(mosaicHexOrNamespace);
+  //    } else {
+  //      let namespaceId = new NamespaceId(mosaicHexOrNamespace)
+  //      mosaicID = await NAMESPACE_HTTP.getLinkedMosaicId(namespaceId).toPromise()
+  //    }
+  //    // const mosaicInfo = await http.mosaic.getMosaic(mosaicID).toPromise(); // SDK Break
+  //    const mosaicName = await http.mosaic.getMosaicsNames([mosaicID]).toPromise();
+  //
+  //    return format.formatMosaicInfo(mosaicInfo,mosaicName[0])
+  //  }
 
   static getMosaicsFromIdWithLimit = async (limit, fromMosaicId) => {
     let mosaicId

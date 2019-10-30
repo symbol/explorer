@@ -3,7 +3,7 @@
         v-if="data"
         class="table-view"
     >
-        <table 
+        <table
             v-if="dataIsNotEmpty"
             class="table table-striped"
         >
@@ -27,7 +27,7 @@
                 </tr>
             </tbody>
         </table>
-        <div 
+        <div
             v-else
             class="empty-data"
         >
