@@ -97,7 +97,7 @@ export default new Router({
         import('./views/MosaicDetail.vue')
     },
     {
-      path: '/node',
+      path: '/nodes',
       name: 'Nodes',
       component: () =>
         import('./views/Nodes.vue')
