@@ -9,7 +9,7 @@ const readConfig = configPath => {
   } catch (error) {
     if (error.code === 'ENOENT') {
       // File not found, copy from template to config path during bootstrap.
-      fs.copyFileSync(configPath + '.mt', configPath);
+      fs.copyFileSync(configPath + '.mt', configPath)
       config = fs.readFileSync(configPath, 'utf8')
     } else {
       throw error
@@ -40,7 +40,7 @@ module.exports = {
     plugins: [
       new webpack.DefinePlugin({
         PEERS_API: peersApi,
-        ENDPOINTS: endpoints,
+        ENDPOINTS: endpoints
       })
     ]
   }

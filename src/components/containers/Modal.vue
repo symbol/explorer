@@ -16,11 +16,10 @@
   </transition>
 </template>
 
-
 <script>
 export default {
   components: {},
-  props: {},
+  props: {}
 }
 </script>
 
