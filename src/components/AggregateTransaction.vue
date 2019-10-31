@@ -10,8 +10,8 @@ export default {
   props: {
     transactionBody: {
       type: Object,
-      required: true,
-    },
-  },
+      required: true
+    }
+  }
 }
 </script>

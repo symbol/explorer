@@ -29,7 +29,6 @@ import Loading from '@/components/Loading.vue'
 import TableListView from '@/components/tables/TableListView.vue'
 import TableInfoView from '@/components/tables/TableInfoView.vue'
 
-
 window.Vue = Vue
 Vue.config.productionTip = false
 Vue.component('top-header', TopHead)

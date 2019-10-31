@@ -19,7 +19,6 @@
 import { Listener } from 'nem2-sdk'
 import format from '../format'
 
-
 class sdkListener {
   // Subscribe to new blocks announced to the chain.
   static subscribeNewBlock = async (dispatch, wsEndpoint) => {
