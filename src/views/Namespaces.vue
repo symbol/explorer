@@ -57,31 +57,31 @@ import View from './View.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-    extends: View,
+  extends: View,
 
-    mounted() {
-        this.$store.dispatch('namespace/initialize')
-    },
+  mounted() {
+    this.$store.dispatch('namespace/initialize')
+  },
 
-    data() {
-        return {
-            nextPageAction: 'namespace/fetchNextPage',
-            previousPageAction: 'namespace/fetchPreviousPage',
-        }
-    },
-
-    computed: {
-        ...mapGetters({
-            namespaceList: 'namespace/getTimelineFormatted',
-            canFetchPrevious: 'mosaic/getCanFetchPrevious',
-            canFetchNext: 'mosaic/getCanFetchNext',
-            loading: 'namespace/getLoading'
-        }),
-
-    },
-
-    destroyed() {
-        this.$store.dispatch('namespace/resetPage')
+  data() {
+    return {
+      nextPageAction: 'namespace/fetchNextPage',
+      previousPageAction: 'namespace/fetchPreviousPage'
     }
+  },
+
+  computed: {
+    ...mapGetters({
+      namespaceList: 'namespace/getTimelineFormatted',
+      canFetchPrevious: 'mosaic/getCanFetchPrevious',
+      canFetchNext: 'mosaic/getCanFetchNext',
+      loading: 'namespace/getLoading'
+    })
+
+  },
+
+  destroyed() {
+    this.$store.dispatch('namespace/resetPage')
+  }
 }
 </script>

@@ -20,8 +20,8 @@ import http from './http'
 
 class sdkDiagnostic {
     static getChainInfo = async () => {
-        const chainInfo = await http.diagnostic.getDiagnosticStorage().toPromise()
-        return chainInfo
+      const chainInfo = await http.diagnostic.getDiagnosticStorage().toPromise()
+      return chainInfo
     }
 }
 

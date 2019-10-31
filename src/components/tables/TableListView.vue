@@ -63,18 +63,18 @@ export default {
   props: {
     data: {
       type: Array,
-      required: true,
+      required: true
     },
 
     pagination: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     showModal: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   computed: {
@@ -86,7 +86,7 @@ export default {
 
     dataIsNotEmpty() {
       return this.data.length
-    },
+    }
   },
 
   methods: {
@@ -95,8 +95,8 @@ export default {
     },
     onOpenModal(id) {
       this.openedModal = id
-    },
-  },
+    }
+  }
 }
 </script>
 
