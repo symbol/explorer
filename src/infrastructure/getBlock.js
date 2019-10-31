@@ -93,15 +93,11 @@ class sdkBlock {
     let blockTransactionList
     let transactionList
 
-    try { rawBlockInfo = await this.getBlockInfoByHeight(height) }
-      catch(e) { throw Error('Failed to fetch block info', e) }
+    try { rawBlockInfo = await this.getBlockInfoByHeight(height) } catch (e) { throw Error('Failed to fetch block info', e) }
 
-    try { blockTransactionList = await this.getBlockFullTransactionsList(height) }
-      catch(e) { console.warn(e) }
+    try { blockTransactionList = await this.getBlockFullTransactionsList(height) } catch (e) { console.warn(e) }
 
-
-    if(rawBlockInfo) {
-  
+    if (rawBlockInfo) {
       formattedBlockInfo = {
         height: rawBlockInfo.height,
         date: rawBlockInfo.date,

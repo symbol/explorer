@@ -180,13 +180,12 @@ export default {
       commit('blockTransactionList', [])
 
       let blockInfo
-      try { blockInfo = await sdkBlock.getBlockInfoByHeightFormatted(height) } 
-      catch (e) {
+      try { blockInfo = await sdkBlock.getBlockInfoByHeightFormatted(height) } catch (e) {
         console.error(e)
         commit('blockInfoError', true)
       }
-        
-      if(blockInfo) {
+
+      if (blockInfo) {
         commit('blockInfo', blockInfo.blockInfo)
         commit('blockTransactionList', blockInfo.transactionList)
       }

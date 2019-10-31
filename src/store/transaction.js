@@ -232,8 +232,7 @@ export default {
       commit('aggregateCosignatures', [])
 
       let transactionInfo
-      try { transactionInfo = await sdkTransaction.getTransactionInfoFormatted(hash) } 
-      catch (e) {
+      try { transactionInfo = await sdkTransaction.getTransactionInfoFormatted(hash) } catch (e) {
         console.error(e)
         commit('transactionInfoError', true)
       }

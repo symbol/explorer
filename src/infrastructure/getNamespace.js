@@ -110,14 +110,13 @@ class sdkNamespace {
   }
 
   static getNamespaceInfoFormatted = async namespaceOrHex => {
-    let namespaceInfo 
+    let namespaceInfo
     let namespaceLevels
     let namespaceInfoFormatted
 
-    try { namespaceInfo = await sdkNamespace.getNamespaceInfo(namespaceOrHex) }
-      catch(e) { throw Error('Failed to fetch namespace info', e) }
+    try { namespaceInfo = await sdkNamespace.getNamespaceInfo(namespaceOrHex) } catch (e) { throw Error('Failed to fetch namespace info', e) }
 
-    if(namespaceInfo) {
+    if (namespaceInfo) {
       namespaceInfoFormatted = {
         owneraddress: namespaceInfo.owner,
         namespaceName: namespaceInfo.namespaceName,
@@ -131,7 +130,7 @@ class sdkNamespace {
       }
 
       namespaceLevels = []
-      if(namespaceInfo.levels?.length)
+      if (namespaceInfo.levels?.length) {
         namespaceInfo.levels.forEach((el) => {
           let parentId = el.parentId ? el.parentId : ''
           let namespaceLevelObject = {
@@ -142,11 +141,12 @@ class sdkNamespace {
           namespaceLevels.push(namespaceLevelObject)
         })
       }
+    }
 
-      return {
-        namespaceInfo: namespaceInfoFormatted || {},
-        namespaceLevels: namespaceLevels || []
-      }
+    return {
+      namespaceInfo: namespaceInfoFormatted || {},
+      namespaceLevels: namespaceLevels || []
+    }
   }
 }
 

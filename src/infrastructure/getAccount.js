@@ -22,7 +22,6 @@ import format from '../format'
 import sdkTransaction from '../infrastructure/getTransaction'
 import sdkNamespace from '../infrastructure/getNamespace'
 
-
 class sdkAccount {
   static getAccountInfoByAddress = async address => {
     let addressObj = Address.createFromRawAddress(address)
@@ -68,18 +67,14 @@ class sdkAccount {
     let namespaceList
     let formattedNamespaceList
 
-    try { rawAccountInfo = await this.getAccountInfoByAddress(address) } 
-      catch (e) { throw Error('Failed to get account info', e) }
-    
-    try { accountMultisig = await sdkAccount.getMultisigAccountByAddress(address) } 
-      catch (e) { console.warn(e) }
-    
-    try { transactionList = await sdkTransaction.getAccountTransactions(address) } 
-      catch (e) { console.warn(e) }
+    try { rawAccountInfo = await this.getAccountInfoByAddress(address) } catch (e) { throw Error('Failed to get account info', e) }
 
-    try { namespaceList = await sdkNamespace.getNamespacesFromAccountByAddress(address) } 
-      catch (e) { console.warn(e) }
-    
+    try { accountMultisig = await sdkAccount.getMultisigAccountByAddress(address) } catch (e) { console.warn(e) }
+
+    try { transactionList = await sdkTransaction.getAccountTransactions(address) } catch (e) { console.warn(e) }
+
+    try { namespaceList = await sdkNamespace.getNamespacesFromAccountByAddress(address) } catch (e) { console.warn(e) }
+
     if (rawAccountInfo) {
       formattedAccountInfo = {
         address: rawAccountInfo.address.address,
@@ -105,8 +100,7 @@ class sdkAccount {
         minApproval: accountMultisig.minApproval,
         minRemoval: accountMultisig.minRemoval
       }
-      if(accountMultisig.cosignatories)
-        accountMultisigCosignatories = accountMultisig.cosignatories
+      if (accountMultisig.cosignatories) { accountMultisigCosignatories = accountMultisig.cosignatories }
     }
 
     if (transactionList) {
@@ -131,14 +125,14 @@ class sdkAccount {
     }
 
     return {
-      //rawAccountInfo: rawAccountInfo || {},
+      // rawAccountInfo: rawAccountInfo || {},
       accountInfo: formattedAccountInfo || {},
       mosaicList: mosaicList || [],
       multisigInfo: formattedAccountMultisig || {},
       multisigCosignatoriesList: accountMultisigCosignatories || [],
       tansactionList: formattedTansactionList || [],
       namespaceList: formattedNamespaceList || []
-    } 
+    }
   }
 }
 

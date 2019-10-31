@@ -17,14 +17,14 @@
  */
 
 import axios from 'axios'
-//import { QueryParams, Address } from 'nem2-sdk'
+// import { QueryParams, Address } from 'nem2-sdk'
 import * as nem from 'nem2-sdk'
 import dto from './dto'
 import http from './http'
 import format from '../format'
 import sdkBlock from '../infrastructure/getBlock'
-const QueryParams = nem.QueryParams  //Travis patch
-const Address = nem.Address  //Travis patch
+const QueryParams = nem.QueryParams // Travis patch
+const Address = nem.Address // Travis patch
 
 class sdkTransaction {
   static getAccountTransactions = async (address, transactionId = '') => {
@@ -134,10 +134,7 @@ class sdkTransaction {
     let formattedAggregateInnerTransactions = []
     let formattedAggregateCosignatures = []
 
-
-    try { transactionInfo = await sdkTransaction.getTransactionInfoByHash(hash) } 
-      catch (e) { throw Error('Failed to fetch transaction info', e) }
-
+    try { transactionInfo = await sdkTransaction.getTransactionInfoByHash(hash) } catch (e) { throw Error('Failed to fetch transaction info', e) }
 
     if (transactionInfo) {
       formattedTransactionInfo = {
@@ -155,7 +152,7 @@ class sdkTransaction {
 
       transactionBody = transactionInfo.transaction?.transactionBody
 
-      if(transactionBody) {
+      if (transactionBody) {
         switch (transactionBody.typeId) {
           case nem.TransactionType.TRANSFER:
             formattedTransactionDetail = {
@@ -164,11 +161,12 @@ class sdkTransaction {
               message: transactionBody.message
             }
 
-            if(transactionBody.mosaics?.length)
-            formattedTransferMosaics = transactionBody.mosaics.map((el) => ({
-              mosaicId: el.id,
-              amount: el.amount
-            }))
+            if (transactionBody.mosaics?.length) {
+              formattedTransferMosaics = transactionBody.mosaics.map((el) => ({
+                mosaicId: el.id,
+                amount: el.amount
+              }))
+            }
             break
 
           case nem.TransactionType.REGISTER_NAMESPACE:
@@ -232,19 +230,21 @@ class sdkTransaction {
               transactionType: transactionBody.type
             }
 
-            if(transactionBody.innerTransactions?.length)
-            formattedAggregateInnerTransactions = transactionBody.innerTransactions.map((el) => ({
-              transactionId: el.transactionId,
-              type: el.transactionBody.type,
-              signer: el.signer,
-              transactionBody: el.transactionBody
-            }))
+            if (transactionBody.innerTransactions?.length) {
+              formattedAggregateInnerTransactions = transactionBody.innerTransactions.map((el) => ({
+                transactionId: el.transactionId,
+                type: el.transactionBody.type,
+                signer: el.signer,
+                transactionBody: el.transactionBody
+              }))
+            }
 
-            if(transactionBody.cosignatures?.length)
-            formattedAggregateCosignatures = transactionBody.cosignatures.map((el) => ({
-              signature: el.signature,
-              signer: el.signer
-            }))
+            if (transactionBody.cosignatures?.length) {
+              formattedAggregateCosignatures = transactionBody.cosignatures.map((el) => ({
+                signature: el.signature,
+                signer: el.signer
+              }))
+            }
 
             break
 
@@ -253,19 +253,21 @@ class sdkTransaction {
               transactionType: transactionBody.type
             }
 
-            if(transactionBody.innerTransactions?.length)
-            formattedAggregateInnerTransactions = transactionBody.innerTransactions.map((el) => ({
-              transactionId: el.transactionId,
-              type: el.transactionBody.type,
-              signer: el.signer,
-              transactionBody: el.transactionBody
-            }))
+            if (transactionBody.innerTransactions?.length) {
+              formattedAggregateInnerTransactions = transactionBody.innerTransactions.map((el) => ({
+                transactionId: el.transactionId,
+                type: el.transactionBody.type,
+                signer: el.signer,
+                transactionBody: el.transactionBody
+              }))
+            }
 
-            if(transactionBody.cosignatures?.length)
-            formattedAggregateCosignatures = transactionBody.cosignatures.map((el) => ({
-              signature: el.signature,
-              signer: el.signer
-            }))
+            if (transactionBody.cosignatures?.length) {
+              formattedAggregateCosignatures = transactionBody.cosignatures.map((el) => ({
+                signature: el.signature,
+                signer: el.signer
+              }))
+            }
 
             break
 

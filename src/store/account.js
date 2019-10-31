@@ -19,7 +19,6 @@
 import Vue from 'vue'
 import sdkAccount from '../infrastructure/getAccount'
 
-
 export default {
   namespaced: true,
   state: {
@@ -67,7 +66,7 @@ export default {
     async fetchAccountDataByAddress({ commit }, address) {
       // Loading start
       commit('accountInfoLoading', true)
-      //Clear data
+      // Clear data
       commit('accountInfoError', false)
       commit('accountInfo', {})
       commit('accountMultisig', {})
@@ -78,11 +77,10 @@ export default {
 
       // Fetch account info from SDK
       let accountInfo
-      try { accountInfo = await sdkAccount.getAccountInfoByAddressFormatted(address) }
-        catch (e) {
-          console.error(e)
-          commit('accountInfoError', true)
-        }
+      try { accountInfo = await sdkAccount.getAccountInfoByAddressFormatted(address) } catch (e) {
+        console.error(e)
+        commit('accountInfoError', true)
+      }
 
       // Commit data to the Store
       if (accountInfo) {
@@ -93,7 +91,7 @@ export default {
         commit('transactionList', accountInfo.tansactionList)
         commit('namespaceList', accountInfo.namespaceList)
       }
-     
+
       // Loading end
       commit('accountInfoLoading', false)
     }

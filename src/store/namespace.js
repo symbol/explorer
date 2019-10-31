@@ -32,7 +32,7 @@ export default {
     // The Namespace Level.
     namespaceLevels: [],
     namespaceInfoLoading: false,
-    namespaceInfoError: false,
+    namespaceInfoError: false
   },
   getters: {
     getTimeline: state => state.timeline,
@@ -49,7 +49,7 @@ export default {
     getNamespaceInfo: state => state.namespaceInfo,
     getNamespaceLevels: state => state.namespaceLevels,
     namespaceInfoLoading: state => state.namespaceInfoLoading,
-    namespaceInfoError: state => state.namespaceInfoError,
+    namespaceInfoError: state => state.namespaceInfoError
   },
   mutations: {
     setTimeline: (state, timeline) => { state.timeline = timeline },
@@ -120,14 +120,13 @@ export default {
       commit('namespaceInfoLoading', true)
 
       let namespaceInfo
-      
-      try { namespaceInfo = await sdkNamespace.getNamespaceInfoFormatted(namespaceOrHex) }
-      catch(e) {
+
+      try { namespaceInfo = await sdkNamespace.getNamespaceInfoFormatted(namespaceOrHex) } catch (e) {
         console.error(e)
         commit('namespaceInfoError', true)
       }
 
-      if(namespaceInfo){
+      if (namespaceInfo) {
         commit('setNamespaceInfo', namespaceInfo.namespaceInfo)
         commit('setNamespaceLevels', namespaceInfo.namespaceLevels)
       }

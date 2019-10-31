@@ -68,15 +68,13 @@ export default class Timeline {
     if (this.index > 1) {
       // Fetch previous.
       let previous = []
-      try { previous = await fetchPrevious(Constants.PageSize) }
-      catch(e){ console.error(e) }
+      try { previous = await fetchPrevious(Constants.PageSize) } catch (e) { console.error(e) }
 
       return new Timeline(previous, this.previous, this.current, this.index - 1)
     } else {
       // Fetch live.
       let data = []
-      try { data = await fetchLive(2 * Constants.PageSize) }
-      catch(e){ console.error(e) }
+      try { data = await fetchLive(2 * Constants.PageSize) } catch (e) { console.error(e) }
 
       return Timeline.fromData(data)
     }
@@ -85,8 +83,7 @@ export default class Timeline {
   // Add data fetched from next.
   async shiftNext(fetchNext) {
     let next = []
-    try { next = await fetchNext(Constants.PageSize) }
-    catch(e){ console.error(e) }
+    try { next = await fetchNext(Constants.PageSize) } catch (e) { console.error(e) }
 
     return new Timeline(this.current, this.next, next, this.index + 1)
   }
