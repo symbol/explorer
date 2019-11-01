@@ -33,14 +33,7 @@
               />
             </ul>
             <div class="footer-sub">
-              <ul class="ftr_btm-menu">
-                <li>
-                  <router-link v-bind:to="'terms'">Terms</router-link>
-                </li>
-                <li>
-                  <router-link v-bind:to="'privacy'">Privacy</router-link>
-                </li>
-              </ul>
+              
             </div>
           </div>
         </div>

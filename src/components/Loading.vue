@@ -142,7 +142,7 @@ svg {
 .box_loader {
   width: 100%;
   position: absolute;
-  z-index: 9999;
+  z-index: 9;
   background: rgba(255, 255, 255, 0.87);
   top: 0px;
   left: 0px;
