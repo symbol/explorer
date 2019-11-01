@@ -17,7 +17,6 @@
  */
 import Vue from 'vue'
 import helper from '../helper'
-import getConfig from '../infrastructure/getConfig'
 import http from '../infrastructure/http'
 
 export default {
@@ -55,32 +54,10 @@ export default {
   },
 
   actions: {
-    initialize: ({ commit, getters }) => {
-      getConfig()
-        .then(config => {
-          commit('mutate', {
-            key: 'nodes',
-            value: config.nodes
-          })
-          if (config.defaultNode) {
-            commit('mutate', {
-              key: 'defaultNode',
-              value: config.defaultNode
-            })
-          }
-        })
-        .catch(() => {})
-        .then(() => {
-          let currentNodeUrl = localStorage.getItem('currentNodeUrl')
-          if (
-            helper.validURL(currentNodeUrl) &&
-                        getters.nodes.find(node => node.url === currentNodeUrl)
-          ) { commit('currentNode', currentNodeUrl) } else { commit('currentNode', getters.defaultNode) }
-
-          const nodeUrl = getters['currentNode'].url
-          const marketDataUrl = getters['marketData'].url
-          http.init(nodeUrl, marketDataUrl)
-        })
+    initialize: async ({ commit, getters }) => {
+      const nodeUrl = getters['currentNode'].url
+      const marketDataUrl = getters['marketData'].url
+      http.init(nodeUrl, marketDataUrl)
     },
 
     changeNode: ({ commit, dispatch }, currentNodeUrl) => {
