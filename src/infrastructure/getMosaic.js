@@ -18,12 +18,15 @@
 
 import axios from 'axios'
 import {
-  Address
+  Address,
+  MosaicId,
+  NamespaceId
 } from 'nem2-sdk'
 
 import dto from './dto'
 import http from './http'
 import format from '../format'
+import helper from '../helper'
 
 class sdkMosaic {
   static getMosaicsAmountByAddress = async address => {
@@ -34,22 +37,20 @@ class sdkMosaic {
     return mosaicAmount
   }
 
-  // TODO(ahuszagh) Remove...
-  //  static getMosaicInfo = async mosaicHexOrNamespace => {
-  //
-  //    let mosaicID = ''
-  //
-  //    if (helper.isHexadecimal(mosaicHexOrNamespace)) {
-  //      mosaicID = new MosaicId(mosaicHexOrNamespace);
-  //    } else {
-  //      let namespaceId = new NamespaceId(mosaicHexOrNamespace)
-  //      mosaicID = await NAMESPACE_HTTP.getLinkedMosaicId(namespaceId).toPromise()
-  //    }
-  //    // const mosaicInfo = await http.mosaic.getMosaic(mosaicID).toPromise(); // SDK Break
-  //    const mosaicName = await http.mosaic.getMosaicsNames([mosaicID]).toPromise();
-  //
-  //    return format.formatMosaicInfo(mosaicInfo,mosaicName[0])
-  //  }
+  static getMosaicInfo = async mosaicHexOrNamespace => {
+    let mosaicID = ''
+
+    if (helper.isHexadecimal(mosaicHexOrNamespace)) {
+      mosaicID = new MosaicId(mosaicHexOrNamespace)
+    } else {
+      let namespaceId = new NamespaceId(mosaicHexOrNamespace)
+      mosaicID = await http.namespace.getLinkedMosaicId(namespaceId).toPromise()
+    }
+    const mosaicInfo = await http.mosaic.getMosaic(mosaicID).toPromise()
+    const mosaicName = await http.mosaic.getMosaicsNames([mosaicID]).toPromise()
+
+    return format.formatMosaicInfo(mosaicInfo, mosaicName[0])
+  }
 
   static getMosaicsFromIdWithLimit = async (limit, fromMosaicId) => {
     let mosaicId
@@ -83,6 +84,32 @@ class sdkMosaic {
     const mosaics = response.data.map(info => dto.createMosaicInfoFromDTO(info, networkType))
 
     return format.formatMosaicInfos(mosaics)
+  }
+
+  static getMosaicInfoFormatted = async mosaicHexOrNamespace => {
+    let mosaicInfo
+    let mosaicInfoFormatted
+
+    try { mosaicInfo = await sdkMosaic.getMosaicInfo(mosaicHexOrNamespace) } catch (e) { throw Error('Failed to fetch mosaic info', e) }
+
+    if (mosaicInfo) {
+      mosaicInfoFormatted = {
+        mosaicId: mosaicInfo.mosaic,
+        namespace: mosaicInfo.namespace,
+        divisibility: mosaicInfo.divisibility,
+        owneraddress: mosaicInfo.address,
+        supply: mosaicInfo.supply,
+        revision: mosaicInfo.revision,
+        startHeight: mosaicInfo.startHeight,
+        duration: mosaicInfo.duration,
+        supplyMutable: mosaicInfo.supplyMutable,
+        transferable: mosaicInfo.transferable,
+        restrictable: mosaicInfo.restrictable
+      }
+    }
+    return {
+      mosaicInfo: mosaicInfoFormatted || {}
+    }
   }
 }
 

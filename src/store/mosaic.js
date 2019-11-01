@@ -28,7 +28,9 @@ export default {
     // Determine if the mosaics model is loading.
     loading: false,
     // The Mosaic detail information.
-    mosaicInfo: {}
+    mosaicInfo: {},
+    mosaicInfoLoading: false,
+    mosaicInfoError: false
   },
   getters: {
     getTimeline: state => state.timeline,
@@ -42,12 +44,16 @@ export default {
       startHeight: el.startHeight
     })),
     getLoading: state => state.loading,
-    getMosaicInfo: state => state.mosaicInfo
+    getMosaicInfo: state => state.mosaicInfo,
+    mosaicInfoLoading: state => state.mosaicInfoLoading,
+    mosaicInfoError: state => state.mosaicInfoError
   },
   mutations: {
     setTimeline: (state, timeline) => { state.timeline = timeline },
     setLoading: (state, loading) => { state.loading = loading },
-    setMosaicInfo: (state, mosaicInfo) => { state.mosaicInfo = mosaicInfo }
+    setMosaicInfo: (state, mosaicInfo) => { state.mosaicInfo = mosaicInfo },
+    mosaicInfoLoading: (state, v) => { state.mosaicInfoLoading = v },
+    mosaicInfoError: (state, v) => { state.mosaicInfoError = v }
   },
   actions: {
 
@@ -106,22 +112,21 @@ export default {
 
     // Fetch data from the SDK.
     async fetchMosaicInfo({ commit }, mosaicHexOrNamespace) {
-      let mosaicInfo = await sdkMosaic.getMosaicInfo(mosaicHexOrNamespace)
+      commit('mosaicInfoError', false)
+      commit('mosaicInfoLoading', true)
 
-      let mosaicInfoObject = {
-        mosaicId: mosaicInfo.mosaic,
-        namespace: mosaicInfo.namespace,
-        divisibility: mosaicInfo.divisibility,
-        owneraddress: mosaicInfo.address,
-        supply: mosaicInfo.supply,
-        revision: mosaicInfo.revision,
-        startHeight: mosaicInfo.startHeight,
-        duration: mosaicInfo.duration,
-        supplyMutable: mosaicInfo.supplyMutable,
-        transferable: mosaicInfo.transferable,
-        restrictable: mosaicInfo.restrictable
+      let mosaicInfo
+
+      try { mosaicInfo = await sdkMosaic.getMosaicInfoFormatted(mosaicHexOrNamespace) } catch (e) {
+        console.error(e)
+        commit('mosaicInfoError', true)
       }
-      commit('setMosaicInfo', mosaicInfoObject)
+
+      if (mosaicInfo) {
+        commit('setMosaicInfo', mosaicInfo.mosaicInfo)
+      }
+
+      commit('mosaicInfoLoading', false)
     }
   }
 }
