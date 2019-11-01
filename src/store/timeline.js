@@ -15,11 +15,9 @@
  * limitations under the License.
  *
  */
-export default class Timeline {
-  static get pageSize() {
-    return 25
-  }
+import Constants from '../config/constants'
 
+export default class Timeline {
   constructor(previous, current, next, index) {
     this.previous = previous
     this.current = current
@@ -34,8 +32,8 @@ export default class Timeline {
   static fromData(data) {
     // Break data for the initial list into the current and next.
     const previous = []
-    const current = data.slice(0, Timeline.pageSize)
-    const next = data.slice(Timeline.pageSize, 2 * Timeline.pageSize)
+    const current = data.slice(0, Constants.PageSize)
+    const next = data.slice(Constants.PageSize, 2 * Constants.PageSize)
     const index = 0
     return new Timeline(previous, current, next, index)
   }
@@ -69,18 +67,32 @@ export default class Timeline {
   async shiftPrevious(fetchPrevious, fetchLive) {
     if (this.index > 1) {
       // Fetch previous.
-      const previous = await fetchPrevious(Timeline.pageSize)
+      let previous = []
+      try { previous = await fetchPrevious(Constants.PageSize) } catch (e) { console.error(e) }
+
       return new Timeline(previous, this.previous, this.current, this.index - 1)
     } else {
       // Fetch live.
-      const data = await fetchLive(2 * Timeline.pageSize)
+      let data = []
+      try { data = await fetchLive(2 * Constants.PageSize) } catch (e) { console.error(e) }
+
       return Timeline.fromData(data)
     }
   }
 
   // Add data fetched from next.
   async shiftNext(fetchNext) {
-    const next = await fetchNext(Timeline.pageSize)
+    let next = []
+    try { next = await fetchNext(Constants.PageSize) } catch (e) { console.error(e) }
+
     return new Timeline(this.current, this.next, next, this.index + 1)
+  }
+
+  // Prepend item to array.
+  static prependItem(list, item) {
+    if (list.length >= Constants.PageSize) {
+      list.pop()
+    }
+    list.unshift(item)
   }
 }

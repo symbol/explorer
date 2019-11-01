@@ -18,8 +18,6 @@
 
 import Vue from 'vue'
 import sdkAccount from '../infrastructure/getAccount'
-import sdkTransaction from '../infrastructure/getTransaction'
-import sdkNamespace from '../infrastructure/getNamespace'
 
 export default {
   namespaced: true,
@@ -66,7 +64,9 @@ export default {
 
     // Fetch data from the SDK By Address.
     async fetchAccountDataByAddress({ commit }, address) {
+      // Loading start
       commit('accountInfoLoading', true)
+      // Clear data
       commit('accountInfoError', false)
       commit('accountInfo', {})
       commit('accountMultisig', {})
@@ -75,97 +75,24 @@ export default {
       commit('namespaceList', [])
       commit('accountMultisigCosignatories', [])
 
+      // Fetch account info from SDK
       let accountInfo
-
-      try {
-        accountInfo = await sdkAccount.getAccountInfoByAddress(address)
-      } catch (e) {
+      try { accountInfo = await sdkAccount.getAccountInfoByAddressFormatted(address) } catch (e) {
         console.error(e)
         commit('accountInfoError', true)
       }
 
+      // Commit data to the Store
       if (accountInfo) {
-        let formattedAccountInfo = {
-          address: accountInfo.address.address,
-          linkedNamespace: accountInfo.accountAliasName,
-          addressHeight: accountInfo.addressHeight,
-          publicKey: accountInfo.publicKey,
-          // publicKeyHeight: accountInfo.publicKeyHeight,
-          importance: accountInfo.importance,
-          // importanceHeight: accountInfo.importanceHeight,
-          accountType: accountInfo.accountType,
-          linkedAccountKey: accountInfo.linkedAccountKey
-        }
-        let mosaicList = Array.isArray(accountInfo.mosaics)
-          ? accountInfo.mosaics.map(el => ({
-            mosaicId: el.id,
-            amount: el.amount
-          }))
-          : []
-
-        commit('accountInfo', formattedAccountInfo)
-        commit('mosaicList', mosaicList)
+        commit('accountInfo', accountInfo.accountInfo)
+        commit('mosaicList', accountInfo.mosaicList)
+        commit('accountMultisig', accountInfo.multisigInfo)
+        commit('accountMultisigCosignatories', accountInfo.multisigCosignatoriesList)
+        commit('transactionList', accountInfo.tansactionList)
+        commit('namespaceList', accountInfo.namespaceList)
       }
 
-      let accountMultisig
-      try {
-        accountMultisig = await sdkAccount.getMultisigAccountByAddress(address)
-      } catch (e) {
-        console.error(e)
-      }
-
-      if (accountMultisig) {
-        let formattedAccountMultisig = {
-          minApproval: accountMultisig.minApproval,
-          minRemoval: accountMultisig.minRemoval
-        }
-
-        commit('accountMultisig', formattedAccountMultisig)
-        commit('accountMultisigCosignatories', accountMultisig.cosignatories)
-      }
-
-      let transactionList
-
-      try {
-        transactionList = await sdkTransaction.getAccountTransactions(address)
-      } catch (e) {
-        console.error(e)
-        // commit('accountInfoError', true);
-      }
-
-      let formattedTansactionList = []
-      if (transactionList) {
-        formattedTansactionList = transactionList.map(el => ({
-          deadline: el.deadline,
-          fee: el.fee,
-          transactionHash: el.transactionHash,
-          transactionType: el.transactionBody.type
-        }))
-      }
-
-      commit('transactionList', formattedTansactionList)
-
-      let namespaceList
-      try {
-        namespaceList = await sdkNamespace.getNamespacesFromAccountByAddress(address)
-      } catch (e) {
-        console.error(e)
-        // commit('accountInfoError', true)
-      }
-
-      let formattedNamespaceList = []
-      if (namespaceList) {
-        formattedNamespaceList = namespaceList.map(
-          el => ({
-            namespaceName: el.namespaceName,
-            registrationType: el.type,
-            status: el.active,
-            startHeight: el.startHeight,
-            endHeight: el.endHeight
-          })
-        )
-      }
-      commit('namespaceList', formattedNamespaceList)
+      // Loading end
       commit('accountInfoLoading', false)
     }
   }

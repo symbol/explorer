@@ -50,31 +50,31 @@ import View from './View.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-    extends: View,
+  extends: View,
 
-    components: {
-        TransactionTypeBox: w1,
-        TransactionTable: w2
-    },
+  components: {
+    TransactionTypeBox: w1,
+    TransactionTable: w2
+  },
 
-    mounted() {
-        this.$store.dispatch('transaction/initialize')
-    },
+  mounted() {
+    this.$store.dispatch('transaction/initialize')
+  },
 
-    data() {
-        return {
-            nextPageAction: 'transaction/fetchNextPage',
-            previousPageAction: 'transaction/fetchPreviousPage'
-        }
-    },
-
-    computed: {
-        ...mapGetters({
-            transactionList: 'transaction/getTimelineList',
-            canFetchPrevious: 'transaction/getCanFetchPrevious',
-            canFetchNext: 'transaction/getCanFetchNext',
-            loading: 'transaction/getLoading'
-        })
+  data() {
+    return {
+      nextPageAction: 'transaction/fetchNextPage',
+      previousPageAction: 'transaction/fetchPreviousPage'
     }
+  },
+
+  computed: {
+    ...mapGetters({
+      transactionList: 'transaction/getTimelineList',
+      canFetchPrevious: 'transaction/getCanFetchPrevious',
+      canFetchNext: 'transaction/getCanFetchNext',
+      loading: 'transaction/getLoading'
+    })
+  }
 }
 </script>

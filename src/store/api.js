@@ -17,85 +17,56 @@
  */
 import Vue from 'vue'
 import helper from '../helper'
-import getConfig from '../infrastructure/getConfig'
 import http from '../infrastructure/http'
 
 export default {
-    namespaced: true,
+  namespaced: true,
 
-    state: {
-        nodes: [...PEERS_API.nodes],
-        defaultNode: helper.formatUrl(PEERS_API.defaultNode.url),
-        currentNode: helper.formatUrl(PEERS_API.defaultNode.url),
-        wsEndpoint: PEERS_API.defaultNode.url |> helper.httpToWsUrl |> helper.formatUrl,
-        marketData: helper.formatUrl(ENDPOINTS.MARKET_DATA),
-    },
+  state: {
+    nodes: [...PEERS_API.nodes],
+    defaultNode: helper.formatUrl(PEERS_API.defaultNode.url),
+    currentNode: helper.formatUrl(PEERS_API.defaultNode.url),
+    wsEndpoint: PEERS_API.defaultNode.url |> helper.httpToWsUrl |> helper.formatUrl,
+    marketData: helper.formatUrl(ENDPOINTS.MARKET_DATA)
+  },
 
-    getters: {
-        nodes: state =>
-            Array.isArray(state.nodes)
-            ? state.nodes.map(node => helper.formatUrl(node.url))
-            : []
-        ,
-        currentNode: state => state.currentNode,
-        currentNodeHostname: state => state.currentNode.hostname,
-        wsEndpoint: state => state.wsEndpoint,
-        marketData: state => state.marketData
-    },
+  getters: {
+    nodes: state =>
+      Array.isArray(state.nodes)
+        ? state.nodes.map(node => helper.formatUrl(node.url))
+        : [],
+    currentNode: state => state.currentNode,
+    currentNodeHostname: state => state.currentNode.hostname,
+    wsEndpoint: state => state.wsEndpoint,
+    marketData: state => state.marketData
+  },
 
-    mutations: {
-        mutate: (state, {key, value}) => Vue.set(state, key, value),
-        currentNode: (state, payload) => {
-            if (undefined !== payload) {
-                let currentNode = helper.formatUrl(payload)
-                let wsEndpoint = currentNode.url |> helper.httpToWsUrl |> helper.formatUrl
-                Vue.set(state, 'currentNode', currentNode)
-                Vue.set(state, 'wsEndpoint', wsEndpoint)
-            }
-        }
-    },
-
-    actions: {
-        initialize: ({commit, getters}) => {
-
-            getConfig()
-                .then( config => {
-                    commit('mutate', {
-                        key: 'nodes',
-                        value: config.nodes
-                    })
-                    if(config.defaultNode)
-                        commit('mutate', {
-                            key: 'defaultNode',
-                            value: config.defaultNode
-                        })
-                })
-                .catch(() => {})
-                .then(() => {
-                    let currentNodeUrl = localStorage.getItem('currentNodeUrl');
-                    if(
-                        helper.validURL(currentNodeUrl)
-                        && getters.nodes.find( node => node.url === currentNodeUrl)
-                    )
-                        commit('currentNode', currentNodeUrl)
-                    else
-                        commit('currentNode', getters.defaultNode)
-
-                    const nodeUrl = getters['currentNode'].url
-                    const marketDataUrl = getters['marketData'].url
-                    http.init(nodeUrl, marketDataUrl)
-                })
-        },
-
-        changeNode: ({commit, dispatch}, currentNodeUrl) => {
-            if(helper.validURL(currentNodeUrl)) {
-                commit('currentNode', currentNodeUrl)
-                localStorage.setItem('currentNodeUrl', currentNodeUrl);
-                dispatch('uninitialize', null, { root: true })
-                dispatch('initialize', null, { root: true })
-            }
-            else
-                throw Error("Cannot change node. URL is not valid: " + currentNodeUrl);
-        }
+  mutations: {
+    mutate: (state, { key, value }) => Vue.set(state, key, value),
+    currentNode: (state, payload) => {
+      if (undefined !== payload) {
+        let currentNode = helper.formatUrl(payload)
+        let wsEndpoint = currentNode.url |> helper.httpToWsUrl |> helper.formatUrl
+        Vue.set(state, 'currentNode', currentNode)
+        Vue.set(state, 'wsEndpoint', wsEndpoint)
+      }
     }
+  },
+
+  actions: {
+    initialize: async ({ commit, getters }) => {
+      const nodeUrl = getters['currentNode'].url
+      const marketDataUrl = getters['marketData'].url
+      http.init(nodeUrl, marketDataUrl)
+    },
+
+    changeNode: ({ commit, dispatch }, currentNodeUrl) => {
+      if (helper.validURL(currentNodeUrl)) {
+        commit('currentNode', currentNodeUrl)
+        localStorage.setItem('currentNodeUrl', currentNodeUrl)
+        dispatch('uninitialize', null, { root: true })
+        dispatch('initialize', null, { root: true })
+      } else { throw Error('Cannot change node. URL is not valid: ' + currentNodeUrl) }
+    }
+  }
 }

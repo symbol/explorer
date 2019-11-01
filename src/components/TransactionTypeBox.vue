@@ -36,30 +36,30 @@
 </template>
 <script>
 export default {
-    data() {
-        return {
-            transactionTypeMap: {
-                'recent': 'Recent Transactions',
-                'pending': 'Pending Transactions',
-                'transfer': 'Transfer Transactions',
-                'multisig': 'Multisig Transactions',
-                'mosaic': 'Mosaic Transactions'
-            }
-        }
-    },
-
-    mounted() {
-        this.$store.dispatch('transaction/resetPage')
-    },
-
-    destroyed() {
-        this.$store.dispatch('transaction/resetPage')
-    },
-
-    methods: {
-        onChange(event) {
-            this.$store.dispatch('transaction/changePage', event.target.value)
-        }
+  data() {
+    return {
+      transactionTypeMap: {
+        'recent': 'Recent Transactions',
+        'pending': 'Pending Transactions',
+        'transfer': 'Transfer Transactions',
+        'multisig': 'Multisig Transactions',
+        'mosaic': 'Mosaic Transactions'
+      }
     }
+  },
+
+  mounted() {
+    this.$store.dispatch('transaction/resetPage')
+  },
+
+  destroyed() {
+    this.$store.dispatch('transaction/resetPage')
+  },
+
+  methods: {
+    onChange(event) {
+      this.$store.dispatch('transaction/changePage', event.target.value)
+    }
+  }
 }
 </script>

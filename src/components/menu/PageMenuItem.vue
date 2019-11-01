@@ -26,7 +26,7 @@
 </template>
 <script>
 export default {
-  name: 'BlocksLink',
+  name: 'PageMenuItem',
   props: {
     to: String,
     text: String,
