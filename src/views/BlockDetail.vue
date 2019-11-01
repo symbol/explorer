@@ -12,7 +12,8 @@
                 </template>
                 <template #control>
                     <Pagination
-                        :pageIndex="1"
+                        :canFetchPrevious="true"
+                        :canFetchNext="true"
                         :nextPageAction="nextPageAction"
                         :previousPageAction="previousPageAction"
                     />
