@@ -22,7 +22,6 @@
       <div class="container">
         <div class="row">
           <div class="col-md-3">
-            <LanguageSelector />
           </div>
 
           <div class="col-md-6 text-center">
@@ -38,7 +37,10 @@
 
             <SearchBox />
           </div>
-          <NodeSelector />
+          <div class="col-md-3">
+            <NodeSelector />
+            <LanguageSelector />
+          </div>
         </div>
       </div>
 
@@ -53,7 +55,6 @@
     </div>
 
     <MobileMenu />
-
   </div>
 </template>
 
@@ -71,13 +72,13 @@ export default {
     MobileMenu,
     NodeSelector,
     LanguageSelector,
-    SearchBox
+    SearchBox,
   },
 
   data() {
     return {
       mobmenu_active: 0,
-      nodemenu_active: 0
+      nodemenu_active: 0,
     }
   },
 
@@ -86,7 +87,7 @@ export default {
       return helper.isMobile(
         navigator.userAgent || navigator.vendor || window.opera
       )
-    }
-  }
+    },
+  },
 }
 </script>
