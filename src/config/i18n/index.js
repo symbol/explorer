@@ -1,18 +1,21 @@
 const languages = {
-  'en-us': require('./en-us.json')
+  'en-us': require('./en-us.json'),
+  '中文': require('./zh.json'),
+  '日本语': require('./ja.json'),
+  'português': require('./pt.json'),
+  'espanhol': require('./es.json')
 }
 
 const DEFAULT_LANGUAGE = 'en-us'
 
 const getUserLanguage = () => {
   let storedLang = localStorage.getItem('userLanguage')
-
   if (storedLang != null && languages[storedLang] != null) { return languages[storedLang] } else { return languages[DEFAULT_LANGUAGE] }
 }
 
 const setCurrentLanguage = (lang) => {
   if (lang != null && languages[lang] != null) {
-    localStorage.getItem('userLanguage', lang)
+    localStorage.setItem('userLanguage', lang)
     location.reload()
   } else { throw Error("I18n: Cannot set language '" + lang + "'") }
 }

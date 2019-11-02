@@ -641,6 +641,7 @@ img {
     display: block;
     padding: 4px 10px;
     border: 1px solid #fff;
+    margin: 5px 0px;
     border-radius: 4px;
     font-size: 12px;
 }
@@ -1149,17 +1150,13 @@ table.table-bordered.dataTable tbody tr {
     display: inline-block;
     padding: 0px;
 }
-.ftr_btm-menu li,.ftr_btm p{ 
+.ftr_btm-menu li,.ftr_btm p{
     display: inline-block;
-    margin: 0px 5px;
-} 
-.ftr_btm-menu li a{ 
+}
+.ftr_btm-menu li a{
+    margin-left: 0px;
     color: #fff;
     font-size: 12px;
-    text-decoration: none;
-} 
-.ftr_btm-menu li a:hover{
-    text-decoration: underline;
 }
 .social-icon li a i {
     font-size: 15px;
@@ -1696,7 +1693,7 @@ table.table-bordered.dataTable tbody tr {
     border-bottom: 2px solid #dedede;
 }
 
-.network_switch {
+.network_switch, .lang_switch {
     z-index: 100;
 }
 
@@ -2005,10 +2002,10 @@ table.table-bordered.dataTable tbody tr {
     .network_info .col-md-3 {
         width: 50%;
     }
-    .top_head .network_switch, .ex-header {
+    .top_head .network_switch, .lang_switch, .ex-header {
         display: none !important;
     }
-    
+
     .top_head::before,.mobmenuslide .menu_bkg::before {
         background-size: 96%;
     }

@@ -22,6 +22,8 @@ import { i18n } from '../config'
 export default {
   namespaced: true,
   state: {
+    languages: i18n.languages,
+    currentLanguage: localStorage.getItem('userLanguage'),
     keyNames: {}, /// put new names here => src/config/i18n/en-us.json
 
     keyPages: {
@@ -51,7 +53,9 @@ export default {
   },
 
   getters: {
-    getNameByKey: state => key => i18n.getName(key)
+    getNameByKey: state => key => i18n.getName(key),
+    languages: state => state.languages,
+    currentLanguage: state => state.currentLanguage
   },
 
   mutations: {
@@ -138,6 +142,13 @@ export default {
           reject(new Error('Nothing found..'))
         }
       })
+    },
+
+    changeLanguage: ({ state }, language) => {
+      if (language !== null &&
+        language !== void 0) {
+        i18n.setCurrentLanguage(language)
+      } else { throw Error('Cannot change language. language is not supported: ' + language) }
     }
   }
 }
