@@ -27,11 +27,7 @@
         <ul class="ftr_btm-menu">
           <li>
             <router-link v-bind:to="'terms'">Terms</router-link>
-          </li>
-           <li>
-             &
-           </li>
-          <li>
+            &
             <router-link v-bind:to="'privacy'">Privacy</router-link>
           </li>
         </ul>

@@ -1156,7 +1156,11 @@ table.table-bordered.dataTable tbody tr {
 .ftr_btm-menu li a{ 
     color: #fff;
     font-size: 12px;
+    text-decoration: none;
 } 
+.ftr_btm-menu li a:hover{
+    text-decoration: underline;
+}
 .social-icon li a i {
     font-size: 15px;
 }
