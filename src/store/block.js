@@ -178,6 +178,7 @@ export default {
       commit('blockInfoLoading', true)
       commit('blockInfo', {})
       commit('blockTransactionList', [])
+      commit('currentBlockHeight', height)
 
       let blockInfo
       try { blockInfo = await sdkBlock.getBlockInfoByHeightFormatted(height) } catch (e) {
@@ -196,13 +197,13 @@ export default {
     nextBlock: ({ commit, getters, dispatch }) => {
       dispatch('ui/openPage', {
         pageName: 'block',
-        param: getters.currentBlockHeight + 1
+        param: +getters.currentBlockHeight + 1
       }, { root: true })
     },
     previousBlock: ({ commit, getters, dispatch }) => {
       dispatch('ui/openPage', {
         pageName: 'block',
-        param: getters.currentBlockHeight - 1
+        param: +getters.currentBlockHeight - 1
       }, { root: true })
     }
   }
