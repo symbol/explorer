@@ -22,10 +22,6 @@
       <div class="container">
         <div class="row">
           <div class="col-md-3">
-            <!-- <div class="btn-grp">
-                    <a href="#" class="btn active">Nem</a>
-                    <a href="#" class="btn">Testnet</a>
-            </div>-->
           </div>
 
           <div class="col-md-6 text-center">
@@ -41,7 +37,10 @@
 
             <SearchBox />
           </div>
-          <NodeSelector />
+          <div class="col-md-3">
+            <NodeSelector />
+            <LanguageSelector />
+          </div>
         </div>
       </div>
 
@@ -56,13 +55,13 @@
     </div>
 
     <MobileMenu />
-
   </div>
 </template>
 
 <script>
 import MobileMenu from '@/components/menu/MobileMenu.vue'
 import NodeSelector from '@/components/controls/NodeSelector.vue'
+import LanguageSelector from '@/components/controls/LanguageSelector.vue'
 import SearchBox from '@/components/controls/SearchBox.vue'
 import helper from '../helper'
 
@@ -72,13 +71,14 @@ export default {
   components: {
     MobileMenu,
     NodeSelector,
-    SearchBox
+    LanguageSelector,
+    SearchBox,
   },
 
   data() {
     return {
       mobmenu_active: 0,
-      nodemenu_active: 0
+      nodemenu_active: 0,
     }
   },
 
@@ -87,7 +87,7 @@ export default {
       return helper.isMobile(
         navigator.userAgent || navigator.vendor || window.opera
       )
-    }
-  }
+    },
+  },
 }
 </script>
