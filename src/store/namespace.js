@@ -16,13 +16,18 @@
  *
  */
 
+import Lock from './lock'
 import Timeline from './timeline'
 import Constants from '../config/constants'
 import sdkNamespace from '../infrastructure/getNamespace'
 
+const LOCK = Lock.create()
+
 export default {
   namespaced: true,
   state: {
+    // If the state has been initialized.
+    initialized: false,
     // Timeline of data current in the view.
     timeline: Timeline.empty(),
     // Determine if the namespaces model is loading.
@@ -35,6 +40,7 @@ export default {
     namespaceInfoError: false
   },
   getters: {
+    getInitialized: state => state.initialized,
     getTimeline: state => state.timeline,
     getCanFetchPrevious: state => state.timeline.canFetchPrevious,
     getCanFetchNext: state => state.timeline.canFetchNext,
@@ -52,6 +58,7 @@ export default {
     namespaceInfoError: state => state.namespaceInfoError
   },
   mutations: {
+    setInitialized: (state, initialized) => { state.initialized = initialized },
     setTimeline: (state, timeline) => { state.timeline = timeline },
     setLoading: (state, loading) => { state.loading = loading },
     setNamespaceInfo: (state, info) => { state.namespaceInfo = info },
@@ -60,11 +67,18 @@ export default {
     namespaceInfoError: (state, v) => { state.namespaceInfoError = v }
   },
   actions: {
-
     // Initialize the namespace model.
-    // First fetch the page, then subscribe.
-    async initialize({ dispatch }) {
-      await dispatch('initializePage')
+    async initialize({ commit, dispatch, getters }) {
+      const callback = async () => {
+        await dispatch('initializePage')
+      }
+      await LOCK.initialize(callback, commit, dispatch, getters)
+    },
+
+    // Uninitialize the namespace model.
+    async uninitialize({ commit, dispatch, getters }) {
+      const callback = async () => {}
+      await LOCK.uninitialize(callback, commit, dispatch, getters)
     },
 
     // Fetch data from the SDK and initialize the page.

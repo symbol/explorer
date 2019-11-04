@@ -17,9 +17,12 @@
  */
 
 import Vue from 'vue'
+import Lock from './lock'
 import Timeline from './timeline'
 import Constants from '../config/constants'
 import sdkTransaction from '../infrastructure/getTransaction'
+
+const LOCK = Lock.create()
 
 const PAGES = {
   // Recent block pages.
@@ -46,6 +49,8 @@ const TRANSACTION_TYPE_MAP = {
 export default {
   namespaced: true,
   state: {
+    // If the state has been initialized.
+    initialized: false,
     // Holds the latest PageSize transactions.
     latestList: [],
     // The current transaction type key, as defined in `PAGES`.
@@ -63,6 +68,7 @@ export default {
     transactionInfoError: false
   },
   getters: {
+    getInitialized: state => state.initialized,
     getLatestList: state => state.latestList,
     getRecentList: state => Array.prototype.filter.call(state.latestList, (item, index) => {
       return index < 4
@@ -92,6 +98,7 @@ export default {
     transactionInfoError: state => state.transactionInfoError
   },
   mutations: {
+    setInitialized: (state, initialized) => { state.initialized = initialized },
     setLatestList: (state, list) => { state.latestList = list },
     setTransactionType: (state, transactionType) => { state.transactionType = transactionType },
     setTimeline: (state, timeline) => { state[state.transactionType] = timeline },
@@ -114,14 +121,20 @@ export default {
   actions: {
     // Initialize the transaction model.
     // First fetch the page, then subscribe.
-    async initialize({ dispatch }) {
-      await dispatch('initializePage')
-      await dispatch('subscribe')
+    async initialize({ commit, dispatch, getters }) {
+      const callback = async () => {
+        await dispatch('initializePage')
+        await dispatch('subscribe')
+      }
+      await LOCK.initialize(callback, commit, dispatch, getters)
     },
 
     // Uninitialize the transaction model.
-    uninitialize({ dispatch }) {
-      dispatch('unsubscribe')
+    async uninitialize({ commit, dispatch, getters }) {
+      const callback = async () => {
+        dispatch('unsubscribe')
+      }
+      await LOCK.uninitialize(callback, commit, dispatch, getters)
     },
 
     // Subscribe to the latest transactions.

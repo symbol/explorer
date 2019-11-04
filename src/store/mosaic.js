@@ -16,13 +16,18 @@
  *
  */
 
+import Lock from './lock'
 import Timeline from './timeline'
 import Constants from '../config/constants'
 import sdkMosaic from '../infrastructure/getMosaic'
 
+const LOCK = Lock.create()
+
 export default {
   namespaced: true,
   state: {
+    // If the state has been initialized.
+    initialized: false,
     // Timeline of data current in the view.
     timeline: Timeline.empty(),
     // Determine if the mosaics model is loading.
@@ -33,6 +38,7 @@ export default {
     mosaicInfoError: false
   },
   getters: {
+    getInitialized: state => state.initialized,
     getTimeline: state => state.timeline,
     getCanFetchPrevious: state => state.timeline.canFetchPrevious,
     getCanFetchNext: state => state.timeline.canFetchNext,
@@ -49,6 +55,7 @@ export default {
     mosaicInfoError: state => state.mosaicInfoError
   },
   mutations: {
+    setInitialized: (state, initialized) => { state.initialized = initialized },
     setTimeline: (state, timeline) => { state.timeline = timeline },
     setLoading: (state, loading) => { state.loading = loading },
     setMosaicInfo: (state, mosaicInfo) => { state.mosaicInfo = mosaicInfo },
@@ -56,11 +63,18 @@ export default {
     mosaicInfoError: (state, v) => { state.mosaicInfoError = v }
   },
   actions: {
-
     // Initialize the mosaic model.
-    // First fetch the page, then subscribe.
-    async initialize({ dispatch }) {
-      await dispatch('initializePage')
+    async initialize({ commit, dispatch, getters }) {
+      const callback = async () => {
+        await dispatch('initializePage')
+      }
+      await LOCK.initialize(callback, commit, dispatch, getters)
+    },
+
+    // Uninitialize the mosaic model.
+    async uninitialize({ commit, dispatch, getters }) {
+      const callback = async () => {}
+      await LOCK.uninitialize(callback, commit, dispatch, getters)
     },
 
     // Fetch data from the SDK and initialize the page.

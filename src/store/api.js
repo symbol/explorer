@@ -60,13 +60,15 @@ export default {
       http.init(nodeUrl, marketDataUrl)
     },
 
-    changeNode: ({ commit, dispatch }, currentNodeUrl) => {
+    changeNode: async ({ commit, dispatch }, currentNodeUrl) => {
       if (helper.validURL(currentNodeUrl)) {
         commit('currentNode', currentNodeUrl)
         localStorage.setItem('currentNodeUrl', currentNodeUrl)
-        dispatch('uninitialize', null, { root: true })
-        dispatch('initialize', null, { root: true })
-      } else { throw Error('Cannot change node. URL is not valid: ' + currentNodeUrl) }
+        await dispatch('uninitialize', null, { root: true })
+        await dispatch('initialize', null, { root: true })
+      } else {
+        throw Error('Cannot change node. URL is not valid: ' + currentNodeUrl)
+      }
     }
   }
 }
