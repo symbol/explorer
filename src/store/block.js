@@ -80,7 +80,7 @@ export default {
     setLoading: (state, loading) => { state.loading = loading },
 
     addLatestItem: (state, item) => {
-      if (state.latestList.length > 0 && state.latestList[0].height !== item.height) {
+      if (state.latestList.length > 0 && state.latestList[0].height !== item.height && state.timeline.isLive === true) {
         Timeline.prependItem(state.latestList, item)
         state.timeline = state.timeline.addLatestItem(item, 'height')
       }
@@ -171,7 +171,7 @@ export default {
       }
       const block = list[0]
       const fetchPrevious = pageSize => sdkBlock.getBlocksSinceHeightWithLimit(pageSize, block.height)
-      const fetchLive = pageSize => sdkBlock.getBlocksSinceHeightWithLimit(pageSize)
+      const fetchLive = pageSize => sdkBlock.getBlocksFromHeightWithLimit(pageSize, block.height)
       commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
       commit('setLoading', false)
     },
