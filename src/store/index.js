@@ -28,6 +28,14 @@ import Vuex from 'vuex'
 
 Vue.use(Vuex)
 
+const logError = async (dispatch, action) => {
+  try {
+    await dispatch(action)
+  } catch (e) {
+    console.error(`Failed to call ${action}`, e)
+  }
+}
+
 export default new Vuex.Store({
   // Disable use-strict mode because it fails with the SDK listener.
   strict: false,
@@ -44,25 +52,30 @@ export default new Vuex.Store({
   actions: {
     // Initialize the stores (call on app load).
     async initialize({ dispatch }) {
-      try { await dispatch('api/initialize') } catch (e) { console.error('Failed to initialize API', e) }
+      // Wait till the API is initialized before making any requests.
+      await logError(dispatch, 'api/initialize')
 
-      try { await dispatch('account/initialize') } catch (e) { console.error('Failed to initialize account', e) }
-
-      try { await dispatch('block/initialize') } catch (e) { console.error('Failed to initialize block', e) }
-
-      try { await dispatch('transaction/initialize') } catch (e) { console.error('Failed to initialize transaction', e) }
-
-      try { await dispatch('chain/initialize') } catch (e) { console.error('Failed to initialize chain', e) }
-
-      try { await dispatch('mosaic/initialize') } catch (e) { console.error('Failed to initialize mosaic', e) }
-
-      try { await dispatch('namespace/initialize') } catch (e) { console.error('Failed to initialize namespace', e) }
+      // We want all these to evaluate asynchronously.
+      // This avoids a failure in any individual store from causing issues
+      // in other stores.
+      // Only initialize views in the Home view.
+      await Promise.all([
+        logError(dispatch, 'block/initialize'),
+        logError(dispatch, 'chain/initialize'),
+        logError(dispatch, 'transaction/initialize')
+      ])
     },
 
     // Uninitialize the stores (call on app destroyed).
-    uninitialize({ dispatch }) {
-      dispatch('block/uninitialize')
-      dispatch('transaction/uninitialize')
+    async uninitialize({ dispatch }) {
+      await Promise.all([
+        dispatch('account/uninitialize'),
+        dispatch('block/uninitialize'),
+        dispatch('chain/uninitialize'),
+        dispatch('mosaic/uninitialize'),
+        dispatch('namespace/uninitialize'),
+        dispatch('transaction/uninitialize')
+      ])
     }
   }
 })

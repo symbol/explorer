@@ -17,14 +17,19 @@
  */
 
 import Vue from 'vue'
+import Lock from './lock'
 import Timeline from './timeline'
 import Constants from '../config/constants'
 import sdkBlock from '../infrastructure/getBlock'
 import sdkListener from '../infrastructure/getListener'
 
+const LOCK = Lock.create()
+
 export default {
   namespaced: true,
   state: {
+    // If the state has been initialized.
+    initialized: false,
     // Holds the latest PageSize blocks.
     latestList: [],
     // Timeline of data current in the view.
@@ -42,6 +47,7 @@ export default {
     blockInfoError: false
   },
   getters: {
+    getInitialized: state => state.initialized,
     getLatestList: state => state.latestList,
     getRecentList: state => Array.prototype.filter.call(state.latestList, (item, index) => {
       return index < 4
@@ -67,6 +73,7 @@ export default {
     blockInfoError: state => state.blockInfoError
   },
   mutations: {
+    setInitialized: (state, initialized) => { state.initialized = initialized },
     setLatestList: (state, list) => { state.latestList = list },
     setTimeline: (state, timeline) => { state.timeline = timeline },
     setSubscription: (state, subscription) => { state.subscription = subscription },
@@ -88,14 +95,20 @@ export default {
   actions: {
     // Initialize the block model.
     // First fetch the page, then subscribe.
-    async initialize({ dispatch }) {
-      await dispatch('initializePage')
-      await dispatch('subscribe')
+    async initialize({ commit, dispatch, getters }) {
+      const callback = async () => {
+        await dispatch('initializePage')
+        await dispatch('subscribe')
+      }
+      await LOCK.initialize(callback, commit, dispatch, getters)
     },
 
     // Uninitialize the block model.
-    uninitialize({ dispatch }) {
-      dispatch('unsubscribe')
+    async uninitialize({ commit, dispatch, getters }) {
+      const callback = async () => {
+        dispatch('unsubscribe')
+      }
+      await LOCK.uninitialize(callback, commit, dispatch, getters)
     },
 
     // Subscribe to the latest blocks.

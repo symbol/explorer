@@ -36,8 +36,8 @@ export default {
   },
 
   methods: {
-    setNode(url) {
-      this.$store.dispatch('api/changeNode', url)
+    async setNode(url) {
+      await this.$store.dispatch('api/changeNode', url)
       this.$refs.nodeSelector.classList.remove('shown')
     }
   }
