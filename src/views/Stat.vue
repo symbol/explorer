@@ -81,7 +81,7 @@
 import View from "./View.vue";
 //import dummyData from "./test/dummyData";
 import VueApexCharts from "vue-apexcharts";
-console.log(dummyData);
+
 export default {
   extends: View,
   name: "Statistics",
@@ -93,9 +93,9 @@ export default {
       loading: false,
       error: false,
       series: {
-        nodes: dummyData.chartData.nodes.yax,
-        harvest: dummyData.chartData.harverster.yax,
-        nemAcnt:dummyData.chartData.nemAcnts.yax
+      //  nodes: dummyData.chartData.nodes.yax,
+       // harvest: dummyData.chartData.harverster.yax,
+        //nemAcnt:dummyData.chartData.nemAcnts.yax
       },
       chartOptions: {
         nodes: {
@@ -120,7 +120,7 @@ export default {
           },
           xaxis: {
             type: "datetime",
-            categories: dummyData.chartData.nodes.xax
+          //  categories: dummyData.chartData.nodes.xax
           }
         },
         harvest: {
@@ -142,7 +142,7 @@ export default {
             curve: "smooth"
           },
 
-          labels: dummyData.chartData.harverster.xax,
+         // labels: dummyData.chartData.harverster.xax,
           xaxis: {
             type: "datetime"
           },
@@ -175,7 +175,7 @@ export default {
             curve: "smooth"
           },
 
-          labels: dummyData.chartData.nemAcnts.xax,
+        //  labels: dummyData.chartData.nemAcnts.xax,
          
           yaxis: {
             opposite: false
