@@ -729,7 +729,7 @@ img {
 
 .nav-menu.ls1 li {
     display: inline-block;
-    min-width: 120px;
+    margin-right: 40px;
 }
 
 .nav-menu li a {
