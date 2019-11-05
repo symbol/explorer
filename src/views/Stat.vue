@@ -79,7 +79,7 @@
 </template>
 <script>
 import View from "./View.vue";
-import dummyData from "./test/dummyData";
+//import dummyData from "./test/dummyData";
 import VueApexCharts from "vue-apexcharts";
 console.log(dummyData);
 export default {
