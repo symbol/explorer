@@ -162,7 +162,7 @@ export default {
     },
 
     // Fetch the previous page of data.
-    async fetchPreviousPage({ commit, getters }) {
+    async fetchPreviousPage({ commit, getters, rootGetters }) {
       commit('setLoading', true)
       const timeline = getters.getTimeline
       const list = timeline.previous
@@ -171,7 +171,7 @@ export default {
       }
       const block = list[0]
       const fetchPrevious = pageSize => sdkBlock.getBlocksSinceHeightWithLimit(pageSize, block.height)
-      const fetchLive = pageSize => sdkBlock.getBlocksFromHeightWithLimit(pageSize, block.height)
+      const fetchLive = pageSize => sdkBlock.getBlocksFromHeightWithLimit(pageSize, rootGetters['chain/getBlockHeight'])
       commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
       commit('setLoading', false)
     },
