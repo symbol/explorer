@@ -25,7 +25,7 @@
                     />
                 </template>
                 <template #error>
-                    Block {{height}} is not exist
+                    Block {{height}} does not exist
                 </template>
             </Card>
 

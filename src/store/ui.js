@@ -70,9 +70,6 @@ export default {
         let value = payload.param
 
         if (value != null) {
-          if (typeof value !== 'number') {
-            value = value.toLowerCase()
-          }
 
           if (value === 'infinity') {
             return ''
