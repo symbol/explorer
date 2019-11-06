@@ -454,6 +454,7 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
 const formatNamespaceInfo = namespaceInfo => ({
   active: namespaceInfo.active,
   namespaceId: namespaceInfo.id.toHex(),
+  namespaceName: namespaceInfo.namespaceName,
   index: namespaceInfo.index,
   registrationType: Constants.NamespaceRegistrationType[namespaceInfo.registrationType],
   depth: namespaceInfo.depth,

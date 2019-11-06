@@ -46,6 +46,7 @@ export default {
     getCanFetchNext: state => state.timeline.canFetchNext,
     getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
       namespaceId: el.namespaceId,
+      namespaceName: el.namespaceName,
       registrationType: el.registrationType,
       owneraddress: el.address,
       parentId: el.parentId,
