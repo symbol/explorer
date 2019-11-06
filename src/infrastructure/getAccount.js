@@ -106,7 +106,7 @@ class sdkAccount {
     if (transactionList) {
       formattedTansactionList = transactionList.map(el => ({
         deadline: el.deadline,
-        fee: el.fee,
+        //fee: el.fee,
         transactionHash: el.transactionHash,
         transactionType: el.transactionBody.type
       }))

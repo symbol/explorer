@@ -113,8 +113,8 @@ class sdkBlock {
         transactionList = blockTransactionList.map((el) => ({
           deadline: el.deadline,
           transactionHash: el.transactionHash,
-          fee: el.fee,
-          signer: el.signer,
+          //fee: el.fee,
+          //signer: el.signer,
           type: el.transactionBody.type
         }))
       }
