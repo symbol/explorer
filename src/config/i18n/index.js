@@ -10,7 +10,10 @@ const DEFAULT_LANGUAGE = 'en-us'
 
 const getUserLanguage = () => {
   let storedLang = localStorage.getItem('userLanguage')
-  if (storedLang != null && languages[storedLang] != null) { return languages[storedLang] } else { return languages[DEFAULT_LANGUAGE] }
+  if (storedLang != null && languages[storedLang] != null) { return languages[storedLang] } else {
+    setCurrentLanguage(DEFAULT_LANGUAGE)
+    return languages[DEFAULT_LANGUAGE]
+  }
 }
 
 const setCurrentLanguage = (lang) => {
@@ -23,7 +26,7 @@ const setCurrentLanguage = (lang) => {
 const getName = (language, key) => {
   if (
     language[key] !== null &&
-        language[key] !== void 0
+    language[key] !== void 0
   ) { return language[key] } else {
     console.warn("I18n: Cannot find name for '" + key + "' in language '" + language.langName + "'")
     return key

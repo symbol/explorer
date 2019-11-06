@@ -194,6 +194,7 @@ const formatTransactionBody = transactionBody => {
       let registerNamespaceObj = {
         type: Constants.TransactionType[TransactionType.REGISTER_NAMESPACE],
         typeId: TransactionType.REGISTER_NAMESPACE,
+        recipient: Constants.NetworkConfig.NAMESPACE_RENTAL_FEE_SINK_ADDRESS,
         registrationType: Constants.NamespaceRegistrationType[transactionBody.registrationType],
         namespaceName: transactionBody.namespaceName,
         namespaceId: transactionBody.namespaceId.toHex(),
@@ -223,6 +224,7 @@ const formatTransactionBody = transactionBody => {
       let mosaicDefinitionObj = {
         type: Constants.TransactionType[TransactionType.MOSAIC_DEFINITION],
         typeId: TransactionType.MOSAIC_DEFINITION,
+        recipient: Constants.NetworkConfig.MOSAIC_RENTAL_FEE_SINK_ADDRESS,
         mosaicId: transactionBody.mosaicId.toHex(),
         divisibility: transactionBody.divisibility,
         duration: transactionBody.duration,
@@ -244,7 +246,10 @@ const formatTransactionBody = transactionBody => {
     case TransactionType.MODIFY_MULTISIG_ACCOUNT:
       let modifyMultisigAccountObj = {
         type: Constants.TransactionType[TransactionType.MODIFY_MULTISIG_ACCOUNT],
-        typeId: TransactionType.MODIFY_MULTISIG_ACCOUNT
+        typeId: TransactionType.MODIFY_MULTISIG_ACCOUNT,
+        minApprovalDelta: transactionBody.minApprovalDelta,
+        minRemovalDelta: transactionBody.minRemovalDelta,
+        modifications: transactionBody.modifications
       }
       return modifyMultisigAccountObj
 
@@ -314,8 +319,8 @@ const formatTransactionBody = transactionBody => {
         type: Constants.TransactionType[TransactionType.LINK_ACCOUNT],
         typeId: TransactionType.LINK_ACCOUNT,
         linkAction: Constants.LinkAction[transactionBody.linkAction],
-        remoteAccountPublicKey: transactionBody.remoteAccountKey,
-        remoteAccountAddress: Address.createFromPublicKey(transactionBody.remoteAccountKey, NetworkType.MIJIN_TEST).plain()
+        remoteAccountPublicKey: transactionBody.remotePublicKey,
+        remoteAccountAddress: Address.createFromPublicKey(transactionBody.remotePublicKey, NetworkType.MIJIN_TEST).plain()
       }
       return linkAccountObj
     case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
