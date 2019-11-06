@@ -142,6 +142,14 @@ const formatTransactions = transactions => {
 
 // FORMAT TRANSACTION
 const formatTransaction = transaction => {
+  // let effectiveFee;
+  // try { effectiveFee = await http.transaction.getTransactionEffectiveFee(transaction.transactionInfo.hash).toPromise() }
+  // catch(e){console.error(e)}
+
+  // if(effectiveFee)
+  //   effectiveFee = effectiveFee//formatFee(effectiveFee)
+  // else
+  //   effectiveFee = "N/A"
   let transactionObj = {
     deadline: moment.utc(new Date(transaction.deadline.value)).local().format(
       'YYYY-MM-DD HH:mm:ss'

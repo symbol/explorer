@@ -39,6 +39,7 @@ class sdkTransaction {
 
   static getTransactionInfoByHash = async (hash) => {
     const transaction = await http.transaction.getTransaction(hash).toPromise()
+    const effectiveFee = await http.transaction.getTransactionEffectiveFee(hash).toPromise() 
     const formattedTransaction = format.formatTransaction(transaction)
     const getBlockInfo = await sdkBlock.getBlockInfoByHeight(formattedTransaction.blockHeight)
 
@@ -50,7 +51,8 @@ class sdkTransaction {
       transaction: formattedTransaction,
       status: transactionStatus.status,
       confirm: transactionStatus.group,
-      timestamp: getBlockInfo.date
+      timestamp: getBlockInfo.date,
+      fee: effectiveFee ?  effectiveFee / 1000000 : effectiveFee
     }
 
     return transactionInfo
@@ -143,7 +145,7 @@ class sdkTransaction {
         transactionId: transactionInfo.transaction?.transactionId,
         date: transactionInfo.timestamp,
         deadline: transactionInfo.transaction?.deadline,
-        fee: transactionInfo.transaction?.fee,
+        fee: transactionInfo.fee,
         signature: transactionInfo.transaction?.signature,
         signer: transactionInfo.transaction?.signer,
         status: transactionInfo.status,
