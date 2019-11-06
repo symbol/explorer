@@ -18,7 +18,7 @@
                             :data="transactionInfo"
                         />
                         <div v-else style="font-size: 14px; color: #98a8b4">
-                            Transaction <b>{{id}}</b> is not exist
+                            Transaction <b>{{id}}</b> does not exist
                         </div>
                     </div>
                 </template>

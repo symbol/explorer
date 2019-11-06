@@ -8,7 +8,7 @@
         <template #body>
           <TableInfoView :data="accountInfo" />
         </template>
-        <template #error>Account {{address}} is not exist</template>
+        <template #error>Account {{address}} does not exist</template>
       </Card>
 
       <Card class="card-f card-adaptive" :loading="loading">

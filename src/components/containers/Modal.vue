@@ -1,7 +1,7 @@
 <template>
   <transition name="modal">
     <div class="modal-mask">
-      <div class="modal-wrapper" @click="$emit('close')">
+      <div class="modal-wrapper">
         <div class="modal-container">
           <div class="modal-header">
             <slot name="header" />
@@ -9,6 +9,10 @@
 
           <div class="modal-body">
             <slot name="body" />
+          </div>
+
+          <div class="modal-footer">
+            <slot name="footer" />
           </div>
         </div>
       </div>
@@ -77,5 +81,9 @@ export default {
 .modal-leave-active .modal-container {
   -webkit-transform: scale(1.1);
   transform: scale(1.1);
+}
+
+.modal-footer {
+  text-align: center;
 }
 </style>

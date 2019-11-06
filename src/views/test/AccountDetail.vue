@@ -17,7 +17,7 @@
                     />
                 </template>
                 <template #error>
-                    Account {{address}} is not exist
+                    Account {{address}} does not exist
                 </template>
             </Card>
 

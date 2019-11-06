@@ -12,7 +12,7 @@
         <template #body>
           <TableInfoView :data="transactionInfo" />
         </template>
-        <template #error>Transaction with hash - {{transactionHash}} is not exist</template>
+        <template #error>Transaction with hash - {{transactionHash}} does not exist</template>
       </Card>
       <Card
         class="card-f card-adaptive"
