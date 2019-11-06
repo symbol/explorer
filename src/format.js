@@ -314,8 +314,8 @@ const formatTransactionBody = transactionBody => {
         type: Constants.TransactionType[TransactionType.LINK_ACCOUNT],
         typeId: TransactionType.LINK_ACCOUNT,
         linkAction: Constants.LinkAction[transactionBody.linkAction],
-        remoteAccountPublicKey: transactionBody.remoteAccountKey,
-        remoteAccountAddress: Address.createFromPublicKey(transactionBody.remoteAccountKey, NetworkType.MIJIN_TEST).plain()
+        remoteAccountPublicKey: transactionBody.remotePublicKey,
+        remoteAccountAddress: Address.createFromPublicKey(transactionBody.remotePublicKey, NetworkType.MIJIN_TEST).plain()
       }
       return linkAccountObj
     case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
