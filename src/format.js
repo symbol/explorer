@@ -244,7 +244,10 @@ const formatTransactionBody = transactionBody => {
     case TransactionType.MODIFY_MULTISIG_ACCOUNT:
       let modifyMultisigAccountObj = {
         type: Constants.TransactionType[TransactionType.MODIFY_MULTISIG_ACCOUNT],
-        typeId: TransactionType.MODIFY_MULTISIG_ACCOUNT
+        typeId: TransactionType.MODIFY_MULTISIG_ACCOUNT,
+        minApprovalDelta: transactionBody.minApprovalDelta,
+        minRemovalDelta: transactionBody.minRemovalDelta,
+        modifications: transactionBody.modifications
       }
       return modifyMultisigAccountObj
 
