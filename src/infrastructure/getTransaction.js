@@ -39,7 +39,7 @@ class sdkTransaction {
 
   static getTransactionInfoByHash = async (hash) => {
     const transaction = await http.transaction.getTransaction(hash).toPromise()
-    const effectiveFee = await http.transaction.getTransactionEffectiveFee(hash).toPromise() 
+    const effectiveFee = await http.transaction.getTransactionEffectiveFee(hash).toPromise()
     const formattedTransaction = format.formatTransaction(transaction)
     const getBlockInfo = await sdkBlock.getBlockInfoByHeight(formattedTransaction.blockHeight)
 
@@ -174,6 +174,7 @@ class sdkTransaction {
           case nem.TransactionType.REGISTER_NAMESPACE:
             formattedTransactionDetail = {
               transactionType: transactionBody.type,
+              recipient: transactionBody.recipient,
               registrationType: transactionBody.registrationType,
               namespaceName: transactionBody.namespaceName,
               namespaceId: transactionBody.namespaceId,
@@ -202,6 +203,7 @@ class sdkTransaction {
           case nem.TransactionType.MOSAIC_DEFINITION:
             formattedTransactionDetail = {
               transactionType: transactionBody.type,
+              recipient: transactionBody.recipient,
               mosaicId: transactionBody.mosaicId,
               divisibility: transactionBody.divisibility,
               duration: transactionBody.duration,
