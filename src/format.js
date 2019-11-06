@@ -453,12 +453,12 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
 
 const formatNamespaceInfo = namespaceInfo => ({
   active: namespaceInfo.active,
-  namespace: namespaceInfo.metaId,
+  namespaceId: namespaceInfo.id.toHex(),
   index: namespaceInfo.index,
-  registrationType: namespaceInfo.registrationType,
+  registrationType: Constants.NamespaceRegistrationType[namespaceInfo.registrationType],
   depth: namespaceInfo.depth,
   levels: namespaceInfo.levels,
-  parent: namespaceInfo.parentId.toHex(),
+  parentId: namespaceInfo.parentId.toHex() === '0000000000000000' ? Constants.Message.UNAVAILABLE : namespaceInfo.parentId.toHex(),
   address: namespaceInfo.owner.address.plain(),
   startHeight: namespaceInfo.startHeight.compact()
 })

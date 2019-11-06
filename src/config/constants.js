@@ -13,7 +13,7 @@ class Constants {
 
   static Message = {
     UNLIMITED: 'UNLIMITED',
-    UNAVAILABLE: 'UNAVAILABLE',
+    UNAVAILABLE: 'N/A',
     INFINITY: 'INFINITY',
     MOSAIC: 'MOSAIC',
     ADDRESS: 'ADDRESS',
