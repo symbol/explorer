@@ -20,6 +20,11 @@ class Constants {
     NO_ALIAS: 'NO ALIAS'
   }
 
+  static NetworkConfig = {
+    MOSAIC_RENTAL_FEE_SINK_ADDRESS : 'SDKDPA36TE53BO24FD4KA6OPGOUSEVOU3O5SIFMY',
+    NAMESPACE_RENTAL_FEE_SINK_ADDRESS: 'SDTZ23JBJZP3GTKKM2P6FYCMXS6RQYPB6R477TTR'
+  }
+
   static TransactionType = {
     [TransactionType.TRANSFER]: 'Transfer',
     [TransactionType.REGISTER_NAMESPACE]: 'Register Namespace',

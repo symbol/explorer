@@ -194,6 +194,7 @@ const formatTransactionBody = transactionBody => {
       let registerNamespaceObj = {
         type: Constants.TransactionType[TransactionType.REGISTER_NAMESPACE],
         typeId: TransactionType.REGISTER_NAMESPACE,
+        recipient: Constants.NetworkConfig.NAMESPACE_RENTAL_FEE_SINK_ADDRESS,
         registrationType: Constants.NamespaceRegistrationType[transactionBody.registrationType],
         namespaceName: transactionBody.namespaceName,
         namespaceId: transactionBody.namespaceId.toHex(),
@@ -223,6 +224,7 @@ const formatTransactionBody = transactionBody => {
       let mosaicDefinitionObj = {
         type: Constants.TransactionType[TransactionType.MOSAIC_DEFINITION],
         typeId: TransactionType.MOSAIC_DEFINITION,
+        recipient: Constants.NetworkConfig.MOSAIC_RENTAL_FEE_SINK_ADDRESS,
         mosaicId: transactionBody.mosaicId.toHex(),
         divisibility: transactionBody.divisibility,
         duration: transactionBody.duration,
