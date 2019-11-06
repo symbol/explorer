@@ -17,14 +17,19 @@
  */
 
 import Vue from 'vue'
+import Lock from './lock'
 import sdkAccount from '../infrastructure/getAccount'
+
+const LOCK = Lock.create()
 
 export default {
   namespaced: true,
   state: {
-    // The Account detail infomation.
+    // If the state has been initialized.
+    initialized: false,
+    // The Account detail information.
     accountInfo: {},
-    // The Account Multisig Infomation.
+    // The Account Multisig Information.
     accountMultisig: {},
     accountMultisigCosignatories: [],
     // The Account Created namespace.
@@ -39,6 +44,7 @@ export default {
     accountInfoError: false
   },
   getters: {
+    getInitialized: state => state.initialized,
     accountInfo: state => state.accountInfo,
     accountMultisig: state => state.accountMultisig,
     accountMultisigCosignatories: state => state.accountMultisigCosignatories,
@@ -49,6 +55,7 @@ export default {
     accountInfoError: state => state.accountInfoError
   },
   mutations: {
+    setInitialized: (state, initialized) => { state.initialized = initialized },
     accountInfo: (state, payload) => Vue.set(state, 'accountInfo', payload),
     accountMultisig: (state, payload) => Vue.set(state, 'accountMultisig', payload),
     accountMultisigCosignatories: (state, payload) => Vue.set(state, 'accountMultisigCosignatories', payload),
@@ -59,7 +66,16 @@ export default {
     accountInfoError: (state, payload) => Vue.set(state, 'accountInfoError', payload)
   },
   actions: {
-    async initialize({ dispatch }) {
+    // Initialize the account model.
+    async initialize({ commit, dispatch, getters }) {
+      const callback = async () => {}
+      await LOCK.initialize(callback, commit, dispatch, getters)
+    },
+
+    // Uninitialize the account model.
+    async uninitialize({ commit, dispatch, getters }) {
+      const callback = async () => {}
+      await LOCK.uninitialize(callback, commit, dispatch, getters)
     },
 
     // Fetch data from the SDK By Address.
