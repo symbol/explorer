@@ -407,9 +407,9 @@ const formatNamespaces = namespacesInfo =>
         aliasAction: Constants.AliasAction[ns.namespaceInfo.alias.type],
         currentAliasType: ns.namespaceInfo.alias.type,
 
-        active: ns.namespaceInfo.active.toString().toUpperCase(),
+        active: ns.namespaceInfo.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
         startHeight: ns.namespaceInfo.startHeight.compact(),
-        endHeight: name.includes('nem')
+        endHeight: name.toUpperCase() === Constants.NetworkConfig.NAMESPACE
           ? Constants.Message.INFINITY
           : ns.namespaceInfo.endHeight.compact(),
         parentId: ns.namespaceInfo.parentId.id.toHex()
@@ -441,10 +441,10 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
     namespaceNameHexId: namespaceInfo.id.toHex().toUpperCase(),
     registrationType: Constants.NamespaceRegistrationType[namespaceInfo.registrationType],
     startHeight: namespaceInfo.startHeight.compact(),
-    endHeight: namespaceNames[0].name.includes('NEM')
+    endHeight: namespaceNames[0].name.toUpperCase() === Constants.NetworkConfig.NAMESPACE
       ? Constants.Message.INFINITY
       : namespaceInfo.endHeight.compact(),
-    active: namespaceInfo.active.toString().toUpperCase(),
+    active: namespaceInfo.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
     aliasType: aliasType,
     alias: aliasText || aliasType,
     // parentHexId: namespaceInfo.parentId.id.toHex().toUpperCase(),
@@ -457,7 +457,7 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
 }
 
 const formatNamespaceInfo = namespaceInfo => ({
-  active: namespaceInfo.active,
+  active: namespaceInfo.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
   namespaceId: namespaceInfo.id.toHex(),
   namespaceName: namespaceInfo.namespaceName,
   index: namespaceInfo.index,
