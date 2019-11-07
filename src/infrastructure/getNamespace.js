@@ -89,6 +89,19 @@ class sdkNamespace {
     const response = await axios.get(http.nodeUrl + path)
     const namespaces = response.data.map(info => dto.createNamespaceInfoFromDTO(info, networkType))
 
+    // Retreive namespace Ids to request namespace name.
+    let namespaceIdsList = namespaces.map(namespacesInfo => namespacesInfo.id)
+
+    let namespaceNames = await http.namespace.getNamespacesName(namespaceIdsList).toPromise()
+
+    // Add namespaceName in namespace object.
+    namespaces.map(info => {
+      info.namespaceName = info.levels
+        .map(level => namespaceNames.find(n => n.namespaceId.equals(level)))
+        .map(n => n.name)
+        .join('.')
+    })
+
     return format.formatNamespaceInfos(namespaces)
   }
 
