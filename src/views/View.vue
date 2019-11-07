@@ -50,6 +50,8 @@ export default {
         }
 
         .card-f {
+            padding: 5px;
+            padding-top: 10px;
             margin-left: 0;
             margin-right: 0;
             width: 100%;
