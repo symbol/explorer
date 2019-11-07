@@ -123,8 +123,12 @@ export default {
     }
 
     .max-item-width{
-        word-wrap:break-word;
+        word-break:break-all;
+        flex: 1 1 100%;
+        width:100%;
+        min-width: 50px;
         max-width: 300px;
+        table-layout: fixed;
     }
 
     .table-item-clickable {
