@@ -30,6 +30,7 @@
                 <a
                     href="javascript:void(0)"
                     @click="select(option.value)"
+                    @mousedown="prevent"
                 >
                     {{ option.name }}
                 </a>
@@ -56,6 +57,10 @@ export default {
     }
   },
 
+  mounted() {
+    document.addEventListener('mousedown', () => this.close())
+  },
+
   data() {
     return {
       isExpanded: false
@@ -78,6 +83,15 @@ export default {
 
       if (Array.isArray(this.options)) { name = this.options.find(el => el.value === value).name }
       return name
+    },
+
+    close() {
+      this.isExpanded = false
+    },
+
+    prevent(e){
+      e.preventDefault()
+      e.stopPropagation()
     }
   }
 }

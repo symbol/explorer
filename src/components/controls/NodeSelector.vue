@@ -15,6 +15,7 @@
                     :title="node.url"
                     :key="'ns'+node.host + index"
                     @click="setNode(node.url)"
+                    @mousedown="prevent"
                 >
                 {{node.hostname}}
                 </a>
@@ -25,6 +26,10 @@
 
 <script>
 export default {
+  mounted() {
+    document.addEventListener('mousedown', () => this.close())
+  },
+
   computed: {
     nodeList() {
       return this.$store.getters['api/nodes']
@@ -38,8 +43,17 @@ export default {
   methods: {
     async setNode(url) {
       this.$emit('change', url)
-      this.$refs.nodeSelector.classList.remove('shown')
+      this.close()
       await this.$store.dispatch('api/changeNode', url)
+    },
+
+    close() {
+      this.$refs.nodeSelector?.classList.remove('shown')
+    },
+
+    prevent(e){
+      e.preventDefault()
+      e.stopPropagation()
     }
   }
 }
