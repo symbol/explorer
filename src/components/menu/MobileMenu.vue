@@ -69,7 +69,6 @@ export default {
 
   methods: {
     close() {
-      console.log(this.$refs.mobmenuslide)
       this.$refs.mobmenuslide.classList.remove('active');
     }
   }
