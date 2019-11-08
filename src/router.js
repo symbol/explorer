@@ -55,10 +55,10 @@ export default new Router({
         import('./views/TransactionDetail.vue')
     },
     {
-      path: '/account',
+      path: '/accounts',
       name: 'account',
       component: () =>
-        import('./views/Account.vue')
+        import('./views/Accounts.vue')
     },
     {
       path: '/account/:address',

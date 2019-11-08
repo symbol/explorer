@@ -16,11 +16,31 @@
  *
  */
 
+import axios from 'axios'
 import { Address } from 'nem2-sdk'
+import dto from './dto'
 import http from './http'
 import format from '../format'
 import sdkTransaction from '../infrastructure/getTransaction'
 import sdkNamespace from '../infrastructure/getNamespace'
+
+const formatAccountNames = async accounts => {
+  // Fetch the account name objects from the addresses.
+  const addresses = accounts.map(account => account.address)
+  const accountNames = await http.account.getAccountsNames(addresses).toPromise()
+
+  // Create a mapping of account addresses to names.
+  // Allows efficient ID lookups.
+  const addressToNameMap = {}
+  for (let item of accountNames) {
+    addressToNameMap[item.address.plain()] = item
+  }
+
+  return accounts.map(info => {
+    const name = addressToNameMap[info.address.plain()]
+    return format.formatAccount(info, name)
+  })
+}
 
 class sdkAccount {
   static getAccountInfoByAddress = async address => {
@@ -34,7 +54,7 @@ class sdkAccount {
       .getAccountsNames([addressObj])
       .toPromise()
 
-    return format.formatAccount(accountInfo, accountNames)
+    return format.formatAccount(accountInfo, accountNames[0])
   }
 
   static getMultisigAccountByAddress = async address => {
@@ -51,6 +71,40 @@ class sdkAccount {
     }
 
     return format.formatAccountMultisig(accountMultisig)
+  }
+
+  static getAccountsFromAddressWithLimit = async (limit, accountType, fromAddress) => {
+    let address
+    if (fromAddress === undefined) {
+      address = 'most'
+    } else {
+      address = fromAddress
+    }
+
+    // Make request.
+    const networkType = await http.network.getNetworkType().toPromise()
+    const path = `/accounts/${accountType}/from/${address}/limit/${limit}`
+    const response = await axios.get(http.nodeUrl + path)
+    const accounts = response.data.map(info => dto.createAccountInfoFromDTO(info, networkType))
+
+    return formatAccountNames(accounts)
+  }
+
+  static getAccountsSinceAddressWithLimit = async (limit, accountType, sinceAddress) => {
+    let address
+    if (sinceAddress === undefined) {
+      address = 'least'
+    } else {
+      address = sinceAddress
+    }
+
+    // Make request.
+    const networkType = await http.network.getNetworkType().toPromise()
+    const path = `/accounts/${accountType}/since/${address}/limit/${limit}`
+    const response = await axios.get(http.nodeUrl + path)
+    const accounts = response.data.map(info => dto.createAccountInfoFromDTO(info, networkType))
+
+    return formatAccountNames(accounts)
   }
 
   static getAccountInfoByAddressFormatted = async address => {

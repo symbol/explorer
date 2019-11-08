@@ -24,10 +24,14 @@
                 :loading="loading"
             >
                 <template #title>
-                    Transactions
+                    {{title}}
                 </template>
                 <template #body>
-                    <TransactionTypeBox/>
+                    <TypeBox
+                        :typeMap="typeMap"
+                        :resetPageAction="resetPageAction"
+                        :changePageAction="changePageAction"
+                    />
                     <TransactionTable
                         :transactionList="transactionList"
                     />
@@ -44,7 +48,7 @@
     </div>
 </template>
 <script>
-import w1 from '@/components/TransactionTypeBox.vue'
+import w1 from '@/components/TypeBox.vue'
 import w2 from '@/components/TransactionTable.vue'
 import View from './View.vue'
 import { mapGetters } from 'vuex'
@@ -53,7 +57,7 @@ export default {
   extends: View,
 
   components: {
-    TransactionTypeBox: w1,
+    TypeBox: w1,
     TransactionTable: w2
   },
 
@@ -63,8 +67,18 @@ export default {
 
   data() {
     return {
+      title: 'Transactions',
       nextPageAction: 'transaction/fetchNextPage',
-      previousPageAction: 'transaction/fetchPreviousPage'
+      previousPageAction: 'transaction/fetchPreviousPage',
+      resetPageAction: 'transaction/resetPage',
+      changePageAction: 'transaction/changePage',
+      typeMap: {
+        'recent': 'Recent Transactions',
+        'pending': 'Pending Transactions',
+        'transfer': 'Transfer Transactions',
+        'multisig': 'Multisig Transactions',
+        'mosaic': 'Mosaic Transactions'
+      }
     }
   },
 

@@ -27,18 +27,15 @@
                     {{title}}
                 </template>
                 <template #control>
-                    <Pagination
-                        v-if="canFetchPrevious"
-                        :canFetchPrevious="canFetchPrevious"
-                        :canFetchNext="canFetchNext"
-                        :nextPageAction="nextPageAction"
-                        :previousPageAction="previousPageAction"
+                    <TypeBox
+                        :typeMap="typeMap"
+                        :resetPageAction="resetPageAction"
+                        :changePageAction="changePageAction"
                     />
                 </template>
-
                 <template #body>
                     <TableListView
-                        :data="namespaceList"
+                        :data="accountList"
                     />
                     <Pagination
                         style="margin-top: 20px;"
@@ -53,36 +50,44 @@
     </div>
 </template>
 <script>
+import w1 from '@/components/TypeBox.vue'
 import View from './View.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   extends: View,
 
+  components: {
+    TypeBox: w1
+  },
+
   mounted() {
-    this.$store.dispatch('namespace/initialize')
+    this.$store.dispatch('account/initialize')
   },
 
   data() {
     return {
-      title: 'Namespaces',
-      nextPageAction: 'namespace/fetchNextPage',
-      previousPageAction: 'namespace/fetchPreviousPage'
+      title: 'Accounts',
+      nextPageAction: 'account/fetchNextPage',
+      previousPageAction: 'account/fetchPreviousPage',
+      resetPageAction: 'account/resetPage',
+      changePageAction: 'account/changePage',
+      typeMap: {
+        'rich': 'Rich List',
+        'harvester': 'Harvester List'
+      }
     }
   },
 
   computed: {
     ...mapGetters({
-      namespaceList: 'namespace/getTimelineFormatted',
-      canFetchPrevious: 'namespace/getCanFetchPrevious',
-      canFetchNext: 'namespace/getCanFetchNext',
-      loading: 'namespace/getLoading'
+      accountType: 'account/getAccountType',
+      timeline: 'account/getTimeline',
+      accountList: 'account/getTimelineFormatted',
+      canFetchPrevious: 'account/getCanFetchPrevious',
+      canFetchNext: 'account/getCanFetchNext',
+      loading: 'account/getLoading'
     })
-
-  },
-
-  destroyed() {
-    this.$store.dispatch('namespace/resetPage')
   }
 }
 </script>

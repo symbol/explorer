@@ -63,7 +63,7 @@ class sdkTransaction {
     if (fromHash === undefined) {
       hash = 'latest'
     } else {
-      hash = fromHash.toString()
+      hash = fromHash
     }
 
     // Get the path to the URL dependent on the config
@@ -98,7 +98,7 @@ class sdkTransaction {
     if (sinceHash === undefined) {
       hash = 'earliest'
     } else {
-      hash = sinceHash.toString()
+      hash = sinceHash
     }
 
     let path

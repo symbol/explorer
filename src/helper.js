@@ -43,6 +43,32 @@ class helper {
     }
   }
 
+  static daysToVest(balance, initialVested, targetVested) {
+    /** Algorithm:
+     *    Our goal is to calculate the number of days it takes to vest
+     *    a balance to reach out target vested balance.
+     *
+     *  Parameters:
+     *    Vesting Rate `R` (for XEM, 0.1).
+     *    Account Balance `B` ("balance").
+     *    Initial Vested Amount `V(0)` ("vested").
+     *    Days `D`
+     *
+     *  Formula:
+     *    To calculate the vested balance at day `D`, `V(D)` is:
+     *      V(D) = B - ( (1-R)^D * (B - V(0)) )
+     *
+     *    Solving for `D`, we get:
+     *      D = log(B - V(D), 1-R) - log(B - V(0), 1-R)
+     */
+    const r = 0.1
+    const d = Math.log(1 - r)
+    const lhs = Math.log(balance - targetVested) / d
+    const rhs = Math.log(balance - initialVested) / d
+
+    return Math.ceil(lhs - rhs)
+  }
+
   static isMobile(agent) {
     let check = false
     if (

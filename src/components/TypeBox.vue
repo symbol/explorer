@@ -18,12 +18,11 @@
 
 <template>
   <div class="box-title">
-    <h1 class="inline-block">Transactions</h1>
     <div class="btn_grp inline-block flt-rt">
       <div class="select_type">
         <select @change="onChange($event)">
             <option
-                v-for="(value, option) in transactionTypeMap"
+                v-for="(value, option) in typeMap"
                 v-bind:key="option"
                 :value="option"
             >
@@ -36,29 +35,33 @@
 </template>
 <script>
 export default {
-  data() {
-    return {
-      transactionTypeMap: {
-        'recent': 'Recent Transactions',
-        'pending': 'Pending Transactions',
-        'transfer': 'Transfer Transactions',
-        'multisig': 'Multisig Transactions',
-        'mosaic': 'Mosaic Transactions'
-      }
+  props: {
+    typeMap: {
+      required: true
+    },
+
+    resetPageAction: {
+      type: String,
+      required: true
+    },
+
+    changePageAction: {
+      type: String,
+      required: true
     }
   },
 
   mounted() {
-    this.$store.dispatch('transaction/resetPage')
+    this.$store.dispatch(this.resetPageAction)
   },
 
   destroyed() {
-    this.$store.dispatch('transaction/resetPage')
+    this.$store.dispatch(this.resetPageAction)
   },
 
   methods: {
     onChange(event) {
-      this.$store.dispatch('transaction/changePage', event.target.value)
+      this.$store.dispatch(this.changePageAction, event.target.value)
     }
   }
 }

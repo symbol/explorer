@@ -24,16 +24,16 @@ import sdkTransaction from '../infrastructure/getTransaction'
 
 const LOCK = Lock.create()
 
-const PAGES = {
-  // Recent block pages.
+const TIMELINES = {
+  // Recent transactions.
   recent: Timeline.empty(),
-  // Pending block pages.
+  // Pending transactions.
   pending: Timeline.empty(),
-  // Transfer block pages.
+  // Transfer transactions.
   transfer: Timeline.empty(),
-  // Multisig block pages.
+  // Multisig transactions.
   multisig: Timeline.empty(),
-  // Mosaic block pages.
+  // Mosaic transactions.
   mosaic: Timeline.empty()
 }
 
@@ -53,9 +53,9 @@ export default {
     initialized: false,
     // Holds the latest PageSize transactions.
     latestList: [],
-    // The current transaction type key, as defined in `PAGES`.
+    // The current transaction type key, as defined in `TIMELINES`.
     transactionType: 'recent',
-    ...PAGES,
+    ...TIMELINES,
     // Subscription to new transactions.
     subscription: null,
     // Determine if the transactions model is loading.
@@ -163,7 +163,7 @@ export default {
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit, getters }) {
       commit('setLoading', true)
-      for (let transactionType of Object.keys(PAGES)) {
+      for (let transactionType of Object.keys(TIMELINES)) {
         const type = TRANSACTION_TYPE_MAP[transactionType]
         let data = await sdkTransaction.getTransactionsFromHashWithLimit(2 * Constants.PageSize, type)
         if (transactionType === 'recent') {
@@ -200,7 +200,7 @@ export default {
       const transaction = list[0]
       const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
       const fetchPrevious = pageSize => sdkTransaction.getTransactionsSinceHashWithLimit(pageSize, type, transaction.transactionHash)
-      const fetchLive = pageSize => sdkTransaction.getTransactionsSinceHashWithLimit(pageSize, type)
+      const fetchLive = pageSize => sdkTransaction.getTransactionsFromHashWithLimit(pageSize, type)
       commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
       commit('setLoading', false)
     },
@@ -224,7 +224,7 @@ export default {
     async resetPage({ commit, getters }) {
       commit('setLoading', true)
       if (getters.getTransactionType !== 'recent') {
-        if (getters.getPageIndex !== 0) {
+        if (!getters.getTimeline.isLive) {
           // Reset to the live page.
           const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
           let data = await sdkTransaction.getTransactionsFromHashWithLimit(Constants.PageSize, type)
