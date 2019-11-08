@@ -18,7 +18,7 @@
 
 <template>
   <div>
-    <div class="mobmenuslide">
+    <div class="mobmenuslide" ref="mobmenuslide">
       <div class="sliderow gradinet_01 menu_bkg">
         <router-link to="/" class="logo">
           <img src="theme/img/logo-w.png" />
@@ -27,7 +27,7 @@
         <a class="mmtoggle" href="#">
           <i class="ico-line-awesome-4"></i>
         </a>
-        <NodeSelector />
+        <NodeSelector @change="close"/>
         <LanguageSelector />
       </div>
 
@@ -39,6 +39,7 @@
             :classname="item.classname"
             v-for="item in items"
             v-bind:key="item.text"
+            @click="close"
           />
         </ul>
       </div>
@@ -63,6 +64,12 @@ export default {
     return {
       showTopMenu: false,
       items: pageMenu.items
+    }
+  },
+
+  methods: {
+    close() {
+      this.$refs.mobmenuslide.classList.remove('active');
     }
   }
 }

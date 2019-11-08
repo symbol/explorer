@@ -6,16 +6,17 @@
           <tr>
             <th
               v-for="(columnName, index) in header"
+              class="table-head-cell"
               :key="view+'h'+index"
-            >{{getKeyName(columnName)}}</th>
+            ><span>{{getKeyName(columnName)}}</span></th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(row, rowIndex) in data" :key="view+'r'+rowIndex">
+          <tr v-for="(row, rowIndex) in data" class="t-row" :key="view+'r'+rowIndex">
             <td
               v-for="(item, itemKey) in row"
               :key="view+'r'+rowIndex+'i'+itemKey"
-              :class="{'table-item-clickable': isItemClickable(itemKey)}"
+              :class="{'table-item-clickable': isItemClickable(itemKey), [itemKey]: true}"
               @click="onItemClick(itemKey, item)"
             >
               <Age v-if="itemKey === 'age'" :date="item" />

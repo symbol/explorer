@@ -33,13 +33,13 @@ class helper {
     } else if (interval.hours === 1) {
       return interval.hours + ' hour'
     } else if (interval.minutes > 1) {
-      return interval.minutes + ' minutes'
+      return interval.minutes + ' min.'//' minutes'
     } else if (interval.minutes === 1) {
-      return interval.minutes + ' minute'
+      return interval.minutes + ' min.'//' minute'
     } else if (interval.seconds !== 1) {
-      return interval.seconds + ' seconds'
+      return interval.seconds + ' sec.'//' seconds'
     } else {
-      return interval.seconds + ' second'
+      return interval.seconds + ' sec.'//' second'
     }
   }
 
