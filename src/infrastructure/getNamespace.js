@@ -25,6 +25,26 @@ import format from '../format'
 import helper from '../helper'
 import Constants from '../config/constants'
 
+const addNamespaceNames = async namespaces => {
+  // Fetch the namespace name objects from the IDs.
+  const namespaceIdsList = namespaces.map(namespacesInfo => namespacesInfo.id)
+  const namespaceNames = await http.namespace.getNamespacesName(namespaceIdsList).toPromise()
+
+  // Create a mapping of namespace IDs to names.
+  // Allows efficient ID lookups.
+  const idToNameMap = {}
+  for (let item of namespaceNames) {
+    idToNameMap[item.namespaceId.toHex()] = item.name
+  }
+
+  // Add name to namespace object.
+  namespaces.map(info => {
+    info.namespaceName = info.levels
+      .map(level => idToNameMap[level.toHex()])
+      .join('.')
+  })
+}
+
 class sdkNamespace {
   static getNamespacesFromAccountByAddress = async (address) => {
     const namespacesIds = []
@@ -88,19 +108,7 @@ class sdkNamespace {
     const path = `/namespaces/from/${namespaceId}/limit/${limit}`
     const response = await axios.get(http.nodeUrl + path)
     const namespaces = response.data.map(info => dto.createNamespaceInfoFromDTO(info, networkType))
-
-    // Retreive namespace Ids to request namespace name.
-    let namespaceIdsList = namespaces.map(namespacesInfo => namespacesInfo.id)
-
-    let namespaceNames = await http.namespace.getNamespacesName(namespaceIdsList).toPromise()
-
-    // Add namespaceName in namespace object.
-    namespaces.map(info => {
-      info.namespaceName = info.levels
-        .map(level => namespaceNames.find(n => n.namespaceId.equals(level)))
-        .map(n => n.name)
-        .join('.')
-    })
+    await addNamespaceNames(namespaces)
 
     return format.formatNamespaceInfos(namespaces)
   }
@@ -118,6 +126,7 @@ class sdkNamespace {
     const path = `/namespaces/since/${namespaceId}/limit/${limit}`
     const response = await axios.get(http.nodeUrl + path)
     const namespaces = response.data.map(info => dto.createNamespaceInfoFromDTO(info, networkType))
+    await addNamespaceNames(namespaces)
 
     return format.formatNamespaceInfos(namespaces)
   }
