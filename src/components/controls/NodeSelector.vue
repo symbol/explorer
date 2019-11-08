@@ -48,7 +48,7 @@ export default {
     },
 
     close() {
-      this.$refs.nodeSelector?.classList.remove('shown')
+      this.$refs.nodeSelector.classList.remove('shown')
     },
 
     prevent(e){

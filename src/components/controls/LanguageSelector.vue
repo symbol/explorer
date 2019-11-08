@@ -39,7 +39,7 @@ export default {
     },
 
     close() {
-      this.$refs.languageSelector?.classList.remove('shown')
+      this.$refs.languageSelector.classList.remove('shown')
     },
 
     prevent(e){
