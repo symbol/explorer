@@ -10,7 +10,7 @@
           :title="language"
           :key="'language'+language + index"
           @click="setLanguage(language)"
-         
+          @mousedown="prevent"
         >{{language}}</a>
       </div>
     </div>
@@ -19,17 +19,23 @@
 
 <script>
 export default {
-  computed: {
-    mounted() {
+  mounted() {
       document.addEventListener('mousedown', () => this.close())
-    },
+  },
 
+  computed: {
     languageList() {
       return this.$store.getters['ui/languages']
     },
 
     currentLanguage() {
       return this.$store.getters['ui/currentLanguage']
+    }
+  },
+
+  methods: {
+    setLanguage(language) {
+      this.$store.dispatch('ui/changeLanguage', language)
     },
 
     close() {
@@ -42,12 +48,6 @@ export default {
       if(e.stopPropagation)
         e.stopPropagation()
     }
-  },
-
-  methods: {
-    setLanguage(language) {
-      this.$store.dispatch('ui/changeLanguage', language)
-    },
   },
 }
 </script>
