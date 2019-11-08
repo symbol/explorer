@@ -22,7 +22,12 @@
                         :class="{'table-item-clickable': isItemClickable(itemKey)}"
                         @click="onItemClick(itemKey, item)"
                     >
-                        {{item}}
+                      <a v-if="isItemClickable(itemKey)" :href="getItemHref(itemKey, item)">
+                        {{ item }}
+                      </a>
+                      <div v-else>
+                        {{ item }}
+                      </div>
                     </td>
                 </tr>
             </tbody>

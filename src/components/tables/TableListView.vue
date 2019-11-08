@@ -39,7 +39,14 @@
                   </Modal>
                 </div>
 
-                <div v-else class="max-item-width">{{ item }}</div>
+                <div v-else class="max-item-width">
+                  <a v-if="isItemClickable(itemKey)" :href="getItemHref(itemKey, item)">
+                  {{ item }}
+                  </a>
+                  <div v-else>
+                  {{ item }}
+                  </div>
+                </div>
               </div>
             </td>
           </tr>

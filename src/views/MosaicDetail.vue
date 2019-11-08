@@ -33,9 +33,11 @@
 <script>
 import TableInfoView from '@/components/tables/TableInfoView.vue'
 import Card from '@/components/containers/Card.vue'
+import View from './View.vue'
 import { mapGetters } from 'vuex'
 
 export default {
+  extends: View,
   name: 'MosaicDetail',
   components: {
     Card,

@@ -43,9 +43,11 @@
 import TableInfoView from '@/components/tables/TableInfoView.vue'
 import TableListView from '@/components/tables/TableListView.vue'
 import Card from '@/components/containers/Card.vue'
+import View from './View.vue'
 import { mapGetters } from 'vuex'
 
 export default {
+  extends: View,
   name: 'NamespaceDetail',
   components: {
     Card,
@@ -71,5 +73,5 @@ export default {
   methods: {}
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 </style>
