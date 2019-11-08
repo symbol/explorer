@@ -109,10 +109,26 @@ export default {
 .table-view{
 
     .empty-data {
-      font-size: 14px;
-      color: #98a8b4;
-      display: flex;
-      justify-content: center;
+        font-size: 14px;
+        color: #98a8b4;
+        display: flex;
+        justify-content: center;
+    }
+
+    .table-head-cell {
+        position: relative;
+    }
+    .table-head-cell:before {
+        content: '&nbsp;';
+        visibility: hidden;
+    }
+    .table-head-cell span {
+        position: absolute;
+        left: 5px;
+        right: 0;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 
     td{
@@ -120,16 +136,21 @@ export default {
         font-weight: none;
         padding: 10px 5px;
         min-height: 50px;
-    }
-
-    .max-item-width{
         word-break:break-all;
-        flex: 1 1 100%;
-        width:100%;
         min-width: 50px;
         max-width: 300px;
-        table-layout: fixed;
     }
+
+    .date, .deadline, .age, .height {
+        word-break: normal;
+    }
+
+    @media screen and (max-width: 40em) {
+        .date, .deadline {
+            width: 85px;
+        }
+    }
+
 
     .table-item-clickable {
         color: #84accb;

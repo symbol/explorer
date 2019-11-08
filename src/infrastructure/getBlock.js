@@ -101,7 +101,7 @@ class sdkBlock {
       formattedBlockInfo = {
         height: rawBlockInfo.height,
         date: rawBlockInfo.date,
-        //fee: rawBlockInfo.totalFee,
+        fee: rawBlockInfo.totalFee,
         difficulty: rawBlockInfo.difficulty,
         totalTransactions: rawBlockInfo.numTransactions,
         harvester: rawBlockInfo.signer?.address?.address,

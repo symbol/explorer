@@ -59,7 +59,7 @@ export default {
       height: el.height,
       age: el.date,
       transactions: el.numTransactions,
-      //fee: el.totalFee,
+      fee: el.totalFee,
       date: el.date,
       harvester: el.signer.address.address
     })),

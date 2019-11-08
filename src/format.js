@@ -44,7 +44,7 @@ const formatBlock = (block) => {
     date: moment.utc(
       (block.timestamp.compact() / 1000 + 1459468800) * 1000
     ).local().format('YYYY-MM-DD HH:mm:ss'),
-    //totalFee: formatFee(block.totalFee),
+    totalFee: formatFee(block.totalFee),
     difficulty: (block.difficulty.compact() / 1000000000000).toFixed(2),
     numTransactions: block.numTransactions ? block.numTransactions : 0,
     signature: block.signature,

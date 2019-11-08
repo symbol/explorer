@@ -33,8 +33,9 @@ export default {
     classname: String
   },
   methods: {
-    onItemClick() {
+    onItemClick(e) {
       this.$store.dispatch('ui/openPage', { pageName: this.to.slice(1) })
+      this.$emit('click', e)
     }
   }
 }

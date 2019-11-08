@@ -5,8 +5,8 @@
                 Node : {{currentNode}}
             </a>
             <div
-              ref="nodeSelector"
-              class="dropdown-menu dropdown-menu-right node-selector-menu"
+                ref="nodeSelector"
+                class="dropdown-menu dropdown-menu-right node-selector-menu"
             >
                 <a
                     v-for="(node, index) in nodeList"
@@ -37,8 +37,9 @@ export default {
 
   methods: {
     async setNode(url) {
-      await this.$store.dispatch('api/changeNode', url)
+      this.$emit('change', url)
       this.$refs.nodeSelector.classList.remove('shown')
+      await this.$store.dispatch('api/changeNode', url)
     }
   }
 }
