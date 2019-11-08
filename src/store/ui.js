@@ -44,6 +44,7 @@ export default {
       'blockHeight': 'block',
       'startHeight': 'block',
       'endHeight': 'block',
+      'lastActivity': 'block',
 
       'namespaceName': 'namespace',
       'namespaceId': 'namespace',

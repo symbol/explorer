@@ -24,7 +24,7 @@
                 :loading="loading"
             >
                 <template #title>
-                    Mosaics
+                    {{title}}
                 </template>
                 <template #control>
                     <Pagination
@@ -65,6 +65,7 @@ export default {
 
   data() {
     return {
+      title: 'Mosaics',
       nextPageAction: 'mosaic/fetchNextPage',
       previousPageAction: 'mosaic/fetchPreviousPage'
     }

@@ -60,13 +60,31 @@ const formatBlock = (block) => {
 
 // FORMAT ACCOUNT
 const formatAccount = (accountInfo, accountName) => {
+  // Calculate the importance score.
   let importanceScore = accountInfo.importance.compact()
-
   if (importanceScore) {
     importanceScore /= 90000
     importanceScore = importanceScore.toFixed(4).split('.')
     importanceScore = importanceScore[0] + '.' + importanceScore[1]
   }
+
+  // Process the account activity.
+  let lastActivity
+  let harvestedBlocks
+  let harvestedFees
+  if (accountInfo.activityBucket.length > 0) {
+    const bucketList = accountInfo.activityBucket
+    const length = bucketList.length
+    const bucket = bucketList[length - 1]
+    lastActivity = parseInt(bucket.startHeight, 10)
+    harvestedBlocks = length
+    harvestedFees = bucketList.reduce((x, y) => x + parseInt(y.totalFeesPaid, 10), 0)
+  } else {
+    lastActivity = 1
+    harvestedBlocks = 0
+    harvestedFees = 0
+  }
+
   const accountObj = {
     meta: accountInfo.meta,
     address: accountInfo.address,
@@ -78,12 +96,15 @@ const formatAccount = (accountInfo, accountName) => {
     importanceHeight: accountInfo.importanceHeight.compact(),
     accountType: Constants.AccountType[accountInfo.accountType],
     activityBucket: accountInfo.activityBucket,
-    linkedAccountKey: accountInfo.linkedAccountKey
+    linkedAccountKey: accountInfo.linkedAccountKey,
+    lastActivity: lastActivity,
+    harvestedBlocks: harvestedBlocks,
+    harvestedFees: harvestedFees
   }
 
-  if (accountName[0].names.length > 0) {
-    accountObj.accountAliasName = accountName[0].names[0].name
-    accountObj.accountAliasNameHex = accountName[0].names[0].namespaceId.toHex()
+  if (accountName.names.length > 0) {
+    accountObj.accountAliasName = accountName.names[0].name
+    accountObj.accountAliasNameHex = accountName.names[0].namespaceId.toHex()
   }
 
   return accountObj

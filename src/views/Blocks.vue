@@ -6,7 +6,7 @@
                 :loading="loading"
             >
                 <template #title>
-                    Blocks
+                    {{title}}
                 </template>
                 <template #control>
                     <h5 v-if="!canFetchPrevious"> Chain height: {{chainHeight}} </h5>
@@ -48,6 +48,7 @@ export default {
 
   data() {
     return {
+      title: 'Blocks',
       nextPageAction: 'block/fetchNextPage',
       previousPageAction: 'block/fetchPreviousPage'
     }

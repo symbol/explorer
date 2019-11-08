@@ -32,8 +32,30 @@ const createPublicAccountFromDTO = (publicKey, networkType) => {
   return nem.PublicAccount.createFromPublicKey(publicKey, networkType)
 }
 
-const createBlockFromDTO = (blockDTO, networkType) => {
-  return new nem.BlockInfo(
+const createActivityBucketFromDTO = (activityBucketDTO, networkType) =>
+  new nem.ActivityBucket(
+    activityBucketDTO.startHeight,
+    activityBucketDTO.totalFeesPaid,
+    activityBucketDTO.beneficiaryCount,
+    activityBucketDTO.rawScore
+  )
+
+const createAccountInfoFromDTO = (accountInfoDTO, networkType) =>
+  new nem.AccountInfo(
+    nem.Address.createFromEncoded(accountInfoDTO.account.address),
+    createUInt64FromDTO(accountInfoDTO.account.addressHeight),
+    accountInfoDTO.account.publicKey,
+    createUInt64FromDTO(accountInfoDTO.account.publicKeyHeight),
+    accountInfoDTO.account.accountType.valueOf(),
+    accountInfoDTO.account.linkedAccountKey,
+    accountInfoDTO.account.activityBuckets.map(activityBucketDTO => createActivityBucketFromDTO(activityBucketDTO, networkType)),
+    accountInfoDTO.account.mosaics.map(mosaicDTO => createMosaicFromDTO(mosaicDTO, networkType)),
+    createUInt64FromDTO(accountInfoDTO.account.importance),
+    createUInt64FromDTO(accountInfoDTO.account.importanceHeight)
+  )
+
+const createBlockInfoFromDTO = (blockDTO, networkType) =>
+  new nem.BlockInfo(
     blockDTO.meta.hash,
     blockDTO.meta.generationHash,
     createUInt64FromDTO(blockDTO.meta.totalFee),
@@ -53,7 +75,12 @@ const createBlockFromDTO = (blockDTO, networkType) => {
     blockDTO.block.stateHash,
     createPublicAccountFromDTO(blockDTO.block.beneficiaryPublicKey, networkType)
   )
-}
+
+const createMosaicFromDTO = (mosaicDTO, networkType) =>
+  new nem.Mosaic(
+    new nem.MosaicId(mosaicDTO.id),
+    createUInt64FromDTO(mosaicDTO.amount)
+  )
 
 const createMosaicInfoFromDTO = (mosaicInfoDTO, networkType) =>
   new nem.MosaicInfo(
@@ -112,7 +139,8 @@ const createTransactionFromDTO = (transactionDTO, networkType) =>
   nem.TransactionMapping.createFromDTO(transactionDTO)
 
 export default {
-  createBlockFromDTO,
+  createAccountInfoFromDTO,
+  createBlockInfoFromDTO,
   createMosaicInfoFromDTO,
   createNamespaceInfoFromDTO,
   createTransactionFromDTO
