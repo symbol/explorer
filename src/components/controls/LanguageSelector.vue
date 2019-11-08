@@ -1,8 +1,8 @@
 <template>
   <div class="lang_switch noselect">
-    <div class="lang-swtch dropdown node-selector" ref="languageSelector">
+    <div class="lang-swtch dropdown node-selector">
       <a class="dropdown-toggle">Language : {{currentLanguage}}</a>
-      <div class="dropdown-menu dropdown-menu-right node-selector-menu">
+      <div class="dropdown-menu dropdown-menu-right node-selector-menu" ref="languageSelector">
         <a
           v-for="(language, index) in languageList"
           class="dropdown-item node-selector-item"
