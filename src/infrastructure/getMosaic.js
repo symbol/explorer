@@ -61,10 +61,9 @@ class sdkMosaic {
     }
 
     // Make request.
-    const networkType = await http.network.getNetworkType().toPromise()
     const path = `/mosaics/from/${mosaicId}/limit/${limit}`
     const response = await axios.get(http.nodeUrl + path)
-    const mosaics = response.data.map(info => dto.createMosaicInfoFromDTO(info, networkType))
+    const mosaics = response.data.map(info => dto.createMosaicInfoFromDTO(info, http.networkType))
 
     return format.formatMosaicInfos(mosaics)
   }
@@ -78,10 +77,9 @@ class sdkMosaic {
     }
 
     // Make request.
-    const networkType = await http.network.getNetworkType().toPromise()
     const path = `/mosaics/since/${mosaicId}/limit/${limit}`
     const response = await axios.get(http.nodeUrl + path)
-    const mosaics = response.data.map(info => dto.createMosaicInfoFromDTO(info, networkType))
+    const mosaics = response.data.map(info => dto.createMosaicInfoFromDTO(info, http.networkType))
 
     return format.formatMosaicInfos(mosaics)
   }

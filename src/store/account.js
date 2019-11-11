@@ -47,6 +47,8 @@ export default {
     ...TIMELINES,
     // Determine if the accounts model is loading.
     loading: false,
+    // Determine if the accounts model has an error.
+    error: false,
     // The Account detail information.
     accountInfo: {},
     // The Account Multisig Information.
@@ -78,6 +80,7 @@ export default {
       info: el.accountAliasName || ''
     })),
     getLoading: state => state.loading,
+    getError: state => state.error,
     accountInfo: state => state.accountInfo,
     accountMultisig: state => state.accountMultisig,
     accountMultisigCosignatories: state => state.accountMultisigCosignatories,
@@ -93,6 +96,7 @@ export default {
     setTimeline: (state, timeline) => { state[state.accountType] = timeline },
     setTimelineWithType: (state, { timeline, type }) => { state[type] = timeline },
     setLoading: (state, loading) => { state.loading = loading },
+    setError: (state, error) => { state.error = error },
     accountInfo: (state, payload) => Vue.set(state, 'accountInfo', payload),
     accountMultisig: (state, payload) => Vue.set(state, 'accountMultisig', payload),
     accountMultisigCosignatories: (state, payload) => Vue.set(state, 'accountMultisigCosignatories', payload),
@@ -120,10 +124,15 @@ export default {
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit, getters }) {
       commit('setLoading', true)
-      for (let accountType of Object.keys(TIMELINES)) {
-        const type = ACCOUNT_TYPE_MAP[accountType]
-        let data = await sdkAccount.getAccountsFromAddressWithLimit(2 * Constants.PageSize, type)
-        commit('setTimelineWithType', { timeline: Timeline.fromData(data), type: accountType })
+      try {
+        for (let accountType of Object.keys(TIMELINES)) {
+          const type = ACCOUNT_TYPE_MAP[accountType]
+          let data = await sdkAccount.getAccountsFromAddressWithLimit(2 * Constants.PageSize, type)
+          commit('setTimelineWithType', { timeline: Timeline.fromData(data), type: accountType })
+        }
+      } catch (e) {
+        console.error(e)
+        commit('setError', true)
       }
       commit('setLoading', false)
     },
@@ -133,13 +142,18 @@ export default {
       commit('setLoading', true)
       const timeline = getters.getTimeline
       const list = timeline.next
-      if (list.length === 0) {
-        throw new Error('internal error: next list is 0.')
+      try {
+        if (list.length === 0) {
+          throw new Error('internal error: next list is 0.')
+        }
+        const account = list[list.length - 1]
+        const type = ACCOUNT_TYPE_MAP[getters.getAccountType]
+        const fetchNext = pageSize => sdkAccount.getAccountsFromAddressWithLimit(pageSize, type, account.address)
+        commit('setTimeline', await timeline.shiftNext(fetchNext))
+      } catch (e) {
+        console.error(e)
+        commit('setError', true)
       }
-      const account = list[list.length - 1]
-      const type = ACCOUNT_TYPE_MAP[getters.getAccountType]
-      const fetchNext = pageSize => sdkAccount.getAccountsFromAddressWithLimit(pageSize, type, account.address)
-      commit('setTimeline', await timeline.shiftNext(fetchNext))
       commit('setLoading', false)
     },
 
@@ -148,28 +162,38 @@ export default {
       commit('setLoading', true)
       const timeline = getters.getTimeline
       const list = timeline.previous
-      if (list.length === 0) {
-        throw new Error('internal error: previous list is 0.')
+      try {
+        if (list.length === 0) {
+          throw new Error('internal error: previous list is 0.')
+        }
+        const account = list[0]
+        const type = ACCOUNT_TYPE_MAP[getters.getAccountType]
+        const fetchPrevious = pageSize => sdkAccount.getAccountsSinceAddressWithLimit(pageSize, type, account.address)
+        const fetchLive = pageSize => sdkAccount.getAccountsFromAddressWithLimit(pageSize, type)
+        commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
+      } catch (e) {
+        console.error(e)
+        commit('setError', true)
       }
-      const account = list[0]
-      const type = ACCOUNT_TYPE_MAP[getters.getAccountType]
-      const fetchPrevious = pageSize => sdkAccount.getAccountsSinceAddressWithLimit(pageSize, type, account.address)
-      const fetchLive = pageSize => sdkAccount.getAccountsFromAddressWithLimit(pageSize, type)
-      commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
       commit('setLoading', false)
     },
 
     // Change the current page.
     async changePage({ commit, getters }, accountType) {
       commit('setLoading', true)
-      if (getters.getAccountType !== accountType) {
-        if (!getters.getTimeline.isLive) {
-          // Reset to the live page.
-          const type = ACCOUNT_TYPE_MAP[getters.getAccountType]
-          let data = await sdkAccount.getAccountsFromAddressWithLimit(2 * Constants.PageSize, type)
-          commit('setTimeline', Timeline.fromData(data))
+      try {
+        if (getters.getAccountType !== accountType) {
+          if (!getters.getTimeline.isLive) {
+            // Reset to the live page.
+            const type = ACCOUNT_TYPE_MAP[getters.getAccountType]
+            let data = await sdkAccount.getAccountsFromAddressWithLimit(2 * Constants.PageSize, type)
+            commit('setTimeline', Timeline.fromData(data))
+          }
+          commit('setAccountType', accountType)
         }
-        commit('setAccountType', accountType)
+      } catch (e) {
+        console.error(e)
+        commit('setError', true)
       }
       commit('setLoading', false)
     },
@@ -177,14 +201,19 @@ export default {
     // Reset the current page type and page index.
     async resetPage({ commit, getters }) {
       commit('setLoading', true)
-      if (getters.getAccountType !== 'rich') {
-        if (!getters.getTimeline.isLive) {
-          // Reset to the live page.
-          const type = ACCOUNT_TYPE_MAP[getters.getAccountType]
-          let data = await sdkAccount.getAccountsFromAddressWithLimit(2 * Constants.PageSize, type)
-          commit('setTimeline', Timeline.fromData(data))
+      try {
+        if (getters.getAccountType !== 'rich') {
+          if (!getters.getTimeline.isLive) {
+            // Reset to the live page.
+            const type = ACCOUNT_TYPE_MAP[getters.getAccountType]
+            let data = await sdkAccount.getAccountsFromAddressWithLimit(2 * Constants.PageSize, type)
+            commit('setTimeline', Timeline.fromData(data))
+          }
+          commit('setAccountType', 'rich')
         }
-        commit('setAccountType', 'rich')
+      } catch (e) {
+        console.error(e)
+        commit('setError', true)
       }
       commit('setLoading', false)
     },

@@ -22,6 +22,7 @@
             <Card
                 class="card-f card-full-width"
                 :loading="loading"
+                :error="error"
             >
                 <template #title>
                     {{title}}
@@ -45,24 +46,30 @@
                         :previousPageAction="previousPageAction"
                     />
                 </template>
+
+                <template #error>
+                    Unable to fetch accounts data.
+                </template>
             </Card>
         </div>
     </div>
 </template>
 <script>
-import w1 from '@/components/TypeBox.vue'
+import TypeBox from '@/components/TypeBox.vue'
 import View from './View.vue'
+import helper from '../helper'
 import { mapGetters } from 'vuex'
 
 export default {
   extends: View,
 
   components: {
-    TypeBox: w1
+    TypeBox
   },
 
-  mounted() {
-    this.$store.dispatch('account/initialize')
+  async mounted() {
+    await helper.logError(this.$store.dispatch, 'api/initialize')
+    await helper.logError(this.$store.dispatch, 'account/initialize')
   },
 
   data() {
@@ -86,7 +93,8 @@ export default {
       accountList: 'account/getTimelineFormatted',
       canFetchPrevious: 'account/getCanFetchPrevious',
       canFetchNext: 'account/getCanFetchNext',
-      loading: 'account/getLoading'
+      loading: 'account/getLoading',
+      error: 'account/getError'
     })
   }
 }
