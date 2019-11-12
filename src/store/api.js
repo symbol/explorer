@@ -75,7 +75,7 @@ export default {
         commit('currentNode', currentNodeUrl)
         localStorage.setItem('currentNodeUrl', currentNodeUrl)
         await dispatch('uninitialize', null, { root: true })
-        await dispatch('initialize', null, { root: true })
+        await dispatch('initialize')
       } else {
         throw Error('Cannot change node. URL is not valid: ' + currentNodeUrl)
       }
