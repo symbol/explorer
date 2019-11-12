@@ -159,6 +159,8 @@ class sdkAccount {
         minApproval: accountMultisig.minApproval,
         minRemoval: accountMultisig.minRemoval
       }
+
+      formattedAccountInfo = {...formattedAccountInfo, ...formattedAccountMultisig }
       if (accountMultisig.cosignatories) { accountMultisigCosignatories = accountMultisig.cosignatories }
     }
 

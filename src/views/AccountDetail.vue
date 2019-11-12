@@ -21,15 +21,6 @@
       </Card>
 
       <Card class="card-f card-adaptive" :loading="loading">
-        <!-- MultiSig Info -->
-        <template #title>Multsig Info</template>
-
-        <template #body>
-          <TableInfoView :data="accountMultisig" />
-        </template>
-      </Card>
-
-      <Card class="card-f card-adaptive" :loading="loading">
         <!-- MultiSig Cosignatories -->
         <template #title>Multsig Cosignatories</template>
 
