@@ -57,7 +57,6 @@
 <script>
 import TypeBox from '@/components/TypeBox.vue'
 import View from './View.vue'
-import helper from '../helper'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -65,11 +64,6 @@ export default {
 
   components: {
     TypeBox
-  },
-
-  async mounted() {
-    await helper.logError(this.$store.dispatch, 'api/initialize')
-    await helper.logError(this.$store.dispatch, 'account/initialize')
   },
 
   data() {

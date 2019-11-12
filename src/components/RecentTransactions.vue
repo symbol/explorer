@@ -53,7 +53,6 @@
 </template>
 <script>
 import RecentTransactionRow from '@/components/RecentTransactionRow.vue'
-import helper from '../helper'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -68,11 +67,6 @@ export default {
       title: 'Recent Transactions',
       viewAll: 'View all Transactions'
     }
-  },
-
-  async mounted() {
-    await helper.logError(this.$store.dispatch, 'api/initialize')
-    await helper.logError(this.$store.dispatch, 'transaction/initialize')
   },
 
   computed: {

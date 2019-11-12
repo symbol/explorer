@@ -58,7 +58,6 @@
 import TableInfoView from '@/components/tables/TableInfoView.vue'
 import TableListView from '@/components/tables/TableListView.vue'
 import View from './View.vue'
-import helper from '../helper'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -74,11 +73,6 @@ export default {
       detailTitle: 'Namespace Detail',
       levelTitle: 'Namespace Level'
     }
-  },
-
-  async mounted() {
-    await helper.logError(this.$store.dispatch, 'api/initialize')
-    await helper.logError(this.$store.dispatch, 'namespace/fetchNamespaceInfo', this.namespaceId)
   },
 
   computed: {

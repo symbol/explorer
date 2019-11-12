@@ -53,7 +53,6 @@
 </template>
 <script>
 import RecentBlockRow from '@/components/RecentBlockRow.vue'
-import helper from '../helper'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -68,11 +67,6 @@ export default {
       title: 'Recent Blocks',
       viewAll: 'View all Blocks'
     }
-  },
-
-  async mounted() {
-    await helper.logError(this.$store.dispatch, 'api/initialize')
-    await helper.logError(this.$store.dispatch, 'block/initialize')
   },
 
   computed: {

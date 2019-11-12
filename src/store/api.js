@@ -18,6 +18,7 @@
 import Vue from 'vue'
 import Lock from './lock'
 import helper from '../helper'
+import router from '../router'
 import http from '../infrastructure/http'
 
 const LOCK = Lock.create()
@@ -72,10 +73,12 @@ export default {
 
     async changeNode({ commit, dispatch }, currentNodeUrl) {
       if (helper.validURL(currentNodeUrl)) {
+        // Set the current node URL.
         commit('currentNode', currentNodeUrl)
         localStorage.setItem('currentNodeUrl', currentNodeUrl)
+        // Uninitialize the data and re-initialize the API.
         await dispatch('uninitialize', null, { root: true })
-        await dispatch('initialize')
+        await dispatch('initialize', router.currentRoute, { root: true })
       } else {
         throw Error('Cannot change node. URL is not valid: ' + currentNodeUrl)
       }

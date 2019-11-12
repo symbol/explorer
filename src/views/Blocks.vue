@@ -42,16 +42,10 @@
 
 <script>
 import View from './View.vue'
-import helper from '../helper'
 import { mapGetters } from 'vuex'
 
 export default {
   extends: View,
-
-  async mounted() {
-    await helper.logError(this.$store.dispatch, 'api/initialize')
-    await helper.logError(this.$store.dispatch, 'block/initialize')
-  },
 
   data() {
     return {

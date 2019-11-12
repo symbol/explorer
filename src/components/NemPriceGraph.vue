@@ -17,10 +17,15 @@
  */
 
 <template>
-  <div class="widget m-0 z-1 nempricegraph_con bordr_rds_top0 pt-0 pb-0">
-    <loader v-if="!marketData.historicalHourlyGraph.length > 0"></loader>
-    <ApexCharts type="area" :data="chartData" />
-  </div>
+    <div class="widget m-0 z-1 nempricegraph_con bordr_rds_top0 pt-0 pb-0">
+        <loader
+            v-if="!marketData.historicalHourlyGraph.length > 0"
+        />
+        <ApexCharts
+            type="area"
+            :data="chartData"
+        />
+    </div>
 </template>
 <style>
 #nempricegraph {
@@ -70,20 +75,19 @@
 }
 </style>
 <script>
-import w1 from '@/components/Chart.vue'
-import helper from '../helper'
+import ApexCharts from '@/components/Chart.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    ApexCharts: w1
+    ApexCharts
   },
-  props: {},
-  data() {
-    return {
-    }
-  },
+
   computed: {
+    ...mapGetters({
+      marketData: 'chain/getMarketData'
+    }),
+
     chartData() {
       return [
         {
@@ -91,15 +95,7 @@ export default {
           data: this.marketData.historicalHourlyGraph
         }
       ]
-    },
-    ...mapGetters({
-      marketData: 'chain/getMarketData'
-    })
-  },
-  async mounted() {
-    await helper.logError(this.$store.dispatch, 'api/initialize')
-    await helper.logError(this.$store.dispatch, 'chain/initialize')
-  },
-  methods: {}
+    }
+  }
 }
 </script>
