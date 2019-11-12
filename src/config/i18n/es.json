@@ -32,6 +32,7 @@
     "importanceHeight": "Valor Altura",
     "accountType": "Cuentas Tipo",
     "linkedAccountKey": "Linked Cuentas key",
+    "lastActivity": "Última actividad",
     "accounts": "Cuentas",
     "blocks": "Bloques",
     "mosaics": "Mosaicos",
@@ -67,5 +68,8 @@
     "minApproval": "Aprobación mínima",
     "minRemoval": "Remoción mínima",
     "nothingToShow": "Nada que mostrar..",
-    "transactionBody": "Transacciónes del Detalles"
+    "transactionBody": "Transacciónes del Detalles",
+    "totalFeesPaid": "Tasas totales pagadas",
+    "beneficiaryCount": "Recuento de beneficiarios",
+    "rawScore": "Puntaje bruto"
 }

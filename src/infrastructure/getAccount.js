@@ -114,6 +114,7 @@ class sdkAccount {
     let accountMultisig
     let formattedAccountMultisig
     let accountMultisigCosignatories
+    let activityBuckets
 
     let transactionList
     let formattedTansactionList
@@ -146,6 +147,10 @@ class sdkAccount {
           mosaicId: el.id,
           amount: el.amount
         }))
+        : []
+
+      activityBuckets = Array.isArray(rawAccountInfo.activityBucket)
+        ? rawAccountInfo.activityBucket
         : []
     }
 
@@ -182,10 +187,11 @@ class sdkAccount {
       // rawAccountInfo: rawAccountInfo || {},
       accountInfo: formattedAccountInfo || {},
       mosaicList: mosaicList || [],
-      multisigInfo: formattedAccountMultisig || {},
+      multisigInfo: formattedAccountMultisig || [],
       multisigCosignatoriesList: accountMultisigCosignatories || [],
       tansactionList: formattedTansactionList || [],
-      namespaceList: formattedNamespaceList || []
+      namespaceList: formattedNamespaceList || [],
+      activityBuckets: activityBuckets || []
     }
   }
 }

@@ -11,6 +11,15 @@
         <template #error>Account {{address}} does not exist</template>
       </Card>
 
+      <Card class="card-f card-full-width" :loading="loading">
+        <!-- Activity -->
+        <template #title>Activity Buckets</template>
+
+        <template #body>
+          <TableListView :data="activityBucketList" />
+        </template>
+      </Card>
+
       <Card class="card-f card-adaptive" :loading="loading">
         <!-- MultiSig Info -->
         <template #title>Multsig Info</template>
@@ -92,12 +101,13 @@ export default {
 
   computed: {
     ...mapGetters({
-      accountInfo: 'account/accountInfo',
-      accountMultisig: 'account/accountMultisig',
-      accountMultisigCosignatories: 'account/accountMultisigCosignatories',
-      namespaceList: 'account/namespaceList',
-      mosaicList: 'account/mosaicList',
-      transactionList: 'account/transactionList',
+      accountInfo: 'account/getAccountInfo',
+      accountMultisig: 'account/getAccountMultisig',
+      accountMultisigCosignatories: 'account/getAccountMultisigCosignatories',
+      namespaceList: 'account/getNamespaceList',
+      mosaicList: 'account/getMosaicList',
+      transactionList: 'account/getTransactionList',
+      activityBucketList: 'account/getActivityBucketList',
       loading: 'account/accountInfoLoading',
       error: 'account/accountInfoError'
     }),
@@ -117,6 +127,9 @@ export default {
     },
     showNamespaces() {
       return !this.error && this.namespaceList?.length
+    },
+    showActivityBucketList() {
+      return !this.error && this.activityBucketList?.length
     },
     showTransactions() {
       return !this.error

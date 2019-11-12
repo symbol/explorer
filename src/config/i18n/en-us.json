@@ -69,5 +69,8 @@
     "minApproval": "Minimum Approval",
     "minRemoval": "Minimum Removal",
     "nothingToShow": "Nothing to show..",
-    "transactionBody": "Transaction Detail"
+    "transactionBody": "Transaction Detail",
+    "totalFeesPaid": "Total Fees Paid",
+    "beneficiaryCount": "Beneficiary Count",
+    "rawScore": "Raw Score"
 }

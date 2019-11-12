@@ -58,8 +58,10 @@ export default {
     mosaicList: [],
     // The Account Transactions list.
     transactionList: [],
+    // The Account Activity Bucket.
+    activityBucketList: [],
     // The Account Created mosaic.
-    createdMosaics: [], // Wait for Rest team apply
+    createdMosaics: [], // Wait for Rest team apply,
     accountInfoLoading: false,
     accountInfoError: false
   },
@@ -78,12 +80,13 @@ export default {
       info: el.accountAliasName || ''
     })),
     getLoading: state => state.loading,
-    accountInfo: state => state.accountInfo,
-    accountMultisig: state => state.accountMultisig,
-    accountMultisigCosignatories: state => state.accountMultisigCosignatories,
-    namespaceList: state => state.namespaceList,
-    mosaicList: state => state.mosaicList,
-    transactionList: state => state.transactionList,
+    getAccountInfo: state => state.accountInfo,
+    getAccountMultisig: state => state.accountMultisig,
+    getAccountMultisigCosignatories: state => state.accountMultisigCosignatories,
+    getNamespaceList: state => state.namespaceList,
+    getMosaicList: state => state.mosaicList,
+    getTransactionList: state => state.transactionList,
+    getActivityBucketList: state => state.activityBucketList,
     accountInfoLoading: state => state.accountInfoLoading,
     accountInfoError: state => state.accountInfoError
   },
@@ -93,14 +96,15 @@ export default {
     setTimeline: (state, timeline) => { state[state.accountType] = timeline },
     setTimelineWithType: (state, { timeline, type }) => { state[type] = timeline },
     setLoading: (state, loading) => { state.loading = loading },
-    accountInfo: (state, payload) => Vue.set(state, 'accountInfo', payload),
-    accountMultisig: (state, payload) => Vue.set(state, 'accountMultisig', payload),
-    accountMultisigCosignatories: (state, payload) => Vue.set(state, 'accountMultisigCosignatories', payload),
-    namespaceList: (state, payload) => Vue.set(state, 'namespaceList', payload),
-    mosaicList: (state, payload) => Vue.set(state, 'mosaicList', payload),
-    transactionList: (state, payload) => Vue.set(state, 'transactionList', payload),
-    accountInfoLoading: (state, payload) => Vue.set(state, 'accountInfoLoading', payload),
-    accountInfoError: (state, payload) => Vue.set(state, 'accountInfoError', payload)
+    setAccountInfo: (state, accountInfo) => { state.accountInfo = accountInfo },
+    setAccountMultisig: (state, accountMultisig) => { state.accountMultisig = accountMultisig },
+    setAccountMultisigCosignatories: (state, accountMultisigCosignatories) => { state.accountMultisigCosignatories = accountMultisigCosignatories },
+    setNamespaceList: (state, namespaceList) => { state.namespaceList = namespaceList },
+    setMosaicList: (state, mosaicList) => { state.mosaicList = mosaicList },
+    setTransactionList: (state, transactionList) => { state.transactionList = transactionList },
+    setActivityBucketList: (state, activityBucketList) => { state.activityBucketList = activityBucketList },
+    accountInfoLoading: (state, v) => { state.accountInfoLoading = v },
+    accountInfoError: (state, v) => { state.accountInfoError = v }
   },
   actions: {
     // Initialize the account model.
@@ -113,7 +117,7 @@ export default {
 
     // Uninitialize the account model.
     async uninitialize({ commit, dispatch, getters }) {
-      const callback = async () => {}
+      const callback = async () => { }
       await LOCK.uninitialize(callback, commit, dispatch, getters)
     },
 
@@ -195,12 +199,13 @@ export default {
       commit('accountInfoLoading', true)
       // Clear data
       commit('accountInfoError', false)
-      commit('accountInfo', {})
-      commit('accountMultisig', {})
-      commit('mosaicList', [])
-      commit('transactionList', [])
-      commit('namespaceList', [])
-      commit('accountMultisigCosignatories', [])
+      commit('setAccountInfo', {})
+      commit('setAccountMultisig', {})
+      commit('setMosaicList', [])
+      commit('setTransactionList', [])
+      commit('setNamespaceList', [])
+      commit('setAccountMultisigCosignatories', [])
+      commit('setActivityBucketList', [])
 
       // Fetch account info from SDK
       let accountInfo
@@ -211,12 +216,13 @@ export default {
 
       // Commit data to the Store
       if (accountInfo) {
-        commit('accountInfo', accountInfo.accountInfo)
-        commit('mosaicList', accountInfo.mosaicList)
-        commit('accountMultisig', accountInfo.multisigInfo)
-        commit('accountMultisigCosignatories', accountInfo.multisigCosignatoriesList)
-        commit('transactionList', accountInfo.tansactionList)
-        commit('namespaceList', accountInfo.namespaceList)
+        commit('setAccountInfo', accountInfo.accountInfo)
+        commit('setMosaicList', accountInfo.mosaicList)
+        commit('setAccountMultisig', accountInfo.multisigInfo)
+        commit('setAccountMultisigCosignatories', accountInfo.multisigCosignatoriesList)
+        commit('setTransactionList', accountInfo.tansactionList)
+        commit('setNamespaceList', accountInfo.namespaceList)
+        commit('setActivityBucketList', accountInfo.activityBuckets)
       }
 
       // Loading end
