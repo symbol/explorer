@@ -32,6 +32,8 @@ export default {
     timeline: Timeline.empty(),
     // Determine if the mosaics model is loading.
     loading: false,
+    // Determine if the mosaics model has an error.
+    error: false,
     // The Mosaic detail information.
     mosaicInfo: {},
     mosaicInfoLoading: false,
@@ -50,6 +52,7 @@ export default {
       startHeight: el.startHeight
     })),
     getLoading: state => state.loading,
+    getError: state => state.error,
     getMosaicInfo: state => state.mosaicInfo,
     mosaicInfoLoading: state => state.mosaicInfoLoading,
     mosaicInfoError: state => state.mosaicInfoError
@@ -58,6 +61,7 @@ export default {
     setInitialized: (state, initialized) => { state.initialized = initialized },
     setTimeline: (state, timeline) => { state.timeline = timeline },
     setLoading: (state, loading) => { state.loading = loading },
+    setError: (state, error) => { state.error = error },
     setMosaicInfo: (state, mosaicInfo) => { state.mosaicInfo = mosaicInfo },
     mosaicInfoLoading: (state, v) => { state.mosaicInfoLoading = v },
     mosaicInfoError: (state, v) => { state.mosaicInfoError = v }
@@ -80,8 +84,13 @@ export default {
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit }) {
       commit('setLoading', true)
-      let mosaicList = await sdkMosaic.getMosaicsFromIdWithLimit(2 * Constants.PageSize)
-      commit('setTimeline', Timeline.fromData(mosaicList))
+      try {
+        let mosaicList = await sdkMosaic.getMosaicsFromIdWithLimit(2 * Constants.PageSize)
+        commit('setTimeline', Timeline.fromData(mosaicList))
+      } catch (e) {
+        console.error(e)
+        commit('setError', true)
+      }
       commit('setLoading', false)
     },
 
@@ -90,12 +99,17 @@ export default {
       commit('setLoading', true)
       const timeline = getters.getTimeline
       const list = timeline.next
-      if (list.length === 0) {
-        throw new Error('internal error: next list is 0.')
+      try {
+        if (list.length === 0) {
+          throw new Error('internal error: next list is 0.')
+        }
+        const mosaic = list[list.length - 1]
+        const fetchNext = pageSize => sdkMosaic.getMosaicsFromIdWithLimit(pageSize, mosaic.id)
+        commit('setTimeline', await timeline.shiftNext(fetchNext))
+      } catch (e) {
+        console.error(e)
+        commit('setError', true)
       }
-      const mosaic = list[list.length - 1]
-      const fetchNext = pageSize => sdkMosaic.getMosaicsFromIdWithLimit(pageSize, mosaic.id)
-      commit('setTimeline', await timeline.shiftNext(fetchNext))
       commit('setLoading', false)
     },
 
@@ -104,22 +118,32 @@ export default {
       commit('setLoading', true)
       const timeline = getters.getTimeline
       const list = timeline.previous
-      if (list.length === 0) {
-        throw new Error('internal error: previous list is 0.')
+      try {
+        if (list.length === 0) {
+          throw new Error('internal error: previous list is 0.')
+        }
+        const mosaic = list[0]
+        const fetchPrevious = pageSize => sdkMosaic.getMosaicsSinceIdWithLimit(pageSize, mosaic.id)
+        const fetchLive = pageSize => sdkMosaic.getMosaicsSinceIdWithLimit(pageSize)
+        commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
+      } catch (e) {
+        console.error(e)
+        commit('setError', true)
       }
-      const mosaic = list[0]
-      const fetchPrevious = pageSize => sdkMosaic.getMosaicsSinceIdWithLimit(pageSize, mosaic.id)
-      const fetchLive = pageSize => sdkMosaic.getMosaicsSinceIdWithLimit(pageSize)
-      commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
       commit('setLoading', false)
     },
 
     // Reset the mosaic page to the latest list (index 0)
     async resetPage({ commit, getters }) {
       commit('setLoading', true)
-      if (!getters.getTimeline.isLive) {
-        const data = await sdkMosaic.getMosaicsFromIdWithLimit(2 * Constants.PageSize)
-        commit('setTimeline', Timeline.fromData(data))
+      try {
+        if (!getters.getTimeline.isLive) {
+          const data = await sdkMosaic.getMosaicsFromIdWithLimit(2 * Constants.PageSize)
+          commit('setTimeline', Timeline.fromData(data))
+        }
+      } catch (e) {
+        console.error(e)
+        commit('setError', true)
       }
       commit('setLoading', false)
     },
@@ -131,7 +155,9 @@ export default {
 
       let mosaicInfo
 
-      try { mosaicInfo = await sdkMosaic.getMosaicInfoFormatted(mosaicHexOrNamespace) } catch (e) {
+      try {
+        mosaicInfo = await sdkMosaic.getMosaicInfoFormatted(mosaicHexOrNamespace)
+      } catch (e) {
         console.error(e)
         commit('mosaicInfoError', true)
       }

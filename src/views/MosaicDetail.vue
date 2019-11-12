@@ -17,45 +17,56 @@
  */
 
 <template>
-  <div class="page">
-    <div class="page-content-card-f">
-      <Card class="card-f card-full-width">
-        <!-- Mosaic Detail -->
-        <template v-slot:title>Mosaic Detail</template>
+    <div class="page">
+        <div class="page-content-card-f">
+            <Card
+                class="card-f card-full-width"
+                :loading="loading"
+                :error="error"
+            >
+                <template #title>
+                    {{title}}
+                </template>
 
-        <template v-slot:body v-if="mosaicInfo">
-          <TableInfoView :data="mosaicInfo" />
-        </template>
-      </Card>
+                <template #body v-if="mosaicInfo">
+                    <TableInfoView :data="mosaicInfo" />
+                </template>
+
+                <template #error>
+                    Mosaic {{mosaicId}} does not exist
+                </template>
+            </Card>
+        </div>
     </div>
-  </div>
 </template>
 <script>
-import TableInfoView from '@/components/tables/TableInfoView.vue'
-import Card from '@/components/containers/Card.vue'
+import View from './View.vue'
+import helper from '../helper'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'MosaicDetail',
-  components: {
-    Card,
-    TableInfoView
+  extends: View,
+
+  async mounted() {
+    await helper.logError(this.$store.dispatch, 'api/initialize')
+    await helper.logError(this.$store.dispatch, 'mosaic/fetchMosaicInfo', this.mosaicId)
   },
-  created() {},
+
   data() {
-    return {}
+    return {
+      title: 'Mosaic Detail'
+    }
   },
+
   computed: {
     ...mapGetters({
-      mosaicInfo: 'mosaic/getMosaicInfo'
+      mosaicInfo: 'mosaic/getMosaicInfo',
+      loading: 'mosaic/mosaicInfoLoading',
+      error: 'mosaic/mosaicInfoError'
     }),
     mosaicId() {
       return this.$route.params.mosaicId || 0
     }
-  },
-  methods: {},
-  mounted() {
-    this.$store.dispatch('mosaic/fetchMosaicInfo', this.mosaicId)
   }
 }
 </script>

@@ -1,89 +1,108 @@
 <template>
-  <div class="page">
-    <div class="page-content-card-f">
-      <Card
-        class="card-f card-full-width"
-        :loading="loading"
-        :error="error"
-      >
-        <template #title>Transaction Info</template>
-        <template #control></template>
+    <div class="page">
+        <div class="page-content-card-f">
+            <!-- Transaction Info -->
+            <Card
+                class="card-f card-full-width"
+                :loading="loading"
+                :error="error"
+            >
+                <template #title>
+                    {{infoTitle}}
+                </template>
 
-        <template #body>
-          <TableInfoView :data="transactionInfo" />
-        </template>
-        <template #error>Transaction with hash - {{transactionHash}} does not exist</template>
-      </Card>
-      <Card
-        class="card-f card-adaptive"
-        v-if="showTransactionDetail"
-        :loading="loading"
-      >
-        <template #title>Transaction Detail</template>
-        <template #control></template>
+                <template #body>
+                    <TableInfoView :data="transactionInfo" />
+                </template>
 
-        <template #body>
-          <TableInfoView :data="transactionDetail" />
-        </template>
-      </Card>
+                <template #error>
+                    Transaction with hash {{transactionHash}} does not exist
+                </template>
+            </Card>
 
-      <Card
-        class="card-f card-adaptive"
-        v-if="showTransferMosaics"
-        :loading="loading"
-      >
-        <template #title>Mosaics</template>
+            <!-- Transaction Detail -->
+            <Card
+                class="card-f card-adaptive"
+                v-if="showTransactionDetail"
+                :loading="loading"
+            >
+                <template #title>
+                    {{detailTitle}}
+                </template>
 
-        <template #body>
-          <TableListView :data="transferMosaics" />
-        </template>
-      </Card>
+                <template #body>
+                    <TableInfoView :data="transactionDetail" />
+                </template>
+            </Card>
 
-      <Card
-        class="card-f card-full-width"
-        v-if="showAggregateInnerTransactions"
-        :loading="loading"
-      >
-        <template #title>Aggregate InnerTransactions</template>
-        <template #control></template>
+            <!-- Mosaics -->
+            <Card
+                class="card-f card-adaptive"
+                v-if="showTransferMosaics"
+                :loading="loading"
+            >
+                <template #title>
+                    {{mosaicsTitle}}
+                </template>
 
-        <template #body>
-          <TableListView :data="aggregateInnerTransactions" />
-        </template>
-      </Card>
+                <template #body>
+                    <TableListView :data="transferMosaics" />
+                </template>
+            </Card>
 
-      <Card
-        class="card-f card-full-width"
-        v-if="showAggregateCosignatures"
-        :loading="loading"
-      >
-        <template #title>Aggregate Cosignatures</template>
-        <template #control></template>
+            <!-- Aggregate Inner Transactions -->
+            <Card
+                class="card-f card-full-width"
+                v-if="showAggregateInnerTransactions"
+                :loading="loading"
+            >
+                <template #title>
+                    {{aggregateTitle}}
+                </template>
 
-        <template #body>
-          <TableListView :data="aggregateCosignatures" />
-        </template>
-      </Card>
+                <template #body>
+                    <TableListView :data="aggregateInnerTransactions" />
+                </template>
+            </Card>
+
+            <!-- Aggregate Cosignatures -->
+            <Card
+                class="card-f card-full-width"
+                v-if="showAggregateCosignatures"
+                :loading="loading"
+            >
+                <template #title>
+                    {{cosignaturesTitle}}
+                </template>
+
+                <template #body>
+                    <TableListView :data="aggregateCosignatures" />
+                </template>
+            </Card>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
 import View from './View.vue'
+import helper from '../helper'
 import { mapGetters } from 'vuex'
 
 export default {
   extends: View,
 
-  mounted() {
-    this.$store.dispatch(
-      'transaction/getTransactionInfoByHash',
-      this.transactionHash
-    )
+  async mounted() {
+    await helper.logError(this.$store.dispatch, 'api/initialize')
+    await helper.logError(this.$store.dispatch, 'transaction/getTransactionInfoByHash', this.transactionHash)
   },
 
   data() {
     return {
+      infoTitle: 'Transaction Info',
+      detailTitle: 'Transaction Detail',
+      mosaicsTitle: 'Mosaics',
+      aggregateTitle: 'Aggregate Inner Transactions',
+      cosignaturesTitle: 'Aggregate Cosignatures',
       nextPageAction: 'transaction/nextTransaction',
       previousPageAction: 'transaction/previousTransaction'
     }
@@ -122,6 +141,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-</style>

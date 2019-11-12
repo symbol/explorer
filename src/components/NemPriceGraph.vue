@@ -70,8 +70,9 @@
 }
 </style>
 <script>
-import { mapGetters } from 'vuex'
 import w1 from '@/components/Chart.vue'
+import helper from '../helper'
+import { mapGetters } from 'vuex'
 
 export default {
   components: {
@@ -95,7 +96,10 @@ export default {
       marketData: 'chain/getMarketData'
     })
   },
-  mounted() {},
+  async mounted() {
+    await helper.logError(this.$store.dispatch, 'api/initialize')
+    await helper.logError(this.$store.dispatch, 'chain/initialize')
+  },
   methods: {}
 }
 </script>

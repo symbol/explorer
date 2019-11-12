@@ -20,11 +20,13 @@ import * as nem from 'nem2-sdk'
 
 let NODE_URL
 let MARKET_DATA_URL
+let NETWORK_TYPE
 
 export default class http {
   static init = async (nodeUrl, marketDataUrl) => {
     NODE_URL = nodeUrl
     MARKET_DATA_URL = marketDataUrl
+    NETWORK_TYPE = await http.network.getNetworkType().toPromise()
   }
 
   static get marketDataUrl() {
@@ -33,6 +35,10 @@ export default class http {
 
   static get nodeUrl() {
     return NODE_URL
+  }
+
+  static get networkType() {
+    return NETWORK_TYPE
   }
 
   static get account() {

@@ -32,7 +32,9 @@ export default {
     timeline: Timeline.empty(),
     // Determine if the namespaces model is loading.
     loading: false,
-    // The Namespace detail infomation.
+    // Determine if the namespaces model has an error.
+    error: false,
+    // The Namespace detail information.
     namespaceInfo: {},
     // The Namespace Level.
     namespaceLevels: [],
@@ -54,6 +56,7 @@ export default {
       depth: el.depth
     })),
     getLoading: state => state.loading,
+    getError: state => state.error,
     getNamespaceInfo: state => state.namespaceInfo,
     getNamespaceLevels: state => state.namespaceLevels,
     namespaceInfoLoading: state => state.namespaceInfoLoading,
@@ -63,6 +66,7 @@ export default {
     setInitialized: (state, initialized) => { state.initialized = initialized },
     setTimeline: (state, timeline) => { state.timeline = timeline },
     setLoading: (state, loading) => { state.loading = loading },
+    setError: (state, error) => { state.error = error },
     setNamespaceInfo: (state, info) => { state.namespaceInfo = info },
     setNamespaceLevels: (state, levels) => { state.namespaceLevels = levels },
     namespaceInfoLoading: (state, v) => { state.namespaceInfoLoading = v },
@@ -86,8 +90,13 @@ export default {
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit }) {
       commit('setLoading', true)
-      let namespaceList = await sdkNamespace.getNamespacesFromIdWithLimit(2 * Constants.PageSize)
-      commit('setTimeline', Timeline.fromData(namespaceList))
+      try {
+        let namespaceList = await sdkNamespace.getNamespacesFromIdWithLimit(2 * Constants.PageSize)
+        commit('setTimeline', Timeline.fromData(namespaceList))
+      } catch (e) {
+        console.error(e)
+        commit('setError', true)
+      }
       commit('setLoading', false)
     },
 
@@ -96,12 +105,17 @@ export default {
       commit('setLoading', true)
       const timeline = getters.getTimeline
       const list = timeline.next
-      if (list.length === 0) {
-        throw new Error('internal error: next list is 0.')
+      try {
+        if (list.length === 0) {
+          throw new Error('internal error: next list is 0.')
+        }
+        const namespace = list[list.length - 1]
+        const fetchNext = pageSize => sdkNamespace.getNamespacesFromIdWithLimit(pageSize, namespace.id)
+        commit('setTimeline', await timeline.shiftNext(fetchNext))
+      } catch (e) {
+        console.error(e)
+        commit('setError', true)
       }
-      const namespace = list[list.length - 1]
-      const fetchNext = pageSize => sdkNamespace.getNamespacesFromIdWithLimit(pageSize, namespace.id)
-      commit('setTimeline', await timeline.shiftNext(fetchNext))
       commit('setLoading', false)
     },
 
@@ -110,22 +124,32 @@ export default {
       commit('setLoading', true)
       const timeline = getters.getTimeline
       const list = timeline.previous
-      if (list.length === 0) {
-        throw new Error('internal error: previous list is 0.')
+      try {
+        if (list.length === 0) {
+          throw new Error('internal error: previous list is 0.')
+        }
+        const namespace = list[0]
+        const fetchPrevious = pageSize => sdkNamespace.getNamespacesSinceIdWithLimit(pageSize, namespace.id)
+        const fetchLive = pageSize => sdkNamespace.getNamespacesSinceIdWithLimit(pageSize)
+        commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
+      } catch (e) {
+        console.error(e)
+        commit('setError', true)
       }
-      const namespace = list[0]
-      const fetchPrevious = pageSize => sdkNamespace.getNamespacesSinceIdWithLimit(pageSize, namespace.id)
-      const fetchLive = pageSize => sdkNamespace.getNamespacesSinceIdWithLimit(pageSize)
-      commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
       commit('setLoading', false)
     },
 
     // Reset the namespace page to the latest list (index 0)
     async resetPage({ commit, getters }) {
       commit('setLoading', true)
-      if (!getters.getTimeline.isLive) {
-        const data = await sdkNamespace.getNamespacesFromIdWithLimit(2 * Constants.PageSize)
-        commit('setTimeline', Timeline.fromData(data))
+      try {
+        if (!getters.getTimeline.isLive) {
+          const data = await sdkNamespace.getNamespacesFromIdWithLimit(2 * Constants.PageSize)
+          commit('setTimeline', Timeline.fromData(data))
+        }
+      } catch (e) {
+        console.error(e)
+        commit('setError', true)
       }
       commit('setLoading', false)
     },

@@ -15,26 +15,18 @@
  * limitations under the License.
  *
  */
+import account from './account'
 import api from './api'
 import block from './block'
 import chain from './chain'
-import transaction from './transaction'
-import ui from './ui'
-import account from './account'
 import mosaic from './mosaic'
 import namespace from './namespace'
+import transaction from './transaction'
+import ui from './ui'
 import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
-
-const logError = async (dispatch, action) => {
-  try {
-    await dispatch(action)
-  } catch (e) {
-    console.error(`Failed to call ${action}`, e)
-  }
-}
 
 export default new Vuex.Store({
   // Disable use-strict mode because it fails with the SDK listener.
@@ -50,22 +42,6 @@ export default new Vuex.Store({
     namespace
   },
   actions: {
-    // Initialize the stores (call on app load).
-    async initialize({ dispatch }) {
-      // Wait till the API is initialized before making any requests.
-      await logError(dispatch, 'api/initialize')
-
-      // We want all these to evaluate asynchronously.
-      // This avoids a failure in any individual store from causing issues
-      // in other stores.
-      // Only initialize views in the Home view.
-      await Promise.all([
-        logError(dispatch, 'block/initialize'),
-        logError(dispatch, 'chain/initialize'),
-        logError(dispatch, 'transaction/initialize')
-      ])
-    },
-
     // Uninitialize the stores (call on app destroyed).
     async uninitialize({ dispatch }) {
       await Promise.all([

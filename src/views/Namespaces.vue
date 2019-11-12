@@ -22,6 +22,7 @@
             <Card
                 class="card-f card-full-width"
                 :loading="loading"
+                :error="error"
             >
                 <template #title>
                     {{title}}
@@ -48,19 +49,25 @@
                         :previousPageAction="previousPageAction"
                     />
                 </template>
+
+                <template #error>
+                    Unable to fetch namespaces data.
+                </template>
             </Card>
         </div>
     </div>
 </template>
 <script>
 import View from './View.vue'
+import helper from '../helper'
 import { mapGetters } from 'vuex'
 
 export default {
   extends: View,
 
-  mounted() {
-    this.$store.dispatch('namespace/initialize')
+  async mounted() {
+    await helper.logError(this.$store.dispatch, 'api/initialize')
+    await helper.logError(this.$store.dispatch, 'namespace/initialize')
   },
 
   data() {
@@ -76,7 +83,8 @@ export default {
       namespaceList: 'namespace/getTimelineFormatted',
       canFetchPrevious: 'namespace/getCanFetchPrevious',
       canFetchNext: 'namespace/getCanFetchNext',
-      loading: 'namespace/getLoading'
+      loading: 'namespace/getLoading',
+      error: 'namespace/getError'
     })
 
   },

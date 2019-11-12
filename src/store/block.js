@@ -38,6 +38,8 @@ export default {
     subscription: null,
     // Determine if the blocks model is loading.
     loading: false,
+    // Determine if the blocks model has an error.
+    error: false,
     // The Block Information.
     blockInfo: {},
     // The Block Transaction list
@@ -63,9 +65,9 @@ export default {
       date: el.date,
       harvester: el.signer.address.address
     })),
-
     getSubscription: state => state.subscription,
     getLoading: state => state.loading,
+    getError: state => state.error,
     blockInfo: state => state.blockInfo,
     blockTransactionList: state => state.blockTransactionList,
     currentBlockHeight: state => state.currentBlockHeight,
@@ -78,6 +80,7 @@ export default {
     setTimeline: (state, timeline) => { state.timeline = timeline },
     setSubscription: (state, subscription) => { state.subscription = subscription },
     setLoading: (state, loading) => { state.loading = loading },
+    setError: (state, error) => { state.error = error },
 
     addLatestItem: (state, item) => {
       if (state.latestList.length > 0 && state.latestList[0].height !== item.height && state.timeline.isLive === true) {
@@ -138,12 +141,17 @@ export default {
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit }) {
       commit('setLoading', true)
-      let blockList = await sdkBlock.getBlocksFromHeightWithLimit(2 * Constants.PageSize)
-      commit('setLatestList', blockList.slice(0, Constants.PageSize))
-      if (blockList.length > 0) {
-        commit('chain/setBlockHeight', blockList[0].height, { root: true })
+      try {
+        let blockList = await sdkBlock.getBlocksFromHeightWithLimit(2 * Constants.PageSize)
+        commit('setLatestList', blockList.slice(0, Constants.PageSize))
+        if (blockList.length > 0) {
+          commit('chain/setBlockHeight', blockList[0].height, { root: true })
+        }
+        commit('setTimeline', Timeline.fromData(blockList))
+      } catch (e) {
+        console.error(e)
+        commit('setError', true)
       }
-      commit('setTimeline', Timeline.fromData(blockList))
       commit('setLoading', false)
     },
 
@@ -152,12 +160,17 @@ export default {
       commit('setLoading', true)
       const timeline = getters.getTimeline
       const list = timeline.next
-      if (list.length === 0) {
-        throw new Error('internal error: next list is 0.')
+      try {
+        if (list.length === 0) {
+          throw new Error('internal error: next list is 0.')
+        }
+        const block = list[list.length - 1]
+        const fetchNext = pageSize => sdkBlock.getBlocksFromHeightWithLimit(pageSize, block.height)
+        commit('setTimeline', await timeline.shiftNext(fetchNext))
+      } catch (e) {
+        console.error(e)
+        commit('setError', true)
       }
-      const block = list[list.length - 1]
-      const fetchNext = pageSize => sdkBlock.getBlocksFromHeightWithLimit(pageSize, block.height)
-      commit('setTimeline', await timeline.shiftNext(fetchNext))
       commit('setLoading', false)
     },
 
@@ -166,22 +179,32 @@ export default {
       commit('setLoading', true)
       const timeline = getters.getTimeline
       const list = timeline.previous
-      if (list.length === 0) {
-        throw new Error('internal error: previous list is 0.')
+      try {
+        if (list.length === 0) {
+          throw new Error('internal error: previous list is 0.')
+        }
+        const block = list[0]
+        const fetchPrevious = pageSize => sdkBlock.getBlocksSinceHeightWithLimit(pageSize, block.height)
+        const fetchLive = pageSize => sdkBlock.getBlocksFromHeightWithLimit(pageSize, rootGetters['chain/getBlockHeight'])
+        commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
+      } catch (e) {
+        console.error(e)
+        commit('setError', true)
       }
-      const block = list[0]
-      const fetchPrevious = pageSize => sdkBlock.getBlocksSinceHeightWithLimit(pageSize, block.height)
-      const fetchLive = pageSize => sdkBlock.getBlocksFromHeightWithLimit(pageSize, rootGetters['chain/getBlockHeight'])
-      commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
       commit('setLoading', false)
     },
 
     // Reset the block page to the latest list (index 0)
     async resetPage({ commit, getters }) {
       commit('setLoading', true)
-      if (!getters.getTimeline.isLive) {
-        const data = await sdkBlock.getBlocksFromHeightWithLimit(2 * Constants.PageSize)
-        commit('setTimeline', Timeline.fromData(data))
+      try {
+        if (!getters.getTimeline.isLive) {
+          const data = await sdkBlock.getBlocksFromHeightWithLimit(2 * Constants.PageSize)
+          commit('setTimeline', Timeline.fromData(data))
+        }
+      } catch (e) {
+        console.error(e)
+        commit('setError', true)
       }
       commit('setLoading', false)
     },
