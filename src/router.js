@@ -98,20 +98,20 @@ export default new Router({
     },
     {
       path: '/nodes',
-      name: 'Nodes',
+      name: 'nodes',
       component: () =>
         import('./views/Nodes.vue')
     },
     {
       path: '/stat',
-      name: 'Stat',
+      name: 'stat',
       component: () =>
         import('./views/Stat.vue')
     },
 
     {
       path: '/terms',
-      name: 'Terms',
+      name: 'terms',
       component: () =>
         import('./views/Terms.vue'),
       meta: {
@@ -120,7 +120,7 @@ export default new Router({
     },
     {
       path: '/privacy',
-      name: 'Privacy',
+      name: 'privacy',
       component: () =>
         import('./views/Privacy.vue'),
       meta: {

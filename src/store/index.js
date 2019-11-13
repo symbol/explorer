@@ -21,6 +21,7 @@ import block from './block'
 import chain from './chain'
 import mosaic from './mosaic'
 import namespace from './namespace'
+import node from './node'
 import transaction from './transaction'
 import ui from './ui'
 import helper from '../helper'
@@ -40,7 +41,8 @@ export default new Vuex.Store({
     ui,
     account,
     mosaic,
-    namespace
+    namespace,
+    node
   },
   actions: {
     // Initialize the store (call on mount or re-initialization).
@@ -69,6 +71,8 @@ export default new Vuex.Store({
           return helper.logError(dispatch, 'mosaic/initialize')
         case 'namespaces':
           return helper.logError(dispatch, 'namespace/initialize')
+        case 'nodes':
+          return helper.logError(dispatch, 'node/initialize')
         case 'transactions':
           return helper.logError(dispatch, 'transaction/initialize')
 

@@ -65,7 +65,6 @@ export default {
       loading: 'block/getLoading',
       error: 'block/getError'
     })
-
   },
 
   destroyed() {
