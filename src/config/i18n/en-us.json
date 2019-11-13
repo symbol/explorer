@@ -68,6 +68,8 @@
     "linkedNamespace": "Linked Namespace",
     "minApproval": "Minimum Approval",
     "minRemoval": "Minimum Removal",
-    "nothingToShow": "Nothing to show..",
-    "transactionBody": "Transaction Detail"
+    "nothingToShow": "Nothing to show.",
+    "transactionBody": "Transaction Detail",
+    "name": "Name",
+    "message": "Message"
 }

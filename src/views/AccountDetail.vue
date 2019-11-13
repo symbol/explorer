@@ -1,70 +1,104 @@
 <template>
-  <div class="page">
-    <div class="page-content-card-f">
-      <Card class="card-f card-full-width" :loading="loading" :error="error">
-        <!-- Account Detail -->
-        <template #title>Account Detail</template>
+    <div class="page">
+        <div class="page-content-card-f">
+            <!-- Account Detail -->
+            <Card
+                class="card-f card-full-width"
+                :loading="loading"
+                :error="error"
+            >
+                <template #title>
+                    {{detailTitle}}
+                </template>
 
-        <template #body>
-          <TableInfoView :data="accountInfo" />
-        </template>
-        <template #error>Account {{address}} does not exist</template>
-      </Card>
+                <template #body>
+                    <TableInfoView :data="accountInfo" />
+                </template>
 
-      <Card class="card-f card-adaptive" :loading="loading">
-        <!-- MultiSig Info -->
-        <template #title>Multsig Info</template>
+                <template #error>
+                    Account {{address}} does not exist
+                </template>
+            </Card>
 
-        <template #body>
-          <TableInfoView :data="accountMultisig" />
-        </template>
-      </Card>
+            <!-- MultiSig Info -->
+            <Card
+                class="card-f card-adaptive"
+                :loading="loading"
+            >
+                <template #title>
+                    {{multisigTitle}}
+                </template>
 
-      <Card class="card-f card-adaptive" :loading="loading">
-        <!-- MultiSig Cosignatories -->
-        <template #title>Multsig Cosignatories</template>
+                <template #body>
+                    <TableInfoView :data="accountMultisig" />
+                </template>
+            </Card>
 
-        <template #body>
-          <TableListView :data="accountMultisigCosignatories" />
-        </template>
+            <!-- MultiSig Cosignatories -->
+            <Card
+                class="card-f card-adaptive"
+                :loading="loading"
+            >
+                <template #title>
+                    {{cosignatoriesTitle}}
+                </template>
 
-      </Card>
+                <template #body>
+                    <TableListView :data="accountMultisigCosignatories" />
+                </template>
+            </Card>
 
-      <Card class="card-f card-adaptive" :loading="loading">
-        <!-- Mosaics -->
-        <template #title>Owned Mosaics</template>
+            <!-- Mosaics -->
+            <Card
+                class="card-f card-adaptive"
+                :loading="loading"
+            >
+                <template #title>
+                    {{mosaicsTitle}}
+                </template>
 
-        <template #body>
-          <TableListView :data="mosaicList" />
-        </template>
-      </Card>
+                <template #body>
+                    <TableListView :data="mosaicList" />
+                </template>
+            </Card>
 
-      <Card class="card-f card-adaptive" :loading="loading">
-        <!-- NS -->
-        <template #title>Owned Namespaces</template>
+            <!-- Namespaces -->
+            <Card
+                class="card-f card-adaptive"
+                :loading="loading"
+            >
+                <template #title>
+                    {{namespacesTitle}}
+                </template>
 
-        <template #body>
-          <TableListView :data="namespaceList" />
-        </template>
-      </Card>
+                <template #body>
+                    <TableListView :data="namespaceList" />
+                </template>
+            </Card>
 
-      <Card class="card-f card-full-width" :loading="loading">
-        <!-- Transactions -->
-        <template #title>Transactions</template>
-        <template #control>
-          <DropDown
-            :value="selectedTransactionType"
-            :options="transactionTypes"
-            @change="changeTransactionType"
-          />
-        </template>
+            <!-- Transactions -->
+            <Card
+                class="card-f card-full-width"
+                :loading="loading"
+            >
+                <template #title>
+                    {{transactionsTitle}}
+                </template>
 
-        <template #body>
-          <TableListView :data="filteredTransactionList" />
-        </template>
-      </Card>
+                <template #control>
+                    <DropDown
+                        :value="selectedTransactionType"
+                        :options="transactionTypes"
+                        @change="changeTransactionType"
+                    />
+                </template>
+
+                <template #body>
+                    <TableListView :data="filteredTransactionList" />
+                </template>
+            </Card>
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
@@ -74,12 +108,14 @@ import { mapGetters } from 'vuex'
 export default {
   extends: View,
 
-  mounted() {
-    this.$store.dispatch('account/fetchAccountDataByAddress', this.address)
-  },
-
   data() {
     return {
+      detailTitle: 'Account Detail',
+      multisigTitle: 'Multisig Info',
+      cosignatoriesTitle: 'Multisig Cosignatories',
+      mosaicsTitle: 'Owned Mosaics',
+      namespacesTitle: 'Owned Namespaces',
+      transactionsTitle: 'Transactions',
       transactionTypes: [
         { name: 'All transactions', value: 1 },
         { name: 'Mosaic transactions', value: 2 },

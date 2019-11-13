@@ -17,39 +17,58 @@
  */
 
 <template>
-  <div class="widget has-shadow">
-    <div class="box">
-      <div class="box-title">
-        <h1 class="inline-block">Recent Blocks</h1>
-        <div class="btn_grp inline-block flt-rt">
-          <router-link to="/blocks" exact active-class="active" class="btn btn-green">
-            <span>View all blocks</span>
-            <i class="ico-ios-arrow-thin-right"></i>
-          </router-link>
+    <div class="widget has-shadow">
+        <div class="box">
+            <div class="box-title">
+                <h1 class="inline-block">
+                    {{title}}
+                </h1>
+                <div class="btn_grp inline-block flt-rt">
+                    <router-link
+                        to="/blocks"
+                        exact active-class="active"
+                        class="btn btn-green"
+                    >
+                        <span>
+                            {{viewAll}}
+                        </span>
+                        <i class="ico-ios-arrow-thin-right"></i>
+                    </router-link>
+                </div>
+            </div>
+            <div class="box-con">
+                <loader
+                    v-if="loading"
+                />
+                <div class="row">
+                    <RecentBlockRow
+                        :item="item"
+                        v-for="item in blockList"
+                        v-bind:key="item.height"
+                    />
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="box-con">
-        <loader v-if="loading"></loader>
-        <div class="row">
-          <RecentBlockRow
-            :item="item"
-            v-for="item in blockList"
-            v-bind:key="item.height"
-          />
-        </div>
-      </div>
     </div>
-  </div>
 </template>
 <script>
-import w1 from '@/components/RecentBlockRow.vue'
+import RecentBlockRow from '@/components/RecentBlockRow.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'RecentBlocks',
+
   components: {
-    RecentBlockRow: w1
+    RecentBlockRow
   },
+
+  data() {
+    return {
+      title: 'Recent Blocks',
+      viewAll: 'View all Blocks'
+    }
+  },
+
   computed: {
     ...mapGetters({
       blockList: 'block/getRecentList',

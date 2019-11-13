@@ -104,10 +104,9 @@ class sdkNamespace {
     }
 
     // Make request.
-    const networkType = await http.network.getNetworkType().toPromise()
     const path = `/namespaces/from/${namespaceId}/limit/${limit}`
     const response = await axios.get(http.nodeUrl + path)
-    const namespaces = response.data.map(info => dto.createNamespaceInfoFromDTO(info, networkType))
+    const namespaces = response.data.map(info => dto.createNamespaceInfoFromDTO(info, http.networkType))
     await addNamespaceNames(namespaces)
 
     return format.formatNamespaceInfos(namespaces)
@@ -122,10 +121,9 @@ class sdkNamespace {
     }
 
     // Make request.
-    const networkType = await http.network.getNetworkType().toPromise()
     const path = `/namespaces/since/${namespaceId}/limit/${limit}`
     const response = await axios.get(http.nodeUrl + path)
-    const namespaces = response.data.map(info => dto.createNamespaceInfoFromDTO(info, networkType))
+    const namespaces = response.data.map(info => dto.createNamespaceInfoFromDTO(info, http.networkType))
     await addNamespaceNames(namespaces)
 
     return format.formatNamespaceInfos(namespaces)

@@ -60,6 +60,8 @@ export default {
     subscription: null,
     // Determine if the transactions model is loading.
     loading: false,
+    // Determine if the transactions model has an error.
+    error: false,
     // TransactionInfo by hash.
     transactionInfo: {},
     // Transaction Body Info.
@@ -89,6 +91,7 @@ export default {
 
     getSubscription: state => state.subscription,
     getLoading: state => state.loading,
+    getError: state => state.error,
     transactionInfo: state => state.transactionInfo,
     transactionDetail: state => state.transactionDetail,
     transferMosaics: state => state.transferMosaics,
@@ -106,6 +109,7 @@ export default {
 
     setSubscription: (state, subscription) => { state.subscription = subscription },
     setLoading: (state, loading) => { state.loading = loading },
+    setError: (state, error) => { state.error = error },
     addLatestItem(state, item) {
       // TODO(ahuszagh) Actually implement...
     },
@@ -163,13 +167,18 @@ export default {
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit, getters }) {
       commit('setLoading', true)
-      for (let transactionType of Object.keys(TIMELINES)) {
-        const type = TRANSACTION_TYPE_MAP[transactionType]
-        let data = await sdkTransaction.getTransactionsFromHashWithLimit(2 * Constants.PageSize, type)
-        if (transactionType === 'recent') {
-          commit('setLatestList', data.slice(0, Constants.PageSize))
+      try {
+        for (let transactionType of Object.keys(TIMELINES)) {
+          const type = TRANSACTION_TYPE_MAP[transactionType]
+          let data = await sdkTransaction.getTransactionsFromHashWithLimit(2 * Constants.PageSize, type)
+          if (transactionType === 'recent') {
+            commit('setLatestList', data.slice(0, Constants.PageSize))
+          }
+          commit('setTimelineWithType', { timeline: Timeline.fromData(data), type: transactionType })
         }
-        commit('setTimelineWithType', { timeline: Timeline.fromData(data), type: transactionType })
+      } catch (e) {
+        console.error(e)
+        commit('setError', true)
       }
       commit('setLoading', false)
     },
@@ -179,13 +188,18 @@ export default {
       commit('setLoading', true)
       const timeline = getters.getTimeline
       const list = timeline.next
-      if (list.length === 0) {
-        throw new Error('internal error: next list is 0.')
+      try {
+        if (list.length === 0) {
+          throw new Error('internal error: next list is 0.')
+        }
+        const transaction = list[list.length - 1]
+        const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
+        const fetchNext = pageSize => sdkTransaction.getTransactionsFromHashWithLimit(pageSize, type, transaction.transactionHash)
+        commit('setTimeline', await timeline.shiftNext(fetchNext))
+      } catch (e) {
+        console.error(e)
+        commit('setError', true)
       }
-      const transaction = list[list.length - 1]
-      const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
-      const fetchNext = pageSize => sdkTransaction.getTransactionsFromHashWithLimit(pageSize, type, transaction.transactionHash)
-      commit('setTimeline', await timeline.shiftNext(fetchNext))
       commit('setLoading', false)
     },
 
@@ -194,28 +208,38 @@ export default {
       commit('setLoading', true)
       const timeline = getters.getTimeline
       const list = timeline.previous
-      if (list.length === 0) {
-        throw new Error('internal error: previous list is 0.')
+      try {
+        if (list.length === 0) {
+          throw new Error('internal error: previous list is 0.')
+        }
+        const transaction = list[0]
+        const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
+        const fetchPrevious = pageSize => sdkTransaction.getTransactionsSinceHashWithLimit(pageSize, type, transaction.transactionHash)
+        const fetchLive = pageSize => sdkTransaction.getTransactionsFromHashWithLimit(pageSize, type)
+        commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
+      } catch (e) {
+        console.error(e)
+        commit('setError', true)
       }
-      const transaction = list[0]
-      const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
-      const fetchPrevious = pageSize => sdkTransaction.getTransactionsSinceHashWithLimit(pageSize, type, transaction.transactionHash)
-      const fetchLive = pageSize => sdkTransaction.getTransactionsFromHashWithLimit(pageSize, type)
-      commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
       commit('setLoading', false)
     },
 
     // Change the current page.
     async changePage({ commit, getters }, transactionType) {
       commit('setLoading', true)
-      if (getters.getTransactionType !== transactionType) {
-        if (!getters.getTimeline.isLive) {
-          // Reset to the live page.
-          const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
-          let data = await sdkTransaction.getTransactionsFromHashWithLimit(Constants.PageSize, type)
-          commit('setTimeline', Timeline.fromData(data))
+      try {
+        if (getters.getTransactionType !== transactionType) {
+          if (!getters.getTimeline.isLive) {
+            // Reset to the live page.
+            const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
+            let data = await sdkTransaction.getTransactionsFromHashWithLimit(Constants.PageSize, type)
+            commit('setTimeline', Timeline.fromData(data))
+          }
+          commit('setTransactionType', transactionType)
         }
-        commit('setTransactionType', transactionType)
+      } catch (e) {
+        console.error(e)
+        commit('setError', true)
       }
       commit('setLoading', false)
     },
@@ -223,14 +247,19 @@ export default {
     // Reset the current page type and page index.
     async resetPage({ commit, getters }) {
       commit('setLoading', true)
-      if (getters.getTransactionType !== 'recent') {
-        if (!getters.getTimeline.isLive) {
-          // Reset to the live page.
-          const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
-          let data = await sdkTransaction.getTransactionsFromHashWithLimit(Constants.PageSize, type)
-          commit('setTimeline', Timeline.fromData(data))
+      try {
+        if (getters.getTransactionType !== 'recent') {
+          if (!getters.getTimeline.isLive) {
+            // Reset to the live page.
+            const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
+            let data = await sdkTransaction.getTransactionsFromHashWithLimit(Constants.PageSize, type)
+            commit('setTimeline', Timeline.fromData(data))
+          }
+          commit('setTransactionType', 'recent')
         }
-        commit('setTransactionType', 'recent')
+      } catch (e) {
+        console.error(e)
+        commit('setError', true)
       }
       commit('setLoading', false)
     },

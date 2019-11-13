@@ -15,26 +15,20 @@
  * limitations under the License.
  *
  */
+import account from './account'
 import api from './api'
 import block from './block'
 import chain from './chain'
-import transaction from './transaction'
-import ui from './ui'
-import account from './account'
 import mosaic from './mosaic'
 import namespace from './namespace'
+import node from './node'
+import transaction from './transaction'
+import ui from './ui'
+import helper from '../helper'
 import Vue from 'vue'
 import Vuex from 'vuex'
 
 Vue.use(Vuex)
-
-const logError = async (dispatch, action) => {
-  try {
-    await dispatch(action)
-  } catch (e) {
-    console.error(`Failed to call ${action}`, e)
-  }
-}
 
 export default new Vuex.Store({
   // Disable use-strict mode because it fails with the SDK listener.
@@ -47,23 +41,53 @@ export default new Vuex.Store({
     ui,
     account,
     mosaic,
-    namespace
+    namespace,
+    node
   },
   actions: {
-    // Initialize the stores (call on app load).
-    async initialize({ dispatch }) {
-      // Wait till the API is initialized before making any requests.
-      await logError(dispatch, 'api/initialize')
+    // Initialize the store (call on mount or re-initialization).
+    // This handles initialization of a dependent item based on the
+    // key provided.
+    async initialize({ dispatch }, route) {
+      // Initialize the API.
+      await helper.logError(dispatch, 'api/initialize')
 
-      // We want all these to evaluate asynchronously.
-      // This avoids a failure in any individual store from causing issues
-      // in other stores.
-      // Only initialize views in the Home view.
-      await Promise.all([
-        logError(dispatch, 'block/initialize'),
-        logError(dispatch, 'chain/initialize'),
-        logError(dispatch, 'transaction/initialize')
-      ])
+      switch (route.name) {
+        // Home
+        case 'home':
+          // Home: Requires blocks, chain, and transactions.
+          return Promise.all([
+            helper.logError(dispatch, 'block/initialize'),
+            helper.logError(dispatch, 'chain/initialize'),
+            helper.logError(dispatch, 'transaction/initialize')
+          ])
+
+        // Timeline Views
+        case 'accounts':
+          return helper.logError(dispatch, 'account/initialize')
+        case 'blocks':
+          return helper.logError(dispatch, 'block/initialize')
+        case 'mosaics':
+          return helper.logError(dispatch, 'mosaic/initialize')
+        case 'namespaces':
+          return helper.logError(dispatch, 'namespace/initialize')
+        case 'nodes':
+          return helper.logError(dispatch, 'node/initialize')
+        case 'transactions':
+          return helper.logError(dispatch, 'transaction/initialize')
+
+        // Detail Views
+        case 'account-detail':
+          return helper.logError(dispatch, 'account/fetchAccountDataByAddress', route.params.address || 0)
+        case 'block-detail':
+          return helper.logError(dispatch, 'block/getBlockInfo', route.params.height || 0)
+        case 'mosaic-detail':
+          return helper.logError(dispatch, 'mosaic/fetchMosaicInfo', route.params.mosaicId || 0)
+        case 'namespace-detail':
+          return helper.logError(dispatch, 'namespace/fetchNamespaceInfo', route.params.namespaceId || 0)
+        case 'transaction-detail':
+          return helper.logError(dispatch, 'transaction/getTransactionInfoByHash', route.params.transactionHash || '')
+      }
     },
 
     // Uninitialize the stores (call on app destroyed).

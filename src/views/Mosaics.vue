@@ -22,6 +22,7 @@
             <Card
                 class="card-f card-full-width"
                 :loading="loading"
+                :error="error"
             >
                 <template #title>
                     {{title}}
@@ -48,6 +49,10 @@
                         :previousPageAction="previousPageAction"
                     />
                 </template>
+
+                <template #error>
+                    Unable to fetch mosaics data.
+                </template>
             </Card>
         </div>
     </div>
@@ -58,10 +63,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   extends: View,
-
-  mounted() {
-    this.$store.dispatch('mosaic/initialize')
-  },
 
   data() {
     return {
@@ -76,7 +77,8 @@ export default {
       mosaicList: 'mosaic/getTimelineFormatted',
       canFetchPrevious: 'mosaic/getCanFetchPrevious',
       canFetchNext: 'mosaic/getCanFetchNext',
-      loading: 'mosaic/getLoading'
+      loading: 'mosaic/getLoading',
+      error: 'mosaic/getError'
     })
 
   },

@@ -18,10 +18,50 @@
 
 import Lock from './lock'
 import Timeline from './timeline'
-import Constants from '../config/constants'
-import sdkNamespace from '../infrastructure/getNamespace'
 
 const LOCK = Lock.create()
+
+// TODO(ahuszagh) Remove this later.
+//   This is pseudo-live data with just random fields
+//   to simulate that real requests are being made.
+const PSEUDO_LIVE_DATA = [
+  {
+    serverName: 'Unknown',
+    resolvedIp: '52.194.207.217',
+    version: '-',
+    location: 'Tokyo : Japan',
+    isp: 'Amazon.com, Inc.',
+    height: '19602',
+    status: 'Online'
+  },
+  {
+    serverName: 'Unknown',
+    resolvedIp: '52.194.207.217',
+    version: '-',
+    location: 'Tokyo : Japan',
+    isp: 'Amazon.com, Inc.',
+    height: '19602',
+    status: 'Online'
+  },
+  {
+    serverName: 'Unknown',
+    resolvedIp: '52.194.207.217',
+    version: '-',
+    location: 'Tokyo : Japan',
+    isp: 'Amazon.com, Inc.',
+    height: '19602',
+    status: 'Online'
+  },
+  {
+    serverName: 'Unknown',
+    resolvedIp: '52.194.207.217',
+    version: '-',
+    location: 'Tokyo : Japan',
+    isp: 'Amazon.com, Inc.',
+    height: '19602',
+    status: 'Online'
+  }
+]
 
 export default {
   namespaced: true,
@@ -30,16 +70,10 @@ export default {
     initialized: false,
     // Timeline of data current in the view.
     timeline: Timeline.empty(),
-    // Determine if the namespaces model is loading.
+    // Determine if the nodes model is loading.
     loading: false,
-    // Determine if the namespaces model has an error.
-    error: false,
-    // The Namespace detail information.
-    namespaceInfo: {},
-    // The Namespace Level.
-    namespaceLevels: [],
-    namespaceInfoLoading: false,
-    namespaceInfoError: false
+    // Determine if the nodes model has an error.
+    error: false
   },
   getters: {
     getInitialized: state => state.initialized,
@@ -47,33 +81,26 @@ export default {
     getCanFetchPrevious: state => state.timeline.canFetchPrevious,
     getCanFetchNext: state => state.timeline.canFetchNext,
     getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
-      namespaceId: el.namespaceId,
-      namespaceName: el.namespaceName,
-      registrationType: el.registrationType,
-      owneraddress: el.address,
-      parentId: el.parentId,
-      startHeight: el.startHeight,
-      depth: el.depth
+      // TODO(ahuszagh) Change when we get real data.
+      serverName: el.serverName,
+      resolvedIp: el.resolvedIp,
+      version: el.version,
+      location: el.location,
+      isp: el.isp,
+      height: el.height,
+      status: el.status
     })),
     getLoading: state => state.loading,
-    getError: state => state.error,
-    getNamespaceInfo: state => state.namespaceInfo,
-    getNamespaceLevels: state => state.namespaceLevels,
-    namespaceInfoLoading: state => state.namespaceInfoLoading,
-    namespaceInfoError: state => state.namespaceInfoError
+    getError: state => state.error
   },
   mutations: {
     setInitialized: (state, initialized) => { state.initialized = initialized },
     setTimeline: (state, timeline) => { state.timeline = timeline },
     setLoading: (state, loading) => { state.loading = loading },
-    setError: (state, error) => { state.error = error },
-    setNamespaceInfo: (state, info) => { state.namespaceInfo = info },
-    setNamespaceLevels: (state, levels) => { state.namespaceLevels = levels },
-    namespaceInfoLoading: (state, v) => { state.namespaceInfoLoading = v },
-    namespaceInfoError: (state, v) => { state.namespaceInfoError = v }
+    setError: (state, error) => { state.error = error }
   },
   actions: {
-    // Initialize the namespace model.
+    // Initialize the node model.
     async initialize({ commit, dispatch, getters }) {
       const callback = async () => {
         await dispatch('initializePage')
@@ -81,7 +108,7 @@ export default {
       await LOCK.initialize(callback, commit, dispatch, getters)
     },
 
-    // Uninitialize the namespace model.
+    // Uninitialize the node model.
     async uninitialize({ commit, dispatch, getters }) {
       const callback = async () => {}
       await LOCK.uninitialize(callback, commit, dispatch, getters)
@@ -91,8 +118,9 @@ export default {
     async initializePage({ commit }) {
       commit('setLoading', true)
       try {
-        let namespaceList = await sdkNamespace.getNamespacesFromIdWithLimit(2 * Constants.PageSize)
-        commit('setTimeline', Timeline.fromData(namespaceList))
+        // TODO(ahuszagh) Change to use real data.
+        let nodeList = PSEUDO_LIVE_DATA
+        commit('setTimeline', Timeline.fromData(nodeList))
       } catch (e) {
         console.error(e)
         commit('setError', true)
@@ -109,8 +137,9 @@ export default {
         if (list.length === 0) {
           throw new Error('internal error: next list is 0.')
         }
-        const namespace = list[list.length - 1]
-        const fetchNext = pageSize => sdkNamespace.getNamespacesFromIdWithLimit(pageSize, namespace.id)
+        // TODO(ahuszagh) Change to use real data.
+        const node = list[list.length - 1] // eslint-disable-line no-unused-vars
+        const fetchNext = async pageSize => []
         commit('setTimeline', await timeline.shiftNext(fetchNext))
       } catch (e) {
         console.error(e)
@@ -128,9 +157,10 @@ export default {
         if (list.length === 0) {
           throw new Error('internal error: previous list is 0.')
         }
-        const namespace = list[0]
-        const fetchPrevious = pageSize => sdkNamespace.getNamespacesSinceIdWithLimit(pageSize, namespace.id)
-        const fetchLive = pageSize => sdkNamespace.getNamespacesSinceIdWithLimit(pageSize)
+        // TODO(ahuszagh) Change to use real data.
+        const node = list[0] // eslint-disable-line no-unused-vars
+        const fetchPrevious = async pageSize => []
+        const fetchLive = async pageSize => PSEUDO_LIVE_DATA
         commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
       } catch (e) {
         console.error(e)
@@ -139,12 +169,13 @@ export default {
       commit('setLoading', false)
     },
 
-    // Reset the namespace page to the latest list (index 0)
+    // Reset the mosaic page to the latest list (index 0)
     async resetPage({ commit, getters }) {
       commit('setLoading', true)
       try {
         if (!getters.getTimeline.isLive) {
-          const data = await sdkNamespace.getNamespacesFromIdWithLimit(2 * Constants.PageSize)
+          // TODO(ahuszagh) Change to use real data.
+          const data = PSEUDO_LIVE_DATA
           commit('setTimeline', Timeline.fromData(data))
         }
       } catch (e) {
@@ -152,26 +183,6 @@ export default {
         commit('setError', true)
       }
       commit('setLoading', false)
-    },
-
-    // Fetch data from the SDK.
-    async fetchNamespaceInfo({ commit }, namespaceOrHex) {
-      commit('namespaceInfoError', false)
-      commit('namespaceInfoLoading', true)
-
-      let namespaceInfo
-
-      try { namespaceInfo = await sdkNamespace.getNamespaceInfoFormatted(namespaceOrHex) } catch (e) {
-        console.error(e)
-        commit('namespaceInfoError', true)
-      }
-
-      if (namespaceInfo) {
-        commit('setNamespaceInfo', namespaceInfo.namespaceInfo)
-        commit('setNamespaceLevels', namespaceInfo.namespaceLevels)
-      }
-
-      commit('namespaceInfoLoading', false)
     }
   }
 }

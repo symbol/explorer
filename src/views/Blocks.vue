@@ -4,6 +4,7 @@
             <Card
                 class="card-f card-full-width"
                 :loading="loading"
+                :error="error"
             >
                 <template #title>
                     {{title}}
@@ -30,6 +31,10 @@
                         :previousPageAction="previousPageAction"
                     />
                 </template>
+
+                <template #error>
+                    Unable to fetch blocks data.
+                </template>
             </Card>
         </div>
     </div>
@@ -41,10 +46,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   extends: View,
-
-  mounted() {
-    this.$store.dispatch('block/initialize')
-  },
 
   data() {
     return {
@@ -61,9 +62,9 @@ export default {
       blockList: 'block/getTimelineFormatted',
       canFetchPrevious: 'block/getCanFetchPrevious',
       canFetchNext: 'block/getCanFetchNext',
-      loading: 'block/getLoading'
+      loading: 'block/getLoading',
+      error: 'block/getError'
     })
-
   },
 
   destroyed() {

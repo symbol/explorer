@@ -1,15 +1,16 @@
 <template>
     <div class="page">
         <div class="page-content-card-f">
-
+            <!-- Block Detail -->
             <Card
                 class="card-f card-full-width"
                 :loading="loading"
                 :error="error"
             >
                 <template #title>
-                    Block Detail
+                    {{detailTitle}}
                 </template>
+
                 <template #control>
                     <Pagination
                         :canFetchPrevious="true"
@@ -24,14 +25,19 @@
                         :data="blockInfo"
                     />
                 </template>
+
                 <template #error>
                     Block {{height}} does not exist
                 </template>
             </Card>
 
-            <Card class="card-f card-full-width">
+            <!-- Transactions -->
+            <Card
+                class="card-f card-full-width"
+                :loading="loading"
+            >
                 <template #title>
-                    Block Transactions
+                    {{transactionsTitle}}
                 </template>
 
                 <template #body>
@@ -53,12 +59,10 @@ import { mapGetters } from 'vuex'
 export default {
   extends: View,
 
-  mounted() {
-    this.$store.dispatch('block/getBlockInfo', this.height)
-  },
-
   data() {
     return {
+      detailTitle: 'Block Detail',
+      transactionsTitle: 'Block Transactions',
       nextPageAction: 'block/nextBlock',
       previousPageAction: 'block/previousBlock'
     }
@@ -82,7 +86,3 @@ export default {
   }
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

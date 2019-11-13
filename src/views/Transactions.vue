@@ -26,6 +26,7 @@
                 <template #title>
                     {{title}}
                 </template>
+
                 <template #body>
                     <TypeBox
                         :typeMap="typeMap"
@@ -43,6 +44,10 @@
                         :previousPageAction="previousPageAction"
                     />
                 </template>
+
+                <template #error>
+                    Unable to fetch transactions data.
+                </template>
             </Card>
         </div>
     </div>
@@ -59,10 +64,6 @@ export default {
   components: {
     TypeBox: w1,
     TransactionTable: w2
-  },
-
-  mounted() {
-    this.$store.dispatch('transaction/initialize')
   },
 
   data() {
@@ -87,7 +88,8 @@ export default {
       transactionList: 'transaction/getTimelineList',
       canFetchPrevious: 'transaction/getCanFetchPrevious',
       canFetchNext: 'transaction/getCanFetchNext',
-      loading: 'transaction/getLoading'
+      loading: 'transaction/getLoading',
+      error: 'transaction/getError'
     })
   }
 }

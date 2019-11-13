@@ -16,13 +16,19 @@
  *
  */
 import Vue from 'vue'
+import Lock from './lock'
 import helper from '../helper'
+import router from '../router'
 import http from '../infrastructure/http'
+
+const LOCK = Lock.create()
 
 export default {
   namespaced: true,
 
   state: {
+    // If the global state has been initialized.
+    initialized: false,
     nodes: [...PEERS_API.nodes],
     defaultNode: helper.formatUrl(PEERS_API.defaultNode.url),
     currentNode: helper.formatUrl(PEERS_API.defaultNode.url),
@@ -31,6 +37,7 @@ export default {
   },
 
   getters: {
+    getInitialized: state => state.initialized,
     nodes: state =>
       Array.isArray(state.nodes)
         ? state.nodes.map(node => helper.formatUrl(node.url))
@@ -42,6 +49,7 @@ export default {
   },
 
   mutations: {
+    setInitialized: (state, initialized) => { state.initialized = initialized },
     mutate: (state, { key, value }) => Vue.set(state, key, value),
     currentNode: (state, payload) => {
       if (undefined !== payload) {
@@ -54,18 +62,23 @@ export default {
   },
 
   actions: {
-    initialize: async ({ commit, getters }) => {
-      const nodeUrl = getters['currentNode'].url
-      const marketDataUrl = getters['marketData'].url
-      http.init(nodeUrl, marketDataUrl)
+    async initialize({ commit, dispatch, getters }) {
+      const callback = async () => {
+        const nodeUrl = getters['currentNode'].url
+        const marketDataUrl = getters['marketData'].url
+        http.init(nodeUrl, marketDataUrl)
+      }
+      await LOCK.initialize(callback, commit, dispatch, getters)
     },
 
-    changeNode: async ({ commit, dispatch }, currentNodeUrl) => {
+    async changeNode({ commit, dispatch }, currentNodeUrl) {
       if (helper.validURL(currentNodeUrl)) {
+        // Set the current node URL.
         commit('currentNode', currentNodeUrl)
         localStorage.setItem('currentNodeUrl', currentNodeUrl)
+        // Uninitialize the data and re-initialize the API.
         await dispatch('uninitialize', null, { root: true })
-        await dispatch('initialize', null, { root: true })
+        await dispatch('initialize', router.currentRoute, { root: true })
       } else {
         throw Error('Cannot change node. URL is not valid: ' + currentNodeUrl)
       }

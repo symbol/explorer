@@ -52,7 +52,7 @@ class sdkTransaction {
       status: transactionStatus.status,
       confirm: transactionStatus.group,
       timestamp: getBlockInfo.date,
-      fee: effectiveFee ?  effectiveFee / 1000000 : effectiveFee
+      fee: effectiveFee ? effectiveFee / 1000000 : effectiveFee
     }
 
     return transactionInfo
@@ -86,9 +86,8 @@ class sdkTransaction {
     }
 
     // Make request.
-    const networkType = await http.network.getNetworkType().toPromise()
     const response = await axios.get(http.nodeUrl + path)
-    const transactions = response.data.map(info => dto.createTransactionFromDTO(info, networkType))
+    const transactions = response.data.map(info => dto.createTransactionFromDTO(info, http.networkType))
 
     return format.formatTransactions(transactions)
   }
@@ -120,9 +119,8 @@ class sdkTransaction {
     }
 
     // Make request.
-    const networkType = await http.network.getNetworkType().toPromise()
     const response = await axios.get(http.nodeUrl + path)
-    const transactions = response.data.map(info => dto.createTransactionFromDTO(info, networkType))
+    const transactions = response.data.map(info => dto.createTransactionFromDTO(info, http.networkType))
 
     return format.formatTransactions(transactions)
   }
