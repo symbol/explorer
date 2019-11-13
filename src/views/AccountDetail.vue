@@ -44,7 +44,7 @@
                 </template>
 
                 <template #body>
-                    <TableListView :data="accountMultisigCosignatories" />
+                    <TableListView :data="accountMultisigCosignatories" :pagination="true" />
                 </template>
             </Card>
 
@@ -58,7 +58,7 @@
                 </template>
 
                 <template #body>
-                    <TableListView :data="mosaicList" />
+                    <TableListView :data="mosaicList" :pagination="true" />
                 </template>
             </Card>
 
@@ -72,7 +72,7 @@
                 </template>
 
                 <template #body>
-                    <TableListView :data="namespaceList" />
+                    <TableListView :data="namespaceList" :pagination="true" />
                 </template>
             </Card>
 
@@ -94,7 +94,7 @@
                 </template>
 
                 <template #body>
-                    <TableListView :data="filteredTransactionList" />
+                    <TableListView :data="filteredTransactionList" :pagination="true" :pageSize="5"/>
                 </template>
             </Card>
         </div>

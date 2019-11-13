@@ -44,6 +44,7 @@
                     <TableListView
                         :data="blockTransactionList"
                         :emptyDataMessage="'No transactions to display for this block'"
+                        :pagination="true"
                     />
                 </template>
             </Card>

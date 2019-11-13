@@ -12,7 +12,7 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="(row, rowIndex) in data" class="t-row" :key="view+'r'+rowIndex">
+          <tr v-for="(row, rowIndex) in preparedData" class="t-row" :key="view+'r'+rowIndex">
             <td
               v-for="(item, itemKey) in row"
               :key="view+'r'+rowIndex+'i'+itemKey"
@@ -53,6 +53,18 @@
           </tr>
         </tbody>
       </table>
+      <div v-if="pagination" class="pagination-wrapper">
+        {{pageIndex+1}}/{{lastPage}}
+        <Pagination
+          v-if="pagination"
+          :canFetchPrevious="prevPageExist"
+          :canFetchNext="nextPageExist"
+          :goUp="false"
+          class="pagination"
+          @next="nextPage"
+          @previous="prevPage"
+        />
+      </div>
     </div>
     <div v-else class="empty-data">{{emptyDataMessageFormatted}}</div>
   </div>
@@ -62,16 +74,12 @@
 import TableView from './TableView.vue'
 import Modal from '../containers/Modal.vue'
 import AggregateTransaction from '../AggregateTransaction.vue'
+import Pagination from '../controls/Pagination.vue'
 export default {
   extends: TableView,
-  data() {
-    return { openedModal: null }
-  },
-  created() {
-    this.componentType = 'list'
-  },
 
-  components: { Modal, AggregateTransaction },
+  components: { Modal, AggregateTransaction, Pagination },
+
   props: {
     data: {
       type: Array,
@@ -83,13 +91,56 @@ export default {
       default: false,
     },
 
+    pageSize: {
+      type: Number,
+      default: 10
+    },
+
     showModal: {
       type: Boolean,
       default: false,
     },
   },
 
+  created() {
+    this.componentType = 'list'
+  },
+
+  data() {
+    return {
+      pageIndex: 0,
+      openedModal: null
+    }
+  },
+
   computed: {
+    preparedData() {
+      console.log("data", this.data)
+      console.log("pageIndex", this.pageIndex)
+      console.log("pageSize", this.pageSize)
+      console.log("this.pageIndex * this.pageSize", this.pageIndex * this.pageSize)
+      console.log("this.pageIndex * this.pageSize + this.pageSize", this.pageIndex * this.pageSize + this.pageSize)
+      console.log("data.slice", this.data.slice(this.pageIndex * this.pageSize, this.pageIndex * this.pageSize + this.pageSize))
+
+      if(this.pagination === true) {
+        return this.data.slice(this.pageIndex * this.pageSize, this.pageIndex * this.pageSize + this.pageSize)
+      }
+      else
+        return this.data;
+    },
+
+    nextPageExist() {
+      return this.pageSize * (this.pageIndex + 1) < this.data.length;
+    },
+
+    prevPageExist() {
+      return this.pageIndex > 0;
+    },
+
+    lastPage() {
+      return Math.ceil(this.data.length / this.pageSize);
+    },
+
     header() {
       let header = []
       if (this.data) for (let key in this.data[0]) header.push(key)
@@ -110,6 +161,16 @@ export default {
     },
     onCloseModal() {
       this.openedModal = null
+    },
+
+    nextPage() {
+      if(this.nextPageExist)
+        this.pageIndex ++;
+    },
+
+    prevPage() {
+      if(this.prevPageExist)
+        this.pageIndex --;
     }
   },
 }
@@ -120,6 +181,16 @@ export default {
   overflow: auto;
   .table-pagination {
     float: right;
+  }
+  .pagination-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    color: #393939;
+    .pagination{
+      margin: 0;
+      margin-left: 10px;
+    }
   }
 }
 </style>
