@@ -34,6 +34,8 @@ export default {
       'signer': 'account',
       'recipient': 'account',
       'owneraddress': 'account',
+      'linkedAccountKey': 'account',
+      'remoteAccountAddress': 'account',
 
       'transactionHash': 'transaction',
       'mosaicId': 'mosaic',
@@ -49,7 +51,7 @@ export default {
       'namespaceName': 'namespace',
       'namespaceId': 'namespace',
       'parentId': 'namespace',
-      'linkedNamespace': 'namespace'
+      'linkedNamespace': 'namespace',
     }
   },
 

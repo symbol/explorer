@@ -1,6 +1,7 @@
 import { Address, TransactionType, NetworkType } from 'nem2-sdk'
 import { Constants } from './config'
 import moment from 'moment'
+import http from './infrastructure/http'
 
 // FORMAT FEE
 
@@ -96,7 +97,7 @@ const formatAccount = (accountInfo, accountName) => {
     importanceHeight: accountInfo.importanceHeight.compact(),
     accountType: Constants.AccountType[accountInfo.accountType],
     activityBucket: accountInfo.activityBucket,
-    linkedAccountKey: accountInfo.linkedAccountKey,
+    linkedAccountKey: Constants.AccountType[accountInfo.accountType] === 'Unlinked' ? Constants.Message.UNAVAILABLE : Address.createFromPublicKey(accountInfo.linkedAccountKey, http.networkType).plain(),
     lastActivity: lastActivity,
     harvestedBlocks: harvestedBlocks,
     harvestedFees: harvestedFees
@@ -341,7 +342,7 @@ const formatTransactionBody = transactionBody => {
         typeId: TransactionType.LINK_ACCOUNT,
         linkAction: Constants.LinkAction[transactionBody.linkAction],
         remoteAccountPublicKey: transactionBody.remotePublicKey,
-        remoteAccountAddress: Address.createFromPublicKey(transactionBody.remotePublicKey, NetworkType.MIJIN_TEST).plain()
+        remoteAccountAddress: Address.createFromPublicKey(transactionBody.remotePublicKey, http.networkType).plain()
       }
       return linkAccountObj
     case TransactionType.MOSAIC_ADDRESS_RESTRICTION:

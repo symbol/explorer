@@ -31,6 +31,7 @@ export default {
         'namespace',
         'namespaceName',
         'linkedNamespace',
+        'linkedAccountKey',
         'transaction',
         'harvester',
         'mosaicId',
@@ -49,6 +50,7 @@ export default {
         'endHeight',
         'startHeight',
         'transactionBody',
+        'remoteAccountAddress',
 
         'lastActivity'
       ]
