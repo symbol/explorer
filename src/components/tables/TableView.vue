@@ -53,8 +53,8 @@ export default {
         'remoteAccountAddress',
 
         'lastActivity'
-      ]
-
+      ],
+      disableClickItems: [...Object.values(Constants.Message)]
     }
   },
 
@@ -69,12 +69,21 @@ export default {
       return this.clickableItems.indexOf(itemKey) !== -1
     },
 
+    isDisableItemClick(item) {
+      return this.disableClickItems.indexOf(item) !== -1
+    },
+
     isItemShown(itemKey, item) {
       return item != null
     },
 
     onItemClick(itemKey, item) {
-      if (this.isItemClickable(itemKey)) { this.$store.dispatch(`ui/openPage`, { pageName: itemKey, param: item }) }
+      if (this.isItemClickable(itemKey) && !this.isDisableItemClick(item)) {
+        this.$store.dispatch(`ui/openPage`, {
+          pageName: itemKey,
+          param: item,
+        })
+      }
     },
 
     getKeyName(key) {
