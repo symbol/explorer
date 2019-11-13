@@ -44,7 +44,7 @@ export default new Router({
     },
     {
       path: '/transactions',
-      name: 'transaction',
+      name: 'transactions',
       component: () =>
         import('./views/Transactions.vue')
     },
@@ -56,7 +56,7 @@ export default new Router({
     },
     {
       path: '/accounts',
-      name: 'account',
+      name: 'accounts',
       component: () =>
         import('./views/Accounts.vue')
     },
@@ -127,46 +127,10 @@ export default new Router({
         title: ''
       }
     },
-
-    {
-      path: '/test',
-      name: 'test',
-      component: () =>
-        import('./views/test/Test.vue')
-    },
-    {
-      path: '/test/account/:address',
-      name: 'account',
-      component: () => import('./views/test/AccountDetail.vue')
-    },
-    {
-      path: '/test/blocks',
-      name: 'blocklist',
-      component: () => import('./views/test/Blocks.vue')
-    },
-    {
-      path: '/test/block/:height',
-      name: 'blockdetail',
-      component: () => import('./views/test/BlockDetail.vue')
-    },
-    {
-      path: '/test/transactions',
-      name: 'transactionlist',
-      component: () => import('./views/test/Transactions.vue')
-    },
-    {
-      path: '/test/transaction/:id',
-      name: 'transactiondetail',
-      component: () => import('./views/test/TransactionDetail.vue')
-    },
     {
       path: '*',
       name: '404',
       component: () => import('./views/NotFound.vue')
     }
-    // {
-    //   path: '/404',
-    //   component: import(/* webpackChunkName: "about" */ "./views/About.vue")
-    // },
   ]
 })
