@@ -20,6 +20,7 @@
                     <td
                         class="max-item-width"
                         :class="{'table-item-clickable': isItemClickable(itemKey)}"
+                        :title="getKeyName(itemKey) + ': ' + item"
                         @click="onItemClick(itemKey, item)"
                     >
                       <a v-if="isItemClickable(itemKey)" :href="getItemHref(itemKey, item)">

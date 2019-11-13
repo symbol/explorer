@@ -17,6 +17,7 @@
               v-for="(item, itemKey) in row"
               :key="view+'r'+rowIndex+'i'+itemKey"
               :class="{'table-item-clickable': isItemClickable(itemKey), [itemKey]: true}"
+              :title="getKeyName(itemKey) + ': ' + item"
               @click="onItemClick(itemKey, item)"
             >
               <Age v-if="itemKey === 'age'" :date="item" />
