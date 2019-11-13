@@ -26,6 +26,7 @@
                 <template #title>
                     {{title}}
                 </template>
+
                 <template #body>
                     <TypeBox
                         :typeMap="typeMap"
@@ -43,6 +44,10 @@
                         :previousPageAction="previousPageAction"
                     />
                 </template>
+
+                <template #error>
+                    Unable to fetch transactions data.
+                </template>
             </Card>
         </div>
     </div>
@@ -51,6 +56,7 @@
 import w1 from '@/components/TypeBox.vue'
 import w2 from '@/components/TransactionTable.vue'
 import View from './View.vue'
+import helper from '../helper'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -61,8 +67,9 @@ export default {
     TransactionTable: w2
   },
 
-  mounted() {
-    this.$store.dispatch('transaction/initialize')
+  async mounted() {
+    await helper.logError(this.$store.dispatch, 'api/initialize')
+    await helper.logError(this.$store.dispatch, 'transaction/initialize')
   },
 
   data() {
@@ -87,7 +94,8 @@ export default {
       transactionList: 'transaction/getTimelineList',
       canFetchPrevious: 'transaction/getCanFetchPrevious',
       canFetchNext: 'transaction/getCanFetchNext',
-      loading: 'transaction/getLoading'
+      loading: 'transaction/getLoading',
+      error: 'transaction/getError'
     })
   }
 }

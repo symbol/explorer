@@ -17,58 +17,82 @@
  */
 
 <template>
-  <div class="page">
-    <div class="page-content-card-f">
-      <Card class="card-f card-full-width">
-        <!-- Namespace Detail -->
-        <template v-slot:title>Namespace Detail</template>
+    <div class="page">
+        <div class="page-content-card-f">
+            <!-- Namespace Detail -->
+            <Card
+                class="card-f card-full-width"
+                :loading="loading"
+                :error="error"
+            >
+                <template #title>
+                    {{detailTitle}}
+                </template>
 
-        <template v-slot:body v-if="namespaceInfo">
-          <TableInfoView :data="namespaceInfo" />
-        </template>
-      </Card>
+                <template #body v-if="namespaceInfo">
+                    <TableInfoView :data="namespaceInfo" />
+                </template>
 
-      <!-- Namespace Level -->
-      <Card class="card-f card-adaptive">
-        <template v-slot:title>Namespaces Level</template>
+                <template #error>
+                    Namespace {{namespaceId}} does not exist
+                </template>
+            </Card>
 
-        <template v-slot:body>
-          <TableListView :data="namespaceLevels" />
-        </template>
-      </Card>
+            <!-- Namespace Levels -->
+            <Card
+                class="card-f card-adaptive"
+                :loading="loading"
+            >
+                <template #title>
+                    {{levelTitle}}
+                </template>
+
+                <template #body>
+                    <TableListView :data="namespaceLevels" />
+                </template>
+            </Card>
+        </div>
     </div>
-  </div>
 </template>
 <script>
 import TableInfoView from '@/components/tables/TableInfoView.vue'
 import TableListView from '@/components/tables/TableListView.vue'
-import Card from '@/components/containers/Card.vue'
+import View from './View.vue'
+import helper from '../helper'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'NamespaceDetail',
+  extends: View,
+
   components: {
-    Card,
     TableInfoView,
     TableListView
   },
-  created() {},
+
   data() {
-    return {}
+    return {
+      detailTitle: 'Namespace Detail',
+      levelTitle: 'Namespace Level'
+    }
   },
+
+  async mounted() {
+    await helper.logError(this.$store.dispatch, 'api/initialize')
+    await helper.logError(this.$store.dispatch, 'namespace/fetchNamespaceInfo', this.namespaceId)
+  },
+
   computed: {
     ...mapGetters({
       namespaceInfo: 'namespace/getNamespaceInfo',
-      namespaceLevels: 'namespace/getNamespaceLevels'
+      namespaceLevels: 'namespace/getNamespaceLevels',
+      loading: 'namespace/namespaceInfoLoading',
+      error: 'namespace/namespaceInfoError'
     }),
+
     namespaceId() {
       return this.$route.params.namespaceId || 0
     }
-  },
-  mounted() {
-    this.$store.dispatch('namespace/fetchNamespaceInfo', this.namespaceId)
-  },
-  methods: {}
+  }
 }
 </script>
 <style lang="scss">

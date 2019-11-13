@@ -48,7 +48,9 @@ export default {
         'blockHeight',
         'endHeight',
         'startHeight',
-        'transactionBody'
+        'transactionBody',
+
+        'lastActivity'
       ]
 
     }

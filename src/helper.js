@@ -126,6 +126,14 @@ class helper {
       return url.replace('http', 'ws')
     }
   }
+
+  static async logError(dispatch, action, ...args) {
+    try {
+      await dispatch(action, ...args)
+    } catch (e) {
+      console.error(`Failed to call ${action}`, e)
+    }
+  }
 }
 
 export default helper

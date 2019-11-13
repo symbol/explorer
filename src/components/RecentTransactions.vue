@@ -17,39 +17,64 @@
  */
 
 <template>
-  <div class="widget has-shadow">
-    <div class="box">
-      <div class="box-title">
-        <h1 class="inline-block">Recent Transactions</h1>
-        <div class="btn_grp inline-block flt-rt">
-          <router-link to="/transactions" exact active-class="active" class="btn btn-green">
-            <span>View all Transactions</span>
-            <i class="ico-ios-arrow-thin-right"></i>
-          </router-link>
+    <div class="widget has-shadow">
+        <div class="box">
+            <div class="box-title">
+                <h1 class="inline-block">
+                    {{title}}
+                </h1>
+                <div class="btn_grp inline-block flt-rt">
+                    <router-link
+                        to="/transactions"
+                        exact active-class="active"
+                        class="btn btn-green"
+                    >
+                        <span>
+                            {{viewAll}}
+                        </span>
+                        <i class="ico-ios-arrow-thin-right"></i>
+                    </router-link>
+                </div>
+            </div>
+            <div class="box-con">
+                <loader
+                    v-if="loading"
+                />
+                <div class="row">
+                    <RecentTransactionRow
+                        :item="item"
+                        v-for="item in transactionList"
+                        v-bind:key="item.transactionHash"
+                    />
+                </div>
+            </div>
         </div>
-      </div>
-      <div class="box-con">
-        <loader v-if="loading"></loader>
-        <div class="row">
-          <RecentTransactionRow
-            :item="item"
-            v-for="item in transactionList"
-            v-bind:key="item.transactionHash"
-          />
-        </div>
-      </div>
     </div>
-  </div>
 </template>
 <script>
-import w1 from '@/components/RecentTransactionRow.vue'
+import RecentTransactionRow from '@/components/RecentTransactionRow.vue'
+import helper from '../helper'
 import { mapGetters } from 'vuex'
 
 export default {
   name: 'RecentTransactions',
+
   components: {
-    RecentTransactionRow: w1
+    RecentTransactionRow
   },
+
+  data() {
+    return {
+      title: 'Recent Transactions',
+      viewAll: 'View all Transactions'
+    }
+  },
+
+  async mounted() {
+    await helper.logError(this.$store.dispatch, 'api/initialize')
+    await helper.logError(this.$store.dispatch, 'transaction/initialize')
+  },
+
   computed: {
     ...mapGetters({
       transactionList: 'transaction/getRecentList',

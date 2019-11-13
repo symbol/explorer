@@ -82,10 +82,9 @@ class sdkAccount {
     }
 
     // Make request.
-    const networkType = await http.network.getNetworkType().toPromise()
     const path = `/accounts/${accountType}/from/${address}/limit/${limit}`
     const response = await axios.get(http.nodeUrl + path)
-    const accounts = response.data.map(info => dto.createAccountInfoFromDTO(info, networkType))
+    const accounts = response.data.map(info => dto.createAccountInfoFromDTO(info, http.networkType))
 
     return formatAccountNames(accounts)
   }
@@ -99,10 +98,9 @@ class sdkAccount {
     }
 
     // Make request.
-    const networkType = await http.network.getNetworkType().toPromise()
     const path = `/accounts/${accountType}/since/${address}/limit/${limit}`
     const response = await axios.get(http.nodeUrl + path)
-    const accounts = response.data.map(info => dto.createAccountInfoFromDTO(info, networkType))
+    const accounts = response.data.map(info => dto.createAccountInfoFromDTO(info, http.networkType))
 
     return formatAccountNames(accounts)
   }

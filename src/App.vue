@@ -40,7 +40,7 @@ export default {
   },
   methods: {
     initialize() {
-      this.$store.dispatch('initialize')
+      this.$store.dispatch('api/initialize')
         .catch(error => console.log(error))
     },
     uninitialize() {
