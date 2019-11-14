@@ -20,35 +20,35 @@ import axios from 'axios'
 import http from './http'
 
 class apiMarketData {
-  static getXemPriceData = () => {
-    return new Promise((resolve, reject) => {
-      let url = http.marketDataUrl + 'data/pricemultifull?fsyms=XEM&tsyms=USD'
-      axios
-        .get(url)
-        .then(res => {
-          return resolve(res.data.DISPLAY)
+    static getXemPriceData = () => {
+        return new Promise((resolve, reject) => {
+            let url = http.marketDataUrl + 'data/pricemultifull?fsyms=XEM&tsyms=USD'
+            axios
+                .get(url)
+                .then(res => {
+                    return resolve(res.data.DISPLAY)
+                })
+                .catch(error => {
+                    // reject(new Error('Fail to request XEM price.'))
+                    reject(new Error(error))
+                })
         })
-        .catch(error => {
-          // reject(new Error('Fail to request XEM price.'))
-          reject(new Error(error))
-        })
-    })
-  }
+    }
 
-  static getXemHistoricalHourlyGraph = () => {
-    return new Promise((resolve, reject) => {
-      let url = http.marketDataUrl + 'data/histohour?fsym=XEM&tsym=USD&limit=168'
-      axios
-        .get(url)
-        .then(res => {
-          return resolve(res.data)
+    static getXemHistoricalHourlyGraph = () => {
+        return new Promise((resolve, reject) => {
+            let url = http.marketDataUrl + 'data/histohour?fsym=XEM&tsym=USD&limit=168'
+            axios
+                .get(url)
+                .then(res => {
+                    return resolve(res.data)
+                })
+                .catch(error => {
+                    // reject(new Error('Fail to request Xem historical hourly graph.'))
+                    reject(new Error(error))
+                })
         })
-        .catch(error => {
-          // reject(new Error('Fail to request Xem historical hourly graph.'))
-          reject(new Error(error))
-        })
-    })
-  }
+    }
 }
 
 export default apiMarketData

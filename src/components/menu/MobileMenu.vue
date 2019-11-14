@@ -17,60 +17,69 @@
  */
 
 <template>
-  <div>
-    <div class="mobmenuslide" ref="mobmenuslide">
-      <div class="sliderow gradinet_01 menu_bkg">
-        <router-link to="/" class="logo">
-          <img src="theme/img/logo-w.png" />
-        </router-link>
-        <span class="title">Nem blockchain explorer</span>
-        <a class="mmtoggle" href="#">
-          <i class="ico-line-awesome-4"></i>
-        </a>
-        <NodeSelector @change="close"/>
-        <LanguageSelector />
-      </div>
+    <div>
+        <div class="mobmenuslide" ref="mobmenuslide">
+            <div class="sliderow gradinet_01 menu_bkg">
+                <!-- Logo -->
+                <router-link to="/" class="logo">
+                    <img src="theme/img/logo-w.png" />
+                </router-link>
 
-      <div class="sliderow">
-        <ul class="nav-menu ls1">
-          <PageMenuItem
-            :to="item.to"
-            :text="item.text"
-            :classname="item.classname"
-            v-for="item in items"
-            v-bind:key="item.text"
-            @click="close"
-          />
-        </ul>
-      </div>
+                <!-- Title -->
+                <span class="title">
+                    Nem blockchain explorer
+                </span>
+                <a class="mmtoggle" href="#">
+                    <i class="ico-line-awesome-4" />
+                </a>
+
+                <!-- Selectors -->
+                <NodeSelector @change="close" />
+                <LanguageSelector />
+            </div>
+
+            <div class="sliderow">
+                <ul class="nav-menu ls1">
+                    <PageMenuItem
+                        :to="item.to"
+                        :text="item.text"
+                        :classname="item.classname"
+                        v-for="item in items"
+                        v-bind:key="item.text"
+                        @click="close"
+                    />
+                </ul>
+            </div>
+        </div>
     </div>
-  </div>
 </template>
+
 <script>
 import PageMenuItem from './PageMenuItem.vue'
 import { pageMenu } from '../../config/'
 import NodeSelector from '@/components/controls/NodeSelector.vue'
 import LanguageSelector from '@/components/controls/LanguageSelector.vue'
+
 export default {
-  name: 'MobileMenu',
+    name: 'MobileMenu',
 
-  components: {
-    NodeSelector,
-    LanguageSelector,
-    PageMenuItem
-  },
+    components: {
+        NodeSelector,
+        LanguageSelector,
+        PageMenuItem
+    },
 
-  data() {
-    return {
-      showTopMenu: false,
-      items: pageMenu.items
+    data() {
+        return {
+            showTopMenu: false,
+            items: pageMenu.items
+        }
+    },
+
+    methods: {
+        close() {
+            this.$refs.mobmenuslide.classList.remove('active')
+        }
     }
-  },
-
-  methods: {
-    close() {
-      this.$refs.mobmenuslide.classList.remove('active');
-    }
-  }
 }
 </script>

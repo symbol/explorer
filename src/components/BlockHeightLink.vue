@@ -17,13 +17,20 @@
  */
 
 <template>
-  <router-link :to="'/block/' + height">{{height}}</router-link>
+    <router-link :to="'/block/' + height">
+        {{height}}
+    </router-link>
 </template>
+
 <script>
 export default {
-  name: 'BlockHeightLink',
-  props: {
-    height: Number
-  }
+    name: 'BlockHeightLink',
+
+    props: {
+        height: {
+            type: Number,
+            required: true
+        }
+    }
 }
 </script>

@@ -17,20 +17,35 @@
  */
 
 <template>
-  <li>
-    <a target="_blank" v-bind:href="href">
-      <i v-bind:class="classname"></i>
-      <span>{{text}}</span>
-    </a>
-  </li>
+    <li>
+        <a target="_blank" v-bind:href="href">
+            <i v-bind:class="classname" />
+            <span>
+                {{text}}
+            </span>
+        </a>
+    </li>
 </template>
+
 <script>
 export default {
-  name: 'BlocksLink',
-  props: {
-    href: String,
-    text: String,
-    classname: String
-  }
+    name: 'PageFooterItem',
+
+    props: {
+        href: {
+            type: String,
+            required: true
+        },
+
+        text: {
+            type: String,
+            required: true
+        },
+
+        classname: {
+            type: String,
+            required: true
+        }
+    }
 }
 </script>

@@ -26,148 +26,151 @@ import helper from '../helper'
 import Constants from '../config/constants'
 
 const addNamespaceNames = async namespaces => {
-  // Fetch the namespace name objects from the IDs.
-  const namespaceIdsList = namespaces.map(namespacesInfo => namespacesInfo.id)
-  const namespaceNames = await http.namespace.getNamespacesName(namespaceIdsList).toPromise()
+    // Fetch the namespace name objects from the IDs.
+    const namespaceIdsList = namespaces.map(namespacesInfo => namespacesInfo.id)
+    const namespaceNames = await http.namespace.getNamespacesName(namespaceIdsList).toPromise()
 
-  // Create a mapping of namespace IDs to names.
-  // Allows efficient ID lookups.
-  const idToNameMap = {}
-  for (let item of namespaceNames) {
-    idToNameMap[item.namespaceId.toHex()] = item.name
-  }
+    // Create a mapping of namespace IDs to names.
+    // Allows efficient ID lookups.
+    const idToNameMap = {}
+    for (let item of namespaceNames) {
+        idToNameMap[item.namespaceId.toHex()] = item.name
+    }
 
-  // Add name to namespace object.
-  namespaces.map(info => {
-    info.namespaceName = info.levels
-      .map(level => idToNameMap[level.toHex()])
-      .join('.')
-  })
+    // Add name to namespace object.
+    namespaces.map(info => {
+        info.namespaceName = info.levels
+            .map(level => idToNameMap[level.toHex()])
+            .join('.')
+    })
 }
 
 class sdkNamespace {
-  static getNamespacesFromAccountByAddress = async (address) => {
-    const namespacesIds = []
-    const namespaceList = await http.namespace
-      .getNamespacesFromAccount(Address.createFromRawAddress(address))
-      .pipe(
-        mergeMap(namespacesInfo => {
-          const namespaceIds = namespacesInfo.map(x => {
-            namespacesIds[x.id.toHex().toUpperCase()] = { namespaceInfo: x }
-            return x.id
-          })
-          return http.namespace.getNamespacesName(namespaceIds)
-        }),
-        map(namespacesNames =>
-          namespacesNames.map(namespaceName => {
-            const namespace =
-              namespacesIds[namespaceName.namespaceId.toHex().toUpperCase()]
-            namespace.namespaceName = namespaceName
-            return namespace
-          })
-        )
-      )
-      .toPromise()
+    static getNamespacesFromAccountByAddress = async (address) => {
+        const namespacesIds = []
+        const namespaceList = await http.namespace
+            .getNamespacesFromAccount(Address.createFromRawAddress(address))
+            .pipe(
+                mergeMap(namespacesInfo => {
+                    const namespaceIds = namespacesInfo.map(x => {
+                        namespacesIds[x.id.toHex().toUpperCase()] = { namespaceInfo: x }
+                        return x.id
+                    })
+                    return http.namespace.getNamespacesName(namespaceIds)
+                }),
+                map(namespacesNames =>
+                    namespacesNames.map(namespaceName => {
+                        const namespace = namespacesIds[namespaceName.namespaceId.toHex().toUpperCase()]
+                        namespace.namespaceName = namespaceName
+                        return namespace
+                    })
+                )
+            )
+            .toPromise()
 
-    return format.formatNamespaces(namespaceList)
-  }
-
-  static getNamespaceInfo = async namespaceOrHex => {
-    let namespace = ''
-
-    if (helper.isHexadecimal(namespaceOrHex)) {
-      namespace = NamespaceId.createFromEncoded(namespaceOrHex)
-    } else {
-      namespace = new NamespaceId(namespaceOrHex)
+        return format.formatNamespaces(namespaceList)
     }
 
-    let namespaceInfo = await http.namespaceService.namespace(namespace).toPromise()
-    let namespaceNames = await http.namespace.getNamespacesName([namespace]).toPromise()
+    static getNamespaceInfo = async namespaceOrHex => {
+        let namespace = ''
 
-    namespaceNames.map(namespace => {
-      if (namespace.parentId) {
-        let parent = namespaceNames.find(n => n.namespaceId.id.equals(namespace.parentId.id))
-        namespace.name = parent.name + '.' + namespace.name
-      }
-      namespace.namespaceId = namespace.namespaceId.toHex()
-    })
+        if (helper.isHexadecimal(namespaceOrHex)) {
+            namespace = NamespaceId.createFromEncoded(namespaceOrHex)
+        } else {
+            namespace = new NamespaceId(namespaceOrHex)
+        }
 
-    return format.formatNamespace(namespaceInfo, namespaceNames)
-  }
+        let namespaceInfo = await http.namespaceService.namespace(namespace).toPromise()
+        let namespaceNames = await http.namespace.getNamespacesName([namespace]).toPromise()
 
-  static getNamespacesFromIdWithLimit = async (limit, fromNamespaceId) => {
-    let namespaceId
-    if (fromNamespaceId === undefined) {
-      namespaceId = 'latest'
-    } else {
-      namespaceId = fromNamespaceId
-    }
-
-    // Make request.
-    const path = `/namespaces/from/${namespaceId}/limit/${limit}`
-    const response = await axios.get(http.nodeUrl + path)
-    const namespaces = response.data.map(info => dto.createNamespaceInfoFromDTO(info, http.networkType))
-    await addNamespaceNames(namespaces)
-
-    return format.formatNamespaceInfos(namespaces)
-  }
-
-  static getNamespacesSinceIdWithLimit = async (limit, sinceNamespaceId) => {
-    let namespaceId
-    if (sinceNamespaceId === undefined) {
-      namespaceId = 'earliest'
-    } else {
-      namespaceId = sinceNamespaceId
-    }
-
-    // Make request.
-    const path = `/namespaces/since/${namespaceId}/limit/${limit}`
-    const response = await axios.get(http.nodeUrl + path)
-    const namespaces = response.data.map(info => dto.createNamespaceInfoFromDTO(info, http.networkType))
-    await addNamespaceNames(namespaces)
-
-    return format.formatNamespaceInfos(namespaces)
-  }
-
-  static getNamespaceInfoFormatted = async namespaceOrHex => {
-    let namespaceInfo
-    let namespaceLevels
-    let namespaceInfoFormatted
-
-    try { namespaceInfo = await sdkNamespace.getNamespaceInfo(namespaceOrHex) } catch (e) { throw Error('Failed to fetch namespace info', e) }
-
-    if (namespaceInfo) {
-      namespaceInfoFormatted = {
-        owneraddress: namespaceInfo.owner,
-        namespaceName: namespaceInfo.namespaceName,
-        namespaceId: namespaceInfo.namespaceNameHexId,
-        registrationType: namespaceInfo.registrationType,
-        startHeight: namespaceInfo.startHeight,
-        endHeight: namespaceInfo.endHeight,
-        active: namespaceInfo.active,
-        aliasType: namespaceInfo.aliasType,
-        alias: namespaceInfo.alias
-      }
-
-      namespaceLevels = []
-      if (namespaceInfo.levels?.length) {
-        namespaceInfo.levels.forEach((el) => {
-          let parentId = el.parentId ? el.parentId : ''
-          let namespaceLevelObject = {
-            name: el.name,
-            namespaceId: el.namespaceId,
-            parentId: parentId === '' ? Constants.Message.UNAVAILABLE : parentId.toHex()
-          }
-          namespaceLevels.push(namespaceLevelObject)
+        namespaceNames.map(namespace => {
+            if (namespace.parentId) {
+                let parent = namespaceNames.find(n => n.namespaceId.id.equals(namespace.parentId.id))
+                namespace.name = parent.name + '.' + namespace.name
+            }
+            namespace.namespaceId = namespace.namespaceId.toHex()
         })
-      }
+
+        return format.formatNamespace(namespaceInfo, namespaceNames)
     }
 
-    return {
-      namespaceInfo: namespaceInfoFormatted || {},
-      namespaceLevels: namespaceLevels || []
+    static getNamespacesFromIdWithLimit = async (limit, fromNamespaceId) => {
+        let namespaceId
+        if (fromNamespaceId === undefined) {
+            namespaceId = 'latest'
+        } else {
+            namespaceId = fromNamespaceId
+        }
+
+        // Make request.
+        const path = `/namespaces/from/${namespaceId}/limit/${limit}`
+        const response = await axios.get(http.nodeUrl + path)
+        const namespaces = response.data.map(info => dto.createNamespaceInfoFromDTO(info, http.networkType))
+        await addNamespaceNames(namespaces)
+
+        return format.formatNamespaceInfos(namespaces)
     }
-  }
+
+    static getNamespacesSinceIdWithLimit = async (limit, sinceNamespaceId) => {
+        let namespaceId
+        if (sinceNamespaceId === undefined) {
+            namespaceId = 'earliest'
+        } else {
+            namespaceId = sinceNamespaceId
+        }
+
+        // Make request.
+        const path = `/namespaces/since/${namespaceId}/limit/${limit}`
+        const response = await axios.get(http.nodeUrl + path)
+        const namespaces = response.data.map(info => dto.createNamespaceInfoFromDTO(info, http.networkType))
+        await addNamespaceNames(namespaces)
+
+        return format.formatNamespaceInfos(namespaces)
+    }
+
+    static getNamespaceInfoFormatted = async namespaceOrHex => {
+        let namespaceInfo
+        let namespaceLevels
+        let namespaceInfoFormatted
+
+        try {
+            namespaceInfo = await sdkNamespace.getNamespaceInfo(namespaceOrHex)
+        } catch (e) {
+            throw Error('Failed to fetch namespace info', e)
+        }
+
+        if (namespaceInfo) {
+            namespaceInfoFormatted = {
+                owneraddress: namespaceInfo.owner,
+                namespaceName: namespaceInfo.namespaceName,
+                namespaceId: namespaceInfo.namespaceNameHexId,
+                registrationType: namespaceInfo.registrationType,
+                startHeight: namespaceInfo.startHeight,
+                endHeight: namespaceInfo.endHeight,
+                active: namespaceInfo.active,
+                aliasType: namespaceInfo.aliasType,
+                alias: namespaceInfo.alias
+            }
+
+            namespaceLevels = []
+            if (namespaceInfo.levels?.length) {
+                namespaceInfo.levels.forEach((el) => {
+                    let parentId = el.parentId ? el.parentId : ''
+                    let namespaceLevelObject = {
+                        name: el.name,
+                        namespaceId: el.namespaceId,
+                        parentId: parentId === '' ? Constants.Message.UNAVAILABLE : parentId.toHex()
+                    }
+                    namespaceLevels.push(namespaceLevelObject)
+                })
+            }
+        }
+
+        return {
+            namespaceInfo: namespaceInfoFormatted || {},
+            namespaceLevels: namespaceLevels || []
+        }
+    }
 }
 
 export default sdkNamespace

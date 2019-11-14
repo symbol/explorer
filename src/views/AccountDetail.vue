@@ -1,3 +1,21 @@
+/*
+ *
+ * Copyright (c) 2019-present for NEM
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License ");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 <template>
     <div class="page">
         <div class="page-content-card-f">
@@ -106,99 +124,88 @@ import View from './View.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-  extends: View,
+    extends: View,
 
-  data() {
-    return {
-      detailTitle: 'Account Detail',
-      multisigTitle: 'Multisig Info',
-      cosignatoriesTitle: 'Multisig Cosignatories',
-      mosaicsTitle: 'Owned Mosaics',
-      namespacesTitle: 'Owned Namespaces',
-      transactionsTitle: 'Transactions',
-      transactionTypes: [
-        { name: 'All transactions', value: 1 },
-        { name: 'Mosaic transactions', value: 2 },
-        { name: 'Namespace transactions', value: 3 },
-        { name: 'Transfers', value: 4 }
-      ],
-      selectedTransactionType: 1 // TODO: store.getters
-    }
-  },
-
-  computed: {
-    ...mapGetters({
-      accountInfo: 'account/accountInfo',
-      accountMultisig: 'account/accountMultisig',
-      accountMultisigCosignatories: 'account/accountMultisigCosignatories',
-      namespaceList: 'account/namespaceList',
-      mosaicList: 'account/mosaicList',
-      transactionList: 'account/transactionList',
-      loading: 'account/accountInfoLoading',
-      error: 'account/accountInfoError'
-    }),
-
-    address() {
-      return this.$route.params.address || 0
-    },
-
-    showDeatail() {
-      return !this.error && this.accountInfo
-    },
-    showMultiSigDeatail() {
-      return !this.error && this.accountMultisigCosignatories?.length
-    },
-    showMosaics() {
-      return !this.error && this.mosaicList?.length
-    },
-    showNamespaces() {
-      return !this.error && this.namespaceList?.length
-    },
-    showTransactions() {
-      return !this.error
-    },
-
-    filteredTransactionList() {
-      if (Array.isArray(this.transactionList)) {
-        switch (this.selectedTransactionType) {
-          case 1:
-            return this.transactionList
-          case 2:
-            return this.transactionList.filter(
-              transaction =>
-                transaction.transactionType?.toUpperCase().indexOf('MOSAIC') !==
-                -1
-            )
-          case 3:
-            return this.transactionList.filter(
-              transaction =>
-                transaction.transactionType
-                  ?.toUpperCase()
-                  .indexOf('NAMESPACE') !== -1
-            )
-          case 4:
-            return this.transactionList.filter(
-              transaction =>
-                transaction.transactionType
-                  ?.toUpperCase()
-                  .indexOf('TRANSFER') !== -1
-            )
+    data() {
+        return {
+            detailTitle: 'Account Detail',
+            multisigTitle: 'Multisig Info',
+            cosignatoriesTitle: 'Multisig Cosignatories',
+            mosaicsTitle: 'Owned Mosaics',
+            namespacesTitle: 'Owned Namespaces',
+            transactionsTitle: 'Transactions',
+            transactionTypes: [
+                { name: 'All transactions', value: 1 },
+                { name: 'Mosaic transactions', value: 2 },
+                { name: 'Namespace transactions', value: 3 },
+                { name: 'Transfers', value: 4 }
+            ],
+            selectedTransactionType: 1 // TODO: store.getters
         }
-      }
-      return undefined
-    }
-  },
+    },
 
-  methods: {
-    changeTransactionType(v) {
-      this.selectedTransactionType = v
-      // this.$store.dispatch("account/getTransactions", {
-      //     transactionType: this.selectedTransactionType
-      // });
+    computed: {
+        ...mapGetters({
+            accountInfo: 'account/accountInfo',
+            accountMultisig: 'account/accountMultisig',
+            accountMultisigCosignatories: 'account/accountMultisigCosignatories',
+            namespaceList: 'account/namespaceList',
+            mosaicList: 'account/mosaicList',
+            transactionList: 'account/transactionList',
+            loading: 'account/accountInfoLoading',
+            error: 'account/accountInfoError'
+        }),
+
+        address() {
+            return this.$route.params.address || 0
+        },
+
+        showDeatail() {
+            return !this.error && this.accountInfo
+        },
+        showMultiSigDeatail() {
+            return !this.error && this.accountMultisigCosignatories?.length
+        },
+        showMosaics() {
+            return !this.error && this.mosaicList?.length
+        },
+        showNamespaces() {
+            return !this.error && this.namespaceList?.length
+        },
+        showTransactions() {
+            return !this.error
+        },
+
+        filteredTransactionList() {
+            if (Array.isArray(this.transactionList)) {
+                switch (this.selectedTransactionType) {
+                    case 1:
+                        return this.transactionList
+                    case 2:
+                        return this.transactionList.filter(transaction => {
+                            const transactionType = transaction.transactionType?.toUpperCase()
+                            return transactionType.indexOf('MOSAIC') !== -1
+                        })
+                    case 3:
+                        return this.transactionList.filter(transaction => {
+                            const transactionType = transaction.transactionType?.toUpperCase()
+                            return transactionType.indexOf('NAMESPACE') !== -1
+                        })
+                    case 4:
+                        return this.transactionList.filter(transaction => {
+                            const transactionType = transaction.transactionType?.toUpperCase()
+                            return transactionType.indexOf('TRANSFER') !== -1
+                        })
+                }
+            }
+            return undefined
+        }
+    },
+
+    methods: {
+        changeTransactionType(transactionType) {
+            this.selectedTransactionType = transactionType
+        }
     }
-  }
 }
 </script>
-
-<style lang="scss" scoped>
-</style>

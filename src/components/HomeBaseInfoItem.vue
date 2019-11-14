@@ -19,26 +19,31 @@
 <template>
     <div class="col-md-3">
         <div class="hm_wdjt_itm_t1">
-            <span>{{title}}</span>
-            <p v-if="condition">{{value}}</p>
+            <span>
+                {{title}}
+            </span>
+            <p v-if="condition">
+                {{value}}
+            </p>
         </div>
     </div>
 </template>
+
 <script>
 export default {
-  props: {
-    title: {
-      type: String,
-      required: true
-    },
+    props: {
+        title: {
+            type: String,
+            required: true
+        },
 
-    condition: {
-      required: true
-    },
+        condition: {
+            required: true
+        },
 
-    value: {
-      required: true
+        value: {
+            required: true
+        }
     }
-  }
 }
 </script>

@@ -54,40 +54,32 @@
         </div>
     </div>
 </template>
+
 <script>
-import TableInfoView from '@/components/tables/TableInfoView.vue'
-import TableListView from '@/components/tables/TableListView.vue'
 import View from './View.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-  extends: View,
+    extends: View,
 
-  components: {
-    TableInfoView,
-    TableListView
-  },
+    data() {
+        return {
+            detailTitle: 'Namespace Detail',
+            levelTitle: 'Namespace Level'
+        }
+    },
 
-  data() {
-    return {
-      detailTitle: 'Namespace Detail',
-      levelTitle: 'Namespace Level'
+    computed: {
+        ...mapGetters({
+            namespaceInfo: 'namespace/getNamespaceInfo',
+            namespaceLevels: 'namespace/getNamespaceLevels',
+            loading: 'namespace/namespaceInfoLoading',
+            error: 'namespace/namespaceInfoError'
+        }),
+
+        namespaceId() {
+            return this.$route.params.namespaceId || 0
+        }
     }
-  },
-
-  computed: {
-    ...mapGetters({
-      namespaceInfo: 'namespace/getNamespaceInfo',
-      namespaceLevels: 'namespace/getNamespaceLevels',
-      loading: 'namespace/namespaceInfoLoading',
-      error: 'namespace/namespaceInfoError'
-    }),
-
-    namespaceId() {
-      return this.$route.params.namespaceId || 0
-    }
-  }
 }
 </script>
-<style lang="scss">
-</style>

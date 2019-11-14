@@ -20,19 +20,19 @@ import { Listener } from 'nem2-sdk'
 import format from '../format'
 
 class sdkListener {
-  // Subscribe to new blocks announced to the chain.
-  static subscribeNewBlock = async (dispatch, wsEndpoint) => {
-    const listener = new Listener(wsEndpoint, WebSocket)
-    await listener.open()
-    let subscription = listener
-      .newBlock()
-      .subscribe(
-        block => dispatch('add', format.formatBlock(block)),
-        err => console.log(err)
-      )
+    // Subscribe to new blocks announced to the chain.
+    static subscribeNewBlock = async (dispatch, wsEndpoint) => {
+        const listener = new Listener(wsEndpoint, WebSocket)
+        await listener.open()
+        let subscription = listener
+            .newBlock()
+            .subscribe(
+                block => dispatch('add', format.formatBlock(block)),
+                err => console.log(err)
+            )
 
-    return [listener, subscription]
-  }
+        return [listener, subscription]
+    }
 }
 
 export default sdkListener

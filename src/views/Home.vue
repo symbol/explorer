@@ -38,6 +38,7 @@
         </div>
     </div>
 </template>
+
 <script>
 import HomeBaseInfo from '@/components/HomeBaseInfo.vue'
 import NemPriceGraph from '@/components/NemPriceGraph.vue'
@@ -45,17 +46,17 @@ import RecentBlocks from '@/components/RecentBlocks.vue'
 import RecentTransactions from '@/components/RecentTransactions.vue'
 
 export default {
-  name: 'Home',
+    name: 'Home',
 
-  components: {
-    HomeBaseInfo,
-    NemPriceGraph,
-    RecentBlocks,
-    RecentTransactions
-  },
+    components: {
+        HomeBaseInfo,
+        NemPriceGraph,
+        RecentBlocks,
+        RecentTransactions
+    },
 
-  mounted() {
-    this.$store.dispatch('initialize', this.$route)
-  }
+    mounted() {
+        this.$store.dispatch('initialize', this.$route)
+    }
 }
 </script>

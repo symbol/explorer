@@ -39,31 +39,29 @@
         </div>
     </div>
 </template>
+
 <script>
 import View from './View.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-  extends: View,
+    extends: View,
 
-  data() {
-    return {
-      title: 'Mosaic Detail'
-    }
-  },
+    data() {
+        return {
+            title: 'Mosaic Detail'
+        }
+    },
 
-  computed: {
-    ...mapGetters({
-      mosaicInfo: 'mosaic/getMosaicInfo',
-      loading: 'mosaic/mosaicInfoLoading',
-      error: 'mosaic/mosaicInfoError'
-    }),
-    mosaicId() {
-      return this.$route.params.mosaicId || 0
+    computed: {
+        ...mapGetters({
+            mosaicInfo: 'mosaic/getMosaicInfo',
+            loading: 'mosaic/mosaicInfoLoading',
+            error: 'mosaic/mosaicInfoError'
+        }),
+        mosaicId() {
+            return this.$route.params.mosaicId || 0
+        }
     }
-  }
 }
 </script>
-<style lang="scss">
-
-</style>

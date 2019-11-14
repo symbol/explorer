@@ -17,25 +17,33 @@
  */
 
 <template>
-  <div class="col-md-3">
-    <div class="rn_blk_con trx">
-      <TransactionHashLink :hash="item.transactionHash" :count="20" tag="span" class="txh1"/>
-      <TransactionInfo :item="item"/>
+    <div class="col-md-3">
+        <div class="rn_blk_con trx">
+            <TransactionHashLink
+                :hash="item.transactionHash"
+                :count="20"
+                tag="span"
+                class="txh1"
+            />
+            <TransactionInfo :item="item" />
+        </div>
     </div>
-  </div>
 </template>
+
 <script>
-import w1 from '@/components/TransactionHashLink.vue'
-import w2 from '@/components/TransactionInfo.vue'
+import TransactionHashLink from '@/components/TransactionHashLink.vue'
+import TransactionInfo from '@/components/TransactionInfo.vue'
 
 export default {
-  name: 'RecentBlockRow',
-  components: {
-    TransactionHashLink: w1,
-    TransactionInfo: w2
-  },
-  props: {
-    item: {}
-  }
+    name: 'RecentBlockRow',
+
+    components: {
+        TransactionHashLink,
+        TransactionInfo
+    },
+
+    props: {
+        item: {}
+    }
 }
 </script>

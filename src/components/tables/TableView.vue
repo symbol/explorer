@@ -1,89 +1,110 @@
+/*
+ *
+ * Copyright (c) 2019-present for NEM
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License ");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
+
 <script>
 import Age from '../Age.vue'
+
 export default {
-  components: { Age },
-  props: {
-    view: {
-      type: String,
-      default: 'block'
-      // required: true
+    components: {
+        Age
     },
 
-    height: {
-      type: Number
+    props: {
+        view: {
+            type: String,
+            default: 'block'
+        },
+
+        height: {
+            type: Number
+        },
+
+        emptyDataMessage: {
+            type: String,
+            default: 'nothingToShow'
+        }
     },
 
-    emptyDataMessage: {
-      type: String,
-      default: 'nothingToShow'
+    data() {
+        return {
+            componentType: 'list',
+            clickableItems: [
+                'account',
+                'block',
+                'address',
+                'height',
+                'mosaic',
+                'namespace',
+                'namespaceName',
+                'linkedNamespace',
+                'transaction',
+                'harvester',
+                'mosaicId',
+                'namespaceId',
+                'parentId',
+                'transactionHash',
+
+                'addressHeight',
+                'publicKeyHeight',
+                'importanceHeight',
+
+                'signer',
+                'recipient',
+                'owneraddress',
+                'blockHeight',
+                'endHeight',
+                'startHeight',
+                'transactionBody',
+
+                'lastActivity'
+            ]
+        }
+    },
+
+    computed: {
+        emptyDataMessageFormatted() {
+            return this.$store.getters['ui/getNameByKey'](this.emptyDataMessage)
+        }
+    },
+
+    methods: {
+        isItemClickable(itemKey) {
+            return this.clickableItems.indexOf(itemKey) !== -1
+        },
+
+        isItemShown(itemKey, item) {
+            return item != null
+        },
+
+        onItemClick(itemKey, item) {
+            if (this.isItemClickable(itemKey)) {
+                this.$store.dispatch(`ui/openPage`, { pageName: itemKey, param: item })
+            }
+        },
+
+        getKeyName(key) {
+            return this.$store.getters['ui/getNameByKey'](key)
+        }
     }
-  },
-
-  data() {
-    return {
-      componentType: 'list',
-      clickableItems: [
-        'account',
-        'block',
-        'address',
-        'height',
-        'mosaic',
-        'namespace',
-        'namespaceName',
-        'linkedNamespace',
-        'transaction',
-        'harvester',
-        'mosaicId',
-        'namespaceId',
-        'parentId',
-        'transactionHash',
-
-        'addressHeight',
-        'publicKeyHeight',
-        'importanceHeight',
-
-        'signer',
-        'recipient',
-        'owneraddress',
-        'blockHeight',
-        'endHeight',
-        'startHeight',
-        'transactionBody',
-
-        'lastActivity'
-      ]
-
-    }
-  },
-
-  computed: {
-    emptyDataMessageFormatted() {
-      return this.$store.getters['ui/getNameByKey'](this.emptyDataMessage)
-    }
-  },
-
-  methods: {
-    isItemClickable(itemKey) {
-      return this.clickableItems.indexOf(itemKey) !== -1
-    },
-
-    isItemShown(itemKey, item) {
-      return item != null
-    },
-
-    onItemClick(itemKey, item) {
-      if (this.isItemClickable(itemKey)) { this.$store.dispatch(`ui/openPage`, { pageName: itemKey, param: item }) }
-    },
-
-    getKeyName(key) {
-      return this.$store.getters['ui/getNameByKey'](key)
-    }
-  }
 }
 </script>
 
 <style lang="scss">
-
 .table-title-item {
     vertical-align: middle;
     border: 0 none;
@@ -108,8 +129,7 @@ export default {
     background-color: rgba(52, 40, 104, 0.014);
 }
 
-.table-view{
-
+.table-view {
     .empty-data {
         font-size: 14px;
         color: #98a8b4;
@@ -120,10 +140,12 @@ export default {
     .table-head-cell {
         position: relative;
     }
-    .table-head-cell:before {
+
+    .table-head-cell::before {
         content: '&nbsp;';
         visibility: hidden;
     }
+
     .table-head-cell span {
         position: absolute;
         left: 5px;
@@ -133,12 +155,12 @@ export default {
         text-overflow: ellipsis;
     }
 
-    td{
+    td {
         border-bottom: 1px solid #dadee6;
         font-weight: none;
         padding: 10px 5px;
         min-height: 50px;
-        word-break:break-all;
+        word-break: break-all;
         min-width: 50px;
         max-width: 300px;
     }
@@ -153,7 +175,6 @@ export default {
         }
     }
 
-
     .table-item-clickable {
         color: #84accb;
         font-weight: 600;
@@ -162,9 +183,7 @@ export default {
     }
 
     .table-titles {
-        background-color: rgba(52, 40, 104, .05);
-        //border-radius: 4px;
+        background-color: rgba(52, 40, 104, 0.05);
     }
 }
-
 </style>

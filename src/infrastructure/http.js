@@ -23,61 +23,61 @@ let MARKET_DATA_URL
 let NETWORK_TYPE
 
 export default class http {
-  static init = async (nodeUrl, marketDataUrl) => {
-    NODE_URL = nodeUrl
-    MARKET_DATA_URL = marketDataUrl
-    NETWORK_TYPE = await http.network.getNetworkType().toPromise()
-  }
+    static init = async (nodeUrl, marketDataUrl) => {
+        NODE_URL = nodeUrl
+        MARKET_DATA_URL = marketDataUrl
+        NETWORK_TYPE = await http.network.getNetworkType().toPromise()
+    }
 
-  static get marketDataUrl() {
-    return MARKET_DATA_URL
-  }
+    static get marketDataUrl() {
+        return MARKET_DATA_URL
+    }
 
-  static get nodeUrl() {
-    return NODE_URL
-  }
+    static get nodeUrl() {
+        return NODE_URL
+    }
 
-  static get networkType() {
-    return NETWORK_TYPE
-  }
+    static get networkType() {
+        return NETWORK_TYPE
+    }
 
-  static get account() {
-    return new nem.AccountHttp(http.nodeUrl)
-  }
+    static get account() {
+        return new nem.AccountHttp(http.nodeUrl)
+    }
 
-  static get block() {
-    return new nem.BlockHttp(http.nodeUrl)
-  }
+    static get block() {
+        return new nem.BlockHttp(http.nodeUrl)
+    }
 
-  static get chain() {
-    return new nem.ChainHttp(http.nodeUrl)
-  }
+    static get chain() {
+        return new nem.ChainHttp(http.nodeUrl)
+    }
 
-  static get diagnostic() {
-    return new nem.DiagnosticHttp(http.nodeUrl)
-  }
+    static get diagnostic() {
+        return new nem.DiagnosticHttp(http.nodeUrl)
+    }
 
-  static get mosaic() {
-    return new nem.MosaicHttp(http.nodeUrl)
-  }
+    static get mosaic() {
+        return new nem.MosaicHttp(http.nodeUrl)
+    }
 
-  static get mosaicService() {
-    return new nem.MosaicService(http.account, http.mosaic)
-  }
+    static get mosaicService() {
+        return new nem.MosaicService(http.account, http.mosaic)
+    }
 
-  static get namespace() {
-    return new nem.NamespaceHttp(http.nodeUrl)
-  }
+    static get namespace() {
+        return new nem.NamespaceHttp(http.nodeUrl)
+    }
 
-  static get namespaceService() {
-    return new nem.NamespaceService(http.namespace)
-  }
+    static get namespaceService() {
+        return new nem.NamespaceService(http.namespace)
+    }
 
-  static get network() {
-    return new nem.NetworkHttp(http.nodeUrl)
-  }
+    static get network() {
+        return new nem.NetworkHttp(http.nodeUrl)
+    }
 
-  static get transaction() {
-    return new nem.TransactionHttp(http.nodeUrl)
-  }
+    static get transaction() {
+        return new nem.TransactionHttp(http.nodeUrl)
+    }
 }

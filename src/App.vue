@@ -17,56 +17,70 @@
  */
 
 <template>
-  <div id="app">
-    <top-header />
-    <page-menu />
-    <router-view :key="$route.fullPath"/>
-    <page-footer/>
-  </div>
+    <div id="app">
+        <TopHeader />
+        <PageMenu />
+        <router-view :key="$route.fullPath" />
+        <PageFooter />
+    </div>
 </template>
+
 <script>
+import PageMenu from '@/components/menu/PageMenu.vue'
+import PageFooter from '@/components/PageFooter.vue'
+import TopHeader from '@/components/TopHeader.vue'
 
 export default {
-  data: () => {
-    return {
-      info: 1
-    }
-  },
-  created() {
-    this.initialize()
-  },
-  destroyed() {
-    this.uninitialize()
-  },
-  methods: {
-    initialize() {
-      this.$store.dispatch('api/initialize')
-        .catch(error => console.log(error))
+    components: {
+        PageMenu,
+        PageFooter,
+        TopHeader
     },
-    uninitialize() {
-      this.$store.dispatch('uninitialize')
+
+    data: () => {
+        return {
+            info: 1
+        }
+    },
+
+    created() {
+        this.initialize()
+    },
+
+    destroyed() {
+        this.uninitialize()
+    },
+
+    methods: {
+        initialize() {
+            this.$store.dispatch('api/initialize')
+                .catch(error => console.log(error))
+        },
+
+        uninitialize() {
+            this.$store.dispatch('uninitialize')
+        }
     }
-  }
 }
 </script>
 
 <style lang="scss">
-#app{
-  // width: 100vw;
-  // height: 100vh;
+#app {
+    // width: 100vw;
+    // height: 100vh;
 }
 
-.noselect{
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  outline: 0;
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: 0;
 }
 
-.pointer{
-  cursor: pointer;
+.pointer {
+    cursor: pointer;
 }
 </style>

@@ -57,34 +57,35 @@
         </div>
     </div>
 </template>
+
 <script>
 import View from './View.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-  extends: View,
+    extends: View,
 
-  data() {
-    return {
-      title: 'Namespaces',
-      nextPageAction: 'namespace/fetchNextPage',
-      previousPageAction: 'namespace/fetchPreviousPage'
+    data() {
+        return {
+            title: 'Namespaces',
+            nextPageAction: 'namespace/fetchNextPage',
+            previousPageAction: 'namespace/fetchPreviousPage'
+        }
+    },
+
+    computed: {
+        ...mapGetters({
+            namespaceList: 'namespace/getTimelineFormatted',
+            canFetchPrevious: 'namespace/getCanFetchPrevious',
+            canFetchNext: 'namespace/getCanFetchNext',
+            loading: 'namespace/getLoading',
+            error: 'namespace/getError'
+        })
+
+    },
+
+    destroyed() {
+        this.$store.dispatch('namespace/resetPage')
     }
-  },
-
-  computed: {
-    ...mapGetters({
-      namespaceList: 'namespace/getTimelineFormatted',
-      canFetchPrevious: 'namespace/getCanFetchPrevious',
-      canFetchNext: 'namespace/getCanFetchNext',
-      loading: 'namespace/getLoading',
-      error: 'namespace/getError'
-    })
-
-  },
-
-  destroyed() {
-    this.$store.dispatch('namespace/resetPage')
-  }
 }
 </script>

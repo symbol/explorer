@@ -17,38 +17,56 @@
  */
 
 <template>
-  <tr>
-    <td><BlockHeightLink :height="item.blockHeight"/></td>
-    <td><TransactionHashLink :hash="item.transactionHash"/></td>
-    <td>{{item.transactionBody.type}}</td>
-    <td><AddressLink :address="item.signer" :count="20"/></td>
-    <td>
-      <AddressLink
-        v-if="item.transactionBody.recipient"
-        :address="item.transactionBody.recipient"
-        :count="20"
-      />
-    </td>
-    <td>{{item.fee}}</td>
-    <td>{{item.deadline}}</td>
-  </tr>
+    <tr>
+        <td>
+            <BlockHeightLink :height="item.blockHeight"/>
+        </td>
+        <td>
+            <TransactionHashLink :hash="item.transactionHash"/>
+        </td>
+        <td>
+            {{item.transactionBody.type}}
+        </td>
+        <td>
+            <AddressLink
+                :address="item.signer"
+                :count="20"
+            />
+        </td>
+        <td>
+            <AddressLink
+                v-if="item.transactionBody.recipient"
+                :address="item.transactionBody.recipient"
+                :count="20"
+            />
+        </td>
+        <td>
+            {{item.fee}}
+        </td>
+        <td>
+            {{item.deadline}}
+        </td>
+    </tr>
 </template>
+
 <script>
-import w1 from '@/components/BlockHeightLink.vue'
-import w2 from '@/components/TransactionHashLink.vue'
-import w3 from '@/components/AddressLink.vue'
+import BlockHeightLink from '@/components/BlockHeightLink.vue'
+import TransactionHashLink from '@/components/TransactionHashLink.vue'
+import AddressLink from '@/components/AddressLink.vue'
 
 export default {
-  name: 'TransactionRow',
-  components: {
-    BlockHeightLink: w1,
-    TransactionHashLink: w2,
-    AddressLink: w3
-  },
-  props: {
-    item: {
-      required: true
+    name: 'TransactionRow',
+
+    components: {
+        BlockHeightLink,
+        TransactionHashLink,
+        AddressLink
+    },
+
+    props: {
+        item: {
+            required: true
+        }
     }
-  }
 }
 </script>

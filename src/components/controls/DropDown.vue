@@ -1,3 +1,20 @@
+/*
+ *
+ * Copyright (c) 2019-present for NEM
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License ");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ */
 
 <template>
     <div class="btn-group noselect">
@@ -6,8 +23,8 @@
             class="dropdown-c-toggle"
             @click="toggleMenu()"
         >
-          {{ getValueName(value) }}
-          <span class="caret"></span>
+            {{ getValueName(value) }}
+            <span class="caret"></span>
         </div>
 
         <div
@@ -15,8 +32,8 @@
             class="dropdown-c-toggle"
             @click="toggleMenu()"
         >
-          {{ placeholder }}
-          <span class="caret"></span>
+            {{ placeholder }}
+            <span class="caret"></span>
         </div>
 
         <div
@@ -41,59 +58,60 @@
 
 <script>
 export default {
-  props: {
-    options: {
-      type: Array,
-      required: true
+    props: {
+        options: {
+            type: Array,
+            required: true
+        },
+
+        value: {
+            required: true
+        },
+
+        placeholder: {
+            type: String,
+            default: 'Please select'
+        }
     },
 
-    value: {
-      required: true
+    mounted() {
+        document.addEventListener('mousedown', () => this.close())
     },
 
-    placeholder: {
-      type: String,
-      default: 'Please select'
+    data() {
+        return {
+            isExpanded: false
+        }
+    },
+
+    methods: {
+        select(value) {
+            this.isExpanded = false
+            this.$emit('change', value)
+        },
+
+        toggleMenu() {
+            console.log(this.isExpanded)
+            this.isExpanded = !this.isExpanded
+        },
+
+        getValueName(value) {
+            let name = value
+            if (Array.isArray(this.options)) {
+                name = this.options.find(el => el.value === value).name
+            }
+            return name
+        },
+
+        close() {
+            this.isExpanded = false
+        },
+
+        prevent(e) {
+            e.preventDefault()
+            e.stopPropagation()
+        }
     }
-  },
-
-  mounted() {
-    document.addEventListener('mousedown', () => this.close())
-  },
-
-  data() {
-    return {
-      isExpanded: false
-    }
-  },
-
-  methods: {
-    select(value) {
-      this.isExpanded = false
-      this.$emit('change', value)
-    },
-
-    toggleMenu() {
-      console.log(this.isExpanded)
-      this.isExpanded = !this.isExpanded
-    },
-
-    getValueName(value) {
-      let name = value
-
-      if (Array.isArray(this.options)) { name = this.options.find(el => el.value === value).name }
-      return name
-    },
-
-    close() {
-      this.isExpanded = false
-    },
-
-    prevent(e){
-      e.preventDefault()
-      e.stopPropagation()
-    }
-  }
 }
 </script>
 
@@ -104,7 +122,6 @@ export default {
     position: relative;
     display: inline-block;
     vertical-align: middle;
-
     border: 1px solid #039ba8;
     border-radius: 4px;
     color: #039ba8;
@@ -116,12 +133,10 @@ export default {
 }
 
 .dropdown-c-toggle {
-
     min-width: 160px;
     padding: 6px 12px;
     padding-bottom: 5px;
     text-transform: none;
-
     border: 0;
     background-size: 0 2px, 100% 1px;
     background-repeat: no-repeat;
@@ -162,14 +177,14 @@ export default {
     clear: both;
     font-weight: normal;
     line-height: 1.6;
-    color: #333333;
+    color: #333;
     white-space: nowrap;
     text-decoration: none;
 }
 
 .dropdown-c-menu > div > a:hover {
     background: #efefef;
-    color: #409FCB;
+    color: #409fcb;
 }
 
 .dropdown-c-menu > div {
@@ -193,5 +208,4 @@ export default {
     border-left: 4px solid transparent;
     float: right;
 }
-
 </style>

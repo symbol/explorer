@@ -17,52 +17,53 @@
  */
 
 <template>
-  <div class="box-title">
-    <div class="btn_grp inline-block flt-rt">
-      <div class="select_type">
-        <select @change="onChange($event)">
-            <option
-                v-for="(value, option) in typeMap"
-                v-bind:key="option"
-                :value="option"
-            >
-                {{value}}
-            </option>
-        </select>
-      </div>
+    <div class="box-title">
+        <div class="btn_grp inline-block flt-rt">
+            <div class="select_type">
+                <select @change="onChange($event)">
+                    <option
+                        v-for="(value, option) in typeMap"
+                        v-bind:key="option"
+                        :value="option"
+                    >
+                        {{value}}
+                    </option>
+                </select>
+            </div>
+        </div>
     </div>
-  </div>
 </template>
+
 <script>
 export default {
-  props: {
-    typeMap: {
-      required: true
+    props: {
+        typeMap: {
+            required: true
+        },
+
+        resetPageAction: {
+            type: String,
+            required: true
+        },
+
+        changePageAction: {
+            type: String,
+            required: true
+        }
     },
 
-    resetPageAction: {
-      type: String,
-      required: true
+    mounted() {
+        this.$store.dispatch(this.resetPageAction)
     },
 
-    changePageAction: {
-      type: String,
-      required: true
+    destroyed() {
+        this.$store.dispatch(this.resetPageAction)
+    },
+
+    methods: {
+        onChange(event) {
+            this.$store.dispatch(this.changePageAction, event.target.value)
+        }
     }
-  },
-
-  mounted() {
-    this.$store.dispatch(this.resetPageAction)
-  },
-
-  destroyed() {
-    this.$store.dispatch(this.resetPageAction)
-  },
-
-  methods: {
-    onChange(event) {
-      this.$store.dispatch(this.changePageAction, event.target.value)
-    }
-  }
 }
 </script>

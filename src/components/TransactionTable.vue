@@ -17,49 +17,52 @@
  */
 
 <template>
-  <div class="table-responsive">
-    <div
-      id="sorting-table_wrapper"
-      class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer p-0"
-    >
-      <table
-        id="table-transaction-list"
-        class="table table-striped table-bordered"
-        cellspacing="0"
-        width="100%"
-      >
-        <thead>
-          <tr>
-            <th>Block Height</th>
-            <th>Transaction Hash</th>
-            <th>Type</th>
-            <th>Sender</th>
-            <th>Recipient</th>
-            <th>Amount/Fee</th>
-            <th>Timestamp</th>
-          </tr>
-        </thead>
-        <tbody>
-          <TransactionRow
-            :item="item"
-            v-for="item in transactionList"
-            v-bind:key="item.transactionHash"
-          />
-        </tbody>
-      </table>
+    <div class="table-responsive">
+        <div
+            id="sorting-table_wrapper"
+            class="dataTables_wrapper container-fluid dt-bootstrap4 no-footer p-0"
+        >
+            <table
+                id="table-transaction-list"
+                class="table table-striped table-bordered"
+                cellspacing="0"
+                width="100%"
+            >
+                <thead>
+                    <tr>
+                        <th>Block Height</th>
+                        <th>Transaction Hash</th>
+                        <th>Type</th>
+                        <th>Sender</th>
+                        <th>Recipient</th>
+                        <th>Amount/Fee</th>
+                        <th>Timestamp</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <TransactionRow
+                        :item="item"
+                        v-for="item in transactionList"
+                        v-bind:key="item.transactionHash"
+                    />
+                </tbody>
+            </table>
+        </div>
     </div>
-  </div>
 </template>
+
 <script>
-import w1 from '@/components/TransactionRow.vue'
+import TransactionRow from '@/components/TransactionRow.vue'
 
 export default {
-  name: 'TransactionTable',
-  components: {
-    TransactionRow: w1
-  },
-  props: {
-    transactionList: {}
-  }
+    name: 'TransactionTable',
+
+    components: {
+        TransactionRow
+    },
+
+    props: {
+        transactionList: {}
+    }
 }
 </script>

@@ -17,19 +17,26 @@
  */
 
 <template>
-  <div class="row">
-    <div class="col-md-12">
-      <div class="ftr_btm">
-        <p>© NEM.io Foundation 2019 | All Rights Reserved | NEM ™</p>
-        <ul class="ftr_btm-menu">
-          <li>
-            <router-link v-bind:to="'terms'">Terms</router-link>
-          </li>
-          <li>
-            <router-link v-bind:to="'privacy'">Privacy</router-link>
-          </li>
-        </ul>
-      </div>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="ftr_btm">
+                <p>
+                    © NEM.io Foundation 2019 | All Rights Reserved | NEM ™
+                </p>
+
+                <ul class="ftr_btm-menu">
+                    <li>
+                        <router-link v-bind:to="'terms'">
+                            Terms
+                        </router-link>
+                    </li>
+                    <li>
+                        <router-link v-bind:to="'privacy'">
+                            Privacy
+                        </router-link>
+                    </li>
+                </ul>
+            </div>
+        </div>
     </div>
-  </div>
 </template>

@@ -26,221 +26,236 @@ import sdkListener from '../infrastructure/getListener'
 const LOCK = Lock.create()
 
 export default {
-  namespaced: true,
-  state: {
-    // If the state has been initialized.
-    initialized: false,
-    // Holds the latest PageSize blocks.
-    latestList: [],
-    // Timeline of data current in the view.
-    timeline: Timeline.empty(),
-    // Subscription to new blocks.
-    subscription: null,
-    // Determine if the blocks model is loading.
-    loading: false,
-    // Determine if the blocks model has an error.
-    error: false,
-    // The Block Information.
-    blockInfo: {},
-    // The Block Transaction list
-    blockTransactionList: [],
-    currentBlockHeight: null,
-    blockInfoLoading: false,
-    blockInfoError: false
-  },
-  getters: {
-    getInitialized: state => state.initialized,
-    getLatestList: state => state.latestList,
-    getRecentList: state => Array.prototype.filter.call(state.latestList, (item, index) => {
-      return index < 4
-    }),
-    getTimeline: state => state.timeline,
-    getCanFetchPrevious: state => state.timeline.canFetchPrevious,
-    getCanFetchNext: state => state.timeline.canFetchNext,
-    getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
-      height: el.height,
-      age: el.date,
-      transactions: el.numTransactions,
-      fee: el.totalFee,
-      date: el.date,
-      harvester: el.signer.address.address
-    })),
-    getSubscription: state => state.subscription,
-    getLoading: state => state.loading,
-    getError: state => state.error,
-    blockInfo: state => state.blockInfo,
-    blockTransactionList: state => state.blockTransactionList,
-    currentBlockHeight: state => state.currentBlockHeight,
-    blockInfoLoading: state => state.blockInfoLoading,
-    blockInfoError: state => state.blockInfoError
-  },
-  mutations: {
-    setInitialized: (state, initialized) => { state.initialized = initialized },
-    setLatestList: (state, list) => { state.latestList = list },
-    setTimeline: (state, timeline) => { state.timeline = timeline },
-    setSubscription: (state, subscription) => { state.subscription = subscription },
-    setLoading: (state, loading) => { state.loading = loading },
-    setError: (state, error) => { state.error = error },
-
-    addLatestItem: (state, item) => {
-      if (state.latestList.length > 0 && state.latestList[0].height !== item.height && state.timeline.isLive === true) {
-        Timeline.prependItem(state.latestList, item)
-        state.timeline = state.timeline.addLatestItem(item, 'height')
-      }
+    namespaced: true,
+    state: {
+        // If the state has been initialized.
+        initialized: false,
+        // Holds the latest PageSize blocks.
+        latestList: [],
+        // Timeline of data current in the view.
+        timeline: Timeline.empty(),
+        // Subscription to new blocks.
+        subscription: null,
+        // Determine if the blocks model is loading.
+        loading: false,
+        // Determine if the blocks model has an error.
+        error: false,
+        // The Block Information.
+        blockInfo: {},
+        // The Block Transaction list
+        blockTransactionList: [],
+        currentBlockHeight: null,
+        blockInfoLoading: false,
+        blockInfoError: false
     },
-
-    blockInfo: (state, blockInfo) => Vue.set(state, 'blockInfo', blockInfo),
-    blockTransactionList: (state, blockTransactionList) => Vue.set(state, 'blockTransactionList', blockTransactionList),
-    currentBlockHeight: (state, currentBlockHeight) => Vue.set(state, 'currentBlockHeight', currentBlockHeight),
-    blockInfoLoading: (state, blockInfoLoading) => Vue.set(state, 'blockInfoLoading', blockInfoLoading),
-    blockInfoError: (state, blockInfoError) => Vue.set(state, 'blockInfoError', blockInfoError)
-  },
-  actions: {
-    // Initialize the block model.
-    // First fetch the page, then subscribe.
-    async initialize({ commit, dispatch, getters }) {
-      const callback = async () => {
-        await dispatch('initializePage')
-        await dispatch('subscribe')
-      }
-      await LOCK.initialize(callback, commit, dispatch, getters)
+    getters: {
+        getInitialized: state => state.initialized,
+        getLatestList: state => state.latestList,
+        getRecentList: state => Array.prototype.filter.call(state.latestList, (item, index) => {
+            return index < 4
+        }),
+        getTimeline: state => state.timeline,
+        getCanFetchPrevious: state => state.timeline.canFetchPrevious,
+        getCanFetchNext: state => state.timeline.canFetchNext,
+        getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
+            height: el.height,
+            age: el.date,
+            transactions: el.numTransactions,
+            fee: el.totalFee,
+            date: el.date,
+            harvester: el.signer.address.address
+        })),
+        getSubscription: state => state.subscription,
+        getLoading: state => state.loading,
+        getError: state => state.error,
+        blockInfo: state => state.blockInfo,
+        blockTransactionList: state => state.blockTransactionList,
+        currentBlockHeight: state => state.currentBlockHeight,
+        blockInfoLoading: state => state.blockInfoLoading,
+        blockInfoError: state => state.blockInfoError
     },
+    mutations: {
+        setInitialized: (state, initialized) => {
+            state.initialized = initialized
+        },
+        setLatestList: (state, list) => {
+            state.latestList = list
+        },
+        setTimeline: (state, timeline) => {
+            state.timeline = timeline
+        },
+        setSubscription: (state, subscription) => {
+            state.subscription = subscription
+        },
+        setLoading: (state, loading) => {
+            state.loading = loading
+        },
+        setError: (state, error) => {
+            state.error = error
+        },
 
-    // Uninitialize the block model.
-    async uninitialize({ commit, dispatch, getters }) {
-      const callback = async () => {
-        dispatch('unsubscribe')
-      }
-      await LOCK.uninitialize(callback, commit, dispatch, getters)
+        addLatestItem: (state, item) => {
+            if (state.latestList.length > 0 && state.latestList[0].height !== item.height && state.timeline.isLive === true) {
+                Timeline.prependItem(state.latestList, item)
+                state.timeline = state.timeline.addLatestItem(item, 'height')
+            }
+        },
+
+        blockInfo: (state, blockInfo) => Vue.set(state, 'blockInfo', blockInfo),
+        blockTransactionList: (state, blockTransactionList) => Vue.set(state, 'blockTransactionList', blockTransactionList),
+        currentBlockHeight: (state, currentBlockHeight) => Vue.set(state, 'currentBlockHeight', currentBlockHeight),
+        blockInfoLoading: (state, blockInfoLoading) => Vue.set(state, 'blockInfoLoading', blockInfoLoading),
+        blockInfoError: (state, blockInfoError) => Vue.set(state, 'blockInfoError', blockInfoError)
     },
+    actions: {
+        // Initialize the block model.
+        // First fetch the page, then subscribe.
+        async initialize({ commit, dispatch, getters }) {
+            const callback = async () => {
+                await dispatch('initializePage')
+                await dispatch('subscribe')
+            }
+            await LOCK.initialize(callback, commit, dispatch, getters)
+        },
 
-    // Subscribe to the latest blocks.
-    async subscribe({ commit, dispatch, getters, rootGetters }) {
-      if (getters.getSubscription === null) {
-        let subscription = await sdkListener.subscribeNewBlock(dispatch, rootGetters['api/wsEndpoint'].url)
-        commit('setSubscription', subscription)
-      }
-    },
+        // Uninitialize the block model.
+        async uninitialize({ commit, dispatch, getters }) {
+            const callback = async () => {
+                dispatch('unsubscribe')
+            }
+            await LOCK.uninitialize(callback, commit, dispatch, getters)
+        },
 
-    // Unsubscribe from the latest blocks.
-    unsubscribe({ commit, getters }) {
-      let subscription = getters.getSubscription
-      if (subscription !== null) {
-        subscription[1].unsubscribe()
-        subscription[0].close()
-        commit('setSubscription', null)
-      }
-    },
+        // Subscribe to the latest blocks.
+        async subscribe({ commit, dispatch, getters, rootGetters }) {
+            if (getters.getSubscription === null) {
+                let subscription = await sdkListener.subscribeNewBlock(dispatch, rootGetters['api/wsEndpoint'].url)
+                commit('setSubscription', subscription)
+            }
+        },
 
-    // Add block to latest blocks.
-    add({ commit }, item) {
-      commit('chain/setBlockHeight', item.height, { root: true })
-      commit('addLatestItem', item)
-    },
+        // Unsubscribe from the latest blocks.
+        unsubscribe({ commit, getters }) {
+            let subscription = getters.getSubscription
+            if (subscription !== null) {
+                subscription[1].unsubscribe()
+                subscription[0].close()
+                commit('setSubscription', null)
+            }
+        },
 
-    // Fetch data from the SDK and initialize the page.
-    async initializePage({ commit }) {
-      commit('setLoading', true)
-      try {
-        let blockList = await sdkBlock.getBlocksFromHeightWithLimit(2 * Constants.PageSize)
-        commit('setLatestList', blockList.slice(0, Constants.PageSize))
-        if (blockList.length > 0) {
-          commit('chain/setBlockHeight', blockList[0].height, { root: true })
+        // Add block to latest blocks.
+        add({ commit }, item) {
+            commit('chain/setBlockHeight', item.height, { root: true })
+            commit('addLatestItem', item)
+        },
+
+        // Fetch data from the SDK and initialize the page.
+        async initializePage({ commit }) {
+            commit('setLoading', true)
+            try {
+                let blockList = await sdkBlock.getBlocksFromHeightWithLimit(2 * Constants.PageSize)
+                commit('setLatestList', blockList.slice(0, Constants.PageSize))
+                if (blockList.length > 0) {
+                    commit('chain/setBlockHeight', blockList[0].height, { root: true })
+                }
+                commit('setTimeline', Timeline.fromData(blockList))
+            } catch (e) {
+                console.error(e)
+                commit('setError', true)
+            }
+            commit('setLoading', false)
+        },
+
+        // Fetch the next page of data.
+        async fetchNextPage({ commit, getters }) {
+            commit('setLoading', true)
+            const timeline = getters.getTimeline
+            const list = timeline.next
+            try {
+                if (list.length === 0) {
+                    throw new Error('internal error: next list is 0.')
+                }
+                const block = list[list.length - 1]
+                const fetchNext = pageSize => sdkBlock.getBlocksFromHeightWithLimit(pageSize, block.height)
+                commit('setTimeline', await timeline.shiftNext(fetchNext))
+            } catch (e) {
+                console.error(e)
+                commit('setError', true)
+            }
+            commit('setLoading', false)
+        },
+
+        // Fetch the previous page of data.
+        async fetchPreviousPage({ commit, getters, rootGetters }) {
+            commit('setLoading', true)
+            const timeline = getters.getTimeline
+            const list = timeline.previous
+            try {
+                if (list.length === 0) {
+                    throw new Error('internal error: previous list is 0.')
+                }
+                const block = list[0]
+                const fetchPrevious = pageSize => sdkBlock.getBlocksSinceHeightWithLimit(pageSize, block.height)
+                const fetchLive = pageSize => sdkBlock.getBlocksFromHeightWithLimit(pageSize, rootGetters['chain/getBlockHeight'])
+                commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
+            } catch (e) {
+                console.error(e)
+                commit('setError', true)
+            }
+            commit('setLoading', false)
+        },
+
+        // Reset the block page to the latest list (index 0)
+        async resetPage({ commit, getters }) {
+            commit('setLoading', true)
+            try {
+                if (!getters.getTimeline.isLive) {
+                    const data = await sdkBlock.getBlocksFromHeightWithLimit(2 * Constants.PageSize)
+                    commit('setTimeline', Timeline.fromData(data))
+                }
+            } catch (e) {
+                console.error(e)
+                commit('setError', true)
+            }
+            commit('setLoading', false)
+        },
+
+        getBlockInfo: async ({ commit }, height) => {
+            commit('blockInfoError', false)
+            commit('blockInfoLoading', true)
+            commit('blockInfo', {})
+            commit('blockTransactionList', [])
+            commit('currentBlockHeight', height)
+
+            let blockInfo
+            try {
+                blockInfo = await sdkBlock.getBlockInfoByHeightFormatted(height)
+            } catch (e) {
+                console.error(e)
+                commit('blockInfoError', true)
+            }
+
+            if (blockInfo) {
+                commit('blockInfo', blockInfo.blockInfo)
+                commit('blockTransactionList', blockInfo.transactionList)
+            }
+
+            commit('blockInfoLoading', false)
+        },
+
+        nextBlock: ({ commit, getters, dispatch }) => {
+            dispatch('ui/openPage', {
+                pageName: 'block',
+                param: +getters.currentBlockHeight + 1
+            }, { root: true })
+        },
+
+        previousBlock: ({ commit, getters, dispatch }) => {
+            dispatch('ui/openPage', {
+                pageName: 'block',
+                param: +getters.currentBlockHeight - 1
+            }, { root: true })
         }
-        commit('setTimeline', Timeline.fromData(blockList))
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
-    },
-
-    // Fetch the next page of data.
-    async fetchNextPage({ commit, getters }) {
-      commit('setLoading', true)
-      const timeline = getters.getTimeline
-      const list = timeline.next
-      try {
-        if (list.length === 0) {
-          throw new Error('internal error: next list is 0.')
-        }
-        const block = list[list.length - 1]
-        const fetchNext = pageSize => sdkBlock.getBlocksFromHeightWithLimit(pageSize, block.height)
-        commit('setTimeline', await timeline.shiftNext(fetchNext))
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
-    },
-
-    // Fetch the previous page of data.
-    async fetchPreviousPage({ commit, getters, rootGetters }) {
-      commit('setLoading', true)
-      const timeline = getters.getTimeline
-      const list = timeline.previous
-      try {
-        if (list.length === 0) {
-          throw new Error('internal error: previous list is 0.')
-        }
-        const block = list[0]
-        const fetchPrevious = pageSize => sdkBlock.getBlocksSinceHeightWithLimit(pageSize, block.height)
-        const fetchLive = pageSize => sdkBlock.getBlocksFromHeightWithLimit(pageSize, rootGetters['chain/getBlockHeight'])
-        commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
-    },
-
-    // Reset the block page to the latest list (index 0)
-    async resetPage({ commit, getters }) {
-      commit('setLoading', true)
-      try {
-        if (!getters.getTimeline.isLive) {
-          const data = await sdkBlock.getBlocksFromHeightWithLimit(2 * Constants.PageSize)
-          commit('setTimeline', Timeline.fromData(data))
-        }
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
-    },
-
-    getBlockInfo: async ({ commit }, height) => {
-      commit('blockInfoError', false)
-      commit('blockInfoLoading', true)
-      commit('blockInfo', {})
-      commit('blockTransactionList', [])
-      commit('currentBlockHeight', height)
-
-      let blockInfo
-      try { blockInfo = await sdkBlock.getBlockInfoByHeightFormatted(height) } catch (e) {
-        console.error(e)
-        commit('blockInfoError', true)
-      }
-
-      if (blockInfo) {
-        commit('blockInfo', blockInfo.blockInfo)
-        commit('blockTransactionList', blockInfo.transactionList)
-      }
-
-      commit('blockInfoLoading', false)
-    },
-
-    nextBlock: ({ commit, getters, dispatch }) => {
-      dispatch('ui/openPage', {
-        pageName: 'block',
-        param: +getters.currentBlockHeight + 1
-      }, { root: true })
-    },
-    previousBlock: ({ commit, getters, dispatch }) => {
-      dispatch('ui/openPage', {
-        pageName: 'block',
-        param: +getters.currentBlockHeight - 1
-      }, { root: true })
     }
-  }
 }

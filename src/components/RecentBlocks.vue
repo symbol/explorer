@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="box-con">
-                <loader
+                <Loading
                     v-if="loading"
                 />
                 <div class="row">
@@ -52,28 +52,30 @@
     </div>
 </template>
 <script>
+import Loading from '@/components/Loading.vue'
 import RecentBlockRow from '@/components/RecentBlockRow.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-  name: 'RecentBlocks',
+    name: 'RecentBlocks',
 
-  components: {
-    RecentBlockRow
-  },
+    components: {
+        Loading,
+        RecentBlockRow
+    },
 
-  data() {
-    return {
-      title: 'Recent Blocks',
-      viewAll: 'View all Blocks'
+    data() {
+        return {
+            title: 'Recent Blocks',
+            viewAll: 'View all Blocks'
+        }
+    },
+
+    computed: {
+        ...mapGetters({
+            blockList: 'block/getRecentList',
+            loading: 'block/getLoading'
+        })
     }
-  },
-
-  computed: {
-    ...mapGetters({
-      blockList: 'block/getRecentList',
-      loading: 'block/getLoading'
-    })
-  }
 }
 </script>

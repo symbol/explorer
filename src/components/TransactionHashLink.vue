@@ -17,23 +17,29 @@
  */
 
 <template>
-  <router-link :to="'/transaction/' + hash">
-    {{
-      count >= hash.length ?
-        hash :
-        hash.substring(0, count) + '...'
-    }}
-  </router-link>
+    <router-link :to="'/transaction/' + hash">
+        {{
+            count >= hash.length ?
+                hash :
+                hash.substring(0, count) + '...'
+        }}
+    </router-link>
 </template>
+
 <script>
 export default {
-  name: 'TransactionHashLink',
-  props: {
-    hash: String,
-    count: {
-      type: Number,
-      default: 20
+    name: 'TransactionHashLink',
+
+    props: {
+        hash: {
+            type: String,
+            required: true
+        },
+
+        count: {
+            type: Number,
+            default: 20
+        }
     }
-  }
 }
 </script>

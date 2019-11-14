@@ -56,34 +56,35 @@
         </div>
     </div>
 </template>
+
 <script>
 import View from './View.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-  extends: View,
+    extends: View,
 
-  data() {
-    return {
-      title: 'Nodes',
-      nextPageAction: 'node/fetchNextPage',
-      previousPageAction: 'node/fetchPreviousPage'
+    data() {
+        return {
+            title: 'Nodes',
+            nextPageAction: 'node/fetchNextPage',
+            previousPageAction: 'node/fetchPreviousPage'
+        }
+    },
+
+    computed: {
+        ...mapGetters({
+            timeline: 'node/getTimeline',
+            nodeList: 'node/getTimelineFormatted',
+            canFetchPrevious: 'node/getCanFetchPrevious',
+            canFetchNext: 'node/getCanFetchNext',
+            loading: 'node/getLoading',
+            error: 'node/getError'
+        })
+    },
+
+    destroyed() {
+        this.$store.dispatch('node/resetPage')
     }
-  },
-
-  computed: {
-    ...mapGetters({
-      timeline: 'node/getTimeline',
-      nodeList: 'node/getTimelineFormatted',
-      canFetchPrevious: 'node/getCanFetchPrevious',
-      canFetchNext: 'node/getCanFetchNext',
-      loading: 'node/getLoading',
-      error: 'node/getError'
-    })
-  },
-
-  destroyed() {
-    this.$store.dispatch('node/resetPage')
-  }
 }
 </script>

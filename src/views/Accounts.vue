@@ -54,42 +54,43 @@
         </div>
     </div>
 </template>
+
 <script>
 import TypeBox from '@/components/TypeBox.vue'
 import View from './View.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-  extends: View,
+    extends: View,
 
-  components: {
-    TypeBox
-  },
+    components: {
+        TypeBox
+    },
 
-  data() {
-    return {
-      title: 'Accounts',
-      nextPageAction: 'account/fetchNextPage',
-      previousPageAction: 'account/fetchPreviousPage',
-      resetPageAction: 'account/resetPage',
-      changePageAction: 'account/changePage',
-      typeMap: {
-        'rich': 'Rich List',
-        'harvester': 'Harvester List'
-      }
+    data() {
+        return {
+            title: 'Accounts',
+            nextPageAction: 'account/fetchNextPage',
+            previousPageAction: 'account/fetchPreviousPage',
+            resetPageAction: 'account/resetPage',
+            changePageAction: 'account/changePage',
+            typeMap: {
+                'rich': 'Rich List',
+                'harvester': 'Harvester List'
+            }
+        }
+    },
+
+    computed: {
+        ...mapGetters({
+            accountType: 'account/getAccountType',
+            timeline: 'account/getTimeline',
+            accountList: 'account/getTimelineFormatted',
+            canFetchPrevious: 'account/getCanFetchPrevious',
+            canFetchNext: 'account/getCanFetchNext',
+            loading: 'account/getLoading',
+            error: 'account/getError'
+        })
     }
-  },
-
-  computed: {
-    ...mapGetters({
-      accountType: 'account/getAccountType',
-      timeline: 'account/getTimeline',
-      accountList: 'account/getTimelineFormatted',
-      canFetchPrevious: 'account/getCanFetchPrevious',
-      canFetchNext: 'account/getCanFetchNext',
-      loading: 'account/getLoading',
-      error: 'account/getError'
-    })
-  }
 }
 </script>

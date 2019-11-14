@@ -23,106 +23,112 @@ import http from './http'
 import format from '../format'
 
 class sdkBlock {
-  static getBlockHeight = async () => {
-    const blockHeight = await http.chain.getBlockchainHeight().toPromise()
-    return blockHeight.compact()
-  }
-
-  static getBlockInfoByHeight = async (blockHeight) => {
-    const blockInfo = await http.block.getBlockByHeight(blockHeight).toPromise()
-    return format.formatBlock(blockInfo)
-  }
-
-  static getBlockFullTransactionsList = async (blockHeight, transactionId) => {
-    let txList = await this.getTransactionsByBlockHeight(blockHeight, transactionId)
-    if (txList.length > 0) {
-      transactionId = txList[txList.length - 1].transactionId
-      txList.concat(await this.getBlockFullTransactionsList(blockHeight, transactionId))
-    }
-    return txList
-  }
-
-  static getTransactionsByBlockHeight = async (blockHeight, transactionId) => {
-    transactionId = transactionId || ''
-    const pageSize = 100
-
-    let transactions = await http.block
-      .getBlockTransactions(blockHeight, new QueryParams(pageSize, transactionId))
-      .toPromise()
-
-    return format.formatTransactions(transactions)
-  }
-
-  static getBlocksFromHeightWithLimit = async (limit, fromBlockHeight) => {
-    let blockHeight
-    if (fromBlockHeight === undefined) {
-      blockHeight = 'latest'
-    } else {
-      blockHeight = fromBlockHeight.toString()
+    static getBlockHeight = async () => {
+        const blockHeight = await http.chain.getBlockchainHeight().toPromise()
+        return blockHeight.compact()
     }
 
-    // Make request.
-    const path = `/blocks/from/${blockHeight}/limit/${limit}`
-    const response = await axios.get(http.nodeUrl + path)
-    const blocks = response.data.map(info => dto.createBlockInfoFromDTO(info, http.networkType))
-
-    return format.formatBlocks(blocks)
-  }
-
-  static getBlocksSinceHeightWithLimit = async (limit, sinceBlockHeight) => {
-    let blockHeight
-    if (sinceBlockHeight === undefined) {
-      blockHeight = 'earliest'
-    } else {
-      blockHeight = sinceBlockHeight.toString()
+    static getBlockInfoByHeight = async (blockHeight) => {
+        const blockInfo = await http.block.getBlockByHeight(blockHeight).toPromise()
+        return format.formatBlock(blockInfo)
     }
 
-    // Make request.
-    const path = `/blocks/since/${blockHeight}/limit/${limit}`
-    const response = await axios.get(http.nodeUrl + path)
-    const blocks = response.data.map(info => dto.createBlockInfoFromDTO(info, http.networkType))
-
-    return format.formatBlocks(blocks)
-  }
-
-  static getBlockInfoByHeightFormatted = async height => {
-    let rawBlockInfo
-    let formattedBlockInfo
-    let blockTransactionList
-    let transactionList
-
-    try { rawBlockInfo = await this.getBlockInfoByHeight(height) } catch (e) { throw Error('Failed to fetch block info', e) }
-
-    try { blockTransactionList = await this.getBlockFullTransactionsList(height) } catch (e) { console.warn(e) }
-
-    if (rawBlockInfo) {
-      formattedBlockInfo = {
-        height: rawBlockInfo.height,
-        date: rawBlockInfo.date,
-        fee: rawBlockInfo.totalFee,
-        difficulty: rawBlockInfo.difficulty,
-        totalTransactions: rawBlockInfo.numTransactions,
-        harvester: rawBlockInfo.signer?.address?.address,
-        blockHash: rawBlockInfo.hash
-      }
-
-      transactionList = []
-      if (blockTransactionList.length) {
-        transactionList = blockTransactionList.map((el) => ({
-          deadline: el.deadline,
-          transactionHash: el.transactionHash,
-          //fee: el.fee,
-          //signer: el.signer,
-          type: el.transactionBody.type
-        }))
-      }
-
-      return {
-        blockInfo: formattedBlockInfo || {},
-        transactionList: transactionList || []
-      }
+    static getBlockFullTransactionsList = async (blockHeight, transactionId) => {
+        let txList = await this.getTransactionsByBlockHeight(blockHeight, transactionId)
+        if (txList.length > 0) {
+            transactionId = txList[txList.length - 1].transactionId
+            txList.concat(await this.getBlockFullTransactionsList(blockHeight, transactionId))
+        }
+        return txList
     }
-  }
+
+    static getTransactionsByBlockHeight = async (blockHeight, transactionId) => {
+        transactionId = transactionId || ''
+        const pageSize = 100
+
+        let transactions = await http.block
+            .getBlockTransactions(blockHeight, new QueryParams(pageSize, transactionId))
+            .toPromise()
+
+        return format.formatTransactions(transactions)
+    }
+
+    static getBlocksFromHeightWithLimit = async (limit, fromBlockHeight) => {
+        let blockHeight
+        if (fromBlockHeight === undefined) {
+            blockHeight = 'latest'
+        } else {
+            blockHeight = fromBlockHeight.toString()
+        }
+
+        // Make request.
+        const path = `/blocks/from/${blockHeight}/limit/${limit}`
+        const response = await axios.get(http.nodeUrl + path)
+        const blocks = response.data.map(info => dto.createBlockInfoFromDTO(info, http.networkType))
+
+        return format.formatBlocks(blocks)
+    }
+
+    static getBlocksSinceHeightWithLimit = async (limit, sinceBlockHeight) => {
+        let blockHeight
+        if (sinceBlockHeight === undefined) {
+            blockHeight = 'earliest'
+        } else {
+            blockHeight = sinceBlockHeight.toString()
+        }
+
+        // Make request.
+        const path = `/blocks/since/${blockHeight}/limit/${limit}`
+        const response = await axios.get(http.nodeUrl + path)
+        const blocks = response.data.map(info => dto.createBlockInfoFromDTO(info, http.networkType))
+
+        return format.formatBlocks(blocks)
+    }
+
+    static getBlockInfoByHeightFormatted = async height => {
+        let rawBlockInfo
+        let formattedBlockInfo
+        let blockTransactionList
+        let transactionList
+
+        try {
+            rawBlockInfo = await this.getBlockInfoByHeight(height)
+        } catch (e) {
+            throw Error('Failed to fetch block info', e)
+        }
+
+        try {
+            blockTransactionList = await this.getBlockFullTransactionsList(height)
+        } catch (e) {
+            console.warn(e)
+        }
+
+        if (rawBlockInfo) {
+            formattedBlockInfo = {
+                height: rawBlockInfo.height,
+                date: rawBlockInfo.date,
+                fee: rawBlockInfo.totalFee,
+                difficulty: rawBlockInfo.difficulty,
+                totalTransactions: rawBlockInfo.numTransactions,
+                harvester: rawBlockInfo.signer?.address?.address,
+                blockHash: rawBlockInfo.hash
+            }
+
+            transactionList = []
+            if (blockTransactionList.length) {
+                transactionList = blockTransactionList.map((el) => ({
+                    deadline: el.deadline,
+                    transactionHash: el.transactionHash,
+                    type: el.transactionBody.type
+                }))
+            }
+
+            return {
+                blockInfo: formattedBlockInfo || {},
+                transactionList: transactionList || []
+            }
+        }
+    }
 }
 
 export default sdkBlock

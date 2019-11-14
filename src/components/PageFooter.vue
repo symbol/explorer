@@ -17,83 +17,74 @@
  */
 
 <template>
-  <div>
-    <footer class="full-con mt-5 footer">
-      <div class="container">
-        <div class="row">
-          <NemDescription />
-          <div class="col-md-5">
-            <ul class="social-icon">
-              <PageFooterItem
-                :href="item.href"
-                :text="item.text"
-                :classname="item.classname"
-                v-for="item in items"
-                v-bind:key="item.text"
-              />
-            </ul>
-          </div>
-        </div>
-        <NemCopyright />
-      </div>
-    </footer>
-  </div>
+    <div>
+        <footer class="full-con mt-5 footer">
+            <div class="container">
+                <div class="row">
+                    <NemDescription />
+                    <div class="col-md-5">
+                        <ul class="social-icon">
+                            <PageFooterItem
+                                :href="item.href"
+                                :text="item.text"
+                                :classname="item.classname"
+                                v-for="item in items"
+                                v-bind:key="item.text"
+                            />
+                        </ul>
+                    </div>
+                </div>
+                <NemCopyright />
+            </div>
+        </footer>
+    </div>
 </template>
+
 <script>
-import w1 from '@/components/PageFooterItem.vue'
-import w2 from '@/components/NemDescription.vue'
-import w3 from '@/components/NemCopyright.vue'
-import helper from '../helper'
+import PageFooterItem from '@/components/PageFooterItem.vue'
+import NemDescription from '@/components/NemDescription.vue'
+import NemCopyright from '@/components/NemCopyright.vue'
 
 export default {
-  name: 'PageFooter',
-  components: {
-    PageFooterItem: w1,
-    NemDescription: w2,
-    NemCopyright: w3
-  },
-  props: {
-    msg: String
-  },
-  methods: {
-    isMobile() {
-      return helper.isMobile(
-        navigator.userAgent || navigator.vendor || window.opera
-      )
-    }
-  },
-  data() {
-    return {
-      loading: 1,
-      items: [
-        {
-          href: 'https://nemflash.io/',
-          text: 'NEM News',
-          classname: 'ico-news'
-        },
-        {
-          href: 'https://forum.nem.io/',
-          text: 'Forum',
-          classname: 'ico-forum'
-        },
-        {
-          href: 'https://github.com/nemtech',
-          text: 'Github',
-          classname: 'ico-github'
-        },
-        {
-          href: 'https://t.me/nemred',
-          text: 'Telegram',
-          classname: 'ico-paper-plane'
-        },
-        {
-          href: 'https://www.reddit.com/r/nem/',
-          text: 'Reddit',
-          classname: 'ico-reddit'
+    name: 'PageFooter',
+
+    components: {
+        PageFooterItem,
+        NemDescription,
+        NemCopyright
+    },
+
+    data() {
+        return {
+            loading: 1,
+            items: [
+                {
+                    href: 'https://nemflash.io/',
+                    text: 'NEM News',
+                    classname: 'ico-news'
+                },
+                {
+                    href: 'https://forum.nem.io/',
+                    text: 'Forum',
+                    classname: 'ico-forum'
+                },
+                {
+                    href: 'https://github.com/nemtech',
+                    text: 'Github',
+                    classname: 'ico-github'
+                },
+                {
+                    href: 'https://t.me/nemred',
+                    text: 'Telegram',
+                    classname: 'ico-paper-plane'
+                },
+                {
+                    href: 'https://www.reddit.com/r/nem/',
+                    text: 'Reddit',
+                    classname: 'ico-reddit'
+                }
+            ]
         }
-      ]
     }
-  },
-  mounted() {}
 }
 </script>

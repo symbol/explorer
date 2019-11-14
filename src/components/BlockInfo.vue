@@ -17,29 +17,39 @@
  */
 
 <template>
-<div class="blk-info">
-  <div class="inrw">
-    <span>{{ item.numTransactions }} Transactions</span>
-    <Age :date="item.date"/>
-  </div>
-  <div class="inrw flex">
-    <span>Harvester</span>
-    <AddressLink :address="item.signer.address.address" class="acnt"/>
-  </div>
-</div>
+    <div class="blk-info">
+        <div class="inrw">
+            <span>
+                {{ item.numTransactions }} Transactions
+            </span>
+            <Age :date="item.date" />
+        </div>
+        <div class="inrw flex">
+            <span>
+                Harvester
+            </span>
+            <AddressLink
+                :address="item.signer.address.address"
+                class="acnt"
+            />
+        </div>
+    </div>
 </template>
+
 <script>
-import w1 from '@/components/Age.vue'
-import w2 from '@/components/AddressLink.vue'
+import Age from '@/components/Age.vue'
+import AddressLink from '@/components/AddressLink.vue'
 
 export default {
-  name: 'BlockInfo',
-  components: {
-    Age: w1,
-    AddressLink: w2
-  },
-  props: {
-    item: {}
-  }
+    name: 'BlockInfo',
+
+    components: {
+        Age,
+        AddressLink
+    },
+
+    props: {
+        item: {}
+    }
 }
 </script>

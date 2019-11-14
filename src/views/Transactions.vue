@@ -52,45 +52,46 @@
         </div>
     </div>
 </template>
+
 <script>
-import w1 from '@/components/TypeBox.vue'
-import w2 from '@/components/TransactionTable.vue'
+import TypeBox from '@/components/TypeBox.vue'
+import TransactionTable from '@/components/TransactionTable.vue'
 import View from './View.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-  extends: View,
+    extends: View,
 
-  components: {
-    TypeBox: w1,
-    TransactionTable: w2
-  },
+    components: {
+        TypeBox,
+        TransactionTable
+    },
 
-  data() {
-    return {
-      title: 'Transactions',
-      nextPageAction: 'transaction/fetchNextPage',
-      previousPageAction: 'transaction/fetchPreviousPage',
-      resetPageAction: 'transaction/resetPage',
-      changePageAction: 'transaction/changePage',
-      typeMap: {
-        'recent': 'Recent Transactions',
-        'pending': 'Pending Transactions',
-        'transfer': 'Transfer Transactions',
-        'multisig': 'Multisig Transactions',
-        'mosaic': 'Mosaic Transactions'
-      }
+    data() {
+        return {
+            title: 'Transactions',
+            nextPageAction: 'transaction/fetchNextPage',
+            previousPageAction: 'transaction/fetchPreviousPage',
+            resetPageAction: 'transaction/resetPage',
+            changePageAction: 'transaction/changePage',
+            typeMap: {
+                'recent': 'Recent Transactions',
+                'pending': 'Pending Transactions',
+                'transfer': 'Transfer Transactions',
+                'multisig': 'Multisig Transactions',
+                'mosaic': 'Mosaic Transactions'
+            }
+        }
+    },
+
+    computed: {
+        ...mapGetters({
+            transactionList: 'transaction/getTimelineList',
+            canFetchPrevious: 'transaction/getCanFetchPrevious',
+            canFetchNext: 'transaction/getCanFetchNext',
+            loading: 'transaction/getLoading',
+            error: 'transaction/getError'
+        })
     }
-  },
-
-  computed: {
-    ...mapGetters({
-      transactionList: 'transaction/getTimelineList',
-      canFetchPrevious: 'transaction/getCanFetchPrevious',
-      canFetchNext: 'transaction/getCanFetchNext',
-      loading: 'transaction/getLoading',
-      error: 'transaction/getError'
-    })
-  }
 }
 </script>

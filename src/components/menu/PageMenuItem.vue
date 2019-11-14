@@ -17,26 +17,42 @@
  */
 
 <template>
-  <li @click="onItemClick">
-    <router-link :to="to" exact active-class="active">
-      <i v-bind:class="classname"></i>
-      <span>{{text}}</span>
-    </router-link>
-  </li>
+    <li @click="onItemClick">
+        <router-link :to="to" exact active-class="active">
+            <i v-bind:class="classname" />
+            <span>
+                {{text}}
+            </span>
+        </router-link>
+    </li>
 </template>
+
 <script>
 export default {
-  name: 'PageMenuItem',
-  props: {
-    to: String,
-    text: String,
-    classname: String
-  },
-  methods: {
-    onItemClick(e) {
-      this.$store.dispatch('ui/openPage', { pageName: this.to.slice(1) })
-      this.$emit('click', e)
+    name: 'PageMenuItem',
+
+    props: {
+        to: {
+            type: String,
+            required: true
+        },
+
+        text: {
+            type: String,
+            required: true
+        },
+
+        classname: {
+            type: String,
+            required: true
+        }
+    },
+
+    methods: {
+        onItemClick(e) {
+            this.$store.dispatch('ui/openPage', { pageName: this.to.slice(1) })
+            this.$emit('click', e)
+        }
     }
-  }
 }
 </script>

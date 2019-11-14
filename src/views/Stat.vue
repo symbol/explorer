@@ -17,25 +17,14 @@
  */
 
 <template>
-  <div>
-    <div class="page_con">
-
+    <div>
+        <div class="page_con">
+        </div>
     </div>
-  </div>
 </template>
+
 <script>
-
 export default {
-  name: 'block',
-  components: {
-  },
-  data() {
-    return {
-
-    }
-  },
-  methods: {},
-  mounted() {
-  }
+    name: 'Stat'
 }
 </script>

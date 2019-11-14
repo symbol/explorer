@@ -17,27 +17,39 @@
  */
 
 <template>
-<div class="trx-info">
-  <div class="inrw">
-    <span>Block Height {{ item.blockHeight }}</span>
-    <span>{{item.transactionBody.type}}</span>
-  </div>
-  <div class="inrw flex">
-    <span>Sender</span>
-    <AddressLink :address="item.signer" class="acnt"/>
-  </div>
-</div>
+    <div class="trx-info">
+        <div class="inrw">
+          <span>
+              Block Height {{ item.blockHeight }}
+          </span>
+          <span>
+              {{item.transactionBody.type}}
+          </span>
+        </div>
+        <div class="inrw flex">
+            <span>
+                Sender
+            </span>
+            <AddressLink
+                :address="item.signer"
+                class="acnt"
+            />
+        </div>
+    </div>
 </template>
+
 <script>
-import w1 from '@/components/AddressLink.vue'
+import AddressLink from '@/components/AddressLink.vue'
 
 export default {
-  name: 'TransactionInfo',
-  components: {
-    AddressLink: w1
-  },
-  props: {
-    item: {}
-  }
+    name: 'TransactionInfo',
+
+    components: {
+        AddressLink
+    },
+
+    props: {
+        item: {}
+    }
 }
 </script>
