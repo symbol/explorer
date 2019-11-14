@@ -1,5 +1,6 @@
 <script>
 import Age from '../Age.vue'
+import Constants from '../../config/constants'
 export default {
   components: { Age },
   props: {
@@ -49,7 +50,6 @@ export default {
         'blockHeight',
         'endHeight',
         'startHeight',
-        'transactionBody',
         'remoteAccountAddress',
 
         'lastActivity'
@@ -87,7 +87,8 @@ export default {
     },
 
     getItemHref(itemKey, item) {
-      return this.$store.getters[`ui/getPageHref`]({ pageName: itemKey, param: item }) 
+      if(!this.isDisableItemClick(item))
+        return this.$store.getters[`ui/getPageHref`]({ pageName: itemKey, param: item })
     },
 
     getKeyName(key) {

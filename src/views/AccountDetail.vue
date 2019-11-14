@@ -20,17 +20,17 @@
                 </template>
             </Card>
 
-            <!-- MultiSig Info -->
+            <!-- Activity Buckets List -->
             <Card
-                class="card-f card-adaptive"
+                class="card-f card-full-width"
                 :loading="loading"
             >
                 <template #title>
-                    {{multisigTitle}}
+                    {{activityBuckets}}
                 </template>
 
                 <template #body>
-                    <TableInfoView :data="accountMultisig" />
+                    <TableListView :data="activityBucketList" :pagination="true" :pageSize="5" />
                 </template>
             </Card>
 

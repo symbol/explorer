@@ -71,14 +71,10 @@ export default {
         let pageName = state.keyPages[key] || key
         let value = payload.param
 
-        if (value != null) {
-
-          if (value === 'infinity') {
-            return '#'
-          }
-
-          return `/${pageName}/${value}` 
-        } else return `/${pageName}`
+        if (value != null)
+          return `/${pageName}/${value}`
+        else
+          return `/${pageName}`
       }
     }
   },
@@ -94,14 +90,10 @@ export default {
         let pageName = state.keyPages[key] || key
         let value = payload.param
 
-        if (value != null) {
-
-          if (value === 'infinity') {
-            return ''
-          }
-
+        if (value != null)
           router.push({ path: `/${pageName}/${value}` })
-        } else { router.push({ path: `/${pageName}` }) }
+        else
+          router.push({ path: `/${pageName}` })
       }
     },
 
