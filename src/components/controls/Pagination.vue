@@ -22,12 +22,12 @@
       <div class="pagination-container">
         <ul class="pagination">
           <li class="page-item" @click="previousPage">
-            <a href="#">
+            <a :href="goUp ? '#' : void 0">
               <i class="ico-angle-left pagination-arrow"></i>
             </a>
           </li>
           <li class="page-item">
-            <a href="#" @click="nextPage">
+            <a :href="goUp ? '#' : void 0" @click="nextPage">
               <i class="ico-angle-right pagination-arrow"></i>
             </a>
           </li>
@@ -60,22 +60,32 @@ export default {
 
     nextPageAction: {
       type: String,
-      required: true
+      required: false
     },
 
     previousPageAction: {
       type: String,
-      required: true
+      required: false
+    },
+
+    goUp: {
+      type: Boolean,
+      required: false,
+      default: true
     }
   },
 
   methods: {
     nextPage() {
-      this.$store.dispatch(this.nextPageAction)
+      if(this.nextPageAction)
+        this.$store.dispatch(this.nextPageAction)
+      this.$emit('next')
     },
 
     previousPage() {
-      this.$store.dispatch(this.previousPageAction)
+      if(this.previousPageAction)
+        this.$store.dispatch(this.previousPageAction)
+      this.$emit('previous')
     }
   }
 }
@@ -87,12 +97,17 @@ export default {
   color: gray
 }
 
+.page-item {
+  cursor: pointer
+}
+
 .pagination-wrapper {
   float: right;
   .pagination-arrow {
     justify-content: center;
     flex-direction: column;
     display: flex;
+    height: 22px;
   }
 }
 </style>

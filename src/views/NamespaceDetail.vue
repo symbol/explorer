@@ -62,7 +62,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   extends: View,
-
   components: {
     TableInfoView,
     TableListView
@@ -89,5 +88,5 @@ export default {
   }
 }
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 </style>

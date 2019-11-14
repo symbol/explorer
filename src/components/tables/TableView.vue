@@ -75,6 +75,10 @@ export default {
       if (this.isItemClickable(itemKey)) { this.$store.dispatch(`ui/openPage`, { pageName: itemKey, param: item }) }
     },
 
+    getItemHref(itemKey, item) {
+      return this.$store.getters[`ui/getPageHref`]({ pageName: itemKey, param: item }) 
+    },
+
     getKeyName(key) {
       return this.$store.getters['ui/getNameByKey'](key)
     }
@@ -164,6 +168,11 @@ export default {
     .table-titles {
         background-color: rgba(52, 40, 104, .05);
         //border-radius: 4px;
+    }
+
+    a{
+      color: inherit;
+      text-decoration: inherit;
     }
 }
 

@@ -45,7 +45,6 @@ import { mapGetters } from 'vuex'
 
 export default {
   extends: View,
-
   data() {
     return {
       title: 'Mosaic Detail'
