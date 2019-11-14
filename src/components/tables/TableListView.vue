@@ -115,6 +115,8 @@ export default {
 
   computed: {
     preparedData() {
+      if(this.pageIndex >= this.lastPage)
+        this.pageIndex = this.lastPage - 1;
       if(this.pagination === true) 
         return this.data.slice(this.pageIndex * this.pageSize, this.pageIndex * this.pageSize + this.pageSize);
       else
