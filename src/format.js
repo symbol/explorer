@@ -1,4 +1,4 @@
-import { Address, TransactionType, NetworkType } from 'nem2-sdk'
+import { Address, TransactionType } from 'nem2-sdk'
 import { Constants } from './config'
 import moment from 'moment'
 import http from './infrastructure/http'

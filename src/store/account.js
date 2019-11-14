@@ -16,7 +16,6 @@
  *
  */
 
-import Vue from 'vue'
 import Lock from './lock'
 import Timeline from './timeline'
 import Constants from '../config/constants'
