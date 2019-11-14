@@ -17,55 +17,45 @@
  */
 
 <template>
-  <div class="widget bordr_rds_top0 network_info">
-    <loader v-if="!marketData"></loader>
-    <div class="box">
-      <div class="row">
-        <div class="col-md-3">
-          <div class="hm_wdjt_itm_t1">
-            <span>Price</span>
-            <p v-if="marketData">{{marketData.price}}</p>
-          </div>
+    <div class="widget bordr_rds_top0 network_info">
+        <loader
+            v-if="!marketData"
+        />
+        <div class="box">
+            <div class="row">
+                <HomeBaseInfoItem
+                    title="Price"
+                    :condition="marketData"
+                    :value="marketData.price"
+                />
+                <HomeBaseInfoItem
+                    title="Market Cap"
+                    :condition="marketData"
+                    :value="marketData.marketCap"
+                />
+                <HomeBaseInfoItem
+                    title="Total Transactions"
+                    :condition="chainInfo"
+                    :value="chainInfo.numTransactions"
+                />
+                <HomeBaseInfoItem
+                    title="Block Height"
+                    :condition="blockHeight"
+                    :value="blockHeight"
+                />
+            </div>
         </div>
-        <div class="col-md-3">
-          <div class="hm_wdjt_itm_t1">
-            <span>Market Cap</span>
-            <p v-if="marketData">{{marketData.marketCap}}</p>
-          </div>
-        </div>
-        <!-- <div class="col-md-2">
-          <div class="hm_wdjt_itm_t1">
-               <span>Average block time</span>
-              <p>0 seconds</p>
-          </div>
-        </div>-->
-        <div class="col-md-3">
-          <div class="hm_wdjt_itm_t1">
-            <span>Total Transactions</span>
-            <p v-if="chainInfo">{{chainInfo.numTransactions}}</p>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="hm_wdjt_itm_t1">
-            <span>Block Height</span>
-            <p v-if="blockHeight">{{blockHeight}}</p>
-          </div>
-        </div>
-        <!-- <div class="col-md-2">
-          <div class="hm_wdjt_itm_t1">
-               <span>Nodes Online</span>
-              <p>400</p>
-          </div>
-        </div>-->
-      </div>
     </div>
-  </div>
 </template>
 <script>
+import HomeBaseInfoItem from '@/components/HomeBaseInfoItem.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-  props: {},
+  components: {
+    HomeBaseInfoItem
+  },
+
   computed: {
     ...mapGetters({
       blockHeight: 'chain/getBlockHeight',

@@ -13,6 +13,10 @@ export default {
     DropDown,
     Pagination,
     Modal
+  },
+
+  mounted() {
+    this.$store.dispatch('initialize', this.$route)
   }
 }
 </script>

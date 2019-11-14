@@ -1,101 +1,113 @@
 <template>
-  <div class="page">
-    <div class="page-content-card-f">
-      <!-- Account Detail -->
-      <Card class="card-f card-full-width" :loading="loading" :error="error">
-        <template #title>
-          {{ detailTitle }}
-        </template>
+    <div class="page">
+        <div class="page-content-card-f">
+            <!-- Account Detail -->
+            <Card
+                class="card-f card-full-width"
+                :loading="loading"
+                :error="error"
+            >
+                <template #title>
+                    {{detailTitle}}
+                </template>
 
-        <template #body>
-          <TableInfoView :data="accountInfo" />
-        </template>
+                <template #body>
+                    <TableInfoView :data="accountInfo" />
+                </template>
 
-        <template #error> Account {{ address }} does not exist </template>
-      </Card>
+                <template #error>
+                    Account {{address}} does not exist
+                </template>
+            </Card>
 
-      <Card class="card-f card-full-width" :loading="loading">
-        <!-- Activity -->
-        <template #title>
-          {{ activityBuckets }}
-        </template>
+            <!-- MultiSig Info -->
+            <Card
+                class="card-f card-adaptive"
+                :loading="loading"
+            >
+                <template #title>
+                    {{multisigTitle}}
+                </template>
 
-        <template #body>
-          <TableListView :data="activityBucketList" />
-        </template>
-      </Card>
+                <template #body>
+                    <TableInfoView :data="accountMultisig" />
+                </template>
+            </Card>
 
-      <!-- MultiSig Cosignatories -->
-      <Card class="card-f card-adaptive" :loading="loading">
-        <template #title>
-          {{ cosignatoriesTitle }}
-        </template>
+            <!-- MultiSig Cosignatories -->
+            <Card
+                class="card-f card-adaptive"
+                :loading="loading"
+            >
+                <template #title>
+                    {{cosignatoriesTitle}}
+                </template>
 
-        <template #body>
-          <TableListView :data="accountMultisigCosignatories" />
-        </template>
-      </Card>
+                <template #body>
+                    <TableListView :data="accountMultisigCosignatories" :pagination="true" :pageSize="5" />
+                </template>
+            </Card>
 
-      <!-- Mosaics -->
-      <Card class="card-f card-adaptive" :loading="loading">
-        <template #title>
-          {{ mosaicsTitle }}
-        </template>
+            <!-- Mosaics -->
+            <Card
+                class="card-f card-adaptive"
+                :loading="loading"
+            >
+                <template #title>
+                    {{mosaicsTitle}}
+                </template>
 
-        <template #body>
-          <TableListView :data="mosaicList" />
-        </template>
-      </Card>
+                <template #body>
+                    <TableListView :data="mosaicList" :pagination="true" :pageSize="5" />
+                </template>
+            </Card>
 
-      <!-- Namespaces -->
-      <Card class="card-f card-adaptive" :loading="loading">
-        <template #title>
-          {{ namespacesTitle }}
-        </template>
+            <!-- Namespaces -->
+            <Card
+                class="card-f card-adaptive"
+                :loading="loading"
+            >
+                <template #title>
+                    {{namespacesTitle}}
+                </template>
 
-        <template #body>
-          <TableListView :data="namespaceList" />
-        </template>
-      </Card>
+                <template #body>
+                    <TableListView :data="namespaceList" :pagination="true" :pageSize="5" />
+                </template>
+            </Card>
 
-      <!-- Transactions -->
-      <Card class="card-f card-full-width" :loading="loading">
-        <template #title>
-          {{ transactionsTitle }}
-        </template>
+            <!-- Transactions -->
+            <Card
+                class="card-f card-full-width"
+                :loading="loading"
+            >
+                <template #title>
+                    {{transactionsTitle}}
+                </template>
 
-        <template #control>
-          <DropDown
-            :value="selectedTransactionType"
-            :options="transactionTypes"
-            @change="changeTransactionType"
-          />
-        </template>
+                <template #control>
+                    <DropDown
+                        :value="selectedTransactionType"
+                        :options="transactionTypes"
+                        @change="changeTransactionType"
+                    />
+                </template>
 
-        <template #body>
-          <TableListView :data="filteredTransactionList" />
-        </template>
-      </Card>
+                <template #body>
+                    <TableListView :data="filteredTransactionList" :pagination="true" :pageSize="5"/>
+                </template>
+            </Card>
+        </div>
     </div>
   </div>
 </template>
 
 <script>
-import View from "./View.vue";
-import helper from "../helper";
-import { mapGetters } from "vuex";
+import View from './View.vue'
+import { mapGetters } from 'vuex'
 
 export default {
   extends: View,
-
-  async mounted() {
-    await helper.logError(this.$store.dispatch, "api/initialize");
-    await helper.logError(
-      this.$store.dispatch,
-      "account/fetchAccountDataByAddress",
-      this.address
-    );
-  },
 
   data() {
     return {

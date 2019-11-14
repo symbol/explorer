@@ -56,7 +56,6 @@
 import w1 from '@/components/TypeBox.vue'
 import w2 from '@/components/TransactionTable.vue'
 import View from './View.vue'
-import helper from '../helper'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -65,11 +64,6 @@ export default {
   components: {
     TypeBox: w1,
     TransactionTable: w2
-  },
-
-  async mounted() {
-    await helper.logError(this.$store.dispatch, 'api/initialize')
-    await helper.logError(this.$store.dispatch, 'transaction/initialize')
   },
 
   data() {

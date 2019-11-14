@@ -85,16 +85,10 @@
 
 <script>
 import View from './View.vue'
-import helper from '../helper'
 import { mapGetters } from 'vuex'
 
 export default {
   extends: View,
-
-  async mounted() {
-    await helper.logError(this.$store.dispatch, 'api/initialize')
-    await helper.logError(this.$store.dispatch, 'transaction/getTransactionInfoByHash', this.transactionHash)
-  },
 
   data() {
     return {

@@ -18,6 +18,7 @@
 
 import Lock from './lock'
 import sdkDiagnostic from '../infrastructure/getDiagnostic'
+import sdkBlock from '../infrastructure/getBlock'
 import apiMarketData from '../infrastructure/getMarketData'
 
 const LOCK = Lock.create()
@@ -103,6 +104,12 @@ export default {
         })
       }
       commit('setMarketData', { marketData, graphData })
+    },
+
+    async getBlockHeight({commit}) {
+      let blockList = await sdkBlock.getBlocksFromHeightWithLimit(1)
+        if (blockList.length > 0) 
+          commit('setBlockHeight', blockList[0].height)
     }
   }
 }
