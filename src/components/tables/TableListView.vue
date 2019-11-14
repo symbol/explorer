@@ -115,16 +115,8 @@ export default {
 
   computed: {
     preparedData() {
-      console.log("data", this.data)
-      console.log("pageIndex", this.pageIndex)
-      console.log("pageSize", this.pageSize)
-      console.log("this.pageIndex * this.pageSize", this.pageIndex * this.pageSize)
-      console.log("this.pageIndex * this.pageSize + this.pageSize", this.pageIndex * this.pageSize + this.pageSize)
-      console.log("data.slice", this.data.slice(this.pageIndex * this.pageSize, this.pageIndex * this.pageSize + this.pageSize))
-
-      if(this.pagination === true) {
-        return this.data.slice(this.pageIndex * this.pageSize, this.pageIndex * this.pageSize + this.pageSize)
-      }
+      if(this.pagination === true) 
+        return this.data.slice(this.pageIndex * this.pageSize, this.pageIndex * this.pageSize + this.pageSize);
       else
         return this.data;
     },

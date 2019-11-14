@@ -209,12 +209,16 @@ export default {
       commit('setLoading', false)
     },
 
-    getBlockInfo: async ({ commit }, height) => {
+    getBlockInfo: async ({ commit, dispatch }, height) => {
       commit('blockInfoError', false)
       commit('blockInfoLoading', true)
       commit('blockInfo', {})
       commit('blockTransactionList', [])
       commit('currentBlockHeight', height)
+
+      dispatch('chain/getBlockHeight', null, { root: true })
+
+
 
       let blockInfo
       try { blockInfo = await sdkBlock.getBlockInfoByHeightFormatted(height) } catch (e) {
