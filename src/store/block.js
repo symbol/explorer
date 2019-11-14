@@ -230,13 +230,16 @@ export default {
       commit('blockInfoLoading', false)
     },
 
-    nextBlock: ({ commit, getters, dispatch }) => {
+    nextBlock: ({ commit, getters, dispatch, rootGetters }) => {
+      console.log(getters.currentBlockHeight, rootGetters['chain/getBlockHeight'])
+      if(getters.currentBlockHeight < rootGetters['chain/getBlockHeight'])
       dispatch('ui/openPage', {
         pageName: 'block',
         param: +getters.currentBlockHeight + 1
       }, { root: true })
     },
     previousBlock: ({ commit, getters, dispatch }) => {
+      if(+getters.currentBlockHeight > 1)
       dispatch('ui/openPage', {
         pageName: 'block',
         param: +getters.currentBlockHeight - 1
