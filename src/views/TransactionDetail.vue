@@ -61,7 +61,7 @@
                 </template>
 
                 <template #body>
-                    <TableListView :data="aggregateInnerTransactions" />
+                    <TableListView :data="aggregateInnerTransactions" :pagination="true" :pageSize="5" />
                 </template>
             </Card>
 
@@ -76,7 +76,7 @@
                 </template>
 
                 <template #body>
-                    <TableListView :data="aggregateCosignatures" />
+                    <TableListView :data="aggregateCosignatures" :pagination="true" :pageSize="5" />
                 </template>
             </Card>
         </div>

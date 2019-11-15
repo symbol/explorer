@@ -1,6 +1,7 @@
-import { Address, TransactionType, NetworkType } from 'nem2-sdk'
+import { Address, TransactionType } from 'nem2-sdk'
 import { Constants } from './config'
 import moment from 'moment'
+import http from './infrastructure/http'
 
 // FORMAT FEE
 
@@ -46,7 +47,7 @@ const formatBlock = (block) => {
     ).local().format('YYYY-MM-DD HH:mm:ss'),
     totalFee: formatFee(block.totalFee),
     difficulty: (block.difficulty.compact() / 1000000000000).toFixed(2),
-    numTransactions: block.numTransactions ? block.numTransactions : 0,
+    numTransactions: block.numTransactions,
     signature: block.signature,
     signer: block.signer,
     previousBlockHash: block.previousBlockHash,
@@ -96,7 +97,7 @@ const formatAccount = (accountInfo, accountName) => {
     importanceHeight: accountInfo.importanceHeight.compact(),
     accountType: Constants.AccountType[accountInfo.accountType],
     activityBucket: accountInfo.activityBucket,
-    linkedAccountKey: accountInfo.linkedAccountKey,
+    linkedAccountKey: Constants.AccountType[accountInfo.accountType] === 'Unlinked' ? Constants.Message.UNAVAILABLE : Address.createFromPublicKey(accountInfo.linkedAccountKey, http.networkType).plain(),
     lastActivity: lastActivity,
     harvestedBlocks: harvestedBlocks,
     harvestedFees: harvestedFees
@@ -341,7 +342,7 @@ const formatTransactionBody = transactionBody => {
         typeId: TransactionType.LINK_ACCOUNT,
         linkAction: Constants.LinkAction[transactionBody.linkAction],
         remoteAccountPublicKey: transactionBody.remotePublicKey,
-        remoteAccountAddress: Address.createFromPublicKey(transactionBody.remotePublicKey, NetworkType.MIJIN_TEST).plain()
+        remoteAccountAddress: Address.createFromPublicKey(transactionBody.remotePublicKey, http.networkType).plain()
       }
       return linkAccountObj
     case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
@@ -430,7 +431,7 @@ const formatNamespaces = namespacesInfo =>
 
         active: ns.namespaceInfo.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
         startHeight: ns.namespaceInfo.startHeight.compact(),
-        endHeight: name.toUpperCase() === Constants.NetworkConfig.NAMESPACE
+        endHeight: Constants.NetworkConfig.NAMESPACE.indexOf(name.toUpperCase()) !== -1
           ? Constants.Message.INFINITY
           : ns.namespaceInfo.endHeight.compact(),
         parentId: ns.namespaceInfo.parentId.id.toHex()

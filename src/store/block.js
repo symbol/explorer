@@ -133,8 +133,19 @@ export default {
     },
 
     // Add block to latest blocks.
-    add({ commit }, item) {
+    async add({ commit }, item) {
       commit('chain/setBlockHeight', item.height, { root: true })
+
+      // WS no return numTransactions, use http request to get numTransactions.
+      if (item.numTransactions === undefined) {
+        try {
+          let blockInfo = await sdkBlock.getBlockInfoByHeightFormatted(item.height)
+          item.numTransactions = blockInfo.blockInfo.totalTransactions
+        } catch (e) {
+          console.error(e)
+        }
+      }
+
       commit('addLatestItem', item)
     },
 
