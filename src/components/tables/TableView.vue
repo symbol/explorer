@@ -1,5 +1,6 @@
 <script>
 import Age from '../Age.vue'
+import Constants from '../../config/constants'
 export default {
   components: { Age },
   props: {
@@ -31,6 +32,7 @@ export default {
         'namespace',
         'namespaceName',
         'linkedNamespace',
+        'linkedAccountKey',
         'transaction',
         'harvester',
         'mosaicId',
@@ -48,11 +50,11 @@ export default {
         'blockHeight',
         'endHeight',
         'startHeight',
-        'transactionBody',
+        'remoteAccountAddress',
 
         'lastActivity'
-      ]
-
+      ],
+      disableClickItems: [...Object.values(Constants.Message)]
     }
   },
 
@@ -67,16 +69,26 @@ export default {
       return this.clickableItems.indexOf(itemKey) !== -1
     },
 
+    isDisableItemClick(item) {
+      return this.disableClickItems.indexOf(item) !== -1
+    },
+
     isItemShown(itemKey, item) {
       return item != null
     },
 
     onItemClick(itemKey, item) {
-      if (this.isItemClickable(itemKey)) { this.$store.dispatch(`ui/openPage`, { pageName: itemKey, param: item }) }
+      if (this.isItemClickable(itemKey) && !this.isDisableItemClick(item)) {
+        this.$store.dispatch(`ui/openPage`, {
+          pageName: itemKey,
+          param: item,
+        })
+      }
     },
 
     getItemHref(itemKey, item) {
-      return this.$store.getters[`ui/getPageHref`]({ pageName: itemKey, param: item }) 
+      if(!this.isDisableItemClick(item))
+        return this.$store.getters[`ui/getPageHref`]({ pageName: itemKey, param: item })
     },
 
     getKeyName(key) {

@@ -32,6 +32,7 @@
     "importanceHeight": "重要性的高度",
     "accountType": "账户类型",
     "linkedAccountKey": "已绑定账户钥匙",
+    "lastActivity": "最后活动",
     "accounts": "账户",
     "blocks": "块",
     "mosaics": "马赛克",
@@ -67,5 +68,8 @@
     "minApproval": "最小签名数",
     "minRemoval": "最小删除数",
     "nothingToShow": "没有资料可显示..",
-    "transactionBody": "交易详情"
+    "transactionBody": "交易详情",
+    "totalFeesPaid": "已付总费用",
+    "beneficiaryCount": "受益人计数",
+    "rawScore": "原始分数"
 }
