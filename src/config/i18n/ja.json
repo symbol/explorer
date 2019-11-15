@@ -32,6 +32,7 @@
     "importanceHeight": "インポータンスのブロック高",
     "accountType": "アカウントの種類",
     "linkedAccountKey": "リンクされたアカウントキー",
+    "lastActivity": "最後の活動",
     "accounts": "アカウント",
     "blocks": "ブロック",
     "mosaics": "モザイク",
@@ -67,5 +68,8 @@
     "minApproval": "最小承認",
     "minRemoval": "最小削除",
     "nothingToShow": "空の情報",
-    "transactionBody": "トランザクション詳細"
+    "transactionBody": "トランザクション詳細",
+    "totalFeesPaid": "支払総額",
+    "beneficiaryCount": "受取人数",
+    "rawScore": "生のスコア"
 }

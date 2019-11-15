@@ -71,5 +71,8 @@
     "nothingToShow": "Nothing to show.",
     "transactionBody": "Transaction Detail",
     "name": "Name",
-    "message": "Message"
+    "message": "Message",
+    "totalFeesPaid": "Total Fees Paid",
+    "beneficiaryCount": "Beneficiary Count",
+    "rawScore": "Raw Score"
 }
