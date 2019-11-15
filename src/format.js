@@ -47,7 +47,7 @@ const formatBlock = (block) => {
     ).local().format('YYYY-MM-DD HH:mm:ss'),
     totalFee: formatFee(block.totalFee),
     difficulty: (block.difficulty.compact() / 1000000000000).toFixed(2),
-    numTransactions: block.numTransactions ? block.numTransactions : 0,
+    numTransactions: block.numTransactions,
     signature: block.signature,
     signer: block.signer,
     previousBlockHash: block.previousBlockHash,
