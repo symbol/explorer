@@ -112,6 +112,7 @@ class sdkAccount {
     let accountMultisig
     let formattedAccountMultisig
     let accountMultisigCosignatories
+    let activityBuckets
 
     let transactionList
     let formattedTansactionList
@@ -145,6 +146,10 @@ class sdkAccount {
           amount: el.amount
         }))
         : []
+
+      activityBuckets = Array.isArray(rawAccountInfo.activityBucket)
+        ? rawAccountInfo.activityBucket
+        : []
     }
 
     if (accountMultisig) {
@@ -152,6 +157,8 @@ class sdkAccount {
         minApproval: accountMultisig.minApproval,
         minRemoval: accountMultisig.minRemoval
       }
+
+      formattedAccountInfo = {...formattedAccountInfo, ...formattedAccountMultisig }
       if (accountMultisig.cosignatories) { accountMultisigCosignatories = accountMultisig.cosignatories }
     }
 
@@ -180,10 +187,11 @@ class sdkAccount {
       // rawAccountInfo: rawAccountInfo || {},
       accountInfo: formattedAccountInfo || {},
       mosaicList: mosaicList || [],
-      multisigInfo: formattedAccountMultisig || {},
+      multisigInfo: formattedAccountMultisig || [],
       multisigCosignatoriesList: accountMultisigCosignatories || [],
       tansactionList: formattedTansactionList || [],
-      namespaceList: formattedNamespaceList || []
+      namespaceList: formattedNamespaceList || [],
+      activityBuckets: activityBuckets || []
     }
   }
 }
