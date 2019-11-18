@@ -40,17 +40,17 @@
   </div>
 </template>
 <script>
-import w1 from '@/components/PageFooterItem.vue'
-import w2 from '@/components/NemDescription.vue'
-import w3 from '@/components/NemCopyright.vue'
+import PageFooterItem from '@/components/PageFooterItem.vue'
+import NemDescription from '@/components/NemDescription.vue'
+import NemCopyright from '@/components/NemCopyright.vue'
 import helper from '../helper'
 
 export default {
   name: 'PageFooter',
   components: {
-    PageFooterItem: w1,
-    NemDescription: w2,
-    NemCopyright: w3
+    PageFooterItem,
+    NemDescription,
+    NemCopyright
   },
   props: {
     msg: String

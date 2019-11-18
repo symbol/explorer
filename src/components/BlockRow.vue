@@ -27,16 +27,16 @@
   </tr>
 </template>
 <script>
-import w1 from '@/components/BlockHeightLink.vue'
-import w2 from '@/components/Age.vue'
-import w3 from '@/components/AddressLink.vue'
+import BlockHeightLink from '@/components/BlockHeightLink.vue'
+import Age from '@/components/Age.vue'
+import AddressLink from '@/components/AddressLink.vue'
 
 export default {
   name: 'BlockRow',
   components: {
-    BlockHeightLink: w1,
-    Age: w2,
-    AddressLink: w3
+    BlockHeightLink,
+    Age,
+    AddressLink
   },
   props: {
     item: {}

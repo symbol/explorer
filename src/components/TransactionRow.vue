@@ -34,16 +34,16 @@
   </tr>
 </template>
 <script>
-import w1 from '@/components/BlockHeightLink.vue'
-import w2 from '@/components/TransactionHashLink.vue'
-import w3 from '@/components/AddressLink.vue'
+import BlockHeightLink from '@/components/BlockHeightLink.vue'
+import TransactionHashLink from '@/components/TransactionHashLink.vue'
+import AddressLink from '@/components/AddressLink.vue'
 
 export default {
   name: 'TransactionRow',
   components: {
-    BlockHeightLink: w1,
-    TransactionHashLink: w2,
-    AddressLink: w3
+    BlockHeightLink,
+    TransactionHashLink,
+    AddressLink
   },
   props: {
     item: {

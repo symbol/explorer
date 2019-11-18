@@ -50,12 +50,12 @@
   </div>
 </template>
 <script>
-import w1 from '@/components/BlockRow.vue'
+import BlockRow from '@/components/BlockRow.vue'
 
 export default {
   name: 'BlockTable',
   components: {
-    BlockRow: w1
+    BlockRow
   },
   props: {
     blockList: {}
