@@ -55,13 +55,6 @@ export default {
   props: {
     msg: String
   },
-  methods: {
-    isMobile() {
-      return helper.isMobile(
-        navigator.userAgent || navigator.vendor || window.opera
-      )
-    }
-  },
   data() {
     return {
       loading: 1,

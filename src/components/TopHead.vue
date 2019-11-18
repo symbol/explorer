@@ -80,14 +80,6 @@ export default {
       mobmenu_active: 0,
       nodemenu_active: 0,
     }
-  },
-
-  methods: {
-    isMobile() {
-      return helper.isMobile(
-        navigator.userAgent || navigator.vendor || window.opera
-      )
-    },
-  },
+  }
 }
 </script>
