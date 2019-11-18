@@ -20,16 +20,24 @@
   <div class="row">
     <div class="col-md-12">
       <div class="ftr_btm">
-        <p>© NEM.io Foundation 2019 | All Rights Reserved | NEM ™</p>
-        <ul class="ftr_btm-menu">
-          <li>
-            <router-link v-bind:to="'terms'">Terms</router-link>
-          </li>
-          <li>
-            <router-link v-bind:to="'privacy'">Privacy</router-link>
-          </li>
-        </ul>
+        <span>NEM.io Foundation 2019</span>
+        <span>|</span>
+        <span>All Rights Reserved</span>
+        <span>|</span>
+        <span>
+          <a href="/terms">Terms</a> &
+          <a href="/privacy">Privacy</a>
+        </span>
       </div>
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+span {
+  margin: 0px 4px
+}
+span > a {
+  color: #fff;
+}
+</style>

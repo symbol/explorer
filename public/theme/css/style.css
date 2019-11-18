@@ -1127,19 +1127,7 @@ table.table-bordered.dataTable tbody tr {
     text-decoration: none;
     line-height: 1.5;
 }
-.ftr_btm-menu{
-    margin: 0px;
-    list-style: none;
-    display: inline-block;
-}
-.ftr_btm-menu li,.ftr_btm p{
-    display: inline-block;
-}
-.ftr_btm-menu li a{
-    margin-left: 15px;
-    color: #fff;
-    font-size: 12px;
-}
+
 .social-icon li a i {
     font-size: 15px;
 }
