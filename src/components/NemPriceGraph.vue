@@ -29,49 +29,46 @@
 </template>
 <style>
 #nempricegraph {
-  width: 100%;
-  min-height: 200px;
-  display: block;
-  transition: all 0.4s ease-in-out;
+    width: 100%;
+    min-height: 200px;
+    display: block;
+    transition: all 0.4s ease-in-out;
 }
 
-.apexcharts-xaxistooltip-bottom:before {
-  border-bottom-color: #59a7ab !important;
+.apexcharts-xaxistooltip-bottom::before {
+    border-bottom-color: #59a7ab !important;
 }
-.apexcharts-xaxistooltip-bottom:after {
-  border-bottom-color: #1ea9a6 !important;
+
+.apexcharts-xaxistooltip-bottom::after {
+    border-bottom-color: #1ea9a6 !important;
 }
+
 .apexcharts-tooltip.light {
-  border: 1px solid #e3e3e3 !important;
-  /* background: rgba(58, 108, 153, 0.76) !important; */
-  background: #fff;
-  color: #555555 !important;
+    border: 1px solid #e3e3e3 !important;
+    background: #fff;
+    color: #555 !important;
 }
-/* .apexcharts-xaxistooltip {
-  background: #1ea9a6 !important;
-  color: #fff !important;
+
+.apexcharts-yaxistooltip-left::after {
+    border-left-color: #1ea9a6 !important;
 }
-.apexcharts-yaxistooltip {
-  background: #1ea9a6 !important;
-  border: 1px solid #1ea9a6 !important;
-  color: #ffffff !important;
-} */
-.apexcharts-yaxistooltip-left:after {
-  border-left-color: #1ea9a6 !important;
+
+.apexcharts-yaxistooltip-left::before {
+    border-left-color: #1ea9a6 !important;
 }
-.apexcharts-yaxistooltip-left:before {
-  border-left-color: #1ea9a6 !important;
-}
+
 .apexcharts-tooltip.light .apexcharts-tooltip-title {
-  background: #0998a6 !important;
-  color: #fff;
+    background: #0998a6 !important;
+    color: #fff;
 }
+
 .apexcharts-toolbar {
-  margin-top: 6px;
+    margin-top: 6px;
 }
+
 .apexcharts-canvas svg {
-  margin: 0px 0px 0px -10px;
-  width: 100%;
+    margin: 0 0 0 -10px;
+    width: 100%;
 }
 </style>
 <script>

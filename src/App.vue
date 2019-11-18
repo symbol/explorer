@@ -51,22 +51,22 @@ export default {
 </script>
 
 <style lang="scss">
-#app{
-  // width: 100vw;
-  // height: 100vh;
+#app {
+    // width: 100vw;
+    // height: 100vh;
 }
 
-.noselect{
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  outline: 0;
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: 0;
 }
 
-.pointer{
-  cursor: pointer;
+.pointer {
+    cursor: pointer;
 }
 </style>

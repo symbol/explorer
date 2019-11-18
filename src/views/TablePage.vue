@@ -82,26 +82,25 @@ export default {
 
         .card {
             padding: 20px;
-            box-shadow: 0 1px 15px 1px rgba(52, 40, 104, .18);
+            box-shadow: 0 1px 15px 1px rgba(52, 40, 104, 0.18);
             background: #fff;
             border-radius: 4px;
             border: none;
             margin-bottom: 30px;
             width: 100%;
-            //position: relative;
-            //display: block;
             transition: all 0.5s ease-in-out;
+
             .card-title {
                 display: flex;
                 justify-content: space-between;
                 margin-bottom: 20px;
             }
+
             .card-body {
                 position: relative;
                 display: block;
             }
         }
     }
-    //
 }
 </style>

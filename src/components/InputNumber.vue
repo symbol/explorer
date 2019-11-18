@@ -25,6 +25,6 @@
 </template>
 <style lang="scss" scoped>
 .input-number {
-  width: 10ch;
+    width: 10ch;
 }
 </style>

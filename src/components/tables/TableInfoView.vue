@@ -84,9 +84,8 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .table-view {
-    overflow:auto;
+    overflow: auto;
 
     .table-left-header {
         font-weight: bold;

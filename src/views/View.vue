@@ -27,7 +27,7 @@ export default {
         padding: 10px;
         display: flex;
         justify-content: space-between;
-        flex-wrap: wrap
+        flex-wrap: wrap;
     }
 
     .card-f {
@@ -36,7 +36,7 @@ export default {
 
     .card-adaptive {
         flex: 1 1 auto;
-        max-width: 100%
+        max-width: 100%;
     }
 
     .card-full-width {
@@ -69,7 +69,6 @@ export default {
         }
 
         .card-f {
-            margin-right: 10px;
             margin-right: 10px;
         }
     }
