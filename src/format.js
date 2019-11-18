@@ -11,24 +11,6 @@ const microxemToXem = amount => amount / Math.pow(10, 6)
 // Format fee (in microxem) to string (in XEM).
 const formatFee = fee => microxemToXem(fee.compact()).toString()
 
-// FORMAT ADDRESS
-
-// Format address to pretty string.
-const formatAddress = address => address.pretty()
-
-// FORMAT TIMESTAMP
-
-// Convert NEM timestamp to date.
-const nemstampToDate = nemstamp =>
-  new Date(Math.floor(nemstamp.compact() / 1000) + 1459468800)
-
-// Convert date to moment.
-const dateToMoment = date => moment(String(date))
-
-// Format timestamp from nemstamp.
-const formatTimestamp = nemstamp =>
-  dateToMoment(nemstampToDate(nemstamp)).format('YYYY-MM-DD H:mm:ss')
-
 // FORMAT BLOCK
 
 const formatBlocks = (blockList) => {
@@ -498,9 +480,7 @@ const formatNamespaceInfos = namespaceInfos => {
 }
 
 export default {
-  formatAddress,
   formatFee,
-  formatTimestamp,
   formatBlocks,
   formatBlock,
   formatAccount,
