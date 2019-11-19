@@ -25,14 +25,14 @@
   </div>
 </template>
 <script>
-import w1 from '@/components/TransactionHashLink.vue'
-import w2 from '@/components/TransactionInfo.vue'
+import TransactionHashLink from '@/components/TransactionHashLink.vue'
+import TransactionInfo from '@/components/TransactionInfo.vue'
 
 export default {
   name: 'RecentBlockRow',
   components: {
-    TransactionHashLink: w1,
-    TransactionInfo: w2
+    TransactionHashLink,
+    TransactionInfo
   },
   props: {
     item: {}
