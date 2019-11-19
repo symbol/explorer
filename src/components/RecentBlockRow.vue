@@ -25,14 +25,14 @@
   </div>
 </template>
 <script>
-import w1 from '@/components/BlockHeightLink.vue'
-import w2 from '@/components/BlockInfo.vue'
+import BlockHeightLink from '@/components/BlockHeightLink.vue'
+import BlockInfo from '@/components/BlockInfo.vue'
 
 export default {
   name: 'RecentBlockRow',
   components: {
-    BlockHeightLink: w1,
-    BlockInfo: w2
+    BlockHeightLink,
+    BlockInfo
   },
   props: {
     item: {}
