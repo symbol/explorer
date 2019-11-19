@@ -43,7 +43,6 @@
 import PageFooterItem from '@/components/PageFooterItem.vue'
 import NemDescription from '@/components/NemDescription.vue'
 import NemCopyright from '@/components/NemCopyright.vue'
-import helper from '../helper'
 
 export default {
   name: 'PageFooter',
@@ -54,13 +53,6 @@ export default {
   },
   props: {
     msg: String
-  },
-  methods: {
-    isMobile() {
-      return helper.isMobile(
-        navigator.userAgent || navigator.vendor || window.opera
-      )
-    }
   },
   data() {
     return {
