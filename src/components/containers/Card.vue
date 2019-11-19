@@ -39,37 +39,39 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-    .card {
-        padding: 20px;
-        box-shadow: 0 1px 15px 1px rgba(52, 40, 104, .18);
-        background: #fff;
-        border-radius: 4px;
-        border: none;
-        margin-bottom: 20px;
-        transition: all 0.5s ease-in-out;
-        position: relative;
-        .card-loading {
-            height: 187px;
-        }
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            margin-bottom: 10px;
+.card {
+    padding: 20px;
+    box-shadow: 0 1px 15px 1px rgba(52, 40, 104, 0.18);
+    background: #fff;
+    border-radius: 4px;
+    border: none;
+    margin-bottom: 20px;
+    transition: all 0.5s ease-in-out;
+    position: relative;
 
-            font-size: 16px;
-            font-weight: 500;
-            color: #393939;
-        }
-        .card-body {
-            position: relative;
-            display: block;
-        }
-
-        .card-error {
-            font-size: 14px;
-            color: #98a8b4;
-            display: flex;
-            justify-content: center;
-        }
+    .card-loading {
+        height: 187px;
     }
+
+    .card-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 10px;
+        font-size: 16px;
+        font-weight: 500;
+        color: #393939;
+    }
+
+    .card-body {
+        position: relative;
+        display: block;
+    }
+
+    .card-error {
+        font-size: 14px;
+        color: #98a8b4;
+        display: flex;
+        justify-content: center;
+    }
+}
 </style>

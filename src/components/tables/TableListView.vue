@@ -115,7 +115,7 @@ export default {
 
   computed: {
     preparedData() {
-      if(this.pagination === true) 
+      if(this.pagination === true)
         return this.data.slice(this.pageIndex * this.pageSize, this.pageIndex * this.pageSize + this.pageSize);
       else
         return this.data;
@@ -177,19 +177,22 @@ export default {
 
 <style lang="scss" scoped>
 .table-view {
-  overflow: auto;
-  .table-pagination {
-    float: right;
-  }
-  .pagination-wrapper {
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    color: #393939;
-    .pagination{
-      margin: 0;
-      margin-left: 10px;
+    overflow: auto;
+
+    .table-pagination {
+        float: right;
     }
-  }
+
+    .pagination-wrapper {
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        color: #393939;
+
+        .pagination {
+            margin: 0;
+            margin-left: 10px;
+        }
+    }
 }
 </style>
