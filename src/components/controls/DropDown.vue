@@ -104,7 +104,6 @@ export default {
     position: relative;
     display: inline-block;
     vertical-align: middle;
-
     border: 1px solid #039ba8;
     border-radius: 4px;
     color: #039ba8;
@@ -116,12 +115,10 @@ export default {
 }
 
 .dropdown-c-toggle {
-
     min-width: 160px;
     padding: 6px 12px;
     padding-bottom: 5px;
     text-transform: none;
-
     border: 0;
     background-size: 0 2px, 100% 1px;
     background-repeat: no-repeat;
@@ -162,14 +159,14 @@ export default {
     clear: both;
     font-weight: normal;
     line-height: 1.6;
-    color: #333333;
+    color: #333;
     white-space: nowrap;
     text-decoration: none;
 }
 
 .dropdown-c-menu > div > a:hover {
     background: #efefef;
-    color: #409FCB;
+    color: #409fcb;
 }
 
 .dropdown-c-menu > div {
@@ -193,5 +190,4 @@ export default {
     border-left: 4px solid transparent;
     float: right;
 }
-
 </style>

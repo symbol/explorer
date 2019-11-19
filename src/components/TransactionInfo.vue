@@ -29,12 +29,12 @@
 </div>
 </template>
 <script>
-import w1 from '@/components/AddressLink.vue'
+import AddressLink from '@/components/AddressLink.vue'
 
 export default {
   name: 'TransactionInfo',
   components: {
-    AddressLink: w1
+    AddressLink
   },
   props: {
     item: {}

@@ -53,8 +53,8 @@
     </div>
 </template>
 <script>
-import w1 from '@/components/TypeBox.vue'
-import w2 from '@/components/TransactionTable.vue'
+import TypeBox from '@/components/TypeBox.vue'
+import TransactionTable from '@/components/TransactionTable.vue'
 import View from './View.vue'
 import { mapGetters } from 'vuex'
 
@@ -62,8 +62,8 @@ export default {
   extends: View,
 
   components: {
-    TypeBox: w1,
-    TransactionTable: w2
+    TypeBox,
+    TransactionTable
   },
 
   data() {

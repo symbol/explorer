@@ -63,7 +63,6 @@ import MobileMenu from '@/components/menu/MobileMenu.vue'
 import NodeSelector from '@/components/controls/NodeSelector.vue'
 import LanguageSelector from '@/components/controls/LanguageSelector.vue'
 import SearchBox from '@/components/controls/SearchBox.vue'
-import helper from '../helper'
 
 export default {
   name: 'TopHead',
@@ -80,14 +79,6 @@ export default {
       mobmenu_active: 0,
       nodemenu_active: 0,
     }
-  },
-
-  methods: {
-    isMobile() {
-      return helper.isMobile(
-        navigator.userAgent || navigator.vendor || window.opera
-      )
-    },
-  },
+  }
 }
 </script>

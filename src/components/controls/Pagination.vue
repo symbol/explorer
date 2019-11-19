@@ -93,21 +93,22 @@ export default {
 
 <style lang="scss" scoped>
 .disabled {
-  cursor: not-allowed;
-  color: gray
+    cursor: not-allowed;
+    color: gray;
 }
 
 .page-item {
-  cursor: pointer
+    cursor: pointer;
 }
 
 .pagination-wrapper {
-  float: right;
-  .pagination-arrow {
-    justify-content: center;
-    flex-direction: column;
-    display: flex;
-    height: 22px;
-  }
+    float: right;
+
+    .pagination-arrow {
+        justify-content: center;
+        flex-direction: column;
+        display: flex;
+        height: 22px;
+    }
 }
 </style>

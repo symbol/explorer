@@ -54,25 +54,25 @@ export default {
 
 <style lang="scss" scoped>
 .dropdown-toggle {
-  border: 0px;
-  color: #acc5ce;
+    border: 0;
+    color: #acc5ce;
 }
 
 .dropdown-menu {
-  border: 0px;
+    border: 0;
 }
 
 .node-selector {
-  //min-width: 200px;
-  z-index: 9000;
+    z-index: 9000;
 }
+
 .node-selector-menu {
-  background: #3d7397c4;
+    background: #3d7397c4;
 }
 
 .node-selector-item {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 </style>

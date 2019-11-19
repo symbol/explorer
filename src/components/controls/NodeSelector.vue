@@ -61,16 +61,16 @@ export default {
 
 <style lang="scss" scoped>
 .node-selector {
-  //min-width: 200px;
-  z-index: 9000;
+    z-index: 9000;
 }
-.node-selector-menu{
+
+.node-selector-menu {
     background: #3d7397c4;
 }
 
 .node-selector-item {
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 </style>
