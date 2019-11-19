@@ -20,13 +20,13 @@
                 </template>
             </Card>
 
-            <!-- Activity Buckets List -->
+            <!-- Importance History -->
             <Card
                 class="card-f card-full-width"
                 :loading="loading"
             >
                 <template #title>
-                    {{activityBuckets}}
+                    {{importanceHistory}}
                 </template>
 
                 <template #body>
@@ -111,7 +111,7 @@ export default {
   data() {
     return {
       detailTitle: "Account Detail",
-      activityBuckets: "Activity Buckets",
+      importanceHistory: "Importance History",
       cosignatoriesTitle: "Multisig Cosignatories",
       mosaicsTitle: "Owned Mosaics",
       namespacesTitle: "Owned Namespaces",
