@@ -25,11 +25,11 @@
                     <div class="col-md-5">
                         <ul class="social-icon">
                             <PageFooterItem
-                              :href="item.href"
-                              :text="item.text"
-                              :classname="item.classname"
-                              v-for="item in items"
-                              v-bind:key="item.text"
+                                :href="item.href"
+                                :text="item.text"
+                                :classname="item.classname"
+                                v-for="item in items"
+                                v-bind:key="item.text"
                             />
                         </ul>
                     </div>
@@ -45,54 +45,53 @@ import NemDescription from '@/components/NemDescription.vue'
 import NemCopyright from '@/components/NemCopyright.vue'
 
 export default {
-    name: 'PageFooter',
-    
-    components: {
-        PageFooterItem,
-        NemDescription,
-        NemCopyright
-    },
+  name: 'PageFooter',
 
-    props: {
-        msg: String
-    },
-    data() {
-        return {
-            loading: 1,
-            items: [
-                {
-                    href: 'https://nemflash.io/',
-                    text: 'NEM News',
-                    classname: 'ico-news'
-                },
-                {
-                    href: 'https://forum.nem.io/',
-                    text: 'Forum',
-                    classname: 'ico-forum'
-                },
-                {
-                    href: 'https://github.com/nemtech',
-                    text: 'Github',
-                    classname: 'ico-github'
-                },
-                {
-                    href: 'https://t.me/nemred',
-                    text: 'Telegram',
-                    classname: 'ico-paper-plane'
-                },
-                {
-                    href: 'https://www.reddit.com/r/nem/',
-                    text: 'Reddit',
-                    classname: 'ico-reddit'
-                }
-            ]
+  components: {
+    PageFooterItem,
+    NemDescription,
+    NemCopyright
+  },
+
+  props: {
+    msg: String
+  },
+  data() {
+    return {
+      loading: 1,
+      items: [
+        {
+          href: 'https://nemflash.io/',
+          text: 'NEM News',
+          classname: 'ico-news'
+        },
+        {
+          href: 'https://forum.nem.io/',
+          text: 'Forum',
+          classname: 'ico-forum'
+        },
+        {
+          href: 'https://github.com/nemtech',
+          text: 'Github',
+          classname: 'ico-github'
+        },
+        {
+          href: 'https://t.me/nemred',
+          text: 'Telegram',
+          classname: 'ico-paper-plane'
+        },
+        {
+          href: 'https://www.reddit.com/r/nem/',
+          text: 'Reddit',
+          classname: 'ico-reddit'
         }
-    },
+      ]
+    }
+  },
 
-    mounted() {}
+  mounted() {}
 }
 </script>
-
 
 <style lang="scss" scoped>
 .page-footer {
