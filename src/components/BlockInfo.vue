@@ -24,7 +24,7 @@
   </div>
   <div class="inrw flex">
     <span>Harvester</span>
-    <AddressLink :address="item.signer.address.address" class="acnt"/>
+    <AddressLink :address="item.signer" class="acnt"/>
   </div>
 </div>
 </template>

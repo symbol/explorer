@@ -63,7 +63,7 @@ export default {
       transactions: el.numTransactions,
       fee: el.totalFee,
       date: el.date,
-      harvester: el.signer.address.address
+      harvester: el.signer
     })),
     getSubscription: state => state.subscription,
     getLoading: state => state.loading,
@@ -141,10 +141,14 @@ export default {
         try {
           let blockInfo = await sdkBlock.getBlockInfoByHeightFormatted(item.height)
           item.numTransactions = blockInfo.blockInfo.totalTransactions
+          // console.log(blockInfo)
         } catch (e) {
           console.error(e)
         }
       }
+
+      console.log(item)
+
 
       commit('addLatestItem', item)
     },
