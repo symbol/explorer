@@ -17,8 +17,8 @@
  */
 
 <template>
-  <div>
-    <footer class="full-con mt-5 footer">
+
+    <footer class="full-con mt-5 footer page-footer">
       <div class="container">
         <div class="row">
           <NemDescription />
@@ -37,7 +37,7 @@
         <NemCopyright />
       </div>
     </footer>
-  </div>
+
 </template>
 <script>
 import PageFooterItem from '@/components/PageFooterItem.vue'
@@ -89,3 +89,11 @@ export default {
   mounted() {}
 }
 </script>
+
+
+<style lang="scss" scoped>
+.page-footer{
+  position:fixed;
+    bottom:0;
+}
+</style>
