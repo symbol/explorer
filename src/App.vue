@@ -18,9 +18,11 @@
 
 <template>
   <div id="app">
-    <top-header />
-    <page-menu />
-    <router-view :key="$route.fullPath"/>
+    <div class="app-content">
+      <top-header />
+      <page-menu />
+      <router-view :key="$route.fullPath"/>
+    </div>
     <page-footer/>
   </div>
 </template>
@@ -52,9 +54,17 @@ export default {
 
 <style lang="scss">
 #app {
-    // width: 100vw;
-    // height: 100vh;
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: table;
 }
+
+.app-content {
+  width: 100%;
+}
+
 
 .noselect {
     -webkit-touch-callout: none;
