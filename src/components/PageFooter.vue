@@ -95,7 +95,7 @@ export default {
 
 <style lang="scss" scoped>
 .page-footer {
-  display: table-row;
-  height: 0;
+    display: table-row;
+    height: 0;
 }
 </style>

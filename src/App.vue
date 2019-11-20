@@ -55,25 +55,25 @@ export default {
 
 <style lang="scss">
 #app {
-  height: 100vh;
-  width: 100%;
-  margin: 0;
-  padding: 0;
-  display: table;
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: table;
 }
 
 .app-content {
-  width: 100%;
+    width: 100%;
 }
 
 .noselect {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  outline: 0;
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: 0;
 }
 
 .pointer {
