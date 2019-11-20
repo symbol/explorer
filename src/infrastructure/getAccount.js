@@ -148,7 +148,12 @@ class sdkAccount {
         : []
 
       activityBuckets = Array.isArray(rawAccountInfo.activityBucket)
-        ? rawAccountInfo.activityBucket
+        ? rawAccountInfo.activityBucket.map(el => ({
+          recalculationBlock: el.startHeight,
+          totalFeesPaid: el.totalFeesPaid,
+          beneficiaryCount: el.beneficiaryCount,
+          importanceScore: el.rawScore
+        }))
         : []
     }
 

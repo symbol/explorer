@@ -71,5 +71,6 @@
     "transactionBody": "Detalhe da transação",
     "totalFeesPaid": "Total de taxas pagas",
     "beneficiaryCount": "Contagem de Beneficiários",
-    "rawScore": "resultado bruto"
+    "importanceScore": "Pontuação de importância",
+    "recalculationBlock": "Bloco de recálculo #"
 }

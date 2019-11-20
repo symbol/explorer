@@ -74,5 +74,6 @@
     "message": "Message",
     "totalFeesPaid": "Total Fees Paid",
     "beneficiaryCount": "Beneficiary Count",
-    "rawScore": "Raw Score"
+    "importanceScore": "Importance Score",
+    "recalculationBlock": "Recalculation Block #"
 }

@@ -52,7 +52,8 @@ export default {
         'startHeight',
         'remoteAccountAddress',
 
-        'lastActivity'
+        'lastActivity',
+        'recalculationBlock'
       ],
       disableClickItems: [...Object.values(Constants.Message)]
     }

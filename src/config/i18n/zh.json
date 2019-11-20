@@ -71,5 +71,6 @@
     "transactionBody": "交易详情",
     "totalFeesPaid": "已付总费用",
     "beneficiaryCount": "受益人计数",
-    "rawScore": "原始分数"
+    "importanceScore": "重要性分数",
+    "recalculationBlock": "重新计算块 #"
 }

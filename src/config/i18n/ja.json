@@ -71,5 +71,6 @@
     "transactionBody": "トランザクション詳細",
     "totalFeesPaid": "支払総額",
     "beneficiaryCount": "受取人数",
-    "rawScore": "生のスコア"
+    "importanceScore": "重要度スコア",
+    "recalculationBlock": "再計算ブロック #"
 }

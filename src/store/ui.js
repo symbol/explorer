@@ -47,6 +47,7 @@ export default {
       'startHeight': 'block',
       'endHeight': 'block',
       'lastActivity': 'block',
+      'recalculationBlock': 'block',
 
       'namespaceName': 'namespace',
       'namespaceId': 'namespace',
