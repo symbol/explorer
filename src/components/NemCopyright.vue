@@ -19,7 +19,7 @@
 <template>
   <div class="row">
     <div class="col-md-12">
-      <div class="ftr_btm">
+        <div class="ftr_btm">
         <span>NEM.io Foundation 2019</span>
         <span>|</span>
         <span>All Rights Reserved</span>
@@ -35,9 +35,10 @@
 
 <style lang="scss" scoped>
 span {
-  margin: 0px 4px
+    margin: 0 4px;
 }
+
 span > a {
-  color: #fff;
+    color: #fff;
 }
 </style>
