@@ -28,8 +28,9 @@
                 </template>
 
                 <template #body>
-                    <TypeBox
-                        :typeMap="typeMap"
+                    <Dropdown
+                        :options="filterOptions"
+                        :value="filterValue"
                         :resetPageAction="resetPageAction"
                         :changePageAction="changePageAction"
                     />
@@ -54,6 +55,7 @@
 </template>
 <script>
 import TypeBox from '@/components/TypeBox.vue'
+import Dropdown from '@/components/controls/Dropdown2.vue'
 import TransactionTable from '@/components/TransactionTable.vue'
 import View from './View.vue'
 import { mapGetters } from 'vuex'
@@ -63,7 +65,8 @@ export default {
 
   components: {
     TypeBox,
-    TransactionTable
+    TransactionTable,
+    Dropdown
   },
 
   data() {
@@ -89,7 +92,9 @@ export default {
       canFetchPrevious: 'transaction/getCanFetchPrevious',
       canFetchNext: 'transaction/getCanFetchNext',
       loading: 'transaction/getLoading',
-      error: 'transaction/getError'
+      error: 'transaction/getError',
+      filterOptions: 'transaction/filterOptions',
+      filterValue: 'transaction/filterValue',
     })
   }
 }
