@@ -91,7 +91,7 @@ export default {
     getError: state => state.error,
     accountInfoLoading: state => state.accountInfoLoading,
     accountInfoError: state => state.accountInfoError,
-    filterValue: state => state.transactionType,
+    filterValue: state => state.accountType,
     filterOptions: () => ({
       'rich': 'Rich List',
       'harvester': 'Harvester List'
