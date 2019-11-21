@@ -28,8 +28,8 @@ import Loading from '@/components/Loading.vue'
 import TableListView from '@/components/tables/TableListView.vue'
 import TableInfoView from '@/components/tables/TableInfoView.vue'
 import BootstrapVue from 'bootstrap-vue'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+//import 'bootstrap/dist/css/bootstrap.css'
+//import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 
 window.Vue = Vue
