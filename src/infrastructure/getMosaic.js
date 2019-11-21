@@ -47,7 +47,7 @@ class sdkMosaic {
       mosaicID = await http.namespace.getLinkedMosaicId(namespaceId).toPromise()
     }
     const mosaicInfo = await http.mosaic.getMosaic(mosaicID).toPromise()
-    const mosaicName = await http.mosaic.getMosaicsNames([mosaicID]).toPromise()
+    const mosaicName = await http.namespace.getMosaicsNames([mosaicID]).toPromise()
 
     return format.formatMosaicInfo(mosaicInfo, mosaicName[0])
   }

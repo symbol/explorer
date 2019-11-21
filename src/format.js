@@ -441,7 +441,7 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
     namespaceNameHexId: namespaceInfo.id.toHex().toUpperCase(),
     registrationType: Constants.NamespaceRegistrationType[namespaceInfo.registrationType],
     startHeight: namespaceInfo.startHeight.compact(),
-    endHeight: namespaceNames[0].name.toUpperCase() === Constants.NetworkConfig.NAMESPACE
+    endHeight: Constants.NetworkConfig.NAMESPACE.indexOf(namespaceNames[0].name.toUpperCase()) !== -1
       ? Constants.Message.INFINITY
       : namespaceInfo.endHeight.compact(),
     active: namespaceInfo.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
