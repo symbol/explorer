@@ -19,12 +19,12 @@
 <template>
   <div>
     <div class="full-con gradinet_01 top_head">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-3">
-          </div>
+      <b-container>
+        <b-row>
+          <b-col md="3">
+          </b-col>
 
-          <div class="col-md-6 text-center">
+          <b-col md="6" class="text-center">
             <router-link to="/" class="logo">
               <img src="theme/img/logo-w.png" />
             </router-link>
@@ -36,13 +36,13 @@
             </div>
 
             <SearchBox />
-          </div>
-          <div class="col-md-3">
+          </b-col>
+          <b-col md="3">
             <NodeSelector />
             <LanguageSelector />
-          </div>
-        </div>
-      </div>
+          </b-col>
+        </b-row>
+      </b-container>
 
       <div class="mobtopbar">
         <a class="mobilemenu mmtoggle" href="#">
@@ -82,3 +82,19 @@ export default {
   }
 }
 </script>
+
+
+<style lang="scss" scoped>
+.top_head {
+    padding-top: 12px;
+    padding-bottom: 10px;
+    display: block;
+    width: 100%;
+}
+
+.gradinet_01 {
+    background: linear-gradient(120deg, #1eaaa6 0%, #3d6597 100%);
+    background-size: 100% auto;
+    position: relative;
+}
+</style>

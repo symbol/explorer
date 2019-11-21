@@ -98,7 +98,15 @@ export default {
     aggregateInnerTransactions: state => state.aggregateInnerTransactions,
     aggregateCosignatures: state => state.aggregateCosignatures,
     transactionInfoLoading: state => state.transactionInfoLoading,
-    transactionInfoError: state => state.transactionInfoError
+    transactionInfoError: state => state.transactionInfoError,
+    filterValue: state => state.transactionType,
+    filterOptions: state => ({
+      'recent': 'Recent Transactions',
+      'pending': 'Pending Transactions',
+      'transfer': 'Transfer Transactions',
+      'multisig': 'Multisig Transactions',
+      'mosaic': 'Mosaic Transactions'
+    })
   },
   mutations: {
     setInitialized: (state, initialized) => { state.initialized = initialized },

@@ -13,12 +13,12 @@
                     :key="view+'r'+itemKey"
                 >
                     <td
-                        class="table-titles table-titles-ver table-title-item"
+                        class="table-titles table-titles-ver table-title-item table-cell"
                     >
                         {{getKeyName(itemKey)}}
                     </td>
                     <td
-                        class="max-item-width"
+                        class="max-item-width table-cell"
                         :class="{'table-item-clickable': isItemClickable(itemKey)}"
                         :title="getKeyName(itemKey) + ': ' + item"
                         @click="onItemClick(itemKey, item)"

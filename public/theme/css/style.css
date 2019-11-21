@@ -333,27 +333,6 @@ img {
     margin-left: 0;
 }
 
-.dropdown-menu {
-    position: absolute;
-    top: 100%;
-    left: 0;
-    z-index: 1000;
-    display: none;
-    float: left;
-    min-width: 10rem;
-    padding: 0.5rem 0;
-    margin: 0.125rem 0 0;
-    font-size: 1rem;
-    color: #212529;
-    text-align: left;
-    list-style: none;
-    background-color: transparent;
-    background-clip: padding-box;
-    border: 1px solid rgb(255, 255, 255);
-    border-radius: 0.25rem;
-    width: 100%;
-}
-
 .dropdown-menu-left {
     right: auto;
     left: 0;

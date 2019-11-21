@@ -15,6 +15,7 @@
           <tr v-for="(row, rowIndex) in preparedData" class="t-row" :key="view+'r'+rowIndex">
             <td
               v-for="(item, itemKey) in row"
+              class="table-cell"
               :key="view+'r'+rowIndex+'i'+itemKey"
               :class="{'table-item-clickable': isItemClickable(itemKey), [itemKey]: true}"
               :title="getKeyName(itemKey) + ': ' + item"
