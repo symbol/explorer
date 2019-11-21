@@ -64,7 +64,6 @@ export default {
   extends: View,
 
   components: {
-    TypeBox,
     TransactionTable,
     Dropdown
   },
