@@ -1,5 +1,5 @@
 <template>
-    <div class="network_switch noselect">
+    <div class="noselect">
         <div class="lang-swtch dropdown node-selector">
             <a class="dropdown-toggle">
                 Node : {{currentNode}}
