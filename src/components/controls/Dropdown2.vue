@@ -75,9 +75,3 @@ export default {
     }
 }
 </script>
-
-<style lang="scss" scoped>
-.dropdown-toogle {
-    border-color: transparent;
-}
-</style>
