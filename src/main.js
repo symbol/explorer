@@ -30,6 +30,7 @@ import TableInfoView from '@/components/tables/TableInfoView.vue'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import './styles/main.css'
 
 
 window.Vue = Vue

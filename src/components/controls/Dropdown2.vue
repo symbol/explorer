@@ -46,15 +46,15 @@ export default {
         variant() {
             let variant = '';
 
-            if(this.border === false)
-                variant = 'border-transparent ';
-            else
-                variant = 'outline-';
+            variant = 'outline-';
 
             if(this.dark === true)
                 variant += 'light';
             else
                 variant += 'info';
+
+            if(this.border === false)
+                variant += ' border-transparent' 
 
             return variant;
         }
@@ -75,3 +75,9 @@ export default {
     }
 }
 </script>
+
+<style lang="scss" scoped>
+.dropdown-toogle {
+    border-color: transparent;
+}
+</style>

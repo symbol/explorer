@@ -1,5 +1,5 @@
 <template>
-    <div class="noselect">
+    <!--<div class="noselect">
         <div class="lang-swtch dropdown node-selector">
             <a class="dropdown-toggle">
                 Node : {{currentNode}}
@@ -21,18 +21,33 @@
                 </a>
             </div>
         </div>
-    </div>
+    </div>-->
+    <Dropdown
+      :options="options"
+      :dark="true"
+      :value="currentNode"
+      @change="setNode"
+    />
 </template>
 
 <script>
+import Dropdown from './Dropdown2.vue'
 export default {
-  mounted() {
-    document.addEventListener('mousedown', () => this.close())
+  components: {
+    Dropdown
   },
 
   computed: {
     nodeList() {
-      return this.$store.getters['api/nodes']
+      return this.$store.getters['api/nodes'] || []
+    },
+
+    options() {
+      let options = {};
+      this.nodeList.forEach(node => 
+        options[node.url] = node.hostname
+      );
+      return options;
     },
 
     currentNode() {
@@ -43,17 +58,7 @@ export default {
   methods: {
     async setNode(url) {
       this.$emit('change', url)
-      this.close()
       await this.$store.dispatch('api/changeNode', url)
-    },
-
-    close() {
-      this.$refs.nodeSelector.classList.remove('shown')
-    },
-
-    prevent(e){
-      e.preventDefault()
-      e.stopPropagation()
     }
   }
 }
