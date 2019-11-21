@@ -54,7 +54,6 @@
     </div>
 </template>
 <script>
-import TypeBox from '@/components/TypeBox.vue'
 import Dropdown from '@/components/controls/Dropdown2.vue'
 import TransactionTable from '@/components/TransactionTable.vue'
 import View from './View.vue'
