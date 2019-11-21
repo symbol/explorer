@@ -125,6 +125,7 @@ export default {
         font-size: 12px;
         letter-spacing: 1px;
     }
+    
     .empty-data {
         font-size: 14px;
         color: #98a8b4;
