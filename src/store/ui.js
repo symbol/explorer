@@ -16,8 +16,9 @@
  *
  */
 import router from '../router'
-import { Address, AccountHttp } from 'nem2-sdk'
+import { Address, AccountHttp, NetworkType } from 'nem2-sdk'
 import { i18n } from '../config'
+import http from '../infrastructure/http'
 
 export default {
   namespaced: true,
@@ -172,8 +173,14 @@ const isAccountPublicKey = (str) =>
 
 const isAccountAddress = (str) =>
   str.length === 40 &&
-  str.match('^[A-z0-9]+$') &&
-  (str.substring(0, 1) === 'S' || str.substring(0, 1) === 's')
+  str.match(`[${getNetworkTypeAddressFormat[http.networkType]}]{1,1}[a-zA-Z0-9]{5,5}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{4,4}`)
 
 const isBlockHeight = (str) =>
   str.match(/^-{0,1}\d+$/)
+
+const getNetworkTypeAddressFormat = {
+  [NetworkType.MAIN_NET]: "nN",
+  [NetworkType.MIJIN]: "mM",
+  [NetworkType.MIJIN_TEST]: "sS",
+  [NetworkType.TEST_NET]: "tT",
+}
