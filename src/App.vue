@@ -17,13 +17,16 @@
  */
 
 <template>
-  <div id="app">
-    <top-header />
-    <page-menu />
-    <router-view :key="$route.fullPath"/>
-    <page-footer/>
-  </div>
+    <div id="app">
+        <div class="app-content">
+            <top-header />
+            <page-menu />
+            <router-view :key="$route.fullPath"/>
+        </div>
+        <page-footer/>
+    </div>
 </template>
+
 <script>
 
 export default {
@@ -52,8 +55,15 @@ export default {
 
 <style lang="scss">
 #app {
-    // width: 100vw;
-    // height: 100vh;
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: table;
+}
+
+.app-content {
+    width: 100%;
 }
 
 .noselect {
