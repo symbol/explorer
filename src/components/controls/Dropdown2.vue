@@ -1,7 +1,11 @@
 <template>
-    <b-dropdown :text="getLabel(value)">
+    <b-dropdown 
+        :variant="variant"
+        :text="getLabel(value)"
+    >
         <b-dropdown-item 
             v-for="(label, value) in options"
+            class="ex-dropdown"
             :key="'dropdown ' + value"
             @click="onChange(value)"
         >
@@ -25,12 +29,39 @@ export default {
 
         changePageAction: {
             type: String
+        },
+
+        dark: {
+            type: Boolean,
+            default: false
+        },
+
+        border: {
+            type: Boolean,
+            default: true
+        }
+    },
+
+    computed: {
+        variant() {
+            let variant = '';
+
+            if(this.border === false)
+                variant = 'border-transparent ';
+            else
+                variant = 'outline-';
+
+            if(this.dark === true)
+                variant += 'light';
+            else
+                variant += 'info';
+
+            return variant;
         }
     },
 
     methods: {
         onChange(e) {
-            console.log(e)
             this.$emit('change', e);
             if(this.changePageAction)
                 this.$store.dispatch(this.changePageAction, e);
@@ -46,5 +77,4 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 </style>
