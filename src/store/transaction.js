@@ -100,7 +100,7 @@ export default {
     transactionInfoLoading: state => state.transactionInfoLoading,
     transactionInfoError: state => state.transactionInfoError,
     filterValue: state => state.transactionType,
-    filterOptions: state => ({
+    filterOptions: () => ({
       'recent': 'Recent Transactions',
       'pending': 'Pending Transactions',
       'transfer': 'Transfer Transactions',

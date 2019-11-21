@@ -29,7 +29,7 @@
                 </template>
                 <template #control>
                     <TypeBox
-                        :typeMap="typeMap"
+                        :typeMap="filterOptions"
                         :resetPageAction="resetPageAction"
                         :changePageAction="changePageAction"
                     />
@@ -72,11 +72,7 @@ export default {
       nextPageAction: 'account/fetchNextPage',
       previousPageAction: 'account/fetchPreviousPage',
       resetPageAction: 'account/resetPage',
-      changePageAction: 'account/changePage',
-      typeMap: {
-        'rich': 'Rich List',
-        'harvester': 'Harvester List'
-      }
+      changePageAction: 'account/changePage'
     }
   },
 
@@ -88,7 +84,10 @@ export default {
       canFetchPrevious: 'account/getCanFetchPrevious',
       canFetchNext: 'account/getCanFetchNext',
       loading: 'account/getLoading',
-      error: 'account/getError'
+      error: 'account/getError',
+
+      filterValue: 'account/filterValue',
+      filterOptions: 'account/filterOptions' 
     })
   }
 }

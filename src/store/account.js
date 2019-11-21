@@ -90,7 +90,12 @@ export default {
     getActivityBucketList: state => state.activityBucketList,
     getError: state => state.error,
     accountInfoLoading: state => state.accountInfoLoading,
-    accountInfoError: state => state.accountInfoError
+    accountInfoError: state => state.accountInfoError,
+    filterValue: state => state.transactionType,
+    filterOptions: () => ({
+      'rich': 'Rich List',
+      'harvester': 'Harvester List'
+    })
   },
   mutations: {
     setInitialized: (state, initialized) => { state.initialized = initialized },
