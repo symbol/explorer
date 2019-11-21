@@ -29,7 +29,7 @@
 
                 <template #body>
                     <TypeBox
-                        :typeMap="typeMap"
+                        :typeMap="filterOptions"
                         :resetPageAction="resetPageAction"
                         :changePageAction="changePageAction"
                     />
@@ -72,14 +72,7 @@ export default {
       nextPageAction: 'transaction/fetchNextPage',
       previousPageAction: 'transaction/fetchPreviousPage',
       resetPageAction: 'transaction/resetPage',
-      changePageAction: 'transaction/changePage',
-      typeMap: {
-        'recent': 'Recent Transactions',
-        'pending': 'Pending Transactions',
-        'transfer': 'Transfer Transactions',
-        'multisig': 'Multisig Transactions',
-        'mosaic': 'Mosaic Transactions'
-      }
+      changePageAction: 'transaction/changePage'
     }
   },
 
@@ -89,7 +82,10 @@ export default {
       canFetchPrevious: 'transaction/getCanFetchPrevious',
       canFetchNext: 'transaction/getCanFetchNext',
       loading: 'transaction/getLoading',
-      error: 'transaction/getError'
+      error: 'transaction/getError',
+
+      filterValue: 'transaction/filterValue',
+      filterOptions: 'transaction/filterOptions' 
     })
   }
 }
