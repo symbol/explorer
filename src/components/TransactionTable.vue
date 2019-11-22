@@ -51,12 +51,12 @@
   </div>
 </template>
 <script>
-import w1 from '@/components/TransactionRow.vue'
+import TransactionRow from '@/components/TransactionRow.vue'
 
 export default {
   name: 'TransactionTable',
   components: {
-    TransactionRow: w1
+    TransactionRow
   },
   props: {
     transactionList: {}

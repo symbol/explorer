@@ -55,12 +55,12 @@
   </header>
 </template>
 <script>
-import w1 from './PageMenuItem.vue'
+import PageMenuItem from './PageMenuItem.vue'
 import { pageMenu } from '../../config/'
 export default {
   name: 'PageMenu',
   components: {
-    PageMenuItem: w1
+    PageMenuItem
   },
   props: {
     msg: String

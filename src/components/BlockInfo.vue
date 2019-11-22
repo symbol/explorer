@@ -29,14 +29,14 @@
 </div>
 </template>
 <script>
-import w1 from '@/components/Age.vue'
-import w2 from '@/components/AddressLink.vue'
+import Age from '@/components/Age.vue'
+import AddressLink from '@/components/AddressLink.vue'
 
 export default {
   name: 'BlockInfo',
   components: {
-    Age: w1,
-    AddressLink: w2
+    Age,
+    AddressLink
   },
   props: {
     item: {}

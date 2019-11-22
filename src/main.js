@@ -19,7 +19,6 @@
 import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
-import './filters'
 import store from './store'
 import TopHead from '@/components/TopHead.vue'
 import PageMenu from './components/menu/PageMenu.vue'

@@ -52,7 +52,8 @@ export default {
         'startHeight',
         'remoteAccountAddress',
 
-        'lastActivity'
+        'lastActivity',
+        'recalculationBlock'
       ],
       disableClickItems: [...Object.values(Constants.Message)]
     }
@@ -99,7 +100,6 @@ export default {
 </script>
 
 <style lang="scss">
-
 .table-title-item {
     vertical-align: middle;
     border: 0 none;
@@ -124,8 +124,7 @@ export default {
     background-color: rgba(52, 40, 104, 0.014);
 }
 
-.table-view{
-
+.table-view {
     .empty-data {
         font-size: 14px;
         color: #98a8b4;
@@ -136,10 +135,12 @@ export default {
     .table-head-cell {
         position: relative;
     }
-    .table-head-cell:before {
+
+    .table-head-cell::before {
         content: '&nbsp;';
         visibility: hidden;
     }
+
     .table-head-cell span {
         position: absolute;
         left: 5px;
@@ -149,12 +150,12 @@ export default {
         text-overflow: ellipsis;
     }
 
-    td{
+    td {
         border-bottom: 1px solid #dadee6;
         font-weight: none;
         padding: 10px 5px;
         min-height: 50px;
-        word-break:break-all;
+        word-break: break-all;
         min-width: 50px;
         max-width: 300px;
     }
@@ -169,7 +170,6 @@ export default {
         }
     }
 
-
     .table-item-clickable {
         color: #84accb;
         font-weight: 600;
@@ -178,14 +178,7 @@ export default {
     }
 
     .table-titles {
-        background-color: rgba(52, 40, 104, .05);
-        //border-radius: 4px;
-    }
-
-    a{
-      color: inherit;
-      text-decoration: inherit;
+        background-color: rgba(52, 40, 104, 0.05);
     }
 }
-
 </style>

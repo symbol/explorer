@@ -57,23 +57,18 @@ export default {
 $error-color: rgb(255, 208, 78);
 
 .search-error {
-  border-color: $error-color;
-  color: $error-color;
+    border-color: $error-color;
+    color: $error-color;
 }
 
 .search {
-  color: #fff;
+    color: #fff;
 }
 
 .transition {
-  -webkit-transition: border-color 0.5s ease-out;
-  -moz-transition: border-color 0.5s ease-out;
-  -o-transition: border-color 0.5s ease-out;
-  transition: border-color 0.5s ease-out;
-
-  -webkit-transition: color 0.2s ease-out;
-  -moz-transition: color 0.2s ease-out;
-  -o-transition: color 0.2s ease-out;
-  transition: color 0.2s ease-out;
+    -webkit-transition: color 0.2s ease-out;
+    -moz-transition: color 0.2s ease-out;
+    -o-transition: color 0.2s ease-out;
+    transition: color 0.2s ease-out;
 }
 </style>

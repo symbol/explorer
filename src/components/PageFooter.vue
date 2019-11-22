@@ -17,50 +17,44 @@
  */
 
 <template>
-  <div>
-    <footer class="full-con mt-5 footer">
-      <div class="container">
-        <div class="row">
-          <NemDescription />
-          <div class="col-md-5">
-            <ul class="social-icon">
-              <PageFooterItem
-                :href="item.href"
-                :text="item.text"
-                :classname="item.classname"
-                v-for="item in items"
-                v-bind:key="item.text"
-              />
-            </ul>
-          </div>
-        </div>
-        <NemCopyright />
-      </div>
-    </footer>
-  </div>
+    <div class="page-footer">
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <NemDescription />
+                    <div class="col-md-5">
+                        <ul class="social-icon">
+                            <PageFooterItem
+                                :href="item.href"
+                                :text="item.text"
+                                :classname="item.classname"
+                                v-for="item in items"
+                                v-bind:key="item.text"
+                            />
+                        </ul>
+                    </div>
+                </div>
+                <NemCopyright />
+            </div>
+        </footer>
+    </div>
 </template>
 <script>
-import w1 from '@/components/PageFooterItem.vue'
-import w2 from '@/components/NemDescription.vue'
-import w3 from '@/components/NemCopyright.vue'
-import helper from '../helper'
+import PageFooterItem from '@/components/PageFooterItem.vue'
+import NemDescription from '@/components/NemDescription.vue'
+import NemCopyright from '@/components/NemCopyright.vue'
 
 export default {
   name: 'PageFooter',
+
   components: {
-    PageFooterItem: w1,
-    NemDescription: w2,
-    NemCopyright: w3
+    PageFooterItem,
+    NemDescription,
+    NemCopyright
   },
+
   props: {
     msg: String
-  },
-  methods: {
-    isMobile() {
-      return helper.isMobile(
-        navigator.userAgent || navigator.vendor || window.opera
-      )
-    }
   },
   data() {
     return {
@@ -94,6 +88,14 @@ export default {
       ]
     }
   },
+
   mounted() {}
 }
 </script>
+
+<style lang="scss" scoped>
+.page-footer {
+    display: table-row;
+    height: 0;
+}
+</style>

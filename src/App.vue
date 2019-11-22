@@ -17,13 +17,16 @@
  */
 
 <template>
-  <div id="app">
-    <top-header />
-    <page-menu />
-    <router-view :key="$route.fullPath"/>
-    <page-footer/>
-  </div>
+    <div id="app">
+        <div class="app-content">
+            <top-header />
+            <page-menu />
+            <router-view :key="$route.fullPath"/>
+        </div>
+        <page-footer/>
+    </div>
 </template>
+
 <script>
 
 export default {
@@ -51,22 +54,29 @@ export default {
 </script>
 
 <style lang="scss">
-#app{
-  // width: 100vw;
-  // height: 100vh;
+#app {
+    height: 100vh;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    display: table;
 }
 
-.noselect{
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
-  outline: 0;
+.app-content {
+    width: 100%;
 }
 
-.pointer{
-  cursor: pointer;
+.noselect {
+    -webkit-touch-callout: none;
+    -webkit-user-select: none;
+    -khtml-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    outline: 0;
+}
+
+.pointer {
+    cursor: pointer;
 }
 </style>
