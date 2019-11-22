@@ -18,7 +18,7 @@
 
 <template>
     <div class="widget m-0 z-1 nempricegraph_con bordr_rds_top0 pt-0 pb-0">
-        <loader
+        <Loading
             v-if="!marketData.historicalHourlyGraph.length > 0"
         />
         <ApexCharts
@@ -73,11 +73,13 @@
 </style>
 <script>
 import ApexCharts from '@/components/Chart.vue'
+import Loading from '@/components/Loading.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    ApexCharts
+    ApexCharts,
+    Loading
   },
 
   computed: {

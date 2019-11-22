@@ -18,7 +18,7 @@
 
 <template>
     <div class="widget bordr_rds_top0 network_info">
-        <loader
+        <Loading
             v-if="!marketData"
         />
         <div class="box">
@@ -49,11 +49,13 @@
 </template>
 <script>
 import HomeBaseInfoItem from '@/components/HomeBaseInfoItem.vue'
+import Loading from '@/components/Loading.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    HomeBaseInfoItem
+    HomeBaseInfoItem,
+    Loading
   },
 
   computed: {
