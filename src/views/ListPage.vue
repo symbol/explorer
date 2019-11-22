@@ -90,6 +90,10 @@ export default {
       },
   },
 
+  mounted() {
+    this.$store.dispatch(this.resetPageAction)
+  },
+
   computed: {
     timeline() { return this.$store.getters[this.namespace + '/getTimelineFormatted'] },
     canFetchPrevious() { return this.$store.getters[this.namespace + '/getCanFetchPrevious'] },
@@ -106,6 +110,10 @@ export default {
     previousPageAction() { return this.namespace + '/fetchPreviousPage' },
     resetPageAction() { return this.namespace + '/resetPage' },
     changePageAction() { return this.namespace + '/changePage' }
+  },
+
+  destroyed() {
+    this.$store.dispatch(this.resetPageAction)
   }
 }
 </script>
