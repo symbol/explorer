@@ -18,78 +18,87 @@
 
 import Vue from 'vue'
 import Router from 'vue-router'
+import listPages from './config/list-pages'
 
 Vue.use(Router)
 
-export default new Router({
+const listPagesRoutes = listPages.pages.map( page => ({...page, component: () => import('./views/ListPage.vue')}))
+
+const routerConfig = {
   mode: 'history',
   routes: [
+    ...listPagesRoutes,
     {
       path: '/',
       name: 'home',
       component: () =>
         import('./views/Home.vue')
     },
-    {
-      path: '/blocks',
-      name: 'blocks',
-      component: () =>
-        import('./views/Blocks.vue')
-    },
+    // {
+    //   path: '/blocks',
+    //   name: 'blocks',
+    //   component: () =>
+    //     import('./views/Blocks.vue')
+    // },
     {
       path: '/block/:height',
       name: 'block-detail',
       component: () =>
         import('./views/BlockDetail.vue')
     },
-    {
-      path: '/transactions',
-      name: 'transactions',
-      component: () =>
-        import('./views/Transactions.vue')
-    },
+    // {
+    //   path: '/transactions',
+    //   name: 'transactions',
+    //   component: () =>
+    //     import('./views/Transactions.vue')
+    // },
     {
       path: '/transaction/:transactionHash',
       name: 'transaction-detail',
       component: () =>
         import('./views/TransactionDetail.vue')
     },
-    {
-      path: '/accounts',
-      name: 'accounts',
-      component: () =>
-        import('./views/Accounts.vue')
-    },
+    // {
+    //   path: '/accounts',
+    //   name: 'accounts',
+    //   props: {
+    //     namespace: 'account',
+    //     title: 'Accounts',
+    //     hasFilter: true
+    //   },
+    //   component: () =>
+    //     import('./views/ListPage.vue')
+    // },
     {
       path: '/account/:address',
       name: 'account-detail',
       component: () =>
         import('./views/AccountDetail.vue')
     },
-    {
-      path: '/namespaces',
-      name: 'namespaces',
-      component: () =>
-        import('./views/Namespaces.vue'),
-      meta: {
-        title: ''
-      }
-    },
+    // {
+    //   path: '/namespaces',
+    //   name: 'namespaces',
+    //   component: () =>
+    //     import('./views/Namespaces.vue'),
+    //   meta: {
+    //     title: ''
+    //   }
+    // },
     {
       path: '/namespace/:namespaceId',
       name: 'namespace-detail',
       component: () =>
         import('./views/NamespaceDetail.vue')
     },
-    {
-      path: '/mosaics',
-      name: 'mosaics',
-      component: () =>
-        import('./views/Mosaics.vue'),
-      meta: {
-        title: ''
-      }
-    },
+    // {
+    //   path: '/mosaics',
+    //   name: 'mosaics',
+    //   component: () =>
+    //     import('./views/Mosaics.vue'),
+    //   meta: {
+    //     title: ''
+    //   }
+    // },
     {
       path: '/mosaic/:mosaicId',
       name: 'mosaic-detail',
@@ -133,4 +142,6 @@ export default new Router({
       component: () => import('./views/NotFound.vue')
     }
   ]
-})
+}
+
+export default new Router(routerConfig)
