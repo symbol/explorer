@@ -179,8 +179,8 @@ const isBlockHeight = (str) =>
   str.match(/^-{0,1}\d+$/)
 
 const getNetworkTypeAddressFormat = {
-  [NetworkType.MAIN_NET]: "nN",
-  [NetworkType.MIJIN]: "mM",
-  [NetworkType.MIJIN_TEST]: "sS",
-  [NetworkType.TEST_NET]: "tT",
+  [NetworkType.MAIN_NET]: 'nN',
+  [NetworkType.MIJIN]: 'mM',
+  [NetworkType.MIJIN_TEST]: 'sS',
+  [NetworkType.TEST_NET]: 'tT'
 }
