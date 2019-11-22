@@ -19,17 +19,26 @@
 <template>
     <div id="app">
         <div class="app-content">
-            <top-header />
-            <page-menu />
+            <TopHeader />
+            <PageMenu />
             <router-view :key="$route.fullPath"/>
         </div>
-        <page-footer/>
+        <PageFooter />
     </div>
 </template>
 
 <script>
+import PageFooter from '@/components/PageFooter.vue'
+import PageMenu from './components/menu/PageMenu.vue'
+import TopHeader from '@/components/TopHeader.vue'
 
 export default {
+  components: {
+    PageFooter,
+    PageMenu,
+    TopHeader
+  },
+
   data: () => {
     return {
       info: 1
