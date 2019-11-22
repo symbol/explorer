@@ -79,7 +79,15 @@ export default {
     getTimeline: state => state[state.transactionType],
     getCanFetchPrevious: (state, getters) => getters.getTimeline.canFetchPrevious,
     getCanFetchNext: (state, getters) => getters.getTimeline.canFetchNext,
-    getTimelineFormatted: (state, getters) => getters.getTimeline.current,
+    getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
+      height: el.blockHeight,
+      deadline: el.deadline,
+      transactionHash: el.transactionHash,
+      type: el.transactionBody.type,
+      fee: el.fee,
+      signer: el.signer,
+      recipient: el.transactionBody.recipient
+    })),
     // getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
     //   height: el.height,
     //   age: el.date,
