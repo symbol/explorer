@@ -17,27 +17,27 @@
  */
 
 <template>
-  <div>
-    <footer class="full-con mt-5 footer">
-      <div class="container">
-        <div class="row">
-          <NemDescription />
-          <div class="col-md-5">
-            <ul class="social-icon">
-              <PageFooterItem
-                :href="item.href"
-                :text="item.text"
-                :classname="item.classname"
-                v-for="item in items"
-                v-bind:key="item.text"
-              />
-            </ul>
-          </div>
-        </div>
-        <NemCopyright />
-      </div>
-    </footer>
-  </div>
+    <div class="page-footer">
+        <footer class="footer">
+            <div class="container">
+                <div class="row">
+                    <NemDescription />
+                    <div class="col-md-5">
+                        <ul class="social-icon">
+                            <PageFooterItem
+                                :href="item.href"
+                                :text="item.text"
+                                :classname="item.classname"
+                                v-for="item in items"
+                                v-bind:key="item.text"
+                            />
+                        </ul>
+                    </div>
+                </div>
+                <NemCopyright />
+            </div>
+        </footer>
+    </div>
 </template>
 <script>
 import PageFooterItem from '@/components/PageFooterItem.vue'
@@ -46,11 +46,13 @@ import NemCopyright from '@/components/NemCopyright.vue'
 
 export default {
   name: 'PageFooter',
+
   components: {
     PageFooterItem,
     NemDescription,
     NemCopyright
   },
+
   props: {
     msg: String
   },
@@ -86,6 +88,14 @@ export default {
       ]
     }
   },
+
   mounted() {}
 }
 </script>
+
+<style lang="scss" scoped>
+.page-footer {
+    display: table-row;
+    height: 0;
+}
+</style>
