@@ -59,7 +59,6 @@
 <script>
 import TypeBox from '@/components/TypeBox.vue'
 import View from './View.vue'
-import { mapGetters } from 'vuex'
 
 export default {
   extends: View,
