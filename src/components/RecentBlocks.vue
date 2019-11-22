@@ -37,7 +37,7 @@
                 </div>
             </div>
             <div class="box-con">
-                <loader
+                <Loading
                     v-if="loading"
                 />
                 <div class="row">
@@ -52,6 +52,7 @@
     </div>
 </template>
 <script>
+import Loading from '@/components/Loading.vue'
 import RecentBlockRow from '@/components/RecentBlockRow.vue'
 import { mapGetters } from 'vuex'
 
@@ -59,6 +60,7 @@ export default {
   name: 'RecentBlocks',
 
   components: {
+    Loading,
     RecentBlockRow
   },
 

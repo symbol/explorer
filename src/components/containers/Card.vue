@@ -7,7 +7,7 @@
         </div>
 
         <div v-if="loading" class="card-loading">
-            <loader />
+            <Loading />
         </div>
 
         <div v-if="error" class="card-error">
@@ -22,8 +22,13 @@
 </template>
 
 <script>
+import Loading from '@/components/Loading.vue'
 
 export default {
+  components: {
+    Loading
+  },
+
   props: {
     loading: {
       type: Boolean,

@@ -55,17 +55,11 @@
     </div>
 </template>
 <script>
-import TableInfoView from '@/components/tables/TableInfoView.vue'
-import TableListView from '@/components/tables/TableListView.vue'
 import View from './View.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   extends: View,
-  components: {
-    TableInfoView,
-    TableListView
-  },
 
   data() {
     return {
