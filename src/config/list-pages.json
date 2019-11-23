@@ -1,0 +1,47 @@
+{
+    "pages": [
+        {
+            "path": "/blocks",
+            "name": "blocks",
+            "props": {
+              "storeNamespace": "block",
+              "title": "Blocks",
+              "hasInfoText": true
+            }
+        },
+        {
+            "path": "/transactions",
+            "name": "transactions",
+            "props": {
+              "storeNamespace": "transaction",
+              "title": "Transactions",
+              "hasFilter": true
+            }
+        },
+        {
+            "path": "/accounts",
+            "name": "accounts",
+            "props": {
+              "storeNamespace": "account",
+              "title": "Accounts",
+              "hasFilter": true
+            }
+        },
+        {
+            "path": "/namespaces",
+            "name": "namespaces",
+            "props": {
+              "storeNamespace": "namespace",
+              "title": "Namespaces"
+            }
+        },
+        {
+            "path": "/mosaics",
+            "name": "mosaics",
+            "props": {
+              "storeNamespace": "mosaic",
+              "title": "Mosaics"
+            }
+        }
+    ]
+}
