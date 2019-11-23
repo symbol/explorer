@@ -4,7 +4,7 @@
             "path": "/blocks",
             "name": "blocks",
             "props": {
-              "namespace": "block",
+              "storeNamespace": "block",
               "title": "Blocks",
               "hasInfoText": true
             }
@@ -13,7 +13,7 @@
             "path": "/transactions",
             "name": "transactions",
             "props": {
-              "namespace": "transaction",
+              "storeNamespace": "transaction",
               "title": "Transactions",
               "hasFilter": true
             }
@@ -22,7 +22,7 @@
             "path": "/accounts",
             "name": "accounts",
             "props": {
-              "namespace": "account",
+              "storeNamespace": "account",
               "title": "Accounts",
               "hasFilter": true
             }
@@ -31,7 +31,7 @@
             "path": "/namespaces",
             "name": "namespaces",
             "props": {
-              "namespace": "namespace",
+              "storeNamespace": "namespace",
               "title": "Namespaces"
             }
         },
@@ -39,7 +39,7 @@
             "path": "/mosaics",
             "name": "mosaics",
             "props": {
-              "namespace": "mosaic",
+              "storeNamespace": "mosaic",
               "title": "Mosaics"
             }
         }

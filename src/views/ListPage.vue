@@ -68,7 +68,7 @@ export default {
   },
 
   props: {
-      namespace: {
+      storeNamespace: {
           type: String,
           required: true
       },
@@ -94,21 +94,21 @@ export default {
   },
 
   computed: {
-    timeline() { return this.$store.getters[this.namespace + '/getTimelineFormatted'] },
-    canFetchPrevious() { return this.$store.getters[this.namespace + '/getCanFetchPrevious'] },
-    canFetchNext() { return this.$store.getters[this.namespace + '/getCanFetchNext'] },
-    loading() { return this.$store.getters[this.namespace + '/getLoading'] },
-    error() { return this.$store.getters[this.namespace + '/getError'] },
+    timeline() { return this.$store.getters[this.storeNamespace + '/getTimelineFormatted'] },
+    canFetchPrevious() { return this.$store.getters[this.storeNamespace + '/getCanFetchPrevious'] },
+    canFetchNext() { return this.$store.getters[this.storeNamespace + '/getCanFetchNext'] },
+    loading() { return this.$store.getters[this.storeNamespace + '/getLoading'] },
+    error() { return this.$store.getters[this.storeNamespace + '/getError'] },
 
-    infoText() { return this.$store.getters[this.namespace + '/infoText'] },
+    infoText() { return this.$store.getters[this.storeNamespace + '/infoText'] },
 
-    filterValue() { return this.$store.getters[this.namespace + '/filterValue'] },
-    filterOptions() { return this.$store.getters[this.namespace + '/filterOptions'] },
+    filterValue() { return this.$store.getters[this.storeNamespace + '/filterValue'] },
+    filterOptions() { return this.$store.getters[this.storeNamespace + '/filterOptions'] },
 
-    nextPageAction() { return this.namespace + '/fetchNextPage' },
-    previousPageAction() { return this.namespace + '/fetchPreviousPage' },
-    resetPageAction() { return this.namespace + '/resetPage' },
-    changePageAction() { return this.namespace + '/changePage' }
+    nextPageAction() { return this.storeNamespace + '/fetchNextPage' },
+    previousPageAction() { return this.storeNamespace + '/fetchPreviousPage' },
+    resetPageAction() { return this.storeNamespace + '/resetPage' },
+    changePageAction() { return this.storeNamespace + '/changePage' }
   },
 
   destroyed() {
