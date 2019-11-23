@@ -65,7 +65,7 @@ import LanguageSelector from '@/components/controls/LanguageSelector.vue'
 import SearchBox from '@/components/controls/SearchBox.vue'
 
 export default {
-  name: 'TopHead',
+  name: 'TopHeader',
 
   components: {
     MobileMenu,
