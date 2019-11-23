@@ -54,6 +54,7 @@ export default {
       'namespaceId': 'namespace',
       'parentId': 'namespace',
       'linkedNamespace': 'namespace',
+      'mosaicAliasName': 'namespace'
     }
   },
 

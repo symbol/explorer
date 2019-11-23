@@ -46,6 +46,7 @@ export default {
     getCanFetchNext: state => state.timeline.canFetchNext,
     getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
       mosaicId: el.mosaic,
+      mosaicAliasName: el.mosaicAliasName,
       owneraddress: el.address,
       supply: el.supply,
       divisibility: el.divisibility,
