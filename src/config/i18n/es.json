@@ -72,5 +72,6 @@
     "totalFeesPaid": "Tasas totales pagadas",
     "beneficiaryCount": "Recuento de beneficiarios",
     "importanceScore": "Puntuación de importancia",
-    "recalculationBlock": "Bloque de recálculo #"
+    "recalculationBlock": "Bloque de recálculo #",
+    "mosaicAliasName": "Espacio de nombres de alias"
 }

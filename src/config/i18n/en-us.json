@@ -75,5 +75,6 @@
     "totalFeesPaid": "Total Fees Paid",
     "beneficiaryCount": "Beneficiary Count",
     "importanceScore": "Importance Score",
-    "recalculationBlock": "Recalculation Block #"
+    "recalculationBlock": "Recalculation Block #",
+    "mosaicAliasName": "Alias Namespace"
 }

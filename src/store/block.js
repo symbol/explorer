@@ -63,7 +63,7 @@ export default {
       transactions: el.numTransactions,
       fee: el.totalFee,
       date: el.date,
-      harvester: el.signer.address.address
+      harvester: el.signer
     })),
     getSubscription: state => state.subscription,
     getLoading: state => state.loading,

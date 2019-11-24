@@ -19,8 +19,7 @@ const formatBlocks = (blockList) => {
   })
 }
 
-const formatBlock = (block) => {
-  let blockObj = {
+const formatBlock = block => ({
     height: block.height.compact(),
     hash: block.hash,
     timestamp: block.timestamp.compact() / 1000 + 1459468800,
@@ -31,15 +30,12 @@ const formatBlock = (block) => {
     difficulty: (block.difficulty.compact() / 1000000000000).toFixed(2),
     numTransactions: block.numTransactions,
     signature: block.signature,
-    signer: block.signer,
+    signer: Address.createFromPublicKey(block.signer.publicKey,http.networkType).plain(),
     previousBlockHash: block.previousBlockHash,
     blockTransactionsHash: block.blockTransactionsHash,
     blockReceiptsHash: block.blockReceiptsHash,
     stateHash: block.stateHash
-  }
-
-  return blockObj
-}
+})
 
 // FORMAT ACCOUNT
 const formatAccount = (accountInfo, accountName) => {
@@ -120,6 +116,7 @@ const formatMosaics = mosaics => {
 // FORMAT MOSAICS INFO
 const formatMosaicInfo = mosaicInfo => ({
   mosaic: mosaicInfo.id.toHex(),
+  mosaicAliasName: mosaicInfo.mosaicAliasName.length > 0 ? mosaicInfo.mosaicAliasName[0].name : Constants.Message.UNAVAILABLE,
   divisibility: mosaicInfo.divisibility,
   address: mosaicInfo.owner.address.plain(),
   supply: mosaicInfo.supply.compact(),
@@ -445,7 +442,7 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
     namespaceNameHexId: namespaceInfo.id.toHex().toUpperCase(),
     registrationType: Constants.NamespaceRegistrationType[namespaceInfo.registrationType],
     startHeight: namespaceInfo.startHeight.compact(),
-    endHeight: namespaceNames[0].name.toUpperCase() === Constants.NetworkConfig.NAMESPACE
+    endHeight: Constants.NetworkConfig.NAMESPACE.indexOf(namespaceNames[0].name.toUpperCase()) !== -1
       ? Constants.Message.INFINITY
       : namespaceInfo.endHeight.compact(),
     active: namespaceInfo.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,

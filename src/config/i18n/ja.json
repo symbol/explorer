@@ -72,5 +72,6 @@
     "totalFeesPaid": "支払総額",
     "beneficiaryCount": "受取人数",
     "importanceScore": "重要度スコア",
-    "recalculationBlock": "再計算ブロック #"
+    "recalculationBlock": "再計算ブロック #",
+    "mosaicAliasName": "エイリアスネームスペース"
 }

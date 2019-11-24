@@ -72,5 +72,6 @@
     "totalFeesPaid": "已付总费用",
     "beneficiaryCount": "受益人计数",
     "importanceScore": "重要性分数",
-    "recalculationBlock": "重新计算块 #"
+    "recalculationBlock": "重新计算块 #",
+    "mosaicAliasName": "别名命名空间"
 }
