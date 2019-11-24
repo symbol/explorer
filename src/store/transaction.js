@@ -79,14 +79,14 @@ export default {
     getTimeline: state => state[state.transactionType],
     getCanFetchPrevious: (state, getters) => getters.getTimeline.canFetchPrevious,
     getCanFetchNext: (state, getters) => getters.getTimeline.canFetchNext,
-    getTimelineList: (state, getters) => getters.getTimeline.current,
     getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
-      height: el.height,
-      age: el.date,
-      transactions: el.numTransactions,
-      fee: el.totalFee,
-      date: el.date,
-      harvester: el.signer.address.address
+      height: el.blockHeight,
+      deadline: el.deadline,
+      transactionHash: el.transactionHash,
+      type: el.transactionBody.type,
+      fee: el.fee,
+      signer: el.signer,
+      recipient: el.transactionBody.recipient
     })),
 
     getSubscription: state => state.subscription,
@@ -98,7 +98,15 @@ export default {
     aggregateInnerTransactions: state => state.aggregateInnerTransactions,
     aggregateCosignatures: state => state.aggregateCosignatures,
     transactionInfoLoading: state => state.transactionInfoLoading,
-    transactionInfoError: state => state.transactionInfoError
+    transactionInfoError: state => state.transactionInfoError,
+    filterValue: state => state.transactionType,
+    filterOptions: () => ({
+      'recent': 'Recent Transactions',
+      'pending': 'Pending Transactions',
+      'transfer': 'Transfer Transactions',
+      'multisig': 'Multisig Transactions',
+      'mosaic': 'Mosaic Transactions'
+    })
   },
   mutations: {
     setInitialized: (state, initialized) => { state.initialized = initialized },

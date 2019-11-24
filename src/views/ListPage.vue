@@ -28,15 +28,17 @@
                     {{title}}
                 </template>
                 <template #control>
+                    <div class="ex-infotext" v-if="hasInfoText"> {{infoText}} </div>
                     <TypeBox
-                        :typeMap="typeMap"
+                        v-if="hasFilter"
+                        :typeMap="filterOptions"
                         :resetPageAction="resetPageAction"
                         :changePageAction="changePageAction"
                     />
                 </template>
                 <template #body>
                     <TableListView
-                        :data="accountList"
+                        :data="timeline"
                     />
                     <Pagination
                         style="margin-top: 20px;"
@@ -57,7 +59,6 @@
 <script>
 import TypeBox from '@/components/TypeBox.vue'
 import View from './View.vue'
-import { mapGetters } from 'vuex'
 
 export default {
   extends: View,
@@ -66,30 +67,52 @@ export default {
     TypeBox
   },
 
-  data() {
-    return {
-      title: 'Accounts',
-      nextPageAction: 'account/fetchNextPage',
-      previousPageAction: 'account/fetchPreviousPage',
-      resetPageAction: 'account/resetPage',
-      changePageAction: 'account/changePage',
-      typeMap: {
-        'rich': 'Rich List',
-        'harvester': 'Harvester List'
-      }
-    }
+  props: {
+      storeNamespace: {
+          type: String,
+          required: true
+      },
+
+      title: {
+          type: String,
+          required: true
+      },
+
+      hasFilter: {
+          type: Boolean,
+          default: false
+      },
+
+      hasInfoText: {
+          type: Boolean,
+          default: false
+      },
+  },
+
+  mounted() {
+    this.$store.dispatch(this.resetPageAction)
   },
 
   computed: {
-    ...mapGetters({
-      accountType: 'account/getAccountType',
-      timeline: 'account/getTimeline',
-      accountList: 'account/getTimelineFormatted',
-      canFetchPrevious: 'account/getCanFetchPrevious',
-      canFetchNext: 'account/getCanFetchNext',
-      loading: 'account/getLoading',
-      error: 'account/getError'
-    })
+    timeline() { return this.$store.getters[this.storeNamespace + '/getTimelineFormatted'] },
+    canFetchPrevious() { return this.$store.getters[this.storeNamespace + '/getCanFetchPrevious'] },
+    canFetchNext() { return this.$store.getters[this.storeNamespace + '/getCanFetchNext'] },
+    loading() { return this.$store.getters[this.storeNamespace + '/getLoading'] },
+    error() { return this.$store.getters[this.storeNamespace + '/getError'] },
+
+    infoText() { return this.$store.getters[this.storeNamespace + '/infoText'] },
+
+    filterValue() { return this.$store.getters[this.storeNamespace + '/filterValue'] },
+    filterOptions() { return this.$store.getters[this.storeNamespace + '/filterOptions'] },
+
+    nextPageAction() { return this.storeNamespace + '/fetchNextPage' },
+    previousPageAction() { return this.storeNamespace + '/fetchPreviousPage' },
+    resetPageAction() { return this.storeNamespace + '/resetPage' },
+    changePageAction() { return this.storeNamespace + '/changePage' }
+  },
+
+  destroyed() {
+    this.$store.dispatch(this.resetPageAction)
   }
 }
 </script>
