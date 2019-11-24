@@ -1,16 +1,9 @@
-FROM node:lts-alpine
-
-RUN npm install -g http-server
-
+FROM node:lts-alpine AS builder
 WORKDIR /app
-
-COPY package*.json ./
-
-RUN npm install
-
 COPY . .
+RUN npm install && npm run build
 
-RUN npm run build
-
-EXPOSE 8080
-CMD [ "http-server", "www" ]
+FROM nginx:1.17-alpine AS runner
+COPY --from=builder /app/www /usr/share/nginx/html
+COPY ./docker/default.conf /etc/nginx/conf.d/default.conf
+WORKDIR /usr/share/nginx/html
