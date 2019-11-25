@@ -79,14 +79,14 @@ export default {
     getTimeline: state => state[state.transactionType],
     getCanFetchPrevious: (state, getters) => getters.getTimeline.canFetchPrevious,
     getCanFetchNext: (state, getters) => getters.getTimeline.canFetchNext,
-    getTimelineList: (state, getters) => getters.getTimeline.current,
     getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
-      height: el.height,
-      age: el.date,
-      transactions: el.numTransactions,
-      fee: el.totalFee,
-      date: el.date,
-      harvester: el.signer.address.address
+      height: el.blockHeight,
+      deadline: el.deadline,
+      transactionHash: el.transactionHash,
+      type: el.transactionBody.type,
+      fee: el.fee,
+      signer: el.signer,
+      recipient: el.transactionBody.recipient
     })),
 
     getSubscription: state => state.subscription,
@@ -100,7 +100,7 @@ export default {
     transactionInfoLoading: state => state.transactionInfoLoading,
     transactionInfoError: state => state.transactionInfoError,
     filterValue: state => state.transactionType,
-    filterOptions: state => ({
+    filterOptions: () => ({
       'recent': 'Recent Transactions',
       'pending': 'Pending Transactions',
       'transfer': 'Transfer Transactions',

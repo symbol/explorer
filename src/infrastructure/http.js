@@ -17,6 +17,7 @@
  */
 
 import * as nem from 'nem2-sdk'
+import constants from '../config/constants'
 
 let NODE_URL
 let MARKET_DATA_URL
@@ -26,7 +27,7 @@ export default class http {
   static init = async (nodeUrl, marketDataUrl) => {
     NODE_URL = nodeUrl
     MARKET_DATA_URL = marketDataUrl
-    NETWORK_TYPE = await http.network.getNetworkType().toPromise()
+    NETWORK_TYPE = await http.network.getNetworkType().toPromise() || constants.NetworkConfig.NETWORKTYPE
   }
 
   static get marketDataUrl() {
@@ -79,5 +80,25 @@ export default class http {
 
   static get transaction() {
     return new nem.TransactionHttp(http.nodeUrl)
+  }
+
+  static get multisig() {
+    return new nem.MultisigHttp(http.nodeUrl)
+  }
+
+  static get metadata() {
+    return new nem.MetadataHttp(http.nodeUrl)
+  }
+
+  static get receipt() {
+    return new nem.ReceiptHttp(http.nodeUrl)
+  }
+
+  static get restrictionAccount() {
+    return new nem.RestrictionAccountHttp(http.nodeUrl)
+  }
+
+  static get restrictionMosaic() {
+    return new nem.RestrictionMosaicHttp(http.nodeUrl)
   }
 }

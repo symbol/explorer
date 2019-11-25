@@ -32,6 +32,7 @@ export default {
         'namespace',
         'namespaceName',
         'linkedNamespace',
+        'mosaicAliasName',
         'linkedAccountKey',
         'transaction',
         'harvester',

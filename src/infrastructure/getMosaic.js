@@ -20,13 +20,31 @@ import axios from 'axios'
 import {
   Address,
   MosaicId,
-  NamespaceId
+  NamespaceId,
 } from 'nem2-sdk'
 
 import dto from './dto'
 import http from './http'
 import format from '../format'
 import helper from '../helper'
+
+const addMosaicAliasNames = async mosaics => {
+
+  // Fetch the mosaic name objects from the IDs.
+  const mosaicIdsList = mosaics.map(mosaicInfo => mosaicInfo.id)
+  const mosaicNames = await http.namespace.getMosaicsNames(mosaicIdsList).toPromise()
+
+  // Create a mapping of mosaics IDs to names.
+  const idToNameMap = {}
+  for (let item of mosaicNames) {
+    idToNameMap[item.mosaicId.toHex()] = item.names
+  }
+
+  // Add name to mosaics object.
+  mosaics.map(info => {
+    info.mosaicAliasName = idToNameMap[info.id.toHex()]
+  })
+}
 
 class sdkMosaic {
   static getMosaicsAmountByAddress = async address => {
@@ -47,9 +65,10 @@ class sdkMosaic {
       mosaicID = await http.namespace.getLinkedMosaicId(namespaceId).toPromise()
     }
     const mosaicInfo = await http.mosaic.getMosaic(mosaicID).toPromise()
-    const mosaicName = await http.mosaic.getMosaicsNames([mosaicID]).toPromise()
 
-    return format.formatMosaicInfo(mosaicInfo, mosaicName[0])
+    await addMosaicAliasNames([mosaicInfo])
+
+    return format.formatMosaicInfo(mosaicInfo)
   }
 
   static getMosaicsFromIdWithLimit = async (limit, fromMosaicId) => {
@@ -64,6 +83,8 @@ class sdkMosaic {
     const path = `/mosaics/from/${mosaicId}/limit/${limit}`
     const response = await axios.get(http.nodeUrl + path)
     const mosaics = response.data.map(info => dto.createMosaicInfoFromDTO(info, http.networkType))
+
+    await addMosaicAliasNames(mosaics)
 
     return format.formatMosaicInfos(mosaics)
   }
@@ -81,6 +102,8 @@ class sdkMosaic {
     const response = await axios.get(http.nodeUrl + path)
     const mosaics = response.data.map(info => dto.createMosaicInfoFromDTO(info, http.networkType))
 
+    await addMosaicAliasNames(mosaics)
+
     return format.formatMosaicInfos(mosaics)
   }
 
@@ -93,6 +116,7 @@ class sdkMosaic {
     if (mosaicInfo) {
       mosaicInfoFormatted = {
         mosaicId: mosaicInfo.mosaic,
+        mosaicAliasName: mosaicInfo.mosaicAliasName,
         namespace: mosaicInfo.namespace,
         divisibility: mosaicInfo.divisibility,
         owneraddress: mosaicInfo.address,

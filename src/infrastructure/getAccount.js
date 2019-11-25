@@ -27,7 +27,7 @@ import sdkNamespace from '../infrastructure/getNamespace'
 const formatAccountNames = async accounts => {
   // Fetch the account name objects from the addresses.
   const addresses = accounts.map(account => account.address)
-  const accountNames = await http.account.getAccountsNames(addresses).toPromise()
+  const accountNames = await http.namespace.getAccountsNames(addresses).toPromise()
 
   // Create a mapping of account addresses to names.
   // Allows efficient ID lookups.
@@ -50,11 +50,11 @@ class sdkAccount {
       .getAccountInfo(addressObj)
       .toPromise()
 
-    const accountNames = await http.account
+    const accountNames = await http.namespace
       .getAccountsNames([addressObj])
       .toPromise()
 
-    return format.formatAccount(accountInfo, accountNames[0])
+      return format.formatAccount(accountInfo, accountNames[0])
   }
 
   static getMultisigAccountByAddress = async address => {
@@ -62,7 +62,7 @@ class sdkAccount {
     let accountMultisig
 
     try {
-      accountMultisig = await http.account
+      accountMultisig = await http.multisig
         .getMultisigAccountInfo(addressObj)
         .toPromise()
     } catch (e) {

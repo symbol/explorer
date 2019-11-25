@@ -31,8 +31,8 @@ class sdkTransaction {
     let pageSize = 100
 
     const transactionsList = await http.account
-      .transactions(Address.createFromRawAddress(address), new QueryParams(pageSize, transactionId))
-      .toPromise()
+    .getAccountTransactions(Address.createFromRawAddress(address), new QueryParams(pageSize, transactionId))
+    .toPromise()
 
     return format.formatTransactions(transactionsList)
   }
