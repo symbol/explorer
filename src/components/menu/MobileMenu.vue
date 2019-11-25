@@ -21,7 +21,7 @@
     <div class="mobmenuslide" ref="mobmenuslide">
       <div class="sliderow gradinet_01 menu_bkg">
         <router-link to="/" class="logo">
-          <img src="theme/img/logo-w.png" />
+          <img src="/theme/img/logo-w.png" />
         </router-link>
         <span class="title">Nem blockchain explorer</span>
         <a class="mmtoggle" href="#">

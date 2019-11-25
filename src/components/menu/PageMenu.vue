@@ -25,7 +25,7 @@
         </a>
         <div class="col-md-1 logo-wrap">
           <router-link to="/" class="logo-h">
-            <img src="theme/img/logo-w.png" alt="Nem" />
+            <img src="/theme/img/logo-w.png" alt="Nem" />
           </router-link>
         </div>
         <div class="col-md-11">
