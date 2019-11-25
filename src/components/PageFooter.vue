@@ -19,43 +19,46 @@
 <template>
     <div class="page-footer">
         <footer class="footer">
-            <div class="container">
-                <div class="row">
+            <b-container>
+                <b-row>
                     <NemDescription />
-                    <div class="col-md-5">
+                    <b-col sm="12" lg="4">
                         <ul class="social-icon">
-                            <PageFooterItem
-                                :href="item.href"
-                                :text="item.text"
-                                :classname="item.classname"
+                            <li
                                 v-for="item in items"
-                                v-bind:key="item.text"
-                            />
+                                :key="item.text"
+                                class="social-icon-item"
+                            >
+                                <a target="_blank" :href="item.href">
+                                    <i :class="item.classname"></i>
+                                    <span>{{item.text}}</span>
+                                </a>
+                            </li>
                         </ul>
-                    </div>
-                </div>
+                    </b-col>
+                    <b-col lg="4" class="vertical-center">
+                      <NodeSelector style="float: right; width: 100%"/>
+                    </b-col>
+                </b-row>
                 <NemCopyright />
-            </div>
+            </b-container>
         </footer>
     </div>
 </template>
+
+
 <script>
-import PageFooterItem from '@/components/PageFooterItem.vue'
 import NemDescription from '@/components/NemDescription.vue'
 import NemCopyright from '@/components/NemCopyright.vue'
+import NodeSelector from '@/components/controls/NodeSelector.vue'
 
 export default {
-  name: 'PageFooter',
-
   components: {
-    PageFooterItem,
     NemDescription,
-    NemCopyright
+    NemCopyright,
+    NodeSelector
   },
 
-  props: {
-    msg: String
-  },
   data() {
     return {
       loading: 1,
@@ -71,11 +74,6 @@ export default {
           classname: 'ico-forum'
         },
         {
-          href: 'https://github.com/nemtech',
-          text: 'Github',
-          classname: 'ico-github'
-        },
-        {
           href: 'https://t.me/nemred',
           text: 'Telegram',
           classname: 'ico-paper-plane'
@@ -84,6 +82,11 @@ export default {
           href: 'https://www.reddit.com/r/nem/',
           text: 'Reddit',
           classname: 'ico-reddit'
+        },
+        {
+          href: 'https://github.com/nemtech',
+          text: 'Github',
+          classname: 'ico-github'
         }
       ]
     }
@@ -97,5 +100,39 @@ export default {
 .page-footer {
     display: table-row;
     height: 0;
+    
 }
+.footer {
+    background: linear-gradient(-40deg, #37476b 20%, #0a879b 80%);
+    padding: 50px 0 0;
+}
+
+.social-icon {
+    list-style: none;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    display: flex;
+    padding: 0;
+    margin-top: 40px;
+
+    .social-icon-item {
+      flex: auto;
+      margin: 5px;
+      a {
+        color: #fff;
+        text-decoration: none;
+        span {
+          margin-left: 5px;
+        }
+        i {
+          font-size: 15px;
+        }
+      }
+    }
+}
+
+.vertical-center {
+  margin-top: 45px;
+}
+
 </style>

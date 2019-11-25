@@ -38,8 +38,7 @@
             <SearchBox />
           </b-col>
           <b-col md="3">
-            <NodeSelector />
-            <LanguageSelector />
+            <LanguageSelector style="float: right"/>
           </b-col>
         </b-row>
       </b-container>

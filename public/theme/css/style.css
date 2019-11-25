@@ -1037,97 +1037,7 @@ table.table-bordered.dataTable tbody tr {
     margin-top: 46px;
 }
 
-.footer {
-    background: linear-gradient(-40deg, #37476b 20%, #0a879b 80%);
-    padding: 50px 0 0;
-}
 
-.footer .ftr_btm {
-    width: 100%;
-    text-align: center;
-    font-size: 12px;
-    color: #fff;
-    position: relative;
-    padding: 10px 0;
-    border-top: 1px solid #fff;
-    margin-top: 22px;
-}
-
-.footer .ft-logo a {
-    height: 30px;
-    display: inline-block;
-}
-
-.footer .ft-logo a img {
-    width: auto;
-    max-width: 100%;
-    max-height: 100%;
-}
-
-.footer .ft-desc p {
-    font-size: 12px;
-    text-align: justify;
-    color: #ffffffa8;
-    font-weight: 200;
-}
-
-.t-c-p h1 {
-    width: 100%;
-    text-align: center;
-}
-
-.t-c-p p {
-    font-size: 15px;
-    line-height: 1.6;
-    color: #5d5d5d;
-}
-
-.t-c-p p a {
-    color: #84accb;
-    text-decoration: none;
-}
-
-.t-c-p h2 {
-    width: 100%;
-    font-weight: 300;
-}
-
-.social-icon {
-    list-style: none;
-    text-align: justify;
-    display: flex;
-    margin-top: 40px;
-    padding: 0;
-}
-
-.social-icon li {
-    display: inline-block;
-    flex: auto;
-}
-
-.social-icon li a {
-    color: #fff;
-    text-decoration: none;
-}
-
-.social-icon li a span {
-    margin-left: 5px;
-}
-
-.footer .ftr-menu {
-    margin-top: 40px;
-    list-style: none;
-}
-
-.footer .ftr-menu li a {
-    color: #fff;
-    text-decoration: none;
-    line-height: 1.5;
-}
-
-.social-icon li a i {
-    font-size: 15px;
-}
 
 .page-header {
     position: relative;
@@ -1899,19 +1809,7 @@ table.table-bordered.dataTable tbody tr {
         float: left;
     }
 
-    .footer .ftr-menu {
-        margin-top: 20px;
-        padding: 0;
-    }
-
-    .social-icon {
-        padding: 0;
-    }
-
-    .footer .ftr_btm {
-        font-size: 10px;
-    }
-
+    
     .hdr-btn-con.btns_left, .nav-fixed .logo-wrap {
         display: none !important;
     }
