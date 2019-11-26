@@ -73,5 +73,7 @@
     "beneficiaryCount": "受取人数",
     "importanceScore": "重要度スコア",
     "recalculationBlock": "再計算ブロック #",
-    "mosaicAliasName": "エイリアスネームスペース"
+    "mosaicAliasName": "エイリアスネームスペース",
+    "aliasMosaic": "エイリアス",
+    "aliasAddress": "エイリアス"
 }

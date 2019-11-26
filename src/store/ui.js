@@ -37,9 +37,12 @@ export default {
       'owneraddress': 'account',
       'linkedAccountKey': 'account',
       'remoteAccountAddress': 'account',
+      'aliasAddress': 'account',
 
       'transactionHash': 'transaction',
+
       'mosaicId': 'mosaic',
+      'aliasMosaic': 'mosaic',
 
       'addressHeight': 'block',
       'publicKeyHeight': 'block',

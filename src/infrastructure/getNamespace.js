@@ -146,7 +146,15 @@ class sdkNamespace {
         endHeight: namespaceInfo.endHeight,
         active: namespaceInfo.active,
         aliasType: namespaceInfo.aliasType,
-        alias: namespaceInfo.alias
+      }
+
+      // create alias props by alias type.
+      if (namespaceInfo.aliasType === Constants.Message.ADDRESS) {
+        namespaceInfoFormatted.aliasAddress = namespaceInfo.alias
+      } else if (namespaceInfo.aliasType === Constants.Message.MOSAIC) {
+        namespaceInfoFormatted.aliasMosaic = namespaceInfo.alias
+      } else {
+        namespaceInfoFormatted.alias = namespaceInfo.alias
       }
 
       namespaceLevels = []

@@ -73,5 +73,7 @@
     "beneficiaryCount": "Contagem de Beneficiários",
     "importanceScore": "Pontuação de importância",
     "recalculationBlock": "Bloco de recálculo #",
-    "mosaicAliasName": "Alias Namespace"
+    "mosaicAliasName": "Alias Namespace",
+    "aliasMosaic": "Alias",
+    "aliasAddress": "Alias"
 }
