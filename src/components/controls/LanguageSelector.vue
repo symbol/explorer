@@ -46,7 +46,7 @@ export default {
     },
 
     currentLanguage() {
-      return this.$store.getters['ui/currentLanguage']
+      return 'Language: ' + this.$store.getters['ui/currentLanguage']
     }
   },
 

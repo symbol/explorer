@@ -51,7 +51,7 @@ export default {
     },
 
     currentNode() {
-      return this.$store.getters['api/currentNodeHostname']
+      return 'Node: ' + this.$store.getters['api/currentNodeHostname']
     }
   },
 
