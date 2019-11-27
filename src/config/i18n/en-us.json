@@ -76,5 +76,7 @@
     "beneficiaryCount": "Beneficiary Count",
     "importanceScore": "Importance Score",
     "recalculationBlock": "Recalculation Block #",
-    "mosaicAliasName": "Alias Namespace"
+    "mosaicAliasName": "Alias Namespace",
+    "aliasMosaic": "Alias",
+    "aliasAddress": "Alias"
 }

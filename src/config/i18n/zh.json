@@ -73,5 +73,7 @@
     "beneficiaryCount": "受益人计数",
     "importanceScore": "重要性分数",
     "recalculationBlock": "重新计算块 #",
-    "mosaicAliasName": "别名命名空间"
+    "mosaicAliasName": "别名命名空间",
+    "aliasMosaic": "别名",
+    "aliasAddress": "别名"
 }

@@ -20,20 +20,6 @@
                 </template>
             </Card>
 
-            <!-- Importance History -->
-            <Card
-                class="card-f card-full-width"
-                :loading="loading"
-            >
-                <template #title>
-                    {{importanceHistory}}
-                </template>
-
-                <template #body>
-                    <TableListView :data="activityBucketList" :pagination="true" :pageSize="5" />
-                </template>
-            </Card>
-
             <!-- MultiSig Cosignatories -->
             <Card
                 class="card-f card-adaptive"
@@ -73,6 +59,20 @@
 
                 <template #body>
                     <TableListView :data="namespaceList" :pagination="true" :pageSize="5" />
+                </template>
+            </Card>
+
+            <!-- Importance History -->
+            <Card
+                class="card-f card-full-width"
+                :loading="loading"
+            >
+                <template #title>
+                    {{importanceHistory}}
+                </template>
+
+                <template #body>
+                    <TableListView :data="activityBucketList" :pagination="true" :pageSize="5" />
                 </template>
             </Card>
 
