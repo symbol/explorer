@@ -28,24 +28,6 @@ import http from './http'
 import format from '../format'
 import helper from '../helper'
 
-const addMosaicAliasNames = async mosaics => {
-
-  // Fetch the mosaic name objects from the IDs.
-  const mosaicIdsList = mosaics.map(mosaicInfo => mosaicInfo.id)
-  const mosaicNames = await http.namespace.getMosaicsNames(mosaicIdsList).toPromise()
-
-  // Create a mapping of mosaics IDs to names.
-  const idToNameMap = {}
-  for (let item of mosaicNames) {
-    idToNameMap[item.mosaicId.toHex()] = item.names
-  }
-
-  // Add name to mosaics object.
-  mosaics.map(info => {
-    info.mosaicAliasName = idToNameMap[info.id.toHex()]
-  })
-}
-
 class sdkMosaic {
   static getMosaicsAmountByAddress = async address => {
     const mosaicAmount = await http.mosaicService
@@ -66,7 +48,7 @@ class sdkMosaic {
     }
     const mosaicInfo = await http.mosaic.getMosaic(mosaicID).toPromise()
 
-    await addMosaicAliasNames([mosaicInfo])
+    await this.addMosaicAliasNames([mosaicInfo])
 
     return format.formatMosaicInfo(mosaicInfo)
   }
@@ -84,7 +66,7 @@ class sdkMosaic {
     const response = await axios.get(http.nodeUrl + path)
     const mosaics = response.data.map(info => dto.createMosaicInfoFromDTO(info, http.networkType))
 
-    await addMosaicAliasNames(mosaics)
+    await this.addMosaicAliasNames(mosaics)
 
     return format.formatMosaicInfos(mosaics)
   }
@@ -102,7 +84,7 @@ class sdkMosaic {
     const response = await axios.get(http.nodeUrl + path)
     const mosaics = response.data.map(info => dto.createMosaicInfoFromDTO(info, http.networkType))
 
-    await addMosaicAliasNames(mosaics)
+    await this.addMosaicAliasNames(mosaics)
 
     return format.formatMosaicInfos(mosaics)
   }
@@ -133,6 +115,26 @@ class sdkMosaic {
     return {
       mosaicInfo: mosaicInfoFormatted || {}
     }
+  }
+
+  static addMosaicAliasNames = async mosaics => {
+
+    // Fetch the mosaic name objects from the IDs.
+    const mosaicIdsList = mosaics.map(mosaicInfo => mosaicInfo.id)
+    const mosaicNames = await http.namespace.getMosaicsNames(mosaicIdsList).toPromise()
+
+    // Create a mapping of mosaics IDs to names.
+    const idToNameMap = {}
+    for (let item of mosaicNames) {
+      idToNameMap[item.mosaicId.toHex()] = item.names
+    }
+
+    // Add name to mosaics object.
+     mosaics.map(info => {
+       info.mosaicAliasName = idToNameMap[info.id.toHex()]
+    })
+
+    return mosaics
   }
 }
 
