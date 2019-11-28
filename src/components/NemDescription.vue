@@ -20,7 +20,7 @@
   <b-col sm="12" lg="4">
     <div class="ft-logo">
       <a href="https://nem.io/" target="_blank">
-        <img src="theme/img/logo-f-w.png" />
+        <img src="/theme/img/logo-f-w.png" />
       </a>
     </div>
     <div class="ft-desc mt-3">

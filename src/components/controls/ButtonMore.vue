@@ -1,11 +1,66 @@
 <template>
-    <div
+    <b-button
         exact
         active-class="active"
-        class="btn btn-green noselect pointer"
+        class="btn-green noselect pointer"
         @click="$emit('click')"
     >
         <span><slot/></span>
         <i class="ico-ios-arrow-thin-right"></i>
-    </div>
+    </b-button>
 </template>
+
+
+<style lang="scss" scoped>
+
+.btn-green {
+    border: 1px solid #039ba8;
+    border-radius: 4px;
+    color: #039ba8;
+    font-size: 12px;
+    padding: 6px 12px 4px 12px;
+    line-height: 1.6;
+    position: relative;
+    background: transparent;
+}
+
+.btn-green i {
+    font-size: 24px;
+    line-height: 0;
+    position: relative;
+    top: -4px;
+    right: -4px;
+    height: 20px;
+}
+
+.btn-green * {
+    display: inline-block;
+    float: left;
+    position: relative;
+    z-index: 1;
+}
+
+.btn-green::before {
+    content: '';
+    background: linear-gradient(120deg, #25b4af, #6eb6de);
+    width: 0;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 0;
+    z-index: 0;
+    transition: all 0.4s cubic-bezier(0, 0, 0.23, 1);
+}
+
+.btn-green:hover {
+    color: #fff;
+}
+
+.btn-green:hover::before {
+    width: 100%;
+}
+
+.pointer {
+    cursor: pointer;
+}
+</style>

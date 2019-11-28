@@ -1,7 +1,7 @@
 <template>
     <header class="ex-menu" :class="{'ex-menu-fixed': fixed}" ref="DesktopMenu">
         <router-link to="/" :class="{'hide': !fixed}">
-            <img src="theme/img/logo-w.png" class="menu-logo"/>
+            <img src="/theme/img/logo-w.png" class="menu-logo"/>
         </router-link>
         <router-link 
             v-for="item in items"
@@ -9,7 +9,7 @@
             class="ex-menu-item"
             :to="item.to" exact active-class="active"
         >
-            <i v-bind:class="item.classname"></i>
+            <i :class="item.classname"></i> 
             <span>{{item.text}}</span>
         </router-link>
     </header>

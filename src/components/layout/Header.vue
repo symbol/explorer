@@ -7,7 +7,7 @@
                 <b-col md="6" class="header-center">
 
                     <router-link to="/" class="d-none d-md-block">
-                        <img src="theme/img/logo-w.png" class="header-logo"/>
+                        <img src="/theme/img/logo-w.png" class="header-logo"/>
                     </router-link>
                 
                     <div class="header-title">
