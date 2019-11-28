@@ -1,28 +1,12 @@
 <template>
-  <!--<div class="full-con">
-    <div class="search-grp search transition" v-bind:class="{'search-error': isError}">
-      <input
-        type="text"
-        :placeholder="placeholder"
-        v-model="searchString"
-        class="transition"
-        v-bind:class="{'search-error': isError}"
-        @keyup.enter="onSearch"
-      />
-      <button @click="onSearch">
-        <i class="ico-search-1 transition" v-bind:class="{'search-error': isError}" />
-      </button>
-    </div>
-  </div>-->
-
     <b-form-input
       v-model="searchString"
       :class="{'is-invalid': isError}"
       class="search-box bg-transparent"
       :placeholder="placeholder"
       @change="onSearch"
-    ></b-form-input>
-
+    >
+    </b-form-input>
 </template>
 
 <script>
@@ -62,14 +46,18 @@ export default {
 }
 </script>
 
-<style lang="scss" >
-.search-box {
-  color: #fff;
-}
+<style lang="scss" scoped>
 
 .form-control{
-    background-color:#666;
-    color: #FFF;
+    color: #FFF !important;
+}
+
+.form-control:focus {
+  color: #FFF !important;
+}
+
+.form-control::-webkit-input-placeholder {
+  color: #e4e4e4;;
 }
 
 .transition {

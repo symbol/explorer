@@ -20,8 +20,8 @@
     <div class="page-footer">
         <footer class="footer">
             <b-container>
-                <b-row>
-                    <NemDescription />
+                <b-row class="footer-row">
+                    <NemDescription class="footer-description"/>
                     <b-col sm="12" lg="4">
                         <ul class="social-icon">
                             <li
@@ -105,6 +105,14 @@ export default {
 .footer {
     background: linear-gradient(-40deg, #37476b 20%, #0a879b 80%);
     padding: 50px 0 0;
+
+    .footer-row {
+      padding-top: 40px;
+
+      .footer-description {
+        margin-top: -40px;
+      }
+    }
 }
 
 .social-icon {
@@ -113,7 +121,6 @@ export default {
     flex-wrap: wrap;
     display: flex;
     padding: 0;
-    margin-top: 40px;
 
     .social-icon-item {
       flex: auto;
@@ -132,7 +139,7 @@ export default {
 }
 
 .vertical-center {
-  margin-top: 45px;
+  margin-top: 5px;
 }
 
 </style>
