@@ -23,6 +23,7 @@ import http from './http'
 import format from '../format'
 import sdkTransaction from '../infrastructure/getTransaction'
 import sdkNamespace from '../infrastructure/getNamespace'
+import sdkMosaic from '../infrastructure/getMosaic'
 
 const formatAccountNames = async accounts => {
   // Fetch the account name objects from the addresses.
@@ -37,24 +38,39 @@ const formatAccountNames = async accounts => {
   }
 
   return accounts.map(info => {
-    const name = addressToNameMap[info.address.plain()]
-    return format.formatAccount(info, name)
+    info.accountName = addressToNameMap[info.address.plain()]
+    return format.formatAccount(info)
   })
 }
 
 class sdkAccount {
   static getAccountInfoByAddress = async address => {
-    let addressObj = Address.createFromRawAddress(address)
+    const addressObj = Address.createFromRawAddress(address)
 
-    const accountInfo = await http.account
+    let accountInfo = await http.account
       .getAccountInfo(addressObj)
       .toPromise()
 
-    const accountNames = await http.namespace
+    const accountName = await http.namespace
       .getAccountsNames([addressObj])
       .toPromise()
 
-      return format.formatAccount(accountInfo, accountNames[0])
+    const mosaicsAmountViewFromAddress = await http.mosaicService
+      .mosaicsAmountViewFromAddress(addressObj)
+      .toPromise()
+
+    const mosaicsInfoList = mosaicsAmountViewFromAddress.map(mosaic => mosaic.mosaicInfo)
+
+    // Get mosaic alias name from mosaic list
+    await sdkMosaic.addMosaicAliasNames(mosaicsInfoList)
+
+    // added mosaicsAmountViewFromAddress[] object
+    accountInfo.mosaicsAmountViewFromAddress = mosaicsAmountViewFromAddress
+
+    // add accountName object
+    accountInfo.accountName =  accountName[0]
+
+    return format.formatAccount(accountInfo)
   }
 
   static getMultisigAccountByAddress = async address => {
@@ -143,7 +159,8 @@ class sdkAccount {
       mosaicList = Array.isArray(rawAccountInfo.mosaics)
         ? rawAccountInfo.mosaics.map(el => ({
           mosaicId: el.id,
-          amount: el.amount
+          amount: el.amount,
+          mosaicAliasName: el.mosaicAliasName
         }))
         : []
 
