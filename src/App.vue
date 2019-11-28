@@ -20,7 +20,8 @@
     <div id="app">
         <div class="app-content">
             <Header />
-            <PageMenu />
+            <DesktopMenu />
+            <!--MobileMenu />-->
             <router-view :key="$route.fullPath"/>
         </div>
         <PageFooter />
@@ -29,13 +30,13 @@
 
 <script>
 import PageFooter from '@/components/PageFooter.vue'
-import PageMenu from './components/menu/PageMenu.vue'
+import DesktopMenu from '@/components/menu/DesktopMenu.vue'
 import Header from '@/components/layout/Header.vue'
 
 export default {
   components: {
     PageFooter,
-    PageMenu,
+    DesktopMenu,
     Header
   },
 
