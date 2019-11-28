@@ -120,6 +120,7 @@ const formatMosaicInfo = mosaicInfo => ({
   divisibility: mosaicInfo.divisibility,
   address: mosaicInfo.owner.address.plain(),
   supply: mosaicInfo.supply.compact(),
+  relativeAmount: mosaicInfo.divisibility !== 0 ? mosaicInfo.supply.compact() / Math.pow(10, mosaicInfo.divisibility) : mosaicInfo.supply.compact(),
   revision: mosaicInfo.revision,
   startHeight: mosaicInfo.height.compact(),
   duration: mosaicInfo.duration.compact(),

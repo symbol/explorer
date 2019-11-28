@@ -121,6 +121,7 @@ class sdkMosaic {
         divisibility: mosaicInfo.divisibility,
         owneraddress: mosaicInfo.address,
         supply: mosaicInfo.supply,
+        relativeAmount: mosaicInfo.relativeAmount,
         revision: mosaicInfo.revision,
         startHeight: mosaicInfo.startHeight,
         duration: mosaicInfo.duration,
