@@ -2,6 +2,7 @@
     <b-dropdown 
         :variant="variant"
         :text="getLabel(value)"
+        :size="_size"
     >
         <b-dropdown-item 
             v-for="(label, value) in options"
@@ -39,6 +40,11 @@ export default {
         border: {
             type: Boolean,
             default: true
+        },
+
+        size: {
+            type: String,
+            default: 'small'
         }
     },
 
@@ -57,6 +63,14 @@ export default {
                 variant += ' border-transparent' 
 
             return variant;
+        },
+
+        _size() {
+            switch(this.size) {
+                case 'small': return 'sm';
+                case 'medium': return '';
+                case 'large': return 'lg';
+            }
         }
     },
 

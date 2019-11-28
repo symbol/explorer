@@ -19,7 +19,7 @@
 <template>
     <div id="app">
         <div class="app-content">
-            <TopHeader />
+            <Header />
             <PageMenu />
             <router-view :key="$route.fullPath"/>
         </div>
@@ -30,13 +30,13 @@
 <script>
 import PageFooter from '@/components/PageFooter.vue'
 import PageMenu from './components/menu/PageMenu.vue'
-import TopHeader from '@/components/TopHeader.vue'
+import Header from '@/components/layout/Header.vue'
 
 export default {
   components: {
     PageFooter,
     PageMenu,
-    TopHeader
+    Header
   },
 
   data: () => {

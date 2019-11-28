@@ -18,7 +18,7 @@
 
 <template>
   <div>
-    <div class=" gradinet_01 top_head">
+    <div class="gradinet_01 top_head">
       <b-container>
         <b-row>
           <b-col md="3">
@@ -119,6 +119,10 @@ export default {
     background-position: 60% 0%;
 }
 
+.top_head::before {
+    background-size: 96%;
+}
+
 .top_head {
     padding-top: 12px;
     padding-bottom: 10px;
@@ -138,13 +142,14 @@ export default {
     text-align: center;
     margin-top: 14px;
     letter-spacing: 1px;
+    margin: 5px;
 }
 
 .top_head .head-sub-t {
     text-align: center;
     color: #e4e4e4;
     font-size: 14px;
-    margin: 0;
+    margin: 5px;
 }
 
 
@@ -334,5 +339,23 @@ export default {
 .hdr-btn-con a:hover {
     background: #fff;
     color: #28506a;
+}
+
+@media (max-width: 576px) {
+    .top_head {
+        padding-top: 40px;
+    }
+
+    .top_head .head-titl {
+        font-size: 18px;
+    }
+
+    .top_head .logo {
+        display: none;
+    }
+    
+    .top_head::before {
+        background-size: 96%;
+    }
 }
 </style>

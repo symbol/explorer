@@ -2,7 +2,8 @@
     <b-form-input
       v-model="searchString"
       :class="{'is-invalid': isError}"
-      class="search-box bg-transparent"
+      class="bg-transparent"
+      size="sm"
       :placeholder="placeholder"
       @change="onSearch"
     >
@@ -47,7 +48,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .form-control{
     color: #FFF !important;
 }
@@ -57,7 +57,7 @@ export default {
 }
 
 .form-control::-webkit-input-placeholder {
-  color: #e4e4e4;;
+  color: #acc5ce;
 }
 
 .transition {

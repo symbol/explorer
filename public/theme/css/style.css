@@ -462,11 +462,7 @@ img {
     transition: all 0.2s ease-in-out;
 }
 
-.top_head .btn {
-    border-radius: 4px;
-    width: 68px;
-    font-size: 12px;
-}
+
 
 .top_head .btn:hover, .top_head .btn.active {
     background: #fff;
