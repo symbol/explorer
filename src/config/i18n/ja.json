@@ -4,6 +4,7 @@
     "aliasAction": "エイリアスアクション",
     "linkAction": "リンクアクション",
     "amount": "総量",
+    "relativeAmount": "相対量",
     "height": "ブロック高",
     "fee": "手数料",
     "date": "日付",

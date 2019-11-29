@@ -4,6 +4,7 @@
     "aliasAction": "Alias Action",
     "linkAction": "Link Action",
     "amount": "Amount",
+    "relativeAmount": "Relative Amount",
     "height": "Height",
     "fee": "Fee",
     "date": "Date",

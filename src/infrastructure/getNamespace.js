@@ -162,7 +162,7 @@ class sdkNamespace {
         namespaceInfo.levels.forEach((el) => {
           let parentId = el.parentId ? el.parentId : ''
           let namespaceLevelObject = {
-            name: el.name,
+            namespaceName: el.name,
             namespaceId: el.namespaceId,
             parentId: parentId === '' ? Constants.Message.UNAVAILABLE : parentId.toHex()
           }

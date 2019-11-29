@@ -4,6 +4,7 @@
     "aliasAction": "Alias Action",
     "linkAction": "Link Action",
     "amount": "Montante",
+    "relativeAmount": "Quantidade relativa",
     "height": "Altura",
     "fee": "Taxas",
     "date": "Date",
