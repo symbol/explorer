@@ -1037,8 +1037,6 @@ table.table-bordered.dataTable tbody tr {
     margin-top: 46px;
 }
 
-
-
 .page-header {
     position: relative;
     z-index: 99;
@@ -1809,7 +1807,6 @@ table.table-bordered.dataTable tbody tr {
         float: left;
     }
 
-    
     .hdr-btn-con.btns_left, .nav-fixed .logo-wrap {
         display: none !important;
     }
