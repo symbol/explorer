@@ -12,7 +12,6 @@
 
 
 <style lang="scss" scoped>
-
 .btn-green {
     border: 1px solid #039ba8;
     border-radius: 4px;
