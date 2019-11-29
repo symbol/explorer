@@ -33,6 +33,8 @@ export default {
         'namespaceName',
         'linkedNamespace',
         'mosaicAliasName',
+        'aliasAddress',
+        'aliasMosaic',
         'linkedAccountKey',
         'transaction',
         'harvester',

@@ -26,7 +26,7 @@
 
           <b-col md="6" class="text-center">
             <router-link to="/" class="logo">
-              <img src="theme/img/logo-w.png" />
+              <img src="/theme/img/logo-w.png" />
             </router-link>
             <div class="full-con">
               <h1 class="head-titl">Nem blockchain explorer</h1>
@@ -48,7 +48,7 @@
           <i class="ico-navicon-round"></i>
         </a>
         <router-link to="/" class="logo">
-          <img src="theme/img/logo-w.png" />
+          <img src="/theme/img/logo-w.png" />
         </router-link>
       </div>
     </div>

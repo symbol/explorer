@@ -4,6 +4,7 @@
     "aliasAction": "Alias Action",
     "linkAction": "Link Action",
     "amount": "Cantidad",
+    "relativeAmount": "Cantidad relativa",
     "height": "Altura",
     "fee": "Cuota",
     "date": "Fecha",
@@ -73,5 +74,7 @@
     "beneficiaryCount": "Recuento de beneficiarios",
     "importanceScore": "Puntuación de importancia",
     "recalculationBlock": "Bloque de recálculo #",
-    "mosaicAliasName": "Espacio de nombres de alias"
+    "mosaicAliasName": "Espacio de nombres de alias",
+    "aliasMosaic": "Alias",
+    "aliasAddress": "Alias"
 }

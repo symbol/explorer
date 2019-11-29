@@ -4,6 +4,7 @@
     "aliasAction": "エイリアスアクション",
     "linkAction": "リンクアクション",
     "amount": "総量",
+    "relativeAmount": "相対量",
     "height": "ブロック高",
     "fee": "手数料",
     "date": "日付",
@@ -73,5 +74,7 @@
     "beneficiaryCount": "受取人数",
     "importanceScore": "重要度スコア",
     "recalculationBlock": "再計算ブロック #",
-    "mosaicAliasName": "エイリアスネームスペース"
+    "mosaicAliasName": "エイリアスネームスペース",
+    "aliasMosaic": "エイリアス",
+    "aliasAddress": "エイリアス"
 }

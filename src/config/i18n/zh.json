@@ -4,6 +4,7 @@
     "aliasAction": "别名行动",
     "linkAction": "绑定行动",
     "amount": "量",
+    "relativeAmount": "相对金额",
     "height": "高度",
     "fee": "费用",
     "date": "日期",
@@ -73,5 +74,7 @@
     "beneficiaryCount": "受益人计数",
     "importanceScore": "重要性分数",
     "recalculationBlock": "重新计算块 #",
-    "mosaicAliasName": "别名命名空间"
+    "mosaicAliasName": "别名命名空间",
+    "aliasMosaic": "别名",
+    "aliasAddress": "别名"
 }
