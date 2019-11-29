@@ -9,6 +9,7 @@
             class="ex-menu-item"
             :to="item.to" exact active-class="active"
         >
+            <component :is="item.icon" class="menu-icon"/>
             <i :class="item.classname"></i> 
             <span>{{item.text}}</span>
         </router-link>
@@ -17,8 +18,26 @@
 
 <script>
 import { pageMenu } from '../../config/'
+import IconHome from 'vue-material-design-icons/Home.vue';
+import IconBlocks from 'vue-material-design-icons/Widgets.vue'
+import IconTransactions from 'vue-material-design-icons/Send.vue';
+import IconAccounts from 'vue-material-design-icons/Account.vue';
+import IconMosaics from 'vue-material-design-icons/CheckboxMultipleBlankCircle.vue';
+import IconNodes from 'vue-material-design-icons/VectorTriangle.vue';
+import IconNamespaces from 'vue-material-design-icons/Tag.vue';
+
 
 export default {
+    components: {
+        IconHome,
+        IconBlocks,
+        IconTransactions,
+        IconAccounts,
+        IconMosaics,
+        IconNodes,
+        IconNamespaces
+    },
+
     mounted() {
         var DesktopMenu = this.$refs.DesktopMenu;
         var offset = DesktopMenu.offsetTop;
@@ -46,6 +65,7 @@ export default {
     background: #0998a6;
     box-shadow: 0 2px 10px 2px rgba(0, 0, 0, 0.2);
     padding: 0 60px;
+    z-index: 1000;
 
     .menu-logo {
         width: 30px;
@@ -64,6 +84,10 @@ export default {
         display: inline-block;
         font-size: 13px;
         line-height: 40px;
+
+        .menu-icon {
+            margin-right: 5px;
+        }
     }
     
     .ex-menu-item.active:before {
@@ -83,7 +107,6 @@ export default {
     top: 0;
     left: 0;
     width: 100%;
-    z-index: 1000;
 }
 
 .hide {
