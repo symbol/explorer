@@ -6,12 +6,25 @@
         @click="$emit('click')"
     >
         <span><slot/></span>
-        <i class="ico-ios-arrow-thin-right"></i>
+        <IconArrowRight class="more-icon" />
     </b-button>
 </template>
 
+<script>
+import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue';
+export default {
+    components: {
+        IconArrowRight
+    }
+}
+</script>
 
 <style lang="scss" scoped>
+.more-icon {
+    font-size: 15px;
+    margin-left: 5px;
+}
+
 .btn-green {
     border: 1px solid #039ba8;
     border-radius: 4px;
