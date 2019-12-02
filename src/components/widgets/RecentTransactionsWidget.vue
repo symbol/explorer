@@ -1,0 +1,133 @@
+<template>
+    <Card :loading="loading">
+        <template #title>
+            Recent Transactions
+        </template>
+
+        <template #control>
+            <ButtonMore> View all transactions </ButtonMore>
+        </template>
+
+        <template #body>
+            <b-row>
+                <b-col 
+                    md="6"
+                    lg="3"
+                    v-for="(item, index) in transactionList"
+                    :key="'recent_blocks_'+index+'_'+item.height"
+                >
+                    <Card 
+                        class="card-item"
+                        :item="item"
+                    >
+                        <template #header>
+                            <router-link
+                                :to="'/transaction/'+item.transactionHash"
+                                class="ex-title-text ex-long-text" 
+                                :title="'Transaction hash: ' + item.transactionHash"
+                            >
+                                {{item.transactionHash}}
+                            </router-link>
+                        </template>
+                        <template #body>
+                            <div class="ex-row">
+                                <div class="ex-text">
+                                    Height: {{ item.blockHeight }}
+                                </div>
+                                <div class="ex-text">
+                                    {{ item.transactionBody.type }}
+                                </div>
+                            </div>
+                            <div class="ex-row no-wrap">
+                                <div class="ex-text">
+                                    Sender
+                                </div>
+                                <router-link
+                                    :to="'/account/'+item.signer"
+                                    class="ex-long-text ex-account-text" 
+                                    :title="item.signer"
+                                >
+                                    {{item.signer}}
+                                </router-link>
+                            </div>
+                        </template>
+                    </Card>
+                </b-col>
+            </b-row>  
+        </template>
+    </Card>
+</template>
+
+<script>
+import Card from '@/components/containers/Card.vue'
+import ButtonMore from '@/components/controls/ButtonMore.vue'
+import Age from '@/components/Age.vue'
+import { mapGetters } from 'vuex'
+
+export default {
+    components: { 
+        Card, 
+        ButtonMore,
+        Age 
+    },
+
+    computed: {
+        ...mapGetters({
+            transactionList: 'transaction/getRecentList',
+            loading: 'transaction/getLoading'
+        })
+    }
+}
+</script>
+
+<style lang="scss" scoped>
+.card-item::before {
+    width: 4px;
+    content: '';
+    height: 100%;
+    position: absolute;
+    padding: 0;
+    left: 0;
+    top: 0;
+    background: #78b6e4;
+    border-top-left-radius: 3px;
+    border-bottom-left-radius: 3px;
+}
+
+.card-item {
+    .card-body {
+        .ex-title-text {
+            color: black;
+        }
+
+        .ex-long-text {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        padding: 0;
+        .ex-row {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            
+            .ex-text {
+                font-size: 10px;
+                color: #acacac;
+            }
+            
+            .ex-account-text {
+                color: #84accb;
+                font-weight: 600;
+                font-size: 12px;
+                margin-left: 20px;
+            }
+        }
+
+        .no-wrap {
+            flex-wrap: nowrap;
+        }
+    }
+}
+</style>

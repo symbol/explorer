@@ -1,5 +1,5 @@
 <template>
-    <Card>
+    <Card :loading="loading">
         <template #title>
             Recent Blocks
         </template>
