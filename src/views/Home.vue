@@ -19,13 +19,13 @@
 <template>
     <b-container fluid>
         <b-row>
-            <b-col xs="12" md="10" lg="10">
+            <b-col xs="12" md="12" lg="8">
                 <NemPriceWidget
                     class="border-bottom"
                 />
             </b-col>
-            <b-col xs="12" md="2" lg="2">
-                <HomeBaseInfo
+            <b-col xs="12" md="12" lg="4">
+                <BaseInfoWidget
                     class=""
                 />
             </b-col>
@@ -39,7 +39,7 @@
     </b-container>
 </template>
 <script>
-import HomeBaseInfo from '@/components/HomeBaseInfo.vue'
+import BaseInfoWidget from '@/components/widgets/BaseInfoWidget.vue'
 import NemPriceWidget from '@/components/widgets/NemPriceWidget.vue'
 import RecentBlocksWidget from '@/components/widgets/RecentBlocksWidget.vue'
 import RecentTransactionsWidget from '@/components/widgets/RecentTransactionsWidget.vue'
@@ -48,7 +48,7 @@ export default {
   name: 'Home',
 
   components: {
-    HomeBaseInfo,
+    BaseInfoWidget,
     NemPriceWidget,
     RecentBlocksWidget,
     RecentTransactionsWidget
