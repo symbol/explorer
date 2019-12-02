@@ -21,7 +21,7 @@
         <div class="page_con">
             <div class="full-con mob_con">
                 <div class="container p-0 has-shadow mt-4">
-                    <NemPriceGraph
+                    <NemPriceWidget
                         class="border-bottom"
                     />
                     <HomeBaseInfo
@@ -41,6 +41,7 @@
 <script>
 import HomeBaseInfo from '@/components/HomeBaseInfo.vue'
 import NemPriceGraph from '@/components/NemPriceGraph.vue'
+import NemPriceWidget from '@/components/widgets/NemPriceWidget.vue'
 import RecentBlocksWidget from '@/components/widgets/RecentBlocksWidget.vue'
 import RecentTransactionsWidget from '@/components/widgets/RecentTransactionsWidget.vue'
 
@@ -50,6 +51,7 @@ export default {
   components: {
     HomeBaseInfo,
     NemPriceGraph,
+    NemPriceWidget,
     RecentBlocksWidget,
     RecentTransactionsWidget
   },
