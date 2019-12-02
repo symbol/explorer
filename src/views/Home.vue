@@ -40,7 +40,6 @@
 </template>
 <script>
 import HomeBaseInfo from '@/components/HomeBaseInfo.vue'
-import NemPriceGraph from '@/components/NemPriceGraph.vue'
 import NemPriceWidget from '@/components/widgets/NemPriceWidget.vue'
 import RecentBlocksWidget from '@/components/widgets/RecentBlocksWidget.vue'
 import RecentTransactionsWidget from '@/components/widgets/RecentTransactionsWidget.vue'
@@ -50,7 +49,6 @@ export default {
 
   components: {
     HomeBaseInfo,
-    NemPriceGraph,
     NemPriceWidget,
     RecentBlocksWidget,
     RecentTransactionsWidget
