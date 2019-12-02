@@ -11,8 +11,8 @@
         <template #body>
             <b-row>
                 <b-col 
-                    md="6"
-                    lg="3"
+                    md="3"
+                    lg="6"
                     v-for="(item, index) in transactionList"
                     :key="'recent_blocks_'+index+'_'+item.height"
                 >
@@ -30,11 +30,11 @@
                             </router-link>
                         </template>
                         <template #body>
-                            <div class="ex-row">
+                            <div class="ex-row no-wrap">
                                 <div class="ex-text">
-                                    Height: {{ item.blockHeight }}
+                                    Block: {{ item.blockHeight }} 
                                 </div>
-                                <div class="ex-text">
+                                <div class="ex-long-text ex-text" :title="'Type: ' + item.transactionBody.type" style="margin-left: 20px">
                                     {{ item.transactionBody.type }}
                                 </div>
                             </div>
@@ -127,6 +127,7 @@ export default {
 
         .no-wrap {
             flex-wrap: nowrap;
+            white-space:nowrap;
         }
     }
 }

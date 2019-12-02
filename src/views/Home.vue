@@ -17,26 +17,26 @@
  */
 
 <template>
-    <div>
-        <div class="page_con">
-            <div class="full-con mob_con">
-                <div class="container p-0 has-shadow mt-4">
-                    <NemPriceWidget
-                        class="border-bottom"
-                    />
-                    <HomeBaseInfo
-                        class=""
-                    />
-                </div>
-                <div class="container p-0 mt-1">
-                    <RecentBlocksWidget />
-                </div>
-                <div class="container p-0 mt-1">
-                    <RecentTransactionsWidget />
-                </div>
-            </div>
-        </div>
-    </div>
+    <b-container fluid>
+        <b-row>
+            <b-col xs="12" md="10" lg="10">
+                <NemPriceWidget
+                    class="border-bottom"
+                />
+            </b-col>
+            <b-col xs="12" md="2" lg="2">
+                <HomeBaseInfo
+                    class=""
+                />
+            </b-col>
+            <b-col xs="12" md="12" lg="6">
+                <RecentBlocksWidget />
+            </b-col>
+            <b-col xs="12" md="12" lg="6">
+                <RecentTransactionsWidget />
+            </b-col>
+        </b-row>
+    </b-container>
 </template>
 <script>
 import HomeBaseInfo from '@/components/HomeBaseInfo.vue'
