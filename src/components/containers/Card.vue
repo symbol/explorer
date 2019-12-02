@@ -1,5 +1,5 @@
 <template>
-    <div class="ex-card">
+    <b-card class="ex-card">
         <div class="ex-card-header">
             <slot name="header" />
             <slot name="title" />
@@ -17,8 +17,7 @@
         <div v-if="!error && !loading" class="ex-card-body">
             <slot name="body" />
         </div>
-
-    </div>
+    </b-card>
 </template>
 
 <script>
@@ -45,7 +44,7 @@ export default {
 
 <style lang="scss" scoped>
 .ex-card {
-    padding: 20px;
+    //padding: 20px;
     box-shadow: 0 1px 15px 1px rgba(52, 40, 104, 0.18);
     background: #fff;
     border-radius: 4px;

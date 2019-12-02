@@ -29,6 +29,7 @@
                     />
                 </div>
                 <div class="container p-0 mt-1">
+                    <RecentBlockWidget />
                     <RecentBlocks />
                 </div>
                 <div class="container p-0 mt-1">
@@ -43,6 +44,7 @@ import HomeBaseInfo from '@/components/HomeBaseInfo.vue'
 import NemPriceGraph from '@/components/NemPriceGraph.vue'
 import RecentBlocks from '@/components/RecentBlocks.vue'
 import RecentTransactions from '@/components/RecentTransactions.vue'
+import RecentBlockWidget from '@/components/widgets/RecentBlockWidget.vue'
 
 export default {
   name: 'Home',
@@ -51,7 +53,8 @@ export default {
     HomeBaseInfo,
     NemPriceGraph,
     RecentBlocks,
-    RecentTransactions
+    RecentTransactions,
+    RecentBlockWidget
   },
 
   mounted() {
