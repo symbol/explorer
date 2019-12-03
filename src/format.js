@@ -8,6 +8,12 @@ import http from './infrastructure/http'
 // Convert micro-xem (smallest unit) to XEM.
 const microxemToXem = amount => amount / Math.pow(10, 6)
 
+// Convert Mosaic amount to relative Amount with divisibility.
+const formatMosaicAmountWithDivisibility = (amount, divisibility) => {
+  let relativeAmount = divisibility !== 0 ? amount / Math.pow(10, divisibility) : amount.compact()
+  return relativeAmount.toFixed(divisibility)
+}
+
 // Format fee (in microxem) to string (in XEM).
 const formatFee = fee => microxemToXem(fee.compact()).toString()
 
@@ -89,7 +95,7 @@ const formatAccount = accountInfo => {
   if (accountInfo.hasOwnProperty('mosaicsAmountViewFromAddress'))
     accountObj.mosaics = accountInfo.mosaicsAmountViewFromAddress.map(mosaic => ({
       id: mosaic.fullName(),
-      amount: mosaic.relativeAmount(),
+      amount: formatMosaicAmountWithDivisibility(mosaic.amount, mosaic.mosaicInfo.divisibility),
       mosaicAliasName: mosaic.mosaicInfo.mosaicAliasName.length > 0 ? mosaic.mosaicInfo.mosaicAliasName[0].name : Constants.Message.UNAVAILABLE
     }))
 
@@ -132,7 +138,7 @@ const formatMosaicInfo = mosaicInfo => ({
   divisibility: mosaicInfo.divisibility,
   address: mosaicInfo.owner.address.plain(),
   supply: mosaicInfo.supply.compact(),
-  relativeAmount: mosaicInfo.divisibility !== 0 ? mosaicInfo.supply.compact() / Math.pow(10, mosaicInfo.divisibility) : mosaicInfo.supply.compact(),
+  relativeAmount: formatMosaicAmountWithDivisibility(mosaicInfo.supply, mosaicInfo.divisibility),
   revision: mosaicInfo.revision,
   startHeight: mosaicInfo.height.compact(),
   duration: mosaicInfo.duration.compact(),
