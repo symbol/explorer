@@ -23,6 +23,7 @@ export default {
 .more-icon {
     font-size: 15px;
     margin-left: 5px;
+    margin-top: 1px;
 }
 
 .btn-green {
@@ -30,7 +31,7 @@ export default {
     border-radius: 4px;
     color: #039ba8;
     font-size: 12px;
-    padding: 6px 12px 4px 12px;
+    padding: 5px 12px 5px 12px;
     line-height: 1.6;
     position: relative;
     background: transparent;
