@@ -17,8 +17,8 @@
  */
 
 <template>
-    <b-container fluid>
-        <b-row class="my-4 mx-0 mx-xs-0 mx-sm-4 mx-md-8">
+
+        <b-row class="my-4 mx-0 mx-xs-0 mx-md-4 mx-lg-8">
             <b-col xs="12" md="12" lg="8">
                 <NemPriceWidget
                     class="border-bottom"
@@ -36,7 +36,7 @@
                 <RecentTransactionsWidget />
             </b-col>
         </b-row>
-    </b-container>
+
 </template>
 <script>
 import BaseInfoWidget from '@/components/widgets/BaseInfoWidget.vue'

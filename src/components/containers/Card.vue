@@ -51,7 +51,7 @@ export default {
     border: none;
     margin-bottom: 20px;
     transition: all 0.5s ease-in-out;
-    position: relative;
+   
 
     .ex-card-loading {
         height: 187px;

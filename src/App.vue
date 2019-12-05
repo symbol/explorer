@@ -19,8 +19,9 @@
 <template>
     <div id="app">
         <div class="app-content">
+            <MobileMenu class="d-block d-md-none"/>
             <Header />
-            <DesktopMenu />
+            <NavigationMenu class="d-none d-md-block"/>
             <!--MobileMenu />-->
             <router-view :key="$route.fullPath"/>
         </div>
@@ -30,13 +31,15 @@
 
 <script>
 import PageFooter from '@/components/PageFooter.vue'
-import DesktopMenu from '@/components/menu/DesktopMenu.vue'
+import NavigationMenu from '@/components/menu/NavigationMenu.vue'
+import MobileMenu from '@/components/menu/MobileMenu.vue'
 import Header from '@/components/layout/Header.vue'
 
 export default {
   components: {
     PageFooter,
-    DesktopMenu,
+    NavigationMenu,
+    MobileMenu,
     Header
   },
 

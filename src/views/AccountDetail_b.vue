@@ -1,9 +1,8 @@
 <template>
-    <div class="page">
-        <div class="page-content-card-f">
+    <b-container fluid>
+        <b-row>
             <!-- Account Detail -->
             <Card
-                class="card-f card-full-width"
                 :loading="loading"
                 :error="error"
             >
@@ -22,7 +21,8 @@
 
             <!-- MultiSig Cosignatories -->
             <Card
-                class="card-f card-adaptive"
+                xs="3"
+                md="12"
                 :loading="loading"
             >
                 <template #title>
@@ -36,7 +36,8 @@
 
             <!-- Mosaics -->
             <Card
-                class="card-f card-adaptive"
+                xs="12"
+                md="3"
                 :loading="loading"
             >
                 <template #title>
@@ -50,7 +51,8 @@
 
             <!-- Namespaces -->
             <Card
-                class="card-f card-adaptive"
+                xs="12"
+                md="3"
                 :loading="loading"
             >
                 <template #title>
@@ -64,7 +66,6 @@
 
             <!-- Importance History -->
             <Card
-                class="card-f card-full-width"
                 :loading="loading"
             >
                 <template #title>
@@ -78,7 +79,6 @@
 
             <!-- Transactions -->
             <Card
-                class="card-f card-full-width"
                 :loading="loading"
             >
                 <template #title>
@@ -97,8 +97,8 @@
                     <TableListView :data="filteredTransactionList" :pagination="true" :pageSize="5"/>
                 </template>
             </Card>
-        </div>
-    </div>
+        </b-row>
+    </b-container>
 </template>
 
 <script>

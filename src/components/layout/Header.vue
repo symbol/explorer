@@ -6,7 +6,7 @@
                 </b-col>
                 <b-col md="6" class="header-center">
 
-                    <router-link to="/" class="d-none d-md-block">
+                    <router-link to="/" >
                         <img src="/theme/img/logo-w.png" class="header-logo"/>
                     </router-link>
                 
@@ -19,7 +19,7 @@
                     <SearchBox />
                 </b-col>
                 <b-col md="3" class="header-left">
-                    <LanguageSelector />
+                    <LanguageSelector class="d-none d-md-block"/>
                 </b-col>
             </b-row>
         </b-container>
@@ -63,6 +63,7 @@ export default {
 @media (max-width: 764px) {
     .ex-header {
         padding: 5px 0;
+        padding-top: 15px;
     }   
 }
 
