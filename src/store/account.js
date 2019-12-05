@@ -61,6 +61,8 @@ export default {
     transactionList: [],
     // The Account Activity Bucket.
     activityBucketList: [],
+    // The Account Metadata list.
+    MetadataList: [],
     // The Account Created mosaic.
     createdMosaics: [], // Wait for Rest team apply,
     accountInfoLoading: false,
@@ -88,6 +90,7 @@ export default {
     getMosaicList: state => state.mosaicList,
     getTransactionList: state => state.transactionList,
     getActivityBucketList: state => state.activityBucketList,
+    getMetadataList: state => state.MetadataList,
     getError: state => state.error,
     accountInfoLoading: state => state.accountInfoLoading,
     accountInfoError: state => state.accountInfoError,
@@ -110,6 +113,7 @@ export default {
     setMosaicList: (state, mosaicList) => { state.mosaicList = mosaicList },
     setTransactionList: (state, transactionList) => { state.transactionList = transactionList },
     setActivityBucketList: (state, activityBucketList) => { state.activityBucketList = activityBucketList },
+    setMetadataList: (state, MetadataList) => { state.MetadataList = MetadataList },
     setError: (state, error) => { state.error = error },
     accountInfoLoading: (state, v) => { state.accountInfoLoading = v },
     accountInfoError: (state, v) => { state.accountInfoError = v }
@@ -239,6 +243,7 @@ export default {
       commit('setNamespaceList', [])
       commit('setAccountMultisigCosignatories', [])
       commit('setActivityBucketList', [])
+      commit('setMetadataList', [])
 
       // Fetch account info from SDK
       let accountInfo
@@ -256,6 +261,7 @@ export default {
         commit('setTransactionList', accountInfo.tansactionList)
         commit('setNamespaceList', accountInfo.namespaceList)
         commit('setActivityBucketList', accountInfo.activityBuckets)
+        commit('setMetadataList', accountInfo.metadataList)
       }
 
       // Loading end

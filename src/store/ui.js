@@ -38,6 +38,8 @@ export default {
       'linkedAccountKey': 'account',
       'remoteAccountAddress': 'account',
       'aliasAddress': 'account',
+      'senderAddress': 'account',
+      'targetAddress': 'account',
 
       'transactionHash': 'transaction',
 

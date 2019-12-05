@@ -62,6 +62,20 @@
                 </template>
             </Card>
 
+            <!-- Metadata Entries -->
+            <Card
+                class="card-f card-full-width"
+                :loading="loading"
+            >
+                <template #title>
+                    {{metadataEntries}}
+                </template>
+
+                <template #body>
+                    <TableListView :data="metadataList" :pagination="true" :pageSize="5" />
+                </template>
+            </Card>
+
             <!-- Importance History -->
             <Card
                 class="card-f card-full-width"
@@ -111,6 +125,7 @@ export default {
   data() {
     return {
       detailTitle: "Account Detail",
+      metadataEntries: "Metadata Entries",
       importanceHistory: "Importance History",
       cosignatoriesTitle: "Multisig Cosignatories",
       mosaicsTitle: "Owned Mosaics",
@@ -135,6 +150,7 @@ export default {
       mosaicList: "account/getMosaicList",
       transactionList: "account/getTransactionList",
       activityBucketList: "account/getActivityBucketList",
+      metadataList: "account/getMetadataList",
       loading: "account/accountInfoLoading",
       error: "account/accountInfoError"
     }),
@@ -160,6 +176,9 @@ export default {
     },
     showTransactions() {
       return !this.error;
+    },
+    showMetadatas() {
+      return !this.error && this.metadataList?.length;
     },
 
     filteredTransactionList() {

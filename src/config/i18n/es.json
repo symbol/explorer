@@ -76,5 +76,12 @@
     "recalculationBlock": "Bloque de recálculo #",
     "mosaicAliasName": "Espacio de nombres de alias",
     "aliasMosaic": "Alias",
-    "aliasAddress": "Alias"
+    "aliasAddress": "Alias",
+    "metadataId": "Metadata Id",
+    "compositeHash": "Composite Hash",
+    "metadataType": "Tipo",
+    "scopedMetadataKey": "Scoped Metadata Key",
+    "senderAddress": "Dirección del remitente",
+    "targetAddress": "Dirección de destino",
+    "metadataValue": "Valor"
 }

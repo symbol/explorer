@@ -358,7 +358,11 @@ const formatTransactionBody = transactionBody => {
     case TransactionType.ACCOUNT_METADATA_TRANSACTION:
       let accountMetadataTransactionObj = {
         type: Constants.TransactionType[TransactionType.ACCOUNT_METADATA_TRANSACTION],
-        typeId: TransactionType.ACCOUNT_METADATA_TRANSACTION
+        typeId: TransactionType.ACCOUNT_METADATA_TRANSACTION,
+        scopedMetadataKey: transactionBody.scopedMetadataKey.toHex(),
+        targetPublicKey: transactionBody.targetPublicKey,
+        metadataValue: transactionBody.value,
+        valueSizeDelta: transactionBody.valueSizeDelta
       }
       return accountMetadataTransactionObj
     case TransactionType.MOSAIC_METADATA_TRANSACTION:
@@ -495,6 +499,18 @@ const formatNamespaceInfos = namespaceInfos => {
   })
 }
 
+const formatMetadatas = metadatas => {
+  return metadatas.map(data => ({
+      metadataId: data.id,
+      compositeHash: data.metadataEntry.compositeHash,
+      metadataType: Constants.MetadataType[data.metadataEntry.metadataType],
+      scopedMetadataKey: data.metadataEntry.scopedMetadataKey.toHex(),
+      senderAddress: Address.createFromPublicKey(data.metadataEntry.senderPublicKey, http.networkType).plain(),
+      targetAddress: Address.createFromPublicKey(data.metadataEntry.targetPublicKey, http.networkType).plain(),
+      metadataValue: data.metadataEntry.value,
+  }))
+}
+
 export default {
   formatFee,
   formatBlocks,
@@ -510,5 +526,6 @@ export default {
   formatMosaicInfo,
   formatMosaicInfos,
   formatNamespaceInfo,
-  formatNamespaceInfos
+  formatNamespaceInfos,
+  formatMetadatas
 }

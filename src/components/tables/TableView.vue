@@ -56,7 +56,9 @@ export default {
         'remoteAccountAddress',
 
         'lastActivity',
-        'recalculationBlock'
+        'recalculationBlock',
+        'senderAddress',
+        'targetAddress'
       ],
       disableClickItems: [...Object.values(Constants.Message)]
     }

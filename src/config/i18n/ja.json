@@ -76,5 +76,12 @@
     "recalculationBlock": "再計算ブロック #",
     "mosaicAliasName": "エイリアスネームスペース",
     "aliasMosaic": "エイリアス",
-    "aliasAddress": "エイリアス"
+    "aliasAddress": "エイリアス",
+    "metadataId": "メタデータId",
+    "compositeHash": "複合ハッシュ",
+    "metadataType": "タイプ",
+    "scopedMetadataKey": "スコープ付きメタデータキー",
+    "senderAddress": "送信者アドレス",
+    "targetAddress": "ターゲットアドレス",
+    "metadataValue": "値"
 }
