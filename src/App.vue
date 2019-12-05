@@ -25,19 +25,19 @@
             <!--MobileMenu />-->
             <router-view :key="$route.fullPath"/>
         </div>
-        <PageFooter />
+        <Footer />
     </div>
 </template>
 
 <script>
-import PageFooter from '@/components/PageFooter.vue'
+import Footer from '@/components/layout/Footer.vue'
 import NavigationMenu from '@/components/menu/NavigationMenu.vue'
 import MobileMenu from '@/components/menu/MobileMenu.vue'
 import Header from '@/components/layout/Header.vue'
 
 export default {
   components: {
-    PageFooter,
+    Footer,
     NavigationMenu,
     MobileMenu,
     Header
