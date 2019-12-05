@@ -9,6 +9,7 @@
         </template>
 
         <template #body>
+            <b-container fluid>
             <b-row>
                 <b-col 
                     md="3"
@@ -54,6 +55,7 @@
                     </Card>
                 </b-col>
             </b-row>  
+            </b-container>
         </template>
     </Card>
 </template>
@@ -96,6 +98,8 @@ export default {
 
 .card-item {
     .card-body {
+        padding: 0;
+        
         .ex-title-text {
             color: black;
         }
@@ -105,8 +109,7 @@ export default {
             overflow: hidden;
             text-overflow: ellipsis;
         }
-
-        padding: 0;
+     
         .ex-row {
             display: flex;
             justify-content: space-between;

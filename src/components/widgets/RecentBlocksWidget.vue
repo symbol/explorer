@@ -9,6 +9,7 @@
         </template>
 
         <template #body>
+            <b-container fluid>
             <b-row>
                 <b-col 
                     md="3"
@@ -53,7 +54,8 @@
                         </template>
                     </Card>
                 </b-col>
-            </b-row>  
+            </b-row> 
+            </b-container> 
         </template>
     </Card>
 </template>
