@@ -116,12 +116,12 @@ export default {
       mosaicsTitle: "Owned Mosaics",
       namespacesTitle: "Owned Namespaces",
       transactionsTitle: "Transactions",
-      transactionTypes: [
-        { name: "All transactions", value: 1 },
-        { name: "Mosaic transactions", value: 2 },
-        { name: "Namespace transactions", value: 3 },
-        { name: "Transfers", value: 4 }
-      ],
+      transactionTypes: { 
+        1: "All transactions",
+        2: "Mosaic transactions",
+        3: "Namespace transactions",
+        4: "Transfers" 
+      },
       selectedTransactionType: 1 // TODO: store.getters
     };
   },
@@ -164,7 +164,7 @@ export default {
 
     filteredTransactionList() {
       if (Array.isArray(this.transactionList)) {
-        switch (this.selectedTransactionType) {
+        switch (+this.selectedTransactionType) {
           case 1:
             return this.transactionList;
           case 2:
@@ -189,7 +189,7 @@ export default {
             );
         }
       }
-      return undefined;
+      return [];
     }
   },
 

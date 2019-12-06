@@ -116,7 +116,7 @@ export default {
 
   computed: {
     preparedData() {
-      if(this.pagination === true)
+      if(Array.isArray(this.data) && this.pagination === true)
         return this.data.slice(this.pageIndex * this.pageSize, this.pageIndex * this.pageSize + this.pageSize);
       else
         return this.data;
