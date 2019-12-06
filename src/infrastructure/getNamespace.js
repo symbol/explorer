@@ -24,6 +24,7 @@ import http from './http'
 import format from '../format'
 import helper from '../helper'
 import Constants from '../config/constants'
+import sdkMetadata from '../infrastructure/getMetadata'
 
 const addNamespaceNames = async namespaces => {
   // Fetch the namespace name objects from the IDs.
@@ -132,9 +133,12 @@ class sdkNamespace {
   static getNamespaceInfoFormatted = async namespaceOrHex => {
     let namespaceInfo
     let namespaceLevels
+    let metadataList
     let namespaceInfoFormatted
 
     try { namespaceInfo = await sdkNamespace.getNamespaceInfo(namespaceOrHex) } catch (e) { throw Error('Failed to fetch namespace info', e) }
+
+    try { metadataList = await sdkMetadata.getNamespaceMetadata(namespaceOrHex) } catch (e) { console.warn(e) }
 
     if (namespaceInfo) {
       namespaceInfoFormatted = {
@@ -173,7 +177,8 @@ class sdkNamespace {
 
     return {
       namespaceInfo: namespaceInfoFormatted || {},
-      namespaceLevels: namespaceLevels || []
+      namespaceLevels: namespaceLevels || [],
+      metadataList: metadataList || []
     }
   }
 }

@@ -23,11 +23,11 @@ import helper from '../helper'
 
 class sdkMetadata {
   static getAccountMetadata = async address => {
-        const addressObj = Address.createFromRawAddress(address)
+    const addressObj = Address.createFromRawAddress(address)
 
-        const metadatas = await http.metadata
-            .getAccountMetadata(addressObj)
-            .toPromise()
+    const metadatas = await http.metadata
+      .getAccountMetadata(addressObj)
+      .toPromise()
 
     return format.formatMetadatas(metadatas)
   }
@@ -47,8 +47,23 @@ class sdkMetadata {
 
     return format.formatMetadatas(metadatas)
   }
-        return format.formatMetadatas(metadatas)
+
+  static getNamespaceMetadata = async namespaceOrHex => {
+
+    let namespace
+
+    if (helper.isHexadecimal(namespaceOrHex)) {
+      namespace = NamespaceId.createFromEncoded(namespaceOrHex)
+    } else {
+      namespace = new NamespaceId(namespaceOrHex)
     }
+
+    const metadatas = await http.metadata
+      .getNamespaceMetadata(namespace)
+      .toPromise()
+
+    return format.formatMetadatas(metadatas)
+  }
 }
 
 export default sdkMetadata

@@ -51,6 +51,20 @@
                     <TableListView :data="namespaceLevels" />
                 </template>
             </Card>
+
+            <!-- Metadata Entries -->
+            <Card
+                class="card-f card-full-width"
+                :loading="loading"
+            >
+                <template #title>
+                    {{metadataEntries}}
+                </template>
+
+                <template #body>
+                    <TableListView :data="metadataList" :pagination="true" :pageSize="5" />
+                </template>
+            </Card>
         </div>
     </div>
 </template>
@@ -64,7 +78,8 @@ export default {
   data() {
     return {
       detailTitle: 'Namespace Detail',
-      levelTitle: 'Namespace Level'
+      levelTitle: 'Namespace Level',
+      metadataEntries: "Metadata Entries"
     }
   },
 
@@ -72,6 +87,7 @@ export default {
     ...mapGetters({
       namespaceInfo: 'namespace/getNamespaceInfo',
       namespaceLevels: 'namespace/getNamespaceLevels',
+      metadataList: 'namespace/getMetadataList',
       loading: 'namespace/namespaceInfoLoading',
       error: 'namespace/namespaceInfoError'
     }),
