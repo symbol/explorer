@@ -5,7 +5,9 @@
         </template>
 
         <template #control>
-            <ButtonMore> View all transactions </ButtonMore>
+            <router-link to="/transactions">
+                <ButtonMore> View all transactions </ButtonMore>
+            </router-link>
         </template>
 
         <template #body>

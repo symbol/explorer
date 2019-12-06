@@ -5,7 +5,9 @@
         </template>
 
         <template #control>
-            <ButtonMore> View all blocks </ButtonMore>
+            <router-link to="/blocks">
+                <ButtonMore> View all blocks </ButtonMore>
+            </router-link>
         </template>
 
         <template #body>

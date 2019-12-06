@@ -202,6 +202,9 @@ export default {
         font-weight: 600;
         text-decoration: none;
         cursor: pointer;
+        a {
+            font-weight: 600;
+        }
     }
 
     .table-titles {
