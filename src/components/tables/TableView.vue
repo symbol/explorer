@@ -56,7 +56,11 @@ export default {
         'remoteAccountAddress',
 
         'lastActivity',
-        'recalculationBlock'
+        'recalculationBlock',
+        'senderAddress',
+        'targetAddress',
+        'targetMosaicId',
+        'targetNamespaceId'
       ],
       disableClickItems: [...Object.values(Constants.Message)]
     }

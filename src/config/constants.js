@@ -6,7 +6,8 @@ import {
   LinkAction,
   AccountType,
   HashType,
-  NetworkType
+  NetworkType,
+  MetadataType
 } from 'nem2-sdk'
 
 class Constants {
@@ -86,6 +87,12 @@ class Constants {
     [HashType.Op_Keccak_256]: 'Op_Keccak_256',
     [HashType.Op_Hash_160]: 'Op_Hash_160',
     [HashType.Op_Hash_256]: 'Op_Hash_256'
+  }
+
+  static MetadataType = {
+    [MetadataType.Account]: 'Account',
+    [MetadataType.Mosaic]: 'Mosaic',
+    [MetadataType.Namespace]: 'Namespace'
   }
 }
 

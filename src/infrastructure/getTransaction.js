@@ -153,7 +153,7 @@ class sdkTransaction {
       transactionBody = transactionInfo.transaction?.transactionBody
 
       if (transactionBody) {
-        switch (transactionBody.typeId) {
+        switch (transactionBody.transactionType) {
           case nem.TransactionType.TRANSFER:
             formattedTransactionDetail = {
               transactionType: transactionBody.type,

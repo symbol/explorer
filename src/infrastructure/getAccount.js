@@ -24,6 +24,7 @@ import format from '../format'
 import sdkTransaction from '../infrastructure/getTransaction'
 import sdkNamespace from '../infrastructure/getNamespace'
 import sdkMosaic from '../infrastructure/getMosaic'
+import sdkMetadata from '../infrastructure/getMetadata'
 
 const formatAccountNames = async accounts => {
   // Fetch the account name objects from the addresses.
@@ -130,6 +131,8 @@ class sdkAccount {
     let accountMultisigCosignatories
     let activityBuckets
 
+    let metadataList
+
     let transactionList
     let formattedTansactionList
 
@@ -144,15 +147,15 @@ class sdkAccount {
 
     try { namespaceList = await sdkNamespace.getNamespacesFromAccountByAddress(address) } catch (e) { console.warn(e) }
 
+    try { metadataList = await sdkMetadata.getAccountMetadata(address) } catch (e) { console.warn(e) }
+
     if (rawAccountInfo) {
       formattedAccountInfo = {
         address: rawAccountInfo.address.address,
         linkedNamespace: rawAccountInfo.accountAliasName,
         addressHeight: rawAccountInfo.addressHeight,
         publicKey: rawAccountInfo.publicKey,
-        // publicKeyHeight: rawAccountInfo.publicKeyHeight,
         importance: rawAccountInfo.importance,
-        // importanceHeight: rawAccountInfo.importanceHeight,
         accountType: rawAccountInfo.accountType,
         linkedAccountKey: rawAccountInfo.linkedAccountKey
       }
@@ -213,7 +216,8 @@ class sdkAccount {
       multisigCosignatoriesList: accountMultisigCosignatories || [],
       tansactionList: formattedTansactionList || [],
       namespaceList: formattedNamespaceList || [],
-      activityBuckets: activityBuckets || []
+      activityBuckets: activityBuckets || [],
+      metadataList: metadataList || []
     }
   }
 }

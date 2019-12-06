@@ -8,6 +8,12 @@ import http from './infrastructure/http'
 // Convert micro-xem (smallest unit) to XEM.
 const microxemToXem = amount => amount / Math.pow(10, 6)
 
+// Convert Mosaic amount to relative Amount with divisibility.
+const formatMosaicAmountWithDivisibility = (amount, divisibility) => {
+  let relativeAmount = divisibility !== 0 ? amount / Math.pow(10, divisibility) : amount.compact()
+  return relativeAmount.toFixed(divisibility)
+}
+
 // Format fee (in microxem) to string (in XEM).
 const formatFee = fee => microxemToXem(fee.compact()).toString()
 
@@ -89,7 +95,7 @@ const formatAccount = accountInfo => {
   if (accountInfo.hasOwnProperty('mosaicsAmountViewFromAddress'))
     accountObj.mosaics = accountInfo.mosaicsAmountViewFromAddress.map(mosaic => ({
       id: mosaic.fullName(),
-      amount: mosaic.relativeAmount(),
+      amount: formatMosaicAmountWithDivisibility(mosaic.amount, mosaic.mosaicInfo.divisibility),
       mosaicAliasName: mosaic.mosaicInfo.mosaicAliasName.length > 0 ? mosaic.mosaicInfo.mosaicAliasName[0].name : Constants.Message.UNAVAILABLE
     }))
 
@@ -132,7 +138,7 @@ const formatMosaicInfo = mosaicInfo => ({
   divisibility: mosaicInfo.divisibility,
   address: mosaicInfo.owner.address.plain(),
   supply: mosaicInfo.supply.compact(),
-  relativeAmount: mosaicInfo.divisibility !== 0 ? mosaicInfo.supply.compact() / Math.pow(10, mosaicInfo.divisibility) : mosaicInfo.supply.compact(),
+  relativeAmount: formatMosaicAmountWithDivisibility(mosaicInfo.supply, mosaicInfo.divisibility),
   revision: mosaicInfo.revision,
   startHeight: mosaicInfo.height.compact(),
   duration: mosaicInfo.duration.compact(),
@@ -195,7 +201,7 @@ const formatTransactionBody = transactionBody => {
     case TransactionType.TRANSFER:
       let transferObj = {
         type: Constants.TransactionType[TransactionType.TRANSFER],
-        typeId: TransactionType.TRANSFER,
+        transactionType: TransactionType.TRANSFER,
         recipient: transactionBody.recipientAddress.address,
         mosaics: formatMosaics(transactionBody.mosaics),
         message: transactionBody.message.payload
@@ -207,7 +213,7 @@ const formatTransactionBody = transactionBody => {
 
       let registerNamespaceObj = {
         type: Constants.TransactionType[TransactionType.REGISTER_NAMESPACE],
-        typeId: TransactionType.REGISTER_NAMESPACE,
+        transactionType: TransactionType.REGISTER_NAMESPACE,
         recipient: Constants.NetworkConfig.NAMESPACE_RENTAL_FEE_SINK_ADDRESS,
         registrationType: Constants.NamespaceRegistrationType[transactionBody.registrationType],
         namespaceName: transactionBody.namespaceName,
@@ -219,7 +225,7 @@ const formatTransactionBody = transactionBody => {
     case TransactionType.ADDRESS_ALIAS:
       let addressAliasObj = {
         type: Constants.TransactionType[TransactionType.ADDRESS_ALIAS],
-        typeId: TransactionType.ADDRESS_ALIAS,
+        transactionType: TransactionType.ADDRESS_ALIAS,
         aliasAction: Constants.AliasAction[transactionBody.actionType],
         namespaceId: transactionBody.namespaceId.toHex()
       }
@@ -228,7 +234,7 @@ const formatTransactionBody = transactionBody => {
     case TransactionType.MOSAIC_ALIAS:
       let mosaicAlias = {
         type: Constants.TransactionType[TransactionType.MOSAIC_ALIAS],
-        typeId: TransactionType.MOSAIC_ALIAS,
+        transactionType: TransactionType.MOSAIC_ALIAS,
         aliasAction: Constants.AliasAction[transactionBody.aliasAction],
         namespaceId: transactionBody.namespaceId.id.toHex(),
         mosaicId: transactionBody.mosaicId.id.toHex()
@@ -237,7 +243,7 @@ const formatTransactionBody = transactionBody => {
     case TransactionType.MOSAIC_DEFINITION:
       let mosaicDefinitionObj = {
         type: Constants.TransactionType[TransactionType.MOSAIC_DEFINITION],
-        typeId: TransactionType.MOSAIC_DEFINITION,
+        transactionType: TransactionType.MOSAIC_DEFINITION,
         recipient: Constants.NetworkConfig.MOSAIC_RENTAL_FEE_SINK_ADDRESS,
         mosaicId: transactionBody.mosaicId.toHex(),
         divisibility: transactionBody.divisibility,
@@ -251,7 +257,7 @@ const formatTransactionBody = transactionBody => {
     case TransactionType.MOSAIC_SUPPLY_CHANGE:
       let mosaicSupplyChangeObj = {
         type: Constants.TransactionType[TransactionType.MOSAIC_SUPPLY_CHANGE],
-        typeId: TransactionType.MOSAIC_SUPPLY_CHANGE,
+        transactionType: TransactionType.MOSAIC_SUPPLY_CHANGE,
         mosaicId: transactionBody.mosaicId.id.toHex(),
         action: Constants.MosaicSupplyChangeAction[transactionBody.action],
         delta: transactionBody.delta.compact()
@@ -260,7 +266,7 @@ const formatTransactionBody = transactionBody => {
     case TransactionType.MODIFY_MULTISIG_ACCOUNT:
       let modifyMultisigAccountObj = {
         type: Constants.TransactionType[TransactionType.MODIFY_MULTISIG_ACCOUNT],
-        typeId: TransactionType.MODIFY_MULTISIG_ACCOUNT,
+        transactionType: TransactionType.MODIFY_MULTISIG_ACCOUNT,
         minApprovalDelta: transactionBody.minApprovalDelta,
         minRemovalDelta: transactionBody.minRemovalDelta,
         modifications: transactionBody.modifications
@@ -270,7 +276,7 @@ const formatTransactionBody = transactionBody => {
     case TransactionType.AGGREGATE_COMPLETE:
       let aggregateCompleteObj = {
         type: Constants.TransactionType[TransactionType.AGGREGATE_COMPLETE],
-        typeId: TransactionType.AGGREGATE_COMPLETE,
+        transactionType: TransactionType.AGGREGATE_COMPLETE,
         innerTransactions: formatTransactions(transactionBody.innerTransactions),
         cosignatures: formatCosignatures(transactionBody.cosignatures)
       }
@@ -278,7 +284,7 @@ const formatTransactionBody = transactionBody => {
     case TransactionType.AGGREGATE_BONDED:
       let aggregateBondedObj = {
         type: Constants.TransactionType[TransactionType.AGGREGATE_BONDED],
-        typeId: TransactionType.AGGREGATE_BONDED,
+        transactionType: TransactionType.AGGREGATE_BONDED,
         innerTransactions: formatTransactions(transactionBody.innerTransactions),
         cosignatures: formatCosignatures(transactionBody.cosignatures)
       }
@@ -287,7 +293,7 @@ const formatTransactionBody = transactionBody => {
     case TransactionType.LOCK:
       let lockObj = {
         type: Constants.TransactionType[TransactionType.LOCK],
-        typeId: TransactionType.LOCK,
+        transactionType: TransactionType.LOCK,
         duration: transactionBody.duration.compact(),
         mosaicId: transactionBody.mosaic.id.toHex(),
         amount: formatFee(transactionBody.mosaic.amount)
@@ -296,7 +302,7 @@ const formatTransactionBody = transactionBody => {
     case TransactionType.SECRET_LOCK:
       let secretLockObj = {
         type: Constants.TransactionType[TransactionType.SECRET_LOCK],
-        typeId: TransactionType.SECRET_LOCK,
+        transactionType: TransactionType.SECRET_LOCK,
         duration: transactionBody.duration.compact(),
         mosaicId: transactionBody.mosaic.id.toHex(),
         secret: transactionBody.secret,
@@ -307,31 +313,31 @@ const formatTransactionBody = transactionBody => {
     case TransactionType.SECRET_PROOF:
       let secretProofObj = {
         type: Constants.TransactionType[TransactionType.SECRET_PROOF],
-        typeId: TransactionType.SECRET_PROOF
+        transactionType: TransactionType.SECRET_PROOF
       }
       return secretProofObj
     case TransactionType.ACCOUNT_RESTRICTION_ADDRESS:
       let accountRestrictionAddressObj = {
         type: Constants.TransactionType[TransactionType.ACCOUNT_RESTRICTION_ADDRESS],
-        typeId: TransactionType.ACCOUNT_RESTRICTION_ADDRESS
+        transactionType: TransactionType.ACCOUNT_RESTRICTION_ADDRESS
       }
       return accountRestrictionAddressObj
     case TransactionType.ACCOUNT_RESTRICTION_MOSAIC:
       let accountRestrictionMosaicObj = {
         type: Constants.TransactionType[TransactionType.ACCOUNT_RESTRICTION_MOSAIC],
-        typeId: TransactionType.ACCOUNT_RESTRICTION_MOSAIC
+        transactionType: TransactionType.ACCOUNT_RESTRICTION_MOSAIC
       }
       return accountRestrictionMosaicObj
     case TransactionType.ACCOUNT_RESTRICTION_OPERATION:
       let accountRestrictionOperationObj = {
         type: Constants.TransactionType[TransactionType.ACCOUNT_RESTRICTION_OPERATION],
-        typeId: TransactionType.ACCOUNT_RESTRICTION_OPERATION
+        transactionType: TransactionType.ACCOUNT_RESTRICTION_OPERATION
       }
       return accountRestrictionOperationObj
     case TransactionType.LINK_ACCOUNT:
       let linkAccountObj = {
         type: Constants.TransactionType[TransactionType.LINK_ACCOUNT],
-        typeId: TransactionType.LINK_ACCOUNT,
+        transactionType: TransactionType.LINK_ACCOUNT,
         linkAction: Constants.LinkAction[transactionBody.linkAction],
         remoteAccountPublicKey: transactionBody.remotePublicKey,
         remoteAccountAddress: Address.createFromPublicKey(transactionBody.remotePublicKey, http.networkType).plain()
@@ -340,31 +346,45 @@ const formatTransactionBody = transactionBody => {
     case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
       let mosaicAddressRestrictionObj = {
         type: Constants.TransactionType[TransactionType.MOSAIC_ADDRESS_RESTRICTION],
-        typeId: TransactionType.MOSAIC_ADDRESS_RESTRICTION
+        transactionType: TransactionType.MOSAIC_ADDRESS_RESTRICTION
       }
       return mosaicAddressRestrictionObj
     case TransactionType.MOSAIC_GLOBAL_RESTRICTION:
       let mosaicGlobalRestrictionObj = {
         type: Constants.TransactionType[TransactionType.MOSAIC_GLOBAL_RESTRICTION],
-        typeId: TransactionType.MOSAIC_GLOBAL_RESTRICTION
+        transactionType: TransactionType.MOSAIC_GLOBAL_RESTRICTION
       }
       return mosaicGlobalRestrictionObj
     case TransactionType.ACCOUNT_METADATA_TRANSACTION:
       let accountMetadataTransactionObj = {
         type: Constants.TransactionType[TransactionType.ACCOUNT_METADATA_TRANSACTION],
-        typeId: TransactionType.ACCOUNT_METADATA_TRANSACTION
+        transactionType: TransactionType.ACCOUNT_METADATA_TRANSACTION,
+        scopedMetadataKey: transactionBody.scopedMetadataKey.toHex(),
+        targetAddress: Address.createFromPublicKey(transactionBody.targetPublicKey, http.networkType).plain(),
+        metadataValue: transactionBody.value,
+        valueSizeDelta: transactionBody.valueSizeDelta
       }
       return accountMetadataTransactionObj
     case TransactionType.MOSAIC_METADATA_TRANSACTION:
       let mosaicMetadataTransactionObj = {
         type: Constants.TransactionType[TransactionType.MOSAIC_METADATA_TRANSACTION],
-        typeId: TransactionType.MOSAIC_METADATA_TRANSACTION
+        transactionType: TransactionType.MOSAIC_METADATA_TRANSACTION,
+        scopedMetadataKey: transactionBody.scopedMetadataKey.toHex(),
+        targetMosaicId: transactionBody.targetMosaicId.toHex(),
+        targetAddress: Address.createFromPublicKey(transactionBody.targetPublicKey, http.networkType).plain(),
+        metadataValue: transactionBody.value,
+        valueSizeDelta: transactionBody.valueSizeDelta
       }
       return mosaicMetadataTransactionObj
     case TransactionType.NAMESPACE_METADATA_TRANSACTION:
       let namespaceMetadataTransactionObj = {
         type: Constants.TransactionType[TransactionType.NAMESPACE_METADATA_TRANSACTION],
-        typeId: TransactionType.NAMESPACE_METADATA_TRANSACTION
+        transactionType: TransactionType.NAMESPACE_METADATA_TRANSACTION,
+        scopedMetadataKey: transactionBody.scopedMetadataKey.toHex(),
+        targetNamespaceId: transactionBody.targetNamespaceId.toHex(),
+        targetAddress: Address.createFromPublicKey(transactionBody.targetPublicKey, http.networkType).plain(),
+        metadataValue: transactionBody.value,
+        valueSizeDelta: transactionBody.valueSizeDelta
       }
       return namespaceMetadataTransactionObj
   }
@@ -489,6 +509,19 @@ const formatNamespaceInfos = namespaceInfos => {
   })
 }
 
+const formatMetadatas = metadatas => {
+  return metadatas.map(data => ({
+      metadataId: data.id,
+      compositeHash: data.metadataEntry.compositeHash,
+      // metadataType: Constants.MetadataType[data.metadataEntry.metadataType],
+      scopedMetadataKey: data.metadataEntry.scopedMetadataKey.toHex(),
+      // targetId: data.metadataEntry.targetId ? data.metadataEntry.targetId.toHex() : Constants.Message.UNAVAILABLE,
+      senderAddress: Address.createFromPublicKey(data.metadataEntry.senderPublicKey, http.networkType).plain(),
+      targetAddress: Address.createFromPublicKey(data.metadataEntry.targetPublicKey, http.networkType).plain(),
+      metadataValue: data.metadataEntry.value,
+  }))
+}
+
 export default {
   formatFee,
   formatBlocks,
@@ -504,5 +537,6 @@ export default {
   formatMosaicInfo,
   formatMosaicInfos,
   formatNamespaceInfo,
-  formatNamespaceInfos
+  formatNamespaceInfos,
+  formatMetadatas
 }
