@@ -53,33 +53,26 @@
             </Card>
 
             <!-- Metadata Entries -->
-            <Card
-                class="card-f card-full-width"
-                :loading="loading"
-            >
-                <template #title>
-                    {{metadataEntries}}
-                </template>
+            <MetadataEntries class="card-f card-full-width" :data="metadataList" :loading="loading" />
 
-                <template #body>
-                    <TableListView :data="metadataList" :pagination="true" :pageSize="5" />
-                </template>
-            </Card>
         </div>
     </div>
 </template>
 <script>
 import View from './View.vue'
 import { mapGetters } from 'vuex'
+import MetadataEntries from '../components/MetadataEntries'
+
 
 export default {
   extends: View,
+
+  components: { MetadataEntries },
 
   data() {
     return {
       detailTitle: 'Namespace Detail',
       levelTitle: 'Namespace Level',
-      metadataEntries: "Metadata Entries"
     }
   },
 

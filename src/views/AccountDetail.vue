@@ -63,18 +63,7 @@
             </Card>
 
             <!-- Metadata Entries -->
-            <Card
-                class="card-f card-full-width"
-                :loading="loading"
-            >
-                <template #title>
-                    {{metadataEntries}}
-                </template>
-
-                <template #body>
-                    <TableListView :data="metadataList" :pagination="true" :pageSize="5" />
-                </template>
-            </Card>
+            <MetadataEntries class="card-f card-full-width" :data="metadataList" :loading="loading" />
 
             <!-- Importance History -->
             <Card
@@ -117,15 +106,17 @@
 
 <script>
 import View from './View.vue'
+import MetadataEntries from '../components/MetadataEntries'
 import { mapGetters } from 'vuex'
 
 export default {
   extends: View,
 
+  components: { MetadataEntries },
+
   data() {
     return {
       detailTitle: "Account Detail",
-      metadataEntries: "Metadata Entries",
       importanceHistory: "Importance History",
       cosignatoriesTitle: "Multisig Cosignatories",
       mosaicsTitle: "Owned Mosaics",
