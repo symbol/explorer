@@ -17,17 +17,36 @@
  */
 
 import http from './http'
-import { Address } from 'nem2-sdk'
+import { Address, MosaicId, NamespaceId } from 'nem2-sdk'
 import format from '../format'
+import helper from '../helper'
 
 class sdkMetadata {
-    static getAccountMetadata = async address =>{
+  static getAccountMetadata = async address => {
         const addressObj = Address.createFromRawAddress(address)
 
         const metadatas = await http.metadata
             .getAccountMetadata(addressObj)
             .toPromise()
 
+    return format.formatMetadatas(metadatas)
+  }
+
+  static getMosaicMetadata = async mosaicHexOrNamespace => {
+
+    let mosaicID
+    if (helper.isHexadecimal(mosaicHexOrNamespace)) {
+      mosaicID = new MosaicId(mosaicHexOrNamespace)
+    } else {
+      let namespaceId = new NamespaceId(mosaicHexOrNamespace)
+      mosaicID = await http.namespace.getLinkedMosaicId(namespaceId).toPromise()
+    }
+    const metadatas = await http.metadata
+      .getMosaicMetadata(mosaicID)
+      .toPromise()
+
+    return format.formatMetadatas(metadatas)
+  }
         return format.formatMetadatas(metadatas)
     }
 }

@@ -83,5 +83,6 @@
     "scopedMetadataKey": "Scoped Metadata Key",
     "senderAddress": "Sender Address",
     "targetAddress": "Target Address",
-    "metadataValue": "Value"
+    "metadataValue": "Value",
+    "targetId": "Target Id"
 }

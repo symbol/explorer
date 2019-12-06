@@ -62,7 +62,7 @@ export default {
     // The Account Activity Bucket.
     activityBucketList: [],
     // The Account Metadata list.
-    MetadataList: [],
+    metadataList: [],
     // The Account Created mosaic.
     createdMosaics: [], // Wait for Rest team apply,
     accountInfoLoading: false,
@@ -90,7 +90,7 @@ export default {
     getMosaicList: state => state.mosaicList,
     getTransactionList: state => state.transactionList,
     getActivityBucketList: state => state.activityBucketList,
-    getMetadataList: state => state.MetadataList,
+    getMetadataList: state => state.metadataList,
     getError: state => state.error,
     accountInfoLoading: state => state.accountInfoLoading,
     accountInfoError: state => state.accountInfoError,
@@ -113,7 +113,7 @@ export default {
     setMosaicList: (state, mosaicList) => { state.mosaicList = mosaicList },
     setTransactionList: (state, transactionList) => { state.transactionList = transactionList },
     setActivityBucketList: (state, activityBucketList) => { state.activityBucketList = activityBucketList },
-    setMetadataList: (state, MetadataList) => { state.MetadataList = MetadataList },
+    setMetadataList: (state, metadataList) => { state.metadataList = metadataList },
     setError: (state, error) => { state.error = error },
     accountInfoLoading: (state, v) => { state.accountInfoLoading = v },
     accountInfoError: (state, v) => { state.accountInfoError = v }

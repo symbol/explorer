@@ -27,6 +27,7 @@ import dto from './dto'
 import http from './http'
 import format from '../format'
 import helper from '../helper'
+import sdkMetadata from '../infrastructure/getMetadata'
 
 class sdkMosaic {
   static getMosaicsAmountByAddress = async address => {
@@ -38,7 +39,7 @@ class sdkMosaic {
   }
 
   static getMosaicInfo = async mosaicHexOrNamespace => {
-    let mosaicID = ''
+    let mosaicID
 
     if (helper.isHexadecimal(mosaicHexOrNamespace)) {
       mosaicID = new MosaicId(mosaicHexOrNamespace)
@@ -91,9 +92,12 @@ class sdkMosaic {
 
   static getMosaicInfoFormatted = async mosaicHexOrNamespace => {
     let mosaicInfo
+    let metadataList
     let mosaicInfoFormatted
 
     try { mosaicInfo = await sdkMosaic.getMosaicInfo(mosaicHexOrNamespace) } catch (e) { throw Error('Failed to fetch mosaic info', e) }
+
+    try { metadataList = await sdkMetadata.getMosaicMetadata(mosaicHexOrNamespace) } catch (e) { console.warn(e) }
 
     if (mosaicInfo) {
       mosaicInfoFormatted = {
@@ -113,7 +117,8 @@ class sdkMosaic {
       }
     }
     return {
-      mosaicInfo: mosaicInfoFormatted || {}
+      mosaicInfo: mosaicInfoFormatted || {},
+      metadataList: metadataList || []
     }
   }
 

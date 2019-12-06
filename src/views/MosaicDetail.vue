@@ -36,6 +36,20 @@
                     Mosaic {{mosaicId}} does not exist
                 </template>
             </Card>
+
+            <!-- Metadata Entries -->
+            <Card
+                class="card-f card-full-width"
+                :loading="loading"
+            >
+                <template #title>
+                    {{metadataEntries}}
+                </template>
+
+                <template #body>
+                    <TableListView :data="metadataList" :pagination="true" :pageSize="5" />
+                </template>
+            </Card>
         </div>
     </div>
 </template>
@@ -47,13 +61,15 @@ export default {
   extends: View,
   data() {
     return {
-      title: 'Mosaic Detail'
+      title: 'Mosaic Detail',
+      metadataEntries: "Metadata Entries"
     }
   },
 
   computed: {
     ...mapGetters({
       mosaicInfo: 'mosaic/getMosaicInfo',
+      metadataList: 'mosaic/getMetadataList',
       loading: 'mosaic/mosaicInfoLoading',
       error: 'mosaic/mosaicInfoError'
     }),

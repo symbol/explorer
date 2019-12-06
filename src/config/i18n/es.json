@@ -83,5 +83,6 @@
     "scopedMetadataKey": "Scoped Metadata Key",
     "senderAddress": "Dirección del remitente",
     "targetAddress": "Dirección de destino",
-    "metadataValue": "Valor"
+    "metadataValue": "Valor",
+    "targetId": "Target Id"
 }

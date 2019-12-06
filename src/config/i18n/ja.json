@@ -83,5 +83,6 @@
     "scopedMetadataKey": "スコープ付きメタデータキー",
     "senderAddress": "送信者アドレス",
     "targetAddress": "ターゲットアドレス",
-    "metadataValue": "値"
+    "metadataValue": "値",
+    "targetId": "ターゲットId"
 }
