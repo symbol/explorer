@@ -19,8 +19,8 @@
 <template>
     <div class="page-footer">
         <footer class="footer">
-            <b-container>
-                <b-row class="footer-row">
+            <b-container fluid>
+                <b-row class="footer-row mx-0 mx-md-4 mx-lg-4 px-lg-4">
                     <NemDescription class="footer-description"/>
                     <b-col sm="12" lg="4">
                         <ul class="social-icon">
@@ -110,13 +110,13 @@ export default {
 
 <style lang="scss" scoped>
 .page-footer {
-    display: table-row;
     height: 0;
-    
+    width: 100%;
 }
 .footer {
     background: linear-gradient(-40deg, #37476b 20%, #0a879b 80%);
     padding: 50px 0 0;
+    width: 100%;
 
     .footer-row {
       padding-top: 40px;
