@@ -503,8 +503,9 @@ const formatMetadatas = metadatas => {
   return metadatas.map(data => ({
       metadataId: data.id,
       compositeHash: data.metadataEntry.compositeHash,
-      metadataType: Constants.MetadataType[data.metadataEntry.metadataType],
+      // metadataType: Constants.MetadataType[data.metadataEntry.metadataType],
       scopedMetadataKey: data.metadataEntry.scopedMetadataKey.toHex(),
+      // targetId: data.metadataEntry.targetId ? data.metadataEntry.targetId.toHex() : Constants.Message.UNAVAILABLE,
       senderAddress: Address.createFromPublicKey(data.metadataEntry.senderPublicKey, http.networkType).plain(),
       targetAddress: Address.createFromPublicKey(data.metadataEntry.targetPublicKey, http.networkType).plain(),
       metadataValue: data.metadataEntry.value,

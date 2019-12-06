@@ -155,9 +155,7 @@ class sdkAccount {
         linkedNamespace: rawAccountInfo.accountAliasName,
         addressHeight: rawAccountInfo.addressHeight,
         publicKey: rawAccountInfo.publicKey,
-        // publicKeyHeight: rawAccountInfo.publicKeyHeight,
         importance: rawAccountInfo.importance,
-        // importanceHeight: rawAccountInfo.importanceHeight,
         accountType: rawAccountInfo.accountType,
         linkedAccountKey: rawAccountInfo.linkedAccountKey
       }
