@@ -1,7 +1,7 @@
 <script>
 import TableListView from '@/components/tables/TableListView.vue'
 import TableInfoView from '@/components/tables/TableInfoView.vue'
-import DropDown from '@/components/controls/DropDown.vue'
+import DropDown from '@/components/controls/Dropdown2.vue'
 import Pagination from '@/components/controls/Pagination.vue'
 import Card from '@/components/containers/Card.vue'
 import Modal from '@/components/containers/Modal.vue'

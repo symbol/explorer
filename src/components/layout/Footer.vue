@@ -30,7 +30,7 @@
                                 class="social-icon-item"
                             >
                                 <a target="_blank" :href="item.href">
-                                    <i :class="item.classname"></i>
+                                    <component :is="item.classname" />
                                     <span>{{item.text}}</span>
                                 </a>
                             </li>
@@ -52,11 +52,23 @@ import NemDescription from '@/components/NemDescription.vue'
 import NemCopyright from '@/components/NemCopyright.vue'
 import NodeSelector from '@/components/controls/NodeSelector.vue'
 
+import IconGithub from 'vue-material-design-icons/GithubCircle.vue'
+import IconNewspaper from 'vue-material-design-icons/Newspaper.vue';
+import IconReddit from 'vue-material-design-icons/Reddit.vue';
+import IconForum from 'vue-material-design-icons/Forum.vue';
+import IconTelegram from 'vue-material-design-icons/Telegram.vue';
+
 export default {
   components: {
     NemDescription,
     NemCopyright,
-    NodeSelector
+    NodeSelector,
+
+    IconGithub,
+    IconNewspaper,
+    IconReddit,
+    IconForum,
+    IconTelegram
   },
 
   data() {
@@ -66,27 +78,27 @@ export default {
         {
           href: 'https://nemflash.io/',
           text: 'NEM News',
-          classname: 'ico-news'
+          classname: 'IconNewspaper'
         },
         {
           href: 'https://forum.nem.io/',
           text: 'Forum',
-          classname: 'ico-forum'
+          classname: 'IconForum'
         },
         {
           href: 'https://t.me/nemred',
           text: 'Telegram',
-          classname: 'ico-paper-plane'
+          classname: 'IconTelegram'
         },
         {
           href: 'https://www.reddit.com/r/nem/',
           text: 'Reddit',
-          classname: 'ico-reddit'
+          classname: 'IconReddit'
         },
         {
           href: 'https://github.com/nemtech',
           text: 'Github',
-          classname: 'ico-github'
+          classname: 'IconGithub'
         }
       ]
     }
