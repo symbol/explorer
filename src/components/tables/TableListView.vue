@@ -42,9 +42,9 @@
                 </div>
 
                 <div v-else class="max-item-width">
-                  <a v-if="isItemClickable(itemKey)" :href="getItemHref(itemKey, item)">
-                  {{ item }}
-                  </a>
+                  <router-link v-if="isItemClickable(itemKey)" :to="getItemHref(itemKey, item)">
+                    {{ item }}
+                  </router-link>
                   <div v-else>
                   {{ item }}
                   </div>

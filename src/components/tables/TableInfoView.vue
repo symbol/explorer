@@ -23,9 +23,9 @@
                         :title="getKeyName(itemKey) + ': ' + item"
                         @click="onItemClick(itemKey, item)"
                     >
-                      <a v-if="isItemClickable(itemKey)" :href="getItemHref(itemKey, item)">
+                      <router-link v-if="isItemClickable(itemKey)" :to="getItemHref(itemKey, item)">
                         {{ item }}
-                      </a>
+                      </router-link>
                       <div v-else>
                         {{ item }}
                       </div>
