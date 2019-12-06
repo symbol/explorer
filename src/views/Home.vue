@@ -17,17 +17,13 @@
  */
 
 <template>
-
+    <b-container fluid class="px-0 py-0">
         <b-row class="my-4 mx-0 mx-xs-0 mx-md-4 mx-lg-8">
             <b-col xs="12" md="12" lg="8">
-                <NemPriceWidget
-                    class="border-bottom"
-                />
+                <NemPriceWidget class="border-bottom" />
             </b-col>
             <b-col xs="12" md="12" lg="4">
-                <BaseInfoWidget
-                    class=""
-                />
+                <BaseInfoWidget class="" />
             </b-col>
             <b-col xs="12" md="12" lg="6">
                 <RecentBlocksWidget />
@@ -36,7 +32,7 @@
                 <RecentTransactionsWidget />
             </b-col>
         </b-row>
-
+    </b-container>
 </template>
 <script>
 import BaseInfoWidget from '@/components/widgets/BaseInfoWidget.vue'

@@ -67,12 +67,16 @@ export default {
 </script>
 
 <style lang="scss">
+html, body, #fullheight {
+    min-width: 100% !important;
+    width: 100%;
+}
+
 #app {
     height: 100vh;
     width: 100%;
     margin: 0;
     padding: 0;
-    display: table;
 }
 
 .app-content {
