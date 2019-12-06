@@ -84,5 +84,9 @@
     "senderAddress": "Sender Address",
     "targetAddress": "Target Address",
     "metadataValue": "Value",
-    "targetId": "Target Id"
+    "targetId": "Target Id",
+    "targetMosaicId": "Target Mosaic Id",
+    "targetNamespaceId": "Target Namespace Id",
+    "type": "Type",
+    "valueSizeDelta": "Value Size Delta"
 }

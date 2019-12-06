@@ -84,5 +84,9 @@
     "senderAddress": "送信者アドレス",
     "targetAddress": "ターゲットアドレス",
     "metadataValue": "値",
-    "targetId": "ターゲットId"
+    "targetId": "ターゲットId",
+    "targetMosaicId": "ターゲットモザイクID",
+    "targetNamespaceId": "ターゲット名前空間ID",
+    "type": "タイプ",
+    "valueSizeDelta": "値のサイズのデルタ"
 }

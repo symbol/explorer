@@ -58,7 +58,9 @@ export default {
         'lastActivity',
         'recalculationBlock',
         'senderAddress',
-        'targetAddress'
+        'targetAddress',
+        'targetMosaicId',
+        'targetNamespaceId'
       ],
       disableClickItems: [...Object.values(Constants.Message)]
     }

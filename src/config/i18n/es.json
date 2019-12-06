@@ -84,5 +84,9 @@
     "senderAddress": "Dirección del remitente",
     "targetAddress": "Dirección de destino",
     "metadataValue": "Valor",
-    "targetId": "Target Id"
+    "targetId": "Target Id",
+    "targetMosaicId": "Target Mosaic Id",
+    "targetNamespaceId": "Target Namespace Id",
+    "type": "Type",
+    "valueSizeDelta": "Value Size Delta"
 }

@@ -84,5 +84,9 @@
     "senderAddress": "发送人地址",
     "targetAddress": "目标地址",
     "metadataValue": "值",
-    "targetId": "目标Id"
+    "targetId": "目标Id",
+    "targetMosaicId": "目标马赛克",
+    "targetNamespaceId": "目标命名空间",
+    "type": "类型",
+    "valueSizeDelta": "值大小增量"
 }

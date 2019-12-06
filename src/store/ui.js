@@ -45,6 +45,7 @@ export default {
 
       'mosaicId': 'mosaic',
       'aliasMosaic': 'mosaic',
+      'targetMosaicId': 'mosaic',
 
       'addressHeight': 'block',
       'publicKeyHeight': 'block',
@@ -59,7 +60,8 @@ export default {
       'namespaceId': 'namespace',
       'parentId': 'namespace',
       'linkedNamespace': 'namespace',
-      'mosaicAliasName': 'namespace'
+      'mosaicAliasName': 'namespace',
+      "targetNamespaceId": 'namespace'
     }
   },
 
