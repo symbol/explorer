@@ -9,7 +9,7 @@
         </template>
 
         <template #body>
-            <b-row>
+            <b-row style="margin: -20px">
                 <b-col>
                     <Chart 
                         type="area"

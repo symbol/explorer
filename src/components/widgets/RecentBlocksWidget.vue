@@ -14,7 +14,7 @@
             <b-container fluid>
             <b-row>
                 <b-col 
-                    sm="4"
+                    sm="6"
                     md="3"
                     lg="6"
                     v-for="(item, index) in blockList"
