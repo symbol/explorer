@@ -58,7 +58,7 @@
     </div>
 </template>
 <script>
-import TypeBox from '@/components/controls/Dropdown2.vue'
+import TypeBox from '@/components/controls/Dropdown.vue'
 import View from './View.vue'
 
 export default {
