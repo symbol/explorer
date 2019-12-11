@@ -36,6 +36,8 @@ export default {
     error: false,
     // The Mosaic detail information.
     mosaicInfo: {},
+    // The Mosaic Metadata list.
+    metadataList: [],
     mosaicInfoLoading: false,
     mosaicInfoError: false
   },
@@ -56,6 +58,7 @@ export default {
     getLoading: state => state.loading,
     getError: state => state.error,
     getMosaicInfo: state => state.mosaicInfo,
+    getMetadataList: state => state.metadataList,
     mosaicInfoLoading: state => state.mosaicInfoLoading,
     mosaicInfoError: state => state.mosaicInfoError
   },
@@ -65,6 +68,7 @@ export default {
     setLoading: (state, loading) => { state.loading = loading },
     setError: (state, error) => { state.error = error },
     setMosaicInfo: (state, mosaicInfo) => { state.mosaicInfo = mosaicInfo },
+    setMetadataList: (state, metadataList) => { state.metadataList = metadataList },
     mosaicInfoLoading: (state, v) => { state.mosaicInfoLoading = v },
     mosaicInfoError: (state, v) => { state.mosaicInfoError = v }
   },
@@ -166,6 +170,7 @@ export default {
 
       if (mosaicInfo) {
         commit('setMosaicInfo', mosaicInfo.mosaicInfo)
+        commit('setMetadataList', mosaicInfo.metadataList)
       }
 
       commit('mosaicInfoLoading', false)

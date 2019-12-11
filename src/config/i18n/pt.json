@@ -76,5 +76,17 @@
     "recalculationBlock": "Bloco de recálculo #",
     "mosaicAliasName": "Alias Namespace",
     "aliasMosaic": "Alias",
-    "aliasAddress": "Alias"
+    "aliasAddress": "Alias",
+    "metadataId": "Metadata Id",
+    "compositeHash": "Composite Hash",
+    "metadataType": "Type",
+    "scopedMetadataKey": "Scoped Metadata Key",
+    "senderAddress": "Sender Address",
+    "targetAddress": "Target Address",
+    "metadataValue": "Value",
+    "targetId": "Target Id",
+    "targetMosaicId": "Target Mosaic Id",
+    "targetNamespaceId": "Target Namespace Id",
+    "type": "Type",
+    "valueSizeDelta": "Value Size Delta"
 }

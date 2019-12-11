@@ -76,5 +76,17 @@
     "recalculationBlock": "重新计算块 #",
     "mosaicAliasName": "别名命名空间",
     "aliasMosaic": "别名",
-    "aliasAddress": "别名"
+    "aliasAddress": "别名",
+    "metadataId": "元数据Id",
+    "compositeHash": "复合哈希",
+    "metadataType": "类型",
+    "scopedMetadataKey": "作用域元数据密钥",
+    "senderAddress": "发送人地址",
+    "targetAddress": "目标地址",
+    "metadataValue": "值",
+    "targetId": "目标Id",
+    "targetMosaicId": "目标马赛克",
+    "targetNamespaceId": "目标命名空间",
+    "type": "类型",
+    "valueSizeDelta": "值大小增量"
 }

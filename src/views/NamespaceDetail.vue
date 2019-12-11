@@ -51,20 +51,28 @@
                     <TableListView :data="namespaceLevels" />
                 </template>
             </Card>
+
+            <!-- Metadata Entries -->
+            <MetadataEntries class="card-f card-full-width" :data="metadataList" :loading="loading" />
+
         </div>
     </div>
 </template>
 <script>
 import View from './View.vue'
 import { mapGetters } from 'vuex'
+import MetadataEntries from '../components/MetadataEntries'
+
 
 export default {
   extends: View,
 
+  components: { MetadataEntries },
+
   data() {
     return {
       detailTitle: 'Namespace Detail',
-      levelTitle: 'Namespace Level'
+      levelTitle: 'Namespace Level',
     }
   },
 
@@ -72,6 +80,7 @@ export default {
     ...mapGetters({
       namespaceInfo: 'namespace/getNamespaceInfo',
       namespaceLevels: 'namespace/getNamespaceLevels',
+      metadataList: 'namespace/getMetadataList',
       loading: 'namespace/namespaceInfoLoading',
       error: 'namespace/namespaceInfoError'
     }),

@@ -38,6 +38,8 @@ export default {
     namespaceInfo: {},
     // The Namespace Level.
     namespaceLevels: [],
+    // The Namespace Metadata list.
+    metadataList: [],
     namespaceInfoLoading: false,
     namespaceInfoError: false
   },
@@ -59,6 +61,7 @@ export default {
     getError: state => state.error,
     getNamespaceInfo: state => state.namespaceInfo,
     getNamespaceLevels: state => state.namespaceLevels,
+    getMetadataList: state => state.metadataList,
     namespaceInfoLoading: state => state.namespaceInfoLoading,
     namespaceInfoError: state => state.namespaceInfoError
   },
@@ -69,6 +72,7 @@ export default {
     setError: (state, error) => { state.error = error },
     setNamespaceInfo: (state, info) => { state.namespaceInfo = info },
     setNamespaceLevels: (state, levels) => { state.namespaceLevels = levels },
+    setMetadataList: (state, metadataList) => { state.metadataList = metadataList },
     namespaceInfoLoading: (state, v) => { state.namespaceInfoLoading = v },
     namespaceInfoError: (state, v) => { state.namespaceInfoError = v }
   },
@@ -169,6 +173,7 @@ export default {
       if (namespaceInfo) {
         commit('setNamespaceInfo', namespaceInfo.namespaceInfo)
         commit('setNamespaceLevels', namespaceInfo.namespaceLevels)
+        commit('setMetadataList', namespaceInfo.metadataList)
       }
 
       commit('namespaceInfoLoading', false)

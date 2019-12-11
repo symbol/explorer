@@ -62,6 +62,9 @@
                 </template>
             </Card>
 
+            <!-- Metadata Entries -->
+            <MetadataEntries class="card-f card-full-width" :data="metadataList" :loading="loading" />
+
             <!-- Importance History -->
             <Card
                 class="card-f card-full-width"
@@ -103,10 +106,13 @@
 
 <script>
 import View from './View.vue'
+import MetadataEntries from '../components/MetadataEntries'
 import { mapGetters } from 'vuex'
 
 export default {
   extends: View,
+
+  components: { MetadataEntries },
 
   data() {
     return {
@@ -135,6 +141,7 @@ export default {
       mosaicList: "account/getMosaicList",
       transactionList: "account/getTransactionList",
       activityBucketList: "account/getActivityBucketList",
+      metadataList: "account/getMetadataList",
       loading: "account/accountInfoLoading",
       error: "account/accountInfoError"
     }),
@@ -160,6 +167,9 @@ export default {
     },
     showTransactions() {
       return !this.error;
+    },
+    showMetadatas() {
+      return !this.error && this.metadataList?.length;
     },
 
     filteredTransactionList() {

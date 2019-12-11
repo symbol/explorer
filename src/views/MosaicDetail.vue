@@ -36,24 +36,34 @@
                     Mosaic {{mosaicId}} does not exist
                 </template>
             </Card>
+
+            <!-- Metadata Entries -->
+            <MetadataEntries class="card-f card-full-width" :data="metadataList" :loading="loading" />
+
+
         </div>
     </div>
 </template>
 <script>
 import View from './View.vue'
+import MetadataEntries from '../components/MetadataEntries'
 import { mapGetters } from 'vuex'
 
 export default {
   extends: View,
+
+  components: { MetadataEntries },
+
   data() {
     return {
-      title: 'Mosaic Detail'
+      title: 'Mosaic Detail',
     }
   },
 
   computed: {
     ...mapGetters({
       mosaicInfo: 'mosaic/getMosaicInfo',
+      metadataList: 'mosaic/getMetadataList',
       loading: 'mosaic/mosaicInfoLoading',
       error: 'mosaic/mosaicInfoError'
     }),
