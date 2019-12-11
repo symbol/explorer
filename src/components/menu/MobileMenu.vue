@@ -223,8 +223,7 @@ export default {
         }
     }
 
-    .slide-leave-active, 
-    .slide-enter-active {
+    .slide-leave-active, .slide-enter-active {
         transition: 0.5s;
     }
     
@@ -236,13 +235,11 @@ export default {
         transform: translate(-100%, 0);
     }
 
-    .fade-enter-active, 
-    .fade-leave-active {
+    .fade-enter-active, .fade-leave-active {
         transition: opacity .5s;
     }
-    
-    .fade-enter, 
-    .fade-leave-to {
+
+    .fade-enter, .fade-leave-to {
         opacity: 0;
     }
 }
