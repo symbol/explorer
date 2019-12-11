@@ -56,7 +56,7 @@
 .box_loader {
     width: 100%;
     position: absolute;
-    z-index: 9999;
+    z-index: 999;
     background: rgba(255, 255, 255, 0.87);
     top: 0;
     left: 0;

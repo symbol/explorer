@@ -4,6 +4,7 @@
     "aliasAction": "Alias Action",
     "linkAction": "Link Action",
     "amount": "Montante",
+    "relativeAmount": "Quantidade relativa",
     "height": "Altura",
     "fee": "Taxas",
     "date": "Date",
@@ -72,5 +73,8 @@
     "totalFeesPaid": "Total de taxas pagas",
     "beneficiaryCount": "Contagem de Beneficiários",
     "importanceScore": "Pontuação de importância",
-    "recalculationBlock": "Bloco de recálculo #"
+    "recalculationBlock": "Bloco de recálculo #",
+    "mosaicAliasName": "Alias Namespace",
+    "aliasMosaic": "Alias",
+    "aliasAddress": "Alias"
 }

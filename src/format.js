@@ -11,6 +11,18 @@ const microxemToXem = amount => amount / Math.pow(10, 6)
 // Format fee (in microxem) to string (in XEM).
 const formatFee = fee => microxemToXem(fee.compact()).toString()
 
+// Format ImportantScore
+const formatImportanceScore = importanceScore => {
+  // Calculate the importance score.
+  if (importanceScore) {
+    importanceScore /= 90000
+    importanceScore = importanceScore.toFixed(4).split('.')
+    importanceScore = importanceScore[0] + '.' + importanceScore[1]
+
+    return importanceScore
+  }
+};
+
 // FORMAT BLOCK
 
 const formatBlocks = (blockList) => {
@@ -19,38 +31,26 @@ const formatBlocks = (blockList) => {
   })
 }
 
-const formatBlock = (block) => {
-  let blockObj = {
-    height: block.height.compact(),
-    hash: block.hash,
-    timestamp: block.timestamp.compact() / 1000 + 1459468800,
-    date: moment.utc(
-      (block.timestamp.compact() / 1000 + 1459468800) * 1000
-    ).local().format('YYYY-MM-DD HH:mm:ss'),
-    totalFee: formatFee(block.totalFee),
-    difficulty: (block.difficulty.compact() / 1000000000000).toFixed(2),
-    numTransactions: block.numTransactions,
-    signature: block.signature,
-    signer: block.signer,
-    previousBlockHash: block.previousBlockHash,
-    blockTransactionsHash: block.blockTransactionsHash,
-    blockReceiptsHash: block.blockReceiptsHash,
-    stateHash: block.stateHash
-  }
-
-  return blockObj
-}
+const formatBlock = block => ({
+  height: block.height.compact(),
+  hash: block.hash,
+  timestamp: block.timestamp.compact() / 1000 + 1459468800,
+  date: moment.utc(
+    (block.timestamp.compact() / 1000 + 1459468800) * 1000
+  ).local().format('YYYY-MM-DD HH:mm:ss'),
+  totalFee: formatFee(block.totalFee),
+  difficulty: (block.difficulty.compact() / 1000000000000).toFixed(2),
+  numTransactions: block.numTransactions,
+  signature: block.signature,
+  signer: Address.createFromPublicKey(block.signer.publicKey, http.networkType).plain(),
+  previousBlockHash: block.previousBlockHash,
+  blockTransactionsHash: block.blockTransactionsHash,
+  blockReceiptsHash: block.blockReceiptsHash,
+  stateHash: block.stateHash
+})
 
 // FORMAT ACCOUNT
-const formatAccount = (accountInfo, accountName) => {
-  // Calculate the importance score.
-  let importanceScore = accountInfo.importance.compact()
-  if (importanceScore) {
-    importanceScore /= 90000
-    importanceScore = importanceScore.toFixed(4).split('.')
-    importanceScore = importanceScore[0] + '.' + importanceScore[1]
-  }
-
+const formatAccount = accountInfo => {
   // Process the account activity.
   let lastActivity
   let harvestedBlocks
@@ -75,7 +75,7 @@ const formatAccount = (accountInfo, accountName) => {
     publicKey: accountInfo.publicKey,
     publicKeyHeight: accountInfo.publicKeyHeight.compact(),
     mosaics: formatMosaics(accountInfo.mosaics),
-    importance: importanceScore,
+    importance: formatImportanceScore(accountInfo.importance.compact()),
     importanceHeight: accountInfo.importanceHeight.compact(),
     accountType: Constants.AccountType[accountInfo.accountType],
     activityBucket: accountInfo.activityBucket,
@@ -85,9 +85,17 @@ const formatAccount = (accountInfo, accountName) => {
     harvestedFees: harvestedFees
   }
 
-  if (accountName.names.length > 0) {
-    accountObj.accountAliasName = accountName.names[0].name
-    accountObj.accountAliasNameHex = accountName.names[0].namespaceId.toHex()
+  // check prop (Account Detail)
+  if (accountInfo.hasOwnProperty('mosaicsAmountViewFromAddress'))
+    accountObj.mosaics = accountInfo.mosaicsAmountViewFromAddress.map(mosaic => ({
+      id: mosaic.fullName(),
+      amount: mosaic.relativeAmount(),
+      mosaicAliasName: mosaic.mosaicInfo.mosaicAliasName.length > 0 ? mosaic.mosaicInfo.mosaicAliasName[0].name : Constants.Message.UNAVAILABLE
+    }))
+
+  if (accountInfo.accountName.names.length > 0) {
+    accountObj.accountAliasName = accountInfo.accountName.names[0].name
+    accountObj.accountAliasNameHex = accountInfo.accountName.names[0].namespaceId.toHex()
   }
 
   return accountObj
@@ -120,9 +128,11 @@ const formatMosaics = mosaics => {
 // FORMAT MOSAICS INFO
 const formatMosaicInfo = mosaicInfo => ({
   mosaic: mosaicInfo.id.toHex(),
+  mosaicAliasName: mosaicInfo.mosaicAliasName.length > 0 ? mosaicInfo.mosaicAliasName[0].name : Constants.Message.UNAVAILABLE,
   divisibility: mosaicInfo.divisibility,
   address: mosaicInfo.owner.address.plain(),
   supply: mosaicInfo.supply.compact(),
+  relativeAmount: mosaicInfo.divisibility !== 0 ? mosaicInfo.supply.compact() / Math.pow(10, mosaicInfo.divisibility) : mosaicInfo.supply.compact(),
   revision: mosaicInfo.revision,
   startHeight: mosaicInfo.height.compact(),
   duration: mosaicInfo.duration.compact(),
@@ -445,7 +455,7 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
     namespaceNameHexId: namespaceInfo.id.toHex().toUpperCase(),
     registrationType: Constants.NamespaceRegistrationType[namespaceInfo.registrationType],
     startHeight: namespaceInfo.startHeight.compact(),
-    endHeight: namespaceNames[0].name.toUpperCase() === Constants.NetworkConfig.NAMESPACE
+    endHeight: Constants.NetworkConfig.NAMESPACE.indexOf(namespaceNames[0].name.toUpperCase()) !== -1
       ? Constants.Message.INFINITY
       : namespaceInfo.endHeight.compact(),
     active: namespaceInfo.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,

@@ -1,5 +1,5 @@
 <template>
-    <div class="ex-card">
+    <b-card class="ex-card">
         <div class="ex-card-header">
             <slot name="header" />
             <slot name="title" />
@@ -7,7 +7,7 @@
         </div>
 
         <div v-if="loading" class="ex-card-loading">
-            <loader />
+            <Loading />
         </div>
 
         <div v-if="error" class="ex-card-error">
@@ -17,13 +17,17 @@
         <div v-if="!error && !loading" class="ex-card-body">
             <slot name="body" />
         </div>
-
-    </div>
+    </b-card>
 </template>
 
 <script>
+import Loading from '@/components/Loading.vue'
 
 export default {
+  components: {
+    Loading
+  },
+
   props: {
     loading: {
       type: Boolean,
@@ -40,14 +44,14 @@ export default {
 
 <style lang="scss" scoped>
 .ex-card {
-    padding: 20px;
+    //padding: 20px;
     box-shadow: 0 1px 15px 1px rgba(52, 40, 104, 0.18);
     background: #fff;
     border-radius: 4px;
     border: none;
     margin-bottom: 20px;
     transition: all 0.5s ease-in-out;
-    position: relative;
+   
 
     .ex-card-loading {
         height: 187px;

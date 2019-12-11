@@ -17,10 +17,10 @@
  */
 
 <template>
-  <div class="col-md-4">
+  <b-col sm="12" lg="4">
     <div class="ft-logo">
       <a href="https://nem.io/" target="_blank">
-        <img src="theme/img/logo-f-w.png" />
+        <img src="/theme/img/logo-f-w.png" />
       </a>
     </div>
     <div class="ft-desc mt-3">
@@ -35,5 +35,26 @@
         assets.
       </p>
     </div>
-  </div>
+  </b-col>
 </template>
+
+<style lang="scss" scoped>
+.footer .ft-desc p {
+    font-size: 12px;
+    text-align: justify;
+    color: #ffffffa8;
+    font-weight: 200;
+}
+
+
+.footer .ft-logo a {
+    height: 30px;
+    display: inline-block;
+}
+
+.footer .ft-logo a img {
+    width: auto;
+    max-width: 100%;
+    max-height: 100%;
+}
+</style>

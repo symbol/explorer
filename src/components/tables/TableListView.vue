@@ -42,9 +42,9 @@
                 </div>
 
                 <div v-else class="max-item-width">
-                  <a v-if="isItemClickable(itemKey)" :href="getItemHref(itemKey, item)">
-                  {{ item }}
-                  </a>
+                  <router-link v-if="isItemClickable(itemKey) && getItemHref(itemKey, item)" :to="getItemHref(itemKey, item)">
+                    {{ item }}
+                  </router-link>
                   <div v-else>
                   {{ item }}
                   </div>
@@ -116,7 +116,7 @@ export default {
 
   computed: {
     preparedData() {
-      if(this.pagination === true)
+      if(Array.isArray(this.data) && this.pagination === true)
         return this.data.slice(this.pageIndex * this.pageSize, this.pageIndex * this.pageSize + this.pageSize);
       else
         return this.data;

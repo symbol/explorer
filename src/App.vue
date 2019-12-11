@@ -19,17 +19,30 @@
 <template>
     <div id="app">
         <div class="app-content">
-            <top-header />
-            <page-menu />
+            <MobileMenu class="d-block d-md-none"/>
+            <Header />
+            <NavigationMenu class="d-none d-md-block"/>
+            <!--MobileMenu />-->
             <router-view :key="$route.fullPath"/>
         </div>
-        <page-footer/>
+        <Footer />
     </div>
 </template>
 
 <script>
+import Footer from '@/components/layout/Footer.vue'
+import NavigationMenu from '@/components/menu/NavigationMenu.vue'
+import MobileMenu from '@/components/menu/MobileMenu.vue'
+import Header from '@/components/layout/Header.vue'
 
 export default {
+  components: {
+    Footer,
+    NavigationMenu,
+    MobileMenu,
+    Header
+  },
+
   data: () => {
     return {
       info: 1
@@ -54,12 +67,19 @@ export default {
 </script>
 
 <style lang="scss">
+html, body, #fullheight {
+    min-width: 100% !important;
+    width: 100%;
+}
+
 #app {
     height: 100vh;
     width: 100%;
     margin: 0;
     padding: 0;
-    display: table;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
 }
 
 .app-content {

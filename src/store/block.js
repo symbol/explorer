@@ -63,7 +63,7 @@ export default {
       transactions: el.numTransactions,
       fee: el.totalFee,
       date: el.date,
-      harvester: el.signer.address.address
+      harvester: el.signer
     })),
     getSubscription: state => state.subscription,
     getLoading: state => state.loading,
@@ -72,7 +72,9 @@ export default {
     blockTransactionList: state => state.blockTransactionList,
     currentBlockHeight: state => state.currentBlockHeight,
     blockInfoLoading: state => state.blockInfoLoading,
-    blockInfoError: state => state.blockInfoError
+    blockInfoError: state => state.blockInfoError,
+
+    infoText: (s, g, rs, rootGetters) => 'Chain height: ' + rootGetters['chain/getBlockHeight']
   },
   mutations: {
     setInitialized: (state, initialized) => { state.initialized = initialized },

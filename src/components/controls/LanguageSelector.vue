@@ -1,5 +1,5 @@
 <template>
-  <div class="lang_switch noselect">
+  <!--<div class="lang_switch noselect">
     <div class="lang-swtch dropdown node-selector">
       <a class="dropdown-toggle">Language : {{currentLanguage}}</a>
       <div class="dropdown-menu dropdown-menu-right node-selector-menu" ref="languageSelector">
@@ -14,39 +14,45 @@
         >{{language}}</a>
       </div>
     </div>
-  </div>
+  </div>-->
+    <Dropdown
+        :options="options"
+        :dark="true"
+        :border="false"
+        :value="currentLanguage"
+        @change="setLanguage"
+    />
 </template>
 
 <script>
+import Dropdown from './Dropdown.vue'
 export default {
-  mounted() {
-      document.addEventListener('mousedown', () => this.close())
+  components: {
+    Dropdown
   },
 
   computed: {
     languageList() {
-      return this.$store.getters['ui/languages']
+      return this.$store.getters['ui/languages'] || []
+    },
+
+    options() {
+      console.log(this.languageList)
+      let options = {};
+      this.languageList.forEach(lang => 
+        { options[lang] = lang }
+      );
+      return options;
     },
 
     currentLanguage() {
-      return this.$store.getters['ui/currentLanguage']
+      return 'Language: ' + this.$store.getters['ui/currentLanguage']
     }
   },
 
   methods: {
     setLanguage(language) {
       this.$store.dispatch('ui/changeLanguage', language)
-    },
-
-    close() {
-      this.$refs.languageSelector.classList.remove('shown')
-    },
-
-    prevent(e){
-      if(e.preventDefault)
-        e.preventDefault()
-      if(e.stopPropagation)
-        e.stopPropagation()
     }
   },
 }

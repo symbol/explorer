@@ -20,28 +20,17 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
-import TopHead from '@/components/TopHead.vue'
-import PageMenu from './components/menu/PageMenu.vue'
-import Pagefooter from '@/components/PageFooter.vue'
-import TimeSince from '@/components/TimeSince.vue'
-import Loading from '@/components/Loading.vue'
-import TableListView from '@/components/tables/TableListView.vue'
-import TableInfoView from '@/components/tables/TableInfoView.vue'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'vue-material-design-icons/styles.css';
+import './styles/main.scss'
+
 
 
 window.Vue = Vue
 Vue.config.productionTip = false
 Vue.use(BootstrapVue)
-Vue.component('top-header', TopHead)
-Vue.component('page-menu', PageMenu)
-Vue.component('page-footer', Pagefooter)
-Vue.component('time-since', TimeSince)
-Vue.component('loader', Loading)
-Vue.component('TableListView', TableListView)
-Vue.component('TableInfoView', TableInfoView)
 
 new Vue({
   router,
