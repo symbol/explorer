@@ -155,6 +155,7 @@ export default {
                     max-width: 30px;
                 }
             }
+
             .title {
                 font-size: 18px;
                 color: #fff;
@@ -222,13 +223,15 @@ export default {
         }
     }
 
-    .slide-leave-active,
+    .slide-leave-active, 
     .slide-enter-active {
         transition: 0.5s;
     }
+    
     .slide-enter {
         transform: translate(-100%, 0);
     }
+
     .slide-leave-to {
         transform: translate(-100%, 0);
     }
@@ -237,10 +240,10 @@ export default {
     .fade-leave-active {
         transition: opacity .5s;
     }
+    
     .fade-enter, 
     .fade-leave-to {
         opacity: 0;
     }
 }
-
 </style>

@@ -131,7 +131,7 @@ export default {
 
         .no-wrap {
             flex-wrap: nowrap;
-            white-space:nowrap;
+            white-space: nowrap;
         }
     }
 }

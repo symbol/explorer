@@ -112,6 +112,7 @@ export default {
 .page-footer {
     width: 100%;
 }
+
 .footer {
     background: linear-gradient(-40deg, #37476b 20%, #0a879b 80%);
     padding: 50px 0 0;
@@ -155,5 +156,4 @@ export default {
 .vertical-center {
     margin-top: 5px;
 }
-
 </style>

@@ -88,7 +88,7 @@ export default {
         }
     }
     
-    .ex-menu-item.active:before {
+    .ex-menu-item.active::before {
         content: '';
         position: absolute;
         bottom: 0;
