@@ -110,7 +110,6 @@ export default {
 
 <style lang="scss" scoped>
 .page-footer {
-    height: 0;
     width: 100%;
 }
 .footer {

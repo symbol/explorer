@@ -77,6 +77,9 @@ html, body, #fullheight {
     width: 100%;
     margin: 0;
     padding: 0;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
 }
 
 .app-content {
