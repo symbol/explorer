@@ -105,7 +105,7 @@ export default {
     position: relative;
 }
 
-.blue-gradinet:before {
+.blue-gradinet::before {
     content: '';
     background-image: url(../../styles/img/logo_bkg.png);
     position: absolute;
@@ -142,6 +142,7 @@ export default {
             position: relative;
             padding: 5px 20px;
             padding-top: 30px;
+
             .logo {
                 display: inline-block;
                 text-decoration: none;
@@ -163,7 +164,6 @@ export default {
                 margin-top: 16px;
                 margin-bottom: 5px;
                 text-transform: capitalize;
-               
             }
         }
 
@@ -181,10 +181,9 @@ export default {
                     margin-right: 20px;
                 }
             }
-        }
-
-        
+        }  
     }
+
     .ex-menu-icon { 
         top: 0;
         left: 0;
@@ -242,8 +241,6 @@ export default {
     .fade-leave-to {
         opacity: 0;
     }
-
-  
 }
 
 </style>

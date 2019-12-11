@@ -71,6 +71,7 @@ export default {
                 case 'medium': return '';
                 case 'large': return 'lg';
             }
+            return '';
         }
     },
 

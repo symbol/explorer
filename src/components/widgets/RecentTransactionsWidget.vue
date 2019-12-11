@@ -66,14 +66,12 @@
 <script>
 import Card from '@/components/containers/Card.vue'
 import ButtonMore from '@/components/controls/ButtonMore.vue'
-import Age from '@/components/Age.vue'
 import { mapGetters } from 'vuex'
 
 export default {
     components: { 
         Card, 
-        ButtonMore,
-        Age 
+        ButtonMore
     },
 
     computed: {

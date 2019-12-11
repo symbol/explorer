@@ -46,7 +46,7 @@ export default {
     position: relative;
 }
 
-.blue-gradinet:before {
+.blue-gradinet::before {
     content: '';
     background-image: url(../../styles/img/logo_bkg.png);
     position: absolute;

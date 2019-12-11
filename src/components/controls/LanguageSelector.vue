@@ -40,7 +40,7 @@ export default {
       console.log(this.languageList)
       let options = {};
       this.languageList.forEach(lang => 
-        options[lang] = lang
+        { options[lang] = lang }
       );
       return options;
     },

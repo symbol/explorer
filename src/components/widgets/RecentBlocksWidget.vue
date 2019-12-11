@@ -101,11 +101,12 @@ export default {
 
 .card-item {
     .card-body {
+        padding: 0;
+
         .ex-title-text {
             color: black;
         }
 
-        padding: 0;
         .ex-row {
             display: flex;
             justify-content: space-between;
@@ -115,11 +116,13 @@ export default {
                 font-size: 10px;
                 color: #acacac;
             }
+
             .ex-long-text {
                 white-space: nowrap;
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
+            
             .ex-account-text {
                 color: #84accb;
                 font-weight: 600;

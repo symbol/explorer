@@ -48,16 +48,16 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.form-control{
-    color: #FFF !important;
+.form-control {
+    color: #fff !important;
 }
 
 .form-control:focus {
-  color: #FFF !important;
+    color: #fff !important;
 }
 
 .form-control::-webkit-input-placeholder {
-  color: #acc5ce;
+    color: #acc5ce;
 }
 
 .transition {

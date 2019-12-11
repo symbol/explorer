@@ -118,11 +118,11 @@ export default {
     width: 100%;
 
     .footer-row {
-      padding-top: 40px;
+        padding-top: 40px;
 
-      .footer-description {
-        margin-top: -40px;
-      }
+        .footer-description {
+            margin-top: -40px;
+        }
     }
 }
 
@@ -134,23 +134,26 @@ export default {
     padding: 0;
 
     .social-icon-item {
-      flex: auto;
-      margin: 5px;
-      a {
-        color: #fff;
-        text-decoration: none;
-        span {
-          margin-left: 5px;
+        flex: auto;
+        margin: 5px;
+
+        a {
+            color: #fff;
+            text-decoration: none;
+
+            span {
+                margin-left: 5px;
+            }
+
+            i {
+                font-size: 15px;
+            }
         }
-        i {
-          font-size: 15px;
-        }
-      }
     }
 }
 
 .vertical-center {
-  margin-top: 5px;
+    margin-top: 5px;
 }
 
 </style>

@@ -6,7 +6,7 @@
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "lint:css": "stylelint '**/*.vue' public/theme/css/style.css --syntax scss"
+    "lint:css": "stylelint '**/*.vue' src/styles/main.scss --syntax scss"
   },
   "dependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.6.0",
