@@ -45,7 +45,8 @@ const formatBlock = block => ({
     (Math.round(block.timestamp / 1000) + Constants.NetworkConfig.NEMESIS_TIMESTAMP) * 1000
   ).local().format('YYYY-MM-DD HH:mm:ss'),
   totalFee: formatFee(block.totalFee),
-  difficulty: (block.difficulty.compact() / 1000000000000).toFixed(2),
+  difficulty: ((block.difficulty.compact() / 1000000000000).toFixed(2)).toString(),
+  feeMultiplier: microxemToXem(block.feeMultiplier).toString(),
   numTransactions: block.numTransactions,
   signature: block.signature,
   signer: Address.createFromPublicKey(block.signer.publicKey, http.networkType).plain(),

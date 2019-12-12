@@ -67,7 +67,9 @@ export default {
         'amount',
         'fee',
         'importance',
-        'relativeAmount'
+        'relativeAmount',
+        'feeMultiplier',
+        'difficulty'
       ]
     }
   },
@@ -142,7 +144,7 @@ export default {
         font-size: 12px;
         letter-spacing: 1px;
     }
-    
+
     .empty-data {
         font-size: 14px;
         color: #98a8b4;
@@ -216,7 +218,7 @@ export default {
         font-weight: 600;
         text-decoration: none;
         cursor: pointer;
-        
+
         a {
             font-weight: 600;
         }
