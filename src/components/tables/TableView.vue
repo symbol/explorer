@@ -62,7 +62,15 @@ export default {
         'targetMosaicId',
         'targetNamespaceId'
       ],
-      disableClickItems: [...Object.values(Constants.Message)]
+      disableClickItems: [...Object.values(Constants.Message)],
+      changeDecimalColor: [
+        'amount',
+        'fee',
+        'importance',
+        'relativeAmount',
+        'feeMultiplier',
+        'difficulty'
+      ]
     }
   },
 
@@ -79,6 +87,10 @@ export default {
 
     isDisableItemClick(item) {
       return this.disableClickItems.indexOf(item) !== -1
+    },
+
+    isChangeDecimalColor(itemKey) {
+      return this.changeDecimalColor.indexOf(itemKey) !== -1
     },
 
     isItemShown(itemKey, item) {
@@ -107,36 +119,60 @@ export default {
 </script>
 
 <style lang="scss">
-.table-title-item {
-    vertical-align: middle;
-    border: 0 none;
-    padding: 12px 6px 12px 6px;
-    color: #0997a3;
-    font-weight: 500;
-    outline: none;
-    font-size: 12px;
-    letter-spacing: 1px;
-}
-
-.table-titles-ver {
-    width: 30%;
-    max-width: 200px;
-}
-
-.table-striped tbody tr:nth-child(odd) td {
-    background-color: #fff;
-}
-
-.table-striped tbody tr:nth-child(even) td {
-    background-color: rgba(52, 40, 104, 0.014);
-}
-
 .table-view {
+    .table {
+        width: 100%;
+        max-width: 100%;
+        margin-bottom: 1rem;
+        background-color: transparent;
+        font-size: 14px;
+        color: #98a8b4;
+    }
+
+    thead {
+        background-color: rgba(52, 40, 104, 0.05);
+        border-radius: 4px;
+    }
+
+    thead th {
+        vertical-align: middle;
+        border: 0 none;
+        padding: 12px 6px 12px 6px;
+        color: #0997a3;
+        font-weight: 500;
+        outline: none;
+        font-size: 12px;
+        letter-spacing: 1px;
+    }
+
     .empty-data {
         font-size: 14px;
         color: #98a8b4;
         display: flex;
         justify-content: center;
+    }
+
+    .table-title-item {
+        vertical-align: middle;
+        padding: 12px 6px 12px 6px;
+        color: #0997a3;
+        font-weight: 500;
+        outline: none;
+        font-size: 12px;
+        letter-spacing: 1px;
+    }
+
+    .table-titles-ver {
+        width: 30%;
+        max-width: 200px;
+    }
+
+    .table-striped tbody tr:nth-child(odd) td {
+        background-color: #fff;
+    }
+
+    .table-striped tbody tr:nth-child(even) td {
+        background-color: rgba(52, 40, 104, 0.014);
     }
 
     .table-head-cell {
@@ -157,7 +193,7 @@ export default {
         text-overflow: ellipsis;
     }
 
-    td {
+    .table-cell {
         border-bottom: 1px solid #dadee6;
         font-weight: none;
         padding: 10px 5px;
@@ -182,6 +218,10 @@ export default {
         font-weight: 600;
         text-decoration: none;
         cursor: pointer;
+
+        a {
+            font-weight: 600;
+        }
     }
 
     .table-titles {

@@ -15,6 +15,7 @@
           <tr v-for="(row, rowIndex) in preparedData" class="t-row" :key="view+'r'+rowIndex">
             <td
               v-for="(item, itemKey) in row"
+              class="table-cell"
               :key="view+'r'+rowIndex+'i'+itemKey"
               :class="{'table-item-clickable': isItemClickable(itemKey), [itemKey]: true}"
               :title="getKeyName(itemKey) + ': ' + item"
@@ -39,11 +40,11 @@
                     </div>
                   </Modal>
                 </div>
-
+                <Decimal v-if="isChangeDecimalColor(itemKey)" :value="item" />
                 <div v-else class="max-item-width">
-                  <a v-if="isItemClickable(itemKey)" :href="getItemHref(itemKey, item)">
-                  {{ item }}
-                  </a>
+                  <router-link v-if="isItemClickable(itemKey) && getItemHref(itemKey, item)" :to="getItemHref(itemKey, item)">
+                    {{ item }}
+                  </router-link>
                   <div v-else>
                   {{ item }}
                   </div>
@@ -75,10 +76,11 @@ import TableView from './TableView.vue'
 import Modal from '../containers/Modal.vue'
 import AggregateTransaction from '../AggregateTransaction.vue'
 import Pagination from '../controls/Pagination.vue'
+import Decimal from '../Decimal.vue'
 export default {
   extends: TableView,
 
-  components: { Modal, AggregateTransaction, Pagination },
+  components: { Modal, AggregateTransaction, Pagination, Decimal },
 
   props: {
     data: {
@@ -115,7 +117,7 @@ export default {
 
   computed: {
     preparedData() {
-      if(this.pagination === true)
+      if(Array.isArray(this.data) && this.pagination === true)
         return this.data.slice(this.pageIndex * this.pageSize, this.pageIndex * this.pageSize + this.pageSize);
       else
         return this.data;

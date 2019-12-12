@@ -16,29 +16,29 @@
  *
  */
 
-<template>
-    <div class="col-md-3">
-        <div class="hm_wdjt_itm_t1">
-            <span>{{title}}</span>
-            <p v-if="condition">{{value}}</p>
-        </div>
-    </div>
+ <template>
+  <div :value="value">
+    <span>{{decimalSplit(value)[0]}}</span>
+    <span v-if="decimalSplit(value).length > 1" class="decimalLight">.{{decimalSplit(value)[1]}}</span>
+  </div>
 </template>
 <script>
 export default {
+  name: 'Decimal',
   props: {
-    title: {
-      type: String,
-      required: true
+    value: String,
+  },
+  methods: {
+    decimalSplit(value) {
+      return value.split('.', 2)
     },
-
-    condition: {
-      required: true
-    },
-
-    value: {
-      required: true
-    }
-  }
+  },
 }
 </script>
+
+<style lang="scss" scoped>
+.decimalLight {
+  color: #98a8b48c;
+}
+</style>
+

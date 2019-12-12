@@ -101,6 +101,7 @@ class sdkBlock {
         date: rawBlockInfo.date,
         fee: rawBlockInfo.totalFee,
         difficulty: rawBlockInfo.difficulty,
+        feeMultiplier: rawBlockInfo.feeMultiplier,
         totalTransactions: rawBlockInfo.numTransactions,
         harvester: rawBlockInfo.signer?.address?.address,
         blockHash: rawBlockInfo.hash
