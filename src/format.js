@@ -126,7 +126,7 @@ const formatMosaics = mosaics => {
     return {
       ...mosaic,
       id: mosaic.id.toHex(),
-      amount: mosaic.amount.compact()
+      amount: mosaic.amount.compact().toString()
     }
   })
 }

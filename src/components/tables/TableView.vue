@@ -62,7 +62,13 @@ export default {
         'targetMosaicId',
         'targetNamespaceId'
       ],
-      disableClickItems: [...Object.values(Constants.Message)]
+      disableClickItems: [...Object.values(Constants.Message)],
+      changeDecimalColor: [
+        'amount',
+        'fee',
+        'importance',
+        'relativeAmount'
+      ]
     }
   },
 
@@ -79,6 +85,10 @@ export default {
 
     isDisableItemClick(item) {
       return this.disableClickItems.indexOf(item) !== -1
+    },
+
+    isChangeDecimalColor(itemKey) {
+      return this.changeDecimalColor.indexOf(itemKey) !== -1
     },
 
     isItemShown(itemKey, item) {

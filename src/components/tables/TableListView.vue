@@ -39,7 +39,7 @@
                     </div>
                   </Modal>
                 </div>
-
+                <Decimal v-if="isChangeDecimalColor(itemKey)" :value="item" />
                 <div v-else class="max-item-width">
                   <a v-if="isItemClickable(itemKey)" :href="getItemHref(itemKey, item)">
                   {{ item }}
@@ -75,10 +75,11 @@ import TableView from './TableView.vue'
 import Modal from '../containers/Modal.vue'
 import AggregateTransaction from '../AggregateTransaction.vue'
 import Pagination from '../controls/Pagination.vue'
+import Decimal from '../Decimal.vue'
 export default {
   extends: TableView,
 
-  components: { Modal, AggregateTransaction, Pagination },
+  components: { Modal, AggregateTransaction, Pagination, Decimal },
 
   props: {
     data: {
