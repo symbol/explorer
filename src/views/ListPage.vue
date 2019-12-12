@@ -31,7 +31,8 @@
                     <div class="ex-infotext" v-if="hasInfoText"> {{infoText}} </div>
                     <TypeBox
                         v-if="hasFilter"
-                        :typeMap="filterOptions"
+                        :options="filterOptions"
+                        :value="filterValue"
                         :resetPageAction="resetPageAction"
                         :changePageAction="changePageAction"
                     />
@@ -57,7 +58,7 @@
     </div>
 </template>
 <script>
-import TypeBox from '@/components/TypeBox.vue'
+import TypeBox from '@/components/controls/Dropdown.vue'
 import View from './View.vue'
 
 export default {
