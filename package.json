@@ -6,7 +6,7 @@
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "lint:css": "stylelint '**/*.vue' public/theme/css/style.css --syntax scss"
+    "lint:css": "stylelint '**/*.vue' src/styles/main.scss --syntax scss"
   },
   "dependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.6.0",
@@ -14,6 +14,8 @@
     "apexcharts": "^3.8.6",
     "await-lock": "^2.0.1",
     "axios": "^0.19.0",
+    "bootstrap": "^4.3.1",
+    "bootstrap-vue": "^2.1.0",
     "chart.js": "^2.8.0",
     "core-js": "^2.6.5",
     "moment-timezone": "^0.5.26",
@@ -21,6 +23,7 @@
     "vue": "^2.6.10",
     "vue-apexcharts": "^1.5.0",
     "vue-clipboard2": "^0.3.1",
+    "vue-material-design-icons": "^4.3.0",
     "vue-router": "^3.0.3",
     "vue-slim-tabs": "^0.3.0",
     "vuex": "^3.0.1"

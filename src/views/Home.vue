@@ -17,41 +17,37 @@
  */
 
 <template>
-    <div>
-        <div class="page_con">
-            <div class="full-con mob_con">
-                <div class="container p-0 has-shadow mt-4">
-                    <NemPriceGraph
-                        class="border-bottom"
-                    />
-                    <HomeBaseInfo
-                        class=""
-                    />
-                </div>
-                <div class="container p-0 mt-1">
-                    <RecentBlocks />
-                </div>
-                <div class="container p-0 mt-1">
-                    <RecentTransactions />
-                </div>
-            </div>
-        </div>
-    </div>
+    <b-container fluid class="px-0 py-0">
+        <b-row class="my-4 mx-0 mx-xs-0 mx-md-4 mx-lg-8">
+            <b-col xs="12" md="12" lg="8">
+                <NemPriceWidget />
+            </b-col>
+            <b-col xs="12" md="12" lg="4" style="display: flex">
+                <BaseInfoWidget style="width: 100%"/>
+            </b-col>
+            <b-col xs="12" md="12" lg="6">
+                <RecentBlocksWidget />
+            </b-col>
+            <b-col xs="12" md="12" lg="6">
+                <RecentTransactionsWidget />
+            </b-col>
+        </b-row>
+    </b-container>
 </template>
 <script>
-import HomeBaseInfo from '@/components/HomeBaseInfo.vue'
-import NemPriceGraph from '@/components/NemPriceGraph.vue'
-import RecentBlocks from '@/components/RecentBlocks.vue'
-import RecentTransactions from '@/components/RecentTransactions.vue'
+import BaseInfoWidget from '@/components/widgets/BaseInfoWidget.vue'
+import NemPriceWidget from '@/components/widgets/NemPriceWidget.vue'
+import RecentBlocksWidget from '@/components/widgets/RecentBlocksWidget.vue'
+import RecentTransactionsWidget from '@/components/widgets/RecentTransactionsWidget.vue'
 
 export default {
   name: 'Home',
 
   components: {
-    HomeBaseInfo,
-    NemPriceGraph,
-    RecentBlocks,
-    RecentTransactions
+    BaseInfoWidget,
+    NemPriceWidget,
+    RecentBlocksWidget,
+    RecentTransactionsWidget
   },
 
   mounted() {

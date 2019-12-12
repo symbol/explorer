@@ -1,9 +1,8 @@
 <template>
-    <div class="page">
-        <div class="page-content-card-f">
+    <b-container fluid>
+        <b-row>
             <!-- Account Detail -->
             <Card
-                class="card-f card-full-width"
                 :loading="loading"
                 :error="error"
             >
@@ -22,7 +21,8 @@
 
             <!-- MultiSig Cosignatories -->
             <Card
-                class="card-f card-adaptive"
+                xs="3"
+                md="12"
                 :loading="loading"
             >
                 <template #title>
@@ -36,7 +36,8 @@
 
             <!-- Mosaics -->
             <Card
-                class="card-f card-adaptive"
+                xs="12"
+                md="3"
                 :loading="loading"
             >
                 <template #title>
@@ -50,7 +51,8 @@
 
             <!-- Namespaces -->
             <Card
-                class="card-f card-adaptive"
+                xs="12"
+                md="3"
                 :loading="loading"
             >
                 <template #title>
@@ -62,12 +64,8 @@
                 </template>
             </Card>
 
-            <!-- Metadata Entries -->
-            <MetadataEntries class="card-f card-full-width" :data="metadataList" :loading="loading" />
-
             <!-- Importance History -->
             <Card
-                class="card-f card-full-width"
                 :loading="loading"
             >
                 <template #title>
@@ -81,7 +79,6 @@
 
             <!-- Transactions -->
             <Card
-                class="card-f card-full-width"
                 :loading="loading"
             >
                 <template #title>
@@ -100,19 +97,16 @@
                     <TableListView :data="filteredTransactionList" :pagination="true" :pageSize="5"/>
                 </template>
             </Card>
-        </div>
-    </div>
+        </b-row>
+    </b-container>
 </template>
 
 <script>
 import View from './View.vue'
-import MetadataEntries from '../components/MetadataEntries'
 import { mapGetters } from 'vuex'
 
 export default {
   extends: View,
-
-  components: { MetadataEntries },
 
   data() {
     return {
@@ -122,12 +116,12 @@ export default {
       mosaicsTitle: "Owned Mosaics",
       namespacesTitle: "Owned Namespaces",
       transactionsTitle: "Transactions",
-      transactionTypes: { 
-        1: "All transactions",
-        2: "Mosaic transactions",
-        3: "Namespace transactions",
-        4: "Transfers" 
-      },
+      transactionTypes: [
+        { name: "All transactions", value: 1 },
+        { name: "Mosaic transactions", value: 2 },
+        { name: "Namespace transactions", value: 3 },
+        { name: "Transfers", value: 4 }
+      ],
       selectedTransactionType: 1 // TODO: store.getters
     };
   },
@@ -141,7 +135,6 @@ export default {
       mosaicList: "account/getMosaicList",
       transactionList: "account/getTransactionList",
       activityBucketList: "account/getActivityBucketList",
-      metadataList: "account/getMetadataList",
       loading: "account/accountInfoLoading",
       error: "account/accountInfoError"
     }),
@@ -168,13 +161,10 @@ export default {
     showTransactions() {
       return !this.error;
     },
-    showMetadatas() {
-      return !this.error && this.metadataList?.length;
-    },
 
     filteredTransactionList() {
       if (Array.isArray(this.transactionList)) {
-        switch (+this.selectedTransactionType) {
+        switch (this.selectedTransactionType) {
           case 1:
             return this.transactionList;
           case 2:
@@ -199,7 +189,7 @@ export default {
             );
         }
       }
-      return [];
+      return undefined;
     }
   },
 
