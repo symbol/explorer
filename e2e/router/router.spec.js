@@ -5,40 +5,39 @@ describe('NEM 2 Explorer Menu Route', () => {
 
     it('click on home tab', () => {
         cy.contains('Nem blockchain explorer')
-        cy.get('.widget > .box').should('be.visible')
     })
 
     it('click on blocks tab', () => {
-        cy.get('.nav-con > .nav-menu').contains('Blocks').click()
-        cy.get('.card-header').should('be.visible')
+        cy.get('.ex-menu').contains('Blocks').click()
+        cy.get('.ex-card-header').should('be.visible')
         cy.get('.table').should('be.visible')
     })
 
     it('click on transactions tab', () => {
-        cy.get('.nav-con > .nav-menu').contains('Transactions').click()
-        cy.get('.card-header').should('be.visible')
+        cy.get('.ex-menu').contains('Transactions').click()
+        cy.get('.ex-card-header').should('be.visible')
     })
 
     it('click on account tab', () => {
-        cy.get('.nav-con > .nav-menu').contains('Accounts').click()
-        cy.get('.card-header').should('be.visible')
+        cy.get('.ex-menu').contains('Accounts').click()
+        cy.get('.ex-card-header').should('be.visible')
     })
 
     it('loaded namespace tab', () => {
-        cy.get('.nav-con > .nav-menu').contains('Namespaces').click()
-        cy.get('.card-header').should('be.visible')
+        cy.get('.ex-menu').contains('Namespaces').click()
+        cy.get('.ex-card-header').should('be.visible')
         cy.get('.table').should('be.visible')
     })
 
     it('click on mosaic tab', () => {
-        cy.get('.nav-con > .nav-menu').contains('Mosaics').click()
-        cy.get('.card-header').should('be.visible')
+        cy.get('.ex-menu').contains('Mosaics').click()
+        cy.get('.ex-card-header').should('be.visible')
         cy.get('.table').should('be.visible')
     })
 
     it('click on nodes tab', () => {
-        cy.get('.nav-con > .nav-menu').contains('Nodes').click()
-        cy.get('.card-header').should('be.visible')
+        cy.get('.ex-menu').contains('Nodes').click()
+        cy.get('.ex-card-header').should('be.visible')
         cy.get('.table').should('be.visible')
     })
 })
