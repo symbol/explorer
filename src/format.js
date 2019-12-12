@@ -40,9 +40,9 @@ const formatBlocks = (blockList) => {
 const formatBlock = block => ({
   height: block.height.compact(),
   hash: block.hash,
-  timestamp: block.timestamp.compact() / 1000 + 1459468800,
+  timestamp: Math.round(block.timestamp / 1000) + Constants.NetworkConfig.NEMESIS_TIMESTAMP,
   date: moment.utc(
-    (block.timestamp.compact() / 1000 + 1459468800) * 1000
+    (Math.round(block.timestamp / 1000) + Constants.NetworkConfig.NEMESIS_TIMESTAMP) * 1000
   ).local().format('YYYY-MM-DD HH:mm:ss'),
   totalFee: formatFee(block.totalFee),
   difficulty: (block.difficulty.compact() / 1000000000000).toFixed(2),
