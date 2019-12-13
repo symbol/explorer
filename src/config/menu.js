@@ -1,12 +1,12 @@
 export default {
     items: [
-        { to: '/', text: 'Home', classname: 'ico-th-large' },
-        { to: '/blocks', text: 'Blocks', classname: 'ico-content-34' },
-        { to: '/transactions', text: 'Transactions', classname: 'ico-line-awesome-3' },
-        { to: '/accounts', text: 'Accounts', classname: 'ico-user-outline' },
-        { to: '/namespaces', text: 'Namespaces', classname: 'ico-data' },
-        { to: '/mosaics', text: 'Mosaics', classname: 'ico-tags' },
-        { to: '/nodes', text: 'Nodes', classname: 'ico-content-34' }
+        { to: '/', text: 'Home', icon: 'IconHome' },
+        { to: '/blocks', text: 'Blocks', icon: 'IconBlocks' },
+        { to: '/transactions', text: 'Transactions', icon: 'IconTransactions' },
+        { to: '/accounts', text: 'Accounts', icon: 'IconAccounts' },
+        { to: '/namespaces', text: 'Namespaces', icon: 'IconNamespaces' },
+        { to: '/mosaics', text: 'Mosaics', icon: 'IconMosaics' },
+        { to: '/nodes', text: 'Nodes', icon: 'IconNodes' }
         // { to: '/stats', text: 'Statistics', classname: 'ico-bar-chart' },
     ]
 }

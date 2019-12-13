@@ -13,19 +13,19 @@
                     :key="view+'r'+itemKey"
                 >
                     <td
-                        class="table-titles table-titles-ver table-title-item"
+                        class="table-titles table-titles-ver table-title-item table-cell"
                     >
                         {{getKeyName(itemKey)}}
                     </td>
                     <td
-                        class="max-item-width"
+                        class="max-item-width table-cell"
                         :class="{'table-item-clickable': isItemClickable(itemKey)}"
                         :title="getKeyName(itemKey) + ': ' + item"
                         @click="onItemClick(itemKey, item)"
                     >
-                      <a v-if="isItemClickable(itemKey)" :href="getItemHref(itemKey, item)">
+                      <router-link v-if="isItemClickable(itemKey) && getItemHref(itemKey, item)" :to="getItemHref(itemKey, item)">
                         {{ item }}
-                      </a>
+                      </router-link>
                       <div v-else>
                         {{ item }}
                       </div>

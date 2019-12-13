@@ -41,4 +41,15 @@ span {
 span > a {
     color: #fff;
 }
+
+.ftr_btm {
+    width: 100%;
+    text-align: center;
+    font-size: 12px;
+    color: #fff;
+    position: relative;
+    padding: 10px 0;
+    border-top: 1px solid #fff;
+    margin-top: 22px;
+}
 </style>

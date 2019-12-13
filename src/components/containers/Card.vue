@@ -1,24 +1,23 @@
 <template>
-    <div class="card">
-        <div class="card-header">
+    <b-card class="ex-card">
+        <div class="ex-card-header">
             <slot name="header" />
             <slot name="title" />
             <slot name="control" />
         </div>
 
-        <div v-if="loading" class="card-loading">
+        <div v-if="loading" class="ex-card-loading">
             <Loading />
         </div>
 
-        <div v-if="error" class="card-error">
+        <div v-if="error" class="ex-card-error">
             <slot name="error" />
         </div>
 
-        <div v-if="!error && !loading" class="card-body">
+        <div v-if="!error && !loading" class="ex-card-body">
             <slot name="body" />
         </div>
-
-    </div>
+    </b-card>
 </template>
 
 <script>
@@ -44,21 +43,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card {
-    padding: 20px;
+.ex-card {
+    //padding: 20px;
     box-shadow: 0 1px 15px 1px rgba(52, 40, 104, 0.18);
     background: #fff;
     border-radius: 4px;
     border: none;
     margin-bottom: 20px;
     transition: all 0.5s ease-in-out;
-    position: relative;
+   
 
-    .card-loading {
+    .ex-card-loading {
         height: 187px;
     }
 
-    .card-header {
+    .ex-card-header {
         display: flex;
         justify-content: space-between;
         margin-bottom: 10px;
@@ -67,12 +66,12 @@ export default {
         color: #393939;
     }
 
-    .card-body {
+    .ex-card-body {
         position: relative;
         display: block;
     }
 
-    .card-error {
+    .ex-card-error {
         font-size: 14px;
         color: #98a8b4;
         display: flex;
