@@ -48,4 +48,18 @@ describe('NEM 2 Explorer Header', () => {
         cy.url()
         .should('contain', `transaction/${transactionHash}`)
     })
+
+    it('search account by address should redirect to account detail page', () => {
+
+        const address = 'TB65QSXGV5FUTRPVMSCVB4RZ7FJLU32LHOOP4MDI'
+
+        cy.get('input')
+        .type(address)
+        .type('{enter}')
+
+        cy.wait(5000)
+
+        cy.url()
+        .should('contain', `account/${address}`)
+    })
 })
