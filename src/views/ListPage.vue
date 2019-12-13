@@ -51,7 +51,7 @@
                 </template>
 
                 <template #error>
-                    Unable to fetch accounts data.
+                    Unable to fetch {{storeNamespace}} data.
                 </template>
             </Card>
         </div>
