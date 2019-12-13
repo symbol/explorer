@@ -5,13 +5,13 @@
         </router-link>
         <router-link 
             v-for="item in items"
-            :key="'dsktp_mn_'+item.text"
+            :key="'dsktp_mn_'+getNameByKey(item.text)"
             class="ex-menu-item"
             :to="item.to" exact active-class="active"
         >
             <component :is="item.icon" class="menu-icon"/>
             <i :class="item.classname"></i> 
-            <span>{{item.text}}</span>
+            <span>{{getNameByKey(item.text)}}</span>
         </router-link>
     </header>
 </template>
@@ -25,7 +25,6 @@ import IconAccounts from 'vue-material-design-icons/Account.vue';
 import IconMosaics from 'vue-material-design-icons/CheckboxMultipleBlankCircle.vue';
 import IconNodes from 'vue-material-design-icons/VectorTriangle.vue';
 import IconNamespaces from 'vue-material-design-icons/Tag.vue';
-
 
 export default {
     components: {
@@ -50,11 +49,18 @@ export default {
             }
         }
     },
+
     data() {
         return {
             items: pageMenu.items,
             fixed: false, 
             scrollListener: {}
+        }
+    }, 
+
+    methods: {
+        getNameByKey(e) {
+            return this.$store.getters['ui/getNameByKey'](e)
         }
     }
 }
