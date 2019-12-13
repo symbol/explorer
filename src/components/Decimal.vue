@@ -38,7 +38,7 @@ export default {
 
 <style lang="scss" scoped>
 .decimalLight {
-  color: #98a8b48c;
+    color: #98a8b48c;
 }
 </style>
 
