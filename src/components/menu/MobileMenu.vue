@@ -30,6 +30,7 @@
                         :key="'mobl_mn_'+getNameByKey(item.text)"
                         class="ex-menu-item"
                         :to="item.to" exact active-class="active"
+                        @click="toggleMenu"
                     >
                         <component :is="item.icon" class="ex-menu-item-icon" @click="toggleMenu"/>
                         <span @click="toggleMenu">{{getNameByKey(item.text)}}</span>
