@@ -5,7 +5,7 @@
             "name": "blocks",
             "props": {
                 "storeNamespace": "block",
-                "title": "Blocks",
+                "title": "blocks",
                 "hasInfoText": true
             }
         },
@@ -14,7 +14,7 @@
             "name": "transactions",
             "props": {
                 "storeNamespace": "transaction",
-                "title": "Transactions",
+                "title": "transactions",
                 "hasFilter": true
             }
         },
@@ -23,7 +23,7 @@
             "name": "accounts",
             "props": {
                 "storeNamespace": "account",
-                "title": "Accounts",
+                "title": "accounts",
                 "hasFilter": true
             }
         },
@@ -32,7 +32,7 @@
             "name": "namespaces",
             "props": {
                 "storeNamespace": "namespace",
-                "title": "Namespaces"
+                "title": "namespaces"
             }
         },
         {
@@ -40,7 +40,7 @@
             "name": "mosaics",
             "props": {
                 "storeNamespace": "mosaic",
-                "title": "Mosaics"
+                "title": "mosaics"
             }
         }
     ]

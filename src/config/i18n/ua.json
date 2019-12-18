@@ -1,5 +1,5 @@
 {
-    "langName": "ua",
+    "langName": "Ukrainian",
     "age": "Вік",
     "aliasAction": "Дія псевдоніму",
     "linkAction": "Дія зв’язку",
@@ -22,7 +22,7 @@
     "namespace": "Простір імен",
     "namespaceName": "Ім'я",
     "transaction": "транзакція",
-    "transactionHash": "Hash транзакції",
+    "transactionHash": "Хеш транзакції",
     "transactionId": "ID транзакції",
     "totalTransactions": "Усього транзакцій",
     "transactionType": "Тип транзакції",
@@ -73,7 +73,7 @@
     "transactionBody": "Деталізація транзакції",
     "name": "Ім'я",
     "message": "Повідомлення",
-    "totalFeesPaid": "Загальна сума сплачених зборів",
+    "totalFeesPaid": "Сума сплачених зборів",
     "beneficiaryCount": "Кількість бенефіціарів",
     "importanceScore": "Оцінка важливості",
     "recalculationBlock": "Блок перерахунку №",
@@ -106,5 +106,8 @@
     "recentTransactions": "Останні транзакції",
     "viewAllBlocks": "Переглянути всі блоки",
     "viewAllTransactions": "Переглянути всі транзакції",
-    "sender": "Відправник"
+    "sender": "Відправник",
+    "More": "Більше",
+    "Less": "Меньше",
+    "Unable to fetch data": "Дані не отримано"
 }

@@ -106,5 +106,8 @@
     "recentTransactions": "Recent Transactions",
     "viewAllBlocks": "View all blocks",
     "viewAllTransactions": "View all transactions",
-    "sender": "Sender"
+    "sender": "Sender",
+    "More": "More",
+    "Less": "Less",
+    "Unable to fetch data": "Unable to fetch data"
 }
