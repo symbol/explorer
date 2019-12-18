@@ -1,11 +1,11 @@
 <template>
     <Card :loading="loading">
         <template #title>
-            XEM Price
+            {{getNameByKey('xemPrice')}}
         </template>
 
         <template #control>
-            <ButtonMore> View all statistics </ButtonMore>
+            <!--<ButtonMore> {{getNameByKey('View all statistics')}} </ButtonMore>-->
         </template>
 
         <template #body>
@@ -49,6 +49,12 @@ export default {
         },
 
         loading() { return !this.marketData.historicalHourlyGraph.length }
+    },
+
+    methods: {
+        getNameByKey(e) {
+            return this.$store.getters['ui/getNameByKey'](e)
+        }
     }
 }
 </script>
