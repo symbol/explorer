@@ -27,7 +27,10 @@
                         {{ item }}
                       </router-link>
                       <div v-else>
-                        {{ item }}
+                        <Decimal v-if="isChangeDecimalColor(itemKey)" :value="item" />
+                        <div v-else>
+                          {{ item }}
+                          </div>
                       </div>
                     </td>
                 </tr>
@@ -44,8 +47,11 @@
 
 <script>
 import TableView from './TableView.vue'
+import Decimal from '../Decimal.vue'
 export default {
   extends: TableView,
+
+  components: { Decimal },
 
   props: {
     data: {

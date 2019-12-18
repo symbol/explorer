@@ -62,7 +62,15 @@ export default {
         'targetMosaicId',
         'targetNamespaceId'
       ],
-      disableClickItems: [...Object.values(Constants.Message)]
+      disableClickItems: [...Object.values(Constants.Message)],
+      changeDecimalColor: [
+        'amount',
+        'fee',
+        'importance',
+        'relativeAmount',
+        'feeMultiplier',
+        'difficulty'
+      ]
     }
   },
 
@@ -79,6 +87,10 @@ export default {
 
     isDisableItemClick(item) {
       return this.disableClickItems.indexOf(item) !== -1
+    },
+
+    isChangeDecimalColor(itemKey) {
+      return this.changeDecimalColor.indexOf(itemKey) !== -1
     },
 
     isItemShown(itemKey, item) {
@@ -132,7 +144,7 @@ export default {
         font-size: 12px;
         letter-spacing: 1px;
     }
-    
+
     .empty-data {
         font-size: 14px;
         color: #98a8b4;
@@ -206,7 +218,7 @@ export default {
         font-weight: 600;
         text-decoration: none;
         cursor: pointer;
-        
+
         a {
             font-weight: 600;
         }

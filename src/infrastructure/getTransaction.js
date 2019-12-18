@@ -52,7 +52,7 @@ class sdkTransaction {
       status: transactionStatus.status,
       confirm: transactionStatus.group,
       timestamp: getBlockInfo.date,
-      fee: effectiveFee ? effectiveFee / 1000000 : effectiveFee
+      fee: format.formatFee(nem.UInt64.fromNumericString(effectiveFee.toString()))
     }
 
     return transactionInfo

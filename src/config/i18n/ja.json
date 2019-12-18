@@ -91,5 +91,6 @@
     "targetMosaicId": "対象モザイクID",
     "targetNamespaceId": "対象ネームスペースID",
     "type": "タイプ",
-    "valueSizeDelta": "値のサイズのデルタ"
+    "valueSizeDelta": "値のサイズのデルタ",
+    "feeMultiplier": "料金乗数"
 }
