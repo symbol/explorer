@@ -47,7 +47,10 @@ export default {
     // Determine if the accounts model is loading.
     loading: false,
     // Determine if the accounts model has an error.
-    error: false,
+    error: {
+      rich: false,
+      harvester: false
+    },
     // The Account detail information.
     accountInfo: {},
     // The Account Multisig Information.
@@ -91,7 +94,7 @@ export default {
     getTransactionList: state => state.transactionList,
     getActivityBucketList: state => state.activityBucketList,
     getMetadataList: state => state.metadataList,
-    getError: state => state.error,
+    getError: state => state.error[state.accountType],
     accountInfoLoading: state => state.accountInfoLoading,
     accountInfoError: state => state.accountInfoError,
     filterValue: state => state.accountType,
@@ -114,7 +117,8 @@ export default {
     setTransactionList: (state, transactionList) => { state.transactionList = transactionList },
     setActivityBucketList: (state, activityBucketList) => { state.activityBucketList = activityBucketList },
     setMetadataList: (state, metadataList) => { state.metadataList = metadataList },
-    setError: (state, error) => { state.error = error },
+    setError: (state, error) => { state.error[state.accountType] = error },
+    setErrorWithType: (state, { error, type }) => { state.error[type] = error },
     accountInfoLoading: (state, v) => { state.accountInfoLoading = v },
     accountInfoError: (state, v) => { state.accountInfoError = v }
   },
@@ -136,15 +140,15 @@ export default {
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit, getters }) {
       commit('setLoading', true)
-      try {
-        for (let accountType of Object.keys(TIMELINES)) {
-          const type = ACCOUNT_TYPE_MAP[accountType]
+      for (let accountType of Object.keys(TIMELINES)) {
+        const type = ACCOUNT_TYPE_MAP[accountType]
+        try {
           let data = await sdkAccount.getAccountsFromAddressWithLimit(2 * Constants.PageSize, type)
           commit('setTimelineWithType', { timeline: Timeline.fromData(data), type: accountType })
+        } catch (e) {
+          console.error(e)
+          commit('setErrorWithType', { error: true, type: accountType })
         }
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
       }
       commit('setLoading', false)
     },
@@ -193,19 +197,19 @@ export default {
     // Change the current page.
     async changePage({ commit, getters }, accountType) {
       commit('setLoading', true)
-      try {
-        if (getters.getAccountType !== accountType) {
+      if (getters.getAccountType !== accountType) {
+        try {
           if (!getters.getTimeline.isLive) {
             // Reset to the live page.
             const type = ACCOUNT_TYPE_MAP[getters.getAccountType]
             let data = await sdkAccount.getAccountsFromAddressWithLimit(2 * Constants.PageSize, type)
             commit('setTimeline', Timeline.fromData(data))
           }
-          commit('setAccountType', accountType)
+        } catch (e) {
+          console.error(e)
+          commit('setError', true)
         }
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
+        commit('setAccountType', accountType)
       }
       commit('setLoading', false)
     },
@@ -213,19 +217,19 @@ export default {
     // Reset the current page type and page index.
     async resetPage({ commit, getters }) {
       commit('setLoading', true)
-      try {
-        if (getters.getAccountType !== 'rich') {
+      if (getters.getAccountType !== 'rich') {
+        try {
           if (!getters.getTimeline.isLive) {
             // Reset to the live page.
             const type = ACCOUNT_TYPE_MAP[getters.getAccountType]
             let data = await sdkAccount.getAccountsFromAddressWithLimit(2 * Constants.PageSize, type)
             commit('setTimeline', Timeline.fromData(data))
           }
-          commit('setAccountType', 'rich')
+        } catch (e) {
+          console.error(e)
+          commit('setError', true)
         }
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
+        commit('setAccountType', 'rich')
       }
       commit('setLoading', false)
     },
