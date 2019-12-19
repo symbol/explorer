@@ -61,7 +61,13 @@ export default {
     // Determine if the transactions model is loading.
     loading: false,
     // Determine if the transactions model has an error.
-    error: false,
+    error: {
+      recent: false,
+      pending: false,
+      transfer: false,
+      multisig: false,
+      mosaic: false
+    },
     // TransactionInfo by hash.
     transactionInfo: {},
     // Transaction Body Info.
@@ -91,7 +97,7 @@ export default {
 
     getSubscription: state => state.subscription,
     getLoading: state => state.loading,
-    getError: state => state.error,
+    getError: state => state.error[state.transactionType],
     transactionInfo: state => state.transactionInfo,
     transactionDetail: state => state.transactionDetail,
     transferMosaics: state => state.transferMosaics,
@@ -117,7 +123,8 @@ export default {
 
     setSubscription: (state, subscription) => { state.subscription = subscription },
     setLoading: (state, loading) => { state.loading = loading },
-    setError: (state, error) => { state.error = error },
+    setError: (state, error) => { state.error[state.transactionType] = error },
+    setErrorWithType: (state, { error, type }) => { state.error[type] = error },
     addLatestItem(state, item) {
       // TODO(ahuszagh) Actually implement...
     },
@@ -175,18 +182,18 @@ export default {
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit, getters }) {
       commit('setLoading', true)
-      try {
-        for (let transactionType of Object.keys(TIMELINES)) {
-          const type = TRANSACTION_TYPE_MAP[transactionType]
+      for (let transactionType of Object.keys(TIMELINES)) {
+        const type = TRANSACTION_TYPE_MAP[transactionType]
+        try {
           let data = await sdkTransaction.getTransactionsFromHashWithLimit(2 * Constants.PageSize, type)
           if (transactionType === 'recent') {
             commit('setLatestList', data.slice(0, Constants.PageSize))
           }
           commit('setTimelineWithType', { timeline: Timeline.fromData(data), type: transactionType })
+        } catch (e) {
+          console.error(e)
+          commit('setErrorWithType', { error: true, type: transactionType })
         }
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
       }
       commit('setLoading', false)
     },
@@ -235,19 +242,19 @@ export default {
     // Change the current page.
     async changePage({ commit, getters }, transactionType) {
       commit('setLoading', true)
-      try {
-        if (getters.getTransactionType !== transactionType) {
+      if (getters.getTransactionType !== transactionType) {
+        try {
           if (!getters.getTimeline.isLive) {
             // Reset to the live page.
             const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
             let data = await sdkTransaction.getTransactionsFromHashWithLimit(Constants.PageSize, type)
             commit('setTimeline', Timeline.fromData(data))
           }
-          commit('setTransactionType', transactionType)
+        } catch (e) {
+          console.error(e)
+          commit('setError', true)
         }
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
+        commit('setTransactionType', transactionType)
       }
       commit('setLoading', false)
     },
@@ -255,19 +262,19 @@ export default {
     // Reset the current page type and page index.
     async resetPage({ commit, getters }) {
       commit('setLoading', true)
-      try {
-        if (getters.getTransactionType !== 'recent') {
+      if (getters.getTransactionType !== 'recent') {
+        try {
           if (!getters.getTimeline.isLive) {
             // Reset to the live page.
             const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
             let data = await sdkTransaction.getTransactionsFromHashWithLimit(Constants.PageSize, type)
             commit('setTimeline', Timeline.fromData(data))
           }
-          commit('setTransactionType', 'recent')
+        } catch (e) {
+          console.error(e)
+          commit('setError', true)
         }
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
+        commit('setTransactionType', 'recent')
       }
       commit('setLoading', false)
     },
