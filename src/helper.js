@@ -42,13 +42,7 @@ class helper {
   }
 
   static isHexadecimal(str) {
-    let regexp = /^[0-9a-fA-F]+$/
-
-    if (regexp.test(str)) {
-      return true
-    } else {
-      return false
-    }
+    return /^[0-9a-fA-F]+$/.test(str)
   }
 
   static validURL(_str) {
