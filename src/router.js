@@ -19,15 +19,18 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import listPages from './config/list-pages'
+import detailPages from './config/detail-pages'
 
 Vue.use(Router)
 
 const listPagesRoutes = listPages.pages.map( page => ({ ...page, component: () => import('./views/ListPage.vue') }))
+const detailPagesRoutes = detailPages.pages.map( page => ({ ...page, component: () => import('./views/DetailPage.vue') }))
 
 const routerConfig = {
   mode: 'history',
   routes: [
     ...listPagesRoutes,
+    ...detailPagesRoutes,
     {
       path: '/',
       name: 'home',

@@ -1,0 +1,263 @@
+{
+    "pages": [
+        {
+            "path": "/account/:address",
+            "name": "account-detail",
+            "props": {
+                "schema": [
+                    {
+                        "type": "Card",
+                        "title": "Account Detail",
+                        "fullWidth": true,
+                        "filter": false,
+                        "body": "TableInfoView",
+                        "data": "account/getAccountInfo",
+                        "pagination": false,
+                        "loading": "account/accountInfoLoading",
+                        "error": "account/accountInfoError",
+                        "errorMessage": "Account does not exist"        
+                    },
+                    {
+                        "type": "Card",
+                        "title": "Multisig Cosignatories",
+                        "fullWidth": false,
+                        "filter": false,
+                        "body": "TableListView",
+                        "data": "account/getAccountMultisigCosignatories",
+                        "pagination": true,
+                        "pageSize": 5,
+                        "loading": "account/accountInfoLoading"        
+                    },
+                    {
+                        "type": "Card",
+                        "title": "Owned Mosaics",
+                        "fullWidth": false,
+                        "filter": false,
+                        "body": "TableListView",
+                        "data": "account/getMosaicList",
+                        "pagination": true,
+                        "pageSize": 5,
+                        "loading": "account/accountInfoLoading"        
+                    },
+                    {
+                        "type": "Card",
+                        "title": "Owned Namespaces",
+                        "fullWidth": false,
+                        "filter": false,
+                        "body": "TableListView",
+                        "data": "account/getNamespaceList",
+                        "pagination": true,
+                        "pageSize": 5,
+                        "loading": "account/accountInfoLoading"        
+                    },
+                    {
+                        "type": "Card",
+                        "title": "Metadata Entries",
+                        "fullWidth": true,
+                        "filter": false,
+                        "body": "TableListView",
+                        "data": "account/getMetadataList",
+                        "pagination": true,
+                        "pageSize": 5,
+                        "loading": "account/accountInfoLoading"        
+                    },
+                    {
+                        "type": "Card",
+                        "title": "Importance History",
+                        "fullWidth": true,
+                        "filter": false,
+                        "body": "TableListView",
+                        "data": "account/getActivityBucketList",
+                        "pagination": true,
+                        "pageSize": 5,
+                        "loading": "account/accountInfoLoading"        
+                    },
+                    {
+                        "type": "Card",
+                        "title": "Transactions",
+                        "fullWidth": true,
+                        "filter": true,
+                        "filterOptions": "",
+                        "filterValue": "",
+                        "filterChange": "",
+                        "body": "TableListView",
+                        "data": "account/getTransactionList",
+                        "pagination": true,
+                        "pageSize": 5,
+                        "loading": "account/accountInfoLoading"        
+                    }
+                ]
+            }
+        },
+        {
+            "path": "/block/:height",
+            "name": "block-detail",
+            "props": {
+                "schema": [
+                    {
+                        "type": "Card",
+                        "title": "Block Detail",
+                        "fullWidth": true,
+                        "filter": false,
+                        "body": "TableInfoView",
+                        "data": "block/blockInfo",
+                        "pagination": false,
+                        "loading": "block/blockInfoLoading",
+                        "error": "block/blockInfoError",
+                        "errorMessage": "Block does not exist"        
+                    },
+                    {
+                        "type": "Card",
+                        "title": "Block Transactions",
+                        "fullWidth": true,
+                        "filter": false,
+                        "body": "TableListView",
+                        "data": "block/blockTransactionList",
+                        "pagination": true,
+                        "pageSize": 5,
+                        "loading": "block/blockInfoLoading"       
+                    }
+                ]
+            }
+        },
+        {
+            "path": "/mosaic/:mosaicId",
+            "name": "mosaic-detail",
+            "props": {
+                "schema": [
+                    {
+                        "type": "Card",
+                        "title": "Mosaic Detail",
+                        "fullWidth": true,
+                        "filter": false,
+                        "body": "TableInfoView",
+                        "data": "mosaic/getMosaicInfo",
+                        "pagination": false,
+                        "loading": "mosaic/mosaicInfoLoading",
+                        "error": "mosaic/mosaicInfoError",
+                        "errorMessage": "Mosaic does not exist"        
+                    },
+                    {
+                        "type": "Card",
+                        "title": "Metadata Entries",
+                        "fullWidth": true,
+                        "filter": false,
+                        "body": "TableListView",
+                        "data": "mosaic/getMetadataList",
+                        "pagination": true,
+                        "pageSize": 5,
+                        "loading": "mosaic/mosaicInfoLoading"       
+                    }
+                ]
+            }
+        },
+        {
+            "path": "/namespace/:namespaceId",
+            "name": "namespace-detail",
+            "props": {
+                "schema": [
+                    {
+                        "type": "Card",
+                        "title": "Namespace Detail",
+                        "fullWidth": true,
+                        "filter": false,
+                        "body": "TableInfoView",
+                        "data": "namespace/getNamespaceInfo",
+                        "pagination": false,
+                        "loading": "namespace/namespaceInfoLoading",
+                        "error": "namespace/namespaceInfoError",
+                        "errorMessage": "Namespace does not exist"        
+                    },
+                    {
+                        "type": "Card",
+                        "title": "Namespace Level",
+                        "fullWidth": true,
+                        "filter": false,
+                        "body": "TableListView",
+                        "data": "namespace/getNamespaceLevels",
+                        "pagination": false,
+                        "loading": "namespace/namespaceInfoLoading"      
+                    },
+                    {
+                        "type": "Card",
+                        "title": "Metadata Entries",
+                        "fullWidth": true,
+                        "filter": false,
+                        "body": "TableListView",
+                        "data": "namespace/getMetadataList",
+                        "pagination": true,
+                        "pageSize": 5,
+                        "loading": "namespace/namespaceInfoLoading"       
+                    }
+                ]
+            }
+        },
+        {
+            "path": "/transaction/:transactionHash",
+            "name": "transaction-detail",
+            "props": {
+                "schema": [
+                    {
+                        "type": "Card",
+                        "title": "Transaction Info",
+                        "fullWidth": true,
+                        "filter": false,
+                        "body": "TableInfoView",
+                        "data": "transaction/transactionInfo",
+                        "pagination": false,
+                        "loading": "transaction/transactionInfoLoading",
+                        "error": "transaction/transactionInfoError",
+                        "errorMessage": "Transaction does not exist"        
+                    },
+                    {
+                        "type": "Card",
+                        "title": "Transaction Detail",
+                        "fullWidth": false,
+                        "filter": false,
+                        "body": "TableInfoView",
+                        "data": "transaction/transactionDetail",
+                        "hideEmptyData": true,
+                        "pagination": false,
+                        "loading": "transaction/transactionInfoLoading"      
+                    },
+                    {
+                        "type": "Card",
+                        "title": "Mosaics",
+                        "fullWidth": false,
+                        "filter": false,
+                        "body": "TableListView",
+                        "data": "transaction/transferMosaics",
+                        "hideEmptyData": true,
+                        "pagination": true,
+                        "pageSize": 5,
+                        "loading": "transaction/transactionInfoLoading"      
+                    },
+                    {
+                        "type": "Card",
+                        "title": "Aggregate Inner Transactions",
+                        "fullWidth": true,
+                        "filter": false,
+                        "body": "TableListView",
+                        "data": "transaction/aggregateInnerTransactions",
+                        "hideEmptyData": true,
+                        "pagination": true,
+                        "pageSize": 5,
+                        "loading": "transaction/transactionInfoLoading"       
+                    },
+                    {
+                        "type": "Card",
+                        "title": "Aggregate Cosignatures",
+                        "fullWidth": true,
+                        "filter": false,
+                        "body": "TableListView",
+                        "data": "transaction/aggregateCosignatures",
+                        "hideEmptyData": true,
+                        "pagination": true,
+                        "pageSize": 5,
+                        "loading": "transaction/transactionInfoLoading"       
+                    }
+                ]
+            }
+        }
+    ]
+}
