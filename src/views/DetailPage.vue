@@ -15,12 +15,20 @@
                     </template>
 
                     <template #control>
-                        <DropDown
-                            v-if="item.filter"
-                            :value="getter(item.filterValue)"
-                            :options="getter(item.filterOptions)"
-                            @change="getter(item.filterChange)"
-                        />
+                        <template v-for="(headerItem, headerIndex) in item.header">
+                            <DropDown
+                                v-if="headerItem.type === 'filter'"
+                                :value="getter(headerItem.filterValue)"
+                                :options="getter(headerItem.filterOptions)"
+                                @change="getter(headerItem.filterChange)"
+                                :key="item.title + index + 'h' + headerIndex"
+                            />
+                            <Pagination
+                                v-else-if="headerItem.type === 'Pagination'"
+                                v-bind="headerItem"
+                                :key="item.title + index + 'h' + headerIndex"
+                            />
+                        </template>
                     </template>
 
                     <template #body v-if="item.body">
