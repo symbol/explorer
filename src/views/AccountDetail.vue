@@ -150,27 +150,6 @@ export default {
       return this.$route.params.address || 0;
     },
 
-    showDeatail() {
-      return !this.error && this.accountInfo;
-    },
-    showMultiSigDeatail() {
-      return !this.error && this.accountMultisigCosignatories?.length;
-    },
-    showMosaics() {
-      return !this.error && this.mosaicList?.length;
-    },
-    showNamespaces() {
-      return !this.error && this.namespaceList?.length;
-    },
-    showActivityBucketList() {
-      return !this.error && this.activityBucketList?.length;
-    },
-    showTransactions() {
-      return !this.error;
-    },
-    showMetadatas() {
-      return !this.error && this.metadataList?.length;
-    },
 
     filteredTransactionList() {
       if (Array.isArray(this.transactionList)) {
