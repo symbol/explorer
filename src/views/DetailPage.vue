@@ -11,7 +11,7 @@
                     :key="item.title + index"
                 >
                     <template #title>
-                        {{item.title}}
+                        {{getNameByKey(item.title)}}
                     </template>
 
                     <template #control>
@@ -83,6 +83,10 @@ export default {
 
         isItemShown(item) {
             return !item.hideEmptyData || this.getter(item.data)?.length > 0;
+        },
+
+        getNameByKey(e) {
+            return this.$store.getters['ui/getNameByKey'](e)
         }
     }
 

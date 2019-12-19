@@ -109,5 +109,22 @@
     "sender": "Sender",
     "More": "More",
     "Less": "Less",
-    "Unable to fetch data": "Unable to fetch data"
+    "Unable to fetch data": "Unable to fetch data",
+    "Account Detail": "Account Detail",
+    "Multisig Cosignatories": "Multisig Cosignatories",
+    "Owned Mosaics": "Owned Mosaics",
+    "Owned Namespaces": "Owned Namespaces",
+    "Metadata Entries": "Metadata Entries",
+    "Importance History": "Importance History",
+    "Transactions": "Transactions",
+    "Block Detail": "Block Detail",
+    "Block Transactions": "Block Transactions",
+    "Mosaic Detail": "Mosaic Detail",
+    "Namespace Detail": "Namespace Detail",
+    "Namespace Level": "Namespace Level",
+    "Transaction Info": "Transaction Info",
+    "Transaction Detail": "Transaction Detail",
+    "Mosaics": "Mosaics",
+    "Aggregate Inner Transactions": "Aggregate Inner Transactions",
+    "Aggregate Cosignatures": "Aggregate Cosignatures"
 }
