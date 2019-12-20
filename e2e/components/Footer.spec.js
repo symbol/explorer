@@ -1,16 +1,16 @@
-describe('NEM 2 Explorer Footer', () => {
+describe('NEM2 Explorer Footer should', () => {
     beforeEach(() => {
         cy.visit('/')
     })
 
-    it('click on NEM News', () => {
+    it('link to correct nemflash.io given click on NEM News', () => {
         cy.get('.footer').contains('NEM News')
         .click()
         .should('have.attr', 'href')
         .and('include', 'nemflash.io')
     })
 
-    it('click on Forum', () => {
+    it('link to correct forum.nem.io given click on Forum', () => {
         cy.get('.footer')
         .contains('Forum')
         .click()
@@ -18,7 +18,7 @@ describe('NEM 2 Explorer Footer', () => {
         .and('include', 'forum.nem.io')
     })
 
-    it('click on Github', () => {
+    it('link to correct nemtech github given click on Github', () => {
         cy.get('.footer')
         .contains('Github')
         .click()
@@ -26,7 +26,7 @@ describe('NEM 2 Explorer Footer', () => {
         .and('include', 'github.com/nemtech')
     })
 
-    it('click on Telegram', () => {
+    it('link to correct nemred telegram given click on Telegram', () => {
         cy.get('.footer')
         .contains('Telegram')
         .click()
@@ -34,7 +34,7 @@ describe('NEM 2 Explorer Footer', () => {
         .and('include', 't.me/nemred')
     })
 
-    it('click on Reddit', () => {
+    it('link to correct /r/nem/ reddit given click on Reddit', () => {
         cy.get('.footer')
         .contains('Reddit')
         .click()
@@ -42,7 +42,7 @@ describe('NEM 2 Explorer Footer', () => {
         .and('include', 'reddit.com/r/nem')
     })
 
-    it('click on Terms', () => {
+    it('link to correct terms page given click on Terms', () => {
         cy.get('.footer')
         .contains('Terms')
         .click()
@@ -51,7 +51,7 @@ describe('NEM 2 Explorer Footer', () => {
         .should('contain', '/terms')
     })
 
-    it('click on Privacy', () => {
+    it('link to correct privacy page given click on Privacy', () => {
         cy.get('.footer')
         .contains('Privacy')
         .click()
@@ -60,8 +60,8 @@ describe('NEM 2 Explorer Footer', () => {
         .should('contain', '/privacy')
     })
 
-    it('click on Node Selector', () => {
-        // Todo: Anthony
+    it('contain Node Selector component', () => {
+        cy.get('.node-selector')
     })
 
 })

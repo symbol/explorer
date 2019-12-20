@@ -9,17 +9,17 @@
                     <router-link to="/" >
                         <img src="/theme/img/logo-w.png" class="header-logo"/>
                     </router-link>
-                
+
                     <div class="header-title">
                         Nem blockchain explorer
                     </div>
                     <div class="header-sub-title">
                         Search transactions, addresses, namespace & mosaic on the nem network.
                     </div>
-                    <SearchBox />
+                    <SearchBox class='search-box' />
                 </b-col>
                 <b-col md="3" class="header-left">
-                    <LanguageSelector class="d-none d-md-block"/>
+                    <LanguageSelector class="d-none d-md-block language-selector"/>
                 </b-col>
             </b-row>
         </b-container>
@@ -64,13 +64,13 @@ export default {
     .ex-header {
         padding: 5px 0;
         padding-top: 15px;
-    }   
+    }
 }
 
 @media (min-width: 764px) {
     .ex-header {
         padding: 10px 60px;
-    }   
+    }
 }
 
 .ex-header {

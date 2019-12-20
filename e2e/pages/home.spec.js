@@ -1,5 +1,5 @@
 // cypress/integration/spec.js
-describe('NEM 2 Explorer Home Page', () => {
+describe('NEM 2 Explorer Home Page should', () => {
   beforeEach(() => {
     cy.visit('/')
   })
