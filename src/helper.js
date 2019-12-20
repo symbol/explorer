@@ -16,6 +16,8 @@
  *
  */
 
+const Url = require('url-parse');
+
 class helper {
   static timeSince(interval) {
     if (interval.years > 1) {
@@ -42,43 +44,27 @@ class helper {
   }
 
   static isHexadecimal(str) {
-    let regexp = /^[0-9a-fA-F]+$/
-
-    if (regexp.test(str)) {
-      return true
-    } else {
-      return false
-    }
+    return /^[0-9a-fA-F]+$/.test(str)
   }
 
-  static validURL(_str) {
-    if (typeof _str === 'string') {
-      let str = _str.replace('ws', 'http')
-      let pattern = new RegExp('^(https?:\\/\\/)?' + // protocol
-        '((([a-z\\d]([a-z\\d-]*[a-z\\d])*)\\.?)+[a-z]{2,}|' + // domain name
-        '((\\d{1,3}\\.){3}\\d{1,3}))' + // OR ip (v4) address
-        '(\\:\\d+)?(\\/[-a-z\\d%_.~+]*)*' + // port and path
-        '(\\?[;&a-z\\d%_.~+=-]*)?' + // query string
-        '(\\#[-a-z\\d_]*)?$', 'i') // fragment locator
-      return !!pattern.test(str)
-    }
+  static validURL(url) {
+    // All we expect is there is a valid origin for the url, IE,
+    // the origin is not 'null'.
+    return url.origin !== 'null'
   }
 
-  static formatUrl(rawUrl) {
-    if (this.validURL(rawUrl)) {
-      let url = new URL(rawUrl)
-      return {
-        protocol: url.protocol,
-        hostname: url.hostname,
-        port: url.port,
-        url: rawUrl
-      }
-    }
-  }
-
-  static httpToWsUrl(url) {
+  static parseUrl(str) {
+    let url = new Url(str)
     if (this.validURL(url)) {
-      return url.replace('http', 'ws')
+      return url
+    }
+  }
+
+  static httpToWsUrl(str) {
+    let url = new Url(str)
+    if (this.validURL(url)) {
+      url.set('protocol', 'ws:')
+      return url
     }
   }
 

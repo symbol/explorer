@@ -44,8 +44,8 @@ export default {
 
     options() {
       let options = {};
-      this.nodeList.forEach(node => 
-        { options[node.url] = node.hostname }
+      this.nodeList.forEach(node =>
+        { options[node.toString()] = node.hostname }
       );
       return options;
     },

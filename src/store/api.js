@@ -30,22 +30,22 @@ export default {
     // If the global state has been initialized.
     initialized: false,
     nodes: [...PEERS_API.nodes],
-    defaultNode: helper.formatUrl(PEERS_API.defaultNode.url),
-    currentNode: helper.formatUrl(PEERS_API.defaultNode.url),
-    wsEndpoint: PEERS_API.defaultNode.url |> helper.httpToWsUrl |> helper.formatUrl,
-    marketData: helper.formatUrl(ENDPOINTS.MARKET_DATA)
+    defaultNode: helper.parseUrl(PEERS_API.defaultNode),
+    currentNode: helper.parseUrl(PEERS_API.defaultNode),
+    wsEndpoint: PEERS_API.defaultNode |> helper.httpToWsUrl,
+    marketData: helper.parseUrl(ENDPOINTS.MARKET_DATA)
   },
 
   getters: {
     getInitialized: state => state.initialized,
     nodes: state =>
       Array.isArray(state.nodes)
-        ? state.nodes.map(node => helper.formatUrl(node.url))
+        ? state.nodes.map(node => helper.parseUrl(node))
         : [],
-    currentNode: state => state.currentNode,
+    currentNode: state => state.currentNode.toString(),
     currentNodeHostname: state => state.currentNode.hostname,
-    wsEndpoint: state => state.wsEndpoint,
-    marketData: state => state.marketData
+    wsEndpoint: state => state.wsEndpoint.toString(),
+    marketData: state => state.marketData.toString()
   },
 
   mutations: {
@@ -53,8 +53,8 @@ export default {
     mutate: (state, { key, value }) => Vue.set(state, key, value),
     currentNode: (state, payload) => {
       if (undefined !== payload) {
-        let currentNode = helper.formatUrl(payload)
-        let wsEndpoint = currentNode.url |> helper.httpToWsUrl |> helper.formatUrl
+        let currentNode = helper.parseUrl(payload)
+        let wsEndpoint = currentNode.toString() |> helper.httpToWsUrl
         Vue.set(state, 'currentNode', currentNode)
         Vue.set(state, 'wsEndpoint', wsEndpoint)
       }
@@ -64,8 +64,8 @@ export default {
   actions: {
     async initialize({ commit, dispatch, getters }) {
       const callback = async () => {
-        const nodeUrl = getters['currentNode'].url
-        const marketDataUrl = getters['marketData'].url
+        const nodeUrl = getters['currentNode']
+        const marketDataUrl = getters['marketData']
         http.init(nodeUrl, marketDataUrl)
       }
       await LOCK.initialize(callback, commit, dispatch, getters)
