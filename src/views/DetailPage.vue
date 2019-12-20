@@ -3,7 +3,7 @@
         <div class="page-content-card-f">
             <template v-for="(item, index) in schema">
                 <Card
-                    v-if="isItemShown(item)"
+                    v-if="item.type === 'Card' && isItemShown(item)"
                     class="card-f"
                     :class="{'card-full-width': item.fullWidth, 'card-adaptive': !item.fullWidth}"
                     :loading="getter(item.loadingGetter)"
@@ -46,6 +46,7 @@
                         {{prop}}
                     </template>
                 </Card>
+                <component v-else-if="isItemShown(item)" :is="item.type" v-bind="item" :key="'comp'+index"/>
             </template>
             
         </div>
@@ -82,7 +83,6 @@ export default {
         },
 
         action(actionName, value) {
-            console.log(actionName, value)
             this.$store.dispatch(actionName, value)
         },
 

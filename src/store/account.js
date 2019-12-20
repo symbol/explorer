@@ -93,7 +93,16 @@ export default {
     getAccountMultisigCosignatories: state => state.accountMultisigCosignatories,
     getNamespaceList: state => state.namespaceList,
     getMosaicList: state => state.mosaicList,
-    getTransactionList: state => state.transactionList,
+    getTransactionList: state => {
+      let transactions = state.transactionList
+      let filter = state.transactionFilterValue
+      if(Array.isArray(transactions) && filter != 0)
+        return transactions.filter(
+          transaction =>
+            transaction.transactionType?.toUpperCase().indexOf(filter) !== -1
+        )
+      return transactions
+    },
     getActivityBucketList: state => state.activityBucketList,
     getMetadataList: state => state.metadataList,
     getError: state => state.error[state.accountType],
