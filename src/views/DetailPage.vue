@@ -6,8 +6,8 @@
                     v-if="isItemShown(item)"
                     class="card-f"
                     :class="{'card-full-width': item.fullWidth, 'card-adaptive': !item.fullWidth}"
-                    :loading="getter(item.loading)"
-                    :error="getter(item.error)"
+                    :loading="getter(item.loadingGetter)"
+                    :error="getter(item.errorGetter)"
                     :key="item.title + index"
                 >
                     <template #title>
@@ -18,9 +18,9 @@
                         <template v-for="(headerItem, headerIndex) in item.header">
                             <DropDown
                                 v-if="headerItem.type === 'filter'"
-                                :value="getter(headerItem.filterValue)"
-                                :options="getter(headerItem.filterOptions)"
-                                @change="getter(headerItem.filterChange)"
+                                :value="getter(headerItem.filterValueGetter)"
+                                :options="getter(headerItem.filterOptionsGetter)"
+                                @change="action(headerItem.filterChangeAction, $event)"
                                 :key="item.title + index + 'h' + headerIndex"
                             />
                             <Pagination
@@ -34,7 +34,7 @@
                     <template #body v-if="item.body">
                         <component 
                             :is="item.body" 
-                            :data="getter(item.data)" 
+                            :data="getter(item.dataGetter)" 
                             :pagination="item.pagination" 
                             :pageSize="item.pageSize"
                         />
@@ -81,8 +81,13 @@ export default {
                 return this.$store.getters[e];
         },
 
+        action(actionName, value) {
+            console.log(actionName, value)
+            this.$store.dispatch(actionName, value)
+        },
+
         isItemShown(item) {
-            return !item.hideEmptyData || this.getter(item.data)?.length > 0;
+            return !item.hideEmptyData || this.getter(item.dataGetter)?.length > 0;
         },
 
         getNameByKey(e) {

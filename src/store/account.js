@@ -69,7 +69,9 @@ export default {
     // The Account Created mosaic.
     createdMosaics: [], // Wait for Rest team apply,
     accountInfoLoading: false,
-    accountInfoError: false
+    accountInfoError: false,
+
+    transactionFilterValue: 0
   },
   getters: {
     getInitialized: state => state.initialized,
@@ -101,7 +103,14 @@ export default {
     filterOptions: () => ({
       'rich': 'Rich List',
       'harvester': 'Harvester List'
-    })
+    }),
+    transactionFilterOptions: () => ({
+      0: "All transactions",
+      "MOSAIC": "Mosaic transactions",
+      "NAMESPACE": "Namespace transactions",
+      "TRANSFER": "Transfers"
+    }),
+    transactionFilterValue: state => state.transactionFilterValue
   },
   mutations: {
     setInitialized: (state, initialized) => { state.initialized = initialized },
@@ -120,7 +129,8 @@ export default {
     setError: (state, error) => { state.error[state.accountType] = error },
     setErrorWithType: (state, { error, type }) => { state.error[type] = error },
     accountInfoLoading: (state, v) => { state.accountInfoLoading = v },
-    accountInfoError: (state, v) => { state.accountInfoError = v }
+    accountInfoError: (state, v) => { state.accountInfoError = v },
+    transactionFilterValue: (state, v) => state.transactionFilterValue = v
   },
   actions: {
     // Initialize the account model.
@@ -140,6 +150,7 @@ export default {
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit, getters }) {
       commit('setLoading', true)
+      commit('transactionFilterValue', 0)
       for (let accountType of Object.keys(TIMELINES)) {
         const type = ACCOUNT_TYPE_MAP[accountType]
         try {
@@ -248,6 +259,7 @@ export default {
       commit('setAccountMultisigCosignatories', [])
       commit('setActivityBucketList', [])
       commit('setMetadataList', [])
+      commit('transactionFilterValue', 0)
 
       // Fetch account info from SDK
       let accountInfo
@@ -270,6 +282,10 @@ export default {
 
       // Loading end
       commit('accountInfoLoading', false)
+    },
+
+    setTransactionFilterValue({commit}, v) {
+      commit('transactionFilterValue', v)
     }
   }
 }
