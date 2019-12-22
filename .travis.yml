@@ -4,8 +4,13 @@ node_js:
   - "9"
   - "10"
 cache:
+  npm: true
   directories:
-    - "node_modules"
+    - ./node_modules
+  override:
+    - npx cypress verify
+before_install:
+  - npm i -g npm@6.13.4
 before_script:
   - npm run build
 script:
