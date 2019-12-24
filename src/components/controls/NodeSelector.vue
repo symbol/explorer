@@ -1,27 +1,4 @@
 <template>
-    <!--<div class="noselect">
-        <div class="lang-swtch dropdown node-selector">
-            <a class="dropdown-toggle">
-                Node : {{currentNode}}
-            </a>
-            <div
-                ref="nodeSelector"
-                class="dropdown-menu dropdown-menu-right node-selector-menu"
-            >
-                <a
-                    v-for="(node, index) in nodeList"
-                    class="dropdown-item node-selector-item"
-                    href="#"
-                    :title="node.url"
-                    :key="'ns'+node.host + index"
-                    @click="setNode(node.url)"
-                    @mousedown="prevent"
-                >
-                {{node.hostname}}
-                </a>
-            </div>
-        </div>
-    </div>-->
     <Dropdown
       :options="options"
       :dark="true"
