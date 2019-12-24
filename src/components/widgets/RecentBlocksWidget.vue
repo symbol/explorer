@@ -1,7 +1,7 @@
 <template>
     <Card :loading="loading">
         <template #title>
-            Recent Blocks
+            {{getNameByKey('Recent Blocks')}}
         </template>
 
         <template #control>

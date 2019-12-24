@@ -1,7 +1,7 @@
 <template>
     <Card :loading="loading">
         <template #title>
-            Recent Transactions
+            {{getNameByKey('Recent Transactions')}}
         </template>
 
         <template #control>
