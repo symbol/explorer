@@ -38,36 +38,6 @@ const routerConfig = {
         import('./views/Home.vue')
     },
     {
-      path: '/block/:height',
-      name: 'block-detail',
-      component: () =>
-        import('./views/BlockDetail.vue')
-    },
-    {
-      path: '/transaction/:transactionHash',
-      name: 'transaction-detail',
-      component: () =>
-        import('./views/TransactionDetail.vue')
-    },
-    {
-      path: '/account/:address',
-      name: 'account-detail',
-      component: () =>
-        import('./views/AccountDetail.vue')
-    },
-    {
-      path: '/namespace/:namespaceId',
-      name: 'namespace-detail',
-      component: () =>
-        import('./views/NamespaceDetail.vue')
-    },
-    {
-      path: '/mosaic/:mosaicId',
-      name: 'mosaic-detail',
-      component: () =>
-        import('./views/MosaicDetail.vue')
-    },
-    {
       path: '/nodes',
       name: 'nodes',
       component: () =>
