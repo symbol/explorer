@@ -6,7 +6,8 @@
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "lint:css": "stylelint '**/*.vue' src/styles/main.scss --syntax scss"
+    "lint:css": "stylelint '**/*.vue' src/styles/main.scss --syntax scss",
+    "test:e2e": "vue-cli-service test:e2e --headless"
   },
   "dependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.6.0",
@@ -31,10 +32,12 @@
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^3.9.0",
+    "@vue/cli-plugin-e2e-cypress": "^4.1.1",
     "@vue/cli-plugin-eslint": "^3.9.0",
     "@vue/cli-service": "^3.9.0",
     "@vue/eslint-config-standard": "^4.0.0",
     "babel-eslint": "^10.0.1",
+    "cypress": "^3.7.0",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
     "node-sass": "^4.12.0",
