@@ -96,7 +96,7 @@ export default {
     getTransactionList: state => {
       let transactions = state.transactionList
       let filter = state.transactionFilterValue
-      if(Array.isArray(transactions) && filter != 0)
+      if(Array.isArray(transactions) && filter !== 0 && filter !== null)
         return transactions.filter(
           transaction =>
             transaction.transactionType?.toUpperCase().indexOf(filter) !== -1
@@ -139,7 +139,7 @@ export default {
     setErrorWithType: (state, { error, type }) => { state.error[type] = error },
     accountInfoLoading: (state, v) => { state.accountInfoLoading = v },
     accountInfoError: (state, v) => { state.accountInfoError = v },
-    transactionFilterValue: (state, v) => state.transactionFilterValue = v
+    transactionFilterValue: (state, v) => { state.transactionFilterValue = v }
   },
   actions: {
     // Initialize the account model.

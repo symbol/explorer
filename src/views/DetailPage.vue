@@ -56,7 +56,6 @@
 <script>
 import View from './View.vue'
 import MetadataEntries from '../components/MetadataEntries'
-import { mapGetters } from 'vuex'
 
 export default {
     extends: View,
@@ -73,6 +72,7 @@ export default {
         prop() {
             for(let key in this.$route.params)
                 return this.$route.params[key];
+            return null;
         }
     },
 
