@@ -9,7 +9,7 @@ describe('NEM 2 Explorer Home Page should', () => {
     cy.contains('XEM Price')
 
     // view all statistic button is clickable
-    cy.contains('View all statistics').click()
+    // cy.contains('View all statistics').click()
     // cy.url().should('contain', '/statistics')
 
     // xem price chart is visible
