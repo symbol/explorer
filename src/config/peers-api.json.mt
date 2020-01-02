@@ -1,5 +1,5 @@
 {
-    "defaultNode": "http://api-01.mt.us-west-2.nemtech.network:3000",
+    "defaultNode": "http://api-harvest-20.us-west-1.nemtech.network:3000",
     "nodes": [
         "http://api-01.mt.us-west-2.nemtech.network:3000",
         "http://52.194.207.217:3000",

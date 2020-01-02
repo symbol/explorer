@@ -37,7 +37,7 @@
                         </ul>
                     </b-col>
                     <b-col lg="4" class="vertical-center">
-                      <NodeSelector style="float: right; width: 100%"/>
+                      <NodeSelector class="node-selector" style="float: right; width: 100%"/>
                     </b-col>
                 </b-row>
                 <NemCopyright />
