@@ -11,10 +11,10 @@
                     </router-link>
 
                     <div class="header-title">
-                        Nem blockchain explorer
+                        {{getNameByKey('Nem blockchain explorer')}}
                     </div>
                     <div class="header-sub-title">
-                        Search transactions, addresses, namespace & mosaic on the nem network.
+                        {{getNameByKey('Search transactions, addresses, namespace & mosaic on the nem network.')}}
                     </div>
                     <SearchBox class='search-box' />
                 </b-col>
@@ -35,7 +35,13 @@ export default {
     components: {
         SearchBox,
         LanguageSelector
-    }
+    },
+
+    methods: {
+        getNameByKey(e) {
+            return this.$store.getters['ui/getNameByKey'](e)
+        }
+    },
 }
 </script>
 

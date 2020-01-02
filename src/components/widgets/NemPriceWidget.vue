@@ -1,11 +1,11 @@
 <template>
     <Card :loading="loading">
         <template #title>
-            XEM Price
+            {{getNameByKey('xemPrice')}}
         </template>
 
         <template #control>
-            <ButtonMore> View all statistics </ButtonMore>
+            <!--<ButtonMore> {{getNameByKey('View all statistics')}} </ButtonMore>-->
         </template>
 
         <template #body>
@@ -23,14 +23,12 @@
 
 <script>
 import Card from '@/components/containers/Card.vue'
-import ButtonMore from '@/components/controls/ButtonMore.vue'
 import Chart from '@/components/Chart.vue'
 import { mapGetters } from 'vuex'
 
 export default {
     components: { 
         Card, 
-        ButtonMore,
         Chart 
     },
 
@@ -49,6 +47,12 @@ export default {
         },
 
         loading() { return !this.marketData.historicalHourlyGraph.length }
+    },
+
+    methods: {
+        getNameByKey(e) {
+            return this.$store.getters['ui/getNameByKey'](e)
+        }
     }
 }
 </script>

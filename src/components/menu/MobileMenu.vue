@@ -27,12 +27,13 @@
                 <div class="drawer-body">
                     <router-link 
                         v-for="item in items"
-                        :key="'mobl_mn_'+item.text"
+                        :key="'mobl_mn_'+getNameByKey(item.text)"
                         class="ex-menu-item"
                         :to="item.to" exact active-class="active"
+                        @click="toggleMenu"
                     >
                         <component :is="item.icon" class="ex-menu-item-icon" @click="toggleMenu"/>
-                        <span @click="toggleMenu">{{item.text}}</span>
+                        <span @click="toggleMenu">{{getNameByKey(item.text)}}</span>
                     </router-link>
                 </div>
             </div>
@@ -78,11 +79,15 @@ export default {
             showDrawer: false,
             scrolled: true
         }
-    },
+    }, 
 
     methods: {
         toggleMenu() {
             this.showDrawer = !this.showDrawer;
+        },
+        
+        getNameByKey(e) {
+            return this.$store.getters['ui/getNameByKey'](e)
         }
     }
 }

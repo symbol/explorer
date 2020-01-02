@@ -1,12 +1,12 @@
 export default {
     items: [
-        { to: '/', text: 'Home', icon: 'IconHome' },
-        { to: '/blocks', text: 'Blocks', icon: 'IconBlocks' },
-        { to: '/transactions', text: 'Transactions', icon: 'IconTransactions' },
-        { to: '/accounts', text: 'Accounts', icon: 'IconAccounts' },
-        { to: '/namespaces', text: 'Namespaces', icon: 'IconNamespaces' },
-        { to: '/mosaics', text: 'Mosaics', icon: 'IconMosaics' },
-        { to: '/nodes', text: 'Nodes', icon: 'IconNodes' }
+        { to: '/', text: 'home', icon: 'IconHome' },
+        { to: '/blocks', text: 'blocks', icon: 'IconBlocks' },
+        { to: '/transactions', text: 'transactions', icon: 'IconTransactions' },
+        { to: '/accounts', text: 'accounts', icon: 'IconAccounts' },
+        { to: '/namespaces', text: 'namespaces', icon: 'IconNamespaces' },
+        { to: '/mosaics', text: 'mosaics', icon: 'IconMosaics' },
+        { to: '/nodes', text: 'nodes', icon: 'IconNodes' }
         // { to: '/stats', text: 'Statistics', classname: 'ico-bar-chart' },
     ]
 }

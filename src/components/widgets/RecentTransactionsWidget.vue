@@ -1,12 +1,12 @@
 <template>
     <Card :loading="loading">
         <template #title>
-            Recent Transactions
+            {{getNameByKey('Recent Transactions')}}
         </template>
 
         <template #control>
             <router-link to="/transactions">
-                <ButtonMore> View all transactions </ButtonMore>
+                <ButtonMore> {{getNameByKey('viewAllTransactions')}} </ButtonMore>
             </router-link>
         </template>
 
@@ -36,7 +36,7 @@
                         <template #body>
                             <div class="ex-row no-wrap">
                                 <div class="ex-text">
-                                    Block: {{ item.blockHeight }} 
+                                    {{getNameByKey('block')}}: {{ item.blockHeight }} 
                                 </div>
                                 <div class="ex-long-text ex-text" :title="'Type: ' + item.transactionBody.type" style="margin-left: 20px">
                                     {{ item.transactionBody.type }}
@@ -44,7 +44,7 @@
                             </div>
                             <div class="ex-row no-wrap">
                                 <div class="ex-text">
-                                    Sender
+                                    {{getNameByKey('sender')}}
                                 </div>
                                 <router-link
                                     :to="'/account/'+item.signer"
@@ -79,6 +79,12 @@ export default {
             transactionList: 'transaction/getRecentList',
             loading: 'transaction/getLoading'
         })
+    },
+
+    methods: {
+        getNameByKey(e) {
+            return this.$store.getters['ui/getNameByKey'](e)
+        }
     }
 }
 </script>

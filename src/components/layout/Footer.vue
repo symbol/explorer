@@ -102,9 +102,7 @@ export default {
         }
       ]
     }
-  },
-
-  mounted() {}
+  }
 }
 </script>
 

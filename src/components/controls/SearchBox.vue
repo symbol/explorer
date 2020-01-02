@@ -4,7 +4,7 @@
       :class="{'is-invalid': isError}"
       class="bg-transparent"
       size="sm"
-      :placeholder="placeholder"
+      :placeholder="getNameByKey(placeholder)"
       @change="onSearch"
     >
     </b-form-input>
@@ -42,6 +42,10 @@ export default {
         this.isError = false
         this.searchString = ''
       }, 1000)
+    },
+
+    getNameByKey(e) {
+      return this.$store.getters['ui/getNameByKey'](e)
     }
   }
 }

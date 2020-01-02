@@ -1,12 +1,12 @@
 <template>
     <Card :loading="loading">
         <template #title>
-            Recent Blocks
+            {{getNameByKey('Recent Blocks')}}
         </template>
 
         <template #control>
             <router-link to="/blocks">
-                <ButtonMore> View all blocks </ButtonMore>
+                <ButtonMore> {{getNameByKey('viewAllBlocks')}} </ButtonMore>
             </router-link>
         </template>
 
@@ -28,7 +28,7 @@
                             <router-link
                                 :to="'/block/'+item.height"
                                 class="ex-title-text" 
-                                :title="'Block height: ' + item.height"
+                                :title="getNameByKey('blockHeight') + ': ' + item.height"
                             >
                                 {{item.height}}
                             </router-link>
@@ -36,7 +36,7 @@
                         <template #body>
                             <div class="ex-row">
                                 <div class="ex-text">
-                                    {{ item.numTransactions }} Transactions
+                                    {{ item.numTransactions }} {{getNameByKey('transactions')}}
                                 </div>
                                 <div class="ex-text">
                                     <Age :date="item.date"/>
@@ -44,7 +44,7 @@
                             </div>
                             <div class="ex-row no-wrap">
                                 <div class="ex-text">
-                                    Harvester
+                                    {{getNameByKey('harvester')}}
                                 </div>
                                 <router-link
                                     :to="'/account/'+item.signer"
@@ -81,6 +81,12 @@ export default {
             blockList: 'block/getRecentList',
             loading: 'block/getLoading'
         })
+    },
+
+    methods: {
+        getNameByKey(e) {
+            return this.$store.getters['ui/getNameByKey'](e)
+        }
     }
 }
 </script>

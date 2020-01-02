@@ -10,8 +10,8 @@
         </b-button>
       </b-button-group>
     </div>
-    <ButtonMore v-else-if="!canFetchPrevious" @click="nextPage">More</ButtonMore>
-    <ButtonLess v-else-if="!canFetchNext" @click="previousPage">Less</ButtonLess>
+    <ButtonMore v-else-if="!canFetchPrevious" @click="nextPage">{{getNameByKey('More')}}</ButtonMore>
+    <ButtonLess v-else-if="!canFetchNext" @click="previousPage">{{getNameByKey('Less')}}</ButtonLess>
     <div v-else :nextPageAction="nextPageAction" :previousPageAction="previousPageAction">
       <b-button-group>
         <b-button variant="outline-info" size="sm" @click="previousPage">
@@ -87,6 +87,10 @@ export default {
     goToTop() {
       document.body.scrollTop = 0; 
       document.documentElement.scrollTop = 0; 
+    },
+
+    getNameByKey(e) {
+      return this.$store.getters['ui/getNameByKey'](e)
     }
   }
 }

@@ -25,7 +25,7 @@
                 :error="error"
             >
                 <template #title>
-                    {{title}}
+                    {{getNameByKey(title)}}
                 </template>
                 <template #control>
                     <div class="ex-infotext" v-if="hasInfoText"> {{infoText}} </div>
@@ -51,7 +51,7 @@
                 </template>
 
                 <template #error>
-                    Unable to fetch {{storeNamespace}} data.
+                    {{getNameByKey('Unable to fetch data')}}
                 </template>
             </Card>
         </div>
@@ -61,59 +61,65 @@
 import TypeBox from '@/components/controls/Dropdown.vue'
 import View from './View.vue'
 
-export default {
-  extends: View,
+    export default {
+    extends: View,
 
-  components: {
-    TypeBox
-  },
+    components: {
+        TypeBox
+    },
 
-  props: {
-      storeNamespace: {
-          type: String,
-          required: true
-      },
+    props: {
+        storeNamespace: {
+            type: String,
+            required: true
+        },
 
-      title: {
-          type: String,
-          required: true
-      },
+        title: {
+            type: String,
+            required: true
+        },
 
-      hasFilter: {
-          type: Boolean,
-          default: false
-      },
+        hasFilter: {
+            type: Boolean,
+            default: false
+        },
 
-      hasInfoText: {
-          type: Boolean,
-          default: false
-      },
-  },
+        hasInfoText: {
+            type: Boolean,
+            default: false
+        },
+    },
 
-  mounted() {
-    this.$store.dispatch(this.resetPageAction)
-  },
+    mounted() {
+        this.$store.dispatch(this.resetPageAction)
+    },
 
-  computed: {
-    timeline() { return this.$store.getters[this.storeNamespace + '/getTimelineFormatted'] },
-    canFetchPrevious() { return this.$store.getters[this.storeNamespace + '/getCanFetchPrevious'] },
-    canFetchNext() { return this.$store.getters[this.storeNamespace + '/getCanFetchNext'] },
-    loading() { return this.$store.getters[this.storeNamespace + '/getLoading'] },
-    error() { return this.$store.getters[this.storeNamespace + '/getError'] },
+    computed: {
+        timeline() { return this.$store.getters[this.storeNamespace + '/getTimelineFormatted'] },
+        canFetchPrevious() { return this.$store.getters[this.storeNamespace + '/getCanFetchPrevious'] },
+        canFetchNext() { return this.$store.getters[this.storeNamespace + '/getCanFetchNext'] },
+        loading() { return this.$store.getters[this.storeNamespace + '/getLoading'] },
+        error() { return this.$store.getters[this.storeNamespace + '/getError'] },
 
-    infoText() { return this.$store.getters[this.storeNamespace + '/infoText'] },
+        infoText() { return this.$store.getters[this.storeNamespace + '/infoText'] },
 
-    filterValue() { return this.$store.getters[this.storeNamespace + '/filterValue'] },
-    filterOptions() { return this.$store.getters[this.storeNamespace + '/filterOptions'] },
+        filterValue() { return this.$store.getters[this.storeNamespace + '/filterValue'] },
+        filterOptions() { return this.$store.getters[this.storeNamespace + '/filterOptions'] },
 
-    nextPageAction() { return this.storeNamespace + '/fetchNextPage' },
-    previousPageAction() { return this.storeNamespace + '/fetchPreviousPage' },
-    resetPageAction() { return this.storeNamespace + '/resetPage' },
-    changePageAction() { return this.storeNamespace + '/changePage' }
-  },
+        nextPageAction() { return this.storeNamespace + '/fetchNextPage' },
+        previousPageAction() { return this.storeNamespace + '/fetchPreviousPage' },
+        resetPageAction() { return this.storeNamespace + '/resetPage' },
+        changePageAction() { return this.storeNamespace + '/changePage' }
+    },
 
-  destroyed() {
-    this.$store.dispatch(this.resetPageAction)
-  }
+    methods: {
+        getNameByKey(e) {
+            return this.$store.getters['ui/getNameByKey'](e)
+        }
+    },
+
+    destroyed() {
+        this.$store.dispatch(this.resetPageAction)
+    }
 }
 </script>
