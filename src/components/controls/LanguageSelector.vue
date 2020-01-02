@@ -21,7 +21,6 @@ export default {
     },
 
     options() {
-      console.log(this.languageList)
       let options = {};
       this.languageList.forEach(lang => 
         { options[lang] = lang }
