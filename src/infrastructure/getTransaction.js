@@ -23,6 +23,7 @@ import dto from './dto'
 import http from './http'
 import format from '../format'
 import sdkBlock from '../infrastructure/getBlock'
+import sdkMosaic from './getMosaic'
 const QueryParams = nem.QueryParams // Travis patch
 const Address = nem.Address // Travis patch
 
@@ -38,7 +39,20 @@ class sdkTransaction {
   }
 
   static getTransactionInfoByHash = async (hash) => {
-    const transaction = await http.transaction.getTransaction(hash).toPromise()
+    let transaction = await http.transaction.getTransaction(hash).toPromise()
+
+    // get Mosaic Infomation
+    if (transaction?.mosaics?.length) {
+      const mosaicIdsList = transaction.mosaics.map(mosaicInfo => mosaicInfo.id)
+      const mosaicInfos = await http.mosaic.getMosaics(mosaicIdsList).toPromise()
+
+      await sdkMosaic.addMosaicAliasNames(mosaicIdsList)
+
+      transaction.mosaics.map(mosaic => {
+         mosaic.mosaicInfo = mosaicInfos.find(m => m.id.equals(mosaic.id))
+      })
+    }
+
     const effectiveFee = await http.transaction.getTransactionEffectiveFee(hash).toPromise()
     const formattedTransaction = format.formatTransaction(transaction)
     const getBlockInfo = await sdkBlock.getBlockInfoByHeight(formattedTransaction.blockHeight)
@@ -164,7 +178,8 @@ class sdkTransaction {
             if (transactionBody.mosaics?.length) {
               formattedTransferMosaics = transactionBody.mosaics.map((el) => ({
                 mosaicId: el.id,
-                amount: el.amount
+                amount: el.amount,
+                mosaicAliasName: el.mosaicAliasName
               }))
             }
             break

@@ -124,11 +124,19 @@ const formatAccountMultisig = accountMultisig => {
 // FORMAT MOSAICS
 const formatMosaics = mosaics => {
   return mosaics.map(mosaic => {
+    if (mosaic.hasOwnProperty('mosaicInfo')) {
+      return {
+        id: mosaic.id.toHex(),
+        amount: formatMosaicAmountWithDivisibility(mosaic.amount, mosaic.mosaicInfo.divisibility),
+        mosaicAliasName: mosaic.id.mosaicAliasName.length > 0 ? mosaic.id.mosaicAliasName[0].name : Constants.Message.UNAVAILABLE
+      }
+    } else {
       return {
         ...mosaic,
         id: mosaic.id.toHex(),
         amount: mosaic.amount.compact().toString()
       }
+    }
   })
 }
 
