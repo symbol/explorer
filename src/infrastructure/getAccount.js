@@ -34,9 +34,8 @@ const formatAccountNames = async accounts => {
   // Create a mapping of account addresses to names.
   // Allows efficient ID lookups.
   const addressToNameMap = {}
-  for (let item of accountNames) {
+  for (let item of accountNames)
     addressToNameMap[item.address.plain()] = item
-  }
 
   return accounts.map(info => {
     info.accountName = addressToNameMap[info.address.plain()]
@@ -69,7 +68,7 @@ class sdkAccount {
     accountInfo.mosaicsAmountViewFromAddress = mosaicsAmountViewFromAddress
 
     // add accountName object
-    accountInfo.accountName =  accountName[0]
+    accountInfo.accountName = accountName[0]
 
     return format.formatAccount(accountInfo)
   }
@@ -92,11 +91,10 @@ class sdkAccount {
 
   static getAccountsFromAddressWithLimit = async (limit, accountType, fromAddress) => {
     let address
-    if (fromAddress === undefined) {
+    if (fromAddress === undefined)
       address = 'most'
-    } else {
+    else
       address = fromAddress
-    }
 
     // Make request.
     const path = `/accounts/${accountType}/from/${address}/limit/${limit}`
@@ -108,11 +106,10 @@ class sdkAccount {
 
   static getAccountsSinceAddressWithLimit = async (limit, accountType, sinceAddress) => {
     let address
-    if (sinceAddress === undefined) {
+    if (sinceAddress === undefined)
       address = 'least'
-    } else {
+    else
       address = sinceAddress
-    }
 
     // Make request.
     const path = `/accounts/${accountType}/since/${address}/limit/${limit}`
@@ -183,14 +180,14 @@ class sdkAccount {
         minRemoval: accountMultisig.minRemoval
       }
 
-      formattedAccountInfo = {...formattedAccountInfo, ...formattedAccountMultisig }
-      if (accountMultisig.cosignatories) { accountMultisigCosignatories = accountMultisig.cosignatories }
+      formattedAccountInfo = { ...formattedAccountInfo, ...formattedAccountMultisig }
+      if (accountMultisig.cosignatories) accountMultisigCosignatories = accountMultisig.cosignatories
     }
 
     if (transactionList) {
       formattedTansactionList = transactionList.map(el => ({
         deadline: el.deadline,
-        //fee: el.fee,
+        // fee: el.fee,
         transactionHash: el.transactionHash,
         transactionType: el.transactionBody.type
       }))

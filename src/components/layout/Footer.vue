@@ -46,17 +46,16 @@
     </div>
 </template>
 
-
 <script>
 import NemDescription from '@/components/NemDescription.vue'
 import NemCopyright from '@/components/NemCopyright.vue'
 import NodeSelector from '@/components/controls/NodeSelector.vue'
 
 import IconGithub from 'vue-material-design-icons/GithubCircle.vue'
-import IconNewspaper from 'vue-material-design-icons/Newspaper.vue';
-import IconReddit from 'vue-material-design-icons/Reddit.vue';
-import IconForum from 'vue-material-design-icons/Forum.vue';
-import IconTelegram from 'vue-material-design-icons/Telegram.vue';
+import IconNewspaper from 'vue-material-design-icons/Newspaper.vue'
+import IconReddit from 'vue-material-design-icons/Reddit.vue'
+import IconForum from 'vue-material-design-icons/Forum.vue'
+import IconTelegram from 'vue-material-design-icons/Telegram.vue'
 
 export default {
   components: {

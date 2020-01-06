@@ -11,11 +11,11 @@
 </template>
 
 <script>
-import ArrowLeft from 'vue-material-design-icons/ArrowLeft.vue';
+import ArrowLeft from 'vue-material-design-icons/ArrowLeft.vue'
 export default {
-    components: {
-        ArrowLeft
-    }
+  components: {
+    ArrowLeft
+  }
 }
 </script>
 

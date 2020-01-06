@@ -61,65 +61,65 @@
 import TypeBox from '@/components/controls/Dropdown.vue'
 import View from './View.vue'
 
-    export default {
-    extends: View,
+export default {
+  extends: View,
 
-    components: {
-        TypeBox
+  components: {
+    TypeBox
+  },
+
+  props: {
+    storeNamespace: {
+      type: String,
+      required: true
     },
 
-    props: {
-        storeNamespace: {
-            type: String,
-            required: true
-        },
-
-        title: {
-            type: String,
-            required: true
-        },
-
-        hasFilter: {
-            type: Boolean,
-            default: false
-        },
-
-        hasInfoText: {
-            type: Boolean,
-            default: false
-        },
+    title: {
+      type: String,
+      required: true
     },
 
-    mounted() {
-        this.$store.dispatch(this.resetPageAction)
+    hasFilter: {
+      type: Boolean,
+      default: false
     },
 
-    computed: {
-        timeline() { return this.$store.getters[this.storeNamespace + '/getTimelineFormatted'] },
-        canFetchPrevious() { return this.$store.getters[this.storeNamespace + '/getCanFetchPrevious'] },
-        canFetchNext() { return this.$store.getters[this.storeNamespace + '/getCanFetchNext'] },
-        loading() { return this.$store.getters[this.storeNamespace + '/getLoading'] },
-        error() { return this.$store.getters[this.storeNamespace + '/getError'] },
-
-        infoText() { return this.$store.getters[this.storeNamespace + '/infoText'] },
-
-        filterValue() { return this.$store.getters[this.storeNamespace + '/filterValue'] },
-        filterOptions() { return this.$store.getters[this.storeNamespace + '/filterOptions'] },
-
-        nextPageAction() { return this.storeNamespace + '/fetchNextPage' },
-        previousPageAction() { return this.storeNamespace + '/fetchPreviousPage' },
-        resetPageAction() { return this.storeNamespace + '/resetPage' },
-        changePageAction() { return this.storeNamespace + '/changePage' }
-    },
-
-    methods: {
-        getNameByKey(e) {
-            return this.$store.getters['ui/getNameByKey'](e)
-        }
-    },
-
-    destroyed() {
-        this.$store.dispatch(this.resetPageAction)
+    hasInfoText: {
+      type: Boolean,
+      default: false
     }
+  },
+
+  mounted() {
+    this.$store.dispatch(this.resetPageAction)
+  },
+
+  computed: {
+    timeline() { return this.$store.getters[this.storeNamespace + '/getTimelineFormatted'] },
+    canFetchPrevious() { return this.$store.getters[this.storeNamespace + '/getCanFetchPrevious'] },
+    canFetchNext() { return this.$store.getters[this.storeNamespace + '/getCanFetchNext'] },
+    loading() { return this.$store.getters[this.storeNamespace + '/getLoading'] },
+    error() { return this.$store.getters[this.storeNamespace + '/getError'] },
+
+    infoText() { return this.$store.getters[this.storeNamespace + '/infoText'] },
+
+    filterValue() { return this.$store.getters[this.storeNamespace + '/filterValue'] },
+    filterOptions() { return this.$store.getters[this.storeNamespace + '/filterOptions'] },
+
+    nextPageAction() { return this.storeNamespace + '/fetchNextPage' },
+    previousPageAction() { return this.storeNamespace + '/fetchPreviousPage' },
+    resetPageAction() { return this.storeNamespace + '/resetPage' },
+    changePageAction() { return this.storeNamespace + '/changePage' }
+  },
+
+  methods: {
+    getNameByKey(e) {
+      return this.$store.getters['ui/getNameByKey'](e)
+    }
+  },
+
+  destroyed() {
+    this.$store.dispatch(this.resetPageAction)
+  }
 }
 </script>

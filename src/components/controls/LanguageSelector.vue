@@ -21,11 +21,10 @@ export default {
     },
 
     options() {
-      let options = {};
-      this.languageList.forEach(lang => 
-        { options[lang] = lang }
-      );
-      return options;
+      let options = {}
+      this.languageList.forEach(lang => { options[lang] = lang }
+      )
+      return options
     },
 
     currentLanguage() {
@@ -37,7 +36,7 @@ export default {
     setLanguage(language) {
       this.$store.dispatch('ui/changeLanguage', language)
     }
-  },
+  }
 }
 </script>
 

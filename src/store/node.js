@@ -134,9 +134,9 @@ export default {
       const timeline = getters.getTimeline
       const list = timeline.next
       try {
-        if (list.length === 0) {
+        if (list.length === 0)
           throw new Error('internal error: next list is 0.')
-        }
+
         // TODO(ahuszagh) Change to use real data.
         const node = list[list.length - 1] // eslint-disable-line no-unused-vars
         const fetchNext = async pageSize => []
@@ -154,9 +154,9 @@ export default {
       const timeline = getters.getTimeline
       const list = timeline.previous
       try {
-        if (list.length === 0) {
+        if (list.length === 0)
           throw new Error('internal error: previous list is 0.')
-        }
+
         // TODO(ahuszagh) Change to use real data.
         const node = list[0] // eslint-disable-line no-unused-vars
         const fetchPrevious = async pageSize => []

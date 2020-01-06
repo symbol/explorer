@@ -20,7 +20,7 @@ import axios from 'axios'
 import {
   Address,
   MosaicId,
-  NamespaceId,
+  NamespaceId
 } from 'nem2-sdk'
 
 import dto from './dto'
@@ -41,9 +41,9 @@ class sdkMosaic {
   static getMosaicInfo = async mosaicHexOrNamespace => {
     let mosaicID
 
-    if (helper.isHexadecimal(mosaicHexOrNamespace)) {
+    if (helper.isHexadecimal(mosaicHexOrNamespace))
       mosaicID = new MosaicId(mosaicHexOrNamespace)
-    } else {
+    else {
       let namespaceId = new NamespaceId(mosaicHexOrNamespace)
       mosaicID = await http.namespace.getLinkedMosaicId(namespaceId).toPromise()
     }
@@ -56,11 +56,10 @@ class sdkMosaic {
 
   static getMosaicsFromIdWithLimit = async (limit, fromMosaicId) => {
     let mosaicId
-    if (fromMosaicId === undefined) {
+    if (fromMosaicId === undefined)
       mosaicId = 'latest'
-    } else {
+    else
       mosaicId = fromMosaicId
-    }
 
     // Make request.
     const path = `/mosaics/from/${mosaicId}/limit/${limit}`
@@ -74,11 +73,10 @@ class sdkMosaic {
 
   static getMosaicsSinceIdWithLimit = async (limit, sinceMosaicId) => {
     let mosaicId
-    if (sinceMosaicId === undefined) {
+    if (sinceMosaicId === undefined)
       mosaicId = 'earliest'
-    } else {
+    else
       mosaicId = sinceMosaicId
-    }
 
     // Make request.
     const path = `/mosaics/since/${mosaicId}/limit/${limit}`
@@ -123,20 +121,18 @@ class sdkMosaic {
   }
 
   static addMosaicAliasNames = async mosaics => {
-
     // Fetch the mosaic name objects from the IDs.
     const mosaicIdsList = mosaics.map(mosaicInfo => mosaicInfo.id)
     const mosaicNames = await http.namespace.getMosaicsNames(mosaicIdsList).toPromise()
 
     // Create a mapping of mosaics IDs to names.
     const idToNameMap = {}
-    for (let item of mosaicNames) {
+    for (let item of mosaicNames)
       idToNameMap[item.mosaicId.toHex()] = item.names
-    }
 
     // Add name to mosaics object.
-     mosaics.map(info => {
-       info.mosaicAliasName = idToNameMap[info.id.toHex()]
+    mosaics.map(info => {
+      info.mosaicAliasName = idToNameMap[info.id.toHex()]
     })
 
     return mosaics

@@ -30,18 +30,17 @@
 import SearchBox from '@/components/controls/SearchBox.vue'
 import LanguageSelector from '@/components/controls/LanguageSelector.vue'
 
-
 export default {
-    components: {
-        SearchBox,
-        LanguageSelector
-    },
+  components: {
+    SearchBox,
+    LanguageSelector
+  },
 
-    methods: {
-        getNameByKey(e) {
-            return this.$store.getters['ui/getNameByKey'](e)
-        }
-    },
+  methods: {
+    getNameByKey(e) {
+      return this.$store.getters['ui/getNameByKey'](e)
+    }
+  }
 }
 </script>
 

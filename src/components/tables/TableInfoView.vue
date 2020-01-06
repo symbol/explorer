@@ -71,9 +71,9 @@ export default {
   computed: {
     formattedData() {
       let formattedData = {}
-      for (let key in this.data) {
-        if (this.isItemShown(key, this.data[key])) { formattedData[key] = this.data[key] }
-      }
+      for (let key in this.data)
+        if (this.isItemShown(key, this.data[key])) formattedData[key] = this.data[key]
+
       return formattedData
     },
 

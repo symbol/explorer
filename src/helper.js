@@ -16,31 +16,30 @@
  *
  */
 
-const Url = require('url-parse');
+const Url = require('url-parse')
 
 class helper {
   static timeSince(interval) {
-    if (interval.years > 1) {
+    if (interval.years > 1)
       return interval.years + ' years'
-    } else if (interval.years === 1) {
+    else if (interval.years === 1)
       return interval.years + ' year'
-    } else if (interval.days > 1) {
+    else if (interval.days > 1)
       return interval.days + ' days'
-    } else if (interval.days === 1) {
+    else if (interval.days === 1)
       return interval.days + ' day'
-    } else if (interval.hours > 1) {
+    else if (interval.hours > 1)
       return interval.hours + ' hours'
-    } else if (interval.hours === 1) {
+    else if (interval.hours === 1)
       return interval.hours + ' hour'
-    } else if (interval.minutes > 1) {
-      return interval.minutes + ' min.'//' minutes'
-    } else if (interval.minutes === 1) {
-      return interval.minutes + ' min.'//' minute'
-    } else if (interval.seconds !== 1) {
-      return interval.seconds + ' sec.'//' seconds'
-    } else {
-      return interval.seconds + ' sec.'//' second'
-    }
+    else if (interval.minutes > 1)
+      return interval.minutes + ' min.'// ' minutes'
+    else if (interval.minutes === 1)
+      return interval.minutes + ' min.'// ' minute'
+    else if (interval.seconds !== 1)
+      return interval.seconds + ' sec.'// ' seconds'
+    else
+      return interval.seconds + ' sec.'// ' second'
   }
 
   static isHexadecimal(str) {
@@ -55,9 +54,8 @@ class helper {
 
   static parseUrl(str) {
     let url = new Url(str)
-    if (this.validURL(url)) {
+    if (this.validURL(url))
       return url
-    }
   }
 
   static httpToWsUrl(str) {

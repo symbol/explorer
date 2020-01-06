@@ -25,7 +25,7 @@
                     <LanguageSelector />
                 </div>
                 <div class="drawer-body">
-                    <router-link 
+                    <router-link
                         v-for="item in items"
                         :key="'mobl_mn_'+getNameByKey(item.text)"
                         class="ex-menu-item"
@@ -42,54 +42,54 @@
 </template>
 
 <script>
-import IconMenu from 'vue-material-design-icons/Menu.vue';
-import IconHome from 'vue-material-design-icons/Home.vue';
+import IconMenu from 'vue-material-design-icons/Menu.vue'
+import IconHome from 'vue-material-design-icons/Home.vue'
 import IconBlocks from 'vue-material-design-icons/Widgets.vue'
-import IconTransactions from 'vue-material-design-icons/Send.vue';
-import IconAccounts from 'vue-material-design-icons/Account.vue';
-import IconMosaics from 'vue-material-design-icons/CheckboxMultipleBlankCircle.vue';
-import IconNodes from 'vue-material-design-icons/VectorTriangle.vue';
-import IconNamespaces from 'vue-material-design-icons/Tag.vue';
-import LanguageSelector from '@/components/controls/LanguageSelector.vue';
-import { pageMenu } from '../../config/';
+import IconTransactions from 'vue-material-design-icons/Send.vue'
+import IconAccounts from 'vue-material-design-icons/Account.vue'
+import IconMosaics from 'vue-material-design-icons/CheckboxMultipleBlankCircle.vue'
+import IconNodes from 'vue-material-design-icons/VectorTriangle.vue'
+import IconNamespaces from 'vue-material-design-icons/Tag.vue'
+import LanguageSelector from '@/components/controls/LanguageSelector.vue'
+import { pageMenu } from '../../config/'
 
 export default {
-    components: {
-        IconMenu,
-        LanguageSelector,
-        IconHome,
-        IconBlocks,
-        IconTransactions,
-        IconAccounts,
-        IconMosaics,
-        IconNodes,
-        IconNamespaces
-    },
+  components: {
+    IconMenu,
+    LanguageSelector,
+    IconHome,
+    IconBlocks,
+    IconTransactions,
+    IconAccounts,
+    IconMosaics,
+    IconNodes,
+    IconNamespaces
+  },
 
-    props: {
-        fixed: {
-            type: Boolean,
-            default: false
-        }
-    },
-
-    data() {
-        return {
-            items: pageMenu.items,
-            showDrawer: false,
-            scrolled: true
-        }
-    }, 
-
-    methods: {
-        toggleMenu() {
-            this.showDrawer = !this.showDrawer;
-        },
-        
-        getNameByKey(e) {
-            return this.$store.getters['ui/getNameByKey'](e)
-        }
+  props: {
+    fixed: {
+      type: Boolean,
+      default: false
     }
+  },
+
+  data() {
+    return {
+      items: pageMenu.items,
+      showDrawer: false,
+      scrolled: true
+    }
+  },
+
+  methods: {
+    toggleMenu() {
+      this.showDrawer = !this.showDrawer
+    },
+
+    getNameByKey(e) {
+      return this.$store.getters['ui/getNameByKey'](e)
+    }
+  }
 }
 </script>
 
@@ -187,10 +187,10 @@ export default {
                     margin-right: 20px;
                 }
             }
-        }  
+        }
     }
 
-    .ex-menu-icon { 
+    .ex-menu-icon {
         top: 0;
         left: 0;
         position: fixed;
@@ -205,14 +205,13 @@ export default {
         }
     }
 
-
     .mobile-panel {
         background: #0998a6;
         box-shadow: 0 2px 10px 2px rgba(0, 0, 0, 0.2);
         padding: 0 15px;
         display: flex;
         z-index: 1000;
-        
+
         .title {
             color: #fff;
             font-weight: 500;
@@ -231,7 +230,7 @@ export default {
     .slide-leave-active, .slide-enter-active {
         transition: 0.5s;
     }
-    
+
     .slide-enter {
         transform: translate(-100%, 0);
     }

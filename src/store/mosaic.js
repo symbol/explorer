@@ -52,7 +52,7 @@ export default {
       owneraddress: el.address,
       supply: el.supply,
       divisibility: el.divisibility,
-      relativeAmount:el.relativeAmount,
+      relativeAmount: el.relativeAmount,
       startHeight: el.startHeight
     })),
     getLoading: state => state.loading,
@@ -106,9 +106,9 @@ export default {
       const timeline = getters.getTimeline
       const list = timeline.next
       try {
-        if (list.length === 0) {
+        if (list.length === 0)
           throw new Error('internal error: next list is 0.')
-        }
+
         const mosaic = list[list.length - 1]
         const fetchNext = pageSize => sdkMosaic.getMosaicsFromIdWithLimit(pageSize, mosaic.id)
         commit('setTimeline', await timeline.shiftNext(fetchNext))
@@ -125,9 +125,9 @@ export default {
       const timeline = getters.getTimeline
       const list = timeline.previous
       try {
-        if (list.length === 0) {
+        if (list.length === 0)
           throw new Error('internal error: previous list is 0.')
-        }
+
         const mosaic = list[0]
         const fetchPrevious = pageSize => sdkMosaic.getMosaicsSinceIdWithLimit(pageSize, mosaic.id)
         const fetchLive = pageSize => sdkMosaic.getMosaicsSinceIdWithLimit(pageSize)

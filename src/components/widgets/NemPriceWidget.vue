@@ -11,12 +11,12 @@
         <template #body>
             <b-row style="margin: -20px">
                 <b-col>
-                    <Chart 
+                    <Chart
                         type="area"
                         :data="chartData"
                     />
                 </b-col>
-            </b-row>  
+            </b-row>
         </template>
     </Card>
 </template>
@@ -27,32 +27,32 @@ import Chart from '@/components/Chart.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-    components: { 
-        Card, 
-        Chart 
-    },
+  components: {
+    Card,
+    Chart
+  },
 
-    computed: {
-        ...mapGetters({
-            marketData: 'chain/getMarketData'
-        }),
+  computed: {
+    ...mapGetters({
+      marketData: 'chain/getMarketData'
+    }),
 
-        chartData() {
-            return [
-            {
-                name: 'Price (USD)',
-                data: this.marketData.historicalHourlyGraph
-            }
-        ]
-        },
-
-        loading() { return !this.marketData.historicalHourlyGraph.length }
-    },
-
-    methods: {
-        getNameByKey(e) {
-            return this.$store.getters['ui/getNameByKey'](e)
+    chartData() {
+      return [
+        {
+          name: 'Price (USD)',
+          data: this.marketData.historicalHourlyGraph
         }
+      ]
+    },
+
+    loading() { return !this.marketData.historicalHourlyGraph.length }
+  },
+
+  methods: {
+    getNameByKey(e) {
+      return this.$store.getters['ui/getNameByKey'](e)
     }
+  }
 }
 </script>

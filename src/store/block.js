@@ -157,9 +157,9 @@ export default {
       try {
         let blockList = await sdkBlock.getBlocksFromHeightWithLimit(2 * Constants.PageSize)
         commit('setLatestList', blockList.slice(0, Constants.PageSize))
-        if (blockList.length > 0) {
+        if (blockList.length > 0)
           commit('chain/setBlockHeight', blockList[0].height, { root: true })
-        }
+
         commit('setTimeline', Timeline.fromData(blockList))
       } catch (e) {
         console.error(e)
@@ -174,9 +174,9 @@ export default {
       const timeline = getters.getTimeline
       const list = timeline.next
       try {
-        if (list.length === 0) {
+        if (list.length === 0)
           throw new Error('internal error: next list is 0.')
-        }
+
         const block = list[list.length - 1]
         const fetchNext = pageSize => sdkBlock.getBlocksFromHeightWithLimit(pageSize, block.height)
         commit('setTimeline', await timeline.shiftNext(fetchNext))
@@ -193,9 +193,9 @@ export default {
       const timeline = getters.getTimeline
       const list = timeline.previous
       try {
-        if (list.length === 0) {
+        if (list.length === 0)
           throw new Error('internal error: previous list is 0.')
-        }
+
         const block = list[0]
         const fetchPrevious = pageSize => sdkBlock.getBlocksSinceHeightWithLimit(pageSize, block.height)
         const fetchLive = pageSize => sdkBlock.getBlocksFromHeightWithLimit(pageSize, rootGetters['chain/getBlockHeight'])
@@ -231,8 +231,6 @@ export default {
 
       dispatch('chain/getBlockHeight', null, { root: true })
 
-
-
       let blockInfo
       try { blockInfo = await sdkBlock.getBlockInfoByHeightFormatted(height) } catch (e) {
         console.error(e)
@@ -249,18 +247,20 @@ export default {
 
     nextBlock: ({ commit, getters, dispatch, rootGetters }) => {
       console.log(getters.currentBlockHeight, rootGetters['chain/getBlockHeight'])
-      if(getters.currentBlockHeight < rootGetters['chain/getBlockHeight'])
-      dispatch('ui/openPage', {
-        pageName: 'block',
-        param: +getters.currentBlockHeight + 1
-      }, { root: true })
+      if (getters.currentBlockHeight < rootGetters['chain/getBlockHeight']) {
+        dispatch('ui/openPage', {
+          pageName: 'block',
+          param: +getters.currentBlockHeight + 1
+        }, { root: true })
+      }
     },
     previousBlock: ({ commit, getters, dispatch }) => {
-      if(+getters.currentBlockHeight > 1)
-      dispatch('ui/openPage', {
-        pageName: 'block',
-        param: +getters.currentBlockHeight - 1
-      }, { root: true })
+      if (+getters.currentBlockHeight > 1) {
+        dispatch('ui/openPage', {
+          pageName: 'block',
+          param: +getters.currentBlockHeight - 1
+        }, { root: true })
+      }
     }
   }
 }

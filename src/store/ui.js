@@ -61,7 +61,7 @@ export default {
       'parentId': 'namespace',
       'linkedNamespace': 'namespace',
       'mosaicAliasName': 'namespace',
-      "targetNamespaceId": 'namespace'
+      'targetNamespaceId': 'namespace'
     }
   },
 
@@ -113,13 +113,13 @@ export default {
             })
             resolve()
           } else
-          if (isTransactionId(searchString)) {
+          if (isTransactionId(searchString))
             reject(new Error('Search by tx id is not supported yet..'))
-            // dispatch('openPage', {
-            //     pageName: 'transaction',
-            //     param: searchString
-            // });
-          } else
+          // dispatch('openPage', {
+          //     pageName: 'transaction',
+          //     param: searchString
+          // });
+          else
           if (isAccountPublicKey(searchString)) {
             // check the string is a public key of an account
 
@@ -154,20 +154,18 @@ export default {
               param: searchString
             })
             resolve()
-          } else {
+          } else
             reject(new Error('Nothing found..'))
-          }
-        } else {
+        } else
           reject(new Error('Nothing found..'))
-        }
       })
     },
 
     changeLanguage: ({ state }, language) => {
       if (language !== null &&
-        language !== void 0) {
+        language !== void 0)
         i18n.setCurrentLanguage(language)
-      } else { throw Error('Cannot change language. language is not supported: ' + language) }
+      else throw Error('Cannot change language. language is not supported: ' + language)
     }
   }
 }

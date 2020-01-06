@@ -33,11 +33,10 @@ class sdkMetadata {
   }
 
   static getMosaicMetadata = async mosaicHexOrNamespace => {
-
     let mosaicID
-    if (helper.isHexadecimal(mosaicHexOrNamespace)) {
+    if (helper.isHexadecimal(mosaicHexOrNamespace))
       mosaicID = new MosaicId(mosaicHexOrNamespace)
-    } else {
+    else {
       let namespaceId = new NamespaceId(mosaicHexOrNamespace)
       mosaicID = await http.namespace.getLinkedMosaicId(namespaceId).toPromise()
     }
@@ -49,14 +48,12 @@ class sdkMetadata {
   }
 
   static getNamespaceMetadata = async namespaceOrHex => {
-
     let namespace
 
-    if (helper.isHexadecimal(namespaceOrHex)) {
+    if (helper.isHexadecimal(namespaceOrHex))
       namespace = NamespaceId.createFromEncoded(namespaceOrHex)
-    } else {
+    else
       namespace = new NamespaceId(namespaceOrHex)
-    }
 
     const metadatas = await http.metadata
       .getNamespaceMetadata(namespace)
