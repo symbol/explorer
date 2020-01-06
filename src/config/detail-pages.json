@@ -14,7 +14,7 @@
                         "pagination": false,
                         "loadingGetter": "account/accountInfoLoading",
                         "errorGetter": "account/accountInfoError",
-                        "errorMessage": "Account does not exist"        
+                        "errorMessage": "Account does not exist"
                     },
                     {
                         "type": "Card",
@@ -24,7 +24,7 @@
                         "dataGetter": "account/getAccountMultisigCosignatories",
                         "pagination": true,
                         "pageSize": 5,
-                        "loadingGetter": "account/accountInfoLoading"        
+                        "loadingGetter": "account/accountInfoLoading"
                     },
                     {
                         "type": "Card",
@@ -34,7 +34,7 @@
                         "dataGetter": "account/getMosaicList",
                         "pagination": true,
                         "pageSize": 5,
-                        "loadingGetter": "account/accountInfoLoading"        
+                        "loadingGetter": "account/accountInfoLoading"
                     },
                     {
                         "type": "Card",
@@ -44,7 +44,7 @@
                         "dataGetter": "account/getNamespaceList",
                         "pagination": true,
                         "pageSize": 5,
-                        "loadingGetter": "account/accountInfoLoading"        
+                        "loadingGetter": "account/accountInfoLoading"
                     },
                     {
                         "type": "Card",
@@ -54,7 +54,7 @@
                         "dataGetter": "account/getMetadataList",
                         "pagination": true,
                         "pageSize": 5,
-                        "loadingGetter": "account/accountInfoLoading"        
+                        "loadingGetter": "account/accountInfoLoading"
                     },
                     {
                         "type": "Card",
@@ -64,7 +64,7 @@
                         "dataGetter": "account/getActivityBucketList",
                         "pagination": true,
                         "pageSize": 5,
-                        "loadingGetter": "account/accountInfoLoading"        
+                        "loadingGetter": "account/accountInfoLoading"
                     },
                     {
                         "type": "Card",
@@ -82,7 +82,7 @@
                         "dataGetter": "account/getTransactionList",
                         "pagination": true,
                         "pageSize": 5,
-                        "loadingGetter": "account/accountInfoLoading"        
+                        "loadingGetter": "account/accountInfoLoading"
                     }
                 ]
             }
@@ -110,7 +110,7 @@
                         "pagination": false,
                         "loadingGetter": "block/blockInfoLoading",
                         "errorGetter": "block/blockInfoError",
-                        "errorMessage": "Block does not exist"        
+                        "errorMessage": "Block does not exist"
                     },
                     {
                         "type": "Card",
@@ -120,7 +120,7 @@
                         "dataGetter": "block/blockTransactionList",
                         "pagination": true,
                         "pageSize": 5,
-                        "loadingGetter": "block/blockInfoLoading"       
+                        "loadingGetter": "block/blockInfoLoading"
                     }
                 ]
             }
@@ -139,7 +139,7 @@
                         "pagination": false,
                         "loadingGetter": "mosaic/mosaicInfoLoading",
                         "errorGetter": "mosaic/mosaicInfoError",
-                        "errorMessage": "Mosaic does not exist"        
+                        "errorMessage": "Mosaic does not exist"
                     },
                     {
                         "type": "Card",
@@ -149,7 +149,7 @@
                         "dataGetter": "mosaic/getMetadataList",
                         "pagination": true,
                         "pageSize": 5,
-                        "loadingGetter": "mosaic/mosaicInfoLoading"       
+                        "loadingGetter": "mosaic/mosaicInfoLoading"
                     }
                 ]
             }
@@ -168,7 +168,7 @@
                         "pagination": false,
                         "loadingGetter": "namespace/namespaceInfoLoading",
                         "errorGetter": "namespace/namespaceInfoError",
-                        "errorMessage": "Namespace does not exist"        
+                        "errorMessage": "Namespace does not exist"
                     },
                     {
                         "type": "Card",
@@ -177,7 +177,7 @@
                         "body": "TableListView",
                         "dataGetter": "namespace/getNamespaceLevels",
                         "pagination": false,
-                        "loadingGetter": "namespace/namespaceInfoLoading"      
+                        "loadingGetter": "namespace/namespaceInfoLoading"
                     },
                     {
                         "type": "Card",
@@ -187,7 +187,7 @@
                         "dataGetter": "namespace/getMetadataList",
                         "pagination": true,
                         "pageSize": 5,
-                        "loadingGetter": "namespace/namespaceInfoLoading"       
+                        "loadingGetter": "namespace/namespaceInfoLoading"
                     }
                 ]
             }
@@ -200,13 +200,13 @@
                     {
                         "type": "Card",
                         "title": "Transaction Info",
-                        "fullWidth": true, 
+                        "fullWidth": true,
                         "body": "TableInfoView",
                         "dataGetter": "transaction/transactionInfo",
                         "pagination": false,
                         "loadingGetter": "transaction/transactionInfoLoading",
                         "errorGetter": "transaction/transactionInfoError",
-                        "errorMessage": "Transaction does not exist"        
+                        "errorMessage": "Transaction does not exist"
                     },
                     {
                         "type": "Card",
@@ -214,9 +214,8 @@
                         "fullWidth": false,
                         "body": "TableInfoView",
                         "dataGetter": "transaction/transactionDetail",
-                        "hideEmptyData": true,
                         "pagination": false,
-                        "loadingGetter": "transaction/transactionInfoLoading"      
+                        "loadingGetter": "transaction/transactionInfoLoading"
                     },
                     {
                         "type": "Card",
@@ -227,7 +226,7 @@
                         "hideEmptyData": true,
                         "pagination": true,
                         "pageSize": 5,
-                        "loadingGetter": "transaction/transactionInfoLoading"      
+                        "loadingGetter": "transaction/transactionInfoLoading"
                     },
                     {
                         "type": "Card",
@@ -238,7 +237,7 @@
                         "hideEmptyData": true,
                         "pagination": true,
                         "pageSize": 5,
-                        "loadingGetter": "transaction/transactionInfoLoading"       
+                        "loadingGetter": "transaction/transactionInfoLoading"
                     },
                     {
                         "type": "Card",
@@ -249,7 +248,7 @@
                         "hideEmptyData": true,
                         "pagination": true,
                         "pageSize": 5,
-                        "loadingGetter": "transaction/transactionInfoLoading"       
+                        "loadingGetter": "transaction/transactionInfoLoading"
                     }
                 ]
             }
