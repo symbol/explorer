@@ -26,13 +26,13 @@
 export default {
   name: 'Decimal',
   props: {
-    value: String,
+    value: String
   },
   methods: {
     decimalSplit(value) {
       return value.split('.', 2)
-    },
-  },
+    }
+  }
 }
 </script>
 
@@ -41,4 +41,3 @@ export default {
     color: #98a8b48c;
 }
 </style>
-

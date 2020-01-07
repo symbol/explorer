@@ -20,11 +20,10 @@ export default {
     },
 
     options() {
-      let options = {};
-      this.nodeList.forEach(node =>
-        { options[node.toString()] = node.hostname }
-      );
-      return options;
+      let options = {}
+      this.nodeList.forEach(node => { options[node.toString()] = node.hostname }
+      )
+      return options
     },
 
     currentNode() {

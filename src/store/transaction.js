@@ -186,9 +186,9 @@ export default {
         const type = TRANSACTION_TYPE_MAP[transactionType]
         try {
           let data = await sdkTransaction.getTransactionsFromHashWithLimit(2 * Constants.PageSize, type)
-          if (transactionType === 'recent') {
+          if (transactionType === 'recent')
             commit('setLatestList', data.slice(0, Constants.PageSize))
-          }
+
           commit('setTimelineWithType', { timeline: Timeline.fromData(data), type: transactionType })
         } catch (e) {
           console.error(e)
@@ -204,9 +204,9 @@ export default {
       const timeline = getters.getTimeline
       const list = timeline.next
       try {
-        if (list.length === 0) {
+        if (list.length === 0)
           throw new Error('internal error: next list is 0.')
-        }
+
         const transaction = list[list.length - 1]
         const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
         const fetchNext = pageSize => sdkTransaction.getTransactionsFromHashWithLimit(pageSize, type, transaction.transactionHash)
@@ -224,9 +224,9 @@ export default {
       const timeline = getters.getTimeline
       const list = timeline.previous
       try {
-        if (list.length === 0) {
+        if (list.length === 0)
           throw new Error('internal error: previous list is 0.')
-        }
+
         const transaction = list[0]
         const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
         const fetchPrevious = pageSize => sdkTransaction.getTransactionsSinceHashWithLimit(pageSize, type, transaction.transactionHash)

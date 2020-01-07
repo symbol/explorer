@@ -23,8 +23,8 @@ import detailPages from './config/detail-pages'
 
 Vue.use(Router)
 
-const listPagesRoutes = listPages.pages.map( page => ({ ...page, component: () => import('./views/ListPage.vue') }))
-const detailPagesRoutes = detailPages.pages.map( page => ({ ...page, component: () => import('./views/DetailPage.vue') }))
+const listPagesRoutes = listPages.pages.map(page => ({ ...page, component: () => import('./views/ListPage.vue') }))
+const detailPagesRoutes = detailPages.pages.map(page => ({ ...page, component: () => import('./views/DetailPage.vue') }))
 
 const routerConfig = {
   mode: 'history',
