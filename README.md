@@ -2,7 +2,6 @@
 
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 [![Build Status](https://travis-ci.org/nemfoundation/nem2-explorer.svg?branch=master)](https://travis-ci.org/nemfoundation/nem2-explorer)
-[![Netlify Status](https://api.netlify.com/api/v1/badges/e1eb9d60-2209-4530-85d8-3e499dcf02d4/deploy-status)](https://app.netlify.com/sites/nem2-explorer/deploys)
 
 Browser for Catapult networks. Search for transactions, accounts, assets, and blocks.
 
