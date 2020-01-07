@@ -39,7 +39,7 @@
                         {{blockHeight}}
                     </div>
                 </b-col>
-            </b-row>  
+            </b-row>
             </b-container>
         </template>
     </Card>
@@ -50,25 +50,25 @@ import Card from '@/components/containers/Card.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-    components: { 
-        Card
-    },
+  components: {
+    Card
+  },
 
-    computed: {
-        ...mapGetters({
-            blockHeight: 'chain/getBlockHeight',
-            chainInfo: 'chain/getChainInfo',
-            marketData: 'chain/getMarketData'
-        }),
+  computed: {
+    ...mapGetters({
+      blockHeight: 'chain/getBlockHeight',
+      chainInfo: 'chain/getChainInfo',
+      marketData: 'chain/getMarketData'
+    }),
 
-        loading() { return !this.blockHeight }
-    },
-    
-    methods: {
-        getNameByKey(e) {
-            return this.$store.getters['ui/getNameByKey'](e)
-        }
+    loading() { return !this.blockHeight }
+  },
+
+  methods: {
+    getNameByKey(e) {
+      return this.$store.getters['ui/getNameByKey'](e)
     }
+  }
 }
 </script>
 

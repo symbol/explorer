@@ -69,24 +69,24 @@ export default {
 
   methods: {
     nextPage() {
-      if(this.nextPageAction)
+      if (this.nextPageAction)
         this.$store.dispatch(this.nextPageAction)
       this.$emit('next')
-      if(this.goUp)
+      if (this.goUp)
         this.goToTop()
     },
 
     previousPage() {
-      if(this.previousPageAction)
+      if (this.previousPageAction)
         this.$store.dispatch(this.previousPageAction)
       this.$emit('previous')
-      if(this.goUp)
+      if (this.goUp)
         this.goToTop()
     },
 
     goToTop() {
-      document.body.scrollTop = 0; 
-      document.documentElement.scrollTop = 0; 
+      document.body.scrollTop = 0
+      document.documentElement.scrollTop = 0
     },
 
     getNameByKey(e) {

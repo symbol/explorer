@@ -11,9 +11,8 @@ const readConfig = configPath => {
       // File not found, copy from template to config path during bootstrap.
       fs.copyFileSync(configPath + '.mt', configPath)
       config = fs.readFileSync(configPath, 'utf8')
-    } else {
+    } else
       throw error
-    }
   }
   return config
 }

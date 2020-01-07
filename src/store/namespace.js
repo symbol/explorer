@@ -110,9 +110,9 @@ export default {
       const timeline = getters.getTimeline
       const list = timeline.next
       try {
-        if (list.length === 0) {
+        if (list.length === 0)
           throw new Error('internal error: next list is 0.')
-        }
+
         const namespace = list[list.length - 1]
         const fetchNext = pageSize => sdkNamespace.getNamespacesFromIdWithLimit(pageSize, namespace.id)
         commit('setTimeline', await timeline.shiftNext(fetchNext))
@@ -129,9 +129,9 @@ export default {
       const timeline = getters.getTimeline
       const list = timeline.previous
       try {
-        if (list.length === 0) {
+        if (list.length === 0)
           throw new Error('internal error: previous list is 0.')
-        }
+
         const namespace = list[0]
         const fetchPrevious = pageSize => sdkNamespace.getNamespacesSinceIdWithLimit(pageSize, namespace.id)
         const fetchLive = pageSize => sdkNamespace.getNamespacesSinceIdWithLimit(pageSize)

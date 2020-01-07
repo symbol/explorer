@@ -85,12 +85,12 @@ export default {
   props: {
     data: {
       type: Array,
-      required: true,
+      required: true
     },
 
     pagination: {
       type: Boolean,
-      default: false,
+      default: false
     },
 
     pageSize: {
@@ -100,8 +100,8 @@ export default {
 
     showModal: {
       type: Boolean,
-      default: false,
-    },
+      default: false
+    }
   },
 
   created() {
@@ -117,22 +117,22 @@ export default {
 
   computed: {
     preparedData() {
-      if(Array.isArray(this.data) && this.pagination === true)
-        return this.data.slice(this.pageIndex * this.pageSize, this.pageIndex * this.pageSize + this.pageSize);
+      if (Array.isArray(this.data) && this.pagination === true)
+        return this.data.slice(this.pageIndex * this.pageSize, this.pageIndex * this.pageSize + this.pageSize)
       else
-        return this.data;
+        return this.data
     },
 
     nextPageExist() {
-      return this.pageSize * (this.pageIndex + 1) < this.data.length;
+      return this.pageSize * (this.pageIndex + 1) < this.data.length
     },
 
     prevPageExist() {
-      return this.pageIndex > 0;
+      return this.pageIndex > 0
     },
 
     lastPage() {
-      return Math.ceil(this.data.length / this.pageSize);
+      return Math.ceil(this.data.length / this.pageSize)
     },
 
     header() {
@@ -143,7 +143,7 @@ export default {
 
     dataIsNotEmpty() {
       return this.data.length
-    },
+    }
   },
 
   methods: {
@@ -158,20 +158,20 @@ export default {
     },
 
     nextPage() {
-      if(this.nextPageExist)
-        this.pageIndex ++;
+      if (this.nextPageExist)
+        this.pageIndex++
     },
 
     prevPage() {
-      if(this.prevPageExist)
-        this.pageIndex --;
+      if (this.prevPageExist)
+        this.pageIndex--
     }
   },
 
   watch: {
     preparedData() {
-      if(this.pageIndex >= this.lastPage)
-        this.pageIndex = this.lastPage - 1;
+      if (this.pageIndex >= this.lastPage)
+        this.pageIndex = this.lastPage - 1
     }
   }
 }

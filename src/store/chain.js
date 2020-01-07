@@ -106,10 +106,10 @@ export default {
       commit('setMarketData', { marketData, graphData })
     },
 
-    async getBlockHeight({commit}) {
+    async getBlockHeight({ commit }) {
       let blockList = await sdkBlock.getBlocksFromHeightWithLimit(1)
-        if (blockList.length > 0) 
-          commit('setBlockHeight', blockList[0].height)
+      if (blockList.length > 0)
+        commit('setBlockHeight', blockList[0].height)
     }
   }
 }
