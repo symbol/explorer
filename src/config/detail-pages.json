@@ -165,6 +165,17 @@
                         "pagination": true,
                         "pageSize": 5,
                         "loadingGetter": "block/blockInfoLoading"
+                    },
+                    {
+                        "type": "Card",
+                        "title": "Resolution Statement",
+                        "fullWidth": false,
+                        "body": "TableListView",
+                        "dataGetter": "block/resolutionStatement",
+                        "hideEmptyData": true,
+                        "pagination": true,
+                        "pageSize": 5,
+                        "loadingGetter": "block/blockInfoLoading"
                     }
                 ]
             }

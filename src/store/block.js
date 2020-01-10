@@ -52,6 +52,8 @@ export default {
     balanceChangeReceipt: [],
     // The Block receipt - Artifact Expiry
     artifactExpiryReceipt: [],
+    // The Block receipt resolution statement
+    resolutionStatement: [],
     currentBlockHeight: null,
     blockInfoLoading: false,
     blockInfoError: false
@@ -82,6 +84,7 @@ export default {
     balanceTransferReceipt: state => state.balanceTransferReceipt,
     balanceChangeReceipt: state => state.balanceChangeReceipt,
     artifactExpiryReceipt: state => state.artifactExpiryReceipt,
+    resolutionStatement: state => state.resolutionStatement,
     currentBlockHeight: state => state.currentBlockHeight,
     blockInfoLoading: state => state.blockInfoLoading,
     blockInfoError: state => state.blockInfoError,
@@ -109,6 +112,7 @@ export default {
     balanceTransferReceipt: (state, balanceTransferReceipt) => Vue.set(state, 'balanceTransferReceipt', balanceTransferReceipt),
     balanceChangeReceipt: (state, balanceChangeReceipt) => Vue.set(state, 'balanceChangeReceipt', balanceChangeReceipt),
     artifactExpiryReceipt: (state, artifactExpiryReceipt) => Vue.set(state, 'artifactExpiryReceipt', artifactExpiryReceipt),
+    resolutionStatement: (state, resolutionStatement) => Vue.set(state, 'resolutionStatement', resolutionStatement),
     currentBlockHeight: (state, currentBlockHeight) => Vue.set(state, 'currentBlockHeight', currentBlockHeight),
     blockInfoLoading: (state, blockInfoLoading) => Vue.set(state, 'blockInfoLoading', blockInfoLoading),
     blockInfoError: (state, blockInfoError) => Vue.set(state, 'blockInfoError', blockInfoError)
@@ -247,6 +251,7 @@ export default {
       commit('balanceTransferReceipt', [])
       commit('balanceChangeReceipt', [])
       commit('artifactExpiryReceipt', [])
+      commit('resolutionStatement', [])
       commit('currentBlockHeight', height)
 
       dispatch('chain/getBlockHeight', null, { root: true })
@@ -264,6 +269,7 @@ export default {
         commit('balanceTransferReceipt', blockInfo.balanceTransferReceipt)
         commit('balanceChangeReceipt', blockInfo.balanceChangeReceipt)
         commit('artifactExpiryReceipt', blockInfo.artifactExpiryReceipt)
+        commit('resolutionStatement', blockInfo.resolutionStatements)
       }
 
       commit('blockInfoLoading', false)

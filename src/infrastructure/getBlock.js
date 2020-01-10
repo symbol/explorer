@@ -54,21 +54,21 @@ class sdkBlock {
   }
 
   static getReceiptsByBlockHeight = async blockHeight => {
-      let blockReceipts = await http.receipt
-        .getBlockReceipts(blockHeight)
-        .toPromise()
+    let blockReceipts = await http.receipt
+      .getBlockReceipts(blockHeight)
+      .toPromise()
 
-        let transactionReceipt = blockReceipts.transactionStatements.reduce((receipt, item) => {
-            receipt.push(...item.receipts);
-          return receipt;
-        },blockReceipts.transactionStatements[0]?.receipts) || []
+    let transactionReceipt = blockReceipts.transactionStatements.reduce((receipt, item) => {
+      receipt.push(...item.receipts)
+      return receipt
+    }, blockReceipts.transactionStatements[0]?.receipts) || []
 
-        let resolutionStatements = [...blockReceipts.addressResolutionStatements, ...blockReceipts.mosaicResolutionStatements]
+    let resolutionStatements = [...blockReceipts.addressResolutionStatements, ...blockReceipts.mosaicResolutionStatements]
 
-        return {
-          transactionReceipt : format.formatReceiptStatements(transactionReceipt),
-          resolutionStatements: format.formatResolutionStatements(resolutionStatements)
-        }
+    return {
+      transactionReceipt: format.formatReceiptStatements(transactionReceipt),
+      resolutionStatements: format.formatResolutionStatements(resolutionStatements)
+    }
   }
 
   static getBlocksFromHeightWithLimit = async (limit, fromBlockHeight) => {
@@ -105,7 +105,7 @@ class sdkBlock {
     let rawBlockInfo
     let formattedBlockInfo
     let blockTransactionList
-    let transactionList
+    let formattedTransactionList
     let blockReceipt
     let formattedBalanceChangeReceipt
     let formattedBalanceTransferReceipt
@@ -128,30 +128,27 @@ class sdkBlock {
         blockHash: rawBlockInfo.hash
       }
 
-      transactionList = []
-      if (blockTransactionList.length) {
-        transactionList = blockTransactionList.map((el) => ({
-          deadline: el.deadline,
-          transactionHash: el.transactionHash,
-          // fee: el.fee,
-          // signer: el.signer,
-          type: el.transactionBody.type
-        }))
-      }
+      formattedTransactionList = blockTransactionList?.map((el) => ({
+        deadline: el.deadline,
+        transactionHash: el.transactionHash,
+        // fee: el.fee,
+        // signer: el.signer,
+        type: el.transactionBody.type
+      }))
 
       const { artifactExpiryReceipt, balanceChangeReceipt, balanceTransferReceipt, inflationReceipt } = blockReceipt.transactionReceipt
 
-      formattedBalanceTransferReceipt = balanceTransferReceipt?.map(el =>({
+      formattedBalanceTransferReceipt = balanceTransferReceipt?.map(el => ({
         version: el.version,
         type: el.type,
         size: el.size,
         senderAddress: el.sender,
         recipient: el.recipientAddress,
         mosaicId: el.mosaicId,
-        amount: el.amount,
+        amount: el.amount
       }))
 
-      formattedBalanceChangeReceipt = balanceChangeReceipt?.map(el=>({
+      formattedBalanceChangeReceipt = balanceChangeReceipt?.map(el => ({
         version: el.version,
         type: el.type,
         size: el.size,
@@ -162,11 +159,12 @@ class sdkBlock {
 
       return {
         blockInfo: formattedBlockInfo || {},
-        transactionList: transactionList || [],
+        transactionList: formattedTransactionList || [],
         inflationReceipt: inflationReceipt || [],
         balanceTransferReceipt: formattedBalanceTransferReceipt || [],
         balanceChangeReceipt: formattedBalanceChangeReceipt || [],
-        artifactExpiryReceipt: artifactExpiryReceipt || []
+        artifactExpiryReceipt: artifactExpiryReceipt || [],
+        resolutionStatements: blockReceipt.resolutionStatements || []
       }
     }
   }

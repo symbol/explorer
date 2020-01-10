@@ -114,7 +114,7 @@ class Constants {
     [ReceiptType.Mosaic_Expired]: 'Mosaic Expired',
     [ReceiptType.Namespace_Expired]: 'Namespace Expired',
     [ReceiptType.Namespace_Deleted]: 'Namespace Deleted',
-    [ReceiptType.Inflation]: 'Inflation',
+    [ReceiptType.Inflation]: 'Inflation'
   }
 
   static ResolutionType = {
