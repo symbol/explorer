@@ -14,7 +14,7 @@
                         {{getNameByKey('Nem blockchain explorer')}}
                     </div>
                     <div class="header-sub-title">
-                        {{getNameByKey('Search transactions, addresses, namespace & mosaic on the nem network.')}}
+                        {{getNameByKey('Search transactions, addresses, namespaces & mosaics on the nem network.')}}
                     </div>
                     <SearchBox class='search-box' />
                 </b-col>
