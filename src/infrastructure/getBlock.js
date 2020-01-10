@@ -53,6 +53,24 @@ class sdkBlock {
     return format.formatTransactions(transactions)
   }
 
+  static getReceiptsByBlockHeight = async blockHeight => {
+      let blockReceipts = await http.receipt
+        .getBlockReceipts(blockHeight)
+        .toPromise()
+
+        let transactionReceipt = blockReceipts.transactionStatements.reduce((receipt, item) => {
+            receipt.push(...item.receipts);
+          return receipt;
+        },blockReceipts.transactionStatements[0]?.receipts) || []
+
+        let resolutionStatements = [...blockReceipts.addressResolutionStatements, ...blockReceipts.mosaicResolutionStatements]
+
+        return {
+          transactionReceipt : format.formatReceiptStatements(transactionReceipt),
+          resolutionStatements: format.formatResolutionStatements(resolutionStatements)
+        }
+  }
+
   static getBlocksFromHeightWithLimit = async (limit, fromBlockHeight) => {
     let blockHeight
     if (fromBlockHeight === undefined)
@@ -88,8 +106,13 @@ class sdkBlock {
     let formattedBlockInfo
     let blockTransactionList
     let transactionList
+    let blockReceipt
+    let formattedBalanceChangeReceipt
+    let formattedBalanceTransferReceipt
 
     try { rawBlockInfo = await this.getBlockInfoByHeight(height) } catch (e) { throw Error('Failed to fetch block info', e) }
+
+    try { blockReceipt = await this.getReceiptsByBlockHeight(height) } catch (e) { console.warn(e) }
 
     try { blockTransactionList = await this.getBlockFullTransactionsList(height) } catch (e) { console.warn(e) }
 
@@ -116,9 +139,34 @@ class sdkBlock {
         }))
       }
 
+      const { artifactExpiryReceipt, balanceChangeReceipt, balanceTransferReceipt, inflationReceipt } = blockReceipt.transactionReceipt
+
+      formattedBalanceTransferReceipt = balanceTransferReceipt?.map(el =>({
+        version: el.version,
+        type: el.type,
+        size: el.size,
+        senderAddress: el.sender,
+        recipient: el.recipientAddress,
+        mosaicId: el.mosaicId,
+        amount: el.amount,
+      }))
+
+      formattedBalanceChangeReceipt = balanceChangeReceipt?.map(el=>({
+        version: el.version,
+        type: el.type,
+        size: el.size,
+        address: el.targetPublicAccount,
+        amount: el.amount,
+        mosaicId: el.mosaicId
+      }))
+
       return {
         blockInfo: formattedBlockInfo || {},
-        transactionList: transactionList || []
+        transactionList: transactionList || [],
+        inflationReceipt: inflationReceipt || [],
+        balanceTransferReceipt: formattedBalanceTransferReceipt || [],
+        balanceChangeReceipt: formattedBalanceChangeReceipt || [],
+        artifactExpiryReceipt: artifactExpiryReceipt || []
       }
     }
   }
