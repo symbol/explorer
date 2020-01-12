@@ -109,6 +109,7 @@ class sdkBlock {
     let blockReceipt
     let formattedBalanceChangeReceipt
     let formattedBalanceTransferReceipt
+    let formattedinflationReceipt
 
     try { rawBlockInfo = await this.getBlockInfoByHeight(height) } catch (e) { throw Error('Failed to fetch block info', e) }
 
@@ -157,10 +158,17 @@ class sdkBlock {
         mosaicId: el.mosaicId
       }))
 
+      formattedinflationReceipt = inflationReceipt?.map(el =>({
+        version: el.version,
+        size: el.size,
+        amount: el.amount,
+        mosaicId: el.mosaicId
+      }))
+
       return {
         blockInfo: formattedBlockInfo || {},
         transactionList: formattedTransactionList || [],
-        inflationReceipt: inflationReceipt || [],
+        inflationReceipt: formattedinflationReceipt || [],
         balanceTransferReceipt: formattedBalanceTransferReceipt || [],
         balanceChangeReceipt: formattedBalanceChangeReceipt || [],
         artifactExpiryReceipt: artifactExpiryReceipt || [],
