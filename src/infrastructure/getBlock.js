@@ -54,14 +54,14 @@ class sdkBlock {
   }
 
   static getReceiptsByBlockHeight = async blockHeight => {
-    let blockReceipts = await http.receipt
+    const blockReceipts = await http.receipt
       .getBlockReceipts(blockHeight)
       .toPromise()
 
     let transactionReceipt = blockReceipts.transactionStatements.reduce((receipt, item) => {
       receipt.push(...item.receipts)
       return receipt
-    }, blockReceipts.transactionStatements[0]?.receipts) || []
+    }, []) || []
 
     let resolutionStatements = [...blockReceipts.addressResolutionStatements, ...blockReceipts.mosaicResolutionStatements]
 
@@ -158,7 +158,7 @@ class sdkBlock {
         mosaicId: el.mosaicId
       }))
 
-      formattedinflationReceipt = inflationReceipt?.map(el =>({
+      formattedinflationReceipt = inflationReceipt?.map(el => ({
         version: el.version,
         size: el.size,
         amount: el.amount,
