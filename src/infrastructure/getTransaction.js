@@ -49,7 +49,7 @@ class sdkTransaction {
       await sdkMosaic.addMosaicAliasNames(mosaicIdsList)
 
       transaction.mosaics.map(mosaic => {
-         mosaic.mosaicInfo = mosaicInfos.find(m => m.id.equals(mosaic.id))
+        mosaic.mosaicInfo = mosaicInfos.find(m => m.id.equals(mosaic.id))
       })
     }
 
@@ -166,185 +166,185 @@ class sdkTransaction {
 
       if (transactionBody) {
         switch (transactionBody.transactionType) {
-          case nem.TransactionType.TRANSFER:
-            formattedTransactionDetail = {
-              transactionType: transactionBody.type,
-              recipient: transactionBody.recipient,
-              message: transactionBody.message
-            }
+        case nem.TransactionType.TRANSFER:
+          formattedTransactionDetail = {
+            transactionType: transactionBody.type,
+            recipient: transactionBody.recipient,
+            message: transactionBody.message
+          }
 
-            if (transactionBody.mosaics?.length) {
-              formattedTransferMosaics = transactionBody.mosaics.map((el) => ({
-                mosaicId: el.id,
-                amount: el.amount,
-                mosaicAliasName: el.mosaicAliasName
-              }))
-            }
-            break
+          if (transactionBody.mosaics?.length) {
+            formattedTransferMosaics = transactionBody.mosaics.map((el) => ({
+              mosaicId: el.id,
+              amount: el.amount,
+              mosaicAliasName: el.mosaicAliasName
+            }))
+          }
+          break
 
-          case nem.TransactionType.REGISTER_NAMESPACE:
-            formattedTransactionDetail = {
-              transactionType: transactionBody.type,
-              recipient: transactionBody.recipient,
-              registrationType: transactionBody.registrationType,
-              namespaceName: transactionBody.namespaceName,
-              namespaceId: transactionBody.namespaceId,
-              parentId: transactionBody.parentId,
-              duration: transactionBody.duration
-            }
-            break
+        case nem.TransactionType.REGISTER_NAMESPACE:
+          formattedTransactionDetail = {
+            transactionType: transactionBody.type,
+            recipient: transactionBody.recipient,
+            registrationType: transactionBody.registrationType,
+            namespaceName: transactionBody.namespaceName,
+            namespaceId: transactionBody.namespaceId,
+            parentId: transactionBody.parentId,
+            duration: transactionBody.duration
+          }
+          break
 
-          case nem.TransactionType.ADDRESS_ALIAS:
-            formattedTransactionDetail = {
-              transactionType: transactionBody.type,
-              aliasAction: transactionBody.aliasAction,
-              namespaceId: transactionBody.namespaceId
-            }
-            break
+        case nem.TransactionType.ADDRESS_ALIAS:
+          formattedTransactionDetail = {
+            transactionType: transactionBody.type,
+            aliasAction: transactionBody.aliasAction,
+            namespaceId: transactionBody.namespaceId
+          }
+          break
 
-          case nem.TransactionType.MOSAIC_ALIAS:
-            formattedTransactionDetail = {
-              transactionType: transactionBody.type,
-              aliasAction: transactionBody.aliasAction,
-              namespaceId: transactionBody.namespaceId,
-              mosaicId: transactionBody.mosaicId
-            }
-            break
+        case nem.TransactionType.MOSAIC_ALIAS:
+          formattedTransactionDetail = {
+            transactionType: transactionBody.type,
+            aliasAction: transactionBody.aliasAction,
+            namespaceId: transactionBody.namespaceId,
+            mosaicId: transactionBody.mosaicId
+          }
+          break
 
-          case nem.TransactionType.MOSAIC_DEFINITION:
-            formattedTransactionDetail = {
-              transactionType: transactionBody.type,
-              recipient: transactionBody.recipient,
-              mosaicId: transactionBody.mosaicId,
-              divisibility: transactionBody.divisibility,
-              duration: transactionBody.duration,
-              nonce: transactionBody.nonce,
-              supplyMutable: transactionBody.supplyMutable,
-              transferable: transactionBody.transferable,
-              restrictable: transactionBody.restrictable
-            }
-            break
+        case nem.TransactionType.MOSAIC_DEFINITION:
+          formattedTransactionDetail = {
+            transactionType: transactionBody.type,
+            recipient: transactionBody.recipient,
+            mosaicId: transactionBody.mosaicId,
+            divisibility: transactionBody.divisibility,
+            duration: transactionBody.duration,
+            nonce: transactionBody.nonce,
+            supplyMutable: transactionBody.supplyMutable,
+            transferable: transactionBody.transferable,
+            restrictable: transactionBody.restrictable
+          }
+          break
 
-          case nem.TransactionType.MOSAIC_SUPPLY_CHANGE:
-            formattedTransactionDetail = {
-              transactionType: transactionBody.type,
-              mosaicId: transactionBody.mosaicId,
-              action: transactionBody.action,
-              delta: transactionBody.delta
-            }
-            break
+        case nem.TransactionType.MOSAIC_SUPPLY_CHANGE:
+          formattedTransactionDetail = {
+            transactionType: transactionBody.type,
+            mosaicId: transactionBody.mosaicId,
+            action: transactionBody.action,
+            delta: transactionBody.delta
+          }
+          break
 
-          case nem.TransactionType.MODIFY_MULTISIG_ACCOUNT:
-            formattedTransactionDetail = {
-              transactionType: transactionBody.type
-            }
-            break
+        case nem.TransactionType.MODIFY_MULTISIG_ACCOUNT:
+          formattedTransactionDetail = {
+            transactionType: transactionBody.type
+          }
+          break
 
-          case nem.TransactionType.AGGREGATE_COMPLETE:
-            formattedTransactionDetail = {
-              transactionType: transactionBody.type
-            }
+        case nem.TransactionType.AGGREGATE_COMPLETE:
+          formattedTransactionDetail = {
+            transactionType: transactionBody.type
+          }
 
-            if (transactionBody.innerTransactions?.length) {
-              formattedAggregateInnerTransactions = transactionBody.innerTransactions.map((el) => ({
-                transactionId: el.transactionId,
-                type: el.transactionBody.type,
-                signer: el.signer,
-                transactionBody: el.transactionBody
-              }))
-            }
+          if (transactionBody.innerTransactions?.length) {
+            formattedAggregateInnerTransactions = transactionBody.innerTransactions.map((el) => ({
+              transactionId: el.transactionId,
+              type: el.transactionBody.type,
+              signer: el.signer,
+              transactionBody: el.transactionBody
+            }))
+          }
 
-            if (transactionBody.cosignatures?.length) {
-              formattedAggregateCosignatures = transactionBody.cosignatures.map((el) => ({
-                signature: el.signature,
-                signer: el.signer
-              }))
-            }
+          if (transactionBody.cosignatures?.length) {
+            formattedAggregateCosignatures = transactionBody.cosignatures.map((el) => ({
+              signature: el.signature,
+              signer: el.signer
+            }))
+          }
 
-            break
+          break
 
-          case nem.TransactionType.AGGREGATE_BONDED:
-            formattedTransactionDetail = {
-              transactionType: transactionBody.type
-            }
+        case nem.TransactionType.AGGREGATE_BONDED:
+          formattedTransactionDetail = {
+            transactionType: transactionBody.type
+          }
 
-            if (transactionBody.innerTransactions?.length) {
-              formattedAggregateInnerTransactions = transactionBody.innerTransactions.map((el) => ({
-                transactionId: el.transactionId,
-                type: el.transactionBody.type,
-                signer: el.signer,
-                transactionBody: el.transactionBody
-              }))
-            }
+          if (transactionBody.innerTransactions?.length) {
+            formattedAggregateInnerTransactions = transactionBody.innerTransactions.map((el) => ({
+              transactionId: el.transactionId,
+              type: el.transactionBody.type,
+              signer: el.signer,
+              transactionBody: el.transactionBody
+            }))
+          }
 
-            if (transactionBody.cosignatures?.length) {
-              formattedAggregateCosignatures = transactionBody.cosignatures.map((el) => ({
-                signature: el.signature,
-                signer: el.signer
-              }))
-            }
+          if (transactionBody.cosignatures?.length) {
+            formattedAggregateCosignatures = transactionBody.cosignatures.map((el) => ({
+              signature: el.signature,
+              signer: el.signer
+            }))
+          }
 
-            break
+          break
 
-          case nem.TransactionType.LOCK:
-            formattedTransactionDetail = {
-              transactionType: transactionBody.type,
-              duration: transactionBody.duration,
-              mosaicId: transactionBody.mosaicId,
-              amount: transactionBody.amount
-            }
-            break
+        case nem.TransactionType.LOCK:
+          formattedTransactionDetail = {
+            transactionType: transactionBody.type,
+            duration: transactionBody.duration,
+            mosaicId: transactionBody.mosaicId,
+            amount: transactionBody.amount
+          }
+          break
 
-          case nem.TransactionType.SECRET_LOCK:
-            formattedTransactionDetail = {
-              transactionType: transactionBody.type,
-              duration: transactionBody.duration,
-              mosaicId: transactionBody.mosaicId,
-              secret: transactionBody.secret,
-              recipient: transactionBody.recipient,
-              hashType: transactionBody.hashType
-            }
-            break
+        case nem.TransactionType.SECRET_LOCK:
+          formattedTransactionDetail = {
+            transactionType: transactionBody.type,
+            duration: transactionBody.duration,
+            mosaicId: transactionBody.mosaicId,
+            secret: transactionBody.secret,
+            recipient: transactionBody.recipient,
+            hashType: transactionBody.hashType
+          }
+          break
 
-          case nem.TransactionType.SECRET_PROOF:
-            // Todo: Anthony
-            formattedTransactionDetail = {
-              transactionType: transactionBody.type
-            }
-            break
+        case nem.TransactionType.SECRET_PROOF:
+          // Todo: Anthony
+          formattedTransactionDetail = {
+            transactionType: transactionBody.type
+          }
+          break
 
-          case nem.TransactionType.MODIFY_ACCOUNT_PROPERTY_ADDRESS:
-            // Todo: Anthony
-            formattedTransactionDetail = {
-              transactionType: transactionBody.type
-            }
-            break
+        case nem.TransactionType.MODIFY_ACCOUNT_PROPERTY_ADDRESS:
+          // Todo: Anthony
+          formattedTransactionDetail = {
+            transactionType: transactionBody.type
+          }
+          break
 
-          case nem.TransactionType.MODIFY_ACCOUNT_PROPERTY_MOSAIC:
-            // Todo: Anthony
-            formattedTransactionDetail = {
-              transactionType: transactionBody.type
-            }
-            break
+        case nem.TransactionType.MODIFY_ACCOUNT_PROPERTY_MOSAIC:
+          // Todo: Anthony
+          formattedTransactionDetail = {
+            transactionType: transactionBody.type
+          }
+          break
 
-          case nem.TransactionType.MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE:
-            // Todo: Anthony
-            formattedTransactionDetail = {
-              transactionType: transactionBody.type
-            }
-            break
+        case nem.TransactionType.MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE:
+          // Todo: Anthony
+          formattedTransactionDetail = {
+            transactionType: transactionBody.type
+          }
+          break
 
-          case nem.TransactionType.LINK_ACCOUNT:
-            formattedTransactionDetail = {
-              transactionType: transactionBody.type,
-              linkAction: transactionBody.linkAction,
-              remoteAccountPublicKey: transactionBody.remoteAccountPublicKey,
-              remoteAccountAddress: transactionBody.remoteAccountAddress
-            }
-            break
+        case nem.TransactionType.LINK_ACCOUNT:
+          formattedTransactionDetail = {
+            transactionType: transactionBody.type,
+            linkAction: transactionBody.linkAction,
+            remoteAccountPublicKey: transactionBody.remoteAccountPublicKey,
+            remoteAccountAddress: transactionBody.remoteAccountAddress
+          }
+          break
 
-          default:
-            break
+        default:
+          break
         }
       }
     }

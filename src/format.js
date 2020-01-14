@@ -11,11 +11,11 @@ const microxemToXem = amount => amount / Math.pow(10, 6)
 // Convert Mosaic amount to relative Amount with divisibility.
 const formatMosaicAmountWithDivisibility = (amount, divisibility) => {
   let relativeAmount = divisibility !== 0 ? amount / Math.pow(10, divisibility) : amount.compact()
-  return relativeAmount.toLocaleString('en-US', {minimumFractionDigits: divisibility})
+  return relativeAmount.toLocaleString('en-US', { minimumFractionDigits: divisibility })
 }
 
 // Format fee (in microxem) to string (in XEM).
-const formatFee = fee => microxemToXem(fee.compact()).toLocaleString('en-US', {minimumFractionDigits: 6})
+const formatFee = fee => microxemToXem(fee.compact()).toLocaleString('en-US', { minimumFractionDigits: Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY })
 
 // Format ImportantScore
 const formatImportanceScore = importanceScore => {
@@ -46,7 +46,7 @@ const formatBlock = block => ({
   ).local().format('YYYY-MM-DD HH:mm:ss'),
   totalFee: formatFee(block.totalFee),
   difficulty: ((block.difficulty.compact() / 1000000000000).toFixed(2)).toString(),
-  feeMultiplier: microxemToXem(block.feeMultiplier).toLocaleString('en-US', {minimumFractionDigits: 6}),
+  feeMultiplier: microxemToXem(block.feeMultiplier).toLocaleString('en-US', { minimumFractionDigits: Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY }),
   numTransactions: block.numTransactions.toLocaleString('en-US'),
   signature: block.signature,
   signer: Address.createFromPublicKey(block.signer.publicKey, http.networkType).plain(),
