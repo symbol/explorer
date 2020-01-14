@@ -18,7 +18,7 @@
 
 import Lock from './lock'
 import Timeline from './timeline'
-import sdkNode from '../infrastructure/getNode'
+import sdkNode from '../infrastructure/getNodePeers'
 
 const LOCK = Lock.create()
 
@@ -76,7 +76,7 @@ export default {
     async initializePage({ commit }) {
       commit('setLoading', true)
       try {
-        const nodeList = await sdkNode.getNodes()
+        const nodeList = await sdkNode.getNodePeers()
         commit('setTimeline', Timeline.fromData(nodeList))
       } catch (e) {
         console.error(e)
@@ -115,7 +115,7 @@ export default {
 
         const node = list[0] // eslint-disable-line no-unused-vars
         const fetchPrevious = async pageSize => []
-        const fetchLive = async pageSize => sdkNode.getNodes()
+        const fetchLive = async pageSize => sdkNode.getNodePeers()
         commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
       } catch (e) {
         console.error(e)
@@ -129,7 +129,7 @@ export default {
       commit('setLoading', true)
       try {
         if (!getters.getTimeline.isLive) {
-          const data = await sdkNode.getNodes()
+          const data = await sdkNode.getNodePeers()
           commit('setTimeline', Timeline.fromData(data))
         }
       } catch (e) {

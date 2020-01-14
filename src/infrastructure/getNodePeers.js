@@ -22,13 +22,11 @@ import dto from './dto'
 import format from '../format'
 
 class sdkNode {
-    static getNodes = async () => {
+    static getNodePeers = async () => {
       const path = `/node/peers`
       const response = await axios.get(http.nodeUrl + path)
 
       const nodes = response.data.map(node => dto.createNodeInfoFromDTO(node, http.networkType))
-
-      console.log(format.formatNodesInfo(nodes))
 
       return format.formatNodesInfo(nodes)
     }
