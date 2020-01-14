@@ -53,40 +53,40 @@ export default new Vuex.Store({
       await helper.logError(dispatch, 'api/initialize')
 
       switch (route.name) {
-        // Home
-        case 'home':
-          // Home: Requires blocks, chain, and transactions.
-          return Promise.all([
-            helper.logError(dispatch, 'block/initialize'),
-            helper.logError(dispatch, 'chain/initialize'),
-            helper.logError(dispatch, 'transaction/initialize')
-          ])
+      // Home
+      case 'home':
+        // Home: Requires blocks, chain, and transactions.
+        return Promise.all([
+          helper.logError(dispatch, 'block/initialize'),
+          helper.logError(dispatch, 'chain/initialize'),
+          helper.logError(dispatch, 'transaction/initialize')
+        ])
 
         // Timeline Views
-        case 'accounts':
-          return helper.logError(dispatch, 'account/initialize')
-        case 'blocks':
-          return helper.logError(dispatch, 'block/initialize')
-        case 'mosaics':
-          return helper.logError(dispatch, 'mosaic/initialize')
-        case 'namespaces':
-          return helper.logError(dispatch, 'namespace/initialize')
-        case 'nodes':
-          return helper.logError(dispatch, 'node/initialize')
-        case 'transactions':
-          return helper.logError(dispatch, 'transaction/initialize')
+      case 'accounts':
+        return helper.logError(dispatch, 'account/initialize')
+      case 'blocks':
+        return helper.logError(dispatch, 'block/initialize')
+      case 'mosaics':
+        return helper.logError(dispatch, 'mosaic/initialize')
+      case 'namespaces':
+        return helper.logError(dispatch, 'namespace/initialize')
+      case 'nodes':
+        return helper.logError(dispatch, 'node/initialize')
+      case 'transactions':
+        return helper.logError(dispatch, 'transaction/initialize')
 
         // Detail Views
-        case 'account-detail':
-          return helper.logError(dispatch, 'account/fetchAccountDataByAddress', route.params.address || 0)
-        case 'block-detail':
-          return helper.logError(dispatch, 'block/getBlockInfo', route.params.height || 0)
-        case 'mosaic-detail':
-          return helper.logError(dispatch, 'mosaic/fetchMosaicInfo', route.params.mosaicId || 0)
-        case 'namespace-detail':
-          return helper.logError(dispatch, 'namespace/fetchNamespaceInfo', route.params.namespaceId || 0)
-        case 'transaction-detail':
-          return helper.logError(dispatch, 'transaction/getTransactionInfoByHash', route.params.transactionHash || '')
+      case 'account-detail':
+        return helper.logError(dispatch, 'account/fetchAccountDataByAddress', route.params.address || 0)
+      case 'block-detail':
+        return helper.logError(dispatch, 'block/getBlockInfo', route.params.height || 0)
+      case 'mosaic-detail':
+        return helper.logError(dispatch, 'mosaic/fetchMosaicInfo', route.params.mosaicId || 0)
+      case 'namespace-detail':
+        return helper.logError(dispatch, 'namespace/fetchNamespaceInfo', route.params.namespaceId || 0)
+      case 'transaction-detail':
+        return helper.logError(dispatch, 'transaction/getTransactionInfoByHash', route.params.transactionHash || '')
       }
     },
 

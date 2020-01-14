@@ -14,7 +14,7 @@
                         {{getNameByKey('Nem blockchain explorer')}}
                     </div>
                     <div class="header-sub-title">
-                        {{getNameByKey('Search transactions, addresses, namespace & mosaic on the nem network.')}}
+                        {{getNameByKey('Search transactions, addresses, namespaces & mosaics on the nem network.')}}
                     </div>
                     <SearchBox class='search-box' />
                 </b-col>
@@ -30,18 +30,17 @@
 import SearchBox from '@/components/controls/SearchBox.vue'
 import LanguageSelector from '@/components/controls/LanguageSelector.vue'
 
-
 export default {
-    components: {
-        SearchBox,
-        LanguageSelector
-    },
+  components: {
+    SearchBox,
+    LanguageSelector
+  },
 
-    methods: {
-        getNameByKey(e) {
-            return this.$store.getters['ui/getNameByKey'](e)
-        }
-    },
+  methods: {
+    getNameByKey(e) {
+      return this.$store.getters['ui/getNameByKey'](e)
+    }
+  }
 }
 </script>
 

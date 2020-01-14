@@ -34,9 +34,8 @@ const addNamespaceNames = async namespaces => {
   // Create a mapping of namespace IDs to names.
   // Allows efficient ID lookups.
   const idToNameMap = {}
-  for (let item of namespaceNames) {
+  for (let item of namespaceNames)
     idToNameMap[item.namespaceId.toHex()] = item.name
-  }
 
   // Add name to namespace object.
   namespaces.map(info => {
@@ -76,11 +75,10 @@ class sdkNamespace {
   static getNamespaceInfo = async namespaceOrHex => {
     let namespace = ''
 
-    if (helper.isHexadecimal(namespaceOrHex)) {
+    if (helper.isHexadecimal(namespaceOrHex))
       namespace = NamespaceId.createFromEncoded(namespaceOrHex)
-    } else {
+    else
       namespace = new NamespaceId(namespaceOrHex)
-    }
 
     let namespaceInfo = await http.namespaceService.namespace(namespace).toPromise()
     let namespaceNames = await http.namespace.getNamespacesName([namespace]).toPromise()
@@ -98,11 +96,10 @@ class sdkNamespace {
 
   static getNamespacesFromIdWithLimit = async (limit, fromNamespaceId) => {
     let namespaceId
-    if (fromNamespaceId === undefined) {
+    if (fromNamespaceId === undefined)
       namespaceId = 'latest'
-    } else {
+    else
       namespaceId = fromNamespaceId
-    }
 
     // Make request.
     const path = `/namespaces/from/${namespaceId}/limit/${limit}`
@@ -115,11 +112,10 @@ class sdkNamespace {
 
   static getNamespacesSinceIdWithLimit = async (limit, sinceNamespaceId) => {
     let namespaceId
-    if (sinceNamespaceId === undefined) {
+    if (sinceNamespaceId === undefined)
       namespaceId = 'earliest'
-    } else {
+    else
       namespaceId = sinceNamespaceId
-    }
 
     // Make request.
     const path = `/namespaces/since/${namespaceId}/limit/${limit}`
@@ -149,17 +145,16 @@ class sdkNamespace {
         startHeight: namespaceInfo.startHeight,
         endHeight: namespaceInfo.endHeight,
         active: namespaceInfo.active,
-        aliasType: namespaceInfo.aliasType,
+        aliasType: namespaceInfo.aliasType
       }
 
       // create alias props by alias type.
-      if (namespaceInfo.aliasType === Constants.Message.ADDRESS) {
+      if (namespaceInfo.aliasType === Constants.Message.ADDRESS)
         namespaceInfoFormatted.aliasAddress = namespaceInfo.alias
-      } else if (namespaceInfo.aliasType === Constants.Message.MOSAIC) {
+      else if (namespaceInfo.aliasType === Constants.Message.MOSAIC)
         namespaceInfoFormatted.aliasMosaic = namespaceInfo.alias
-      } else {
+      else
         namespaceInfoFormatted.alias = namespaceInfo.alias
-      }
 
       namespaceLevels = []
       if (namespaceInfo.levels?.length) {

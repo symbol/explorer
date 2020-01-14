@@ -35,24 +35,24 @@ import Card from '@/components/containers/Card.vue'
 export default {
   components: {
     TableListView,
-    Card,
+    Card
   },
 
   data() {
     return {
-      metadataEntries: 'Metadata Entries',
+      metadataEntries: 'Metadata Entries'
     }
   },
 
   props: {
     data: {
       type: Array,
-      required: true,
+      required: true
     },
     loading: {
       type: Boolean,
-      required: true,
-    },
-  },
+      required: true
+    }
+  }
 }
 </script>

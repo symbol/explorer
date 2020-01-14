@@ -101,13 +101,13 @@ export default {
       if (this.isItemClickable(itemKey) && !this.isDisableItemClick(item)) {
         this.$store.dispatch(`ui/openPage`, {
           pageName: itemKey,
-          param: item,
+          param: item
         })
       }
     },
 
     getItemHref(itemKey, item) {
-      if(!this.isDisableItemClick(item))
+      if (!this.isDisableItemClick(item))
         return this.$store.getters[`ui/getPageHref`]({ pageName: itemKey, param: item })
     },
 

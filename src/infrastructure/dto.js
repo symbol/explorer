@@ -26,9 +26,9 @@ const createUInt64FromDTO = uint64DTO =>
   nem.UInt64.fromNumericString(uint64DTO)
 
 const createPublicAccountFromDTO = (publicKey, networkType) => {
-  if (undefined === publicKey) {
+  if (undefined === publicKey)
     return undefined
-  }
+
   return nem.PublicAccount.createFromPublicKey(publicKey, networkType)
 }
 
@@ -99,24 +99,24 @@ const createNamespaceIdFromDTO = (namespaceIdDTO) =>
 
 const extractLevels = (namespaceDTO) => {
   const result = []
-  if (namespaceDTO.level0) {
+  if (namespaceDTO.level0)
     result.push(createNamespaceIdFromDTO(namespaceDTO.level0))
-  }
-  if (namespaceDTO.level1) {
+
+  if (namespaceDTO.level1)
     result.push(createNamespaceIdFromDTO(namespaceDTO.level1))
-  }
-  if (namespaceDTO.level2) {
+
+  if (namespaceDTO.level2)
     result.push(createNamespaceIdFromDTO(namespaceDTO.level2))
-  }
+
   return result
 }
 
 const extractAlias = (namespaceDTO) => {
-  if (namespaceDTO.alias && namespaceDTO.alias.type === nem.AliasType.Mosaic) {
+  if (namespaceDTO.alias && namespaceDTO.alias.type === nem.AliasType.Mosaic)
     return new nem.Alias(nem.AliasType.Mosaic, undefined, namespaceDTO.alias.mosaicId)
-  } else if (namespaceDTO.alias && namespaceDTO.alias.type === nem.AliasType.Address) {
+  else if (namespaceDTO.alias && namespaceDTO.alias.type === nem.AliasType.Address)
     return new nem.Alias(nem.AliasType.Address, namespaceDTO.alias.address, undefined)
-  }
+
   return new nem.Alias(nem.AliasType.None, undefined, undefined)
 }
 

@@ -52,12 +52,11 @@ export default class Timeline {
 
   // Add latest item to current.
   addLatestItem(item, key) {
-    if (!this.isLive) {
+    if (!this.isLive)
       throw new Error('internal error: attempted to addLatestItem for non-live timeline.')
-    }
-    if (this.current[0][key] === item[key]) {
+
+    if (this.current[0][key] === item[key])
       throw new Error('internal error: attempted to add duplicate item to timeline.')
-    }
 
     const data = [item, ...this.current, ...this.next]
     return Timeline.fromData(data)
@@ -90,9 +89,9 @@ export default class Timeline {
 
   // Prepend item to array.
   static prependItem(list, item) {
-    if (list.length >= Constants.PageSize) {
+    if (list.length >= Constants.PageSize)
       list.pop()
-    }
+
     list.unshift(item)
   }
 }

@@ -79,9 +79,8 @@ export default {
         // Uninitialize the data and re-initialize the API.
         await dispatch('uninitialize', null, { root: true })
         await dispatch('initialize', router.currentRoute, { root: true })
-      } else {
+      } else
         throw Error('Cannot change node. URL is not valid: ' + currentNodeUrl)
-      }
     }
   }
 }

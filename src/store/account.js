@@ -96,11 +96,12 @@ export default {
     getTransactionList: state => {
       let transactions = state.transactionList
       let filter = state.transactionFilterValue
-      if(Array.isArray(transactions) && filter !== 0 && filter !== null)
+      if (Array.isArray(transactions) && filter !== 0 && filter !== null) {
         return transactions.filter(
           transaction =>
             transaction.transactionType?.toUpperCase().indexOf(filter) !== -1
         )
+      }
       return transactions
     },
     getActivityBucketList: state => state.activityBucketList,
@@ -114,10 +115,10 @@ export default {
       'harvester': 'Harvester List'
     }),
     transactionFilterOptions: () => ({
-      0: "All transactions",
-      "MOSAIC": "Mosaic transactions",
-      "NAMESPACE": "Namespace transactions",
-      "TRANSFER": "Transfers"
+      0: 'All transactions',
+      'MOSAIC': 'Mosaic transactions',
+      'NAMESPACE': 'Namespace transactions',
+      'TRANSFER': 'Transfers'
     }),
     transactionFilterValue: state => state.transactionFilterValue
   },
@@ -179,9 +180,9 @@ export default {
       const timeline = getters.getTimeline
       const list = timeline.next
       try {
-        if (list.length === 0) {
+        if (list.length === 0)
           throw new Error('internal error: next list is 0.')
-        }
+
         const account = list[list.length - 1]
         const type = ACCOUNT_TYPE_MAP[getters.getAccountType]
         const fetchNext = pageSize => sdkAccount.getAccountsFromAddressWithLimit(pageSize, type, account.address)
@@ -199,9 +200,9 @@ export default {
       const timeline = getters.getTimeline
       const list = timeline.previous
       try {
-        if (list.length === 0) {
+        if (list.length === 0)
           throw new Error('internal error: previous list is 0.')
-        }
+
         const account = list[0]
         const type = ACCOUNT_TYPE_MAP[getters.getAccountType]
         const fetchPrevious = pageSize => sdkAccount.getAccountsSinceAddressWithLimit(pageSize, type, account.address)
@@ -293,7 +294,7 @@ export default {
       commit('accountInfoLoading', false)
     },
 
-    setTransactionFilterValue({commit}, v) {
+    setTransactionFilterValue({ commit }, v) {
       commit('transactionFilterValue', v)
     }
   }

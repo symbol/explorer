@@ -46,7 +46,6 @@
     font-weight: 200;
 }
 
-
 .footer .ft-logo a {
     height: 30px;
     display: inline-block;

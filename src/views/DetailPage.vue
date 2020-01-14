@@ -32,10 +32,10 @@
                     </template>
 
                     <template #body v-if="item.body">
-                        <component 
-                            :is="item.body" 
-                            :data="getter(item.dataGetter)" 
-                            :pagination="item.pagination" 
+                        <component
+                            :is="item.body"
+                            :data="getter(item.dataGetter)"
+                            :pagination="item.pagination"
                             :pageSize="item.pageSize"
                         />
                     </template>
@@ -48,7 +48,7 @@
                 </Card>
                 <component v-else-if="isItemShown(item)" :is="item.type" v-bind="item" :key="'comp'+index"/>
             </template>
-            
+
         </div>
     </div>
 </template>
@@ -58,44 +58,44 @@ import View from './View.vue'
 import MetadataEntries from '../components/MetadataEntries'
 
 export default {
-    extends: View,
-    components: { MetadataEntries },
-    props: {
-        schema: {
-            type: Array,
-            required: true,
-            default: () => ([])
-        }
-    },
-
-    computed: {
-        prop() {
-            for(let key in this.$route.params)
-                return this.$route.params[key];
-            return null;
-        }
-    },
-
-    methods: {
-        getter(e) {
-            if(typeof e === 'string')
-                return this.$store.getters[e];
-        },
-
-        action(actionName, value) {
-            this.$store.dispatch(actionName, value)
-        },
-
-        isItemShown(item) {
-            return !item.hideEmptyData || this.getter(item.dataGetter)?.length > 0;
-        },
-
-        getNameByKey(e) {
-            return this.$store.getters['ui/getNameByKey'](e)
-        }
+  extends: View,
+  components: { MetadataEntries },
+  props: {
+    schema: {
+      type: Array,
+      required: true,
+      default: () => ([])
     }
+  },
 
-};
+  computed: {
+    prop() {
+      for (let key in this.$route.params)
+        return this.$route.params[key]
+      return null
+    }
+  },
+
+  methods: {
+    getter(e) {
+      if (typeof e === 'string')
+        return this.$store.getters[e]
+    },
+
+    action(actionName, value) {
+      this.$store.dispatch(actionName, value)
+    },
+
+    isItemShown(item) {
+      return !item.hideEmptyData || this.getter(item.dataGetter)?.length > 0
+    },
+
+    getNameByKey(e) {
+      return this.$store.getters['ui/getNameByKey'](e)
+    }
+  }
+
+}
 </script>
 
 <style lang="scss" scoped></style>

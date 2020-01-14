@@ -32,8 +32,8 @@ class sdkTransaction {
     let pageSize = 100
 
     const transactionsList = await http.account
-    .getAccountTransactions(Address.createFromRawAddress(address), new QueryParams(pageSize, transactionId))
-    .toPromise()
+      .getAccountTransactions(Address.createFromRawAddress(address), new QueryParams(pageSize, transactionId))
+      .toPromise()
 
     return format.formatTransactions(transactionsList)
   }
@@ -74,21 +74,20 @@ class sdkTransaction {
 
   static getTransactionsFromHashWithLimit = async (limit, transactionType, fromHash) => {
     let hash
-    if (fromHash === undefined) {
+    if (fromHash === undefined)
       hash = 'latest'
-    } else {
+    else
       hash = fromHash
-    }
 
     // Get the path to the URL dependent on the config
     let path
-    if (transactionType === undefined) {
+    if (transactionType === undefined)
       path = `/transactions/from/${hash}/limit/${limit}`
-    } else if (transactionType === 'unconfirmed') {
+    else if (transactionType === 'unconfirmed')
       path = `/transactions/unconfirmed/from/${hash}/limit/${limit}`
-    } else if (transactionType === 'partial') {
+    else if (transactionType === 'partial')
       path = `/transactions/partial/from/${hash}/limit/${limit}`
-    } else {
+    else {
       const array = transactionType.split('/')
       if (array.length === 1) {
         // No filter present
@@ -108,20 +107,19 @@ class sdkTransaction {
 
   static getTransactionsSinceHashWithLimit = async (limit, transactionType, sinceHash) => {
     let hash
-    if (sinceHash === undefined) {
+    if (sinceHash === undefined)
       hash = 'earliest'
-    } else {
+    else
       hash = sinceHash
-    }
 
     let path
-    if (transactionType === undefined) {
+    if (transactionType === undefined)
       path = `/transactions/since/${hash}/limit/${limit}`
-    } else if (transactionType === 'unconfirmed') {
+    else if (transactionType === 'unconfirmed')
       path = `/transactions/unconfirmed/since/${hash}/limit/${limit}`
-    } else if (transactionType === 'partial') {
+    else if (transactionType === 'partial')
       path = `/transactions/partial/since/${hash}/limit/${limit}`
-    } else {
+    else {
       const array = transactionType.split('/')
       if (array.length === 1) {
         // No filter present

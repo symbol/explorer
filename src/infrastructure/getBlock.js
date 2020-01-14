@@ -55,11 +55,10 @@ class sdkBlock {
 
   static getBlocksFromHeightWithLimit = async (limit, fromBlockHeight) => {
     let blockHeight
-    if (fromBlockHeight === undefined) {
+    if (fromBlockHeight === undefined)
       blockHeight = 'latest'
-    } else {
+    else
       blockHeight = fromBlockHeight.toString()
-    }
 
     // Make request.
     const path = `/blocks/from/${blockHeight}/limit/${limit}`
@@ -71,11 +70,10 @@ class sdkBlock {
 
   static getBlocksSinceHeightWithLimit = async (limit, sinceBlockHeight) => {
     let blockHeight
-    if (sinceBlockHeight === undefined) {
+    if (sinceBlockHeight === undefined)
       blockHeight = 'earliest'
-    } else {
+    else
       blockHeight = sinceBlockHeight.toString()
-    }
 
     // Make request.
     const path = `/blocks/since/${blockHeight}/limit/${limit}`
@@ -112,8 +110,8 @@ class sdkBlock {
         transactionList = blockTransactionList.map((el) => ({
           deadline: el.deadline,
           transactionHash: el.transactionHash,
-          //fee: el.fee,
-          //signer: el.signer,
+          // fee: el.fee,
+          // signer: el.signer,
           type: el.transactionBody.type
         }))
       }

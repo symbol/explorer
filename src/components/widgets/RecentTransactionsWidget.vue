@@ -13,21 +13,21 @@
         <template #body>
             <b-container fluid>
             <b-row>
-                <b-col 
+                <b-col
                     sm="6"
                     md="3"
                     lg="6"
                     v-for="(item, index) in transactionList"
                     :key="'recent_blocks_'+index+'_'+item.height"
                 >
-                    <Card 
+                    <Card
                         class="card-item"
                         :item="item"
                     >
                         <template #header>
                             <router-link
                                 :to="'/transaction/'+item.transactionHash"
-                                class="ex-title-text ex-long-text" 
+                                class="ex-title-text ex-long-text"
                                 :title="'Transaction hash: ' + item.transactionHash"
                             >
                                 {{item.transactionHash}}
@@ -36,7 +36,7 @@
                         <template #body>
                             <div class="ex-row no-wrap">
                                 <div class="ex-text">
-                                    {{getNameByKey('block')}}: {{ item.blockHeight }} 
+                                    {{getNameByKey('block')}}: {{ item.blockHeight }}
                                 </div>
                                 <div class="ex-long-text ex-text" :title="'Type: ' + item.transactionBody.type" style="margin-left: 20px">
                                     {{ item.transactionBody.type }}
@@ -48,7 +48,7 @@
                                 </div>
                                 <router-link
                                     :to="'/account/'+item.signer"
-                                    class="ex-long-text ex-account-text" 
+                                    class="ex-long-text ex-account-text"
                                     :title="item.signer"
                                 >
                                     {{item.signer}}
@@ -57,7 +57,7 @@
                         </template>
                     </Card>
                 </b-col>
-            </b-row>  
+            </b-row>
             </b-container>
         </template>
     </Card>
@@ -69,23 +69,23 @@ import ButtonMore from '@/components/controls/ButtonMore.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-    components: { 
-        Card, 
-        ButtonMore
-    },
+  components: {
+    Card,
+    ButtonMore
+  },
 
-    computed: {
-        ...mapGetters({
-            transactionList: 'transaction/getRecentList',
-            loading: 'transaction/getLoading'
-        })
-    },
+  computed: {
+    ...mapGetters({
+      transactionList: 'transaction/getRecentList',
+      loading: 'transaction/getLoading'
+    })
+  },
 
-    methods: {
-        getNameByKey(e) {
-            return this.$store.getters['ui/getNameByKey'](e)
-        }
+  methods: {
+    getNameByKey(e) {
+      return this.$store.getters['ui/getNameByKey'](e)
     }
+  }
 }
 </script>
 
@@ -106,7 +106,7 @@ export default {
 .card-item {
     .card-body {
         padding: 0;
-        
+
         .ex-title-text {
             color: black;
         }
@@ -116,17 +116,17 @@ export default {
             overflow: hidden;
             text-overflow: ellipsis;
         }
-     
+
         .ex-row {
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
-            
+
             .ex-text {
                 font-size: 10px;
                 color: #acacac;
             }
-            
+
             .ex-account-text {
                 color: #84accb;
                 font-weight: 600;

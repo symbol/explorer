@@ -13,21 +13,21 @@
         <template #body>
             <b-container fluid>
             <b-row>
-                <b-col 
+                <b-col
                     sm="6"
                     md="3"
                     lg="6"
                     v-for="(item, index) in blockList"
                     :key="'recent_blocks_'+index+'_'+item.height"
                 >
-                    <Card 
+                    <Card
                         class='card-item'
                         :item="item"
                     >
                         <template #header>
                             <router-link
                                 :to="'/block/'+item.height"
-                                class="ex-title-text" 
+                                class="ex-title-text"
                                 :title="getNameByKey('blockHeight') + ': ' + item.height"
                             >
                                 {{item.height}}
@@ -48,7 +48,7 @@
                                 </div>
                                 <router-link
                                     :to="'/account/'+item.signer"
-                                    class="ex-long-text ex-account-text" 
+                                    class="ex-long-text ex-account-text"
                                     :title="item.signer"
                                 >
                                     {{item.signer}}
@@ -57,8 +57,8 @@
                         </template>
                     </Card>
                 </b-col>
-            </b-row> 
-            </b-container> 
+            </b-row>
+            </b-container>
         </template>
     </Card>
 </template>
@@ -70,24 +70,24 @@ import Age from '@/components/Age.vue'
 import { mapGetters } from 'vuex'
 
 export default {
-    components: { 
-        Card, 
-        ButtonMore,
-        Age 
-    },
+  components: {
+    Card,
+    ButtonMore,
+    Age
+  },
 
-    computed: {
-        ...mapGetters({
-            blockList: 'block/getRecentList',
-            loading: 'block/getLoading'
-        })
-    },
+  computed: {
+    ...mapGetters({
+      blockList: 'block/getRecentList',
+      loading: 'block/getLoading'
+    })
+  },
 
-    methods: {
-        getNameByKey(e) {
-            return this.$store.getters['ui/getNameByKey'](e)
-        }
+  methods: {
+    getNameByKey(e) {
+      return this.$store.getters['ui/getNameByKey'](e)
     }
+  }
 }
 </script>
 
@@ -117,7 +117,7 @@ export default {
             display: flex;
             justify-content: space-between;
             flex-wrap: wrap;
-            
+
             .ex-text {
                 font-size: 10px;
                 color: #acacac;
@@ -128,7 +128,7 @@ export default {
                 overflow: hidden;
                 text-overflow: ellipsis;
             }
-            
+
             .ex-account-text {
                 color: #84accb;
                 font-weight: 600;
