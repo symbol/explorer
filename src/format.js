@@ -502,7 +502,8 @@ const formatNamespaceInfo = namespaceInfo => ({
   levels: namespaceInfo.levels,
   parentId: namespaceInfo.parentId.toHex() === '0000000000000000' ? Constants.Message.UNAVAILABLE : namespaceInfo.parentId.toHex(),
   address: namespaceInfo.owner.address.plain(),
-  startHeight: namespaceInfo.startHeight.compact()
+  startHeight: namespaceInfo.startHeight.compact(),
+  endHeight: namespaceInfo.endHeight.compact()
 })
 
 const formatNamespaceInfos = namespaceInfos => {
