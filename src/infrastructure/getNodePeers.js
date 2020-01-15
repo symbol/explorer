@@ -21,15 +21,10 @@ import http from './http'
 import dto from './dto'
 import format from '../format'
 
-class sdkNode {
-    static getNodePeers = async () => {
-      const path = `/node/peers`
-      const response = await axios.get(http.nodeUrl + path)
+export const getNodePeers = async () => {
+  const path = `/node/peers`
+  const response = await axios.get(http.nodeUrl + path)
+  const nodes = response.data.map(node => dto.createNodeInfoFromDTO(node, http.networkType))
 
-      const nodes = response.data.map(node => dto.createNodeInfoFromDTO(node, http.networkType))
-
-      return format.formatNodesInfo(nodes)
-    }
+  return format.formatNodesInfo(nodes)
 }
-
-export default sdkNode
