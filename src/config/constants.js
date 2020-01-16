@@ -9,7 +9,8 @@ import {
   NetworkType,
   MetadataType,
   ReceiptType,
-  ResolutionType
+  ResolutionType,
+  RoleType
 } from 'nem2-sdk'
 
 class Constants {
@@ -120,6 +121,19 @@ class Constants {
   static ResolutionType = {
     [ResolutionType.Address]: 'Address',
     [ResolutionType.Mosaic]: 'Mosaic'
+  }
+
+  static NetworkType = {
+    [NetworkType.MAIN_NET]: 'MAINNET',
+    [NetworkType.MIJIN]: 'MIJIN',
+    [NetworkType.MIJIN_TEST]: 'MIJIN TESTNET',
+    [NetworkType.TEST_NET]: 'TESTNET'
+  }
+
+  static RoleType = {
+    [RoleType.ApiNode]: 'API NODE',
+    [RoleType.PeerNode]: 'PEER NODE',
+    3: 'DUAL NODE'
   }
 }
 

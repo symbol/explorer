@@ -42,6 +42,14 @@
                 "storeNamespace": "mosaic",
                 "title": "mosaics"
             }
+        },
+        {
+            "path": "/nodes",
+            "name": "nodes",
+            "props": {
+                "storeNamespace": "node",
+                "title": "nodes"
+            }
         }
     ]
 }

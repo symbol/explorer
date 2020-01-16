@@ -94,7 +94,7 @@
     "valueSizeDelta": "Value Size Delta",
     "feeMultiplier": "Fee Multiplier",
     "Nem blockchain explorer": "Nem blockchain explorer",
-    "Search transactions, addresses, namespace & mosaic on the nem network.": "Search transactions, addresses, namespace & mosaic on the nem network.",
+    "Search transactions, addresses, namespaces & mosaics on the nem network.": "Search transactions, addresses, namespaces & mosaics on the nem network.",
     "Search block / tx hash / account": "Search block / tx hash / account",
     "nodes": "Nodes",
     "home": "Home",
@@ -135,5 +135,10 @@
     "Artifact Expiry Receipt": "Artifact Expiry Receipt",
     "mosaicResolutionEntries": "Resolved Value",
     "addressResolutionEntries": "Resolved Value",
-    "unresolved": "Unresolved"
+    "unresolved": "Unresolved",
+    "roles": "Roles",
+    "network": "Network",
+    "host": "IP/ DNS",
+    "port": "Port",
+    "friendlyName": "Friendly Name"
 }

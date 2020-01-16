@@ -138,10 +138,22 @@ const createNamespaceInfoFromDTO = (namespaceInfoDTO, networkType) =>
 const createTransactionFromDTO = (transactionDTO, networkType) =>
   nem.TransactionMapping.createFromDTO(transactionDTO)
 
+const createNodeInfoFromDTO = (nodeInfoDTO, networkType) =>
+  new nem.NodeInfo(
+    nodeInfoDTO.publicKey,
+    nodeInfoDTO.port,
+    nodeInfoDTO.networkIdentifier,
+    nodeInfoDTO.version,
+    nodeInfoDTO.roles,
+    nodeInfoDTO.host,
+    nodeInfoDTO.friendlyName
+  )
+
 export default {
   createAccountInfoFromDTO,
   createBlockInfoFromDTO,
   createMosaicInfoFromDTO,
   createNamespaceInfoFromDTO,
-  createTransactionFromDTO
+  createTransactionFromDTO,
+  createNodeInfoFromDTO
 }

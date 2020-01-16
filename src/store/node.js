@@ -18,50 +18,9 @@
 
 import Lock from './lock'
 import Timeline from './timeline'
+import { getNodePeers } from '../infrastructure/getNodePeers'
 
 const LOCK = Lock.create()
-
-// TODO(ahuszagh) Remove this later.
-//   This is pseudo-live data with just random fields
-//   to simulate that real requests are being made.
-const PSEUDO_LIVE_DATA = [
-  {
-    serverName: 'Unknown',
-    resolvedIp: '52.194.207.217',
-    version: '-',
-    location: 'Tokyo : Japan',
-    isp: 'Amazon.com, Inc.',
-    height: '19602',
-    status: 'Online'
-  },
-  {
-    serverName: 'Unknown',
-    resolvedIp: '52.194.207.217',
-    version: '-',
-    location: 'Tokyo : Japan',
-    isp: 'Amazon.com, Inc.',
-    height: '19602',
-    status: 'Online'
-  },
-  {
-    serverName: 'Unknown',
-    resolvedIp: '52.194.207.217',
-    version: '-',
-    location: 'Tokyo : Japan',
-    isp: 'Amazon.com, Inc.',
-    height: '19602',
-    status: 'Online'
-  },
-  {
-    serverName: 'Unknown',
-    resolvedIp: '52.194.207.217',
-    version: '-',
-    location: 'Tokyo : Japan',
-    isp: 'Amazon.com, Inc.',
-    height: '19602',
-    status: 'Online'
-  }
-]
 
 export default {
   namespaced: true,
@@ -81,14 +40,13 @@ export default {
     getCanFetchPrevious: state => state.timeline.canFetchPrevious,
     getCanFetchNext: state => state.timeline.canFetchNext,
     getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
-      // TODO(ahuszagh) Change when we get real data.
-      serverName: el.serverName,
-      resolvedIp: el.resolvedIp,
       version: el.version,
-      location: el.location,
-      isp: el.isp,
-      height: el.height,
-      status: el.status
+      roles: el.roles,
+      network: el.network,
+      host: el.host,
+      port: el.port,
+      address: el.address,
+      friendlyName: el.friendlyName
     })),
     getLoading: state => state.loading,
     getError: state => state.error
@@ -118,8 +76,7 @@ export default {
     async initializePage({ commit }) {
       commit('setLoading', true)
       try {
-        // TODO(ahuszagh) Change to use real data.
-        let nodeList = PSEUDO_LIVE_DATA
+        const nodeList = await getNodePeers()
         commit('setTimeline', Timeline.fromData(nodeList))
       } catch (e) {
         console.error(e)
@@ -137,7 +94,6 @@ export default {
         if (list.length === 0)
           throw new Error('internal error: next list is 0.')
 
-        // TODO(ahuszagh) Change to use real data.
         const node = list[list.length - 1] // eslint-disable-line no-unused-vars
         const fetchNext = async pageSize => []
         commit('setTimeline', await timeline.shiftNext(fetchNext))
@@ -157,10 +113,9 @@ export default {
         if (list.length === 0)
           throw new Error('internal error: previous list is 0.')
 
-        // TODO(ahuszagh) Change to use real data.
         const node = list[0] // eslint-disable-line no-unused-vars
         const fetchPrevious = async pageSize => []
-        const fetchLive = async pageSize => PSEUDO_LIVE_DATA
+        const fetchLive = async pageSize => getNodePeers()
         commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
       } catch (e) {
         console.error(e)
@@ -169,13 +124,12 @@ export default {
       commit('setLoading', false)
     },
 
-    // Reset the mosaic page to the latest list (index 0)
+    // Reset the node page to the latest list (index 0)
     async resetPage({ commit, getters }) {
       commit('setLoading', true)
       try {
         if (!getters.getTimeline.isLive) {
-          // TODO(ahuszagh) Change to use real data.
-          const data = PSEUDO_LIVE_DATA
+          const data = await getNodePeers()
           commit('setTimeline', Timeline.fromData(data))
         }
       } catch (e) {
