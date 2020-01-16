@@ -530,7 +530,7 @@ const formatReceiptStatements = receipts => {
   let inflationReceipt = []
   let artifactExpiryReceipt = []
 
-  receipts.map(receipt => {
+  receipts.forEach(receipt => {
     switch (receipt.type) {
     case ReceiptType.Harvest_Fee:
     case ReceiptType.LockHash_Created:
