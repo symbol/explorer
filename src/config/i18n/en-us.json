@@ -126,5 +126,11 @@
     "Transaction Detail": "Transaction Detail",
     "Mosaics": "Mosaics",
     "Aggregate Inner Transactions": "Aggregate Inner Transactions",
-    "Aggregate Cosignatures": "Aggregate Cosignatures"
+    "Aggregate Cosignatures": "Aggregate Cosignatures",
+    "version": "Version",
+    "roles": "Roles",
+    "network": "Network",
+    "host": "IP/ DNS",
+    "port": "Port",
+    "friendlyName": "Friendly Name"
 }

@@ -532,6 +532,15 @@ const formatMetadatas = metadatas => {
   }))
 }
 
+const formatNodesInfo = nodes => {
+  return nodes.map(node => ({
+    ...node,
+    address: Address.createFromPublicKey(node.publicKey, node.networkIdentifier).plain(),
+    roles: Constants.RoleType[node.roles],
+    network: Constants.NetworkType[node.networkIdentifier]
+  }))
+}
+
 export default {
   formatFee,
   formatBlocks,
@@ -548,5 +557,6 @@ export default {
   formatMosaicInfos,
   formatNamespaceInfo,
   formatNamespaceInfos,
-  formatMetadatas
+  formatMetadatas,
+  formatNodesInfo
 }
