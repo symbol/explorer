@@ -35,7 +35,7 @@ class Constants {
     NATIVE_MOSAIC_HEX: '75AF035421401EF0',
     NATIVE_MOSAIC_DIVISIBILITY: 6,
     NETWORKTYPE: NetworkType.TEST_NET,
-    NEMESIS_TIMESTAMP: Deadline.timestampNemesisBlock,
+    NEMESIS_TIMESTAMP: Deadline.timestampNemesisBlock
   }
 
   static TransactionType = {

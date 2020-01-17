@@ -47,7 +47,7 @@ const formatBlock = block => ({
   totalFee: formatFee(block.totalFee),
   difficulty: ((block.difficulty.compact() / 1000000000000).toFixed(2)).toString(),
   feeMultiplier: microxemToXem(block.feeMultiplier).toLocaleString('en-US', { minimumFractionDigits: Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY }),
-  numTransactions: block.numTransactions.toLocaleString('en-US'),
+  numTransactions: block.numTransactions,
   signature: block.signature,
   signer: Address.createFromPublicKey(block.signer.publicKey, http.networkType).plain(),
   previousBlockHash: block.previousBlockHash,
