@@ -121,6 +121,61 @@
                         "pagination": true,
                         "pageSize": 5,
                         "loadingGetter": "block/blockInfoLoading"
+                    },
+                    {
+                        "type": "Card",
+                        "title": "Balance Change Receipt",
+                        "fullWidth": false,
+                        "body": "TableListView",
+                        "dataGetter": "block/balanceChangeReceipt",
+                        "hideEmptyData": true,
+                        "pagination": true,
+                        "pageSize": 5,
+                        "loadingGetter": "block/blockInfoLoading"
+                    },
+                    {
+                        "type": "Card",
+                        "title": "Balance Transfer Receipt",
+                        "fullWidth": false,
+                        "body": "TableListView",
+                        "dataGetter": "block/balanceTransferReceipt",
+                        "hideEmptyData": true,
+                        "pagination": true,
+                        "pageSize": 5,
+                        "loadingGetter": "block/blockInfoLoading"
+                    },
+                    {
+                        "type": "Card",
+                        "title": "Inflation Receipt",
+                        "fullWidth": false,
+                        "body": "TableListView",
+                        "dataGetter": "block/inflationReceipt",
+                        "hideEmptyData": true,
+                        "pagination": true,
+                        "pageSize": 5,
+                        "loadingGetter": "block/blockInfoLoading"
+                    },
+                    {
+                        "type": "Card",
+                        "title": "Artifact Expiry Receipt",
+                        "fullWidth": false,
+                        "body": "TableListView",
+                        "dataGetter": "block/artifactExpiryReceipt",
+                        "hideEmptyData": true,
+                        "pagination": true,
+                        "pageSize": 5,
+                        "loadingGetter": "block/blockInfoLoading"
+                    },
+                    {
+                        "type": "Card",
+                        "title": "Resolution Statement",
+                        "fullWidth": false,
+                        "body": "TableListView",
+                        "dataGetter": "block/resolutionStatement",
+                        "hideEmptyData": true,
+                        "pagination": true,
+                        "pageSize": 5,
+                        "loadingGetter": "block/blockInfoLoading"
                     }
                 ]
             }

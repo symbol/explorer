@@ -40,12 +40,14 @@ export default {
       'aliasAddress': 'account',
       'senderAddress': 'account',
       'targetAddress': 'account',
+      'addressResolutionEntries': 'account',
 
       'transactionHash': 'transaction',
 
       'mosaicId': 'mosaic',
       'aliasMosaic': 'mosaic',
       'targetMosaicId': 'mosaic',
+      'mosaicResolutionEntries': 'mosaic',
 
       'addressHeight': 'block',
       'publicKeyHeight': 'block',
@@ -61,7 +63,8 @@ export default {
       'parentId': 'namespace',
       'linkedNamespace': 'namespace',
       'mosaicAliasName': 'namespace',
-      'targetNamespaceId': 'namespace'
+      'targetNamespaceId': 'namespace',
+      'unresolved': 'namespace'
     }
   },
 

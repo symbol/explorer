@@ -8,6 +8,8 @@ import {
   HashType,
   NetworkType,
   MetadataType,
+  ReceiptType,
+  ResolutionType,
   RoleType
 } from 'nem2-sdk'
 
@@ -29,6 +31,8 @@ class Constants {
     MOSAIC_RENTAL_FEE_SINK_ADDRESS: 'TB65QSXGV5FUTRPVMSCVB4RZ7FJLU32LHOOP4MDI',
     NAMESPACE_RENTAL_FEE_SINK_ADDRESS: 'TB65QSXGV5FUTRPVMSCVB4RZ7FJLU32LHOOP4MDI',
     NAMESPACE: ['NEM', 'NEM.XEM'],
+    NATIVE_MOSAIC_HEX: '75AF035421401EF0',
+    NATIVE_MOSAIC_DIVISIBILITY: 6,
     NETWORKTYPE: NetworkType.TEST_NET,
     NEMESIS_TIMESTAMP: 1573430400,
     NATIVE_MOSAIC_DIVISIBILITY: 6
@@ -96,6 +100,28 @@ class Constants {
     [MetadataType.Account]: 'Account',
     [MetadataType.Mosaic]: 'Mosaic',
     [MetadataType.Namespace]: 'Namespace'
+  }
+
+  static ReceiptType = {
+    [ReceiptType.Harvest_Fee]: 'Harvest Fee',
+    [ReceiptType.LockHash_Created]: 'LockHash Created',
+    [ReceiptType.LockHash_Completed]: 'LockHash Completed',
+    [ReceiptType.LockHash_Expired]: 'LockHash Expired',
+    [ReceiptType.LockSecret_Created]: 'LockSecret Created',
+    [ReceiptType.LockSecret_Completed]: 'LockSecret Completed',
+    [ReceiptType.LockSecret_Expired]: 'LockSecret Expired',
+    [ReceiptType.Mosaic_Levy]: 'Mosaic Levy',
+    [ReceiptType.Mosaic_Rental_Fee]: 'Mosaic Rental Fee',
+    [ReceiptType.Namespace_Rental_Fee]: 'Namespace Rental Fee',
+    [ReceiptType.Mosaic_Expired]: 'Mosaic Expired',
+    [ReceiptType.Namespace_Expired]: 'Namespace Expired',
+    [ReceiptType.Namespace_Deleted]: 'Namespace Deleted',
+    [ReceiptType.Inflation]: 'Inflation'
+  }
+
+  static ResolutionType = {
+    [ResolutionType.Address]: 'Address',
+    [ResolutionType.Mosaic]: 'Mosaic'
   }
 
   static NetworkType = {
