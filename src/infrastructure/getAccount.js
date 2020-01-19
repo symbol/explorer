@@ -25,6 +25,7 @@ import sdkTransaction from '../infrastructure/getTransaction'
 import sdkNamespace from '../infrastructure/getNamespace'
 import sdkMosaic from '../infrastructure/getMosaic'
 import sdkMetadata from '../infrastructure/getMetadata'
+import { Constants } from '../config'
 
 const formatAccountNames = async accounts => {
   // Fetch the account name objects from the addresses.
@@ -167,7 +168,7 @@ class sdkAccount {
       activityBuckets = Array.isArray(rawAccountInfo.activityBucket)
         ? rawAccountInfo.activityBucket.map(el => ({
           recalculationBlock: el.startHeight,
-          totalFeesPaid: el.totalFeesPaid,
+          totalFeesPaid: el.totalFeesPaid.toLocaleString('en-US', { minimumFractionDigits: Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY }),
           beneficiaryCount: el.beneficiaryCount,
           importanceScore: el.rawScore
         }))

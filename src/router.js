@@ -38,12 +38,6 @@ const routerConfig = {
         import('./views/Home.vue')
     },
     {
-      path: '/nodes',
-      name: 'nodes',
-      component: () =>
-        import('./views/Nodes.vue')
-    },
-    {
       path: '/stat',
       name: 'stat',
       component: () =>

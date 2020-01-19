@@ -126,5 +126,19 @@
     "Transaction Detail": "Transaction Detail",
     "Mosaics": "Mosaics",
     "Aggregate Inner Transactions": "Aggregate Inner Transactions",
-    "Aggregate Cosignatures": "Aggregate Cosignatures"
+    "Aggregate Cosignatures": "Aggregate Cosignatures",
+    "version":"Version",
+    "size":"Size",
+    "Balance Change Receipt":"Balance Change Receipt",
+    "Balance Transfer Receipt": "Balance Transfer Receipt",
+    "Inflation Receipt": "Inflation Receipt",
+    "Artifact Expiry Receipt": "Artifact Expiry Receipt",
+    "mosaicResolutionEntries": "Resolved Value",
+    "addressResolutionEntries": "Resolved Value",
+    "unresolved": "Unresolved",
+    "roles": "Roles",
+    "network": "Network",
+    "host": "IP/ DNS",
+    "port": "Port",
+    "friendlyName": "Friendly Name"
 }
