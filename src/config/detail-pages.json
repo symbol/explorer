@@ -269,7 +269,6 @@
                         "fullWidth": false,
                         "body": "TableInfoView",
                         "dataGetter": "transaction/transactionDetail",
-                        "hideEmptyData": true,
                         "pagination": false,
                         "loadingGetter": "transaction/transactionInfoLoading"
                     },

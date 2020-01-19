@@ -10,7 +10,8 @@ import {
   MetadataType,
   ReceiptType,
   ResolutionType,
-  RoleType
+  RoleType,
+  Deadline
 } from 'nem2-sdk'
 
 class Constants {
@@ -34,7 +35,7 @@ class Constants {
     NATIVE_MOSAIC_HEX: '75AF035421401EF0',
     NATIVE_MOSAIC_DIVISIBILITY: 6,
     NETWORKTYPE: NetworkType.TEST_NET,
-    NEMESIS_TIMESTAMP: 1573430400
+    NEMESIS_TIMESTAMP: Deadline.timestampNemesisBlock
   }
 
   static TransactionType = {

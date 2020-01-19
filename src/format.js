@@ -11,11 +11,11 @@ const microxemToXem = amount => amount / Math.pow(10, Constants.NetworkConfig.NA
 // Convert Mosaic amount to relative Amount with divisibility.
 const formatMosaicAmountWithDivisibility = (amount, divisibility) => {
   let relativeAmount = divisibility !== 0 ? amount / Math.pow(10, divisibility) : amount.compact()
-  return relativeAmount.toFixed(divisibility)
+  return relativeAmount.toLocaleString('en-US', { minimumFractionDigits: divisibility })
 }
 
 // Format fee (in microxem) to string (in XEM).
-const formatFee = fee => microxemToXem(fee.compact()).toString()
+const formatFee = fee => microxemToXem(fee.compact()).toLocaleString('en-US', { minimumFractionDigits: Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY })
 
 // Format ImportantScore
 const formatImportanceScore = importanceScore => {
@@ -46,7 +46,7 @@ const formatBlock = block => ({
   ).local().format('YYYY-MM-DD HH:mm:ss'),
   totalFee: formatFee(block.totalFee),
   difficulty: ((block.difficulty.compact() / 1000000000000).toFixed(2)).toString(),
-  feeMultiplier: microxemToXem(block.feeMultiplier).toString(),
+  feeMultiplier: microxemToXem(block.feeMultiplier).toLocaleString('en-US', { minimumFractionDigits: Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY }),
   numTransactions: block.numTransactions,
   signature: block.signature,
   signer: Address.createFromPublicKey(block.signer.publicKey, http.networkType).plain(),
@@ -125,10 +125,18 @@ const formatAccountMultisig = accountMultisig => {
 // FORMAT MOSAICS
 const formatMosaics = mosaics => {
   return mosaics.map(mosaic => {
-    return {
-      ...mosaic,
-      id: mosaic.id.toHex(),
-      amount: mosaic.amount.compact().toString()
+    if (mosaic.hasOwnProperty('mosaicInfo')) {
+      return {
+        id: mosaic.id.toHex(),
+        amount: formatMosaicAmountWithDivisibility(mosaic.amount, mosaic.mosaicInfo.divisibility),
+        mosaicAliasName: mosaic.id.mosaicAliasName.length > 0 ? mosaic.id.mosaicAliasName[0].name : Constants.Message.UNAVAILABLE
+      }
+    } else {
+      return {
+        ...mosaic,
+        id: mosaic.id.toHex(),
+        amount: mosaic.amount.compact().toString()
+      }
     }
   })
 }
@@ -139,7 +147,7 @@ const formatMosaicInfo = mosaicInfo => ({
   mosaicAliasName: mosaicInfo.mosaicAliasName.length > 0 ? mosaicInfo.mosaicAliasName[0].name : Constants.Message.UNAVAILABLE,
   divisibility: mosaicInfo.divisibility,
   address: mosaicInfo.owner.address.plain(),
-  supply: mosaicInfo.supply.compact(),
+  supply: mosaicInfo.supply.compact().toLocaleString('en-US'),
   relativeAmount: formatMosaicAmountWithDivisibility(mosaicInfo.supply, mosaicInfo.divisibility),
   revision: mosaicInfo.revision,
   startHeight: mosaicInfo.height.compact(),
