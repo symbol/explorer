@@ -95,7 +95,7 @@
     "feeMultiplier": "Множник комісійного збіру",
     "Nem blockchain explorer": "Переглядач блокчейну NEM",
     "Search transactions, addresses, namespaces & mosaics on the nem network.": "Шукайте транзакції, адреси, простори імен та мозаїки у мережі NEM.",
-    "Search block / tx hash / account": "Шукати блок / хеш транзакції / адреса",
+    "Search block / tx hash / account / mosaic id / namespace id": "Шукати блок / хеш транзакції / адреса",
     "nodes": "Вузли",
     "home": "Домашня",
     "xemPrice": "Ціна XEM",
