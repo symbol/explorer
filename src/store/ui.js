@@ -184,9 +184,7 @@ export default {
                 }
               }
               catch(e){}
-            }
-            console.log("overaal.result", result)
-            
+            }        
           } else
             reject(new Error('Nothing found..'))
         } else
