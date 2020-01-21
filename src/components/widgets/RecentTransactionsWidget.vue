@@ -98,7 +98,7 @@ export default {
     padding: 0;
     left: 0;
     top: 0;
-    background: #78b6e4;
+    background: #ab5cb9;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
 }

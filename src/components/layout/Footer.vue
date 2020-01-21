@@ -87,7 +87,7 @@ export default {
 }
 
 .footer {
-    background: linear-gradient(-40deg, #37476b 20%, #0a879b 80%);
+    background: linear-gradient(-40deg, #5e38b8 20%, #904d9c 80%);
     padding: 50px 0 0;
     width: 100%;
 

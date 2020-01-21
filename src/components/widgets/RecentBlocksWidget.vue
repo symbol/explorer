@@ -100,7 +100,7 @@ export default {
     padding: 0;
     left: 0;
     top: 0;
-    background: #3e6b8c;
+    background: #763f80;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
 }
