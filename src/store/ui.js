@@ -19,6 +19,8 @@ import router from '../router'
 import { Address, AccountHttp, NetworkType } from 'nem2-sdk'
 import { i18n } from '../config'
 import http from '../infrastructure/http'
+import sdkMosaic from '../infrastructure/getMosaic'
+import sdkNamespace from '../infrastructure/getNamespace'
 
 export default {
   namespaced: true,
@@ -158,6 +160,34 @@ export default {
             })
             resolve()
           } else
+          if(isMosaicId(searchString)){
+            let result = void 0
+            try {
+              result = await sdkMosaic.getMosaicInfo(searchString)
+              if(result){
+                dispatch('openPage', {
+                  pageName: 'mosaic',
+                  param: searchString
+                })
+                resolve()
+              }
+            }
+            catch(e){
+              try {
+                result = await sdkNamespace.getNamespaceInfo(searchString)
+                if(result){
+                  dispatch('openPage', {
+                    pageName: 'namespace',
+                    param: searchString
+                  })
+                  resolve()
+                }
+              }
+              catch(e){}
+            }
+            console.log("overaal.result", result)
+            
+          } else
             reject(new Error('Nothing found..'))
         } else
           reject(new Error('Nothing found..'))
@@ -172,6 +202,9 @@ export default {
     }
   }
 }
+
+const isMosaicId = (str) =>
+  str.length === 16
 
 const isTransactionId = (str) =>
   str.length === 24
