@@ -16,6 +16,8 @@
  *
  */
 
+import { Constants } from './config'
+
 const Url = require('url-parse')
 
 class helper {
@@ -40,6 +42,35 @@ class helper {
       return interval.seconds + ' sec.'// ' seconds'
     else
       return interval.seconds + ' sec.'// ' second'
+  }
+
+  static formatSeconds = second => {
+    if (!second && second !== 0) return ''
+    let d = 0; let h = 0; let m = 0
+
+    if (second > 86400) {
+      d = Math.floor(second / 86400)
+      second = second % 86400
+    }
+    if (second > 3600) {
+      h = Math.floor(second / 3600)
+      second = second % 3600
+    }
+    if (second > 60) {
+      m = Math.floor(second / 60)
+      second = second % 60
+    }
+    let result = ''
+    if (m > 0 || h > 0 || d > 0)
+      result = `${m} m ${result}`
+
+    if (h > 0 || d > 0)
+      result = `${h} h ${result}`
+
+    if (d > 0)
+      result = `${d} d ${result}`
+
+    return result
   }
 
   static isHexadecimal(str) {
@@ -71,6 +102,33 @@ class helper {
       await dispatch(action, ...args)
     } catch (e) {
       console.error(`Failed to call ${action}`, e)
+    }
+  }
+
+  static durationToRelativeTime = (durationInBlocks) => {
+    try {
+      const isDurationNegative = durationInBlocks < 0
+      const absoluteDuration = isDurationNegative ? durationInBlocks * -1 : durationInBlocks
+      const relativeTime = this.formatSeconds(absoluteDuration * Constants.NetworkConfig.TARGET_BLOCK_TIME)
+      const prefix = isDurationNegative ? '- ' : ''
+      return `${prefix}${relativeTime}`
+    } catch (e) {
+      console.error(e)
+    }
+  }
+
+  static convertToSecond = durationInBlocks => durationInBlocks * Constants.NetworkConfig.TARGET_BLOCK_TIME
+
+  static calculateNamespaceExpiration = (currentHeight, endHeight) => {
+    const expired = currentHeight > endHeight - Constants.NetworkConfig.NAMESPACE_GRACE_PERIOD_DURATION
+    const expiredIn = endHeight - Constants.NetworkConfig.NAMESPACE_GRACE_PERIOD_DURATION - currentHeight
+    const deletedIn = endHeight - currentHeight
+
+    return {
+      isExpired: expired,
+      expiredIn: this.durationToRelativeTime(expiredIn),
+      deletedIn: this.durationToRelativeTime(deletedIn),
+      expiredInSecond: this.convertToSecond(expiredIn)
     }
   }
 }

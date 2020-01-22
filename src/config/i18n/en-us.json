@@ -140,5 +140,6 @@
     "network": "Network",
     "host": "IP/ DNS",
     "port": "Port",
-    "friendlyName": "Friendly Name"
+    "friendlyName": "Friendly Name",
+    "approximateExpired": "Approximate Expired"
 }

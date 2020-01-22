@@ -49,10 +49,10 @@ export default {
     getCanFetchPrevious: state => state.timeline.canFetchPrevious,
     getCanFetchNext: state => state.timeline.canFetchNext,
     getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
+      namespaceName: el.namespaceName,
       owneraddress: el.address,
-      startHeight: el.startHeight,
-      endHeight: el.endHeight,
-      namespaceName: el.namespaceName
+      duration: el.duration,
+      approximateExpired: el.approximateExpired
     })),
     getLoading: state => state.loading,
     getError: state => state.error,

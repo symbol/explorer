@@ -25,6 +25,7 @@ import format from '../format'
 import helper from '../helper'
 import Constants from '../config/constants'
 import sdkMetadata from '../infrastructure/getMetadata'
+import sdkBlock from './getBlock'
 
 const addNamespaceNames = async namespaces => {
   // Fetch the namespace name objects from the IDs.
@@ -107,7 +108,9 @@ class sdkNamespace {
     const namespaces = response.data.map(info => dto.createNamespaceInfoFromDTO(info, http.networkType))
     await addNamespaceNames(namespaces)
 
-    return format.formatNamespaceInfos(namespaces)
+    const currentBlockHeight = await sdkBlock.getBlockHeight()
+
+    return namespaces.map(namespace => format.formatNamespaceInfo(namespace, currentBlockHeight))
   }
 
   static getNamespacesSinceIdWithLimit = async (limit, sinceNamespaceId) => {
@@ -123,7 +126,9 @@ class sdkNamespace {
     const namespaces = response.data.map(info => dto.createNamespaceInfoFromDTO(info, http.networkType))
     await addNamespaceNames(namespaces)
 
-    return format.formatNamespaceInfos(namespaces)
+    const currentBlockHeight = await sdkBlock.getBlockHeight()
+
+    return namespaces.map(namespace => format.formatNamespaceInfo(namespace, currentBlockHeight))
   }
 
   static getNamespaceInfoFormatted = async namespaceOrHex => {

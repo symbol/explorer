@@ -2,6 +2,7 @@ import { Address, TransactionType, ReceiptType, ResolutionType } from 'nem2-sdk'
 import { Constants } from './config'
 import moment from 'moment'
 import http from './infrastructure/http'
+import helper from './helper'
 
 // FORMAT FEE
 
@@ -500,24 +501,26 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
   return namespaceObj
 }
 
-const formatNamespaceInfo = namespaceInfo => ({
-  active: namespaceInfo.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
-  namespaceId: namespaceInfo.id.toHex(),
-  namespaceName: namespaceInfo.namespaceName,
-  index: namespaceInfo.index,
-  registrationType: Constants.NamespaceRegistrationType[namespaceInfo.registrationType],
-  depth: namespaceInfo.depth,
-  levels: namespaceInfo.levels,
-  parentId: namespaceInfo.parentId.toHex() === '0000000000000000' ? Constants.Message.UNAVAILABLE : namespaceInfo.parentId.toHex(),
-  address: namespaceInfo.owner.address.plain(),
-  startHeight: namespaceInfo.startHeight.compact(),
-  endHeight: namespaceInfo.endHeight.compact()
-})
+const formatNamespaceInfo = (namespaceInfo, currentHeight = 0) => {
+  let { isExpired, expiredIn, deletedIn, expiredInSecond } = helper.calculateNamespaceExpiration(currentHeight, namespaceInfo.endHeight.compact())
 
-const formatNamespaceInfos = namespaceInfos => {
-  return namespaceInfos.map(namespaceInfo => {
-    return formatNamespaceInfo(namespaceInfo)
-  })
+  return {
+    active: namespaceInfo.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
+    namespaceId: namespaceInfo.id.toHex(),
+    namespaceName: namespaceInfo.namespaceName,
+    index: namespaceInfo.index,
+    registrationType: Constants.NamespaceRegistrationType[namespaceInfo.registrationType],
+    depth: namespaceInfo.depth,
+    levels: namespaceInfo.levels,
+    parentId: namespaceInfo.parentId.toHex() === '0000000000000000' ? Constants.Message.UNAVAILABLE : namespaceInfo.parentId.toHex(),
+    address: namespaceInfo.owner.address.plain(),
+    startHeight: namespaceInfo.startHeight.compact(),
+    endHeight: namespaceInfo.endHeight.compact(),
+    duration: expiredIn,
+    deletedIn: deletedIn,
+    isExpired: isExpired,
+    approximateExpired: moment.utc().add(expiredInSecond, 's').local().format('YYYY-MM-DD HH:mm:ss')
+  }
 }
 
 const formatMetadatas = metadatas => {
@@ -642,7 +645,6 @@ export default {
   formatMosaicInfo,
   formatMosaicInfos,
   formatNamespaceInfo,
-  formatNamespaceInfos,
   formatMetadatas,
   formatReceiptStatements,
   formatResolutionStatements,
