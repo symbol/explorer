@@ -93,7 +93,7 @@
     "type": "Type",
     "valueSizeDelta": "Value Size Delta",
     "feeMultiplier": "Fee Multiplier",
-    "Nem blockchain explorer": "Nem blockchain explorer",
+    "blockchain explorer title": "Symbol blockchain explorer",
     "Search transactions, addresses, namespaces & mosaics on the nem network.": "Search transactions, addresses, namespaces & mosaics on the nem network.",
     "Search block / tx hash / account": "Search block / tx hash / account",
     "nodes": "Nodes",
