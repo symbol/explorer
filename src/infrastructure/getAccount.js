@@ -157,6 +157,7 @@ class sdkAccount {
         accountType: rawAccountInfo.accountType,
         linkedAccountKey: rawAccountInfo.linkedAccountKey
       }
+
       mosaicList = Array.isArray(rawAccountInfo.mosaics)
         ? rawAccountInfo.mosaics.map(el => ({
           mosaicId: el.id,
@@ -164,6 +165,8 @@ class sdkAccount {
           mosaicAliasName: el.mosaicAliasName
         }))
         : []
+
+      mosaicList = format.sortMosaics(mosaicList);
 
       activityBuckets = Array.isArray(rawAccountInfo.activityBucket)
         ? rawAccountInfo.activityBucket.map(el => ({
