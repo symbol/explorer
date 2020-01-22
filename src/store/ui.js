@@ -160,7 +160,7 @@ export default {
             })
             resolve()
           } else
-          if(isMosaicId(searchString)){
+          if(isMosaicOrNamespaceId(searchString)){
             let result = void 0
             try {
               result = await sdkMosaic.getMosaicInfo(searchString)
@@ -201,7 +201,7 @@ export default {
   }
 }
 
-const isMosaicId = (str) =>
+const isMosaicOrNamespaceId = (str) =>
   str.length === 16
 
 const isTransactionId = (str) =>
