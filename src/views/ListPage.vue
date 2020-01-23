@@ -60,7 +60,6 @@
 <script>
 import TypeBox from '@/components/controls/Dropdown.vue'
 import View from './View.vue'
-import helper from '../helper'
 
 export default {
   extends: View,
