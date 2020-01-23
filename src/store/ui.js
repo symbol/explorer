@@ -21,6 +21,7 @@ import { i18n } from '../config'
 import http from '../infrastructure/http'
 import sdkMosaic from '../infrastructure/getMosaic'
 import sdkNamespace from '../infrastructure/getNamespace'
+import Vue from 'vue'
 
 export default {
   namespaced: true,
@@ -74,7 +75,7 @@ export default {
     getNameByKey: state => key => i18n.getName(key),
     languages: state => state.languages,
     currentLanguage: state => state.currentLanguage,
-    
+
     getPageHref: state => payload => {
       if (payload.pageName);
       {

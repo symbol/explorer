@@ -12,9 +12,9 @@
 </template>
 
 <style lang="scss" scoped>
-.hash-mobile{
+.hash-mobile {
     text-overflow: ellipsis;
-    overflow: hidden; 
+    overflow: hidden;
     white-space: nowrap;
     width: 50px;
 }
