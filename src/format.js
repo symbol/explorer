@@ -480,13 +480,30 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
     break
   }
 
+  const fullName = namespaceInfo.levels.map(level => {
+    return namespaceNames.find((name) => name.namespaceId.equals(level))
+  })
+    .map((namespaceName) => namespaceName.name)
+    .join('.')
+
+  namespaceNames.map(namespace => {
+    let root = namespaceNames.find(name => name.parentId === undefined)
+    if (namespace.parentId) {
+      let parent = namespaceNames.find(name => name.namespaceId.equals(namespace.parentId))
+      namespace.name = parent.name + '.' + namespace.name
+
+      if (root.name !== parent.name)
+        namespace.name = root.name + '.' + namespace.name
+    }
+  })
+
   let namespaceObj = {
     owner: namespaceInfo.owner.address.plain(),
-    namespaceName: namespaceNames[0].name,
+    namespaceName: fullName,
     namespaceNameHexId: namespaceInfo.id.toHex().toUpperCase(),
     registrationType: Constants.NamespaceRegistrationType[namespaceInfo.registrationType],
     startHeight: namespaceInfo.startHeight.compact(),
-    endHeight: Constants.NetworkConfig.NAMESPACE.indexOf(namespaceNames[0].name.toUpperCase()) !== -1
+    endHeight: Constants.NetworkConfig.NAMESPACE.indexOf(fullName.toUpperCase()) !== -1
       ? Constants.Message.INFINITY
       : namespaceInfo.endHeight.compact(),
     active: namespaceInfo.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
@@ -494,7 +511,7 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
     alias: aliasText || aliasType,
     // parentHexId: namespaceInfo.parentId.id.toHex().toUpperCase(),
     parentName:
-      namespaceInfo.registrationType !== 0 ? namespaceNames[0].name.split('.')[0].toUpperCase() : '',
+      namespaceInfo.registrationType !== 0 ? fullName.split('.')[0].toUpperCase() : '',
     levels: namespaceNames
   }
 
@@ -516,7 +533,7 @@ const formatNamespaceInfo = (namespaceInfo, currentHeight = 0) => {
     address: namespaceInfo.owner.address.plain(),
     startHeight: namespaceInfo.startHeight.compact(),
     endHeight: namespaceInfo.endHeight.compact(),
-    duration: expiredIn,
+    duration: expiredIn || Constants.Message.UNLIMITED,
     deletedIn: deletedIn,
     isExpired: isExpired,
     approximateExpired: moment.utc().add(expiredInSecond, 's').local().format('YYYY-MM-DD HH:mm:ss')

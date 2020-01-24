@@ -84,14 +84,6 @@ class sdkNamespace {
     let namespaceInfo = await http.namespaceService.namespace(namespace).toPromise()
     let namespaceNames = await http.namespace.getNamespacesName([namespace]).toPromise()
 
-    namespaceNames.map(namespace => {
-      if (namespace.parentId) {
-        let parent = namespaceNames.find(n => n.namespaceId.id.equals(namespace.parentId.id))
-        namespace.name = parent.name + '.' + namespace.name
-      }
-      namespace.namespaceId = namespace.namespaceId.toHex()
-    })
-
     return format.formatNamespace(namespaceInfo, namespaceNames)
   }
 
@@ -165,12 +157,11 @@ class sdkNamespace {
       if (namespaceInfo.levels?.length) {
         namespaceInfo.levels.forEach((el) => {
           let parentId = el.parentId ? el.parentId : ''
-          let namespaceLevelObject = {
+          namespaceLevels.push({
             namespaceName: el.name,
-            namespaceId: el.namespaceId,
+            namespaceId: el.namespaceId.toHex(),
             parentId: parentId === '' ? Constants.Message.UNAVAILABLE : parentId.toHex()
-          }
-          namespaceLevels.push(namespaceLevelObject)
+          })
         })
       }
     }
