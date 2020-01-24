@@ -462,7 +462,7 @@ const formatNamespaces = namespacesInfo =>
     })
 
 // FORMAT NAMESPACE
-const formatNamespace = (namespaceInfo, namespaceNames) => {
+const formatNamespace = (namespaceInfo, namespaceNames, currentHeight = 0) => {
   let aliasText
   let aliasType
   switch (namespaceInfo.alias.type) {
@@ -497,6 +497,8 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
     }
   })
 
+  let { isExpired, expiredInBlock, expiredInSecond } = helper.calculateNamespaceExpiration(currentHeight, namespaceInfo.endHeight.compact())
+
   let namespaceObj = {
     owner: namespaceInfo.owner.address.plain(),
     namespaceName: fullName,
@@ -512,14 +514,18 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
     // parentHexId: namespaceInfo.parentId.id.toHex().toUpperCase(),
     parentName:
       namespaceInfo.registrationType !== 0 ? fullName.split('.')[0].toUpperCase() : '',
-    levels: namespaceNames
+    levels: namespaceNames,
+    duration: moment.utc().add(expiredInSecond, 's').fromNow() || Constants.Message.UNLIMITED,
+    isExpired: isExpired,
+    approximateExpired: moment.utc().add(expiredInSecond, 's').local().format('YYYY-MM-DD HH:mm:ss'),
+    expiredInBlock: expiredInBlock
   }
 
   return namespaceObj
 }
 
 const formatNamespaceInfo = (namespaceInfo, currentHeight = 0) => {
-  let { isExpired, expiredIn, deletedIn, expiredInSecond } = helper.calculateNamespaceExpiration(currentHeight, namespaceInfo.endHeight.compact())
+  let { isExpired, expiredInSecond, expiredInBlock } = helper.calculateNamespaceExpiration(currentHeight, namespaceInfo.endHeight.compact())
 
   return {
     active: namespaceInfo.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
@@ -533,10 +539,10 @@ const formatNamespaceInfo = (namespaceInfo, currentHeight = 0) => {
     address: namespaceInfo.owner.address.plain(),
     startHeight: namespaceInfo.startHeight.compact(),
     endHeight: namespaceInfo.endHeight.compact(),
-    duration: expiredIn || Constants.Message.UNLIMITED,
-    deletedIn: deletedIn,
+    duration: moment.utc().add(expiredInSecond, 's').fromNow() || Constants.Message.UNLIMITED,
     isExpired: isExpired,
-    approximateExpired: moment.utc().add(expiredInSecond, 's').local().format('YYYY-MM-DD HH:mm:ss')
+    approximateExpired: moment.utc().add(expiredInSecond, 's').local().format('YYYY-MM-DD HH:mm:ss'),
+    expiredInBlock: expiredInBlock
   }
 }
 

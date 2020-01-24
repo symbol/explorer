@@ -57,6 +57,7 @@ export default {
       'endHeight': 'block',
       'lastActivity': 'block',
       'recalculationBlock': 'block',
+      'expiredInBlock': 'block',
 
       'namespaceName': 'namespace',
       'namespaceId': 'namespace',

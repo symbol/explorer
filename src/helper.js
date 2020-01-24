@@ -105,30 +105,16 @@ class helper {
     }
   }
 
-  static durationToRelativeTime = (durationInBlocks) => {
-    try {
-      const isDurationNegative = durationInBlocks < 0
-      const absoluteDuration = isDurationNegative ? durationInBlocks * -1 : durationInBlocks
-      const relativeTime = this.formatSeconds(absoluteDuration * Constants.NetworkConfig.TARGET_BLOCK_TIME)
-      const prefix = isDurationNegative ? '- ' : ''
-      return `${prefix}${relativeTime}`
-    } catch (e) {
-      console.error(e)
-    }
-  }
-
   static convertToSecond = durationInBlocks => durationInBlocks * Constants.NetworkConfig.TARGET_BLOCK_TIME
 
   static calculateNamespaceExpiration = (currentHeight, endHeight) => {
     const expired = currentHeight > endHeight - Constants.NetworkConfig.NAMESPACE_GRACE_PERIOD_DURATION
-    const expiredIn = endHeight - Constants.NetworkConfig.NAMESPACE_GRACE_PERIOD_DURATION - currentHeight
-    const deletedIn = endHeight - currentHeight
+    const expiredInBlock = endHeight - Constants.NetworkConfig.NAMESPACE_GRACE_PERIOD_DURATION - currentHeight
 
     return {
       isExpired: expired,
-      expiredIn: this.durationToRelativeTime(expiredIn),
-      deletedIn: this.durationToRelativeTime(deletedIn),
-      expiredInSecond: this.convertToSecond(expiredIn)
+      expiredInBlock: expiredInBlock,
+      expiredInSecond: this.convertToSecond(expiredInBlock)
     }
   }
 }

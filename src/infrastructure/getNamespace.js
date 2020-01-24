@@ -84,7 +84,9 @@ class sdkNamespace {
     let namespaceInfo = await http.namespaceService.namespace(namespace).toPromise()
     let namespaceNames = await http.namespace.getNamespacesName([namespace]).toPromise()
 
-    return format.formatNamespace(namespaceInfo, namespaceNames)
+    const currentBlockHeight = await sdkBlock.getBlockHeight()
+
+    return format.formatNamespace(namespaceInfo, namespaceNames, currentBlockHeight)
   }
 
   static getNamespacesFromIdWithLimit = async (limit, fromNamespaceId) => {
@@ -140,7 +142,10 @@ class sdkNamespace {
         namespaceId: namespaceInfo.namespaceNameHexId,
         registrationType: namespaceInfo.registrationType,
         startHeight: namespaceInfo.startHeight,
+        expiredInBlock: namespaceInfo.expiredInBlock,
         endHeight: namespaceInfo.endHeight,
+        duration: namespaceInfo.duration,
+        approximateExpired: namespaceInfo.approximateExpired,
         active: namespaceInfo.active,
         aliasType: namespaceInfo.aliasType
       }
