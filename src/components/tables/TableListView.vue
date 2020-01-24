@@ -22,6 +22,7 @@
               @click="onItemClick(itemKey, item)"
             >
               <Age v-if="itemKey === 'age'" :date="item" />
+              <Decimal v-if="isChangeDecimalColor(itemKey)" :value="item" />
 
               <div v-else>
                 <div v-if="itemKey === 'transactionBody'">
@@ -40,7 +41,7 @@
                     </div>
                   </Modal>
                 </div>
-                <Decimal v-if="isChangeDecimalColor(itemKey)" :value="item" />
+
                 <div v-else class="max-item-width">
                   <router-link v-if="isItemClickable(itemKey) && getItemHref(itemKey, item)" :to="getItemHref(itemKey, item)">
                     {{ item }}

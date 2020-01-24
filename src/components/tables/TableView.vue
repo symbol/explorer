@@ -60,7 +60,10 @@ export default {
         'senderAddress',
         'targetAddress',
         'targetMosaicId',
-        'targetNamespaceId'
+        'targetNamespaceId',
+        'unresolved',
+        'addressResolutionEntries',
+        'mosaicResolutionEntries'
       ],
       disableClickItems: [...Object.values(Constants.Message)],
       changeDecimalColor: [

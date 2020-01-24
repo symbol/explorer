@@ -23,6 +23,7 @@ import dto from './dto'
 import http from './http'
 import format from '../format'
 import sdkBlock from '../infrastructure/getBlock'
+import sdkMosaic from './getMosaic'
 const QueryParams = nem.QueryParams // Travis patch
 const Address = nem.Address // Travis patch
 
@@ -38,10 +39,33 @@ class sdkTransaction {
   }
 
   static getTransactionInfoByHash = async (hash) => {
-    const transaction = await http.transaction.getTransaction(hash).toPromise()
-    const effectiveFee = await http.transaction.getTransactionEffectiveFee(hash).toPromise()
+    let transaction = await http.transaction.getTransaction(hash).toPromise()
+
+    // get Mosaic Infomation
+    if (transaction?.mosaics?.length) {
+      const mosaicIdsList = transaction.mosaics.map(mosaicInfo => mosaicInfo.id)
+      const mosaicInfos = await http.mosaic.getMosaics(mosaicIdsList).toPromise()
+
+      await sdkMosaic.addMosaicAliasNames(mosaicIdsList)
+
+      transaction.mosaics.map(mosaic => {
+        mosaic.mosaicInfo = mosaicInfos.find(m => m.id.equals(mosaic.id))
+      })
+    }
+
     const formattedTransaction = format.formatTransaction(transaction)
     const getBlockInfo = await sdkBlock.getBlockInfoByHeight(formattedTransaction.blockHeight)
+
+    // Currently using maxfee in Aggregate Complete
+    // http.transaction.getTransactionEffectiveFee throw error because can't get fees.
+    // related issue : https://github.com/nemtech/catapult-rest/issues/242
+    let effectiveFee = formattedTransaction.fee
+
+    if (formattedTransaction.transactionBody.type !== 'Aggregate Complete') {
+      const getEffectiveFee = await http.transaction.getTransactionEffectiveFee(hash).toPromise()
+
+      effectiveFee = format.formatFee(nem.UInt64.fromNumericString(getEffectiveFee.toString()))
+    }
 
     const transactionStatus = await http.transaction
       .getTransactionStatus(hash)
@@ -52,7 +76,7 @@ class sdkTransaction {
       status: transactionStatus.status,
       confirm: transactionStatus.group,
       timestamp: getBlockInfo.date,
-      fee: format.formatFee(nem.UInt64.fromNumericString(effectiveFee.toString()))
+      fee: effectiveFee
     }
 
     return transactionInfo
@@ -162,7 +186,8 @@ class sdkTransaction {
           if (transactionBody.mosaics?.length) {
             formattedTransferMosaics = transactionBody.mosaics.map((el) => ({
               mosaicId: el.id,
-              amount: el.amount
+              amount: el.amount,
+              mosaicAliasName: el.mosaicAliasName
             }))
           }
           break
