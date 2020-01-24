@@ -7,7 +7,7 @@
                 <b-col md="6" class="header-center">
 
                     <router-link to="/" >
-                        <img src="/theme/img/logo-w.png" class="header-logo"/>
+                        <img src="../../styles/img/logo-w.png" class="header-logo"/>
                     </router-link>
 
                     <div class="header-title">
@@ -45,8 +45,14 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.blue-gradinet {
+.blue-gradinet-old {
     background: linear-gradient(120deg, #1eaaa6 0%, #3d6597 100%);
+    background-size: 100% auto;
+    position: relative;
+}
+
+.blue-gradinet {
+    background: linear-gradient(120deg, #5e38b8 0%, #511e61 100%);
     background-size: 100% auto;
     position: relative;
 }
@@ -61,8 +67,8 @@ export default {
     width: 100%;
     height: 100%;
     background-repeat: no-repeat;
-    background-size: 46%;
-    background-position: 60% 0%;
+    background-size: 100%;
+    //background-position: 60% 0%;
 }
 
 @media (max-width: 764px) {

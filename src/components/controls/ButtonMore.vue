@@ -27,9 +27,9 @@ export default {
 }
 
 .btn-green {
-    border: 1px solid #039ba8;
+    border: 1px solid #904d9c;
     border-radius: 4px;
-    color: #039ba8;
+    color: #904d9c;
     font-size: 12px;
     padding: 5px 12px 5px 12px;
     line-height: 1.6;
