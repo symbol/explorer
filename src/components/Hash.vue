@@ -36,8 +36,5 @@
         -webkit-mask-repeat: no-repeat;
         -webkit-mask-position: left top;
     }
-    // text-overflow: ellipsis;
-    // overflow: hidden;
-    // white-space: nowrap;
 }
 </style>
