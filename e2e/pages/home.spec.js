@@ -13,7 +13,7 @@ describe('NEM 2 Explorer Home Page should', () => {
     // cy.url().should('contain', '/statistics')
 
     // xem price chart is visible
-    cy.get('#SvgjsSvg1001').should('be.visible')
+    cy.get('.apexcharts-canvas').should('be.visible')
 
   })
 
