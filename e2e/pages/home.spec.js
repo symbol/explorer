@@ -38,7 +38,7 @@ describe('NEM 2 Explorer Home Page should', () => {
     cy.contains('Recent Transactions')
 
     
-    cy.contains('View all transactions', { timeout: 20000 })
+    cy.contains('View all transactions', { timeout: 90000 })
     .click()
 
     cy.url()
