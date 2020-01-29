@@ -53,7 +53,8 @@
     "remoteAccountPublicKey": "Remote Account PublicKey",
     "remoteAccountAddress": "Remote Account Address",
     "startHeight": "Register at Height",
-    "endHeight": "Delete at Height",
+    "endHeight": "End at Height",
+    "beforeEndHeight": "End at Height",
     "divisibility": "Divisibility",
     "supply": "Supply",
     "owneraddress": "Owner Address",
@@ -142,5 +143,5 @@
     "port": "Port",
     "friendlyName": "Friendly Name",
     "approximateExpired": "Approximate Expired",
-    "expiredInBlock": "Expired at Height"
+    "expiredInBlock": "Expired In Block"
 }

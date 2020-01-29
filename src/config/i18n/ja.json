@@ -54,6 +54,7 @@
     "remoteAccountAddress": "リモートアドレス",
     "startHeight": "開始高",
     "endHeight": "終了高",
+    "beforeEndHeight": "終了高",
     "divisibility": "可分性",
     "supply": "供給量",
     "owneraddress": "所有者アドレス",

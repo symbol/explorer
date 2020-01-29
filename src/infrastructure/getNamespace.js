@@ -141,11 +141,6 @@ class sdkNamespace {
         namespaceName: namespaceInfo.namespaceName,
         namespaceId: namespaceInfo.namespaceNameHexId,
         registrationType: namespaceInfo.registrationType,
-        startHeight: namespaceInfo.startHeight,
-        expiredInBlock: namespaceInfo.expiredInBlock,
-        endHeight: namespaceInfo.endHeight,
-        duration: namespaceInfo.duration,
-        approximateExpired: namespaceInfo.approximateExpired,
         active: namespaceInfo.active,
         aliasType: namespaceInfo.aliasType
       }
@@ -157,6 +152,15 @@ class sdkNamespace {
         namespaceInfoFormatted.aliasMosaic = namespaceInfo.alias
       else
         namespaceInfoFormatted.alias = namespaceInfo.alias
+
+      // End height disable click before expired.
+      namespaceInfoFormatted.startHeight = namespaceInfo.startHeight
+      namespaceInfoFormatted.expiredInBlock = namespaceInfo.expiredInBlock + ` ≈ ` + namespaceInfo.duration
+
+      if (!namespaceInfo.isExpired)
+        namespaceInfoFormatted.beforeEndHeight = namespaceInfo.endHeight + ` ( ${Constants.NetworkConfig.NAMESPACE_GRACE_PERIOD_DURATION} blocks of grace period )`
+      else
+        namespaceInfoFormatted.endHeight =  namespaceInfo.endHeight
 
       namespaceLevels = []
       if (namespaceInfo.levels?.length) {

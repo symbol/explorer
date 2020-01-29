@@ -53,7 +53,6 @@ export default {
         'blockHeight',
         'endHeight',
         'startHeight',
-        'expiredInBlock',
         'remoteAccountAddress',
 
         'lastActivity',

@@ -54,6 +54,7 @@
     "remoteAccountAddress": "Адреса віддаленого рахунку",
     "startHeight": "Стартова висота",
     "endHeight": "Кінцева висота",
+    "beforeEndHeight": "Кінцева висота",
     "divisibility": "Подільність",
     "supply": "Постачання",
     "owneraddress": "Адреса власника",
