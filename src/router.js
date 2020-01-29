@@ -28,6 +28,9 @@ const detailPagesRoutes = detailPages.pages.map(page => ({ ...page, component: (
 
 const routerConfig = {
   mode: 'history',
+  scrollBehavior () {
+    return { x: 0, y: 0 }
+  },
   routes: [
     ...listPagesRoutes,
     ...detailPagesRoutes,
