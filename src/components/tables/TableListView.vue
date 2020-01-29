@@ -170,12 +170,12 @@ export default {
     },
 
     isHash(key) {
-      return key === 'harvester' 
-        || key === 'address' 
-        || key === 'signer' 
-        || key === 'recipient' 
-        || key === 'transactionHash'
-        || key === 'owneraddress'
+      return key === 'harvester' ||
+        key === 'address' ||
+        key === 'signer' ||
+        key === 'recipient' ||
+        key === 'transactionHash' ||
+        key === 'owneraddress'
     }
   },
 

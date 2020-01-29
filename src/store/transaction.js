@@ -182,20 +182,18 @@ export default {
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit, getters }, filter) {
       commit('setLoading', true)
-      //for (let transactionType of Object.keys(TIMELINES)) {
-        const transactionType = filter || Object.keys(TIMELINES)[0]
-        const type = TRANSACTION_TYPE_MAP[transactionType]
-        try {
-          let data = await sdkTransaction.getTransactionsFromHashWithLimit(2 * Constants.PageSize, type)
-          if (transactionType === 'recent')
-            commit('setLatestList', data.slice(0, Constants.PageSize))
+      const transactionType = filter || Object.keys(TIMELINES)[0]
+      const type = TRANSACTION_TYPE_MAP[transactionType]
+      try {
+        let data = await sdkTransaction.getTransactionsFromHashWithLimit(2 * Constants.PageSize, type)
+        if (transactionType === 'recent')
+          commit('setLatestList', data.slice(0, Constants.PageSize))
 
-          commit('setTimelineWithType', { timeline: Timeline.fromData(data), type: transactionType })
-        } catch (e) {
-          console.error(e)
-          commit('setErrorWithType', { error: true, type: transactionType })
-        }
-      //}
+        commit('setTimelineWithType', { timeline: Timeline.fromData(data), type: transactionType })
+      } catch (e) {
+        console.error(e)
+        commit('setErrorWithType', { error: true, type: transactionType })
+      }
       commit('setLoading', false)
     },
 

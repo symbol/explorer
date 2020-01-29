@@ -95,7 +95,7 @@ export default {
     },
 
     getErrorMessage(message) {
-      const errorMessage = message || "Failed to fetch"
+      const errorMessage = message || 'Failed to fetch'
       return this.getNameByKey(errorMessage)
     }
   }
