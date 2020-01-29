@@ -40,8 +40,8 @@
                         />
                     </template>
 
-                    <template #error v-if="item.error">
-                        {{item.errorMessage}}
+                    <template #error v-if="getter(item.errorGetter)">
+                        {{getErrorMessage(item.errorMessage)}}
                         <br>
                         {{prop}}
                     </template>
@@ -92,9 +92,13 @@ export default {
 
     getNameByKey(e) {
       return this.$store.getters['ui/getNameByKey'](e)
+    },
+
+    getErrorMessage(message) {
+      const errorMessage = message || "Failed to fetch"
+      return this.getNameByKey(errorMessage)
     }
   }
-
 }
 </script>
 

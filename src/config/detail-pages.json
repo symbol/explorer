@@ -14,7 +14,7 @@
                         "pagination": false,
                         "loadingGetter": "account/accountInfoLoading",
                         "errorGetter": "account/accountInfoError",
-                        "errorMessage": "Account does not exist"
+                        "errorMessage": "Account is unknown to the network"
                     },
                     {
                         "type": "Card",
