@@ -35,14 +35,14 @@ describe('NEM 2 Explorer Home Page should', () => {
   })
 
   it('load Recent Transactions', () => {
-    cy.contains('Recent Transactions', { timeout: 90000 })
+    cy.contains('Recent Transactions', { timeout: 20000 })
 
     
-    cy.contains('View all transactions', { timeout: 90000 })
-    .click()
+    // cy.contains('View all transactions')
+    // .click()
 
-    cy.url()
-    .should('contain', '/transactions')
+    // cy.url()
+    // .should('contain', '/transactions')
 
   })
 
