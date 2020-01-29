@@ -95,7 +95,7 @@
     "feeMultiplier": "Fee Multiplier",
     "Nem blockchain explorer": "Nem blockchain explorer",
     "Search transactions, addresses, namespaces & mosaics on the nem network.": "Search transactions, addresses, namespaces & mosaics on the nem network.",
-    "Search block / tx hash / account": "Search block / tx hash / account",
+    "Search block / tx hash / account / mosaic id / namespace id": "Search block / tx hash / account / mosaic id / namespace id",
     "nodes": "Nodes",
     "home": "Home",
     "xemPrice": "XEM Price",
