@@ -1,7 +1,7 @@
 <template>
     <div>
         <ArrowCollapseDown v-if="value === 'incoming'" class="incoming"/>
-        <ArrowExpandUp v-if="value === 'outcoming'" class="outcoming"/>
+        <ArrowExpandUp v-if="value === 'outgoing'" class="outgoing"/>
     </div>
 </template>
 
@@ -28,7 +28,7 @@ export default {
     color: green;
 }
 
-.outcoming {
+.outgoing {
     color: red;
 }
 </style>

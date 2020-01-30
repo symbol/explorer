@@ -192,7 +192,7 @@ class sdkAccount {
         deadline: el.deadline,
         transactionHash: el.transactionHash,
         transactionType: el.transactionBody.type,
-        direction: el.transactionBody.type === 'Transfer' ?(el.signer === formattedAccountInfo.address ? 'outcoming' : 'incoming') : void 0
+        direction: el.transactionBody.type === 'Transfer' ?(el.signer === formattedAccountInfo.address ? 'outgoing' : 'incoming') : void 0
       }))
     }
 
