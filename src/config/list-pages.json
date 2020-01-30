@@ -39,7 +39,12 @@
             "name": "namespaces",
             "props": {
                 "storeNamespace": "namespace",
-                "title": "namespaces"
+                "title": "namespaces",
+                "mobileColumns": [
+                    "namespaceName",
+                    "owneraddress",
+                    "duration"
+                ]
             }
         },
         {

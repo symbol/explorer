@@ -52,8 +52,9 @@
     "duration": "Duration",
     "remoteAccountPublicKey": "Remote Account PublicKey",
     "remoteAccountAddress": "Remote Account Address",
-    "startHeight": "Start Height",
-    "endHeight": "End Height",
+    "startHeight": "Register at Height",
+    "endHeight": "End at Height",
+    "beforeEndHeight": "End at Height",
     "divisibility": "Divisibility",
     "supply": "Supply",
     "owneraddress": "Owner Address",
@@ -140,5 +141,7 @@
     "network": "Network",
     "host": "IP/ DNS",
     "port": "Port",
-    "friendlyName": "Friendly Name"
+    "friendlyName": "Friendly Name",
+    "approximateExpired": "Approximate Expired",
+    "expiredInBlock": "Expired In Block"
 }
