@@ -53,6 +53,7 @@
     "remoteAccountAddress": "远程账户地址",
     "startHeight": "开始高度",
     "endHeight": "结束高度",
+    "beforeEndHeight": "结束高度",
     "divisibility": "可分割性",
     "supply": "供应量",
     "owneraddress": "属主地址",
