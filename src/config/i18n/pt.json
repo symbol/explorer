@@ -53,6 +53,7 @@
     "remoteAccountAddress": "Remote Account Address",
     "startHeight": "Start Height",
     "endHeight": "End Height",
+    "beforeEndHeight": "End Height",
     "divisibility": "Divisibility",
     "supply": "Fornecem",
     "owneraddress": "Owner Address",

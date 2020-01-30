@@ -1,5 +1,5 @@
 // cypress/integration/spec.js
-describe('NEM 2 Explorer Home Page should', () => {
+describe.skip('NEM 2 Explorer Home Page should', () => {
   beforeEach(() => {
     cy.visit('/')
   })
@@ -35,15 +35,12 @@ describe('NEM 2 Explorer Home Page should', () => {
   })
 
   it('load Recent Transactions', () => {
-    cy.contains('Recent Transactions', { timeout: 20000 })
+    cy.contains('Recent Transactions')
 
-    
-    // cy.contains('View all transactions')
-    // .click()
+    cy.contains('View all transactions').click()
 
-    // cy.url()
-    // .should('contain', '/transactions')
-
+    cy.url()
+      .should('contain', '/transactions')
   })
 
   it('load Recent Blocks', () => {
