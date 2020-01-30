@@ -22,7 +22,7 @@
             >
               <Age v-if="itemKey === 'age'" :date="item" />
               <Decimal v-else-if="isChangeDecimalColor(itemKey)" :value="item" />
-
+              <TransactionDirection v-else-if="itemKey === 'direction'" :value="item" />
               <div v-else>
                 <div v-if="itemKey === 'transactionBody'">
                   <div @click="onOpenModal(view+'r'+rowIndex)">Show Detail</div>
@@ -79,10 +79,11 @@ import AggregateTransaction from '../AggregateTransaction.vue'
 import Pagination from '../controls/Pagination.vue'
 import Decimal from '../Decimal.vue'
 import Hash from '../Hash.vue'
+import TransactionDirection from '../TransactionDirection.vue'
 export default {
   extends: TableView,
 
-  components: { Modal, AggregateTransaction, Pagination, Decimal, Hash },
+  components: { Modal, AggregateTransaction, Pagination, Decimal, Hash, TransactionDirection },
 
   props: {
     data: {

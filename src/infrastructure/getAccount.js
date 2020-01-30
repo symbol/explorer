@@ -187,13 +187,12 @@ class sdkAccount {
       formattedAccountInfo = { ...formattedAccountInfo, ...formattedAccountMultisig }
       if (accountMultisig.cosignatories) accountMultisigCosignatories = accountMultisig.cosignatories
     }
-
     if (transactionList) {
       formattedTansactionList = transactionList.map(el => ({
         deadline: el.deadline,
-        // fee: el.fee,
         transactionHash: el.transactionHash,
-        transactionType: el.transactionBody.type
+        transactionType: el.transactionBody.type,
+        direction: el.transactionBody.type === 'Transfer' ?(el.signer === formattedAccountInfo.address ? 'outcoming' : 'incoming') : void 0
       }))
     }
 
