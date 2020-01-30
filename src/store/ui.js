@@ -189,20 +189,21 @@ export default {
                 })
                 resolve()
               }
+            } catch (e) {}
+          } else {
+            try {
+              let result = await sdkNamespace.getNamespaceInfoFormatted(searchString)
+              if (result) {
+                dispatch('openPage', {
+                  pageName: 'namespace',
+                  param: searchString
+                })
+                resolve()
+              }
             } catch (e) {
-              try {
-                result = await sdkNamespace.getNamespaceInfo(searchString)
-                if (result) {
-                  dispatch('openPage', {
-                    pageName: 'namespace',
-                    param: searchString
-                  })
-                  resolve()
-                }
-              } catch (e) {}
+              reject(new Error('Nothing found..'))
             }
-          } else
-            reject(new Error('Nothing found..'))
+          }
         } else
           reject(new Error('Nothing found..'))
       })
