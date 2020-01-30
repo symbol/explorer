@@ -141,6 +141,18 @@ const formatMosaics = mosaics => {
   })
 }
 
+const sortMosaics = mosaics => {
+  let sortedMosaics = [];
+
+  mosaics.forEach(mosaic => 
+    mosaic.mosaicId === Constants.NetworkConfig.NATIVE_MOSAIC_HEX 
+    ? sortedMosaics.unshift(mosaic)
+    : sortedMosaics.push(mosaic)
+  );
+  
+  return sortedMosaics;
+}
+
 // FORMAT MOSAICS INFO
 const formatMosaicInfo = mosaicInfo => ({
   mosaic: mosaicInfo.id.toHex(),
@@ -645,5 +657,6 @@ export default {
   formatMetadatas,
   formatReceiptStatements,
   formatResolutionStatements,
-  formatNodesInfo
+  formatNodesInfo,
+  sortMosaics
 }
