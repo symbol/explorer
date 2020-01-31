@@ -143,15 +143,15 @@ const formatMosaics = mosaics => {
 }
 
 const sortMosaics = mosaics => {
-  let sortedMosaics = [];
+  let sortedMosaics = []
 
-  mosaics.forEach(mosaic => 
-    mosaic.mosaicId === Constants.NetworkConfig.NATIVE_MOSAIC_HEX 
-    ? sortedMosaics.unshift(mosaic)
-    : sortedMosaics.push(mosaic)
-  );
-  
-  return sortedMosaics;
+  mosaics.forEach(mosaic =>
+    mosaic.mosaicId === Constants.NetworkConfig.NATIVE_MOSAIC_HEX
+      ? sortedMosaics.unshift(mosaic)
+      : sortedMosaics.push(mosaic)
+  )
+
+  return sortedMosaics
 }
 
 // FORMAT MOSAICS INFO

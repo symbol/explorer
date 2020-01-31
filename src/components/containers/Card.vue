@@ -75,6 +75,7 @@ export default {
         color: #98a8b4;
         display: flex;
         justify-content: center;
+        text-align: center;
     }
 }
 </style>

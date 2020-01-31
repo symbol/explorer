@@ -166,7 +166,7 @@ class sdkAccount {
         }))
         : []
 
-      mosaicList = format.sortMosaics(mosaicList);
+      mosaicList = format.sortMosaics(mosaicList)
 
       activityBuckets = Array.isArray(rawAccountInfo.activityBucket)
         ? rawAccountInfo.activityBucket.map(el => ({
