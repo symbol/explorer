@@ -200,6 +200,7 @@ export default {
     // Fetch the next page of data.
     async fetchNextPage({ commit, getters }) {
       commit('setLoading', true)
+      commit('setError', false)
       const timeline = getters.getTimeline
       const list = timeline.next
       try {
@@ -220,6 +221,7 @@ export default {
     // Fetch the previous page of data.
     async fetchPreviousPage({ commit, getters }) {
       commit('setLoading', true)
+      commit('setError', false)
       const timeline = getters.getTimeline
       const list = timeline.previous
       try {
@@ -241,7 +243,9 @@ export default {
     // Change the current page.
     async changePage({ commit, getters, dispatch }, transactionType) {
       commit('setLoading', true)
+      commit('setError', false)
       await dispatch('initializePage', transactionType)
+
       if (getters.getTransactionType !== transactionType) {
         try {
           if (!getters.getTimeline.isLive) {
@@ -262,6 +266,7 @@ export default {
     // Reset the current page type and page index.
     async resetPage({ commit, getters }) {
       commit('setLoading', true)
+      commit('setError', false)
       if (getters.getTransactionType !== 'recent') {
         try {
           if (!getters.getTimeline.isLive) {

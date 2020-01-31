@@ -75,6 +75,7 @@ export default {
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit }) {
       commit('setLoading', true)
+      commit('setError', false)
       try {
         const nodeList = await getNodePeers()
         commit('setTimeline', Timeline.fromData(nodeList))
@@ -88,6 +89,7 @@ export default {
     // Fetch the next page of data.
     async fetchNextPage({ commit, getters }) {
       commit('setLoading', true)
+      commit('setError', false)
       const timeline = getters.getTimeline
       const list = timeline.next
       try {
@@ -107,6 +109,7 @@ export default {
     // Fetch the previous page of data.
     async fetchPreviousPage({ commit, getters }) {
       commit('setLoading', true)
+      commit('setError', false)
       const timeline = getters.getTimeline
       const list = timeline.previous
       try {
@@ -127,6 +130,7 @@ export default {
     // Reset the node page to the latest list (index 0)
     async resetPage({ commit, getters }) {
       commit('setLoading', true)
+      commit('setError', false)
       try {
         if (!getters.getTimeline.isLive) {
           const data = await getNodePeers()
