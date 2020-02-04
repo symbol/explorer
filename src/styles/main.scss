@@ -1,5 +1,6 @@
 @import '../../node_modules/bootstrap/scss/bootstrap';
 @import '../../node_modules/bootstrap-vue/src/index.scss';
+@import url('https://fonts.googleapis.com/css?family=Noto+Sans&display=swap');
 
 .border-transparent {
     border-color: transparent;
@@ -12,6 +13,10 @@
 
 .zz {
     color: #904d9c
+}
+
+body {
+    font-family: 'Noto Sans', sans-serif;
 }
 
 :root {

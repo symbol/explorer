@@ -67,7 +67,7 @@ export default {
 
 <style lang="scss" scoped>
 .ex-menu {
-    background: #904d9c;
+    background: #9300de;
     box-shadow: 0 2px 10px 2px rgba(0, 0, 0, 0.2);
     padding: 0 60px;
     position: relative;

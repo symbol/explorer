@@ -51,8 +51,14 @@ export default {
     position: relative;
 }
 
-.blue-gradinet {
+.blue-gradinet-1 {
     background: linear-gradient(120deg, #5e38b8 0%, #511e61 100%);
+    background-size: 100% auto;
+    position: relative;
+}
+
+.blue-gradinet {
+    background: linear-gradient(120deg, #5200c6 0%, #44004e 100%);
     background-size: 100% auto;
     position: relative;
 }
