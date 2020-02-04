@@ -160,7 +160,7 @@ class sdkNamespace {
       if (!namespaceInfo.isExpired)
         namespaceInfoFormatted.beforeEndHeight = namespaceInfo.endHeight + ` ( ${Constants.NetworkConfig.NAMESPACE_GRACE_PERIOD_DURATION} blocks of grace period )`
       else
-        namespaceInfoFormatted.endHeight =  namespaceInfo.endHeight
+        namespaceInfoFormatted.endHeight = namespaceInfo.endHeight
 
       namespaceLevels = []
       if (namespaceInfo.levels?.length) {
