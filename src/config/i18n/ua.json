@@ -94,7 +94,7 @@
     "type": "Тип",
     "valueSizeDelta": "Розмір величини дельти",
     "feeMultiplier": "Множник комісійного збіру",
-    "blockchain explorer titler": "Переглядач блокчейну Symbol",
+    "blockchain explorer title": "Переглядач блокчейну Symbol",
     "Search transactions, addresses, namespaces & mosaics on the nem network.": "Шукайте транзакції, адреси, простори імен та мозаїки у мережі NEM.",
     "Search block / tx hash / account / mosaic id / namespace id": "Шукати блок / хеш транзакції / адреса",
     "nodes": "Вузли",
