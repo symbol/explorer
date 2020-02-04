@@ -25,7 +25,7 @@ describe('Search Box component should', () => {
 
     it('redirect to transaction detail page given correct transaction hash', () => {
 
-        const transactionHash = '626F75EB81D081BAC59DE960EF8B6C44810C3E346B7874652197764EF048B39B'
+        const transactionHash = '1F4B55D42C9C91805E73317319DDDA633667D5E44EB0F03678FF7F130555DF4B'
 
         cy.get('.search-box')
         .type(transactionHash)
