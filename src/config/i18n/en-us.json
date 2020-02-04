@@ -143,5 +143,7 @@
     "port": "Port",
     "friendlyName": "Friendly Name",
     "approximateExpired": "Approximate Expired",
-    "expiredInBlock": "Expired In Block"
+    "expiredInBlock": "Expired In Block",
+    "Network Fees": "Recommended Network Fees",
+    "Network Rental Fees": "Effective Rental Fees"
 }
