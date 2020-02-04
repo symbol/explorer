@@ -21,8 +21,12 @@
               :title="getKeyName(itemKey) + ': ' + item"
             >
               <Age v-if="itemKey === 'age'" :date="item" />
+<<<<<<< HEAD
               <Decimal v-else-if="isChangeDecimalColor(itemKey)" :value="item" />
               <TransactionDirection v-else-if="itemKey === 'direction'" :value="item" />
+=======
+
+>>>>>>> 4c0021a4c266fb1e52d1302027b6e5c6a9c71bab
               <div v-else>
                 <div v-if="itemKey === 'transactionBody'">
                   <div @click="onOpenModal(view+'r'+rowIndex)">Show Detail</div>
@@ -47,7 +51,10 @@
                     <div v-else>{{ item }}</div>
                   </router-link>
                   <div v-else>
-                  {{ item }}
+                    <Decimal v-if="isChangeDecimalColor(itemKey)" :value="item" />
+                    <div v-else>
+                      {{ item }}
+                    </div>
                   </div>
                 </div>
               </div>
