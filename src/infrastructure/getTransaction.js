@@ -28,6 +28,19 @@ const QueryParams = nem.QueryParams // Travis patch
 const Address = nem.Address // Travis patch
 
 class sdkTransaction {
+  static getTransactionStatus = (hash) => {
+    return new Promise((resolve, reject) => {
+      const path = `/transaction/${hash}/status`
+      axios.get(http.nodeUrl + path)
+        .then(response => {
+          resolve(response.data.group)
+        })
+        .catch(error => {
+          resolve(error.response.data.message)
+        })
+    })
+  }
+
   static getAccountTransactions = async (address, transactionId = '') => {
     let pageSize = 100
 

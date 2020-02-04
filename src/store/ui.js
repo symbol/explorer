@@ -22,6 +22,7 @@ import http from '../infrastructure/http'
 import sdkMosaic from '../infrastructure/getMosaic'
 import sdkNamespace from '../infrastructure/getNamespace'
 import Vue from 'vue'
+import helper from '../helper'
 
 export default {
   namespaced: true,
@@ -129,21 +130,21 @@ export default {
       return new Promise(async (resolve, reject) => {
         if (searchString !== null && searchString !== '') {
           searchString = searchString.replace(/\s/g, '')
-          if (isBlockHeight(searchString)) {
+          if (helper.isBlockHeight(searchString)) {
             dispatch('openPage', {
               pageName: 'block',
               param: searchString
             })
             resolve()
           } else
-          if (isTransactionId(searchString))
+          if (helper.isTransactionId(searchString))
             reject(new Error('Search by tx id is not supported yet..'))
           // dispatch('openPage', {
           //     pageName: 'transaction',
           //     param: searchString
           // });
           else
-          if (isAccountPublicKey(searchString)) {
+          if (helper.isAccountPublicKey(searchString)) {
             // check the string is a public key of an account
 
             const api = rootGetters['api/currentNode'].url
@@ -171,14 +172,14 @@ export default {
               resolve()
             }
           } else
-          if (isAccountAddress(searchString)) {
+          if (helper.isAccountAddress(searchString)) {
             dispatch('openPage', {
               pageName: 'account',
               param: searchString
             })
             resolve()
           } else
-          if (isMosaicOrNamespaceId(searchString)) {
+          if (helper.isMosaicOrNamespaceId(searchString)) {
             let result = void 0
             try {
               result = await sdkMosaic.getMosaicInfo(searchString)
@@ -218,22 +219,7 @@ export default {
   }
 }
 
-const isMosaicOrNamespaceId = (str) =>
-  str.length === 16
 
-const isTransactionId = (str) =>
-  str.length === 24
-
-const isAccountPublicKey = (str) =>
-  str.length === 64 &&
-  str.match('^[A-z0-9]+$')
-
-const isAccountAddress = (str) =>
-  str.length === 40 &&
-  str.match(`[${getNetworkTypeAddressFormat[http.networkType]}]{1,1}[a-zA-Z0-9]{5,5}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{4,4}`)
-
-const isBlockHeight = (str) =>
-  str.match(/^-{0,1}\d+$/)
 
 const getNetworkTypeAddressFormat = {
   [NetworkType.MAIN_NET]: 'nN',
