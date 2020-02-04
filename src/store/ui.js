@@ -128,7 +128,7 @@ export default {
     search: ({ dispatch, rootGetters }, searchString) => {
       return new Promise(async (resolve, reject) => {
         if (searchString !== null && searchString !== '') {
-          searchString = searchString.replace(/[^a-zA-Z0-9]/g, '')
+          searchString = searchString.replace(/\s/g, '')
           if (isBlockHeight(searchString)) {
             dispatch('openPage', {
               pageName: 'block',
@@ -189,20 +189,21 @@ export default {
                 })
                 resolve()
               }
+            } catch (e) {}
+          } else {
+            try {
+              let result = await sdkNamespace.getNamespaceInfoFormatted(searchString)
+              if (result) {
+                dispatch('openPage', {
+                  pageName: 'namespace',
+                  param: searchString
+                })
+                resolve()
+              }
             } catch (e) {
-              try {
-                result = await sdkNamespace.getNamespaceInfo(searchString)
-                if (result) {
-                  dispatch('openPage', {
-                    pageName: 'namespace',
-                    param: searchString
-                  })
-                  resolve()
-                }
-              } catch (e) {}
+              reject(new Error('Nothing found..'))
             }
-          } else
-            reject(new Error('Nothing found..'))
+          }
         } else
           reject(new Error('Nothing found..'))
       })
