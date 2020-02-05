@@ -142,6 +142,7 @@
     "host": "IP/ DNS",
     "port": "Port",
     "friendlyName": "Friendly Name",
+    "direction": "",
     "approximateExpired": "Approximate Expired",
     "expiredInBlock": "Expired In Block"
 }
