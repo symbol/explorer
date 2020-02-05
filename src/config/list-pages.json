@@ -22,7 +22,14 @@
             "props": {
                 "storeNamespace": "transaction",
                 "title": "transactions",
-                "hasFilter": true
+                "hasFilter": true,
+                "mobileColumns": [
+                    "height",
+                    "transactionHash",
+                    "fee",
+                    "signer",
+                    "recipient"
+                ]
             }
         },
         {
@@ -31,7 +38,12 @@
             "props": {
                 "storeNamespace": "account",
                 "title": "accounts",
-                "hasFilter": true
+                "hasFilter": true,
+                "mobileColumns": [
+                    "address",
+                    "importance",
+                    "info"
+                ]
             }
         },
         {
@@ -52,7 +64,13 @@
             "name": "mosaics",
             "props": {
                 "storeNamespace": "mosaic",
-                "title": "mosaics"
+                "title": "mosaics",
+                "mobileColumns": [
+                    "mosaicId",
+                    "mosaicAliasName",
+                    "owneraddress",
+                    "startHeight"
+                ]
             }
         },
         {
@@ -60,7 +78,13 @@
             "name": "nodes",
             "props": {
                 "storeNamespace": "node",
-                "title": "nodes"
+                "title": "nodes",
+                "mobileColumns": [
+                    "roles",
+                    "address",
+                    "friendlyName",
+                    "host"
+                ]
             }
         }
     ]
