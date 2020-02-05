@@ -31,12 +31,20 @@ class sdkTransaction {
   static getTransactionStatus = (hash) => {
     return new Promise((resolve, reject) => {
       const path = `/transaction/${hash}/status`
+      let transactionStatus = {
+        message: null,
+        detail: {}
+      }
       axios.get(http.nodeUrl + path)
         .then(response => {
-          resolve(response.data.group)
+          transactionStatus.message = response.data.group;
+          transactionStatus.detail = response.data;
+          resolve(transactionStatus);
         })
         .catch(error => {
-          resolve(error.response.data.message)
+          transactionStatus.message = error.response.data.message;
+          transactionStatus.detail = error.response.data;
+          resolve(transactionStatus)
         })
     })
   }

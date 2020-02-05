@@ -116,17 +116,17 @@ export default {
         commit('setBlockHeight', blockList[0].height)
     },
 
-    async getTransactionStatus({ commit }, hash) {
+    async getTransactionStatus({ commit, dispatch }, hash) {
       const transactionStatus = await getTransaction.getTransactionStatus(hash);
 
       if(transactionStatus)
         commit('transactionStatus', transactionStatus)
       else
-        commit('transactionStatus', '')
+        dispatch('clearTransactionStatus')
     },
 
     clearTransactionStatus({ commit }) {
-      commit('transactionStatus', '')
+      commit('transactionStatus', {})
     }
   }
 }

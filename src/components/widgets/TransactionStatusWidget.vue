@@ -11,19 +11,35 @@
                         <b-input 
                             v-model="hash" 
                             :placeholder="getNameByKey('transactionHash')"
+                            size="sm"
                             @focus="clear"
                             @change="getStatus"
                         />
                     </b-col>
                     <b-col style="flex-grow: 0">
-                        <b-button @click="getStatus" variant="primary"> 
+                        <b-button @click="getStatus" variant="primary" size="sm"> 
                             {{getNameByKey('check')}} 
                         </b-button>
                     </b-col>
                 </b-row>
-                <div :style="statusStyle" class="status"> 
-                    {{getNameByKey(statusText)}} 
-                </div>
+                <b-row>
+                    <div :style="statusStyle" class="btn-sm m-1 status "> 
+                        {{getNameByKey(statusText)}} 
+                    </div>
+                    <b-button 
+                        v-if="statusDetail" 
+                        v-b-toggle.collapse-3 
+                        class="m-1 detail-button" 
+                        size="sm" 
+                        variant="plain"
+                    >
+                        {{getNameByKey('Show detail')}}
+                    </b-button>
+                    <b-collapse id="collapse-3" class="detail-table">
+                        <TableInfoView :data="statusDetail" />
+                    </b-collapse>
+                </b-row>
+                
             </b-container>
         </template>
     </Card>
@@ -31,12 +47,14 @@
 
 <script>
 import Card from '@/components/containers/Card.vue'
+import TableInfoView from '@/components/tables/TableInfoView.vue'
 import { mapGetters } from 'vuex'
 import helper from '../../helper'
 
 export default {
   components: {
-    Card
+    Card,
+    TableInfoView
   },
 
   mounted() {
@@ -47,7 +65,8 @@ export default {
       return {
           hash: '',
           statusStyle: {},
-          statusText: ''
+          statusText: '',
+          statusDetail: null
       }
   },
 
@@ -69,6 +88,7 @@ export default {
     clearStatus() {
         this.statusStyle = {};
         this.statusText = '';
+        this.statusDetail = null;
         this.$store.dispatch("chain/clearTransactionStatus")
     },
 
@@ -86,7 +106,7 @@ export default {
   watch: {
       transactionStatus(status) {
           let color = '';
-          switch(status) {
+          switch(status.message) {
             case 'confirmed':
                 color = '--green';
                 break;
@@ -97,7 +117,11 @@ export default {
                 color = '--red';
                 break;
             }
-            this.statusText = status;
+            
+            this.statusText = status.message 
+                ? status.message.charAt(0).toUpperCase() + status.message.slice(1) 
+                : status.message
+            this.statusDetail = status.detail;
             this.statusStyle = {color: `var(${color})`}
       }
   }
@@ -107,5 +131,17 @@ export default {
 <style lang="scss" scoped>
 .status {
     font-size: 12px;
+    padding-left: 15px;
+    margin-left: 0;
+    width: 100%;
+}
+
+.detail-button {
+    margin-bottom: 10px;
+    display: inline;
+}
+
+.detail-table {
+    width: 100%;
 }
 </style>
