@@ -87,6 +87,11 @@ export default {
     hasInfoText: {
       type: Boolean,
       default: false
+    },
+
+    mobileColumns: {
+      type: [Array, undefined],
+      default: void 0
     }
   },
 
@@ -95,7 +100,23 @@ export default {
   },
 
   computed: {
-    timeline() { return this.$store.getters[this.storeNamespace + '/getTimelineFormatted'] },
+    timeline() {
+      const timeline = this.$store.getters[this.storeNamespace + '/getTimelineFormatted']
+
+      if (this.$store.getters['ui/isMobile'] && this.mobileColumns) {
+        return timeline.map(row => {
+          let mobileRow = {}
+
+          for (let key in row) {
+            if (this.mobileColumns.includes(key))
+              mobileRow[key] = row[key]
+          }
+
+          return mobileRow
+        })
+      } else return timeline
+    },
+
     canFetchPrevious() { return this.$store.getters[this.storeNamespace + '/getCanFetchPrevious'] },
     canFetchNext() { return this.$store.getters[this.storeNamespace + '/getCanFetchNext'] },
     loading() { return this.$store.getters[this.storeNamespace + '/getLoading'] },

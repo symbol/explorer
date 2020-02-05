@@ -28,6 +28,9 @@ const detailPagesRoutes = detailPages.pages.map(page => ({ ...page, component: (
 
 const routerConfig = {
   mode: 'history',
+  scrollBehavior() {
+    return { x: 0, y: 0 }
+  },
   routes: [
     ...listPagesRoutes,
     ...detailPagesRoutes,
@@ -38,10 +41,10 @@ const routerConfig = {
         import('./views/Home.vue')
     },
     {
-      path: '/stat',
-      name: 'stat',
+      path: '/statistics',
+      name: 'statistics',
       component: () =>
-        import('./views/Stat.vue')
+        import('./views/Statistics.vue')
     },
 
     {

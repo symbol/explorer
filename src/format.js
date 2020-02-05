@@ -1,21 +1,22 @@
-import { Address, TransactionType } from 'nem2-sdk'
+import { Address, TransactionType, ReceiptType, ResolutionType } from 'nem2-sdk'
 import { Constants } from './config'
 import moment from 'moment'
 import http from './infrastructure/http'
+import helper from './helper'
 
 // FORMAT FEE
 
 // Convert micro-xem (smallest unit) to XEM.
-const microxemToXem = amount => amount / Math.pow(10, 6)
+const microxemToXem = amount => amount / Math.pow(10, Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY)
 
 // Convert Mosaic amount to relative Amount with divisibility.
 const formatMosaicAmountWithDivisibility = (amount, divisibility) => {
   let relativeAmount = divisibility !== 0 ? amount / Math.pow(10, divisibility) : amount.compact()
-  return relativeAmount.toFixed(divisibility)
+  return relativeAmount.toLocaleString('en-US', { minimumFractionDigits: divisibility })
 }
 
 // Format fee (in microxem) to string (in XEM).
-const formatFee = fee => microxemToXem(fee.compact()).toString()
+const formatFee = fee => microxemToXem(fee.compact()).toLocaleString('en-US', { minimumFractionDigits: Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY })
 
 // Format ImportantScore
 const formatImportanceScore = importanceScore => {
@@ -46,7 +47,7 @@ const formatBlock = block => ({
   ).local().format('YYYY-MM-DD HH:mm:ss'),
   totalFee: formatFee(block.totalFee),
   difficulty: ((block.difficulty.compact() / 1000000000000).toFixed(2)).toString(),
-  feeMultiplier: microxemToXem(block.feeMultiplier).toString(),
+  feeMultiplier: microxemToXem(block.feeMultiplier).toLocaleString('en-US', { minimumFractionDigits: Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY }),
   numTransactions: block.numTransactions,
   signature: block.signature,
   signer: Address.createFromPublicKey(block.signer.publicKey, http.networkType).plain(),
@@ -125,12 +126,32 @@ const formatAccountMultisig = accountMultisig => {
 // FORMAT MOSAICS
 const formatMosaics = mosaics => {
   return mosaics.map(mosaic => {
-    return {
-      ...mosaic,
-      id: mosaic.id.toHex(),
-      amount: mosaic.amount.compact().toString()
+    if (mosaic.hasOwnProperty('mosaicInfo')) {
+      return {
+        id: mosaic.id.toHex(),
+        amount: formatMosaicAmountWithDivisibility(mosaic.amount, mosaic.mosaicInfo.divisibility),
+        mosaicAliasName: mosaic.id.mosaicAliasName.length > 0 ? mosaic.id.mosaicAliasName[0].name : Constants.Message.UNAVAILABLE
+      }
+    } else {
+      return {
+        ...mosaic,
+        id: mosaic.id.toHex(),
+        amount: mosaic.amount.compact().toString()
+      }
     }
   })
+}
+
+const sortMosaics = mosaics => {
+  let sortedMosaics = []
+
+  mosaics.forEach(mosaic =>
+    mosaic.mosaicId === Constants.NetworkConfig.NATIVE_MOSAIC_HEX
+      ? sortedMosaics.unshift(mosaic)
+      : sortedMosaics.push(mosaic)
+  )
+
+  return sortedMosaics
 }
 
 // FORMAT MOSAICS INFO
@@ -139,7 +160,7 @@ const formatMosaicInfo = mosaicInfo => ({
   mosaicAliasName: mosaicInfo.mosaicAliasName.length > 0 ? mosaicInfo.mosaicAliasName[0].name : Constants.Message.UNAVAILABLE,
   divisibility: mosaicInfo.divisibility,
   address: mosaicInfo.owner.address.plain(),
-  supply: mosaicInfo.supply.compact(),
+  supply: mosaicInfo.supply.compact().toLocaleString('en-US'),
   relativeAmount: formatMosaicAmountWithDivisibility(mosaicInfo.supply, mosaicInfo.divisibility),
   revision: mosaicInfo.revision,
   startHeight: mosaicInfo.height.compact(),
@@ -453,7 +474,7 @@ const formatNamespaces = namespacesInfo =>
     })
 
 // FORMAT NAMESPACE
-const formatNamespace = (namespaceInfo, namespaceNames) => {
+const formatNamespace = (namespaceInfo, namespaceNames, currentHeight = 0) => {
   let aliasText
   let aliasType
   switch (namespaceInfo.alias.type) {
@@ -471,13 +492,32 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
     break
   }
 
+  const fullName = namespaceInfo.levels.map(level => {
+    return namespaceNames.find((name) => name.namespaceId.equals(level))
+  })
+    .map((namespaceName) => namespaceName.name)
+    .join('.')
+
+  namespaceNames.map(namespace => {
+    let root = namespaceNames.find(name => name.parentId === undefined)
+    if (namespace.parentId) {
+      let parent = namespaceNames.find(name => name.namespaceId.equals(namespace.parentId))
+      namespace.name = parent.name + '.' + namespace.name
+
+      if (root.name !== parent.name)
+        namespace.name = root.name + '.' + namespace.name
+    }
+  })
+
+  let { isExpired, expiredInBlock, expiredInSecond } = helper.calculateNamespaceExpiration(currentHeight, namespaceInfo.endHeight.compact())
+
   let namespaceObj = {
     owner: namespaceInfo.owner.address.plain(),
-    namespaceName: namespaceNames[0].name,
+    namespaceName: fullName,
     namespaceNameHexId: namespaceInfo.id.toHex().toUpperCase(),
     registrationType: Constants.NamespaceRegistrationType[namespaceInfo.registrationType],
     startHeight: namespaceInfo.startHeight.compact(),
-    endHeight: Constants.NetworkConfig.NAMESPACE.indexOf(namespaceNames[0].name.toUpperCase()) !== -1
+    endHeight: Constants.NetworkConfig.NAMESPACE.indexOf(fullName.toUpperCase()) !== -1
       ? Constants.Message.INFINITY
       : namespaceInfo.endHeight.compact(),
     active: namespaceInfo.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
@@ -485,30 +525,37 @@ const formatNamespace = (namespaceInfo, namespaceNames) => {
     alias: aliasText || aliasType,
     // parentHexId: namespaceInfo.parentId.id.toHex().toUpperCase(),
     parentName:
-      namespaceInfo.registrationType !== 0 ? namespaceNames[0].name.split('.')[0].toUpperCase() : '',
-    levels: namespaceNames
+      namespaceInfo.registrationType !== 0 ? fullName.split('.')[0].toUpperCase() : '',
+    levels: namespaceNames,
+    duration: moment.utc().add(expiredInSecond, 's').fromNow() || Constants.Message.UNLIMITED,
+    isExpired: isExpired,
+    approximateExpired: moment.utc().add(expiredInSecond, 's').local().format('YYYY-MM-DD HH:mm:ss'),
+    expiredInBlock: expiredInBlock
   }
 
   return namespaceObj
 }
 
-const formatNamespaceInfo = namespaceInfo => ({
-  active: namespaceInfo.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
-  namespaceId: namespaceInfo.id.toHex(),
-  namespaceName: namespaceInfo.namespaceName,
-  index: namespaceInfo.index,
-  registrationType: Constants.NamespaceRegistrationType[namespaceInfo.registrationType],
-  depth: namespaceInfo.depth,
-  levels: namespaceInfo.levels,
-  parentId: namespaceInfo.parentId.toHex() === '0000000000000000' ? Constants.Message.UNAVAILABLE : namespaceInfo.parentId.toHex(),
-  address: namespaceInfo.owner.address.plain(),
-  startHeight: namespaceInfo.startHeight.compact()
-})
+const formatNamespaceInfo = (namespaceInfo, currentHeight = 0) => {
+  let { isExpired, expiredInSecond, expiredInBlock } = helper.calculateNamespaceExpiration(currentHeight, namespaceInfo.endHeight.compact())
 
-const formatNamespaceInfos = namespaceInfos => {
-  return namespaceInfos.map(namespaceInfo => {
-    return formatNamespaceInfo(namespaceInfo)
-  })
+  return {
+    active: namespaceInfo.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
+    namespaceId: namespaceInfo.id.toHex(),
+    namespaceName: namespaceInfo.namespaceName,
+    index: namespaceInfo.index,
+    registrationType: Constants.NamespaceRegistrationType[namespaceInfo.registrationType],
+    depth: namespaceInfo.depth,
+    levels: namespaceInfo.levels,
+    parentId: namespaceInfo.parentId.toHex() === '0000000000000000' ? Constants.Message.UNAVAILABLE : namespaceInfo.parentId.toHex(),
+    address: namespaceInfo.owner.address.plain(),
+    startHeight: namespaceInfo.startHeight.compact(),
+    endHeight: namespaceInfo.endHeight.compact(),
+    duration: moment.utc().add(expiredInSecond, 's').fromNow() || Constants.Message.UNLIMITED,
+    isExpired: isExpired,
+    approximateExpired: moment.utc().add(expiredInSecond, 's').local().format('YYYY-MM-DD HH:mm:ss'),
+    expiredInBlock: expiredInBlock
+  }
 }
 
 const formatMetadatas = metadatas => {
@@ -522,6 +569,91 @@ const formatMetadatas = metadatas => {
     targetAddress: Address.createFromPublicKey(data.metadataEntry.targetPublicKey, http.networkType).plain(),
     metadataValue: data.metadataEntry.value
   }))
+}
+
+const formatReceiptStatements = receipts => {
+  let balanceChangeReceipt = []
+  let balanceTransferReceipt = []
+  let inflationReceipt = []
+  let artifactExpiryReceipt = []
+
+  receipts.forEach(receipt => {
+    switch (receipt.type) {
+    case ReceiptType.Harvest_Fee:
+    case ReceiptType.LockHash_Created:
+    case ReceiptType.LockHash_Completed:
+    case ReceiptType.LockHash_Expired:
+    case ReceiptType.LockSecret_Created:
+    case ReceiptType.LockSecret_Completed:
+    case ReceiptType.LockSecret_Expired:
+      balanceChangeReceipt.push({
+        ...receipt,
+        size: receipt.size || Constants.Message.UNAVAILABLE,
+        type: Constants.ReceiptType[receipt.type],
+        targetPublicAccount: receipt.targetPublicAccount.address.plain(),
+        amount: formatMosaicAmountWithDivisibility(receipt.amount, Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY),
+        mosaicId: receipt.mosaicId.toHex()
+      })
+      break
+    case ReceiptType.Mosaic_Levy:
+    case ReceiptType.Mosaic_Rental_Fee:
+    case ReceiptType.Namespace_Rental_Fee:
+      balanceTransferReceipt.push({
+        ...receipt,
+        size: receipt.size || Constants.Message.UNAVAILABLE,
+        type: Constants.ReceiptType[receipt.type],
+        sender: receipt.sender.address.plain(),
+        recipientAddress: receipt.recipientAddress.address,
+        amount: formatMosaicAmountWithDivisibility(receipt.amount, Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY),
+        mosaicId: receipt.mosaicId.toHex()
+      })
+      break
+    case ReceiptType.Mosaic_Expired:
+    case ReceiptType.Namespace_Expired:
+    case ReceiptType.Namespace_Deleted:
+      artifactExpiryReceipt.push({
+        ...receipt,
+        size: receipt.size || Constants.Message.UNAVAILABLE,
+        type: Constants.ReceiptType[receipt.type],
+        artifactId: receipt.artifactId.toHex()
+      })
+      break
+    case ReceiptType.Inflation:
+      inflationReceipt.push({
+        ...receipt,
+        size: receipt.size || Constants.Message.UNAVAILABLE,
+        type: Constants.ReceiptType[receipt.type],
+        amount: formatMosaicAmountWithDivisibility(receipt.amount, Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY),
+        mosaicId: receipt.mosaicId.toHex()
+      })
+      break
+    }
+  })
+
+  return {
+    balanceChangeReceipt,
+    balanceTransferReceipt,
+    inflationReceipt,
+    artifactExpiryReceipt
+  }
+}
+
+const formatResolutionStatements = resolutionStatements => {
+  return resolutionStatements.map(statement => {
+    if (statement.resolutionType === ResolutionType.Address) {
+      return {
+        type: Constants.ResolutionType[statement.resolutionType],
+        unresolved: statement.unresolved.toHex(),
+        addressResolutionEntries: statement.resolutionEntries[0].resolved.toHex()
+      }
+    } else if (statement.resolutionType === ResolutionType.Mosaic) {
+      return {
+        type: Constants.ResolutionType[statement.resolutionType],
+        unresolved: statement.unresolved.toHex(),
+        mosaicResolutionEntries: statement.resolutionEntries[0].resolved.toHex()
+      }
+    }
+  })
 }
 
 const formatNodesInfo = nodes => {
@@ -548,7 +680,9 @@ export default {
   formatMosaicInfo,
   formatMosaicInfos,
   formatNamespaceInfo,
-  formatNamespaceInfos,
   formatMetadatas,
-  formatNodesInfo
+  formatReceiptStatements,
+  formatResolutionStatements,
+  formatNodesInfo,
+  sortMosaics
 }

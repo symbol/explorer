@@ -25,6 +25,7 @@ import sdkTransaction from '../infrastructure/getTransaction'
 import sdkNamespace from '../infrastructure/getNamespace'
 import sdkMosaic from '../infrastructure/getMosaic'
 import sdkMetadata from '../infrastructure/getMetadata'
+import { Constants } from '../config'
 
 const formatAccountNames = async accounts => {
   // Fetch the account name objects from the addresses.
@@ -156,6 +157,7 @@ class sdkAccount {
         accountType: rawAccountInfo.accountType,
         linkedAccountKey: rawAccountInfo.linkedAccountKey
       }
+
       mosaicList = Array.isArray(rawAccountInfo.mosaics)
         ? rawAccountInfo.mosaics.map(el => ({
           mosaicId: el.id,
@@ -164,10 +166,12 @@ class sdkAccount {
         }))
         : []
 
+      mosaicList = format.sortMosaics(mosaicList)
+
       activityBuckets = Array.isArray(rawAccountInfo.activityBucket)
         ? rawAccountInfo.activityBucket.map(el => ({
           recalculationBlock: el.startHeight,
-          totalFeesPaid: el.totalFeesPaid,
+          totalFeesPaid: el.totalFeesPaid.toLocaleString('en-US', { minimumFractionDigits: Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY }),
           beneficiaryCount: el.beneficiaryCount,
           importanceScore: el.rawScore
         }))
@@ -183,13 +187,12 @@ class sdkAccount {
       formattedAccountInfo = { ...formattedAccountInfo, ...formattedAccountMultisig }
       if (accountMultisig.cosignatories) accountMultisigCosignatories = accountMultisig.cosignatories
     }
-
     if (transactionList) {
       formattedTansactionList = transactionList.map(el => ({
         deadline: el.deadline,
-        // fee: el.fee,
         transactionHash: el.transactionHash,
-        transactionType: el.transactionBody.type
+        transactionType: el.transactionBody.type,
+        direction: el.transactionBody.type === 'Transfer' ? (el.signer === formattedAccountInfo.address ? 'outgoing' : 'incoming') : void 0
       }))
     }
 

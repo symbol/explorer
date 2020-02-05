@@ -20,7 +20,7 @@
     "chart.js": "^2.8.0",
     "core-js": "^2.6.5",
     "moment-timezone": "^0.5.26",
-    "nem2-sdk": "^0.16.1",
+    "nem2-sdk": "^0.16.3",
     "url-parse": "^1.4.7",
     "vue": "^2.6.10",
     "vue-apexcharts": "^1.5.0",

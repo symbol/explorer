@@ -75,7 +75,7 @@ export default {
       if (helper.validURL(currentNodeUrl)) {
         // Set the current node URL.
         commit('currentNode', currentNodeUrl)
-        localStorage.setItem('currentNodeUrl', currentNodeUrl)
+        commit('setInitialized', false)
         // Uninitialize the data and re-initialize the API.
         await dispatch('uninitialize', null, { root: true })
         await dispatch('initialize', router.currentRoute, { root: true })

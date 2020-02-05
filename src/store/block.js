@@ -44,6 +44,16 @@ export default {
     blockInfo: {},
     // The Block Transaction list
     blockTransactionList: [],
+    // The Block receipt - Inflation
+    inflationReceipt: [],
+    // The Block receipt - Balance Transfer
+    balanceTransferReceipt: [],
+    // The Block receipt - Balance Change
+    balanceChangeReceipt: [],
+    // The Block receipt - Artifact Expiry
+    artifactExpiryReceipt: [],
+    // The Block receipt resolution statement
+    resolutionStatement: [],
     currentBlockHeight: null,
     blockInfoLoading: false,
     blockInfoError: false
@@ -70,6 +80,11 @@ export default {
     getError: state => state.error,
     blockInfo: state => state.blockInfo,
     blockTransactionList: state => state.blockTransactionList,
+    inflationReceipt: state => state.inflationReceipt,
+    balanceTransferReceipt: state => state.balanceTransferReceipt,
+    balanceChangeReceipt: state => state.balanceChangeReceipt,
+    artifactExpiryReceipt: state => state.artifactExpiryReceipt,
+    resolutionStatement: state => state.resolutionStatement,
     currentBlockHeight: state => state.currentBlockHeight,
     blockInfoLoading: state => state.blockInfoLoading,
     blockInfoError: state => state.blockInfoError,
@@ -93,6 +108,11 @@ export default {
 
     blockInfo: (state, blockInfo) => Vue.set(state, 'blockInfo', blockInfo),
     blockTransactionList: (state, blockTransactionList) => Vue.set(state, 'blockTransactionList', blockTransactionList),
+    inflationReceipt: (state, inflationReceipt) => Vue.set(state, 'inflationReceipt', inflationReceipt),
+    balanceTransferReceipt: (state, balanceTransferReceipt) => Vue.set(state, 'balanceTransferReceipt', balanceTransferReceipt),
+    balanceChangeReceipt: (state, balanceChangeReceipt) => Vue.set(state, 'balanceChangeReceipt', balanceChangeReceipt),
+    artifactExpiryReceipt: (state, artifactExpiryReceipt) => Vue.set(state, 'artifactExpiryReceipt', artifactExpiryReceipt),
+    resolutionStatement: (state, resolutionStatement) => Vue.set(state, 'resolutionStatement', resolutionStatement),
     currentBlockHeight: (state, currentBlockHeight) => Vue.set(state, 'currentBlockHeight', currentBlockHeight),
     blockInfoLoading: (state, blockInfoLoading) => Vue.set(state, 'blockInfoLoading', blockInfoLoading),
     blockInfoError: (state, blockInfoError) => Vue.set(state, 'blockInfoError', blockInfoError)
@@ -154,6 +174,7 @@ export default {
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit }) {
       commit('setLoading', true)
+      commit('setError', false)
       try {
         let blockList = await sdkBlock.getBlocksFromHeightWithLimit(2 * Constants.PageSize)
         commit('setLatestList', blockList.slice(0, Constants.PageSize))
@@ -171,6 +192,7 @@ export default {
     // Fetch the next page of data.
     async fetchNextPage({ commit, getters }) {
       commit('setLoading', true)
+      commit('setError', false)
       const timeline = getters.getTimeline
       const list = timeline.next
       try {
@@ -190,6 +212,7 @@ export default {
     // Fetch the previous page of data.
     async fetchPreviousPage({ commit, getters, rootGetters }) {
       commit('setLoading', true)
+      commit('setError', false)
       const timeline = getters.getTimeline
       const list = timeline.previous
       try {
@@ -210,6 +233,7 @@ export default {
     // Reset the block page to the latest list (index 0)
     async resetPage({ commit, getters }) {
       commit('setLoading', true)
+      commit('setError', false)
       try {
         if (!getters.getTimeline.isLive) {
           const data = await sdkBlock.getBlocksFromHeightWithLimit(2 * Constants.PageSize)
@@ -227,6 +251,11 @@ export default {
       commit('blockInfoLoading', true)
       commit('blockInfo', {})
       commit('blockTransactionList', [])
+      commit('inflationReceipt', [])
+      commit('balanceTransferReceipt', [])
+      commit('balanceChangeReceipt', [])
+      commit('artifactExpiryReceipt', [])
+      commit('resolutionStatement', [])
       commit('currentBlockHeight', height)
 
       dispatch('chain/getBlockHeight', null, { root: true })
@@ -240,13 +269,17 @@ export default {
       if (blockInfo) {
         commit('blockInfo', blockInfo.blockInfo)
         commit('blockTransactionList', blockInfo.transactionList)
+        commit('inflationReceipt', blockInfo.inflationReceipt)
+        commit('balanceTransferReceipt', blockInfo.balanceTransferReceipt)
+        commit('balanceChangeReceipt', blockInfo.balanceChangeReceipt)
+        commit('artifactExpiryReceipt', blockInfo.artifactExpiryReceipt)
+        commit('resolutionStatement', blockInfo.resolutionStatements)
       }
 
       commit('blockInfoLoading', false)
     },
 
     nextBlock: ({ commit, getters, dispatch, rootGetters }) => {
-      console.log(getters.currentBlockHeight, rootGetters['chain/getBlockHeight'])
       if (getters.currentBlockHeight < rootGetters['chain/getBlockHeight']) {
         dispatch('ui/openPage', {
           pageName: 'block',
