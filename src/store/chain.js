@@ -69,7 +69,7 @@ export default {
       state.marketData.marketCap = marketData.XEM.USD.MKTCAP
       state.marketData.historicalHourlyGraph = graphData
     },
-    transactionStatus: (state, value) => state.transactionStatus = value
+    transactionStatus: (state, value) => { state.transactionStatus = value }
   },
   actions: {
     // Initialize the chain model.
@@ -117,9 +117,9 @@ export default {
     },
 
     async getTransactionStatus({ commit, dispatch }, hash) {
-      const transactionStatus = await getTransaction.getTransactionStatus(hash);
+      const transactionStatus = await getTransaction.getTransactionStatus(hash)
 
-      if(transactionStatus)
+      if (transactionStatus)
         commit('transactionStatus', transactionStatus)
       else
         dispatch('clearTransactionStatus')

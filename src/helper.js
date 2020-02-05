@@ -17,8 +17,17 @@
  */
 
 import { Constants } from './config'
+import { NetworkType } from 'nem2-sdk'
+import http from './infrastructure/http'
 
 const Url = require('url-parse')
+
+const getNetworkTypeAddressFormat = {
+  [NetworkType.MAIN_NET]: 'nN',
+  [NetworkType.MIJIN]: 'mM',
+  [NetworkType.MIJIN_TEST]: 'sS',
+  [NetworkType.TEST_NET]: 'tT'
+}
 
 class helper {
   static timeSince(interval) {

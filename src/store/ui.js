@@ -16,9 +16,8 @@
  *
  */
 import router from '../router'
-import { Address, AccountHttp, NetworkType } from 'nem2-sdk'
+import { Address, AccountHttp } from 'nem2-sdk'
 import { i18n } from '../config'
-import http from '../infrastructure/http'
 import sdkMosaic from '../infrastructure/getMosaic'
 import sdkNamespace from '../infrastructure/getNamespace'
 import Vue from 'vue'
@@ -217,13 +216,4 @@ export default {
       else throw Error('Cannot change language. language is not supported: ' + language)
     }
   }
-}
-
-
-
-const getNetworkTypeAddressFormat = {
-  [NetworkType.MAIN_NET]: 'nN',
-  [NetworkType.MIJIN]: 'mM',
-  [NetworkType.MIJIN_TEST]: 'sS',
-  [NetworkType.TEST_NET]: 'tT'
 }

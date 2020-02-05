@@ -8,8 +8,8 @@
             <b-container fluid>
                 <b-row>
                     <b-col auto>
-                        <b-input 
-                            v-model="hash" 
+                        <b-input
+                            v-model="hash"
                             :placeholder="getNameByKey('transactionHash')"
                             size="sm"
                             @focus="clear"
@@ -17,20 +17,20 @@
                         />
                     </b-col>
                     <b-col style="flex-grow: 0">
-                        <b-button @click="getStatus" variant="primary" size="sm"> 
-                            {{getNameByKey('check')}} 
+                        <b-button @click="getStatus" variant="primary" size="sm">
+                            {{getNameByKey('check')}}
                         </b-button>
                     </b-col>
                 </b-row>
                 <b-row>
-                    <div :style="statusStyle" class="btn-sm m-1 status "> 
-                        {{getNameByKey(statusText)}} 
+                    <div :style="statusStyle" class="btn-sm m-1 status ">
+                        {{getNameByKey(statusText)}}
                     </div>
-                    <b-button 
-                        v-if="statusDetail" 
-                        v-b-toggle.collapse-3 
-                        class="m-1 detail-button" 
-                        size="sm" 
+                    <b-button
+                        v-if="statusDetail"
+                        v-b-toggle.collapse-3
+                        class="m-1 detail-button"
+                        size="sm"
                         variant="plain"
                     >
                         {{getNameByKey('Show detail')}}
@@ -39,7 +39,7 @@
                         <TableInfoView :data="statusDetail" />
                     </b-collapse>
                 </b-row>
-                
+
             </b-container>
         </template>
     </Card>
@@ -49,7 +49,6 @@
 import Card from '@/components/containers/Card.vue'
 import TableInfoView from '@/components/tables/TableInfoView.vue'
 import { mapGetters } from 'vuex'
-import helper from '../../helper'
 
 export default {
   components: {
@@ -58,16 +57,16 @@ export default {
   },
 
   mounted() {
-      this.clear()
+    this.clear()
   },
 
   data() {
-      return {
-          hash: '',
-          statusStyle: {},
-          statusText: '',
-          statusDetail: null
-      }
+    return {
+      hash: '',
+      statusStyle: {},
+      statusText: '',
+      statusDetail: null
+    }
   },
 
   computed: {
@@ -76,20 +75,20 @@ export default {
       transactionStatus: 'chain/getTransactionStatus'
     }),
 
-    loading() { return !this.blockHeight },
+    loading() { return !this.blockHeight }
   },
 
   methods: {
     clear() {
-        this.clearStatus();
-        this.hash = '';
+      this.clearStatus()
+      this.hash = ''
     },
 
     clearStatus() {
-        this.statusStyle = {};
-        this.statusText = '';
-        this.statusDetail = null;
-        this.$store.dispatch("chain/clearTransactionStatus")
+      this.statusStyle = {}
+      this.statusText = ''
+      this.statusDetail = null
+      this.$store.dispatch('chain/clearTransactionStatus')
     },
 
     getNameByKey(e) {
@@ -97,33 +96,33 @@ export default {
     },
 
     getStatus() {
-        const hash = this.hash
-        this.clearStatus()
-        this.$store.dispatch("chain/getTransactionStatus", hash)
+      const hash = this.hash
+      this.clearStatus()
+      this.$store.dispatch('chain/getTransactionStatus', hash)
     }
   },
 
   watch: {
-      transactionStatus(status) {
-          let color = '';
-          switch(status.message) {
-            case 'confirmed':
-                color = '--green';
-                break;
-            case 'unconfirmed':
-                color = '--orange';
-                break;
-            default:
-                color = '--red';
-                break;
-            }
-            
-            this.statusText = status.message 
-                ? status.message.charAt(0).toUpperCase() + status.message.slice(1) 
-                : status.message
-            this.statusDetail = status.detail;
-            this.statusStyle = {color: `var(${color})`}
+    transactionStatus(status) {
+      let color = ''
+      switch (status.message) {
+      case 'confirmed':
+        color = '--green'
+        break
+      case 'unconfirmed':
+        color = '--orange'
+        break
+      default:
+        color = '--red'
+        break
       }
+
+      this.statusText = status.message
+        ? status.message.charAt(0).toUpperCase() + status.message.slice(1)
+        : status.message
+      this.statusDetail = status.detail
+      this.statusStyle = { color: `var(${color})` }
+    }
   }
 }
 </script>

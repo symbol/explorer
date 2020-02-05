@@ -37,13 +37,13 @@ class sdkTransaction {
       }
       axios.get(http.nodeUrl + path)
         .then(response => {
-          transactionStatus.message = response.data.group;
-          transactionStatus.detail = response.data;
-          resolve(transactionStatus);
+          transactionStatus.message = response.data.group
+          transactionStatus.detail = response.data
+          resolve(transactionStatus)
         })
         .catch(error => {
-          transactionStatus.message = error.response.data.message;
-          transactionStatus.detail = error.response.data;
+          transactionStatus.message = error.response.data.message
+          transactionStatus.detail = error.response.data
           resolve(transactionStatus)
         })
     })
