@@ -141,5 +141,8 @@
     "network": "ネットワーク",
     "host": "IP/ DNS",
     "port": "ポート",
-    "friendlyName": "Friendly Name"
+    "friendlyName": "Friendly Name",
+    "direction": "",
+    "approximateExpired": "Approximate Expired",
+    "expiredInBlock": "Expired In Block"
 }
