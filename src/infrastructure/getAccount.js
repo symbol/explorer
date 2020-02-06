@@ -166,7 +166,7 @@ class sdkAccount {
         }))
         : []
 
-      mosaicList = format.sortMosaics(mosaicList);
+      mosaicList = format.sortMosaics(mosaicList)
 
       activityBuckets = Array.isArray(rawAccountInfo.activityBucket)
         ? rawAccountInfo.activityBucket.map(el => ({
@@ -187,13 +187,12 @@ class sdkAccount {
       formattedAccountInfo = { ...formattedAccountInfo, ...formattedAccountMultisig }
       if (accountMultisig.cosignatories) accountMultisigCosignatories = accountMultisig.cosignatories
     }
-
     if (transactionList) {
       formattedTansactionList = transactionList.map(el => ({
         deadline: el.deadline,
-        // fee: el.fee,
         transactionHash: el.transactionHash,
-        transactionType: el.transactionBody.type
+        transactionType: el.transactionBody.type,
+        direction: el.transactionBody.type === 'Transfer' ? (el.signer === formattedAccountInfo.address ? 'outgoing' : 'incoming') : void 0
       }))
     }
 
