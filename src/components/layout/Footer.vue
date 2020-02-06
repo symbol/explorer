@@ -111,7 +111,7 @@ export default {
 }
 
 .footer {
-    background: linear-gradient(-40deg, #5e38b8 20%, #904d9c 80%);
+    background: var(--secondary);
     padding: 50px 0 0;
     width: 100%;
 

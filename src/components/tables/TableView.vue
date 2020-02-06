@@ -141,7 +141,7 @@ export default {
         vertical-align: middle;
         border: 0 none;
         padding: 12px 6px 12px 6px;
-        color: #0997a3;
+        color: var(--secondary);
         font-weight: 500;
         outline: none;
         font-size: 12px;
