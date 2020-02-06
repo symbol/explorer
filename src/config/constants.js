@@ -42,26 +42,26 @@ class Constants {
 
   static TransactionType = {
     [TransactionType.TRANSFER]: 'Transfer',
-    [TransactionType.REGISTER_NAMESPACE]: 'Register Namespace',
+    [TransactionType.NAMESPACE_REGISTRATION]: 'Namespace Register',
     [TransactionType.ADDRESS_ALIAS]: 'Address Alias',
     [TransactionType.MOSAIC_ALIAS]: 'Mosaic Alias',
     [TransactionType.MOSAIC_DEFINITION]: 'Mosaic Definition',
     [TransactionType.MOSAIC_SUPPLY_CHANGE]: 'Mosaic Supply Change',
-    [TransactionType.MODIFY_MULTISIG_ACCOUNT]: 'Modify Multisig Account',
+    [TransactionType.MULTISIG_ACCOUNT_MODIFICATION]: 'Multisig Account Modify ',
     [TransactionType.AGGREGATE_COMPLETE]: 'Aggregate Complete',
     [TransactionType.AGGREGATE_BONDED]: 'Aggregate Bonded',
-    [TransactionType.LOCK]: 'Lock',
+    [TransactionType.HASH_LOCK]: 'Hash Lock',
     [TransactionType.SECRET_LOCK]: 'Secret Lock',
     [TransactionType.SECRET_PROOF]: 'Secret Proof',
-    [TransactionType.ACCOUNT_RESTRICTION_ADDRESS]: 'Account Restriction Address',
-    [TransactionType.ACCOUNT_RESTRICTION_MOSAIC]: 'Account Restriction Mosaic',
-    [TransactionType.ACCOUNT_RESTRICTION_OPERATION]: 'Account Restriction Operation',
-    [TransactionType.LINK_ACCOUNT]: 'Link Account',
+    [TransactionType.ACCOUNT_ADDRESS_RESTRICTION]: 'Account Address Restriction',
+    [TransactionType.ACCOUNT_MOSAIC_RESTRICTION]: 'Account Mosaic Restriction',
+    [TransactionType.ACCOUNT_OPERATION_RESTRICTION]: 'Account Operation Restriction',
+    [TransactionType.ACCOUNT_LINK]: 'Account Link',
     [TransactionType.MOSAIC_ADDRESS_RESTRICTION]: 'Mosaic Address Restriction',
     [TransactionType.MOSAIC_GLOBAL_RESTRICTION]: 'Mosaic Global Restriction',
-    [TransactionType.ACCOUNT_METADATA_TRANSACTION]: 'Account Metadata Transaction',
-    [TransactionType.MOSAIC_METADATA_TRANSACTION]: 'Mosaic Metadata Transaction',
-    [TransactionType.NAMESPACE_METADATA_TRANSACTION]: 'Namespace Metadata Transaction'
+    [TransactionType.ACCOUNT_METADATA]: 'Account Metadata',
+    [TransactionType.MOSAIC_METADATA]: 'Mosaic Metadata',
+    [TransactionType.NAMESPACE_METADATA]: 'Namespace Metadata'
   }
 
   static MosaicSupplyChangeAction = {

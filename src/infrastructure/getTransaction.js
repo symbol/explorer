@@ -192,7 +192,7 @@ class sdkTransaction {
           }
           break
 
-        case nem.TransactionType.REGISTER_NAMESPACE:
+        case nem.TransactionType.NAMESPACE_REGISTRATION:
           formattedTransactionDetail = {
             transactionType: transactionBody.type,
             recipient: transactionBody.recipient,
@@ -244,7 +244,7 @@ class sdkTransaction {
           }
           break
 
-        case nem.TransactionType.MODIFY_MULTISIG_ACCOUNT:
+        case nem.TransactionType.MULTISIG_ACCOUNT_MODIFICATION:
           formattedTransactionDetail = {
             transactionType: transactionBody.type
           }
@@ -296,7 +296,7 @@ class sdkTransaction {
 
           break
 
-        case nem.TransactionType.LOCK:
+        case nem.TransactionType.HASH_LOCK:
           formattedTransactionDetail = {
             transactionType: transactionBody.type,
             duration: transactionBody.duration,
@@ -323,33 +323,79 @@ class sdkTransaction {
           }
           break
 
-        case nem.TransactionType.MODIFY_ACCOUNT_PROPERTY_ADDRESS:
+        case nem.TransactionType.ACCOUNT_ADDRESS_RESTRICTION:
           // Todo: Anthony
           formattedTransactionDetail = {
             transactionType: transactionBody.type
           }
           break
 
-        case nem.TransactionType.MODIFY_ACCOUNT_PROPERTY_MOSAIC:
+        case nem.TransactionType.ACCOUNT_MOSAIC_RESTRICTION:
           // Todo: Anthony
           formattedTransactionDetail = {
             transactionType: transactionBody.type
           }
           break
 
-        case nem.TransactionType.MODIFY_ACCOUNT_PROPERTY_ENTITY_TYPE:
+        case nem.TransactionType.ACCOUNT_OPERATION_RESTRICTION:
           // Todo: Anthony
           formattedTransactionDetail = {
             transactionType: transactionBody.type
           }
           break
 
-        case nem.TransactionType.LINK_ACCOUNT:
+        case nem.TransactionType.ACCOUNT_LINK:
           formattedTransactionDetail = {
             transactionType: transactionBody.type,
             linkAction: transactionBody.linkAction,
             remoteAccountPublicKey: transactionBody.remoteAccountPublicKey,
             remoteAccountAddress: transactionBody.remoteAccountAddress
+          }
+          break
+
+        case nem.TransactionType.MOSAIC_ADDRESS_RESTRICTION:
+          // Todo: Anthony
+          formattedTransactionDetail = {
+            transactionType: transactionBody.type
+          }
+          break
+
+        case nem.TransactionType.MOSAIC_GLOBAL_RESTRICTION:
+          // Todo: Anthony
+          formattedTransactionDetail = {
+            transactionType: transactionBody.type
+          }
+          break
+
+        case nem.TransactionType.ACCOUNT_METADATA:
+          formattedTransactionDetail = {
+            transactionType: transactionBody.type,
+            scopedMetadataKey: transactionBody.scopedMetadataKey,
+            targetAddress: transactionBody.targetAddress,
+            metadataValue: transactionBody.metadataValue,
+            valueSizeDelta: transactionBody.valueSizeDelta
+          }
+          break
+
+        case nem.TransactionType.MOSAIC_METADATA:
+          formattedTransactionDetail = {
+            transactionType: transactionBody.type,
+            scopedMetadataKey: transactionBody.scopedMetadataKey,
+            targetMosaicId: transactionBody.targetMosaicId,
+            targetAddress: transactionBody.targetAddress,
+            metadataValue: transactionBody.metadataValue,
+            valueSizeDelta: transactionBody.valueSizeDelta
+          }
+          break
+
+        case nem.TransactionType.NAMESPACE_METADATA:
+          formattedTransactionDetail = {
+            transactionType: transactionBody.type,
+            scopedMetadataKey: transactionBody.scopedMetadataKey,
+            targetNamespaceId: transactionBody.targetNamespaceId,
+            targetAddress: transactionBody.targetAddress,
+            metadataValue: transactionBody.metadataValue,
+            valueSizeDelta: transactionBody.valueSizeDelta
           }
           break
 
