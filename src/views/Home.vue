@@ -19,12 +19,6 @@
 <template>
     <b-container fluid class="px-0 py-0">
         <b-row class="my-4 mx-0 mx-xs-0 mx-md-4 mx-lg-8">
-            <b-col xs="12" md="12" lg="6">
-                <NetworkFeesWidget />
-            </b-col>
-            <b-col xs="12" md="12" lg="6">
-                <NetworkRentalFeesWidget />
-            </b-col>
             <b-col xs="12" md="12" lg="8">
                 <NemPriceWidget />
             </b-col>
@@ -45,8 +39,6 @@ import BaseInfoWidget from '@/components/widgets/BaseInfoWidget.vue'
 import NemPriceWidget from '@/components/widgets/NemPriceWidget.vue'
 import RecentBlocksWidget from '@/components/widgets/RecentBlocksWidget.vue'
 import RecentTransactionsWidget from '@/components/widgets/RecentTransactionsWidget.vue'
-import NetworkFeesWidget from '@/components/widgets/NetworkFeesWidget.vue'
-import NetworkRentalFeesWidget from '@/components/widgets/NetworkRentalFeesWidget.vue'
 
 export default {
   name: 'Home',
@@ -55,9 +47,7 @@ export default {
     BaseInfoWidget,
     NemPriceWidget,
     RecentBlocksWidget,
-    RecentTransactionsWidget,
-    NetworkFeesWidget,
-    NetworkRentalFeesWidget
+    RecentTransactionsWidget
   },
 
   mounted() {

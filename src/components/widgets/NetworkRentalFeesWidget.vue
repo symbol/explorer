@@ -11,19 +11,18 @@
                     sm="4"
                     md="4"
                     lg="4"
-                    v-for="(item, index) in networkfees"
-                    :key="'network_fee'+index+'_'+item.fast"
+                    v-for="(item, index) in networkRentalFees"
+                    :key="'network_fee'+index+'_'+item.netoworkFeesType"
                 >
                     <Card
                         class='card-item'
                         :item="item"
                     >
                         <template #header>
-                            {{getNameByKey(item.name)}}
+                            {{getNameByKey(item.netoworkFeesType)}}
                         </template>
                         <template #body>
-                            <Decimal :value="item.fees" />
-                             / Block
+                            <Decimal :value="item.fees" /> {{item.remark}}
                         </template>
                     </Card>
                 </b-col>
@@ -35,34 +34,21 @@
 
 <script>
 import Card from '@/components/containers/Card.vue'
-import ButtonMore from '@/components/controls/ButtonMore.vue'
 import Decimal from '@/components/Decimal.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   components: {
     Card,
-    ButtonMore,
     Decimal
-  },
-
-  data() {
-    return {
-        networkfees: [
-            {name: 'Root Namespace',
-            fees: '0.000001 xem',},
-            { name: 'Child Namespace',
-            fees: '0.0001 xem'},
-            { name: 'Mosaic',
-            fees: '0.0005 xem'}]
-            }
   },
 
   computed: {
     ...mapGetters({
-      blockList: 'block/getRecentList',
-      loading: 'block/getLoading',
-    }),
+      networkRentalFees: 'statistics/getNetworkRentalFees',
+      loading: 'statistics/getLoading',
+      error: 'statistics/getError'
+    })
   },
 
   methods: {

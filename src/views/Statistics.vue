@@ -17,25 +17,30 @@
  */
 
 <template>
-  <div>
-    <div class="page_con">
-
-    </div>
-  </div>
+  <b-container fluid class="px-0 py-0">
+        <b-row class="my-4 mx-0 mx-xs-0 mx-md-4 mx-lg-8">
+            <b-col xs="12" md="12" lg="6">
+                <NetworkFeesWidget />
+            </b-col>
+            <b-col xs="12" md="12" lg="6">
+                <NetworkRentalFeesWidget />
+            </b-col>
+        </b-row>
+    </b-container>
 </template>
 <script>
+import NetworkFeesWidget from '@/components/widgets/NetworkFeesWidget.vue'
+import NetworkRentalFeesWidget from '@/components/widgets/NetworkRentalFeesWidget.vue'
 
 export default {
-  name: 'block',
+  name: 'Statistics',
   components: {
-  },
-  data() {
-    return {
-
-    }
+    NetworkFeesWidget,
+    NetworkRentalFeesWidget
   },
   methods: {},
   mounted() {
+    this.$store.dispatch('statistics/initialize', this.$route)
   }
 }
 </script>

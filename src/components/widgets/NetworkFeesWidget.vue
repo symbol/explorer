@@ -11,18 +11,20 @@
                     sm="4"
                     md="4"
                     lg="4"
-                    v-for="(item, index) in networkfees"
-                    :key="'network_fee'+index+'_'+item.fast"
+                    v-for="(item, index) in networkTransactionFees"
+                    :key="'network_fee'+index+'_'+item.netoworkFeesType"
                 >
                     <Card
                         class='card-item'
                         :item="item"
+                        :loading="loading"
+                        :error="error"
                     >
                         <template #header>
-                            {{getNameByKey(item.name)}}
+                            {{getNameByKey(item.netoworkFeesType)}}
                         </template>
                         <template #body>
-                            <Decimal :value="item.fees" /> XEM / Transfer
+                            <Decimal :value="item.fees" /> {{item.remark}}
                         </template>
                     </Card>
                 </b-col>
@@ -34,34 +36,21 @@
 
 <script>
 import Card from '@/components/containers/Card.vue'
-import ButtonMore from '@/components/controls/ButtonMore.vue'
 import Decimal from '@/components/Decimal.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   components: {
     Card,
-    ButtonMore,
     Decimal
-  },
-
-  data() {
-    return {
-        networkfees: [
-            {name: 'Fast',
-            fees: '1.000000',},
-            { name: 'Standard',
-            fees: '0.500000'},
-            { name: 'Slow',
-            fees: '0.100000'}]
-            }
   },
 
   computed: {
     ...mapGetters({
-      blockList: 'block/getRecentList',
-      loading: 'block/getLoading',
-    }),
+      networkTransactionFees: 'statistics/getNetworkTransactionFees',
+      loading: 'statistics/getLoading',
+      error: 'statistics/getError'
+    })
   },
 
   methods: {
