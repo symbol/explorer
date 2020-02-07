@@ -17,6 +17,8 @@
                     <Card
                         class='card-item'
                         :item="item"
+                        :loading="loading"
+                        :error="error"
                     >
                         <template #header>
                             {{getNameByKey(item.netoworkFeesType)}}
