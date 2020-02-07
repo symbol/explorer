@@ -37,7 +37,37 @@ class Constants {
     NETWORKTYPE: NetworkType.TEST_NET,
     NEMESIS_TIMESTAMP: Deadline.timestampNemesisBlock,
     TARGET_BLOCK_TIME: 15,
-    NAMESPACE_GRACE_PERIOD_DURATION: 172800
+    NAMESPACE_GRACE_PERIOD_DURATION: 172800,
+    MAX_DIFFICULTY_BLOCKS: 60,
+    DEFAULT_DYNAMIC_FEE_MULTIPLIER: 1000,
+    NETWORK_FEES_RATE: [
+      {
+        TYPE: 'Fast',
+        RATE: 3
+      },
+      {
+        TYPE: 'Average',
+        RATE: 1
+      },
+      {
+        TYPE: 'Slow',
+        RATE: 0.5
+      }
+    ],
+    NETWORK_RENTAL_RATE: [
+      {
+        TYPE: 'Root Namespace',
+        RATE: 0.000001
+      },
+      {
+        TYPE: 'Child Namespace',
+        RATE: 0.0001
+      },
+      {
+        TYPE: 'Mosaic',
+        RATE: 0.0005
+      }
+    ]
   }
 
   static TransactionType = {
