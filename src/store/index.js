@@ -23,6 +23,7 @@ import mosaic from './mosaic'
 import namespace from './namespace'
 import node from './node'
 import transaction from './transaction'
+import statistics from './statistics'
 import ui from './ui'
 import helper from '../helper'
 import Vue from 'vue'
@@ -42,7 +43,8 @@ export default new Vuex.Store({
     account,
     mosaic,
     namespace,
-    node
+    node,
+    statistics
   },
   actions: {
     // Initialize the store (call on mount or re-initialization).
@@ -75,6 +77,8 @@ export default new Vuex.Store({
         return helper.logError(dispatch, 'node/initialize')
       case 'transactions':
         return helper.logError(dispatch, 'transaction/initialize')
+      case 'statistics':
+        return helper.logError(dispatch, 'statistics/initialize')
 
         // Detail Views
       case 'account-detail':
@@ -98,7 +102,8 @@ export default new Vuex.Store({
         dispatch('chain/uninitialize'),
         dispatch('mosaic/uninitialize'),
         dispatch('namespace/uninitialize'),
-        dispatch('transaction/uninitialize')
+        dispatch('transaction/uninitialize'),
+        dispatch('statistics/uninitialize')
       ])
     }
   }
