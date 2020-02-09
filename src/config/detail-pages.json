@@ -14,7 +14,7 @@
                         "pagination": false,
                         "loadingGetter": "account/accountInfoLoading",
                         "errorGetter": "account/accountInfoError",
-                        "errorMessage": "Account does not exist"
+                        "errorMessage": "Account is unknown to the network"
                     },
                     {
                         "type": "Card",
@@ -269,7 +269,6 @@
                         "fullWidth": false,
                         "body": "TableInfoView",
                         "dataGetter": "transaction/transactionDetail",
-                        "hideEmptyData": true,
                         "pagination": false,
                         "loadingGetter": "transaction/transactionInfoLoading"
                     },

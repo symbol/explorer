@@ -25,6 +25,7 @@ import format from '../format'
 import helper from '../helper'
 import Constants from '../config/constants'
 import sdkMetadata from '../infrastructure/getMetadata'
+import sdkBlock from './getBlock'
 
 const addNamespaceNames = async namespaces => {
   // Fetch the namespace name objects from the IDs.
@@ -83,15 +84,9 @@ class sdkNamespace {
     let namespaceInfo = await http.namespaceService.namespace(namespace).toPromise()
     let namespaceNames = await http.namespace.getNamespacesName([namespace]).toPromise()
 
-    namespaceNames.map(namespace => {
-      if (namespace.parentId) {
-        let parent = namespaceNames.find(n => n.namespaceId.id.equals(namespace.parentId.id))
-        namespace.name = parent.name + '.' + namespace.name
-      }
-      namespace.namespaceId = namespace.namespaceId.toHex()
-    })
+    const currentBlockHeight = await sdkBlock.getBlockHeight()
 
-    return format.formatNamespace(namespaceInfo, namespaceNames)
+    return format.formatNamespace(namespaceInfo, namespaceNames, currentBlockHeight)
   }
 
   static getNamespacesFromIdWithLimit = async (limit, fromNamespaceId) => {
@@ -107,7 +102,9 @@ class sdkNamespace {
     const namespaces = response.data.map(info => dto.createNamespaceInfoFromDTO(info, http.networkType))
     await addNamespaceNames(namespaces)
 
-    return format.formatNamespaceInfos(namespaces)
+    const currentBlockHeight = await sdkBlock.getBlockHeight()
+
+    return namespaces.map(namespace => format.formatNamespaceInfo(namespace, currentBlockHeight))
   }
 
   static getNamespacesSinceIdWithLimit = async (limit, sinceNamespaceId) => {
@@ -123,7 +120,9 @@ class sdkNamespace {
     const namespaces = response.data.map(info => dto.createNamespaceInfoFromDTO(info, http.networkType))
     await addNamespaceNames(namespaces)
 
-    return format.formatNamespaceInfos(namespaces)
+    const currentBlockHeight = await sdkBlock.getBlockHeight()
+
+    return namespaces.map(namespace => format.formatNamespaceInfo(namespace, currentBlockHeight))
   }
 
   static getNamespaceInfoFormatted = async namespaceOrHex => {
@@ -142,8 +141,6 @@ class sdkNamespace {
         namespaceName: namespaceInfo.namespaceName,
         namespaceId: namespaceInfo.namespaceNameHexId,
         registrationType: namespaceInfo.registrationType,
-        startHeight: namespaceInfo.startHeight,
-        endHeight: namespaceInfo.endHeight,
         active: namespaceInfo.active,
         aliasType: namespaceInfo.aliasType
       }
@@ -156,16 +153,24 @@ class sdkNamespace {
       else
         namespaceInfoFormatted.alias = namespaceInfo.alias
 
+      // End height disable click before expired.
+      namespaceInfoFormatted.startHeight = namespaceInfo.startHeight
+      namespaceInfoFormatted.expiredInBlock = namespaceInfo.expiredInBlock + ` ≈ ` + namespaceInfo.duration
+
+      if (!namespaceInfo.isExpired)
+        namespaceInfoFormatted.beforeEndHeight = namespaceInfo.endHeight + ` ( ${Constants.NetworkConfig.NAMESPACE_GRACE_PERIOD_DURATION} blocks of grace period )`
+      else
+        namespaceInfoFormatted.endHeight = namespaceInfo.endHeight
+
       namespaceLevels = []
       if (namespaceInfo.levels?.length) {
         namespaceInfo.levels.forEach((el) => {
           let parentId = el.parentId ? el.parentId : ''
-          let namespaceLevelObject = {
+          namespaceLevels.push({
             namespaceName: el.name,
-            namespaceId: el.namespaceId,
+            namespaceId: el.namespaceId.toHex(),
             parentId: parentId === '' ? Constants.Message.UNAVAILABLE : parentId.toHex()
-          }
-          namespaceLevels.push(namespaceLevelObject)
+          })
         })
       }
     }
