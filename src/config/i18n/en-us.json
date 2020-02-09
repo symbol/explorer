@@ -146,5 +146,12 @@
     "approximateExpired": "Approximate Expired",
     "expiredInBlock": "Expired In Block",
     "Network Fees": "Recommended Network Fees",
-    "Network Rental Fees": "Effective Rental Fees"
+    "Network Rental Fees": "Effective Rental Fees",
+    "Fast": "Fast",
+    "Average": "Average",
+    "Slow": "Slow",
+    "Root Namespace": "Root Namespace",
+    "Child Namespace": "Child Namespace",
+    "Mosaic": "Mosaic",
+    "Statistics": "Statistics"
 }
