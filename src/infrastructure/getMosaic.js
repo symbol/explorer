@@ -120,22 +120,16 @@ class sdkMosaic {
     }
   }
 
-  static addMosaicAliasNames = async mosaics => {
-    // Fetch the mosaic name objects from the IDs.
-    const mosaicIdsList = mosaics.map(mosaicInfo => mosaicInfo.id)
+  static getMosaicInfoAliasNames = async mosaicIds => {
+    const mosaicIdsList = mosaicIds.map(mosaicInfo => mosaicInfo.id)
+    const mosaicInfos = await http.mosaic.getMosaics(mosaicIdsList).toPromise()
     const mosaicNames = await http.namespace.getMosaicsNames(mosaicIdsList).toPromise()
 
-    // Create a mapping of mosaics IDs to names.
-    const idToNameMap = {}
-    for (let item of mosaicNames)
-      idToNameMap[item.mosaicId.toHex()] = item.names
-
-    // Add name to mosaics object.
-    mosaics.map(info => {
-      info.mosaicAliasName = idToNameMap[info.id.toHex()]
-    })
-
-    return mosaics
+    return mosaicIdsList.map(mosaicId => ({
+      id: new MosaicId(mosaicId.toHex()),
+      mosaicInfo: mosaicInfos.find(info => info.id.id.equals(mosaicId)),
+      mosaicName: mosaicNames.find(name => name.mosaicId.id.equals(mosaicId))
+    }))
   }
 }
 
