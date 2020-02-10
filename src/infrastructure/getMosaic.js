@@ -18,7 +18,6 @@
 
 import axios from 'axios'
 import {
-  Address,
   MosaicId,
   NamespaceId
 } from 'nem2-sdk'
@@ -30,14 +29,6 @@ import helper from '../helper'
 import sdkMetadata from '../infrastructure/getMetadata'
 
 class sdkMosaic {
-  static getMosaicsAmountByAddress = async address => {
-    const mosaicAmount = await http.mosaicService
-      .mosaicsAmountViewFromAddress(new Address(address))
-      .toPromise()
-
-    return mosaicAmount
-  }
-
   static getMosaicInfo = async mosaicHexOrNamespace => {
     let mosaicID
 
@@ -47,11 +38,10 @@ class sdkMosaic {
       let namespaceId = new NamespaceId(mosaicHexOrNamespace)
       mosaicID = await http.namespace.getLinkedMosaicId(namespaceId).toPromise()
     }
-    const mosaicInfo = await http.mosaic.getMosaic(mosaicID).toPromise()
 
-    await this.addMosaicAliasNames([mosaicInfo])
+    const mosaicInfoAliasNames = await sdkMosaic.getMosaicInfoAliasNames([mosaicID])
 
-    return format.formatMosaicInfo(mosaicInfo)
+    return format.formatMosaicInfo(mosaicInfoAliasNames[0])
   }
 
   static getMosaicsFromIdWithLimit = async (limit, fromMosaicId) => {
@@ -66,9 +56,10 @@ class sdkMosaic {
     const response = await axios.get(http.nodeUrl + path)
     const mosaics = response.data.map(info => dto.createMosaicInfoFromDTO(info, http.networkType))
 
-    await this.addMosaicAliasNames(mosaics)
+    const mosaicIdsList = mosaics.map(mosaicInfo => mosaicInfo.id)
+    const mosaicInfoAliasNames = await sdkMosaic.getMosaicInfoAliasNames(mosaicIdsList)
 
-    return format.formatMosaicInfos(mosaics)
+    return mosaicInfoAliasNames.map(mosaicInfoAliasName => format.formatMosaicInfo(mosaicInfoAliasName))
   }
 
   static getMosaicsSinceIdWithLimit = async (limit, sinceMosaicId) => {
@@ -83,9 +74,10 @@ class sdkMosaic {
     const response = await axios.get(http.nodeUrl + path)
     const mosaics = response.data.map(info => dto.createMosaicInfoFromDTO(info, http.networkType))
 
-    await this.addMosaicAliasNames(mosaics)
+    const mosaicIdsList = mosaics.map(mosaicInfo => mosaicInfo.id)
+    const mosaicInfoAliasNames = await sdkMosaic.getMosaicInfoAliasNames(mosaicIdsList)
 
-    return format.formatMosaicInfos(mosaics)
+    return mosaicInfoAliasNames.map(mosaicInfoAliasName => format.formatMosaicInfo(mosaicInfoAliasName))
   }
 
   static getMosaicInfoFormatted = async mosaicHexOrNamespace => {
