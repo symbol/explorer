@@ -43,6 +43,12 @@ class sdkTransaction {
 
     // get Mosaic Infomation
     if (transaction?.mosaics?.length) {
+      // replace MosaicId when mosaic id is NamespaceId.
+      await Promise.all(transaction.mosaics.map(async mosaic => {
+        if (mosaic.id instanceof nem.NamespaceId)
+          return mosaic.id = await http.namespace.getLinkedMosaicId(mosaic.id).toPromise()
+      }))
+
       const mosaicIdsList = transaction.mosaics.map(mosaicInfo => mosaicInfo.id)
       const mosaicInfos = await http.mosaic.getMosaics(mosaicIdsList).toPromise()
 
