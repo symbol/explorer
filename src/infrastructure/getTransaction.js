@@ -46,16 +46,14 @@ class sdkTransaction {
       // replace MosaicId when mosaic id is NamespaceId.
       await Promise.all(transaction.mosaics.map(async mosaic => {
         if (mosaic.id instanceof nem.NamespaceId)
-          return mosaic.id = await http.namespace.getLinkedMosaicId(mosaic.id).toPromise()
+          return (mosaic.id = await http.namespace.getLinkedMosaicId(mosaic.id).toPromise())
       }))
 
       const mosaicIdsList = transaction.mosaics.map(mosaicInfo => mosaicInfo.id)
-      const mosaicInfos = await http.mosaic.getMosaics(mosaicIdsList).toPromise()
-
-      await sdkMosaic.addMosaicAliasNames(mosaicIdsList)
+      let mosaicInfoAliasNames = await sdkMosaic.getMosaicInfoAliasNames(mosaicIdsList)
 
       transaction.mosaics.map(mosaic => {
-        mosaic.mosaicInfo = mosaicInfos.find(m => m.id.equals(mosaic.id))
+        mosaic.mosaicInfoAliasName = mosaicInfoAliasNames.find(mosaicInfoName => mosaicInfoName.id.equals(mosaic.id))
       })
     }
 
