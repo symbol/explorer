@@ -93,15 +93,6 @@ const formatAccount = accountInfo => {
     harvestedFees: harvestedFees
   }
 
-  // check prop (Account Detail)
-  if (accountInfo.hasOwnProperty('mosaicsAmountViewFromAddress')) {
-    accountObj.mosaics = accountInfo.mosaicsAmountViewFromAddress.map(mosaic => ({
-      id: mosaic.fullName(),
-      amount: formatMosaicAmountWithDivisibility(mosaic.amount, mosaic.mosaicInfo.divisibility),
-      mosaicAliasName: mosaic.mosaicInfo.mosaicAliasName.length > 0 ? mosaic.mosaicInfo.mosaicAliasName[0].name : Constants.Message.UNAVAILABLE
-    }))
-  }
-
   if (accountInfo.accountName.names.length > 0) {
     accountObj.accountAliasName = accountInfo.accountName.names[0].name
     accountObj.accountAliasNameHex = accountInfo.accountName.names[0].namespaceId.toHex()
@@ -126,11 +117,11 @@ const formatAccountMultisig = accountMultisig => {
 // FORMAT MOSAICS
 const formatMosaics = mosaics => {
   return mosaics.map(mosaic => {
-    if (mosaic.hasOwnProperty('mosaicInfo')) {
+    if (mosaic.hasOwnProperty('mosaicInfoAliasName')) {
       return {
         id: mosaic.id.toHex(),
-        amount: formatMosaicAmountWithDivisibility(mosaic.amount, mosaic.mosaicInfo.divisibility),
-        mosaicAliasName: mosaic.id.mosaicAliasName.length > 0 ? mosaic.id.mosaicAliasName[0].name : Constants.Message.UNAVAILABLE
+        amount: formatMosaicAmountWithDivisibility(mosaic.amount, mosaic.mosaicInfoAliasName.mosaicInfo.divisibility),
+        mosaicAliasName: mosaic.mosaicInfoAliasName.mosaicName.names.length > 0 ? mosaic.mosaicInfoAliasName.mosaicName.names[0].name : Constants.Message.UNAVAILABLE
       }
     } else {
       return {
@@ -155,26 +146,20 @@ const sortMosaics = mosaics => {
 }
 
 // FORMAT MOSAICS INFO
-const formatMosaicInfo = mosaicInfo => ({
-  mosaic: mosaicInfo.id.toHex(),
-  mosaicAliasName: mosaicInfo.mosaicAliasName.length > 0 ? mosaicInfo.mosaicAliasName[0].name : Constants.Message.UNAVAILABLE,
-  divisibility: mosaicInfo.divisibility,
-  address: mosaicInfo.owner.address.plain(),
-  supply: mosaicInfo.supply.compact().toLocaleString('en-US'),
-  relativeAmount: formatMosaicAmountWithDivisibility(mosaicInfo.supply, mosaicInfo.divisibility),
-  revision: mosaicInfo.revision,
-  startHeight: mosaicInfo.height.compact(),
-  duration: mosaicInfo.duration.compact(),
-  supplyMutable: mosaicInfo.flags.supplyMutable,
-  transferable: mosaicInfo.flags.transferable,
-  restrictable: mosaicInfo.flags.restrictable
+const formatMosaicInfo = mosaicInfoAliasNames => ({
+  mosaic: mosaicInfoAliasNames.mosaicInfo.id.toHex(),
+  mosaicAliasName: mosaicInfoAliasNames.mosaicName.names.length > 0 ? mosaicInfoAliasNames.mosaicName.names[0].name : Constants.Message.UNAVAILABLE,
+  divisibility: mosaicInfoAliasNames.mosaicInfo.divisibility,
+  address: mosaicInfoAliasNames.mosaicInfo.owner.address.plain(),
+  supply: mosaicInfoAliasNames.mosaicInfo.supply.compact().toLocaleString('en-US'),
+  relativeAmount: formatMosaicAmountWithDivisibility(mosaicInfoAliasNames.mosaicInfo.supply, mosaicInfoAliasNames.mosaicInfo.divisibility),
+  revision: mosaicInfoAliasNames.mosaicInfo.revision,
+  startHeight: mosaicInfoAliasNames.mosaicInfo.height.compact(),
+  duration: mosaicInfoAliasNames.mosaicInfo.duration.compact(),
+  supplyMutable: mosaicInfoAliasNames.mosaicInfo.flags.supplyMutable,
+  transferable: mosaicInfoAliasNames.mosaicInfo.flags.transferable,
+  restrictable: mosaicInfoAliasNames.mosaicInfo.flags.restrictable
 })
-
-const formatMosaicInfos = mosaicInfos => {
-  return mosaicInfos.map(mosaicInfo => {
-    return formatMosaicInfo(mosaicInfo)
-  })
-}
 
 // FORMAT TRANSACTIONS
 const formatTransactions = transactions => {
@@ -678,7 +663,6 @@ export default {
   formatNamespaces,
   formatNamespace,
   formatMosaicInfo,
-  formatMosaicInfos,
   formatNamespaceInfo,
   formatMetadatas,
   formatReceiptStatements,
