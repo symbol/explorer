@@ -48,7 +48,8 @@
                     <div v-else>{{ item }}</div>
                   </router-link>
                   <div v-else>
-                    {{ item }}
+                    <Hash v-if="isHash(itemKey)">{{item}}</Hash>
+                    <div v-else>{{ item }}</div>
                   </div>
                 </div>
               </div>
@@ -177,7 +178,9 @@ export default {
         key === 'signer' ||
         key === 'recipient' ||
         key === 'transactionHash' ||
-        key === 'owneraddress'
+        key === 'owneraddress' ||
+        key === 'host' ||
+        key === 'friendlyName'
     }
   },
 
