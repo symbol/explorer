@@ -156,7 +156,7 @@ const sortMosaics = mosaics => {
 
 // FORMAT MOSAICS INFO
 const formatMosaicInfo = mosaicInfo => ({
-  mosaic: mosaicInfo.id.toHex(),
+  mosaicId: mosaicInfo.id.toHex(),
   mosaicAliasName: mosaicInfo.mosaicAliasName.length > 0 ? mosaicInfo.mosaicAliasName[0].name : Constants.Message.UNAVAILABLE,
   divisibility: mosaicInfo.divisibility,
   address: mosaicInfo.owner.address.plain(),

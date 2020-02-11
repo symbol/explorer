@@ -113,7 +113,7 @@ export default {
           throw new Error('internal error: next list is 0.')
 
         const namespace = list[list.length - 1]
-        const fetchNext = pageSize => sdkNamespace.getNamespacesFromIdWithLimit(pageSize, namespace.id)
+        const fetchNext = pageSize => sdkNamespace.getNamespacesFromIdWithLimit(pageSize, namespace.namespaceId)
         commit('setTimeline', await timeline.shiftNext(fetchNext))
       } catch (e) {
         console.error(e)

@@ -47,7 +47,7 @@ export default {
     getCanFetchPrevious: state => state.timeline.canFetchPrevious,
     getCanFetchNext: state => state.timeline.canFetchNext,
     getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
-      mosaicId: el.mosaic,
+      mosaicId: el.mosaicId,
       mosaicAliasName: el.mosaicAliasName,
       owneraddress: el.address,
       supply: el.supply,
@@ -112,7 +112,7 @@ export default {
           throw new Error('internal error: next list is 0.')
 
         const mosaic = list[list.length - 1]
-        const fetchNext = pageSize => sdkMosaic.getMosaicsFromIdWithLimit(pageSize, mosaic.id)
+        const fetchNext = pageSize => sdkMosaic.getMosaicsFromIdWithLimit(pageSize, mosaic.mosaicId)
         commit('setTimeline', await timeline.shiftNext(fetchNext))
       } catch (e) {
         console.error(e)
