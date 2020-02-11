@@ -39,7 +39,8 @@ export default {
     getTimeline: state => state.timeline,
     getCanFetchPrevious: state => state.timeline.canFetchPrevious,
     getCanFetchNext: state => state.timeline.canFetchNext,
-    getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
+    getTimelineFormatted: (state, getters) => getters.getTimeline.current.map((el, index) => ({
+      index: index + 1,
       version: el.version,
       roles: el.roles,
       network: el.network,
@@ -78,7 +79,8 @@ export default {
       commit('setError', false)
       try {
         const nodeList = await getNodePeers()
-        commit('setTimeline', Timeline.fromData(nodeList))
+        // commit('setTimeline', Timeline.fromData(nodeList))
+        commit('setTimeline', Timeline.fromData(nodeList, false))
       } catch (e) {
         console.error(e)
         commit('setError', true)
@@ -134,7 +136,8 @@ export default {
       try {
         if (!getters.getTimeline.isLive) {
           const data = await getNodePeers()
-          commit('setTimeline', Timeline.fromData(data))
+          // commit('setTimeline', Timeline.fromData(data))
+          commit('setTimeline', Timeline.fromData(data, false))
         }
       } catch (e) {
         console.error(e)

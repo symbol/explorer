@@ -31,9 +31,8 @@ export default class Timeline {
 
   static fromData(data, isPagination = true) {
     // check isPagination active
-    if(!isPagination) {
+    if (!isPagination)
       return new Timeline([], data, [], 0)
-    }
 
     // Break data for the initial list into the current and next.
     const previous = []
