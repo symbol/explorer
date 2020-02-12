@@ -44,11 +44,12 @@
 
                 <div v-else class="max-item-width">
                   <router-link v-if="isItemClickable(itemKey) && getItemHref(itemKey, item)" :to="getItemHref(itemKey, item)">
-                    <Hash v-if="isHash(itemKey)">{{item}}</Hash>
+                    <Truncate v-if="isTruncate(itemKey)">{{item}}</Truncate>
                     <div v-else>{{ item }}</div>
                   </router-link>
                   <div v-else>
-                    {{ item }}
+                    <Truncate v-if="isTruncate(itemKey)">{{item}}</Truncate>
+                    <div v-else>{{ item }}</div>
                   </div>
                 </div>
               </div>
@@ -79,12 +80,12 @@ import Modal from '../containers/Modal.vue'
 import AggregateTransaction from '../AggregateTransaction.vue'
 import Pagination from '../controls/Pagination.vue'
 import Decimal from '../Decimal.vue'
-import Hash from '../Hash.vue'
+import Truncate from '../Truncate.vue'
 import TransactionDirection from '../TransactionDirection.vue'
 export default {
   extends: TableView,
 
-  components: { Modal, AggregateTransaction, Pagination, Decimal, Hash, TransactionDirection },
+  components: { Modal, AggregateTransaction, Pagination, Decimal, Truncate, TransactionDirection },
 
   props: {
     data: {
@@ -171,13 +172,15 @@ export default {
         this.pageIndex--
     },
 
-    isHash(key) {
+    isTruncate(key) {
       return key === 'harvester' ||
         key === 'address' ||
         key === 'signer' ||
         key === 'recipient' ||
         key === 'transactionHash' ||
-        key === 'owneraddress'
+        key === 'owneraddress' ||
+        key === 'host' ||
+        key === 'friendlyName'
     }
   },
 
