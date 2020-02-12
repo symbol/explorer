@@ -52,7 +52,7 @@
     "duration": "Duration",
     "remoteAccountPublicKey": "Remote Account PublicKey",
     "remoteAccountAddress": "Remote Account Address",
-    "startHeight": "Register at Height",
+    "startHeight": "Registered at Height",
     "endHeight": "End at Height",
     "beforeEndHeight": "End at Height",
     "divisibility": "Divisibility",
