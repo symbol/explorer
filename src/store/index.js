@@ -104,6 +104,7 @@ export default new Vuex.Store({
         dispatch('namespace/uninitialize'),
         dispatch('transaction/uninitialize'),
         dispatch('statistics/uninitialize')
+        dispatch('node/uninitialize')
       ])
     }
   }
