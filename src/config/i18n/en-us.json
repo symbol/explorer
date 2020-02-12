@@ -144,5 +144,6 @@
     "friendlyName": "Friendly Name",
     "direction": "",
     "approximateExpired": "Approximate Expired",
-    "expiredInBlock": "Expired In Block"
+    "expiredInBlock": "Expired In Block",
+    "index": "No."
 }
