@@ -56,17 +56,12 @@ class sdkAccount {
       .getAccountsNames([addressObj])
       .toPromise()
 
-    const mosaicsAmountViewFromAddress = await http.mosaicService
-      .mosaicsAmountViewFromAddress(addressObj)
-      .toPromise()
+    const mosaicIdsList = accountInfo.mosaics.map(mosaic => mosaic.id)
+    const mosaicInfoAliasNames = await sdkMosaic.getMosaicInfoAliasNames(mosaicIdsList)
 
-    const mosaicsInfoList = mosaicsAmountViewFromAddress.map(mosaic => mosaic.mosaicInfo)
-
-    // Get mosaic alias name from mosaic list
-    await sdkMosaic.addMosaicAliasNames(mosaicsInfoList)
-
-    // added mosaicsAmountViewFromAddress[] object
-    accountInfo.mosaicsAmountViewFromAddress = mosaicsAmountViewFromAddress
+    accountInfo.mosaics.map(mosaic => {
+      mosaic.mosaicInfoAliasName = mosaicInfoAliasNames.find(mosaicInfoName => mosaicInfoName.id.equals(mosaic.id))
+    })
 
     // add accountName object
     accountInfo.accountName = accountName[0]
