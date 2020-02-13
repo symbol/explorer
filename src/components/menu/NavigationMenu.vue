@@ -67,8 +67,8 @@ export default {
 
 <style lang="scss" scoped>
 .ex-menu {
-    background: #0998a6;
-    box-shadow: 0 2px 10px 2px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
+    box-shadow: 0 2px 10px 2px rgba(0, 0, 0, 0.5);
     padding: 0 60px;
     position: relative;
 
@@ -78,7 +78,7 @@ export default {
 
     .ex-menu-item {
         padding: 0 20px;
-        color: #fff;
+        color: var(--light);
         text-decoration: none;
         letter-spacing: 1px;
         position: relative;
@@ -100,7 +100,7 @@ export default {
         left: 0;
         width: 100%;
         height: 3px;
-        background: #fff;
+        background: var(--light);
         transition: all 0.2s ease-in-out;
     }
 }

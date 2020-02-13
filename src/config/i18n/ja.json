@@ -94,7 +94,7 @@
     "type": "タイプ",
     "valueSizeDelta": "値サイズデルタ",
     "feeMultiplier": "手数料乗数",
-    "Nem blockchain explorer": "Nem blockchain explorer",
+    "blockchain explorer title": "Symbol blockchain explorer",
     "Search transactions, addresses, namespaces & mosaics on the nem network.": "ネットワーク上のトランザクション/アドレス/ネームスペース/モザイクを検索",
     "Search block / tx hash / account": "ブロック / トランザクションハッシュ / アカウント 検索",
     "nodes": "ノード",

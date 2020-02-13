@@ -280,7 +280,6 @@ export default {
     },
 
     nextBlock: ({ commit, getters, dispatch, rootGetters }) => {
-      console.log(getters.currentBlockHeight, rootGetters['chain/getBlockHeight'])
       if (getters.currentBlockHeight < rootGetters['chain/getBlockHeight']) {
         dispatch('ui/openPage', {
           pageName: 'block',

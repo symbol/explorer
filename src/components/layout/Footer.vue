@@ -76,7 +76,7 @@ export default {
       items: [
         {
           href: 'https://nemflash.io/',
-          text: 'NEM News',
+          text: 'Symbol News',
           classname: 'IconNewspaper'
         },
         {
@@ -111,7 +111,7 @@ export default {
 }
 
 .footer {
-    background: linear-gradient(-40deg, #37476b 20%, #0a879b 80%);
+    background: var(--secondary);
     padding: 50px 0 0;
     width: 100%;
 

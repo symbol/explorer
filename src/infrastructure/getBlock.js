@@ -37,7 +37,8 @@ class sdkBlock {
     let txList = await this.getTransactionsByBlockHeight(blockHeight, transactionId)
     if (txList.length > 0) {
       transactionId = txList[txList.length - 1].transactionId
-      txList.concat(await this.getBlockFullTransactionsList(blockHeight, transactionId))
+      const page = await this.getBlockFullTransactionsList(blockHeight, transactionId)
+      txList = [...txList, ...page]
     }
     return txList
   }
