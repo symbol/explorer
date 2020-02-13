@@ -15,7 +15,7 @@
                     <div class="header-sub-title">
                         {{getNameByKey('Search transactions, addresses, namespaces & mosaics on the nem network.')}}
                     </div>
-                    
+
                 </b-col>
                 <b-col md="3" class="header-right">
                     <SearchBox class='search-box' />
