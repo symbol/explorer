@@ -19,10 +19,10 @@
               :key="view+'r'+rowIndex+'i'+itemKey"
               :class="{'table-item-clickable': isItemClickable(itemKey), [itemKey]: true}"
               :title="getKeyName(itemKey) + ': ' + item"
-              @click="onItemClick(itemKey, item)"
             >
               <Age v-if="itemKey === 'age'" :date="item" />
-              <Decimal v-if="isChangeDecimalColor(itemKey)" :value="item" />
+              <Decimal v-else-if="isChangeDecimalColor(itemKey)" :value="item" />
+              <TransactionDirection v-else-if="itemKey === 'direction'" :value="item" />
 
               <div v-else>
                 <div v-if="itemKey === 'transactionBody'">
@@ -44,10 +44,12 @@
 
                 <div v-else class="max-item-width">
                   <router-link v-if="isItemClickable(itemKey) && getItemHref(itemKey, item)" :to="getItemHref(itemKey, item)">
-                    {{ item }}
+                    <Truncate v-if="isTruncate(itemKey)">{{item}}</Truncate>
+                    <div v-else>{{ item }}</div>
                   </router-link>
                   <div v-else>
-                  {{ item }}
+                    <Truncate v-if="isTruncate(itemKey)">{{item}}</Truncate>
+                    <div v-else>{{ item }}</div>
                   </div>
                 </div>
               </div>
@@ -78,10 +80,12 @@ import Modal from '../containers/Modal.vue'
 import AggregateTransaction from '../AggregateTransaction.vue'
 import Pagination from '../controls/Pagination.vue'
 import Decimal from '../Decimal.vue'
+import Truncate from '../Truncate.vue'
+import TransactionDirection from '../TransactionDirection.vue'
 export default {
   extends: TableView,
 
-  components: { Modal, AggregateTransaction, Pagination, Decimal },
+  components: { Modal, AggregateTransaction, Pagination, Decimal, Truncate, TransactionDirection },
 
   props: {
     data: {
@@ -166,6 +170,17 @@ export default {
     prevPage() {
       if (this.prevPageExist)
         this.pageIndex--
+    },
+
+    isTruncate(key) {
+      return key === 'harvester' ||
+        key === 'address' ||
+        key === 'signer' ||
+        key === 'recipient' ||
+        key === 'transactionHash' ||
+        key === 'owneraddress' ||
+        key === 'host' ||
+        key === 'friendlyName'
     }
   },
 

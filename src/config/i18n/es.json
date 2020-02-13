@@ -53,6 +53,7 @@
     "remoteAccountAddress": "Remote cuentas Dirección",
     "startHeight": "Comienzo Altura",
     "endHeight": "Fin Altura",
+    "beforeEndHeight": "Fin Altura",
     "divisibility": "divisibilidad",
     "supply": "Suministro",
     "owneraddress": "Dirección propiedad",

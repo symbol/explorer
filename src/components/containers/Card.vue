@@ -45,7 +45,7 @@ export default {
 <style lang="scss" scoped>
 .ex-card {
     //padding: 20px;
-    box-shadow: 0 1px 15px 1px rgba(52, 40, 104, 0.18);
+    box-shadow: 0 1px 15px 1px rgba(68, 0, 78, 0.15);
     background: #fff;
     border-radius: 4px;
     border: none;
@@ -75,6 +75,7 @@ export default {
         color: #98a8b4;
         display: flex;
         justify-content: center;
+        text-align: center;
     }
 }
 </style>

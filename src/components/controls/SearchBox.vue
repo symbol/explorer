@@ -19,7 +19,7 @@ export default {
       searchString: '',
       searchValidate: '',
       isError: false,
-      placeholder: 'Search block / tx hash / account'
+      placeholder: 'Search block / tx hash / account / mosaic id / namespace id / alias'
     }
   },
 

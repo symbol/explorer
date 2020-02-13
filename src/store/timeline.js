@@ -29,7 +29,11 @@ export default class Timeline {
     return new Timeline([], [], [], 0)
   }
 
-  static fromData(data) {
+  static fromData(data, isPagination = true) {
+    // check isPagination active
+    if (!isPagination)
+      return new Timeline([], data, [], 0)
+
     // Break data for the initial list into the current and next.
     const previous = []
     const current = data.slice(0, Constants.PageSize)

@@ -56,17 +56,12 @@ class sdkAccount {
       .getAccountsNames([addressObj])
       .toPromise()
 
-    const mosaicsAmountViewFromAddress = await http.mosaicService
-      .mosaicsAmountViewFromAddress(addressObj)
-      .toPromise()
+    const mosaicIdsList = accountInfo.mosaics.map(mosaic => mosaic.id)
+    const mosaicInfoAliasNames = await sdkMosaic.getMosaicInfoAliasNames(mosaicIdsList)
 
-    const mosaicsInfoList = mosaicsAmountViewFromAddress.map(mosaic => mosaic.mosaicInfo)
-
-    // Get mosaic alias name from mosaic list
-    await sdkMosaic.addMosaicAliasNames(mosaicsInfoList)
-
-    // added mosaicsAmountViewFromAddress[] object
-    accountInfo.mosaicsAmountViewFromAddress = mosaicsAmountViewFromAddress
+    accountInfo.mosaics.map(mosaic => {
+      mosaic.mosaicInfoAliasName = mosaicInfoAliasNames.find(mosaicInfoName => mosaicInfoName.id.equals(mosaic.id))
+    })
 
     // add accountName object
     accountInfo.accountName = accountName[0]
@@ -157,6 +152,7 @@ class sdkAccount {
         accountType: rawAccountInfo.accountType,
         linkedAccountKey: rawAccountInfo.linkedAccountKey
       }
+
       mosaicList = Array.isArray(rawAccountInfo.mosaics)
         ? rawAccountInfo.mosaics.map(el => ({
           mosaicId: el.id,
@@ -164,6 +160,8 @@ class sdkAccount {
           mosaicAliasName: el.mosaicAliasName
         }))
         : []
+
+      mosaicList = format.sortMosaics(mosaicList)
 
       activityBuckets = Array.isArray(rawAccountInfo.activityBucket)
         ? rawAccountInfo.activityBucket.map(el => ({
@@ -184,13 +182,12 @@ class sdkAccount {
       formattedAccountInfo = { ...formattedAccountInfo, ...formattedAccountMultisig }
       if (accountMultisig.cosignatories) accountMultisigCosignatories = accountMultisig.cosignatories
     }
-
     if (transactionList) {
       formattedTansactionList = transactionList.map(el => ({
         deadline: el.deadline,
-        // fee: el.fee,
         transactionHash: el.transactionHash,
-        transactionType: el.transactionBody.type
+        transactionType: el.transactionBody.type,
+        direction: el.transactionBody.type === 'Transfer' ? (el.signer === formattedAccountInfo.address ? 'outgoing' : 'incoming') : void 0
       }))
     }
 

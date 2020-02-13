@@ -49,13 +49,10 @@ export default {
     getCanFetchPrevious: state => state.timeline.canFetchPrevious,
     getCanFetchNext: state => state.timeline.canFetchNext,
     getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
-      namespaceId: el.namespaceId,
       namespaceName: el.namespaceName,
-      registrationType: el.registrationType,
       owneraddress: el.address,
-      parentId: el.parentId,
-      startHeight: el.startHeight,
-      depth: el.depth
+      duration: el.duration,
+      approximateExpired: el.approximateExpired
     })),
     getLoading: state => state.loading,
     getError: state => state.error,
@@ -94,6 +91,7 @@ export default {
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit }) {
       commit('setLoading', true)
+      commit('setError', false)
       try {
         let namespaceList = await sdkNamespace.getNamespacesFromIdWithLimit(2 * Constants.PageSize)
         commit('setTimeline', Timeline.fromData(namespaceList))
@@ -107,6 +105,7 @@ export default {
     // Fetch the next page of data.
     async fetchNextPage({ commit, getters }) {
       commit('setLoading', true)
+      commit('setError', false)
       const timeline = getters.getTimeline
       const list = timeline.next
       try {
@@ -114,7 +113,7 @@ export default {
           throw new Error('internal error: next list is 0.')
 
         const namespace = list[list.length - 1]
-        const fetchNext = pageSize => sdkNamespace.getNamespacesFromIdWithLimit(pageSize, namespace.id)
+        const fetchNext = pageSize => sdkNamespace.getNamespacesFromIdWithLimit(pageSize, namespace.namespaceId)
         commit('setTimeline', await timeline.shiftNext(fetchNext))
       } catch (e) {
         console.error(e)
@@ -126,6 +125,7 @@ export default {
     // Fetch the previous page of data.
     async fetchPreviousPage({ commit, getters }) {
       commit('setLoading', true)
+      commit('setError', false)
       const timeline = getters.getTimeline
       const list = timeline.previous
       try {
@@ -146,6 +146,7 @@ export default {
     // Reset the namespace page to the latest list (index 0)
     async resetPage({ commit, getters }) {
       commit('setLoading', true)
+      commit('setError', false)
       try {
         if (!getters.getTimeline.isLive) {
           const data = await sdkNamespace.getNamespacesFromIdWithLimit(2 * Constants.PageSize)

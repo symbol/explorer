@@ -47,7 +47,7 @@ export default {
     getCanFetchPrevious: state => state.timeline.canFetchPrevious,
     getCanFetchNext: state => state.timeline.canFetchNext,
     getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
-      mosaicId: el.mosaic,
+      mosaicId: el.mosaicId,
       mosaicAliasName: el.mosaicAliasName,
       owneraddress: el.address,
       supply: el.supply,
@@ -90,6 +90,7 @@ export default {
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit }) {
       commit('setLoading', true)
+      commit('setError', false)
       try {
         let mosaicList = await sdkMosaic.getMosaicsFromIdWithLimit(2 * Constants.PageSize)
         commit('setTimeline', Timeline.fromData(mosaicList))
@@ -103,6 +104,7 @@ export default {
     // Fetch the next page of data.
     async fetchNextPage({ commit, getters }) {
       commit('setLoading', true)
+      commit('setError', false)
       const timeline = getters.getTimeline
       const list = timeline.next
       try {
@@ -110,7 +112,7 @@ export default {
           throw new Error('internal error: next list is 0.')
 
         const mosaic = list[list.length - 1]
-        const fetchNext = pageSize => sdkMosaic.getMosaicsFromIdWithLimit(pageSize, mosaic.id)
+        const fetchNext = pageSize => sdkMosaic.getMosaicsFromIdWithLimit(pageSize, mosaic.mosaicId)
         commit('setTimeline', await timeline.shiftNext(fetchNext))
       } catch (e) {
         console.error(e)
@@ -122,6 +124,7 @@ export default {
     // Fetch the previous page of data.
     async fetchPreviousPage({ commit, getters }) {
       commit('setLoading', true)
+      commit('setError', false)
       const timeline = getters.getTimeline
       const list = timeline.previous
       try {
@@ -142,6 +145,7 @@ export default {
     // Reset the mosaic page to the latest list (index 0)
     async resetPage({ commit, getters }) {
       commit('setLoading', true)
+      commit('setError', false)
       try {
         if (!getters.getTimeline.isLive) {
           const data = await sdkMosaic.getMosaicsFromIdWithLimit(2 * Constants.PageSize)
