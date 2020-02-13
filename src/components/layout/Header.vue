@@ -86,6 +86,7 @@ export default {
             width: 200px;
         }
     }
+    
     .header-center {
         text-align: center;
         margin: 5px 0;
