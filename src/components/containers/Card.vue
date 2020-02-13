@@ -45,7 +45,7 @@ export default {
 <style lang="scss" scoped>
 .ex-card {
     //padding: 20px;
-    box-shadow: 0 1px 15px 1px #ff00ff2c;
+    box-shadow: 0 1px 15px 1px #da50da2c;
     background: #fff;
     border-radius: 4px;
     border: none;
