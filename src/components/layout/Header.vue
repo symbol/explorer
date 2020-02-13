@@ -45,18 +45,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.blue-gradinet-old {
-    background: linear-gradient(120deg, #1eaaa6 0%, #3d6597 100%);
-    background-size: 100% auto;
-    position: relative;
-}
-
-.blue-gradinet-1 {
-    background: linear-gradient(120deg, #5e38b8 0%, #511e61 100%);
-    background-size: 100% auto;
-    position: relative;
-}
-
 .blue-gradinet {
     background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
     background-size: 100% auto;
@@ -74,7 +62,6 @@ export default {
     height: 100%;
     background-repeat: no-repeat;
     background-size: 100%;
-    //background-position: 60% 0%;
 }
 
 @media (max-width: 764px) {
@@ -94,6 +81,7 @@ export default {
     .header-left {
         display: flex;
         align-items: center;
+
         .header-logo {
             width: 200px;
         }
@@ -101,8 +89,6 @@ export default {
     .header-center {
         text-align: center;
         margin: 5px 0;
-
-        
 
         .header-title {
             color: #fff;

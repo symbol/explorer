@@ -1,21 +1,17 @@
-
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans&display=swap');
 
 $primary: #5200c6;
 $secondary: #44004e;
 $info: #44004e;
 $danger: red;
-$pink: #ff00ff;
+$pink: #f0f;
 $blue: #00c8ff;
 $green: #33dd50;
 $orange: #ff9600;
-
-
 $navmenubackground: #44004e;
 
 @import '../../node_modules/bootstrap/scss/bootstrap';
 @import '../../node_modules/bootstrap-vue/src/index.scss';
-
 
 .border-transparent {
     border-color: transparent;
@@ -24,7 +20,6 @@ $navmenubackground: #44004e;
 .bg-transparent {
     background: transparent;
 }
-
 
 body {
     font-family: 'Noto Sans', sans-serif;
