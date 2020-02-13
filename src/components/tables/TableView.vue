@@ -128,8 +128,32 @@ export default {
         max-width: 100%;
         margin-bottom: 1rem;
         background-color: transparent;
-        font-size: 14px;
+        font-size: 12px;
         color: #98a8b4;
+    }
+
+    @media (max-width: 780px) {
+        .table {
+            font-size: 11px;
+        }
+    }
+
+    @media (max-width: 702px) {
+        .table {
+            font-size: 10px;
+        }
+    }
+
+    @media (max-width: 724px) {
+        .table {
+            font-size: 9px;
+        }
+    }
+
+    @media (max-width: 623px) {
+        .table {
+            font-size: 8px;
+        }
     }
 
     thead {

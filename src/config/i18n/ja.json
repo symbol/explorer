@@ -94,13 +94,13 @@
     "type": "タイプ",
     "valueSizeDelta": "値サイズデルタ",
     "feeMultiplier": "手数料乗数",
-    "Nem blockchain explorer": "Nem blockchain explorer",
+    "blockchain explorer title": "Symbol blockchain explorer",
     "Search transactions, addresses, namespaces & mosaics on the nem network.": "ネットワーク上のトランザクション/アドレス/ネームスペース/モザイクを検索",
     "Search block / tx hash / account": "ブロック / トランザクションハッシュ / アカウント 検索",
     "nodes": "ノード",
     "home": "ホーム",
     "xemPrice": "XEM価格",
-    "baseInfo": "Base Info",
+    "baseInfo": "基本情報",
     "price": "価格",
     "marketCap": "マーケットキャップ",
     "Recent Blocks": "最近のブロック",
@@ -141,5 +141,8 @@
     "network": "ネットワーク",
     "host": "IP/ DNS",
     "port": "ポート",
-    "friendlyName": "Friendly Name"
+    "friendlyName": "Friendly Name",
+    "direction": "",
+    "approximateExpired": "概算期限切れ",
+    "expiredInBlock": "ブロック以内に期限切れ"
 }

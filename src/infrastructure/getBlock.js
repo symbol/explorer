@@ -17,7 +17,7 @@
  */
 
 import axios from 'axios'
-import { QueryParams } from 'nem2-sdk'
+import { QueryParams, UInt64 } from 'nem2-sdk'
 import dto from './dto'
 import http from './http'
 import format from '../format'
@@ -29,7 +29,7 @@ class sdkBlock {
   }
 
   static getBlockInfoByHeight = async (blockHeight) => {
-    const blockInfo = await http.block.getBlockByHeight(blockHeight).toPromise()
+    const blockInfo = await http.block.getBlockByHeight(UInt64.fromUint(blockHeight)).toPromise()
     return format.formatBlock(blockInfo)
   }
 
@@ -48,7 +48,7 @@ class sdkBlock {
     const pageSize = 100
 
     let transactions = await http.block
-      .getBlockTransactions(blockHeight, new QueryParams(pageSize, transactionId))
+      .getBlockTransactions(UInt64.fromUint(blockHeight), new QueryParams(pageSize, transactionId))
       .toPromise()
 
     return format.formatTransactions(transactions)
@@ -56,7 +56,7 @@ class sdkBlock {
 
   static getReceiptsByBlockHeight = async blockHeight => {
     const blockReceipts = await http.receipt
-      .getBlockReceipts(blockHeight)
+      .getBlockReceipts(UInt64.fromUint(blockHeight))
       .toPromise()
 
     let transactionReceipt = blockReceipts.transactionStatements.reduce((receipt, item) => {

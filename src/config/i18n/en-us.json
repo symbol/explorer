@@ -52,7 +52,7 @@
     "duration": "Duration",
     "remoteAccountPublicKey": "Remote Account PublicKey",
     "remoteAccountAddress": "Remote Account Address",
-    "startHeight": "Register at Height",
+    "startHeight": "Registered at Height",
     "endHeight": "End at Height",
     "beforeEndHeight": "End at Height",
     "divisibility": "Divisibility",
@@ -94,9 +94,9 @@
     "type": "Type",
     "valueSizeDelta": "Value Size Delta",
     "feeMultiplier": "Fee Multiplier",
-    "Nem blockchain explorer": "Symbol blockchain explorer",
+    "blockchain explorer title": "Symbol blockchain explorer",
     "Search transactions, addresses, namespaces & mosaics on the nem network.": "Search transactions, addresses, namespaces & mosaics on the Symbol network.",
-    "Search block / tx hash / account": "Search block / tx hash / account",
+    "Search block / tx hash / account / mosaic id / namespace id": "Search block / tx hash / account / mosaic id / namespace id",
     "nodes": "Nodes",
     "home": "Home",
     "xemPrice": "XYM Price",
@@ -144,5 +144,6 @@
     "friendlyName": "Friendly Name",
     "direction": "",
     "approximateExpired": "Approximate Expired",
-    "expiredInBlock": "Expired In Block"
+    "expiredInBlock": "Expired In Block",
+    "index": "No."
 }

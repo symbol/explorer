@@ -11,7 +11,6 @@
         <div class="mobile-panel navbar-hide-on-scroll">
             <router-link to="/" class="title" :class="{'hide': fixed}">
                 <img src="/theme/img/logo-w.png" class="menu-logo"/>
-                <!--Nem blockchain explorer-->
             </router-link>
         </div>
 
@@ -21,7 +20,7 @@
                     <router-link to="/" class="logo">
                         <img src="/theme/img/logo-w.png" />
                     </router-link>
-                    <span class="title">Nem blockchain explorer</span>
+                    <span class="title">SYMBOL blockchain explorer</span>
                     <LanguageSelector />
                 </div>
                 <div class="drawer-body">
