@@ -26,17 +26,29 @@
                 <NetworkRentalFeesWidget />
             </b-col>
         </b-row>
+        <b-row class="mx-md-4">
+            <b-col xs="12" md="12" lg="6">
+                <ChartBlockTimeDifference />
+            </b-col>
+            <b-col xs="12" md="12" lg="6">
+                <ChartTransactionPerBlock />
+            </b-col>
+        </b-row>
     </b-container>
 </template>
 <script>
 import NetworkFeesWidget from '@/components/widgets/NetworkFeesWidget.vue'
 import NetworkRentalFeesWidget from '@/components/widgets/NetworkRentalFeesWidget.vue'
+import ChartBlockTimeDifference from '@/components/widgets/ChartBlockTimeDifference.vue'
+import ChartTransactionPerBlock from '@/components/widgets/ChartTransactionPerBlock.vue'
 
 export default {
   name: 'Statistics',
   components: {
     NetworkFeesWidget,
-    NetworkRentalFeesWidget
+    NetworkRentalFeesWidget,
+    ChartBlockTimeDifference,
+    ChartTransactionPerBlock
   },
   methods: {},
   mounted() {

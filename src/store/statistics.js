@@ -17,7 +17,7 @@
  */
 
 import Lock from './lock'
-import { getNetworkTransactionFees, getEffectiveRentalFees } from '../infrastructure/getStatistics'
+import { getNetworkTransactionFees, getEffectiveRentalFees, getBlockTimeDifferenceData } from '../infrastructure/getStatistics'
 
 const LOCK = Lock.create()
 
@@ -29,21 +29,27 @@ export default {
     loading: false,
     error: false,
     networkTransactionFees: [],
-    networkRentalFees: []
+    networkRentalFees: [],
+    blockTimeDifferenceData: [],
+    transactionPerBlockData: []
   },
   getters: {
     getInitialized: state => state.initialized,
     getLoading: state => state.loading,
     getError: state => state.error,
     getNetworkTransactionFees: state => state.networkTransactionFees,
-    getNetworkRentalFees: state => state.networkRentalFees
+    getNetworkRentalFees: state => state.networkRentalFees,
+    getBlockTimeDifferenceData: state => state.blockTimeDifferenceData,
+    getTransactionPerBlockData: state => state.transactionPerBlockData
   },
   mutations: {
     setInitialized: (state, initialized) => { state.initialized = initialized },
     setLoading: (state, loading) => { state.loading = loading },
     setError: (state, error) => { state.error = error },
     setNetworkTransactionFees: (state, networkTransactionFees) => { state.networkTransactionFees = networkTransactionFees },
-    setNetworkRentalFees: (state, networkRentalFees) => { state.networkRentalFees = networkRentalFees }
+    setNetworkRentalFees: (state, networkRentalFees) => { state.networkRentalFees = networkRentalFees },
+    setBlockTimeDifferenceData: (state, blockTimeDifferenceData) => { state.blockTimeDifferenceData = blockTimeDifferenceData },
+    setTransactionPerBlockData: (state, transactionPerBlockData) => { state.transactionPerBlockData = transactionPerBlockData }
   },
   actions: {
     // Initialize the statistics model.
@@ -67,8 +73,13 @@ export default {
       try {
         let netoworkTransactionFees = await getNetworkTransactionFees()
         let effectiveRentalFees = await getEffectiveRentalFees()
+
+        let graphDataset = await getBlockTimeDifferenceData()
+
         commit('setNetworkTransactionFees', netoworkTransactionFees)
         commit('setNetworkRentalFees', effectiveRentalFees)
+        commit('setBlockTimeDifferenceData', graphDataset.blockTimeDifferenceGraphDataset)
+        commit('setTransactionPerBlockData', graphDataset.transactionPerBlockGraphDataset)
       } catch (e) {
         console.error(e)
         commit('setError', true)
