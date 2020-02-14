@@ -103,7 +103,7 @@ export default new Vuex.Store({
         dispatch('mosaic/uninitialize'),
         dispatch('namespace/uninitialize'),
         dispatch('transaction/uninitialize'),
-        dispatch('statistics/uninitialize')
+        dispatch('statistics/uninitialize'),
         dispatch('node/uninitialize')
       ])
     }
