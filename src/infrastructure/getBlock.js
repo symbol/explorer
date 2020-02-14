@@ -125,7 +125,7 @@ class sdkBlock {
         difficulty: rawBlockInfo.difficulty,
         feeMultiplier: rawBlockInfo.feeMultiplier,
         totalTransactions: rawBlockInfo.numTransactions,
-        harvester: rawBlockInfo.signer?.address?.address,
+        harvester: rawBlockInfo.signer,
         blockHash: rawBlockInfo.hash
       }
 

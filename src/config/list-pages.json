@@ -78,6 +78,7 @@
                 "storeNamespace": "node",
                 "title": "nodes",
                 "mobileColumns": [
+                    "index",
                     "roles",
                     "address",
                     "friendlyName",
