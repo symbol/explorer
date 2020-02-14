@@ -19,7 +19,6 @@
 import http from './http'
 import axios from 'axios'
 import dto from './dto'
-import format from '../format'
 
 class sdkDiagnostic {
     static getChainInfo = async () => {
@@ -33,7 +32,7 @@ class sdkDiagnostic {
       const response = await axios.get(http.nodeUrl + path)
       const blocks = response.data.map(info => dto.createBlockInfoFromDTO(info, http.networkType))
 
-      return format.formatBlocks(blocks)
+      return blocks
     }
 }
 
