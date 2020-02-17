@@ -62,7 +62,8 @@ export default {
         margin-bottom: 10px;
         font-size: 16px;
         font-weight: 500;
-        color: #393939;
+        // color: #393939;
+        color: var(--pink)
     }
 
     .ex-card-body {
