@@ -42,6 +42,8 @@ class sdkTransaction {
           resolve(transactionStatus)
         })
         .catch(error => {
+          if(error.response.status === 404)
+            reject(error)
           transactionStatus.message = error.response.data.message
           transactionStatus.detail = error.response.data
           resolve(transactionStatus)
