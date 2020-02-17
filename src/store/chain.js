@@ -20,7 +20,6 @@ import Lock from './lock'
 import sdkDiagnostic from '../infrastructure/getDiagnostic'
 import sdkBlock from '../infrastructure/getBlock'
 import apiMarketData from '../infrastructure/getMarketData'
-import getTransaction from '../infrastructure/getTransaction'
 
 const LOCK = Lock.create()
 

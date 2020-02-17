@@ -307,14 +307,12 @@ export default {
         commit('aggregateInnerTransactions', transactionInfo.aggregateInnerTransactions)
         commit('aggregateCosignatures', transactionInfo.aggregateCosignatures)
         commit('transactionDetail', transactionInfo.transactionDetail)
-      }
-      else {
+      } else {
         try {
           const status = await dispatch('getTransactionStatus', hash)
           commit('transactionInfo', status)
           commit('transactionInfoError', false)
-        }
-        catch(e){}
+        } catch (e) {}
       }
 
       commit('transactionInfoLoading', false)
@@ -323,13 +321,12 @@ export default {
     async getTransactionStatus({ commit, dispatch }, hash) {
       let transactionStatus = await sdkTransaction.getTransactionStatus(hash)
 
-
       if (transactionStatus)
         commit('transactionStatus', transactionStatus)
       else
-        dispatch('clearTransactionStatus');
+        dispatch('clearTransactionStatus')
 
-      return transactionStatus.detail;
+      return transactionStatus.detail
     },
 
     clearTransactionStatus({ commit }) {
