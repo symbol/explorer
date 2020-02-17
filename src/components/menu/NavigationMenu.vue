@@ -68,7 +68,7 @@ export default {
 <style lang="scss" scoped>
 .ex-menu {
     background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
-    //box-shadow: 0 2px 10px 2px rgba(0, 0, 0, 0.5);
+    box-shadow: 0 2px 10px 2px rgba(0, 0, 0, 0.5);
     padding: 0 60px;
     position: relative;
 
@@ -86,7 +86,7 @@ export default {
         transition: all 0.2s ease-in-out;
         width: auto;
         display: inline-block;
-        font-size: 14px;
+        font-size: 13px;
         line-height: 40px;
 
         .menu-icon {
