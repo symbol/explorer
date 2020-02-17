@@ -1,7 +1,7 @@
 <template>
     <header class="ex-menu" :class="{'ex-menu-fixed': fixed}" ref="DesktopMenu">
         <router-link to="/" :class="{'hide': !fixed}">
-            <img src="/theme/img/logo-w.png" class="menu-logo"/>
+            <img src="../../styles/img/logo-w.png" class="menu-logo"/>
         </router-link>
         <router-link
             v-for="item in items"
@@ -74,6 +74,7 @@ export default {
 
     .menu-logo {
         width: 30px;
+        margin-right: 15px;
     }
 
     .ex-menu-item {

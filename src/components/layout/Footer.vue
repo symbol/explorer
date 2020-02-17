@@ -111,7 +111,8 @@ export default {
     width: 100%;
     height: 100%;
     background-repeat: no-repeat;
-    background-size: 50%;
+    background-size: auto 130%;
+    background-position-x: left;
 }
 
 .social-icon {
