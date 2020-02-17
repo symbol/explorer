@@ -44,6 +44,7 @@ export default {
       'senderAddress': 'account',
       'targetAddress': 'account',
       'addressResolutionEntries': 'account',
+      'restrictionAddressValues': 'account',
 
       'transactionHash': 'transaction',
 
@@ -51,6 +52,7 @@ export default {
       'aliasMosaic': 'mosaic',
       'targetMosaicId': 'mosaic',
       'mosaicResolutionEntries': 'mosaic',
+      'restrictionMosaicValues': 'mosaic',
 
       'addressHeight': 'block',
       'publicKeyHeight': 'block',

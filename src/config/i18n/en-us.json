@@ -145,5 +145,10 @@
     "direction": "",
     "approximateExpired": "Approximate Expired",
     "expiredInBlock": "Expired In Block",
-    "index": "No."
+    "index": "No.",
+    "restrictionAddressValues": "Values",
+    "restrictionMosaicValues": "Values",
+    "restrictionValues": "Values",
+    "restrictionType": "Type",
+    "Account Restriction": "Account Restriction"
 }

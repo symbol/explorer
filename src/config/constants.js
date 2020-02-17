@@ -11,7 +11,8 @@ import {
   ReceiptType,
   ResolutionType,
   RoleType,
-  Deadline
+  Deadline,
+  AccountRestrictionFlags,
 } from 'nem2-sdk'
 
 class Constants {
@@ -137,6 +138,19 @@ class Constants {
     [RoleType.ApiNode]: 'API NODE',
     [RoleType.PeerNode]: 'PEER NODE',
     3: 'DUAL NODE'
+  }
+
+  static AccountRestrictionFlags = {
+    [AccountRestrictionFlags.AllowIncomingAddress]: 'Allow Incoming Address',
+    [AccountRestrictionFlags.AllowMosaic]: 'Allow Mosaic',
+    [AccountRestrictionFlags.AllowIncomingTransactionType]: 'Allow Incoming Transaction',
+    [AccountRestrictionFlags.AllowOutgoingAddress]: 'Allow Outgoing Address',
+    [AccountRestrictionFlags.AllowOutgoingTransactionType]: 'Allow Outgoing Transaction',
+    [AccountRestrictionFlags.BlockIncomingAddress]: 'Block Incoming Address',
+    [AccountRestrictionFlags.BlockMosaic]: 'Block Mosaic',
+    [AccountRestrictionFlags.BlockIncomingTransactionType]: 'Block IncomingT Transaction',
+    [AccountRestrictionFlags.BlockOutgoingAddress]: 'Block Outgoing Address',
+    [AccountRestrictionFlags.BlockOutgoingTransactionType]: 'Block Outgoing Transaction'
   }
 }
 

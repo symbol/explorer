@@ -48,6 +48,16 @@
                     },
                     {
                         "type": "Card",
+                        "title": "Account Restriction",
+                        "fullWidth": true,
+                        "body": "TableListView",
+                        "dataGetter": "account/getAccountRestrictionList",
+                        "pagination": false,
+                        "pageSize": 5,
+                        "loadingGetter": "account/accountInfoLoading"
+                    },
+                    {
+                        "type": "Card",
                         "title": "Metadata Entries",
                         "fullWidth": true,
                         "body": "TableListView",
