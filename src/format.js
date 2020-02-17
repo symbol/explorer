@@ -1,4 +1,4 @@
-import { Address, TransactionType, ReceiptType, ResolutionType } from 'nem2-sdk'
+import { Address, TransactionType, ReceiptType, ResolutionType, AccountRestrictionFlags } from 'nem2-sdk'
 import { Constants } from './config'
 import moment from 'moment'
 import http from './infrastructure/http'
@@ -650,6 +650,34 @@ const formatNodesInfo = nodes => {
   }))
 }
 
+const formatAccountRestrictions = accountRestrictions => {
+  return accountRestrictions.map(accountRestriction => {
+    switch (accountRestriction.restrictionFlags) {
+      case AccountRestrictionFlags.AllowIncomingAddress:
+      case AccountRestrictionFlags.BlockIncomingAddress:
+      case AccountRestrictionFlags.AllowOutgoingAddress:
+      case AccountRestrictionFlags.BlockOutgoingAddress:
+          return {
+            restrictionType: Constants.AccountRestrictionFlags[accountRestriction.restrictionFlags],
+            restrictionAddressValues: accountRestriction.values.map(value => value.address)
+          }
+      case AccountRestrictionFlags.AllowMosaic:
+      case AccountRestrictionFlags.BlockMosaic:
+          return {
+            restrictionType: Constants.AccountRestrictionFlags[accountRestriction.restrictionFlags],
+            restrictionMosaicValues: accountRestriction.values.map(value => value.id.toHex())
+          }
+      case AccountRestrictionFlags.AllowIncomingTransactionType:
+      case AccountRestrictionFlags.AllowOutgoingTransactionType:
+      case AccountRestrictionFlags.BlockIncomingTransactionType:
+      case AccountRestrictionFlags.BlockOutgoingTransactionType:
+          return {
+            restrictionType: Constants.AccountRestrictionFlags[accountRestriction.restrictionFlags],
+            restrictionValues: accountRestriction.values
+          }
+  }})
+}
+
 export default {
   formatFee,
   formatBlocks,
@@ -668,5 +696,6 @@ export default {
   formatReceiptStatements,
   formatResolutionStatements,
   formatNodesInfo,
-  sortMosaics
+  sortMosaics,
+  formatAccountRestrictions
 }
