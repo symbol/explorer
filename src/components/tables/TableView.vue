@@ -168,7 +168,6 @@ export default {
     }
 
     thead {
-        background-color: rgba(52, 40, 104, 0.05);
         border-radius: 4px;
     }
 
@@ -176,7 +175,7 @@ export default {
         vertical-align: middle;
         border: 0 none;
         padding: 12px 6px 12px 6px;
-        color: var(--secondary);
+        color: #333333;;
         font-weight: 500;
         outline: none;
         font-size: 12px;
@@ -193,8 +192,8 @@ export default {
     .table-title-item {
         vertical-align: middle;
         padding: 12px 6px 12px 6px;
-        color: #0997a3;
-        font-weight: 500;
+        color: #333333;
+        font-weight: bolder;
         outline: none;
         font-size: 12px;
         letter-spacing: 1px;
@@ -206,11 +205,11 @@ export default {
     }
 
     .table-striped tbody tr:nth-child(odd) td {
-        background-color: #fff;
+        background-color: #f2f2f2;
     }
 
     .table-striped tbody tr:nth-child(even) td {
-        background-color: rgba(52, 40, 104, 0.014);
+        background-color: #fff;
     }
 
     .table-head-cell {
@@ -252,7 +251,7 @@ export default {
     }
 
     .table-item-clickable {
-        color: #84accb;
+        color: var(--secondary);
         font-weight: 600;
         text-decoration: none;
         cursor: pointer;

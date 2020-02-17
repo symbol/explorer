@@ -6,7 +6,7 @@
           <tr>
             <th
               v-for="(columnName, index) in header"
-              class="table-head-cell"
+              class="table-head-cell table-title-item"
               :key="view+'h'+index"
             ><span>{{getKeyName(columnName)}}</span></th>
           </tr>
