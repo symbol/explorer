@@ -63,7 +63,9 @@ export default {
         'targetNamespaceId',
         'unresolved',
         'addressResolutionEntries',
-        'mosaicResolutionEntries'
+        'mosaicResolutionEntries',
+        'restrictionMosaicValues',
+        'restrictionAddressValues'
       ],
       disableClickItems: [...Object.values(Constants.Message)],
       changeDecimalColor: [
@@ -73,6 +75,11 @@ export default {
         'relativeAmount',
         'feeMultiplier',
         'difficulty'
+      ],
+      allowArrayToView: [
+        'restrictionAddressValues',
+        'restrictionMosaicValues',
+        'restrictionValues'
       ]
     }
   },
@@ -94,6 +101,10 @@ export default {
 
     isChangeDecimalColor(itemKey) {
       return this.changeDecimalColor.indexOf(itemKey) !== -1
+    },
+
+    isAllowArrayToView(itemKey) {
+      return this.allowArrayToView.indexOf(itemKey) !== -1
     },
 
     isItemShown(itemKey, item) {

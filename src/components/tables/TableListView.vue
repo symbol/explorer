@@ -24,6 +24,15 @@
               <Decimal v-else-if="isChangeDecimalColor(itemKey)" :value="item" />
               <TransactionDirection v-else-if="itemKey === 'direction'" :value="item" />
 
+              <div v-else-if="isAllowArrayToView(itemKey)">
+                <div v-for="(row, rowIndex) in item" :key="view+'r'+rowIndex">
+                  <router-link v-if="isItemClickable(itemKey) && getItemHref(itemKey, row)" :to="getItemHref(itemKey, row)">
+                    <Truncate v-if="isTruncate(itemKey)">{{row}}</Truncate>
+                    <div v-else>{{ row }}</div>
+                  </router-link>
+                </div>
+              </div>
+
               <div v-else>
                 <div v-if="itemKey === 'transactionBody'">
                   <div @click="onOpenModal(view+'r'+rowIndex)">Show Detail</div>
