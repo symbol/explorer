@@ -30,22 +30,21 @@ const Address = nem.Address // Travis patch
 class sdkTransaction {
   static getTransactionStatus = (hash) => {
     return new Promise((resolve, reject) => {
-      const path = `/transaction/${hash}/status`
       let transactionStatus = {
         message: null,
         detail: {}
       }
-      axios.get(http.nodeUrl + path)
+      http.transaction.getTransactionStatus(hash).toPromise()
         .then(response => {
-          transactionStatus.message = response.data.group
-          transactionStatus.detail = response.data
+          transactionStatus.message = response.group
+          transactionStatus.detail = response
           resolve(transactionStatus)
         })
         .catch(error => {
-          if(error.response.status === 404)
+          if(error.statusCode === 404)
             reject(error)
-          transactionStatus.message = error.response.data.message
-          transactionStatus.detail = error.response.data
+          transactionStatus.message = error.errorDetails.message
+          transactionStatus.detail = error.body
           resolve(transactionStatus)
         })
     })

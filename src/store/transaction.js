@@ -329,7 +329,7 @@ export default {
       else
         dispatch('clearTransactionStatus');
 
-      return transactionStatus;
+      return transactionStatus.detail;
     },
 
     clearTransactionStatus({ commit }) {
