@@ -181,7 +181,7 @@ export default {
     .table-title-item {
         vertical-align: middle;
         padding: 12px 6px 12px 6px;
-        color: #333333;
+        color: var(--secondary);
         font-weight: bolder;
         outline: none;
         font-size: 12px;
@@ -194,7 +194,7 @@ export default {
     }
 
     .table-striped tbody tr:nth-child(odd) td {
-        background-color: #f2f2f2;
+        background-color: #f2f2f244;
     }
 
     .table-striped tbody tr:nth-child(even) td {
@@ -240,7 +240,7 @@ export default {
     }
 
     .table-item-clickable {
-        color: var(--secondary);
+        color: var(--primary);
         font-weight: 600;
         text-decoration: none;
         cursor: pointer;

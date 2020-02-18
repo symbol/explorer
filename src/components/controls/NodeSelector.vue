@@ -43,7 +43,6 @@ export default {
 
 <style lang="scss">
 .node-selector {
-  
 
   .dropdown-toggle {
     text-overflow: ellipsis;
