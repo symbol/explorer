@@ -44,7 +44,8 @@ export default {
       marketCap: 0,
       price: 0,
       historicalHourlyGraph: {}
-    }
+    },
+    transactionStatus: ''
   },
   getters: {
     getInitialized: state => state.initialized,
