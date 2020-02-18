@@ -63,7 +63,7 @@ export default {
         font-size: 16px;
         font-weight: 500;
         // color: #393939;
-        color: var(--pink)
+        color: var(--pink);
     }
 
     .ex-card-body {

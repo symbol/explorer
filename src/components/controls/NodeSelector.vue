@@ -43,15 +43,13 @@ export default {
 
 <style lang="scss">
 .node-selector {
-
-  .dropdown-toggle {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-    font-size: 12px;
-    max-width: 350px;
-    width: 100%
-  }
+    .dropdown-toggle {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        font-size: 12px;
+        max-width: 350px;
+        width: 100%;
+    }
 }
-
 </style>
