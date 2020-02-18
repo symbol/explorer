@@ -673,7 +673,7 @@ const formatAccountRestrictions = accountRestrictions => {
       case AccountRestrictionFlags.BlockOutgoingTransactionType:
           return {
             restrictionType: Constants.AccountRestrictionFlags[accountRestriction.restrictionFlags],
-            restrictionValues: accountRestriction.values
+            restrictionTransactionValues: accountRestriction.values.map(value => Constants.TransactionType[value])
           }
   }})
 }

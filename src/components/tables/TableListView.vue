@@ -30,6 +30,10 @@
                     <Truncate v-if="isTruncate(itemKey)">{{row}}</Truncate>
                     <div v-else>{{ row }}</div>
                   </router-link>
+                  <div v-else>
+                    <Truncate v-if="isTruncate(itemKey)">{{row}}</Truncate>
+                    <div v-else>{{ row }}</div>
+                  </div>
                 </div>
               </div>
 

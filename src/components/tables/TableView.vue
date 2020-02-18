@@ -79,7 +79,7 @@ export default {
       allowArrayToView: [
         'restrictionAddressValues',
         'restrictionMosaicValues',
-        'restrictionValues'
+        'restrictionTransactionValues'
       ]
     }
   },

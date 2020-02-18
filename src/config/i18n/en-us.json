@@ -149,6 +149,7 @@
     "restrictionAddressValues": "Values",
     "restrictionMosaicValues": "Values",
     "restrictionValues": "Values",
+    "restrictionTransactionValues": "Values",
     "restrictionType": "Type",
     "Account Restriction": "Account Restriction"
 }
