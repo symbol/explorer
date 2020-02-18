@@ -53,6 +53,7 @@ export default {
       'targetMosaicId': 'mosaic',
       'mosaicResolutionEntries': 'mosaic',
       'restrictionMosaicValues': 'mosaic',
+      'referenceMosaicId': 'mosaic',
 
       'addressHeight': 'block',
       'publicKeyHeight': 'block',

@@ -151,5 +151,13 @@
     "restrictionValues": "Values",
     "restrictionTransactionValues": "Values",
     "restrictionType": "Type",
-    "Account Restriction": "Account Restriction"
+    "Account Restriction": "Account Restriction",
+    "restrictionAddressAdditions": "Additions",
+    "restrictionAddressDeletions": "Deletions",
+    "restrictionMosaicAdditions": "Additions",
+    "restrictionMosaicDeletions": "Deletions",
+    "entryType": "Entry Type",
+    "restrictionKey": "Key",
+    "referenceMosaicId": "Reference MosaicId",
+    "restrictionValue": "Value"
 }

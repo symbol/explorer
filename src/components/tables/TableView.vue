@@ -65,7 +65,8 @@ export default {
         'addressResolutionEntries',
         'mosaicResolutionEntries',
         'restrictionMosaicValues',
-        'restrictionAddressValues'
+        'restrictionAddressValues',
+        'referenceMosaicId'
       ],
       disableClickItems: [...Object.values(Constants.Message)],
       changeDecimalColor: [

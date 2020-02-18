@@ -38,6 +38,10 @@ export default {
     mosaicInfo: {},
     // The Mosaic Metadata list.
     metadataList: [],
+    // The Mosaic Restriction list.
+    mosaicRestrictionList: [],
+    // The Mosaic Restriction information.
+    mosaicRestrictionInfo: {},
     mosaicInfoLoading: false,
     mosaicInfoError: false
   },
@@ -59,6 +63,8 @@ export default {
     getError: state => state.error,
     getMosaicInfo: state => state.mosaicInfo,
     getMetadataList: state => state.metadataList,
+    getMosaicRestrictionList: state => state.mosaicRestrictionList,
+    getMosaicRestrictionInfo: state => state.mosaicRestrictionInfo,
     mosaicInfoLoading: state => state.mosaicInfoLoading,
     mosaicInfoError: state => state.mosaicInfoError
   },
@@ -69,6 +75,8 @@ export default {
     setError: (state, error) => { state.error = error },
     setMosaicInfo: (state, mosaicInfo) => { state.mosaicInfo = mosaicInfo },
     setMetadataList: (state, metadataList) => { state.metadataList = metadataList },
+    setMosaicRestrictionList: (state, mosaicRestrictionList) => { state.mosaicRestrictionList = mosaicRestrictionList },
+    setMosaicRestrictionInfo: (state, mosaicRestrictionInfo) => { state.mosaicRestrictionInfo = mosaicRestrictionInfo },
     mosaicInfoLoading: (state, v) => { state.mosaicInfoLoading = v },
     mosaicInfoError: (state, v) => { state.mosaicInfoError = v }
   },
@@ -175,6 +183,8 @@ export default {
       if (mosaicInfo) {
         commit('setMosaicInfo', mosaicInfo.mosaicInfo)
         commit('setMetadataList', mosaicInfo.metadataList)
+        commit('setMosaicRestrictionInfo', mosaicInfo.mosaicRestrictionInfo)
+        commit('setMosaicRestrictionList', mosaicInfo.mosaicRestrictionList)
       }
 
       commit('mosaicInfoLoading', false)

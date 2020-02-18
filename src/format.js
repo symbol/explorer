@@ -693,9 +693,9 @@ const formatMosaicRestriction = mosaicRestriction => {
     mosaicId: mosaicRestriction.mosaicId.toHex(),
     restrictions: mosaicGlobalRestrictionItem.map(item => ({
       restrictionKey: item.key,
-      referenceMosaicId: item.referenceMosaicId.toHex() === '0000000000000000' ? mosaicRestriction.mosaicId.toHex() : item.referenceMosaicId.toHex(),
+      restrictionType: Constants.MosaicRestrictionType[item.restrictionType],
       restrictionValue: item.restrictionValue,
-      restrictionType: Constants.MosaicRestrictionType[item.restrictionType]
+      referenceMosaicId: item.referenceMosaicId.toHex() === '0000000000000000' ? mosaicRestriction.mosaicId.toHex() : item.referenceMosaicId.toHex()
     }))
   }
 }
