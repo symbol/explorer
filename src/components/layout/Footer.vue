@@ -111,9 +111,10 @@ export default {
 }
 
 .footer {
-    background: var(--secondary);
+    background: #410078;
     padding: 50px 0 0;
     width: 100%;
+    position: relative;
 
     .footer-row {
         padding-top: 40px;
@@ -122,6 +123,20 @@ export default {
             margin-top: -40px;
         }
     }
+}
+
+.footer::before {
+    content: '';
+    background-image: url(../../styles/img/symbol_connector_crop2.jpg);
+    position: absolute;
+    z-index: 0;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: auto 130%;
+    background-position-x: left;
 }
 
 .social-icon {

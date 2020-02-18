@@ -3,7 +3,7 @@
         <b-container fluid>
             <b-row>
                 <b-col md="3" class="header-left">
-                    <router-link to="/" >
+                    <router-link to="/" class="d-none d-md-block">
                         <img src="../../styles/img/symbol_logo_white_aw.png" class="header-logo"/>
                     </router-link>
                 </b-col>
@@ -81,12 +81,13 @@ export default {
     .header-left {
         display: flex;
         align-items: center;
+        min-height: 30px;
 
         .header-logo {
             width: 200px;
         }
     }
-    
+
     .header-center {
         text-align: center;
         margin: 5px 0;
