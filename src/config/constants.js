@@ -13,6 +13,8 @@ import {
   RoleType,
   Deadline,
   AccountRestrictionFlags,
+  MosaicRestrictionEntryType,
+  MosaicRestrictionType
 } from 'nem2-sdk'
 
 class Constants {
@@ -151,6 +153,21 @@ class Constants {
     [AccountRestrictionFlags.BlockIncomingTransactionType]: 'Block IncomingT Transaction',
     [AccountRestrictionFlags.BlockOutgoingAddress]: 'Block Outgoing Address',
     [AccountRestrictionFlags.BlockOutgoingTransactionType]: 'Block Outgoing Transaction'
+  }
+
+  static MosaicRestrictionEntryType = {
+    [MosaicRestrictionEntryType.ADDRESS]: 'Mosaic address restriction',
+    [MosaicRestrictionEntryType.GLOBAL]: 'Mosaic global restriction'
+  }
+
+  static MosaicRestrictionType = {
+    [MosaicRestrictionType.EQ]: 'Allow Equal',
+    [MosaicRestrictionType.GE]: 'Allow Greater Than Or Equal',
+    [MosaicRestrictionType.GT]: 'Allow Greater Than',
+    [MosaicRestrictionType.LE]: 'Allow Less Than Or Equal',
+    [MosaicRestrictionType.LT]: 'Allow Less Than',
+    [MosaicRestrictionType.NE]: 'Allow Not Equal',
+    [MosaicRestrictionType.NONE]: 'No Restriction'
   }
 }
 

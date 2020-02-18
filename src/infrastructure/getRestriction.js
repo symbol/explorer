@@ -17,19 +17,41 @@
  */
 
 import http from './http'
-import { Address } from 'nem2-sdk'
+import { Address, MosaicId, NamespaceId } from 'nem2-sdk'
 import format from '../format'
+import helper from '../helper'
 
 export const getAccountRestrictions = async address => {
-    const addressObj = Address.createFromRawAddress(address)
-    let accountRestrictions
+  const addressObj = Address.createFromRawAddress(address)
+  let accountRestrictions
 
-    try {
-      accountRestrictions =  await http.restrictionAccount.getAccountRestrictions(addressObj).toPromise()
-    } catch (e) {
-      // To Catach statusCode 404 if Account Restrictions is no available
-      throw Error('Account Restrictions is no available.')
-    }
+  try {
+    accountRestrictions = await http.restrictionAccount.getAccountRestrictions(addressObj).toPromise()
+  } catch (e) {
+    // To Catach statusCode 404 if Account Restrictions is no available
+    throw Error('Account Restrictions is no available.')
+  }
 
   return format.formatAccountRestrictions(accountRestrictions)
+}
+
+export const getMosaicRestrictions = async mosaicHexOrNamespace => {
+  let mosaicID
+  let mosaicGlobalRestrictions
+
+  if (helper.isHexadecimal(mosaicHexOrNamespace))
+    mosaicID = new MosaicId(mosaicHexOrNamespace)
+  else {
+    let namespaceId = new NamespaceId(mosaicHexOrNamespace)
+    mosaicID = await http.namespace.getLinkedMosaicId(namespaceId).toPromise()
+  }
+
+  try {
+    mosaicGlobalRestrictions = await http.restrictionMosaic.getMosaicGlobalRestriction(mosaicID).toPromise()
+  } catch (e) {
+    // To Catach statusCode 404 if Account Restrictions is no available
+    throw Error('Mosaic Global Restrictions is no available.')
+  }
+
+  return format.formatMosaicRestriction(mosaicGlobalRestrictions)
 }

@@ -653,29 +653,51 @@ const formatNodesInfo = nodes => {
 const formatAccountRestrictions = accountRestrictions => {
   return accountRestrictions.map(accountRestriction => {
     switch (accountRestriction.restrictionFlags) {
-      case AccountRestrictionFlags.AllowIncomingAddress:
-      case AccountRestrictionFlags.BlockIncomingAddress:
-      case AccountRestrictionFlags.AllowOutgoingAddress:
-      case AccountRestrictionFlags.BlockOutgoingAddress:
-          return {
-            restrictionType: Constants.AccountRestrictionFlags[accountRestriction.restrictionFlags],
-            restrictionAddressValues: accountRestriction.values.map(value => value.address)
-          }
-      case AccountRestrictionFlags.AllowMosaic:
-      case AccountRestrictionFlags.BlockMosaic:
-          return {
-            restrictionType: Constants.AccountRestrictionFlags[accountRestriction.restrictionFlags],
-            restrictionMosaicValues: accountRestriction.values.map(value => value.id.toHex())
-          }
-      case AccountRestrictionFlags.AllowIncomingTransactionType:
-      case AccountRestrictionFlags.AllowOutgoingTransactionType:
-      case AccountRestrictionFlags.BlockIncomingTransactionType:
-      case AccountRestrictionFlags.BlockOutgoingTransactionType:
-          return {
-            restrictionType: Constants.AccountRestrictionFlags[accountRestriction.restrictionFlags],
-            restrictionTransactionValues: accountRestriction.values.map(value => Constants.TransactionType[value])
-          }
-  }})
+    case AccountRestrictionFlags.AllowIncomingAddress:
+    case AccountRestrictionFlags.BlockIncomingAddress:
+    case AccountRestrictionFlags.AllowOutgoingAddress:
+    case AccountRestrictionFlags.BlockOutgoingAddress:
+      return {
+        restrictionType: Constants.AccountRestrictionFlags[accountRestriction.restrictionFlags],
+        restrictionAddressValues: accountRestriction.values.map(value => value.address)
+      }
+    case AccountRestrictionFlags.AllowMosaic:
+    case AccountRestrictionFlags.BlockMosaic:
+      return {
+        restrictionType: Constants.AccountRestrictionFlags[accountRestriction.restrictionFlags],
+        restrictionMosaicValues: accountRestriction.values.map(value => value.id.toHex())
+      }
+    case AccountRestrictionFlags.AllowIncomingTransactionType:
+    case AccountRestrictionFlags.AllowOutgoingTransactionType:
+    case AccountRestrictionFlags.BlockIncomingTransactionType:
+    case AccountRestrictionFlags.BlockOutgoingTransactionType:
+      return {
+        restrictionType: Constants.AccountRestrictionFlags[accountRestriction.restrictionFlags],
+        restrictionTransactionValues: accountRestriction.values.map(value => Constants.TransactionType[value])
+      }
+    }
+  })
+}
+
+const formatMosaicRestriction = mosaicRestriction => {
+  let mosaicGlobalRestrictionItem = []
+
+  mosaicRestriction.restrictions.forEach((value, key) => {
+    mosaicGlobalRestrictionItem.push({ key, ...value })
+    return mosaicGlobalRestrictionItem
+  })
+
+  return {
+    ...mosaicRestriction,
+    entryType: Constants.MosaicRestrictionEntryType[mosaicRestriction.entryType],
+    mosaicId: mosaicRestriction.mosaicId.toHex(),
+    restrictions: mosaicGlobalRestrictionItem.map(item => ({
+      restrictionKey: item.key,
+      referenceMosaicId: item.referenceMosaicId.toHex() === '0000000000000000' ? mosaicRestriction.mosaicId.toHex() : item.referenceMosaicId.toHex(),
+      restrictionValue: item.restrictionValue,
+      restrictionType: Constants.MosaicRestrictionType[item.restrictionType]
+    }))
+  }
 }
 
 export default {
@@ -697,5 +719,6 @@ export default {
   formatResolutionStatements,
   formatNodesInfo,
   sortMosaics,
-  formatAccountRestrictions
+  formatAccountRestrictions,
+  formatMosaicRestriction
 }
