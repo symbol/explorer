@@ -156,8 +156,15 @@
     "restrictionAddressDeletions": "Deletions",
     "restrictionMosaicAdditions": "Additions",
     "restrictionMosaicDeletions": "Deletions",
+    "restrictionOperationAdditions": "Additions",
+    "restrictionOperationDeletions": "Deletions",
     "entryType": "Entry Type",
     "restrictionKey": "Key",
     "referenceMosaicId": "Reference MosaicId",
-    "restrictionValue": "Value"
+    "restrictionValue": "Value",
+    "previousRestrictionType": "Previous Restriction Type",
+    "previousRestrictionValue": "Previous Restriction Value",
+    "newRestrictionType": "New Restriction Type",
+    "newRestrictionValue": "New Restriction Value",
+    "proof": "Proof"
 }

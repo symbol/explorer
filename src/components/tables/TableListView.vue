@@ -183,17 +183,6 @@ export default {
     prevPage() {
       if (this.prevPageExist)
         this.pageIndex--
-    },
-
-    isTruncate(key) {
-      return key === 'harvester' ||
-        key === 'address' ||
-        key === 'signer' ||
-        key === 'recipient' ||
-        key === 'transactionHash' ||
-        key === 'owneraddress' ||
-        key === 'host' ||
-        key === 'friendlyName'
     }
   },
 

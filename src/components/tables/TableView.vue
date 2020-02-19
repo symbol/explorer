@@ -66,7 +66,11 @@ export default {
         'mosaicResolutionEntries',
         'restrictionMosaicValues',
         'restrictionAddressValues',
-        'referenceMosaicId'
+        'referenceMosaicId',
+        'restrictionAddressAdditions',
+        'restrictionAddressDeletions',
+        'restrictionMosaicAdditions',
+        'restrictionMosaicDeletions'
       ],
       disableClickItems: [...Object.values(Constants.Message)],
       changeDecimalColor: [
@@ -80,7 +84,13 @@ export default {
       allowArrayToView: [
         'restrictionAddressValues',
         'restrictionMosaicValues',
-        'restrictionTransactionValues'
+        'restrictionTransactionValues',
+        'restrictionAddressAdditions',
+        'restrictionAddressDeletions',
+        'restrictionMosaicAdditions',
+        'restrictionMosaicDeletions',
+        'restrictionOperationAdditions',
+        'restrictionOperationDeletions'
       ]
     }
   },
@@ -109,6 +119,9 @@ export default {
     },
 
     isItemShown(itemKey, item) {
+      if (this.isAllowArrayToView(itemKey))
+        return item.length !== 0
+
       return item != null
     },
 
@@ -128,6 +141,17 @@ export default {
 
     getKeyName(key) {
       return this.$store.getters['ui/getNameByKey'](key)
+    },
+
+    isTruncate(key) {
+      return key === 'harvester' ||
+        key === 'address' ||
+        key === 'signer' ||
+        key === 'recipient' ||
+        key === 'transactionHash' ||
+        key === 'owneraddress' ||
+        key === 'host' ||
+        key === 'friendlyName'
     }
   }
 }
