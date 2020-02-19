@@ -29,6 +29,28 @@ const QueryParams = nem.QueryParams // Travis patch
 const Address = nem.Address // Travis patch
 
 class sdkTransaction {
+  static getTransactionStatus = (hash) => {
+    return new Promise((resolve, reject) => {
+      let transactionStatus = {
+        message: null,
+        detail: {}
+      }
+      http.transaction.getTransactionStatus(hash).toPromise()
+        .then(response => {
+          transactionStatus.message = response.group
+          transactionStatus.detail = response
+          resolve(transactionStatus)
+        })
+        .catch(error => {
+          if (error.statusCode === 404)
+            reject(error)
+          transactionStatus.message = error.errorDetails.message
+          transactionStatus.detail = error.body
+          resolve(transactionStatus)
+        })
+    })
+  }
+
   static getAccountTransactions = async (address, transactionId = '') => {
     let pageSize = 100
 

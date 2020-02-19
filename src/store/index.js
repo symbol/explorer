@@ -55,6 +55,7 @@ export default new Vuex.Store({
       switch (route.name) {
       // Home
       case 'home':
+      case 'statistics':
         // Home: Requires blocks, chain, and transactions.
         return Promise.all([
           helper.logError(dispatch, 'block/initialize'),
