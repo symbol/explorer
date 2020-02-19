@@ -706,6 +706,7 @@ const formatAccountRestrictions = accountRestrictions => {
 const formatMosaicRestriction = mosaicRestriction => {
   let mosaicGlobalRestrictionItem = []
 
+  // Convert Map<k,v> to Array
   mosaicRestriction.restrictions.forEach((value, key) => {
     mosaicGlobalRestrictionItem.push({ key, ...value })
     return mosaicGlobalRestrictionItem

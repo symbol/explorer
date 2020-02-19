@@ -49,7 +49,7 @@ export const getMosaicRestrictions = async mosaicHexOrNamespace => {
   try {
     mosaicGlobalRestrictions = await http.restrictionMosaic.getMosaicGlobalRestriction(mosaicID).toPromise()
   } catch (e) {
-    // To Catach statusCode 404 if Account Restrictions is no available
+    // To Catach statusCode 404 if Mosaic Global Restrictions is no available
     throw Error('Mosaic Global Restrictions is no available.')
   }
 
