@@ -33,6 +33,16 @@ class sdkBlock {
     return format.formatBlock(blockInfo)
   }
 
+  static getBlockFullTransactionsList = async (blockHeight, transactionId) => {
+    let txList = await this.getTransactionsByBlockHeight(blockHeight, transactionId)
+    if (txList.length > 0) {
+      transactionId = txList[txList.length - 1].transactionId
+      const page = await this.getBlockFullTransactionsList(blockHeight, transactionId)
+      txList = [...txList, ...page]
+    }
+    return txList
+  }
+
   static getBlockLatestTransactionsList = async (blockHeight, transactionId) => {
     let txList = await this.getTransactionsByBlockHeight(blockHeight, transactionId)
     if (txList.length > 0) {
@@ -122,8 +132,6 @@ class sdkBlock {
   static getBlockInfoByHeightFormatted = async height => {
     let rawBlockInfo
     let formattedBlockInfo
-    let blockTransactionList
-    let formattedTransactionList
     let blockReceipt
     let formattedBalanceChangeReceipt
     let formattedBalanceTransferReceipt
