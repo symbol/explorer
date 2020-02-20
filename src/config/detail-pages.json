@@ -118,8 +118,10 @@
                         "fullWidth": true,
                         "body": "TableListView",
                         "dataGetter": "block/blockTransactionList",
-                        "pagination": true,
-                        "pageSize": 5,
+                        "timelineGetter": "block/blockTransactionsTimeline",
+                        "timelinePagination": true,
+                        "timelineNextAction": "block/timelineTransactionsNext",
+                        "timelinePreviousAction": "block/timelineTransactionsPrevious",
                         "loadingGetter": "block/blockInfoLoading"
                     },
                     {

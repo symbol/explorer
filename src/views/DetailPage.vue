@@ -35,7 +35,10 @@
                         <component
                             :is="item.body"
                             :data="getter(item.dataGetter)"
-                            :pagination="item.pagination"
+                            :timeline="getter(item.timelineGetter)"
+                            :timelinePagination="item.timelinePagination"
+                            :timelineNextAction="item.timelineNextAction"
+                            :timelinePreviousAction="item.timelinePreviousAction"
                             :pageSize="item.pageSize"
                         />
                     </template>
