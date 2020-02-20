@@ -9,7 +9,7 @@ import helper from './helper'
 // Convert micro-xem (smallest unit) to XEM.
 const microxemToXem = amount => amount / Math.pow(10, Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY)
 
-const formatBlocktransactions = transactions => 
+const formatBlocktransactions = transactions =>
   transactions?.map((el) => ({
     deadline: el.deadline,
     transactionId: el.transactionId,

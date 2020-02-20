@@ -145,14 +145,14 @@ export default {
     },
 
     nextPageExist() {
-      if(this.timelinePagination && this.timeline instanceof Object)
+      if (this.timelinePagination && this.timeline instanceof Object)
         return this.timeline.canFetchNext
       else
         return this.pageSize * (this.pageIndex + 1) < this.data.length
     },
 
     prevPageExist() {
-      if(this.timelinePagination && this.timeline instanceof Object)
+      if (this.timelinePagination && this.timeline instanceof Object)
         return this.timeline.canFetchPrevious
       else
         return this.pageIndex > 0
@@ -186,7 +186,7 @@ export default {
 
     nextPage() {
       if (this.nextPageExist) {
-        if(this.timelinePagination)
+        if (this.timelinePagination)
           this.$store.dispatch(this.timelineNextAction)
         else
           this.pageIndex++
@@ -195,7 +195,7 @@ export default {
 
     prevPage() {
       if (this.prevPageExist) {
-        if(this.timelinePagination)
+        if (this.timelinePagination)
           this.$store.dispatch(this.timelinePreviousAction)
         else
           this.pageIndex--

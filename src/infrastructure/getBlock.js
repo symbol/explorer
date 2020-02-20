@@ -132,7 +132,6 @@ class sdkBlock {
 
     try { lastTransactions = await this.getBlockLatestTransactionsList(height) } catch (e) { console.warn(e) }
 
-
     if (rawBlockInfo) {
       formattedBlockInfo = {
         height: rawBlockInfo.height,

@@ -118,7 +118,7 @@ export default {
     currentBlockHeight: (state, currentBlockHeight) => Vue.set(state, 'currentBlockHeight', currentBlockHeight),
     blockInfoLoading: (state, blockInfoLoading) => Vue.set(state, 'blockInfoLoading', blockInfoLoading),
     blockInfoError: (state, blockInfoError) => Vue.set(state, 'blockInfoError', blockInfoError),
-    blockTransactionsTimeline: (state, blockTransactionsTimeline) => Vue.set(state, 'blockTransactionsTimeline', blockTransactionsTimeline),
+    blockTransactionsTimeline: (state, blockTransactionsTimeline) => Vue.set(state, 'blockTransactionsTimeline', blockTransactionsTimeline)
   },
   actions: {
     // Initialize the block model.
@@ -259,8 +259,8 @@ export default {
       commit('balanceChangeReceipt', [])
       commit('artifactExpiryReceipt', [])
       commit('resolutionStatement', [])
-      commit('currentBlockHeight', height);
-      commit('blockTransactionsTimeline', Timeline.empty());
+      commit('currentBlockHeight', height)
+      commit('blockTransactionsTimeline', Timeline.empty())
 
       dispatch('chain/getBlockHeight', null, { root: true })
 
@@ -268,7 +268,7 @@ export default {
       try { blockInfo = await sdkBlock.getBlockInfoByHeightFormatted(height) } catch (e) {
         console.error(e)
         commit('blockInfoError', true)
-      } 
+      }
 
       if (blockInfo) {
         commit('blockInfo', blockInfo.blockInfo)
@@ -278,7 +278,7 @@ export default {
         commit('balanceChangeReceipt', blockInfo.balanceChangeReceipt)
         commit('artifactExpiryReceipt', blockInfo.artifactExpiryReceipt)
         commit('resolutionStatement', blockInfo.resolutionStatements)
-        commit('blockTransactionsTimeline', Timeline.fromData(blockInfo.lastTransactions, true, 10));
+        commit('blockTransactionsTimeline', Timeline.fromData(blockInfo.lastTransactions, true, 10))
       }
 
       commit('blockInfoLoading', false)
@@ -303,8 +303,8 @@ export default {
 
     // Fetch the next page of data.
     async timelineTransactionsNext({ commit, getters }) {
-      //commit('setLoading', true)
-      //commit('setError', false)
+      // commit('setLoading', true)
+      // commit('setError', false)
       const timeline = getters.blockTransactionsTimeline
       const list = timeline.next
       try {
@@ -316,15 +316,15 @@ export default {
         commit('blockTransactionsTimeline', await timeline.shiftNext(fetchNext))
       } catch (e) {
         console.error(e)
-        //commit('setError', true)
+        // commit('setError', true)
       }
-      //commit('setLoading', false)
+      // commit('setLoading', false)
     },
 
     // Fetch the previous page of data.
     async timelineTransactionsPrevious({ commit, getters }) {
-      //commit('setLoading', true)
-      //commit('setError', false)
+      // commit('setLoading', true)
+      // commit('setError', false)
       const timeline = getters.blockTransactionsTimeline
       const list = timeline.previous
       try {
@@ -337,9 +337,9 @@ export default {
         commit('blockTransactionsTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
       } catch (e) {
         console.error(e)
-        //commit('setError', true)
+        // commit('setError', true)
       }
-      //commit('setLoading', false)
-    },
+      // commit('setLoading', false)
+    }
   }
 }
