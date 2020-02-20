@@ -39,6 +39,7 @@
                             :timelinePagination="item.timelinePagination"
                             :timelineNextAction="item.timelineNextAction"
                             :timelinePreviousAction="item.timelinePreviousAction"
+                            :pagination="item.pagination"
                             :pageSize="item.pageSize"
                         />
                     </template>
