@@ -50,24 +50,12 @@ class sdkBlock {
       const page = await this.getTransactionsByBlockHeight(blockHeight, transactionId)
       txList = [...txList, ...page]
     }
-    const formattedTransactionList = txList?.map((el) => ({
-      deadline: el.deadline,
-      transactionId: el.transactionId,
-      transactionHash: el.transactionHash,
-      type: el.transactionBody?.type
-    }))
-    return formattedTransactionList
+    return format.formatBlocktransactions(txList)
   }
 
   static getBlockTransactionsFromId = async (blockHeight, transactionId) => {
     let txList = await this.getTransactionsByBlockHeight(blockHeight, transactionId)
-    const formattedTransactionList = txList?.map((el) => ({
-      deadline: el.deadline,
-      transactionId: el.transactionId,
-      transactionHash: el.transactionHash,
-      type: el.transactionBody?.type
-    }))
-    return formattedTransactionList
+    return format.formatBlocktransactions(txList)
   }
 
   static getTransactionsByBlockHeight = async (blockHeight, transactionId) => {

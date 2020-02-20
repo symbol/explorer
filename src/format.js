@@ -9,6 +9,14 @@ import helper from './helper'
 // Convert micro-xem (smallest unit) to XEM.
 const microxemToXem = amount => amount / Math.pow(10, Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY)
 
+const formatBlocktransactions = transactions => 
+  transactions?.map((el) => ({
+    deadline: el.deadline,
+    transactionId: el.transactionId,
+    transactionHash: el.transactionHash,
+    type: el.transactionBody?.type
+  })) || []
+
 // Convert Mosaic amount to relative Amount with divisibility.
 const formatMosaicAmountWithDivisibility = (amount, divisibility) => {
   let relativeAmount = divisibility !== 0 ? amount / Math.pow(10, divisibility) : amount.compact()
@@ -654,6 +662,7 @@ export default {
   formatFee,
   formatBlocks,
   formatBlock,
+  formatBlocktransactions,
   formatAccount,
   formatAccountMultisig,
   formatMosaics,
