@@ -89,10 +89,10 @@ export default {
       height: el.blockHeight,
       deadline: el.deadline,
       transactionHash: el.transactionHash,
-      type: el.transactionBody.type,
+      type: el.transactionBody?.type,
       fee: el.fee,
       signer: el.signer,
-      recipient: el.transactionBody.recipient
+      recipient: el.transactionBody?.recipient
     })),
 
     getSubscription: state => state.subscription,

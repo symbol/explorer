@@ -43,9 +43,24 @@ class sdkBlock {
     return txList
   }
 
+  static getBlockLatestTransactionsList = async (blockHeight, transactionId) => {
+    let txList = await this.getTransactionsByBlockHeight(blockHeight, transactionId)
+    if (txList.length > 0) {
+      transactionId = txList[txList.length - 1].transactionId
+      const page = await this.getTransactionsByBlockHeight(blockHeight, transactionId)
+      txList = [...txList, ...page]
+    }
+    return format.formatBlocktransactions(txList)
+  }
+
+  static getBlockTransactionsFromId = async (blockHeight, transactionId) => {
+    let txList = await this.getTransactionsByBlockHeight(blockHeight, transactionId)
+    return format.formatBlocktransactions(txList)
+  }
+
   static getTransactionsByBlockHeight = async (blockHeight, transactionId) => {
     transactionId = transactionId || ''
-    const pageSize = 100
+    const pageSize = 10
 
     let transactions = await http.block
       .getBlockTransactions(UInt64.fromUint(blockHeight), new QueryParams(pageSize, transactionId))
@@ -105,18 +120,17 @@ class sdkBlock {
   static getBlockInfoByHeightFormatted = async height => {
     let rawBlockInfo
     let formattedBlockInfo
-    let blockTransactionList
-    let formattedTransactionList
     let blockReceipt
     let formattedBalanceChangeReceipt
     let formattedBalanceTransferReceipt
     let formattedinflationReceipt
+    let lastTransactions
 
     try { rawBlockInfo = await this.getBlockInfoByHeight(height) } catch (e) { throw Error('Failed to fetch block info', e) }
 
     try { blockReceipt = await this.getReceiptsByBlockHeight(height) } catch (e) { console.warn(e) }
 
-    try { blockTransactionList = await this.getBlockFullTransactionsList(height) } catch (e) { console.warn(e) }
+    try { lastTransactions = await this.getBlockLatestTransactionsList(height) } catch (e) { console.warn(e) }
 
     if (rawBlockInfo) {
       formattedBlockInfo = {
@@ -129,14 +143,6 @@ class sdkBlock {
         harvester: rawBlockInfo.signer,
         blockHash: rawBlockInfo.hash
       }
-
-      formattedTransactionList = blockTransactionList?.map((el) => ({
-        deadline: el.deadline,
-        transactionHash: el.transactionHash,
-        // fee: el.fee,
-        // signer: el.signer,
-        type: el.transactionBody.type
-      }))
 
       const { artifactExpiryReceipt, balanceChangeReceipt, balanceTransferReceipt, inflationReceipt } = blockReceipt.transactionReceipt
 
@@ -168,12 +174,12 @@ class sdkBlock {
 
       return {
         blockInfo: formattedBlockInfo || {},
-        transactionList: formattedTransactionList || [],
         inflationReceipt: formattedinflationReceipt || [],
         balanceTransferReceipt: formattedBalanceTransferReceipt || [],
         balanceChangeReceipt: formattedBalanceChangeReceipt || [],
         artifactExpiryReceipt: artifactExpiryReceipt || [],
-        resolutionStatements: blockReceipt.resolutionStatements || []
+        resolutionStatements: blockReceipt.resolutionStatements || [],
+        lastTransactions: lastTransactions || []
       }
     }
   }
