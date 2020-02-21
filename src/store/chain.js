@@ -20,7 +20,6 @@ import Lock from './lock'
 import sdkDiagnostic from '../infrastructure/getDiagnostic'
 import sdkBlock from '../infrastructure/getBlock'
 import apiMarketData from '../infrastructure/getMarketData'
-import getTransaction from '../infrastructure/getTransaction'
 
 const LOCK = Lock.create()
 
@@ -53,8 +52,7 @@ export default {
     getBlockHeight: state => state.blockHeight,
     getTransactionHash: state => state.transactionHash,
     getChainInfo: state => state.chainInfo,
-    getMarketData: state => state.marketData,
-    getTransactionStatus: state => state.transactionStatus
+    getMarketData: state => state.marketData
   },
   mutations: {
     setInitialized: (state, initialized) => { state.initialized = initialized },
@@ -68,8 +66,7 @@ export default {
       state.marketData.price = marketData.XEM.USD.PRICE
       state.marketData.marketCap = marketData.XEM.USD.MKTCAP
       state.marketData.historicalHourlyGraph = graphData
-    },
-    transactionStatus: (state, value) => { state.transactionStatus = value }
+    }
   },
   actions: {
     // Initialize the chain model.
@@ -114,19 +111,6 @@ export default {
       let blockList = await sdkBlock.getBlocksFromHeightWithLimit(1)
       if (blockList.length > 0)
         commit('setBlockHeight', blockList[0].height)
-    },
-
-    async getTransactionStatus({ commit, dispatch }, hash) {
-      const transactionStatus = await getTransaction.getTransactionStatus(hash)
-
-      if (transactionStatus)
-        commit('transactionStatus', transactionStatus)
-      else
-        dispatch('clearTransactionStatus')
-    },
-
-    clearTransactionStatus({ commit }) {
-      commit('transactionStatus', {})
     }
   }
 }

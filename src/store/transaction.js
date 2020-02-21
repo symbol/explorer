@@ -112,7 +112,8 @@ export default {
       'transfer': 'Transfer Transactions',
       'multisig': 'Multisig Transactions',
       'mosaic': 'Mosaic Transactions'
-    })
+    }),
+    getTransactionStatus: state => state.transactionStatus
   },
   mutations: {
     setInitialized: (state, initialized) => { state.initialized = initialized },
@@ -135,7 +136,8 @@ export default {
     aggregateInnerTransactions: (state, aggregateInnerTransactions) => Vue.set(state, 'aggregateInnerTransactions', aggregateInnerTransactions),
     aggregateCosignatures: (state, aggregateCosignatures) => Vue.set(state, 'aggregateCosignatures', aggregateCosignatures),
     transactionInfoLoading: (state, v) => { state.transactionInfoLoading = v },
-    transactionInfoError: (state, v) => { state.transactionInfoError = v }
+    transactionInfoError: (state, v) => { state.transactionInfoError = v },
+    transactionStatus: (state, value) => { state.transactionStatus = value }
   },
   actions: {
     // Initialize the transaction model.
@@ -284,7 +286,7 @@ export default {
       commit('setLoading', false)
     },
 
-    async getTransactionInfoByHash({ commit }, hash) {
+    async getTransactionInfoByHash({ dispatch, getters, commit }, hash) {
       commit('transactionInfoLoading', true)
       commit('transactionInfoError', false)
       commit('transactionInfo', {})
@@ -305,9 +307,30 @@ export default {
         commit('aggregateInnerTransactions', transactionInfo.aggregateInnerTransactions)
         commit('aggregateCosignatures', transactionInfo.aggregateCosignatures)
         commit('transactionDetail', transactionInfo.transactionDetail)
+      } else {
+        try {
+          const status = await dispatch('getTransactionStatus', hash)
+          commit('transactionInfo', status)
+          commit('transactionInfoError', false)
+        } catch (e) {}
       }
 
       commit('transactionInfoLoading', false)
+    },
+
+    async getTransactionStatus({ commit, dispatch }, hash) {
+      let transactionStatus = await sdkTransaction.getTransactionStatus(hash)
+
+      if (transactionStatus)
+        commit('transactionStatus', transactionStatus)
+      else
+        dispatch('clearTransactionStatus')
+
+      return transactionStatus.detail
+    },
+
+    clearTransactionStatus({ commit }) {
+      commit('transactionStatus', {})
     }
   }
 }
