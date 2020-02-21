@@ -48,6 +48,16 @@
                     },
                     {
                         "type": "Card",
+                        "title": "Account Restriction",
+                        "fullWidth": true,
+                        "body": "TableListView",
+                        "dataGetter": "account/getAccountRestrictionList",
+                        "pagination": false,
+                        "pageSize": 5,
+                        "loadingGetter": "account/accountInfoLoading"
+                    },
+                    {
+                        "type": "Card",
                         "title": "Metadata Entries",
                         "fullWidth": true,
                         "body": "TableListView",
@@ -191,6 +201,28 @@
                         "fullWidth": true,
                         "body": "TableInfoView",
                         "dataGetter": "mosaic/getMosaicInfo",
+                        "pagination": false,
+                        "loadingGetter": "mosaic/mosaicInfoLoading",
+                        "errorGetter": "mosaic/mosaicInfoError",
+                        "errorMessage": "Mosaic does not exist"
+                    },
+                    {
+                        "type": "Card",
+                        "title": "Mosaic Restriction",
+                        "fullWidth": false,
+                        "body": "TableInfoView",
+                        "dataGetter": "mosaic/getMosaicRestrictionInfo",
+                        "pagination": false,
+                        "loadingGetter": "mosaic/mosaicInfoLoading",
+                        "errorGetter": "mosaic/mosaicInfoError",
+                        "errorMessage": "Mosaic does not exist"
+                    },
+                    {
+                        "type": "Card",
+                        "title": "Mosaic Restriction List",
+                        "fullWidth": false,
+                        "body": "TableListView",
+                        "dataGetter": "mosaic/getMosaicRestrictionList",
                         "pagination": false,
                         "loadingGetter": "mosaic/mosaicInfoLoading",
                         "errorGetter": "mosaic/mosaicInfoError",

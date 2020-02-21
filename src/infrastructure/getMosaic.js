@@ -27,6 +27,7 @@ import http from './http'
 import format from '../format'
 import helper from '../helper'
 import sdkMetadata from '../infrastructure/getMetadata'
+import { getMosaicRestrictions } from '../infrastructure/getRestriction'
 
 class sdkMosaic {
   static getMosaicInfo = async mosaicHexOrNamespace => {
@@ -84,10 +85,15 @@ class sdkMosaic {
     let mosaicInfo
     let metadataList
     let mosaicInfoFormatted
+    let mosaicRestriction
+    let mosaicRestrictionInfo
+    let mosaicRestrictionList
 
     try { mosaicInfo = await sdkMosaic.getMosaicInfo(mosaicHexOrNamespace) } catch (e) { throw Error('Failed to fetch mosaic info', e) }
 
     try { metadataList = await sdkMetadata.getMosaicMetadata(mosaicHexOrNamespace) } catch (e) { console.warn(e) }
+
+    try { mosaicRestriction = await getMosaicRestrictions(mosaicHexOrNamespace) } catch (e) { console.warn(e) }
 
     if (mosaicInfo) {
       mosaicInfoFormatted = {
@@ -106,9 +112,20 @@ class sdkMosaic {
         restrictable: mosaicInfo.restrictable
       }
     }
+
+    if (mosaicRestriction) {
+      mosaicRestrictionInfo = {
+        entryType: mosaicRestriction.entryType,
+        mosaicId: mosaicRestriction.mosaicId
+      }
+
+      mosaicRestrictionList = mosaicRestriction.restrictions
+    }
     return {
       mosaicInfo: mosaicInfoFormatted || {},
-      metadataList: metadataList || []
+      metadataList: metadataList || [],
+      mosaicRestrictionInfo: mosaicRestrictionInfo || {},
+      mosaicRestrictionList: mosaicRestrictionList || []
     }
   }
 
