@@ -68,6 +68,8 @@ export default {
     metadataList: [],
     // The Account Created mosaic.
     createdMosaics: [], // Wait for Rest team apply,
+    // The Account Restriction list.
+    accountRestrictionList: [],
     accountInfoLoading: false,
     accountInfoError: false,
 
@@ -93,6 +95,7 @@ export default {
     getAccountMultisigCosignatories: state => state.accountMultisigCosignatories,
     getNamespaceList: state => state.namespaceList,
     getMosaicList: state => state.mosaicList,
+    getAccountRestrictionList: state => state.accountRestrictionList,
     getTransactionList: state => {
       let transactions = state.transactionList
       let filter = state.transactionFilterValue
@@ -133,6 +136,7 @@ export default {
     setAccountMultisigCosignatories: (state, accountMultisigCosignatories) => { state.accountMultisigCosignatories = accountMultisigCosignatories },
     setNamespaceList: (state, namespaceList) => { state.namespaceList = namespaceList },
     setMosaicList: (state, mosaicList) => { state.mosaicList = mosaicList },
+    setAccountRestrictionList: (state, accountRestrictionList) => { state.accountRestrictionList = accountRestrictionList },
     setTransactionList: (state, transactionList) => { state.transactionList = transactionList },
     setActivityBucketList: (state, activityBucketList) => { state.activityBucketList = activityBucketList },
     setMetadataList: (state, metadataList) => { state.metadataList = metadataList },
@@ -292,6 +296,7 @@ export default {
         commit('setNamespaceList', accountInfo.namespaceList)
         commit('setActivityBucketList', accountInfo.activityBuckets)
         commit('setMetadataList', accountInfo.metadataList)
+        commit('setAccountRestrictionList', accountInfo.accountRestrictions)
       }
 
       // Loading end

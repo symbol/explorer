@@ -23,9 +23,24 @@
                         :title="getKeyName(itemKey) + ': ' + item"
                         @click="onItemClick(itemKey, item)"
                     >
-                      <router-link v-if="isItemClickable(itemKey) && getItemHref(itemKey, item)" :to="getItemHref(itemKey, item)">
+
+                      <div v-if="isAllowArrayToView(itemKey)">
+                        <div v-for="(row, rowIndex) in item" :key="view+'r'+rowIndex">
+                          <router-link v-if="isItemClickable(itemKey) && getItemHref(itemKey, row)" :to="getItemHref(itemKey, row)">
+                            <Truncate v-if="isTruncate(itemKey)">{{row}}</Truncate>
+                            <div v-else>{{ row }}</div>
+                          </router-link>
+                          <div v-else>
+                            <Truncate v-if="isTruncate(itemKey)">{{row}}</Truncate>
+                            <div v-else>{{ row }}</div>
+                          </div>
+                        </div>
+                      </div>
+
+                      <router-link v-else-if="isItemClickable(itemKey) && getItemHref(itemKey, item)" :to="getItemHref(itemKey, item)">
                         {{ item }}
                       </router-link>
+
                       <div v-else>
                         <Decimal v-if="isChangeDecimalColor(itemKey)" :value="item" />
                         <div v-else>
@@ -48,10 +63,12 @@
 <script>
 import TableView from './TableView.vue'
 import Decimal from '../Decimal.vue'
+import Truncate from '../Truncate.vue'
+
 export default {
   extends: TableView,
 
-  components: { Decimal },
+  components: { Decimal, Truncate },
 
   props: {
     data: {
