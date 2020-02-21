@@ -42,7 +42,6 @@ import BaseInfoWidget from '@/components/widgets/BaseInfoWidget.vue'
 import NemPriceWidget from '@/components/widgets/NemPriceWidget.vue'
 import RecentBlocksWidget from '@/components/widgets/RecentBlocksWidget.vue'
 import RecentTransactionsWidget from '@/components/widgets/RecentTransactionsWidget.vue'
-import TransactionStatusWidget from '@/components/widgets/TransactionStatusWidget.vue'
 
 export default {
   name: 'Home',
@@ -51,8 +50,7 @@ export default {
     BaseInfoWidget,
     NemPriceWidget,
     RecentBlocksWidget,
-    RecentTransactionsWidget,
-    TransactionStatusWidget
+    RecentTransactionsWidget
   },
 
   mounted() {

@@ -25,6 +25,7 @@ import sdkTransaction from '../infrastructure/getTransaction'
 import sdkNamespace from '../infrastructure/getNamespace'
 import sdkMosaic from '../infrastructure/getMosaic'
 import sdkMetadata from '../infrastructure/getMetadata'
+import { getAccountRestrictions } from '../infrastructure/getRestriction'
 import { Constants } from '../config'
 
 const formatAccountNames = async accounts => {
@@ -125,6 +126,7 @@ class sdkAccount {
     let activityBuckets
 
     let metadataList
+    let accountRestrictions
 
     let transactionList
     let formattedTansactionList
@@ -141,6 +143,8 @@ class sdkAccount {
     try { namespaceList = await sdkNamespace.getNamespacesFromAccountByAddress(address) } catch (e) { console.warn(e) }
 
     try { metadataList = await sdkMetadata.getAccountMetadata(address) } catch (e) { console.warn(e) }
+
+    try { accountRestrictions = await getAccountRestrictions(address) } catch (e) { console.warn(e) }
 
     if (rawAccountInfo) {
       formattedAccountInfo = {
@@ -204,7 +208,6 @@ class sdkAccount {
     }
 
     return {
-      // rawAccountInfo: rawAccountInfo || {},
       accountInfo: formattedAccountInfo || {},
       mosaicList: mosaicList || [],
       multisigInfo: formattedAccountMultisig || [],
@@ -212,7 +215,8 @@ class sdkAccount {
       tansactionList: formattedTansactionList || [],
       namespaceList: formattedNamespaceList || [],
       activityBuckets: activityBuckets || [],
-      metadataList: metadataList || []
+      metadataList: metadataList || [],
+      accountRestrictions: accountRestrictions || []
     }
   }
 }

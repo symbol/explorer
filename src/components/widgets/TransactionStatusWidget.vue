@@ -71,8 +71,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      blockHeight: 'chain/getBlockHeight',
-      transactionStatus: 'chain/getTransactionStatus'
+      blockHeight: 'transaction/getBlockHeight',
+      transactionStatus: 'transaction/getTransactionStatus'
     }),
 
     loading() { return !this.blockHeight }
@@ -88,7 +88,7 @@ export default {
       this.statusStyle = {}
       this.statusText = ''
       this.statusDetail = null
-      this.$store.dispatch('chain/clearTransactionStatus')
+      this.$store.dispatch('transaction/clearTransactionStatus')
     },
 
     getNameByKey(e) {
@@ -98,7 +98,7 @@ export default {
     getStatus() {
       const hash = this.hash
       this.clearStatus()
-      this.$store.dispatch('chain/getTransactionStatus', hash)
+      this.$store.dispatch('transaction/getTransactionStatus', hash)
     }
   },
 

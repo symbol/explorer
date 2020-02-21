@@ -24,6 +24,19 @@
               <Decimal v-else-if="isChangeDecimalColor(itemKey)" :value="item" />
               <TransactionDirection v-else-if="itemKey === 'direction'" :value="item" />
 
+              <div v-else-if="isAllowArrayToView(itemKey)">
+                <div v-for="(row, rowIndex) in item" :key="view+'r'+rowIndex">
+                  <router-link v-if="isItemClickable(itemKey) && getItemHref(itemKey, row)" :to="getItemHref(itemKey, row)">
+                    <Truncate v-if="isTruncate(itemKey)">{{row}}</Truncate>
+                    <div v-else>{{ row }}</div>
+                  </router-link>
+                  <div v-else>
+                    <Truncate v-if="isTruncate(itemKey)">{{row}}</Truncate>
+                    <div v-else>{{ row }}</div>
+                  </div>
+                </div>
+              </div>
+
               <div v-else>
                 <div v-if="itemKey === 'transactionBody'">
                   <div @click="onOpenModal(view+'r'+rowIndex)">Show Detail</div>
@@ -170,17 +183,6 @@ export default {
     prevPage() {
       if (this.prevPageExist)
         this.pageIndex--
-    },
-
-    isTruncate(key) {
-      return key === 'harvester' ||
-        key === 'address' ||
-        key === 'signer' ||
-        key === 'recipient' ||
-        key === 'transactionHash' ||
-        key === 'owneraddress' ||
-        key === 'host' ||
-        key === 'friendlyName'
     }
   },
 

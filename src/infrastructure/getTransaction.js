@@ -24,26 +24,28 @@ import http from './http'
 import format from '../format'
 import sdkBlock from '../infrastructure/getBlock'
 import sdkMosaic from './getMosaic'
+import { Constants } from '../config'
 const QueryParams = nem.QueryParams // Travis patch
 const Address = nem.Address // Travis patch
 
 class sdkTransaction {
   static getTransactionStatus = (hash) => {
     return new Promise((resolve, reject) => {
-      const path = `/transaction/${hash}/status`
       let transactionStatus = {
         message: null,
         detail: {}
       }
-      axios.get(http.nodeUrl + path)
+      http.transaction.getTransactionStatus(hash).toPromise()
         .then(response => {
-          transactionStatus.message = response.data.group
-          transactionStatus.detail = response.data
+          transactionStatus.message = response.group
+          transactionStatus.detail = response
           resolve(transactionStatus)
         })
         .catch(error => {
-          transactionStatus.message = error.response.data.message
-          transactionStatus.detail = error.response.data
+          if (error.statusCode === 404)
+            reject(error)
+          transactionStatus.message = error.errorDetails.message
+          transactionStatus.detail = error.body
           resolve(transactionStatus)
         })
     })
@@ -342,30 +344,39 @@ class sdkTransaction {
           break
 
         case nem.TransactionType.SECRET_PROOF:
-          // Todo: Anthony
           formattedTransactionDetail = {
-            transactionType: transactionBody.type
+            transactionType: transactionBody.type,
+            hashType: Constants.HashType[transactionBody.hashType],
+            recipient: transactionBody.recipient,
+            secret: transactionBody.secret,
+            proof: transactionBody.proof
           }
           break
 
         case nem.TransactionType.ACCOUNT_ADDRESS_RESTRICTION:
-          // Todo: Anthony
           formattedTransactionDetail = {
-            transactionType: transactionBody.type
+            transactionType: transactionBody.type,
+            restrictionType: transactionBody.restrictionType,
+            restrictionAddressAdditions: transactionBody.restrictionAddressAdditions,
+            restrictionAddressDeletions: transactionBody.restrictionAddressDeletions
           }
           break
 
         case nem.TransactionType.ACCOUNT_MOSAIC_RESTRICTION:
-          // Todo: Anthony
           formattedTransactionDetail = {
-            transactionType: transactionBody.type
+            transactionType: transactionBody.type,
+            restrictionType: transactionBody.restrictionType,
+            restrictionMosaicAdditions: transactionBody.restrictionMosaicAdditions,
+            restrictionMosaicDeletions: transactionBody.restrictionMosaicDeletions
           }
           break
 
         case nem.TransactionType.ACCOUNT_OPERATION_RESTRICTION:
-          // Todo: Anthony
           formattedTransactionDetail = {
-            transactionType: transactionBody.type
+            transactionType: transactionBody.type,
+            restrictionType: transactionBody.restrictionType,
+            restrictionOperationAdditions: transactionBody.restrictionOperationAdditions,
+            restrictionOperationDeletions: transactionBody.restrictionOperationDeletions
           }
           break
 
@@ -379,16 +390,25 @@ class sdkTransaction {
           break
 
         case nem.TransactionType.MOSAIC_ADDRESS_RESTRICTION:
-          // Todo: Anthony
           formattedTransactionDetail = {
-            transactionType: transactionBody.type
+            transactionType: transactionBody.type,
+            mosaicId: transactionBody.mosaicId,
+            restrictionKey: transactionBody.restrictionKey,
+            targetAddress: transactionBody.targetAddress,
+            previousRestrictionValue: transactionBody.previousRestrictionValue,
+            newRestrictionValue: transactionBody.newRestrictionValue
           }
           break
 
         case nem.TransactionType.MOSAIC_GLOBAL_RESTRICTION:
-          // Todo: Anthony
           formattedTransactionDetail = {
-            transactionType: transactionBody.type
+            transactionType: transactionBody.type,
+            referenceMosaicId: transactionBody.referenceMosaicId,
+            restrictionKey: transactionBody.restrictionKey,
+            previousRestrictionType: transactionBody.previousRestrictionType,
+            previousRestrictionValue: transactionBody.previousRestrictionValue,
+            newRestrictionType: transactionBody.newRestrictionType,
+            newRestrictionValue: transactionBody.newRestrictionValue
           }
           break
 

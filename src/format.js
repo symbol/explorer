@@ -1,4 +1,4 @@
-import { Address, TransactionType, ReceiptType, ResolutionType } from 'nem2-sdk'
+import { Address, TransactionType, ReceiptType, ResolutionType, AccountRestrictionFlags } from 'nem2-sdk'
 import { Constants } from './config'
 import moment from 'moment'
 import http from './infrastructure/http'
@@ -321,25 +321,38 @@ const formatTransactionBody = transactionBody => {
   case TransactionType.SECRET_PROOF:
     let secretProofObj = {
       type: Constants.TransactionType[TransactionType.SECRET_PROOF],
-      transactionType: TransactionType.SECRET_PROOF
+      transactionType: TransactionType.SECRET_PROOF,
+      hashType: transactionBody.hashType,
+      recipient: transactionBody.recipientAddress.plain(),
+      secret: transactionBody.secret,
+      proof: transactionBody.proof
     }
     return secretProofObj
   case TransactionType.ACCOUNT_ADDRESS_RESTRICTION:
     let accountRestrictionAddressObj = {
       type: Constants.TransactionType[TransactionType.ACCOUNT_ADDRESS_RESTRICTION],
-      transactionType: TransactionType.ACCOUNT_ADDRESS_RESTRICTION
+      transactionType: TransactionType.ACCOUNT_ADDRESS_RESTRICTION,
+      restrictionType: Constants.AccountRestrictionFlags[transactionBody.restrictionFlags],
+      restrictionAddressAdditions: transactionBody.restrictionAdditions.map(account => account.address),
+      restrictionAddressDeletions: transactionBody.restrictionDeletions.map(account => account.address)
     }
     return accountRestrictionAddressObj
   case TransactionType.ACCOUNT_MOSAIC_RESTRICTION:
     let accountRestrictionMosaicObj = {
       type: Constants.TransactionType[TransactionType.ACCOUNT_MOSAIC_RESTRICTION],
-      transactionType: TransactionType.ACCOUNT_MOSAIC_RESTRICTION
+      transactionType: TransactionType.ACCOUNT_MOSAIC_RESTRICTION,
+      restrictionType: Constants.AccountRestrictionFlags[transactionBody.restrictionFlags],
+      restrictionMosaicAdditions: transactionBody.restrictionAdditions.map(mosaic => mosaic.id.toHex()),
+      restrictionMosaicDeletions: transactionBody.restrictionDeletions.map(mosaic => mosaic.id.toHex())
     }
     return accountRestrictionMosaicObj
   case TransactionType.ACCOUNT_OPERATION_RESTRICTION:
     let accountRestrictionOperationObj = {
       type: Constants.TransactionType[TransactionType.ACCOUNT_OPERATION_RESTRICTION],
-      transactionType: TransactionType.ACCOUNT_OPERATION_RESTRICTION
+      transactionType: TransactionType.ACCOUNT_OPERATION_RESTRICTION,
+      restrictionType: Constants.AccountRestrictionFlags[transactionBody.restrictionFlags],
+      restrictionOperationAdditions: transactionBody.restrictionAdditions.map(operation => Constants.TransactionType[operation]),
+      restrictionOperationDeletions: transactionBody.restrictionDeletions.map(operation => Constants.TransactionType[operation])
     }
     return accountRestrictionOperationObj
   case TransactionType.ACCOUNT_LINK:
@@ -354,13 +367,24 @@ const formatTransactionBody = transactionBody => {
   case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
     let mosaicAddressRestrictionObj = {
       type: Constants.TransactionType[TransactionType.MOSAIC_ADDRESS_RESTRICTION],
-      transactionType: TransactionType.MOSAIC_ADDRESS_RESTRICTION
+      transactionType: TransactionType.MOSAIC_ADDRESS_RESTRICTION,
+      mosaicId: transactionBody.mosaicId.toHex(),
+      targetAddress: transactionBody.targetAddress.plain(),
+      restrictionKey: transactionBody.restrictionKey.toHex(),
+      previousRestrictionValue: transactionBody.previousRestrictionValue.compact(),
+      newRestrictionValue: transactionBody.newRestrictionValue.compact()
     }
     return mosaicAddressRestrictionObj
   case TransactionType.MOSAIC_GLOBAL_RESTRICTION:
     let mosaicGlobalRestrictionObj = {
       type: Constants.TransactionType[TransactionType.MOSAIC_GLOBAL_RESTRICTION],
-      transactionType: TransactionType.MOSAIC_GLOBAL_RESTRICTION
+      transactionType: TransactionType.MOSAIC_GLOBAL_RESTRICTION,
+      referenceMosaicId: transactionBody.referenceMosaicId.toHex() === '0000000000000000' ? transactionBody.mosaicId.toHex() : transactionBody.referenceMosaicId.toHex(),
+      restrictionKey: transactionBody.restrictionKey.toHex(),
+      previousRestrictionType: Constants.MosaicRestrictionType[transactionBody.previousRestrictionType],
+      previousRestrictionValue: transactionBody.previousRestrictionValue.compact(),
+      newRestrictionType: Constants.MosaicRestrictionType[transactionBody.newRestrictionType],
+      newRestrictionValue: transactionBody.newRestrictionValue.compact()
     }
     return mosaicGlobalRestrictionObj
   case TransactionType.ACCOUNT_METADATA:
@@ -650,6 +674,57 @@ const formatNodesInfo = nodes => {
   }))
 }
 
+const formatAccountRestrictions = accountRestrictions => {
+  return accountRestrictions.map(accountRestriction => {
+    switch (accountRestriction.restrictionFlags) {
+    case AccountRestrictionFlags.AllowIncomingAddress:
+    case AccountRestrictionFlags.BlockIncomingAddress:
+    case AccountRestrictionFlags.AllowOutgoingAddress:
+    case AccountRestrictionFlags.BlockOutgoingAddress:
+      return {
+        restrictionType: Constants.AccountRestrictionFlags[accountRestriction.restrictionFlags],
+        restrictionAddressValues: accountRestriction.values.map(value => value.address)
+      }
+    case AccountRestrictionFlags.AllowMosaic:
+    case AccountRestrictionFlags.BlockMosaic:
+      return {
+        restrictionType: Constants.AccountRestrictionFlags[accountRestriction.restrictionFlags],
+        restrictionMosaicValues: accountRestriction.values.map(value => value.id.toHex())
+      }
+    case AccountRestrictionFlags.AllowIncomingTransactionType:
+    case AccountRestrictionFlags.AllowOutgoingTransactionType:
+    case AccountRestrictionFlags.BlockIncomingTransactionType:
+    case AccountRestrictionFlags.BlockOutgoingTransactionType:
+      return {
+        restrictionType: Constants.AccountRestrictionFlags[accountRestriction.restrictionFlags],
+        restrictionTransactionValues: accountRestriction.values.map(value => Constants.TransactionType[value])
+      }
+    }
+  })
+}
+
+const formatMosaicRestriction = mosaicRestriction => {
+  let mosaicGlobalRestrictionItem = []
+
+  // Convert Map<k,v> to Array
+  mosaicRestriction.restrictions.forEach((value, key) => {
+    mosaicGlobalRestrictionItem.push({ key, ...value })
+    return mosaicGlobalRestrictionItem
+  })
+
+  return {
+    ...mosaicRestriction,
+    entryType: Constants.MosaicRestrictionEntryType[mosaicRestriction.entryType],
+    mosaicId: mosaicRestriction.mosaicId.toHex(),
+    restrictions: mosaicGlobalRestrictionItem.map(item => ({
+      restrictionKey: item.key,
+      restrictionType: Constants.MosaicRestrictionType[item.restrictionType],
+      restrictionValue: item.restrictionValue,
+      referenceMosaicId: item.referenceMosaicId.toHex() === '0000000000000000' ? mosaicRestriction.mosaicId.toHex() : item.referenceMosaicId.toHex()
+    }))
+  }
+}
+
 export default {
   formatFee,
   formatBlocks,
@@ -668,5 +743,7 @@ export default {
   formatReceiptStatements,
   formatResolutionStatements,
   formatNodesInfo,
-  sortMosaics
+  sortMosaics,
+  formatAccountRestrictions,
+  formatMosaicRestriction
 }
