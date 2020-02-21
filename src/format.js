@@ -207,19 +207,19 @@ const formatCosignatures = cosignatures => {
 const formatTransactionBody = transactionBody => {
   switch (transactionBody.type) {
   case TransactionType.TRANSFER:
-    let transferObj = {
+    return {
       type: Constants.TransactionType[TransactionType.TRANSFER],
       transactionType: TransactionType.TRANSFER,
       recipient: transactionBody.recipientAddress.address,
       mosaics: formatMosaics(transactionBody.mosaics),
       message: transactionBody.message.payload
     }
-    return transferObj
+
   case TransactionType.NAMESPACE_REGISTRATION:
     let parentIdHex = transactionBody.parentId ? transactionBody.parentId.toHex() : ''
     let duration = transactionBody.duration ? transactionBody.duration.compact() : 0
 
-    let registerNamespaceObj = {
+    return {
       type: Constants.TransactionType[TransactionType.NAMESPACE_REGISTRATION],
       transactionType: TransactionType.NAMESPACE_REGISTRATION,
       recipient: Constants.NetworkConfig.NAMESPACE_RENTAL_FEE_SINK_ADDRESS,
@@ -229,27 +229,26 @@ const formatTransactionBody = transactionBody => {
       parentId: parentIdHex === '' ? Constants.Message.UNAVAILABLE : parentIdHex,
       duration: duration === 0 ? Constants.Message.UNLIMITED : duration
     }
-    return registerNamespaceObj
+
   case TransactionType.ADDRESS_ALIAS:
-    let addressAliasObj = {
+    return {
       type: Constants.TransactionType[TransactionType.ADDRESS_ALIAS],
       transactionType: TransactionType.ADDRESS_ALIAS,
-      aliasAction: Constants.AliasAction[transactionBody.actionType],
+      aliasAction: Constants.AliasAction[transactionBody.aliasAction],
       namespaceId: transactionBody.namespaceId.toHex()
     }
-    return addressAliasObj
 
   case TransactionType.MOSAIC_ALIAS:
-    let mosaicAlias = {
+    return {
       type: Constants.TransactionType[TransactionType.MOSAIC_ALIAS],
       transactionType: TransactionType.MOSAIC_ALIAS,
       aliasAction: Constants.AliasAction[transactionBody.aliasAction],
       namespaceId: transactionBody.namespaceId.id.toHex(),
       mosaicId: transactionBody.mosaicId.id.toHex()
     }
-    return mosaicAlias
+
   case TransactionType.MOSAIC_DEFINITION:
-    let mosaicDefinitionObj = {
+    return {
       type: Constants.TransactionType[TransactionType.MOSAIC_DEFINITION],
       transactionType: TransactionType.MOSAIC_DEFINITION,
       recipient: Constants.NetworkConfig.MOSAIC_RENTAL_FEE_SINK_ADDRESS,
@@ -261,54 +260,52 @@ const formatTransactionBody = transactionBody => {
       transferable: transactionBody.flags.transferable,
       restrictable: transactionBody.flags.restrictable
     }
-    return mosaicDefinitionObj
+
   case TransactionType.MOSAIC_SUPPLY_CHANGE:
-    let mosaicSupplyChangeObj = {
+    return {
       type: Constants.TransactionType[TransactionType.MOSAIC_SUPPLY_CHANGE],
       transactionType: TransactionType.MOSAIC_SUPPLY_CHANGE,
       mosaicId: transactionBody.mosaicId.id.toHex(),
       action: Constants.MosaicSupplyChangeAction[transactionBody.action],
       delta: transactionBody.delta.compact()
     }
-    return mosaicSupplyChangeObj
+
   case TransactionType.MULTISIG_ACCOUNT_MODIFICATION:
-    let modifyMultisigAccountObj = {
+    return {
       type: Constants.TransactionType[TransactionType.MULTISIG_ACCOUNT_MODIFICATION],
       transactionType: TransactionType.MULTISIG_ACCOUNT_MODIFICATION,
       minApprovalDelta: transactionBody.minApprovalDelta,
       minRemovalDelta: transactionBody.minRemovalDelta,
       modifications: transactionBody.modifications
     }
-    return modifyMultisigAccountObj
 
   case TransactionType.AGGREGATE_COMPLETE:
-    let aggregateCompleteObj = {
+    return {
       type: Constants.TransactionType[TransactionType.AGGREGATE_COMPLETE],
       transactionType: TransactionType.AGGREGATE_COMPLETE,
       innerTransactions: formatTransactions(transactionBody.innerTransactions),
       cosignatures: formatCosignatures(transactionBody.cosignatures)
     }
-    return aggregateCompleteObj
+
   case TransactionType.AGGREGATE_BONDED:
-    let aggregateBondedObj = {
+    return {
       type: Constants.TransactionType[TransactionType.AGGREGATE_BONDED],
       transactionType: TransactionType.AGGREGATE_BONDED,
       innerTransactions: formatTransactions(transactionBody.innerTransactions),
       cosignatures: formatCosignatures(transactionBody.cosignatures)
     }
-    return aggregateBondedObj
 
   case TransactionType.HASH_LOCK:
-    let lockObj = {
+    return {
       type: Constants.TransactionType[TransactionType.HASH_LOCK],
       transactionType: TransactionType.HASH_LOCK,
       duration: transactionBody.duration.compact(),
       mosaicId: transactionBody.mosaic.id.toHex(),
       amount: formatFee(transactionBody.mosaic.amount)
     }
-    return lockObj
+
   case TransactionType.SECRET_LOCK:
-    let secretLockObj = {
+    return {
       type: Constants.TransactionType[TransactionType.SECRET_LOCK],
       transactionType: TransactionType.SECRET_LOCK,
       duration: transactionBody.duration.compact(),
@@ -317,55 +314,55 @@ const formatTransactionBody = transactionBody => {
       recipient: transactionBody.recipientAddress.address,
       hashType: Constants.HashType[transactionBody.hashType]
     }
-    return secretLockObj
+
   case TransactionType.SECRET_PROOF:
-    let secretProofObj = {
+    return {
       type: Constants.TransactionType[TransactionType.SECRET_PROOF],
       transactionType: TransactionType.SECRET_PROOF,
-      hashType: transactionBody.hashType,
+      hashType: Constants.HashType[transactionBody.hashType],
       recipient: transactionBody.recipientAddress.plain(),
       secret: transactionBody.secret,
       proof: transactionBody.proof
     }
-    return secretProofObj
+
   case TransactionType.ACCOUNT_ADDRESS_RESTRICTION:
-    let accountRestrictionAddressObj = {
+    return {
       type: Constants.TransactionType[TransactionType.ACCOUNT_ADDRESS_RESTRICTION],
       transactionType: TransactionType.ACCOUNT_ADDRESS_RESTRICTION,
       restrictionType: Constants.AccountRestrictionFlags[transactionBody.restrictionFlags],
       restrictionAddressAdditions: transactionBody.restrictionAdditions.map(account => account.address),
       restrictionAddressDeletions: transactionBody.restrictionDeletions.map(account => account.address)
     }
-    return accountRestrictionAddressObj
+
   case TransactionType.ACCOUNT_MOSAIC_RESTRICTION:
-    let accountRestrictionMosaicObj = {
+    return {
       type: Constants.TransactionType[TransactionType.ACCOUNT_MOSAIC_RESTRICTION],
       transactionType: TransactionType.ACCOUNT_MOSAIC_RESTRICTION,
       restrictionType: Constants.AccountRestrictionFlags[transactionBody.restrictionFlags],
       restrictionMosaicAdditions: transactionBody.restrictionAdditions.map(mosaic => mosaic.id.toHex()),
       restrictionMosaicDeletions: transactionBody.restrictionDeletions.map(mosaic => mosaic.id.toHex())
     }
-    return accountRestrictionMosaicObj
+
   case TransactionType.ACCOUNT_OPERATION_RESTRICTION:
-    let accountRestrictionOperationObj = {
+    return {
       type: Constants.TransactionType[TransactionType.ACCOUNT_OPERATION_RESTRICTION],
       transactionType: TransactionType.ACCOUNT_OPERATION_RESTRICTION,
       restrictionType: Constants.AccountRestrictionFlags[transactionBody.restrictionFlags],
       restrictionOperationAdditions: transactionBody.restrictionAdditions.map(operation => Constants.TransactionType[operation]),
       restrictionOperationDeletions: transactionBody.restrictionDeletions.map(operation => Constants.TransactionType[operation])
     }
-    return accountRestrictionOperationObj
+
   case TransactionType.ACCOUNT_LINK:
-    let linkAccountObj = {
+    return {
       type: Constants.TransactionType[TransactionType.ACCOUNT_LINK],
       transactionType: TransactionType.ACCOUNT_LINK,
       linkAction: Constants.LinkAction[transactionBody.linkAction],
       remoteAccountPublicKey: transactionBody.remotePublicKey,
       remoteAccountAddress: Address.createFromPublicKey(transactionBody.remotePublicKey, http.networkType).plain()
     }
-    return linkAccountObj
+
   case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
-    let mosaicAddressRestrictionObj = {
+    return {
       type: Constants.TransactionType[TransactionType.MOSAIC_ADDRESS_RESTRICTION],
       transactionType: TransactionType.MOSAIC_ADDRESS_RESTRICTION,
       mosaicId: transactionBody.mosaicId.toHex(),
@@ -374,9 +371,9 @@ const formatTransactionBody = transactionBody => {
       previousRestrictionValue: transactionBody.previousRestrictionValue.compact(),
       newRestrictionValue: transactionBody.newRestrictionValue.compact()
     }
-    return mosaicAddressRestrictionObj
+
   case TransactionType.MOSAIC_GLOBAL_RESTRICTION:
-    let mosaicGlobalRestrictionObj = {
+    return {
       type: Constants.TransactionType[TransactionType.MOSAIC_GLOBAL_RESTRICTION],
       transactionType: TransactionType.MOSAIC_GLOBAL_RESTRICTION,
       referenceMosaicId: transactionBody.referenceMosaicId.toHex() === '0000000000000000' ? transactionBody.mosaicId.toHex() : transactionBody.referenceMosaicId.toHex(),
@@ -386,9 +383,9 @@ const formatTransactionBody = transactionBody => {
       newRestrictionType: Constants.MosaicRestrictionType[transactionBody.newRestrictionType],
       newRestrictionValue: transactionBody.newRestrictionValue.compact()
     }
-    return mosaicGlobalRestrictionObj
+
   case TransactionType.ACCOUNT_METADATA:
-    let accountMetadataTransactionObj = {
+    return {
       type: Constants.TransactionType[TransactionType.ACCOUNT_METADATA],
       transactionType: TransactionType.ACCOUNT_METADATA,
       scopedMetadataKey: transactionBody.scopedMetadataKey.toHex(),
@@ -396,9 +393,9 @@ const formatTransactionBody = transactionBody => {
       metadataValue: transactionBody.value,
       valueSizeDelta: transactionBody.valueSizeDelta
     }
-    return accountMetadataTransactionObj
+
   case TransactionType.MOSAIC_METADATA:
-    let mosaicMetadataTransactionObj = {
+    return {
       type: Constants.TransactionType[TransactionType.MOSAIC_METADATA],
       transactionType: TransactionType.MOSAIC_METADATA,
       scopedMetadataKey: transactionBody.scopedMetadataKey.toHex(),
@@ -407,9 +404,9 @@ const formatTransactionBody = transactionBody => {
       metadataValue: transactionBody.value,
       valueSizeDelta: transactionBody.valueSizeDelta
     }
-    return mosaicMetadataTransactionObj
+
   case TransactionType.NAMESPACE_METADATA:
-    let namespaceMetadataTransactionObj = {
+    return {
       type: Constants.TransactionType[TransactionType.NAMESPACE_METADATA],
       transactionType: TransactionType.NAMESPACE_METADATA,
       scopedMetadataKey: transactionBody.scopedMetadataKey.toHex(),
@@ -418,7 +415,6 @@ const formatTransactionBody = transactionBody => {
       metadataValue: transactionBody.value,
       valueSizeDelta: transactionBody.valueSizeDelta
     }
-    return namespaceMetadataTransactionObj
   }
 }
 
