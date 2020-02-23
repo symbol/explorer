@@ -31,9 +31,6 @@
             <b-col xs="12" md="12" lg="6">
                 <RecentTransactionsWidget />
             </b-col>
-            <b-col xs="12" md="12" lg="6">
-                <TransactionStatusWidget />
-            </b-col>
         </b-row>
     </b-container>
 </template>
