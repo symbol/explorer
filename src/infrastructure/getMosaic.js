@@ -18,7 +18,6 @@
 
 import axios from 'axios'
 import {
-  Address,
   MosaicId,
   NamespaceId
 } from 'nem2-sdk'
@@ -28,16 +27,9 @@ import http from './http'
 import format from '../format'
 import helper from '../helper'
 import sdkMetadata from '../infrastructure/getMetadata'
+import { getMosaicRestrictions } from '../infrastructure/getRestriction'
 
 class sdkMosaic {
-  static getMosaicsAmountByAddress = async address => {
-    const mosaicAmount = await http.mosaicService
-      .mosaicsAmountViewFromAddress(new Address(address))
-      .toPromise()
-
-    return mosaicAmount
-  }
-
   static getMosaicInfo = async mosaicHexOrNamespace => {
     let mosaicID
 
@@ -47,11 +39,10 @@ class sdkMosaic {
       let namespaceId = new NamespaceId(mosaicHexOrNamespace)
       mosaicID = await http.namespace.getLinkedMosaicId(namespaceId).toPromise()
     }
-    const mosaicInfo = await http.mosaic.getMosaic(mosaicID).toPromise()
 
-    await this.addMosaicAliasNames([mosaicInfo])
+    const mosaicInfoAliasNames = await sdkMosaic.getMosaicInfoAliasNames([mosaicID])
 
-    return format.formatMosaicInfo(mosaicInfo)
+    return format.formatMosaicInfo(mosaicInfoAliasNames[0])
   }
 
   static getMosaicsFromIdWithLimit = async (limit, fromMosaicId) => {
@@ -66,9 +57,10 @@ class sdkMosaic {
     const response = await axios.get(http.nodeUrl + path)
     const mosaics = response.data.map(info => dto.createMosaicInfoFromDTO(info, http.networkType))
 
-    await this.addMosaicAliasNames(mosaics)
+    const mosaicIdsList = mosaics.map(mosaicInfo => mosaicInfo.id)
+    const mosaicInfoAliasNames = await sdkMosaic.getMosaicInfoAliasNames(mosaicIdsList)
 
-    return format.formatMosaicInfos(mosaics)
+    return mosaicInfoAliasNames.map(mosaicInfoAliasName => format.formatMosaicInfo(mosaicInfoAliasName))
   }
 
   static getMosaicsSinceIdWithLimit = async (limit, sinceMosaicId) => {
@@ -83,19 +75,25 @@ class sdkMosaic {
     const response = await axios.get(http.nodeUrl + path)
     const mosaics = response.data.map(info => dto.createMosaicInfoFromDTO(info, http.networkType))
 
-    await this.addMosaicAliasNames(mosaics)
+    const mosaicIdsList = mosaics.map(mosaicInfo => mosaicInfo.id)
+    const mosaicInfoAliasNames = await sdkMosaic.getMosaicInfoAliasNames(mosaicIdsList)
 
-    return format.formatMosaicInfos(mosaics)
+    return mosaicInfoAliasNames.map(mosaicInfoAliasName => format.formatMosaicInfo(mosaicInfoAliasName))
   }
 
   static getMosaicInfoFormatted = async mosaicHexOrNamespace => {
     let mosaicInfo
     let metadataList
     let mosaicInfoFormatted
+    let mosaicRestriction
+    let mosaicRestrictionInfo
+    let mosaicRestrictionList
 
     try { mosaicInfo = await sdkMosaic.getMosaicInfo(mosaicHexOrNamespace) } catch (e) { throw Error('Failed to fetch mosaic info', e) }
 
     try { metadataList = await sdkMetadata.getMosaicMetadata(mosaicHexOrNamespace) } catch (e) { console.warn(e) }
+
+    try { mosaicRestriction = await getMosaicRestrictions(mosaicHexOrNamespace) } catch (e) { console.warn(e) }
 
     if (mosaicInfo) {
       mosaicInfoFormatted = {
@@ -114,28 +112,33 @@ class sdkMosaic {
         restrictable: mosaicInfo.restrictable
       }
     }
+
+    if (mosaicRestriction) {
+      mosaicRestrictionInfo = {
+        entryType: mosaicRestriction.entryType,
+        mosaicId: mosaicRestriction.mosaicId
+      }
+
+      mosaicRestrictionList = mosaicRestriction.restrictions
+    }
     return {
       mosaicInfo: mosaicInfoFormatted || {},
-      metadataList: metadataList || []
+      metadataList: metadataList || [],
+      mosaicRestrictionInfo: mosaicRestrictionInfo || {},
+      mosaicRestrictionList: mosaicRestrictionList || []
     }
   }
 
-  static addMosaicAliasNames = async mosaics => {
-    // Fetch the mosaic name objects from the IDs.
-    const mosaicIdsList = mosaics.map(mosaicInfo => mosaicInfo.id)
+  static getMosaicInfoAliasNames = async mosaicIds => {
+    const mosaicIdsList = mosaicIds.map(mosaicInfo => mosaicInfo.id)
+    const mosaicInfos = await http.mosaic.getMosaics(mosaicIdsList).toPromise()
     const mosaicNames = await http.namespace.getMosaicsNames(mosaicIdsList).toPromise()
 
-    // Create a mapping of mosaics IDs to names.
-    const idToNameMap = {}
-    for (let item of mosaicNames)
-      idToNameMap[item.mosaicId.toHex()] = item.names
-
-    // Add name to mosaics object.
-    mosaics.map(info => {
-      info.mosaicAliasName = idToNameMap[info.id.toHex()]
-    })
-
-    return mosaics
+    return mosaicIdsList.map(mosaicId => ({
+      id: new MosaicId(mosaicId.toHex()),
+      mosaicInfo: mosaicInfos.find(info => info.id.id.equals(mosaicId)),
+      mosaicName: mosaicNames.find(name => name.mosaicId.id.equals(mosaicId))
+    }))
   }
 }
 

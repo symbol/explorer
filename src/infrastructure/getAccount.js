@@ -25,6 +25,7 @@ import sdkTransaction from '../infrastructure/getTransaction'
 import sdkNamespace from '../infrastructure/getNamespace'
 import sdkMosaic from '../infrastructure/getMosaic'
 import sdkMetadata from '../infrastructure/getMetadata'
+import { getAccountRestrictions } from '../infrastructure/getRestriction'
 import { Constants } from '../config'
 
 const formatAccountNames = async accounts => {
@@ -56,17 +57,12 @@ class sdkAccount {
       .getAccountsNames([addressObj])
       .toPromise()
 
-    const mosaicsAmountViewFromAddress = await http.mosaicService
-      .mosaicsAmountViewFromAddress(addressObj)
-      .toPromise()
+    const mosaicIdsList = accountInfo.mosaics.map(mosaic => mosaic.id)
+    const mosaicInfoAliasNames = await sdkMosaic.getMosaicInfoAliasNames(mosaicIdsList)
 
-    const mosaicsInfoList = mosaicsAmountViewFromAddress.map(mosaic => mosaic.mosaicInfo)
-
-    // Get mosaic alias name from mosaic list
-    await sdkMosaic.addMosaicAliasNames(mosaicsInfoList)
-
-    // added mosaicsAmountViewFromAddress[] object
-    accountInfo.mosaicsAmountViewFromAddress = mosaicsAmountViewFromAddress
+    accountInfo.mosaics.map(mosaic => {
+      mosaic.mosaicInfoAliasName = mosaicInfoAliasNames.find(mosaicInfoName => mosaicInfoName.id.equals(mosaic.id))
+    })
 
     // add accountName object
     accountInfo.accountName = accountName[0]
@@ -130,6 +126,7 @@ class sdkAccount {
     let activityBuckets
 
     let metadataList
+    let accountRestrictions
 
     let transactionList
     let formattedTansactionList
@@ -146,6 +143,8 @@ class sdkAccount {
     try { namespaceList = await sdkNamespace.getNamespacesFromAccountByAddress(address) } catch (e) { console.warn(e) }
 
     try { metadataList = await sdkMetadata.getAccountMetadata(address) } catch (e) { console.warn(e) }
+
+    try { accountRestrictions = await getAccountRestrictions(address) } catch (e) { console.warn(e) }
 
     if (rawAccountInfo) {
       formattedAccountInfo = {
@@ -209,7 +208,6 @@ class sdkAccount {
     }
 
     return {
-      // rawAccountInfo: rawAccountInfo || {},
       accountInfo: formattedAccountInfo || {},
       mosaicList: mosaicList || [],
       multisigInfo: formattedAccountMultisig || [],
@@ -217,7 +215,8 @@ class sdkAccount {
       tansactionList: formattedTansactionList || [],
       namespaceList: formattedNamespaceList || [],
       activityBuckets: activityBuckets || [],
-      metadataList: metadataList || []
+      metadataList: metadataList || [],
+      accountRestrictions: accountRestrictions || []
     }
   }
 }

@@ -17,7 +17,7 @@
  */
 
 import axios from 'axios'
-import { QueryParams } from 'nem2-sdk'
+import { QueryParams, UInt64 } from 'nem2-sdk'
 import dto from './dto'
 import http from './http'
 import format from '../format'
@@ -29,7 +29,7 @@ class sdkBlock {
   }
 
   static getBlockInfoByHeight = async (blockHeight) => {
-    const blockInfo = await http.block.getBlockByHeight(blockHeight).toPromise()
+    const blockInfo = await http.block.getBlockByHeight(UInt64.fromUint(blockHeight)).toPromise()
     return format.formatBlock(blockInfo)
   }
 
@@ -37,17 +37,33 @@ class sdkBlock {
     let txList = await this.getTransactionsByBlockHeight(blockHeight, transactionId)
     if (txList.length > 0) {
       transactionId = txList[txList.length - 1].transactionId
-      txList.concat(await this.getBlockFullTransactionsList(blockHeight, transactionId))
+      const page = await this.getBlockFullTransactionsList(blockHeight, transactionId)
+      txList = [...txList, ...page]
     }
     return txList
   }
 
+  static getBlockLatestTransactionsList = async (blockHeight, transactionId) => {
+    let txList = await this.getTransactionsByBlockHeight(blockHeight, transactionId)
+    if (txList.length > 0) {
+      transactionId = txList[txList.length - 1].transactionId
+      const page = await this.getTransactionsByBlockHeight(blockHeight, transactionId)
+      txList = [...txList, ...page]
+    }
+    return format.formatBlocktransactions(txList)
+  }
+
+  static getBlockTransactionsFromId = async (blockHeight, transactionId) => {
+    let txList = await this.getTransactionsByBlockHeight(blockHeight, transactionId)
+    return format.formatBlocktransactions(txList)
+  }
+
   static getTransactionsByBlockHeight = async (blockHeight, transactionId) => {
     transactionId = transactionId || ''
-    const pageSize = 100
+    const pageSize = 10
 
     let transactions = await http.block
-      .getBlockTransactions(blockHeight, new QueryParams(pageSize, transactionId))
+      .getBlockTransactions(UInt64.fromUint(blockHeight), new QueryParams(pageSize, transactionId))
       .toPromise()
 
     return format.formatTransactions(transactions)
@@ -55,7 +71,7 @@ class sdkBlock {
 
   static getReceiptsByBlockHeight = async blockHeight => {
     const blockReceipts = await http.receipt
-      .getBlockReceipts(blockHeight)
+      .getBlockReceipts(UInt64.fromUint(blockHeight))
       .toPromise()
 
     let transactionReceipt = blockReceipts.transactionStatements.reduce((receipt, item) => {
@@ -104,18 +120,17 @@ class sdkBlock {
   static getBlockInfoByHeightFormatted = async height => {
     let rawBlockInfo
     let formattedBlockInfo
-    let blockTransactionList
-    let formattedTransactionList
     let blockReceipt
     let formattedBalanceChangeReceipt
     let formattedBalanceTransferReceipt
     let formattedinflationReceipt
+    let lastTransactions
 
     try { rawBlockInfo = await this.getBlockInfoByHeight(height) } catch (e) { throw Error('Failed to fetch block info', e) }
 
     try { blockReceipt = await this.getReceiptsByBlockHeight(height) } catch (e) { console.warn(e) }
 
-    try { blockTransactionList = await this.getBlockFullTransactionsList(height) } catch (e) { console.warn(e) }
+    try { lastTransactions = await this.getBlockLatestTransactionsList(height) } catch (e) { console.warn(e) }
 
     if (rawBlockInfo) {
       formattedBlockInfo = {
@@ -125,17 +140,9 @@ class sdkBlock {
         difficulty: rawBlockInfo.difficulty,
         feeMultiplier: rawBlockInfo.feeMultiplier,
         totalTransactions: rawBlockInfo.numTransactions,
-        harvester: rawBlockInfo.signer?.address?.address,
+        harvester: rawBlockInfo.signer,
         blockHash: rawBlockInfo.hash
       }
-
-      formattedTransactionList = blockTransactionList?.map((el) => ({
-        deadline: el.deadline,
-        transactionHash: el.transactionHash,
-        // fee: el.fee,
-        // signer: el.signer,
-        type: el.transactionBody.type
-      }))
 
       const { artifactExpiryReceipt, balanceChangeReceipt, balanceTransferReceipt, inflationReceipt } = blockReceipt.transactionReceipt
 
@@ -167,12 +174,12 @@ class sdkBlock {
 
       return {
         blockInfo: formattedBlockInfo || {},
-        transactionList: formattedTransactionList || [],
         inflationReceipt: formattedinflationReceipt || [],
         balanceTransferReceipt: formattedBalanceTransferReceipt || [],
         balanceChangeReceipt: formattedBalanceChangeReceipt || [],
         artifactExpiryReceipt: artifactExpiryReceipt || [],
-        resolutionStatements: blockReceipt.resolutionStatements || []
+        resolutionStatements: blockReceipt.resolutionStatements || [],
+        lastTransactions: lastTransactions || []
       }
     }
   }

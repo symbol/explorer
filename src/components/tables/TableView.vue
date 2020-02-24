@@ -63,7 +63,14 @@ export default {
         'targetNamespaceId',
         'unresolved',
         'addressResolutionEntries',
-        'mosaicResolutionEntries'
+        'mosaicResolutionEntries',
+        'restrictionMosaicValues',
+        'restrictionAddressValues',
+        'referenceMosaicId',
+        'restrictionAddressAdditions',
+        'restrictionAddressDeletions',
+        'restrictionMosaicAdditions',
+        'restrictionMosaicDeletions'
       ],
       disableClickItems: [...Object.values(Constants.Message)],
       changeDecimalColor: [
@@ -73,6 +80,17 @@ export default {
         'relativeAmount',
         'feeMultiplier',
         'difficulty'
+      ],
+      allowArrayToView: [
+        'restrictionAddressValues',
+        'restrictionMosaicValues',
+        'restrictionTransactionValues',
+        'restrictionAddressAdditions',
+        'restrictionAddressDeletions',
+        'restrictionMosaicAdditions',
+        'restrictionMosaicDeletions',
+        'restrictionOperationAdditions',
+        'restrictionOperationDeletions'
       ]
     }
   },
@@ -96,7 +114,14 @@ export default {
       return this.changeDecimalColor.indexOf(itemKey) !== -1
     },
 
+    isAllowArrayToView(itemKey) {
+      return this.allowArrayToView.indexOf(itemKey) !== -1
+    },
+
     isItemShown(itemKey, item) {
+      if (this.isAllowArrayToView(itemKey))
+        return item.length !== 0
+
       return item != null
     },
 
@@ -116,6 +141,17 @@ export default {
 
     getKeyName(key) {
       return this.$store.getters['ui/getNameByKey'](key)
+    },
+
+    isTruncate(key) {
+      return key === 'harvester' ||
+        key === 'address' ||
+        key === 'signer' ||
+        key === 'recipient' ||
+        key === 'transactionHash' ||
+        key === 'owneraddress' ||
+        key === 'host' ||
+        key === 'friendlyName'
     }
   }
 }
@@ -128,8 +164,32 @@ export default {
         max-width: 100%;
         margin-bottom: 1rem;
         background-color: transparent;
-        font-size: 14px;
+        font-size: 12px;
         color: #98a8b4;
+    }
+
+    @media (max-width: 780px) {
+        .table {
+            font-size: 11px;
+        }
+    }
+
+    @media (max-width: 702px) {
+        .table {
+            font-size: 10px;
+        }
+    }
+
+    @media (max-width: 724px) {
+        .table {
+            font-size: 9px;
+        }
+    }
+
+    @media (max-width: 623px) {
+        .table {
+            font-size: 8px;
+        }
     }
 
     thead {
