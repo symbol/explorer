@@ -17,9 +17,10 @@
  */
 
 import Lock from './lock'
-import Timeline from './timeline'
+import Timeline from './timeline2'
 import Constants from '../config/constants'
 import sdkNamespace from '../infrastructure/getNamespace'
+import Vue from 'vue'
 
 const LOCK = Lock.create()
 
@@ -48,12 +49,12 @@ export default {
     getTimeline: state => state.timeline,
     getCanFetchPrevious: state => state.timeline.canFetchPrevious,
     getCanFetchNext: state => state.timeline.canFetchNext,
-    getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
+    getTimelineFormatted: (state, getters) => getters.getTimeline.data?.map(el => ({
       namespaceName: el.namespaceName,
       owneraddress: el.address,
       duration: el.duration,
       approximateExpired: el.approximateExpired
-    })),
+    })) || [],
     getLoading: state => state.loading,
     getError: state => state.error,
     getNamespaceInfo: state => state.namespaceInfo,
@@ -64,7 +65,7 @@ export default {
   },
   mutations: {
     setInitialized: (state, initialized) => { state.initialized = initialized },
-    setTimeline: (state, timeline) => { state.timeline = timeline },
+    setTimeline: (state, timeline) => { Vue.set(state, 'timeline',timeline) },
     setLoading: (state, loading) => { state.loading = loading },
     setError: (state, error) => { state.error = error },
     setNamespaceInfo: (state, info) => { state.namespaceInfo = info },
@@ -93,8 +94,13 @@ export default {
       commit('setLoading', true)
       commit('setError', false)
       try {
-        let namespaceList = await sdkNamespace.getNamespacesFromIdWithLimit(2 * Constants.PageSize)
-        commit('setTimeline', Timeline.fromData(namespaceList))
+        const initialFunction = async () => await sdkNamespace.getNamespacesFromIdWithLimit(Constants.PageSize)
+        const fetchFunction = async (key, pageSize) => await sdkNamespace.getNamespacesFromIdWithLimit(pageSize, key)
+        commit(
+          'setTimeline', 
+          await new Timeline(initialFunction, fetchFunction, 'namespaceId').initialFetch()
+        )
+        console.log("inited page")
       } catch (e) {
         console.error(e)
         commit('setError', true)
@@ -107,14 +113,8 @@ export default {
       commit('setLoading', true)
       commit('setError', false)
       const timeline = getters.getTimeline
-      const list = timeline.next
       try {
-        if (list.length === 0)
-          throw new Error('internal error: next list is 0.')
-
-        const namespace = list[list.length - 1]
-        const fetchNext = pageSize => sdkNamespace.getNamespacesFromIdWithLimit(pageSize, namespace.namespaceId)
-        commit('setTimeline', await timeline.shiftNext(fetchNext))
+        commit('setTimeline', await timeline.fetchNext())
       } catch (e) {
         console.error(e)
         commit('setError', true)
@@ -127,15 +127,8 @@ export default {
       commit('setLoading', true)
       commit('setError', false)
       const timeline = getters.getTimeline
-      const list = timeline.previous
       try {
-        if (list.length === 0)
-          throw new Error('internal error: previous list is 0.')
-
-        const namespace = list[0]
-        const fetchPrevious = pageSize => sdkNamespace.getNamespacesSinceIdWithLimit(pageSize, namespace.id)
-        const fetchLive = pageSize => sdkNamespace.getNamespacesSinceIdWithLimit(pageSize)
-        commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
+        commit('setTimeline', await timeline.fetchPrevious())
       } catch (e) {
         console.error(e)
         commit('setError', true)
@@ -147,11 +140,9 @@ export default {
     async resetPage({ commit, getters }) {
       commit('setLoading', true)
       commit('setError', false)
+      const timeline = getters.getTimeline
       try {
-        if (!getters.getTimeline.isLive) {
-          const data = await sdkNamespace.getNamespacesFromIdWithLimit(2 * Constants.PageSize)
-          commit('setTimeline', Timeline.fromData(data))
-        }
+        commit('setTimeline', await timeline.reset())
       } catch (e) {
         console.error(e)
         commit('setError', true)

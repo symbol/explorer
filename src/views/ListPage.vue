@@ -39,14 +39,11 @@
                 </template>
                 <template #body>
                     <TableListView
-                        :data="timeline"
-                    />
-                    <Pagination
-                        style="margin-top: 20px;"
-                        :canFetchPrevious="canFetchPrevious"
-                        :canFetchNext="canFetchNext"
-                        :nextPageAction="nextPageAction"
-                        :previousPageAction="previousPageAction"
+                        :data="data"
+                        :timeline="timeline"
+                        :timelinePagination="true"
+                        :timelineNextAction="nextPageAction"
+                        :timelinePreviousAction="previousPageAction"
                     />
                 </template>
 
@@ -95,12 +92,12 @@ export default {
     }
   },
 
-  mounted() {
-    this.$store.dispatch(this.resetPageAction)
-  },
-
   computed: {
     timeline() {
+      return this.$store.getters[this.storeNamespace + '/getTimeline']
+    },
+
+    data() {
       const timeline = this.$store.getters[this.storeNamespace + '/getTimelineFormatted']
 
       if (this.$store.getters['ui/isMobile'] && this.mobileColumns) {

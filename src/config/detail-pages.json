@@ -119,7 +119,7 @@
                         "body": "TableListView",
                         "dataGetter": "block/blockTransactionList",
                         "timelineGetter": "block/blockTransactionsTimeline",
-                        "timelinePagination": true,
+                        "timelinePagination": false,
                         "timelineNextAction": "block/timelineTransactionsNext",
                         "timelinePreviousAction": "block/timelineTransactionsPrevious",
                         "loadingGetter": "block/blockInfoLoading"
