@@ -213,7 +213,7 @@ export default {
         else
           this.pageIndex--
       }
-    },
+    }
   },
 
   watch: {
