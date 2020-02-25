@@ -30,7 +30,7 @@
                                 class="social-icon-item"
                             >
                                 <a target="_blank" :href="item.href">
-                                    <component :is="item.classname" />
+                                    <component :is="item.icon" />
                                     <span>{{item.text}}</span>
                                 </a>
                             </li>
@@ -56,6 +56,7 @@ import IconNewspaper from 'vue-material-design-icons/Newspaper.vue'
 import IconReddit from 'vue-material-design-icons/Reddit.vue'
 import IconForum from 'vue-material-design-icons/Forum.vue'
 import IconTelegram from 'vue-material-design-icons/Telegram.vue'
+import IconHomeCurrencyUsd from 'vue-material-design-icons/HomeCurrencyUsd.vue'
 
 export default {
   components: {
@@ -67,39 +68,14 @@ export default {
     IconNewspaper,
     IconReddit,
     IconForum,
-    IconTelegram
+    IconTelegram,
+    IconHomeCurrencyUsd
   },
 
   data() {
     return {
       loading: 1,
-      items: [
-        {
-          href: 'https://nemflash.io/',
-          text: 'NEM News',
-          classname: 'IconNewspaper'
-        },
-        {
-          href: 'https://forum.nem.io/',
-          text: 'Forum',
-          classname: 'IconForum'
-        },
-        {
-          href: 'https://t.me/nemred',
-          text: 'Telegram',
-          classname: 'IconTelegram'
-        },
-        {
-          href: 'https://www.reddit.com/r/nem/',
-          text: 'Reddit',
-          classname: 'IconReddit'
-        },
-        {
-          href: 'https://github.com/nemtech',
-          text: 'Github',
-          classname: 'IconGithub'
-        }
-      ]
+      items: globalConfig.footer.link
     }
   }
 }

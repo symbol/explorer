@@ -141,6 +141,7 @@ const createTransactionFromDTO = (transactionDTO, networkType) =>
 const createNodeInfoFromDTO = (nodeInfoDTO, networkType) =>
   new nem.NodeInfo(
     nodeInfoDTO.publicKey,
+    nodeInfoDTO.networkGenerationHash,
     nodeInfoDTO.port,
     nodeInfoDTO.networkIdentifier,
     nodeInfoDTO.version,
