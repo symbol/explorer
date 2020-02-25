@@ -24,6 +24,7 @@ yarn-error.log*
 # Custom config files.
 src/config/endpoints.json
 src/config/peers-api.json
+src/config/setup.json
 
 # e2e screenshots
 e2e/screenshots/*
