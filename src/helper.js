@@ -143,6 +143,18 @@ class helper {
       expiredInSecond: this.convertToSecond(expiredInBlock)
     }
   }
+
+  static fetchData = async (fetchFunction, commit) => {
+    commit('setLoading', true)
+    commit('setError', false)
+    try {
+      await fetchFunction()
+    } catch (e) {
+      console.error(e)
+      commit('setError', true)
+    }
+    commit('setLoading', false)
+  }
 }
 
 export default helper

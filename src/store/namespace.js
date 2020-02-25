@@ -21,6 +21,7 @@ import Timeline from './timeline2'
 import Constants from '../config/constants'
 import sdkNamespace from '../infrastructure/getNamespace'
 import Vue from 'vue'
+import helper from '../helper'
 
 const LOCK = Lock.create()
 
@@ -91,49 +92,71 @@ export default {
 
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit }) {
-      commit('setLoading', true)
-      commit('setError', false)
-      try {
-        const initialFunction = async () => await sdkNamespace.getNamespacesFromIdWithLimit(Constants.PageSize)
-        const fetchFunction = async (key, pageSize) => await sdkNamespace.getNamespacesFromIdWithLimit(pageSize, key)
-        commit(
-          'setTimeline', 
-          await new Timeline(initialFunction, fetchFunction, 'namespaceId').initialFetch()
-        )
-        console.log("inited page")
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
+      await helper.fetchData(async () => {
+          const initialFunction = async () => await sdkNamespace.getNamespacesFromIdWithLimit(Constants.PageSize)
+          const fetchFunction = async (key, pageSize) => await sdkNamespace.getNamespacesFromIdWithLimit(pageSize, key)
+          commit(
+            'setTimeline', 
+            await new Timeline(initialFunction, fetchFunction, 'namespaceId').initialFetch()
+          )
+          return;
+        },
+        commit
+      )
+      // commit('setLoading', true)
+      // commit('setError', false)
+      // try {
+      //   const initialFunction = async () => await sdkNamespace.getNamespacesFromIdWithLimit(Constants.PageSize)
+      //   const fetchFunction = async (key, pageSize) => await sdkNamespace.getNamespacesFromIdWithLimit(pageSize, key)
+      //   commit(
+      //     'setTimeline', 
+      //     await new Timeline(initialFunction, fetchFunction, 'namespaceId').initialFetch()
+      //   )
+      // } catch (e) {
+      //   console.error(e)
+      //   commit('setError', true)
+      // }
+      // commit('setLoading', false)
     },
 
     // Fetch the next page of data.
     async fetchNextPage({ commit, getters }) {
-      commit('setLoading', true)
-      commit('setError', false)
-      const timeline = getters.getTimeline
-      try {
-        commit('setTimeline', await timeline.fetchNext())
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
+      await helper.fetchData(async () => {
+          const timeline = getters.getTimeline
+          commit('setTimeline', await timeline.fetchNext())
+        },
+        commit
+      )
+      // commit('setLoading', true)
+      // commit('setError', false)
+      // const timeline = getters.getTimeline
+      // try {
+      //   commit('setTimeline', await timeline.fetchNext())
+      // } catch (e) {
+      //   console.error(e)
+      //   commit('setError', true)
+      // }
+      // commit('setLoading', false)
     },
 
     // Fetch the previous page of data.
     async fetchPreviousPage({ commit, getters }) {
-      commit('setLoading', true)
-      commit('setError', false)
-      const timeline = getters.getTimeline
-      try {
-        commit('setTimeline', await timeline.fetchPrevious())
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
+      await helper.fetchData(async () => {
+          const timeline = getters.getTimeline
+          commit('setTimeline', await timeline.fetchPrevious())
+        },
+        commit
+      )
+      // commit('setLoading', true)
+      // commit('setError', false)
+      // const timeline = getters.getTimeline
+      // try {
+      //   commit('setTimeline', await timeline.fetchPrevious())
+      // } catch (e) {
+      //   console.error(e)
+      //   commit('setError', true)
+      // }
+      // commit('setLoading', false)
     },
 
     // Reset the namespace page to the latest list (index 0)
