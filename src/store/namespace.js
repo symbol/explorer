@@ -103,20 +103,6 @@ export default {
         },
         commit
       )
-      // commit('setLoading', true)
-      // commit('setError', false)
-      // try {
-      //   const initialFunction = async () => await sdkNamespace.getNamespacesFromIdWithLimit(Constants.PageSize)
-      //   const fetchFunction = async (key, pageSize) => await sdkNamespace.getNamespacesFromIdWithLimit(pageSize, key)
-      //   commit(
-      //     'setTimeline', 
-      //     await new Timeline(initialFunction, fetchFunction, 'namespaceId').initialFetch()
-      //   )
-      // } catch (e) {
-      //   console.error(e)
-      //   commit('setError', true)
-      // }
-      // commit('setLoading', false)
     },
 
     // Fetch the next page of data.
@@ -127,16 +113,6 @@ export default {
         },
         commit
       )
-      // commit('setLoading', true)
-      // commit('setError', false)
-      // const timeline = getters.getTimeline
-      // try {
-      //   commit('setTimeline', await timeline.fetchNext())
-      // } catch (e) {
-      //   console.error(e)
-      //   commit('setError', true)
-      // }
-      // commit('setLoading', false)
     },
 
     // Fetch the previous page of data.
@@ -147,30 +123,16 @@ export default {
         },
         commit
       )
-      // commit('setLoading', true)
-      // commit('setError', false)
-      // const timeline = getters.getTimeline
-      // try {
-      //   commit('setTimeline', await timeline.fetchPrevious())
-      // } catch (e) {
-      //   console.error(e)
-      //   commit('setError', true)
-      // }
-      // commit('setLoading', false)
     },
 
     // Reset the namespace page to the latest list (index 0)
     async resetPage({ commit, getters }) {
-      commit('setLoading', true)
-      commit('setError', false)
-      const timeline = getters.getTimeline
-      try {
-        commit('setTimeline', await timeline.reset())
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
+      await helper.fetchData(async () => {
+          const timeline = getters.getTimeline
+          commit('setTimeline', await timeline.reset())
+        },
+        commit
+      )
     },
 
     // Fetch data from the SDK.
