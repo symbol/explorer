@@ -139,7 +139,7 @@ class Constants {
   static RoleType = {
     [RoleType.ApiNode]: 'API NODE',
     [RoleType.PeerNode]: 'PEER NODE',
-    3: 'DUAL NODE'
+    [RoleType.DualNode]: 'DUAL NODE'
   }
 
   static AccountRestrictionFlags = {
