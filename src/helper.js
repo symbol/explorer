@@ -144,7 +144,7 @@ class helper {
     }
   }
 
-  static fetchData = async (fetchFunction, commit, before, success, error) => {
+  static fetchData = async (fetchFunction, commit, before, error, success) => {
     if(typeof before === 'function')
       await before()
     else {
