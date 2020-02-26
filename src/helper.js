@@ -144,16 +144,27 @@ class helper {
     }
   }
 
-  static fetchData = async (fetchFunction, commit) => {
-    commit('setLoading', true)
-    commit('setError', false)
+  static fetchData = async (fetchFunction, commit, before, success, error) => {
+    if(typeof before === 'function')
+      await before()
+    else {
+      commit('setLoading', true)
+      commit('setError', false)
+    }
     try {
       await fetchFunction()
     } catch (e) {
-      console.error(e)
-      commit('setError', true)
+      if(typeof error === 'function')
+        await error(e)
+      else {
+        console.error(e)
+        commit('setError', true)
+      }
     }
-    commit('setLoading', false)
+    if(typeof success === 'function')
+      await success()
+    else
+      commit('setLoading', false)
   }
 }
 

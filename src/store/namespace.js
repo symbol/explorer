@@ -99,7 +99,6 @@ export default {
             'setTimeline', 
             await new Timeline(initialFunction, fetchFunction, 'namespaceId').initialFetch()
           )
-          return;
         },
         commit
       )
