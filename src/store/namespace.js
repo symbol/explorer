@@ -66,7 +66,7 @@ export default {
   },
   mutations: {
     setInitialized: (state, initialized) => { state.initialized = initialized },
-    setTimeline: (state, timeline) => { Vue.set(state, 'timeline',timeline) },
+    setTimeline: (state, timeline) => { Vue.set(state, 'timeline', timeline) },
     setLoading: (state, loading) => { state.loading = loading },
     setError: (state, error) => { state.error = error },
     setNamespaceInfo: (state, info) => { state.namespaceInfo = info },
@@ -93,44 +93,44 @@ export default {
     // Fetch data from the SDK and initialize the page.
     async initializePage({ commit }) {
       await helper.fetchData(async () => {
-          const initialFunction = async () => await sdkNamespace.getNamespacesFromIdWithLimit(Constants.PageSize)
-          const fetchFunction = async (key, pageSize) => await sdkNamespace.getNamespacesFromIdWithLimit(pageSize, key)
-          commit(
-            'setTimeline', 
-            await new Timeline(initialFunction, fetchFunction, 'namespaceId').initialFetch()
-          )
-        },
-        commit
+        const initialFunction = () => sdkNamespace.getNamespacesFromIdWithLimit(Constants.PageSize)
+        const fetchFunction = (key, pageSize) => sdkNamespace.getNamespacesFromIdWithLimit(pageSize, key)
+        commit(
+          'setTimeline',
+          await new Timeline(initialFunction, fetchFunction, 'namespaceId').initialFetch()
+        )
+      },
+      commit
       )
     },
 
     // Fetch the next page of data.
     async fetchNextPage({ commit, getters }) {
       await helper.fetchData(async () => {
-          const timeline = getters.getTimeline
-          commit('setTimeline', await timeline.fetchNext())
-        },
-        commit
+        const timeline = getters.getTimeline
+        commit('setTimeline', await timeline.fetchNext())
+      },
+      commit
       )
     },
 
     // Fetch the previous page of data.
     async fetchPreviousPage({ commit, getters }) {
       await helper.fetchData(async () => {
-          const timeline = getters.getTimeline
-          commit('setTimeline', await timeline.fetchPrevious())
-        },
-        commit
+        const timeline = getters.getTimeline
+        commit('setTimeline', await timeline.fetchPrevious())
+      },
+      commit
       )
     },
 
     // Reset the namespace page to the latest list (index 0)
     async resetPage({ commit, getters }) {
       await helper.fetchData(async () => {
-          const timeline = getters.getTimeline
-          commit('setTimeline', await timeline.reset())
-        },
-        commit
+        const timeline = getters.getTimeline
+        commit('setTimeline', await timeline.reset())
+      },
+      commit
       )
     },
 

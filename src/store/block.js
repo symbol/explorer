@@ -281,15 +281,14 @@ export default {
         commit('artifactExpiryReceipt', blockInfo.artifactExpiryReceipt)
         commit('resolutionStatement', blockInfo.resolutionStatements)
         await helper.fetchData(async () => {
-            const initialFunction = async () => await sdkBlock.getBlockTransactionsFromIdSmall(blockInfo.blockInfo.height)
-            const fetchFunction = async (key) => await sdkBlock.getBlockTransactionsFromIdSmall(blockInfo.blockInfo.height, key)
-            console.log("yl", await new Timeline2(initialFunction, fetchFunction, 'transactionId', 10).initialFetch())
-            commit(
-              'blockTransactionsTimeline', 
-              await new Timeline2(initialFunction, fetchFunction, 'transactionId', 10).initialFetch()
-            )
-          },
-          commit
+          const initialFunction = () => sdkBlock.getBlockTransactionsFromIdSmall(blockInfo.blockInfo.height)
+          const fetchFunction = (key) => sdkBlock.getBlockTransactionsFromIdSmall(blockInfo.blockInfo.height, key)
+          commit(
+            'blockTransactionsTimeline',
+            await new Timeline2(initialFunction, fetchFunction, 'transactionId', 10).initialFetch()
+          )
+        },
+        commit
         )
       }
 
@@ -316,36 +315,21 @@ export default {
     // Fetch the next page of data.
     async timelineTransactionsNext({ commit, getters }) {
       await helper.fetchData(async () => {
-          const timeline = getters.blockTransactionsTimeline
-          commit('blockTransactionsTimeline', await timeline.fetchNext())
-        },
-        commit, () => {}, () => {}, () => {}
+        const timeline = getters.blockTransactionsTimeline
+        commit('blockTransactionsTimeline', await timeline.fetchNext())
+      },
+      commit, () => {}, () => {}, () => {}
       )
     },
 
     // Fetch the previous page of data.
     async timelineTransactionsPrevious({ commit, getters }) {
       await helper.fetchData(async () => {
-          const timeline = getters.blockTransactionsTimeline
-          commit('blockTransactionsTimeline', await timeline.fetchPrevious())
-        },
-        commit, () => {}, () => {}, () => {}
+        const timeline = getters.blockTransactionsTimeline
+        commit('blockTransactionsTimeline', await timeline.fetchPrevious())
+      },
+      commit, () => {}, () => {}, () => {}
       )
-      // const timeline = getters.blockTransactionsTimeline
-      // const list = timeline.previous
-      // try {
-      //   if (list.length === 0)
-      //     throw new Error('internal error: previous list is 0.')
-
-      //   const transaction = list[0]
-      //   const fetchPrevious = () => sdkBlock.getBlockTransactionsFromId(getters.currentBlockHeight, transaction.transactionId)
-      //   const fetchLive = () => sdkBlock.getBlockLatestTransactionsList(getters.currentBlockHeight)
-      //   commit('blockTransactionsTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
-      // } catch (e) {
-      //   console.error(e)
-      //   // commit('setError', true)
-      // }
-      // // commit('setLoading', false)
     }
   }
 }

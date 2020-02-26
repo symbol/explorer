@@ -33,7 +33,6 @@ class sdkBlock {
     return format.formatBlock(blockInfo)
   }
 
-
   static getBlockTransactionsFromIdSmall = async (blockHeight, transactionId) => {
     let txList = await this.getTransactionsByBlockHeight(blockHeight, transactionId)
     return format.formatBlocktransactions(txList)
@@ -109,7 +108,6 @@ class sdkBlock {
     try { rawBlockInfo = await this.getBlockInfoByHeight(height) } catch (e) { throw Error('Failed to fetch block info', e) }
 
     try { blockReceipt = await this.getReceiptsByBlockHeight(height) } catch (e) { console.warn(e) }
-
 
     if (rawBlockInfo) {
       formattedBlockInfo = {
