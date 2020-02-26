@@ -36,6 +36,7 @@ export default class Timeline2 {
         this.next = [];
         this.index = 0;
         this.keys = [];
+        this.isLoading = false;
     }
 
     static empty() {
@@ -50,6 +51,7 @@ export default class Timeline2 {
     }
 
     async initialFetch() {
+        this.isLoading = true;
         this.index = 0;
         this.keys = [];
         this.data = await this.initialFuntion(this.pageSize);
@@ -60,16 +62,17 @@ export default class Timeline2 {
             this.keys.push(key)
             this.createNewKey();
         }
-        return this;
+        this.isLoading = false;
 
+        return this;
     }
 
     get canFetchPrevious() {
-        return this.index > 0
+        return this.index > 0 && this.isLoading === false;
     }
 
     get canFetchNext() {
-        return this.next?.length > 0
+        return this.next?.length > 0 && this.isLoading === false;
     }
 
     get nextKeyValue() {
@@ -97,26 +100,42 @@ export default class Timeline2 {
 
     async fetchNext() {
         if(this.canFetchNext) {
+            this.isLoading = true;
             this.data = [].concat.apply([], this.next);
-            this.next = await this.fetchFunction(this.nextKeyValue, this.pageSize);
+            try {
+                this.next = await this.fetchFunction(this.nextKeyValue, this.pageSize);
+            }
+            catch(e) {
+                this.isLoading = false;
+                throw e;
+            }
             this.createNewKey();
             this.index ++;
         }
         else
             console.error("Timeline cannot fetch next")
+        this.isLoading = false;
 
         return this;
     }
 
     async fetchPrevious() {
         if(this.canFetchPrevious) {
+            this.isLoading = true;
             this.next = [].concat.apply([], this.data);
-            this.data = await this.fetchFunction(this.previousKeyValue, this.pageSize);
+            try {   
+                this.data = await this.fetchFunction(this.previousKeyValue, this.pageSize);
+            }
+            catch(e) {
+                this.isLoading = false;
+                throw e;
+            }
             this.keys.pop();
             this.index --;
         }
         else
             return await this.initialFetch();
+        this.isLoading = false;
 
         return this;
     }
