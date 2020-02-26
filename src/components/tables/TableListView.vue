@@ -57,17 +57,20 @@
           </tr>
         </tbody>
       </table>
-      <div v-if="pagination || timelinePagination" class="pagination-wrapper">
+      <div v-if="pagination || timelinePagination" class="bottom">
         <div v-if="pagination">{{ pageIndex + 1 }}/{{ lastPage }}</div>
         <div v-else>{{ timeline.index + 1 }}/..</div>
-        <Pagination
-          :canFetchPrevious="prevPageExist"
-          :canFetchNext="nextPageExist"
-          :goUp="false"
-          class="pagination"
-          @next="nextPage"
-          @previous="prevPage"
-        />
+          <div class="pagination-wrapper">
+            <Pagination
+              :canFetchPrevious="prevPageExist"
+              :canFetchNext="nextPageExist"
+              :goUp="false"
+              class="pagination"
+              @next="nextPage"
+              @previous="prevPage"
+            />
+            <Loading small v-if="paginationLoading" />
+        </div>
       </div>
     </div>
     <div v-else class="empty-data">{{emptyDataMessageFormatted}}</div>
@@ -82,10 +85,12 @@ import Pagination from '../controls/Pagination.vue'
 import Decimal from '../Decimal.vue'
 import Truncate from '../Truncate.vue'
 import TransactionDirection from '../TransactionDirection.vue'
+import Loading from '@/components/Loading.vue'
+
 export default {
   extends: TableView,
 
-  components: { Modal, AggregateTransaction, Pagination, Decimal, Truncate, TransactionDirection },
+  components: { Modal, AggregateTransaction, Pagination, Decimal, Truncate, TransactionDirection, Loading },
 
   props: {
     data: {
@@ -171,6 +176,10 @@ export default {
 
     dataIsNotEmpty() {
       return this.data.length
+    },
+
+    paginationLoading() {
+      return this.timeline?.isLoading === true
     }
   },
 
@@ -228,19 +237,20 @@ export default {
 .table-view {
     overflow: auto;
 
-    .table-pagination {
-        float: right;
-    }
-
-    .pagination-wrapper {
+    .bottom {
         display: flex;
         justify-content: flex-end;
         align-items: center;
         color: #393939;
 
-        .pagination {
-            margin: 0;
-            margin-left: 10px;
+        .pagination-wrapper {
+            position: relative;
+            display: flex;
+
+            .pagination {
+                margin: 0;
+                margin-left: 10px;
+            }
         }
     }
 }
