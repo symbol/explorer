@@ -11,7 +11,10 @@ import {
   ReceiptType,
   ResolutionType,
   RoleType,
-  Deadline
+  Deadline,
+  AccountRestrictionFlags,
+  MosaicRestrictionEntryType,
+  MosaicRestrictionType
 } from 'nem2-sdk'
 
 class Constants {
@@ -29,15 +32,15 @@ class Constants {
   }
 
   static NetworkConfig = {
-    MOSAIC_RENTAL_FEE_SINK_ADDRESS: 'TB65QSXGV5FUTRPVMSCVB4RZ7FJLU32LHOOP4MDI',
-    NAMESPACE_RENTAL_FEE_SINK_ADDRESS: 'TB65QSXGV5FUTRPVMSCVB4RZ7FJLU32LHOOP4MDI',
-    NAMESPACE: ['NEM', 'NEM.XEM'],
-    NATIVE_MOSAIC_HEX: '75AF035421401EF0',
-    NATIVE_MOSAIC_DIVISIBILITY: 6,
-    NETWORKTYPE: NetworkType.TEST_NET,
+    MOSAIC_RENTAL_FEE_SINK_ADDRESS: globalConfig.networkConfig.MosaicRentalSinkAddress,
+    NAMESPACE_RENTAL_FEE_SINK_ADDRESS: globalConfig.networkConfig.NamespaceRentalSinkAddress,
+    NAMESPACE: globalConfig.networkConfig.Namespace,
+    NATIVE_MOSAIC_HEX: globalConfig.networkConfig.NativeMosaicHex,
+    NATIVE_MOSAIC_DIVISIBILITY: globalConfig.networkConfig.NativeMosaicDivisibility,
+    NETWORKTYPE: NetworkType[globalConfig.networkConfig.NetworkType],
     NEMESIS_TIMESTAMP: Deadline.timestampNemesisBlock,
-    TARGET_BLOCK_TIME: 15,
-    NAMESPACE_GRACE_PERIOD_DURATION: 172800
+    TARGET_BLOCK_TIME: globalConfig.networkConfig.TargetBlockTime,
+    NAMESPACE_GRACE_PERIOD_DURATION: globalConfig.networkConfig.NamespaceGraceDuration
   }
 
   static TransactionType = {
@@ -136,7 +139,35 @@ class Constants {
   static RoleType = {
     [RoleType.ApiNode]: 'API NODE',
     [RoleType.PeerNode]: 'PEER NODE',
-    3: 'DUAL NODE'
+    [RoleType.DualNode]: 'DUAL NODE'
+  }
+
+  static AccountRestrictionFlags = {
+    [AccountRestrictionFlags.AllowIncomingAddress]: 'Allow Incoming Address',
+    [AccountRestrictionFlags.AllowMosaic]: 'Allow Mosaic',
+    [AccountRestrictionFlags.AllowIncomingTransactionType]: 'Allow Incoming Transaction',
+    [AccountRestrictionFlags.AllowOutgoingAddress]: 'Allow Outgoing Address',
+    [AccountRestrictionFlags.AllowOutgoingTransactionType]: 'Allow Outgoing Transaction',
+    [AccountRestrictionFlags.BlockIncomingAddress]: 'Block Incoming Address',
+    [AccountRestrictionFlags.BlockMosaic]: 'Block Mosaic',
+    [AccountRestrictionFlags.BlockIncomingTransactionType]: 'Block IncomingT Transaction',
+    [AccountRestrictionFlags.BlockOutgoingAddress]: 'Block Outgoing Address',
+    [AccountRestrictionFlags.BlockOutgoingTransactionType]: 'Block Outgoing Transaction'
+  }
+
+  static MosaicRestrictionEntryType = {
+    [MosaicRestrictionEntryType.ADDRESS]: 'Mosaic address restriction',
+    [MosaicRestrictionEntryType.GLOBAL]: 'Mosaic global restriction'
+  }
+
+  static MosaicRestrictionType = {
+    [MosaicRestrictionType.EQ]: 'Allow Equal',
+    [MosaicRestrictionType.GE]: 'Allow Greater Than Or Equal',
+    [MosaicRestrictionType.GT]: 'Allow Greater Than',
+    [MosaicRestrictionType.LE]: 'Allow Less Than Or Equal',
+    [MosaicRestrictionType.LT]: 'Allow Less Than',
+    [MosaicRestrictionType.NE]: 'Allow Not Equal',
+    [MosaicRestrictionType.NONE]: 'No Restriction'
   }
 }
 
