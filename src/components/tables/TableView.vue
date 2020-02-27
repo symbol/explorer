@@ -168,30 +168,6 @@ export default {
         color: #98a8b4;
     }
 
-    @media (max-width: 780px) {
-        .table {
-            font-size: 11px;
-        }
-    }
-
-    @media (max-width: 702px) {
-        .table {
-            font-size: 10px;
-        }
-    }
-
-    @media (max-width: 724px) {
-        .table {
-            font-size: 9px;
-        }
-    }
-
-    @media (max-width: 623px) {
-        .table {
-            font-size: 8px;
-        }
-    }
-
     thead {
         background-color: rgba(52, 40, 104, 0.05);
         border-radius: 4px;

@@ -24,7 +24,7 @@ import http from './http'
 import format from '../format'
 import sdkBlock from '../infrastructure/getBlock'
 import sdkMosaic from './getMosaic'
-import { Constants } from '../config'
+
 const QueryParams = nem.QueryParams // Travis patch
 const Address = nem.Address // Travis patch
 
@@ -201,8 +201,10 @@ class sdkTransaction {
 
       transactionBody = transactionInfo.transaction?.transactionBody
 
+      let { transactionType, ...detail } = transactionBody
+
       if (transactionBody) {
-        switch (transactionBody.transactionType) {
+        switch (transactionType) {
         case nem.TransactionType.TRANSFER:
           formattedTransactionDetail = {
             transactionType: transactionBody.type,
@@ -220,61 +222,25 @@ class sdkTransaction {
           break
 
         case nem.TransactionType.NAMESPACE_REGISTRATION:
-          formattedTransactionDetail = {
-            transactionType: transactionBody.type,
-            recipient: transactionBody.recipient,
-            registrationType: transactionBody.registrationType,
-            namespaceName: transactionBody.namespaceName,
-            namespaceId: transactionBody.namespaceId,
-            parentId: transactionBody.parentId,
-            duration: transactionBody.duration
-          }
-          break
-
         case nem.TransactionType.ADDRESS_ALIAS:
-          formattedTransactionDetail = {
-            transactionType: transactionBody.type,
-            aliasAction: transactionBody.aliasAction,
-            namespaceId: transactionBody.namespaceId
-          }
-          break
-
         case nem.TransactionType.MOSAIC_ALIAS:
-          formattedTransactionDetail = {
-            transactionType: transactionBody.type,
-            aliasAction: transactionBody.aliasAction,
-            namespaceId: transactionBody.namespaceId,
-            mosaicId: transactionBody.mosaicId
-          }
-          break
-
         case nem.TransactionType.MOSAIC_DEFINITION:
-          formattedTransactionDetail = {
-            transactionType: transactionBody.type,
-            recipient: transactionBody.recipient,
-            mosaicId: transactionBody.mosaicId,
-            divisibility: transactionBody.divisibility,
-            duration: transactionBody.duration,
-            nonce: transactionBody.nonce,
-            supplyMutable: transactionBody.supplyMutable,
-            transferable: transactionBody.transferable,
-            restrictable: transactionBody.restrictable
-          }
-          break
-
         case nem.TransactionType.MOSAIC_SUPPLY_CHANGE:
-          formattedTransactionDetail = {
-            transactionType: transactionBody.type,
-            mosaicId: transactionBody.mosaicId,
-            action: transactionBody.action,
-            delta: transactionBody.delta
-          }
-          break
-
         case nem.TransactionType.MULTISIG_ACCOUNT_MODIFICATION:
-          formattedTransactionDetail = {
-            transactionType: transactionBody.type
-          }
+        case nem.TransactionType.HASH_LOCK:
+        case nem.TransactionType.SECRET_LOCK:
+        case nem.TransactionType.SECRET_PROOF:
+        case nem.TransactionType.ACCOUNT_ADDRESS_RESTRICTION:
+        case nem.TransactionType.ACCOUNT_MOSAIC_RESTRICTION:
+        case nem.TransactionType.ACCOUNT_OPERATION_RESTRICTION:
+        case nem.TransactionType.ACCOUNT_LINK:
+        case nem.TransactionType.MOSAIC_ADDRESS_RESTRICTION:
+        case nem.TransactionType.MOSAIC_GLOBAL_RESTRICTION:
+        case nem.TransactionType.ACCOUNT_METADATA:
+        case nem.TransactionType.MOSAIC_METADATA:
+        case nem.TransactionType.NAMESPACE_METADATA:
+          formattedTransactionDetail = detail
+
           break
 
         case nem.TransactionType.AGGREGATE_COMPLETE:
@@ -322,128 +288,6 @@ class sdkTransaction {
           }
 
           break
-
-        case nem.TransactionType.HASH_LOCK:
-          formattedTransactionDetail = {
-            transactionType: transactionBody.type,
-            duration: transactionBody.duration,
-            mosaicId: transactionBody.mosaicId,
-            amount: transactionBody.amount
-          }
-          break
-
-        case nem.TransactionType.SECRET_LOCK:
-          formattedTransactionDetail = {
-            transactionType: transactionBody.type,
-            duration: transactionBody.duration,
-            mosaicId: transactionBody.mosaicId,
-            secret: transactionBody.secret,
-            recipient: transactionBody.recipient,
-            hashType: transactionBody.hashType
-          }
-          break
-
-        case nem.TransactionType.SECRET_PROOF:
-          formattedTransactionDetail = {
-            transactionType: transactionBody.type,
-            hashType: Constants.HashType[transactionBody.hashType],
-            recipient: transactionBody.recipient,
-            secret: transactionBody.secret,
-            proof: transactionBody.proof
-          }
-          break
-
-        case nem.TransactionType.ACCOUNT_ADDRESS_RESTRICTION:
-          formattedTransactionDetail = {
-            transactionType: transactionBody.type,
-            restrictionType: transactionBody.restrictionType,
-            restrictionAddressAdditions: transactionBody.restrictionAddressAdditions,
-            restrictionAddressDeletions: transactionBody.restrictionAddressDeletions
-          }
-          break
-
-        case nem.TransactionType.ACCOUNT_MOSAIC_RESTRICTION:
-          formattedTransactionDetail = {
-            transactionType: transactionBody.type,
-            restrictionType: transactionBody.restrictionType,
-            restrictionMosaicAdditions: transactionBody.restrictionMosaicAdditions,
-            restrictionMosaicDeletions: transactionBody.restrictionMosaicDeletions
-          }
-          break
-
-        case nem.TransactionType.ACCOUNT_OPERATION_RESTRICTION:
-          formattedTransactionDetail = {
-            transactionType: transactionBody.type,
-            restrictionType: transactionBody.restrictionType,
-            restrictionOperationAdditions: transactionBody.restrictionOperationAdditions,
-            restrictionOperationDeletions: transactionBody.restrictionOperationDeletions
-          }
-          break
-
-        case nem.TransactionType.ACCOUNT_LINK:
-          formattedTransactionDetail = {
-            transactionType: transactionBody.type,
-            linkAction: transactionBody.linkAction,
-            remoteAccountPublicKey: transactionBody.remoteAccountPublicKey,
-            remoteAccountAddress: transactionBody.remoteAccountAddress
-          }
-          break
-
-        case nem.TransactionType.MOSAIC_ADDRESS_RESTRICTION:
-          formattedTransactionDetail = {
-            transactionType: transactionBody.type,
-            mosaicId: transactionBody.mosaicId,
-            restrictionKey: transactionBody.restrictionKey,
-            targetAddress: transactionBody.targetAddress,
-            previousRestrictionValue: transactionBody.previousRestrictionValue,
-            newRestrictionValue: transactionBody.newRestrictionValue
-          }
-          break
-
-        case nem.TransactionType.MOSAIC_GLOBAL_RESTRICTION:
-          formattedTransactionDetail = {
-            transactionType: transactionBody.type,
-            referenceMosaicId: transactionBody.referenceMosaicId,
-            restrictionKey: transactionBody.restrictionKey,
-            previousRestrictionType: transactionBody.previousRestrictionType,
-            previousRestrictionValue: transactionBody.previousRestrictionValue,
-            newRestrictionType: transactionBody.newRestrictionType,
-            newRestrictionValue: transactionBody.newRestrictionValue
-          }
-          break
-
-        case nem.TransactionType.ACCOUNT_METADATA:
-          formattedTransactionDetail = {
-            transactionType: transactionBody.type,
-            scopedMetadataKey: transactionBody.scopedMetadataKey,
-            targetAddress: transactionBody.targetAddress,
-            metadataValue: transactionBody.metadataValue,
-            valueSizeDelta: transactionBody.valueSizeDelta
-          }
-          break
-
-        case nem.TransactionType.MOSAIC_METADATA:
-          formattedTransactionDetail = {
-            transactionType: transactionBody.type,
-            scopedMetadataKey: transactionBody.scopedMetadataKey,
-            targetMosaicId: transactionBody.targetMosaicId,
-            targetAddress: transactionBody.targetAddress,
-            metadataValue: transactionBody.metadataValue,
-            valueSizeDelta: transactionBody.valueSizeDelta
-          }
-          break
-
-        case nem.TransactionType.NAMESPACE_METADATA:
-          formattedTransactionDetail = {
-            transactionType: transactionBody.type,
-            scopedMetadataKey: transactionBody.scopedMetadataKey,
-            targetNamespaceId: transactionBody.targetNamespaceId,
-            targetAddress: transactionBody.targetAddress,
-            metadataValue: transactionBody.metadataValue,
-            valueSizeDelta: transactionBody.valueSizeDelta
-          }
-          break
-
         default:
           break
         }
