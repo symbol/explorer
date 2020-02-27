@@ -29,11 +29,11 @@ export default {
   state: {
     // If the global state has been initialized.
     initialized: false,
-    nodes: [...PEERS_API.nodes],
-    defaultNode: helper.parseUrl(PEERS_API.defaultNode),
-    currentNode: helper.parseUrl(PEERS_API.defaultNode),
-    wsEndpoint: PEERS_API.defaultNode |> helper.httpToWsUrl,
-    marketData: helper.parseUrl(ENDPOINTS.MARKET_DATA)
+    nodes: [...globalConfig.peersApi.nodes],
+    defaultNode: helper.parseUrl(globalConfig.peersApi.defaultNode),
+    currentNode: helper.parseUrl(globalConfig.peersApi.defaultNode),
+    wsEndpoint: globalConfig.peersApi.defaultNode |> helper.httpToWsUrl,
+    marketData: helper.parseUrl(globalConfig.endpoints.marketData)
   },
 
   getters: {
