@@ -199,10 +199,9 @@ class sdkAccount {
       formattedNamespaceList = namespaceList.map(
         el => ({
           namespaceName: el.namespaceName,
-          registrationType: el.type,
+          registrationType: el.registrationType,
           status: el.active,
-          startHeight: el.startHeight,
-          endHeight: el.endHeight
+          duration: el.duration
         })
       )
     }

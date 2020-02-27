@@ -430,66 +430,6 @@ const formatTransactionBody = transactionBody => {
   }
 }
 
-// FORMAT NAMESPACES
-const formatNamespaces = namespacesInfo =>
-  namespacesInfo
-    .filter((ns, index, namespaces) => {
-      for (let i = 0; i < index; i += 1)
-        if (ns === namespaces[i]) return false
-
-      return true
-    })
-    .sort((a, b) => {
-      const nameA = a.namespaceInfo.metaId
-      const nameB = b.namespaceInfo.metaId
-      if (nameA < nameB)
-        return -1
-
-      if (nameA > nameB)
-        return 1
-
-      return 0
-    })
-    .map((ns, index, original) => {
-      const name = ns.namespaceInfo.levels
-        .map(level => original.find(n => n.namespaceInfo.id.equals(level)))
-        .map(n => n.namespaceName.name)
-        .join('.')
-      let aliasText
-      let aliasType
-      switch (ns.namespaceInfo.alias.type) {
-      case 1:
-        aliasText = ns.namespaceInfo.alias.mosaicId.toHex()
-        aliasType = Constants.Message.MOSAIC
-        break
-      case 2:
-        aliasText = ns.namespaceInfo.alias.address
-        aliasType = Constants.Message.ADDRESS
-        break
-      default:
-        aliasText = false
-        aliasType = Constants.Message.NO_ALIAS
-        break
-      }
-      return {
-        owner: ns.namespaceInfo.owner,
-        namespaceName: name,
-        hexId: ns.namespaceInfo.id.toHex(),
-        type: Constants.NamespaceRegistrationType[ns.namespaceInfo.registrationType],
-        aliastype: aliasType,
-        alias: aliasText,
-        aliasAction: Constants.AliasAction[ns.namespaceInfo.alias.type],
-        currentAliasType: ns.namespaceInfo.alias.type,
-
-        active: ns.namespaceInfo.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
-        startHeight: ns.namespaceInfo.startHeight.compact(),
-        endHeight: Constants.NetworkConfig.NAMESPACE.indexOf(name.toUpperCase()) !== -1
-          ? Constants.Message.INFINITY
-          : ns.namespaceInfo.endHeight.compact(),
-        parentId: ns.namespaceInfo.parentId.id.toHex()
-      }
-    })
-
 // FORMAT NAMESPACE
 const formatNamespace = (namespaceInfo, namespaceNames, currentHeight = 0) => {
   let aliasText
@@ -509,26 +449,11 @@ const formatNamespace = (namespaceInfo, namespaceNames, currentHeight = 0) => {
     break
   }
 
-  const fullName = namespaceInfo.levels.map(level => {
-    return namespaceNames.find((name) => name.namespaceId.equals(level))
-  })
-    .map((namespaceName) => namespaceName.name)
-    .join('.')
-
-  namespaceNames.map(namespace => {
-    let root = namespaceNames.find(name => name.parentId === undefined)
-    if (namespace.parentId) {
-      let parent = namespaceNames.find(name => name.namespaceId.equals(namespace.parentId))
-      namespace.name = parent.name + '.' + namespace.name
-
-      if (root.name !== parent.name)
-        namespace.name = root.name + '.' + namespace.name
-    }
-  })
+  const fullName = extractFullNamespace(namespaceInfo, namespaceNames)
 
   let { isExpired, expiredInBlock, expiredInSecond } = helper.calculateNamespaceExpiration(currentHeight, namespaceInfo.endHeight.compact())
 
-  let namespaceObj = {
+  return {
     owner: namespaceInfo.owner.address.plain(),
     namespaceName: fullName,
     namespaceNameHexId: namespaceInfo.id.toHex().toUpperCase(),
@@ -540,6 +465,7 @@ const formatNamespace = (namespaceInfo, namespaceNames, currentHeight = 0) => {
     active: namespaceInfo.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
     aliasType: aliasType,
     alias: aliasText || aliasType,
+    aliasAction: Constants.AliasAction[namespaceInfo.alias.type],
     // parentHexId: namespaceInfo.parentId.id.toHex().toUpperCase(),
     parentName:
       namespaceInfo.registrationType !== 0 ? fullName.split('.')[0].toUpperCase() : '',
@@ -549,8 +475,17 @@ const formatNamespace = (namespaceInfo, namespaceNames, currentHeight = 0) => {
     approximateExpired: moment.utc().add(expiredInSecond, 's').local().format('YYYY-MM-DD HH:mm:ss'),
     expiredInBlock: expiredInBlock
   }
+}
 
-  return namespaceObj
+const extractFullNamespace = (namespaceInfo, namespaceNames) => {
+  return namespaceInfo.levels.map((level) => {
+    const namespaceName = namespaceNames.find((name) => name.namespaceId.equals(level))
+
+    if (namespaceName === undefined) throw new Error('Not found')
+    return namespaceName
+  })
+    .map((namespaceName) => namespaceName.name)
+    .join('.')
 }
 
 const formatNamespaceInfo = (namespaceInfo, currentHeight = 0) => {
@@ -744,7 +679,6 @@ export default {
   formatTransactions,
   formatTransaction,
   formatTransactionBody,
-  formatNamespaces,
   formatNamespace,
   formatMosaicInfo,
   formatNamespaceInfo,
