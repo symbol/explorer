@@ -156,10 +156,10 @@ class sdkNamespace {
 
       // End height disable click before expired.
       namespaceInfoFormatted.startHeight = namespaceInfo.startHeight
-      namespaceInfoFormatted.expiredInBlock = namespaceInfo.expiredInBlock + ` ≈ ` + namespaceInfo.duration
+      namespaceInfoFormatted.expiredInBlock = Constants.NetworkConfig.NAMESPACE.indexOf(namespaceInfo.namespaceName.toUpperCase()) !== -1 ? Constants.Message.INFINITY : namespaceInfo.expiredInBlock + ` ≈ ` + namespaceInfo.duration
 
       if (!namespaceInfo.isExpired)
-        namespaceInfoFormatted.beforeEndHeight = namespaceInfo.endHeight + ` ( ${Constants.NetworkConfig.NAMESPACE_GRACE_PERIOD_DURATION} blocks of grace period )`
+        namespaceInfoFormatted.beforeEndHeight = Constants.NetworkConfig.NAMESPACE.indexOf(namespaceInfo.namespaceName.toUpperCase()) !== -1 ? Constants.Message.INFINITY : namespaceInfo.endHeight + ` ( ${Constants.NetworkConfig.NAMESPACE_GRACE_PERIOD_DURATION} blocks of grace period )`
       else
         namespaceInfoFormatted.endHeight = namespaceInfo.endHeight
 
