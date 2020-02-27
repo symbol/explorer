@@ -33,7 +33,7 @@ class sdkBlock {
     return format.formatBlock(blockInfo)
   }
 
-  static getBlockTransactionsFromIdSmall = async (blockHeight, transactionId) => {
+  static getBlockTransactions = async (blockHeight, transactionId) => {
     let txList = await this.getTransactionsByBlockHeight(blockHeight, transactionId)
     return format.formatBlocktransactions(txList)
   }

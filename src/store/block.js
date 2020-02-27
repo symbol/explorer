@@ -281,8 +281,8 @@ export default {
         commit('artifactExpiryReceipt', blockInfo.artifactExpiryReceipt)
         commit('resolutionStatement', blockInfo.resolutionStatements)
         await helper.fetchData(async () => {
-          const initialFunction = () => sdkBlock.getBlockTransactionsFromIdSmall(blockInfo.blockInfo.height)
-          const fetchFunction = (key) => sdkBlock.getBlockTransactionsFromIdSmall(blockInfo.blockInfo.height, key)
+          const initialFunction = () => sdkBlock.getBlockTransactions(blockInfo.blockInfo.height)
+          const fetchFunction = (key) => sdkBlock.getBlockTransactions(blockInfo.blockInfo.height, key)
           commit(
             'blockTransactionsTimeline',
             await new Timeline2(initialFunction, fetchFunction, 'transactionId', 10).initialFetch()
