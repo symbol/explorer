@@ -40,7 +40,8 @@ class Constants {
     NETWORKTYPE: NetworkType[globalConfig.networkConfig.NetworkType],
     NEMESIS_TIMESTAMP: Deadline.timestampNemesisBlock,
     TARGET_BLOCK_TIME: globalConfig.networkConfig.TargetBlockTime,
-    NAMESPACE_GRACE_PERIOD_DURATION: globalConfig.networkConfig.NamespaceGraceDuration
+    NAMESPACE_GRACE_PERIOD_DURATION: globalConfig.networkConfig.NamespaceGraceDuration,
+    TOTAL_CHAIN_IMPORTANCE: globalConfig.networkConfig.TotalChainImportance
   }
 
   static TransactionType = {
