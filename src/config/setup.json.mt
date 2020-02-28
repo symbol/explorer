@@ -60,6 +60,7 @@
 		"NativeMosaicDivisibility": 6,
 		"NetworkType": "TEST_NET",
 		"TargetBlockTime": 15,
-		"NamespaceGraceDuration": 172800
+		"NamespaceGraceDuration": 172800,
+		"TotalChainImportance": 7831975436000000
 	}
 }
