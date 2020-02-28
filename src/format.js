@@ -29,13 +29,10 @@ const formatFee = fee => microxemToXem(fee.compact()).toLocaleString('en-US', { 
 // Format ImportantScore
 const formatImportanceScore = importanceScore => {
   // Calculate the importance score.
-  if (importanceScore) {
-    importanceScore /= 90000
-    importanceScore = importanceScore.toFixed(4).split('.')
-    importanceScore = importanceScore[0] + '.' + importanceScore[1]
+  const totalchainimportance = Constants.NetworkConfig.TOTAL_CHAIN_IMPORTANCE
 
-    return importanceScore
-  }
+  if (importanceScore)
+    return (importanceScore / totalchainimportance)
 }
 
 // FORMAT BLOCK
@@ -91,7 +88,7 @@ const formatAccount = accountInfo => {
     publicKey: accountInfo.publicKey,
     publicKeyHeight: accountInfo.publicKeyHeight.compact(),
     mosaics: formatMosaics(accountInfo.mosaics),
-    importance: formatImportanceScore(accountInfo.importance.compact()),
+    importance: (formatImportanceScore(accountInfo.importance.compact()) * 100).toFixed(6).toString() + ' %',
     importanceHeight: accountInfo.importanceHeight.compact(),
     accountType: Constants.AccountType[accountInfo.accountType],
     activityBucket: accountInfo.activityBucket,
