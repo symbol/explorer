@@ -42,5 +42,13 @@ module.exports = {
         ENDPOINTS: endpoints
       })
     ]
+  },
+  css: {
+    //modules: true,
+    loaderOptions: {
+      sass: {
+        prependData: `@import "~@/styles/variables.scss";`,
+      },
+    }
   }
 }

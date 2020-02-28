@@ -129,7 +129,7 @@ export default {
         margin-bottom: 1rem;
         background-color: transparent;
         font-size: 12px;
-        color: #98a8b4;
+        color: $table-text-color;
     }
 
     @media (max-width: 780px) {
@@ -164,16 +164,12 @@ export default {
         vertical-align: middle;
         border: 0 none;
         padding: 12px 6px 12px 6px;
-        color: #333;
-        font-weight: 500;
         outline: none;
-        font-size: 12px;
-        letter-spacing: 1px;
     }
 
     .empty-data {
         font-size: 14px;
-        color: #98a8b4;
+        color: $table-text-color-light;
         display: flex;
         justify-content: center;
     }
@@ -181,7 +177,7 @@ export default {
     .table-title-item {
         vertical-align: middle;
         padding: 12px 6px 12px 6px;
-        color: var(--secondary);
+        color: $table-title-text-color;
         font-weight: bolder;
         outline: none;
         font-size: 12px;
@@ -194,11 +190,11 @@ export default {
     }
 
     .table-striped tbody tr:nth-child(odd) td {
-        background-color: #f2f2f244;
+        background-color: $table-striped-color-first;
     }
 
     .table-striped tbody tr:nth-child(even) td {
-        background-color: #fff;
+        background-color: $table-striped-color-second;
     }
 
     .table-head-cell {
