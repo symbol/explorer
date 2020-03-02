@@ -22,7 +22,7 @@ import dto from './dto'
 
 class sdkDiagnostic {
     static getChainInfo = async () => {
-      const chainInfo = await http.diagnostic.getDiagnosticStorage().toPromise()
+      const chainInfo = await http.diagnostic.getStorageInfo().toPromise()
       return chainInfo
     }
 

@@ -21,8 +21,7 @@ module.exports = {
     'indent': ['error', 2]
   },
   globals: {
-    'PEERS_API': true,
-    'ENDPOINTS': true
+    'globalConfig': true
   },
   parserOptions: {
     parser: 'babel-eslint'

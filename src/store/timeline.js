@@ -18,28 +18,29 @@
 import Constants from '../config/constants'
 
 export default class Timeline {
-  constructor(previous, current, next, index) {
+  constructor(previous, current, next, index, pageSize = Constants.PageSize) {
     this.previous = previous
     this.current = current
     this.next = next
     this.index = index
+    this.pageSize = pageSize
   }
 
   static empty() {
     return new Timeline([], [], [], 0)
   }
 
-  static fromData(data, isPagination = true) {
+  static fromData(data, isPagination = true, pageSize = Constants.PageSize) {
     // check isPagination active
     if (!isPagination)
       return new Timeline([], data, [], 0)
 
     // Break data for the initial list into the current and next.
     const previous = []
-    const current = data.slice(0, Constants.PageSize)
-    const next = data.slice(Constants.PageSize, 2 * Constants.PageSize)
+    const current = data.slice(0, pageSize)
+    const next = data.slice(pageSize, 2 * pageSize)
     const index = 0
-    return new Timeline(previous, current, next, index)
+    return new Timeline(previous, current, next, index, pageSize)
   }
 
   get isLive() {
@@ -63,7 +64,7 @@ export default class Timeline {
       throw new Error('internal error: attempted to add duplicate item to timeline.')
 
     const data = [item, ...this.current, ...this.next]
-    return Timeline.fromData(data)
+    return Timeline.fromData(data, undefined, this.pageSize)
   }
 
   // Add data fetched from previous.
@@ -71,29 +72,29 @@ export default class Timeline {
     if (this.index > 1) {
       // Fetch previous.
       let previous = []
-      try { previous = await fetchPrevious(Constants.PageSize) } catch (e) { console.error(e) }
+      try { previous = await fetchPrevious(this.pageSize) } catch (e) { console.error(e) }
 
-      return new Timeline(previous, this.previous, this.current, this.index - 1)
+      return new Timeline(previous, this.previous, this.current, this.index - 1, this.pageSize)
     } else {
       // Fetch live.
       let data = []
-      try { data = await fetchLive(2 * Constants.PageSize) } catch (e) { console.error(e) }
+      try { data = await fetchLive(2 * this.pageSize) } catch (e) { console.error(e) }
 
-      return Timeline.fromData(data)
+      return Timeline.fromData(data, undefined, this.pageSize)
     }
   }
 
   // Add data fetched from next.
   async shiftNext(fetchNext) {
     let next = []
-    try { next = await fetchNext(Constants.PageSize) } catch (e) { console.error(e) }
+    try { next = await fetchNext(this.pageSize) } catch (e) { console.error(e) }
 
-    return new Timeline(this.current, this.next, next, this.index + 1)
+    return new Timeline(this.current, this.next, next, this.index + 1, this.pageSize)
   }
 
   // Prepend item to array.
-  static prependItem(list, item) {
-    if (list.length >= Constants.PageSize)
+  static prependItem(list, item, pageSize = Constants.PageSize) {
+    if (list.length >= pageSize)
       list.pop()
 
     list.unshift(item)

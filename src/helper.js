@@ -17,8 +17,17 @@
  */
 
 import { Constants } from './config'
+import { NetworkType } from 'nem2-sdk'
+import http from './infrastructure/http'
 
 const Url = require('url-parse')
+
+const getNetworkTypeAddressFormat = {
+  [NetworkType.MAIN_NET]: 'nN',
+  [NetworkType.MIJIN]: 'mM',
+  [NetworkType.MIJIN_TEST]: 'sS',
+  [NetworkType.TEST_NET]: 'tT'
+}
 
 class helper {
   static timeSince(interval) {
@@ -76,6 +85,23 @@ class helper {
   static isHexadecimal(str) {
     return /^[0-9a-fA-F]+$/.test(str)
   }
+
+  static isMosaicOrNamespaceId = (str) =>
+    str.length === 16
+
+  static isTransactionId = (str) =>
+    str.length === 24
+
+  static isAccountPublicKey = (str) =>
+    str.length === 64 &&
+    str.match('^[A-z0-9]+$')
+
+  static isAccountAddress = (str) =>
+    str.length === 40 &&
+    str.match(`[${getNetworkTypeAddressFormat[http.networkType]}]{1,1}[a-zA-Z0-9]{5,5}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{4,4}`)
+
+  static isBlockHeight = (str) =>
+    str.match(/^-{0,1}\d+$/)
 
   static validURL(url) {
     // All we expect is there is a valid origin for the url, IE,

@@ -56,7 +56,8 @@ export default {
     resolutionStatement: [],
     currentBlockHeight: null,
     blockInfoLoading: false,
-    blockInfoError: false
+    blockInfoError: false,
+    blockTransactionsTimeline: Timeline.empty()
   },
   getters: {
     getInitialized: state => state.initialized,
@@ -79,7 +80,8 @@ export default {
     getLoading: state => state.loading,
     getError: state => state.error,
     blockInfo: state => state.blockInfo,
-    blockTransactionList: state => state.blockTransactionList,
+    blockTransactionList: state => state.blockTransactionsTimeline.current,
+    blockTransactionsTimeline: state => state.blockTransactionsTimeline,
     inflationReceipt: state => state.inflationReceipt,
     balanceTransferReceipt: state => state.balanceTransferReceipt,
     balanceChangeReceipt: state => state.balanceChangeReceipt,
@@ -115,7 +117,8 @@ export default {
     resolutionStatement: (state, resolutionStatement) => Vue.set(state, 'resolutionStatement', resolutionStatement),
     currentBlockHeight: (state, currentBlockHeight) => Vue.set(state, 'currentBlockHeight', currentBlockHeight),
     blockInfoLoading: (state, blockInfoLoading) => Vue.set(state, 'blockInfoLoading', blockInfoLoading),
-    blockInfoError: (state, blockInfoError) => Vue.set(state, 'blockInfoError', blockInfoError)
+    blockInfoError: (state, blockInfoError) => Vue.set(state, 'blockInfoError', blockInfoError),
+    blockTransactionsTimeline: (state, blockTransactionsTimeline) => Vue.set(state, 'blockTransactionsTimeline', blockTransactionsTimeline)
   },
   actions: {
     // Initialize the block model.
@@ -257,6 +260,7 @@ export default {
       commit('artifactExpiryReceipt', [])
       commit('resolutionStatement', [])
       commit('currentBlockHeight', height)
+      commit('blockTransactionsTimeline', Timeline.empty())
 
       dispatch('chain/getBlockHeight', null, { root: true })
 
@@ -274,13 +278,13 @@ export default {
         commit('balanceChangeReceipt', blockInfo.balanceChangeReceipt)
         commit('artifactExpiryReceipt', blockInfo.artifactExpiryReceipt)
         commit('resolutionStatement', blockInfo.resolutionStatements)
+        commit('blockTransactionsTimeline', Timeline.fromData(blockInfo.lastTransactions, true, 10))
       }
 
       commit('blockInfoLoading', false)
     },
 
     nextBlock: ({ commit, getters, dispatch, rootGetters }) => {
-      console.log(getters.currentBlockHeight, rootGetters['chain/getBlockHeight'])
       if (getters.currentBlockHeight < rootGetters['chain/getBlockHeight']) {
         dispatch('ui/openPage', {
           pageName: 'block',
@@ -295,6 +299,47 @@ export default {
           param: +getters.currentBlockHeight - 1
         }, { root: true })
       }
+    },
+
+    // Fetch the next page of data.
+    async timelineTransactionsNext({ commit, getters }) {
+      // commit('setLoading', true)
+      // commit('setError', false)
+      const timeline = getters.blockTransactionsTimeline
+      const list = timeline.next
+      try {
+        if (list.length === 0)
+          throw new Error('internal error: next list is 0.')
+
+        const transaction = list[list.length - 1]
+        const fetchNext = () => sdkBlock.getBlockTransactionsFromId(getters.currentBlockHeight, transaction.transactionId)
+        commit('blockTransactionsTimeline', await timeline.shiftNext(fetchNext))
+      } catch (e) {
+        console.error(e)
+        // commit('setError', true)
+      }
+      // commit('setLoading', false)
+    },
+
+    // Fetch the previous page of data.
+    async timelineTransactionsPrevious({ commit, getters }) {
+      // commit('setLoading', true)
+      // commit('setError', false)
+      const timeline = getters.blockTransactionsTimeline
+      const list = timeline.previous
+      try {
+        if (list.length === 0)
+          throw new Error('internal error: previous list is 0.')
+
+        const transaction = list[0]
+        const fetchPrevious = () => sdkBlock.getBlockTransactionsFromId(getters.currentBlockHeight, transaction.transactionId)
+        const fetchLive = () => sdkBlock.getBlockLatestTransactionsList(getters.currentBlockHeight)
+        commit('blockTransactionsTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
+      } catch (e) {
+        console.error(e)
+        // commit('setError', true)
+      }
+      // commit('setLoading', false)
     }
   }
 }

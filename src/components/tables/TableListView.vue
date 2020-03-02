@@ -24,6 +24,19 @@
               <Decimal v-else-if="isChangeDecimalColor(itemKey)" :value="item" />
               <TransactionDirection v-else-if="itemKey === 'direction'" :value="item" />
 
+              <div v-else-if="isAllowArrayToView(itemKey)">
+                <div v-for="(row, rowIndex) in item" :key="view+'r'+rowIndex">
+                  <router-link v-if="isItemClickable(itemKey) && getItemHref(itemKey, row)" :to="getItemHref(itemKey, row)">
+                    <Truncate v-if="isTruncate(itemKey)">{{row}}</Truncate>
+                    <div v-else>{{ row }}</div>
+                  </router-link>
+                  <div v-else>
+                    <Truncate v-if="isTruncate(itemKey)">{{row}}</Truncate>
+                    <div v-else>{{ row }}</div>
+                  </div>
+                </div>
+              </div>
+
               <div v-else>
                 <div v-if="itemKey === 'transactionBody'">
                   <div @click="onOpenModal(view+'r'+rowIndex)">Show Detail</div>
@@ -57,10 +70,9 @@
           </tr>
         </tbody>
       </table>
-      <div v-if="pagination" class="pagination-wrapper">
-        {{pageIndex+1}}/{{lastPage}}
+      <div v-if="pagination || timelinePagination" class="pagination-wrapper">
+        <div v-if="pagination">{{pageIndex+1}}/{{lastPage}}</div>
         <Pagination
-          v-if="pagination"
           :canFetchPrevious="prevPageExist"
           :canFetchNext="nextPageExist"
           :goUp="false"
@@ -98,6 +110,23 @@ export default {
       default: false
     },
 
+    timelinePagination: {
+      type: Boolean,
+      default: false
+    },
+
+    timeline: {
+      type: Object
+    },
+
+    timelineNextAction: {
+      type: String
+    },
+
+    timelinePreviousAction: {
+      type: String
+    },
+
     pageSize: {
       type: Number,
       default: 10
@@ -122,18 +151,24 @@ export default {
 
   computed: {
     preparedData() {
-      if (Array.isArray(this.data) && this.pagination === true)
+      if (Array.isArray(this.data) && this.pagination === true && !this.timelinePagination)
         return this.data.slice(this.pageIndex * this.pageSize, this.pageIndex * this.pageSize + this.pageSize)
       else
         return this.data
     },
 
     nextPageExist() {
-      return this.pageSize * (this.pageIndex + 1) < this.data.length
+      if (this.timelinePagination && this.timeline instanceof Object)
+        return this.timeline.canFetchNext
+      else
+        return this.pageSize * (this.pageIndex + 1) < this.data.length
     },
 
     prevPageExist() {
-      return this.pageIndex > 0
+      if (this.timelinePagination && this.timeline instanceof Object)
+        return this.timeline.canFetchPrevious
+      else
+        return this.pageIndex > 0
     },
 
     lastPage() {
@@ -163,24 +198,21 @@ export default {
     },
 
     nextPage() {
-      if (this.nextPageExist)
-        this.pageIndex++
+      if (this.nextPageExist) {
+        if (this.timelinePagination)
+          this.$store.dispatch(this.timelineNextAction)
+        else
+          this.pageIndex++
+      }
     },
 
     prevPage() {
-      if (this.prevPageExist)
-        this.pageIndex--
-    },
-
-    isTruncate(key) {
-      return key === 'harvester' ||
-        key === 'address' ||
-        key === 'signer' ||
-        key === 'recipient' ||
-        key === 'transactionHash' ||
-        key === 'owneraddress' ||
-        key === 'host' ||
-        key === 'friendlyName'
+      if (this.prevPageExist) {
+        if (this.timelinePagination)
+          this.$store.dispatch(this.timelinePreviousAction)
+        else
+          this.pageIndex--
+      }
     }
   },
 

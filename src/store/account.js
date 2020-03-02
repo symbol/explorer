@@ -25,14 +25,14 @@ const LOCK = Lock.create()
 
 const TIMELINES = {
   // Rich list.
-  rich: Timeline.empty(),
+  // rich: Timeline.empty(),
   // Harvester list.
   harvester: Timeline.empty()
 }
 
 // Map the timeline name to the account filter type.
 const ACCOUNT_TYPE_MAP = {
-  rich: 'balance/xem',
+  // rich: 'balance/xem',
   harvester: 'harvested/blocks'
 }
 
@@ -42,13 +42,13 @@ export default {
     // If the state has been initialized.
     initialized: false,
     // The current account type key, as defined in `TIMELINES`.
-    accountType: 'rich',
+    accountType: 'harvester',
     ...TIMELINES,
     // Determine if the accounts model is loading.
     loading: false,
     // Determine if the accounts model has an error.
     error: {
-      rich: false,
+      // rich: false,
       harvester: false
     },
     // The Account detail information.
@@ -68,6 +68,8 @@ export default {
     metadataList: [],
     // The Account Created mosaic.
     createdMosaics: [], // Wait for Rest team apply,
+    // The Account Restriction list.
+    accountRestrictionList: [],
     accountInfoLoading: false,
     accountInfoError: false,
 
@@ -93,6 +95,7 @@ export default {
     getAccountMultisigCosignatories: state => state.accountMultisigCosignatories,
     getNamespaceList: state => state.namespaceList,
     getMosaicList: state => state.mosaicList,
+    getAccountRestrictionList: state => state.accountRestrictionList,
     getTransactionList: state => {
       let transactions = state.transactionList
       let filter = state.transactionFilterValue
@@ -111,8 +114,8 @@ export default {
     accountInfoError: state => state.accountInfoError,
     filterValue: state => state.accountType,
     filterOptions: () => ({
-      'rich': 'Rich List',
-      'harvester': 'Harvester List'
+      'harvester': 'Harvester List',
+      // 'rich': 'Rich List'
     }),
     transactionFilterOptions: () => ({
       0: 'All transactions',
@@ -133,6 +136,7 @@ export default {
     setAccountMultisigCosignatories: (state, accountMultisigCosignatories) => { state.accountMultisigCosignatories = accountMultisigCosignatories },
     setNamespaceList: (state, namespaceList) => { state.namespaceList = namespaceList },
     setMosaicList: (state, mosaicList) => { state.mosaicList = mosaicList },
+    setAccountRestrictionList: (state, accountRestrictionList) => { state.accountRestrictionList = accountRestrictionList },
     setTransactionList: (state, transactionList) => { state.transactionList = transactionList },
     setActivityBucketList: (state, activityBucketList) => { state.activityBucketList = activityBucketList },
     setMetadataList: (state, metadataList) => { state.metadataList = metadataList },
@@ -254,7 +258,7 @@ export default {
           console.error(e)
           commit('setError', true)
         }
-        commit('setAccountType', 'rich')
+        commit('setAccountType', 'harvester')
       }
       commit('setLoading', false)
     },
@@ -292,6 +296,7 @@ export default {
         commit('setNamespaceList', accountInfo.namespaceList)
         commit('setActivityBucketList', accountInfo.activityBuckets)
         commit('setMetadataList', accountInfo.metadataList)
+        commit('setAccountRestrictionList', accountInfo.accountRestrictions)
       }
 
       // Loading end

@@ -55,7 +55,7 @@ export default class http {
   }
 
   static get diagnostic() {
-    return new nem.DiagnosticHttp(http.nodeUrl)
+    return new nem.NodeHttp(http.nodeUrl)
   }
 
   static get mosaic() {
