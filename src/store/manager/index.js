@@ -1,7 +1,8 @@
 import Vue from 'vue';
-import DataManager from './dataManager';
 
-export const DataManager = DataManager;
+export { default as Filter } from './Filter'
+export { default as Timeline } from './Timeline'
+export { default as DataSet } from './DataSet'
 
 export const getStateFromManagers = (managers) => {
     let state = {};
@@ -25,5 +26,8 @@ export const getMutationsFromManagers = (managers) => {
 }
 
 export const getActionsFromManagers = (managers) => {
-
+    let actions = {};
+    for(const manager of managers) 
+        actions[manager.name] = ({commit}, payload) => commit(manager.name, payload);
+    return actions;
 }
