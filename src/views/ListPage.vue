@@ -33,8 +33,8 @@
                         v-if="hasFilter"
                         :options="filterOptions"
                         :value="filterValue"
-                        :resetPageAction="resetPageAction"
-                        :changePageAction="changePageAction"
+                        @change="changeFilterValue"
+                        @reset="resetFilter"
                     />
                 </template>
                 <template #body>
@@ -42,8 +42,6 @@
                         :data="data"
                         :timeline="timeline"
                         :timelinePagination="true"
-                        :timelineNextAction="nextPageAction"
-                        :timelinePreviousAction="previousPageAction"
                     />
                 </template>
 
@@ -94,11 +92,11 @@ export default {
 
   computed: {
     timeline() {
-      return this.$store.getters[this.storeNamespace + '/getTimeline']
+      return this.$store.getters[this.storeNamespace + '/timeline'] || {}
     },
 
     data() {
-      const timeline = this.$store.getters[this.storeNamespace + '/getTimelineFormatted']
+      const timeline = this.timeline.data; //this.$store.getters[this.storeNamespace + '/getTimelineFormatted']
 
       if (this.$store.getters['ui/isMobile'] && this.mobileColumns) {
         return timeline.map(row => {
@@ -116,13 +114,17 @@ export default {
 
     canFetchPrevious() { return this.$store.getters[this.storeNamespace + '/getCanFetchPrevious'] },
     canFetchNext() { return this.$store.getters[this.storeNamespace + '/getCanFetchNext'] },
-    loading() { return this.$store.getters[this.storeNamespace + '/getLoading'] },
-    error() { return this.$store.getters[this.storeNamespace + '/getError'] },
+    // loading() { return this.$store.getters[this.storeNamespace + '/getLoading'] },
+    // error() { return this.$store.getters[this.storeNamespace + '/getError'] },
+    loading() { return this.timeline.loading },
+    error() { return this.timeline.error },
 
     infoText() { return this.$store.getters[this.storeNamespace + '/infoText'] },
 
-    filterValue() { return this.$store.getters[this.storeNamespace + '/filterValue'] },
-    filterOptions() { return this.$store.getters[this.storeNamespace + '/filterOptions'] },
+    //filterValue() { return this.$store.getters[this.storeNamespace + '/filterValue'] },
+    //filterOptions() { return this.$store.getters[this.storeNamespace + '/filterOptions'] },
+    filterValue() { return this.timeline.filterValue },
+    filterOptions() { return this.timeline.filterOptions },
 
     nextPageAction() { return this.storeNamespace + '/fetchNextPage' },
     previousPageAction() { return this.storeNamespace + '/fetchPreviousPage' },
@@ -133,11 +135,19 @@ export default {
   methods: {
     getNameByKey(e) {
       return this.$store.getters['ui/getNameByKey'](e)
+    },
+
+    changeFilterValue(e) {
+      this.timeline.changeFilterValue(e)
+    },
+
+    resetFilter(e) {
+      //this.timeline.reset(e)
     }
   },
 
   destroyed() {
-    this.$store.dispatch(this.resetPageAction)
+    //this.$store.dispatch(this.resetPageAction)
   }
 }
 </script>

@@ -15,14 +15,14 @@
  * limitations under the License.
  *
  */
-import Constants from '../config/constants'
+import Constants from '../../config/constants'
 
 export default class Timeline {
-    constructor(name, store, initialFuntion, fetchFunction, keyName, pageSize = Constants.PageSize) {
-        if (typeof name === 'string')
-            throw Error('Failed to construct Filter. Name is not provided');
-        if(!(store && store.state && store.getters && store.commit && store.dispatch))
-            throw Error('Failed to construct Filter. Store context is not provided');
+    constructor(name, initialFuntion, fetchFunction, keyName, pageSize = Constants.PageSize) {
+        if (typeof name !== 'string')
+            throw Error('Failed to construct Timeline. Name is not provided');
+        //if(!(store && store.state && store.getters && store.commit && store.dispatch))
+        //    throw Error('Failed to construct Timeline. Store context is not provided');
         if (typeof initialFuntion !== 'function')
             throw Error('Cannot create timeline. Initial function is not provided')
         if (typeof fetchFunction !== 'function')
@@ -31,7 +31,6 @@ export default class Timeline {
             throw Error('Cannot create timeline. Key is not provided')
 
         this.name = name;
-        this.store = store;
         this.initialFuntion = initialFuntion
         this.fetchFunction = fetchFunction
         this.keyName = keyName
@@ -42,6 +41,7 @@ export default class Timeline {
         this.keys = []
         this.loading = false
         this.error = false
+        this.store = {};
     }
 
     static empty() {
@@ -53,6 +53,12 @@ export default class Timeline {
             fetchPrevious: () => { },
             reset: () => { }
         }
+    }
+
+    setStore(store) {
+        this.store = store;
+        this.store.dispatch(this.name, this);
+        return this;
     }
 
     async initialFetch() {
@@ -75,6 +81,7 @@ export default class Timeline {
         }
         this.loading = false
 
+        console.log("Timeline", this)
         this.store.dispatch(this.name, this);
         return this
     }
