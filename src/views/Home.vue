@@ -31,9 +31,6 @@
             <b-col xs="12" md="12" lg="6">
                 <RecentTransactionsWidget />
             </b-col>
-            <b-col xs="12" md="12" lg="6">
-                <TransactionStatusWidget />
-            </b-col>
         </b-row>
     </b-container>
 </template>
@@ -42,7 +39,6 @@ import BaseInfoWidget from '@/components/widgets/BaseInfoWidget.vue'
 import NemPriceWidget from '@/components/widgets/NemPriceWidget.vue'
 import RecentBlocksWidget from '@/components/widgets/RecentBlocksWidget.vue'
 import RecentTransactionsWidget from '@/components/widgets/RecentTransactionsWidget.vue'
-import TransactionStatusWidget from '@/components/widgets/TransactionStatusWidget.vue'
 
 export default {
   name: 'Home',
@@ -51,8 +47,7 @@ export default {
     BaseInfoWidget,
     NemPriceWidget,
     RecentBlocksWidget,
-    RecentTransactionsWidget,
-    TransactionStatusWidget
+    RecentTransactionsWidget
   },
 
   mounted() {
