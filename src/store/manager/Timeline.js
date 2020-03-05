@@ -42,6 +42,7 @@ export default class Timeline {
         this.loading = false
         this.error = false
         this.store = {};
+        this.addLatestItem = this.addLatestItem.bind(this);
     }
 
     static empty() {
@@ -162,11 +163,11 @@ export default class Timeline {
 
     // Add latest item to current.
     addLatestItem(item, key) {
-        if (!this.isLive)
-            throw new Error('internal error: attempted to addLatestItem for non-live timeline.')
+        // if (!this.isLive)
+        //     throw new Error('internal error: attempted to addLatestItem for non-live timeline.')
 
         if (this.data[0][this.keyName] === item[this.keyName])
-            throw new Error('internal error: attempted to add duplicate item to timeline.')
+            console.error('internal error: attempted to add duplicate item to timeline.')
 
         const data = [item, ...this.data]
         const next = [data.pop(), ...this.next]

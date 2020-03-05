@@ -16,7 +16,6 @@
  *
  */
 
-import Vue from 'vue'
 import Lock from './lock'
 import Constants from '../config/constants'
 import sdkTransaction from '../infrastructure/getTransaction'
@@ -89,6 +88,7 @@ export default {
   getters: {
     getInitialized: state => state.initialized,
     ...getGettersFromManagers(managers),
+    getRecentList: state => state.recent?.data?.filter((item, index) => index < 4) || [],
     transactionInfo: state => state.info?.data?.transactionInfo || {},
     transactionDetail: state => state.info?.data?.transactionDetail || {},
     transferMosaics: state => state.info?.data?.transferMosaics || [],
