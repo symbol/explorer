@@ -64,11 +64,6 @@ export default {
   },
 
   props: {
-    storeNamespace: {
-      type: String,
-      required: true
-    },
-
     title: {
       type: String,
       required: true
@@ -84,6 +79,14 @@ export default {
       default: false
     },
 
+    managerGetter: {
+      type: String
+    },
+
+    dataGetter: {
+      type: String
+    },
+
     mobileColumns: {
       type: [Array, undefined],
       default: void 0
@@ -92,13 +95,13 @@ export default {
 
   computed: {
     timeline() {
-      return this.$store.getters[this.storeNamespace + '/timeline'] || {}
+      return this.getter(this.managerGetter) || {}
     },
 
     data() {
-      const timeline = this.timeline.data; //this.$store.getters[this.storeNamespace + '/getTimelineFormatted']
+      const timeline = this.getter(this.dataGetter) || this.timeline.data;
 
-      if (this.$store.getters['ui/isMobile'] && this.mobileColumns) {
+      if (this.$store.getters['ui/isMobile'] && Array.isArray(this.mobileColumns)) {
         return timeline.map(row => {
           let mobileRow = {}
 
@@ -109,22 +112,55 @@ export default {
 
           return mobileRow
         })
-      } else return timeline
+      } 
+      else
+      if(Array.isArray(this.columns)) 
+        return timeline.map(row => {
+          let columns = {}
+
+          for (let key in row) {
+            if (this.columns.includes(key))
+              columns[key] = row[key]
+          }
+
+          return columns
+        })
+      else
+        return timeline
     },
 
-    canFetchPrevious() { return this.$store.getters[this.storeNamespace + '/getCanFetchPrevious'] },
-    canFetchNext() { return this.$store.getters[this.storeNamespace + '/getCanFetchNext'] },
-    // loading() { return this.$store.getters[this.storeNamespace + '/getLoading'] },
-    // error() { return this.$store.getters[this.storeNamespace + '/getError'] },
-    loading() { return this.timeline.loading },
-    error() { return this.timeline.error },
+    loading() { 
+      if(typeof this.loadingGetter === 'string')
+        return this.getter(this.loadingGetter)
+      else
+        return this.timeline.loading 
+    },
 
-    infoText() { return this.$store.getters[this.storeNamespace + '/infoText'] },
+    error() { 
+      if(typeof this.errorGetter === 'string')
+        return this.getter(this.errorGetter)
+      else
+        return this.timeline.error 
+    },
 
-    //filterValue() { return this.$store.getters[this.storeNamespace + '/filterValue'] },
-    //filterOptions() { return this.$store.getters[this.storeNamespace + '/filterOptions'] },
-    filterValue() { return this.timeline.filterValue },
-    filterOptions() { return this.timeline.filterOptions },
+    infoText() { 
+      if(typeof this.infoTextGetter === 'string')
+        return this.getter(this.infoTextGetter) 
+    },
+
+    filterValue() { 
+      if(typeof this.filterValueGetter === 'string')
+        return this.getter(this.filterValueGetter)
+      else
+        return this.timeline.filterValue  
+    },
+
+    filterOptions() { 
+      if(typeof this.filterOptionsGetter === 'string')
+        return this.getter(this.filterOptionsGetter)
+      else
+        return this.timeline.filterOptions 
+    },
 
     nextPageAction() { return this.storeNamespace + '/fetchNextPage' },
     previousPageAction() { return this.storeNamespace + '/fetchPreviousPage' },
@@ -143,6 +179,10 @@ export default {
 
     resetFilter(e) {
       //this.timeline.reset(e)
+    },
+
+    getter(name) {
+      return this.$store.getters[name]
     }
   },
 

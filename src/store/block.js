@@ -67,18 +67,15 @@ export default {
   getters: {
     ...getGettersFromManagers(managers),
     getInitialized: state => state.initialized,
-    getLatestList: state => state.latestList,
-    getRecentList: state => Array.prototype.filter.call(state.latestList, (item, index) => {
-      return index < 4
-    }), 
-    getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
+    getRecentList: state => state.timeline?.data?.filter((item, index) => index < 4) || [], 
+    getTimelineFormatted: state => state.timeline?.data?.map(el => ({
       height: el.height,
       age: el.date,
       transactions: el.numTransactions,
       fee: el.totalFee,
       date: el.date,
       harvester: el.signer
-    })),
+    })) || [],
     getSubscription: state => state.subscription,
     blockInfo: state => state.info?.data?.blockInfo || {},
     inflationReceipt: state => state.info?.data?.inflationReceipt || [],
@@ -119,7 +116,13 @@ export default {
     // Subscribe to the latest blocks.
     async subscribe({ commit, getters, rootGetters }) {
       if (getters.getSubscription === null) {
-        const subscription = await sdkListener.subscribeNewBlock(getters.timeline.addLatestItem, rootGetters['api/wsEndpoint'])
+        const subscription = await sdkListener.subscribeNewBlock(
+          (item) => {
+            getters.timeline.addLatestItem(item)
+            commit('chain/setBlockHeight', item.height, { root: true })
+          }, 
+          rootGetters['api/wsEndpoint']
+        )
         commit('setSubscription', subscription)
       }
     },
@@ -137,6 +140,7 @@ export default {
 
     // Fetch data from the SDK and initialize the page.
     async initializePage(context) {
+      await context.dispatch('chain/getBlockHeight', null, { root: true })
       await context.getters.timeline.setStore(context).initialFetch();
     },
 
@@ -153,7 +157,7 @@ export default {
         }, { root: true })
       }
     },
-    
+
     previousBlock: ({ commit, getters, dispatch }) => {
       if (+getters.currentBlockHeight > 1) {
         dispatch('ui/openPage', {

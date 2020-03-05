@@ -4,9 +4,10 @@
             "path": "/blocks",
             "name": "blocks",
             "props": {
-                "storeNamespace": "block",
                 "title": "blocks",
                 "hasInfoText": true,
+                "managerGetter": "block/timeline",
+                "dataGetter": "block/getTimelineFormatted",
                 "mobileColumns": [
                     "height",
                     "age",
@@ -19,8 +20,8 @@
             "path": "/transactions",
             "name": "transactions",
             "props": {
-                "storeNamespace": "transaction",
                 "title": "transactions",
+                "managerGetter": "transaction/timeline",
                 "hasFilter": true,
                 "mobileColumns": [
                     "height",
@@ -49,8 +50,8 @@
             "path": "/namespaces",
             "name": "namespaces",
             "props": {
-                "storeNamespace": "namespace",
                 "title": "namespaces",
+                "managerGetter": "namespace/timeline",
                 "mobileColumns": [
                     "namespaceName",
                     "owneraddress",
