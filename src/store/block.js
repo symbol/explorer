@@ -41,8 +41,8 @@ const managers = [
   ),
   new Timeline(
     'blockTransactions',
-    (pageSize, store) => sdkBlock.getBlockTransactions(store.currentBlockHeight),
-    (key, pageSize, store) => sdkBlock.getBlockTransactions(store.currentBlockHeight, key),
+    (pageSize, store) => sdkBlock.getBlockTransactions(store.getters.currentBlockHeight),
+    (key, pageSize, store) => sdkBlock.getBlockTransactions(store.getters.currentBlockHeight, key),
     'transactionId',
     10
   ),
@@ -147,6 +147,7 @@ export default {
     getBlockInfo: async (context, height) => {
       context.commit('currentBlockHeight', height)
       await context.getters.info.setStore(context).initialFetch(height);
+      await context.getters.blockTransactions.setStore(context).initialFetch(height);
     },
 
     nextBlock: ({ commit, getters, dispatch, rootGetters }) => {

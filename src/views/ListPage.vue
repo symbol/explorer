@@ -160,12 +160,7 @@ export default {
         return this.getter(this.filterOptionsGetter)
       else
         return this.timeline.filterOptions 
-    },
-
-    nextPageAction() { return this.storeNamespace + '/fetchNextPage' },
-    previousPageAction() { return this.storeNamespace + '/fetchPreviousPage' },
-    resetPageAction() { return this.storeNamespace + '/resetPage' },
-    changePageAction() { return this.storeNamespace + '/changePage' }
+    }
   },
 
   methods: {

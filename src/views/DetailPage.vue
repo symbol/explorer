@@ -6,8 +6,8 @@
                     v-if="item.type === 'Card' && isItemShown(item)"
                     class="card-f"
                     :class="{'card-full-width': item.fullWidth, 'card-adaptive': !item.fullWidth}"
-                    :loading="getter(item.loadingGetter)"
-                    :error="getter(item.errorGetter)"
+                    :loading="getLoading(item)"
+                    :error="getError(item)"
                     :key="item.title + index"
                 >
                     <template #title>
@@ -34,17 +34,15 @@
                     <template #body v-if="item.body">
                         <component
                             :is="item.body"
-                            :data="getter(item.dataGetter)"
-                            :timeline="getter(item.timelineGetter)"
+                            :data="getData(item)"
+                            :timeline="getter(item.managerGetter)"
                             :timelinePagination="item.timelinePagination"
-                            :timelineNextAction="item.timelineNextAction"
-                            :timelinePreviousAction="item.timelinePreviousAction"
                             :pagination="item.pagination"
                             :pageSize="item.pageSize"
                         />
                     </template>
 
-                    <template #error v-if="getter(item.errorGetter)">
+                    <template #error v-if="getError(item)">
                         {{getErrorMessage(item.errorMessage)}}
                         <br>
                         {{prop}}
@@ -101,6 +99,27 @@ export default {
     getErrorMessage(message) {
       const errorMessage = message || 'Failed to fetch'
       return this.getNameByKey(errorMessage)
+    },
+
+    getLoading(item) {
+      if(typeof item.loadingGetter === 'string')
+        return this.getter(item.loadingGetter)
+      else
+        return this.getter(item.managerGetter)?.loading
+    },
+
+    getError(item) {
+      if(typeof item.errorGetter === 'string')
+        return this.getter(item.errorGetter)
+      else
+        return this.getter(item.managerGetter)?.error
+    },
+
+    getData(item) {
+      if(typeof item.dataGetter === 'string')
+        return this.getter(item.dataGetter)
+      else
+        return this.getter(item.managerGetter)?.data
     }
   }
 }
