@@ -72,6 +72,10 @@ const managers = [
       multisig: 'Multisig Transactions',
       mosaic: 'Mosaic Transactions'
     }
+  ),
+  new DataSet(
+    'info',
+    (hash) => sdkTransaction.getTransactionInfoFormatted(hash)
   )
 ]
 
@@ -84,7 +88,12 @@ export default {
   },
   getters: {
     getInitialized: state => state.initialized,
-    ...getGettersFromManagers(managers)
+    ...getGettersFromManagers(managers),
+    transactionInfo: state => state.info?.data?.transactionInfo || {},
+    transactionDetail: state => state.info?.data?.transactionDetail || {},
+    transferMosaics: state => state.info?.data?.transferMosaics || [],
+    aggregateInnerTransactions: state => state.info?.data?.aggregateInnerTransactions || [],
+    aggregateCosignatures: state => state.info?.data?.aggregateCosignatures || [],
   },
   mutations: {
     setInitialized: (state, initialized) => { state.initialized = initialized },
@@ -92,8 +101,8 @@ export default {
   },
   actions: {
     ...getActionsFromManagers(managers),
-    // Initialize the transaction model.
-    // First fetch the page, then subscribe.
+
+    // Initialize the transaction model. First fetch the page, then subscribe.
     async initialize({ commit, dispatch, getters }) {
       const callback = async () => {
         await dispatch('initializePage')
@@ -142,7 +151,9 @@ export default {
       await context.getters.mosaic.setStore(context)
       await context.getters.timeline.setStore(context).initialFetch();
     },
-    
-  
+
+    async getTransactionInfoByHash(context, hash) {
+      await context.getters.info.setStore(context).initialFetch(hash);
+    }
   }
 }

@@ -104,7 +104,15 @@ class sdkNamespace {
 
     const currentBlockHeight = await sdkBlock.getBlockHeight()
 
-    return namespaces.map(namespace => format.formatNamespaceInfo(namespace, currentBlockHeight))
+    return namespaces
+      .map(namespace => format.formatNamespaceInfo(namespace, currentBlockHeight))
+      .map(el => ({
+        namespaceName: el.namespaceName,
+        namespaceId: el.namespaceId,
+        owneraddress: el.address,
+        duration: el.duration,
+        approximateExpired: el.approximateExpired
+      }))
   }
 
   static getNamespacesSinceIdWithLimit = async (limit, sinceNamespaceId) => {

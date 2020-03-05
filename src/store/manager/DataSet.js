@@ -16,17 +16,14 @@
  *
  */
 
-export default class Timeline {
-    constructor(name, store, initialFuntion, dataType = Array) {
-        if (typeof name === 'string')
-            throw Error('Failed to construct Filter. Name is not provided');
-        if(!(store && store.state && store.getters && store.commit && store.dispatch))
-            throw Error('Failed to construct Filter. Store context is not provided');
+export default class DataSet {
+    constructor(name, initialFuntion, dataType = Object) {
+        if (typeof name !== 'string')
+            throw Error('Failed to construct DataSet. Name is not provided');
         if (typeof initialFuntion !== 'function')
             throw Error('Cannot create timeline. Initial function is not provided')
 
         this.name = name;
-        this.store = store;
         this.initialFuntion = initialFuntion
         this.data = new dataType()
         this.loading = false
@@ -35,14 +32,20 @@ export default class Timeline {
 
     static empty() {
         return {
-            data: []
+            data: {}
         }
     }
 
-    async initialFetch() {
+    setStore(store) {
+        this.store = store;
+        this.store.dispatch(this.name, this);
+        return this;
+    }
+
+    async initialFetch(props) {
         this.loading = true
         try {
-            this.data = await this.initialFuntion(this.pageSize)
+            this.data = await this.initialFuntion(props, this.store)
         }
         catch(e) {
             console.log(e)

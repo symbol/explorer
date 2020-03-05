@@ -66,11 +66,11 @@ export default class Timeline {
         this.index = 0
         this.keys = []
         try {
-            this.data = await this.initialFuntion(this.pageSize)
+            this.data = await this.initialFuntion(this.pageSize, this.store)
             if (this.data?.length) {
                 const lastElement = this.data[this.data.length - 1]
                 const key = lastElement[this.keyName]
-                this.next = await this.fetchFunction(key, this.pageSize)
+                this.next = await this.fetchFunction(key, this.pageSize, this.store)
                 this.keys.push(key)
                 this.createNewKey()
             }
@@ -121,7 +121,7 @@ export default class Timeline {
             this.loading = true
             this.data = [].concat.apply([], this.next)
             try {
-                this.next = await this.fetchFunction(this.nextKeyValue, this.pageSize)
+                this.next = await this.fetchFunction(this.nextKeyValue, this.pageSize, this.store)
                 this.createNewKey()
                 this.index++
             } catch (e) {
@@ -141,7 +141,7 @@ export default class Timeline {
             this.loading = true
             this.next = [].concat.apply([], this.data)
             try {
-                this.data = await this.fetchFunction(this.previousKeyValue, this.pageSize)
+                this.data = await this.fetchFunction(this.previousKeyValue, this.pageSize, this.store)
                 this.keys.pop()
                 this.index--
             } catch (e) {
