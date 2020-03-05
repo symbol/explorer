@@ -44,11 +44,11 @@ module.exports = {
     ]
   },
   css: {
-    //modules: true,
+    // modules: true,
     loaderOptions: {
       sass: {
-        prependData: `@import "~@/styles/variables.scss";`,
-      },
+        prependData: `@import "~@/styles/variables.scss";`
+      }
     }
   }
 }
