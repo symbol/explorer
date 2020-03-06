@@ -33,6 +33,8 @@ const formatImportanceScore = importanceScore => {
 
   if (importanceScore)
     return (importanceScore / totalchainimportance)
+
+  return importanceScore
 }
 
 // FORMAT BLOCK
