@@ -24,7 +24,7 @@
                             {{getNameByKey(item.netoworkFeesType)}}
                         </template>
                         <template #body>
-                            <Decimal :value="item.fees" /> {{item.remark}}
+                            <Decimal :value="item.fees" />
                         </template>
                     </Card>
                 </b-col>

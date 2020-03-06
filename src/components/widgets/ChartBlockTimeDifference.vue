@@ -1,7 +1,7 @@
 <template>
     <Card :loading="loading">
         <template #title>
-            {{getNameByKey('Block time differences in last 240 blocks (1 hours)')}}
+            {{getNameByKey(blockTimeDifferenceData.name)}}
         </template>
 
         <template #body>
@@ -35,10 +35,10 @@ export default {
     }),
 
     chartData() {
-      return this.blockTimeDifferenceData
+      return this.blockTimeDifferenceData.chartData
     },
 
-    loading() { return !this.blockTimeDifferenceData.length }
+    loading() { return !this.blockTimeDifferenceData.chartData }
   },
 
   methods: {

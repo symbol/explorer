@@ -1,16 +1,17 @@
 <template>
     <Card :loading="loading">
         <template #title>
-            {{getNameByKey(transactionPerBlockData.name)}}
+            {{getNameByKey(transactionPerDayData.name)}}
         </template>
 
         <template #body>
+            <!-- From {{ transactionPerDayData.fromBlocks }} to  {{ transactionPerDayData.toBlocks }} -->
             <b-row style="margin: -20px">
                 <b-col>
                     <Chart
-                        type="line"
+                        type="bar"
                         :data="chartData"
-                        xaxisType="numeric"
+                        xaxisType="text"
                     />
                 </b-col>
             </b-row>
@@ -31,14 +32,14 @@ export default {
 
   computed: {
     ...mapGetters({
-      transactionPerBlockData: 'statistics/getTransactionPerBlockData'
+      transactionPerDayData: 'statistics/getTransactionPerDayData'
     }),
 
     chartData() {
-      return this.transactionPerBlockData.chartData
+      return this.transactionPerDayData.chartData
     },
 
-    loading() { return !this.transactionPerBlockData.chartData }
+    loading() { return !this.transactionPerDayData.chartData }
   },
 
   methods: {
