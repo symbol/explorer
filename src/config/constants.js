@@ -15,7 +15,7 @@ import {
   AccountRestrictionFlags,
   MosaicRestrictionEntryType,
   MosaicRestrictionType
-} from 'nem2-sdk'
+} from 'symbol-sdk'
 
 class Constants {
   static PageSize = 25

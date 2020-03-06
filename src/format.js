@@ -1,4 +1,4 @@
-import { Address, TransactionType, ReceiptType, ResolutionType, AccountRestrictionFlags } from 'nem2-sdk'
+import { Address, TransactionType, ReceiptType, ResolutionType, AccountRestrictionFlags } from 'symbol-sdk'
 import { Constants } from './config'
 import moment from 'moment'
 import http from './infrastructure/http'

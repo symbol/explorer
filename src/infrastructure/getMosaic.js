@@ -20,7 +20,7 @@ import axios from 'axios'
 import {
   MosaicId,
   NamespaceId
-} from 'nem2-sdk'
+} from 'symbol-sdk'
 
 import dto from './dto'
 import http from './http'
