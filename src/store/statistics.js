@@ -17,7 +17,7 @@
  */
 
 import Lock from './lock'
-import { getNetworkTransactionFees, getEffectiveRentalFees, getBlockTimeDifferenceData } from '../infrastructure/getStatistics'
+import { getNetworkTransactionFees, getEffectiveRentalFees, getBlockTimeDifferenceData, getTransactionPerBlockData, getTransactionPerDayData } from '../infrastructure/getStatistics'
 
 const LOCK = Lock.create()
 
@@ -31,7 +31,8 @@ export default {
     networkTransactionFees: [],
     networkRentalFees: [],
     blockTimeDifferenceData: [],
-    transactionPerBlockData: []
+    transactionPerBlockData: [],
+    transactionPerDayData: []
   },
   getters: {
     getInitialized: state => state.initialized,
@@ -40,7 +41,8 @@ export default {
     getNetworkTransactionFees: state => state.networkTransactionFees,
     getNetworkRentalFees: state => state.networkRentalFees,
     getBlockTimeDifferenceData: state => state.blockTimeDifferenceData,
-    getTransactionPerBlockData: state => state.transactionPerBlockData
+    getTransactionPerBlockData: state => state.transactionPerBlockData,
+    getTransactionPerDayData: state => state.transactionPerDayData
   },
   mutations: {
     setInitialized: (state, initialized) => { state.initialized = initialized },
@@ -49,7 +51,8 @@ export default {
     setNetworkTransactionFees: (state, networkTransactionFees) => { state.networkTransactionFees = networkTransactionFees },
     setNetworkRentalFees: (state, networkRentalFees) => { state.networkRentalFees = networkRentalFees },
     setBlockTimeDifferenceData: (state, blockTimeDifferenceData) => { state.blockTimeDifferenceData = blockTimeDifferenceData },
-    setTransactionPerBlockData: (state, transactionPerBlockData) => { state.transactionPerBlockData = transactionPerBlockData }
+    setTransactionPerBlockData: (state, transactionPerBlockData) => { state.transactionPerBlockData = transactionPerBlockData },
+    setTransactionPerDayData: (state, transactionPerDayData) => { state.transactionPerDayData = transactionPerDayData }
   },
   actions: {
     // Initialize the statistics model.
@@ -72,14 +75,16 @@ export default {
       commit('setError', false)
       try {
         let netoworkTransactionFees = await getNetworkTransactionFees()
-        let effectiveRentalFees = await getEffectiveRentalFees()
-
-        let graphDataset = await getBlockTimeDifferenceData()
+        // let effectiveRentalFees = await getEffectiveRentalFees()
+        let blockTimeDifferenceDataset = await getBlockTimeDifferenceData(240,60)
+        let transactionPerBlockDataset = await getTransactionPerBlockData(240,60)
+        let transactionPerDayDataset = await getTransactionPerDayData(5)
 
         commit('setNetworkTransactionFees', netoworkTransactionFees)
-        commit('setNetworkRentalFees', effectiveRentalFees)
-        commit('setBlockTimeDifferenceData', graphDataset.blockTimeDifferenceGraphDataset)
-        commit('setTransactionPerBlockData', graphDataset.transactionPerBlockGraphDataset)
+        // commit('setNetworkRentalFees', effectiveRentalFees)
+        commit('setBlockTimeDifferenceData', blockTimeDifferenceDataset)
+        commit('setTransactionPerBlockData', transactionPerBlockDataset)
+        commit('setTransactionPerDayData', transactionPerDayDataset)
       } catch (e) {
         console.error(e)
         commit('setError', true)
