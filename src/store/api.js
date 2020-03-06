@@ -33,7 +33,8 @@ export default {
     defaultNode: helper.parseUrl(globalConfig.peersApi.defaultNode),
     currentNode: helper.parseUrl(globalConfig.peersApi.defaultNode),
     wsEndpoint: globalConfig.peersApi.defaultNode |> helper.httpToWsUrl,
-    marketData: helper.parseUrl(globalConfig.endpoints.marketData)
+    marketData: helper.parseUrl(globalConfig.endpoints.marketData),
+    analysisData: helper.parseUrl(globalConfig.endpoints.analysisData)
   },
 
   getters: {
@@ -45,7 +46,8 @@ export default {
     currentNode: state => state.currentNode.toString(),
     currentNodeHostname: state => state.currentNode.hostname,
     wsEndpoint: state => state.wsEndpoint.toString(),
-    marketData: state => state.marketData.toString()
+    marketData: state => state.marketData.toString(),
+    analysisData: state => state.analysisData.toString()
   },
 
   mutations: {
@@ -66,7 +68,9 @@ export default {
       const callback = async () => {
         const nodeUrl = getters['currentNode']
         const marketDataUrl = getters['marketData']
-        http.init(nodeUrl, marketDataUrl)
+        const analysisDataUrl = getters['analysisData']
+
+        http.init(nodeUrl, marketDataUrl, analysisDataUrl)
       }
       await LOCK.initialize(callback, commit, dispatch, getters)
     },

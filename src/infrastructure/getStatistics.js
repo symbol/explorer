@@ -16,23 +16,12 @@
  *
  */
 
+import axios from 'axios'
+import http from './http'
 import sdkBlock from '../infrastructure/getBlock'
 import sdkDiagnostic from '../infrastructure/getDiagnostic'
 import Constants from '../config/constants'
 import helper from '../helper'
-
-const getNetworkFees = async () => {
-  const fromHeight = await sdkBlock.getBlockHeight() - Constants.NetworkConfig.MAX_ROLL_BACK_BLOCKS
-  const maxRollBackBlocks = await sdkDiagnostic.getDiagnosticBlocksFromHeightWithLimit(Constants.NetworkConfig.MAX_ROLL_BACK_BLOCKS, fromHeight)
-  const maxRollBackBlocksFeeMultipliers = maxRollBackBlocks.map(({ feeMultiplier }) => (feeMultiplier / Math.pow(10, Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY)))
-
-  return {
-    averageNetworkFees: helper.calculateAverage(maxRollBackBlocksFeeMultipliers),
-    medianNetworkFees: helper.calculateMedian(maxRollBackBlocksFeeMultipliers),
-    highestNetworkFees: Math.max(...maxRollBackBlocksFeeMultipliers),
-    lowestNetworkFees: Math.max(...maxRollBackBlocksFeeMultipliers)
-  }
-}
 
 const getRentalFees = async () => {
   const defaultDynamicFees = Constants.NetworkConfig.DEFAULT_DYNAMIC_FEE_MULTIPLIER / Math.pow(10, Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY)
@@ -46,21 +35,28 @@ const getRentalFees = async () => {
 }
 
 export const getNetworkTransactionFees = async () => {
-  const networkFees = await getNetworkFees()
+
+  const path = `/network/fees`
+  const response = await axios.get(http.nodeUrl + path)
+  const networkFees = response.data
+
+  const feeType = Object.keys(networkFees)
+
   let networkTransactionFees = []
-  Constants.NetworkConfig.NETWORK_FEES_RATE.forEach(feeRate => {
+  feeType.forEach(type => {
     let fees = 0
-    if (feeRate.TYPE === 'Fast')
-      fees = (feeRate.RATE * networkFees.highestNetworkFees)
-    if (feeRate.TYPE === 'Average')
-      fees = (feeRate.RATE * networkFees.averageNetworkFees)
-    if (feeRate.TYPE === 'Slow')
-      fees = (feeRate.RATE * networkFees.lowestNetworkFees)
+    if (type === 'highestFeeMultiplier')
+      fees = networkFees.highestFeeMultiplier
+    if (type === 'averageFeeMultiplier')
+      fees = networkFees.averageFeeMultiplier
+    if (type === 'medianFeeMultiplier')
+      fees = networkFees.medianFeeMultiplier
+    if (type === 'lowestFeeMultiplier')
+      fees = networkFees.lowestFeeMultiplier
 
     networkTransactionFees.push({
-      netoworkFeesType: feeRate.TYPE,
-      fees: fees.toFixed(Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY),
-      remark: Constants.NetworkConfig.NAMESPACE[1].split('.')[1] + ' / Transfer'
+      netoworkFeesType: type,
+      fees: fees.toString()
     })
   })
 
@@ -76,96 +72,69 @@ export const getEffectiveRentalFees = async () => {
   }))
 }
 
-export const getBlockTimeDifferenceData = async () => {
-  const blockCount = 240 // 1 hours
-  const grouping = 60 // 15 mins
-  const startHeight = await sdkBlock.getBlockHeight() - blockCount
+export const getBlockTimeDifferenceData = async (limit, grouping) => {
+  const path = `stat/blockTimeDifference/limit/${limit}/grouping/${grouping}`
+  const response = await axios.get(http.analysisDataUrl + path)
+  const dataset = response.data
 
-  const blocks = await sdkDiagnostic.getDiagnosticBlocksFromHeightWithLimit(blockCount, startHeight)
-
-  let blockTimeDifferenceGraphDataset = drawBlockTimeDifference(blocks, grouping)
-
-  let transactionPerBlockGraphDataset = drawTransactionPerBlock(blocks, grouping)
+  let chartData = [
+    {
+      name: dataset.data[0].name,
+      type: 'line',
+      data: dataset.data[0].data
+    },
+    {
+      name: dataset.data[1].name,
+      type: 'line',
+      data: dataset.data[1].data
+    }
+  ]
 
   return {
-    blockTimeDifferenceGraphDataset,
-    transactionPerBlockGraphDataset
+    ...dataset,
+    chartData
   }
 }
 
-const drawBlockTimeDifference = (blocks, grouping) => {
-  const heights = blocks.map(block => block.height.compact())
-  let timestamps = blocks.map(block => block.timestamp.compact())
+export const getTransactionPerBlockData = async (limit, grouping) => {
+  const path = `stat/transactionPerBlock/limit/${limit}/grouping/${grouping}`
+  const response = await axios.get(http.analysisDataUrl + path)
+  const dataset = response.data
 
-  for (let i = 0; i < timestamps.length - 1; ++i)
-    timestamps[i] -= timestamps[i + 1]
-
-  let averages = []
-  let sum = 0
-  for (let i = 0; i < grouping; ++i)
-    sum += timestamps[i]
-
-  for (let i = grouping; i < timestamps.length; ++i) {
-    averages.push(sum / grouping)
-    sum -= timestamps[i - grouping]
-    sum += timestamps[i]
-  }
-  averages.push(0)
-
-  let timeDifferenceDataset = []
-  let averagesDataset = []
-  for (let i = 0; i < timestamps.length - 1; ++i) {
-    timeDifferenceDataset.push([heights[i], timestamps[i] / 1000])
-    averagesDataset.push([heights[i], (averages[i] / 1000).toFixed(3)])
-  }
-
-  return [
+  let chartData = [
     {
-      name: 'Time Difference (in seconds)',
-      type: 'line',
-      data: timeDifferenceDataset
-    },
-    {
-      name: 'Average Time Difference (per 60 blocks)',
-      type: 'line',
-      data: averagesDataset
-    }
-  ]
-}
-
-const drawTransactionPerBlock = (blocks, grouping) => {
-  const heights = blocks.map(block => block.height.compact())
-  let numTransactions = blocks.map(block => block.numTransactions)
-
-  let averages = []
-  let sum = 0
-  for (let i = 0; i < grouping; ++i)
-    sum += numTransactions[i]
-
-  for (let i = grouping; i < numTransactions.length; ++i) {
-    averages.push(sum / grouping)
-    sum -= numTransactions[i - grouping]
-    sum += numTransactions[i]
-  }
-  averages.push(0)
-
-  let numTransactionsPerBlockDataset = []
-  let averagesDataset = []
-  for (let i = 0; i < numTransactions.length - 1; ++i) {
-    numTransactionsPerBlockDataset.push([heights[i], numTransactions[i]])
-    averagesDataset.push([heights[i], Math.floor(averages[i])])
-  }
-
-  return [
-    {
-      name: 'Number of transactions',
+      name: dataset.data[0].name,
       type: 'column',
-      data: numTransactionsPerBlockDataset
+      data: dataset.data[0].data
     },
     {
-      name: 'Average number of transaction (per 60 blocks)',
+      name: dataset.data[1].name,
       type: 'line',
-      data: averagesDataset
+      data: dataset.data[1].data
     }
   ]
+
+  return {
+    ...dataset,
+    chartData
+  }
+}
+
+export const getTransactionPerDayData = async (days) => {
+  const path = `stat/transactionPerDay/days/${days}`
+  const response = await axios.get(http.analysisDataUrl + path)
+  const dataset = response.data
+
+  let chartData = [{
+    name: 'Transaction Per day',
+    type: 'column',
+    data: dataset.data
+  }]
+
+  console.log(chartData)
+
+  return {
+    ...dataset,
+    chartData
+  }
 }
