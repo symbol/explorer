@@ -1,14 +1,13 @@
 @import url('https://fonts.googleapis.com/css?family=Noto+Sans&display=swap');
 
-$primary: #5200c6;
-$secondary: #44004e;
-$info: #44004e;
-$danger: red;
-$pink: #f0f;
-$blue: #00c8ff;
-$green: #33dd50;
-$orange: #ff9600;
-$navmenubackground: #44004e;
+$primary: $primary-color;
+$secondary: $secondary-color;
+$info: $secondary-color;
+$danger: $red-color;
+$pink: $pink-color;
+$blue: $blue-color;
+$green: $green-color;
+$orange: $orange-color;
 
 @import '../../node_modules/bootstrap/scss/bootstrap';
 @import '../../node_modules/bootstrap-vue/src/index.scss';
