@@ -114,7 +114,7 @@ export default {
     accountInfoError: state => state.accountInfoError,
     filterValue: state => state.accountType,
     filterOptions: () => ({
-      'harvester': 'Harvester List',
+      'harvester': 'Harvester List'
       // 'rich': 'Rich List'
     }),
     transactionFilterOptions: () => ({

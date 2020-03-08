@@ -17,7 +17,7 @@
  */
 
 import http from './http'
-import { Address, MosaicId, NamespaceId } from 'nem2-sdk'
+import { Address, MosaicId, NamespaceId } from 'symbol-sdk'
 import format from '../format'
 import helper from '../helper'
 

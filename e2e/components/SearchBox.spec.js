@@ -25,7 +25,7 @@ describe('Search Box component should', () => {
 
     it('redirect to transaction detail page given correct transaction hash', () => {
 
-        const transactionHash = '626F75EB81D081BAC59DE960EF8B6C44810C3E346B7874652197764EF048B39B'
+        const transactionHash = '2F3CD776DAEEA2E8E3FFE00D7A38DC6EA670E51175A5390CEEEC00B0DB197508'
 
         cy.get('.search-box')
         .type(transactionHash)
@@ -37,7 +37,7 @@ describe('Search Box component should', () => {
 
     it('redirect to account detail page given correct account address', () => {
 
-        const address = 'TB65QSXGV5FUTRPVMSCVB4RZ7FJLU32LHOOP4MDI'
+        const address = 'TDTZ23JBJZP3GTKKM2P6FYCMXS6RQYPB6TIMSPVU'
 
         cy.get('.search-box')
         .type(address)

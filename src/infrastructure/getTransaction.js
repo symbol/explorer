@@ -17,8 +17,8 @@
  */
 
 import axios from 'axios'
-// import { QueryParams, Address } from 'nem2-sdk'
-import * as nem from 'nem2-sdk'
+// import { QueryParams, Address } from 'symbol-sdk'
+import * as nem from 'symbol-sdk'
 import dto from './dto'
 import http from './http'
 import format from '../format'

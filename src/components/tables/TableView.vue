@@ -76,7 +76,6 @@ export default {
       changeDecimalColor: [
         'amount',
         'fee',
-        'importance',
         'relativeAmount',
         'feeMultiplier',
         'difficulty'
