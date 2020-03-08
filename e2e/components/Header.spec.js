@@ -9,7 +9,7 @@ describe('Symbol Explorer Header should', () => {
 
         cy.get('.header-logo')
         .should('have.attr', 'src')
-        .and('equal', '/theme/img/logo-w.png')
+        .and('contain', 'symbol_logo')
 
     })
 
