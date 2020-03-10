@@ -17,16 +17,13 @@
  */
 
 import axios from 'axios'
-// import { QueryParams, Address } from 'symbol-sdk'
+import { QueryParams, Address } from 'symbol-sdk'
 import * as nem from 'symbol-sdk'
 import dto from './dto'
 import http from './http'
 import format from '../format'
 import sdkBlock from '../infrastructure/getBlock'
 import sdkMosaic from './getMosaic'
-
-const QueryParams = nem.QueryParams // Travis patch
-const Address = nem.Address // Travis patch
 
 class sdkTransaction {
   static getTransactionStatus = (hash) => {
@@ -52,10 +49,9 @@ class sdkTransaction {
   }
 
   static getAccountTransactions = async (address, transactionId = '') => {
-    let pageSize = 100
-
+    const pageSize = 100
     const transactionsList = await http.account
-      .getAccountTransactions(Address.createFromRawAddress(address), new QueryParams(pageSize, transactionId))
+      .getAccountTransactions(Address.createFromRawAddress(address), new QueryParams({pageSize, id: transactionId}))
       .toPromise()
 
     return format.formatTransactions(transactionsList)

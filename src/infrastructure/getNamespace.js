@@ -61,8 +61,9 @@ class sdkNamespace {
   }
 
   static getFullNamespacesFromAccount = async (address, namespaceId = '') => {
+    const pageSize = 100
     let namespaceInfos = await http.namespace
-      .getNamespacesFromAccount(address, new QueryParams().setPageSize(100).setId(namespaceId))
+      .getNamespacesFromAccount(address, new QueryParams({pageSize, id: namespaceId}))
       .toPromise()
 
     if (namespaceInfos.length > 0) {
