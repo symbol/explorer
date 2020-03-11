@@ -17,8 +17,7 @@
  */
 
 import axios from 'axios'
-import { QueryParams, Address } from 'symbol-sdk'
-import * as nem from 'symbol-sdk'
+import { QueryParams, Address, TransactionType, NamespaceId, UInt64 } from 'symbol-sdk'
 import dto from './dto'
 import http from './http'
 import format from '../format'
@@ -56,7 +55,7 @@ class sdkTransaction {
   static getAccountTransactions = async (address, transactionId = '') => {
     const pageSize = 100
     const transactionsList = await http.account
-      .getAccountTransactions(Address.createFromRawAddress(address), new QueryParams({pageSize, id: transactionId}))
+      .getAccountTransactions(Address.createFromRawAddress(address), new QueryParams({ pageSize, id: transactionId }))
       .toPromise()
 
     return format.formatTransactions(transactionsList)
@@ -69,7 +68,7 @@ class sdkTransaction {
     if (transaction?.mosaics?.length) {
       // replace MosaicId when mosaic id is NamespaceId.
       await Promise.all(transaction.mosaics.map(async mosaic => {
-        if (mosaic.id instanceof nem.NamespaceId)
+        if (mosaic.id instanceof NamespaceId)
           return (mosaic.id = await http.namespace.getLinkedMosaicId(mosaic.id).toPromise())
       }))
 
@@ -92,7 +91,7 @@ class sdkTransaction {
     if (formattedTransaction.transactionBody.type !== 'Aggregate Complete') {
       const getEffectiveFee = await http.transaction.getTransactionEffectiveFee(hash).toPromise()
 
-      effectiveFee = format.formatFee(nem.UInt64.fromNumericString(getEffectiveFee.toString()))
+      effectiveFee = format.formatFee(UInt64.fromNumericString(getEffectiveFee.toString()))
     }
 
     const transactionStatus = await http.transaction
@@ -206,7 +205,7 @@ class sdkTransaction {
 
       if (transactionBody) {
         switch (transactionType) {
-        case nem.TransactionType.TRANSFER:
+        case TransactionType.TRANSFER:
           formattedTransactionDetail = {
             transactionType: transactionBody.type,
             recipient: transactionBody.recipient,
@@ -222,52 +221,29 @@ class sdkTransaction {
           }
           break
 
-        case nem.TransactionType.NAMESPACE_REGISTRATION:
-        case nem.TransactionType.ADDRESS_ALIAS:
-        case nem.TransactionType.MOSAIC_ALIAS:
-        case nem.TransactionType.MOSAIC_DEFINITION:
-        case nem.TransactionType.MOSAIC_SUPPLY_CHANGE:
-        case nem.TransactionType.MULTISIG_ACCOUNT_MODIFICATION:
-        case nem.TransactionType.HASH_LOCK:
-        case nem.TransactionType.SECRET_LOCK:
-        case nem.TransactionType.SECRET_PROOF:
-        case nem.TransactionType.ACCOUNT_ADDRESS_RESTRICTION:
-        case nem.TransactionType.ACCOUNT_MOSAIC_RESTRICTION:
-        case nem.TransactionType.ACCOUNT_OPERATION_RESTRICTION:
-        case nem.TransactionType.ACCOUNT_LINK:
-        case nem.TransactionType.MOSAIC_ADDRESS_RESTRICTION:
-        case nem.TransactionType.MOSAIC_GLOBAL_RESTRICTION:
-        case nem.TransactionType.ACCOUNT_METADATA:
-        case nem.TransactionType.MOSAIC_METADATA:
-        case nem.TransactionType.NAMESPACE_METADATA:
+        case TransactionType.NAMESPACE_REGISTRATION:
+        case TransactionType.ADDRESS_ALIAS:
+        case TransactionType.MOSAIC_ALIAS:
+        case TransactionType.MOSAIC_DEFINITION:
+        case TransactionType.MOSAIC_SUPPLY_CHANGE:
+        case TransactionType.MULTISIG_ACCOUNT_MODIFICATION:
+        case TransactionType.HASH_LOCK:
+        case TransactionType.SECRET_LOCK:
+        case TransactionType.SECRET_PROOF:
+        case TransactionType.ACCOUNT_ADDRESS_RESTRICTION:
+        case TransactionType.ACCOUNT_MOSAIC_RESTRICTION:
+        case TransactionType.ACCOUNT_OPERATION_RESTRICTION:
+        case TransactionType.ACCOUNT_LINK:
+        case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
+        case TransactionType.MOSAIC_GLOBAL_RESTRICTION:
+        case TransactionType.ACCOUNT_METADATA:
+        case TransactionType.MOSAIC_METADATA:
+        case TransactionType.NAMESPACE_METADATA:
           formattedTransactionDetail = detail
-
           break
 
-        case nem.TransactionType.AGGREGATE_COMPLETE:
-          formattedTransactionDetail = {
-            transactionType: transactionBody.type
-          }
-
-          if (transactionBody.innerTransactions?.length) {
-            formattedAggregateInnerTransactions = transactionBody.innerTransactions.map((el) => ({
-              transactionId: el.transactionId,
-              type: el.transactionBody.type,
-              signer: el.signer,
-              transactionBody: el.transactionBody
-            }))
-          }
-
-          if (transactionBody.cosignatures?.length) {
-            formattedAggregateCosignatures = transactionBody.cosignatures.map((el) => ({
-              signature: el.signature,
-              signer: el.signer
-            }))
-          }
-
-          break
-
-        case nem.TransactionType.AGGREGATE_BONDED:
+        case TransactionType.AGGREGATE_COMPLETE:
+        case TransactionType.AGGREGATE_BONDED:
           formattedTransactionDetail = {
             transactionType: transactionBody.type
           }
