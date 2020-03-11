@@ -283,7 +283,9 @@ const formatTransactionBody = transactionBody => {
       transactionType: TransactionType.MULTISIG_ACCOUNT_MODIFICATION,
       minApprovalDelta: transactionBody.minApprovalDelta,
       minRemovalDelta: transactionBody.minRemovalDelta,
-      modifications: transactionBody.modifications
+      modifications: transactionBody.modifications,
+      publicKeyAdditions: transactionBody.publicKeyAdditions.map(publicAccount => publicAccount.address.plain()),
+      publicKeyDeletions: transactionBody.publicKeyDeletions.map(publicAccount => publicAccount.address.plain())
     }
 
   case TransactionType.AGGREGATE_COMPLETE:
