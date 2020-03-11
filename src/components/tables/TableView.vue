@@ -70,7 +70,9 @@ export default {
         'restrictionAddressAdditions',
         'restrictionAddressDeletions',
         'restrictionMosaicAdditions',
-        'restrictionMosaicDeletions'
+        'restrictionMosaicDeletions',
+        'publicKeyAdditions',
+        'publicKeyDeletions'
       ],
       disableClickItems: [...Object.values(Constants.Message)],
       changeDecimalColor: [
@@ -89,7 +91,9 @@ export default {
         'restrictionMosaicAdditions',
         'restrictionMosaicDeletions',
         'restrictionOperationAdditions',
-        'restrictionOperationDeletions'
+        'restrictionOperationDeletions',
+        'publicKeyAdditions',
+        'publicKeyDeletions'
       ]
     }
   },

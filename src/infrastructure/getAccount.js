@@ -133,6 +133,7 @@ class sdkAccount {
 
     let namespaceList
     let formattedNamespaceList
+    let partialTransactions
 
     try { rawAccountInfo = await this.getAccountInfoByAddress(address) } catch (e) { throw Error('Failed to get account info', e) }
 
@@ -145,6 +146,8 @@ class sdkAccount {
     try { metadataList = await sdkMetadata.getAccountMetadata(address) } catch (e) { console.warn(e) }
 
     try { accountRestrictions = await getAccountRestrictions(address) } catch (e) { console.warn(e) }
+
+    try { partialTransactions = await sdkTransaction.getPartialTransactions(address) } catch (e) { console.warn(e) }
 
     if (rawAccountInfo) {
       formattedAccountInfo = {
@@ -206,6 +209,16 @@ class sdkAccount {
       )
     }
 
+    if (partialTransactions) {
+      partialTransactions = partialTransactions.map(el => ({
+        signer: el.signer,
+        fee: el.fee,
+        transactionHash: el.transactionHash,
+        deadline: el.deadline,
+        transactionBody: el.transactionBody
+      }))
+    }
+
     return {
       accountInfo: formattedAccountInfo || {},
       mosaicList: mosaicList || [],
@@ -215,7 +228,8 @@ class sdkAccount {
       namespaceList: formattedNamespaceList || [],
       activityBuckets: activityBuckets || [],
       metadataList: metadataList || [],
-      accountRestrictions: accountRestrictions || []
+      accountRestrictions: accountRestrictions || [],
+      partialTransactions: partialTransactions || []
     }
   }
 }

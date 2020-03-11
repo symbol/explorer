@@ -70,6 +70,8 @@ export default {
     createdMosaics: [], // Wait for Rest team apply,
     // The Account Restriction list.
     accountRestrictionList: [],
+    // The Account Partial list.
+    accountPartialList: [],
     accountInfoLoading: false,
     accountInfoError: false,
 
@@ -109,6 +111,7 @@ export default {
     },
     getActivityBucketList: state => state.activityBucketList,
     getMetadataList: state => state.metadataList,
+    getAccountPartialList: state => state.accountPartialList,
     getError: state => state.error[state.accountType],
     accountInfoLoading: state => state.accountInfoLoading,
     accountInfoError: state => state.accountInfoError,
@@ -140,6 +143,7 @@ export default {
     setTransactionList: (state, transactionList) => { state.transactionList = transactionList },
     setActivityBucketList: (state, activityBucketList) => { state.activityBucketList = activityBucketList },
     setMetadataList: (state, metadataList) => { state.metadataList = metadataList },
+    setAccountPartialList: (state, accountPartialList) => { state.accountPartialList = accountPartialList },
     setError: (state, error) => { state.error[state.accountType] = error },
     setErrorWithType: (state, { error, type }) => { state.error[type] = error },
     accountInfoLoading: (state, v) => { state.accountInfoLoading = v },
@@ -297,6 +301,7 @@ export default {
         commit('setActivityBucketList', accountInfo.activityBuckets)
         commit('setMetadataList', accountInfo.metadataList)
         commit('setAccountRestrictionList', accountInfo.accountRestrictions)
+        commit('setAccountPartialList', accountInfo.partialTransactions)
       }
 
       // Loading end

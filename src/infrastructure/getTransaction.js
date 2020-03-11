@@ -48,6 +48,11 @@ class sdkTransaction {
     })
   }
 
+  static getPartialTransactions = async (address) => {
+    let partialTransactions = await http.account.getAccountPartialTransactions(Address.createFromRawAddress(address)).toPromise()
+    return format.formatTransactions(partialTransactions)
+  }
+
   static getAccountTransactions = async (address, transactionId = '') => {
     const pageSize = 100
     const transactionsList = await http.account
