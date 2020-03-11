@@ -62,6 +62,8 @@ export default {
 }
 
 .modal-body {
+    height: 70%;
+    overflow-y: auto;
     margin: 20px 0;
 }
 
