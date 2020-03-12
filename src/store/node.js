@@ -31,7 +31,7 @@ const managers = [
     'timeline',
     () => getNodePeers(),
     () => [],
-    ''
+    ''// node id
   )
 ]
 

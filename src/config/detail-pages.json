@@ -10,10 +10,9 @@
                         "title": "Account Detail",
                         "fullWidth": true,
                         "body": "TableInfoView",
+                        "managerGetter": "account/info",
                         "dataGetter": "account/getAccountInfo",
                         "pagination": false,
-                        "loadingGetter": "account/accountInfoLoading",
-                        "errorGetter": "account/accountInfoError",
                         "errorMessage": "Account is unknown to the network"
                     },
                     {
@@ -21,40 +20,40 @@
                         "title": "Multisig Cosignatories",
                         "fullWidth": false,
                         "body": "TableListView",
+                        "managerGetter": "account/info",
                         "dataGetter": "account/getAccountMultisigCosignatories",
                         "pagination": true,
-                        "pageSize": 5,
-                        "loadingGetter": "account/accountInfoLoading"
+                        "pageSize": 5
                     },
                     {
                         "type": "Card",
                         "title": "Owned Mosaics",
                         "fullWidth": false,
                         "body": "TableListView",
+                        "managerGetter": "account/info",
                         "dataGetter": "account/getMosaicList",
                         "pagination": true,
-                        "pageSize": 5,
-                        "loadingGetter": "account/accountInfoLoading"
+                        "pageSize": 5
                     },
                     {
                         "type": "Card",
                         "title": "Owned Namespaces",
                         "fullWidth": false,
                         "body": "TableListView",
+                        "managerGetter": "account/info",
                         "dataGetter": "account/getNamespaceList",
                         "pagination": true,
-                        "pageSize": 5,
-                        "loadingGetter": "account/accountInfoLoading"
+                        "pageSize": 5
                     },
                     {
                         "type": "Card",
                         "title": "Account Restriction",
                         "fullWidth": true,
                         "body": "TableListView",
+                        "managerGetter": "account/info",
                         "dataGetter": "account/getAccountRestrictionList",
                         "pagination": false,
-                        "pageSize": 5,
-                        "loadingGetter": "account/accountInfoLoading"
+                        "pageSize": 5
                     },
                     {
                         "type": "Card",
@@ -62,19 +61,19 @@
                         "fullWidth": true,
                         "body": "TableListView",
                         "dataGetter": "account/getMetadataList",
+                        "managerGetter": "account/info",
                         "pagination": true,
-                        "pageSize": 5,
-                        "loadingGetter": "account/accountInfoLoading"
+                        "pageSize": 5
                     },
                     {
                         "type": "Card",
                         "title": "Importance History",
                         "fullWidth": true,
                         "body": "TableListView",
+                        "managerGetter": "account/info",
                         "dataGetter": "account/getActivityBucketList",
                         "pagination": true,
-                        "pageSize": 5,
-                        "loadingGetter": "account/accountInfoLoading"
+                        "pageSize": 5
                     },
                     {
                         "type": "Card",
@@ -90,9 +89,9 @@
                         ],
                         "body": "TableListView",
                         "dataGetter": "account/getTransactionList",
+                        "managerGetter": "account/info",
                         "pagination": true,
-                        "pageSize": 5,
-                        "loadingGetter": "account/accountInfoLoading"
+                        "pageSize": 5
                     }
                 ]
             }

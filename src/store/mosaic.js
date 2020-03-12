@@ -33,7 +33,7 @@ const managers = [
     'timeline',
     () => sdkMosaic.getMosaicsFromIdWithLimit(Constants.PageSize),
     (key, pageSize) => sdkMosaic.getMosaicsFromIdWithLimit(pageSize, key),
-    'height',
+    'mosaicId',
   ),
   new DataSet(
     'info',

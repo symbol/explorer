@@ -29,8 +29,6 @@ import {
   getActionsFromManagers
 } from './manager'
 
-const LOCK = Lock.create()
-
 const managers = [
   new Timeline(
     'recent',
@@ -78,16 +76,18 @@ const managers = [
   )
 ]
 
+const LOCK = Lock.create()
+
 export default {
   namespaced: true,
   state: {
+    ...getStateFromManagers(managers),
     // If the state has been initialized.
-    initialized: false,
-    ...getStateFromManagers(managers)
+    initialized: false
   },
   getters: {
-    getInitialized: state => state.initialized,
     ...getGettersFromManagers(managers),
+    getInitialized: state => state.initialized,
     getRecentList: state => state.recent?.data?.filter((item, index) => index < 4) || [],
     transactionInfo: state => state.info?.data?.transactionInfo || {},
     transactionDetail: state => state.info?.data?.transactionDetail || {},
@@ -96,8 +96,8 @@ export default {
     aggregateCosignatures: state => state.info?.data?.aggregateCosignatures || [],
   },
   mutations: {
-    setInitialized: (state, initialized) => { state.initialized = initialized },
-    ...getMutationsFromManagers(managers)
+    ...getMutationsFromManagers(managers),
+    setInitialized: (state, initialized) => { state.initialized = initialized }
   },
   actions: {
     ...getActionsFromManagers(managers),
