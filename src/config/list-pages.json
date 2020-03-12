@@ -68,6 +68,7 @@
             "props": {
                 "title": "mosaics",
                 "stroreNamespaces": ["mosaic"],
+                "managerGetter": "mosaic/timeline",
                 "mobileColumns": [
                     "mosaicId",
                     "mosaicAliasName",

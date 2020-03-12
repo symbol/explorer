@@ -56,12 +56,12 @@ const LOCK = Lock.create()
 export default {
   namespaced: true,
   state: {
+    ...getStateFromManagers(managers),
     // If the state has been initialized.
     initialized: false,
     // Subscription to new blocks.
     subscription: null,
-    currentBlockHeight: null,
-    ...getStateFromManagers(managers)
+    currentBlockHeight: null
   },
   getters: {
     ...getGettersFromManagers(managers),

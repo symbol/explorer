@@ -77,12 +77,11 @@ export default class Timeline {
             }
         }
         catch(e) {
-            console.log(e)
+            console.error(e)
             this.error = true
         }
         this.loading = false
 
-        console.log("Timeline", this)
         this.store.dispatch(this.name, this);
         return this
     }
@@ -127,7 +126,7 @@ export default class Timeline {
                 this.index++
             } catch (e) {
                 this.error = true
-                console.log(e)
+                console.error(e)
             }
         } else
             console.error('Timeline cannot fetch next')
@@ -147,7 +146,7 @@ export default class Timeline {
                 this.index--
             } catch (e) {
                 this.error = true
-                console.log(e)
+                console.error(e)
             }
         } else
             return this.initialFetch()
