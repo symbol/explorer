@@ -79,6 +79,10 @@ export default {
       default: false
     },
 
+    storeNamespaces: {
+      type: Array
+    },
+
     managerGetter: {
       type: String
     },
@@ -182,7 +186,8 @@ export default {
   },
 
   destroyed() {
-    //this.$store.dispatch(this.resetPageAction)
+    if(typeof this.timeline?.reset === 'function')
+      this.timeline.reset();
   }
 }
 </script>

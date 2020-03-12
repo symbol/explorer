@@ -6,6 +6,7 @@
             "props": {
                 "title": "blocks",
                 "hasInfoText": true,
+                "stroreNamespaces": ["block"],
                 "managerGetter": "block/timeline",
                 "dataGetter": "block/getTimelineFormatted",
                 "mobileColumns": [
@@ -21,6 +22,7 @@
             "name": "transactions",
             "props": {
                 "title": "transactions",
+                "stroreNamespaces": ["transaction"],
                 "managerGetter": "transaction/timeline",
                 "hasFilter": true,
                 "mobileColumns": [
@@ -36,9 +38,9 @@
             "path": "/accounts",
             "name": "accounts",
             "props": {
-                "storeNamespace": "account",
                 "title": "accounts",
                 "hasFilter": true,
+                "stroreNamespaces": ["account"],
                 "mobileColumns": [
                     "address",
                     "importance",
@@ -51,6 +53,7 @@
             "name": "namespaces",
             "props": {
                 "title": "namespaces",
+                "stroreNamespaces": ["namespace"],
                 "managerGetter": "namespace/timeline",
                 "mobileColumns": [
                     "namespaceName",
@@ -63,8 +66,8 @@
             "path": "/mosaics",
             "name": "mosaics",
             "props": {
-                "storeNamespace": "mosaic",
                 "title": "mosaics",
+                "stroreNamespaces": ["mosaic"],
                 "mobileColumns": [
                     "mosaicId",
                     "mosaicAliasName",
@@ -76,8 +79,8 @@
             "path": "/nodes",
             "name": "nodes",
             "props": {
-                "storeNamespace": "node",
                 "title": "nodes",
+                "stroreNamespaces": ["node"],
                 "mobileColumns": [
                     "index",
                     "roles",

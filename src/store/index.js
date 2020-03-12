@@ -51,7 +51,7 @@ export default new Vuex.Store({
     async initialize({ dispatch }, route) {
       // Initialize the API.
       await helper.logError(dispatch, 'api/initialize')
-
+      helper.logError(dispatch, 'transaction/initialize')
       switch (route.name) {
       // Home
       case 'home':
@@ -76,6 +76,7 @@ export default new Vuex.Store({
         return helper.logError(dispatch, 'node/initialize')
       case 'transactions':
         return helper.logError(dispatch, 'transaction/initialize')
+
 
         // Detail Views
       case 'account-detail':
