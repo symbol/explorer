@@ -33,6 +33,7 @@
                         v-if="hasFilter"
                         :options="filterOptions"
                         :value="filterValue"
+                        right
                         @change="changeFilterValue"
                         @reset="resetFilter"
                     />
