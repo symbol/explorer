@@ -81,6 +81,7 @@
             "props": {
                 "title": "nodes",
                 "stroreNamespaces": ["node"],
+                "managerGetter": "node/timeline",
                 "mobileColumns": [
                     "index",
                     "roles",

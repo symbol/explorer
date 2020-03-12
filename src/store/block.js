@@ -21,7 +21,6 @@ import Lock from './lock'
 import Constants from '../config/constants'
 import sdkBlock from '../infrastructure/getBlock'
 import sdkListener from '../infrastructure/getListener'
-import helper from '../helper'
 import { 
   Filter, 
   DataSet, 

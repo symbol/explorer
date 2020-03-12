@@ -104,7 +104,9 @@ export default {
 
     data() {
       const timeline = this.getter(this.dataGetter) || this.timeline.data;
-
+      if(typeof timeline === 'undefined')
+        throw Error('ListPage error. Timeline or Data getter is not provided')
+      
       if (this.$store.getters['ui/isMobile'] && Array.isArray(this.mobileColumns)) {
         return timeline.map(row => {
           let mobileRow = {}
