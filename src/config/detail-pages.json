@@ -197,7 +197,7 @@
                         "title": "Mosaic Detail",
                         "fullWidth": true,
                         "body": "TableInfoView",
-                        "managerGetter": "block/info",
+                        "managerGetter": "mosaic/info",
                         "dataGetter": "mosaic/getMosaicInfo",
                         "pagination": false,
                         "errorMessage": "Mosaic does not exist"
@@ -207,7 +207,7 @@
                         "title": "Mosaic Restriction",
                         "fullWidth": false,
                         "body": "TableInfoView",
-                        "managerGetter": "block/info",
+                        "managerGetter": "mosaic/info",
                         "dataGetter": "mosaic/getMosaicRestrictionInfo",
                         "pagination": false,
                         "errorMessage": "Mosaic does not exist"
@@ -217,7 +217,7 @@
                         "title": "Mosaic Restriction List",
                         "fullWidth": false,
                         "body": "TableListView",
-                        "managerGetter": "block/info",
+                        "managerGetter": "mosaic/info",
                         "dataGetter": "mosaic/getMosaicRestrictionList",
                         "pagination": false,
                         "errorMessage": "Mosaic does not exist"
@@ -227,7 +227,7 @@
                         "title": "Metadata Entries",
                         "fullWidth": true,
                         "body": "TableListView",
-                        "managerGetter": "block/info",
+                        "managerGetter": "mosaic/info",
                         "dataGetter": "mosaic/getMetadataList",
                         "pagination": true,
                         "pageSize": 5

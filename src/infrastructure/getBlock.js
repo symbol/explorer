@@ -43,7 +43,7 @@ class sdkBlock {
     const pageSize = 10
 
     let transactions = await http.block
-      .getBlockTransactions(UInt64.fromUint(blockHeight), new QueryParams().setPageSize(pageSize).setId(transactionId))
+      .getBlockTransactions(UInt64.fromUint(blockHeight), new QueryParams({pageSize, id: transactionId}))
       .toPromise()
 
     return format.formatTransactions(transactions)
