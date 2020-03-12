@@ -102,21 +102,21 @@ export default {
     },
 
     getLoading(item) {
-      if(typeof item.loadingGetter === 'string')
+      if (typeof item.loadingGetter === 'string')
         return this.getter(item.loadingGetter)
       else
         return this.getter(item.managerGetter)?.loading
     },
 
     getError(item) {
-      if(typeof item.errorGetter === 'string')
+      if (typeof item.errorGetter === 'string')
         return this.getter(item.errorGetter)
       else
         return this.getter(item.managerGetter)?.error
     },
 
     getData(item) {
-      if(typeof item.dataGetter === 'string')
+      if (typeof item.dataGetter === 'string')
         return this.getter(item.dataGetter)
       else
         return this.getter(item.managerGetter)?.data

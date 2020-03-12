@@ -77,7 +77,6 @@ export default new Vuex.Store({
       case 'transactions':
         return helper.logError(dispatch, 'transaction/initialize')
 
-
         // Detail Views
       case 'account-detail':
         return helper.logError(dispatch, 'account/fetchAccountDataByAddress', route.params.address || 0)

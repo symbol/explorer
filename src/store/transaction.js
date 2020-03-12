@@ -19,10 +19,10 @@
 import Lock from './lock'
 import Constants from '../config/constants'
 import sdkTransaction from '../infrastructure/getTransaction'
-import { 
-  Filter, 
-  DataSet, 
-  Timeline, 
+import {
+  Filter,
+  DataSet,
+  Timeline,
   getStateFromManagers,
   getGettersFromManagers,
   getMutationsFromManagers,
@@ -93,7 +93,7 @@ export default {
     transactionDetail: state => state.info?.data?.transactionDetail || {},
     transferMosaics: state => state.info?.data?.transferMosaics || [],
     aggregateInnerTransactions: state => state.info?.data?.aggregateInnerTransactions || [],
-    aggregateCosignatures: state => state.info?.data?.aggregateCosignatures || [],
+    aggregateCosignatures: state => state.info?.data?.aggregateCosignatures || []
   },
   mutations: {
     ...getMutationsFromManagers(managers),
@@ -149,11 +149,11 @@ export default {
       await context.getters.transfer.setStore(context)
       await context.getters.multisig.setStore(context)
       await context.getters.mosaic.setStore(context)
-      await context.getters.timeline.setStore(context).initialFetch();
+      await context.getters.timeline.setStore(context).initialFetch()
     },
 
     async getTransactionInfoByHash(context, hash) {
-      await context.getters.info.setStore(context).initialFetch(hash);
+      await context.getters.info.setStore(context).initialFetch(hash)
     }
   }
 }

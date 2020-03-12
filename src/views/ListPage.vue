@@ -104,10 +104,10 @@ export default {
     },
 
     data() {
-      const timeline = this.getter(this.dataGetter) || this.timeline.data;
-      if(typeof timeline === 'undefined')
+      const timeline = this.getter(this.dataGetter) || this.timeline.data
+      if (typeof timeline === 'undefined')
         throw Error('ListPage error. Timeline or Data getter is not provided')
-      
+
       if (this.$store.getters['ui/isMobile'] && Array.isArray(this.mobileColumns)) {
         return timeline.map(row => {
           let mobileRow = {}
@@ -119,9 +119,8 @@ export default {
 
           return mobileRow
         })
-      } 
-      else
-      if(Array.isArray(this.columns)) 
+      } else
+      if (Array.isArray(this.columns)) {
         return timeline.map(row => {
           let columns = {}
 
@@ -132,41 +131,43 @@ export default {
 
           return columns
         })
-      else
+      } else
         return timeline
     },
 
-    loading() { 
-      if(typeof this.loadingGetter === 'string')
+    loading() {
+      if (typeof this.loadingGetter === 'string')
         return this.getter(this.loadingGetter)
       else
-        return this.timeline.loading 
+        return this.timeline.loading
     },
 
-    error() { 
-      if(typeof this.errorGetter === 'string')
+    error() {
+      if (typeof this.errorGetter === 'string')
         return this.getter(this.errorGetter)
       else
-        return this.timeline.error 
+        return this.timeline.error
     },
 
-    infoText() { 
-      if(typeof this.infoTextGetter === 'string')
-        return this.getter(this.infoTextGetter) 
+    infoText() {
+      if (typeof this.infoTextGetter === 'string')
+        return this.getter(this.infoTextGetter)
+      else
+        return void 0
     },
 
-    filterValue() { 
-      if(typeof this.filterValueGetter === 'string')
+    filterValue() {
+      if (typeof this.filterValueGetter === 'string')
         return this.getter(this.filterValueGetter)
       else
-        return this.timeline.filterValue  
+        return this.timeline.filterValue
     },
 
-    filterOptions() { 
-      if(typeof this.filterOptionsGetter === 'string')
+    filterOptions() {
+      if (typeof this.filterOptionsGetter === 'string')
         return this.getter(this.filterOptionsGetter)
       else
-        return this.timeline.filterOptions 
+        return this.timeline.filterOptions
     }
   },
 
@@ -180,7 +181,7 @@ export default {
     },
 
     resetFilter(e) {
-      //this.timeline.reset(e)
+      // this.timeline.reset(e)
     },
 
     getter(name) {
@@ -189,8 +190,8 @@ export default {
   },
 
   destroyed() {
-    if(typeof this.timeline?.reset === 'function')
-      this.timeline.reset();
+    if (typeof this.timeline?.reset === 'function')
+      this.timeline.reset()
   }
 }
 </script>

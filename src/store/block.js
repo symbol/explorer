@@ -21,10 +21,9 @@ import Lock from './lock'
 import Constants from '../config/constants'
 import sdkBlock from '../infrastructure/getBlock'
 import sdkListener from '../infrastructure/getListener'
-import { 
-  Filter, 
-  DataSet, 
-  Timeline, 
+import {
+  DataSet,
+  Timeline,
   getStateFromManagers,
   getGettersFromManagers,
   getMutationsFromManagers,
@@ -66,7 +65,7 @@ export default {
   getters: {
     ...getGettersFromManagers(managers),
     getInitialized: state => state.initialized,
-    getRecentList: state => state.timeline?.data?.filter((item, index) => index < 4) || [], 
+    getRecentList: state => state.timeline?.data?.filter((item, index) => index < 4) || [],
     getTimelineFormatted: state => state.timeline?.data?.map(el => ({
       height: el.height,
       age: el.date,
@@ -90,7 +89,7 @@ export default {
     ...getMutationsFromManagers(managers),
     setInitialized: (state, initialized) => { state.initialized = initialized },
     setSubscription: (state, subscription) => { state.subscription = subscription },
-    currentBlockHeight: (state, currentBlockHeight) => Vue.set(state, 'currentBlockHeight', currentBlockHeight),
+    currentBlockHeight: (state, currentBlockHeight) => Vue.set(state, 'currentBlockHeight', currentBlockHeight)
   },
   actions: {
     ...getActionsFromManagers(managers),
@@ -119,7 +118,7 @@ export default {
           (item) => {
             getters.timeline.addLatestItem(item)
             commit('chain/setBlockHeight', item.height, { root: true })
-          }, 
+          },
           rootGetters['api/wsEndpoint']
         )
         commit('setSubscription', subscription)
@@ -136,17 +135,16 @@ export default {
       }
     },
 
-
     // Fetch data from the SDK and initialize the page.
     async initializePage(context) {
       await context.dispatch('chain/getBlockHeight', null, { root: true })
-      await context.getters.timeline.setStore(context).initialFetch();
+      await context.getters.timeline.setStore(context).initialFetch()
     },
 
     getBlockInfo: async (context, height) => {
       context.commit('currentBlockHeight', height)
-      await context.getters.info.setStore(context).initialFetch(height);
-      await context.getters.blockTransactions.setStore(context).initialFetch(height);
+      await context.getters.info.setStore(context).initialFetch(height)
+      await context.getters.blockTransactions.setStore(context).initialFetch(height)
     },
 
     nextBlock: ({ commit, getters, dispatch, rootGetters }) => {

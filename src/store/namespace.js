@@ -19,9 +19,9 @@
 import Lock from './lock'
 import Constants from '../config/constants'
 import sdkNamespace from '../infrastructure/getNamespace'
-import { 
-  DataSet, 
-  Timeline, 
+import {
+  DataSet,
+  Timeline,
   getStateFromManagers,
   getGettersFromManagers,
   getMutationsFromManagers,
@@ -79,12 +79,12 @@ export default {
 
     // Fetch data from the SDK and initialize the page.
     async initializePage(context) {
-      await context.getters.timeline.setStore(context).initialFetch();
+      await context.getters.timeline.setStore(context).initialFetch()
     },
 
     // Fetch data from the SDK.
     async fetchNamespaceInfo(context, namespaceOrHex) {
-      await context.getters.info.setStore(context).initialFetch(namespaceOrHex);
+      await context.getters.info.setStore(context).initialFetch(namespaceOrHex)
     }
   }
 }

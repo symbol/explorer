@@ -19,10 +19,10 @@
 import Lock from './lock'
 import Constants from '../config/constants'
 import sdkAccount from '../infrastructure/getAccount'
-import { 
-  Filter, 
-  DataSet, 
-  Timeline, 
+import {
+  Filter,
+  DataSet,
+  Timeline,
   getStateFromManagers,
   getGettersFromManagers,
   getMutationsFromManagers,
@@ -52,7 +52,7 @@ const managers = [
   new DataSet(
     'info',
     (address) => sdkAccount.getAccountInfoByAddressFormatted(address)
-  ),
+  )
 
   // TODO OlegMakarenko: Add `getAccountTransactions` method to `infratructure.getAccount`
   // new Timeline(
@@ -96,19 +96,6 @@ const managers = [
 
 const LOCK = Lock.create()
 
-const TIMELINES = {
-  // Rich list.
-  // rich: Timeline.empty(),
-  // Harvester list.
-  harvester: Timeline.empty()
-}
-
-// Map the timeline name to the account filter type.
-const ACCOUNT_TYPE_MAP = {
-  // rich: 'balance/xem',
-  harvester: 'harvested/blocks'
-}
-
 export default {
   namespaced: true,
   state: {
@@ -151,14 +138,14 @@ export default {
 
     // Fetch data from the SDK and initialize the page.
     async initializePage(context) {
-      await context.getters.harvester.setStore(context);
-      await context.getters.rich.setStore(context);
-      await context.getters.timeline.setStore(context).initialFetch();
+      await context.getters.harvester.setStore(context)
+      await context.getters.rich.setStore(context)
+      await context.getters.timeline.setStore(context).initialFetch()
     },
 
     // Fetch data from the SDK By Address.
     async fetchAccountDataByAddress(context, address) {
-      await context.getters.info.setStore(context).initialFetch(address);
+      await context.getters.info.setStore(context).initialFetch(address)
     }
   }
 }

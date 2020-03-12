@@ -18,8 +18,8 @@
 
 import Lock from './lock'
 import { getNodePeers } from '../infrastructure/getNodePeers'
-import { 
-  Timeline, 
+import {
+  Timeline,
   getStateFromManagers,
   getGettersFromManagers,
   getMutationsFromManagers,
@@ -70,7 +70,7 @@ export default {
 
     // Fetch data from the SDK and initialize the page.
     async initializePage(context) {
-      await context.getters.timeline.setStore(context).initialFetch();
+      await context.getters.timeline.setStore(context).initialFetch()
     }
   }
 }

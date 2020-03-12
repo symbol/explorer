@@ -17,48 +17,46 @@
  */
 
 export default class DataSet {
-    constructor(name, initialFuntion, dataType = Object) {
-        if (typeof name !== 'string')
-            throw Error('Failed to construct DataSet. Name is not provided');
-        if (typeof initialFuntion !== 'function')
-            throw Error('Cannot create timeline. Initial function is not provided')
+  constructor(name, initialFuntion, DataType = Object) {
+    if (typeof name !== 'string')
+      throw Error('Failed to construct DataSet. Name is not provided')
+    if (typeof initialFuntion !== 'function')
+      throw Error('Cannot create timeline. Initial function is not provided')
 
-        this.name = name;
-        this.initialFuntion = initialFuntion
-        this.data = new dataType()
-        this.loading = false
-        this.error = false
+    this.name = name
+    this.initialFuntion = initialFuntion
+    this.data = new DataType()
+    this.loading = false
+    this.error = false
+  }
+
+  static empty() {
+    return {
+      data: {}
     }
+  }
 
-    static empty() {
-        return {
-            data: {}
-        }
+  setStore(store) {
+    this.store = store
+    this.store.dispatch(this.name, this)
+    return this
+  }
+
+  async initialFetch(props) {
+    this.loading = true
+    try {
+      this.data = await this.initialFuntion(props, this.store)
+    } catch (e) {
+      console.log(e)
+      this.error = true
     }
+    this.loading = false
 
-    setStore(store) {
-        this.store = store;
-        this.store.dispatch(this.name, this);
-        return this;
-    }
+    this.store.dispatch(this.name, this)
+    return this
+  }
 
-    async initialFetch(props) {
-        this.loading = true
-        try {
-            this.data = await this.initialFuntion(props, this.store)
-        }
-        catch(e) {
-            console.log(e)
-            this.error = true
-        }
-        this.loading = false
-
-        this.store.dispatch(this.name, this);
-        return this
-    }
-
-
-    async reset() {
-        return this.initialFetch()
-    }
+  async reset() {
+    return this.initialFetch()
+  }
 }

@@ -18,164 +18,163 @@
 import Constants from '../../config/constants'
 
 export default class Timeline {
-    constructor(name, initialFuntion, fetchFunction, keyName, pageSize = Constants.PageSize) {
-        if (typeof name !== 'string')
-            throw Error('Failed to construct Timeline. Name is not provided');
-        //if(!(store && store.state && store.getters && store.commit && store.dispatch))
-        //    throw Error('Failed to construct Timeline. Store context is not provided');
-        if (typeof initialFuntion !== 'function')
-            throw Error('Cannot create timeline. Initial function is not provided')
-        if (typeof fetchFunction !== 'function')
-            throw Error('Cannot create timeline. Fetch function is not provided')
-        if (keyName === void 0)
-            throw Error('Cannot create timeline. Key is not provided')
+  constructor(name, initialFuntion, fetchFunction, keyName, pageSize = Constants.PageSize) {
+    if (typeof name !== 'string')
+      throw Error('Failed to construct Timeline. Name is not provided')
+    // if(!(store && store.state && store.getters && store.commit && store.dispatch))
+    //    throw Error('Failed to construct Timeline. Store context is not provided');
+    if (typeof initialFuntion !== 'function')
+      throw Error('Cannot create timeline. Initial function is not provided')
+    if (typeof fetchFunction !== 'function')
+      throw Error('Cannot create timeline. Fetch function is not provided')
+    if (keyName === void 0)
+      throw Error('Cannot create timeline. Key is not provided')
 
-        this.name = name;
-        this.initialFuntion = initialFuntion
-        this.fetchFunction = fetchFunction
-        this.keyName = keyName
-        this.pageSize = pageSize
-        this.data = []
-        this.next = []
-        this.index = 0
-        this.keys = []
-        this.loading = false
-        this.error = false
-        this.store = {};
-        this.addLatestItem = this.addLatestItem.bind(this);
+    this.name = name
+    this.initialFuntion = initialFuntion
+    this.fetchFunction = fetchFunction
+    this.keyName = keyName
+    this.pageSize = pageSize
+    this.data = []
+    this.next = []
+    this.index = 0
+    this.keys = []
+    this.loading = false
+    this.error = false
+    this.store = {}
+    this.addLatestItem = this.addLatestItem.bind(this)
+  }
+
+  static empty() {
+    return {
+      data: [],
+      canFetchNext: false,
+      canFetchPrevious: false,
+      fetchNext: () => { },
+      fetchPrevious: () => { },
+      reset: () => { }
     }
+  }
 
-    static empty() {
-        return {
-            data: [],
-            canFetchNext: false,
-            canFetchPrevious: false,
-            fetchNext: () => { },
-            fetchPrevious: () => { },
-            reset: () => { }
-        }
+  setStore(store) {
+    this.store = store
+    this.store.dispatch(this.name, this)
+    return this
+  }
+
+  async initialFetch() {
+    this.loading = true
+    this.index = 0
+    this.keys = []
+    try {
+      this.data = await this.initialFuntion(this.pageSize, this.store)
+      if (this.data?.length) {
+        const lastElement = this.data[this.data.length - 1]
+        const key = lastElement[this.keyName]
+        this.next = await this.fetchFunction(key, this.pageSize, this.store)
+        this.keys.push(key)
+        this.createNewKey()
+      }
+    } catch (e) {
+      console.error(e)
+      this.error = true
     }
+    this.loading = false
 
-    setStore(store) {
-        this.store = store;
-        this.store.dispatch(this.name, this);
-        return this;
-    }
+    this.store.dispatch(this.name, this)
+    return this
+  }
 
-    async initialFetch() {
-        this.loading = true
-        this.index = 0
-        this.keys = []
-        try {
-            this.data = await this.initialFuntion(this.pageSize, this.store)
-            if (this.data?.length) {
-                const lastElement = this.data[this.data.length - 1]
-                const key = lastElement[this.keyName]
-                this.next = await this.fetchFunction(key, this.pageSize, this.store)
-                this.keys.push(key)
-                this.createNewKey()
-            }
-        }
-        catch(e) {
-            console.error(e)
-            this.error = true
-        }
-        this.loading = false
+  get canFetchPrevious() {
+    return this.index > 0 && this.loading === false
+  }
 
-        this.store.dispatch(this.name, this);
-        return this
-    }
+  get canFetchNext() {
+    return this.next?.length > 0 && this.loading === false
+  }
 
-    get canFetchPrevious() {
-        return this.index > 0 && this.loading === false
-    }
+  get nextKeyValue() {
+    if (this.next?.length)
+      return this.next[this.next.length - 1][this.keyName]
+  }
 
-    get canFetchNext() {
-        return this.next?.length > 0 && this.loading === false
-    }
+  get previousKeyValue() {
+    return this.keys[this.keys.length - 4]
+  }
 
-    get nextKeyValue() {
-        if (this.next?.length)
-            return this.next[this.next.length - 1][this.keyName]
-    }
+  get isLive() {
+    return this.index === 0
+  }
 
-    get previousKeyValue() {
-        return this.keys[this.keys.length - 4]
-    }
+  createNewKey() {
+    if (this.next?.length) {
+      const newKeyValue = this.next[this.next.length - 1][this.keyName]
+      this.keys.push(newKeyValue)
+      return newKeyValue
+    } else
+      this.keys.push(null)
+  }
 
-    get isLive() {
-        return this.index === 0
-    }
+  async fetchNext() {
+    if (this.canFetchNext) {
+      this.loading = true
+      this.data = [].concat.apply([], this.next)
+      try {
+        this.next = await this.fetchFunction(this.nextKeyValue, this.pageSize, this.store)
+        this.createNewKey()
+        this.index++
+      } catch (e) {
+        this.error = true
+        console.error(e)
+      }
+    } else
+      console.error('Timeline cannot fetch next')
+    this.loading = false
 
-    createNewKey() {
-        if (this.next?.length) {
-            const newKeyValue = this.next[this.next.length - 1][this.keyName]
-            this.keys.push(newKeyValue)
-            return newKeyValue
-        } else
-            this.keys.push(null)
-    }
+    this.store.dispatch(this.name, this)
+    return this
+  }
 
-    async fetchNext() {
-        if (this.canFetchNext) {
-            this.loading = true
-            this.data = [].concat.apply([], this.next)
-            try {
-                this.next = await this.fetchFunction(this.nextKeyValue, this.pageSize, this.store)
-                this.createNewKey()
-                this.index++
-            } catch (e) {
-                this.error = true
-                console.error(e)
-            }
-        } else
-            console.error('Timeline cannot fetch next')
-        this.loading = false
-
-        this.store.dispatch(this.name, this);
-        return this
-    }
-
-    async fetchPrevious() {
-        if (this.canFetchPrevious) {
-            this.loading = true
-            this.next = [].concat.apply([], this.data)
-            try {
-                this.data = await this.fetchFunction(this.previousKeyValue, this.pageSize, this.store)
-                this.keys.pop()
-                this.index--
-            } catch (e) {
-                this.error = true
-                console.error(e)
-            }
-        } else
-            return this.initialFetch()
-        this.loading = false
-
-        this.store.dispatch(this.name, this);
-        return this
-    }
-
-    async reset() {
-        return this.initialFetch()
-    }
-
-    // Add latest item to current.
-    addLatestItem(item, key) {
-        // if (!this.isLive)
-        //     throw new Error('internal error: attempted to addLatestItem for non-live timeline.')
-
-        if (this.data[0][this.keyName] === item[this.keyName])
-            console.error('internal error: attempted to add duplicate item to timeline.')
-
-        const data = [item, ...this.data]
-        const next = [data.pop(), ...this.next]
-        this.data = [].concat.apply([], data)
+  async fetchPrevious() {
+    if (this.canFetchPrevious) {
+      this.loading = true
+      this.next = [].concat.apply([], this.data)
+      try {
+        this.data = await this.fetchFunction(this.previousKeyValue, this.pageSize, this.store)
         this.keys.pop()
-        this.keys.push(next.pop())
-        this.next = [].concat.apply([], next)
+        this.index--
+      } catch (e) {
+        this.error = true
+        console.error(e)
+      }
+    } else
+      return this.initialFetch()
+    this.loading = false
 
-        this.store.dispatch(this.name, this);
-        return this
-    }
+    this.store.dispatch(this.name, this)
+    return this
+  }
+
+  async reset() {
+    return this.initialFetch()
+  }
+
+  // Add latest item to current.
+  addLatestItem(item, key) {
+    // if (!this.isLive)
+    //     throw new Error('internal error: attempted to addLatestItem for non-live timeline.')
+
+    if (this.data[0][this.keyName] === item[this.keyName])
+      console.error('internal error: attempted to add duplicate item to timeline.')
+
+    const data = [item, ...this.data]
+    const next = [data.pop(), ...this.next]
+    this.data = [].concat.apply([], data)
+    this.keys.pop()
+    this.keys.push(next.pop())
+    this.next = [].concat.apply([], next)
+
+    this.store.dispatch(this.name, this)
+    return this
+  }
 }

@@ -19,9 +19,9 @@
 import Lock from './lock'
 import Constants from '../config/constants'
 import sdkMosaic from '../infrastructure/getMosaic'
-import { 
-  DataSet, 
-  Timeline, 
+import {
+  DataSet,
+  Timeline,
   getStateFromManagers,
   getGettersFromManagers,
   getMutationsFromManagers,
@@ -33,7 +33,7 @@ const managers = [
     'timeline',
     () => sdkMosaic.getMosaicsFromIdWithLimit(Constants.PageSize),
     (key, pageSize) => sdkMosaic.getMosaicsFromIdWithLimit(pageSize, key),
-    'mosaicId',
+    'mosaicId'
   ),
   new DataSet(
     'info',
@@ -48,7 +48,7 @@ export default {
   state: {
     ...getStateFromManagers(managers),
     // If the state has been initialized.
-    initialized: false,
+    initialized: false
   },
   getters: {
     ...getGettersFromManagers(managers),
@@ -60,7 +60,7 @@ export default {
   },
   mutations: {
     ...getMutationsFromManagers(managers),
-    setInitialized: (state, initialized) => { state.initialized = initialized },
+    setInitialized: (state, initialized) => { state.initialized = initialized }
   },
   actions: {
     ...getActionsFromManagers(managers),
@@ -80,12 +80,12 @@ export default {
 
     // Fetch data from the SDK and initialize the page.
     async initializePage(context) {
-      await context.getters.timeline.setStore(context).initialFetch();
+      await context.getters.timeline.setStore(context).initialFetch()
     },
 
     // Fetch data from the SDK.
     async fetchMosaicInfo(context, mosaicHexOrNamespace) {
-      await context.getters.info.setStore(context).initialFetch(mosaicHexOrNamespace);
+      await context.getters.info.setStore(context).initialFetch(mosaicHexOrNamespace)
     }
   }
 }

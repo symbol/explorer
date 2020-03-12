@@ -210,7 +210,7 @@ export default {
     nextPage() {
       if (this.nextPageExist) {
         if (this.timelinePagination)
-          //this.$store.dispatch(this.timelineNextAction)
+          // this.$store.dispatch(this.timelineNextAction)
           this.timeline.fetchNext()
         else
           this.pageIndex++
@@ -220,7 +220,7 @@ export default {
     prevPage() {
       if (this.prevPageExist) {
         if (this.timelinePagination)
-          //this.$store.dispatch(this.timelinePreviousAction)
+          // this.$store.dispatch(this.timelinePreviousAction)
           this.timeline.fetchPrevious()
         else
           this.pageIndex--
