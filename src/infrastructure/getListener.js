@@ -16,7 +16,7 @@
  *
  */
 
-import { Listener } from 'nem2-sdk'
+import { Listener } from 'symbol-sdk'
 import format from '../format'
 
 class sdkListener {

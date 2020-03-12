@@ -17,7 +17,7 @@
  */
 
 import axios from 'axios'
-import { QueryParams, UInt64 } from 'nem2-sdk'
+import { QueryParams, UInt64 } from 'symbol-sdk'
 import dto from './dto'
 import http from './http'
 import format from '../format'

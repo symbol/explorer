@@ -17,7 +17,7 @@
  */
 
 import { Constants } from './config'
-import { NetworkType } from 'nem2-sdk'
+import { NetworkType } from 'symbol-sdk'
 import http from './infrastructure/http'
 
 const Url = require('url-parse')

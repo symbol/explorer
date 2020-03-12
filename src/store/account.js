@@ -25,14 +25,14 @@ const LOCK = Lock.create()
 
 const TIMELINES = {
   // Rich list.
-  rich: Timeline.empty(),
+  // rich: Timeline.empty(),
   // Harvester list.
   harvester: Timeline.empty()
 }
 
 // Map the timeline name to the account filter type.
 const ACCOUNT_TYPE_MAP = {
-  rich: 'balance/xem',
+  // rich: 'balance/xem',
   harvester: 'harvested/blocks'
 }
 
@@ -42,13 +42,13 @@ export default {
     // If the state has been initialized.
     initialized: false,
     // The current account type key, as defined in `TIMELINES`.
-    accountType: 'rich',
+    accountType: 'harvester',
     ...TIMELINES,
     // Determine if the accounts model is loading.
     loading: false,
     // Determine if the accounts model has an error.
     error: {
-      rich: false,
+      // rich: false,
       harvester: false
     },
     // The Account detail information.
@@ -114,8 +114,8 @@ export default {
     accountInfoError: state => state.accountInfoError,
     filterValue: state => state.accountType,
     filterOptions: () => ({
-      'rich': 'Rich List',
       'harvester': 'Harvester List'
+      // 'rich': 'Rich List'
     }),
     transactionFilterOptions: () => ({
       0: 'All transactions',
@@ -258,7 +258,7 @@ export default {
           console.error(e)
           commit('setError', true)
         }
-        commit('setAccountType', 'rich')
+        commit('setAccountType', 'harvester')
       }
       commit('setLoading', false)
     },

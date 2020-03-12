@@ -16,7 +16,7 @@
  *
  */
 
-import * as nem from 'nem2-sdk'
+import * as nem from 'symbol-sdk'
 
 // Parse the version field from the version/network type field.
 const createVersionFromDTO = version =>

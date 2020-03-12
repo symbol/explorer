@@ -16,7 +16,7 @@
  *
  */
 
-import * as nem from 'nem2-sdk'
+import * as nem from 'symbol-sdk'
 import constants from '../config/constants'
 
 let NODE_URL
