@@ -81,7 +81,7 @@
                         "fullWidth": true,
                         "header": [
                             {
-                                "type": "filter",
+                                "type": "filter-tmp-disabled",
                                 "filterOptionsGetter": "account/transactionFilterOptions",
                                 "filterValueGetter": "account/transactionFilterValue",
                                 "filterChangeAction": "account/setTransactionFilterValue"
@@ -91,7 +91,7 @@
                         "dataGetter": "account/getTransactionList",
                         "managerGetter": "account/info",
                         "pagination": true,
-                        "pageSize": 5
+                        "pageSize": 10
                     }
                 ]
             }

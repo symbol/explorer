@@ -58,28 +58,28 @@ const managers = [
   new Timeline(
     'all',
     (pageSize, store) => sdkAccount.getAccountTransactions(pageSize, null, store.getters.currentAccountAddress),
-    (key, pageSize) => sdkAccount.getAccountTransactions(pageSize, null, store.getters.currentAccountAddress, key),
+    (key, pageSize, store) => sdkAccount.getAccountTransactions(pageSize, null, store.getters.currentAccountAddress, key),
     'transactionHash',
     10
   ),
   new Timeline(
     'mosaic',
     (pageSize, store) => sdkAccount.getAccountTransactions(pageSize, 'mosaic', store.getters.currentAccountAddress),
-    (key, pageSize) => sdkAccount.getAccountTransactions(pageSize, 'mosaic', store.getters.currentAccountAddress, key),
+    (key, pageSize, store) => sdkAccount.getAccountTransactions(pageSize, 'mosaic', store.getters.currentAccountAddress, key),
     'transactionHash',
     10
   ),
   new Timeline(
     'namespace',
     (pageSize, store) => sdkAccount.getAccountTransactions(pageSize, 'namespace', store.getters.currentAccountAddress),
-    (key, pageSize) => sdkAccount.getAccountTransactions(pageSize, 'namespace', store.getters.currentAccountAddress, key),
+    (key, pageSize, store) => sdkAccount.getAccountTransactions(pageSize, 'namespace', store.getters.currentAccountAddress, key),
     'transactionHash',
     10
   ),
   new Timeline(
     'transfer',
     (pageSize, store) => sdkAccount.getAccountTransactions(pageSize, 'transfer', store.getters.currentAccountAddress),
-    (key, pageSize) => sdkAccount.getAccountTransactions(pageSize, 'transfer', store.getters.currentAccountAddress, key),
+    (key, pageSize, store) => sdkAccount.getAccountTransactions(pageSize, 'transfer', store.getters.currentAccountAddress, key),
     'transactionHash',
     10
   ),
