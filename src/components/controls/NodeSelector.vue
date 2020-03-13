@@ -2,6 +2,7 @@
     <Dropdown
       :options="options"
       :dark="true"
+      right
       :value="currentNode"
       @change="setNode"
     />

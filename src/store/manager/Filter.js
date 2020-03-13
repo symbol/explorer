@@ -102,4 +102,11 @@ export default class Filter {
 
     this.store.dispatch(this.name, this)
   }
+
+  reset() {
+    if (typeof this.currentManager.initialFetch === 'function')
+      return this.currentManager.initialFetch()
+    this.current = Object.keys(this.options)[0]
+    this.store.dispatch(this.name, this)
+  }
 }
