@@ -20,6 +20,7 @@ import Lock from './lock'
 import helper from '../helper'
 import router from '../router'
 import http from '../infrastructure/http'
+import { getNodeHealthStatus } from '../infrastructure/getNodes'
 
 const LOCK = Lock.create()
 
@@ -58,12 +59,15 @@ export default {
         Vue.set(state, 'currentNode', currentNode)
         Vue.set(state, 'wsEndpoint', wsEndpoint)
       }
-    }
+    },
+    setNodes: (state, nodes) => { state.nodes = nodes }
   },
 
   actions: {
     async initialize({ commit, dispatch, getters }) {
       const callback = async () => {
+        dispatch('filterHealthyNodes')
+
         const nodeUrl = getters['currentNode']
         const marketDataUrl = getters['marketData']
         http.init(nodeUrl, marketDataUrl)
@@ -81,6 +85,20 @@ export default {
         await dispatch('initialize', router.currentRoute, { root: true })
       } else
         throw Error('Cannot change node. URL is not valid: ' + currentNodeUrl)
+    },
+
+    async filterHealthyNodes({ commit, getters }) {
+      const nodes = getters['nodes']
+
+      let healthyNodes = []
+      await Promise.all(nodes.map(async (url) => {
+        let endpoint = helper.parseUrl(url).toString()
+        if (await getNodeHealthStatus(endpoint))
+          healthyNodes.push(url)
+      }))
+
+      commit('setNodes', healthyNodes)
+      commit('currentNode', healthyNodes[0])
     }
   }
 }
