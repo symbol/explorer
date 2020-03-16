@@ -55,7 +55,7 @@ class sdkTransaction {
     let pageSize = 100
 
     const transactionsList = await http.account
-      .getAccountTransactions(Address.createFromRawAddress(address), new QueryParams(pageSize, transactionId))
+      .getAccountTransactions(Address.createFromRawAddress(address), new QueryParams({ pageSize, id: transactionId }))
       .toPromise()
 
     return format.formatTransactions(transactionsList)
@@ -139,7 +139,15 @@ class sdkTransaction {
     const response = await axios.get(http.nodeUrl + path)
     const transactions = response.data.map(info => dto.createTransactionFromDTO(info, http.networkType))
 
-    return format.formatTransactions(transactions)
+    return format.formatTransactions(transactions).map(el => ({
+      height: el.blockHeight,
+      deadline: el.deadline,
+      transactionHash: el.transactionHash,
+      type: el.transactionBody?.type,
+      fee: el.fee,
+      signer: el.signer,
+      recipient: el.transactionBody?.recipient
+    }))
   }
 
   static getTransactionsSinceHashWithLimit = async (limit, transactionType, sinceHash) => {

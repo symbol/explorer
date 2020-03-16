@@ -33,20 +33,16 @@
                         v-if="hasFilter"
                         :options="filterOptions"
                         :value="filterValue"
-                        :resetPageAction="resetPageAction"
-                        :changePageAction="changePageAction"
+                        right
+                        @change="changeFilterValue"
+                        @reset="resetFilter"
                     />
                 </template>
                 <template #body>
                     <TableListView
-                        :data="timeline"
-                    />
-                    <Pagination
-                        style="margin-top: 20px;"
-                        :canFetchPrevious="canFetchPrevious"
-                        :canFetchNext="canFetchNext"
-                        :nextPageAction="nextPageAction"
-                        :previousPageAction="previousPageAction"
+                        :data="data"
+                        :timeline="timeline"
+                        :timelinePagination="true"
                     />
                 </template>
 
@@ -69,11 +65,6 @@ export default {
   },
 
   props: {
-    storeNamespace: {
-      type: String,
-      required: true
-    },
-
     title: {
       type: String,
       required: true
@@ -89,21 +80,35 @@ export default {
       default: false
     },
 
+    storeNamespaces: {
+      type: Array
+    },
+
+    managerGetter: {
+      type: String
+    },
+
+    dataGetter: {
+      type: String
+    },
+
     mobileColumns: {
       type: [Array, undefined],
       default: void 0
     }
   },
 
-  mounted() {
-    this.$store.dispatch(this.resetPageAction)
-  },
-
   computed: {
     timeline() {
-      const timeline = this.$store.getters[this.storeNamespace + '/getTimelineFormatted']
+      return this.getter(this.managerGetter) || {}
+    },
 
-      if (this.$store.getters['ui/isMobile'] && this.mobileColumns) {
+    data() {
+      const timeline = this.getter(this.dataGetter) || this.timeline.data
+      if (typeof timeline === 'undefined')
+        throw Error('ListPage error. Timeline or Data getter is not provided')
+
+      if (this.$store.getters['ui/isMobile'] && Array.isArray(this.mobileColumns)) {
         return timeline.map(row => {
           let mobileRow = {}
 
@@ -114,33 +119,79 @@ export default {
 
           return mobileRow
         })
-      } else return timeline
+      } else
+      if (Array.isArray(this.columns)) {
+        return timeline.map(row => {
+          let columns = {}
+
+          for (let key in row) {
+            if (this.columns.includes(key))
+              columns[key] = row[key]
+          }
+
+          return columns
+        })
+      } else
+        return timeline
     },
 
-    canFetchPrevious() { return this.$store.getters[this.storeNamespace + '/getCanFetchPrevious'] },
-    canFetchNext() { return this.$store.getters[this.storeNamespace + '/getCanFetchNext'] },
-    loading() { return this.$store.getters[this.storeNamespace + '/getLoading'] },
-    error() { return this.$store.getters[this.storeNamespace + '/getError'] },
+    loading() {
+      if (typeof this.loadingGetter === 'string')
+        return this.getter(this.loadingGetter)
+      else
+        return this.timeline.loading
+    },
 
-    infoText() { return this.$store.getters[this.storeNamespace + '/infoText'] },
+    error() {
+      if (typeof this.errorGetter === 'string')
+        return this.getter(this.errorGetter)
+      else
+        return this.timeline.error
+    },
 
-    filterValue() { return this.$store.getters[this.storeNamespace + '/filterValue'] },
-    filterOptions() { return this.$store.getters[this.storeNamespace + '/filterOptions'] },
+    infoText() {
+      if (typeof this.infoTextGetter === 'string')
+        return this.getter(this.infoTextGetter)
+      else
+        return void 0
+    },
 
-    nextPageAction() { return this.storeNamespace + '/fetchNextPage' },
-    previousPageAction() { return this.storeNamespace + '/fetchPreviousPage' },
-    resetPageAction() { return this.storeNamespace + '/resetPage' },
-    changePageAction() { return this.storeNamespace + '/changePage' }
+    filterValue() {
+      if (typeof this.filterValueGetter === 'string')
+        return this.getter(this.filterValueGetter)
+      else
+        return this.timeline.filterValue
+    },
+
+    filterOptions() {
+      if (typeof this.filterOptionsGetter === 'string')
+        return this.getter(this.filterOptionsGetter)
+      else
+        return this.timeline.filterOptions
+    }
   },
 
   methods: {
     getNameByKey(e) {
       return this.$store.getters['ui/getNameByKey'](e)
+    },
+
+    changeFilterValue(e) {
+      this.timeline.changeFilterValue(e)
+    },
+
+    resetFilter(e) {
+      // this.timeline.reset(e)
+    },
+
+    getter(name) {
+      return this.$store.getters[name]
     }
   },
 
   destroyed() {
-    this.$store.dispatch(this.resetPageAction)
+    if (typeof this.timeline?.reset === 'function')
+      this.timeline.reset()
   }
 }
 </script>

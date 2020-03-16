@@ -3,6 +3,7 @@
         :variant="variant"
         :text="getLabel(value)"
         :size="_size"
+        :right="right"
     >
         <b-dropdown-item
             v-for="(label, value) in options"
@@ -33,6 +34,11 @@ export default {
     },
 
     dark: {
+      type: Boolean,
+      default: false
+    },
+
+    right: {
       type: Boolean,
       default: false
     },
