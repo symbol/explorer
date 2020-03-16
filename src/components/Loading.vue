@@ -16,41 +16,57 @@
  *
  */
 <template>
-  <div class="box_loader">
-    <!-- <div class="spinner">
-      <div class="rect1"></div>
-      <div class="rect2"></div>
-      <div class="rect3"></div>
-      <div class="rect4"></div>
-    </div>-->
-    <div class="spinner">
-      <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-        <circle
-          class="length"
-          fill="none"
-          stroke-width="8"
-          stroke-linecap="round"
-          cx="33"
-          cy="33"
-          r="28"
-        />
-      </svg>
-      <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-        <circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28" />
-      </svg>
-      <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-        <circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28" />
-      </svg>
-      <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-        <circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28" />
-      </svg>
+    <div class="box_loader">
+        <div class="pos-center" :class="{'small': small, 'big': !small}">
+            <div class="spinner">
+                <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                    <circle
+                    class="length"
+                    fill="none"
+                    stroke-width="8"
+                    stroke-linecap="round"
+                    cx="33"
+                    cy="33"
+                    r="28"
+                    />
+                </svg>
+                <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                    <circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28" />
+                </svg>
+                <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                    <circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28" />
+                </svg>
+                <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                    <circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28" />
+                </svg>
+            </div>
+        </div>
     </div>
-  </div>
 </template>
+
+<script>
+export default {
+  props: {
+    small: {
+      type: Boolean,
+      default: false
+    }
+  }
+}
+</script>
+
 <style scoped>
 *, *::before, *::after {
     box-sizing: border-box;
     position: relative;
+}
+
+.small {
+    transform: scale(0.5, 0.5);
+}
+
+.big {
+    height: 100%;
 }
 
 .box_loader {
@@ -64,6 +80,12 @@
     text-align: center;
 }
 
+.pos-center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .spinner {
     width: 33px;
     height: 36px;
@@ -71,7 +93,6 @@
     animation: contanim 2s linear infinite;
     display: inline-block;
     position: relative;
-    top: 40%;
 }
 
 svg {

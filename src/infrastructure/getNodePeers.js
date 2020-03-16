@@ -26,5 +26,16 @@ export const getNodePeers = async () => {
   const response = await axios.get(http.nodeUrl + path)
   const nodes = response.data.map(node => dto.createNodeInfoFromDTO(node, http.networkType))
 
-  return format.formatNodesInfo(nodes)
+  return format
+    .formatNodesInfo(nodes)
+    .map((el, index) => ({
+      index: index + 1,
+      version: el.version,
+      roles: el.roles,
+      network: el.network,
+      host: el.host,
+      port: el.port,
+      address: el.address,
+      friendlyName: el.friendlyName
+    }))
 }

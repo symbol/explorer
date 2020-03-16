@@ -33,27 +33,7 @@ class sdkBlock {
     return format.formatBlock(blockInfo)
   }
 
-  static getBlockFullTransactionsList = async (blockHeight, transactionId) => {
-    let txList = await this.getTransactionsByBlockHeight(blockHeight, transactionId)
-    if (txList.length > 0) {
-      transactionId = txList[txList.length - 1].transactionId
-      const page = await this.getBlockFullTransactionsList(blockHeight, transactionId)
-      txList = [...txList, ...page]
-    }
-    return txList
-  }
-
-  static getBlockLatestTransactionsList = async (blockHeight, transactionId) => {
-    let txList = await this.getTransactionsByBlockHeight(blockHeight, transactionId)
-    if (txList.length > 0) {
-      transactionId = txList[txList.length - 1].transactionId
-      const page = await this.getTransactionsByBlockHeight(blockHeight, transactionId)
-      txList = [...txList, ...page]
-    }
-    return format.formatBlocktransactions(txList)
-  }
-
-  static getBlockTransactionsFromId = async (blockHeight, transactionId) => {
+  static getBlockTransactions = async (blockHeight, transactionId) => {
     let txList = await this.getTransactionsByBlockHeight(blockHeight, transactionId)
     return format.formatBlocktransactions(txList)
   }
@@ -63,7 +43,7 @@ class sdkBlock {
     const pageSize = 10
 
     let transactions = await http.block
-      .getBlockTransactions(UInt64.fromUint(blockHeight), new QueryParams(pageSize, transactionId))
+      .getBlockTransactions(UInt64.fromUint(blockHeight), new QueryParams({ pageSize, id: transactionId }))
       .toPromise()
 
     return format.formatTransactions(transactions)
@@ -124,13 +104,10 @@ class sdkBlock {
     let formattedBalanceChangeReceipt
     let formattedBalanceTransferReceipt
     let formattedinflationReceipt
-    let lastTransactions
 
     try { rawBlockInfo = await this.getBlockInfoByHeight(height) } catch (e) { throw Error('Failed to fetch block info', e) }
 
     try { blockReceipt = await this.getReceiptsByBlockHeight(height) } catch (e) { console.warn(e) }
-
-    try { lastTransactions = await this.getBlockLatestTransactionsList(height) } catch (e) { console.warn(e) }
 
     if (rawBlockInfo) {
       formattedBlockInfo = {
@@ -178,8 +155,7 @@ class sdkBlock {
         balanceTransferReceipt: formattedBalanceTransferReceipt || [],
         balanceChangeReceipt: formattedBalanceChangeReceipt || [],
         artifactExpiryReceipt: artifactExpiryReceipt || [],
-        resolutionStatements: blockReceipt.resolutionStatements || [],
-        lastTransactions: lastTransactions || []
+        resolutionStatements: blockReceipt.resolutionStatements || []
       }
     }
   }
