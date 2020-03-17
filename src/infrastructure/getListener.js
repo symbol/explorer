@@ -16,18 +16,18 @@
  *
  */
 
-import { Listener } from 'nem2-sdk'
+import { Listener } from 'symbol-sdk'
 import format from '../format'
 
 class sdkListener {
   // Subscribe to new blocks announced to the chain.
-  static subscribeNewBlock = async (dispatch, wsEndpoint) => {
+  static subscribeNewBlock = async (onAdd, wsEndpoint) => {
     const listener = new Listener(wsEndpoint, WebSocket)
     await listener.open()
     let subscription = listener
       .newBlock()
       .subscribe(
-        block => dispatch('add', format.formatBlock(block)),
+        block => onAdd(format.formatBlock(block)),
         err => console.log(err)
       )
 

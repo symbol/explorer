@@ -10,8 +10,7 @@
 
         <div class="mobile-panel navbar-hide-on-scroll">
             <router-link to="/" class="title" :class="{'hide': fixed}">
-                <img src="/theme/img/logo-w.png" class="menu-logo"/>
-                <!--Nem blockchain explorer-->
+                <img src="../../styles/img/logo-w.png" class="menu-logo"/>
             </router-link>
         </div>
 
@@ -19,9 +18,9 @@
             <div v-if="showDrawer" class="menu-drawer">
                 <div class="drawer-header blue-gradinet">
                     <router-link to="/" class="logo">
-                        <img src="/theme/img/logo-w.png" />
+                        <img src="../../styles/img/logo-w.png" />
                     </router-link>
-                    <span class="title">Nem blockchain explorer</span>
+                    <span class="title">{{getNameByKey('blockchain explorer title')}}</span>
                     <LanguageSelector />
                 </div>
                 <div class="drawer-body">
@@ -30,10 +29,10 @@
                         :key="'mobl_mn_'+getNameByKey(item.text)"
                         class="ex-menu-item"
                         :to="item.to" exact active-class="active"
-                        @click="toggleMenu"
+                        @click.native="toggleMenu"
                     >
-                        <component :is="item.icon" class="ex-menu-item-icon" @click="toggleMenu"/>
-                        <span @click="toggleMenu">{{getNameByKey(item.text)}}</span>
+                        <component :is="item.icon" class="ex-menu-item-icon"/>
+                        <span>{{getNameByKey(item.text)}}</span>
                     </router-link>
                 </div>
             </div>
@@ -105,7 +104,7 @@ export default {
 }
 
 .blue-gradinet {
-    background: linear-gradient(120deg, #1eaaa6 0%, #3d6597 100%);
+    background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
     background-size: 100% auto;
     position: relative;
 }
@@ -120,8 +119,7 @@ export default {
     width: 100%;
     height: 100%;
     background-repeat: no-repeat;
-    background-size: 46%;
-    background-position: 60% 0%;
+    background-size: 100%;
 }
 
 .mobile-menu {
@@ -206,11 +204,12 @@ export default {
     }
 
     .mobile-panel {
-        background: #0998a6;
+        background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
         box-shadow: 0 2px 10px 2px rgba(0, 0, 0, 0.2);
         padding: 0 15px;
         display: flex;
         z-index: 1000;
+        opacity: 0.9;
 
         .title {
             color: #fff;

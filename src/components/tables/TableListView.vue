@@ -6,7 +6,7 @@
           <tr>
             <th
               v-for="(columnName, index) in header"
-              class="table-head-cell"
+              class="table-head-cell table-title-item"
               :key="view+'h'+index"
             ><span>{{getKeyName(columnName)}}</span></th>
           </tr>
@@ -70,16 +70,20 @@
           </tr>
         </tbody>
       </table>
-      <div v-if="pagination || timelinePagination" class="pagination-wrapper">
-        <div v-if="pagination">{{pageIndex+1}}/{{lastPage}}</div>
-        <Pagination
-          :canFetchPrevious="prevPageExist"
-          :canFetchNext="nextPageExist"
-          :goUp="false"
-          class="pagination"
-          @next="nextPage"
-          @previous="prevPage"
-        />
+      <div v-if="pagination || timelinePagination" class="bottom">
+        <div v-if="pagination">{{ pageIndex + 1 }}/{{ lastPage }}</div>
+        <div v-else>{{ timeline.index + 1 }}/..</div>
+          <div class="pagination-wrapper">
+            <Pagination
+              :canFetchPrevious="prevPageExist"
+              :canFetchNext="nextPageExist"
+              :goUp="false"
+              class="pagination"
+              @next="nextPage"
+              @previous="prevPage"
+            />
+            <Loading small v-if="paginationLoading" />
+        </div>
       </div>
     </div>
     <div v-else class="empty-data">{{emptyDataMessageFormatted}}</div>
@@ -94,10 +98,12 @@ import Pagination from '../controls/Pagination.vue'
 import Decimal from '../Decimal.vue'
 import Truncate from '../Truncate.vue'
 import TransactionDirection from '../TransactionDirection.vue'
+import Loading from '@/components/Loading.vue'
+
 export default {
   extends: TableView,
 
-  components: { Modal, AggregateTransaction, Pagination, Decimal, Truncate, TransactionDirection },
+  components: { Modal, AggregateTransaction, Pagination, Decimal, Truncate, TransactionDirection, Loading },
 
   props: {
     data: {
@@ -119,13 +125,13 @@ export default {
       type: Object
     },
 
-    timelineNextAction: {
-      type: String
-    },
+    // timelineNextAction: {
+    //   type: String
+    // },
 
-    timelinePreviousAction: {
-      type: String
-    },
+    // timelinePreviousAction: {
+    //   type: String
+    // },
 
     pageSize: {
       type: Number,
@@ -183,6 +189,10 @@ export default {
 
     dataIsNotEmpty() {
       return this.data.length
+    },
+
+    paginationLoading() {
+      return this.timeline?.isLoading === true
     }
   },
 
@@ -200,7 +210,8 @@ export default {
     nextPage() {
       if (this.nextPageExist) {
         if (this.timelinePagination)
-          this.$store.dispatch(this.timelineNextAction)
+          // this.$store.dispatch(this.timelineNextAction)
+          this.timeline.fetchNext()
         else
           this.pageIndex++
       }
@@ -209,11 +220,12 @@ export default {
     prevPage() {
       if (this.prevPageExist) {
         if (this.timelinePagination)
-          this.$store.dispatch(this.timelinePreviousAction)
+          // this.$store.dispatch(this.timelinePreviousAction)
+          this.timeline.fetchPrevious()
         else
           this.pageIndex--
       }
-    },
+    }
   },
 
   watch: {
@@ -229,19 +241,20 @@ export default {
 .table-view {
     overflow: auto;
 
-    .table-pagination {
-        float: right;
-    }
-
-    .pagination-wrapper {
+    .bottom {
         display: flex;
         justify-content: flex-end;
         align-items: center;
         color: #393939;
 
-        .pagination {
-            margin: 0;
-            margin-left: 10px;
+        .pagination-wrapper {
+            position: relative;
+            display: flex;
+
+            .pagination {
+                margin: 0;
+                margin-left: 10px;
+            }
         }
     }
 }

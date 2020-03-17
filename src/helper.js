@@ -17,7 +17,7 @@
  */
 
 import { Constants } from './config'
-import { NetworkType } from 'nem2-sdk'
+import { NetworkType } from 'symbol-sdk'
 import http from './infrastructure/http'
 
 const Url = require('url-parse')
@@ -142,6 +142,29 @@ class helper {
       expiredInBlock: expiredInBlock,
       expiredInSecond: this.convertToSecond(expiredInBlock)
     }
+  }
+
+  static fetchData = async (fetchFunction, commit, before, error, success) => {
+    if (typeof before === 'function')
+      await before()
+    else {
+      commit('setLoading', true)
+      commit('setError', false)
+    }
+    try {
+      await fetchFunction()
+    } catch (e) {
+      if (typeof error === 'function')
+        await error(e)
+      else {
+        console.error(e)
+        commit('setError', true)
+      }
+    }
+    if (typeof success === 'function')
+      await success()
+    else
+      commit('setLoading', false)
   }
 }
 

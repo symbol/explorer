@@ -27,9 +27,9 @@ export default {
 }
 
 .btn-green {
-    border: 1px solid #039ba8;
+    border: 1px solid var(--info);
     border-radius: 4px;
-    color: #039ba8;
+    color: var(--info);
     font-size: 12px;
     padding: 5px 12px 5px 12px;
     line-height: 1.6;
@@ -55,7 +55,7 @@ export default {
 
 .btn-green::before {
     content: '';
-    background: linear-gradient(120deg, #25b4af, #6eb6de);
+    background: var(--primary);
     width: 0;
     height: 100%;
     position: absolute;

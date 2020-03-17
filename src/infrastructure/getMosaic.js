@@ -20,7 +20,7 @@ import axios from 'axios'
 import {
   MosaicId,
   NamespaceId
-} from 'nem2-sdk'
+} from 'symbol-sdk'
 
 import dto from './dto'
 import http from './http'
@@ -60,7 +60,17 @@ class sdkMosaic {
     const mosaicIdsList = mosaics.map(mosaicInfo => mosaicInfo.id)
     const mosaicInfoAliasNames = await sdkMosaic.getMosaicInfoAliasNames(mosaicIdsList)
 
-    return mosaicInfoAliasNames.map(mosaicInfoAliasName => format.formatMosaicInfo(mosaicInfoAliasName))
+    return mosaicInfoAliasNames
+      .map(mosaicInfoAliasName => format.formatMosaicInfo(mosaicInfoAliasName))
+      .map(el => ({
+        mosaicId: el.mosaicId,
+        mosaicAliasName: el.mosaicAliasName,
+        owneraddress: el.address,
+        supply: el.supply,
+        divisibility: el.divisibility,
+        relativeAmount: el.relativeAmount,
+        startHeight: el.startHeight
+      }))
   }
 
   static getMosaicsSinceIdWithLimit = async (limit, sinceMosaicId) => {
@@ -78,7 +88,17 @@ class sdkMosaic {
     const mosaicIdsList = mosaics.map(mosaicInfo => mosaicInfo.id)
     const mosaicInfoAliasNames = await sdkMosaic.getMosaicInfoAliasNames(mosaicIdsList)
 
-    return mosaicInfoAliasNames.map(mosaicInfoAliasName => format.formatMosaicInfo(mosaicInfoAliasName))
+    return mosaicInfoAliasNames
+      .map(mosaicInfoAliasName => format.formatMosaicInfo(mosaicInfoAliasName))
+      .map(el => ({
+        mosaicId: el.mosaicId,
+        mosaicAliasName: el.mosaicAliasName,
+        owneraddress: el.address,
+        supply: el.supply,
+        divisibility: el.divisibility,
+        relativeAmount: el.relativeAmount,
+        startHeight: el.startHeight
+      }))
   }
 
   static getMosaicInfoFormatted = async mosaicHexOrNamespace => {

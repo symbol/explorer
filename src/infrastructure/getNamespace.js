@@ -17,8 +17,7 @@
  */
 
 import axios from 'axios'
-import { Address, NamespaceId } from 'nem2-sdk'
-import { mergeMap, map } from 'rxjs/operators'
+import { Address, NamespaceId, QueryParams } from 'symbol-sdk'
 import dto from './dto'
 import http from './http'
 import format from '../format'
@@ -48,29 +47,31 @@ const addNamespaceNames = async namespaces => {
 
 class sdkNamespace {
   static getNamespacesFromAccountByAddress = async (address) => {
-    const namespacesIds = []
-    const namespaceList = await http.namespace
-      .getNamespacesFromAccount(Address.createFromRawAddress(address))
-      .pipe(
-        mergeMap(namespacesInfo => {
-          const namespaceIds = namespacesInfo.map(x => {
-            namespacesIds[x.id.toHex().toUpperCase()] = { namespaceInfo: x }
-            return x.id
-          })
-          return http.namespace.getNamespacesName(namespaceIds)
-        }),
-        map(namespacesNames =>
-          namespacesNames.map(namespaceName => {
-            const namespace =
-              namespacesIds[namespaceName.namespaceId.toHex().toUpperCase()]
-            namespace.namespaceName = namespaceName
-            return namespace
-          })
-        )
-      )
+    const addressObj = Address.createFromRawAddress(address)
+
+    const namespaceInfos = await this.getFullNamespacesFromAccount(addressObj)
+    const namespacesIds = namespaceInfos.map(nsInfo => nsInfo.id)
+    const namespaceNames = namespacesIds.length
+      ? await http.namespace.getNamespacesName(namespacesIds).toPromise()
+      : []
+
+    const currentBlockHeight = await sdkBlock.getBlockHeight()
+
+    return namespaceInfos.map(namespaceInfo => format.formatNamespace(namespaceInfo, namespaceNames, currentBlockHeight))
+  }
+
+  static getFullNamespacesFromAccount = async (address, namespaceId = '') => {
+    let namespaceInfos = await http.namespace
+      .getNamespacesFromAccount(address, new QueryParams({ pageSize: 100, id: namespaceId }))
       .toPromise()
 
-    return format.formatNamespaces(namespaceList)
+    if (namespaceInfos.length > 0) {
+      namespaceId = namespaceInfos[namespaceInfos.length - 1].metaId
+      const page = await this.getFullNamespacesFromAccount(address, namespaceId)
+      namespaceInfos = [...namespaceInfos, ...page]
+    }
+
+    return namespaceInfos
   }
 
   static getNamespaceInfo = async namespaceOrHex => {
@@ -104,7 +105,15 @@ class sdkNamespace {
 
     const currentBlockHeight = await sdkBlock.getBlockHeight()
 
-    return namespaces.map(namespace => format.formatNamespaceInfo(namespace, currentBlockHeight))
+    return namespaces
+      .map(namespace => format.formatNamespaceInfo(namespace, currentBlockHeight))
+      .map(el => ({
+        namespaceName: el.namespaceName,
+        namespaceId: el.namespaceId,
+        owneraddress: el.address,
+        duration: el.duration,
+        approximateExpired: el.approximateExpired
+      }))
   }
 
   static getNamespacesSinceIdWithLimit = async (limit, sinceNamespaceId) => {
@@ -155,10 +164,10 @@ class sdkNamespace {
 
       // End height disable click before expired.
       namespaceInfoFormatted.startHeight = namespaceInfo.startHeight
-      namespaceInfoFormatted.expiredInBlock = namespaceInfo.expiredInBlock + ` ≈ ` + namespaceInfo.duration
+      namespaceInfoFormatted.expiredInBlock = Constants.NetworkConfig.NAMESPACE.indexOf(namespaceInfo.namespaceName.toUpperCase()) !== -1 ? Constants.Message.INFINITY : namespaceInfo.expiredInBlock + ` ≈ ` + namespaceInfo.duration
 
       if (!namespaceInfo.isExpired)
-        namespaceInfoFormatted.beforeEndHeight = namespaceInfo.endHeight + ` ( ${Constants.NetworkConfig.NAMESPACE_GRACE_PERIOD_DURATION} blocks of grace period )`
+        namespaceInfoFormatted.beforeEndHeight = Constants.NetworkConfig.NAMESPACE.indexOf(namespaceInfo.namespaceName.toUpperCase()) !== -1 ? Constants.Message.INFINITY : namespaceInfo.endHeight + ` ( ${Constants.NetworkConfig.NAMESPACE_GRACE_PERIOD_DURATION} blocks of grace period )`
       else
         namespaceInfoFormatted.endHeight = namespaceInfo.endHeight
 

@@ -74,7 +74,7 @@ export default {
 
 <style lang="scss" scoped>
 .ex-item {
-    border-left: 4px solid #0998a6;
+    border-left: 4px solid #904d9c;
     padding: 1px 10px;
     margin-bottom: 15px;
 

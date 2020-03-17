@@ -17,8 +17,7 @@ const readConfig = configPath => {
   return config
 }
 
-const peersApi = readConfig('src/config/peers-api.json')
-const endpoints = readConfig('src/config/endpoints.json')
+const setup = readConfig('src/config/setup.json')
 
 module.exports = {
   // base url
@@ -38,9 +37,16 @@ module.exports = {
   configureWebpack: {
     plugins: [
       new webpack.DefinePlugin({
-        PEERS_API: peersApi,
-        ENDPOINTS: endpoints
+        globalConfig: setup
       })
     ]
+  },
+  css: {
+    // modules: true,
+    loaderOptions: {
+      sass: {
+        prependData: `@import "~@/styles/variables.scss";`
+      }
+    }
   }
 }
