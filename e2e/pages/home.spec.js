@@ -1,18 +1,18 @@
 // cypress/integration/spec.js
-describe.skip('NEM 2 Explorer Home Page should', () => {
+describe.skip('Symbol Explorer Home Page should', () => {
   beforeEach(() => {
     cy.visit('/')
   })
 
-  it('load XEM Price graph', () => {
+  it('load XYM Price graph', () => {
 
-    cy.contains('XEM Price')
+    cy.contains('XYM Price')
 
     // view all statistic button is clickable
     // cy.contains('View all statistics').click()
     // cy.url().should('contain', '/statistics')
 
-    // xem price chart is visible
+    // XYM price chart is visible
     cy.get('.apexcharts-svg', { timeout: 20000 }).should('be.visible')
 
   })

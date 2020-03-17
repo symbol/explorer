@@ -1,12 +1,13 @@
-const timeout = 20000;
 
-describe('NEM 2 Explorer Menu Route should', () => {
+describe('Symbol Explorer Menu Route should', () => {
+    const timeout = 20000;
+
     beforeEach(() => {
         cy.visit('/')
     })
 
     it('redirect to home given click on home tab', () => {
-        cy.contains('XEM Price')
+        cy.contains('XYM Price')
         cy.contains('Base Info')
         cy.contains('Recent Transactions')
         cy.contains('Recent Blocks')

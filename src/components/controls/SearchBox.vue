@@ -19,7 +19,7 @@ export default {
       searchString: '',
       searchValidate: '',
       isError: false,
-      placeholder: 'Search block / tx hash / account / mosaic id / namespace id / alias'
+      placeholder: 'Search'
     }
   },
 
@@ -54,6 +54,7 @@ export default {
 <style lang="scss" scoped>
 .form-control {
     color: #fff !important;
+    font-size: 12px;
 }
 
 .form-control:focus {
@@ -61,7 +62,8 @@ export default {
 }
 
 .form-control::-webkit-input-placeholder {
-    color: #acc5ce;
+    color: var(--light);
+    font-size: 12px;
 }
 
 .transition {
