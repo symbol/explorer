@@ -1,4 +1,4 @@
-import { Address, TransactionType, ReceiptType, ResolutionType, AccountRestrictionFlags } from 'nem2-sdk'
+import { Address, TransactionType, ReceiptType, ResolutionType, AccountRestrictionFlags } from 'symbol-sdk'
 import { Constants } from './config'
 import moment from 'moment'
 import http from './infrastructure/http'
@@ -8,6 +8,14 @@ import helper from './helper'
 
 // Convert micro-xem (smallest unit) to XEM.
 const microxemToXem = amount => amount / Math.pow(10, Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY)
+
+const formatBlocktransactions = transactions =>
+  transactions?.map((el) => ({
+    deadline: el.deadline,
+    transactionId: el.transactionId,
+    transactionHash: el.transactionHash,
+    type: el.transactionBody?.type
+  })) || []
 
 // Convert Mosaic amount to relative Amount with divisibility.
 const formatMosaicAmountWithDivisibility = (amount, divisibility) => {
@@ -21,13 +29,12 @@ const formatFee = fee => microxemToXem(fee.compact()).toLocaleString('en-US', { 
 // Format ImportantScore
 const formatImportanceScore = importanceScore => {
   // Calculate the importance score.
-  if (importanceScore) {
-    importanceScore /= 90000
-    importanceScore = importanceScore.toFixed(4).split('.')
-    importanceScore = importanceScore[0] + '.' + importanceScore[1]
+  const totalchainimportance = Constants.NetworkConfig.TOTAL_CHAIN_IMPORTANCE
 
-    return importanceScore
-  }
+  if (importanceScore)
+    return (importanceScore / totalchainimportance)
+
+  return importanceScore
 }
 
 // FORMAT BLOCK
@@ -83,7 +90,7 @@ const formatAccount = accountInfo => {
     publicKey: accountInfo.publicKey,
     publicKeyHeight: accountInfo.publicKeyHeight.compact(),
     mosaics: formatMosaics(accountInfo.mosaics),
-    importance: formatImportanceScore(accountInfo.importance.compact()),
+    importance: (formatImportanceScore(accountInfo.importance.compact()) * 100).toFixed(6).toString() + ' %',
     importanceHeight: accountInfo.importanceHeight.compact(),
     accountType: Constants.AccountType[accountInfo.accountType],
     activityBucket: accountInfo.activityBucket,
@@ -207,52 +214,51 @@ const formatCosignatures = cosignatures => {
 const formatTransactionBody = transactionBody => {
   switch (transactionBody.type) {
   case TransactionType.TRANSFER:
-    let transferObj = {
+    return {
       type: Constants.TransactionType[TransactionType.TRANSFER],
       transactionType: TransactionType.TRANSFER,
       recipient: transactionBody.recipientAddress.address,
       mosaics: formatMosaics(transactionBody.mosaics),
       message: transactionBody.message.payload
     }
-    return transferObj
+
   case TransactionType.NAMESPACE_REGISTRATION:
     let parentIdHex = transactionBody.parentId ? transactionBody.parentId.toHex() : ''
     let duration = transactionBody.duration ? transactionBody.duration.compact() : 0
 
-    let registerNamespaceObj = {
+    return {
       type: Constants.TransactionType[TransactionType.NAMESPACE_REGISTRATION],
       transactionType: TransactionType.NAMESPACE_REGISTRATION,
-      recipient: Constants.NetworkConfig.NAMESPACE_RENTAL_FEE_SINK_ADDRESS,
+      recipient: Address.createFromPublicKey(Constants.NetworkConfig.NAMESPACE_RENTAL_FEE_SINK_PUBLIC_KEY, http.networkType).plain(),
       registrationType: Constants.NamespaceRegistrationType[transactionBody.registrationType],
       namespaceName: transactionBody.namespaceName,
       namespaceId: transactionBody.namespaceId.toHex(),
       parentId: parentIdHex === '' ? Constants.Message.UNAVAILABLE : parentIdHex,
       duration: duration === 0 ? Constants.Message.UNLIMITED : duration
     }
-    return registerNamespaceObj
+
   case TransactionType.ADDRESS_ALIAS:
-    let addressAliasObj = {
+    return {
       type: Constants.TransactionType[TransactionType.ADDRESS_ALIAS],
       transactionType: TransactionType.ADDRESS_ALIAS,
-      aliasAction: Constants.AliasAction[transactionBody.actionType],
+      aliasAction: Constants.AliasAction[transactionBody.aliasAction],
       namespaceId: transactionBody.namespaceId.toHex()
     }
-    return addressAliasObj
 
   case TransactionType.MOSAIC_ALIAS:
-    let mosaicAlias = {
+    return {
       type: Constants.TransactionType[TransactionType.MOSAIC_ALIAS],
       transactionType: TransactionType.MOSAIC_ALIAS,
       aliasAction: Constants.AliasAction[transactionBody.aliasAction],
       namespaceId: transactionBody.namespaceId.id.toHex(),
       mosaicId: transactionBody.mosaicId.id.toHex()
     }
-    return mosaicAlias
+
   case TransactionType.MOSAIC_DEFINITION:
-    let mosaicDefinitionObj = {
+    return {
       type: Constants.TransactionType[TransactionType.MOSAIC_DEFINITION],
       transactionType: TransactionType.MOSAIC_DEFINITION,
-      recipient: Constants.NetworkConfig.MOSAIC_RENTAL_FEE_SINK_ADDRESS,
+      recipient: Address.createFromPublicKey(Constants.NetworkConfig.MOSAIC_RENTAL_FEE_SINK_PUBLIC_KEY, http.networkType).plain(),
       mosaicId: transactionBody.mosaicId.toHex(),
       divisibility: transactionBody.divisibility,
       duration: transactionBody.duration,
@@ -261,54 +267,52 @@ const formatTransactionBody = transactionBody => {
       transferable: transactionBody.flags.transferable,
       restrictable: transactionBody.flags.restrictable
     }
-    return mosaicDefinitionObj
+
   case TransactionType.MOSAIC_SUPPLY_CHANGE:
-    let mosaicSupplyChangeObj = {
+    return {
       type: Constants.TransactionType[TransactionType.MOSAIC_SUPPLY_CHANGE],
       transactionType: TransactionType.MOSAIC_SUPPLY_CHANGE,
       mosaicId: transactionBody.mosaicId.id.toHex(),
       action: Constants.MosaicSupplyChangeAction[transactionBody.action],
       delta: transactionBody.delta.compact()
     }
-    return mosaicSupplyChangeObj
+
   case TransactionType.MULTISIG_ACCOUNT_MODIFICATION:
-    let modifyMultisigAccountObj = {
+    return {
       type: Constants.TransactionType[TransactionType.MULTISIG_ACCOUNT_MODIFICATION],
       transactionType: TransactionType.MULTISIG_ACCOUNT_MODIFICATION,
       minApprovalDelta: transactionBody.minApprovalDelta,
       minRemovalDelta: transactionBody.minRemovalDelta,
       modifications: transactionBody.modifications
     }
-    return modifyMultisigAccountObj
 
   case TransactionType.AGGREGATE_COMPLETE:
-    let aggregateCompleteObj = {
+    return {
       type: Constants.TransactionType[TransactionType.AGGREGATE_COMPLETE],
       transactionType: TransactionType.AGGREGATE_COMPLETE,
       innerTransactions: formatTransactions(transactionBody.innerTransactions),
       cosignatures: formatCosignatures(transactionBody.cosignatures)
     }
-    return aggregateCompleteObj
+
   case TransactionType.AGGREGATE_BONDED:
-    let aggregateBondedObj = {
+    return {
       type: Constants.TransactionType[TransactionType.AGGREGATE_BONDED],
       transactionType: TransactionType.AGGREGATE_BONDED,
       innerTransactions: formatTransactions(transactionBody.innerTransactions),
       cosignatures: formatCosignatures(transactionBody.cosignatures)
     }
-    return aggregateBondedObj
 
   case TransactionType.HASH_LOCK:
-    let lockObj = {
+    return {
       type: Constants.TransactionType[TransactionType.HASH_LOCK],
       transactionType: TransactionType.HASH_LOCK,
       duration: transactionBody.duration.compact(),
       mosaicId: transactionBody.mosaic.id.toHex(),
       amount: formatFee(transactionBody.mosaic.amount)
     }
-    return lockObj
+
   case TransactionType.SECRET_LOCK:
-    let secretLockObj = {
+    return {
       type: Constants.TransactionType[TransactionType.SECRET_LOCK],
       transactionType: TransactionType.SECRET_LOCK,
       duration: transactionBody.duration.compact(),
@@ -317,55 +321,55 @@ const formatTransactionBody = transactionBody => {
       recipient: transactionBody.recipientAddress.address,
       hashType: Constants.HashType[transactionBody.hashType]
     }
-    return secretLockObj
+
   case TransactionType.SECRET_PROOF:
-    let secretProofObj = {
+    return {
       type: Constants.TransactionType[TransactionType.SECRET_PROOF],
       transactionType: TransactionType.SECRET_PROOF,
-      hashType: transactionBody.hashType,
+      hashType: Constants.HashType[transactionBody.hashType],
       recipient: transactionBody.recipientAddress.plain(),
       secret: transactionBody.secret,
       proof: transactionBody.proof
     }
-    return secretProofObj
+
   case TransactionType.ACCOUNT_ADDRESS_RESTRICTION:
-    let accountRestrictionAddressObj = {
+    return {
       type: Constants.TransactionType[TransactionType.ACCOUNT_ADDRESS_RESTRICTION],
       transactionType: TransactionType.ACCOUNT_ADDRESS_RESTRICTION,
       restrictionType: Constants.AccountRestrictionFlags[transactionBody.restrictionFlags],
       restrictionAddressAdditions: transactionBody.restrictionAdditions.map(account => account.address),
       restrictionAddressDeletions: transactionBody.restrictionDeletions.map(account => account.address)
     }
-    return accountRestrictionAddressObj
+
   case TransactionType.ACCOUNT_MOSAIC_RESTRICTION:
-    let accountRestrictionMosaicObj = {
+    return {
       type: Constants.TransactionType[TransactionType.ACCOUNT_MOSAIC_RESTRICTION],
       transactionType: TransactionType.ACCOUNT_MOSAIC_RESTRICTION,
       restrictionType: Constants.AccountRestrictionFlags[transactionBody.restrictionFlags],
       restrictionMosaicAdditions: transactionBody.restrictionAdditions.map(mosaic => mosaic.id.toHex()),
       restrictionMosaicDeletions: transactionBody.restrictionDeletions.map(mosaic => mosaic.id.toHex())
     }
-    return accountRestrictionMosaicObj
+
   case TransactionType.ACCOUNT_OPERATION_RESTRICTION:
-    let accountRestrictionOperationObj = {
+    return {
       type: Constants.TransactionType[TransactionType.ACCOUNT_OPERATION_RESTRICTION],
       transactionType: TransactionType.ACCOUNT_OPERATION_RESTRICTION,
       restrictionType: Constants.AccountRestrictionFlags[transactionBody.restrictionFlags],
       restrictionOperationAdditions: transactionBody.restrictionAdditions.map(operation => Constants.TransactionType[operation]),
       restrictionOperationDeletions: transactionBody.restrictionDeletions.map(operation => Constants.TransactionType[operation])
     }
-    return accountRestrictionOperationObj
+
   case TransactionType.ACCOUNT_LINK:
-    let linkAccountObj = {
+    return {
       type: Constants.TransactionType[TransactionType.ACCOUNT_LINK],
       transactionType: TransactionType.ACCOUNT_LINK,
       linkAction: Constants.LinkAction[transactionBody.linkAction],
       remoteAccountPublicKey: transactionBody.remotePublicKey,
       remoteAccountAddress: Address.createFromPublicKey(transactionBody.remotePublicKey, http.networkType).plain()
     }
-    return linkAccountObj
+
   case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
-    let mosaicAddressRestrictionObj = {
+    return {
       type: Constants.TransactionType[TransactionType.MOSAIC_ADDRESS_RESTRICTION],
       transactionType: TransactionType.MOSAIC_ADDRESS_RESTRICTION,
       mosaicId: transactionBody.mosaicId.toHex(),
@@ -374,9 +378,9 @@ const formatTransactionBody = transactionBody => {
       previousRestrictionValue: transactionBody.previousRestrictionValue.compact(),
       newRestrictionValue: transactionBody.newRestrictionValue.compact()
     }
-    return mosaicAddressRestrictionObj
+
   case TransactionType.MOSAIC_GLOBAL_RESTRICTION:
-    let mosaicGlobalRestrictionObj = {
+    return {
       type: Constants.TransactionType[TransactionType.MOSAIC_GLOBAL_RESTRICTION],
       transactionType: TransactionType.MOSAIC_GLOBAL_RESTRICTION,
       referenceMosaicId: transactionBody.referenceMosaicId.toHex() === '0000000000000000' ? transactionBody.mosaicId.toHex() : transactionBody.referenceMosaicId.toHex(),
@@ -386,9 +390,9 @@ const formatTransactionBody = transactionBody => {
       newRestrictionType: Constants.MosaicRestrictionType[transactionBody.newRestrictionType],
       newRestrictionValue: transactionBody.newRestrictionValue.compact()
     }
-    return mosaicGlobalRestrictionObj
+
   case TransactionType.ACCOUNT_METADATA:
-    let accountMetadataTransactionObj = {
+    return {
       type: Constants.TransactionType[TransactionType.ACCOUNT_METADATA],
       transactionType: TransactionType.ACCOUNT_METADATA,
       scopedMetadataKey: transactionBody.scopedMetadataKey.toHex(),
@@ -396,9 +400,9 @@ const formatTransactionBody = transactionBody => {
       metadataValue: transactionBody.value,
       valueSizeDelta: transactionBody.valueSizeDelta
     }
-    return accountMetadataTransactionObj
+
   case TransactionType.MOSAIC_METADATA:
-    let mosaicMetadataTransactionObj = {
+    return {
       type: Constants.TransactionType[TransactionType.MOSAIC_METADATA],
       transactionType: TransactionType.MOSAIC_METADATA,
       scopedMetadataKey: transactionBody.scopedMetadataKey.toHex(),
@@ -407,9 +411,9 @@ const formatTransactionBody = transactionBody => {
       metadataValue: transactionBody.value,
       valueSizeDelta: transactionBody.valueSizeDelta
     }
-    return mosaicMetadataTransactionObj
+
   case TransactionType.NAMESPACE_METADATA:
-    let namespaceMetadataTransactionObj = {
+    return {
       type: Constants.TransactionType[TransactionType.NAMESPACE_METADATA],
       transactionType: TransactionType.NAMESPACE_METADATA,
       scopedMetadataKey: transactionBody.scopedMetadataKey.toHex(),
@@ -418,69 +422,8 @@ const formatTransactionBody = transactionBody => {
       metadataValue: transactionBody.value,
       valueSizeDelta: transactionBody.valueSizeDelta
     }
-    return namespaceMetadataTransactionObj
   }
 }
-
-// FORMAT NAMESPACES
-const formatNamespaces = namespacesInfo =>
-  namespacesInfo
-    .filter((ns, index, namespaces) => {
-      for (let i = 0; i < index; i += 1)
-        if (ns === namespaces[i]) return false
-
-      return true
-    })
-    .sort((a, b) => {
-      const nameA = a.namespaceInfo.metaId
-      const nameB = b.namespaceInfo.metaId
-      if (nameA < nameB)
-        return -1
-
-      if (nameA > nameB)
-        return 1
-
-      return 0
-    })
-    .map((ns, index, original) => {
-      const name = ns.namespaceInfo.levels
-        .map(level => original.find(n => n.namespaceInfo.id.equals(level)))
-        .map(n => n.namespaceName.name)
-        .join('.')
-      let aliasText
-      let aliasType
-      switch (ns.namespaceInfo.alias.type) {
-      case 1:
-        aliasText = ns.namespaceInfo.alias.mosaicId.toHex()
-        aliasType = Constants.Message.MOSAIC
-        break
-      case 2:
-        aliasText = ns.namespaceInfo.alias.address
-        aliasType = Constants.Message.ADDRESS
-        break
-      default:
-        aliasText = false
-        aliasType = Constants.Message.NO_ALIAS
-        break
-      }
-      return {
-        owner: ns.namespaceInfo.owner,
-        namespaceName: name,
-        hexId: ns.namespaceInfo.id.toHex(),
-        type: Constants.NamespaceRegistrationType[ns.namespaceInfo.registrationType],
-        aliastype: aliasType,
-        alias: aliasText,
-        aliasAction: Constants.AliasAction[ns.namespaceInfo.alias.type],
-        currentAliasType: ns.namespaceInfo.alias.type,
-
-        active: ns.namespaceInfo.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
-        startHeight: ns.namespaceInfo.startHeight.compact(),
-        endHeight: Constants.NetworkConfig.NAMESPACE.indexOf(name.toUpperCase()) !== -1
-          ? Constants.Message.INFINITY
-          : ns.namespaceInfo.endHeight.compact(),
-        parentId: ns.namespaceInfo.parentId.id.toHex()
-      }
-    })
 
 // FORMAT NAMESPACE
 const formatNamespace = (namespaceInfo, namespaceNames, currentHeight = 0) => {
@@ -501,26 +444,11 @@ const formatNamespace = (namespaceInfo, namespaceNames, currentHeight = 0) => {
     break
   }
 
-  const fullName = namespaceInfo.levels.map(level => {
-    return namespaceNames.find((name) => name.namespaceId.equals(level))
-  })
-    .map((namespaceName) => namespaceName.name)
-    .join('.')
-
-  namespaceNames.map(namespace => {
-    let root = namespaceNames.find(name => name.parentId === undefined)
-    if (namespace.parentId) {
-      let parent = namespaceNames.find(name => name.namespaceId.equals(namespace.parentId))
-      namespace.name = parent.name + '.' + namespace.name
-
-      if (root.name !== parent.name)
-        namespace.name = root.name + '.' + namespace.name
-    }
-  })
+  const fullName = extractFullNamespace(namespaceInfo, namespaceNames)
 
   let { isExpired, expiredInBlock, expiredInSecond } = helper.calculateNamespaceExpiration(currentHeight, namespaceInfo.endHeight.compact())
 
-  let namespaceObj = {
+  return {
     owner: namespaceInfo.owner.address.plain(),
     namespaceName: fullName,
     namespaceNameHexId: namespaceInfo.id.toHex().toUpperCase(),
@@ -532,6 +460,7 @@ const formatNamespace = (namespaceInfo, namespaceNames, currentHeight = 0) => {
     active: namespaceInfo.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
     aliasType: aliasType,
     alias: aliasText || aliasType,
+    aliasAction: Constants.AliasAction[namespaceInfo.alias.type],
     // parentHexId: namespaceInfo.parentId.id.toHex().toUpperCase(),
     parentName:
       namespaceInfo.registrationType !== 0 ? fullName.split('.')[0].toUpperCase() : '',
@@ -541,8 +470,17 @@ const formatNamespace = (namespaceInfo, namespaceNames, currentHeight = 0) => {
     approximateExpired: moment.utc().add(expiredInSecond, 's').local().format('YYYY-MM-DD HH:mm:ss'),
     expiredInBlock: expiredInBlock
   }
+}
 
-  return namespaceObj
+const extractFullNamespace = (namespaceInfo, namespaceNames) => {
+  return namespaceInfo.levels.map((level) => {
+    const namespaceName = namespaceNames.find((name) => name.namespaceId.equals(level))
+
+    if (namespaceName === undefined) throw new Error('Not found')
+    return namespaceName
+  })
+    .map((namespaceName) => namespaceName.name)
+    .join('.')
 }
 
 const formatNamespaceInfo = (namespaceInfo, currentHeight = 0) => {
@@ -729,13 +667,13 @@ export default {
   formatFee,
   formatBlocks,
   formatBlock,
+  formatBlocktransactions,
   formatAccount,
   formatAccountMultisig,
   formatMosaics,
   formatTransactions,
   formatTransaction,
   formatTransactionBody,
-  formatNamespaces,
   formatNamespace,
   formatMosaicInfo,
   formatNamespaceInfo,

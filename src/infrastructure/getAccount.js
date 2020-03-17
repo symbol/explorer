@@ -17,7 +17,7 @@
  */
 
 import axios from 'axios'
-import { Address } from 'nem2-sdk'
+import { Address } from 'symbol-sdk'
 import dto from './dto'
 import http from './http'
 import format from '../format'
@@ -199,10 +199,9 @@ class sdkAccount {
       formattedNamespaceList = namespaceList.map(
         el => ({
           namespaceName: el.namespaceName,
-          registrationType: el.type,
+          registrationType: el.registrationType,
           status: el.active,
-          startHeight: el.startHeight,
-          endHeight: el.endHeight
+          duration: el.duration
         })
       )
     }

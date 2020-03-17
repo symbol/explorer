@@ -70,10 +70,9 @@
           </tr>
         </tbody>
       </table>
-      <div v-if="pagination" class="pagination-wrapper">
-        {{pageIndex+1}}/{{lastPage}}
+      <div v-if="pagination || timelinePagination" class="pagination-wrapper">
+        <div v-if="pagination">{{pageIndex+1}}/{{lastPage}}</div>
         <Pagination
-          v-if="pagination"
           :canFetchPrevious="prevPageExist"
           :canFetchNext="nextPageExist"
           :goUp="false"
@@ -111,6 +110,23 @@ export default {
       default: false
     },
 
+    timelinePagination: {
+      type: Boolean,
+      default: false
+    },
+
+    timeline: {
+      type: Object
+    },
+
+    timelineNextAction: {
+      type: String
+    },
+
+    timelinePreviousAction: {
+      type: String
+    },
+
     pageSize: {
       type: Number,
       default: 10
@@ -135,18 +151,24 @@ export default {
 
   computed: {
     preparedData() {
-      if (Array.isArray(this.data) && this.pagination === true)
+      if (Array.isArray(this.data) && this.pagination === true && !this.timelinePagination)
         return this.data.slice(this.pageIndex * this.pageSize, this.pageIndex * this.pageSize + this.pageSize)
       else
         return this.data
     },
 
     nextPageExist() {
-      return this.pageSize * (this.pageIndex + 1) < this.data.length
+      if (this.timelinePagination && this.timeline instanceof Object)
+        return this.timeline.canFetchNext
+      else
+        return this.pageSize * (this.pageIndex + 1) < this.data.length
     },
 
     prevPageExist() {
-      return this.pageIndex > 0
+      if (this.timelinePagination && this.timeline instanceof Object)
+        return this.timeline.canFetchPrevious
+      else
+        return this.pageIndex > 0
     },
 
     lastPage() {
@@ -176,13 +198,21 @@ export default {
     },
 
     nextPage() {
-      if (this.nextPageExist)
-        this.pageIndex++
+      if (this.nextPageExist) {
+        if (this.timelinePagination)
+          this.$store.dispatch(this.timelineNextAction)
+        else
+          this.pageIndex++
+      }
     },
 
     prevPage() {
-      if (this.prevPageExist)
-        this.pageIndex--
+      if (this.prevPageExist) {
+        if (this.timelinePagination)
+          this.$store.dispatch(this.timelinePreviousAction)
+        else
+          this.pageIndex--
+      }
     }
   },
 

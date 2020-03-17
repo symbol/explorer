@@ -16,7 +16,7 @@
  *
  */
 
-import * as nem from 'nem2-sdk'
+import * as nem from 'symbol-sdk'
 
 // Parse the version field from the version/network type field.
 const createVersionFromDTO = version =>
@@ -141,6 +141,7 @@ const createTransactionFromDTO = (transactionDTO, networkType) =>
 const createNodeInfoFromDTO = (nodeInfoDTO, networkType) =>
   new nem.NodeInfo(
     nodeInfoDTO.publicKey,
+    nodeInfoDTO.networkGenerationHash,
     nodeInfoDTO.port,
     nodeInfoDTO.networkIdentifier,
     nodeInfoDTO.version,

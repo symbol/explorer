@@ -16,7 +16,7 @@
  *
  */
 import router from '../router'
-import { Address, AccountHttp } from 'nem2-sdk'
+import { Address, AccountHttp } from 'symbol-sdk'
 import { i18n } from '../config'
 import sdkMosaic from '../infrastructure/getMosaic'
 import sdkNamespace from '../infrastructure/getNamespace'

@@ -16,7 +16,7 @@
  *
  */
 
-import * as nem from 'nem2-sdk'
+import * as nem from 'symbol-sdk'
 import constants from '../config/constants'
 
 let NODE_URL
@@ -55,7 +55,7 @@ export default class http {
   }
 
   static get diagnostic() {
-    return new nem.DiagnosticHttp(http.nodeUrl)
+    return new nem.NodeHttp(http.nodeUrl)
   }
 
   static get mosaic() {

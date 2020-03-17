@@ -4,7 +4,7 @@ describe.skip('Symbol Explorer Home Page should', () => {
     cy.visit('/')
   })
 
-  it('load XEM Price graph', () => {
+  it('load XYM Price graph', () => {
 
     cy.contains('XYM Price')
 
