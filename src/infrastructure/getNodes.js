@@ -16,26 +16,16 @@
  *
  */
 
-import axios from 'axios'
-import http from './http'
-import dto from './dto'
-import format from '../format'
+import * as symbol from 'symbol-sdk'
 
-export const getNodePeers = async () => {
-  const path = `/node/peers`
-  const response = await axios.get(http.nodeUrl + path)
-  const nodes = response.data.map(node => dto.createNodeInfoFromDTO(node, http.networkType))
+export const getNodeHealthStatus = async (currentUrl) => {
+  let status = true
 
-  return format
-    .formatNodesInfo(nodes)
-    .map((el, index) => ({
-      index: index + 1,
-      version: el.version,
-      roles: el.roles,
-      network: el.network,
-      host: el.host,
-      port: el.port,
-      address: el.address,
-      friendlyName: el.friendlyName
-    }))
+  try {
+    await new symbol.NodeHttp(currentUrl).getNodeHealth().toPromise()
+  } catch (e) {
+    status = false
+  }
+
+  return status
 }

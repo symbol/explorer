@@ -4,9 +4,11 @@
             "path": "/blocks",
             "name": "blocks",
             "props": {
-                "storeNamespace": "block",
                 "title": "blocks",
                 "hasInfoText": true,
+                "stroreNamespaces": ["block"],
+                "managerGetter": "block/timeline",
+                "dataGetter": "block/getTimelineFormatted",
                 "mobileColumns": [
                     "height",
                     "age",
@@ -19,8 +21,9 @@
             "path": "/transactions",
             "name": "transactions",
             "props": {
-                "storeNamespace": "transaction",
                 "title": "transactions",
+                "stroreNamespaces": ["transaction"],
+                "managerGetter": "transaction/timeline",
                 "hasFilter": true,
                 "mobileColumns": [
                     "height",
@@ -35,9 +38,10 @@
             "path": "/accounts",
             "name": "accounts",
             "props": {
-                "storeNamespace": "account",
                 "title": "accounts",
                 "hasFilter": true,
+                "managerGetter": "account/timeline",
+                "stroreNamespaces": ["account"],
                 "mobileColumns": [
                     "address",
                     "importance",
@@ -49,8 +53,9 @@
             "path": "/namespaces",
             "name": "namespaces",
             "props": {
-                "storeNamespace": "namespace",
                 "title": "namespaces",
+                "stroreNamespaces": ["namespace"],
+                "managerGetter": "namespace/timeline",
                 "mobileColumns": [
                     "namespaceName",
                     "owneraddress",
@@ -62,8 +67,9 @@
             "path": "/mosaics",
             "name": "mosaics",
             "props": {
-                "storeNamespace": "mosaic",
                 "title": "mosaics",
+                "stroreNamespaces": ["mosaic"],
+                "managerGetter": "mosaic/timeline",
                 "mobileColumns": [
                     "mosaicId",
                     "mosaicAliasName",
@@ -75,8 +81,9 @@
             "path": "/nodes",
             "name": "nodes",
             "props": {
-                "storeNamespace": "node",
                 "title": "nodes",
+                "stroreNamespaces": ["node"],
+                "managerGetter": "node/timeline",
                 "mobileColumns": [
                     "index",
                     "roles",

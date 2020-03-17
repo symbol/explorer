@@ -17,8 +17,23 @@
  */
 
 import Lock from './lock'
-import Timeline from './timeline'
 import { getNodePeers } from '../infrastructure/getNodePeers'
+import {
+  Timeline,
+  getStateFromManagers,
+  getGettersFromManagers,
+  getMutationsFromManagers,
+  getActionsFromManagers
+} from './manager'
+
+const managers = [
+  new Timeline(
+    'timeline',
+    () => getNodePeers(),
+    () => [],
+    ''// node id
+  )
+]
 
 const LOCK = Lock.create()
 
@@ -27,38 +42,18 @@ export default {
   state: {
     // If the state has been initialized.
     initialized: false,
-    // Timeline of data current in the view.
-    timeline: Timeline.empty(),
-    // Determine if the nodes model is loading.
-    loading: false,
-    // Determine if the nodes model has an error.
-    error: false
+    ...getStateFromManagers(managers)
   },
   getters: {
     getInitialized: state => state.initialized,
-    getTimeline: state => state.timeline,
-    getCanFetchPrevious: state => state.timeline.canFetchPrevious,
-    getCanFetchNext: state => state.timeline.canFetchNext,
-    getTimelineFormatted: (state, getters) => getters.getTimeline.current.map((el, index) => ({
-      index: index + 1,
-      version: el.version,
-      roles: el.roles,
-      network: el.network,
-      host: el.host,
-      port: el.port,
-      address: el.address,
-      friendlyName: el.friendlyName
-    })),
-    getLoading: state => state.loading,
-    getError: state => state.error
+    ...getGettersFromManagers(managers)
   },
   mutations: {
     setInitialized: (state, initialized) => { state.initialized = initialized },
-    setTimeline: (state, timeline) => { state.timeline = timeline },
-    setLoading: (state, loading) => { state.loading = loading },
-    setError: (state, error) => { state.error = error }
+    ...getMutationsFromManagers(managers)
   },
   actions: {
+    ...getActionsFromManagers(managers),
     // Initialize the node model.
     async initialize({ commit, dispatch, getters }) {
       const callback = async () => {
@@ -74,76 +69,8 @@ export default {
     },
 
     // Fetch data from the SDK and initialize the page.
-    async initializePage({ commit }) {
-      commit('setLoading', true)
-      commit('setError', false)
-      try {
-        const nodeList = await getNodePeers()
-        // commit('setTimeline', Timeline.fromData(nodeList))
-        commit('setTimeline', Timeline.fromData(nodeList, false))
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
-    },
-
-    // Fetch the next page of data.
-    async fetchNextPage({ commit, getters }) {
-      commit('setLoading', true)
-      commit('setError', false)
-      const timeline = getters.getTimeline
-      const list = timeline.next
-      try {
-        if (list.length === 0)
-          throw new Error('internal error: next list is 0.')
-
-        const node = list[list.length - 1] // eslint-disable-line no-unused-vars
-        const fetchNext = async pageSize => []
-        commit('setTimeline', await timeline.shiftNext(fetchNext))
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
-    },
-
-    // Fetch the previous page of data.
-    async fetchPreviousPage({ commit, getters }) {
-      commit('setLoading', true)
-      commit('setError', false)
-      const timeline = getters.getTimeline
-      const list = timeline.previous
-      try {
-        if (list.length === 0)
-          throw new Error('internal error: previous list is 0.')
-
-        const node = list[0] // eslint-disable-line no-unused-vars
-        const fetchPrevious = async pageSize => []
-        const fetchLive = async pageSize => getNodePeers()
-        commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
-    },
-
-    // Reset the node page to the latest list (index 0)
-    async resetPage({ commit, getters }) {
-      commit('setLoading', true)
-      commit('setError', false)
-      try {
-        if (!getters.getTimeline.isLive) {
-          const data = await getNodePeers()
-          // commit('setTimeline', Timeline.fromData(data))
-          commit('setTimeline', Timeline.fromData(data, false))
-        }
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
+    async initializePage(context) {
+      await context.getters.timeline.setStore(context).initialFetch()
     }
   }
 }
