@@ -15,8 +15,19 @@ export default {
     Modal
   },
 
-  mounted() {
-    this.$store.dispatch('initialize', this.$route)
+  async mounted() {
+    await this.$store.dispatch('initialize', this.$route)
+    if (this.storeNamespaces?.length) {
+      for (const namespace of this.storeNamespaces)
+        await this.$store.dispatch(namespace + '/initialize')
+    }
+  },
+
+  async destroyed() {
+    if (this.storeNamespaces?.length) {
+      for (const namespace of this.storeNamespaces)
+        await this.$store.dispatch(namespace + '/uninitialize')
+    }
   }
 }
 </script>
