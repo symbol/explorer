@@ -15,8 +15,11 @@ describe('NEM 2 Explorer Blocks list page should', () => {
         .should('be.visible')
         .should('not.empty')
 
-        // waiting for api response from server
-        cy.wait(5000)
+        cy.server({ force404: true })
+        cy.route('GET', '/blocks/from/latest/limit/**').as('getLatestBlock')
+
+        cy.visit('/blocks')
+        cy.wait('@getLatestBlock')
 
         cy.get('.ex-infotext')
         .then(($data) => {
