@@ -84,7 +84,8 @@ export default {
         min-height: 30px;
 
         .header-logo {
-            width: 200px;
+            width: 100%;
+            max-width: 200px;
         }
     }
 

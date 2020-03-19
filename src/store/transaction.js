@@ -127,7 +127,7 @@ export default {
     // Unsubscribe from the latest transactions.
     unsubscribe({ commit, getters }) {
       let subscription = getters.getSubscription
-      if (subscription !== null) {
+      if (subscription?.length === 2) {
         subscription[1].unsubscribe()
         subscription[0].close()
         commit('setSubscription', null)
