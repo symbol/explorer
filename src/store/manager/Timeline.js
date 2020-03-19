@@ -163,18 +163,19 @@ export default class Timeline {
   addLatestItem(item, key) {
     // if (!this.isLive)
     //     throw new Error('internal error: attempted to addLatestItem for non-live timeline.')
-
-    if (this.data[0][this.keyName] === item[this.keyName])
-      console.error('internal error: attempted to add duplicate item to timeline.')
-
-    const data = [item, ...this.data]
-    const next = [data.pop(), ...this.next]
-    this.data = [].concat.apply([], data)
-    this.keys.pop()
-    this.keys.push(next.pop())
-    this.next = [].concat.apply([], next)
-
-    this.store.dispatch(this.name, this)
-    return this
+    if (this.isLive) {
+      if (this.data[0][this.keyName] === item[this.keyName])
+        console.error('internal error: attempted to add duplicate item to timeline.')
+      else {
+        const data = [item, ...this.data]
+        const next = [data.pop(), ...this.next]
+        this.data = [].concat.apply([], data)
+        this.next.pop();
+        this.next = [].concat.apply([], next)
+  
+        this.store.dispatch(this.name, this)
+        return this
+      }
+    }
   }
 }
