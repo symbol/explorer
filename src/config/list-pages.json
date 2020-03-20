@@ -9,6 +9,7 @@
                 "stroreNamespaces": ["block"],
                 "managerGetter": "block/timeline",
                 "dataGetter": "block/getTimelineFormatted",
+                "infoTextGetter": "block/infoText",
                 "mobileColumns": [
                     "height",
                     "age",
