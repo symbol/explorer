@@ -36,17 +36,10 @@ const managers = [
     (key, pageSize) => sdkAccount.getAccountsFromAddressWithLimit(pageSize, 'harvested/blocks', key),
     'address'
   ),
-  new Timeline(
-    'rich',
-    () => sdkAccount.getAccountsFromAddressWithLimit(Constants.PageSize, 'balance/xym'),
-    (key, pageSize) => sdkAccount.getAccountsFromAddressWithLimit(pageSize, 'balance/xym', key),
-    'address'
-  ),
   new Filter(
     'timeline',
     {
       'harvester': 'Harvester List',
-      'rich': 'Rich List'
     }
   ),
   new DataSet(
@@ -140,7 +133,6 @@ export default {
     // Fetch data from the SDK and initialize the page.
     async initializePage(context) {
       await context.getters.harvester.setStore(context)
-      await context.getters.rich.setStore(context)
       await context.getters.timeline.setStore(context).initialFetch()
     },
 
