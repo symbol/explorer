@@ -115,7 +115,7 @@ export default {
     getTransactionList: state => state.info?.data.transactionList || [],
     getActivityBucketList: state => state.info?.data.activityBucketList || [],
     getMetadataList: state => state.info?.data.metadataList || [],
-    getAccountPartialList: state => state.info?.accountPartialList || [],
+    getAccountPartialList: state => state.info?.data.partialTransactions || [],
   },
   mutations: {
     ...getMutationsFromManagers(managers),

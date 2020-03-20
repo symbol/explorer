@@ -297,6 +297,11 @@ const formatTransactionBody = transactionBody => {
     }
 
   case TransactionType.AGGREGATE_BONDED:
+    // Push initial Signer into cosignatures
+    transactionBody.cosignatures.push({
+      signer: transactionBody.signer.toDTO()
+    })
+
     return {
       type: Constants.TransactionType[TransactionType.AGGREGATE_BONDED],
       transactionType: TransactionType.AGGREGATE_BONDED,
