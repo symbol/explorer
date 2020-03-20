@@ -18,109 +18,81 @@
 
 import Vue from 'vue'
 import Lock from './lock'
-import Timeline from './timeline'
 import Constants from '../config/constants'
 import sdkBlock from '../infrastructure/getBlock'
 import sdkListener from '../infrastructure/getListener'
+import {
+  DataSet,
+  Timeline,
+  getStateFromManagers,
+  getGettersFromManagers,
+  getMutationsFromManagers,
+  getActionsFromManagers
+} from './manager'
+
+const managers = [
+  new Timeline(
+    'timeline',
+    () => sdkBlock.getBlocksFromHeightWithLimit(Constants.PageSize),
+    (key, pageSize) => sdkBlock.getBlocksFromHeightWithLimit(pageSize, key),
+    'height'
+  ),
+  new Timeline(
+    'blockTransactions',
+    (pageSize, store) => sdkBlock.getBlockTransactions(store.getters.currentBlockHeight),
+    (key, pageSize, store) => sdkBlock.getBlockTransactions(store.getters.currentBlockHeight, key),
+    'transactionId',
+    10
+  ),
+  new DataSet(
+    'info',
+    (height) => sdkBlock.getBlockInfoByHeightFormatted(height)
+  )
+]
 
 const LOCK = Lock.create()
 
 export default {
   namespaced: true,
   state: {
+    ...getStateFromManagers(managers),
     // If the state has been initialized.
     initialized: false,
-    // Holds the latest PageSize blocks.
-    latestList: [],
-    // Timeline of data current in the view.
-    timeline: Timeline.empty(),
     // Subscription to new blocks.
     subscription: null,
-    // Determine if the blocks model is loading.
-    loading: false,
-    // Determine if the blocks model has an error.
-    error: false,
-    // The Block Information.
-    blockInfo: {},
-    // The Block Transaction list
-    blockTransactionList: [],
-    // The Block receipt - Inflation
-    inflationReceipt: [],
-    // The Block receipt - Balance Transfer
-    balanceTransferReceipt: [],
-    // The Block receipt - Balance Change
-    balanceChangeReceipt: [],
-    // The Block receipt - Artifact Expiry
-    artifactExpiryReceipt: [],
-    // The Block receipt resolution statement
-    resolutionStatement: [],
-    currentBlockHeight: null,
-    blockInfoLoading: false,
-    blockInfoError: false,
-    blockTransactionsTimeline: Timeline.empty()
+    currentBlockHeight: null
   },
   getters: {
+    ...getGettersFromManagers(managers),
     getInitialized: state => state.initialized,
-    getLatestList: state => state.latestList,
-    getRecentList: state => Array.prototype.filter.call(state.latestList, (item, index) => {
-      return index < 4
-    }),
-    getTimeline: state => state.timeline,
-    getCanFetchPrevious: state => state.timeline.canFetchPrevious,
-    getCanFetchNext: state => state.timeline.canFetchNext,
-    getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
+    getRecentList: state => state.timeline?.data?.filter((item, index) => index < 4) || [],
+    getTimelineFormatted: state => state.timeline?.data?.map(el => ({
       height: el.height,
       age: el.date,
       transactions: el.numTransactions,
       fee: el.totalFee,
       date: el.date,
       harvester: el.signer
-    })),
+    })) || [],
     getSubscription: state => state.subscription,
-    getLoading: state => state.loading,
-    getError: state => state.error,
-    blockInfo: state => state.blockInfo,
-    blockTransactionList: state => state.blockTransactionsTimeline.current,
-    blockTransactionsTimeline: state => state.blockTransactionsTimeline,
-    inflationReceipt: state => state.inflationReceipt,
-    balanceTransferReceipt: state => state.balanceTransferReceipt,
-    balanceChangeReceipt: state => state.balanceChangeReceipt,
-    artifactExpiryReceipt: state => state.artifactExpiryReceipt,
-    resolutionStatement: state => state.resolutionStatement,
+    blockInfo: state => state.info?.data?.blockInfo || {},
+    inflationReceipt: state => state.info?.data?.inflationReceipt || [],
+    balanceTransferReceipt: state => state.info?.data?.balanceTransferReceipt || [],
+    balanceChangeReceipt: state => state.info?.data?.balanceChangeReceipt || [],
+    artifactExpiryReceipt: state => state.info?.data?.artifactExpiryReceipt || [],
+    resolutionStatement: state => state.info?.data?.resolutionStatement || [],
     currentBlockHeight: state => state.currentBlockHeight,
-    blockInfoLoading: state => state.blockInfoLoading,
-    blockInfoError: state => state.blockInfoError,
 
     infoText: (s, g, rs, rootGetters) => 'Chain height: ' + rootGetters['chain/getBlockHeight']
   },
   mutations: {
+    ...getMutationsFromManagers(managers),
     setInitialized: (state, initialized) => { state.initialized = initialized },
-    setLatestList: (state, list) => { state.latestList = list },
-    setTimeline: (state, timeline) => { state.timeline = timeline },
     setSubscription: (state, subscription) => { state.subscription = subscription },
-    setLoading: (state, loading) => { state.loading = loading },
-    setError: (state, error) => { state.error = error },
-
-    addLatestItem: (state, item) => {
-      if (state.latestList.length > 0 && state.latestList[0].height !== item.height && state.timeline.isLive === true) {
-        Timeline.prependItem(state.latestList, item)
-        state.timeline = state.timeline.addLatestItem(item, 'height')
-      }
-    },
-
-    blockInfo: (state, blockInfo) => Vue.set(state, 'blockInfo', blockInfo),
-    blockTransactionList: (state, blockTransactionList) => Vue.set(state, 'blockTransactionList', blockTransactionList),
-    inflationReceipt: (state, inflationReceipt) => Vue.set(state, 'inflationReceipt', inflationReceipt),
-    balanceTransferReceipt: (state, balanceTransferReceipt) => Vue.set(state, 'balanceTransferReceipt', balanceTransferReceipt),
-    balanceChangeReceipt: (state, balanceChangeReceipt) => Vue.set(state, 'balanceChangeReceipt', balanceChangeReceipt),
-    artifactExpiryReceipt: (state, artifactExpiryReceipt) => Vue.set(state, 'artifactExpiryReceipt', artifactExpiryReceipt),
-    resolutionStatement: (state, resolutionStatement) => Vue.set(state, 'resolutionStatement', resolutionStatement),
-    currentBlockHeight: (state, currentBlockHeight) => Vue.set(state, 'currentBlockHeight', currentBlockHeight),
-    blockInfoLoading: (state, blockInfoLoading) => Vue.set(state, 'blockInfoLoading', blockInfoLoading),
-    blockInfoError: (state, blockInfoError) => Vue.set(state, 'blockInfoError', blockInfoError),
-    blockTransactionsTimeline: (state, blockTransactionsTimeline) => Vue.set(state, 'blockTransactionsTimeline', blockTransactionsTimeline)
+    currentBlockHeight: (state, currentBlockHeight) => Vue.set(state, 'currentBlockHeight', currentBlockHeight)
   },
   actions: {
+    ...getActionsFromManagers(managers),
     // Initialize the block model.
     // First fetch the page, then subscribe.
     async initialize({ commit, dispatch, getters }) {
@@ -140,9 +112,15 @@ export default {
     },
 
     // Subscribe to the latest blocks.
-    async subscribe({ commit, dispatch, getters, rootGetters }) {
+    async subscribe({ commit, getters, rootGetters }) {
       if (getters.getSubscription === null) {
-        let subscription = await sdkListener.subscribeNewBlock(dispatch, rootGetters['api/wsEndpoint'])
+        const subscription = await sdkListener.subscribeNewBlock(
+          (item) => {
+            getters.timeline.addLatestItem(item)
+            commit('chain/setBlockHeight', item.height, { root: true })
+          },
+          rootGetters['api/wsEndpoint']
+        )
         commit('setSubscription', subscription)
       }
     },
@@ -150,138 +128,23 @@ export default {
     // Unsubscribe from the latest blocks.
     unsubscribe({ commit, getters }) {
       let subscription = getters.getSubscription
-      if (subscription !== null) {
+      if (subscription?.length === 2) {
         subscription[1].unsubscribe()
         subscription[0].close()
         commit('setSubscription', null)
       }
     },
 
-    // Add block to latest blocks.
-    async add({ commit }, item) {
-      commit('chain/setBlockHeight', item.height, { root: true })
-
-      // WS no return numTransactions, use http request to get numTransactions.
-      if (item.numTransactions === undefined) {
-        try {
-          let blockInfo = await sdkBlock.getBlockInfoByHeightFormatted(item.height)
-          item.numTransactions = blockInfo.blockInfo.totalTransactions
-        } catch (e) {
-          console.error(e)
-        }
-      }
-
-      commit('addLatestItem', item)
-    },
-
     // Fetch data from the SDK and initialize the page.
-    async initializePage({ commit }) {
-      commit('setLoading', true)
-      commit('setError', false)
-      try {
-        let blockList = await sdkBlock.getBlocksFromHeightWithLimit(2 * Constants.PageSize)
-        commit('setLatestList', blockList.slice(0, Constants.PageSize))
-        if (blockList.length > 0)
-          commit('chain/setBlockHeight', blockList[0].height, { root: true })
-
-        commit('setTimeline', Timeline.fromData(blockList))
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
+    async initializePage(context) {
+      await context.dispatch('chain/getBlockHeight', null, { root: true })
+      await context.getters.timeline.setStore(context).initialFetch()
     },
 
-    // Fetch the next page of data.
-    async fetchNextPage({ commit, getters }) {
-      commit('setLoading', true)
-      commit('setError', false)
-      const timeline = getters.getTimeline
-      const list = timeline.next
-      try {
-        if (list.length === 0)
-          throw new Error('internal error: next list is 0.')
-
-        const block = list[list.length - 1]
-        const fetchNext = pageSize => sdkBlock.getBlocksFromHeightWithLimit(pageSize, block.height)
-        commit('setTimeline', await timeline.shiftNext(fetchNext))
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
-    },
-
-    // Fetch the previous page of data.
-    async fetchPreviousPage({ commit, getters, rootGetters }) {
-      commit('setLoading', true)
-      commit('setError', false)
-      const timeline = getters.getTimeline
-      const list = timeline.previous
-      try {
-        if (list.length === 0)
-          throw new Error('internal error: previous list is 0.')
-
-        const block = list[0]
-        const fetchPrevious = pageSize => sdkBlock.getBlocksSinceHeightWithLimit(pageSize, block.height)
-        const fetchLive = pageSize => sdkBlock.getBlocksFromHeightWithLimit(pageSize, rootGetters['chain/getBlockHeight'])
-        commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
-    },
-
-    // Reset the block page to the latest list (index 0)
-    async resetPage({ commit, getters }) {
-      commit('setLoading', true)
-      commit('setError', false)
-      try {
-        if (!getters.getTimeline.isLive) {
-          const data = await sdkBlock.getBlocksFromHeightWithLimit(2 * Constants.PageSize)
-          commit('setTimeline', Timeline.fromData(data))
-        }
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
-    },
-
-    getBlockInfo: async ({ commit, dispatch }, height) => {
-      commit('blockInfoError', false)
-      commit('blockInfoLoading', true)
-      commit('blockInfo', {})
-      commit('blockTransactionList', [])
-      commit('inflationReceipt', [])
-      commit('balanceTransferReceipt', [])
-      commit('balanceChangeReceipt', [])
-      commit('artifactExpiryReceipt', [])
-      commit('resolutionStatement', [])
-      commit('currentBlockHeight', height)
-      commit('blockTransactionsTimeline', Timeline.empty())
-
-      dispatch('chain/getBlockHeight', null, { root: true })
-
-      let blockInfo
-      try { blockInfo = await sdkBlock.getBlockInfoByHeightFormatted(height) } catch (e) {
-        console.error(e)
-        commit('blockInfoError', true)
-      }
-
-      if (blockInfo) {
-        commit('blockInfo', blockInfo.blockInfo)
-        commit('blockTransactionList', blockInfo.transactionList)
-        commit('inflationReceipt', blockInfo.inflationReceipt)
-        commit('balanceTransferReceipt', blockInfo.balanceTransferReceipt)
-        commit('balanceChangeReceipt', blockInfo.balanceChangeReceipt)
-        commit('artifactExpiryReceipt', blockInfo.artifactExpiryReceipt)
-        commit('resolutionStatement', blockInfo.resolutionStatements)
-        commit('blockTransactionsTimeline', Timeline.fromData(blockInfo.lastTransactions, true, 10))
-      }
-
-      commit('blockInfoLoading', false)
+    getBlockInfo: async (context, height) => {
+      context.commit('currentBlockHeight', height)
+      await context.getters.info.setStore(context).initialFetch(height)
+      await context.getters.blockTransactions.setStore(context).initialFetch(height)
     },
 
     nextBlock: ({ commit, getters, dispatch, rootGetters }) => {
@@ -292,6 +155,7 @@ export default {
         }, { root: true })
       }
     },
+
     previousBlock: ({ commit, getters, dispatch }) => {
       if (+getters.currentBlockHeight > 1) {
         dispatch('ui/openPage', {
@@ -299,47 +163,6 @@ export default {
           param: +getters.currentBlockHeight - 1
         }, { root: true })
       }
-    },
-
-    // Fetch the next page of data.
-    async timelineTransactionsNext({ commit, getters }) {
-      // commit('setLoading', true)
-      // commit('setError', false)
-      const timeline = getters.blockTransactionsTimeline
-      const list = timeline.next
-      try {
-        if (list.length === 0)
-          throw new Error('internal error: next list is 0.')
-
-        const transaction = list[list.length - 1]
-        const fetchNext = () => sdkBlock.getBlockTransactionsFromId(getters.currentBlockHeight, transaction.transactionId)
-        commit('blockTransactionsTimeline', await timeline.shiftNext(fetchNext))
-      } catch (e) {
-        console.error(e)
-        // commit('setError', true)
-      }
-      // commit('setLoading', false)
-    },
-
-    // Fetch the previous page of data.
-    async timelineTransactionsPrevious({ commit, getters }) {
-      // commit('setLoading', true)
-      // commit('setError', false)
-      const timeline = getters.blockTransactionsTimeline
-      const list = timeline.previous
-      try {
-        if (list.length === 0)
-          throw new Error('internal error: previous list is 0.')
-
-        const transaction = list[0]
-        const fetchPrevious = () => sdkBlock.getBlockTransactionsFromId(getters.currentBlockHeight, transaction.transactionId)
-        const fetchLive = () => sdkBlock.getBlockLatestTransactionsList(getters.currentBlockHeight)
-        commit('blockTransactionsTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
-      } catch (e) {
-        console.error(e)
-        // commit('setError', true)
-      }
-      // commit('setLoading', false)
     }
   }
 }

@@ -10,10 +10,9 @@
                         "title": "Account Detail",
                         "fullWidth": true,
                         "body": "TableInfoView",
+                        "managerGetter": "account/info",
                         "dataGetter": "account/getAccountInfo",
                         "pagination": false,
-                        "loadingGetter": "account/accountInfoLoading",
-                        "errorGetter": "account/accountInfoError",
                         "errorMessage": "Account is unknown to the network"
                     },
                     {
@@ -21,30 +20,30 @@
                         "title": "Multisig Cosignatories",
                         "fullWidth": false,
                         "body": "TableListView",
+                        "managerGetter": "account/info",
                         "dataGetter": "account/getAccountMultisigCosignatories",
                         "pagination": true,
-                        "pageSize": 5,
-                        "loadingGetter": "account/accountInfoLoading"
+                        "pageSize": 5
                     },
                     {
                         "type": "Card",
                         "title": "Owned Mosaics",
                         "fullWidth": false,
                         "body": "TableListView",
+                        "managerGetter": "account/info",
                         "dataGetter": "account/getMosaicList",
                         "pagination": true,
-                        "pageSize": 5,
-                        "loadingGetter": "account/accountInfoLoading"
+                        "pageSize": 5
                     },
                     {
                         "type": "Card",
                         "title": "Owned Namespaces",
                         "fullWidth": false,
                         "body": "TableListView",
+                        "managerGetter": "account/info",
                         "dataGetter": "account/getNamespaceList",
                         "pagination": true,
-                        "pageSize": 5,
-                        "loadingGetter": "account/accountInfoLoading"
+                        "pageSize": 5
                     },
                     {
                         "type": "Card",
@@ -61,10 +60,10 @@
                         "title": "Account Restriction",
                         "fullWidth": true,
                         "body": "TableListView",
+                        "managerGetter": "account/info",
                         "dataGetter": "account/getAccountRestrictionList",
                         "pagination": false,
-                        "pageSize": 5,
-                        "loadingGetter": "account/accountInfoLoading"
+                        "pageSize": 5
                     },
                     {
                         "type": "Card",
@@ -72,19 +71,19 @@
                         "fullWidth": true,
                         "body": "TableListView",
                         "dataGetter": "account/getMetadataList",
+                        "managerGetter": "account/info",
                         "pagination": true,
-                        "pageSize": 5,
-                        "loadingGetter": "account/accountInfoLoading"
+                        "pageSize": 5
                     },
                     {
                         "type": "Card",
                         "title": "Importance History",
                         "fullWidth": true,
                         "body": "TableListView",
+                        "managerGetter": "account/info",
                         "dataGetter": "account/getActivityBucketList",
                         "pagination": true,
-                        "pageSize": 5,
-                        "loadingGetter": "account/accountInfoLoading"
+                        "pageSize": 5
                     },
                     {
                         "type": "Card",
@@ -92,7 +91,7 @@
                         "fullWidth": true,
                         "header": [
                             {
-                                "type": "filter",
+                                "type": "filter-tmp-disabled",
                                 "filterOptionsGetter": "account/transactionFilterOptions",
                                 "filterValueGetter": "account/transactionFilterValue",
                                 "filterChangeAction": "account/setTransactionFilterValue"
@@ -100,9 +99,9 @@
                         ],
                         "body": "TableListView",
                         "dataGetter": "account/getTransactionList",
+                        "managerGetter": "account/info",
                         "pagination": true,
-                        "pageSize": 5,
-                        "loadingGetter": "account/accountInfoLoading"
+                        "pageSize": 10
                     }
                 ]
             }
@@ -128,8 +127,7 @@
                         "body": "TableInfoView",
                         "dataGetter": "block/blockInfo",
                         "pagination": false,
-                        "loadingGetter": "block/blockInfoLoading",
-                        "errorGetter": "block/blockInfoError",
+                        "managerGetter": "block/info",
                         "errorMessage": "Block does not exist"
                     },
                     {
@@ -137,12 +135,8 @@
                         "title": "Block Transactions",
                         "fullWidth": true,
                         "body": "TableListView",
-                        "dataGetter": "block/blockTransactionList",
-                        "timelineGetter": "block/blockTransactionsTimeline",
-                        "timelinePagination": true,
-                        "timelineNextAction": "block/timelineTransactionsNext",
-                        "timelinePreviousAction": "block/timelineTransactionsPrevious",
-                        "loadingGetter": "block/blockInfoLoading"
+                        "managerGetter": "block/blockTransactions",
+                        "timelinePagination": true
                     },
                     {
                         "type": "Card",
@@ -150,10 +144,10 @@
                         "fullWidth": false,
                         "body": "TableListView",
                         "dataGetter": "block/balanceChangeReceipt",
+                        "managerGetter": "block/info",
                         "hideEmptyData": true,
                         "pagination": true,
-                        "pageSize": 5,
-                        "loadingGetter": "block/blockInfoLoading"
+                        "pageSize": 5
                     },
                     {
                         "type": "Card",
@@ -161,10 +155,10 @@
                         "fullWidth": false,
                         "body": "TableListView",
                         "dataGetter": "block/balanceTransferReceipt",
+                        "managerGetter": "block/info",
                         "hideEmptyData": true,
                         "pagination": true,
-                        "pageSize": 5,
-                        "loadingGetter": "block/blockInfoLoading"
+                        "pageSize": 5
                     },
                     {
                         "type": "Card",
@@ -172,10 +166,10 @@
                         "fullWidth": false,
                         "body": "TableListView",
                         "dataGetter": "block/inflationReceipt",
+                        "managerGetter": "block/info",
                         "hideEmptyData": true,
                         "pagination": true,
-                        "pageSize": 5,
-                        "loadingGetter": "block/blockInfoLoading"
+                        "pageSize": 5
                     },
                     {
                         "type": "Card",
@@ -183,10 +177,10 @@
                         "fullWidth": false,
                         "body": "TableListView",
                         "dataGetter": "block/artifactExpiryReceipt",
+                        "managerGetter": "block/info",
                         "hideEmptyData": true,
                         "pagination": true,
-                        "pageSize": 5,
-                        "loadingGetter": "block/blockInfoLoading"
+                        "pageSize": 5
                     },
                     {
                         "type": "Card",
@@ -194,10 +188,10 @@
                         "fullWidth": false,
                         "body": "TableListView",
                         "dataGetter": "block/resolutionStatement",
+                        "managerGetter": "block/info",
                         "hideEmptyData": true,
                         "pagination": true,
-                        "pageSize": 5,
-                        "loadingGetter": "block/blockInfoLoading"
+                        "pageSize": 5
                     }
                 ]
             }
@@ -212,10 +206,9 @@
                         "title": "Mosaic Detail",
                         "fullWidth": true,
                         "body": "TableInfoView",
+                        "managerGetter": "mosaic/info",
                         "dataGetter": "mosaic/getMosaicInfo",
                         "pagination": false,
-                        "loadingGetter": "mosaic/mosaicInfoLoading",
-                        "errorGetter": "mosaic/mosaicInfoError",
                         "errorMessage": "Mosaic does not exist"
                     },
                     {
@@ -223,10 +216,9 @@
                         "title": "Mosaic Restriction",
                         "fullWidth": false,
                         "body": "TableInfoView",
+                        "managerGetter": "mosaic/info",
                         "dataGetter": "mosaic/getMosaicRestrictionInfo",
                         "pagination": false,
-                        "loadingGetter": "mosaic/mosaicInfoLoading",
-                        "errorGetter": "mosaic/mosaicInfoError",
                         "errorMessage": "Mosaic does not exist"
                     },
                     {
@@ -234,10 +226,9 @@
                         "title": "Mosaic Restriction List",
                         "fullWidth": false,
                         "body": "TableListView",
+                        "managerGetter": "mosaic/info",
                         "dataGetter": "mosaic/getMosaicRestrictionList",
                         "pagination": false,
-                        "loadingGetter": "mosaic/mosaicInfoLoading",
-                        "errorGetter": "mosaic/mosaicInfoError",
                         "errorMessage": "Mosaic does not exist"
                     },
                     {
@@ -245,10 +236,10 @@
                         "title": "Metadata Entries",
                         "fullWidth": true,
                         "body": "TableListView",
+                        "managerGetter": "mosaic/info",
                         "dataGetter": "mosaic/getMetadataList",
                         "pagination": true,
-                        "pageSize": 5,
-                        "loadingGetter": "mosaic/mosaicInfoLoading"
+                        "pageSize": 5
                     }
                 ]
             }
@@ -302,9 +293,8 @@
                         "fullWidth": true,
                         "body": "TableInfoView",
                         "dataGetter": "transaction/transactionInfo",
+                        "managerGetter": "transaction/info",
                         "pagination": false,
-                        "loadingGetter": "transaction/transactionInfoLoading",
-                        "errorGetter": "transaction/transactionInfoError",
                         "errorMessage": "Transaction does not exist"
                     },
                     {
@@ -313,8 +303,8 @@
                         "fullWidth": false,
                         "body": "TableInfoView",
                         "dataGetter": "transaction/transactionDetail",
-                        "pagination": false,
-                        "loadingGetter": "transaction/transactionInfoLoading"
+                        "managerGetter": "transaction/info",
+                        "pagination": false
                     },
                     {
                         "type": "Card",
@@ -322,10 +312,10 @@
                         "fullWidth": false,
                         "body": "TableListView",
                         "dataGetter": "transaction/transferMosaics",
+                        "managerGetter": "transaction/info",
                         "hideEmptyData": true,
                         "pagination": true,
-                        "pageSize": 5,
-                        "loadingGetter": "transaction/transactionInfoLoading"
+                        "pageSize": 5
                     },
                     {
                         "type": "Card",
@@ -333,10 +323,10 @@
                         "fullWidth": true,
                         "body": "TableListView",
                         "dataGetter": "transaction/aggregateInnerTransactions",
+                        "managerGetter": "transaction/info",
                         "hideEmptyData": true,
                         "pagination": true,
-                        "pageSize": 5,
-                        "loadingGetter": "transaction/transactionInfoLoading"
+                        "pageSize": 5
                     },
                     {
                         "type": "Card",
@@ -344,10 +334,10 @@
                         "fullWidth": true,
                         "body": "TableListView",
                         "dataGetter": "transaction/aggregateCosignatures",
+                        "managerGetter": "transaction/info",
                         "hideEmptyData": true,
                         "pagination": true,
-                        "pageSize": 5,
-                        "loadingGetter": "transaction/transactionInfoLoading"
+                        "pageSize": 5
                     }
                 ]
             }

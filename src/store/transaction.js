@@ -16,132 +16,93 @@
  *
  */
 
-import Vue from 'vue'
 import Lock from './lock'
-import Timeline from './timeline'
 import Constants from '../config/constants'
 import sdkTransaction from '../infrastructure/getTransaction'
+import {
+  Filter,
+  DataSet,
+  Timeline,
+  getStateFromManagers,
+  getGettersFromManagers,
+  getMutationsFromManagers,
+  getActionsFromManagers
+} from './manager'
+
+const managers = [
+  new Timeline(
+    'recent',
+    () => sdkTransaction.getTransactionsFromHashWithLimit(Constants.PageSize),
+    (key, pageSize) => sdkTransaction.getTransactionsFromHashWithLimit(pageSize, void 0, key),
+    'transactionHash'
+  ),
+  new Timeline(
+    'pending',
+    () => sdkTransaction.getTransactionsFromHashWithLimit(Constants.PageSize, 'unconfirmed'),
+    (key, pageSize) => sdkTransaction.getTransactionsFromHashWithLimit(pageSize, 'unconfirmed', key),
+    'transactionHash'
+  ),
+  new Timeline(
+    'transfer',
+    () => sdkTransaction.getTransactionsFromHashWithLimit(Constants.PageSize, 'transfer'),
+    (key, pageSize) => sdkTransaction.getTransactionsFromHashWithLimit(pageSize, 'transfer', key),
+    'transactionHash'
+  ),
+  new Timeline(
+    'multisig',
+    () => sdkTransaction.getTransactionsFromHashWithLimit(Constants.PageSize, 'transfer/multisig'),
+    (key, pageSize) => sdkTransaction.getTransactionsFromHashWithLimit(pageSize, 'transfer/multisig', key),
+    'transactionHash'
+  ),
+  new Timeline(
+    'mosaic',
+    () => sdkTransaction.getTransactionsFromHashWithLimit(Constants.PageSize, 'transfer/mosaic'),
+    (key, pageSize) => sdkTransaction.getTransactionsFromHashWithLimit(pageSize, 'transfer/mosaic', key),
+    'transactionHash'
+  ),
+  new Filter(
+    'timeline',
+    {
+      recent: 'Recent',
+      pending: 'Pending Transactions',
+      transfer: 'Transfer Transactions',
+      multisig: 'Multisig Transactions',
+      mosaic: 'Mosaic Transactions'
+    }
+  ),
+  new DataSet(
+    'info',
+    (hash) => sdkTransaction.getTransactionInfoFormatted(hash)
+  )
+]
 
 const LOCK = Lock.create()
-
-const TIMELINES = {
-  // Recent transactions.
-  recent: Timeline.empty(),
-  // Pending transactions.
-  pending: Timeline.empty(),
-  // Transfer transactions.
-  transfer: Timeline.empty(),
-  // Multisig transactions.
-  multisig: Timeline.empty(),
-  // Mosaic transactions.
-  mosaic: Timeline.empty()
-}
-
-// Map the page name to the transaction type.
-const TRANSACTION_TYPE_MAP = {
-  recent: undefined,
-  pending: 'unconfirmed',
-  transfer: 'transfer',
-  multisig: 'transfer/multisig',
-  mosaic: 'transfer/mosaic'
-}
 
 export default {
   namespaced: true,
   state: {
+    ...getStateFromManagers(managers),
     // If the state has been initialized.
-    initialized: false,
-    // Holds the latest PageSize transactions.
-    latestList: [],
-    // The current transaction type key, as defined in `TIMELINES`.
-    transactionType: 'recent',
-    ...TIMELINES,
-    // Subscription to new transactions.
-    subscription: null,
-    // Determine if the transactions model is loading.
-    loading: false,
-    // Determine if the transactions model has an error.
-    error: {
-      recent: false,
-      pending: false,
-      transfer: false,
-      multisig: false,
-      mosaic: false
-    },
-    // TransactionInfo by hash.
-    transactionInfo: {},
-    // Transaction Body Info.
-    transactionDetail: {},
-    transactionInfoLoading: false,
-    transactionInfoError: false
+    initialized: false
   },
   getters: {
+    ...getGettersFromManagers(managers),
     getInitialized: state => state.initialized,
-    getLatestList: state => state.latestList,
-    getRecentList: state => Array.prototype.filter.call(state.latestList, (item, index) => {
-      return index < 4
-    }),
-    getTransactionType: state => state.transactionType,
-    getTimeline: state => state[state.transactionType],
-    getCanFetchPrevious: (state, getters) => getters.getTimeline.canFetchPrevious,
-    getCanFetchNext: (state, getters) => getters.getTimeline.canFetchNext,
-    getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
-      height: el.blockHeight,
-      deadline: el.deadline,
-      transactionHash: el.transactionHash,
-      type: el.transactionBody?.type,
-      fee: el.fee,
-      signer: el.signer,
-      recipient: el.transactionBody?.recipient
-    })),
-
-    getSubscription: state => state.subscription,
-    getLoading: state => state.loading,
-    getError: state => state.error[state.transactionType],
-    transactionInfo: state => state.transactionInfo,
-    transactionDetail: state => state.transactionDetail,
-    transferMosaics: state => state.transferMosaics,
-    aggregateInnerTransactions: state => state.aggregateInnerTransactions,
-    aggregateCosignatures: state => state.aggregateCosignatures,
-    transactionInfoLoading: state => state.transactionInfoLoading,
-    transactionInfoError: state => state.transactionInfoError,
-    filterValue: state => state.transactionType,
-    filterOptions: () => ({
-      'recent': 'Recent Transactions',
-      'pending': 'Pending Transactions',
-      'transfer': 'Transfer Transactions',
-      'multisig': 'Multisig Transactions',
-      'mosaic': 'Mosaic Transactions'
-    }),
-    getTransactionStatus: state => state.transactionStatus
+    getRecentList: state => state.recent?.data?.filter((item, index) => index < 4) || [],
+    transactionInfo: state => state.info?.data?.transactionInfo || {},
+    transactionDetail: state => state.info?.data?.transactionDetail || {},
+    transferMosaics: state => state.info?.data?.transferMosaics || [],
+    aggregateInnerTransactions: state => state.info?.data?.aggregateInnerTransactions || [],
+    aggregateCosignatures: state => state.info?.data?.aggregateCosignatures || []
   },
   mutations: {
-    setInitialized: (state, initialized) => { state.initialized = initialized },
-    setLatestList: (state, list) => { state.latestList = list },
-    setTransactionType: (state, transactionType) => { state.transactionType = transactionType },
-    setTimeline: (state, timeline) => { state[state.transactionType] = timeline },
-    setTimelineWithType: (state, { timeline, type }) => { state[type] = timeline },
-
-    setSubscription: (state, subscription) => { state.subscription = subscription },
-    setLoading: (state, loading) => { state.loading = loading },
-    setError: (state, error) => { state.error[state.transactionType] = error },
-    setErrorWithType: (state, { error, type }) => { state.error[type] = error },
-    addLatestItem(state, item) {
-      // TODO(ahuszagh) Actually implement...
-    },
-
-    transactionInfo: (state, transactionInfo) => Vue.set(state, 'transactionInfo', transactionInfo),
-    transactionDetail: (state, transactionDetail) => Vue.set(state, 'transactionDetail', transactionDetail),
-    transferMosaics: (state, transferMosaics) => Vue.set(state, 'transferMosaics', transferMosaics),
-    aggregateInnerTransactions: (state, aggregateInnerTransactions) => Vue.set(state, 'aggregateInnerTransactions', aggregateInnerTransactions),
-    aggregateCosignatures: (state, aggregateCosignatures) => Vue.set(state, 'aggregateCosignatures', aggregateCosignatures),
-    transactionInfoLoading: (state, v) => { state.transactionInfoLoading = v },
-    transactionInfoError: (state, v) => { state.transactionInfoError = v },
-    transactionStatus: (state, value) => { state.transactionStatus = value }
+    ...getMutationsFromManagers(managers),
+    setInitialized: (state, initialized) => { state.initialized = initialized }
   },
   actions: {
-    // Initialize the transaction model.
-    // First fetch the page, then subscribe.
+    ...getActionsFromManagers(managers),
+
+    // Initialize the transaction model. First fetch the page, then subscribe.
     async initialize({ commit, dispatch, getters }) {
       const callback = async () => {
         await dispatch('initializePage')
@@ -166,7 +127,7 @@ export default {
     // Unsubscribe from the latest transactions.
     unsubscribe({ commit, getters }) {
       let subscription = getters.getSubscription
-      if (subscription !== null) {
+      if (subscription?.length === 2) {
         subscription[1].unsubscribe()
         subscription[0].close()
         commit('setSubscription', null)
@@ -182,155 +143,17 @@ export default {
     },
 
     // Fetch data from the SDK and initialize the page.
-    async initializePage({ commit, getters }, filter) {
-      commit('setLoading', true)
-      const transactionType = filter || Object.keys(TIMELINES)[0]
-      const type = TRANSACTION_TYPE_MAP[transactionType]
-      try {
-        let data = await sdkTransaction.getTransactionsFromHashWithLimit(2 * Constants.PageSize, type)
-        if (transactionType === 'recent')
-          commit('setLatestList', data.slice(0, Constants.PageSize))
-
-        commit('setTimelineWithType', { timeline: Timeline.fromData(data), type: transactionType })
-      } catch (e) {
-        console.error(e)
-        commit('setErrorWithType', { error: true, type: transactionType })
-      }
-      commit('setLoading', false)
+    async initializePage(context) {
+      await context.getters.recent.setStore(context)
+      await context.getters.pending.setStore(context)
+      await context.getters.transfer.setStore(context)
+      await context.getters.multisig.setStore(context)
+      await context.getters.mosaic.setStore(context)
+      await context.getters.timeline.setStore(context).initialFetch()
     },
 
-    // Fetch the next page of data.
-    async fetchNextPage({ commit, getters }) {
-      commit('setLoading', true)
-      commit('setError', false)
-      const timeline = getters.getTimeline
-      const list = timeline.next
-      try {
-        if (list.length === 0)
-          throw new Error('internal error: next list is 0.')
-
-        const transaction = list[list.length - 1]
-        const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
-        const fetchNext = pageSize => sdkTransaction.getTransactionsFromHashWithLimit(pageSize, type, transaction.transactionHash)
-        commit('setTimeline', await timeline.shiftNext(fetchNext))
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
-    },
-
-    // Fetch the previous page of data.
-    async fetchPreviousPage({ commit, getters }) {
-      commit('setLoading', true)
-      commit('setError', false)
-      const timeline = getters.getTimeline
-      const list = timeline.previous
-      try {
-        if (list.length === 0)
-          throw new Error('internal error: previous list is 0.')
-
-        const transaction = list[0]
-        const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
-        const fetchPrevious = pageSize => sdkTransaction.getTransactionsSinceHashWithLimit(pageSize, type, transaction.transactionHash)
-        const fetchLive = pageSize => sdkTransaction.getTransactionsFromHashWithLimit(pageSize, type)
-        commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
-    },
-
-    // Change the current page.
-    async changePage({ commit, getters, dispatch }, transactionType) {
-      commit('setLoading', true)
-      commit('setError', false)
-      await dispatch('initializePage', transactionType)
-
-      if (getters.getTransactionType !== transactionType) {
-        try {
-          if (!getters.getTimeline.isLive) {
-            // Reset to the live page.
-            const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
-            let data = await sdkTransaction.getTransactionsFromHashWithLimit(Constants.PageSize, type)
-            commit('setTimeline', Timeline.fromData(data))
-          }
-        } catch (e) {
-          console.error(e)
-          commit('setError', true)
-        }
-        commit('setTransactionType', transactionType)
-      }
-      commit('setLoading', false)
-    },
-
-    // Reset the current page type and page index.
-    async resetPage({ commit, getters }) {
-      commit('setLoading', true)
-      commit('setError', false)
-      if (getters.getTransactionType !== 'recent') {
-        try {
-          if (!getters.getTimeline.isLive) {
-            // Reset to the live page.
-            const type = TRANSACTION_TYPE_MAP[getters.getTransactionType]
-            let data = await sdkTransaction.getTransactionsFromHashWithLimit(Constants.PageSize, type)
-            commit('setTimeline', Timeline.fromData(data))
-          }
-        } catch (e) {
-          console.error(e)
-          commit('setError', true)
-        }
-        commit('setTransactionType', 'recent')
-      }
-      commit('setLoading', false)
-    },
-
-    async getTransactionInfoByHash({ dispatch, getters, commit }, hash) {
-      commit('transactionInfoLoading', true)
-      commit('transactionInfoError', false)
-      commit('transactionInfo', {})
-      commit('transactionDetail', {})
-      commit('transferMosaics', [])
-      commit('aggregateInnerTransactions', [])
-      commit('aggregateCosignatures', [])
-
-      let transactionInfo
-      try { transactionInfo = await sdkTransaction.getTransactionInfoFormatted(hash) } catch (e) {
-        console.error(e)
-        commit('transactionInfoError', true)
-      }
-
-      if (transactionInfo) {
-        commit('transactionInfo', transactionInfo.transactionInfo)
-        commit('transferMosaics', transactionInfo.transferMosaics)
-        commit('aggregateInnerTransactions', transactionInfo.aggregateInnerTransactions)
-        commit('aggregateCosignatures', transactionInfo.aggregateCosignatures)
-        commit('transactionDetail', transactionInfo.transactionDetail)
-      } else {
-        try {
-          const status = await dispatch('getTransactionStatus', hash)
-          commit('transactionInfo', status)
-          commit('transactionInfoError', false)
-        } catch (e) {}
-      }
-
-      commit('transactionInfoLoading', false)
-    },
-
-    async getTransactionStatus({ commit, dispatch }, hash) {
-      let transactionStatus = await sdkTransaction.getTransactionStatus(hash)
-
-      if (transactionStatus)
-        commit('transactionStatus', transactionStatus)
-      else
-        dispatch('clearTransactionStatus')
-
-      return transactionStatus.detail
-    },
-
-    clearTransactionStatus({ commit }) {
-      commit('transactionStatus', {})
+    async getTransactionInfoByHash(context, hash) {
+      await context.getters.info.setStore(context).initialFetch(hash)
     }
   }
 }

@@ -40,5 +40,13 @@ module.exports = {
         globalConfig: setup
       })
     ]
+  },
+  css: {
+    // modules: true,
+    loaderOptions: {
+      sass: {
+        prependData: `@import "~@/styles/variables.scss";`
+      }
+    }
   }
 }

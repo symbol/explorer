@@ -2,7 +2,9 @@
     <Dropdown
       :options="options"
       :dark="true"
+      right
       :value="currentNode"
+      class="node-selector"
       @change="setNode"
     />
 </template>
@@ -40,18 +42,15 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 .node-selector {
-    z-index: 9000;
-}
-
-.node-selector-menu {
-    background: #3d7397c4;
-}
-
-.node-selector-item {
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
+    .dropdown-toggle {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        font-size: 12px;
+        max-width: 350px;
+        width: 100%;
+    }
 }
 </style>
