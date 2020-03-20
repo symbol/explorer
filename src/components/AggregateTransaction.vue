@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="transactionBody.type === 'Aggregate Bonded'">
+    <div v-if="transactionBody.transactionType === TransactionType.AGGREGATE_BONDED ">
       <span>{{getKeyName('Inner Transaction')}}</span>
       <div v-for="(row, rowIndex) in transactionBody.innerTransactions" :key="rowIndex" >
         <TableInfoView :data="row.transactionBody"  />
@@ -25,6 +25,7 @@
 <script>
 import TableInfoView from '@/components/tables/TableInfoView.vue'
 import TableView from '@/components/tables/TableView.vue'
+import { TransactionType } from 'symbol-sdk'
 
 export default {
   extends: TableView,
@@ -32,6 +33,11 @@ export default {
     // To solve Circular References Between Components
     TableListView: () => import('./tables/TableListView'),
     TableInfoView
+  },
+  data() {
+    return {
+      TransactionType: TransactionType
+    }
   },
   props: {
     transactionBody: {
