@@ -17,7 +17,7 @@
  */
 
 import Lock from './lock'
-import { getNodePeers } from '../infrastructure/getNodePeers'
+import { NodeService } from '../infrastructure'
 import {
   Timeline,
   getStateFromManagers,
@@ -29,7 +29,7 @@ import {
 const managers = [
   new Timeline(
     'timeline',
-    () => getNodePeers(),
+    () => NodeService.viewNodePeers(),
     () => [],
     ''// node id
   )

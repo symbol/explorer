@@ -20,7 +20,7 @@ import Lock from './lock'
 import helper from '../helper'
 import router from '../router'
 import http from '../infrastructure/http'
-import { getNodeHealthStatus } from '../infrastructure/getNodes'
+import { NodeService } from '../infrastructure'
 
 const LOCK = Lock.create()
 
@@ -93,7 +93,7 @@ export default {
       let healthyNodes = []
       await Promise.all(nodes.map(async (url) => {
         let endpoint = helper.parseUrl(url).toString()
-        if (await getNodeHealthStatus(endpoint))
+        if (await NodeService.isNodeHealthStatus(endpoint))
           healthyNodes.push(url)
       }))
 
