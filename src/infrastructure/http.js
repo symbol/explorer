@@ -54,10 +54,6 @@ export default class http {
     return new symbol.ChainHttp(http.nodeUrl)
   }
 
-  static get diagnostic() {
-    return new symbol.NodeHttp(http.nodeUrl)
-  }
-
   static get mosaic() {
     return new symbol.MosaicHttp(http.nodeUrl)
   }
