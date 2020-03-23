@@ -603,15 +603,6 @@ const formatResolutionStatements = resolutionStatements => {
   })
 }
 
-const formatNodesInfo = nodes => {
-  return nodes.map(node => ({
-    ...node,
-    address: Address.createFromPublicKey(node.publicKey, node.networkIdentifier).plain(),
-    roles: Constants.RoleType[node.roles],
-    network: Constants.NetworkType[node.networkIdentifier]
-  }))
-}
-
 const formatAccountRestrictions = accountRestrictions => {
   return accountRestrictions.map(accountRestriction => {
     switch (accountRestriction.restrictionFlags) {
@@ -680,7 +671,6 @@ export default {
   formatMetadatas,
   formatReceiptStatements,
   formatResolutionStatements,
-  formatNodesInfo,
   sortMosaics,
   formatAccountRestrictions,
   formatMosaicRestriction
