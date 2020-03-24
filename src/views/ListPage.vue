@@ -92,6 +92,10 @@ export default {
       type: String
     },
 
+    infoTextGetter: {
+      type: String
+    },
+
     mobileColumns: {
       type: [Array, undefined],
       default: void 0

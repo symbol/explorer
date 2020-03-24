@@ -10,9 +10,10 @@
             "props": {
                 "title": "blocks",
                 "hasInfoText": true,
-                "stroreNamespaces": ["block"],
+                "storeNamespaces": ["block"],
                 "managerGetter": "block/timeline",
                 "dataGetter": "block/getTimelineFormatted",
+                "infoTextGetter": "block/infoText",
                 "mobileColumns": [
                     "height",
                     "age",
@@ -30,7 +31,7 @@
             },
             "props": {
                 "title": "transactions",
-                "stroreNamespaces": ["transaction"],
+                "storeNamespaces": ["transaction"],
                 "managerGetter": "transaction/timeline",
                 "hasFilter": true,
                 "mobileColumns": [
@@ -53,7 +54,7 @@
                 "title": "accounts",
                 "hasFilter": true,
                 "managerGetter": "account/timeline",
-                "stroreNamespaces": ["account"],
+                "storeNamespaces": ["account"],
                 "mobileColumns": [
                     "address",
                     "importance",
@@ -70,7 +71,7 @@
             },
             "props": {
                 "title": "namespaces",
-                "stroreNamespaces": ["namespace"],
+                "storeNamespaces": ["namespace"],
                 "managerGetter": "namespace/timeline",
                 "mobileColumns": [
                     "namespaceName",
@@ -88,7 +89,7 @@
             },
             "props": {
                 "title": "mosaics",
-                "stroreNamespaces": ["mosaic"],
+                "storeNamespaces": ["mosaic"],
                 "managerGetter": "mosaic/timeline",
                 "mobileColumns": [
                     "mosaicId",
@@ -106,7 +107,7 @@
             },
             "props": {
                 "title": "nodes",
-                "stroreNamespaces": ["node"],
+                "storeNamespaces": ["node"],
                 "managerGetter": "node/timeline",
                 "mobileColumns": [
                     "index",
