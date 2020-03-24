@@ -49,4 +49,26 @@ describe('Symbol Explorer Blocks list page should', () => {
             return $data.length
         }).should('be.at.least',1)
     })
+
+    it('redirect to account detail page given click on harvester address', () => {
+        cy.visit('/blocks')
+
+        cy.get('tbody tr .harvester')
+        .then($data => {
+            return $data[0]
+        }).click()
+
+        cy.url().should('contain', '/account')
+    })
+
+    it('redirect to block detail page given click on block height', () => {
+        cy.visit('/blocks')
+
+        cy.get('tbody tr .height')
+        .then($data => {
+            return $data[0]
+        }).click()
+
+        cy.url().should('contain', '/block')
+    })
   })
