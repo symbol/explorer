@@ -190,8 +190,8 @@ export default {
   },
 
   destroyed() {
-    if (typeof this.timeline?.reset === 'function')
-      this.timeline.reset()
+    // if (typeof this.timeline?.reset === 'function')
+    //   this.timeline.reset()
   }
 }
 </script>

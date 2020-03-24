@@ -3,6 +3,10 @@
         {
             "path": "/blocks",
             "name": "blocks",
+            "meta": {
+                "group": "list-page",
+                "keepAliveGoTo": ["detail-page"]
+            },
             "props": {
                 "title": "blocks",
                 "hasInfoText": true,
@@ -20,6 +24,10 @@
         {
             "path": "/transactions",
             "name": "transactions",
+            "meta": {
+                "group": "list-page",
+                "keepAliveGoTo": ["detail-page"]
+            },
             "props": {
                 "title": "transactions",
                 "stroreNamespaces": ["transaction"],
@@ -37,6 +45,10 @@
         {
             "path": "/accounts",
             "name": "accounts",
+            "meta": {
+                "group": "list-page",
+                "keepAliveGoTo": ["detail-page"]
+            },
             "props": {
                 "title": "accounts",
                 "hasFilter": true,
@@ -52,6 +64,10 @@
         {
             "path": "/namespaces",
             "name": "namespaces",
+            "meta": {
+                "group": "list-page",
+                "keepAliveGoTo": ["detail-page"]
+            },
             "props": {
                 "title": "namespaces",
                 "stroreNamespaces": ["namespace"],
@@ -66,6 +82,10 @@
         {
             "path": "/mosaics",
             "name": "mosaics",
+            "meta": {
+                "group": "list-page",
+                "keepAliveGoTo": ["detail-page"]
+            },
             "props": {
                 "title": "mosaics",
                 "stroreNamespaces": ["mosaic"],
@@ -80,6 +100,10 @@
         {
             "path": "/nodes",
             "name": "nodes",
+            "meta": {
+                "group": "list-page",
+                "keepAliveGoTo": ["detail-page"]
+            },
             "props": {
                 "title": "nodes",
                 "stroreNamespaces": ["node"],

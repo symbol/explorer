@@ -24,10 +24,10 @@ export default {
   },
 
   async destroyed() {
-    if (this.storeNamespaces?.length) {
-      for (const namespace of this.storeNamespaces)
-        await this.$store.dispatch(namespace + '/uninitialize')
-    }
+    // if (this.storeNamespaces?.length) {
+    //   for (const namespace of this.storeNamespaces)
+    //     await this.$store.dispatch(namespace + '/uninitialize')
+    // }
   }
 }
 </script>

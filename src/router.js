@@ -23,8 +23,22 @@ import detailPages from './config/detail-pages'
 
 Vue.use(Router)
 
-const listPagesRoutes = listPages.pages.map(page => ({ ...page, component: () => import('./views/ListPage.vue') }))
-const detailPagesRoutes = detailPages.pages.map(page => ({ ...page, component: () => import('./views/DetailPage.vue') }))
+const listPagesRoutes = listPages.pages.map(page => ({ 
+  ...page, 
+  meta: {
+    ...page.meta,
+    stroreNamespaces: page.props?.stroreNamespaces || []
+  },
+  component: () => import('./views/ListPage.vue') 
+}))
+const detailPagesRoutes = detailPages.pages.map(page => ({ 
+  ...page, 
+  meta: {
+    ...page.meta,
+    stroreNamespaces: page.props?.stroreNamespaces || []
+  },
+  component: () => import('./views/DetailPage.vue') 
+}))
 
 const routerConfig = {
   mode: 'history',
@@ -37,33 +51,53 @@ const routerConfig = {
     {
       path: '/',
       name: 'home',
+      meta: {
+        group: 'page',
+        keepAliveGoTo: []
+      },
       component: () =>
         import('./views/Home.vue')
     },
     {
       path: '/terms',
       name: 'terms',
-      component: () =>
-        import('./views/Terms.vue'),
       meta: {
-        title: ''
-      }
+        group: 'page',
+        keepAliveGoTo: []
+      },
+      component: () =>
+        import('./views/Terms.vue')
     },
     {
       path: '/privacy',
       name: 'privacy',
-      component: () =>
-        import('./views/Privacy.vue'),
       meta: {
-        title: ''
-      }
+        group: 'page',
+        keepAliveGoTo: []
+      },
+      component: () =>
+        import('./views/Privacy.vue')
     },
     {
       path: '*',
       name: '404',
+      meta: {
+        group: 'page',
+        keepAliveGoTo: []
+      },
       component: () => import('./views/NotFound.vue')
     }
   ]
 }
 
 export default new Router(routerConfig)
+
+
+// const router =  new Router(routerConfig);
+// router.beforeEach((to, from, next) => {
+//   console.log(from, to);
+//   if(to.fullPath !== from.fullPath) {
+    
+//     next()
+//   } 
+// })
