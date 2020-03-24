@@ -23,29 +23,26 @@ import * as symbol from 'symbol-sdk'
 class NodeService {
     /**
      * Get Storage Info from symbol SDK
-     * @returns {StorageInfo}
+     * @returns StorageInfo
      */
-    static getStorageInfo = async () => {
-      const storageInfo = await http.node.getStorageInfo().toPromise()
-      return storageInfo
+    static getStorageInfo = () => {
+      return http.node.getStorageInfo().toPromise()
     }
 
     /**
      * Get Node Info from symbol SDK
-     * @returns {NodeInfo}
+     * @returns NodeInfo
      */
-    static getNodeInfo = async () => {
-      const nodeInfo = await http.node.getNodeInfo().toPromise()
-      return nodeInfo
+    static getNodeInfo = () => {
+      return http.node.getNodeInfo().toPromise()
     }
 
     /**
      * Get Server Info from symbol SDK
-     * @returns {ServerInfo}
+     * @returns ServerInfo
      */
-    static getServerInfo = async () => {
-      const serverInfo = await http.node.getServerInfo().toPromise()
-      return serverInfo
+    static getServerInfo = () => {
+      return http.node.getServerInfo().toPromise()
     }
 
     /**
@@ -65,7 +62,7 @@ class NodeService {
      * @param string api-node endpoint such as http:localhost:3000
      * @returns boolean
      */
-    static isNodeHealthStatus = async (currentUrl) => {
+    static isNodeActive = async (currentUrl) => {
       let status = true
 
       try {
