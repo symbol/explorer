@@ -43,7 +43,7 @@ export default class Timeline {
     this.error = false
     this.store = {}
     this.addLatestItem = this.addLatestItem.bind(this)
-    this.initialized = false;
+    this.initialized = false
   }
 
   static empty() {
@@ -64,20 +64,20 @@ export default class Timeline {
   }
 
   initialFetch() {
-    if(!this.initialized) {
-      this.initialized = true;
+    if (!this.initialized) {
+      this.initialized = true
       return this.fetch()
     }
   }
 
   uninitialize() {
-    this.initialized = false;
-    this.data = [];
-    this.next = [];
+    this.initialized = false
+    this.data = []
+    this.next = []
     this.index = 0
     this.keys = []
     this.loading = false
-    this.error = false;
+    this.error = false
   }
 
   async fetch() {
@@ -188,9 +188,9 @@ export default class Timeline {
         const data = [item, ...this.data]
         const next = [data.pop(), ...this.next]
         this.data = [].concat.apply([], data)
-        this.next.pop();
+        this.next.pop()
         this.next = [].concat.apply([], next)
-  
+
         this.store.dispatch(this.name, this)
         return this
       }

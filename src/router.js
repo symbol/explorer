@@ -23,21 +23,21 @@ import detailPages from './config/detail-pages'
 
 Vue.use(Router)
 
-const listPagesRoutes = listPages.pages.map(page => ({ 
-  ...page, 
+const listPagesRoutes = listPages.pages.map(page => ({
+  ...page,
   meta: {
     ...page.meta,
     stroreNamespaces: page.props?.stroreNamespaces || []
   },
-  component: () => import('./views/ListPage.vue') 
+  component: () => import('./views/ListPage.vue')
 }))
-const detailPagesRoutes = detailPages.pages.map(page => ({ 
-  ...page, 
+const detailPagesRoutes = detailPages.pages.map(page => ({
+  ...page,
   meta: {
     ...page.meta,
     stroreNamespaces: page.props?.stroreNamespaces || []
   },
-  component: () => import('./views/DetailPage.vue') 
+  component: () => import('./views/DetailPage.vue')
 }))
 
 const routerConfig = {
@@ -92,12 +92,11 @@ const routerConfig = {
 
 export default new Router(routerConfig)
 
-
 // const router =  new Router(routerConfig);
 // router.beforeEach((to, from, next) => {
 //   console.log(from, to);
 //   if(to.fullPath !== from.fullPath) {
-    
+
 //     next()
-//   } 
+//   }
 // })

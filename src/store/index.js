@@ -52,14 +52,14 @@ export default new Vuex.Store({
     destructionList: state => state.destructionList
   },
   mutations: {
-    destructionList: (state, payload) => state.destructionList = payload
+    destructionList: (state, payload) => { state.destructionList = payload }
   },
   actions: {
     // Initialize the store (call on mount or re-initialization).
     // This handles initialization of a dependent item based on the
     // key provided.
     async initialize({ dispatch }, route) {
-      router.beforeEach((to, from, next) => dispatch('onRouteChange', {to, from, next}))
+      router.beforeEach((to, from, next) => dispatch('onRouteChange', { to, from, next }))
       // Initialize the API.
       await helper.logError(dispatch, 'api/initialize')
       helper.logError(dispatch, 'transaction/initialize')
@@ -115,10 +115,10 @@ export default new Vuex.Store({
       ])
     },
 
-    onRouteChange({commit, getters, dispatch}, {to, from, next}) {
+    onRouteChange({ commit, getters, dispatch }, { to, from, next }) {
       let destructionList = getters.destructionList
 
-      if(to.fullPath !== from.fullPath) {
+      if (to.fullPath !== from.fullPath) {
         destructionList.push({
           name: from.name,
           group: from.meta.group,
@@ -126,18 +126,18 @@ export default new Vuex.Store({
           stroreNamespaces: from.meta.stroreNamespaces
         })
 
-        destructionList = destructionList.filter( el => {
-          if(el.keepAliveGoTo?.includes(to.meta.group) || el.name === to.name)
+        destructionList = destructionList.filter(el => {
+          if (el.keepAliveGoTo?.includes(to.meta.group) || el.name === to.name)
             return true
           else {
-            el.stroreNamespaces?.forEach( namespace => dispatch(`${namespace}/uninitialize`, null, {root: true}))
+            el.stroreNamespaces?.forEach(namespace => dispatch(`${namespace}/uninitialize`, null, { root: true }))
             return false
           }
         })
 
         commit('destructionList', destructionList)
         next()
-      } 
+      }
     }
   }
 })
