@@ -8,26 +8,15 @@ describe('Symbol Explorer Transactions list page should', () => {
     })
 
     it('render table header and table body', () => {
-        cy.get('table')
-        .should('be.visible')
-
-        cy.get('thead')
-        .should('be.visible')
-
-        cy.get('tbody')
-        .should('be.visible')
+        cy.renderTable()
     })
 
     it('render 7 items in table header', () => {
-        cy.get('thead > tr > th')
-        .should('have.length', 7)
+        cy.renderHeaderItem(7)
     })
 
     it('render at least 1 row data in the table list', () => {
-        cy.get('tbody > tr')
-        .then($data => {
-            return $data.length
-        }).should('be.at.least',1)
+        cy.renderData()
     })
 
     it('redirect to transaction detail page given click on transaction hash', () => {
