@@ -29,7 +29,7 @@ import {
 const managers = [
   new Timeline(
     'timeline',
-    () => NodeService.viewNodePeers(),
+    () => NodeService.getNodePeerList(),
     () => [],
     ''// node id
   )

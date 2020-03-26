@@ -90,18 +90,12 @@ class NodeService {
      * Format Node Peers dataset into Vue Component
      * @returns Node peers object for Vue component
      */
-    static viewNodePeers = async () => {
+    static getNodePeerList = async () => {
       let nodePeers = await this.getNodePeers()
 
       return nodePeers.map((el, index) => ({
         index: index + 1,
-        version: el.version,
-        roles: el.roles,
-        network: el.network,
-        host: el.host,
-        port: el.port,
-        address: el.address,
-        friendlyName: el.friendlyName
+        ...el
       }))
     }
 }
