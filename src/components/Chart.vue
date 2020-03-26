@@ -124,6 +124,16 @@ export default {
         },
         tooltip: {
           enabled: true
+        },
+        legend: {
+          show: true,
+          showForSingleSeries: true,
+          showForNullSeries: true,
+          showForZeroSeries: true,
+          position: 'bottom',
+          horizontalAlign: 'center',
+          height: 30, 
+          offsetY: 8,
         }
       }
     }

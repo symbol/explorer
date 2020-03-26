@@ -1,18 +1,20 @@
 <template>
     <header class="ex-menu" :class="{'ex-menu-fixed': fixed}" ref="DesktopMenu">
-        <router-link to="/" :class="{'hide': !fixed}">
-            <img src="../../styles/img/logo-w.png" class="menu-logo"/>
-        </router-link>
-        <router-link
-            v-for="item in items"
-            :key="'dsktp_mn_'+getNameByKey(item.text)"
-            class="ex-menu-item"
-            :to="item.to" exact active-class="active"
-        >
-            <component :is="item.icon" class="menu-icon"/>
-            <i :class="item.classname"></i>
-            <span>{{getNameByKey(item.text)}}</span>
-        </router-link>
+        <div class="strainer">
+            <router-link to="/" :class="{'hide': !fixed}">
+                <img src="../../styles/img/logo-w.png" class="menu-logo"/>
+            </router-link>
+            <router-link
+                v-for="item in items"
+                :key="'dsktp_mn_'+getNameByKey(item.text)"
+                class="ex-menu-item"
+                :to="item.to" exact active-class="active"
+            >
+                <component :is="item.icon" class="menu-icon"/>
+                <i :class="item.classname"></i>
+                <span>{{getNameByKey(item.text)}}</span>
+            </router-link>
+        </div>
     </header>
 </template>
 
@@ -71,6 +73,14 @@ export default {
     box-shadow: 0 2px 10px 2px rgba(0, 0, 0, 0.5);
     padding: 0 60px;
     position: relative;
+
+    .strainer {
+        display: block;
+        width: 100%;
+        max-width: $navmenu-max-width;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
     .menu-logo {
         width: 30px;

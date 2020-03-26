@@ -23,7 +23,9 @@
             <Header />
             <NavigationMenu class="d-none d-md-block"/>
             <!--MobileMenu />-->
-            <router-view :key="$route.fullPath"/>
+            <div class="strainer">
+                <router-view :key="$route.fullPath"/>
+            </div>
         </div>
         <Footer />
     </div>
@@ -84,6 +86,14 @@ html, body, #fullheight {
 
 .app-content {
     width: 100%;
+}
+
+.strainer {
+    display: block;
+    width: 100%;
+    max-width: $page-max-width;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .noselect {
