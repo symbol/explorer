@@ -1,6 +1,6 @@
 <template>
     <div class="blue-gradinet ex-header">
-        <div class="strainer">
+        <div class="width-limiter">
             <b-container fluid>
                 <b-row>
                     <b-col md="3" class="header-left">
@@ -66,7 +66,7 @@ export default {
     background-size: 100%;
 }
 
-.strainer {
+.width-limiter {
     display: block;
     width: 100%;
     max-width: $header-max-width;

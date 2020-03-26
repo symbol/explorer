@@ -1,6 +1,6 @@
 <template>
     <header class="ex-menu" :class="{'ex-menu-fixed': fixed}" ref="DesktopMenu">
-        <div class="strainer">
+        <div class="width-limiter">
             <router-link to="/" :class="{'hide': !fixed}">
                 <img src="../../styles/img/logo-w.png" class="menu-logo"/>
             </router-link>
@@ -74,7 +74,7 @@ export default {
     padding: 0 60px;
     position: relative;
 
-    .strainer {
+    .width-limiter {
         display: block;
         width: 100%;
         max-width: $navmenu-max-width;

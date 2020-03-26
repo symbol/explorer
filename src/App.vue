@@ -23,7 +23,7 @@
             <Header />
             <NavigationMenu class="d-none d-md-block"/>
             <!--MobileMenu />-->
-            <div class="strainer">
+            <div class="width-limiter">
                 <router-view :key="$route.fullPath"/>
             </div>
         </div>
@@ -88,7 +88,7 @@ html, body, #fullheight {
     width: 100%;
 }
 
-.strainer {
+.width-limiter {
     display: block;
     width: 100%;
     max-width: $page-max-width;

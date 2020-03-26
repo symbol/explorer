@@ -19,7 +19,7 @@
 <template>
     <div class="page-footer">
         <footer class="footer">
-            <div class="strainer">
+            <div class="width-limiter">
                 <b-container fluid>
                     <b-row class="footer-row mx-0 mx-md-4 mx-lg-4 px-lg-4">
                         <NemDescription class="footer-description"/>
@@ -157,7 +157,7 @@ export default {
     margin-right: auto;
 }
 
-.strainer {
+.width-limiter {
     display: block;
     width: 100%;
     max-width: $footer-max-width;
