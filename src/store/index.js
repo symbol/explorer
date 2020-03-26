@@ -123,14 +123,14 @@ export default new Vuex.Store({
           name: from.name,
           group: from.meta.group,
           keepAliveGoTo: from.meta.keepAliveGoTo,
-          stroreNamespaces: from.meta.stroreNamespaces
+          storeNamespaces: from.meta.storeNamespaces
         })
 
         destructionList = destructionList.filter(el => {
           if (el.keepAliveGoTo?.includes(to.meta.group) || el.name === to.name)
             return true
           else {
-            el.stroreNamespaces?.forEach(namespace => dispatch(`${namespace}/uninitialize`, null, { root: true }))
+            el.storeNamespaces?.forEach(namespace => dispatch(`${namespace}/uninitialize`, null, { root: true }))
             return false
           }
         })

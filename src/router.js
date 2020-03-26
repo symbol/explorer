@@ -27,7 +27,7 @@ const listPagesRoutes = listPages.pages.map(page => ({
   ...page,
   meta: {
     ...page.meta,
-    stroreNamespaces: page.props?.stroreNamespaces || []
+    storeNamespaces: page.props?.storeNamespaces || []
   },
   component: () => import('./views/ListPage.vue')
 }))
@@ -35,7 +35,7 @@ const detailPagesRoutes = detailPages.pages.map(page => ({
   ...page,
   meta: {
     ...page.meta,
-    stroreNamespaces: page.props?.stroreNamespaces || []
+    storeNamespaces: page.props?.storeNamespaces || []
   },
   component: () => import('./views/DetailPage.vue')
 }))
