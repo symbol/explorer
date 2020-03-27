@@ -65,24 +65,6 @@ class MetadataService {
   }
 
   /**
-   * Convert hex value or namespace name to mosaicId or namespaceId
-   * @param hexOrNamespace - hex value or namespace name
-   * @param from - 'mosaic' | 'namespace'
-   * @returns MosaicId | NamespaceId
-   */
-  static convertor = async (hexOrNamespace, from) => {
-    let Id = MosaicId | NamespaceId
-    let isHexadecimal = helper.isHexadecimal(hexOrNamespace)
-
-    if (!isHexadecimal)
-      Id = from === 'mosaic' ? new MosaicId(hexOrNamespace) : new NamespaceId(hexOrNamespace)
-    else
-      Id = from === 'mosaic' ? await http.namespace.getLinkedMosaicId(new NamespaceId(hexOrNamespace)).toPromise() : NamespaceId.createFromEncoded(hexOrNamespace)
-
-    return Id
-  }
-
-  /**
    * Format Metadata to readable NodoInfo object
    * @param MetadataDTO
    * @returns Object readable MetadataDTO object
@@ -127,7 +109,7 @@ class MetadataService {
    * @returns Namespace Metadata list
    */
   static getNamespaceMetadataList = async (hexOrNamespace) => {
-    const namespaceId = this.convertor(hexOrNamespace, 'namespace')
+    const namespaceId = helper.hexOrNamespaceToId(hexOrNamespace, 'namespace')
     const namespaceMetadata = await this.getNamespaceMetadata(namespaceId)
     return namespaceMetadata
   }
