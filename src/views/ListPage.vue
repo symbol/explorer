@@ -121,7 +121,7 @@ export default {
         return timeline.map(row => {
           let mobileRow = {}
 
-          for (let item of this.mobileColumns){
+          for (let item of this.mobileColumns) {
             if (Object.keys(row).includes(item))
               mobileRow[item] = row[item]
           }
@@ -133,7 +133,7 @@ export default {
         return timeline.map(row => {
           let columnRow = {}
 
-          for (let item of this.columns){
+          for (let item of this.columns) {
             if (Object.keys(row).includes(item))
               columnRow[item] = row[item]
           }
