@@ -17,6 +17,7 @@
                     sm="6"
                     md="3"
                     lg="6"
+                    xl="12"
                     v-for="(item, index) in blockList"
                     :key="'recent_blocks_'+index+'_'+item.height"
                 >

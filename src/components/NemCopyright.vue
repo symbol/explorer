@@ -18,7 +18,7 @@
 
 <template>
   <div class="row">
-    <div class="col-md-12">
+    <div class="col-md-12 d-flex justify-content-center">
         <div class="ftr_btm">
         <span>NEM.io Foundation 2019</span>
         <span>|</span>
@@ -44,6 +44,7 @@ span > a {
 
 .ftr_btm {
     width: 100%;
+    max-width: $footer-max-width;
     text-align: center;
     font-size: 12px;
     color: #fff;

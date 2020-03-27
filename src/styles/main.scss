@@ -9,6 +9,26 @@ $blue: $blue-color;
 $green: $green-color;
 $orange: $orange-color;
 
+$grid-breakpoints: (
+    xxxs: 0,
+    xxs: 320px,
+    xs: 568px,
+    sm: 667px,
+    md: 768px,
+    lg: 992px,
+    xl: 1920px
+);
+
+$container-max-widths: (
+    xxxs: 0,
+    xxs: 320px,
+    xs: 568px,
+    sm: 667px,
+    md: 768px,
+    lg: 992px,
+    xl: 1920px
+);
+
 @import '../../node_modules/bootstrap/scss/bootstrap';
 @import '../../node_modules/bootstrap-vue/src/index.scss';
 

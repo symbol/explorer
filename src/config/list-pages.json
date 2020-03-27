@@ -3,6 +3,10 @@
         {
             "path": "/blocks",
             "name": "blocks",
+            "meta": {
+                "group": "list-page",
+                "keepAliveGoTo": ["detail-page"]
+            },
             "props": {
                 "title": "blocks",
                 "hasInfoText": true,
@@ -21,6 +25,10 @@
         {
             "path": "/transactions",
             "name": "transactions",
+            "meta": {
+                "group": "list-page",
+                "keepAliveGoTo": ["detail-page"]
+            },
             "props": {
                 "title": "transactions",
                 "storeNamespaces": ["transaction"],
@@ -38,6 +46,10 @@
         {
             "path": "/accounts",
             "name": "accounts",
+            "meta": {
+                "group": "list-page",
+                "keepAliveGoTo": ["detail-page"]
+            },
             "props": {
                 "title": "accounts",
                 "hasFilter": true,
@@ -53,6 +65,10 @@
         {
             "path": "/namespaces",
             "name": "namespaces",
+            "meta": {
+                "group": "list-page",
+                "keepAliveGoTo": ["detail-page"]
+            },
             "props": {
                 "title": "namespaces",
                 "storeNamespaces": ["namespace"],
@@ -67,6 +83,10 @@
         {
             "path": "/mosaics",
             "name": "mosaics",
+            "meta": {
+                "group": "list-page",
+                "keepAliveGoTo": ["detail-page"]
+            },
             "props": {
                 "title": "mosaics",
                 "storeNamespaces": ["mosaic"],
@@ -81,10 +101,24 @@
         {
             "path": "/nodes",
             "name": "nodes",
+            "meta": {
+                "group": "list-page",
+                "keepAliveGoTo": ["detail-page"]
+            },
             "props": {
                 "title": "nodes",
                 "storeNamespaces": ["node"],
                 "managerGetter": "node/timeline",
+                "columns": [
+                    "index",
+                    "version",
+                    "roles",
+                    "network",
+                    "host",
+                    "port",
+                    "address",
+                    "friendlyName"
+                ],
                 "mobileColumns": [
                     "index",
                     "roles",

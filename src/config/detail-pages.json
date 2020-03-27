@@ -3,6 +3,10 @@
         {
             "path": "/account/:address",
             "name": "account-detail",
+            "meta": {
+                "group": "detail-page",
+                "keepAliveGoTo": []
+            },
             "props": {
                 "schema": [
                     {
@@ -99,6 +103,10 @@
         {
             "path": "/block/:height",
             "name": "block-detail",
+            "meta": {
+                "group": "detail-page",
+                "keepAliveGoTo": []
+            },
             "props": {
                 "schema": [
                     {
@@ -189,6 +197,10 @@
         {
             "path": "/mosaic/:mosaicId",
             "name": "mosaic-detail",
+            "meta": {
+                "group": "detail-page",
+                "keepAliveGoTo": []
+            },
             "props": {
                 "schema": [
                     {
@@ -237,6 +249,10 @@
         {
             "path": "/namespace/:namespaceId",
             "name": "namespace-detail",
+            "meta": {
+                "group": "detail-page",
+                "keepAliveGoTo": []
+            },
             "props": {
                 "schema": [
                     {
@@ -275,6 +291,10 @@
         {
             "path": "/transaction/:transactionHash",
             "name": "transaction-detail",
+            "meta": {
+                "group": "detail-page",
+                "keepAliveGoTo": []
+            },
             "props": {
                 "schema": [
                     {
