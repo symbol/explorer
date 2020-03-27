@@ -13,6 +13,7 @@
                 <b-col>
                     <Chart
                         type="area"
+                        :height="265"
                         :data="chartData"
                     />
                 </b-col>

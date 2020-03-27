@@ -20,7 +20,7 @@
     "chart.js": "^2.9.3",
     "core-js": "^2.6.11",
     "moment-timezone": "^0.5.28",
-    "symbol-sdk": "^0.17.3",
+    "symbol-sdk": "^0.17.4-alpha-202003121633",
     "url-parse": "^1.4.7",
     "vue": "^2.6.11",
     "vue-apexcharts": "^1.5.2",

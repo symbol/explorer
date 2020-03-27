@@ -132,7 +132,7 @@ export default {
 
     // Uninitialize the account model.
     async uninitialize({ commit, dispatch, getters }) {
-      const callback = async () => { }
+      const callback = async () => { getters.timeline?.uninitialize() }
       await LOCK.uninitialize(callback, commit, dispatch, getters)
     },
 
