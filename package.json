@@ -1,7 +1,8 @@
 {
-  "name": "client",
-  "version": "0.1.0",
-  "private": true,
+  "name": "symbol-explorer",
+  "description": "Symbol Block and Network Explorer",
+  "homepage": "https://github.com/nemfoundation/symbol-explorer",
+  "version": "0.2.0",
   "scripts": {
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
