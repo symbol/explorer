@@ -96,6 +96,11 @@ export default {
       type: String
     },
 
+    columns: {
+      type: [Array, undefined],
+      default: void 0
+    },
+
     mobileColumns: {
       type: [Array, undefined],
       default: void 0
@@ -116,9 +121,9 @@ export default {
         return timeline.map(row => {
           let mobileRow = {}
 
-          for (let key in row) {
-            if (this.mobileColumns.includes(key))
-              mobileRow[key] = row[key]
+          for (let item of this.mobileColumns){
+            if (Object.keys(row).includes(item))
+              mobileRow[item] = row[item]
           }
 
           return mobileRow
@@ -126,14 +131,14 @@ export default {
       } else
       if (Array.isArray(this.columns)) {
         return timeline.map(row => {
-          let columns = {}
+          let columnRow = {}
 
-          for (let key in row) {
-            if (this.columns.includes(key))
-              columns[key] = row[key]
+          for (let item of this.columns){
+            if (Object.keys(row).includes(item))
+              columnRow[item] = row[item]
           }
 
-          return columns
+          return columnRow
         })
       } else
         return timeline

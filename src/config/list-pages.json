@@ -85,6 +85,16 @@
                 "title": "nodes",
                 "storeNamespaces": ["node"],
                 "managerGetter": "node/timeline",
+                "columns": [
+                    "index",
+                    "version",
+                    "roles",
+                    "network",
+                    "host",
+                    "port",
+                    "address",
+                    "friendlyName"
+                ],
                 "mobileColumns": [
                     "index",
                     "roles",

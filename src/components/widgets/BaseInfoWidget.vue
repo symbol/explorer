@@ -28,7 +28,7 @@
                         {{getNameByKey('totalTransactions')}}
                     </div>
                     <div class="ex-item-value">
-                        {{chainInfo.numTransactions}}
+                        {{storageInfo.numTransactions}}
                     </div>
                 </b-col>
                 <b-col class="ex-item" sm="3" lg="6">
@@ -57,7 +57,7 @@ export default {
   computed: {
     ...mapGetters({
       blockHeight: 'chain/getBlockHeight',
-      chainInfo: 'chain/getChainInfo',
+      storageInfo: 'chain/getStorageInfo',
       marketData: 'chain/getMarketData'
     }),
 

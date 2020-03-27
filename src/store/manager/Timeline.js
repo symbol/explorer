@@ -170,9 +170,9 @@ export default class Timeline {
         const data = [item, ...this.data]
         const next = [data.pop(), ...this.next]
         this.data = [].concat.apply([], data)
-        this.next.pop();
+        this.next.pop()
         this.next = [].concat.apply([], next)
-  
+
         this.store.dispatch(this.name, this)
         return this
       }
