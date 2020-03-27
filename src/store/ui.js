@@ -135,7 +135,7 @@ export default {
     search: ({ dispatch, rootGetters }, searchString) => {
       return new Promise(async (resolve, reject) => {
         if (searchString !== null && searchString !== '') {
-          searchString = searchString.replace(/\s/g, '')
+          searchString = searchString.replace(/\s|-/g, '')
           if (helper.isBlockHeight(searchString)) {
             dispatch('openPage', {
               pageName: 'block',
