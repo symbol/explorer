@@ -196,11 +196,6 @@ export default {
     getter(name) {
       return this.$store.getters[name]
     }
-  },
-
-  destroyed() {
-    if (typeof this.timeline?.reset === 'function')
-      this.timeline.reset()
   }
 }
 </script>

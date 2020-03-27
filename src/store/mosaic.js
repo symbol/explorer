@@ -74,7 +74,9 @@ export default {
 
     // Uninitialize the mosaic model.
     async uninitialize({ commit, dispatch, getters }) {
-      const callback = async () => {}
+      const callback = async () => {
+        getters.timeline?.uninitialize()
+      }
       await LOCK.uninitialize(callback, commit, dispatch, getters)
     },
 

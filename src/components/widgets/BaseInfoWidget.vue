@@ -7,7 +7,7 @@
         <template #body>
             <b-container fluid>
             <b-row>
-                <b-col class="ex-item" sm="3" lg="6">
+                <b-col class="ex-item" sm="3" lg="12">
                     <div class="ex-item-title">
                         {{getNameByKey('price')}}
                     </div>
@@ -15,7 +15,7 @@
                         {{marketData.price}}
                     </div>
                 </b-col>
-                <b-col class="ex-item" sm="3" lg="6">
+                <b-col class="ex-item" sm="3" lg="12">
                     <div class="ex-item-title">
                         {{getNameByKey('marketCap')}}
                     </div>
@@ -23,7 +23,7 @@
                         {{marketData.marketCap}}
                     </div>
                 </b-col>
-                <b-col class="ex-item" sm="3" lg="6">
+                <b-col class="ex-item" sm="3" lg="12">
                     <div class="ex-item-title">
                         {{getNameByKey('totalTransactions')}}
                     </div>
@@ -31,7 +31,7 @@
                         {{storageInfo.numTransactions}}
                     </div>
                 </b-col>
-                <b-col class="ex-item" sm="3" lg="6">
+                <b-col class="ex-item" sm="3" lg="12">
                     <div class="ex-item-title">
                         {{getNameByKey('blockHeight')}}
                     </div>
