@@ -132,8 +132,8 @@ export default {
           showForZeroSeries: true,
           position: 'bottom',
           horizontalAlign: 'center',
-          height: 30, 
-          offsetY: 8,
+          height: 30,
+          offsetY: 8
         }
       }
     }
