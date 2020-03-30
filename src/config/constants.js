@@ -51,7 +51,7 @@ class Constants {
     [TransactionType.MOSAIC_ALIAS]: 'Mosaic Alias',
     [TransactionType.MOSAIC_DEFINITION]: 'Mosaic Definition',
     [TransactionType.MOSAIC_SUPPLY_CHANGE]: 'Mosaic Supply Change',
-    [TransactionType.MULTISIG_ACCOUNT_MODIFICATION]: 'Multisig Account Modify ',
+    [TransactionType.MULTISIG_ACCOUNT_MODIFICATION]: 'Multisig Account Modification',
     [TransactionType.AGGREGATE_COMPLETE]: 'Aggregate Complete',
     [TransactionType.AGGREGATE_BONDED]: 'Aggregate Bonded',
     [TransactionType.HASH_LOCK]: 'Hash Lock',
