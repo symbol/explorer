@@ -20,7 +20,7 @@ import Vue from 'vue'
 import Lock from './lock'
 import Constants from '../config/constants'
 import sdkBlock from '../infrastructure/getBlock'
-import sdkListener from '../infrastructure/getListener'
+import { ListenerService } from '../infrastructure'
 import {
   DataSet,
   Timeline,
@@ -115,7 +115,7 @@ export default {
     // Subscribe to the latest blocks.
     async subscribe({ commit, getters, rootGetters }) {
       if (getters.getSubscription === null) {
-        const subscription = await sdkListener.subscribeNewBlock(
+        const subscription = await ListenerService.subscribeNewBlock(
           (item) => {
             getters.timeline.addLatestItem(item)
             commit('chain/setBlockHeight', item.height, { root: true })
