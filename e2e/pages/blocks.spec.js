@@ -24,29 +24,40 @@ describe('Symbol Explorer Blocks list page should', () => {
     it('render table header and table body', () => {
         cy.visit('/blocks')
 
-        cy.get('table')
-        .should('be.visible')
-
-        cy.get('thead')
-        .should('be.visible')
-
-        cy.get('tbody')
-        .should('be.visible')
+        cy.renderTable()
     })
 
     it('render 6 items in table header', () => {
         cy.visit('/blocks')
 
-        cy.get('thead > tr > th')
-        .should('have.length', 6)
+        cy.renderHeaderItem(6)
     })
 
     it('render at least 1 row data in the table list', () => {
         cy.visit('/blocks')
 
-        cy.get('tbody > tr')
+        cy.renderData()
+    })
+
+    it('redirect to account detail page given click on harvester address', () => {
+        cy.visit('/blocks')
+
+        cy.get('tbody tr .harvester')
         .then($data => {
-            return $data.length
-        }).should('be.at.least',1)
+            return $data[0]
+        }).click()
+
+        cy.url().should('contain', '/account')
+    })
+
+    it('redirect to block detail page given click on block height', () => {
+        cy.visit('/blocks')
+
+        cy.get('tbody tr .height')
+        .then($data => {
+            return $data[0]
+        }).click()
+
+        cy.url().should('contain', '/block')
     })
   })
