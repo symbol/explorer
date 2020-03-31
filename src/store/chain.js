@@ -17,8 +17,7 @@
  */
 
 import Lock from './lock'
-import { NodeService } from '../infrastructure'
-import sdkBlock from '../infrastructure/getBlock'
+import { NodeService, ChainService } from '../infrastructure'
 import apiMarketData from '../infrastructure/getMarketData'
 
 const LOCK = Lock.create()
@@ -108,9 +107,8 @@ export default {
     },
 
     async getBlockHeight({ commit }) {
-      let blockList = await sdkBlock.getBlocksFromHeightWithLimit(1)
-      if (blockList.length > 0)
-        commit('setBlockHeight', blockList[0].height)
+      let chainHeight = await ChainService.getBlockchainHeight()
+      commit('setBlockHeight', chainHeight)
     }
   }
 }
