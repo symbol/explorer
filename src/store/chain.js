@@ -17,8 +17,7 @@
  */
 
 import Lock from './lock'
-import { NodeService, ChainService } from '../infrastructure'
-import apiMarketData from '../infrastructure/getMarketData'
+import { NodeService, ChainService, DataService } from '../infrastructure'
 
 const LOCK = Lock.create()
 
@@ -87,8 +86,8 @@ export default {
       let storageInfo = await NodeService.getStorageInfo()
       commit('setStorageInfo', storageInfo)
 
-      let marketData = await apiMarketData.getXemPriceData()
-      let xemGraph = await apiMarketData.getXemHistoricalHourlyGraph()
+      let marketData = await DataService.getMarketPrice('XEM')
+      let xemGraph = await DataService.getHistoricalHourlyGraph('XEM')
 
       let graphData = []
       if (xemGraph) {

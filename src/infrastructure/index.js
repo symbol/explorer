@@ -5,6 +5,7 @@ import ListenerService from './ListenerService'
 import ChainService from './ChainService'
 import BlockService from './BlockService'
 import ReceiptService from './ReceiptService'
+import DataService from './DataService'
 
 export {
   NodeService,
@@ -13,5 +14,6 @@ export {
   ListenerService,
   ChainService,
   ReceiptService,
+  DataService,
   BlockService
 }
