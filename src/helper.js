@@ -184,6 +184,17 @@ class helper {
 
     return Id
   }
+
+  /**
+   * Convert Mosaic amount to relative Amount with divisibility.
+   * @param amount -
+   * @param divisibility - decimal
+   * @returns relativeAmount in string
+   */
+  static formatMosaicAmountWithDivisibility = (amount, divisibility) => {
+    let relativeAmount = divisibility !== 0 ? amount / Math.pow(10, divisibility) : amount.compact()
+    return relativeAmount.toLocaleString('en-US', { minimumFractionDigits: divisibility })
+  }
 }
 
 export default helper

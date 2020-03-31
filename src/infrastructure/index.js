@@ -4,6 +4,7 @@ import RestrictionService from './RestrictionService'
 import ListenerService from './ListenerService'
 import ChainService from './ChainService'
 import BlockService from './BlockService'
+import ReceiptService from './ReceiptService'
 
 export {
   NodeService,
@@ -11,5 +12,6 @@ export {
   RestrictionService,
   ListenerService,
   ChainService,
+  ReceiptService,
   BlockService
 }
