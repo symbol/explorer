@@ -12,13 +12,20 @@
                 "hasInfoText": true,
                 "storeNamespaces": ["block"],
                 "managerGetter": "block/timeline",
-                "dataGetter": "block/getTimelineFormatted",
                 "infoTextGetter": "block/infoText",
+                "columns": [
+                    "height",
+                    "age",
+                    "transactions",
+                    "totalFee",
+                    "date",
+                    "harvester"
+                ],
                 "mobileColumns": [
                     "height",
                     "age",
                     "transactions",
-                    "fee"
+                    "totalFee"
                 ]
             }
         },
