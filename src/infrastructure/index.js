@@ -6,6 +6,7 @@ import ChainService from './ChainService'
 import BlockService from './BlockService'
 import ReceiptService from './ReceiptService'
 import DataService from './DataService'
+import MosaicService from './MosaicService'
 
 export {
   NodeService,
@@ -15,5 +16,6 @@ export {
   ChainService,
   ReceiptService,
   DataService,
+  MosaicService,
   BlockService
 }
