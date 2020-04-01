@@ -178,9 +178,9 @@ class helper {
     let isHexadecimal = this.isHexadecimal(hexOrNamespace)
 
     if (isHexadecimal)
-      Id = toId === 'mosaic' ? new MosaicId(hexOrNamespace) : new NamespaceId(hexOrNamespace)
+      Id = toId === 'mosaic' ? new MosaicId(hexOrNamespace) : NamespaceId.createFromEncoded(hexOrNamespace)
     else
-      Id = toId === 'mosaic' ? await http.namespace.getLinkedMosaicId(new NamespaceId(hexOrNamespace)).toPromise() : NamespaceId.createFromEncoded(hexOrNamespace)
+      Id = toId === 'mosaic' ? await http.namespace.getLinkedMosaicId(new NamespaceId(hexOrNamespace)).toPromise() : new NamespaceId(hexOrNamespace)
 
     return Id
   }
