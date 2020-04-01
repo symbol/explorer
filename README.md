@@ -47,7 +47,7 @@ npm run dev
 ### How to change the network/node list
 
 The following file `/src/config/setup.json` constins the node list which are shown in the node selector dropdown.
-Use the `peersApi.nodes` array to set up the custom nodes list.
+Use the `peersApi.nodes` array to set up the custom node list.
 Use the `peersApi.defaultNode` property to set up the default node url.
 
 ## Getting help
