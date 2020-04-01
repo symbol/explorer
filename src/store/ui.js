@@ -17,7 +17,7 @@
  */
 import router from '../router'
 import { Address, AccountHttp } from 'symbol-sdk'
-import { i18n } from '../config'
+import { i18n, keyRedirects } from '../config'
 import sdkMosaic from '../infrastructure/getMosaic'
 import sdkNamespace from '../infrastructure/getNamespace'
 import Vue from 'vue'
@@ -28,54 +28,7 @@ export default {
   state: {
     languages: i18n.languages,
     currentLanguage: localStorage.getItem('userLanguage'),
-    keyNames: {}, /// put new names here => src/config/i18n/en-us.json
-
-    keyPages: {
-      'height': 'block',
-
-      'harvester': 'account',
-      'address': 'account',
-      'signer': 'account',
-      'recipient': 'account',
-      'owneraddress': 'account',
-      'linkedAccountKey': 'account',
-      'remoteAccountAddress': 'account',
-      'aliasAddress': 'account',
-      'senderAddress': 'account',
-      'targetAddress': 'account',
-      'addressResolutionEntries': 'account',
-      'restrictionAddressValues': 'account',
-      'restrictionAddressAdditions': 'account',
-      'restrictionAddressDeletions': 'account',
-
-      'transactionHash': 'transaction',
-
-      'mosaicId': 'mosaic',
-      'aliasMosaic': 'mosaic',
-      'targetMosaicId': 'mosaic',
-      'mosaicResolutionEntries': 'mosaic',
-      'restrictionMosaicValues': 'mosaic',
-      'referenceMosaicId': 'mosaic',
-      'restrictionMosaicAdditions': 'mosaic',
-      'restrictionMosaicDeletions': 'mosaic',
-
-      'addressHeight': 'block',
-      'publicKeyHeight': 'block',
-      'importanceHeight': 'block',
-      'blockHeight': 'block',
-      'startHeight': 'block',
-      'endHeight': 'block',
-      'lastActivity': 'block',
-      'recalculationBlock': 'block',
-
-      'namespaceName': 'namespace',
-      'namespaceId': 'namespace',
-      'parentId': 'namespace',
-      'linkedNamespace': 'namespace',
-      'mosaicAliasName': 'namespace',
-      'targetNamespaceId': 'namespace',
-      'unresolved': 'namespace'
-    }
+    keyPages: keyRedirects
   },
 
   getters: {

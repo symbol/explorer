@@ -19,14 +19,14 @@
                     </td>
                     <td
                         class="max-item-width table-cell"
-                        :class="{'table-item-clickable': isItemClickable(itemKey)}"
+                        :class="{'table-item-clickable': isKeyClickable(itemKey)}"
                         :title="getKeyName(itemKey) + ': ' + item"
                         @click="onItemClick(itemKey, item)"
                     >
 
                       <div v-if="isAllowArrayToView(itemKey)">
                         <div v-for="(row, rowIndex) in item" :key="view+'r'+rowIndex">
-                          <router-link v-if="isItemClickable(itemKey) && getItemHref(itemKey, row)" :to="getItemHref(itemKey, row)">
+                          <router-link v-if="isKeyClickable(itemKey) && getItemHref(itemKey, row)" :to="getItemHref(itemKey, row)">
                             <Truncate v-if="isTruncate(itemKey)">{{row}}</Truncate>
                             <div v-else>{{ row }}</div>
                           </router-link>
@@ -37,7 +37,7 @@
                         </div>
                       </div>
 
-                      <router-link v-else-if="isItemClickable(itemKey) && getItemHref(itemKey, item)" :to="getItemHref(itemKey, item)">
+                      <router-link v-else-if="isKeyClickable(itemKey) && getItemHref(itemKey, item)" :to="getItemHref(itemKey, item)">
                         {{ item }}
                       </router-link>
 
