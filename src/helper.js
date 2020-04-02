@@ -144,14 +144,6 @@ class helper {
     }
   }
 
-  static calculateAverage = array => array.reduce((p, c) => p + c, 0) / array.length;
-
-  static calculateMedian = array => {
-    array.sort((a, b) => a - b)
-    const mid = array.length / 2
-    return mid % 1 ? array[mid - 0.5] : (array[mid - 1] + array[mid]) / 2
-  }
-
   static fetchData = async (fetchFunction, commit, before, error, success) => {
     if (typeof before === 'function')
       await before()

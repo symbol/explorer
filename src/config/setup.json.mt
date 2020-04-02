@@ -12,8 +12,7 @@
 		]
 	},
 	"endpoints": {
-		"marketData": "https://min-api.cryptocompare.com/",
-		"analysisData": "http://172.104.179.84:3001/"
+		"marketData": "https://min-api.cryptocompare.com/"
 	},
 	"footer": {
 		"link": [{
