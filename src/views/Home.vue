@@ -19,6 +19,9 @@
 <template>
     <b-container fluid class="px-0 py-0">
         <b-row class="my-4 mx-0 mx-xs-0 mx-md-4 mx-lg-8">
+            <b-col xs="12" md="12" lg="6">
+                <NodesMapWidget />
+            </b-col>
             <b-col xs="12" md="12" lg="9">
                 <PriceChartWidget />
             </b-col>
@@ -39,6 +42,7 @@ import BaseInfoWidget from '@/components/widgets/BaseInfoWidget.vue'
 import PriceChartWidget from '@/components/widgets/PriceChartWidget.vue'
 import RecentBlocksWidget from '@/components/widgets/RecentBlocksWidget.vue'
 import RecentTransactionsWidget from '@/components/widgets/RecentTransactionsWidget.vue'
+import NodesMapWidget from '@/components/widgets/NodesMapWidget.vue'
 
 export default {
   name: 'Home',
@@ -47,7 +51,8 @@ export default {
     BaseInfoWidget,
     PriceChartWidget,
     RecentBlocksWidget,
-    RecentTransactionsWidget
+    RecentTransactionsWidget,
+    NodesMapWidget
   },
 
   mounted() {

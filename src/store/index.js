@@ -71,7 +71,8 @@ export default new Vuex.Store({
         return Promise.all([
           helper.logError(dispatch, 'block/initialize'),
           helper.logError(dispatch, 'chain/initialize'),
-          helper.logError(dispatch, 'transaction/initialize')
+          helper.logError(dispatch, 'transaction/initialize'),
+          helper.logError(dispatch, 'node/initialize')
         ])
 
         // Timeline Views

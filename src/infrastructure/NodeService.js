@@ -17,6 +17,7 @@
  */
 
 import http from './http'
+import axios from 'axios'
 import Constants from '../config/constants'
 import * as symbol from 'symbol-sdk'
 
@@ -91,12 +92,45 @@ class NodeService {
      * @returns Node peers object for Vue component
      */
     static getNodePeerList = async () => {
-      let nodePeers = await this.getNodePeers()
+      const nodePeers = await this.getNodePeers()
+      let nodePeersFormatted = []
 
-      return nodePeers.map((el, index) => ({
-        index: index + 1,
-        ...el
-      }))
+      for(const index in nodePeers) {
+        if(index <50) {
+          const location = await this.getNodeLocation(nodePeers[index].host) || {};
+          const coordinates = location.coordinates || []
+
+          nodePeersFormatted.push({
+            index: index + 1,
+            location: location.location,
+            coordinates,
+            ...nodePeers[index]
+          })
+        }
+      }
+      return nodePeersFormatted
+    }
+    
+    /**
+     * Get node location by ip
+     * @returns Object of coordinates [latitude, longitude] and location name
+     */
+    static getNodeLocation = async (ip) => {
+      let coordinates = []
+      let location = ''
+
+      try {
+        const response = await axios.get(`http://demo.ip-api.com/json/${ip}?fields=33288191&lang=en`)
+        const data = response.data;
+
+        coordinates = [data.lat, data.lon]
+        location = data.city + ', ' + data.region + ', ' + data.country
+      }
+      catch(e) {
+        console.error('Failed to get node location', e)
+      }
+
+      return { coordinates, location }
     }
 }
 
