@@ -7,11 +7,7 @@ Symbol Explorer is a read-only web application to browse the content of the bloc
 
 ## Requirements
 
-### NodeJS
-
-- NodeJS 8.9.X
-- NodeJS 9.X.X
-- NodeJS 10.X.X
+- Node.js 8, 9 or 10
 
 ## Installation
 
@@ -40,15 +36,17 @@ npm run dev
 
 ### Architecture
 
-* `/src/store`: Handles the application logic with state management.
+* `/src/config`: Handles the explorer configuration.
 * `/src/infrastructure`: Handles the API / SDK request from Symbol nodes.
+* `/src/store`: Handles the application logic with state management.
 * `/src/views`: Handles the UI of the explorer.
 
-### How to change the network/node list
+### How to change the node list
 
-The following file `/src/config/setup.json` constins the node list which are shown in the node selector dropdown.
-Use the `peersApi.nodes` array to set up the custom node list.
-Use the `peersApi.defaultNode` property to set up the default node url.
+The file `/src/config/setup.json` contains the node list shown in the node selector dropdown.
+
+1. Edit `peersApi.nodes` array to set up the custom node list.
+2. Set `peersApi.defaultNode` property to the default node url.
 
 ## Getting help
 
