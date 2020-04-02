@@ -38,7 +38,7 @@ export default {
 
     chartData() {
       return this.transactionPerBlockData.data
-    },
+    }
   },
 
   methods: {

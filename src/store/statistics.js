@@ -97,7 +97,6 @@ export default {
         let transactionPerBlockDataset = await StatService.getTransactionPerBlockData(240, 60)
         commit('setTransactionPerBlockData', transactionPerBlockDataset)
         commit('setLoadingTransactionPerBlock', false)
-
       } catch (e) {
         console.error(e)
         commit('setError', true)
