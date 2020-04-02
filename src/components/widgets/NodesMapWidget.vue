@@ -15,7 +15,7 @@
                 <b-col>
                     <NodesMap
                         :nodes="nodeList"
-                        :height="265"
+                        :height="400"
                     />
                 </b-col>
             </b-row>

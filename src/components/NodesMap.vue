@@ -7,7 +7,7 @@
 <script>
 import leaflet from 'leaflet'
 import markerCluster from 'leaflet.markercluster';
-import iconUrl from '../styles/img/logo-w.png'
+import iconUrl from '../styles/img/node-marker-3.png'
 
 export default {
     props: {
@@ -64,12 +64,20 @@ export default {
         },
 
         addMarkers() {
+            // const icon = leaflet.icon({
+            //     iconUrl,
+            //     iconRetinaUrl: iconUrl,
+            //     iconSize: [32, 46],
+            //     iconAnchor: [9, 46],
+            //     popupAnchor: [7, -46]
+            // });
+
             const icon = leaflet.icon({
                 iconUrl,
                 iconRetinaUrl: iconUrl,
-                iconSize: [24, 24],
-                iconAnchor: [9, 21],
-                popupAnchor: [0, -14]
+                iconSize: [46, 46],
+                iconAnchor: [20, 23],
+                popupAnchor: [3, -15]
             });
 
             const markerClusters = leaflet.markerClusterGroup();
