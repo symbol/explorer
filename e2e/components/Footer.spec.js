@@ -1,4 +1,4 @@
-describe('NEM2 Explorer Footer should', () => {
+describe('Symbol Explorer Footer should', () => {
     beforeEach(() => {
         cy.visit('/')
     })

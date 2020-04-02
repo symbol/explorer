@@ -17,7 +17,7 @@
  */
 
 import axios from 'axios'
-import { Address, NamespaceId, QueryParams } from 'nem2-sdk'
+import { Address, NamespaceId, QueryParams } from 'symbol-sdk'
 import dto from './dto'
 import http from './http'
 import format from '../format'
@@ -62,7 +62,7 @@ class sdkNamespace {
 
   static getFullNamespacesFromAccount = async (address, namespaceId = '') => {
     let namespaceInfos = await http.namespace
-      .getNamespacesFromAccount(address, new QueryParams().setPageSize(100).setId(namespaceId))
+      .getNamespacesFromAccount(address, new QueryParams({ pageSize: 100, id: namespaceId }))
       .toPromise()
 
     if (namespaceInfos.length > 0) {
@@ -105,7 +105,15 @@ class sdkNamespace {
 
     const currentBlockHeight = await sdkBlock.getBlockHeight()
 
-    return namespaces.map(namespace => format.formatNamespaceInfo(namespace, currentBlockHeight))
+    return namespaces
+      .map(namespace => format.formatNamespaceInfo(namespace, currentBlockHeight))
+      .map(el => ({
+        namespaceName: el.namespaceName,
+        namespaceId: el.namespaceId,
+        owneraddress: el.address,
+        duration: el.duration,
+        approximateExpired: el.approximateExpired
+      }))
   }
 
   static getNamespacesSinceIdWithLimit = async (limit, sinceNamespaceId) => {

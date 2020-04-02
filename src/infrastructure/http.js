@@ -1,6 +1,6 @@
 /*
  *
- * Copyright (c) 2019-present for NEM
+ * Copyright (c) 2019-present for symbol
  *
  * Licensed under the Apache License, Version 2.0 (the "License ");
  * you may not use this file except in compliance with the License.
@@ -16,7 +16,7 @@
  *
  */
 
-import * as nem from 'nem2-sdk'
+import * as symbol from 'symbol-sdk'
 import constants from '../config/constants'
 
 let NODE_URL
@@ -49,62 +49,62 @@ export default class http {
   }
 
   static get account() {
-    return new nem.AccountHttp(http.nodeUrl)
+    return new symbol.AccountHttp(http.nodeUrl)
   }
 
   static get block() {
-    return new nem.BlockHttp(http.nodeUrl)
+    return new symbol.BlockHttp(http.nodeUrl)
   }
 
   static get chain() {
-    return new nem.ChainHttp(http.nodeUrl)
-  }
-
-  static get diagnostic() {
-    return new nem.NodeHttp(http.nodeUrl)
+    return new symbol.ChainHttp(http.nodeUrl)
   }
 
   static get mosaic() {
-    return new nem.MosaicHttp(http.nodeUrl)
+    return new symbol.MosaicHttp(http.nodeUrl)
   }
 
   static get mosaicService() {
-    return new nem.MosaicService(http.account, http.mosaic)
+    return new symbol.MosaicService(http.account, http.mosaic)
   }
 
   static get namespace() {
-    return new nem.NamespaceHttp(http.nodeUrl)
+    return new symbol.NamespaceHttp(http.nodeUrl)
   }
 
   static get namespaceService() {
-    return new nem.NamespaceService(http.namespace)
+    return new symbol.NamespaceService(http.namespace)
   }
 
   static get network() {
-    return new nem.NetworkHttp(http.nodeUrl)
+    return new symbol.NetworkHttp(http.nodeUrl)
   }
 
   static get transaction() {
-    return new nem.TransactionHttp(http.nodeUrl)
+    return new symbol.TransactionHttp(http.nodeUrl)
   }
 
   static get multisig() {
-    return new nem.MultisigHttp(http.nodeUrl)
+    return new symbol.MultisigHttp(http.nodeUrl)
   }
 
   static get metadata() {
-    return new nem.MetadataHttp(http.nodeUrl)
+    return new symbol.MetadataHttp(http.nodeUrl)
   }
 
   static get receipt() {
-    return new nem.ReceiptHttp(http.nodeUrl)
+    return new symbol.ReceiptHttp(http.nodeUrl)
   }
 
   static get restrictionAccount() {
-    return new nem.RestrictionAccountHttp(http.nodeUrl)
+    return new symbol.RestrictionAccountHttp(http.nodeUrl)
   }
 
   static get restrictionMosaic() {
-    return new nem.RestrictionMosaicHttp(http.nodeUrl)
+    return new symbol.RestrictionMosaicHttp(http.nodeUrl)
+  }
+
+  static get node() {
+    return new symbol.NodeHttp(http.nodeUrl)
   }
 }

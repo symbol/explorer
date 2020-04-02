@@ -1,28 +1,30 @@
 <template>
     <div class="blue-gradinet ex-header">
-        <b-container fluid>
-            <b-row>
-                <b-col md="3" class="header-right">
-                </b-col>
-                <b-col md="6" class="header-center">
+        <div class="width-limiter">
+            <b-container fluid>
+                <b-row>
+                    <b-col md="3" class="header-left">
+                        <router-link to="/" class="d-none d-md-block">
+                            <img src="../../styles/img/symbol_logo_white_aw.png" class="header-logo"/>
+                        </router-link>
+                    </b-col>
+                    <b-col md="6" class="header-center">
 
-                    <router-link to="/" >
-                        <img src="/theme/img/logo-w.png" class="header-logo"/>
-                    </router-link>
+                        <div class="header-title">
+                            {{getNameByKey('blockchain explorer title')}}
+                        </div>
+                        <div class="header-sub-title">
+                            {{getNameByKey('Search transactions, addresses, namespaces & mosaics on the nem network.')}}
+                        </div>
 
-                    <div class="header-title">
-                        {{getNameByKey('Nem blockchain explorer')}}
-                    </div>
-                    <div class="header-sub-title">
-                        {{getNameByKey('Search transactions, addresses, namespaces & mosaics on the nem network.')}}
-                    </div>
-                    <SearchBox class='search-box' />
-                </b-col>
-                <b-col md="3" class="header-left">
-                    <LanguageSelector class="d-none d-md-block language-selector"/>
-                </b-col>
-            </b-row>
-        </b-container>
+                    </b-col>
+                    <b-col md="3" class="header-right">
+                        <SearchBox class='search-box' />
+                        <LanguageSelector class="d-none d-md-block language-selector"/>
+                    </b-col>
+                </b-row>
+            </b-container>
+        </div>
     </div>
 </template>
 
@@ -46,7 +48,7 @@ export default {
 
 <style lang="scss" scoped>
 .blue-gradinet {
-    background: linear-gradient(120deg, #1eaaa6 0%, #3d6597 100%);
+    background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
     background-size: 100% auto;
     position: relative;
 }
@@ -61,8 +63,15 @@ export default {
     width: 100%;
     height: 100%;
     background-repeat: no-repeat;
-    background-size: 46%;
-    background-position: 60% 0%;
+    background-size: 100%;
+}
+
+.width-limiter {
+    display: block;
+    width: 100%;
+    max-width: $header-max-width;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 @media (max-width: 764px) {
@@ -74,18 +83,25 @@ export default {
 
 @media (min-width: 764px) {
     .ex-header {
-        padding: 10px 60px;
+        padding: 10px 40px;
     }
 }
 
 .ex-header {
+    .header-left {
+        display: flex;
+        align-items: center;
+        min-height: 30px;
+
+        .header-logo {
+            width: 100%;
+            max-width: 200px;
+        }
+    }
+
     .header-center {
         text-align: center;
         margin: 5px 0;
-
-        .header-logo {
-            width: 30px;
-        }
 
         .header-title {
             color: #fff;
@@ -99,15 +115,16 @@ export default {
 
         .header-sub-title {
             color: #e4e4e4;
-            font-size: 14px;
+            font-size: 12px;
             margin-bottom: 15px;
         }
     }
 
-    .header-left {
-        justify-content: flex-end;
+    .header-right {
+        justify-content: space-around;
         align-items: flex-end;
         display: flex;
+        flex-direction: column;
         margin: 5px 0;
     }
 }

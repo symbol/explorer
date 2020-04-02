@@ -1,4 +1,4 @@
-import { Address, TransactionType, ReceiptType, ResolutionType, AccountRestrictionFlags } from 'nem2-sdk'
+import { Address, TransactionType, ReceiptType, ResolutionType, AccountRestrictionFlags } from 'symbol-sdk'
 import { Constants } from './config'
 import moment from 'moment'
 import http from './infrastructure/http'
@@ -33,6 +33,8 @@ const formatImportanceScore = importanceScore => {
 
   if (importanceScore)
     return (importanceScore / totalchainimportance)
+
+  return importanceScore
 }
 
 // FORMAT BLOCK
@@ -227,7 +229,7 @@ const formatTransactionBody = transactionBody => {
     return {
       type: Constants.TransactionType[TransactionType.NAMESPACE_REGISTRATION],
       transactionType: TransactionType.NAMESPACE_REGISTRATION,
-      recipient: Constants.NetworkConfig.NAMESPACE_RENTAL_FEE_SINK_ADDRESS,
+      recipient: Address.createFromPublicKey(Constants.NetworkConfig.NAMESPACE_RENTAL_FEE_SINK_PUBLIC_KEY, http.networkType).plain(),
       registrationType: Constants.NamespaceRegistrationType[transactionBody.registrationType],
       namespaceName: transactionBody.namespaceName,
       namespaceId: transactionBody.namespaceId.toHex(),
@@ -256,7 +258,7 @@ const formatTransactionBody = transactionBody => {
     return {
       type: Constants.TransactionType[TransactionType.MOSAIC_DEFINITION],
       transactionType: TransactionType.MOSAIC_DEFINITION,
-      recipient: Constants.NetworkConfig.MOSAIC_RENTAL_FEE_SINK_ADDRESS,
+      recipient: Address.createFromPublicKey(Constants.NetworkConfig.MOSAIC_RENTAL_FEE_SINK_PUBLIC_KEY, http.networkType).plain(),
       mosaicId: transactionBody.mosaicId.toHex(),
       divisibility: transactionBody.divisibility,
       duration: transactionBody.duration,
@@ -601,15 +603,6 @@ const formatResolutionStatements = resolutionStatements => {
   })
 }
 
-const formatNodesInfo = nodes => {
-  return nodes.map(node => ({
-    ...node,
-    address: Address.createFromPublicKey(node.publicKey, node.networkIdentifier).plain(),
-    roles: Constants.RoleType[node.roles],
-    network: Constants.NetworkType[node.networkIdentifier]
-  }))
-}
-
 const formatAccountRestrictions = accountRestrictions => {
   return accountRestrictions.map(accountRestriction => {
     switch (accountRestriction.restrictionFlags) {
@@ -678,7 +671,6 @@ export default {
   formatMetadatas,
   formatReceiptStatements,
   formatResolutionStatements,
-  formatNodesInfo,
   sortMosaics,
   formatAccountRestrictions,
   formatMosaicRestriction

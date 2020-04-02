@@ -44,7 +44,7 @@ export default {
     colors: {
       type: Array,
 
-      default: () => ['#1eaaa6', '#f2e013', '#f29913']
+      default: () => ['#904d9c', '#f2e013', '#f29913']
 
     },
 
@@ -128,6 +128,16 @@ export default {
         },
         tooltip: {
           enabled: true
+        },
+        legend: {
+          show: true,
+          showForSingleSeries: true,
+          showForNullSeries: true,
+          showForZeroSeries: true,
+          position: 'bottom',
+          horizontalAlign: 'center',
+          height: 30,
+          offsetY: 8
         }
       }
     }

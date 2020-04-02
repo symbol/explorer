@@ -1,0 +1,31 @@
+// --- Symbol color palette ---
+
+$primary-color: #5200c6;
+$secondary-color: #44004e;
+$red-color: red;
+$pink-color: #f0f;
+$blue-color: #00c8ff;
+$green-color: #33dd50;
+$orange-color: #ff9600;
+
+// --- General colors --- 
+
+$title-text-color: $pink-color;
+$link-text-color: $primary-color;
+
+
+// --- TableView colors
+
+$table-text-color: $secondary-color;
+$table-text-color-light: #44004e91;
+$table-header-text-color: $secondary-color;
+$table-title-text-color: $secondary-color;
+$table-striped-color-first: #f2f2f244;
+$table-striped-color-second: #fff;
+
+// --- Body width-limiter
+
+$header-max-width: 2400px;
+$navmenu-max-width: 2400px;
+$page-max-width: 1920px;
+$footer-max-width: 2400px;

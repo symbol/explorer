@@ -17,6 +17,7 @@
                     sm="6"
                     md="3"
                     lg="6"
+                    xl="12"
                     v-for="(item, index) in transactionList"
                     :key="'recent_blocks_'+index+'_'+item.height"
                 >
@@ -36,10 +37,10 @@
                         <template #body>
                             <div class="ex-row no-wrap">
                                 <div class="ex-text">
-                                    {{getNameByKey('block')}}: {{ item.blockHeight }}
+                                    {{getNameByKey('block')}}: {{ item.height }}
                                 </div>
-                                <div class="ex-long-text ex-text" :title="'Type: ' + item.transactionBody.type" style="margin-left: 20px">
-                                    {{ item.transactionBody.type }}
+                                <div class="ex-long-text ex-text" :title="'Type: ' + item.type" style="margin-left: 20px">
+                                    {{ item.type }}
                                 </div>
                             </div>
                             <div class="ex-row no-wrap">
@@ -98,7 +99,7 @@ export default {
     padding: 0;
     left: 0;
     top: 0;
-    background: #78b6e4;
+    background: #ab5cb9;
     border-top-left-radius: 3px;
     border-bottom-left-radius: 3px;
 }

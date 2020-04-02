@@ -16,7 +16,7 @@
  *
  */
 import router from '../router'
-import { Address, AccountHttp } from 'nem2-sdk'
+import { Address, AccountHttp } from 'symbol-sdk'
 import { i18n } from '../config'
 import sdkMosaic from '../infrastructure/getMosaic'
 import sdkNamespace from '../infrastructure/getNamespace'
@@ -135,7 +135,7 @@ export default {
     search: ({ dispatch, rootGetters }, searchString) => {
       return new Promise(async (resolve, reject) => {
         if (searchString !== null && searchString !== '') {
-          searchString = searchString.replace(/\s/g, '')
+          searchString = searchString.replace(/\s|-/g, '')
           if (helper.isBlockHeight(searchString)) {
             dispatch('openPage', {
               pageName: 'block',

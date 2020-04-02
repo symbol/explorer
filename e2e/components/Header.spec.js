@@ -1,15 +1,15 @@
-describe('NEM2 Explorer Header should', () => {
+describe('Symbol Explorer Header should', () => {
     beforeEach(() => {
         cy.visit('/')
     })
 
     it('contain correct logo and title', () => {
         cy.get('.header-title')
-        .contains('Nem blockchain explorer')
+        .contains('Symbol blockchain explorer')
 
         cy.get('.header-logo')
         .should('have.attr', 'src')
-        .and('equal', '/theme/img/logo-w.png')
+        .and('contain', 'symbol_logo')
 
     })
 

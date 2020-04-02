@@ -17,63 +17,52 @@
  */
 
 import Lock from './lock'
-import Timeline from './timeline'
 import Constants from '../config/constants'
 import sdkNamespace from '../infrastructure/getNamespace'
+import {
+  DataSet,
+  Timeline,
+  getStateFromManagers,
+  getGettersFromManagers,
+  getMutationsFromManagers,
+  getActionsFromManagers
+} from './manager'
 
 const LOCK = Lock.create()
+
+const managers = [
+  new Timeline(
+    'timeline',
+    () => sdkNamespace.getNamespacesFromIdWithLimit(Constants.PageSize),
+    (key, pageSize) => sdkNamespace.getNamespacesFromIdWithLimit(pageSize, key),
+    'namespaceId'
+  ),
+  new DataSet(
+    'info',
+    (namespaceOrHex) => sdkNamespace.getNamespaceInfoFormatted(namespaceOrHex)
+  )
+]
 
 export default {
   namespaced: true,
   state: {
     // If the state has been initialized.
     initialized: false,
-    // Timeline of data current in the view.
-    timeline: Timeline.empty(),
-    // Determine if the namespaces model is loading.
-    loading: false,
-    // Determine if the namespaces model has an error.
-    error: false,
-    // The Namespace detail information.
-    namespaceInfo: {},
-    // The Namespace Level.
-    namespaceLevels: [],
-    // The Namespace Metadata list.
-    metadataList: [],
-    namespaceInfoLoading: false,
-    namespaceInfoError: false
+    ...getStateFromManagers(managers)
   },
   getters: {
     getInitialized: state => state.initialized,
-    getTimeline: state => state.timeline,
-    getCanFetchPrevious: state => state.timeline.canFetchPrevious,
-    getCanFetchNext: state => state.timeline.canFetchNext,
-    getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
-      namespaceName: el.namespaceName,
-      owneraddress: el.address,
-      duration: el.duration,
-      approximateExpired: el.approximateExpired
-    })),
-    getLoading: state => state.loading,
-    getError: state => state.error,
-    getNamespaceInfo: state => state.namespaceInfo,
-    getNamespaceLevels: state => state.namespaceLevels,
-    getMetadataList: state => state.metadataList,
-    namespaceInfoLoading: state => state.namespaceInfoLoading,
-    namespaceInfoError: state => state.namespaceInfoError
+    getNamespaceInfo: state => state.info?.data?.namespaceInfo || {},
+    getNamespaceLevels: state => state.info?.data?.namespaceLevels || [],
+    getMetadataList: state => state.info?.data?.metadataList || [],
+    ...getGettersFromManagers(managers)
   },
   mutations: {
     setInitialized: (state, initialized) => { state.initialized = initialized },
-    setTimeline: (state, timeline) => { state.timeline = timeline },
-    setLoading: (state, loading) => { state.loading = loading },
-    setError: (state, error) => { state.error = error },
-    setNamespaceInfo: (state, info) => { state.namespaceInfo = info },
-    setNamespaceLevels: (state, levels) => { state.namespaceLevels = levels },
-    setMetadataList: (state, metadataList) => { state.metadataList = metadataList },
-    namespaceInfoLoading: (state, v) => { state.namespaceInfoLoading = v },
-    namespaceInfoError: (state, v) => { state.namespaceInfoError = v }
+    ...getMutationsFromManagers(managers)
   },
   actions: {
+    ...getActionsFromManagers(managers),
     // Initialize the namespace model.
     async initialize({ commit, dispatch, getters }) {
       const callback = async () => {
@@ -84,100 +73,20 @@ export default {
 
     // Uninitialize the namespace model.
     async uninitialize({ commit, dispatch, getters }) {
-      const callback = async () => {}
+      const callback = async () => {
+        getters.timeline?.uninitialize()
+      }
       await LOCK.uninitialize(callback, commit, dispatch, getters)
     },
 
     // Fetch data from the SDK and initialize the page.
-    async initializePage({ commit }) {
-      commit('setLoading', true)
-      commit('setError', false)
-      try {
-        let namespaceList = await sdkNamespace.getNamespacesFromIdWithLimit(2 * Constants.PageSize)
-        commit('setTimeline', Timeline.fromData(namespaceList))
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
-    },
-
-    // Fetch the next page of data.
-    async fetchNextPage({ commit, getters }) {
-      commit('setLoading', true)
-      commit('setError', false)
-      const timeline = getters.getTimeline
-      const list = timeline.next
-      try {
-        if (list.length === 0)
-          throw new Error('internal error: next list is 0.')
-
-        const namespace = list[list.length - 1]
-        const fetchNext = pageSize => sdkNamespace.getNamespacesFromIdWithLimit(pageSize, namespace.namespaceId)
-        commit('setTimeline', await timeline.shiftNext(fetchNext))
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
-    },
-
-    // Fetch the previous page of data.
-    async fetchPreviousPage({ commit, getters }) {
-      commit('setLoading', true)
-      commit('setError', false)
-      const timeline = getters.getTimeline
-      const list = timeline.previous
-      try {
-        if (list.length === 0)
-          throw new Error('internal error: previous list is 0.')
-
-        const namespace = list[0]
-        const fetchPrevious = pageSize => sdkNamespace.getNamespacesSinceIdWithLimit(pageSize, namespace.id)
-        const fetchLive = pageSize => sdkNamespace.getNamespacesSinceIdWithLimit(pageSize)
-        commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
-    },
-
-    // Reset the namespace page to the latest list (index 0)
-    async resetPage({ commit, getters }) {
-      commit('setLoading', true)
-      commit('setError', false)
-      try {
-        if (!getters.getTimeline.isLive) {
-          const data = await sdkNamespace.getNamespacesFromIdWithLimit(2 * Constants.PageSize)
-          commit('setTimeline', Timeline.fromData(data))
-        }
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
+    async initializePage(context) {
+      await context.getters.timeline.setStore(context).initialFetch()
     },
 
     // Fetch data from the SDK.
-    async fetchNamespaceInfo({ commit }, namespaceOrHex) {
-      commit('namespaceInfoError', false)
-      commit('namespaceInfoLoading', true)
-
-      let namespaceInfo
-
-      try { namespaceInfo = await sdkNamespace.getNamespaceInfoFormatted(namespaceOrHex) } catch (e) {
-        console.error(e)
-        commit('namespaceInfoError', true)
-      }
-
-      if (namespaceInfo) {
-        commit('setNamespaceInfo', namespaceInfo.namespaceInfo)
-        commit('setNamespaceLevels', namespaceInfo.namespaceLevels)
-        commit('setMetadataList', namespaceInfo.metadataList)
-      }
-
-      commit('namespaceInfoLoading', false)
+    async fetchNamespaceInfo(context, namespaceOrHex) {
+      await context.getters.info.setStore(context).initialFetch(namespaceOrHex)
     }
   }
 }

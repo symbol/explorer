@@ -45,7 +45,7 @@ export default {
 <style lang="scss" scoped>
 .ex-card {
     //padding: 20px;
-    box-shadow: 0 1px 15px 1px rgba(52, 40, 104, 0.18);
+    box-shadow: 0 1px 15px 1px #da50da2c;
     background: #fff;
     border-radius: 4px;
     border: none;
@@ -62,7 +62,8 @@ export default {
         margin-bottom: 10px;
         font-size: 16px;
         font-weight: 500;
-        color: #393939;
+        // color: #393939;
+        color: $title-text-color;
     }
 
     .ex-card-body {

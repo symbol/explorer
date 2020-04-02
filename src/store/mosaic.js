@@ -17,70 +17,53 @@
  */
 
 import Lock from './lock'
-import Timeline from './timeline'
 import Constants from '../config/constants'
 import sdkMosaic from '../infrastructure/getMosaic'
+import {
+  DataSet,
+  Timeline,
+  getStateFromManagers,
+  getGettersFromManagers,
+  getMutationsFromManagers,
+  getActionsFromManagers
+} from './manager'
+
+const managers = [
+  new Timeline(
+    'timeline',
+    () => sdkMosaic.getMosaicsFromIdWithLimit(Constants.PageSize),
+    (key, pageSize) => sdkMosaic.getMosaicsFromIdWithLimit(pageSize, key),
+    'mosaicId'
+  ),
+  new DataSet(
+    'info',
+    (mosaicHexOrNamespace) => sdkMosaic.getMosaicInfoFormatted(mosaicHexOrNamespace)
+  )
+]
 
 const LOCK = Lock.create()
 
 export default {
   namespaced: true,
   state: {
+    ...getStateFromManagers(managers),
     // If the state has been initialized.
-    initialized: false,
-    // Timeline of data current in the view.
-    timeline: Timeline.empty(),
-    // Determine if the mosaics model is loading.
-    loading: false,
-    // Determine if the mosaics model has an error.
-    error: false,
-    // The Mosaic detail information.
-    mosaicInfo: {},
-    // The Mosaic Metadata list.
-    metadataList: [],
-    // The Mosaic Restriction list.
-    mosaicRestrictionList: [],
-    // The Mosaic Restriction information.
-    mosaicRestrictionInfo: {},
-    mosaicInfoLoading: false,
-    mosaicInfoError: false
+    initialized: false
   },
   getters: {
+    ...getGettersFromManagers(managers),
     getInitialized: state => state.initialized,
-    getTimeline: state => state.timeline,
-    getCanFetchPrevious: state => state.timeline.canFetchPrevious,
-    getCanFetchNext: state => state.timeline.canFetchNext,
-    getTimelineFormatted: (state, getters) => getters.getTimeline.current.map(el => ({
-      mosaicId: el.mosaicId,
-      mosaicAliasName: el.mosaicAliasName,
-      owneraddress: el.address,
-      supply: el.supply,
-      divisibility: el.divisibility,
-      relativeAmount: el.relativeAmount,
-      startHeight: el.startHeight
-    })),
-    getLoading: state => state.loading,
-    getError: state => state.error,
-    getMosaicInfo: state => state.mosaicInfo,
-    getMetadataList: state => state.metadataList,
-    getMosaicRestrictionList: state => state.mosaicRestrictionList,
-    getMosaicRestrictionInfo: state => state.mosaicRestrictionInfo,
-    mosaicInfoLoading: state => state.mosaicInfoLoading,
-    mosaicInfoError: state => state.mosaicInfoError
+    getMosaicInfo: state => state.info?.data.mosaicInfo || {},
+    getMetadataList: state => state.info?.data.metadataList || [],
+    getMosaicRestrictionList: state => state.info?.data.mosaicRestrictionList || [],
+    getMosaicRestrictionInfo: state => state.info?.data.mosaicRestrictionInfo || {}
   },
   mutations: {
-    setInitialized: (state, initialized) => { state.initialized = initialized },
-    setTimeline: (state, timeline) => { state.timeline = timeline },
-    setLoading: (state, loading) => { state.loading = loading },
-    setError: (state, error) => { state.error = error },
-    setMosaicInfo: (state, mosaicInfo) => { state.mosaicInfo = mosaicInfo },
-    setMetadataList: (state, metadataList) => { state.metadataList = metadataList },
-    setMosaicRestrictionList: (state, mosaicRestrictionList) => { state.mosaicRestrictionList = mosaicRestrictionList },
-    setMosaicRestrictionInfo: (state, mosaicRestrictionInfo) => { state.mosaicRestrictionInfo = mosaicRestrictionInfo },
-    mosaicInfoLoading: (state, v) => { state.mosaicInfoLoading = v },
-    mosaicInfoError: (state, v) => { state.mosaicInfoError = v }
+    ...getMutationsFromManagers(managers),
+    setInitialized: (state, initialized) => { state.initialized = initialized }
   },
   actions: {
+    ...getActionsFromManagers(managers),
     // Initialize the mosaic model.
     async initialize({ commit, dispatch, getters }) {
       const callback = async () => {
@@ -91,103 +74,20 @@ export default {
 
     // Uninitialize the mosaic model.
     async uninitialize({ commit, dispatch, getters }) {
-      const callback = async () => {}
+      const callback = async () => {
+        getters.timeline?.uninitialize()
+      }
       await LOCK.uninitialize(callback, commit, dispatch, getters)
     },
 
     // Fetch data from the SDK and initialize the page.
-    async initializePage({ commit }) {
-      commit('setLoading', true)
-      commit('setError', false)
-      try {
-        let mosaicList = await sdkMosaic.getMosaicsFromIdWithLimit(2 * Constants.PageSize)
-        commit('setTimeline', Timeline.fromData(mosaicList))
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
-    },
-
-    // Fetch the next page of data.
-    async fetchNextPage({ commit, getters }) {
-      commit('setLoading', true)
-      commit('setError', false)
-      const timeline = getters.getTimeline
-      const list = timeline.next
-      try {
-        if (list.length === 0)
-          throw new Error('internal error: next list is 0.')
-
-        const mosaic = list[list.length - 1]
-        const fetchNext = pageSize => sdkMosaic.getMosaicsFromIdWithLimit(pageSize, mosaic.mosaicId)
-        commit('setTimeline', await timeline.shiftNext(fetchNext))
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
-    },
-
-    // Fetch the previous page of data.
-    async fetchPreviousPage({ commit, getters }) {
-      commit('setLoading', true)
-      commit('setError', false)
-      const timeline = getters.getTimeline
-      const list = timeline.previous
-      try {
-        if (list.length === 0)
-          throw new Error('internal error: previous list is 0.')
-
-        const mosaic = list[0]
-        const fetchPrevious = pageSize => sdkMosaic.getMosaicsSinceIdWithLimit(pageSize, mosaic.id)
-        const fetchLive = pageSize => sdkMosaic.getMosaicsSinceIdWithLimit(pageSize)
-        commit('setTimeline', await timeline.shiftPrevious(fetchPrevious, fetchLive))
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
-    },
-
-    // Reset the mosaic page to the latest list (index 0)
-    async resetPage({ commit, getters }) {
-      commit('setLoading', true)
-      commit('setError', false)
-      try {
-        if (!getters.getTimeline.isLive) {
-          const data = await sdkMosaic.getMosaicsFromIdWithLimit(2 * Constants.PageSize)
-          commit('setTimeline', Timeline.fromData(data))
-        }
-      } catch (e) {
-        console.error(e)
-        commit('setError', true)
-      }
-      commit('setLoading', false)
+    async initializePage(context) {
+      await context.getters.timeline.setStore(context).initialFetch()
     },
 
     // Fetch data from the SDK.
-    async fetchMosaicInfo({ commit }, mosaicHexOrNamespace) {
-      commit('mosaicInfoError', false)
-      commit('mosaicInfoLoading', true)
-
-      let mosaicInfo
-
-      try {
-        mosaicInfo = await sdkMosaic.getMosaicInfoFormatted(mosaicHexOrNamespace)
-      } catch (e) {
-        console.error(e)
-        commit('mosaicInfoError', true)
-      }
-
-      if (mosaicInfo) {
-        commit('setMosaicInfo', mosaicInfo.mosaicInfo)
-        commit('setMetadataList', mosaicInfo.metadataList)
-        commit('setMosaicRestrictionInfo', mosaicInfo.mosaicRestrictionInfo)
-        commit('setMosaicRestrictionList', mosaicInfo.mosaicRestrictionList)
-      }
-
-      commit('mosaicInfoLoading', false)
+    async fetchMosaicInfo(context, mosaicHexOrNamespace) {
+      await context.getters.info.setStore(context).initialFetch(mosaicHexOrNamespace)
     }
   }
 }

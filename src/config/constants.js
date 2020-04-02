@@ -15,7 +15,7 @@ import {
   AccountRestrictionFlags,
   MosaicRestrictionEntryType,
   MosaicRestrictionType
-} from 'nem2-sdk'
+} from 'symbol-sdk'
 
 class Constants {
   static PageSize = 25
@@ -32,8 +32,8 @@ class Constants {
   }
 
   static NetworkConfig = {
-    MOSAIC_RENTAL_FEE_SINK_ADDRESS: globalConfig.networkConfig.MosaicRentalSinkAddress,
-    NAMESPACE_RENTAL_FEE_SINK_ADDRESS: globalConfig.networkConfig.NamespaceRentalSinkAddress,
+    MOSAIC_RENTAL_FEE_SINK_PUBLIC_KEY: globalConfig.networkConfig.MosaicRentalSinkPublicKey,
+    NAMESPACE_RENTAL_FEE_SINK_PUBLIC_KEY: globalConfig.networkConfig.NamespaceRentalSinkPublicKey,
     NAMESPACE: globalConfig.networkConfig.Namespace,
     NATIVE_MOSAIC_HEX: globalConfig.networkConfig.NativeMosaicHex,
     NATIVE_MOSAIC_DIVISIBILITY: globalConfig.networkConfig.NativeMosaicDivisibility,
@@ -51,7 +51,7 @@ class Constants {
     [TransactionType.MOSAIC_ALIAS]: 'Mosaic Alias',
     [TransactionType.MOSAIC_DEFINITION]: 'Mosaic Definition',
     [TransactionType.MOSAIC_SUPPLY_CHANGE]: 'Mosaic Supply Change',
-    [TransactionType.MULTISIG_ACCOUNT_MODIFICATION]: 'Multisig Account Modify ',
+    [TransactionType.MULTISIG_ACCOUNT_MODIFICATION]: 'Multisig Account Modification',
     [TransactionType.AGGREGATE_COMPLETE]: 'Aggregate Complete',
     [TransactionType.AGGREGATE_BONDED]: 'Aggregate Bonded',
     [TransactionType.HASH_LOCK]: 'Hash Lock',

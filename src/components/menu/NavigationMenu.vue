@@ -1,18 +1,20 @@
 <template>
     <header class="ex-menu" :class="{'ex-menu-fixed': fixed}" ref="DesktopMenu">
-        <router-link to="/" :class="{'hide': !fixed}">
-            <img src="/theme/img/logo-w.png" class="menu-logo"/>
-        </router-link>
-        <router-link
-            v-for="item in items"
-            :key="'dsktp_mn_'+getNameByKey(item.text)"
-            class="ex-menu-item"
-            :to="item.to" exact active-class="active"
-        >
-            <component :is="item.icon" class="menu-icon"/>
-            <i :class="item.classname"></i>
-            <span>{{getNameByKey(item.text)}}</span>
-        </router-link>
+        <div class="width-limiter">
+            <router-link to="/" :class="{'hide': !fixed}">
+                <img src="../../styles/img/logo-w.png" class="menu-logo"/>
+            </router-link>
+            <router-link
+                v-for="item in items"
+                :key="'dsktp_mn_'+getNameByKey(item.text)"
+                class="ex-menu-item"
+                :to="item.to" exact active-class="active"
+            >
+                <component :is="item.icon" class="menu-icon"/>
+                <i :class="item.classname"></i>
+                <span>{{getNameByKey(item.text)}}</span>
+            </router-link>
+        </div>
     </header>
 </template>
 
@@ -69,18 +71,27 @@ export default {
 
 <style lang="scss" scoped>
 .ex-menu {
-    background: #0998a6;
-    box-shadow: 0 2px 10px 2px rgba(0, 0, 0, 0.2);
+    background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
+    box-shadow: 0 2px 10px 2px rgba(0, 0, 0, 0.5);
     padding: 0 60px;
     position: relative;
 
+    .width-limiter {
+        display: block;
+        width: 100%;
+        max-width: $navmenu-max-width;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
     .menu-logo {
         width: 30px;
+        margin-right: 15px;
     }
 
     .ex-menu-item {
         padding: 0 20px;
-        color: #fff;
+        color: var(--light);
         text-decoration: none;
         letter-spacing: 1px;
         position: relative;
@@ -91,7 +102,7 @@ export default {
         line-height: 40px;
 
         .menu-icon {
-            margin-right: 5px;
+            margin-right: 10px;
         }
     }
 
@@ -102,7 +113,7 @@ export default {
         left: 0;
         width: 100%;
         height: 3px;
-        background: #fff;
+        background: var(--light);
         transition: all 0.2s ease-in-out;
     }
 }

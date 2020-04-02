@@ -3,10 +3,17 @@
         {
             "path": "/blocks",
             "name": "blocks",
+            "meta": {
+                "group": "list-page",
+                "keepAliveGoTo": ["detail-page"]
+            },
             "props": {
-                "storeNamespace": "block",
                 "title": "blocks",
                 "hasInfoText": true,
+                "storeNamespaces": ["block"],
+                "managerGetter": "block/timeline",
+                "dataGetter": "block/getTimelineFormatted",
+                "infoTextGetter": "block/infoText",
                 "mobileColumns": [
                     "height",
                     "age",
@@ -18,9 +25,14 @@
         {
             "path": "/transactions",
             "name": "transactions",
+            "meta": {
+                "group": "list-page",
+                "keepAliveGoTo": ["detail-page"]
+            },
             "props": {
-                "storeNamespace": "transaction",
                 "title": "transactions",
+                "storeNamespaces": ["transaction"],
+                "managerGetter": "transaction/timeline",
                 "hasFilter": true,
                 "mobileColumns": [
                     "height",
@@ -34,10 +46,15 @@
         {
             "path": "/accounts",
             "name": "accounts",
+            "meta": {
+                "group": "list-page",
+                "keepAliveGoTo": ["detail-page"]
+            },
             "props": {
-                "storeNamespace": "account",
                 "title": "accounts",
                 "hasFilter": true,
+                "managerGetter": "account/timeline",
+                "storeNamespaces": ["account"],
                 "mobileColumns": [
                     "address",
                     "importance",
@@ -48,9 +65,14 @@
         {
             "path": "/namespaces",
             "name": "namespaces",
+            "meta": {
+                "group": "list-page",
+                "keepAliveGoTo": ["detail-page"]
+            },
             "props": {
-                "storeNamespace": "namespace",
                 "title": "namespaces",
+                "storeNamespaces": ["namespace"],
+                "managerGetter": "namespace/timeline",
                 "mobileColumns": [
                     "namespaceName",
                     "owneraddress",
@@ -61,9 +83,14 @@
         {
             "path": "/mosaics",
             "name": "mosaics",
+            "meta": {
+                "group": "list-page",
+                "keepAliveGoTo": ["detail-page"]
+            },
             "props": {
-                "storeNamespace": "mosaic",
                 "title": "mosaics",
+                "storeNamespaces": ["mosaic"],
+                "managerGetter": "mosaic/timeline",
                 "mobileColumns": [
                     "mosaicId",
                     "mosaicAliasName",
@@ -74,9 +101,24 @@
         {
             "path": "/nodes",
             "name": "nodes",
+            "meta": {
+                "group": "list-page",
+                "keepAliveGoTo": ["detail-page"]
+            },
             "props": {
-                "storeNamespace": "node",
                 "title": "nodes",
+                "storeNamespaces": ["node"],
+                "managerGetter": "node/timeline",
+                "columns": [
+                    "index",
+                    "version",
+                    "roles",
+                    "network",
+                    "host",
+                    "port",
+                    "address",
+                    "friendlyName"
+                ],
                 "mobileColumns": [
                     "index",
                     "roles",

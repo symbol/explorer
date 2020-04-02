@@ -17,7 +17,7 @@
  */
 
 import axios from 'axios'
-import { Address } from 'nem2-sdk'
+import { Address } from 'symbol-sdk'
 import dto from './dto'
 import http from './http'
 import format from '../format'
@@ -97,8 +97,15 @@ class sdkAccount {
     const path = `/accounts/${accountType}/from/${address}/limit/${limit}`
     const response = await axios.get(http.nodeUrl + path)
     const accounts = response.data.map(info => dto.createAccountInfoFromDTO(info, http.networkType))
-
-    return formatAccountNames(accounts)
+    const accountNames = await formatAccountNames(accounts)
+    return accountNames
+      ?.map(el => ({
+        address: el.address.plain(),
+        // TODO(ahuszagh) Need balance....
+        lastActivity: el.lastActivity,
+        importance: el.importance,
+        info: el.accountAliasName || ''
+      })) || []
   }
 
   static getAccountsSinceAddressWithLimit = async (limit, accountType, sinceAddress) => {
@@ -114,6 +121,13 @@ class sdkAccount {
     const accounts = response.data.map(info => dto.createAccountInfoFromDTO(info, http.networkType))
 
     return formatAccountNames(accounts)
+      ?.map(el => ({
+        address: el.address.plain(),
+        // TODO(ahuszagh) Need balance....
+        lastActivity: el.lastActivity,
+        importance: el.importance,
+        info: el.accountAliasName || ''
+      })) || []
   }
 
   static getAccountInfoByAddressFormatted = async address => {
@@ -211,7 +225,7 @@ class sdkAccount {
       mosaicList: mosaicList || [],
       multisigInfo: formattedAccountMultisig || [],
       multisigCosignatoriesList: accountMultisigCosignatories || [],
-      tansactionList: formattedTansactionList || [],
+      transactionList: formattedTansactionList || [],
       namespaceList: formattedNamespaceList || [],
       activityBuckets: activityBuckets || [],
       metadataList: metadataList || [],
