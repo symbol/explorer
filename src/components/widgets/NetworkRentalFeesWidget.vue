@@ -49,7 +49,7 @@ export default {
   computed: {
     ...mapGetters({
       rentalFees: 'statistics/getNetworkRentalFees',
-      loading: 'statistics/getLoading',
+      loading: 'statistics/getLoadingInfo',
       error: 'statistics/getError'
     })
   },
