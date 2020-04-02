@@ -19,33 +19,29 @@
 <template>
   <b-container fluid class="px-0 py-0">
         <b-row class="my-4 mx-0 mx-xs-0 mx-md-4 mx-lg-8">
-            <b-col xs="12" md="12" lg="6">
-                <NetworkFeesWidget1 />
-            </b-col>
-            <!-- <b-col xs="12" md="12" lg="6">
-                <NetworkRentalFeesWidget />
-            </b-col> -->
-            <b-col xs="12" md="12" lg="6">
-                <ChartTransactionPerDay />
-            </b-col>
-        </b-row>
-        <b-row class="mx-md-4">
-            <b-col xs="12" md="12" lg="6">
+            <b-col xs="12" md="12" lg="9">
                 <ChartBlockTimeDifference />
             </b-col>
-            <b-col xs="12" md="12" lg="6">
+            <b-col xs="12" md="12" lg="3" style="display: flex">
+                <NetworkFeesWidget style="width: 100%" />
+            </b-col>
+        </b-row>
+
+        <b-row class="my-4 mx-0 mx-xs-0 mx-md-4 mx-lg-8">
+            <b-col xs="12" md="12" lg="9">
                 <ChartTransactionPerBlock />
+            </b-col>
+            <b-col xs="12" md="12" lg="3" style="display: flex">
+                <NetworkRentalFeesWidget style="width: 100%" />
             </b-col>
         </b-row>
     </b-container>
 </template>
 <script>
 import NetworkFeesWidget from '@/components/widgets/NetworkFeesWidget.vue'
-import NetworkFeesWidget1 from '@/components/widgets/NetworkFeesWidget-1.vue'
 import NetworkRentalFeesWidget from '@/components/widgets/NetworkRentalFeesWidget.vue'
 import ChartBlockTimeDifference from '@/components/widgets/ChartBlockTimeDifference.vue'
 import ChartTransactionPerBlock from '@/components/widgets/ChartTransactionPerBlock.vue'
-import ChartTransactionPerDay from '@/components/widgets/ChartTransactionPerDay.vue'
 
 export default {
   name: 'Statistics',
@@ -53,9 +49,7 @@ export default {
     NetworkFeesWidget,
     NetworkRentalFeesWidget,
     ChartBlockTimeDifference,
-    ChartTransactionPerBlock,
-    NetworkFeesWidget1,
-    ChartTransactionPerDay
+    ChartTransactionPerBlock
   },
   methods: {},
   mounted() {
