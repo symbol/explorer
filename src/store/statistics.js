@@ -17,7 +17,7 @@
  */
 
 import Lock from './lock'
-import { NetworkService } from '../infrastructure'
+import { NetworkService, StatService } from '../infrastructure'
 
 const LOCK = Lock.create()
 
@@ -27,32 +27,38 @@ export default {
     // If the state has been initialized.
     initialized: false,
     loading: false,
+    loadingInfo: false,
+    loadingBlockTimeDifference: false,
+    loadingTransactionPerBlock: false,
     error: false,
     networkTransactionFees: [],
     networkRentalFees: [],
     blockTimeDifferenceData: [],
-    transactionPerBlockData: [],
-    transactionPerDayData: []
+    transactionPerBlockData: []
   },
   getters: {
     getInitialized: state => state.initialized,
     getLoading: state => state.loading,
+    getLoadingInfo: state => state.loadingInfo,
+    getLoadingBlockTimeDifference: state => state.loadingBlockTimeDifference,
+    getLoadingTransactionPerBlock: state => state.loadingTransactionPerBlock,
     getError: state => state.error,
     getNetworkTransactionFees: state => state.networkTransactionFees,
     getNetworkRentalFees: state => state.networkRentalFees,
     getBlockTimeDifferenceData: state => state.blockTimeDifferenceData,
-    getTransactionPerBlockData: state => state.transactionPerBlockData,
-    getTransactionPerDayData: state => state.transactionPerDayData
+    getTransactionPerBlockData: state => state.transactionPerBlockData
   },
   mutations: {
     setInitialized: (state, initialized) => { state.initialized = initialized },
     setLoading: (state, loading) => { state.loading = loading },
+    setLoadingInfo: (state, loadingInfo) => { state.loadingInfo = loadingInfo },
+    setLoadingBlockTimeDifference: (state, loadingBlockTimeDifference) => { state.loadingBlockTimeDifference = loadingBlockTimeDifference },
+    setLoadingTransactionPerBlock: (state, loadingTransactionPerBlock) => { state.loadingTransactionPerBlock = loadingTransactionPerBlock },
     setError: (state, error) => { state.error = error },
     setNetworkTransactionFees: (state, networkTransactionFees) => { state.networkTransactionFees = networkTransactionFees },
     setNetworkRentalFees: (state, networkRentalFees) => { state.networkRentalFees = networkRentalFees },
     setBlockTimeDifferenceData: (state, blockTimeDifferenceData) => { state.blockTimeDifferenceData = blockTimeDifferenceData },
-    setTransactionPerBlockData: (state, transactionPerBlockData) => { state.transactionPerBlockData = transactionPerBlockData },
-    setTransactionPerDayData: (state, transactionPerDayData) => { state.transactionPerDayData = transactionPerDayData }
+    setTransactionPerBlockData: (state, transactionPerBlockData) => { state.transactionPerBlockData = transactionPerBlockData }
   },
   actions: {
     // Initialize the statistics model.
@@ -72,13 +78,26 @@ export default {
     // Fetch data from the SDK / API and initialize the page.
     async initializePage({ commit }) {
       commit('setLoading', true)
+      commit('setLoadingInfo', true)
+      commit('setLoadingBlockTimeDifference', true)
+      commit('setLoadingTransactionPerBlock', true)
+
       commit('setError', false)
       try {
         let transactionFeesInfo = await NetworkService.getTransactionFeesInfo()
         let rentalFeesInfo = await NetworkService.getRentalFeesInfo()
-
         commit('setNetworkTransactionFees', transactionFeesInfo)
         commit('setNetworkRentalFees', rentalFeesInfo)
+        commit('setLoadingInfo', false)
+
+        let blockTimeDifferenceDataset = await StatService.getBlockTimeDifferenceData(240, 60)
+        commit('setBlockTimeDifferenceData', blockTimeDifferenceDataset)
+        commit('setLoadingBlockTimeDifference', false)
+
+        let transactionPerBlockDataset = await StatService.getTransactionPerBlockData(240, 60)
+        commit('setTransactionPerBlockData', transactionPerBlockDataset)
+        commit('setLoadingTransactionPerBlock', false)
+
       } catch (e) {
         console.error(e)
         commit('setError', true)
