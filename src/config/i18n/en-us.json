@@ -146,8 +146,8 @@
     "approximateExpired": "Approximate Expired",
     "expiredInBlock": "Expired In Block",
     "index": "No.",
-    "Network Fees": "Recommended Network Fees Multiplier",
-    "Network Rental Fees": "Effective Rental Fees",
+    "Network Fees": "Recommended Fees Multiplier",
+    "Network Rental Fees": "Effective Rental Fees (XYM)",
     "highestFeeMultiplier": "Highest",
     "averageFeeMultiplier": "Average",
     "medianFeeMultiplier": "Median",
@@ -176,5 +176,8 @@
     "previousRestrictionValue": "Previous Restriction Value",
     "newRestrictionType": "New Restriction Type",
     "newRestrictionValue": "New Restriction Value",
-    "proof": "Proof"
+    "proof": "Proof",
+    "effectiveRootNamespaceRentalFeePerBlock": "Root Namespace Rental Fee / Block",
+    "effectiveChildNamespaceRentalFee": "Child Namespace Rental Fee",
+    "effectiveMosaicRentalFee": "Mosaic Rental Fee"
 }

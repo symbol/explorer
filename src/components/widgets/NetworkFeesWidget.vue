@@ -7,26 +7,37 @@
         <template #body>
             <b-container fluid>
             <b-row>
-                <b-col
-                    sm="4"
-                    md="4"
-                    lg="4"
-                    v-for="(item, index) in networkTransactionFees"
-                    :key="'network_fee'+index+'_'+item.netoworkFeesType"
-                >
-                    <Card
-                        class='card-item'
-                        :item="item"
-                        :loading="loading"
-                        :error="error"
-                    >
-                        <template #header>
-                            {{getNameByKey(item.netoworkFeesType)}}
-                        </template>
-                        <template #body>
-                            <Decimal :value="item.fees" />
-                        </template>
-                    </Card>
+               <b-col class="ex-item" sm="3" lg="12">
+                    <div class="ex-item-title">
+                        {{getNameByKey('averageFeeMultiplier')}}
+                    </div>
+                    <div class="ex-item-value">
+                        {{transactionFees.averageFeeMultiplier}}
+                    </div>
+                </b-col>
+                <b-col class="ex-item" sm="3" lg="12">
+                    <div class="ex-item-title">
+                        {{getNameByKey('medianFeeMultiplier')}}
+                    </div>
+                    <div class="ex-item-value">
+                        {{transactionFees.medianFeeMultiplier}}
+                    </div>
+                </b-col>
+                <b-col class="ex-item" sm="3" lg="12">
+                    <div class="ex-item-title">
+                        {{getNameByKey('highestFeeMultiplier')}}
+                    </div>
+                    <div class="ex-item-value">
+                        {{transactionFees.highestFeeMultiplier}}
+                    </div>
+                </b-col>
+                <b-col class="ex-item" sm="3" lg="12">
+                    <div class="ex-item-title">
+                        {{getNameByKey('lowestFeeMultiplier')}}
+                    </div>
+                    <div class="ex-item-value">
+                        {{transactionFees.lowestFeeMultiplier}}
+                    </div>
                 </b-col>
             </b-row>
             </b-container>
@@ -36,18 +47,16 @@
 
 <script>
 import Card from '@/components/containers/Card.vue'
-import Decimal from '@/components/Decimal.vue'
 import { mapGetters } from 'vuex'
 
 export default {
   components: {
-    Card,
-    Decimal
+    Card
   },
 
   computed: {
     ...mapGetters({
-      networkTransactionFees: 'statistics/getNetworkTransactionFees',
+      transactionFees: 'statistics/getNetworkTransactionFees',
       loading: 'statistics/getLoading',
       error: 'statistics/getError'
     })
@@ -62,54 +71,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card-item::before {
-    width: 4px;
-    content: '';
-    height: 100%;
-    position: absolute;
-    padding: 0;
-    left: 0;
-    top: 0;
-    background: #3e6b8c;
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
-}
+.ex-item {
+    border-left: 4px solid #904d9c;
+    padding: 1px 10px;
+    margin-bottom: 15px;
 
-.card-item {
-    .card-body {
-        padding: 0;
+    .ex-item-title {
+        color: rgb(187, 187, 187);
+        font-size: 12px;
+    }
 
-        .ex-title-text {
-            color: black;
-        }
-
-        .ex-row {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-
-            .ex-text {
-                font-size: 10px;
-                color: #acacac;
-            }
-
-            .ex-long-text {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-            }
-
-            .ex-account-text {
-                color: #84accb;
-                font-weight: 600;
-                font-size: 12px;
-                margin-left: 20px;
-            }
-        }
-
-        .no-wrap {
-            flex-wrap: nowrap;
-        }
+    .ex-item-value {
+        color: rgb(85, 85, 85);
+        text-align: left;
+        font-size: 14px;
+        margin: 4px 0 0;
     }
 }
 </style>

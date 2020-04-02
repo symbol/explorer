@@ -17,7 +17,7 @@
  */
 
 import Lock from './lock'
-import { getNetworkTransactionFees, getEffectiveRentalFees, getBlockTimeDifferenceData, getTransactionPerBlockData, getTransactionPerDayData } from '../infrastructure/getStatistics'
+import { NetworkService } from '../infrastructure'
 
 const LOCK = Lock.create()
 
@@ -74,17 +74,11 @@ export default {
       commit('setLoading', true)
       commit('setError', false)
       try {
-        let netoworkTransactionFees = await getNetworkTransactionFees()
-        // let effectiveRentalFees = await getEffectiveRentalFees()
-        let blockTimeDifferenceDataset = await getBlockTimeDifferenceData(240,60)
-        let transactionPerBlockDataset = await getTransactionPerBlockData(240,60)
-        let transactionPerDayDataset = await getTransactionPerDayData(5)
+        let transactionFeesInfo = await NetworkService.getTransactionFeesInfo()
+        let rentalFeesInfo = await NetworkService.getRentalFeesInfo()
 
-        commit('setNetworkTransactionFees', netoworkTransactionFees)
-        // commit('setNetworkRentalFees', effectiveRentalFees)
-        commit('setBlockTimeDifferenceData', blockTimeDifferenceDataset)
-        commit('setTransactionPerBlockData', transactionPerBlockDataset)
-        commit('setTransactionPerDayData', transactionPerDayDataset)
+        commit('setNetworkTransactionFees', transactionFeesInfo)
+        commit('setNetworkRentalFees', rentalFeesInfo)
       } catch (e) {
         console.error(e)
         commit('setError', true)
