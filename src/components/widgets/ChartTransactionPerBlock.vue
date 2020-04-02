@@ -10,6 +10,7 @@
                     <Chart
                         type="line"
                         :data="chartData"
+                        :height="265"
                         xaxisType="numeric"
                     />
                 </b-col>
@@ -31,14 +32,13 @@ export default {
 
   computed: {
     ...mapGetters({
-      transactionPerBlockData: 'statistics/getTransactionPerBlockData'
+      transactionPerBlockData: 'statistics/getTransactionPerBlockData',
+      loading: 'statistics/getLoadingTransactionPerBlock'
     }),
 
     chartData() {
-      return this.transactionPerBlockData.chartData
+      return this.transactionPerBlockData.data
     },
-
-    loading() { return !this.transactionPerBlockData.chartData }
   },
 
   methods: {

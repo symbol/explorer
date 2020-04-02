@@ -10,6 +10,7 @@
                     <Chart
                         type="line"
                         :data="chartData"
+                        :height="265"
                         xaxisType="numeric"
                     />
                 </b-col>
@@ -31,14 +32,13 @@ export default {
 
   computed: {
     ...mapGetters({
-      blockTimeDifferenceData: 'statistics/getBlockTimeDifferenceData'
+      blockTimeDifferenceData: 'statistics/getBlockTimeDifferenceData',
+      loading: 'statistics/getLoadingBlockTimeDifference'
     }),
 
     chartData() {
-      return this.blockTimeDifferenceData.chartData
+      return this.blockTimeDifferenceData.data
     },
-
-    loading() { return !this.blockTimeDifferenceData.chartData }
   },
 
   methods: {
