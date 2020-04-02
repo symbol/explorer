@@ -101,7 +101,7 @@ class NodeService {
           const coordinates = location.coordinates || []
 
           nodePeersFormatted.push({
-            index: index + 1,
+            index: +index + 1,
             location: location.location,
             coordinates,
             ...nodePeers[index]

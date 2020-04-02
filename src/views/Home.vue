@@ -31,7 +31,7 @@
             <b-col xs="12" md="12" lg="6">
                 <RecentTransactionsWidget />
             </b-col>
-            <b-col xs="12" md="12" lg="12">
+            <b-col xs="12" md="12" lg="6">
                 <NodesMapWidget />
             </b-col>
         </b-row>
