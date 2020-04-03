@@ -8,6 +8,7 @@ import ReceiptService from './ReceiptService'
 import DataService from './DataService'
 import MosaicService from './MosaicService'
 import NamespaceService from './NamespaceService'
+import TransactionService from './TransactionService'
 
 export {
   NodeService,
@@ -19,5 +20,6 @@ export {
   DataService,
   MosaicService,
   NamespaceService,
+  TransactionService,
   BlockService
 }
