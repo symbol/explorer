@@ -59,6 +59,53 @@ class DataService {
         })
     })
   }
+  /**
+   * Gets array of transactions
+   * @param limit - No of transaction
+   * @param transactionType - filter transctiom type
+   * @param fromHash - (Optional) retrive next transactions in pagination
+   * @returns Formatted tranctionDTO[]
+   */
+  static getTransactionsFromHashWithLimit = async (limit, transactionType, fromHash) => {
+    let hash
+    if (fromHash === undefined)
+      hash = 'latest'
+    else
+      hash = fromHash
+
+    // Get the path to the URL dependent on the config
+    let path
+    if (transactionType === undefined)
+      path = `/transactions/from/${hash}/limit/${limit}`
+    else if (transactionType === 'unconfirmed')
+      path = `/transactions/unconfirmed/from/${hash}/limit/${limit}`
+    else if (transactionType === 'partial')
+      path = `/transactions/partial/from/${hash}/limit/${limit}`
+    else {
+      const array = transactionType.split('/')
+      if (array.length === 1) {
+        // No filter present
+        path = `/transactions/from/${hash}/type/${transactionType}/limit/${limit}`
+      } else {
+        // We have a filter.
+        path = `/transactions/from/${hash}/type/${array[0]}/filter/${array[1]}/limit/${limit}`
+      }
+    }
+
+    // Make request.
+    const response = await axios.get(http.nodeUrl + path)
+    const transactions = response.data.map(info => dto.createTransactionFromDTO(info, http.networkType))
+
+    let formatted = transactions.map(transaction => TransactionService.formatTransaction(transaction))
+
+    return formatted.map(transaction => ({
+      ...transaction,
+      height: transaction.transactionInfo.height,
+      transactionHash: transaction.transactionInfo.hash,
+      type: transaction.transactionBody.type,
+      recipient: transaction.transactionBody?.recipient
+    }))
+  }
 }
 
 export default DataService

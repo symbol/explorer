@@ -41,6 +41,15 @@
                 "storeNamespaces": ["transaction"],
                 "managerGetter": "transaction/timeline",
                 "hasFilter": true,
+                "columns": [
+                    "height",
+                    "deadline",
+                    "transactionHash",
+                    "type",
+                    "maxFee",
+                    "signer",
+                    "recipient"
+                ],
                 "mobileColumns": [
                     "height",
                     "transactionHash",

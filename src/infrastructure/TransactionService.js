@@ -21,7 +21,7 @@ import Constants from '../config/constants'
 import http from './http'
 import format from '../format'
 import moment from 'moment'
-import { BlockService } from '../infrastructure'
+import { BlockService, DataService } from '../infrastructure'
 
 class TransactionService {
   /**
@@ -95,6 +95,26 @@ class TransactionService {
     }
 
     return transactionInfo
+  }
+
+  /**
+   * Gets array of transactions
+   * @param limit - No of transaction
+   * @param transactionType - filter transctiom type
+   * @param fromHash - (Optional) retrive next transactions in pagination
+   * @returns Formatted tranctionDTO[]
+   */
+  static getTransactionList = async (limit, transactionType, fromHash) => {
+    const transactions = await DataService.getTransactionsFromHashWithLimit(limit, transactionType, fromHash)
+    const formatted = transactions.map(transaction => this.formatTransaction(transaction))
+
+    return formatted.map(transaction => ({
+      ...transaction,
+      height: transaction.transactionInfo.height,
+      transactionHash: transaction.transactionInfo.hash,
+      type: transaction.transactionBody.type,
+      recipient: transaction.transactionBody?.recipient
+    }))
   }
 
   /**
@@ -201,8 +221,8 @@ class TransactionService {
         type: Constants.TransactionType[TransactionType.MULTISIG_ACCOUNT_MODIFICATION],
         minApprovalDelta: transactionBody.minApprovalDelta,
         minRemovalDelta: transactionBody.minRemovalDelta,
-        publicKeyAdditions: transactionBody.publicKeyAdditions(publicKey => publicKey.address.address),
-        publicKeyDeletions: transactionBody.publicKeyDeletions(publicKey => publicKey.address.address),
+        publicKeyAdditions: transactionBody.publicKeyAdditions.map(publicKey => publicKey.address.plain()),
+        publicKeyDeletions: transactionBody.publicKeyDeletions.map(publicKey => publicKey.address.plain())
       }
 
     case TransactionType.AGGREGATE_COMPLETE:

@@ -20,7 +20,7 @@ import Vue from 'vue'
 import Lock from './lock'
 import Constants from '../config/constants'
 import sdkBlock from '../infrastructure/getBlock'
-import { ListenerService } from '../infrastructure'
+import { ListenerService, BlockService } from '../infrastructure'
 import {
   DataSet,
   Timeline,
@@ -33,8 +33,8 @@ import {
 const managers = [
   new Timeline(
     'timeline',
-    () => sdkBlock.getBlocksFromHeightWithLimit(Constants.PageSize),
-    (key, pageSize) => sdkBlock.getBlocksFromHeightWithLimit(pageSize, key),
+    () => BlockService.getBlockList(Constants.PageSize),
+    (key, pageSize) => BlockService.getBlockList(pageSize, key),
     'height'
   ),
   new Timeline(
@@ -66,14 +66,6 @@ export default {
     ...getGettersFromManagers(managers),
     getInitialized: state => state.initialized,
     getRecentList: state => state.timeline?.data?.filter((item, index) => index < 4) || [],
-    getTimelineFormatted: state => state.timeline?.data?.map(el => ({
-      height: el.height,
-      age: el.date,
-      transactions: el.numTransactions,
-      fee: el.totalFee,
-      date: el.date,
-      harvester: el.signer
-    })) || [],
     getSubscription: state => state.subscription,
     blockInfo: state => state.info?.data?.blockInfo || {},
     inflationReceipt: state => state.info?.data?.inflationReceipt || [],

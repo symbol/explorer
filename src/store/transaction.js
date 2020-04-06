@@ -19,6 +19,7 @@
 import Lock from './lock'
 import Constants from '../config/constants'
 import sdkTransaction from '../infrastructure/getTransaction'
+import { DataService } from '../infrastructure'
 import {
   Filter,
   DataSet,
@@ -32,32 +33,32 @@ import {
 const managers = [
   new Timeline(
     'recent',
-    () => sdkTransaction.getTransactionsFromHashWithLimit(Constants.PageSize),
-    (key, pageSize) => sdkTransaction.getTransactionsFromHashWithLimit(pageSize, void 0, key),
+    () => DataService.getTransactionsFromHashWithLimit(Constants.PageSize),
+    (key, pageSize) => DataService.getTransactionsFromHashWithLimit(pageSize, void 0, key),
     'transactionHash'
   ),
   new Timeline(
     'pending',
-    () => sdkTransaction.getTransactionsFromHashWithLimit(Constants.PageSize, 'unconfirmed'),
-    (key, pageSize) => sdkTransaction.getTransactionsFromHashWithLimit(pageSize, 'unconfirmed', key),
+    () => DataService.getTransactionsFromHashWithLimit(Constants.PageSize, 'unconfirmed'),
+    (key, pageSize) => DataService.getTransactionsFromHashWithLimit(pageSize, 'unconfirmed', key),
     'transactionHash'
   ),
   new Timeline(
     'transfer',
-    () => sdkTransaction.getTransactionsFromHashWithLimit(Constants.PageSize, 'transfer'),
-    (key, pageSize) => sdkTransaction.getTransactionsFromHashWithLimit(pageSize, 'transfer', key),
+    () => DataService.getTransactionsFromHashWithLimit(Constants.PageSize, 'transfer'),
+    (key, pageSize) => DataService.getTransactionsFromHashWithLimit(pageSize, 'transfer', key),
     'transactionHash'
   ),
   new Timeline(
     'multisig',
-    () => sdkTransaction.getTransactionsFromHashWithLimit(Constants.PageSize, 'transfer/multisig'),
-    (key, pageSize) => sdkTransaction.getTransactionsFromHashWithLimit(pageSize, 'transfer/multisig', key),
+    () => DataService.getTransactionsFromHashWithLimit(Constants.PageSize, 'transfer/multisig'),
+    (key, pageSize) => DataService.getTransactionsFromHashWithLimit(pageSize, 'transfer/multisig', key),
     'transactionHash'
   ),
   new Timeline(
     'mosaic',
-    () => sdkTransaction.getTransactionsFromHashWithLimit(Constants.PageSize, 'transfer/mosaic'),
-    (key, pageSize) => sdkTransaction.getTransactionsFromHashWithLimit(pageSize, 'transfer/mosaic', key),
+    () => DataService.getTransactionsFromHashWithLimit(Constants.PageSize, 'transfer/mosaic'),
+    (key, pageSize) => DataService.getTransactionsFromHashWithLimit(pageSize, 'transfer/mosaic', key),
     'transactionHash'
   ),
   new Filter(
