@@ -19,6 +19,8 @@
 import http from './http'
 import helper from '../helper'
 import Constants from '../config/constants'
+import moment from 'moment'
+import { DataService, ChainService } from '../infrastructure'
 
 class NamespaceService {
   /**
@@ -53,6 +55,7 @@ class NamespaceService {
   static getNamespaceInfo = async (hexOrNamespace) => {
     let namespaceId = await helper.hexOrNamespaceToId(hexOrNamespace, 'namespace')
     let namespace = await this.getNamespace(namespaceId)
+    const currentHeight = await ChainService.getBlockchainHeight()
     let {
       isExpired,
       expiredInBlock,
@@ -73,11 +76,41 @@ class NamespaceService {
    * @param hexOrNamespace - hex value or namespace name
    * @returns Namespace name list
    */
-  static getNamespaceLevelList  = async (hexOrNamespace) => {
+  static getNamespaceLevelList = async (hexOrNamespace) => {
     let namespaceId = await helper.hexOrNamespaceToId(hexOrNamespace, 'namespace')
     let namespacesName = await this.getNamespacesName([namespaceId])
 
     return namespacesName
+  }
+
+  static getNamespaceList = async (limit, fromNamespaceId) => {
+    const namespaceInfos = await DataService.getNamespacesFromIdWithLimit(limit, fromNamespaceId)
+
+    const namespaceIdsList = namespaceInfos.map(namespacesInfo => namespacesInfo.id)
+    const namespaceNames = await this.getNamespacesName(namespaceIdsList)
+
+    const namespaces = namespaceInfos.map(namespaceInfo => ({
+      ...namespaceInfo,
+      id: namespaceInfo.id,
+      name: this.extractFullNamespace(namespaceInfo, namespaceNames)
+    }))
+
+    const formattedNamespaces = namespaces.map(namespace => this.formatNamespace(namespace))
+
+    const currentHeight = await ChainService.getBlockchainHeight()
+
+    return formattedNamespaces.map(formattedNamespace => {
+      const { isExpired, expiredInSecond, expiredInBlock } = helper.calculateNamespaceExpiration(currentHeight, formattedNamespace.endHeight)
+
+      return {
+        ...formattedNamespace,
+        owneraddress: formattedNamespace.owner,
+        duration: moment.utc().add(expiredInSecond, 's').fromNow() || Constants.Message.UNLIMITED,
+        isExpired: isExpired,
+        approximateExpired: moment.utc().add(expiredInSecond, 's').local().format('YYYY-MM-DD HH:mm:ss'),
+        expiredInBlock: expiredInBlock
+      }
+    })
   }
 
   /**
@@ -100,24 +133,24 @@ class NamespaceService {
     let aliasText
     let aliasType
     switch (namespace.alias.type) {
-      case 1:
-        aliasText = namespace.alias.mosaicId.toHex()
-        aliasType = Constants.Message.MOSAIC
-        break
-      case 2:
-        aliasText = namespace.alias.address.plain()
-        aliasType = Constants.Message.ADDRESS
-        break
-      default:
-        aliasText = false
-        aliasType = Constants.Message.NO_ALIAS
-        break
+    case 1:
+      aliasText = namespace.alias.mosaicId
+      aliasType = Constants.Message.MOSAIC
+      break
+    case 2:
+      aliasText = namespace.alias.address
+      aliasType = Constants.Message.ADDRESS
+      break
+    default:
+      aliasText = false
+      aliasType = Constants.Message.NO_ALIAS
+      break
     }
 
     return {
       owner: namespace.owner.address.plain(),
       namespaceName: namespace.name,
-      namespaceNameHexId: namespace.id.toHex().toUpperCase(),
+      namespaceId: namespace.id.toHex(),
       registrationType: Constants.NamespaceRegistrationType[namespace.registrationType],
       startHeight: namespace.startHeight.compact(),
       endHeight: Constants.NetworkConfig.NAMESPACE.indexOf(namespace.name.toUpperCase()) !== -1
@@ -132,6 +165,16 @@ class NamespaceService {
     }
   }
 
+  static extractFullNamespace = (namespaceInfo, namespaceNames) => {
+    return namespaceInfo.levels.map((level) => {
+      const namespaceName = namespaceNames.find((name) => name.namespaceId === level.toHex())
+
+      if (namespaceName === undefined) throw new Error('Not found')
+      return namespaceName
+    })
+      .map((namespaceName) => namespaceName.name)
+      .join('.')
+  }
 }
 
 export default NamespaceService

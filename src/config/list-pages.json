@@ -89,6 +89,13 @@
                 "title": "namespaces",
                 "storeNamespaces": ["namespace"],
                 "managerGetter": "namespace/timeline",
+                "columns": [
+                    "namespaceName",
+                    "namespaceId",
+                    "owneraddress",
+                    "duration",
+                    "approximateExpired"
+                ],
                 "mobileColumns": [
                     "namespaceName",
                     "owneraddress",

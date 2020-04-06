@@ -60,6 +60,26 @@ class DataService {
     })
   }
   /**
+   * Gets array of namespaceInfo
+   * @param limit - No of namespaceInfo
+   * @param fromHash - (Optional) retrive next namespaceInfo in pagination
+   * @returns namespaceInfo[]
+   */
+  static getNamespacesFromIdWithLimit = async (limit, fromNamespaceId) => {
+    let namespaceId
+    if (fromNamespaceId === undefined)
+      namespaceId = 'latest'
+    else
+      namespaceId = fromNamespaceId
+
+    // Make request.
+    const path = `/namespaces/from/${namespaceId}/limit/${limit}`
+    const response = await axios.get(http.nodeUrl + path)
+    const namespaceInfo = response.data.map(info => dto.createNamespaceInfoFromDTO(info, http.networkType))
+
+    return namespaceInfo
+  }
+  /**
    * Gets array of transactions
    * @param limit - No of transaction
    * @param transactionType - filter transctiom type
