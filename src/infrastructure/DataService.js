@@ -18,6 +18,7 @@
 
 import axios from 'axios'
 import http from './http'
+import dto from './dto'
 
 class DataService {
   /**
@@ -59,6 +60,28 @@ class DataService {
         })
     })
   }
+
+  /**
+   * Gets array of mosaicInfo
+   * @param limit - No of namespaceInfo
+   * @param fromMosaicId - (Optional) retrive next mosaicInfo in pagination
+   * @returns mosaicInfo[]
+   */
+  static getMosaicsByIdWithLimit = async (limit, fromMosaicId) => {
+    let mosaicId
+    if (fromMosaicId === undefined)
+      mosaicId = 'latest'
+    else
+      mosaicId = fromMosaicId
+
+    // Make request.
+    const path = `/mosaics/from/${mosaicId}/limit/${limit}`
+    const response = await axios.get(http.nodeUrl + path)
+    const mosaics = response.data.map(info => dto.createMosaicInfoFromDTO(info, http.networkType))
+
+    return mosaics
+  }
+
   /**
    * Gets array of namespaceInfo
    * @param limit - No of namespaceInfo
@@ -79,12 +102,13 @@ class DataService {
 
     return namespaceInfo
   }
+
   /**
    * Gets array of transactions
    * @param limit - No of transaction
    * @param transactionType - filter transctiom type
    * @param fromHash - (Optional) retrive next transactions in pagination
-   * @returns Formatted tranctionDTO[]
+   * @returns tranctionDTO[]
    */
   static getTransactionsFromHashWithLimit = async (limit, transactionType, fromHash) => {
     let hash
@@ -116,15 +140,7 @@ class DataService {
     const response = await axios.get(http.nodeUrl + path)
     const transactions = response.data.map(info => dto.createTransactionFromDTO(info, http.networkType))
 
-    let formatted = transactions.map(transaction => TransactionService.formatTransaction(transaction))
-
-    return formatted.map(transaction => ({
-      ...transaction,
-      height: transaction.transactionInfo.height,
-      transactionHash: transaction.transactionInfo.hash,
-      type: transaction.transactionBody.type,
-      recipient: transaction.transactionBody?.recipient
-    }))
+    return transactions
   }
 }
 

@@ -18,6 +18,8 @@
 
 import http from './http'
 import helper from '../helper'
+import { DataService, NamespaceService } from '../infrastructure'
+import { Constants } from '../config'
 
 class MosaicService {
   /**
@@ -58,6 +60,27 @@ class MosaicService {
    }
 
    /**
+    * Get custom MosaicInfo dataset into Vue Component
+    * @param limit — No of namespaceInfo
+    * @param fromMosaicId — (Optional) retrive next mosaicInfo in pagination
+    * @returns Custom MosaicInfo[]
+    */
+   static getMosaicList = async (limit, fromMosaicId) => {
+     const mosaicInfos = await DataService.getMosaicsByIdWithLimit(limit, fromMosaicId)
+
+     const mosaicIdsList = mosaicInfos.map(mosaicInfo => mosaicInfo.id)
+     const moasicNames = await NamespaceService.getMosaicsNames(mosaicIdsList)
+
+     const formattedMosaics = mosaicInfos.map(mosaic => this.formatMosaicInfo(mosaic))
+
+     return formattedMosaics.map(formattedMosaic => ({
+       ...formattedMosaic,
+       owneraddress: formattedMosaic.address,
+       mosaicAliasName: this.extractMosaicNamespace(formattedMosaic, moasicNames)
+     }))
+   }
+
+   /**
     * Format MosaicInfo to readable mosaicInfo object
     * @param MosaicInfoDTO
     * @returns Object readable MosaicInfoDTO object
@@ -75,6 +98,18 @@ class MosaicService {
      transferable: mosaicInfo.flags.transferable,
      restrictable: mosaicInfo.flags.restrictable
    })
+
+   /**
+    * Extract Name for Mosaic
+    * @param mosaicInfo - mosaicInfo DTO
+    * @param moasicNames - MosaicNames[]
+    * @returns moasicName
+    */
+   static extractMosaicNamespace = (mosaicInfo, moasicNames) => {
+     let moasicName = moasicNames.find((name) => name.mosaicId === mosaicInfo.mosaicId)
+     const name = moasicName.names.length > 0 ? moasicName.names[0].name : Constants.Message.UNAVAILABLE
+     return name
+   }
 }
 
 export default MosaicService

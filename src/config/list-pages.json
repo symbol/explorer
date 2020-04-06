@@ -114,6 +114,15 @@
                 "title": "mosaics",
                 "storeNamespaces": ["mosaic"],
                 "managerGetter": "mosaic/timeline",
+                "columns": [
+                    "mosaicId",
+                    "mosaicAliasName",
+                    "owneraddress",
+                    "supply",
+                    "divisibility",
+                    "relativeAmount",
+                    "startHeight"
+                ],
                 "mobileColumns": [
                     "mosaicId",
                     "mosaicAliasName",

@@ -18,6 +18,7 @@
 
 import Lock from './lock'
 import Constants from '../config/constants'
+import { MosaicService } from '../infrastructure'
 import sdkMosaic from '../infrastructure/getMosaic'
 import {
   DataSet,
@@ -31,8 +32,8 @@ import {
 const managers = [
   new Timeline(
     'timeline',
-    () => sdkMosaic.getMosaicsFromIdWithLimit(Constants.PageSize),
-    (key, pageSize) => sdkMosaic.getMosaicsFromIdWithLimit(pageSize, key),
+    () => MosaicService.getMosaicList(Constants.PageSize),
+    (key, pageSize) => MosaicService.getMosaicList(pageSize, key),
     'mosaicId'
   ),
   new DataSet(
