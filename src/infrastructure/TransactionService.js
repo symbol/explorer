@@ -16,7 +16,7 @@
  *
  */
 
-import { TransactionType, Address, TransactionInfo, AggregateTransactionInfo, NamespaceId, UInt64 } from 'symbol-sdk'
+import { TransactionType, Address, TransactionInfo, AggregateTransactionInfo, NamespaceId } from 'symbol-sdk'
 import Constants from '../config/constants'
 import http from './http'
 import format from '../format'
@@ -91,7 +91,7 @@ class TransactionService {
     const transactionInfo = {
       transaction: formattedTransaction,
       status: transactionStatus.detail.code,
-      confirm: transactionStatus.message,
+      confirm: transactionStatus.message
     }
 
     return transactionInfo
@@ -139,9 +139,9 @@ class TransactionService {
    * @returns NamespaceId.full | address
    */
   static formatRecipientAddress = recipientAddress => {
-    if (recipientAddress instanceof NamespaceId) {
+    if (recipientAddress instanceof NamespaceId)
       return recipientAddress.fullName | recipientAddress.id.toHex()
-    }
+
     return recipientAddress.address
   }
 

@@ -19,7 +19,7 @@
 import Lock from './lock'
 import Constants from '../config/constants'
 import sdkTransaction from '../infrastructure/getTransaction'
-import { DataService } from '../infrastructure'
+import { TransactionService } from '../infrastructure'
 import {
   Filter,
   DataSet,
@@ -33,32 +33,32 @@ import {
 const managers = [
   new Timeline(
     'recent',
-    () => DataService.getTransactionsFromHashWithLimit(Constants.PageSize),
-    (key, pageSize) => DataService.getTransactionsFromHashWithLimit(pageSize, void 0, key),
+    () => TransactionService.getTransactionList(Constants.PageSize),
+    (key, pageSize) => TransactionService.getTransactionList(pageSize, void 0, key),
     'transactionHash'
   ),
   new Timeline(
     'pending',
-    () => DataService.getTransactionsFromHashWithLimit(Constants.PageSize, 'unconfirmed'),
-    (key, pageSize) => DataService.getTransactionsFromHashWithLimit(pageSize, 'unconfirmed', key),
+    () => TransactionService.getTransactionList(Constants.PageSize, 'unconfirmed'),
+    (key, pageSize) => TransactionService.getTransactionList(pageSize, 'unconfirmed', key),
     'transactionHash'
   ),
   new Timeline(
     'transfer',
-    () => DataService.getTransactionsFromHashWithLimit(Constants.PageSize, 'transfer'),
-    (key, pageSize) => DataService.getTransactionsFromHashWithLimit(pageSize, 'transfer', key),
+    () => TransactionService.getTransactionList(Constants.PageSize, 'transfer'),
+    (key, pageSize) => TransactionService.getTransactionList(pageSize, 'transfer', key),
     'transactionHash'
   ),
   new Timeline(
     'multisig',
-    () => DataService.getTransactionsFromHashWithLimit(Constants.PageSize, 'transfer/multisig'),
-    (key, pageSize) => DataService.getTransactionsFromHashWithLimit(pageSize, 'transfer/multisig', key),
+    () => TransactionService.getTransactionList(Constants.PageSize, 'transfer/multisig'),
+    (key, pageSize) => TransactionService.getTransactionList(pageSize, 'transfer/multisig', key),
     'transactionHash'
   ),
   new Timeline(
     'mosaic',
-    () => DataService.getTransactionsFromHashWithLimit(Constants.PageSize, 'transfer/mosaic'),
-    (key, pageSize) => DataService.getTransactionsFromHashWithLimit(pageSize, 'transfer/mosaic', key),
+    () => TransactionService.getTransactionList(Constants.PageSize, 'transfer/mosaic'),
+    (key, pageSize) => TransactionService.getTransactionList(pageSize, 'transfer/mosaic', key),
     'transactionHash'
   ),
   new Filter(
