@@ -36,6 +36,18 @@ class NamespaceService {
   }
 
   /**
+   * Get readable names for a set of mosaics Returns friendly names for mosaics.
+   * @param mosaicIds - Array of mosaic ids
+   * @returns MosaicNames[]
+   */
+  static getMosaicsNames = async (mosaicIds) => {
+    const mosaicNames = await http.namespace.getMosaicsNames(mosaicIds).toPromise()
+    const formattedMosaicNames = mosaicNames.map(mosaicName => this.formatMosaicName(mosaicName))
+
+    return formattedMosaicNames
+  }
+
+  /**
    * Get namespace info and name from namespace Id
    * @param namespaceId - Namespace id
    * @returns formatted namespace info and name
@@ -83,6 +95,12 @@ class NamespaceService {
     return namespacesName
   }
 
+  /**
+   * Get custom NamespaceInfo dataset into Vue Component
+   * @param limit — No of namespaceInfo
+   * @param fromNamespaceId — (Optional) retrive next namespace in pagination
+   * @returns custom NamespaceInfo[]
+   */
   static getNamespaceList = async (limit, fromNamespaceId) => {
     const namespaceInfos = await DataService.getNamespacesFromIdWithLimit(limit, fromNamespaceId)
 
@@ -165,6 +183,20 @@ class NamespaceService {
     }
   }
 
+  /**
+   *
+   */
+  static formatMosaicName = mosaicName => ({
+    ...mosaicName,
+    mosaicId: mosaicName.mosaicId.toHex()
+  })
+
+  /**
+   * Extract full name for Namespace
+   * @param namespaceInfo - namespaceInfo DTO
+   * @param namespaceNames - NamespaceName[]
+   * @returns full name
+   */
   static extractFullNamespace = (namespaceInfo, namespaceNames) => {
     return namespaceInfo.levels.map((level) => {
       const namespaceName = namespaceNames.find((name) => name.namespaceId === level.toHex())

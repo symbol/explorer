@@ -18,6 +18,7 @@
 
 import Lock from './lock'
 import Constants from '../config/constants'
+import { NamespaceService } from '../infrastructure'
 import sdkNamespace from '../infrastructure/getNamespace'
 import {
   DataSet,
@@ -33,8 +34,8 @@ const LOCK = Lock.create()
 const managers = [
   new Timeline(
     'timeline',
-    () => sdkNamespace.getNamespacesFromIdWithLimit(Constants.PageSize),
-    (key, pageSize) => sdkNamespace.getNamespacesFromIdWithLimit(pageSize, key),
+    () => NamespaceService.getNamespaceList(Constants.PageSize),
+    (key, pageSize) => NamespaceService.getNamespaceList(pageSize, key),
     'namespaceId'
   ),
   new DataSet(
