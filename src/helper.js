@@ -19,6 +19,7 @@
 import { Constants } from './config'
 import { NetworkType, MosaicId, NamespaceId } from 'symbol-sdk'
 import http from './infrastructure/http'
+import format from './format'
 
 const Url = require('url-parse')
 
@@ -194,6 +195,28 @@ class helper {
   static formatMosaicAmountWithDivisibility = (amount, divisibility) => {
     let relativeAmount = divisibility !== 0 ? amount / Math.pow(10, divisibility) : amount.compact()
     return relativeAmount.toLocaleString('en-US', { minimumFractionDigits: divisibility })
+  }
+
+  /**
+   * Get network currency balance.
+   * @param mosaics - array of formatted mosaic[]
+   * @returns balance - formatted mosaic amount
+   */
+  static getNetworkCurrencyBalance = mosaics => {
+    let mosaic = mosaics.find(mosaic => mosaic.id.toHex() === Constants.NetworkConfig.NATIVE_MOSAIC_HEX)
+    let balance = mosaic !== undefined ? format.toNetworkCurrency(mosaic.amount) : Constants.Message.UNAVAILABLE
+    return balance
+  }
+
+  /**
+   * Get last Activity height.
+   * @param activityBucket - array of activityBucket
+   * @returns la
+   */
+  static getLastActivityHeight = activityBucket => {
+    let activityBucketLength = activityBucket.length
+    let lastActivityHeight = activityBucketLength > 0 ? activityBucket[activityBucketLength - 1].startHeight : Constants.Message.UNAVAILABLE
+    return lastActivityHeight
   }
 }
 
