@@ -47,6 +47,7 @@ export default {
       'restrictionAddressValues': 'account',
       'restrictionAddressAdditions': 'account',
       'restrictionAddressDeletions': 'account',
+      'accountAliasName': 'account',
 
       'transactionHash': 'transaction',
 

@@ -33,6 +33,7 @@
     "importance": "Importance",
     "importanceHeight": "Importance height",
     "accountType": "Account type",
+    "accountAliasName": "Alias Namespace",
     "linkedAccountKey": "Linked account key",
     "lastActivity": "Last Activity",
     "accounts": "Accounts",
@@ -167,5 +168,6 @@
     "previousRestrictionValue": "Previous Restriction Value",
     "newRestrictionType": "New Restriction Type",
     "newRestrictionValue": "New Restriction Value",
-    "proof": "Proof"
+    "proof": "Proof",
+    "balance": "Balance"
 }

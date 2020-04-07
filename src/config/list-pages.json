@@ -71,6 +71,13 @@
                 "hasFilter": true,
                 "managerGetter": "account/timeline",
                 "storeNamespaces": ["account"],
+                "columns": [
+                    "address",
+                    "balance",
+                    "lastActivity",
+                    "importance",
+                    "accountAliasName"
+                ],
                 "mobileColumns": [
                     "address",
                     "importance",
