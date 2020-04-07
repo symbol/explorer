@@ -117,7 +117,7 @@ class sdkMosaic {
 
     if (mosaicInfo) {
       mosaicInfoFormatted = {
-        mosaicId: mosaicInfo.mosaic,
+        mosaicId: mosaicInfo.mosaicId,
         mosaicAliasName: mosaicInfo.mosaicAliasName,
         namespace: mosaicInfo.namespace,
         divisibility: mosaicInfo.divisibility,
