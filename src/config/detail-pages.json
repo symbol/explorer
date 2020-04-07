@@ -123,7 +123,16 @@
                             }
                         ],
                         "body": "TableInfoView",
-                        "dataGetter": "block/blockInfo",
+                        "fields": [
+                            "height",
+                            "date",
+                            "totalFee",
+                            "difficulty",
+                            "feeMultiplier",
+                            "transactions",
+                            "harvester",
+                            "blockHash"
+                        ],
                         "pagination": false,
                         "managerGetter": "block/info",
                         "errorMessage": "Block does not exist"
@@ -133,6 +142,12 @@
                         "title": "Block Transactions",
                         "fullWidth": true,
                         "body": "TableListView",
+                        "fields": [
+                            "deadline",
+                            "transactionId",
+                            "transactionHash",
+                            "type"
+                        ],
                         "managerGetter": "block/blockTransactions",
                         "timelinePagination": true
                     },
@@ -142,8 +157,8 @@
                         "fullWidth": false,
                         "body": "TableListView",
                         "dataGetter": "block/balanceChangeReceipt",
-                        "managerGetter": "block/info",
-                        "hideEmptyData": true,
+                        "managerGetter": "block/blockReceipts",
+                        "hideEmptyData": false,
                         "pagination": true,
                         "pageSize": 5
                     },
@@ -153,7 +168,7 @@
                         "fullWidth": false,
                         "body": "TableListView",
                         "dataGetter": "block/balanceTransferReceipt",
-                        "managerGetter": "block/info",
+                        "managerGetter": "block/blockReceipts",
                         "hideEmptyData": true,
                         "pagination": true,
                         "pageSize": 5
@@ -164,7 +179,7 @@
                         "fullWidth": false,
                         "body": "TableListView",
                         "dataGetter": "block/inflationReceipt",
-                        "managerGetter": "block/info",
+                        "managerGetter": "block/blockReceipts",
                         "hideEmptyData": true,
                         "pagination": true,
                         "pageSize": 5
@@ -175,7 +190,7 @@
                         "fullWidth": false,
                         "body": "TableListView",
                         "dataGetter": "block/artifactExpiryReceipt",
-                        "managerGetter": "block/info",
+                        "managerGetter": "block/blockReceipts",
                         "hideEmptyData": true,
                         "pagination": true,
                         "pageSize": 5
@@ -186,7 +201,7 @@
                         "fullWidth": false,
                         "body": "TableListView",
                         "dataGetter": "block/resolutionStatement",
-                        "managerGetter": "block/info",
+                        "managerGetter": "block/blockReceipts",
                         "hideEmptyData": true,
                         "pagination": true,
                         "pageSize": 5

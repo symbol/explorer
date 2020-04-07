@@ -19,8 +19,12 @@
 import Vue from 'vue'
 import Lock from './lock'
 import Constants from '../config/constants'
-import sdkBlock from '../infrastructure/getBlock'
-import { ListenerService, BlockService } from '../infrastructure'
+import helper from '../helper'
+import {
+  ListenerService,
+  BlockService,
+  ReceiptService
+} from '../infrastructure'
 import {
   DataSet,
   Timeline,
@@ -39,14 +43,18 @@ const managers = [
   ),
   new Timeline(
     'blockTransactions',
-    (pageSize, store) => sdkBlock.getBlockTransactions(store.getters.currentBlockHeight),
-    (key, pageSize, store) => sdkBlock.getBlockTransactions(store.getters.currentBlockHeight, key),
+    (pageSize, store) => BlockService.getBlockTransactionList(store.getters.currentBlockHeight),
+    (key, pageSize, store) => BlockService.getBlockTransactionList(store.getters.currentBlockHeight, key),
     'transactionId',
     10
   ),
   new DataSet(
+    'blockReceiptInfo',
+    (height) => ReceiptService.getBlockReceiptsInfo(height)
+  ),
+  new DataSet(
     'info',
-    (height) => sdkBlock.getBlockInfoByHeightFormatted(height)
+    (height) => BlockService.getBlockInfo(height)
   )
 ]
 
@@ -68,11 +76,11 @@ export default {
     getRecentList: state => state.timeline?.data?.filter((item, index) => index < 4) || [],
     getSubscription: state => state.subscription,
     blockInfo: state => state.info?.data?.blockInfo || {},
-    inflationReceipt: state => state.info?.data?.inflationReceipt || [],
-    balanceTransferReceipt: state => state.info?.data?.balanceTransferReceipt || [],
-    balanceChangeReceipt: state => state.info?.data?.balanceChangeReceipt || [],
-    artifactExpiryReceipt: state => state.info?.data?.artifactExpiryReceipt || [],
-    resolutionStatement: state => state.info?.data?.resolutionStatement || [],
+    inflationReceipt: state => state.blockReceiptInfo?.data?.transactionReceipt?.inflationReceipt || [],
+    balanceTransferReceipt: state => state.blockReceiptInfo?.data?.transactionReceipt?.balanceTransferReceipt || [],
+    balanceChangeReceipt: state => state.blockReceiptInfo?.data?.transactionReceipt?.balanceChangeReceipt || [],
+    artifactExpiryReceipt: state => state.blockReceiptInfo?.data?.transactionReceipt?.artifactExpiryReceipt || [],
+    resolutionStatement: state => state.blockReceiptInfo?.data?.resolutionStatements?.resolutionStatement || [],
     currentBlockHeight: state => state.currentBlockHeight,
 
     infoText: (s, g, rs, rootGetters) => 'Chain height: ' + rootGetters['chain/getBlockHeight']
@@ -109,7 +117,13 @@ export default {
       if (getters.getSubscription === null) {
         const subscription = await ListenerService.subscribeNewBlock(
           (item) => {
-            getters.timeline.addLatestItem(item)
+            let formattedBlock = BlockService.formatBlock(item)
+            getters.timeline.addLatestItem({
+              ...formattedBlock,
+              date: helper.convertToUTCDate(formattedBlock.timestamp),
+              age: helper.convertToUTCDate(formattedBlock.timestamp),
+              harvester: formattedBlock.signer
+            })
             commit('chain/setBlockHeight', item.height, { root: true })
           },
           rootGetters['api/wsEndpoint']
@@ -134,9 +148,10 @@ export default {
       await context.getters.timeline.setStore(context).initialFetch()
     },
 
-    getBlockInfo: async (context, height) => {
+    fetchBlockInfo: async (context, height) => {
       context.commit('currentBlockHeight', height)
       await context.getters.info.setStore(context).initialFetch(height)
+      await context.getters.blockReceiptInfo.setStore(context).initialFetch(height)
       await context.getters.blockTransactions.setStore(context).initialFetch(height)
     },
 

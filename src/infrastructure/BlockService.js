@@ -16,12 +16,11 @@
  *
  */
 
-import { UInt64, Address, QueryParams } from 'symbol-sdk'
-import { ChainService } from '../infrastructure'
+import { UInt64, QueryParams } from 'symbol-sdk'
+import { ChainService, TransactionService } from '../infrastructure'
 import http from './http'
-import moment from 'moment'
-import Constants from '../config/constants'
 import format from '../format'
+import helper from '../helper'
 
 class BlockService {
   /**
@@ -47,8 +46,7 @@ class BlockService {
       .getBlockTransactions(UInt64.fromUint(height), new QueryParams({ pageSize, id }))
       .toPromise()
 
-    // Todo
-    return format.formatTransactions(transactions)
+    return transactions.map(transaction => TransactionService.formatTransaction(transaction))
   }
 
   /**
@@ -74,7 +72,28 @@ class BlockService {
     let height = blockHeight === undefined ? await ChainService.getBlockchainHeight() + 1 : blockHeight
     const blocks = await this.getBlocksByHeightWithLimit(height - noOfBlock, noOfBlock)
 
-    return blocks
+    return blocks.map(block => ({
+      ...block,
+      date: helper.convertToUTCDate(block.timestamp),
+      age: helper.convertToUTCDate(block.timestamp),
+      harvester: block.signer
+    }))
+  }
+
+  /**
+   * Get Custom Transactions dataset into Vue Component
+   * @param height - block height
+   * @param transactionId - (Optional) retrive next transactions in pagination
+   * @returns Custom Transactions dataset
+   */
+  static getBlockTransactionList = async (height, transactionId) => {
+    const blockTransactions = await this.getBlockTransactions(height, transactionId)
+
+    return blockTransactions.map(blockTransaction => ({
+      ...blockTransaction,
+      transactionId: blockTransaction.id,
+      transactionHash: blockTransaction.hash
+    }))
   }
 
   /**
@@ -84,7 +103,12 @@ class BlockService {
    */
   static getBlockInfo = async height => {
     const block = await this.getBlockByHeight(height)
-    return block
+    return {
+      ...block,
+      blockHash: block.hash,
+      harvester: block.signer,
+      date: helper.convertToUTCDate(block.timestamp)
+    }
   }
 
   /**
@@ -95,20 +119,13 @@ class BlockService {
   static formatBlock = block => ({
     height: block.height.compact(),
     hash: block.hash,
-    timestamp: Math.round(block.timestamp / 1000) + Constants.NetworkConfig.NEMESIS_TIMESTAMP,
-    date: moment.utc(
-      (Math.round(block.timestamp / 1000) + Constants.NetworkConfig.NEMESIS_TIMESTAMP) * 1000
-    ).local().format('YYYY-MM-DD HH:mm:ss'),
-    age: moment.utc(
-      (Math.round(block.timestamp / 1000) + Constants.NetworkConfig.NEMESIS_TIMESTAMP) * 1000
-    ).local().format('YYYY-MM-DD HH:mm:ss'),
-    totalFee: format.formatFee(block.totalFee),
-    difficulty: ((block.difficulty.compact() / 1000000000000).toFixed(2)).toString(),
-    // feeMultiplier: format.microxemToXem(block.feeMultiplier).toLocaleString('en-US', { minimumFractionDigits: Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY }),
+    timestamp: format.networkTimestamp(block.timestamp),
+    totalFee: format.toNetworkCurrency(block.totalFee),
+    difficulty: helper.convertBlockDifficultyToReadable(block.difficulty),
+    feeMultiplier: block.feeMultiplier.toString(),
     transactions: block.numTransactions,
     signature: block.signature,
-    signer: Address.createFromPublicKey(block.signer.publicKey, http.networkType).plain(),
-    harvester: Address.createFromPublicKey(block.signer.publicKey, http.networkType).plain(),
+    signer: format.publicKeyToAddress(block.signer.publicKey),
     previousBlockHash: block.previousBlockHash,
     blockTransactionsHash: block.blockTransactionsHash,
     blockReceiptsHash: block.blockReceiptsHash,

@@ -92,7 +92,7 @@ export default new Vuex.Store({
       case 'account-detail':
         return helper.logError(dispatch, 'account/fetchAccountDataByAddress', route.params.address || 0)
       case 'block-detail':
-        return helper.logError(dispatch, 'block/getBlockInfo', route.params.height || 0)
+        return helper.logError(dispatch, 'block/fetchBlockInfo', route.params.height || 0)
       case 'mosaic-detail':
         return helper.logError(dispatch, 'mosaic/fetchMosaicInfo', route.params.mosaicId || 0)
       case 'namespace-detail':
