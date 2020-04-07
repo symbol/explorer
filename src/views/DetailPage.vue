@@ -58,7 +58,10 @@
 <script>
 import View from './View.vue'
 import MetadataEntries from '../components/MetadataEntries'
-
+import {
+  DataSet,
+  Timeline
+} from '../store/manager'
 export default {
   extends: View,
   components: { MetadataEntries },
@@ -118,8 +121,33 @@ export default {
     getData(item) {
       if (typeof item.dataGetter === 'string')
         return this.getter(item.dataGetter)
-      else
-        return this.getter(item.managerGetter)?.data
+      else {
+        let managerGetter = this.getter(item.managerGetter)
+
+        if (Array.isArray(item.fields)) {
+          let field = {}
+          if (managerGetter instanceof DataSet) {
+            for (let dataField of item.fields) {
+              if (Object.keys(managerGetter.data).includes(dataField))
+                field[dataField] = managerGetter.data[dataField]
+            }
+
+            return field
+          } else if (managerGetter instanceof Timeline) {
+            return managerGetter.data.map(row => {
+              let field = {}
+              for (let dataField of item.fields) {
+                if (Object.keys(row).includes(dataField))
+                  field[dataField] = row[dataField]
+              }
+
+              return field
+            })
+          } else
+            return managerGetter.data
+        }
+        return managerGetter.data
+      }
     }
   }
 }
