@@ -48,6 +48,18 @@ class NamespaceService {
   }
 
   /**
+   * Returns friendly names for array of addresses.
+   * @param addresses - Array of addresses
+   * @returns AccountNames[]
+   */
+  static getAccountsNames = async (addresses) => {
+    const accountNames = await http.namespace.getAccountsNames(addresses).toPromise()
+    const formattedAccountNames = accountNames.map(accountName => this.formatAccountName(accountName))
+
+    return formattedAccountNames
+  }
+
+  /**
    * Get namespace info and name from namespace Id
    * @param namespaceId - Namespace id
    * @returns formatted namespace info and name
@@ -144,7 +156,7 @@ class NamespaceService {
 
   /**
    * Format namespace to readable object
-   * @param namespaceDTO
+   * @param namespace - namespace DTO
    * @returns readable namespaceDTO
    */
   static formatNamespace = namespace => {
@@ -184,11 +196,24 @@ class NamespaceService {
   }
 
   /**
-   *
+   * Format mosaic name to readable object
+   * @param mosaicName - mosaicName DTO
+   * @returns readable mosaicName DTO
    */
   static formatMosaicName = mosaicName => ({
     ...mosaicName,
     mosaicId: mosaicName.mosaicId.toHex()
+  })
+
+  /**
+   * Format account name to readable object
+   * @param accountName - accountName DTO
+   * @returns readable accountName DTO
+   */
+  static formatAccountName = accountName => ({
+    ...accountName,
+    address: accountName.address.plain(),
+    names: accountName.names.map(name => this.formatNamespaceName(name))
   })
 
   /**

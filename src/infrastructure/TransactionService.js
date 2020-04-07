@@ -110,10 +110,10 @@ class TransactionService {
 
     return formatted.map(transaction => ({
       ...transaction,
-      height: transaction.transactionInfo.height,
-      transactionHash: transaction.transactionInfo.hash,
-      type: transaction.transactionBody.type,
-      recipient: transaction.transactionBody?.recipient
+      height: transaction.height,
+      transactionHash: transaction.hash,
+      type: transaction.type,
+      recipient: transaction?.recipient
     }))
   }
 
@@ -129,8 +129,8 @@ class TransactionService {
     ),
     maxFee: format.toNetworkCurrency(transaction.maxFee),
     signer: transaction.signer.address.plain(),
-    transactionInfo: this.formatTransactionInfo(transaction.transactionInfo),
-    transactionBody: this.formatTransactionBody(transaction)
+    ...this.formatTransactionInfo(transaction.transactionInfo),
+    ...this.formatTransactionBody(transaction)
   })
 
   /**

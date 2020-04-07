@@ -17,12 +17,11 @@
  */
 
 import { Listener } from 'symbol-sdk'
-import { BlockService } from '../infrastructure'
 
 class ListenerService {
   /**
    * Subscribe to new blocks announced to the chain.
-   * @param onAdd - Getters pb
+   * @param onAdd - Getters function
    * @param wsEndpoint - WS endpoint in string format.
    * @returns Array object [Listener, Subscription]
    */
@@ -32,7 +31,7 @@ class ListenerService {
     let subscription = listener
       .newBlock()
       .subscribe(
-        block => onAdd(BlockService.formatBlock(block)),
+        block => onAdd(block),
         err => console.log(err)
       )
 
