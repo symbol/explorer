@@ -65,7 +65,7 @@ class MetadataService {
   }
 
   /**
-   * Format Metadata to readable NodoInfo object
+   * Format Metadata to readable object
    * @param MetadataDTO
    * @returns Object readable MetadataDTO object
    */
