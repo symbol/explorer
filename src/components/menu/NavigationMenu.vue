@@ -70,7 +70,7 @@ export default {
 <style lang="scss" scoped>
 .ex-menu {
     background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
-    box-shadow: 0 2px 10px 2px rgba(0, 0, 0, 0.5);
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
     padding: 0 60px;
     position: relative;
 
@@ -107,7 +107,6 @@ export default {
     .ex-menu-item.active::before {
         content: '';
         position: absolute;
-        bottom: 0;
         left: 0;
         width: 100%;
         height: 3px;
