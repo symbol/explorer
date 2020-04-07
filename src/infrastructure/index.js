@@ -1,4 +1,5 @@
 import NodeService from './NodeService'
+import AccountService from './AccountService'
 import MetadataService from './MetadataService'
 import RestrictionService from './RestrictionService'
 import ListenerService from './ListenerService'
@@ -12,6 +13,7 @@ import TransactionService from './TransactionService'
 
 export {
   NodeService,
+  AccountService,
   MetadataService,
   RestrictionService,
   ListenerService,
