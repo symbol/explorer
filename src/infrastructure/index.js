@@ -10,6 +10,7 @@ import DataService from './DataService'
 import MosaicService from './MosaicService'
 import NamespaceService from './NamespaceService'
 import TransactionService from './TransactionService'
+import MultisigService from './MultisigService'
 
 export {
   NodeService,
@@ -23,5 +24,6 @@ export {
   MosaicService,
   NamespaceService,
   TransactionService,
-  BlockService
+  BlockService,
+  MultisigService
 }
