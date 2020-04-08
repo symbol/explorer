@@ -18,6 +18,7 @@
 
 import http from './http'
 import helper from '../helper'
+import { Address, MosaicId } from 'symbol-sdk'
 import { DataService, NamespaceService } from '../infrastructure'
 import { Constants } from '../config'
 
@@ -44,6 +45,16 @@ class MosaicService {
      const formattedMosaic = this.formatMosaicInfo(mosaic)
 
      return formattedMosaic
+   }
+
+   /**
+    * Get balance mosaics in form of MosaicAmountViews for a given account address
+    * @param address - Account address
+    * @returns formatted MosaicAmountView[]
+    */
+   static getMosaicAmountView = async address => {
+     const mosaicAmountViews = await http.mosaicService.mosaicsAmountViewFromAddress(Address.createFromRawAddress(address)).toPromise()
+     return mosaicAmountViews.map(mosaicAmountView => this.formatMosaicAmountView(mosaicAmountView))
    }
 
    /**
@@ -81,6 +92,24 @@ class MosaicService {
    }
 
    /**
+    * Get customize MosaicAmountView dataset for Vue component.
+    * @param address - Account address
+    * @returns customize MosaicAmountView[]
+    */
+   static getMosaicAmountViewList = async address => {
+     const mosaicAmountViewInfos = await this.getMosaicAmountView(address)
+
+     const mosaicIdsList = mosaicAmountViewInfos.map(mosaicAmountViewInfo => new MosaicId(mosaicAmountViewInfo.mosaicId))
+     const moasicNames = await NamespaceService.getMosaicsNames(mosaicIdsList)
+
+     return mosaicAmountViewInfos.map(mosaicAmountViewInfo => ({
+       ...mosaicAmountViewInfo,
+       amount: helper.formatMosaicAmountWithDivisibility(mosaicAmountViewInfo.amount, mosaicAmountViewInfo.divisibility),
+       mosaicAliasName: this.extractMosaicNamespace(mosaicAmountViewInfo, moasicNames)
+     }))
+   }
+
+   /**
     * Format MosaicInfo to readable mosaicInfo object
     * @param MosaicInfoDTO
     * @returns Object readable MosaicInfoDTO object
@@ -97,6 +126,16 @@ class MosaicService {
      supplyMutable: mosaicInfo.flags.supplyMutable,
      transferable: mosaicInfo.flags.transferable,
      restrictable: mosaicInfo.flags.restrictable
+   })
+
+   /**
+    * format MosaicAmountView to readable object
+    * @param mosaicAmountView - mosaicAmountView DTO
+    * @returns formatted mosaicAmountView
+    */
+   static formatMosaicAmountView = mosaicAmountView => ({
+     ...this.formatMosaicInfo(mosaicAmountView.mosaicInfo),
+     amount: mosaicAmountView.amount.compact()
    })
 
    /**
