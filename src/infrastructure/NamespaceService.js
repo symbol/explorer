@@ -21,6 +21,7 @@ import helper from '../helper'
 import Constants from '../config/constants'
 import moment from 'moment'
 import { DataService, ChainService } from '../infrastructure'
+import { Address, QueryParams } from 'symbol-sdk'
 
 class NamespaceService {
   /**
@@ -60,6 +61,28 @@ class NamespaceService {
   }
 
   /**
+   * Gets array of Namespace for an account
+   * @param address - string of address
+   * @param namespaceId — (Optional) retrive next namespace in pagination
+   * @returns customize Namespace[]
+   */
+  static getNamespacesFromAccount = async (address, namesapceId) => {
+    let id = namesapceId || ''
+    let pageSize = 10
+
+    const namespacesFromAccount = await http.namespace
+      .getNamespacesFromAccount(Address.createFromRawAddress(address), new QueryParams({ pageSize, id }))
+      .toPromise()
+
+    // Convert NamespaceInfo to Namespace
+    const namespaces = await this.toNamespaces(namespacesFromAccount)
+
+    const formattedNamespaces = namespaces.map(namespace => this.formatNamespace(namespace))
+
+    return formattedNamespaces
+  }
+
+  /**
    * Get namespace info and name from namespace Id
    * @param namespaceId - Namespace id
    * @returns formatted namespace info and name
@@ -74,7 +97,7 @@ class NamespaceService {
   /**
    * Get namespace info for Vue Component
    * @param hexOrNamespace - hex value or namespace name
-   * @returns Custom namespace info Object
+   * @returns customize namespace info Object
    */
   static getNamespaceInfo = async (hexOrNamespace) => {
     let namespaceId = await helper.hexOrNamespaceToId(hexOrNamespace, 'namespace')
@@ -108,22 +131,16 @@ class NamespaceService {
   }
 
   /**
-   * Get custom NamespaceInfo dataset into Vue Component
+   * Get customize NamespaceInfo dataset into Vue Component
    * @param limit — No of namespaceInfo
    * @param fromNamespaceId — (Optional) retrive next namespace in pagination
-   * @returns custom NamespaceInfo[]
+   * @returns customize NamespaceInfo[]
    */
   static getNamespaceList = async (limit, fromNamespaceId) => {
     const namespaceInfos = await DataService.getNamespacesFromIdWithLimit(limit, fromNamespaceId)
 
-    const namespaceIdsList = namespaceInfos.map(namespacesInfo => namespacesInfo.id)
-    const namespaceNames = await this.getNamespacesName(namespaceIdsList)
-
-    const namespaces = namespaceInfos.map(namespaceInfo => ({
-      ...namespaceInfo,
-      id: namespaceInfo.id,
-      name: this.extractFullNamespace(namespaceInfo, namespaceNames)
-    }))
+    // Convert NamespaceInfo[] to Namespace[]
+    const namespaces = await this.toNamespaces(namespaceInfos)
 
     const formattedNamespaces = namespaces.map(namespace => this.formatNamespace(namespace))
 
@@ -141,6 +158,43 @@ class NamespaceService {
         expiredInBlock: expiredInBlock
       }
     })
+  }
+
+  /**
+   * Get customize Namespace dataset for Vue component.
+   * @param address - string of address
+   * @param namespaceId — (Optional) retrive next namespace in pagination
+   * @returns customizeize Namespace[]
+   */
+  static getNamespacesFromAccountList = async (address, namesapceId) => {
+    const namespacesFromAccountInfos = await this.getNamespacesFromAccount(address, namesapceId)
+
+    const currentHeight = await ChainService.getBlockchainHeight()
+
+    return namespacesFromAccountInfos.map(namespacesFromAccountInfo => {
+      const { expiredInSecond } = helper.calculateNamespaceExpiration(currentHeight, namespacesFromAccountInfo.endHeight)
+      return {
+        ...namespacesFromAccountInfo,
+        status: namespacesFromAccountInfo.active,
+        duration: moment.utc().add(expiredInSecond, 's').fromNow() || Constants.Message.UNLIMITED
+      }
+    })
+  }
+
+  /**
+   * Convert NamespaceInfo[] to Namespace[]
+   * @param NamespaceInfo[] - array of NamespaceInfo
+   * @returns Namespace[]
+   */
+  static toNamespaces = async (namespaceInfos) => {
+    const namespaceIdsList = namespaceInfos.map(namespaceInfo => namespaceInfo.id)
+    const namespaceNames = await this.getNamespacesName(namespaceIdsList)
+
+    return namespaceInfos.map(namespaceInfo => ({
+      ...namespaceInfo,
+      id: namespaceInfo.id,
+      name: this.extractFullNamespace(namespaceInfo, namespaceNames)
+    }))
   }
 
   /**
@@ -178,6 +232,7 @@ class NamespaceService {
     }
 
     return {
+      ...namespace,
       owner: namespace.owner.address.plain(),
       namespaceName: namespace.name,
       namespaceId: namespace.id.toHex(),
