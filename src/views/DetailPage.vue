@@ -34,7 +34,7 @@
                     <template #body v-if="item.body">
                         <component
                             :is="item.body"
-                            :data="getData(item)"
+                            :data="data(item)"
                             :timeline="getter(item.managerGetter)"
                             :timelinePagination="item.timelinePagination"
                             :pagination="item.pagination"
@@ -58,10 +58,6 @@
 <script>
 import View from './View.vue'
 import MetadataEntries from '../components/MetadataEntries'
-import {
-  DataSet,
-  Timeline
-} from '../store/manager'
 export default {
   extends: View,
   components: { MetadataEntries },
@@ -118,35 +114,45 @@ export default {
         return this.getter(item.managerGetter)?.error
     },
 
-    getData(item) {
-      if (typeof item.dataGetter === 'string')
-        return this.getter(item.dataGetter)
-      else {
+    filterArrayFields(data, fields) {
+      return data.map(row => {
+        let field = {}
+        for (let dataField of fields) {
+          if (Object.keys(row).includes(dataField))
+            field[dataField] = row[dataField]
+        }
+        return field
+      })
+    },
+
+    filterObjectFields(data, fields) {
+      let field = {}
+      for (let dataField of fields) {
+        if (Object.keys(data).includes(dataField))
+          field[dataField] = data[dataField]
+      }
+      return field
+    },
+
+    data(item) {
+      if (typeof item.dataGetter === 'string') {
+        let dataGetter = this.getter(item.dataGetter)
+
+        if (Array.isArray(item.fields)) {
+          if (Array.isArray(dataGetter))
+            return this.filterArrayFields(dataGetter, item.fields)
+          return this.filterObjectFields(dataGetter, item.fields)
+        }
+        return dataGetter
+      } else {
         let managerGetter = this.getter(item.managerGetter)
 
         if (Array.isArray(item.fields)) {
-          let field = {}
-          if (managerGetter instanceof DataSet) {
-            for (let dataField of item.fields) {
-              if (Object.keys(managerGetter.data).includes(dataField))
-                field[dataField] = managerGetter.data[dataField]
-            }
-
-            return field
-          } else if (managerGetter instanceof Timeline) {
-            return managerGetter.data.map(row => {
-              let field = {}
-              for (let dataField of item.fields) {
-                if (Object.keys(row).includes(dataField))
-                  field[dataField] = row[dataField]
-              }
-
-              return field
-            })
-          } else
-            return managerGetter.data
+          if (Array.isArray(managerGetter.data))
+            return this.filterArrayFields(managerGetter.data, item.fields)
+          return this.filterObjectFields(managerGetter.data, item.fields)
         }
-        return managerGetter.data
+        return managerGetter?.data
       }
     }
   }
