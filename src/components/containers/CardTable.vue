@@ -1,0 +1,195 @@
+<template>
+    <Card
+        class="card-f card-full-width"
+        :loading="loading"
+        :error="error"
+    >
+        <template #title>
+            {{getNameByKey(title)}}
+        </template>
+        <template #control>
+            <div class="ex-infotext" v-if="hasInfoText"> {{infoText}} </div>
+            <Dropdown
+                v-if="hasFilter"
+                :options="filterOptions"
+                :value="filterValue"
+                right
+                @change="changeFilterValue"
+            />
+            <Pagination
+                v-else-if="pagination === 'custom'"
+                v-bind="paginationOptions"
+            />
+        </template>
+        <template #body>
+            <TableListView
+                v-if="Array.isArray(data)"
+                :data="data"
+                :timeline="timeline"
+                :timelinePagination="pagination === 'server'"
+                :pagination="pagination === 'client'"
+                :pageSize="pageSize"
+            />
+            <TableInfoView
+                v-else-if="typeof data === 'object'"
+                :data="data"
+            />
+            <div v-else>
+                {{getNameByKey('No data provided')}}
+            </div>
+        </template>
+
+        <template #error>
+            {{getNameByKey('Unable to fetch data')}}
+        </template>
+    </Card>
+</template>
+
+<script>
+import Card from '@/components/containers/Card.vue'
+import TableListView from '@/components/tables/TableListView.vue'
+import TableInfoView from '@/components/tables/TableInfoView.vue'
+import Dropdown from '@/components/controls/Dropdown.vue'
+import Pagination from '@/components/controls/Pagination.vue'
+
+export default {
+    components: {
+        Card,
+        TableListView,
+        TableInfoView,
+        Dropdown,
+        Pagination
+    },
+
+    props: {
+        // Displays title in the card header
+        title: {
+            type: String
+        },
+        // Displays text in the card header
+        hasInfoText: {
+            type: Boolean,
+            default: false
+        },
+        infoTextGetter: {
+            type: String
+        },
+        // Adds dropdown for Filter Data Manager
+        hasFilter: {
+            type: Boolean,
+            default: false
+        },
+        // Data Manager getter (DataSet, Timeline, Filter)
+        managerGetter: {
+            type: String | undefined,
+            default: undefined
+        },
+        // Object or Array. If not provided, will use data from Data Manager
+        dataGetter: {
+            type: String | undefined,
+            default: undefined
+        },
+        // pagination: 'disabled' | 'client' | 'server'(works only with Timeline data manager) | 'custom'(displayed in the header)
+        pagination: {
+            type: String,
+            default: 'disabled'
+        },
+        // options for custom pagination (props of the Parination component) (displayed in the header)
+        paginationOptions: {
+            type: Object,
+            default: () => ({})
+        },
+        // client-side pagination pageSize
+        pageSize: {
+            type: Number,
+            default: 10
+        },
+        // columns to show in the table
+        columns: {
+            type: Array | undefined
+        },
+        // columns to show in the table (mobile view)
+        mobileColumns: {
+            type: Array | undefined
+        }
+    },
+
+    computed: {
+        manager() {
+            return this.getter(this.managerGetter) || {}
+        },
+        
+        data() {
+            const data = this.getter(this.dataGetter) || this.manager.data
+            if (typeof data === 'undefined')
+                throw Error('ListPage error. Manager or Data getter is not provided')
+
+            if (Array.isArray(data) && this.$store.getters['ui/isMobile'] && Array.isArray(this.mobileColumns)) {
+                return data.map(row => {
+                    let mobileRow = {}
+
+                    for (let item of this.mobileColumns) {
+                        if (Object.keys(row).includes(item))
+                        mobileRow[item] = row[item]
+                    }
+
+                    return mobileRow
+                })
+            } 
+            else
+            if (Array.isArray(data) && Array.isArray(this.columns)) {
+                return data.map(row => {
+                    let columnRow = {}
+
+                    for (let item of this.columns) {
+                        if (Object.keys(row).includes(item))
+                        columnRow[item] = row[item]
+                    }
+
+                    return columnRow
+                })
+            } 
+            else
+                return data
+        },
+
+        loading() {
+            return this.manager.loading
+        },
+
+        error() {
+            return this.manager.error
+        },
+
+        infoText() {
+            if (typeof this.infoTextGetter === 'string')
+                return this.getter(this.infoTextGetter)
+        },
+
+        filterValue() {
+            return this.manager.filterValue
+        },
+
+        filterOptions() {
+            return this.manager.filterOptions
+        }
+    },
+
+    methods: {
+        getNameByKey(e) {
+            return this.$store.getters['ui/getNameByKey'](e)
+        },
+
+        changeFilterValue(e) {
+            if(typeof this.manager.changeFilterValue === 'function')
+                this.manager.changeFilterValue(e)
+            else
+                console.error('Failed to change filter value. "changeFilterValue" is not a function')
+        },
+
+        getter(name) {
+            return this.$store.getters[name]
+        }
+    }
+}
+</script>
