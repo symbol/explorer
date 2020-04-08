@@ -2,30 +2,48 @@
     <div class="page-assembler">
         <div class="page" v-if="layout === 'flex'">
             <div class="page-content-card-f">
-                <component
-                    :is="item.type"
-                    v-if="item.type === 'Card' && isItemShown(item)"
-                    class="card-f"
-                    :class="{'card-full-width': item.layoutOptions === 'full-width', 'card-adaptive': item.layoutOptions === 'adaptive'}"
-                    v-bind="item"
-                    :key="item.title + index"
-                >
+                <template v-for="(item, index) in schema">
+                    <component
+                        :is="item.type"
+                        v-if="isItemShown(item)"
+                        class="card-f"
+                        :class="{'card-full-width': item.layoutOptions === 'full-width', 'card-adaptive': item.layoutOptions === 'adaptive'}"
+                        v-bind="item"
+                        :key="item.title + index"
+                    />
+                </template>
             </div>
         </div>
-        <b-container fluid class="px-0 py-0" v-if="layout === 'flex'">
+        <b-container fluid class="px-0 py-0" v-else-if="layout === 'bootstrap'">
             <b-row class="my-4 mx-0 mx-xs-0 mx-md-4 mx-lg-8">
+                <template v-for="(item, index) in schema">
+                    <b-col :class="item.layoutOptions" :key="item.title + index + 'col'">
+                        <component
+                            :is="item.type"
+                            v-if="isItemShown(item)"
+                            v-bind="item"
+                            :key="item.title + index"
+                        />
+                    </b-col>
+                </template>
             </b-row>
         </b-container>
     </div>
 </template>
 
 <script>
-import Card from '@/components/containers/Card.vue'
+import CardTable from '@/components/containers/CardTable.vue'
 
 export default {
-  extends: View,
-  components: { MetadataEntries },
+    components: { 
+        CardTable 
+    },
+
   props: {
+    storeNamespaces: {
+        type: Array,
+        default: () => []
+    },
     layout: {
         type: String,
         required: true,
@@ -34,7 +52,16 @@ export default {
     schema: {
       type: Array,
       required: true,
-      default: () => ([])
+      default: () => []
+    }
+  },
+
+  async mounted() {
+      console.log('initialize', this.storeNamespaces)
+    await this.$store.dispatch('initialize', this.$route)
+    if (this.storeNamespaces?.length) {
+      for (const namespace of this.storeNamespaces)
+        await this.$store.dispatch(namespace + '/initialize')
     }
   },
 
@@ -52,35 +79,12 @@ export default {
         return this.$store.getters[e]
     },
 
-    action(actionName, value) {
-      this.$store.dispatch(actionName, value)
-    },
-
     isItemShown(item) {
-      return !item.hideEmptyData || this.getter(item.dataGetter)?.length > 0
+      return !item.hideEmptyData || this.getData(item)?.length > 0
     },
 
     getNameByKey(e) {
       return this.$store.getters['ui/getNameByKey'](e)
-    },
-
-    getErrorMessage(message) {
-      const errorMessage = message || 'Failed to fetch'
-      return this.getNameByKey(errorMessage)
-    },
-
-    getLoading(item) {
-      if (typeof item.loadingGetter === 'string')
-        return this.getter(item.loadingGetter)
-      else
-        return this.getter(item.managerGetter)?.loading
-    },
-
-    getError(item) {
-      if (typeof item.errorGetter === 'string')
-        return this.getter(item.errorGetter)
-      else
-        return this.getter(item.managerGetter)?.error
     },
 
     getData(item) {
@@ -94,6 +98,10 @@ export default {
 </script>
 
 <style lang="scss">
+.page-assembler {
+    width: 100%;
+    height: 100%;
+}
 .page {
     .page-content-card-f {
         padding: 10px;

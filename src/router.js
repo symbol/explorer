@@ -20,8 +20,19 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import listPages from './config/list-pages'
 import detailPages from './config/detail-pages'
-
+import PageAssembler from './views/PageAssembler.vue'
+import pages from './config/pages'
+console.log(pages)
 Vue.use(Router)
+
+const pagesRoutes = pages.map(page => ({
+    ...page,
+    meta: {
+      ...page.meta,
+      storeNamespaces: page.props?.storeNamespaces || []
+    },
+    component: PageAssembler
+  }))
 
 const listPagesRoutes = listPages.pages.map(page => ({
   ...page,
@@ -48,6 +59,7 @@ const routerConfig = {
   routes: [
     ...listPagesRoutes,
     ...detailPagesRoutes,
+    ...pagesRoutes,
     {
       path: '/',
       name: 'home',

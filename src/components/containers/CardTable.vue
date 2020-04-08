@@ -40,7 +40,7 @@
         </template>
 
         <template #error>
-            {{getNameByKey('Unable to fetch data')}}
+            {{getNameByKey(errorMessage)}}
         </template>
     </Card>
 </template>
@@ -111,6 +111,11 @@ export default {
         // columns to show in the table (mobile view)
         mobileColumns: {
             type: Array | undefined
+        },
+
+        errorMessage: {
+            type: String,
+            default: 'Unable to fetch data'
         }
     },
 
@@ -121,6 +126,8 @@ export default {
         
         data() {
             const data = this.getter(this.dataGetter) || this.manager.data
+            console.log(data)
+            
             if (typeof data === 'undefined')
                 throw Error('ListPage error. Manager or Data getter is not provided')
 
