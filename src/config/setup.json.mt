@@ -1,6 +1,6 @@
 {
 	"peersApi": {
-		"defaultNode":"http://api-01.us-west-1.symboldev.network:3000",
+		"defaultNode": "http://api-01.us-west-1.symboldev.network:3000",
 		"nodes": [
 			"http://api-01.us-west-1.symboldev.network:3000",
 			"http://api-01.ap-southeast-1.symboldev.network:3000",

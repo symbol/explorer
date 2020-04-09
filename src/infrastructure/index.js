@@ -11,6 +11,8 @@ import MosaicService from './MosaicService'
 import NamespaceService from './NamespaceService'
 import TransactionService from './TransactionService'
 import MultisigService from './MultisigService'
+import NetworkService from './NetworkService'
+import StatisticService from './StatisticService'
 
 export {
   NodeService,
@@ -25,5 +27,7 @@ export {
   NamespaceService,
   TransactionService,
   BlockService,
-  MultisigService
+  MultisigService,
+  NetworkService,
+  StatisticService
 }

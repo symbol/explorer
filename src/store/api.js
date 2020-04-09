@@ -70,6 +70,7 @@ export default {
 
         const nodeUrl = getters['currentNode']
         const marketDataUrl = getters['marketData']
+
         http.init(nodeUrl, marketDataUrl)
       }
       await LOCK.initialize(callback, commit, dispatch, getters)
