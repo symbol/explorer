@@ -48,9 +48,9 @@ export default {
 
   computed: {
     ...mapGetters({
-      rentalFees: 'statistics/getNetworkRentalFees',
-      loading: 'statistics/getLoadingInfo',
-      error: 'statistics/getError'
+      rentalFees: 'statistic/getNetworkRentalFees',
+      loading: 'statistic/getLoadingInfo',
+      error: 'statistic/getError'
     })
   },
 

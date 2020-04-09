@@ -32,8 +32,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      blockTimeDifferenceData: 'statistics/getBlockTimeDifferenceData',
-      loading: 'statistics/getLoadingBlockTimeDifference'
+      blockTimeDifferenceData: 'statistic/getBlockTimeDifferenceData',
+      loading: 'statistic/getLoadingBlockTimeDifference'
     }),
 
     chartData() {

@@ -56,9 +56,9 @@ export default {
 
   computed: {
     ...mapGetters({
-      transactionFees: 'statistics/getNetworkTransactionFees',
-      loading: 'statistics/getLoadingInfo',
-      error: 'statistics/getError'
+      transactionFees: 'statistic/getNetworkTransactionFees',
+      loading: 'statistic/getLoadingInfo',
+      error: 'statistic/getError'
     })
   },
 
