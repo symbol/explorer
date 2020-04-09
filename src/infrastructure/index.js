@@ -1,9 +1,9 @@
 import NodeService from './NodeService'
 import NetworkService from './NetworkService'
-import StatService from './StatService'
+import StatisticService from './StatisticService'
 
 export {
   NodeService,
   NetworkService,
-  StatService
+  StatisticService
 }

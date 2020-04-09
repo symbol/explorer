@@ -23,7 +23,7 @@ import mosaic from './mosaic'
 import namespace from './namespace'
 import node from './node'
 import transaction from './transaction'
-import statistics from './statistics'
+import statistic from './statistic'
 import ui from './ui'
 import helper from '../helper'
 import router from '../router'
@@ -45,7 +45,7 @@ export default new Vuex.Store({
     mosaic,
     namespace,
     node,
-    statistics
+    statistic
   },
   state: {
     destructionList: []
@@ -114,7 +114,7 @@ export default new Vuex.Store({
         dispatch('mosaic/uninitialize'),
         dispatch('namespace/uninitialize'),
         dispatch('transaction/uninitialize'),
-        dispatch('statistics/uninitialize'),
+        dispatch('statistic/uninitialize'),
         dispatch('node/uninitialize')
       ])
     },

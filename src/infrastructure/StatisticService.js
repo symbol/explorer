@@ -16,9 +16,9 @@
  *
  */
 
-import sdkBlock from '../infrastructure/getBlock'
+import sdkBlock from './getBlock'
 
-class StatService {
+class StatisticService {
   /**
    * Gets Block Time Difference dataset.
    * The dataset in use for Chart.
@@ -125,4 +125,4 @@ class StatService {
   }
 }
 
-export default StatService
+export default StatisticService

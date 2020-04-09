@@ -17,7 +17,7 @@
  */
 
 import Lock from './lock'
-import { NetworkService, StatService } from '../infrastructure'
+import { NetworkService, StatisticService } from '../infrastructure'
 
 const LOCK = Lock.create()
 
@@ -90,11 +90,11 @@ export default {
         commit('setNetworkRentalFees', rentalFeesInfo)
         commit('setLoadingInfo', false)
 
-        let blockTimeDifferenceDataset = await StatService.getBlockTimeDifferenceData(240, 60)
+        let blockTimeDifferenceDataset = await StatisticService.getBlockTimeDifferenceData(240, 60)
         commit('setBlockTimeDifferenceData', blockTimeDifferenceDataset)
         commit('setLoadingBlockTimeDifference', false)
 
-        let transactionPerBlockDataset = await StatService.getTransactionPerBlockData(240, 60)
+        let transactionPerBlockDataset = await StatisticService.getTransactionPerBlockData(240, 60)
         commit('setTransactionPerBlockData', transactionPerBlockDataset)
         commit('setLoadingTransactionPerBlock', false)
       } catch (e) {
