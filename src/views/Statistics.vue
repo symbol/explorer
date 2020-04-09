@@ -53,7 +53,7 @@ export default {
   },
   methods: {},
   mounted() {
-    this.$store.dispatch('statistics/initialize', this.$route)
+    this.$store.dispatch('statistic/initialize', this.$route)
   }
 }
 </script>

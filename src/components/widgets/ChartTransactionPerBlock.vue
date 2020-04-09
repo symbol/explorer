@@ -32,8 +32,8 @@ export default {
 
   computed: {
     ...mapGetters({
-      transactionPerBlockData: 'statistics/getTransactionPerBlockData',
-      loading: 'statistics/getLoadingTransactionPerBlock'
+      transactionPerBlockData: 'statistic/getTransactionPerBlockData',
+      loading: 'statistic/getLoadingTransactionPerBlock'
     }),
 
     chartData() {
