@@ -17,11 +17,22 @@
  */
 
 import http from './http'
+import axios from 'axios'
+import dto from './dto'
 
 class sdkDiagnostic {
     static getChainInfo = async () => {
       const chainInfo = await http.diagnostic.getStorageInfo().toPromise()
       return chainInfo
+    }
+
+    static getDiagnosticBlocksFromHeightWithLimit = async (limit, fromBlockHeight) => {
+      // Make request.
+      const path = `/diagnostic/blocks/${fromBlockHeight}/limit/${limit}`
+      const response = await axios.get(http.nodeUrl + path)
+      const blocks = response.data.map(info => dto.createBlockInfoFromDTO(info, http.networkType))
+
+      return blocks
     }
 }
 

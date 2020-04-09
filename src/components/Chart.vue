@@ -51,8 +51,12 @@ export default {
     toolbar: {
       type: Boolean,
       default: false
-    }
+    },
 
+    xaxisType: {
+      type: String,
+      default: 'datetime'
+    }
   },
 
   data() {
@@ -107,7 +111,7 @@ export default {
           display: false
         },
         xaxis: {
-          type: 'datetime',
+          type: this.xaxisType,
           axisBorder: {
             show: false,
             color: '#0998a6'

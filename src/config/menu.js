@@ -6,7 +6,7 @@ export default {
     { to: '/accounts', text: 'accounts', icon: 'IconAccounts' },
     { to: '/namespaces', text: 'namespaces', icon: 'IconNamespaces' },
     { to: '/mosaics', text: 'mosaics', icon: 'IconMosaics' },
-    { to: '/nodes', text: 'nodes', icon: 'IconNodes' }
-    // { to: '/stats', text: 'Statistics', classname: 'ico-bar-chart' },
+    { to: '/nodes', text: 'nodes', icon: 'IconNodes' },
+    { to: '/statistics', text: 'Statistics', icon: 'IconStatistics' }
   ]
 }

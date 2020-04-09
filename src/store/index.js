@@ -23,6 +23,7 @@ import mosaic from './mosaic'
 import namespace from './namespace'
 import node from './node'
 import transaction from './transaction'
+import statistic from './statistic'
 import ui from './ui'
 import helper from '../helper'
 import router from '../router'
@@ -43,7 +44,8 @@ export default new Vuex.Store({
     account,
     mosaic,
     namespace,
-    node
+    node,
+    statistic
   },
   state: {
     destructionList: []
@@ -66,7 +68,6 @@ export default new Vuex.Store({
       switch (route.name) {
       // Home
       case 'home':
-      case 'statistics':
         // Home: Requires blocks, chain, and transactions.
         return Promise.all([
           helper.logError(dispatch, 'block/initialize'),
@@ -87,6 +88,8 @@ export default new Vuex.Store({
         return helper.logError(dispatch, 'node/initialize')
       case 'transactions':
         return helper.logError(dispatch, 'transaction/initialize')
+      case 'statistics':
+        return helper.logError(dispatch, 'statistics/initialize')
 
         // Detail Views
       case 'account-detail':
@@ -111,6 +114,7 @@ export default new Vuex.Store({
         dispatch('mosaic/uninitialize'),
         dispatch('namespace/uninitialize'),
         dispatch('transaction/uninitialize'),
+        dispatch('statistic/uninitialize'),
         dispatch('node/uninitialize')
       ])
     },
