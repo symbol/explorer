@@ -20,7 +20,6 @@ import http from './http'
 import { Address } from 'symbol-sdk'
 
 class MultisigService {
-
   /**
    * Gets a MultisigAccountInfo for an account.
    * @param address - Account Address

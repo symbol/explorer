@@ -12,7 +12,7 @@ class RestrictionService {
   static getAccountRestrictions = async address => {
     let accountRestrictions
     try {
-      accountRestrictions = await http.restrictionAccount.getAccountRestrictions(address).toPromise()
+      accountRestrictions = await http.restrictionAccount.getAccountRestrictions(Address.createFromRawAddress(address)).toPromise()
     } catch (e) {
       // To Catach statusCode 404 if Account Restrictions is no available
       throw Error('Account Restrictions is no available.')
@@ -101,13 +101,11 @@ class RestrictionService {
 
   /**
    * Format Account Restriction list dataset into Vue component
-   * @param rawAddress - Address in string format.
+   * @param address - Address in string format.
    * @returns Account Restriction list
    */
-  static getAccountRestrictionList = async (rawAddress) => {
-    const address = Address.createFromRawAddress(rawAddress)
+  static getAccountRestrictionList = async (address) => {
     const accountRestrictions = await this.getAccountRestrictions(address)
-
     return accountRestrictions
   }
 
