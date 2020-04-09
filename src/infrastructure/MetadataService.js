@@ -17,9 +17,10 @@
  */
 
 import http from './http'
-import { Address } from 'symbol-sdk'
+import { Address, QueryParams } from 'symbol-sdk'
 import helper from '../helper'
 import Constants from '../config/constants'
+import format from '../format'
 
 class MetadataService {
   /**
@@ -27,13 +28,12 @@ class MetadataService {
    * @param address - Account address to be created from PublicKey or RawAddress
    * @returns Metadata[]
    */
-  static getAccountMetadata = async address => {
+  static getAccountMetadata = async (address, pageSize = 10, id = '') => {
     const metadatas = await http.metadata
-      .getAccountMetadata(address)
+      .getAccountMetadata(Address.createFromRawAddress(address), new QueryParams({ pageSize, id }))
       .toPromise()
 
-    const formattedAccountMetadata = metadatas.map(metadata => this.formatMetadata(metadata))
-    return formattedAccountMetadata
+    return metadatas.map(metadata => this.formatMetadata(metadata))
   }
 
   /**
@@ -46,8 +46,7 @@ class MetadataService {
       .getMosaicMetadata(mosaicId)
       .toPromise()
 
-    const formattedMosaicMetadata = metadatas.map(metadata => this.formatMetadata(metadata))
-    return formattedMosaicMetadata
+    return metadatas.map(metadata => this.formatMetadata(metadata))
   }
 
   /**
@@ -60,24 +59,32 @@ class MetadataService {
       .getNamespaceMetadata(namespaceId)
       .toPromise()
 
-    const formattedNamespaceMetadata = metadatas.map(metadata => this.formatMetadata(metadata))
-    return formattedNamespaceMetadata
+    return metadatas.map(metadata => this.formatMetadata(metadata))
   }
 
   /**
    * Format Metadata to readable object
-   * @param MetadataDTO
-   * @returns Object readable MetadataDTO object
+   * @param metadata - metadata DTO
+   * @returns readable Metadata object
    */
   static formatMetadata = metadata => ({
     metadataId: metadata.id,
-    compositeHash: metadata.metadataEntry.compositeHash,
-    scopedMetadataKey: metadata.metadataEntry.scopedMetadataKey.toHex(),
-    senderAddress: Address.createFromPublicKey(metadata.metadataEntry.senderPublicKey, http.networkType).plain(),
-    targetAddress: Address.createFromPublicKey(metadata.metadataEntry.targetPublicKey, http.networkType).plain(),
-    metadataType: Constants.MetadataType[metadata.metadataEntry.metadataType],
-    targetId: metadata.metadataEntry.targetId ? metadata.metadataEntry.targetId.toHex() : Constants.Message.UNAVAILABLE,
-    metadataValue: metadata.metadataEntry.value
+    ...this.formatMetadataEntry(metadata.metadataEntry)
+  })
+
+  /**
+   * Format MetadataEntry to readable object
+   * @param metadataEntry - metadataEntry DTO
+   * @returns readable metadataEntry object
+   */
+  static formatMetadataEntry = metadataEntry => ({
+    ...metadataEntry,
+    scopedMetadataKey: metadataEntry.scopedMetadataKey.toHex(),
+    senderAddress: format.publicKeyToAddress(metadataEntry.senderPublicKey),
+    targetAddress: format.publicKeyToAddress(metadataEntry.targetPublicKey),
+    metadataType: Constants.MetadataType[metadataEntry.metadataType],
+    targetId: metadataEntry.targetId ? metadataEntry.targetId.toHex() : Constants.Message.UNAVAILABLE,
+    metadataValue: metadataEntry.value
   })
 
   /**
@@ -85,11 +92,9 @@ class MetadataService {
    * @param rawAddress - Address in string format.
    * @returns Account Metadata list
    */
-  static getAccountMetadataList = async (rawAddress) => {
-    const address = Address.createFromRawAddress(rawAddress)
-    const accountMetadata = await this.getAccountMetadata(address)
-
-    return accountMetadata
+  static getAccountMetadataList = async (rawAddress, pageSize, id) => {
+    const accountMetadatas = await this.getAccountMetadata(rawAddress, pageSize, id)
+    return accountMetadatas
   }
 
   /**
