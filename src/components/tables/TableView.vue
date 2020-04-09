@@ -83,6 +83,9 @@ export default {
         'balance'
       ],
       allowArrayToView: [
+        'linkedNamespace',
+        'cosignatories',
+        'multisigAccounts',
         'restrictionAddressValues',
         'restrictionMosaicValues',
         'restrictionTransactionValues',

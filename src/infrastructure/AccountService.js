@@ -16,11 +16,11 @@
  *
  */
 
-import { Address } from 'symbol-sdk'
+import { Address, QueryParams } from 'symbol-sdk'
 import http from './http'
 import format from '../format'
 import { Constants } from '../config'
-import { DataService, NamespaceService } from '../infrastructure'
+import { DataService, NamespaceService, TransactionService } from '../infrastructure'
 import helper from '../helper'
 
 class AccountService {
@@ -30,10 +30,18 @@ class AccountService {
    * @returns Formatted AccountInfo
    */
   static getAccount = async address => {
-    const account = await http.account.getAccountInfo(address).toPromise()
+    const account = await http.account.getAccountInfo(Address.createFromRawAddress(address)).toPromise()
     const formattedAccount = this.formatAccountInfo(account)
 
     return formattedAccount
+  }
+
+  static getAccountTransactions = async (address, pageSize = 10, id = '') => {
+    const transactions = await http.account
+      .getAccountTransactions(Address.createFromRawAddress(address), new QueryParams({ pageSize, id }))
+      .toPromise()
+
+    return transactions.map(transaction => TransactionService.formatTransaction(transaction))
   }
 
   /**
@@ -56,6 +64,30 @@ class AccountService {
       balance: helper.getNetworkCurrencyBalance(formattedAccountInfo.mosaics),
       lastActivity: helper.getLastActivityHeight(formattedAccountInfo.activityBucket),
       accountAliasName: this.extractAccountNamespace(formattedAccountInfo, accountNames)
+    }))
+  }
+
+  static getAccountInfo = async address => {
+    const accountInfo = await this.getAccount(address)
+    return {
+      ...accountInfo,
+      activityBucket: accountInfo.activityBucket.map(activity => ({
+        ...activity,
+        recalculationBlock: activity.startHeight,
+        totalFeesPaid: format.toNetworkCurrency(activity.totalFeesPaid),
+        importanceScore: activity.rawScore
+      }))
+    }
+  }
+
+  static getAccountTransactionList = async (address, pageSize, transactionId) => {
+    const accountTransactions = await this.getAccountTransactions(address, pageSize, transactionId)
+
+    return accountTransactions.map(accountTransaction => ({
+      ...accountTransaction,
+      transactionHash: accountTransaction.hash,
+      transactionType: accountTransaction.type,
+      direction: accountTransaction.type === 'Transfer' ? (accountTransaction.signer === address ? 'outgoing' : 'incoming') : void 0
     }))
   }
 

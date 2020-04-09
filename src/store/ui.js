@@ -48,6 +48,8 @@ export default {
       'restrictionAddressAdditions': 'account',
       'restrictionAddressDeletions': 'account',
       'accountAliasName': 'account',
+      'cosignatories': 'account',
+      'multisigAccounts': 'account',
 
       'transactionHash': 'transaction',
 

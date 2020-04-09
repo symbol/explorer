@@ -18,8 +18,14 @@
 
 import Lock from './lock'
 import Constants from '../config/constants'
-import sdkAccount from '../infrastructure/getAccount'
-import { AccountService } from '../infrastructure'
+import {
+  AccountService,
+  MosaicService,
+  NamespaceService,
+  MultisigService,
+  MetadataService,
+  RestrictionService
+} from '../infrastructure'
 import {
   Filter,
   DataSet,
@@ -45,47 +51,66 @@ const managers = [
   ),
   new DataSet(
     'info',
-    (address) => sdkAccount.getAccountInfoByAddressFormatted(address)
+    (address) => AccountService.getAccountInfo(address)
   ),
+  new DataSet(
+    'OwnedMosaic',
+    (address) => MosaicService.getMosaicAmountViewList(address)
+  ),
+  new Timeline(
+    'OwnedNamespace',
+    (pageSize, store) => NamespaceService.getNamespacesFromAccountList(store.getters.getCurrentAccountAddress),
+    (key, pageSize, store) => NamespaceService.getNamespacesFromAccountList(store.getters.getCurrentAccountAddress, key),
+    'metaId',
+    10
+  ),
+  new DataSet(
+    'multisig',
+    (address) => MultisigService.getMultisigAccountInfo(address)
+  ),
+  new Timeline(
+    'transactions',
+    (pageSize, store) => AccountService.getAccountTransactionList(store.getters.getCurrentAccountAddress, pageSize),
+    (key, pageSize, store) => AccountService.getAccountTransactionList(store.getters.getCurrentAccountAddress, pageSize, key),
+    'id',
+    10
+  ),
+  new Timeline(
+    'metadatas',
+    (pageSize, store) => MetadataService.getAccountMetadataList(store.getters.getCurrentAccountAddress, pageSize),
+    (key, pageSize, store) => MetadataService.getAccountMetadataList(store.getters.getCurrentAccountAddress, pageSize, key),
+    'id',
+    10
+  ),
+  new DataSet(
+    'restrictions',
+    (address) => RestrictionService.getAccountRestrictionList(address)
+  )
 
   // TODO OlegMakarenko: Add `getAccountTransactions` method to `infratructure.getAccount`
-  new Timeline(
-    'all',
-    (pageSize, store) => sdkAccount.getAccountTransactions(pageSize, null, store.getters.currentAccountAddress),
-    (key, pageSize, store) => sdkAccount.getAccountTransactions(pageSize, null, store.getters.currentAccountAddress, key),
-    'transactionHash',
-    10
-  ),
-  new Timeline(
-    'mosaic',
-    (pageSize, store) => sdkAccount.getAccountTransactions(pageSize, 'mosaic', store.getters.currentAccountAddress),
-    (key, pageSize, store) => sdkAccount.getAccountTransactions(pageSize, 'mosaic', store.getters.currentAccountAddress, key),
-    'transactionHash',
-    10
-  ),
-  new Timeline(
-    'namespace',
-    (pageSize, store) => sdkAccount.getAccountTransactions(pageSize, 'namespace', store.getters.currentAccountAddress),
-    (key, pageSize, store) => sdkAccount.getAccountTransactions(pageSize, 'namespace', store.getters.currentAccountAddress, key),
-    'transactionHash',
-    10
-  ),
-  new Timeline(
-    'transfer',
-    (pageSize, store) => sdkAccount.getAccountTransactions(pageSize, 'transfer', store.getters.currentAccountAddress),
-    (key, pageSize, store) => sdkAccount.getAccountTransactions(pageSize, 'transfer', store.getters.currentAccountAddress, key),
-    'transactionHash',
-    10
-  ),
-  new Filter(
-    'transactions',
-    {
-      all: 'All transactions',
-      mosaic: 'Mosaic transactions',
-      namespace: 'Namespace transactions',
-      transfer: 'Transfers'
-    }
-  )
+  // new Timeline(
+  //   'all',
+  //   (pageSize, store) => sdkAccount.getAccountTransactions(pageSize, null, store.getters.currentAccountAddress),
+  //   (key, pageSize, store) => sdkAccount.getAccountTransactions(pageSize, null, store.getters.currentAccountAddress, key),
+  //   'transactionHash',
+  //   10
+  // ),
+  // new Timeline(
+  //   'transfer',
+  //   (pageSize, store) => sdkAccount.getAccountTransactions(pageSize, 'transfer', store.getters.currentAccountAddress),
+  //   (key, pageSize, store) => sdkAccount.getAccountTransactions(pageSize, 'transfer', store.getters.currentAccountAddress, key),
+  //   'transactionHash',
+  //   10
+  // ),
+  // new Filter(
+  //   'transactions',
+  //   {
+  //     all: 'All transactions',
+  //     mosaic: 'Mosaic transactions',
+  //     namespace: 'Namespace transactions',
+  //     transfer: 'Transfers'
+  //   }
+  // )
 ]
 
 const LOCK = Lock.create()
@@ -95,24 +120,19 @@ export default {
   state: {
     ...getStateFromManagers(managers),
     // If the state has been initialized.
-    initialized: false
+    initialized: false,
+    currentAccountAddress: null
   },
   getters: {
     ...getGettersFromManagers(managers),
     getInitialized: state => state.initialized,
-    getAccountInfo: state => state.info?.data.accountInfo || {},
-    getAccountMultisig: state => state.info?.data.accountMultisig || {},
-    getAccountMultisigCosignatories: state => state.info?.data.accountMultisigCosignatories || [],
-    getNamespaceList: state => state.info?.data.namespaceList || [],
-    getMosaicList: state => state.info?.data.mosaicList || [],
-    getAccountRestrictionList: state => state.info?.data.accountRestrictionList || [],
-    getTransactionList: state => state.info?.data.transactionList || [],
-    getActivityBucketList: state => state.info?.data.activityBucketList || [],
-    getMetadataList: state => state.info?.data.metadataList || []
+    getActivityBucketList: state => state.info?.data.activityBucket || [],
+    getCurrentAccountAddress: state => state.currentAccountAddress
   },
   mutations: {
     ...getMutationsFromManagers(managers),
-    setInitialized: (state, initialized) => { state.initialized = initialized }
+    setInitialized: (state, initialized) => { state.initialized = initialized },
+    setCurrentAccountAddress: (state, currentAccountAddress) => { state.currentAccountAddress = currentAccountAddress }
   },
   actions: {
     ...getActionsFromManagers(managers),
@@ -137,8 +157,15 @@ export default {
     },
 
     // Fetch data from the SDK By Address.
-    async fetchAccountDataByAddress(context, address) {
+    async fetchAccountDetail(context, address) {
+      context.commit('setCurrentAccountAddress', address)
       await context.getters.info.setStore(context).initialFetch(address)
+      await context.getters.OwnedMosaic.setStore(context).initialFetch(address)
+      await context.getters.OwnedNamespace.setStore(context).initialFetch(address)
+      await context.getters.multisig.setStore(context).initialFetch(address)
+      await context.getters.transactions.setStore(context).initialFetch(address)
+      await context.getters.metadatas.setStore(context).initialFetch(address)
+      await context.getters.restrictions.setStore(context).initialFetch(address)
     }
   }
 }

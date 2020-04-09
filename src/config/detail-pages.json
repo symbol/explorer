@@ -14,8 +14,15 @@
                         "title": "Account Detail",
                         "fullWidth": true,
                         "body": "TableInfoView",
+                        "fields": [
+                            "address",
+                            "addressHeight",
+                            "publicKey",
+                            "importance",
+                            "type",
+                            "linkedAccountKey"
+                        ],
                         "managerGetter": "account/info",
-                        "dataGetter": "account/getAccountInfo",
                         "pagination": false,
                         "errorMessage": "Account is unknown to the network"
                     },
@@ -23,19 +30,28 @@
                         "type": "Card",
                         "title": "Multisig Cosignatories",
                         "fullWidth": false,
-                        "body": "TableListView",
-                        "managerGetter": "account/info",
-                        "dataGetter": "account/getAccountMultisigCosignatories",
-                        "pagination": true,
-                        "pageSize": 5
+                        "body": "TableInfoView",
+                        "fields": [
+                            "minApproval",
+                            "minRemoval",
+                            "cosignatories",
+                            "multisigAccounts"
+                        ],
+                        "managerGetter": "account/multisig",
+                        "pagination": false,
+                        "errorMessage": "Address is not belong to Multisig"
                     },
                     {
                         "type": "Card",
                         "title": "Owned Mosaics",
                         "fullWidth": false,
                         "body": "TableListView",
-                        "managerGetter": "account/info",
-                        "dataGetter": "account/getMosaicList",
+                        "managerGetter": "account/OwnedMosaic",
+                        "fields": [
+                            "mosaicId",
+                            "amount",
+                            "mosaicAliasName"
+                        ],
                         "pagination": true,
                         "pageSize": 5
                     },
@@ -44,8 +60,13 @@
                         "title": "Owned Namespaces",
                         "fullWidth": false,
                         "body": "TableListView",
-                        "managerGetter": "account/info",
-                        "dataGetter": "account/getNamespaceList",
+                        "managerGetter": "account/OwnedNamespace",
+                        "fields": [
+                            "namespaceName",
+                            "status",
+                            "duration",
+                            "registrationType"
+                        ],
                         "pagination": true,
                         "pageSize": 5
                     },
@@ -54,18 +75,24 @@
                         "title": "Account Restriction",
                         "fullWidth": true,
                         "body": "TableListView",
-                        "managerGetter": "account/info",
-                        "dataGetter": "account/getAccountRestrictionList",
+                        "managerGetter": "account/restrictions",
                         "pagination": false,
-                        "pageSize": 5
+                        "pageSize": 5,
+                        "errorMessage": "Account Restrictions is no available."
                     },
                     {
                         "type": "Card",
                         "title": "Metadata Entries",
                         "fullWidth": true,
                         "body": "TableListView",
-                        "dataGetter": "account/getMetadataList",
-                        "managerGetter": "account/info",
+                        "fields": [
+                            "metadataId",
+                            "scopedMetadataKey",
+                            "senderAddress",
+                            "targetAddress",
+                            "metadataValue"
+                        ],
+                        "managerGetter": "account/metadatas",
                         "pagination": true,
                         "pageSize": 5
                     },
@@ -74,6 +101,12 @@
                         "title": "Importance History",
                         "fullWidth": true,
                         "body": "TableListView",
+                        "fields": [
+                            "recalculationBlock",
+                            "totalFeesPaid",
+                            "beneficiaryCount",
+                            "importanceScore"
+                        ],
                         "managerGetter": "account/info",
                         "dataGetter": "account/getActivityBucketList",
                         "pagination": true,
@@ -92,8 +125,13 @@
                             }
                         ],
                         "body": "TableListView",
-                        "dataGetter": "account/getTransactionList",
-                        "managerGetter": "account/info",
+                        "fields": [
+                            "deadline",
+                            "transactionHash",
+                            "transactionType",
+                            "direction"
+                        ],
+                        "managerGetter": "account/transactions",
                         "pagination": true,
                         "pageSize": 10
                     }

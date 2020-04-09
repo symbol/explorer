@@ -93,7 +93,7 @@ export default new Vuex.Store({
 
         // Detail Views
       case 'account-detail':
-        return helper.logError(dispatch, 'account/fetchAccountDataByAddress', route.params.address || 0)
+        return helper.logError(dispatch, 'account/fetchAccountDetail', route.params.address || 0)
       case 'block-detail':
         return helper.logError(dispatch, 'block/fetchBlockInfo', route.params.height || 0)
       case 'mosaic-detail':

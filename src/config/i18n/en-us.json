@@ -182,5 +182,9 @@
     "balance": "Balance",
     "effectiveRootNamespaceRentalFeePerBlock": "Root Namespace Rental Fee / Block",
     "effectiveChildNamespaceRentalFee": "Child Namespace Rental Fee",
-    "effectiveMosaicRentalFee": "Mosaic Rental Fee"
+    "effectiveMosaicRentalFee": "Mosaic Rental Fee",
+    "recipientAddress": "Recipient",
+    "targetPublicAccount": "Address",
+    "cosignatories": "Cosignatories",
+    "multisigAccounts": "Multisig Accounts"
 }
