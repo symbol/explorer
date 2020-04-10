@@ -71,6 +71,12 @@ const routerConfig = {
         import('./views/Home.vue')
     },
     {
+      path: '/statistics',
+      name: 'statistics',
+      component: () =>
+        import('./views/Statistics.vue')
+    },
+    {
       path: '/terms',
       name: 'terms',
       meta: {
