@@ -1,7 +1,7 @@
 <template>
     <div class="page-assembler">
         <div class="page" v-if="layout === 'flex'">
-            <div class="page-content-card-f">
+            <div class="page-content-card-f" :class="layoutOptions">
                 <template v-for="(item, index) in schema">
                     <component
                         :is="item.type"
@@ -9,34 +9,55 @@
                         class="card-f"
                         :class="{'card-full-width': item.layoutOptions === 'full-width', 'card-adaptive': item.layoutOptions === 'adaptive'}"
                         v-bind="item"
-                        :key="item.title + index"
+                        :key="'col' + item.title + index"
                     />
                 </template>
             </div>
         </div>
         <b-container fluid class="px-0 py-0" v-else-if="layout === 'bootstrap'">
-            <b-row class="my-4 mx-0 mx-xs-0 mx-md-4 mx-lg-8">
+            <b-row class="my-4 mx-0 mx-xs-0 mx-md-4 mx-lg-8" :class="layoutOptions">
                 <template v-for="(item, index) in schema">
-                    <b-col :class="item.layoutOptions" :key="item.title + index + 'col'">
+                    <b-col :class="item.layoutOptions" class="bootstrap-col" :key="'col' + item.title + index">
                         <component
                             :is="item.type"
                             v-if="isItemShown(item)"
                             v-bind="item"
+                            style="width: 100%"
                             :key="item.title + index"
                         />
                     </b-col>
                 </template>
             </b-row>
         </b-container>
+        <div class="grid" v-else-if="layout === 'grid'">
+            <template v-for="(item, index) in schema">
+                <component
+                    :is="item.type"
+                    v-if="isItemShown(item)"
+                    style="margin-bottom: 0"
+                    :style="item.layoutOptions"
+                    v-bind="item"
+                    :key="'col' + item.title + index"
+                />
+            </template>
+        </div>
     </div>
 </template>
 
 <script>
 import CardTable from '@/components/containers/CardTable.vue'
+import BaseInfoWidget from '@/components/widgets/BaseInfoWidget.vue'
+import PriceChartWidget from '@/components/widgets/PriceChartWidget.vue'
+import RecentBlocksWidget from '@/components/widgets/RecentBlocksWidget.vue'
+import RecentTransactionsWidget from '@/components/widgets/RecentTransactionsWidget.vue'
 
 export default {
     components: { 
-        CardTable 
+        CardTable,
+        BaseInfoWidget,
+        PriceChartWidget,
+        RecentBlocksWidget,
+        RecentTransactionsWidget
     },
 
   props: {
@@ -49,6 +70,10 @@ export default {
         required: true,
         default: 'flex'
     },
+    layoutOptions: {
+        type: String,
+        default: ''
+    },
     schema: {
       type: Array,
       required: true,
@@ -57,7 +82,7 @@ export default {
   },
 
   async mounted() {
-      console.log('initialize', this.storeNamespaces)
+    console.log('initialize', this.storeNamespaces)
     await this.$store.dispatch('initialize', this.$route)
     if (this.storeNamespaces?.length) {
       for (const namespace of this.storeNamespaces)
@@ -102,6 +127,20 @@ export default {
     width: 100%;
     height: 100%;
 }
+
+.bootstrap-col {
+    display: flex;
+    display: -webkit-flex;
+    flex-wrap: wrap;
+}
+
+.grid {
+    margin: 20px;
+    height: 100%;
+    display: grid;
+    grid-gap: 20px;
+}
+
 .page {
     .page-content-card-f {
         padding: 10px;

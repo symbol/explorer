@@ -25,7 +25,7 @@
             <TableListView
                 v-if="Array.isArray(data)"
                 :data="data"
-                :timeline="timeline"
+                :timeline="manager"
                 :timelinePagination="pagination === 'server'"
                 :pagination="pagination === 'client'"
                 :pageSize="pageSize"
@@ -126,8 +126,7 @@ export default {
         
         data() {
             const data = this.getter(this.dataGetter) || this.manager.data
-            console.log(data)
-            
+
             if (typeof data === 'undefined')
                 throw Error('ListPage error. Manager or Data getter is not provided')
 
