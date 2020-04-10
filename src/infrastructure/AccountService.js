@@ -36,6 +36,13 @@ class AccountService {
     return formattedAccount
   }
 
+  /**
+   * Gets an array of confirmed transactions for which an account is signer or receiver.
+   * @param address - Account address
+   * @param pageSize - (default 10) no. of data
+   * @param id - (Optional) retrive next account transaction in pagination
+   * @returns Metadata[]
+   */
   static getAccountTransactions = async (address, pageSize = 10, id = '') => {
     const transactions = await http.account
       .getAccountTransactions(Address.createFromRawAddress(address), new QueryParams({ pageSize, id }))

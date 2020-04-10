@@ -43,8 +43,8 @@ const managers = [
   ),
   new Timeline(
     'blockTransactions',
-    (pageSize, store) => BlockService.getBlockTransactionList(store.getters.currentBlockHeight),
-    (key, pageSize, store) => BlockService.getBlockTransactionList(store.getters.currentBlockHeight, key),
+    (pageSize, store) => BlockService.getBlockTransactionList(store.getters.currentBlockHeight, pageSize),
+    (key, pageSize, store) => BlockService.getBlockTransactionList(store.getters.currentBlockHeight, pageSize, key),
     'transactionId',
     10
   ),

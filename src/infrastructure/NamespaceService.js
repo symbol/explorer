@@ -63,13 +63,11 @@ class NamespaceService {
   /**
    * Gets array of Namespace for an account
    * @param address - string of address
-   * @param namespaceId — (Optional) retrive next namespace in pagination
+   * @param pageSize - (default 10) no. of data
+   * @param id — (Optional) retrive next namespace in pagination
    * @returns customize Namespace[]
    */
-  static getNamespacesFromAccount = async (address, namesapceId) => {
-    let id = namesapceId || ''
-    let pageSize = 10
-
+  static getNamespacesFromAccount = async (address, pageSize = 10, id = '') => {
     const namespacesFromAccount = await http.namespace
       .getNamespacesFromAccount(Address.createFromRawAddress(address), new QueryParams({ pageSize, id }))
       .toPromise()

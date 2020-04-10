@@ -36,13 +36,11 @@ class BlockService {
   /**
    * Gets array of transactions included in a block for a block height
    * @param height - block height
-   * @param transactionId - (Optional) retrive next transactions in pagination
+   * @param pageSize - (default 10) no. of data
+   * @param id - (Optional) retrive next transactions in pagination
    */
-  static getBlockTransactions = async (height, transactionId) => {
-    let id = transactionId || ''
-    let pageSize = 10
-
-    let transactions = await http.block
+  static getBlockTransactions = async (height, pageSize = 10, id = '') => {
+    const transactions = await http.block
       .getBlockTransactions(UInt64.fromUint(height), new QueryParams({ pageSize, id }))
       .toPromise()
 
@@ -83,11 +81,12 @@ class BlockService {
   /**
    * Get Custom Transactions dataset into Vue Component
    * @param height - block height
+   * @param pageSize - no. of data
    * @param transactionId - (Optional) retrive next transactions in pagination
    * @returns Custom Transactions dataset
    */
-  static getBlockTransactionList = async (height, transactionId) => {
-    const blockTransactions = await this.getBlockTransactions(height, transactionId)
+  static getBlockTransactionList = async (height, pageSize, transactionId) => {
+    const blockTransactions = await this.getBlockTransactions(height, pageSize, transactionId)
 
     return blockTransactions.map(blockTransaction => ({
       ...blockTransaction,
