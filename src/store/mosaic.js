@@ -18,8 +18,7 @@
 
 import Lock from './lock'
 import Constants from '../config/constants'
-import { MosaicService } from '../infrastructure'
-import sdkMosaic from '../infrastructure/getMosaic'
+import { MosaicService, RestrictionService, MetadataService } from '../infrastructure'
 import {
   DataSet,
   Timeline,
@@ -38,7 +37,18 @@ const managers = [
   ),
   new DataSet(
     'info',
-    (mosaicHexOrNamespace) => sdkMosaic.getMosaicInfoFormatted(mosaicHexOrNamespace)
+    (hexOrNamespace) => MosaicService.getMosaicInfo(hexOrNamespace)
+  ),
+  new DataSet(
+    'restrictions',
+    (address) => RestrictionService.getMosaicGlobalRestrictionInfo(address)
+  ),
+  new Timeline(
+    'metadatas',
+    (pageSize, store) => MetadataService.getMosaicMetadataList(store.getters.getCurrentMosaicId, pageSize),
+    (key, pageSize, store) => MetadataService.getMosaicMetadataList(store.getters.getCurrentMosaicId, pageSize, key),
+    'id',
+    10
   )
 ]
 
@@ -49,19 +59,20 @@ export default {
   state: {
     ...getStateFromManagers(managers),
     // If the state has been initialized.
-    initialized: false
+    initialized: false,
+    currentMosaicId: null
   },
   getters: {
     ...getGettersFromManagers(managers),
     getInitialized: state => state.initialized,
-    getMosaicInfo: state => state.info?.data.mosaicInfo || {},
-    getMetadataList: state => state.info?.data.metadataList || [],
-    getMosaicRestrictionList: state => state.info?.data.mosaicRestrictionList || [],
-    getMosaicRestrictionInfo: state => state.info?.data.mosaicRestrictionInfo || {}
+    getMosaicRestrictionList: state => state.restrictions?.data.mosaicRestrictionList || [],
+    getMosaicRestrictionInfo: state => state.info?.data.mosaicRestrictionInfo || {},
+    getCurrentMosaicId: state => state.currentMosaicId
   },
   mutations: {
     ...getMutationsFromManagers(managers),
-    setInitialized: (state, initialized) => { state.initialized = initialized }
+    setInitialized: (state, initialized) => { state.initialized = initialized },
+    setCurrentMosaicId: (state, currentMosaicId) => { state.currentMosaicId = currentMosaicId }
   },
   actions: {
     ...getActionsFromManagers(managers),
@@ -87,8 +98,11 @@ export default {
     },
 
     // Fetch data from the SDK.
-    async fetchMosaicInfo(context, mosaicHexOrNamespace) {
-      await context.getters.info.setStore(context).initialFetch(mosaicHexOrNamespace)
+    async fetchMosaicInfo(context, hexOrNamespace) {
+      context.commit('setCurrentMosaicId', hexOrNamespace)
+      await context.getters.info.setStore(context).initialFetch(hexOrNamespace)
+      await context.getters.restrictions.setStore(context).initialFetch(hexOrNamespace)
+      await context.getters.metadatas.setStore(context).initialFetch(hexOrNamespace)
     }
   }
 }

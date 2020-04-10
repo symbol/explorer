@@ -26,6 +26,8 @@ class MetadataService {
   /**
    * Get Account Metadata from symbol SDK
    * @param address - Account address to be created from PublicKey or RawAddress
+   * @param pageSize - no. of data
+   * @param id - (Optional) retrive next AccountMetadata in pagination
    * @returns Metadata[]
    */
   static getAccountMetadata = async (address, pageSize = 10, id = '') => {
@@ -39,11 +41,13 @@ class MetadataService {
   /**
    * Get Mosaic Metadata from symbol SDK
    * @param mosaicId - Mosaic identifier
+   * @param pageSize - no. of data
+   * @param id - (Optional) retrive next MosaicMetadata in pagination
    * @returns Metadata[]
    */
-  static getMosaicMetadata = async mosaicId => {
+  static getMosaicMetadata = async (mosaicId, pageSize = 10, id = '') => {
     const metadatas = await http.metadata
-      .getMosaicMetadata(mosaicId)
+      .getMosaicMetadata(mosaicId, new QueryParams({ pageSize, id }))
       .toPromise()
 
     return metadatas.map(metadata => this.formatMetadata(metadata))
@@ -52,11 +56,13 @@ class MetadataService {
   /**
    * Get Namespace Metadata from symbol SDK
    * @param namespaceId - Namespace identifier
+   * @param pageSize - no. of data
+   * @param id - (Optional) retrive next NamespaceMetadata in pagination
    * @returns Metadata[]
    */
-  static getNamespaceMetadata = async namespaceId => {
+  static getNamespaceMetadata = async (namespaceId, pageSize = 10, id = '') => {
     const metadatas = await http.metadata
-      .getNamespaceMetadata(namespaceId)
+      .getNamespaceMetadata(namespaceId, new QueryParams({ pageSize, id }))
       .toPromise()
 
     return metadatas.map(metadata => this.formatMetadata(metadata))
@@ -102,9 +108,9 @@ class MetadataService {
    * @param hexOrNamespace - hex value or namespace name
    * @returns Mosaic Metadata list
    */
-  static getMosaicMetadataList = async (hexOrNamespace) => {
-    const mosaicId = this.convertor(hexOrNamespace, 'mosaic')
-    const mosaicMetadata = await this.getMosaicMetadata(mosaicId)
+  static getMosaicMetadataList = async (hexOrNamespace, pageSize, id) => {
+    const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic')
+    const mosaicMetadata = await this.getMosaicMetadata(mosaicId, pageSize, id)
     return mosaicMetadata
   }
 
@@ -113,9 +119,9 @@ class MetadataService {
    * @param hexOrNamespace - hex value or namespace name
    * @returns Namespace Metadata list
    */
-  static getNamespaceMetadataList = async (hexOrNamespace) => {
-    const namespaceId = helper.hexOrNamespaceToId(hexOrNamespace, 'namespace')
-    const namespaceMetadata = await this.getNamespaceMetadata(namespaceId)
+  static getNamespaceMetadataList = async (hexOrNamespace, pageSize, id) => {
+    const namespaceId = await helper.hexOrNamespaceToId(hexOrNamespace, 'namespace')
+    const namespaceMetadata = await this.getNamespaceMetadata(namespaceId, pageSize, id)
     return namespaceMetadata
   }
 }

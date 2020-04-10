@@ -66,8 +66,12 @@ class MosaicService {
      const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic')
      const mosaicInfo = await this.getMosaic(mosaicId)
 
-     // Todo attach get mosaic name
-     return mosaicInfo
+     const moasicNames = await NamespaceService.getMosaicsNames([mosaicId])
+
+     return {
+       ...mosaicInfo,
+       mosaicAliasName: this.extractMosaicNamespace(mosaicInfo, moasicNames)
+     }
    }
 
    /**
@@ -122,7 +126,7 @@ class MosaicService {
      relativeAmount: helper.formatMosaicAmountWithDivisibility(mosaicInfo.supply, mosaicInfo.divisibility),
      revision: mosaicInfo.revision,
      startHeight: mosaicInfo.height.compact(),
-     duration: mosaicInfo.duration.compact(),
+     duration: mosaicInfo.duration.compact() > 0 ? mosaicInfo.duration.compact() : Constants.Message.UNLIMITED,
      supplyMutable: mosaicInfo.flags.supplyMutable,
      transferable: mosaicInfo.flags.transferable,
      restrictable: mosaicInfo.flags.restrictable

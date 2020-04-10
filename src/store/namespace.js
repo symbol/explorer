@@ -18,8 +18,7 @@
 
 import Lock from './lock'
 import Constants from '../config/constants'
-import { NamespaceService } from '../infrastructure'
-import sdkNamespace from '../infrastructure/getNamespace'
+import { NamespaceService, MetadataService } from '../infrastructure'
 import {
   DataSet,
   Timeline,
@@ -40,7 +39,18 @@ const managers = [
   ),
   new DataSet(
     'info',
-    (namespaceOrHex) => sdkNamespace.getNamespaceInfoFormatted(namespaceOrHex)
+    (namespaceOrHex) => NamespaceService.getNamespaceInfo(namespaceOrHex)
+  ),
+  new DataSet(
+    'namespaceLevel',
+    (namespaceOrHex) => NamespaceService.getNamespaceLevelList(namespaceOrHex)
+  ),
+  new Timeline(
+    'metadatas',
+    (pageSize, store) => MetadataService.getNamespaceMetadataList(store.getters.getCurrentNamespaceId, pageSize),
+    (key, pageSize, store) => MetadataService.getNamespaceMetadataList(store.getters.getCurrentNamespaceId, pageSize, key),
+    'id',
+    10
   )
 ]
 
@@ -49,17 +59,17 @@ export default {
   state: {
     // If the state has been initialized.
     initialized: false,
-    ...getStateFromManagers(managers)
+    ...getStateFromManagers(managers),
+    currentNamespaceId: null
   },
   getters: {
     getInitialized: state => state.initialized,
-    getNamespaceInfo: state => state.info?.data?.namespaceInfo || {},
-    getNamespaceLevels: state => state.info?.data?.namespaceLevels || [],
-    getMetadataList: state => state.info?.data?.metadataList || [],
+    getCurrentNamespaceId: state => state.currentNamespaceId,
     ...getGettersFromManagers(managers)
   },
   mutations: {
     setInitialized: (state, initialized) => { state.initialized = initialized },
+    setCurrentNamespaceId: (state, currentNamespaceId) => { state.currentNamespaceId = currentNamespaceId },
     ...getMutationsFromManagers(managers)
   },
   actions: {
@@ -87,7 +97,10 @@ export default {
 
     // Fetch data from the SDK.
     async fetchNamespaceInfo(context, namespaceOrHex) {
+      context.commit('setCurrentNamespaceId', namespaceOrHex)
       await context.getters.info.setStore(context).initialFetch(namespaceOrHex)
+      await context.getters.namespaceLevel.setStore(context).initialFetch(namespaceOrHex)
+      await context.getters.metadatas.setStore(context).initialFetch(namespaceOrHex)
     }
   }
 }

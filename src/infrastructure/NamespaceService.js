@@ -88,10 +88,10 @@ class NamespaceService {
    * @returns formatted namespace info and name
    */
   static getNamespace = async (namespaceId) => {
-    let namespaceInfo = await http.namespaceService.namespace(namespaceId).toPromise()
-    let formattedNamespaceInfo = this.formatNamespace(namespaceInfo)
+    let namespace = await http.namespaceService.namespace(namespaceId).toPromise()
+    let formattedNamespace = this.formatNamespace(namespace)
 
-    return formattedNamespaceInfo
+    return formattedNamespace
   }
 
   /**
@@ -109,13 +109,29 @@ class NamespaceService {
       expiredInSecond
     } = helper.calculateNamespaceExpiration(currentHeight, namespace.endHeight)
 
-    return {
+    let formattedNamespaceInfo = {
       ...namespace,
+      owneraddress: namespace.owner,
       duration: moment.utc().add(expiredInSecond, 's').fromNow() || Constants.Message.UNLIMITED,
-      isExpired: isExpired,
-      approximateExpired: moment.utc().add(expiredInSecond, 's').local().format('YYYY-MM-DD HH:mm:ss'),
-      expiredInBlock: expiredInBlock
+      status: namespace.active
     }
+
+    // create alias props by alias type.
+    if (namespace.aliasType === Constants.Message.ADDRESS)
+      formattedNamespaceInfo.aliasAddress = namespace.alias
+
+    if (namespace.aliasType === Constants.Message.MOSAIC)
+      formattedNamespaceInfo.aliasMosaic = namespace.alias
+
+    // End height disable click before expired.
+    formattedNamespaceInfo.expiredInBlock = Constants.NetworkConfig.NAMESPACE.indexOf(namespace.namespaceName.toUpperCase()) !== -1 ? Constants.Message.INFINITY : expiredInBlock + ` ≈ ` + formattedNamespaceInfo.duration
+
+    if (!isExpired) {
+      formattedNamespaceInfo.beforeEndHeight = Constants.NetworkConfig.NAMESPACE.indexOf(namespace.namespaceName.toUpperCase()) !== -1 ? Constants.Message.INFINITY : formattedNamespaceInfo.endHeight + ` ( ${Constants.NetworkConfig.NAMESPACE_GRACE_PERIOD_DURATION} blocks of grace period )`
+      delete formattedNamespaceInfo.endHeight
+    }
+
+    return formattedNamespaceInfo
   }
 
   /**
@@ -205,50 +221,56 @@ class NamespaceService {
   static formatNamespaceName = namespaceName => ({
     ...namespaceName,
     namespaceId: namespaceName.namespaceId.toHex(),
-    parentId: namespaceName?.parentId ? namespaceName.parentId.toHex() : undefined
+    parentId: namespaceName?.parentId ? namespaceName.parentId.toHex() : Constants.Message.UNAVAILABLE
   })
+
+  /**
+   * Format alias to readable object
+   * @param Alias
+   * @returns readable Alias object
+   */
+  static formatAlias = alias => {
+    switch (alias.type) {
+    case 0:
+      return {
+        ...alias,
+        aliasType: Constants.Message.UNAVAILABLE
+      }
+    case 1: // Mosaic id alias
+      return {
+        ...alias,
+        aliasType: Constants.Message.MOSAIC,
+        alias: alias?.mosaicId.toHex()
+      }
+    case 2: // Address alias
+      return {
+        ...alias,
+        aliasType: Constants.Message.ADDRESS,
+        alias: alias?.address.plain()
+      }
+    }
+  }
 
   /**
    * Format namespace to readable object
    * @param namespace - namespace DTO
    * @returns readable namespaceDTO
    */
-  static formatNamespace = namespace => {
-    let aliasText
-    let aliasType
-    switch (namespace.alias.type) {
-    case 1:
-      aliasText = namespace.alias.mosaicId
-      aliasType = Constants.Message.MOSAIC
-      break
-    case 2:
-      aliasText = namespace.alias.address
-      aliasType = Constants.Message.ADDRESS
-      break
-    default:
-      aliasText = false
-      aliasType = Constants.Message.NO_ALIAS
-      break
-    }
-
-    return {
-      ...namespace,
-      owner: namespace.owner.address.plain(),
-      namespaceName: namespace.name,
-      namespaceId: namespace.id.toHex(),
-      registrationType: Constants.NamespaceRegistrationType[namespace.registrationType],
-      startHeight: namespace.startHeight.compact(),
-      endHeight: Constants.NetworkConfig.NAMESPACE.indexOf(namespace.name.toUpperCase()) !== -1
-        ? Constants.Message.INFINITY
-        : namespace.endHeight.compact(),
-      active: namespace.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
-      aliasType: aliasType,
-      alias: aliasText || aliasType,
-      aliasAction: Constants.AliasAction[namespace.alias.type],
-      parentName: namespace.registrationType !== 0 ? namespace.name.split('.')[0].toUpperCase() : '',
-      levels: namespace.levels
-    }
-  }
+  static formatNamespace = namespace => ({
+    ...namespace,
+    owner: namespace.owner.address.plain(),
+    namespaceName: namespace.name,
+    namespaceId: namespace.id.toHex(),
+    registrationType: Constants.NamespaceRegistrationType[namespace.registrationType],
+    startHeight: namespace.startHeight.compact(),
+    endHeight: Constants.NetworkConfig.NAMESPACE.indexOf(namespace.name.toUpperCase()) !== -1
+      ? Constants.Message.INFINITY
+      : namespace.endHeight.compact(),
+    active: namespace.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
+    ...this.formatAlias(namespace.alias),
+    parentName: namespace.registrationType !== 0 ? namespace.name.split('.')[0].toUpperCase() : '',
+    levels: namespace.levels
+  })
 
   /**
    * Format mosaic name to readable object
