@@ -26,13 +26,13 @@ console.log(pages)
 Vue.use(Router)
 
 const pagesRoutes = pages.map(page => ({
-    ...page,
-    meta: {
-      ...page.meta,
-      storeNamespaces: page.props?.storeNamespaces || []
-    },
-    component: PageAssembler
-  }))
+  ...page,
+  meta: {
+    ...page.meta,
+    storeNamespaces: page.props?.storeNamespaces || []
+  },
+  component: PageAssembler
+}))
 
 const listPagesRoutes = listPages.pages.map(page => ({
   ...page,

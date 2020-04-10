@@ -52,27 +52,27 @@ import RecentBlocksWidget from '@/components/widgets/RecentBlocksWidget.vue'
 import RecentTransactionsWidget from '@/components/widgets/RecentTransactionsWidget.vue'
 
 export default {
-    components: { 
-        CardTable,
-        BaseInfoWidget,
-        PriceChartWidget,
-        RecentBlocksWidget,
-        RecentTransactionsWidget
-    },
+  components: {
+    CardTable,
+    BaseInfoWidget,
+    PriceChartWidget,
+    RecentBlocksWidget,
+    RecentTransactionsWidget
+  },
 
   props: {
     storeNamespaces: {
-        type: Array,
-        default: () => []
+      type: Array,
+      default: () => []
     },
     layout: {
-        type: String,
-        required: true,
-        default: 'flex'
+      type: String,
+      required: true,
+      default: 'flex'
     },
     layoutOptions: {
-        type: String,
-        default: ''
+      type: String,
+      default: ''
     },
     schema: {
       type: Array,
