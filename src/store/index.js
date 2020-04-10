@@ -89,7 +89,7 @@ export default new Vuex.Store({
       case 'transactions':
         return helper.logError(dispatch, 'transaction/initialize')
       case 'statistics':
-        return helper.logError(dispatch, 'statistics/initialize')
+        return helper.logError(dispatch, 'statistic/initialize')
 
         // Detail Views
       case 'account-detail':
