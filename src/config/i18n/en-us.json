@@ -186,5 +186,6 @@
     "recipientAddress": "Recipient",
     "targetPublicAccount": "Address",
     "cosignatories": "Cosignatories",
-    "multisigAccounts": "Multisig Accounts"
+    "multisigAccounts": "Multisig Accounts",
+    "effectiveFee": "Fee"
 }

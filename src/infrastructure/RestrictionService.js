@@ -115,7 +115,7 @@ class RestrictionService {
    * @returns Mosaic Global Restriction info
    */
   static getMosaicGlobalRestrictionInfo = async (hexOrNamespace) => {
-    const mosaicId = helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic')
+    const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic')
     const mosaicGlobalRestrictionMetadata = await this.getMosaicGlobalRestriction(mosaicId)
 
     return mosaicGlobalRestrictionMetadata

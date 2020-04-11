@@ -16,12 +16,19 @@
  *
  */
 
-import { TransactionType, Address, TransactionInfo, AggregateTransactionInfo, NamespaceId } from 'symbol-sdk'
+import {
+  TransactionType,
+  Address,
+  TransactionInfo,
+  AggregateTransactionInfo,
+  NamespaceId } from 'symbol-sdk'
 import Constants from '../config/constants'
 import http from './http'
 import format from '../format'
 import moment from 'moment'
-import { BlockService, DataService } from '../infrastructure'
+import helper from '../helper'
+import { BlockService, DataService, NamespaceService } from '../infrastructure'
+import MosaicService from './MosaicService'
 
 class TransactionService {
   /**
@@ -81,15 +88,55 @@ class TransactionService {
 
     let { date } = await BlockService.getBlockInfo(formattedTransaction.transactionInfo.height)
     let effectiveFee = await this.getTransactionEffectiveFee(hash)
+
     const transactionStatus = await this.getTransactionStatus(hash)
 
-    formattedTransaction.effectiveFee = effectiveFee
-    formattedTransaction.date = date
+    switch (formattedTransaction.type) {
+    case TransactionType.TRANSFER:
+      await Promise.all(formattedTransaction.mosaics.map(async mosaic => {
+        if (mosaic.id instanceof NamespaceId)
+          return (mosaic.id = await http.namespace.getLinkedMosaicId(mosaic.id).toPromise())
+      }))
 
-    // Todo - Get mosaic detail by mosaics
+      const mosaicIdsList = formattedTransaction.mosaics.map(mosaicInfo => mosaicInfo.id)
+      const mosaicInfos = await MosaicService.getMosaics(mosaicIdsList)
+      const moasicNames = await NamespaceService.getMosaicsNames(mosaicIdsList)
+
+      const transferMosaics = formattedTransaction.mosaics.map(mosaic => {
+        let divisibility = mosaicInfos.find(info => info.mosaicId === mosaic.id.toHex()).divisibility
+        return {
+          ...mosaic,
+          mosaicId: mosaic.id.toHex(),
+          amount: helper.formatMosaicAmountWithDivisibility(mosaic.amount.compact(), divisibility),
+          mosaicAliasName: MosaicService.extractMosaicNamespace({ mosaicId: mosaic.id.toHex() }, moasicNames)
+        }
+      })
+
+      formattedTransaction.transferMosaics = transferMosaics
+      delete formattedTransaction.transactionDetail.mosaics
+      break
+    case TransactionType.AGGREGATE_COMPLETE:
+    case TransactionType.AGGREGATE_BONDED:
+      const innerTransactions = formattedTransaction.aggregateTransaction.innerTransactions.map(transaction => ({
+        ...transaction,
+        transactionId: transaction.id,
+        type: Constants.TransactionType[transaction.type]
+      }))
+
+      formattedTransaction.aggregateTransaction.innerTransactions = innerTransactions
+
+      delete formattedTransaction.transactionBody.innerTransactions
+      delete formattedTransaction.transactionBody.cosignatures
+      break
+    }
 
     const transactionInfo = {
-      transaction: formattedTransaction,
+      ...formattedTransaction,
+      blockHeight: formattedTransaction.height,
+      transactionHash: formattedTransaction.hash,
+      transactionId: formattedTransaction.id,
+      effectiveFee,
+      date,
       status: transactionStatus.detail.code,
       confirm: transactionStatus.message
     }
@@ -100,7 +147,7 @@ class TransactionService {
   /**
    * Gets array of transactions
    * @param limit - No of transaction
-   * @param transactionType - filter transctiom type
+   * @param transactionType - filter transction type
    * @param fromHash - (Optional) retrive next transactions in pagination
    * @returns Formatted tranctionDTO[]
    */
@@ -112,7 +159,7 @@ class TransactionService {
       ...transaction,
       height: transaction.height,
       transactionHash: transaction.hash,
-      type: transaction.type,
+      type: transaction.transactionBody.type,
       recipient: transaction?.recipient
     }))
   }
@@ -130,7 +177,10 @@ class TransactionService {
     maxFee: format.toNetworkCurrency(transaction.maxFee),
     signer: transaction.signer.address.plain(),
     ...this.formatTransactionInfo(transaction.transactionInfo),
-    ...this.formatTransactionBody(transaction)
+    transactionBody: this.formatTransactionBody(transaction),
+    aggregateTransaction: {
+      ...this.formatTransactionBody(transaction)
+    }
   })
 
   /**
@@ -202,7 +252,7 @@ class TransactionService {
         mosaicId: transactionBody.mosaicId.toHex(),
         divisibility: transactionBody.divisibility,
         duration: transactionBody.duration.compact(),
-        nonce: transactionBody.nonce,
+        nonce: transactionBody.nonce.toHex(),
         supplyMutable: transactionBody.flags.supplyMutable,
         transferable: transactionBody.flags.transferable,
         restrictable: transactionBody.flags.restrictable
@@ -229,14 +279,20 @@ class TransactionService {
       return {
         type: Constants.TransactionType[TransactionType.AGGREGATE_COMPLETE],
         innerTransactions: transactionBody.innerTransactions.map(transaction => this.formatTransaction(transaction)),
-        cosignatures: transactionBody.cosignatures.map(cosigner => cosigner.signer.address.address)
+        cosignatures: transactionBody.cosignatures.map(cosigner => ({
+          ...cosigner,
+          signer: cosigner.signer.address.address
+        }))
       }
 
     case TransactionType.AGGREGATE_BONDED:
       return {
         type: Constants.TransactionType[TransactionType.AGGREGATE_BONDED],
         innerTransactions: transactionBody.innerTransactions.map(transaction => this.formatTransaction(transaction)),
-        cosignatures: transactionBody.cosignatures.map(cosigner => cosigner.signer.address.address)
+        cosignatures: transactionBody.cosignatures.map(cosigner => ({
+          ...cosigner,
+          signer: cosigner.signer.address.address
+        }))
       }
 
     case TransactionType.HASH_LOCK:

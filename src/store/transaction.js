@@ -18,7 +18,6 @@
 
 import Lock from './lock'
 import Constants from '../config/constants'
-import sdkTransaction from '../infrastructure/getTransaction'
 import { TransactionService } from '../infrastructure'
 import {
   Filter,
@@ -73,7 +72,7 @@ const managers = [
   ),
   new DataSet(
     'info',
-    (hash) => sdkTransaction.getTransactionInfoFormatted(hash)
+    (hash) => TransactionService.getTransactionInfo(hash)
   )
 ]
 
@@ -91,10 +90,10 @@ export default {
     getInitialized: state => state.initialized,
     getRecentList: state => state.recent?.data?.filter((item, index) => index < 4) || [],
     transactionInfo: state => state.info?.data?.transactionInfo || {},
-    transactionDetail: state => state.info?.data?.transactionDetail || {},
+    transactionDetail: state => state.info?.data?.transactionBody || {},
     transferMosaics: state => state.info?.data?.transferMosaics || [],
-    aggregateInnerTransactions: state => state.info?.data?.aggregateInnerTransactions || [],
-    aggregateCosignatures: state => state.info?.data?.aggregateCosignatures || []
+    aggregateInnerTransactions: state => state.info?.data?.aggregateTransaction?.innerTransactions || [],
+    aggregateCosignatures: state => state.info?.data?.aggregateTransaction?.cosignatures || []
   },
   mutations: {
     ...getMutationsFromManagers(managers),

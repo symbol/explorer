@@ -91,7 +91,8 @@ class BlockService {
     return blockTransactions.map(blockTransaction => ({
       ...blockTransaction,
       transactionId: blockTransaction.id,
-      transactionHash: blockTransaction.hash
+      transactionHash: blockTransaction.hash,
+      type: blockTransaction.transactionBody.type
     }))
   }
 
