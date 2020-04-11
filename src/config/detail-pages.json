@@ -132,8 +132,7 @@
                             "direction"
                         ],
                         "managerGetter": "account/transactions",
-                        "pagination": true,
-                        "pageSize": 10
+                        "timelinePagination": true
                     }
                 ]
             }

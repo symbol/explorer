@@ -18,7 +18,6 @@
 
 import { Address, QueryParams } from 'symbol-sdk'
 import http from './http'
-import format from '../format'
 import { Constants } from '../config'
 import { DataService, NamespaceService, TransactionService } from '../infrastructure'
 import helper from '../helper'
@@ -81,7 +80,7 @@ class AccountService {
       activityBucket: accountInfo.activityBucket.map(activity => ({
         ...activity,
         recalculationBlock: activity.startHeight,
-        totalFeesPaid: format.toNetworkCurrency(activity.totalFeesPaid),
+        totalFeesPaid: helper.toNetworkCurrency(activity.totalFeesPaid),
         importanceScore: activity.rawScore
       }))
     }
@@ -92,8 +91,9 @@ class AccountService {
 
     return accountTransactions.map(accountTransaction => ({
       ...accountTransaction,
+      transactionId: accountTransaction.id,
       transactionHash: accountTransaction.hash,
-      transactionType: accountTransaction.type,
+      transactionType: accountTransaction.transactionBody.type,
       direction: accountTransaction.type === 'Transfer' ? (accountTransaction.signer === address ? 'outgoing' : 'incoming') : void 0
     }))
   }
@@ -110,7 +110,7 @@ class AccountService {
     publicKeyHeight: accountInfo.publicKeyHeight.compact(),
     type: Constants.AccountType[accountInfo.accountType],
     linkedAccountKey: Constants.AccountType[accountInfo.accountType] === 'Unlinked' ? Constants.Message.UNAVAILABLE : Address.createFromPublicKey(accountInfo.linkedAccountKey, http.networkType).plain(),
-    importance: format.ImportanceScoreToPercent(accountInfo.importance.compact()),
+    importance: helper.ImportanceScoreToPercent(accountInfo.importance.compact()),
     importanceHeight: accountInfo.importanceHeight.compact()
   })
 

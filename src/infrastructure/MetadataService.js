@@ -20,7 +20,6 @@ import http from './http'
 import { Address, QueryParams } from 'symbol-sdk'
 import helper from '../helper'
 import Constants from '../config/constants'
-import format from '../format'
 
 class MetadataService {
   /**
@@ -86,8 +85,8 @@ class MetadataService {
   static formatMetadataEntry = metadataEntry => ({
     ...metadataEntry,
     scopedMetadataKey: metadataEntry.scopedMetadataKey.toHex(),
-    senderAddress: format.publicKeyToAddress(metadataEntry.senderPublicKey),
-    targetAddress: format.publicKeyToAddress(metadataEntry.targetPublicKey),
+    senderAddress: helper.publicKeyToAddress(metadataEntry.senderPublicKey),
+    targetAddress: helper.publicKeyToAddress(metadataEntry.targetPublicKey),
     metadataType: Constants.MetadataType[metadataEntry.metadataType],
     targetId: metadataEntry.targetId ? metadataEntry.targetId.toHex() : Constants.Message.UNAVAILABLE,
     metadataValue: metadataEntry.value

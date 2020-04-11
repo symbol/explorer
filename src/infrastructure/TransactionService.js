@@ -21,14 +21,17 @@ import {
   Address,
   TransactionInfo,
   AggregateTransactionInfo,
-  NamespaceId } from 'symbol-sdk'
+  NamespaceId
+} from 'symbol-sdk'
 import Constants from '../config/constants'
 import http from './http'
-import format from '../format'
-import moment from 'moment'
 import helper from '../helper'
-import { BlockService, DataService, NamespaceService } from '../infrastructure'
-import MosaicService from './MosaicService'
+import {
+  BlockService,
+  DataService,
+  NamespaceService,
+  MosaicService
+} from '../infrastructure'
 
 class TransactionService {
   /**
@@ -75,7 +78,7 @@ class TransactionService {
    */
   static getTransactionEffectiveFee = async (hash) => {
     let effectiveFee = await http.transaction.getTransactionEffectiveFee(hash).toPromise()
-    return format.toNetworkCurrency(effectiveFee)
+    return helper.toNetworkCurrency(effectiveFee)
   }
 
   /**
@@ -171,10 +174,8 @@ class TransactionService {
    */
   static formatTransaction = transaction => ({
     ...transaction,
-    deadline: moment.utc(new Date(transaction.deadline.value)).local().format(
-      'YYYY-MM-DD HH:mm:ss'
-    ),
-    maxFee: format.toNetworkCurrency(transaction.maxFee),
+    deadline: helper.convertDeadlinetoDate(transaction.deadline.value),
+    maxFee: helper.toNetworkCurrency(transaction.maxFee),
     signer: transaction.signer.address.plain(),
     ...this.formatTransactionInfo(transaction.transactionInfo),
     transactionBody: this.formatTransactionBody(transaction),
@@ -300,7 +301,7 @@ class TransactionService {
         type: Constants.TransactionType[TransactionType.HASH_LOCK],
         duration: transactionBody.duration.compact(),
         mosaicId: transactionBody.mosaic.id.toHex(), // Todo Format Mosaic
-        amount: format.formatFee(transactionBody.mosaic.amount)
+        amount: helper.toNetworkCurrency(transactionBody.mosaic.amount)
       }
 
     case TransactionType.SECRET_LOCK:

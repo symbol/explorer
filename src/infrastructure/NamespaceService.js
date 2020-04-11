@@ -19,7 +19,6 @@
 import http from './http'
 import helper from '../helper'
 import Constants from '../config/constants'
-import moment from 'moment'
 import { DataService, ChainService } from '../infrastructure'
 import { Address, QueryParams } from 'symbol-sdk'
 
@@ -110,7 +109,7 @@ class NamespaceService {
     let formattedNamespaceInfo = {
       ...namespace,
       owneraddress: namespace.owner,
-      duration: moment.utc().add(expiredInSecond, 's').fromNow() || Constants.Message.UNLIMITED,
+      duration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED,
       status: namespace.active
     }
 
@@ -166,9 +165,9 @@ class NamespaceService {
       return {
         ...formattedNamespace,
         owneraddress: formattedNamespace.owner,
-        duration: moment.utc().add(expiredInSecond, 's').fromNow() || Constants.Message.UNLIMITED,
+        duration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED,
         isExpired: isExpired,
-        approximateExpired: moment.utc().add(expiredInSecond, 's').local().format('YYYY-MM-DD HH:mm:ss'),
+        approximateExpired: helper.convertSecondToDate(expiredInSecond),
         expiredInBlock: expiredInBlock
       }
     })
@@ -190,7 +189,7 @@ class NamespaceService {
       return {
         ...namespacesFromAccountInfo,
         status: namespacesFromAccountInfo.active,
-        duration: moment.utc().add(expiredInSecond, 's').fromNow() || Constants.Message.UNLIMITED
+        duration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED
       }
     })
   }

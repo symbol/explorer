@@ -72,7 +72,7 @@ const managers = [
     'transactions',
     (pageSize, store) => AccountService.getAccountTransactionList(store.getters.getCurrentAccountAddress, pageSize),
     (key, pageSize, store) => AccountService.getAccountTransactionList(store.getters.getCurrentAccountAddress, pageSize, key),
-    'id',
+    'transactionId',
     10
   ),
   new Timeline(

@@ -17,9 +17,9 @@
  */
 
 import { Constants } from './config'
-import { NetworkType, MosaicId, NamespaceId } from 'symbol-sdk'
+import { NetworkType, MosaicId, NamespaceId, Address } from 'symbol-sdk'
 import http from './infrastructure/http'
-import format from './format'
+import moment from 'moment'
 
 const Url = require('url-parse')
 
@@ -188,12 +188,12 @@ class helper {
 
   /**
    * Convert Mosaic amount to relative Amount with divisibility.
-   * @param amount -
+   * @param amount - number
    * @param divisibility - decimal
    * @returns relativeAmount in string
    */
   static formatMosaicAmountWithDivisibility = (amount, divisibility) => {
-    let relativeAmount = divisibility !== 0 ? amount / Math.pow(10, divisibility) : amount.compact()
+    let relativeAmount = divisibility !== 0 ? amount / Math.pow(10, divisibility) : amount
     return relativeAmount.toLocaleString('en-US', { minimumFractionDigits: divisibility })
   }
 
@@ -204,7 +204,7 @@ class helper {
    */
   static getNetworkCurrencyBalance = mosaics => {
     let mosaic = mosaics.find(mosaic => mosaic.id.toHex() === Constants.NetworkConfig.NATIVE_MOSAIC_HEX)
-    let balance = mosaic !== undefined ? format.toNetworkCurrency(mosaic.amount) : Constants.Message.UNAVAILABLE
+    let balance = mosaic !== undefined ? this.toNetworkCurrency(mosaic.amount) : Constants.Message.UNAVAILABLE
     return balance
   }
 
@@ -218,6 +218,96 @@ class helper {
     let lastActivityHeight = activityBucketLength > 0 ? activityBucket[activityBucketLength - 1].startHeight : Constants.Message.UNAVAILABLE
     return lastActivityHeight
   }
+
+  /**
+   * Convert networkTimestamp to UTC date
+   * @param networkTimestamp
+   * @returns UTC date with format YYYY-MM-DD HH:mm:ss
+   */
+  static convertToUTCDate = networkTimestamp => moment.utc(networkTimestamp * 1000).local().format('YYYY-MM-DD HH:mm:ss')
+
+  /**
+   * convert difficulty raw score to readable
+   * @param difficulty - raw difficulty score
+   * @returns difficulty - readable difficulty score
+   */
+  static convertBlockDifficultyToReadable = difficulty => (difficulty.compact() / 1000000000000).toFixed(2).toString()
+
+  /**
+   * Format Importance score to percentage
+   * @param {number} rawScore
+   * @returns {string}
+   */
+  static ImportanceScoreToPercent = rawScore => {
+    const totalchainimportance = Constants.NetworkConfig.TOTAL_CHAIN_IMPORTANCE
+    const divisibility = Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY
+    let percent = rawScore
+
+    if (rawScore > 0)
+      percent = rawScore / totalchainimportance
+
+    return (percent * 100).toFixed(divisibility).toString() + ' %'
+  }
+
+  /**
+   * Format number to Network currecy divisibility.
+   * example transaction fees
+   * @param amount - number
+   * @returns amount - (string) with formatted divisibility
+   */
+  static toNetworkCurrency = amount => (amount / Math.pow(10, Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY)).toLocaleString('en-US', { minimumFractionDigits: Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY })
+
+  /**
+   * Convert public key to Address.
+   * @param publicKey - raw public key
+   * @returns address - address in plain format
+   */
+  static publicKeyToAddress = publicKey => Address.createFromPublicKey(publicKey, http.networkType).plain()
+
+  /**
+   * convet network timestamp to world time
+   * @param timestamp - raw timestamp
+   * @returns timestamp - world timestamp
+   */
+  static networkTimestamp = timestamp => Math.round(timestamp / 1000) + Constants.NetworkConfig.NEMESIS_TIMESTAMP
+
+  /**
+   * Sort Native mosaic to top of list
+   * @param mosaics - array of mosaic
+   * @returns mosaic[] - sort array of mosaic
+   */
+  static sortMosaics = mosaics => {
+    let sortedMosaics = []
+
+    mosaics.forEach(mosaic =>
+      mosaic.mosaicId === Constants.NetworkConfig.NATIVE_MOSAIC_HEX
+        ? sortedMosaics.unshift(mosaic)
+        : sortedMosaics.push(mosaic)
+    )
+
+    return sortedMosaics
+  }
+
+  /**
+   * Convert second to time from now in second
+   * @param second
+   * @returns time from now in second
+   */
+  static convertTimeFromNowInSec = second => moment.utc().add(second, 's').fromNow()
+
+  /**
+   * convert second to Date
+   * @param second
+   * @returns YYYY-MM-DD HH:mm:ss
+   */
+  static convertSecondToDate = second => moment.utc().add(second, 's').local().format('YYYY-MM-DD HH:mm:ss')
+
+  /**
+   * Convert block deadline to date
+   * @param deadlineValue - deadline from block
+   * @returns YYYY-MM-DD HH:mm:ss
+   */
+  static convertDeadlinetoDate = deadline => moment.utc(new Date(deadline)).local().format('YYYY-MM-DD HH:mm:ss')
 }
 
 export default helper

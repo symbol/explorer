@@ -19,7 +19,6 @@
 import { UInt64, QueryParams } from 'symbol-sdk'
 import { ChainService, TransactionService } from '../infrastructure'
 import http from './http'
-import format from '../format'
 import helper from '../helper'
 
 class BlockService {
@@ -119,13 +118,13 @@ class BlockService {
   static formatBlock = block => ({
     height: block.height.compact(),
     hash: block.hash,
-    timestamp: format.networkTimestamp(block.timestamp),
-    totalFee: format.toNetworkCurrency(block.totalFee),
+    timestamp: helper.networkTimestamp(block.timestamp),
+    totalFee: helper.toNetworkCurrency(block.totalFee),
     difficulty: helper.convertBlockDifficultyToReadable(block.difficulty),
     feeMultiplier: block.feeMultiplier.toString(),
     transactions: block.numTransactions,
     signature: block.signature,
-    signer: format.publicKeyToAddress(block.signer.publicKey),
+    signer: helper.publicKeyToAddress(block.signer.publicKey),
     previousBlockHash: block.previousBlockHash,
     blockTransactionsHash: block.blockTransactionsHash,
     blockReceiptsHash: block.blockReceiptsHash,
