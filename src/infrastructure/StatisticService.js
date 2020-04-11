@@ -16,7 +16,7 @@
  *
  */
 
-import sdkBlock from './getBlock'
+import { DataService } from './index'
 
 class StatisticService {
   /**
@@ -27,7 +27,7 @@ class StatisticService {
    * @returns block time difference dataset.
    */
   static getBlockTimeDifferenceData = async (limit, grouping) => {
-    let blocks = await sdkBlock.getBlocksFromHeightWithLimit(limit)
+    let blocks = await DataService.getBlocksFromHeightWithLimit(limit)
 
     const heights = blocks.map(data => Number(data.height))
     let timestamps = blocks.map(data => data.timestamp)
@@ -81,7 +81,7 @@ class StatisticService {
    * @returns transaction data per block dataset.
    */
   static getTransactionPerBlockData = async (limit, grouping) => {
-    let blocks = await sdkBlock.getBlocksFromHeightWithLimit(limit)
+    let blocks = await DataService.getBlocksFromHeightWithLimit(limit)
 
     const heights = blocks.map(data => Number(data.height))
     let numTransactions = blocks.map(data => data.numTransactions)

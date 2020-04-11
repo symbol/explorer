@@ -18,8 +18,7 @@
 import router from '../router'
 import { Address, AccountHttp } from 'symbol-sdk'
 import { i18n } from '../config'
-import sdkMosaic from '../infrastructure/getMosaic'
-import sdkNamespace from '../infrastructure/getNamespace'
+import { NamespaceService, MosaicService } from '../infrastructure'
 import Vue from 'vue'
 import helper from '../helper'
 
@@ -191,7 +190,7 @@ export default {
           if (helper.isMosaicOrNamespaceId(searchString)) {
             let result = void 0
             try {
-              result = await sdkMosaic.getMosaicInfo(searchString)
+              result = await MosaicService.getMosaicInfo(searchString)
               if (result) {
                 dispatch('openPage', {
                   pageName: 'mosaic',
@@ -202,7 +201,7 @@ export default {
             } catch (e) {}
           } else {
             try {
-              let result = await sdkNamespace.getNamespaceInfoFormatted(searchString)
+              let result = await NamespaceService.getNamespaceInfo(searchString)
               if (result) {
                 dispatch('openPage', {
                   pageName: 'namespace',
