@@ -59,8 +59,8 @@ const managers = [
   ),
   new Timeline(
     'OwnedNamespace',
-    (pageSize, store) => NamespaceService.getNamespacesFromAccountList(store.getters.getCurrentAccountAddress),
-    (key, pageSize, store) => NamespaceService.getNamespacesFromAccountList(store.getters.getCurrentAccountAddress, key),
+    (pageSize, store) => NamespaceService.getNamespacesFromAccountList(store.getters.getCurrentAccountAddress, pageSize),
+    (key, pageSize, store) => NamespaceService.getNamespacesFromAccountList(store.getters.getCurrentAccountAddress, pageSize, key),
     'metaId',
     10
   ),
@@ -152,20 +152,23 @@ export default {
 
     // Fetch data from the SDK and initialize the page.
     async initializePage(context) {
-      await context.getters.harvester.setStore(context)
-      await context.getters.timeline.setStore(context).initialFetch()
+      await Promise.all([
+        context.getters.harvester.setStore(context),
+        context.getters.timeline.setStore(context).initialFetch()
+      ])
     },
 
     // Fetch data from the SDK By Address.
     async fetchAccountDetail(context, address) {
-      context.commit('setCurrentAccountAddress', address)
-      await context.getters.info.setStore(context).initialFetch(address)
-      await context.getters.OwnedMosaic.setStore(context).initialFetch(address)
-      await context.getters.OwnedNamespace.setStore(context).initialFetch(address)
-      await context.getters.multisig.setStore(context).initialFetch(address)
-      await context.getters.transactions.setStore(context).initialFetch(address)
-      await context.getters.metadatas.setStore(context).initialFetch(address)
-      await context.getters.restrictions.setStore(context).initialFetch(address)
+      await Promise.all([
+        context.getters.info.setStore(context).initialFetch(address),
+        context.getters.OwnedMosaic.setStore(context).initialFetch(address),
+        context.getters.OwnedNamespace.setStore(context).initialFetch(address),
+        context.getters.multisig.setStore(context).initialFetch(address),
+        context.getters.transactions.setStore(context).initialFetch(address),
+        context.getters.metadatas.setStore(context).initialFetch(address),
+        context.getters.restrictions.setStore(context).initialFetch(address)
+      ])
     }
   }
 }

@@ -100,9 +100,11 @@ export default {
     // Fetch data from the SDK.
     async fetchMosaicInfo(context, hexOrNamespace) {
       context.commit('setCurrentMosaicId', hexOrNamespace)
-      await context.getters.info.setStore(context).initialFetch(hexOrNamespace)
-      await context.getters.restrictions.setStore(context).initialFetch(hexOrNamespace)
-      await context.getters.metadatas.setStore(context).initialFetch(hexOrNamespace)
+      await Promise.all([
+        context.getters.info.setStore(context).initialFetch(hexOrNamespace),
+        context.getters.restrictions.setStore(context).initialFetch(hexOrNamespace),
+        context.getters.metadatas.setStore(context).initialFetch(hexOrNamespace)
+      ])
     }
   }
 }

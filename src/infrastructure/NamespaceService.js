@@ -179,8 +179,8 @@ class NamespaceService {
    * @param namespaceId — (Optional) retrive next namespace in pagination
    * @returns customizeize Namespace[]
    */
-  static getNamespacesFromAccountList = async (address, namesapceId) => {
-    const namespacesFromAccountInfos = await this.getNamespacesFromAccount(address, namesapceId)
+  static getNamespacesFromAccountList = async (address, pageSize, namesapceId) => {
+    const namespacesFromAccountInfos = await this.getNamespacesFromAccount(address, pageSize, namesapceId)
 
     const currentHeight = await ChainService.getBlockchainHeight()
 

@@ -145,12 +145,14 @@ export default {
 
     // Fetch data from the SDK and initialize the page.
     async initializePage(context) {
-      await context.getters.recent.setStore(context)
-      await context.getters.pending.setStore(context)
-      await context.getters.transfer.setStore(context)
-      await context.getters.multisig.setStore(context)
-      await context.getters.mosaic.setStore(context)
-      await context.getters.timeline.setStore(context).initialFetch()
+      await Promise.all([
+        context.getters.recent.setStore(context),
+        context.getters.pending.setStore(context),
+        context.getters.transfer.setStore(context),
+        context.getters.multisig.setStore(context),
+        context.getters.mosaic.setStore(context),
+        context.getters.timeline.setStore(context).initialFetch()
+      ])
     },
 
     async getTransactionInfoByHash(context, hash) {

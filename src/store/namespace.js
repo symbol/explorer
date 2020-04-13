@@ -98,9 +98,11 @@ export default {
     // Fetch data from the SDK.
     async fetchNamespaceInfo(context, namespaceOrHex) {
       context.commit('setCurrentNamespaceId', namespaceOrHex)
-      await context.getters.info.setStore(context).initialFetch(namespaceOrHex)
-      await context.getters.namespaceLevel.setStore(context).initialFetch(namespaceOrHex)
-      await context.getters.metadatas.setStore(context).initialFetch(namespaceOrHex)
+      await Promise.all([
+        context.getters.info.setStore(context).initialFetch(namespaceOrHex),
+        context.getters.namespaceLevel.setStore(context).initialFetch(namespaceOrHex),
+        context.getters.metadatas.setStore(context).initialFetch(namespaceOrHex)
+      ])
     }
   }
 }
