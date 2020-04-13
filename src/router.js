@@ -22,7 +22,6 @@ import listPages from './config/list-pages'
 import detailPages from './config/detail-pages'
 import PageAssembler from './views/PageAssembler.vue'
 import pages from './config/pages'
-console.log(pages)
 Vue.use(Router)
 
 const pagesRoutes = pages.map(page => ({
