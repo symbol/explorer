@@ -102,12 +102,12 @@ export default {
       type: Number,
       default: 10
     },
-    // columns to show in the table
-    columns: {
+    // fields to show in the table
+    fields: {
       type: Array
     },
-    // columns to show in the table (mobile view)
-    mobileColumns: {
+    // fields to show in the table (mobile view)
+    mobileFields: {
       type: Array
     },
 
@@ -128,11 +128,11 @@ export default {
       if (typeof data === 'undefined')
         throw Error('ListPage error. Manager or Data getter is not provided')
 
-      if (Array.isArray(data) && this.$store.getters['ui/isMobile'] && Array.isArray(this.mobileColumns)) {
+      if (Array.isArray(data) && this.$store.getters['ui/isMobile'] && Array.isArray(this.mobileFields)) {
         return data.map(row => {
           let mobileRow = {}
 
-          for (let item of this.mobileColumns) {
+          for (let item of this.mobileFields) {
             if (Object.keys(row).includes(item))
               mobileRow[item] = row[item]
           }
@@ -140,11 +140,11 @@ export default {
           return mobileRow
         })
       } else
-      if (Array.isArray(data) && Array.isArray(this.columns)) {
+      if (Array.isArray(data) && Array.isArray(this.fields)) {
         return data.map(row => {
           let columnRow = {}
 
-          for (let item of this.columns) {
+          for (let item of this.fields) {
             if (Object.keys(row).includes(item))
               columnRow[item] = row[item]
           }
