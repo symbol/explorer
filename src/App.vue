@@ -22,7 +22,6 @@
             <MobileMenu class="d-block d-md-none"/>
             <Header />
             <NavigationMenu class="d-none d-md-block"/>
-            <!--MobileMenu />-->
             <div class="width-limiter">
                 <router-view :key="$route.fullPath"/>
             </div>
