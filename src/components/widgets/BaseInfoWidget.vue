@@ -5,7 +5,7 @@
         </template>
 
         <template #body>
-            <b-container fluid>
+            <b-container fluid style="height: 100%">
             <b-row>
                 <b-col class="ex-item" sm="3" lg="12">
                     <div class="ex-item-title">
