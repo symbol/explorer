@@ -205,11 +205,15 @@ export default {
         max-width: 200px;
     }
 
-    .table-striped tbody tr:nth-child(odd) td {
+    .ex-table-striped tbody tr:hover {
+        background-color: $table-hover-color;
+    }
+
+    .ex-table-striped tbody tr:nth-child(odd) td {
         background-color: $table-striped-color-first;
     }
 
-    .table-striped tbody tr:nth-child(even) td {
+    .ex-table-striped tbody tr:nth-child(even) td {
         background-color: $table-striped-color-second;
     }
 

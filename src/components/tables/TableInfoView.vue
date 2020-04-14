@@ -5,7 +5,7 @@
     >
         <table
             v-if="dataIsNotEmpty"
-            class="table table-striped"
+            class="table ex-table-striped"
         >
             <tbody>
                 <tr

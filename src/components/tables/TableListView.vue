@@ -1,7 +1,7 @@
 <template>
   <div v-if="data" class="table-view">
     <div v-if="dataIsNotEmpty" class="table-wrapper">
-      <table class="table table-striped">
+      <table class="table ex-table-striped">
         <thead>
           <tr>
             <th
@@ -42,7 +42,7 @@
                   <div @click="onOpenModal(view+'r'+rowIndex)">Show Detail</div>
                   <Modal
                     :id="view+'r'+rowIndex"
-                    :title="item.type"
+                    :title="'Inner Transaction :: ' + item.type"
                     v-show="openedModal === view+'r'+rowIndex"
                     @close="onCloseModal"
                   >
