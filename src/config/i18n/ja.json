@@ -146,6 +146,16 @@
     "approximateExpired": "概算期限切れ",
     "expiredInBlock": "ブロック以内に期限切れ",
     "index": "No.",
+    "Network Fees": "Recommended Fees Multiplier",
+    "Network Rental Fees": "Effective Rental Fees (XYM)",
+    "highestFeeMultiplier": "Highest",
+    "averageFeeMultiplier": "Average",
+    "medianFeeMultiplier": "Median",
+    "lowestFeeMultiplier": "Lowest",
+    "Root Namespace": "Root Namespace",
+    "Child Namespace": "Child Namespace",
+    "Mosaic": "Mosaic",
+    "Statistics": "Statistics",
     "restrictionAddressValues": "値",
     "restrictionMosaicValues": "値",
     "restrictionValues": "値",
@@ -166,5 +176,8 @@
     "previousRestrictionValue": "前制限値",
     "newRestrictionType": "新制限タイプ",
     "newRestrictionValue": "新制限値",
-    "proof": "Proof"
+    "proof": "Proof",
+    "effectiveRootNamespaceRentalFeePerBlock": "Root Namespace Rental Fee / Block",
+    "effectiveChildNamespaceRentalFee": "Child Namespace Rental Fee",
+    "effectiveMosaicRentalFee": "Mosaic Rental Fee"
 }
