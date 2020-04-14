@@ -34,7 +34,7 @@
                     <template #body v-if="item.body">
                         <component
                             :is="item.body"
-                            :data="data(item)"
+                            :data="getData(item)"
                             :timeline="getter(item.managerGetter)"
                             :timelinePagination="item.timelinePagination"
                             :pagination="item.pagination"
@@ -134,7 +134,7 @@ export default {
       return field
     },
 
-    data(item) {
+    getData(item) {
       if (typeof item.dataGetter === 'string') {
         let dataGetter = this.getter(item.dataGetter)
 

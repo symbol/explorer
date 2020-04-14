@@ -13,7 +13,7 @@
                 "storeNamespaces": ["block"],
                 "managerGetter": "block/timeline",
                 "infoTextGetter": "block/infoText",
-                "columns": [
+                "Fields": [
                     "height",
                     "age",
                     "transactions",
@@ -21,7 +21,7 @@
                     "date",
                     "harvester"
                 ],
-                "mobileColumns": [
+                "mobileFields": [
                     "height",
                     "age",
                     "transactions",
@@ -41,7 +41,7 @@
                 "storeNamespaces": ["transaction"],
                 "managerGetter": "transaction/timeline",
                 "hasFilter": true,
-                "columns": [
+                "Fields": [
                     "height",
                     "deadline",
                     "transactionHash",
@@ -50,7 +50,7 @@
                     "signer",
                     "recipient"
                 ],
-                "mobileColumns": [
+                "mobileFields": [
                     "height",
                     "transactionHash",
                     "fee",
@@ -71,14 +71,14 @@
                 "hasFilter": true,
                 "managerGetter": "account/timeline",
                 "storeNamespaces": ["account"],
-                "columns": [
+                "Fields": [
                     "address",
                     "balance",
                     "lastActivity",
                     "importance",
                     "accountAliasName"
                 ],
-                "mobileColumns": [
+                "mobileFields": [
                     "address",
                     "importance",
                     "info"
@@ -96,14 +96,14 @@
                 "title": "namespaces",
                 "storeNamespaces": ["namespace"],
                 "managerGetter": "namespace/timeline",
-                "columns": [
+                "Fields": [
                     "namespaceName",
                     "namespaceId",
                     "owneraddress",
                     "duration",
                     "approximateExpired"
                 ],
-                "mobileColumns": [
+                "mobileFields": [
                     "namespaceName",
                     "owneraddress",
                     "duration"
@@ -121,7 +121,7 @@
                 "title": "mosaics",
                 "storeNamespaces": ["mosaic"],
                 "managerGetter": "mosaic/timeline",
-                "columns": [
+                "Fields": [
                     "mosaicId",
                     "mosaicAliasName",
                     "owneraddress",
@@ -130,7 +130,7 @@
                     "relativeAmount",
                     "startHeight"
                 ],
-                "mobileColumns": [
+                "mobileFields": [
                     "mosaicId",
                     "mosaicAliasName",
                     "owneraddress"
@@ -148,7 +148,7 @@
                 "title": "nodes",
                 "storeNamespaces": ["node"],
                 "managerGetter": "node/timeline",
-                "columns": [
+                "Fields": [
                     "index",
                     "version",
                     "roles",
@@ -158,7 +158,7 @@
                     "address",
                     "friendlyName"
                 ],
-                "mobileColumns": [
+                "mobileFields": [
                     "index",
                     "roles",
                     "address",

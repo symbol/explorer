@@ -96,12 +96,12 @@ export default {
       type: String
     },
 
-    columns: {
+    Fields: {
       type: [Array, undefined],
       default: void 0
     },
 
-    mobileColumns: {
+    mobileFields: {
       type: [Array, undefined],
       default: void 0
     }
@@ -117,11 +117,11 @@ export default {
       if (typeof timeline === 'undefined')
         throw Error('ListPage error. Timeline or Data getter is not provided')
 
-      if (this.$store.getters['ui/isMobile'] && Array.isArray(this.mobileColumns)) {
+      if (this.$store.getters['ui/isMobile'] && Array.isArray(this.mobileFields)) {
         return timeline.map(row => {
           let mobileRow = {}
 
-          for (let item of this.mobileColumns) {
+          for (let item of this.mobileFields) {
             if (Object.keys(row).includes(item))
               mobileRow[item] = row[item]
           }
@@ -129,11 +129,11 @@ export default {
           return mobileRow
         })
       } else
-      if (Array.isArray(this.columns)) {
+      if (Array.isArray(this.Fields)) {
         return timeline.map(row => {
           let columnRow = {}
 
-          for (let item of this.columns) {
+          for (let item of this.Fields) {
             if (Object.keys(row).includes(item))
               columnRow[item] = row[item]
           }
