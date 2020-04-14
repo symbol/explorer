@@ -23,7 +23,7 @@ export default {
   data() {
     return {
       componentType: 'list',
-      clickableItems: [
+      clickableKeys: [
         'account',
         'block',
         'address',
@@ -73,7 +73,7 @@ export default {
         'restrictionMosaicAdditions',
         'restrictionMosaicDeletions'
       ],
-      disableClickItems: [...Object.values(Constants.Message)],
+      disableClickValues: [...Object.values(Constants.Message)],
       changeDecimalColor: [
         'amount',
         'fee',
@@ -106,12 +106,12 @@ export default {
   },
 
   methods: {
-    isItemClickable(itemKey) {
-      return this.clickableItems.indexOf(itemKey) !== -1
+    isKeyClickable(itemKey) {
+      return this.clickableKeys.indexOf(itemKey) !== -1
     },
 
-    isDisableItemClick(item) {
-      return this.disableClickItems.indexOf(item) !== -1
+    isValueClickable(item) {
+      return this.disableClickValues.indexOf(item) === -1
     },
 
     isChangeDecimalColor(itemKey) {
@@ -130,7 +130,7 @@ export default {
     },
 
     onItemClick(itemKey, item) {
-      if (this.isItemClickable(itemKey) && !this.isDisableItemClick(item)) {
+      if (this.isKeyClickable(itemKey) && this.isValueClickable(item)) {
         this.$store.dispatch(`ui/openPage`, {
           pageName: itemKey,
           param: item
@@ -139,7 +139,7 @@ export default {
     },
 
     getItemHref(itemKey, item) {
-      if (!this.isDisableItemClick(item))
+      if (this.isValueClickable(item))
         return this.$store.getters[`ui/getPageHref`]({ pageName: itemKey, param: item })
     },
 
