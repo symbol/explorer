@@ -91,18 +91,16 @@ export default {
     },
 
     // Fetch data from the SDK and initialize the page.
-    async initializePage(context) {
-      await context.getters.timeline.setStore(context).initialFetch()
+    initializePage(context) {
+      context.getters.timeline.setStore(context).initialFetch()
     },
 
     // Fetch data from the SDK.
-    async fetchNamespaceInfo(context, namespaceOrHex) {
+    fetchNamespaceInfo(context, namespaceOrHex) {
       context.commit('setCurrentNamespaceId', namespaceOrHex)
-      await Promise.all([
-        context.getters.info.setStore(context).initialFetch(namespaceOrHex),
-        context.getters.namespaceLevel.setStore(context).initialFetch(namespaceOrHex),
-        context.getters.metadatas.setStore(context).initialFetch(namespaceOrHex)
-      ])
+      context.getters.info.setStore(context).initialFetch(namespaceOrHex)
+      context.getters.namespaceLevel.setStore(context).initialFetch(namespaceOrHex)
+      context.getters.metadatas.setStore(context).initialFetch(namespaceOrHex)
     }
   }
 }

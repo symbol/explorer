@@ -93,18 +93,16 @@ export default {
     },
 
     // Fetch data from the SDK and initialize the page.
-    async initializePage(context) {
-      await context.getters.timeline.setStore(context).initialFetch()
+    initializePage(context) {
+      context.getters.timeline.setStore(context).initialFetch()
     },
 
     // Fetch data from the SDK.
-    async fetchMosaicInfo(context, hexOrNamespace) {
+    fetchMosaicInfo(context, hexOrNamespace) {
       context.commit('setCurrentMosaicId', hexOrNamespace)
-      await Promise.all([
-        context.getters.info.setStore(context).initialFetch(hexOrNamespace),
-        context.getters.restrictions.setStore(context).initialFetch(hexOrNamespace),
-        context.getters.metadatas.setStore(context).initialFetch(hexOrNamespace)
-      ])
+      context.getters.info.setStore(context).initialFetch(hexOrNamespace)
+      context.getters.restrictions.setStore(context).initialFetch(hexOrNamespace)
+      context.getters.metadatas.setStore(context).initialFetch(hexOrNamespace)
     }
   }
 }

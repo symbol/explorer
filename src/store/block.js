@@ -143,20 +143,16 @@ export default {
     },
 
     // Fetch data from the SDK and initialize the page.
-    async initializePage(context) {
-      await Promise.all([
-        context.dispatch('chain/getBlockHeight', null, { root: true }),
-        context.getters.timeline.setStore(context).initialFetch()
-      ])
+    initializePage(context) {
+      context.dispatch('chain/getBlockHeight', null, { root: true })
+      context.getters.timeline.setStore(context).initialFetch()
     },
 
-    fetchBlockInfo: async (context, height) => {
+    fetchBlockInfo: (context, height) => {
       context.commit('currentBlockHeight', height)
-      await Promise.all([
-        context.getters.info.setStore(context).initialFetch(height),
-        context.getters.blockReceiptInfo.setStore(context).initialFetch(height),
-        context.getters.blockTransactions.setStore(context).initialFetch(height)
-      ])
+      context.getters.info.setStore(context).initialFetch(height)
+      context.getters.blockReceiptInfo.setStore(context).initialFetch(height)
+      context.getters.blockTransactions.setStore(context).initialFetch(height)
     },
 
     nextBlock: ({ commit, getters, dispatch, rootGetters }) => {

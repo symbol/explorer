@@ -151,24 +151,20 @@ export default {
     },
 
     // Fetch data from the SDK and initialize the page.
-    async initializePage(context) {
-      await Promise.all([
-        context.getters.harvester.setStore(context),
-        context.getters.timeline.setStore(context).initialFetch()
-      ])
+    initializePage(context) {
+      context.getters.harvester.setStore(context)
+      context.getters.timeline.setStore(context).initialFetch()
     },
 
     // Fetch data from the SDK By Address.
-    async fetchAccountDetail(context, address) {
-      await Promise.all([
-        context.getters.info.setStore(context).initialFetch(address),
-        context.getters.OwnedMosaic.setStore(context).initialFetch(address),
-        context.getters.OwnedNamespace.setStore(context).initialFetch(address),
-        context.getters.multisig.setStore(context).initialFetch(address),
-        context.getters.transactions.setStore(context).initialFetch(address),
-        context.getters.metadatas.setStore(context).initialFetch(address),
-        context.getters.restrictions.setStore(context).initialFetch(address)
-      ])
+    fetchAccountDetail(context, address) {
+      context.commit('setCurrentAccountAddress', address)
+      context.getters.info.setStore(context).initialFetch(address)
+      context.getters.OwnedMosaic.setStore(context).initialFetch(address)
+      context.getters.OwnedNamespace.setStore(context).initialFetch(address)
+      context.getters.multisig.setStore(context).initialFetch(address)
+      context.getters.transactions.setStore(context).initialFetch(address)
+      context.getters.restrictions.setStore(context).initialFetch(address)
     }
   }
 }
