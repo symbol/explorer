@@ -95,9 +95,9 @@ import TableView from './TableView.vue'
 import Modal from '../containers/Modal.vue'
 import AggregateTransaction from '../AggregateTransaction.vue'
 import Pagination from '../controls/Pagination.vue'
-import Decimal from '../Decimal.vue'
-import Truncate from '../Truncate.vue'
-import TransactionDirection from '../TransactionDirection.vue'
+import Decimal from '../fields/Decimal.vue'
+import Truncate from '../fields/Truncate.vue'
+import TransactionDirection from '../fields/TransactionDirection.vue'
 import Loading from '@/components/Loading.vue'
 
 export default {

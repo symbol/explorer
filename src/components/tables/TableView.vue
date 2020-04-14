@@ -1,5 +1,5 @@
 <script>
-import Age from '../Age.vue'
+import Age from '../fields/Age.vue'
 import Constants from '../../config/constants'
 export default {
   components: { Age },

@@ -62,8 +62,8 @@
 
 <script>
 import TableView from './TableView.vue'
-import Decimal from '../Decimal.vue'
-import Truncate from '../Truncate.vue'
+import Decimal from '../fields/Decimal.vue'
+import Truncate from '../fields/Truncate.vue'
 
 export default {
   extends: TableView,
