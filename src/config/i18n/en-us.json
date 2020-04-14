@@ -7,6 +7,7 @@
     "relativeAmount": "Relative Amount",
     "height": "Height",
     "fee": "Fee",
+    "totalFee": "Total Fee",
     "date": "Date",
     "deadline": "Deadline",
     "status": "Status",
@@ -32,6 +33,7 @@
     "importance": "Importance",
     "importanceHeight": "Importance height",
     "accountType": "Account type",
+    "accountAliasName": "Alias Namespace",
     "linkedAccountKey": "Linked account key",
     "lastActivity": "Last Activity",
     "accounts": "Accounts",
@@ -177,7 +179,13 @@
     "newRestrictionType": "New Restriction Type",
     "newRestrictionValue": "New Restriction Value",
     "proof": "Proof",
+    "balance": "Balance",
     "effectiveRootNamespaceRentalFeePerBlock": "Root Namespace Rental Fee / Block",
     "effectiveChildNamespaceRentalFee": "Child Namespace Rental Fee",
-    "effectiveMosaicRentalFee": "Mosaic Rental Fee"
+    "effectiveMosaicRentalFee": "Mosaic Rental Fee",
+    "recipientAddress": "Recipient",
+    "targetPublicAccount": "Address",
+    "cosignatories": "Cosignatories",
+    "multisigAccounts": "Multisig Accounts",
+    "effectiveFee": "Fee"
 }

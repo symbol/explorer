@@ -33,6 +33,7 @@ export default {
         'namespaceName',
         'linkedNamespace',
         'mosaicAliasName',
+        'accountAliasName',
         'aliasAddress',
         'aliasMosaic',
         'linkedAccountKey',
@@ -78,9 +79,13 @@ export default {
         'fee',
         'relativeAmount',
         'feeMultiplier',
-        'difficulty'
+        'difficulty',
+        'balance'
       ],
       allowArrayToView: [
+        'linkedNamespace',
+        'cosignatories',
+        'multisigAccounts',
         'restrictionAddressValues',
         'restrictionMosaicValues',
         'restrictionTransactionValues',

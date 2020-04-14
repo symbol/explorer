@@ -17,9 +17,7 @@
  */
 
 import Lock from './lock'
-import { NodeService } from '../infrastructure'
-import sdkBlock from '../infrastructure/getBlock'
-import apiMarketData from '../infrastructure/getMarketData'
+import { NodeService, ChainService, DataService } from '../infrastructure'
 
 const LOCK = Lock.create()
 
@@ -88,8 +86,8 @@ export default {
       let storageInfo = await NodeService.getStorageInfo()
       commit('setStorageInfo', storageInfo)
 
-      let marketData = await apiMarketData.getXemPriceData()
-      let xemGraph = await apiMarketData.getXemHistoricalHourlyGraph()
+      let marketData = await DataService.getMarketPrice('XEM')
+      let xemGraph = await DataService.getHistoricalHourlyGraph('XEM')
 
       let graphData = []
       if (xemGraph) {
@@ -108,9 +106,8 @@ export default {
     },
 
     async getBlockHeight({ commit }) {
-      let blockList = await sdkBlock.getBlocksFromHeightWithLimit(1)
-      if (blockList.length > 0)
-        commit('setBlockHeight', blockList[0].height)
+      let chainHeight = await ChainService.getBlockchainHeight()
+      commit('setBlockHeight', chainHeight)
     }
   }
 }
