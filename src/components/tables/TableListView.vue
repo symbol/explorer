@@ -42,15 +42,12 @@
                   <div @click="onOpenModal(view+'r'+rowIndex)">Show Detail</div>
                   <Modal
                     :id="view+'r'+rowIndex"
+                    :title="item.type"
                     v-show="openedModal === view+'r'+rowIndex"
-                    @close="openedModal = null"
+                    @close="onCloseModal"
                   >
-                    <div slot="header">{{item.type}}</div>
                     <div slot="body">
                       <AggregateTransaction slot="body" :transactionBody="item" />
-                    </div>
-                    <div slot="footer">
-                      <button class="modal-default-button" @click="onCloseModal()">Close</button>
                     </div>
                   </Modal>
                 </div>

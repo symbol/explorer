@@ -1,29 +1,48 @@
 <template>
-  <transition name="modal">
-    <div class="modal-mask">
-      <div class="modal-wrapper">
-        <div class="modal-container">
-          <div class="modal-header">
-            <slot name="header" />
-          </div>
+    <transition name="modal">
+        <div class="modal-mask">
+            <div class="modal-wrapper">
+                <b-card class="modal-container">
+                    <div class="ex-modal-header">
+                        <div class="title">
+                            {{title}}
+                        </div>
+                        <IconClose class="button-close" @click="onClose" />
+                    </div>
 
-          <div class="modal-body">
-            <slot name="body" />
-          </div>
+                    <div>
+                        <slot name="body" />
+                    </div>
 
-          <div class="modal-footer">
-            <slot name="footer" />
-          </div>
+                    <div class="modal-footer">
+                        <slot name="footer" />
+                    </div>
+                </b-card>
+            </div>
         </div>
-      </div>
-    </div>
-  </transition>
+    </transition>
 </template>
 
 <script>
+import IconClose from 'vue-material-design-icons/Close.vue';
+
 export default {
-  components: {},
-  props: {}
+  components: {
+      IconClose
+  },
+
+  props: {
+      title: {
+          type: String,
+          default: ''
+      }
+  },
+
+  methods: {
+      onClose() {
+          this.$emit('close');
+      }
+  }
 }
 </script>
 
@@ -46,24 +65,42 @@ export default {
 }
 
 .modal-container {
+    position: relative;
     width: 80%;
     margin: 0 auto;
-    padding: 20px 30px;
+    //padding: 20px 30px;
     background-color: #fff;
-    border-radius: 2px;
+    border-radius: 4px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
     transition: all 0.3s ease;
     font-family: Helvetica, Arial, sans-serif;
 }
 
-.modal-header h3 {
-    margin-top: 0;
-    color: #42b983;
+.ex-modal-header {
+    margin-bottom: 10px;
+    .title {
+        font-size: 16px;
+        font-weight: 500;
+        // color: #393939;
+        color: $title-text-color;
+    }
+
+    .button-close {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        padding: 0;
+        background: transparent;
+        border: none;
+        outline: none;
+        cursor: pointer;
+        font-size: 16px;
+    }
 }
 
-.modal-body {
-    margin: 20px 0;
-}
+// .modal-body {
+//     margin: 20px 0;
+// }
 
 .modal-default-button {
     float: right;
