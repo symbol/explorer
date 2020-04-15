@@ -24,6 +24,7 @@
               <Decimal v-else-if="isChangeDecimalColor(itemKey)" :value="item" />
               <TransactionDirection v-else-if="itemKey === 'direction'" :value="item" />
               <MosaicsS v-else-if="itemKey === 'mosaics'" :value="item" />
+              <TransactionType v-else-if="itemKey === 'transactionType'" :value="item" />
 
               <div v-else-if="isAllowArrayToView(itemKey)">
                 <div v-for="(row, rowIndex) in item" :key="view+'r'+rowIndex">
@@ -92,13 +93,14 @@
 
 <script>
 import TableView from './TableView.vue'
-import Modal from '../containers/Modal.vue'
-import AggregateTransaction from '../AggregateTransaction.vue'
-import Pagination from '../controls/Pagination.vue'
-import Decimal from '../fields/Decimal.vue'
-import Truncate from '../fields/Truncate.vue'
-import TransactionDirection from '../fields/TransactionDirection.vue'
-import MosaicsS from '../fields/MosaicsS.vue'
+import Modal from '@/components/containers/Modal.vue'
+import AggregateTransaction from '@/components/AggregateTransaction.vue'
+import Pagination from '@/components/controls/Pagination.vue'
+import Decimal from '@/components/fields/Decimal.vue'
+import Truncate from '@/components/fields/Truncate.vue'
+import TransactionDirection from '@/components/fields/TransactionDirection.vue'
+import MosaicsS from '@/components/fields/MosaicsS.vue'
+import TransactionType from '@/components/fields/TransactionType.vue'
 import Loading from '@/components/Loading.vue'
 
 export default {
@@ -112,6 +114,7 @@ export default {
       Truncate, 
       TransactionDirection,
       MosaicsS, 
+      TransactionType,
       Loading 
     },
 
