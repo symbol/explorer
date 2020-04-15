@@ -48,8 +48,8 @@ export default {
 
         text() {
             return this.value
-                .replace('Incoming')
-                .replace('Outgoing')
+                .replace('Incoming', '')
+                .replace('Outgoing', '')
         }
     },
 

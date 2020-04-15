@@ -72,6 +72,28 @@
                     },
                     {
                         "type": "Card",
+                        "title": "Transactions",
+                        "fullWidth": true,
+                        "header": [
+                            {
+                                "type": "filter-tmp-disabled",
+                                "filterOptionsGetter": "account/transactionFilterOptions",
+                                "filterValueGetter": "account/transactionFilterValue",
+                                "filterChangeAction": "account/setTransactionFilterValue"
+                            }
+                        ],
+                        "body": "TableListView",
+                        "fields": [
+                            "deadline",
+                            "transactionHash",
+                            "transactionType",
+                            "direction"
+                        ],
+                        "managerGetter": "account/transactions",
+                        "timelinePagination": true
+                    },
+                    {
+                        "type": "Card",
                         "title": "Account Restriction",
                         "fullWidth": true,
                         "body": "TableListView",
@@ -111,28 +133,6 @@
                         "dataGetter": "account/getActivityBucketList",
                         "pagination": true,
                         "pageSize": 5
-                    },
-                    {
-                        "type": "Card",
-                        "title": "Transactions",
-                        "fullWidth": true,
-                        "header": [
-                            {
-                                "type": "filter-tmp-disabled",
-                                "filterOptionsGetter": "account/transactionFilterOptions",
-                                "filterValueGetter": "account/transactionFilterValue",
-                                "filterChangeAction": "account/setTransactionFilterValue"
-                            }
-                        ],
-                        "body": "TableListView",
-                        "fields": [
-                            "deadline",
-                            "transactionHash",
-                            "transactionType",
-                            "direction"
-                        ],
-                        "managerGetter": "account/transactions",
-                        "timelinePagination": true
                     }
                 ]
             }
