@@ -77,11 +77,11 @@ export default {
 }
 
 .ex-modal-header {
-    margin-bottom: 10px;
+    margin-bottom: 20px;
+    
     .title {
         font-size: 16px;
         font-weight: 500;
-        // color: #393939;
         color: $title-text-color;
     }
 

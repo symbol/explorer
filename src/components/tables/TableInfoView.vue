@@ -37,6 +37,8 @@
                         </div>
                       </div>
 
+                       <MosaicsS v-else-if="itemKey === 'mosaics'" :value="item" />
+
                       <router-link v-else-if="isKeyClickable(itemKey) && getItemHref(itemKey, item)" :to="getItemHref(itemKey, item)">
                         {{ item }}
                       </router-link>
@@ -64,11 +66,12 @@
 import TableView from './TableView.vue'
 import Decimal from '../fields/Decimal.vue'
 import Truncate from '../fields/Truncate.vue'
+import MosaicsS from '../fields/MosaicsS.vue'
 
 export default {
   extends: TableView,
 
-  components: { Decimal, Truncate },
+  components: { Decimal, Truncate, MosaicsS },
 
   props: {
     data: {

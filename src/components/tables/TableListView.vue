@@ -23,6 +23,7 @@
               <Age v-if="itemKey === 'age'" :date="item" />
               <Decimal v-else-if="isChangeDecimalColor(itemKey)" :value="item" />
               <TransactionDirection v-else-if="itemKey === 'direction'" :value="item" />
+              <MosaicsS v-else-if="itemKey === 'mosaics'" :value="item" />
 
               <div v-else-if="isAllowArrayToView(itemKey)">
                 <div v-for="(row, rowIndex) in item" :key="view+'r'+rowIndex">
@@ -39,17 +40,19 @@
 
               <div v-else>
                 <div v-if="itemKey === 'transactionBody'">
-                  <div @click="onOpenModal(view+'r'+rowIndex)">Show Detail</div>
-                  <Modal
-                    :id="view+'r'+rowIndex"
-                    :title="'Inner Transaction :: ' + item.type"
-                    v-show="openedModal === view+'r'+rowIndex"
-                    @close="onCloseModal"
-                  >
-                    <div slot="body">
-                      <AggregateTransaction slot="body" :transactionBody="item" />
+                    <div class="table-item-clickable pointer" @click="onOpenModal(view+'r'+rowIndex)">
+                        Show Detail
                     </div>
-                  </Modal>
+                    <Modal
+                        :id="view+'r'+rowIndex"
+                        :title="'Inner Transaction :: ' + item.type"
+                        v-show="openedModal === view+'r'+rowIndex"
+                        @close="onCloseModal"
+                    >
+                        <div slot="body">
+                            <AggregateTransaction slot="body" :transactionBody="item" />
+                        </div>
+                    </Modal>
                 </div>
 
                 <div v-else class="max-item-width">
@@ -95,12 +98,22 @@ import Pagination from '../controls/Pagination.vue'
 import Decimal from '../fields/Decimal.vue'
 import Truncate from '../fields/Truncate.vue'
 import TransactionDirection from '../fields/TransactionDirection.vue'
+import MosaicsS from '../fields/MosaicsS.vue'
 import Loading from '@/components/Loading.vue'
 
 export default {
   extends: TableView,
 
-  components: { Modal, AggregateTransaction, Pagination, Decimal, Truncate, TransactionDirection, Loading },
+  components: {
+      Modal,
+      AggregateTransaction, 
+      Pagination, 
+      Decimal, 
+      Truncate, 
+      TransactionDirection,
+      MosaicsS, 
+      Loading 
+    },
 
   props: {
     data: {
