@@ -5,6 +5,7 @@
                 <Card
                     v-if="item.type === 'Card' && isItemShown(item)"
                     class="card-f"
+                    :data-cy="item.title"
                     :class="{'card-full-width': item.fullWidth, 'card-adaptive': !item.fullWidth}"
                     :loading="getLoading(item)"
                     :error="getError(item)"
