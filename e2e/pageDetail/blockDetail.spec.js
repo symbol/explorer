@@ -14,26 +14,13 @@ describe('Symbol Explorer Blocks detail page', () => {
             cy.get('[data-cy="Block Detail"] [previouspageaction="block/previousBlock"]').should('have.length', 1)
         })
 
-        it('render data info in table', ()=> {
-            cy.get('[data-cy="Block Detail"] table')
-            .should('be.visible')
-
-            cy.get('[data-cy="Block Detail"] tbody > tr')
-            .then($data => {
-                return $data.length
-            }).should('be.at.least',1)
+        it('render table in card', ()=> {
+            cy.renderTableInCard("Block Detail")
         })
 
-        it('render block detail info dataset', ()=> {
-            cy.get('[data-cy="Block Detail"] .table-titles').should('have.length', 8)
-            cy.get('[data-cy="Block Detail"] .table-titles').should('contain', 'Height')
-            cy.get('[data-cy="Block Detail"] .table-titles').should('contain', 'Date')
-            cy.get('[data-cy="Block Detail"] .table-titles').should('contain', 'Total Fee')
-            cy.get('[data-cy="Block Detail"] .table-titles').should('contain', 'Difficulty')
-            cy.get('[data-cy="Block Detail"] .table-titles').should('contain', 'Fee Multiplier')
-            cy.get('[data-cy="Block Detail"] .table-titles').should('contain', 'Transactions')
-            cy.get('[data-cy="Block Detail"] .table-titles').should('contain', 'Harvester')
-            cy.get('[data-cy="Block Detail"] .table-titles').should('contain', 'Block Hash')
+        it('render correct table fields.', () => {
+            const items = ['Height', 'Date', 'Total Fee', 'Difficulty', 'Fee Multiplier', 'Transactions', 'Harvester', 'Block Hash']
+            cy.renderFieldInTable("Block Detail", items)
         })
     })
 
@@ -43,19 +30,14 @@ describe('Symbol Explorer Blocks detail page', () => {
             .should('contain', 'Block Transactions')
         })
 
-        it('render data list in table', () => {
-            cy.get('[data-cy="Block Transactions"] table')
-            .should('be.visible')
-
-            cy.get('[data-cy="Block Transactions"] thead > tr > th')
-            .should('have.length', 4)
-
-            cy.get('[data-cy="Block Transactions"] tbody > tr')
-            .then($data => {
-                return $data.length
-            }).should('be.at.least',1)
+        it('render table in card', ()=> {
+            cy.renderTableInCard("Block Transactions")
         })
 
+        it('render correct table header.', () => {
+            const items = ['Deadline', 'Transaction ID', 'Transaction Hash', 'Type']
+            cy.renderHeaderInTable("Block Transactions", items)
+        })
     })
 
     describe('Balance Change Receipt Card should', () => {
@@ -63,17 +45,14 @@ describe('Symbol Explorer Blocks detail page', () => {
             cy.get('[data-cy="Balance Change Receipt"]').should('contain', 'Balance Change Receipt')
         })
 
-        it('render data list in table', () => {
-            cy.get('[data-cy="Balance Change Receipt"] table')
-            .should('be.visible')
+        it('render table in card', ()=> {
+            cy.renderTableInCard("Balance Change Receipt")
+        })
 
-            cy.get('[data-cy="Balance Change Receipt"] thead > tr > th')
-            .should('have.length', 6)
-
-            cy.get('[data-cy="Balance Change Receipt"] tbody > tr')
-            .then($data => {
-                return $data.length
-            }).should('be.at.least',1)
+        it('render correct table header.', () => {
+            const items = ['Version', 'Type', 'Size', 'Address', 'Mosaic ID', 'Amount']
+            cy.renderHeaderInTable("Balance Change Receipt", items)
         })
     })
-  })
+    // Todo: Test the rest of Reicept
+})
