@@ -77,9 +77,10 @@ export default {
 
   computed: {
     ...mapGetters({
-      transactionList: 'transaction/getRecentList',
-      loading: 'transaction/getLoading'
-    })
+      transactionList: 'transaction/getRecentList'
+    }),
+
+    loading() { return !this.transactionList.length }
   },
 
   methods: {
