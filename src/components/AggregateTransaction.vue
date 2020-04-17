@@ -1,17 +1,17 @@
 <template>
   <div>
     <TableInfoView :data="transactionBody" />
-    <TableListView :data="transactionBody.mosaics" />
   </div>
 </template>
 
 <script>
-import TableListView from '@/components/tables/TableListView.vue'
 import TableInfoView from '@/components/tables/TableInfoView.vue'
 
 export default {
   components: {
-    TableListView,
+    // https://vuejs.org/v2/guide/components-edge-cases.html#Circular-References-Between-Components
+    // eslint-disable-next-line
+    TableListView: () => import('../components/tables/TableListView'),
     TableInfoView
   },
 
