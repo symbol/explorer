@@ -4,9 +4,9 @@ describe('Symbol Explorer Blocks list page should', () => {
         cy.contains('Blocks')
     })
 
-    it('load chain height and block height is more than 0', () => {
+    it.only('load chain height and block height is more than 0', () => {
         cy.server({ force404: true })
-        cy.route('GET', '/blocks/from/latest/limit/**').as('getLatestBlock')
+        cy.route('GET', '/transactions/from/**/limit/**').as('getLatestBlock')
 
         cy.visit('/blocks')
         cy.wait('@getLatestBlock')
