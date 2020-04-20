@@ -118,6 +118,7 @@ class BlockService {
   static formatBlock = block => ({
     height: block.height.compact(),
     hash: block.hash,
+    timestampRaw: block.timestamp,
     timestamp: helper.networkTimestamp(block.timestamp),
     totalFee: helper.toNetworkCurrency(block.totalFee),
     difficulty: helper.convertBlockDifficultyToReadable(block.difficulty),
