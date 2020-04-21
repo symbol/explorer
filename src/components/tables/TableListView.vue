@@ -18,7 +18,7 @@
               class="table-cell"
               :key="view+'r'+rowIndex+'i'+itemKey"
               :class="{'table-item-clickable': isKeyClickable(itemKey), [itemKey]: true}"
-              :title="getKeyName(itemKey) + ': ' + item"
+              :title="getKeyName(itemKey) + (typeof item !== 'string' ? '' : ': ' +  item)"
             >
               <Age v-if="itemKey === 'age'" :date="item" />
               <Decimal v-else-if="isChangeDecimalColor(itemKey)" :value="item" />
@@ -41,19 +41,12 @@
 
               <div v-else>
                 <div v-if="itemKey === 'transactionBody'">
-                    <div class="table-item-clickable pointer" @click="onOpenModal(view+'r'+rowIndex)">
-                        Show Detail
+                  <b-link v-b-modal="view+'r'+rowIndex">Show Detail</b-link>
+                  <Modal :id="view+'r'+rowIndex" :title="item.type">
+                    <div slot="body">
+                      <AggregateTransaction slot="body" :transactionBody="item" />
                     </div>
-                    <Modal
-                        :id="view+'r'+rowIndex"
-                        :title="'Inner Transaction :: ' + item.type"
-                        v-show="openedModal === view+'r'+rowIndex"
-                        @close="onCloseModal"
-                    >
-                        <div slot="body">
-                            <AggregateTransaction slot="body" :transactionBody="item" />
-                        </div>
-                    </Modal>
+                  </Modal>
                 </div>
 
                 <div v-else class="max-item-width">
@@ -212,12 +205,6 @@ export default {
   methods: {
     onMoreClick() {
       this.$store.dispatch(this.nextPageAction)
-    },
-    onOpenModal(id) {
-      this.openedModal = id
-    },
-    onCloseModal() {
-      this.openedModal = null
     },
 
     nextPage() {

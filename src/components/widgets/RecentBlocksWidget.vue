@@ -79,9 +79,10 @@ export default {
 
   computed: {
     ...mapGetters({
-      blockList: 'block/getRecentList',
-      loading: 'block/getLoading'
-    })
+      blockList: 'block/getRecentList'
+    }),
+
+    loading() { return !this.blockList.length }
   },
 
   methods: {
