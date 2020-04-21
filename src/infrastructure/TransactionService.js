@@ -116,7 +116,7 @@ class TransactionService {
       })
 
       formattedTransaction.transferMosaics = transferMosaics
-      delete formattedTransaction.transactionDetail.mosaics
+      delete formattedTransaction.transactionBody.mosaics
       break
     case TransactionType.AGGREGATE_COMPLETE:
     case TransactionType.AGGREGATE_BONDED:

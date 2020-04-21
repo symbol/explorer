@@ -25,6 +25,7 @@ export default class DataSet {
 
     this.name = name
     this.initialFuntion = initialFuntion
+    this.DataType = DataType
     this.data = new DataType()
     this.loading = false
     this.error = false
@@ -44,6 +45,8 @@ export default class DataSet {
 
   async initialFetch(props) {
     this.loading = true
+    this.store.dispatch(this.name, this)
+
     try {
       this.data = await this.initialFuntion(props, this.store)
     } catch (e) {
@@ -54,6 +57,13 @@ export default class DataSet {
 
     this.store.dispatch(this.name, this)
     return this
+  }
+
+  uninitialize() {
+    this.initialized = false
+    this.data = new this.DataType()
+    this.loading = false
+    this.error = false
   }
 
   async reset() {

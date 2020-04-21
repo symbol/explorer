@@ -158,13 +158,24 @@ export default {
 
     // Fetch data from the SDK By Address.
     fetchAccountDetail(context, address) {
-      context.commit('setCurrentAccountAddress', address)
-      context.getters.info.setStore(context).initialFetch(address)
-      context.getters.OwnedMosaic.setStore(context).initialFetch(address)
-      context.getters.OwnedNamespace.setStore(context).initialFetch(address)
-      context.getters.multisig.setStore(context).initialFetch(address)
-      context.getters.transactions.setStore(context).initialFetch(address)
-      context.getters.restrictions.setStore(context).initialFetch(address)
+        context.dispatch('uninitializeDetail')
+        context.commit('setCurrentAccountAddress', address)
+
+        context.getters.info.setStore(context).initialFetch(address)
+        context.getters.OwnedMosaic.setStore(context).initialFetch(address)
+        context.getters.OwnedNamespace.setStore(context).initialFetch(address)
+        context.getters.multisig.setStore(context).initialFetch(address)
+        context.getters.transactions.setStore(context).initialFetch(address)
+        context.getters.restrictions.setStore(context).initialFetch(address)
+    },
+
+    uninitializeDetail(context) {
+        context.getters.info.setStore(context).uninitialize()
+        context.getters.OwnedMosaic.setStore(context).uninitialize()
+        context.getters.OwnedNamespace.setStore(context).uninitialize()
+        context.getters.multisig.setStore(context).uninitialize()
+        context.getters.transactions.setStore(context).uninitialize()
+        context.getters.restrictions.setStore(context).uninitialize()
     }
   }
 }
