@@ -164,27 +164,6 @@ class DataService {
 
     return accounts
   }
-
-  /**
-   * Gets array of blocks
-   * @param limit - No of block
-   * @param fromBlockHeight - (Optional) retrive next block in pagination
-   * @returns blockInfo[]
-   */
-  static getBlocksFromHeightWithLimit = async (limit, fromBlockHeight) => {
-    let blockHeight
-    if (fromBlockHeight === undefined)
-      blockHeight = 'latest'
-    else
-      blockHeight = fromBlockHeight.toString()
-
-    // Make request.
-    const path = `/blocks/from/${blockHeight}/limit/${limit}`
-    const response = await axios.get(http.nodeUrl + path)
-    const blocks = response.data.map(info => dto.createBlockInfoFromDTO(info, http.networkType))
-
-    return blocks
-  }
 }
 
 export default DataService

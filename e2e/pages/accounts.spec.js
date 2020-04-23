@@ -11,8 +11,8 @@ describe('Symbol Explorer Accounts list page should', () => {
         cy.renderTable()
     })
 
-    it('render 4 items in table header', () => {
-        cy.renderHeaderItem(4)
+    it('render 5 items in table header', () => {
+        cy.renderHeaderItem(5)
     })
 
     it('render at least 1 row data in the table list', () => {

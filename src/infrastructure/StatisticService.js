@@ -16,7 +16,7 @@
  *
  */
 
-import { DataService } from './index'
+import { BlockService, ChainService } from './index'
 
 class StatisticService {
   /**
@@ -27,10 +27,19 @@ class StatisticService {
    * @returns block time difference dataset.
    */
   static getBlockTimeDifferenceData = async (limit, grouping) => {
-    let blocks = await DataService.getBlocksFromHeightWithLimit(limit)
+    const latestHeight = await ChainService.getBlockchainHeight()
+    let fromBlock = latestHeight - limit
+    let blockList = []
 
-    const heights = blocks.map(data => Number(data.height))
-    let timestamps = blocks.map(data => data.timestamp)
+    while (blockList.length < limit) {
+      let startFromBlock = fromBlock + blockList.length
+      let numberOfBlock = limit - blockList.length
+      let blocks = await BlockService.getBlocksByHeightWithLimit(startFromBlock, numberOfBlock)
+      blockList.unshift(...blocks)
+    }
+
+    const heights = blockList.map(data => Number(data.height))
+    let timestamps = blockList.map(data => data.timestampRaw)
 
     for (let i = 0; i < timestamps.length - 1; ++i)
       timestamps[i] -= timestamps[i + 1]
@@ -81,10 +90,19 @@ class StatisticService {
    * @returns transaction data per block dataset.
    */
   static getTransactionPerBlockData = async (limit, grouping) => {
-    let blocks = await DataService.getBlocksFromHeightWithLimit(limit)
+    const latestHeight = await ChainService.getBlockchainHeight()
+    let fromBlock = latestHeight - limit
+    let blockList = []
 
-    const heights = blocks.map(data => Number(data.height))
-    let numTransactions = blocks.map(data => data.numTransactions)
+    while (blockList.length < limit) {
+      let startFromBlock = fromBlock + blockList.length
+      let numberOfBlock = limit - blockList.length
+      let blocks = await BlockService.getBlocksByHeightWithLimit(startFromBlock, numberOfBlock)
+      blockList.unshift(...blocks)
+    }
+
+    const heights = blockList.map(data => Number(data.height))
+    let numTransactions = blockList.map(data => data.transactions)
 
     let averages = []
     let sum = 0
