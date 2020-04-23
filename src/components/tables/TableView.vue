@@ -1,15 +1,16 @@
 <script>
 import Age from "../fields/Age.vue";
 import Constants from "../../config/constants";
-export default {
-    components: { Age },
-    props: {
-        view: {
-            type: String,
-            default: "block"
-            // required: true
-        },
+import Decimal from "@/components/fields/Decimal.vue";
+import Truncate from "@/components/fields/Truncate.vue";
 
+export default {
+    components: { 
+        Age,
+        Decimal,
+        Truncate
+    },
+    props: {
         height: {
             type: Number
         },
@@ -47,7 +48,7 @@ export default {
                 "addressHeight",
                 "publicKeyHeight",
                 "importanceHeight",
-                "multisigAccounts",
+                "multisigAccounts_",
 
                 "signer",
                 "recipient",
@@ -147,7 +148,7 @@ export default {
                 key === "owneraddress" ||
                 key === "host" ||
                 key === "friendlyName" ||
-                key === "multisigAccounts"
+                key === "multisigAccounts_"
             );
         },
 

@@ -19,12 +19,12 @@
 <template>
     <div class="ex-array">
         <div v-for="(row, rowIndex) in value" :key="view+'r'+rowIndex">
-            <router-link v-if="isKeyClickable(itemKey) && getItemHref(itemKey, row)" :to="getItemHref(itemKey, row)">
-                <Truncate v-if="isTruncate(itemKey)">{{row}}</Truncate>
+            <router-link v-if="isKeyClickable(itemKey_) && getItemHref(itemKey_, row)" :to="getItemHref(itemKey_, row)">
+                <Truncate v-if="isTruncate(itemKey_)">{{row}}</Truncate>
                 <div v-else>{{ row }}</div>
             </router-link>
             <div v-else>
-                <Truncate v-if="isTruncate(itemKey)">{{row}}</Truncate>
+                <Truncate v-if="isTruncate(itemKey_)">{{row}}</Truncate>
                 <div v-else>{{ row }}</div>
             </div>
         </div>
@@ -47,6 +47,12 @@ export default {
         value: {
             type: Array,
             required: true
+        }
+    },
+
+    computed: {
+        itemKey_() {
+            return this.itemKey + '_'
         }
     }
 }

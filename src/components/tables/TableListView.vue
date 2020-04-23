@@ -23,29 +23,15 @@
                             v-for="(item, itemKey) in row"
                             class="table-cell"
                             :key="view+'r'+rowIndex+'i'+itemKey"
-                            :class="{'table-item-clickable': isKeyClickable(itemKey), [itemKey]: true}"
+                            :class="{[itemKey]: true}"
                             :title="getKeyName(itemKey) + (typeof item !== 'string' ? '' : ': ' +  item)"
                         >
-                            <Age v-if="isAge(itemKey)" :date="item" />
+                            <ArrayField v-if="isArrayField(itemKey)" :itemKey="itemKey" :value="item" />
+                            <Age v-else-if="isAge(itemKey)" :date="item" />
                             <Decimal v-else-if="isDecimal(itemKey)" :value="item" />
-                            <MosaicsS v-else-if="isMosaics(itemKey)" :value="item" />
+                            <MosaicsField v-else-if="isMosaics(itemKey)" :value="item" />
                             <TransactionType v-else-if="isTransactionType(itemKey)" :value="item" />
-
-                            <div v-else-if="isArrayField(itemKey)">
-                                <div v-for="(row, rowIndex) in item" :key="view+'r'+rowIndex">
-                                    <router-link
-                                        v-if="isKeyClickable(itemKey) && getItemHref(itemKey, row)"
-                                        :to="getItemHref(itemKey, row)"
-                                    >
-                                        <Truncate v-if="isTruncate(itemKey)">{{row}}</Truncate>
-                                        <div v-else>{{ row }}</div>
-                                    </router-link>
-                                    <div v-else>
-                                        <Truncate v-if="isTruncate(itemKey)">{{row}}</Truncate>
-                                        <div v-else>{{ row }}</div>
-                                    </div>
-                                </div>
-                            </div>
+                            
 
                             <div v-else-if="isAggregateInnerTransaction(itemKey)">
                                 <b-link v-b-modal="view+'r'+rowIndex">Show Detail</b-link>
@@ -98,10 +84,9 @@ import TableView from "./TableView.vue";
 import Modal from "@/components/containers/Modal.vue";
 import AggregateTransaction from "@/components/AggregateTransaction.vue";
 import Pagination from "@/components/controls/Pagination.vue";
-import Decimal from "@/components/fields/Decimal.vue";
-import Truncate from "@/components/fields/Truncate.vue";
-import MosaicsS from "@/components/fields/MosaicsS.vue";
+import MosaicsField from "@/components/fields/MosaicsField.vue";
 import TransactionType from "@/components/fields/TransactionType.vue";
+import ArrayField from "../fields/ArrayField.vue";
 import Loading from "@/components/Loading.vue";
 
 export default {
@@ -111,10 +96,9 @@ export default {
         Modal,
         AggregateTransaction,
         Pagination,
-        Decimal,
-        Truncate,
-        MosaicsS,
+        MosaicsField,
         TransactionType,
+        ArrayField,
         Loading
     },
 
@@ -138,22 +122,9 @@ export default {
             type: Object
         },
 
-        // timelineNextAction: {
-        //   type: String
-        // },
-
-        // timelinePreviousAction: {
-        //   type: String
-        // },
-
         pageSize: {
             type: Number,
             default: 10
-        },
-
-        showModal: {
-            type: Boolean,
-            default: false
         }
     },
 

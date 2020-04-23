@@ -41,7 +41,7 @@ import Decimal from '@/components/fields/Decimal.vue'
 import helper from '../../helper'
 
 export default {
-    name: 'MosaicsS',
+    name: 'MosaicsField',
 
     components: {
         Decimal

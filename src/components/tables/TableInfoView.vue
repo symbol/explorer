@@ -3,17 +3,16 @@
         <table v-if="dataIsNotEmpty" class="table ex-table-striped">
             <tbody>
                 <tr v-for="(item, itemKey) in formattedData" :key="view+'r'+itemKey">
-                    <td
-                        class="table-titles table-titles-ver table-title-item table-cell"
-                    >{{getKeyName(itemKey)}}</td>
+                    <td class="table-titles table-titles-ver table-title-item table-cell">
+                        {{getKeyName(itemKey)}}
+                    </td>
                     <td
                         class="max-item-width table-cell"
-                        :class="{'table-item-clickable': isKeyClickable(itemKey)}"
                         :title="getKeyName(itemKey) + ': ' + item"
                         @click="onItemClick(itemKey, item)"
                     >
                         <ArrayField v-if="isArrayField(itemKey)" :itemKey="itemKey" :value="item" />
-                        <MosaicsS v-else-if="itemKey === 'mosaics'" :value="item" />
+                        <MosaicsField v-else-if="itemKey === 'mosaics'" :value="item" />
 
                         <router-link
                             v-else-if="isKeyClickable(itemKey) && getItemHref(itemKey, item)"
@@ -34,13 +33,16 @@
 import TableView from "./TableView.vue";
 import Decimal from "../fields/Decimal.vue";
 import Truncate from "../fields/Truncate.vue";
-import MosaicsS from "../fields/MosaicsS.vue";
+import MosaicsField from "../fields/MosaicsField.vue";
 import ArrayField from "../fields/ArrayField.vue";
 
 export default {
     extends: TableView,
 
-    components: { Decimal, Truncate, MosaicsS, ArrayField },
+    components: {
+        MosaicsField, 
+        ArrayField
+    },
 
     props: {
         data: {
