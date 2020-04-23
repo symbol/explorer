@@ -13,13 +13,11 @@
                     >
                         <ArrayField v-if="isArrayField(itemKey)" :itemKey="itemKey" :value="item" />
                         <MosaicsField v-else-if="itemKey === 'mosaics'" :value="item" />
-
+                        <Decimal v-else-if="isDecimal(itemKey)" :value="item" />
                         <router-link
                             v-else-if="isKeyClickable(itemKey) && getItemHref(itemKey, item)"
                             :to="getItemHref(itemKey, item)"
                         >{{ item }}</router-link>
-
-                        <Decimal v-else-if="isDecimal(itemKey)" :value="item" />
                         <div v-else>{{ item }}</div>
                     </td>
                 </tr>
