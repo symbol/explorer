@@ -31,7 +31,7 @@
                             <MosaicsS v-else-if="isMosaics(itemKey)" :value="item" />
                             <TransactionType v-else-if="isTransactionType(itemKey)" :value="item" />
 
-                            <div v-else-if="isSubtable(itemKey)">
+                            <div v-else-if="isArrayField(itemKey)">
                                 <div v-for="(row, rowIndex) in item" :key="view+'r'+rowIndex">
                                     <router-link
                                         v-if="isKeyClickable(itemKey) && getItemHref(itemKey, row)"

@@ -47,6 +47,7 @@ export default {
                 "addressHeight",
                 "publicKeyHeight",
                 "importanceHeight",
+                "multisigAccounts",
 
                 "signer",
                 "recipient",
@@ -132,7 +133,7 @@ export default {
             return itemKey === "transactionType" || itemKey === "type";
         },
 
-        isSubtable(itemKey) {
+        isArrayField(itemKey) {
             return this.allowArrayToView.indexOf(itemKey) !== -1;
         },
 
@@ -145,7 +146,8 @@ export default {
                 key === "transactionHash" ||
                 key === "owneraddress" ||
                 key === "host" ||
-                key === "friendlyName"
+                key === "friendlyName" ||
+                key === "multisigAccounts"
             );
         },
 
@@ -154,7 +156,7 @@ export default {
         },
 
         isItemShown(itemKey, item) {
-            if (this.isSubtable(itemKey)) return item.length !== 0;
+            if (this.isArrayField(itemKey)) return item.length !== 0;
 
             return item != null;
         },
