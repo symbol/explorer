@@ -18,10 +18,10 @@
 
 <template>
     <div class="mosaics-container">
-        <span 
-            v-for="(item, index) in value" 
-            class="mosaic" 
-            :key="'mos_s' + index" 
+        <span
+            v-for="(item, index) in value"
+            class="mosaic"
+            :key="'mos_s' + index"
             :title="'Mosaic: ' + item.id + ' | Amount: ' + item.amount"
         >
             <span class="mosaic-name">
@@ -41,28 +41,28 @@ import Decimal from '@/components/fields/Decimal.vue'
 import helper from '../../helper'
 
 export default {
-    name: 'MosaicsField',
+  name: 'MosaicsField',
 
-    components: {
-        Decimal
-    },
+  components: {
+    Decimal
+  },
 
-    props: {
-        value: {
-            type: Array,
-            required: true
-        }
-    },
-
-    methods: {
-        timeSince(interval) {
-            return helper.timeSince(interval)
-        },
-
-        getItemHref(itemKey, item) {
-            return this.$store.getters[`ui/getPageHref`]({ pageName: itemKey, param: item })
-        },
+  props: {
+    value: {
+      type: Array,
+      required: true
     }
+  },
+
+  methods: {
+    timeSince(interval) {
+      return helper.timeSince(interval)
+    },
+
+    getItemHref(itemKey, item) {
+      return this.$store.getters[`ui/getPageHref`]({ pageName: itemKey, param: item })
+    }
+  }
 }
 </script>
 
@@ -76,7 +76,7 @@ export default {
     flex-direction: row;
 
     justify-content: flex-start;
-    
+
     .mosaic {
         display:inline-block;
         background: $primary-color;

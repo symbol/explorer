@@ -28,55 +28,54 @@
 </template>
 
 <script>
-import TableView from "./TableView.vue";
-import Decimal from "../fields/Decimal.vue";
-import Truncate from "../fields/Truncate.vue";
-import MosaicsField from "../fields/MosaicsField.vue";
-import ArrayField from "../fields/ArrayField.vue";
+import TableView from './TableView.vue'
+import MosaicsField from '../fields/MosaicsField.vue'
+import ArrayField from '../fields/ArrayField.vue'
 
 export default {
-    extends: TableView,
+  extends: TableView,
 
-    components: {
-        MosaicsField, 
-        ArrayField
-    },
+  components: {
+    MosaicsField,
+    ArrayField
+  },
 
-    props: {
-        data: {
-            type: Object,
-            required: true
-        }
-    },
-
-    created() {
-        this.componentType = "info";
-    },
-
-    mounted() {
-        // this.$store.dispatch(this.view + "/fetchInfo", this.infoId);
-    },
-
-    computed: {
-        formattedData() {
-            let formattedData = {};
-            for (let key in this.data)
-                if (this.isItemShown(key, this.data[key]))
-                    formattedData[key] = this.data[key];
-
-            return formattedData;
-        },
-
-        header() {
-            let header = ["", ""];
-            return header;
-        },
-
-        dataIsNotEmpty() {
-            return Object.keys(this.data).length;
-        }
+  props: {
+    data: {
+      type: Object,
+      required: true
     }
-};
+  },
+
+  created() {
+    this.componentType = 'info'
+  },
+
+  mounted() {
+    // this.$store.dispatch(this.view + "/fetchInfo", this.infoId);
+  },
+
+  computed: {
+    formattedData() {
+      let formattedData = {}
+      for (let key in this.data) {
+        if (this.isItemShown(key, this.data[key]))
+          formattedData[key] = this.data[key]
+      }
+
+      return formattedData
+    },
+
+    header() {
+      let header = ['', '']
+      return header
+    },
+
+    dataIsNotEmpty() {
+      return Object.keys(this.data).length
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

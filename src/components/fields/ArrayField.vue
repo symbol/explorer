@@ -17,7 +17,7 @@
  */
 
 <template>
-    <div class="ex-array">
+    <div>
         <div v-for="(row, rowIndex) in value" :title="row" :key="view+'r'+rowIndex">
             <router-link v-if="isKeyClickable(itemKey_) && getItemHref(itemKey_, row)" :to="getItemHref(itemKey_, row)">
                 <Truncate v-if="isTruncate(itemKey_)">{{row}}</Truncate>
@@ -35,29 +35,25 @@
 import TableView from '@/components/tables/TableView.vue'
 
 export default {
-    name: 'ArrayField',
-    extends: TableView,
+  name: 'ArrayField',
+  extends: TableView,
 
-    props: {
-        itemKey: {
-            type: String,
-            required: true
-        },
-
-        value: {
-            type: Array,
-            required: true
-        }
+  props: {
+    itemKey: {
+      type: String,
+      required: true
     },
 
-    computed: {
-        itemKey_() {
-            return this.itemKey + '_'
-        }
+    value: {
+      type: Array,
+      required: true
     }
+  },
+
+  computed: {
+    itemKey_() {
+      return this.itemKey + '_'
+    }
+  }
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>

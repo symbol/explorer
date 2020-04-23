@@ -31,15 +31,15 @@ $container-max-widths: (
 
 $theme-colors: () !default;
 $theme-colors: map-merge(
-  (
-    'primary': $primary,
-    'secondary': $secondary,
-    'success': $green,
-    'info': $info,
-    'warning': $orange,
-    'title': $pink
-  ),
-  $theme-colors
+    (
+        'primary': $primary,
+        'secondary': $secondary,
+        'success': $green,
+        'info': $info,
+        'warning': $orange,
+        'title': $pink
+    ),
+    $theme-colors
 );
 
 @import '../../node_modules/bootstrap/scss/bootstrap';

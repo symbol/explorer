@@ -31,7 +31,6 @@
                             <Decimal v-else-if="isDecimal(itemKey)" :value="item" />
                             <MosaicsField v-else-if="isMosaics(itemKey)" :value="item" />
                             <TransactionType v-else-if="isTransactionType(itemKey)" :value="item" />
-                            
 
                             <div v-else-if="isAggregateInnerTransaction(itemKey)">
                                 <b-link v-b-modal="view+'r'+rowIndex">Show Detail</b-link>
@@ -80,141 +79,141 @@
 </template>
 
 <script>
-import TableView from "./TableView.vue";
-import Modal from "@/components/containers/Modal.vue";
-import AggregateTransaction from "@/components/AggregateTransaction.vue";
-import Pagination from "@/components/controls/Pagination.vue";
-import MosaicsField from "@/components/fields/MosaicsField.vue";
-import TransactionType from "@/components/fields/TransactionType.vue";
-import ArrayField from "../fields/ArrayField.vue";
-import Loading from "@/components/Loading.vue";
+import TableView from './TableView.vue'
+import Modal from '@/components/containers/Modal.vue'
+import AggregateTransaction from '@/components/AggregateTransaction.vue'
+import Pagination from '@/components/controls/Pagination.vue'
+import MosaicsField from '@/components/fields/MosaicsField.vue'
+import TransactionType from '@/components/fields/TransactionType.vue'
+import ArrayField from '../fields/ArrayField.vue'
+import Loading from '@/components/Loading.vue'
 
 export default {
-    extends: TableView,
+  extends: TableView,
 
-    components: {
-        Modal,
-        AggregateTransaction,
-        Pagination,
-        MosaicsField,
-        TransactionType,
-        ArrayField,
-        Loading
+  components: {
+    Modal,
+    AggregateTransaction,
+    Pagination,
+    MosaicsField,
+    TransactionType,
+    ArrayField,
+    Loading
+  },
+
+  props: {
+    data: {
+      type: Array,
+      required: true
     },
 
-    props: {
-        data: {
-            type: Array,
-            required: true
-        },
-
-        pagination: {
-            type: Boolean,
-            default: false
-        },
-
-        timelinePagination: {
-            type: Boolean,
-            default: false
-        },
-
-        timeline: {
-            type: Object
-        },
-
-        pageSize: {
-            type: Number,
-            default: 10
-        }
+    pagination: {
+      type: Boolean,
+      default: false
     },
 
-    created() {
-        this.componentType = "list";
+    timelinePagination: {
+      type: Boolean,
+      default: false
     },
 
-    data() {
-        return {
-            pageIndex: 0,
-            openedModal: null
-        };
+    timeline: {
+      type: Object
     },
 
-    computed: {
-        preparedData() {
-            if (
-                Array.isArray(this.data) &&
+    pageSize: {
+      type: Number,
+      default: 10
+    }
+  },
+
+  created() {
+    this.componentType = 'list'
+  },
+
+  data() {
+    return {
+      pageIndex: 0,
+      openedModal: null
+    }
+  },
+
+  computed: {
+    preparedData() {
+      if (
+        Array.isArray(this.data) &&
                 this.pagination === true &&
                 !this.timelinePagination
-            )
-                return this.data.slice(
-                    this.pageIndex * this.pageSize,
-                    this.pageIndex * this.pageSize + this.pageSize
-                );
-            else return this.data;
-        },
-
-        nextPageExist() {
-            if (this.timelinePagination && this.timeline instanceof Object)
-                return this.timeline.canFetchNext;
-            else return this.pageSize * (this.pageIndex + 1) < this.data.length;
-        },
-
-        prevPageExist() {
-            if (this.timelinePagination && this.timeline instanceof Object)
-                return this.timeline.canFetchPrevious;
-            else return this.pageIndex > 0;
-        },
-
-        lastPage() {
-            return Math.ceil(this.data.length / this.pageSize);
-        },
-
-        header() {
-            let header = [];
-            if (this.data) for (let key in this.data[0]) header.push(key);
-            return header;
-        },
-
-        dataIsNotEmpty() {
-            return this.data.length;
-        },
-
-        paginationLoading() {
-            return this.timeline?.isLoading === true;
-        }
+      ) {
+        return this.data.slice(
+          this.pageIndex * this.pageSize,
+          this.pageIndex * this.pageSize + this.pageSize
+        )
+      } else return this.data
     },
 
-    methods: {
-        onMoreClick() {
-            this.$store.dispatch(this.nextPageAction);
-        },
-
-        nextPage() {
-            if (this.nextPageExist) {
-                if (this.timelinePagination)
-                    // this.$store.dispatch(this.timelineNextAction)
-                    this.timeline.fetchNext();
-                else this.pageIndex++;
-            }
-        },
-
-        prevPage() {
-            if (this.prevPageExist) {
-                if (this.timelinePagination)
-                    // this.$store.dispatch(this.timelinePreviousAction)
-                    this.timeline.fetchPrevious();
-                else this.pageIndex--;
-            }
-        }
+    nextPageExist() {
+      if (this.timelinePagination && this.timeline instanceof Object)
+        return this.timeline.canFetchNext
+      else return this.pageSize * (this.pageIndex + 1) < this.data.length
     },
 
-    watch: {
-        preparedData() {
-            if (this.pageIndex >= this.lastPage)
-                this.pageIndex = this.lastPage - 1;
-        }
+    prevPageExist() {
+      if (this.timelinePagination && this.timeline instanceof Object)
+        return this.timeline.canFetchPrevious
+      else return this.pageIndex > 0
+    },
+
+    lastPage() {
+      return Math.ceil(this.data.length / this.pageSize)
+    },
+
+    header() {
+      let header = []
+      if (this.data) for (let key in this.data[0]) header.push(key)
+      return header
+    },
+
+    dataIsNotEmpty() {
+      return this.data.length
+    },
+
+    paginationLoading() {
+      return this.timeline?.isLoading === true
     }
-};
+  },
+
+  methods: {
+    onMoreClick() {
+      this.$store.dispatch(this.nextPageAction)
+    },
+
+    nextPage() {
+      if (this.nextPageExist) {
+        if (this.timelinePagination)
+        // this.$store.dispatch(this.timelineNextAction)
+          this.timeline.fetchNext()
+        else this.pageIndex++
+      }
+    },
+
+    prevPage() {
+      if (this.prevPageExist) {
+        if (this.timelinePagination)
+        // this.$store.dispatch(this.timelinePreviousAction)
+          this.timeline.fetchPrevious()
+        else this.pageIndex--
+      }
+    }
+  },
+
+  watch: {
+    preparedData() {
+      if (this.pageIndex >= this.lastPage)
+        this.pageIndex = this.lastPage - 1
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

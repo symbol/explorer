@@ -19,58 +19,58 @@ import IconNamespace from '../../styles/img/tx-namespace.png'
 import IconMosaic from '../../styles/img/tx-mosaic.png'
 
 export default {
-    props: {
-        value: {
-            type: String,
-            required: true
-        }
+  props: {
+    value: {
+      type: String,
+      required: true
+    }
+  },
+
+  data() {
+    return {
+      IconTransfer,
+      IconTransferIncoming,
+      IconTransferOutgoing,
+      IconAggregate,
+      IconLock,
+      IconNamespace,
+      IconMosaic
+    }
+  },
+
+  computed: {
+    iconUrl() {
+      if (this.isTypeOf('incoming')) return this.IconTransferIncoming
+      if (this.isTypeOf('outgoing')) return this.IconTransferOutgoing
+      if (this.isTypeOf('transfer')) return this.IconTransfer
+      if (this.isTypeOf('namespace')) return this.IconNamespace
+      if (this.isTypeOf('alias')) return this.IconNamespace
+      if (this.isTypeOf('mosaic')) return this.IconMosaic
+      if (this.isTypeOf('aggregate')) return this.IconAggregate
+      if (this.isTypeOf('lock') || this.isTypeOf('secret')) return this.IconLock
+      return null
     },
 
-    data() {
-        return {
-            IconTransfer,
-            IconTransferIncoming,
-            IconTransferOutgoing,
-            IconAggregate,
-            IconLock,
-            IconNamespace,
-            IconMosaic
-        }
-    },
+    text() {
+      return this.value
+        .replace('Incoming', '')
+        .replace('Outgoing', '')
+    }
+  },
 
-    computed: {
-        iconUrl() {
-            if(this.isTypeOf('incoming')) return this.IconTransferIncoming;
-            if(this.isTypeOf('outgoing')) return this.IconTransferOutgoing;
-            if(this.isTypeOf('transfer')) return this.IconTransfer;
-            if(this.isTypeOf('namespace')) return this.IconNamespace;
-            if(this.isTypeOf('alias')) return this.IconNamespace;
-            if(this.isTypeOf('mosaic')) return this.IconMosaic;
-            if(this.isTypeOf('aggregate')) return this.IconAggregate;
-            if(this.isTypeOf('lock') || this.isTypeOf('secret')) return this.IconLock;
-            return null;
-        },
-
-        text() {
-            return this.value
-                .replace('Incoming', '')
-                .replace('Outgoing', '')
-        }
-    },
-
-    methods: {
-        isTypeOf(type) {
-            return (
-                typeof this.value === 'string' &&
+  methods: {
+    isTypeOf(type) {
+      return (
+        typeof this.value === 'string' &&
                 typeof type === 'string' &&
                 this.value
-                    .toUpperCase()
-                    .includes(
-                        type.toUpperCase()
-                    )
-            )
-        }
+                  .toUpperCase()
+                  .includes(
+                    type.toUpperCase()
+                  )
+      )
     }
+  }
 }
 </script>
 

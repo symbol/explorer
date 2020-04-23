@@ -2,7 +2,7 @@
     <b-modal
         :id="id"
         :title="title"
-        centered 
+        centered
         no-close-on-esc
         hide-footer
         scrollable
@@ -17,26 +17,16 @@
 </template>
 
 <script>
-import IconClose from 'vue-material-design-icons/Close.vue';
-
 export default {
-  components: {
-      IconClose
-  },
-
   props: {
-      title: {
-          type: String,
-          default: ''
-      },
-      id: {
-          type: String,
-          required: true
-      },
+    title: {
+      type: String,
+      default: ''
+    },
+    id: {
+      type: String,
+      required: true
+    }
   }
 }
 </script>
-
-<style lang="scss" scoped>
-
-</style>
