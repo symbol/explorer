@@ -13,7 +13,7 @@ describe.skip('Symbol Explorer Home Page should', () => {
     // cy.url().should('contain', '/statistics')
 
     // XYM price chart is visible
-    cy.get('.apexcharts-svg', { timeout: 20000 }).should('be.visible')
+    cy.get('.apexcharts-svg').should('be.visible')
 
   })
 
