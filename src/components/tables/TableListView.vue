@@ -1,240 +1,249 @@
 <template>
-  <div v-if="data" class="table-view">
-    <div v-if="dataIsNotEmpty" class="table-wrapper">
-      <table class="table ex-table-striped">
-        <thead>
-          <tr>
-            <th
-              v-for="(columnName, index) in header"
-              class="table-head-cell table-title-item"
-              :key="view+'h'+index"
-            ><span>{{getKeyName(columnName)}}</span></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(row, rowIndex) in preparedData" class="t-row" :key="view+'r'+rowIndex">
-            <td
-              v-for="(item, itemKey) in row"
-              class="table-cell"
-              :key="view+'r'+rowIndex+'i'+itemKey"
-              :class="{'table-item-clickable': isKeyClickable(itemKey), [itemKey]: true}"
-              :title="getKeyName(itemKey) + (typeof item !== 'string' ? '' : ': ' +  item)"
-            >
-              <Age v-if="itemKey === 'age'" :date="item" />
-              <Decimal v-else-if="isChangeDecimalColor(itemKey)" :value="item" />
-              <TransactionDirection v-else-if="itemKey === 'direction'" :value="item" />
-              <MosaicsS v-else-if="itemKey === 'mosaics'" :value="item" />
-              <TransactionType v-else-if="itemKey === 'transactionType'" :value="item" />
+    <div v-if="data" class="table-view">
+        <div v-if="dataIsNotEmpty" class="table-wrapper">
+            <table class="table ex-table-striped">
+                <thead>
+                    <tr>
+                        <th
+                            v-for="(columnName, index) in header"
+                            class="table-head-cell table-title-item"
+                            :key="view+'h'+index"
+                        >
+                            <span>{{getKeyName(columnName)}}</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        v-for="(row, rowIndex) in preparedData"
+                        class="t-row"
+                        :key="view+'r'+rowIndex"
+                    >
+                        <td
+                            v-for="(item, itemKey) in row"
+                            class="table-cell"
+                            :key="view+'r'+rowIndex+'i'+itemKey"
+                            :class="{'table-item-clickable': isKeyClickable(itemKey), [itemKey]: true}"
+                            :title="getKeyName(itemKey) + (typeof item !== 'string' ? '' : ': ' +  item)"
+                        >
+                            <Age v-if="isAge(itemKey)" :date="item" />
+                            <Decimal v-else-if="isDecimal(itemKey)" :value="item" />
+                            <MosaicsS v-else-if="isMosaics(itemKey)" :value="item" />
+                            <TransactionType v-else-if="isTransactionType(itemKey)" :value="item" />
 
-              <div v-else-if="isAllowArrayToView(itemKey)">
-                <div v-for="(row, rowIndex) in item" :key="view+'r'+rowIndex">
-                  <router-link v-if="isKeyClickable(itemKey) && getItemHref(itemKey, row)" :to="getItemHref(itemKey, row)">
-                    <Truncate v-if="isTruncate(itemKey)">{{row}}</Truncate>
-                    <div v-else>{{ row }}</div>
-                  </router-link>
-                  <div v-else>
-                    <Truncate v-if="isTruncate(itemKey)">{{row}}</Truncate>
-                    <div v-else>{{ row }}</div>
-                  </div>
-                </div>
-              </div>
+                            <div v-else-if="isSubtable(itemKey)">
+                                <div v-for="(row, rowIndex) in item" :key="view+'r'+rowIndex">
+                                    <router-link
+                                        v-if="isKeyClickable(itemKey) && getItemHref(itemKey, row)"
+                                        :to="getItemHref(itemKey, row)"
+                                    >
+                                        <Truncate v-if="isTruncate(itemKey)">{{row}}</Truncate>
+                                        <div v-else>{{ row }}</div>
+                                    </router-link>
+                                    <div v-else>
+                                        <Truncate v-if="isTruncate(itemKey)">{{row}}</Truncate>
+                                        <div v-else>{{ row }}</div>
+                                    </div>
+                                </div>
+                            </div>
 
-              <div v-else>
-                <div v-if="itemKey === 'transactionBody'">
-                  <b-link v-b-modal="view+'r'+rowIndex">Show Detail</b-link>
-                  <Modal :id="view+'r'+rowIndex" :title="item.type">
-                    <div slot="body">
-                      <AggregateTransaction slot="body" :transactionBody="item" />
-                    </div>
-                  </Modal>
-                </div>
+                            <div v-else-if="isAggregateInnerTransaction(itemKey)">
+                                <b-link v-b-modal="view+'r'+rowIndex">Show Detail</b-link>
+                                <Modal :id="view+'r'+rowIndex" :title="item.type">
+                                    <div slot="body">
+                                        <AggregateTransaction slot="body" :transactionBody="item" />
+                                    </div>
+                                </Modal>
+                            </div>
 
-                <div v-else class="max-item-width">
-                  <router-link v-if="isKeyClickable(itemKey) && getItemHref(itemKey, item)" :to="getItemHref(itemKey, item)">
-                    <Truncate v-if="isTruncate(itemKey)">{{item}}</Truncate>
-                    <div v-else>{{ item }}</div>
-                  </router-link>
-                  <div v-else>
-                    <Truncate v-if="isTruncate(itemKey)">{{item}}</Truncate>
-                    <div v-else>{{ item }}</div>
-                  </div>
+                            <div v-else class="max-item-width">
+                                <router-link
+                                    v-if="isKeyClickable(itemKey) && getItemHref(itemKey, item)"
+                                    :to="getItemHref(itemKey, item)"
+                                >
+                                    <Truncate v-if="isTruncate(itemKey)">{{item}}</Truncate>
+                                    <div v-else>{{ item }}</div>
+                                </router-link>
+                                <div v-else>
+                                    <Truncate v-if="isTruncate(itemKey)">{{item}}</Truncate>
+                                    <div v-else>{{ item }}</div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div v-if="pagination || timelinePagination" class="bottom">
+                <div v-if="pagination">{{ pageIndex + 1 }}/{{ lastPage }}</div>
+                <div v-else>{{ timeline.index + 1 }}/..</div>
+                <div class="pagination-wrapper">
+                    <Pagination
+                        :canFetchPrevious="prevPageExist"
+                        :canFetchNext="nextPageExist"
+                        :goUp="false"
+                        class="pagination"
+                        @next="nextPage"
+                        @previous="prevPage"
+                    />
+                    <Loading small v-if="paginationLoading" />
                 </div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div v-if="pagination || timelinePagination" class="bottom">
-        <div v-if="pagination">{{ pageIndex + 1 }}/{{ lastPage }}</div>
-        <div v-else>{{ timeline.index + 1 }}/..</div>
-          <div class="pagination-wrapper">
-            <Pagination
-              :canFetchPrevious="prevPageExist"
-              :canFetchNext="nextPageExist"
-              :goUp="false"
-              class="pagination"
-              @next="nextPage"
-              @previous="prevPage"
-            />
-            <Loading small v-if="paginationLoading" />
+            </div>
         </div>
-      </div>
+        <div v-else class="empty-data">{{emptyDataMessageFormatted}}</div>
     </div>
-    <div v-else class="empty-data">{{emptyDataMessageFormatted}}</div>
-  </div>
 </template>
 
 <script>
-import TableView from './TableView.vue'
-import Modal from '@/components/containers/Modal.vue'
-import AggregateTransaction from '@/components/AggregateTransaction.vue'
-import Pagination from '@/components/controls/Pagination.vue'
-import Decimal from '@/components/fields/Decimal.vue'
-import Truncate from '@/components/fields/Truncate.vue'
-import TransactionDirection from '@/components/fields/TransactionDirection.vue'
-import MosaicsS from '@/components/fields/MosaicsS.vue'
-import TransactionType from '@/components/fields/TransactionType.vue'
-import Loading from '@/components/Loading.vue'
+import TableView from "./TableView.vue";
+import Modal from "@/components/containers/Modal.vue";
+import AggregateTransaction from "@/components/AggregateTransaction.vue";
+import Pagination from "@/components/controls/Pagination.vue";
+import Decimal from "@/components/fields/Decimal.vue";
+import Truncate from "@/components/fields/Truncate.vue";
+import MosaicsS from "@/components/fields/MosaicsS.vue";
+import TransactionType from "@/components/fields/TransactionType.vue";
+import Loading from "@/components/Loading.vue";
 
 export default {
-  extends: TableView,
+    extends: TableView,
 
-  components: {
-      Modal,
-      AggregateTransaction, 
-      Pagination, 
-      Decimal, 
-      Truncate, 
-      TransactionDirection,
-      MosaicsS, 
-      TransactionType,
-      Loading 
+    components: {
+        Modal,
+        AggregateTransaction,
+        Pagination,
+        Decimal,
+        Truncate,
+        MosaicsS,
+        TransactionType,
+        Loading
     },
 
-  props: {
-    data: {
-      type: Array,
-      required: true
+    props: {
+        data: {
+            type: Array,
+            required: true
+        },
+
+        pagination: {
+            type: Boolean,
+            default: false
+        },
+
+        timelinePagination: {
+            type: Boolean,
+            default: false
+        },
+
+        timeline: {
+            type: Object
+        },
+
+        // timelineNextAction: {
+        //   type: String
+        // },
+
+        // timelinePreviousAction: {
+        //   type: String
+        // },
+
+        pageSize: {
+            type: Number,
+            default: 10
+        },
+
+        showModal: {
+            type: Boolean,
+            default: false
+        }
     },
 
-    pagination: {
-      type: Boolean,
-      default: false
+    created() {
+        this.componentType = "list";
     },
 
-    timelinePagination: {
-      type: Boolean,
-      default: false
+    data() {
+        return {
+            pageIndex: 0,
+            openedModal: null
+        };
     },
 
-    timeline: {
-      type: Object
+    computed: {
+        preparedData() {
+            if (
+                Array.isArray(this.data) &&
+                this.pagination === true &&
+                !this.timelinePagination
+            )
+                return this.data.slice(
+                    this.pageIndex * this.pageSize,
+                    this.pageIndex * this.pageSize + this.pageSize
+                );
+            else return this.data;
+        },
+
+        nextPageExist() {
+            if (this.timelinePagination && this.timeline instanceof Object)
+                return this.timeline.canFetchNext;
+            else return this.pageSize * (this.pageIndex + 1) < this.data.length;
+        },
+
+        prevPageExist() {
+            if (this.timelinePagination && this.timeline instanceof Object)
+                return this.timeline.canFetchPrevious;
+            else return this.pageIndex > 0;
+        },
+
+        lastPage() {
+            return Math.ceil(this.data.length / this.pageSize);
+        },
+
+        header() {
+            let header = [];
+            if (this.data) for (let key in this.data[0]) header.push(key);
+            return header;
+        },
+
+        dataIsNotEmpty() {
+            return this.data.length;
+        },
+
+        paginationLoading() {
+            return this.timeline?.isLoading === true;
+        }
     },
 
-    // timelineNextAction: {
-    //   type: String
-    // },
+    methods: {
+        onMoreClick() {
+            this.$store.dispatch(this.nextPageAction);
+        },
 
-    // timelinePreviousAction: {
-    //   type: String
-    // },
+        nextPage() {
+            if (this.nextPageExist) {
+                if (this.timelinePagination)
+                    // this.$store.dispatch(this.timelineNextAction)
+                    this.timeline.fetchNext();
+                else this.pageIndex++;
+            }
+        },
 
-    pageSize: {
-      type: Number,
-      default: 10
+        prevPage() {
+            if (this.prevPageExist) {
+                if (this.timelinePagination)
+                    // this.$store.dispatch(this.timelinePreviousAction)
+                    this.timeline.fetchPrevious();
+                else this.pageIndex--;
+            }
+        }
     },
 
-    showModal: {
-      type: Boolean,
-      default: false
+    watch: {
+        preparedData() {
+            if (this.pageIndex >= this.lastPage)
+                this.pageIndex = this.lastPage - 1;
+        }
     }
-  },
-
-  created() {
-    this.componentType = 'list'
-  },
-
-  data() {
-    return {
-      pageIndex: 0,
-      openedModal: null
-    }
-  },
-
-  computed: {
-    preparedData() {
-      if (Array.isArray(this.data) && this.pagination === true && !this.timelinePagination)
-        return this.data.slice(this.pageIndex * this.pageSize, this.pageIndex * this.pageSize + this.pageSize)
-      else
-        return this.data
-    },
-
-    nextPageExist() {
-      if (this.timelinePagination && this.timeline instanceof Object)
-        return this.timeline.canFetchNext
-      else
-        return this.pageSize * (this.pageIndex + 1) < this.data.length
-    },
-
-    prevPageExist() {
-      if (this.timelinePagination && this.timeline instanceof Object)
-        return this.timeline.canFetchPrevious
-      else
-        return this.pageIndex > 0
-    },
-
-    lastPage() {
-      return Math.ceil(this.data.length / this.pageSize)
-    },
-
-    header() {
-      let header = []
-      if (this.data) for (let key in this.data[0]) header.push(key)
-      return header
-    },
-
-    dataIsNotEmpty() {
-      return this.data.length
-    },
-
-    paginationLoading() {
-      return this.timeline?.isLoading === true
-    }
-  },
-
-  methods: {
-    onMoreClick() {
-      this.$store.dispatch(this.nextPageAction)
-    },
-
-    nextPage() {
-      if (this.nextPageExist) {
-        if (this.timelinePagination)
-          // this.$store.dispatch(this.timelineNextAction)
-          this.timeline.fetchNext()
-        else
-          this.pageIndex++
-      }
-    },
-
-    prevPage() {
-      if (this.prevPageExist) {
-        if (this.timelinePagination)
-          // this.$store.dispatch(this.timelinePreviousAction)
-          this.timeline.fetchPrevious()
-        else
-          this.pageIndex--
-      }
-    }
-  },
-
-  watch: {
-    preparedData() {
-      if (this.pageIndex >= this.lastPage)
-        this.pageIndex = this.lastPage - 1
-    }
-  }
-}
+};
 </script>
 
 <style lang="scss" scoped>

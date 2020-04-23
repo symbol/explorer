@@ -24,7 +24,7 @@
                         @click="onItemClick(itemKey, item)"
                     >
 
-                      <div v-if="isAllowArrayToView(itemKey)">
+                      <div v-if="isSubtable(itemKey)">
                         <div v-for="(row, rowIndex) in item" :key="view+'r'+rowIndex">
                           <router-link v-if="isKeyClickable(itemKey) && getItemHref(itemKey, row)" :to="getItemHref(itemKey, row)">
                             <Truncate v-if="isTruncate(itemKey)">{{row}}</Truncate>
@@ -44,7 +44,7 @@
                       </router-link>
 
                       <div v-else>
-                        <Decimal v-if="isChangeDecimalColor(itemKey)" :value="item" />
+                        <Decimal v-if="isDecimal(itemKey)" :value="item" />
                         <div v-else>
                           {{ item }}
                           </div>

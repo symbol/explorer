@@ -14,7 +14,9 @@ import IconTransfer from '../../styles/img/tx-transfer.png'
 import IconTransferIncoming from '../../styles/img/tx-incoming.png'
 import IconTransferOutgoing from '../../styles/img/tx-outgoing.png'
 import IconAggregate from '../../styles/img/tx-aggregate.png'
+import IconLock from '../../styles/img/tx-lock.png'
 import IconNamespace from '../../styles/img/tx-namespace.png'
+import IconMosaic from '../../styles/img/tx-mosaic.png'
 
 export default {
     props: {
@@ -30,7 +32,9 @@ export default {
             IconTransferIncoming,
             IconTransferOutgoing,
             IconAggregate,
-            IconNamespace
+            IconLock,
+            IconNamespace,
+            IconMosaic
         }
     },
 
@@ -40,9 +44,10 @@ export default {
             if(this.isTypeOf('outgoing')) return this.IconTransferOutgoing;
             if(this.isTypeOf('transfer')) return this.IconTransfer;
             if(this.isTypeOf('namespace')) return this.IconNamespace;
-            if(this.isTypeOf('mosaic')) return this.IconNamespace;
+            if(this.isTypeOf('alias')) return this.IconNamespace;
+            if(this.isTypeOf('mosaic')) return this.IconMosaic;
             if(this.isTypeOf('aggregate')) return this.IconAggregate;
-            if(this.isTypeOf('lock')) return this.IconAggregate;
+            if(this.isTypeOf('lock') || this.isTypeOf('secret')) return this.IconLock;
             return null;
         },
 
