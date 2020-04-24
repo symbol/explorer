@@ -288,6 +288,7 @@ class TransactionService {
 
     case TransactionType.AGGREGATE_BONDED:
       return {
+        rawType: TransactionType.AGGREGATE_BONDED,
         type: Constants.TransactionType[TransactionType.AGGREGATE_BONDED],
         innerTransactions: transactionBody.innerTransactions.map(transaction => this.formatTransaction(transaction)),
         cosignatures: transactionBody.cosignatures.map(cosigner => ({
