@@ -271,10 +271,7 @@ export default {
         max-width: 300px;
     }
 
-    .date,
-    .deadline,
-    .age,
-    .height {
+    .date, .deadline, .age, .height {
         word-break: normal;
     }
 

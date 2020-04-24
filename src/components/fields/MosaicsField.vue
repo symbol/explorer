@@ -71,10 +71,8 @@ export default {
     width: 100%;
     overflow-x: auto;
     overflow-y: hidden;
-     display: flex;
-
+    display: flex;
     flex-direction: row;
-
     justify-content: flex-start;
 
     .mosaic {
@@ -91,6 +89,7 @@ export default {
 
         .mosaic-name {
             margin-right: 10px;
+            
             .link {
                 color: #fff;
             }
