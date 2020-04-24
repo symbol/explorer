@@ -85,6 +85,13 @@ const managers = [
   new DataSet(
     'restrictions',
     (address) => RestrictionService.getAccountRestrictionList(address)
+  ),
+  new Timeline(
+    'partialTransactions',
+    (pageSize, store) => AccountService.getAccountPartialTransactionList(store.getters.getCurrentAccountAddress, pageSize),
+    (key, pageSize, store) => AccountService.getAccountPartialTransactionList(store.getters.getCurrentAccountAddress, pageSize, key),
+    'id',
+    10
   )
 
   // TODO OlegMakarenko: Add `getAccountTransactions` method to `infratructure.getAccount`
@@ -167,6 +174,7 @@ export default {
       context.getters.multisig.setStore(context).initialFetch(address)
       context.getters.transactions.setStore(context).initialFetch(address)
       context.getters.restrictions.setStore(context).initialFetch(address)
+      context.getters.partialTransactions.setStore(context).initialFetch(address)
     },
 
     uninitializeDetail(context) {
@@ -176,6 +184,7 @@ export default {
       context.getters.multisig.setStore(context).uninitialize()
       context.getters.transactions.setStore(context).uninitialize()
       context.getters.restrictions.setStore(context).uninitialize()
+      context.getters.partialTransactions.setStore(context).uninitialize()
     }
   }
 }
