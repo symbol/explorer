@@ -1,30 +1,20 @@
-# nem2-explorer
+# Symbol Explorer
 
+[![Build Status](https://travis-ci.com/nemfoundation/symbol-explorer.svg?branch=master)](https://travis-ci.com/nemfoundation/symbol-explorer)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
-[![Build Status](https://travis-ci.org/nemfoundation/nem2-explorer.svg?branch=master)](https://travis-ci.org/nemfoundation/nem2-explorer)
 
-Browser for Catapult networks. Search for transactions, accounts, assets, and blocks.
-
-## Architecture
-
-* `/src/store`: Handles the application logic with state management.
-* `/src/infrastructure`: Handles the API / SDK request from Catapult Network.
-* `/src/views`: Handles the UI / UX of the explorer.
+Symbol Explorer is a read-only web application to browse the content of the blockchain. The explorer supports searching for transactions, accounts, namespaces, mosaics, and blocks information on a given network.
 
 ## Requirements
 
-The catapult-explorer works on NodeJS versions:
-
-- 8.X.X
-- 9.X.X
-- 10.X.X
+- Node.js 8, 9 or 10
 
 ## Installation
 
 1. Clone the project.
 
 ```
-git clone https://github.com/nemfoundation/nem2-explorer.git
+git clone https://github.com/nemfoundation/symbol-explorer.git
 ```
 
 2. Install the required dependencies.
@@ -42,17 +32,36 @@ npm run dev
 
 4. Visit http://localhost:8080/#/ in your browser.
 
+## Developer notes
+
+### Architecture
+
+* `/src/config`: Handles the explorer configuration.
+* `/src/infrastructure`: Handles the API / SDK request from Symbol nodes.
+* `/src/store`: Handles the application logic with state management.
+* `/src/views`: Handles the UI of the explorer.
+
+### How to change the node list
+
+The file `/src/config/setup.json` contains the node list shown in the node selector dropdown.
+
+1. Edit `peersApi.nodes` array to set up the custom node list.
+2. Set `peersApi.defaultNode` property to the default node url.
+
 ## Getting help
 
-We use GitHub issues for tracking bugs and have limited bandwidth to address them.
-Please, use the following available resources to get help:
-- [NEM Developer Center][docs]
+Use the following available resources to get help:
+
+- [Symbol Documentation][docs]
+- Join the community [slack group (#sig-client)][slack] 
 - If you found a bug, [open a new issue][issues]
 
 ## Contributing
 
-This project is developed and maintained by NEM Foundation. Contributions are welcome and appreciated. You can find [catapult-explorer on GitHub][self];
-Feel free to start an issue or create a pull request. Check [CONTRIBUTING](CONTRIBUTING.md) before start.
+This project is developed and maintained by NEM Foundation.
+
+Contributions are welcome and appreciated. 
+Check [CONTRIBUTING](CONTRIBUTING.md) for information on how to contribute.
 
 ## License
 
@@ -60,6 +69,7 @@ Copyright 2019-present NEM
 
 Licensed under the [Apache License 2.0](LICENSE)
 
-[self]: https://github.com/nemfoundation/catapult-explorer
+[self]: https://github.com/nemfoundation/symbol-explorer
 [docs]: https://nemtech.github.io
-[issues]: https://github.com/nemfoundation/catapult-explorer/issues
+[issues]: https://github.com/nemfoundation/symbol-explorer/issues
+[slack]: https://join.slack.com/t/nem2/shared_invite/enQtMzY4MDc2NTg0ODgyLWZmZWRiMjViYTVhZjEzOTA0MzUyMTA1NTA5OWQ0MWUzNTA4NjM5OTJhOGViOTBhNjkxYWVhMWRiZDRkOTE0YmU

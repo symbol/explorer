@@ -5,6 +5,7 @@
                 <Card
                     v-if="item.type === 'Card' && isItemShown(item)"
                     class="card-f"
+                    :data-cy="item.title"
                     :class="{'card-full-width': item.fullWidth, 'card-adaptive': !item.fullWidth}"
                     :loading="getLoading(item)"
                     :error="getError(item)"
@@ -58,7 +59,6 @@
 <script>
 import View from './View.vue'
 import MetadataEntries from '../components/MetadataEntries'
-
 export default {
   extends: View,
   components: { MetadataEntries },
@@ -115,11 +115,46 @@ export default {
         return this.getter(item.managerGetter)?.error
     },
 
+    filterArrayFields(data, fields) {
+      return data.map(row => {
+        let field = {}
+        for (let dataField of fields) {
+          if (Object.keys(row).includes(dataField))
+            field[dataField] = row[dataField]
+        }
+        return field
+      })
+    },
+
+    filterObjectFields(data, fields) {
+      let field = {}
+      for (let dataField of fields) {
+        if (Object.keys(data).includes(dataField))
+          field[dataField] = data[dataField]
+      }
+      return field
+    },
+
     getData(item) {
-      if (typeof item.dataGetter === 'string')
-        return this.getter(item.dataGetter)
-      else
-        return this.getter(item.managerGetter)?.data
+      if (typeof item.dataGetter === 'string') {
+        let dataGetter = this.getter(item.dataGetter)
+
+        if (Array.isArray(item.fields)) {
+          if (Array.isArray(dataGetter))
+            return this.filterArrayFields(dataGetter, item.fields)
+          return this.filterObjectFields(dataGetter, item.fields)
+        }
+        return dataGetter
+      } else {
+        let managerGetter = this.getter(item.managerGetter)
+
+        if (Array.isArray(item.fields)) {
+          if (Array.isArray(managerGetter.data))
+            return this.filterArrayFields(managerGetter.data, item.fields)
+          return this.filterObjectFields(managerGetter.data, item.fields)
+        }
+        return managerGetter?.data
+      }
     }
   }
 }

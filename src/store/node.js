@@ -17,7 +17,7 @@
  */
 
 import Lock from './lock'
-import { getNodePeers } from '../infrastructure/getNodePeers'
+import { NodeService } from '../infrastructure'
 import {
   Timeline,
   getStateFromManagers,
@@ -29,7 +29,7 @@ import {
 const managers = [
   new Timeline(
     'timeline',
-    () => getNodePeers(),
+    () => NodeService.getNodePeerList(),
     () => [],
     ''// node id
   )
@@ -64,7 +64,9 @@ export default {
 
     // Uninitialize the node model.
     async uninitialize({ commit, dispatch, getters }) {
-      const callback = async () => {}
+      const callback = async () => {
+        getters.timeline?.uninitialize()
+      }
       await LOCK.uninitialize(callback, commit, dispatch, getters)
     },
 

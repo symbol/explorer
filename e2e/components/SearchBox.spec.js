@@ -1,5 +1,3 @@
-const timeout = 20000;
-
 describe('Search Box component should', () => {
     beforeEach(() => {
         cy.visit('/')
@@ -33,7 +31,7 @@ describe('Search Box component should', () => {
         .type(transactionHash)
         .type('{enter}')
 
-        cy.url({ timeout })
+        cy.url()
         .should('contain', `transaction/${transactionHash}`)
     })
 
@@ -45,7 +43,7 @@ describe('Search Box component should', () => {
         .type(address)
         .type('{enter}')
 
-        cy.url({ timeout })
+        cy.url()
         .should('contain', `account/${address}`)
     })
 })

@@ -23,8 +23,10 @@ import mosaic from './mosaic'
 import namespace from './namespace'
 import node from './node'
 import transaction from './transaction'
+import statistic from './statistic'
 import ui from './ui'
 import helper from '../helper'
+import router from '../router'
 import Vue from 'vue'
 import Vuex from 'vuex'
 
@@ -42,20 +44,30 @@ export default new Vuex.Store({
     account,
     mosaic,
     namespace,
-    node
+    node,
+    statistic
+  },
+  state: {
+    destructionList: []
+  },
+  getters: {
+    destructionList: state => state.destructionList
+  },
+  mutations: {
+    destructionList: (state, payload) => { state.destructionList = payload }
   },
   actions: {
     // Initialize the store (call on mount or re-initialization).
     // This handles initialization of a dependent item based on the
     // key provided.
     async initialize({ dispatch }, route) {
+      router.beforeEach((to, from, next) => dispatch('onRouteChange', { to, from, next }))
       // Initialize the API.
       await helper.logError(dispatch, 'api/initialize')
       helper.logError(dispatch, 'transaction/initialize')
       switch (route.name) {
       // Home
       case 'home':
-      case 'statistics':
         // Home: Requires blocks, chain, and transactions.
         return Promise.all([
           helper.logError(dispatch, 'block/initialize'),
@@ -76,12 +88,14 @@ export default new Vuex.Store({
         return helper.logError(dispatch, 'node/initialize')
       case 'transactions':
         return helper.logError(dispatch, 'transaction/initialize')
+      case 'statistics':
+        return helper.logError(dispatch, 'statistic/initialize')
 
         // Detail Views
       case 'account-detail':
-        return helper.logError(dispatch, 'account/fetchAccountDataByAddress', route.params.address || 0)
+        return helper.logError(dispatch, 'account/fetchAccountDetail', route.params.address || 0)
       case 'block-detail':
-        return helper.logError(dispatch, 'block/getBlockInfo', route.params.height || 0)
+        return helper.logError(dispatch, 'block/fetchBlockInfo', route.params.height || 0)
       case 'mosaic-detail':
         return helper.logError(dispatch, 'mosaic/fetchMosaicInfo', route.params.mosaicId || 0)
       case 'namespace-detail':
@@ -100,8 +114,34 @@ export default new Vuex.Store({
         dispatch('mosaic/uninitialize'),
         dispatch('namespace/uninitialize'),
         dispatch('transaction/uninitialize'),
+        dispatch('statistic/uninitialize'),
         dispatch('node/uninitialize')
       ])
+    },
+
+    onRouteChange({ commit, getters, dispatch }, { to, from, next }) {
+      let destructionList = getters.destructionList
+
+      if (to.fullPath !== from.fullPath) {
+        destructionList.push({
+          name: from.name,
+          group: from.meta.group,
+          keepAliveGoTo: from.meta.keepAliveGoTo,
+          storeNamespaces: from.meta.storeNamespaces
+        })
+
+        destructionList = destructionList.filter(el => {
+          if (el.keepAliveGoTo?.includes(to.meta.group) || el.name === to.name)
+            return true
+          else {
+            el.storeNamespaces?.forEach(namespace => dispatch(`${namespace}/uninitialize`, null, { root: true }))
+            return false
+          }
+        })
+
+        commit('destructionList', destructionList)
+        next()
+      }
     }
   }
 })

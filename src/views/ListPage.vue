@@ -92,7 +92,16 @@ export default {
       type: String
     },
 
-    mobileColumns: {
+    infoTextGetter: {
+      type: String
+    },
+
+    Fields: {
+      type: [Array, undefined],
+      default: void 0
+    },
+
+    mobileFields: {
       type: [Array, undefined],
       default: void 0
     }
@@ -108,28 +117,28 @@ export default {
       if (typeof timeline === 'undefined')
         throw Error('ListPage error. Timeline or Data getter is not provided')
 
-      if (this.$store.getters['ui/isMobile'] && Array.isArray(this.mobileColumns)) {
+      if (this.$store.getters['ui/isMobile'] && Array.isArray(this.mobileFields)) {
         return timeline.map(row => {
           let mobileRow = {}
 
-          for (let key in row) {
-            if (this.mobileColumns.includes(key))
-              mobileRow[key] = row[key]
+          for (let item of this.mobileFields) {
+            if (Object.keys(row).includes(item))
+              mobileRow[item] = row[item]
           }
 
           return mobileRow
         })
       } else
-      if (Array.isArray(this.columns)) {
+      if (Array.isArray(this.Fields)) {
         return timeline.map(row => {
-          let columns = {}
+          let columnRow = {}
 
-          for (let key in row) {
-            if (this.columns.includes(key))
-              columns[key] = row[key]
+          for (let item of this.Fields) {
+            if (Object.keys(row).includes(item))
+              columnRow[item] = row[item]
           }
 
-          return columns
+          return columnRow
         })
       } else
         return timeline
@@ -187,11 +196,6 @@ export default {
     getter(name) {
       return this.$store.getters[name]
     }
-  },
-
-  destroyed() {
-    if (typeof this.timeline?.reset === 'function')
-      this.timeline.reset()
   }
 }
 </script>

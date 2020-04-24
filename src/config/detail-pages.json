@@ -3,6 +3,10 @@
         {
             "path": "/account/:address",
             "name": "account-detail",
+            "meta": {
+                "group": "detail-page",
+                "keepAliveGoTo": []
+            },
             "props": {
                 "schema": [
                     {
@@ -10,8 +14,15 @@
                         "title": "Account Detail",
                         "fullWidth": true,
                         "body": "TableInfoView",
+                        "fields": [
+                            "address",
+                            "addressHeight",
+                            "publicKey",
+                            "importance",
+                            "type",
+                            "linkedAccountKey"
+                        ],
                         "managerGetter": "account/info",
-                        "dataGetter": "account/getAccountInfo",
                         "pagination": false,
                         "errorMessage": "Account is unknown to the network"
                     },
@@ -19,19 +30,28 @@
                         "type": "Card",
                         "title": "Multisig Cosignatories",
                         "fullWidth": false,
-                        "body": "TableListView",
-                        "managerGetter": "account/info",
-                        "dataGetter": "account/getAccountMultisigCosignatories",
-                        "pagination": true,
-                        "pageSize": 5
+                        "body": "TableInfoView",
+                        "fields": [
+                            "minApproval",
+                            "minRemoval",
+                            "cosignatories",
+                            "multisigAccounts"
+                        ],
+                        "managerGetter": "account/multisig",
+                        "pagination": false,
+                        "errorMessage": "Address is not belong to Multisig"
                     },
                     {
                         "type": "Card",
                         "title": "Owned Mosaics",
                         "fullWidth": false,
                         "body": "TableListView",
-                        "managerGetter": "account/info",
-                        "dataGetter": "account/getMosaicList",
+                        "managerGetter": "account/OwnedMosaic",
+                        "fields": [
+                            "mosaicId",
+                            "amount",
+                            "mosaicAliasName"
+                        ],
                         "pagination": true,
                         "pageSize": 5
                     },
@@ -40,8 +60,13 @@
                         "title": "Owned Namespaces",
                         "fullWidth": false,
                         "body": "TableListView",
-                        "managerGetter": "account/info",
-                        "dataGetter": "account/getNamespaceList",
+                        "managerGetter": "account/OwnedNamespace",
+                        "fields": [
+                            "namespaceName",
+                            "status",
+                            "duration",
+                            "registrationType"
+                        ],
                         "pagination": true,
                         "pageSize": 5
                     },
@@ -60,18 +85,24 @@
                         "title": "Account Restriction",
                         "fullWidth": true,
                         "body": "TableListView",
-                        "managerGetter": "account/info",
-                        "dataGetter": "account/getAccountRestrictionList",
+                        "managerGetter": "account/restrictions",
                         "pagination": false,
-                        "pageSize": 5
+                        "pageSize": 5,
+                        "errorMessage": "Account Restrictions is no available."
                     },
                     {
                         "type": "Card",
                         "title": "Metadata Entries",
                         "fullWidth": true,
                         "body": "TableListView",
-                        "dataGetter": "account/getMetadataList",
-                        "managerGetter": "account/info",
+                        "fields": [
+                            "metadataId",
+                            "scopedMetadataKey",
+                            "senderAddress",
+                            "targetAddress",
+                            "metadataValue"
+                        ],
+                        "managerGetter": "account/metadatas",
                         "pagination": true,
                         "pageSize": 5
                     },
@@ -80,6 +111,12 @@
                         "title": "Importance History",
                         "fullWidth": true,
                         "body": "TableListView",
+                        "fields": [
+                            "recalculationBlock",
+                            "totalFeesPaid",
+                            "beneficiaryCount",
+                            "importanceScore"
+                        ],
                         "managerGetter": "account/info",
                         "dataGetter": "account/getActivityBucketList",
                         "pagination": true,
@@ -98,10 +135,14 @@
                             }
                         ],
                         "body": "TableListView",
-                        "dataGetter": "account/getTransactionList",
-                        "managerGetter": "account/info",
-                        "pagination": true,
-                        "pageSize": 10
+                        "fields": [
+                            "deadline",
+                            "transactionHash",
+                            "transactionType",
+                            "direction"
+                        ],
+                        "managerGetter": "account/transactions",
+                        "timelinePagination": true
                     }
                 ]
             }
@@ -109,6 +150,10 @@
         {
             "path": "/block/:height",
             "name": "block-detail",
+            "meta": {
+                "group": "detail-page",
+                "keepAliveGoTo": []
+            },
             "props": {
                 "schema": [
                     {
@@ -125,7 +170,16 @@
                             }
                         ],
                         "body": "TableInfoView",
-                        "dataGetter": "block/blockInfo",
+                        "fields": [
+                            "height",
+                            "date",
+                            "totalFee",
+                            "difficulty",
+                            "feeMultiplier",
+                            "transactions",
+                            "harvester",
+                            "blockHash"
+                        ],
                         "pagination": false,
                         "managerGetter": "block/info",
                         "errorMessage": "Block does not exist"
@@ -135,6 +189,12 @@
                         "title": "Block Transactions",
                         "fullWidth": true,
                         "body": "TableListView",
+                        "fields": [
+                            "deadline",
+                            "transactionId",
+                            "transactionHash",
+                            "type"
+                        ],
                         "managerGetter": "block/blockTransactions",
                         "timelinePagination": true
                     },
@@ -144,8 +204,8 @@
                         "fullWidth": false,
                         "body": "TableListView",
                         "dataGetter": "block/balanceChangeReceipt",
-                        "managerGetter": "block/info",
-                        "hideEmptyData": true,
+                        "managerGetter": "block/blockReceipts",
+                        "hideEmptyData": false,
                         "pagination": true,
                         "pageSize": 5
                     },
@@ -155,7 +215,7 @@
                         "fullWidth": false,
                         "body": "TableListView",
                         "dataGetter": "block/balanceTransferReceipt",
-                        "managerGetter": "block/info",
+                        "managerGetter": "block/blockReceipts",
                         "hideEmptyData": true,
                         "pagination": true,
                         "pageSize": 5
@@ -166,7 +226,7 @@
                         "fullWidth": false,
                         "body": "TableListView",
                         "dataGetter": "block/inflationReceipt",
-                        "managerGetter": "block/info",
+                        "managerGetter": "block/blockReceipts",
                         "hideEmptyData": true,
                         "pagination": true,
                         "pageSize": 5
@@ -177,7 +237,7 @@
                         "fullWidth": false,
                         "body": "TableListView",
                         "dataGetter": "block/artifactExpiryReceipt",
-                        "managerGetter": "block/info",
+                        "managerGetter": "block/blockReceipts",
                         "hideEmptyData": true,
                         "pagination": true,
                         "pageSize": 5
@@ -188,7 +248,7 @@
                         "fullWidth": false,
                         "body": "TableListView",
                         "dataGetter": "block/resolutionStatement",
-                        "managerGetter": "block/info",
+                        "managerGetter": "block/blockReceipts",
                         "hideEmptyData": true,
                         "pagination": true,
                         "pageSize": 5
@@ -199,6 +259,10 @@
         {
             "path": "/mosaic/:mosaicId",
             "name": "mosaic-detail",
+            "meta": {
+                "group": "detail-page",
+                "keepAliveGoTo": []
+            },
             "props": {
                 "schema": [
                     {
@@ -206,8 +270,20 @@
                         "title": "Mosaic Detail",
                         "fullWidth": true,
                         "body": "TableInfoView",
+                        "fields": [
+                            "mosaicAliasName",
+                            "divisibility",
+                            "address",
+                            "supply",
+                            "relativeAmount",
+                            "revision",
+                            "startHeight",
+                            "duration",
+                            "supplyMutable",
+                            "transferable",
+                            "restrictable"
+                        ],
                         "managerGetter": "mosaic/info",
-                        "dataGetter": "mosaic/getMosaicInfo",
                         "pagination": false,
                         "errorMessage": "Mosaic does not exist"
                     },
@@ -216,8 +292,7 @@
                         "title": "Mosaic Restriction",
                         "fullWidth": false,
                         "body": "TableInfoView",
-                        "managerGetter": "mosaic/info",
-                        "dataGetter": "mosaic/getMosaicRestrictionInfo",
+                        "managerGetter": "mosaic/restrictions",
                         "pagination": false,
                         "errorMessage": "Mosaic does not exist"
                     },
@@ -226,18 +301,25 @@
                         "title": "Mosaic Restriction List",
                         "fullWidth": false,
                         "body": "TableListView",
-                        "managerGetter": "mosaic/info",
+                        "managerGetter": "mosaic/restrictions",
                         "dataGetter": "mosaic/getMosaicRestrictionList",
                         "pagination": false,
-                        "errorMessage": "Mosaic does not exist"
+                        "errorMessage": "Mosaic Global Restrictions is no available."
                     },
                     {
                         "type": "Card",
                         "title": "Metadata Entries",
                         "fullWidth": true,
                         "body": "TableListView",
-                        "managerGetter": "mosaic/info",
-                        "dataGetter": "mosaic/getMetadataList",
+                        "fields": [
+                            "metadataId",
+                            "scopedMetadataKey",
+                            "targetId",
+                            "senderAddress",
+                            "targetAddress",
+                            "metadataValue"
+                        ],
+                        "managerGetter": "mosaic/metadatas",
                         "pagination": true,
                         "pageSize": 5
                     }
@@ -247,6 +329,10 @@
         {
             "path": "/namespace/:namespaceId",
             "name": "namespace-detail",
+            "meta": {
+                "group": "detail-page",
+                "keepAliveGoTo": []
+            },
             "props": {
                 "schema": [
                     {
@@ -254,10 +340,22 @@
                         "title": "Namespace Detail",
                         "fullWidth": true,
                         "body": "TableInfoView",
-                        "dataGetter": "namespace/getNamespaceInfo",
+                        "fields": [
+                            "owneraddress",
+                            "namespaceName",
+                            "namespaceId",
+                            "registrationType",
+                            "status",
+                            "aliasType",
+                            "aliasAddress",
+                            "aliasMosaic",
+                            "startHeight",
+                            "expiredInBlock",
+                            "beforeEndHeight",
+                            "endHeight"
+                        ],
+                        "managerGetter": "namespace/info",
                         "pagination": false,
-                        "loadingGetter": "namespace/namespaceInfoLoading",
-                        "errorGetter": "namespace/namespaceInfoError",
                         "errorMessage": "Namespace does not exist"
                     },
                     {
@@ -265,19 +363,30 @@
                         "title": "Namespace Level",
                         "fullWidth": true,
                         "body": "TableListView",
-                        "dataGetter": "namespace/getNamespaceLevels",
-                        "pagination": false,
-                        "loadingGetter": "namespace/namespaceInfoLoading"
+                        "fields": [
+                            "name",
+                            "namespaceId",
+                            "parentId"
+                        ],
+                        "managerGetter": "namespace/namespaceLevel",
+                        "pagination": false
                     },
                     {
                         "type": "Card",
                         "title": "Metadata Entries",
                         "fullWidth": true,
                         "body": "TableListView",
-                        "dataGetter": "namespace/getMetadataList",
+                        "fields": [
+                            "metadataId",
+                            "scopedMetadataKey",
+                            "targetId",
+                            "senderAddress",
+                            "targetAddress",
+                            "metadataValue"
+                        ],
+                        "managerGetter": "namespace/metadatas",
                         "pagination": true,
-                        "pageSize": 5,
-                        "loadingGetter": "namespace/namespaceInfoLoading"
+                        "pageSize": 5
                     }
                 ]
             }
@@ -285,6 +394,10 @@
         {
             "path": "/transaction/:transactionHash",
             "name": "transaction-detail",
+            "meta": {
+                "group": "detail-page",
+                "keepAliveGoTo": []
+            },
             "props": {
                 "schema": [
                     {
@@ -292,7 +405,18 @@
                         "title": "Transaction Info",
                         "fullWidth": true,
                         "body": "TableInfoView",
-                        "dataGetter": "transaction/transactionInfo",
+                        "fields": [
+                            "blockHeight",
+                            "transactionHash",
+                            "transactionId",
+                            "date",
+                            "deadline",
+                            "effectiveFee",
+                            "signature",
+                            "signer",
+                            "status",
+                            "confirm"
+                        ],
                         "managerGetter": "transaction/info",
                         "pagination": false,
                         "errorMessage": "Transaction does not exist"
@@ -302,8 +426,8 @@
                         "title": "Transaction Detail",
                         "fullWidth": false,
                         "body": "TableInfoView",
-                        "dataGetter": "transaction/transactionDetail",
                         "managerGetter": "transaction/info",
+                        "dataGetter": "transaction/transactionDetail",
                         "pagination": false
                     },
                     {
@@ -311,8 +435,13 @@
                         "title": "Mosaics",
                         "fullWidth": false,
                         "body": "TableListView",
-                        "dataGetter": "transaction/transferMosaics",
+                        "fields": [
+                            "mosaicId",
+                            "amount",
+                            "mosaicAliasName"
+                        ],
                         "managerGetter": "transaction/info",
+                        "dataGetter": "transaction/transferMosaics",
                         "hideEmptyData": true,
                         "pagination": true,
                         "pageSize": 5
@@ -322,8 +451,14 @@
                         "title": "Aggregate Inner Transactions",
                         "fullWidth": true,
                         "body": "TableListView",
-                        "dataGetter": "transaction/aggregateInnerTransactions",
+                        "fields": [
+                            "transactionId",
+                            "type",
+                            "signer",
+                            "transactionBody"
+                        ],
                         "managerGetter": "transaction/info",
+                        "dataGetter": "transaction/aggregateInnerTransactions",
                         "hideEmptyData": true,
                         "pagination": true,
                         "pageSize": 5
@@ -333,8 +468,12 @@
                         "title": "Aggregate Cosignatures",
                         "fullWidth": true,
                         "body": "TableListView",
-                        "dataGetter": "transaction/aggregateCosignatures",
+                        "fields": [
+                            "signature",
+                            "signer"
+                        ],
                         "managerGetter": "transaction/info",
+                        "dataGetter": "transaction/aggregateCosignatures",
                         "hideEmptyData": true,
                         "pagination": true,
                         "pageSize": 5

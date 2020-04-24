@@ -17,6 +17,7 @@
                     sm="6"
                     md="3"
                     lg="6"
+                    xl="12"
                     v-for="(item, index) in transactionList"
                     :key="'recent_blocks_'+index+'_'+item.height"
                 >
@@ -76,9 +77,10 @@ export default {
 
   computed: {
     ...mapGetters({
-      transactionList: 'transaction/getRecentList',
-      loading: 'transaction/getLoading'
-    })
+      transactionList: 'transaction/getRecentList'
+    }),
+
+    loading() { return !this.transactionList.length }
   },
 
   methods: {

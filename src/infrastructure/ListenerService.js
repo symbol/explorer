@@ -17,17 +17,21 @@
  */
 
 import { Listener } from 'symbol-sdk'
-import format from '../format'
 
-class sdkListener {
-  // Subscribe to new blocks announced to the chain.
+class ListenerService {
+  /**
+   * Subscribe to new blocks announced to the chain.
+   * @param onAdd - Getters function
+   * @param wsEndpoint - WS endpoint in string format.
+   * @returns Array object [Listener, Subscription]
+   */
   static subscribeNewBlock = async (onAdd, wsEndpoint) => {
     const listener = new Listener(wsEndpoint, WebSocket)
     await listener.open()
     let subscription = listener
       .newBlock()
       .subscribe(
-        block => onAdd(format.formatBlock(block)),
+        block => onAdd(block),
         err => console.log(err)
       )
 
@@ -35,4 +39,4 @@ class sdkListener {
   }
 }
 
-export default sdkListener
+export default ListenerService

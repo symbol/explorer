@@ -1,19 +1,17 @@
 <template>
     <Card :loading="loading">
         <template #title>
-            {{getNameByKey('xemPrice')}}
-        </template>
-
-        <template #control>
-            <!--<ButtonMore> {{getNameByKey('View all statistics')}} </ButtonMore>-->
+            {{getNameByKey(transactionPerBlockData.name)}}
         </template>
 
         <template #body>
             <b-row style="margin: -20px">
                 <b-col>
                     <Chart
-                        type="area"
+                        type="line"
                         :data="chartData"
+                        :height="265"
+                        xaxisType="numeric"
                     />
                 </b-col>
             </b-row>
@@ -34,19 +32,13 @@ export default {
 
   computed: {
     ...mapGetters({
-      marketData: 'chain/getMarketData'
+      transactionPerBlockData: 'statistic/getTransactionPerBlockData',
+      loading: 'statistic/getLoadingTransactionPerBlock'
     }),
 
     chartData() {
-      return [
-        {
-          name: 'Price (USD)',
-          data: this.marketData.historicalHourlyGraph
-        }
-      ]
-    },
-
-    loading() { return !this.marketData.historicalHourlyGraph.length }
+      return this.transactionPerBlockData.data
+    }
   },
 
   methods: {

@@ -3,29 +3,54 @@
         {
             "path": "/blocks",
             "name": "blocks",
+            "meta": {
+                "group": "list-page",
+                "keepAliveGoTo": ["detail-page"]
+            },
             "props": {
                 "title": "blocks",
                 "hasInfoText": true,
-                "stroreNamespaces": ["block"],
+                "storeNamespaces": ["block"],
                 "managerGetter": "block/timeline",
-                "dataGetter": "block/getTimelineFormatted",
-                "mobileColumns": [
+                "infoTextGetter": "block/infoText",
+                "Fields": [
                     "height",
                     "age",
                     "transactions",
-                    "fee"
+                    "totalFee",
+                    "date",
+                    "harvester"
+                ],
+                "mobileFields": [
+                    "height",
+                    "age",
+                    "transactions",
+                    "totalFee"
                 ]
             }
         },
         {
             "path": "/transactions",
             "name": "transactions",
+            "meta": {
+                "group": "list-page",
+                "keepAliveGoTo": ["detail-page"]
+            },
             "props": {
                 "title": "transactions",
-                "stroreNamespaces": ["transaction"],
+                "storeNamespaces": ["transaction"],
                 "managerGetter": "transaction/timeline",
                 "hasFilter": true,
-                "mobileColumns": [
+                "Fields": [
+                    "height",
+                    "deadline",
+                    "transactionHash",
+                    "type",
+                    "maxFee",
+                    "signer",
+                    "recipient"
+                ],
+                "mobileFields": [
                     "height",
                     "transactionHash",
                     "fee",
@@ -37,12 +62,23 @@
         {
             "path": "/accounts",
             "name": "accounts",
+            "meta": {
+                "group": "list-page",
+                "keepAliveGoTo": ["detail-page"]
+            },
             "props": {
                 "title": "accounts",
                 "hasFilter": true,
                 "managerGetter": "account/timeline",
-                "stroreNamespaces": ["account"],
-                "mobileColumns": [
+                "storeNamespaces": ["account"],
+                "Fields": [
+                    "address",
+                    "balance",
+                    "lastActivity",
+                    "importance",
+                    "accountAliasName"
+                ],
+                "mobileFields": [
                     "address",
                     "importance",
                     "info"
@@ -52,11 +88,22 @@
         {
             "path": "/namespaces",
             "name": "namespaces",
+            "meta": {
+                "group": "list-page",
+                "keepAliveGoTo": ["detail-page"]
+            },
             "props": {
                 "title": "namespaces",
-                "stroreNamespaces": ["namespace"],
+                "storeNamespaces": ["namespace"],
                 "managerGetter": "namespace/timeline",
-                "mobileColumns": [
+                "Fields": [
+                    "namespaceName",
+                    "namespaceId",
+                    "owneraddress",
+                    "duration",
+                    "approximateExpired"
+                ],
+                "mobileFields": [
                     "namespaceName",
                     "owneraddress",
                     "duration"
@@ -66,11 +113,24 @@
         {
             "path": "/mosaics",
             "name": "mosaics",
+            "meta": {
+                "group": "list-page",
+                "keepAliveGoTo": ["detail-page"]
+            },
             "props": {
                 "title": "mosaics",
-                "stroreNamespaces": ["mosaic"],
+                "storeNamespaces": ["mosaic"],
                 "managerGetter": "mosaic/timeline",
-                "mobileColumns": [
+                "Fields": [
+                    "mosaicId",
+                    "mosaicAliasName",
+                    "owneraddress",
+                    "supply",
+                    "divisibility",
+                    "relativeAmount",
+                    "startHeight"
+                ],
+                "mobileFields": [
                     "mosaicId",
                     "mosaicAliasName",
                     "owneraddress"
@@ -80,11 +140,25 @@
         {
             "path": "/nodes",
             "name": "nodes",
+            "meta": {
+                "group": "list-page",
+                "keepAliveGoTo": ["detail-page"]
+            },
             "props": {
                 "title": "nodes",
-                "stroreNamespaces": ["node"],
+                "storeNamespaces": ["node"],
                 "managerGetter": "node/timeline",
-                "mobileColumns": [
+                "Fields": [
+                    "index",
+                    "version",
+                    "roles",
+                    "network",
+                    "host",
+                    "port",
+                    "address",
+                    "friendlyName"
+                ],
+                "mobileFields": [
                     "index",
                     "roles",
                     "address",

@@ -22,3 +22,10 @@ $table-header-text-color: $secondary-color;
 $table-title-text-color: $secondary-color;
 $table-striped-color-first: #f2f2f244;
 $table-striped-color-second: #fff;
+
+// --- Body width-limiter
+
+$header-max-width: 2400px;
+$navmenu-max-width: 2400px;
+$page-max-width: 1920px;
+$footer-max-width: 2400px;

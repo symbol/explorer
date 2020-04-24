@@ -5,9 +5,9 @@
         </template>
 
         <template #body>
-            <b-container fluid>
+            <b-container fluid style="height: 100%">
             <b-row>
-                <b-col class="ex-item" sm="3" lg="6">
+                <b-col class="ex-item" sm="3" lg="12">
                     <div class="ex-item-title">
                         {{getNameByKey('price')}}
                     </div>
@@ -15,7 +15,7 @@
                         {{marketData.price}}
                     </div>
                 </b-col>
-                <b-col class="ex-item" sm="3" lg="6">
+                <b-col class="ex-item" sm="3" lg="12">
                     <div class="ex-item-title">
                         {{getNameByKey('marketCap')}}
                     </div>
@@ -23,15 +23,15 @@
                         {{marketData.marketCap}}
                     </div>
                 </b-col>
-                <b-col class="ex-item" sm="3" lg="6">
+                <b-col class="ex-item" sm="3" lg="12">
                     <div class="ex-item-title">
                         {{getNameByKey('totalTransactions')}}
                     </div>
                     <div class="ex-item-value">
-                        {{chainInfo.numTransactions}}
+                        {{storageInfo.numTransactions}}
                     </div>
                 </b-col>
-                <b-col class="ex-item" sm="3" lg="6">
+                <b-col class="ex-item" sm="3" lg="12">
                     <div class="ex-item-title">
                         {{getNameByKey('blockHeight')}}
                     </div>
@@ -57,7 +57,7 @@ export default {
   computed: {
     ...mapGetters({
       blockHeight: 'chain/getBlockHeight',
-      chainInfo: 'chain/getChainInfo',
+      storageInfo: 'chain/getStorageInfo',
       marketData: 'chain/getMarketData'
     }),
 

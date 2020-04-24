@@ -78,6 +78,11 @@ export default class Filter {
       console.error('Cannot call "initialFetch" method of', this.current)
   }
 
+  uninitialize() {
+    if (typeof this.currentManager.uninitialize === 'function')
+      return this.currentManager.uninitialize()
+  }
+
   fetchNext() {
     if (typeof this.currentManager.fetchNext === 'function')
       return this.currentManager.fetchNext()
@@ -93,6 +98,7 @@ export default class Filter {
   }
 
   changeFilterValue(option) {
+    this.uninitialize()
     this.current = option
 
     if (typeof this.currentManager.initialFetch === 'function')
@@ -104,8 +110,8 @@ export default class Filter {
   }
 
   reset() {
-    if (typeof this.currentManager.initialFetch === 'function')
-      return this.currentManager.initialFetch()
+    if (typeof this.currentManager.reset === 'function')
+      return this.currentManager.reset()
     this.current = Object.keys(this.options)[0]
     this.store.dispatch(this.name, this)
   }

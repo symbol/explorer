@@ -17,8 +17,8 @@
               v-for="(item, itemKey) in row"
               class="table-cell"
               :key="view+'r'+rowIndex+'i'+itemKey"
-              :class="{'table-item-clickable': isItemClickable(itemKey), [itemKey]: true}"
-              :title="getKeyName(itemKey) + ': ' + item"
+              :class="{'table-item-clickable': isKeyClickable(itemKey), [itemKey]: true}"
+              :title="getKeyName(itemKey) + (typeof item !== 'string' ? '' : ': ' +  item)"
             >
               <Age v-if="itemKey === 'age'" :date="item" />
               <Decimal v-else-if="isChangeDecimalColor(itemKey)" :value="item" />
@@ -26,7 +26,7 @@
 
               <div v-else-if="isAllowArrayToView(itemKey)">
                 <div v-for="(row, rowIndex) in item" :key="view+'r'+rowIndex">
-                  <router-link v-if="isItemClickable(itemKey) && getItemHref(itemKey, row)" :to="getItemHref(itemKey, row)">
+                  <router-link v-if="isKeyClickable(itemKey) && getItemHref(itemKey, row)" :to="getItemHref(itemKey, row)">
                     <Truncate v-if="isTruncate(itemKey)">{{row}}</Truncate>
                     <div v-else>{{ row }}</div>
                   </router-link>
@@ -39,24 +39,16 @@
 
               <div v-else>
                 <div v-if="itemKey === 'transactionBody'">
-                  <div @click="onOpenModal(view+'r'+rowIndex)">Show Detail</div>
-                  <Modal
-                    :id="view+'r'+rowIndex"
-                    v-show="openedModal === view+'r'+rowIndex"
-                    @close="openedModal = null"
-                  >
-                    <div slot="header">{{item.type}}</div>
+                  <b-link v-b-modal="view+'r'+rowIndex">Show Detail</b-link>
+                  <Modal :id="view+'r'+rowIndex" :title="item.type">
                     <div slot="body">
                       <AggregateTransaction slot="body" :transactionBody="item" />
-                    </div>
-                    <div slot="footer">
-                      <button class="modal-default-button" @click="onCloseModal()">Close</button>
                     </div>
                   </Modal>
                 </div>
 
                 <div v-else class="max-item-width">
-                  <router-link v-if="isItemClickable(itemKey) && getItemHref(itemKey, item)" :to="getItemHref(itemKey, item)">
+                  <router-link v-if="isKeyClickable(itemKey) && getItemHref(itemKey, item)" :to="getItemHref(itemKey, item)">
                     <Truncate v-if="isTruncate(itemKey)">{{item}}</Truncate>
                     <div v-else>{{ item }}</div>
                   </router-link>
@@ -199,12 +191,6 @@ export default {
   methods: {
     onMoreClick() {
       this.$store.dispatch(this.nextPageAction)
-    },
-    onOpenModal(id) {
-      this.openedModal = id
-    },
-    onCloseModal() {
-      this.openedModal = null
     },
 
     nextPage() {

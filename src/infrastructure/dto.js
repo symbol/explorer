@@ -16,24 +16,24 @@
  *
  */
 
-import * as nem from 'symbol-sdk'
+import * as symbol from 'symbol-sdk'
 
 // Parse the version field from the version/network type field.
 const createVersionFromDTO = version =>
   parseInt(version.toString(16).substr(2, 2), 16)
 
 const createUInt64FromDTO = uint64DTO =>
-  nem.UInt64.fromNumericString(uint64DTO)
+  symbol.UInt64.fromNumericString(uint64DTO)
 
 const createPublicAccountFromDTO = (publicKey, networkType) => {
   if (undefined === publicKey)
     return undefined
 
-  return nem.PublicAccount.createFromPublicKey(publicKey, networkType)
+  return symbol.PublicAccount.createFromPublicKey(publicKey, networkType)
 }
 
 const createActivityBucketFromDTO = (activityBucketDTO, networkType) =>
-  new nem.ActivityBucket(
+  new symbol.ActivityBucket(
     activityBucketDTO.startHeight,
     activityBucketDTO.totalFeesPaid,
     activityBucketDTO.beneficiaryCount,
@@ -41,8 +41,8 @@ const createActivityBucketFromDTO = (activityBucketDTO, networkType) =>
   )
 
 const createAccountInfoFromDTO = (accountInfoDTO, networkType) =>
-  new nem.AccountInfo(
-    nem.Address.createFromEncoded(accountInfoDTO.account.address),
+  new symbol.AccountInfo(
+    symbol.Address.createFromEncoded(accountInfoDTO.account.address),
     createUInt64FromDTO(accountInfoDTO.account.addressHeight),
     accountInfoDTO.account.publicKey,
     createUInt64FromDTO(accountInfoDTO.account.publicKeyHeight),
@@ -55,7 +55,7 @@ const createAccountInfoFromDTO = (accountInfoDTO, networkType) =>
   )
 
 const createBlockInfoFromDTO = (blockDTO, networkType) =>
-  new nem.BlockInfo(
+  new symbol.BlockInfo(
     blockDTO.meta.hash,
     blockDTO.meta.generationHash,
     createUInt64FromDTO(blockDTO.meta.totalFee),
@@ -77,25 +77,24 @@ const createBlockInfoFromDTO = (blockDTO, networkType) =>
   )
 
 const createMosaicFromDTO = (mosaicDTO, networkType) =>
-  new nem.Mosaic(
-    new nem.MosaicId(mosaicDTO.id),
+  new symbol.Mosaic(
     createUInt64FromDTO(mosaicDTO.amount)
   )
 
 const createMosaicInfoFromDTO = (mosaicInfoDTO, networkType) =>
-  new nem.MosaicInfo(
-    new nem.MosaicId(mosaicInfoDTO.mosaic.id),
+  new symbol.MosaicInfo(
+    new symbol.MosaicId(mosaicInfoDTO.mosaic.id),
     createUInt64FromDTO(mosaicInfoDTO.mosaic.supply),
     createUInt64FromDTO(mosaicInfoDTO.mosaic.startHeight),
     createPublicAccountFromDTO(mosaicInfoDTO.mosaic.ownerPublicKey, networkType),
     mosaicInfoDTO.mosaic.revision,
-    new nem.MosaicFlags(mosaicInfoDTO.mosaic.flags),
+    new symbol.MosaicFlags(mosaicInfoDTO.mosaic.flags),
     mosaicInfoDTO.mosaic.divisibility,
     createUInt64FromDTO(mosaicInfoDTO.mosaic.duration)
   )
 
 const createNamespaceIdFromDTO = (namespaceIdDTO) =>
-  nem.NamespaceId.createFromEncoded(namespaceIdDTO)
+  symbol.NamespaceId.createFromEncoded(namespaceIdDTO)
 
 const extractLevels = (namespaceDTO) => {
   const result = []
@@ -112,16 +111,16 @@ const extractLevels = (namespaceDTO) => {
 }
 
 const extractAlias = (namespaceDTO) => {
-  if (namespaceDTO.alias && namespaceDTO.alias.type === nem.AliasType.Mosaic)
-    return new nem.Alias(nem.AliasType.Mosaic, undefined, namespaceDTO.alias.mosaicId)
-  else if (namespaceDTO.alias && namespaceDTO.alias.type === nem.AliasType.Address)
-    return new nem.Alias(nem.AliasType.Address, namespaceDTO.alias.address, undefined)
+  if (namespaceDTO.alias && namespaceDTO.alias.type === symbol.AliasType.Mosaic)
+    return new symbol.Alias(symbol.AliasType.Mosaic, undefined, new symbol.MosaicId(namespaceDTO.alias.mosaicId))
+  else if (namespaceDTO.alias && namespaceDTO.alias.type === symbol.AliasType.Address)
+    return new symbol.Alias(symbol.AliasType.Address, symbol.Address.createFromEncoded(namespaceDTO.alias.address), undefined)
 
-  return new nem.Alias(nem.AliasType.None, undefined, undefined)
+  return new symbol.Alias(symbol.AliasType.None, undefined, undefined)
 }
 
 const createNamespaceInfoFromDTO = (namespaceInfoDTO, networkType) =>
-  new nem.NamespaceInfo(
+  new symbol.NamespaceInfo(
     namespaceInfoDTO.meta.active,
     namespaceInfoDTO.meta.index,
     namespaceInfoDTO.meta.id,
@@ -136,10 +135,10 @@ const createNamespaceInfoFromDTO = (namespaceInfoDTO, networkType) =>
   )
 
 const createTransactionFromDTO = (transactionDTO, networkType) =>
-  nem.TransactionMapping.createFromDTO(transactionDTO)
+  symbol.TransactionMapping.createFromDTO(transactionDTO)
 
 const createNodeInfoFromDTO = (nodeInfoDTO, networkType) =>
-  new nem.NodeInfo(
+  new symbol.NodeInfo(
     nodeInfoDTO.publicKey,
     nodeInfoDTO.networkGenerationHash,
     nodeInfoDTO.port,

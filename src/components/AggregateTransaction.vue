@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="transactionBody.transactionType === TransactionType.AGGREGATE_BONDED ">
+    <div v-if="transactionBody.rawType === TransactionType.AGGREGATE_BONDED">
       <span>{{getKeyName('Inner Transaction')}}</span>
       <div v-for="(row, rowIndex) in transactionBody.innerTransactions" :key="rowIndex" >
         <TableInfoView :data="row.transactionBody"  />
@@ -19,6 +19,7 @@
     <div v-else>
       <TableInfoView :data="transactionBody" />
     </div>
+    <!-- <TableInfoView :data="transactionBody" /> -->
   </div>
 </template>
 
@@ -30,8 +31,9 @@ import { TransactionType } from 'symbol-sdk'
 export default {
   extends: TableView,
   components: {
-    // To solve Circular References Between Components
-    TableListView: () => import('./tables/TableListView'),
+    // https://vuejs.org/v2/guide/components-edge-cases.html#Circular-References-Between-Components
+    // eslint-disable-next-line
+    TableListView: () => import('../components/tables/TableListView'),
     TableInfoView
   },
   data() {
