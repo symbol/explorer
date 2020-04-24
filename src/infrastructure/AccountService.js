@@ -40,7 +40,7 @@ class AccountService {
    * @param address - Account address
    * @param pageSize - (default 10) no. of data
    * @param id - (Optional) retrive next account transaction in pagination
-   * @returns Metadata[]
+   * @returns Formatted Transaction[]
    */
   static getAccountTransactions = async (address, pageSize = 10, id = '') => {
     const transactions = await http.account
@@ -48,6 +48,21 @@ class AccountService {
       .toPromise()
 
     return transactions.map(transaction => TransactionService.formatTransaction(transaction))
+  }
+
+  /**
+   * Gets an array of transactions for which an account is the sender or has sign the transaction. A transaction is said to be aggregate bonded with respect to an account if there are missing signatures.
+   * @param address - Account address
+   * @param pageSize - (default 10) no. of data
+   * @param id - (Optional) retrive next account partial transaction in pagination
+   * @returns AggregateTransaction[]
+   */
+  static getAccountPartialTransactions = async (address, pageSize = 10, id = '') => {
+    const partialTransactions = await http.account
+      .getAccountPartialTransactions(Address.createFromRawAddress(address), new QueryParams({ pageSize, id }))
+      .toPromise()
+
+    return partialTransactions.map(transaction => TransactionService.formatTransaction(transaction))
   }
 
   /**
@@ -73,6 +88,11 @@ class AccountService {
     }))
   }
 
+  /**
+   * Get custom Account info dataset into Vue Component
+   * @param address - Account address
+   * @returns Custom AccountInfo
+   */
   static getAccountInfo = async address => {
     const accountInfo = await this.getAccount(address)
     return {
@@ -86,8 +106,15 @@ class AccountService {
     }
   }
 
-  static getAccountTransactionList = async (address, pageSize, transactionId) => {
-    const accountTransactions = await this.getAccountTransactions(address, pageSize, transactionId)
+  /**
+   * Gets custom array of confirmed transactions dataset into Vue Component
+   * @param address - Account address
+   * @param pageSize - (default 10) no. of data
+   * @param id - (Optional) retrive next account partial transaction in pagination
+   * @returns Custom AggregateTransaction[]
+   */
+  static getAccountTransactionList = async (address, pageSize, id) => {
+    const accountTransactions = await this.getAccountTransactions(address, pageSize, id)
 
     return accountTransactions.map(accountTransaction => ({
       ...accountTransaction,
@@ -100,6 +127,23 @@ class AccountService {
             : 'TransferIncoming'
           )
           : accountTransaction.transactionBody.type
+    }))
+  }
+
+  /**
+   * Gets custom array of account partial transactions dataset into Vue Component
+   * @param address - Account address
+   * @param pageSize - (default 10) no. of data
+   * @param id - (Optional) retrive next account partial transaction in pagination
+   * @returns Custom Transaction[]
+   */
+  static getAccountPartialTransactionList = async (address, pageSize, id) => {
+    const partialTransactions = await this.getAccountPartialTransactions(address, pageSize, id)
+
+    return partialTransactions.map(partialTransactions => ({
+      ...partialTransactions,
+      transactionHash: partialTransactions.hash,
+      transactionType: partialTransactions.transactionBody.type
     }))
   }
 
