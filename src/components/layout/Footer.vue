@@ -121,14 +121,14 @@ export default {
 
 .social-icon {
     list-style: none;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-wrap: wrap;
     display: flex;
     padding: 0;
+    margin: 0 -15px;
 
     .social-icon-item {
-        flex: auto;
-        margin: 5px;
+        margin: 5px 10px;
 
         a {
             color: #fff;

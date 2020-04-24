@@ -280,8 +280,7 @@ export default {
     }
 
     @media screen and (max-width: 40em) {
-        .date,
-        .deadline {
+        .date, .deadline {
             width: 85px;
         }
     }

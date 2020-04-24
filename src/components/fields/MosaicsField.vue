@@ -76,7 +76,7 @@ export default {
     justify-content: flex-start;
 
     .mosaic {
-        display:inline-block;
+        display: inline-block;
         background: $primary-color;
         color: #fff;
         border-radius: 5px;
@@ -89,7 +89,7 @@ export default {
 
         .mosaic-name {
             margin-right: 10px;
-            
+
             .link {
                 color: #fff;
             }
