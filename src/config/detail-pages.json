@@ -75,10 +75,15 @@
                         "title": "Account Partial",
                         "fullWidth": true,
                         "body": "TableListView",
-                        "dataGetter": "account/getAccountPartialList",
-                        "pagination": false,
-                        "pageSize": 5,
-                        "loadingGetter": "account/accountInfoLoading"
+                        "managerGetter": "account/partialTransactions",
+                        "fields": [
+                            "signer",
+                            "transactionType",
+                            "transactionHash",
+                            "deadline",
+                            "transactionBody"
+                        ],
+                        "timelinePagination": true
                     },
                     {
                         "type": "Card",
