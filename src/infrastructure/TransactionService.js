@@ -312,13 +312,13 @@ class TransactionService {
         mosaicId: transactionBody.mosaic.id.toHex(), // Todo Format Mosaic
         secret: transactionBody.secret,
         recipient: this.formatRecipientAddress(transactionBody.recipientAddress),
-        hashType: Constants.HashType[transactionBody.hashType]
+        hashAlgorithm: Constants.LockHashAlgorithm[transactionBody.hashAlgorithm]
       }
 
     case TransactionType.SECRET_PROOF:
       return {
         type: Constants.TransactionType[TransactionType.SECRET_PROOF],
-        hashType: Constants.HashType[transactionBody.hashType],
+        hashAlgorithm: Constants.LockHashAlgorithm[transactionBody.hashAlgorithm],
         recipient: this.formatRecipientAddress(transactionBody.recipientAddress),
         secret: transactionBody.secret,
         proof: transactionBody.proof

@@ -65,7 +65,7 @@
     "active": "Активний",
     "alias": "Псевдонім",
     "aliasType": "Тип псевдоніма",
-    "hashType": "Тип хешу",
+    "hashAlgorithm": "Тип хешу",
     "secret": "Секрет",
     "linkedNamespace": "Зв'язаний простір імен",
     "minApproval": "Мінімальне підтвердження",
