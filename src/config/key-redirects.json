@@ -16,7 +16,7 @@
     "restrictionAddressDeletions": "account",
     "accountAliasName": "account",
     "cosignatories": "account",
-    "multisigAccounts": "account",
+    "multisigAccounts_": "account",
 
     "transactionHash": "transaction",
 

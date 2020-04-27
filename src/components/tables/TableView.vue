@@ -1,15 +1,16 @@
 <script>
-import Age from '../Age.vue'
+import Age from '../fields/Age.vue'
 import Constants from '../../config/constants'
-export default {
-  components: { Age },
-  props: {
-    view: {
-      type: String,
-      default: 'block'
-      // required: true
-    },
+import Decimal from '@/components/fields/Decimal.vue'
+import Truncate from '@/components/fields/Truncate.vue'
 
+export default {
+  components: {
+    Age,
+    Decimal,
+    Truncate
+  },
+  props: {
     height: {
       type: Number
     },
@@ -47,6 +48,7 @@ export default {
         'addressHeight',
         'publicKeyHeight',
         'importanceHeight',
+        'multisigAccounts_',
 
         'signer',
         'recipient',
@@ -105,7 +107,9 @@ export default {
 
   computed: {
     emptyDataMessageFormatted() {
-      return this.$store.getters['ui/getNameByKey'](this.emptyDataMessage)
+      return this.$store.getters['ui/getNameByKey'](
+        this.emptyDataMessage
+      )
     }
   },
 
@@ -118,17 +122,46 @@ export default {
       return this.disableClickValues.indexOf(item) === -1
     },
 
-    isChangeDecimalColor(itemKey) {
+    isDecimal(itemKey) {
       return this.changeDecimalColor.indexOf(itemKey) !== -1
     },
 
-    isAllowArrayToView(itemKey) {
+    isMosaics(itemKey) {
+      return itemKey === 'mosaics'
+    },
+
+    isAge(itemKey) {
+      return itemKey === 'age'
+    },
+
+    isTransactionType(itemKey) {
+      return itemKey === 'transactionType' || itemKey === 'type'
+    },
+
+    isArrayField(itemKey) {
       return this.allowArrayToView.indexOf(itemKey) !== -1
     },
 
+    isTruncate(key) {
+      return (
+        key === 'harvester' ||
+                key === 'address' ||
+                key === 'signer' ||
+                key === 'recipient' ||
+                key === 'transactionHash' ||
+                key === 'owneraddress' ||
+                key === 'host' ||
+                key === 'friendlyName' ||
+                key === 'multisigAccounts_'
+      )
+    },
+
+    isAggregateInnerTransaction(itemKey) {
+      return itemKey === 'transactionBody'
+    },
+
     isItemShown(itemKey, item) {
-      if (this.isAllowArrayToView(itemKey))
-        return item.length !== 0
+      if (this.isArrayField(itemKey)) return item.length !== 0
 
       return item != null
     },
@@ -143,23 +176,16 @@ export default {
     },
 
     getItemHref(itemKey, item) {
-      if (this.isValueClickable(item))
-        return this.$store.getters[`ui/getPageHref`]({ pageName: itemKey, param: item })
+      if (this.isValueClickable(item)) {
+        return this.$store.getters[`ui/getPageHref`]({
+          pageName: itemKey,
+          param: item
+        })
+      }
     },
 
     getKeyName(key) {
       return this.$store.getters['ui/getNameByKey'](key)
-    },
-
-    isTruncate(key) {
-      return key === 'harvester' ||
-        key === 'address' ||
-        key === 'signer' ||
-        key === 'recipient' ||
-        key === 'transactionHash' ||
-        key === 'owneraddress' ||
-        key === 'host' ||
-        key === 'friendlyName'
     }
   }
 }
@@ -209,11 +235,15 @@ export default {
         max-width: 200px;
     }
 
-    .table-striped tbody tr:nth-child(odd) td {
+    .ex-table-striped tbody tr:hover {
+        background-color: $table-hover-color;
+    }
+
+    .ex-table-striped tbody tr:nth-child(odd) td {
         background-color: $table-striped-color-first;
     }
 
-    .table-striped tbody tr:nth-child(even) td {
+    .ex-table-striped tbody tr:nth-child(even) td {
         background-color: $table-striped-color-second;
     }
 
@@ -222,7 +252,7 @@ export default {
     }
 
     .table-head-cell::before {
-        content: '&nbsp;';
+        content: "&nbsp;";
         visibility: hidden;
     }
 

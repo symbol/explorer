@@ -120,8 +120,13 @@ class AccountService {
       ...accountTransaction,
       transactionId: accountTransaction.id,
       transactionHash: accountTransaction.hash,
-      transactionType: accountTransaction.transactionBody.type,
-      direction: accountTransaction.type === 'Transfer' ? (accountTransaction.signer === address ? 'outgoing' : 'incoming') : void 0
+      transactionType:
+        accountTransaction.transactionBody.type === 'Transfer'
+          ? (accountTransaction.signer === address
+            ? 'TransferOutgoing'
+            : 'TransferIncoming'
+          )
+          : accountTransaction.transactionBody.type
     }))
   }
 
