@@ -29,7 +29,8 @@ class MosaicService {
    * @returns Formatted MosaicInfo[]
    */
    static getMosaics = async mosaicIds => {
-     const mosaics = await http.mosaic.getMosaics(mosaicIds).toPromise()
+     const mosaics = await http.createRepositoryFactory.createMosaicRepository()
+       .getMosaics(mosaicIds).toPromise()
      const formattedMosaics = mosaics.map(mosaic => this.formatMosaicInfo(mosaic))
 
      return formattedMosaics
@@ -41,7 +42,9 @@ class MosaicService {
    * @returns Formatted MosaicInfo
    */
    static getMosaic = async mosaicId => {
-     const mosaic = await http.mosaic.getMosaic(mosaicId).toPromise()
+     const mosaic = await http.createRepositoryFactory.createMosaicRepository()
+       .getMosaic(mosaicId).toPromise()
+
      const formattedMosaic = this.formatMosaicInfo(mosaic)
 
      return formattedMosaic

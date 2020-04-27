@@ -29,7 +29,10 @@ class AccountService {
    * @returns Formatted AccountInfo
    */
   static getAccount = async address => {
-    const account = await http.account.getAccountInfo(Address.createFromRawAddress(address)).toPromise()
+    const account = await http.createRepositoryFactory.createAccountRepository()
+      .getAccountInfo(Address.createFromRawAddress(address))
+      .toPromise()
+
     const formattedAccount = this.formatAccountInfo(account)
 
     return formattedAccount
@@ -43,7 +46,7 @@ class AccountService {
    * @returns Formatted Transaction[]
    */
   static getAccountTransactions = async (address, pageSize = 10, id = '') => {
-    const transactions = await http.account
+    const transactions = await http.createRepositoryFactory.createAccountRepository()
       .getAccountTransactions(Address.createFromRawAddress(address), new QueryParams({ pageSize, id }))
       .toPromise()
 
@@ -58,7 +61,7 @@ class AccountService {
    * @returns AggregateTransaction[]
    */
   static getAccountPartialTransactions = async (address, pageSize = 10, id = '') => {
-    const partialTransactions = await http.account
+    const partialTransactions = await http.createRepositoryFactory.createAccountRepository()
       .getAccountPartialTransactions(Address.createFromRawAddress(address), new QueryParams({ pageSize, id }))
       .toPromise()
 
