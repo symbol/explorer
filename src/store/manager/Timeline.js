@@ -82,6 +82,8 @@ export default class Timeline {
 
   async fetch() {
     this.loading = true
+    this.store.dispatch(this.name, this)
+
     this.index = 0
     this.keys = []
     try {
@@ -136,6 +138,8 @@ export default class Timeline {
   async fetchNext() {
     if (this.canFetchNext) {
       this.loading = true
+      this.store.dispatch(this.name, this)
+
       this.data = [].concat.apply([], this.next)
       try {
         this.next = await this.fetchFunction(this.nextKeyValue, this.pageSize, this.store)
@@ -156,6 +160,8 @@ export default class Timeline {
   async fetchPrevious() {
     if (this.canFetchPrevious) {
       this.loading = true
+      this.store.dispatch(this.name, this)
+
       this.next = [].concat.apply([], this.data)
       try {
         this.data = await this.fetchFunction(this.previousKeyValue, this.pageSize, this.store)
