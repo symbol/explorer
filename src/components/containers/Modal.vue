@@ -1,28 +1,32 @@
 <template>
- <b-modal
-    :id="id"
-    :title="title"
-    ok-title="close"
-    ok-only
-    no-close-on-esc
-    no-close-on-backdrop
-    hide-header-close
-    scrollable
-    size="lg">
-
-    <template v-slot:default>
-        <slot name="body" />
-    </template>
-
- </b-modal>
+    <b-modal
+        :id="id"
+        :title="title"
+        centered
+        no-close-on-esc
+        hide-footer
+        scrollable
+        size="lg"
+        class="ex-modal"
+        header-text-variant="title"
+    >
+        <template v-slot:default>
+            <slot name="body" />
+        </template>
+    </b-modal>
 </template>
 
 <script>
 export default {
-  components: {},
   props: {
-    id: String,
-    title: String
+    title: {
+      type: String,
+      default: ''
+    },
+    id: {
+      type: String,
+      required: true
+    }
   }
 }
 </script>

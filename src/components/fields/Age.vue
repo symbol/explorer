@@ -25,7 +25,7 @@
 </template>
 <script>
 import TimeSince from '@/components/TimeSince.vue'
-import helper from '../helper'
+import helper from '../../helper'
 
 export default {
   name: 'Age',
