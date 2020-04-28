@@ -99,7 +99,12 @@ export default {
       }))
 
       commit('setNodes', healthyNodes)
-      commit('currentNode', healthyNodes[0])
+
+      const currentNode = getters['currentNode']
+      const activeNodes = healthyNodes.map(nodes => nodes.href)
+
+      // Reset the currentNode, if currentNode not longer in healthy status.
+      activeNodes.indexOf(currentNode) === -1 ? commit('currentNode', healthyNodes[0]) : void 0
     }
   }
 }
