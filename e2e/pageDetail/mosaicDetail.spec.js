@@ -1,6 +1,6 @@
 describe('Symbol Explorer Mosaic Detail page', () => {
     beforeEach(() => {
-        cy.visit('/mosaic/747B276C30626442')
+        cy.visit('/mosaic/519FC24B9223E0B4')
     })
 
     describe('Mosaic Detail Card should', () => {
