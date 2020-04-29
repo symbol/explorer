@@ -166,7 +166,7 @@ class TransactionService {
       height: transaction.height,
       transactionHash: transaction.hash,
       type: transaction.transactionBody.type,
-      recipient: transaction?.recipient
+      recipient: transaction.transactionBody?.recipient
     }))
   }
 
