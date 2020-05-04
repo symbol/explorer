@@ -297,6 +297,10 @@
                         "title": "Mosaic Restriction",
                         "fullWidth": false,
                         "body": "TableInfoView",
+                        "fields": [
+                            "compositeHash",
+                            "entryType"
+                        ],
                         "managerGetter": "mosaic/restrictions",
                         "pagination": false,
                         "errorMessage": "Mosaic does not exist"
@@ -306,6 +310,11 @@
                         "title": "Mosaic Restriction List",
                         "fullWidth": false,
                         "body": "TableListView",
+                        "fields": [
+                            "restrictionKey",
+                            "restrictionType",
+                            "restrictionValue"
+                        ],
                         "managerGetter": "mosaic/restrictions",
                         "dataGetter": "mosaic/getMosaicRestrictionList",
                         "pagination": false,

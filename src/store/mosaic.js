@@ -65,8 +65,7 @@ export default {
   getters: {
     ...getGettersFromManagers(managers),
     getInitialized: state => state.initialized,
-    getMosaicRestrictionList: state => state.restrictions?.data.mosaicRestrictionList || [],
-    getMosaicRestrictionInfo: state => state.info?.data.mosaicRestrictionInfo || {},
+    getMosaicRestrictionList: state => state.restrictions?.data.restrictions || [],
     getCurrentMosaicId: state => state.currentMosaicId
   },
   mutations: {
