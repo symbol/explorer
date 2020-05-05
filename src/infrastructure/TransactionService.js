@@ -374,8 +374,8 @@ class TransactionService {
         mosaicId: transactionBody.mosaicId.toHex(), // Todo format mosaic
         targetAddress: this.formatRecipientAddress(transactionBody.targetAddress),
         restrictionKey: transactionBody.restrictionKey.toHex(),
-        previousRestrictionValue: transactionBody.previousRestrictionValue.compact(),
-        newRestrictionValue: transactionBody.newRestrictionValue.compact()
+        previousRestrictionValue: transactionBody.previousRestrictionValue.toString(),
+        newRestrictionValue: transactionBody.newRestrictionValue.toString()
       }
 
     case TransactionType.MOSAIC_GLOBAL_RESTRICTION:
