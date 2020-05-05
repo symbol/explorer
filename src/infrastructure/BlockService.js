@@ -28,7 +28,8 @@ class BlockService {
    * @returns Formatted BlockDTO
    */
   static getBlockByHeight = async (height) => {
-    const blockInfo = await http.block.getBlockByHeight(UInt64.fromUint(height)).toPromise()
+    const blockInfo = await http.createRepositoryFactory.createBlockRepository()
+      .getBlockByHeight(UInt64.fromUint(height)).toPromise()
     return this.formatBlock(blockInfo)
   }
 
@@ -39,7 +40,7 @@ class BlockService {
    * @param id - (Optional) retrive next transactions in pagination
    */
   static getBlockTransactions = async (height, pageSize = 10, id = '') => {
-    const transactions = await http.block
+    const transactions = await http.createRepositoryFactory.createBlockRepository()
       .getBlockTransactions(UInt64.fromUint(height), new QueryParams({ pageSize, id }))
       .toPromise()
 
@@ -53,7 +54,9 @@ class BlockService {
    * @returns formatted BlockInfo[]
    */
   static getBlocksByHeightWithLimit = async (height, noOfBlock) => {
-    const blocks = await http.block.getBlocksByHeightWithLimit(UInt64.fromUint(height), noOfBlock).toPromise()
+    const blocks = await http.createRepositoryFactory.createBlockRepository()
+      .getBlocksByHeightWithLimit(UInt64.fromUint(height), noOfBlock).toPromise()
+
     const formattedBlocks = blocks.map(block => this.formatBlock(block))
 
     return formattedBlocks

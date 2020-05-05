@@ -45,7 +45,8 @@ class TransactionService {
         message: null,
         detail: {}
       }
-      http.transaction.getTransactionStatus(hash).toPromise()
+      http.createRepositoryFactory.createTransactionRepository()
+        .getTransactionStatus(hash).toPromise()
         .then(response => {
           transactionStatus.message = response.group
           transactionStatus.detail = response
@@ -67,7 +68,8 @@ class TransactionService {
    * @returns formatted Transaction
    */
   static getTransaction = async (hash) => {
-    let transaction = await http.transaction.getTransaction(hash).toPromise()
+    const transaction = await http.createRepositoryFactory.createTransactionRepository()
+      .getTransaction(hash).toPromise()
     return this.formatTransaction(transaction)
   }
 
@@ -77,7 +79,8 @@ class TransactionService {
    * @returns formatted effectiveFee string
    */
   static getTransactionEffectiveFee = async (hash) => {
-    let effectiveFee = await http.transaction.getTransactionEffectiveFee(hash).toPromise()
+    let effectiveFee = await http.createRepositoryFactory.createTransactionRepository()
+      .getTransactionEffectiveFee(hash).toPromise()
     return helper.toNetworkCurrency(effectiveFee)
   }
 
@@ -98,7 +101,7 @@ class TransactionService {
     case TransactionType.TRANSFER:
       await Promise.all(formattedTransaction.mosaics.map(async mosaic => {
         if (mosaic.id instanceof NamespaceId)
-          return (mosaic.id = await http.namespace.getLinkedMosaicId(mosaic.id).toPromise())
+          return (mosaic.id = await http.createRepositoryFactory.createNamespaceRepository().getLinkedMosaicId(mosaic.id).toPromise())
       }))
 
       const mosaicIdsList = formattedTransaction.mosaics.map(mosaicInfo => mosaicInfo.id)
@@ -312,13 +315,13 @@ class TransactionService {
         mosaicId: transactionBody.mosaic.id.toHex(), // Todo Format Mosaic
         secret: transactionBody.secret,
         recipient: this.formatRecipientAddress(transactionBody.recipientAddress),
-        hashType: Constants.HashType[transactionBody.hashType]
+        hashAlgorithm: Constants.LockHashAlgorithm[transactionBody.hashAlgorithm]
       }
 
     case TransactionType.SECRET_PROOF:
       return {
         type: Constants.TransactionType[TransactionType.SECRET_PROOF],
-        hashType: Constants.HashType[transactionBody.hashType],
+        hashAlgorithm: Constants.LockHashAlgorithm[transactionBody.hashAlgorithm],
         recipient: this.formatRecipientAddress(transactionBody.recipientAddress),
         secret: transactionBody.secret,
         proof: transactionBody.proof

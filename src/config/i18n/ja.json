@@ -65,7 +65,7 @@
     "active": "アクティブ",
     "alias": "エイリアス",
     "aliasType": "エイリアスの種類",
-    "hashType": "ハッシュの種類",
+    "hashAlgorithm": "ハッシュの種類",
     "secret": "シークレット",
     "linkedNamespace": "リンク済みネームスペース",
     "minApproval": "最小承認",

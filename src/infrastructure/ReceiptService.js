@@ -28,7 +28,7 @@ class ReceiptService {
    * @returns Statement
    */
   static getBlockReceipts = async (height) => {
-    const blockReceipts = await http.receipt
+    const blockReceipts = await http.createRepositoryFactory.createReceiptRepository()
       .getBlockReceipts(UInt64.fromUint(height))
       .toPromise()
 

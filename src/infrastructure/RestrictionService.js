@@ -12,7 +12,8 @@ class RestrictionService {
   static getAccountRestrictions = async address => {
     let accountRestrictions
     try {
-      accountRestrictions = await http.restrictionAccount.getAccountRestrictions(Address.createFromRawAddress(address)).toPromise()
+      accountRestrictions = await http.createRepositoryFactory.createRestrictionAccountRepository()
+        .getAccountRestrictions(Address.createFromRawAddress(address)).toPromise()
     } catch (e) {
       // To Catach statusCode 404 if Account Restrictions is no available
       throw Error('Account Restrictions is no available.')
@@ -31,7 +32,8 @@ class RestrictionService {
     let mosaicGlobalRestrictions
 
     try {
-      mosaicGlobalRestrictions = await http.restrictionMosaic.getMosaicGlobalRestriction(mosaicId).toPromise()
+      mosaicGlobalRestrictions = await http.createRepositoryFactory.createRestrictionMosaicRepository()
+        .getMosaicGlobalRestriction(mosaicId).toPromise()
     } catch (e) {
       // To Catach statusCode 404 if Mosaic Global Restrictions is no available
       throw Error('Mosaic Global Restrictions is no available.')
