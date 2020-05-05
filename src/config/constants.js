@@ -5,7 +5,7 @@ import {
   AliasAction,
   LinkAction,
   AccountType,
-  HashType,
+  LockHashAlgorithm,
   NetworkType,
   MetadataType,
   ReceiptType,
@@ -46,7 +46,7 @@ class Constants {
 
   static TransactionType = {
     [TransactionType.TRANSFER]: 'Transfer',
-    [TransactionType.NAMESPACE_REGISTRATION]: 'Namespace Register',
+    [TransactionType.NAMESPACE_REGISTRATION]: 'Namespace Registration',
     [TransactionType.ADDRESS_ALIAS]: 'Address Alias',
     [TransactionType.MOSAIC_ALIAS]: 'Mosaic Alias',
     [TransactionType.MOSAIC_DEFINITION]: 'Mosaic Definition',
@@ -95,11 +95,10 @@ class Constants {
     [AccountType.Remote_Unlinked]: 'Remote Unlinked'
   }
 
-  static HashType = {
-    [HashType.Op_Sha3_256]: 'Op_Sha3_256',
-    [HashType.Op_Keccak_256]: 'Op_Keccak_256',
-    [HashType.Op_Hash_160]: 'Op_Hash_160',
-    [HashType.Op_Hash_256]: 'Op_Hash_256'
+  static LockHashAlgorithm = {
+    [LockHashAlgorithm.Op_Sha3_256]: 'Op_Sha3_256',
+    [LockHashAlgorithm.Op_Hash_160]: 'Op_Hash_160',
+    [LockHashAlgorithm.Op_Hash_256]: 'Op_Hash_256'
   }
 
   static MetadataType = {

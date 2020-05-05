@@ -64,7 +64,7 @@
     "active": "Activo",
     "alias": "Alias",
     "aliasType": "Alias Type",
-    "hashType": "Hash Type",
+    "hashAlgorithm": "Hash Algorithm",
     "secret": "Secreto",
     "linkedNamespace": "Linked Namespace",
     "minApproval": "Aprobación mínima",

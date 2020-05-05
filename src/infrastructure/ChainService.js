@@ -24,7 +24,8 @@ class ChainService {
    * @returns block height
    */
   static getBlockchainHeight = async () => {
-    const blockHeight = await http.chain.getBlockchainHeight().toPromise()
+    const blockHeight = await http.createRepositoryFactory.createChainRepository()
+      .getBlockchainHeight().toPromise()
     return blockHeight.compact()
   }
 
@@ -33,7 +34,9 @@ class ChainService {
    * @returns
    */
   static getChainScore = async () => {
-    const chainScore = await http.chain.getChainScore().toPromise()
+    const chainScore = await http.createRepositoryFactory.createChainRepository()
+      .getChainScore().toPromise()
+
     const formattedChainScore = this.formatBlockchainScore(chainScore)
 
     return formattedChainScore

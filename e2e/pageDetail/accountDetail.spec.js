@@ -1,6 +1,6 @@
 describe('Symbol Explorer Account Detail page', () => {
     beforeEach(() => {
-        cy.visit('/account/TDQJKG7OKAPVHZ3YMMTFUVVVDFNR4VTM6AXQG66X')
+        cy.visit('/account/TATGZXFW3OTHPZT4G4IVDD2K7PXIJJXGEVCKP72W')
     })
 
     describe('Account Detail Card should', () => {

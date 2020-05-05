@@ -64,7 +64,7 @@
     "active": "活跃",
     "alias": "别名",
     "aliasType": "别名类型",
-    "hashType": "Hash类型",
+    "hashAlgorithm": "Hash类型",
     "secret": "密码",
     "linkedNamespace": "已绑定命名空间",
     "minApproval": "最小签名数",

@@ -28,10 +28,11 @@ class MultisigService {
   static getMultisigAccount = async address => {
     let multisigAccountInfo
     try {
-      multisigAccountInfo = await http.multisig.getMultisigAccountInfo(Address.createFromRawAddress(address)).toPromise()
+      multisigAccountInfo = await http.createRepositoryFactory.createMultisigRepository()
+        .getMultisigAccountInfo(Address.createFromRawAddress(address)).toPromise()
     } catch (e) {
-      // To Catach statusCode 404 if Address is not belong to Multisig
-      throw Error('Address is not belong to Multisig')
+      // To Catach statusCode 404 if Address is not a multisig account.
+      throw Error('Address is not a multisig account.')
     }
 
     const formattedMultisigAccount = this.formatMultisigAccountInfo(multisigAccountInfo)

@@ -27,7 +27,7 @@ export default class http {
   static init = async (nodeUrl, marketDataUrl) => {
     NODE_URL = nodeUrl
     MARKET_DATA_URL = marketDataUrl
-    NETWORK_TYPE = await http.network.getNetworkType().toPromise() || constants.NetworkConfig.NETWORKTYPE
+    NETWORK_TYPE = await http.createRepositoryFactory.getNetworkType().toPromise() || constants.NetworkConfig.NETWORKTYPE
   }
 
   static get marketDataUrl() {
@@ -42,63 +42,18 @@ export default class http {
     return NETWORK_TYPE
   }
 
-  static get account() {
-    return new symbol.AccountHttp(http.nodeUrl)
-  }
-
-  static get block() {
-    return new symbol.BlockHttp(http.nodeUrl)
-  }
-
-  static get chain() {
-    return new symbol.ChainHttp(http.nodeUrl)
-  }
-
-  static get mosaic() {
-    return new symbol.MosaicHttp(http.nodeUrl)
+  static get createRepositoryFactory() {
+    return new symbol.RepositoryFactoryHttp(this.nodeUrl)
   }
 
   static get mosaicService() {
-    return new symbol.MosaicService(http.account, http.mosaic)
-  }
-
-  static get namespace() {
-    return new symbol.NamespaceHttp(http.nodeUrl)
+    const accountRepository = this.createRepositoryFactory.createAccountRepository()
+    const mosaicRepository = this.createRepositoryFactory.createMosaicRepository()
+    return new symbol.MosaicService(accountRepository, mosaicRepository)
   }
 
   static get namespaceService() {
-    return new symbol.NamespaceService(http.namespace)
-  }
-
-  static get network() {
-    return new symbol.NetworkHttp(http.nodeUrl)
-  }
-
-  static get transaction() {
-    return new symbol.TransactionHttp(http.nodeUrl)
-  }
-
-  static get multisig() {
-    return new symbol.MultisigHttp(http.nodeUrl)
-  }
-
-  static get metadata() {
-    return new symbol.MetadataHttp(http.nodeUrl)
-  }
-
-  static get receipt() {
-    return new symbol.ReceiptHttp(http.nodeUrl)
-  }
-
-  static get restrictionAccount() {
-    return new symbol.RestrictionAccountHttp(http.nodeUrl)
-  }
-
-  static get restrictionMosaic() {
-    return new symbol.RestrictionMosaicHttp(http.nodeUrl)
-  }
-
-  static get node() {
-    return new symbol.NodeHttp(http.nodeUrl)
+    const namespaceRepository = this.createRepositoryFactory.createNamespaceRepository()
+    return new symbol.NamespaceService(namespaceRepository)
   }
 }
