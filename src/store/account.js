@@ -173,6 +173,7 @@ export default {
       context.getters.OwnedNamespace.setStore(context).initialFetch(address)
       context.getters.multisig.setStore(context).initialFetch(address)
       context.getters.transactions.setStore(context).initialFetch(address)
+      context.getters.metadatas.setStore(context).initialFetch(address)
       context.getters.restrictions.setStore(context).initialFetch(address)
       context.getters.partialTransactions.setStore(context).initialFetch(address)
     },
@@ -183,6 +184,7 @@ export default {
       context.getters.OwnedNamespace.setStore(context).uninitialize()
       context.getters.multisig.setStore(context).uninitialize()
       context.getters.transactions.setStore(context).uninitialize()
+      context.getters.metadatas.setStore(context).uninitialize()
       context.getters.restrictions.setStore(context).uninitialize()
       context.getters.partialTransactions.setStore(context).uninitialize()
     }
