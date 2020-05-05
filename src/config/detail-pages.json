@@ -16,6 +16,7 @@
                         "body": "TableInfoView",
                         "fields": [
                             "address",
+                            "accountAliasName",
                             "addressHeight",
                             "publicKey",
                             "importance",
@@ -276,6 +277,7 @@
                         "fullWidth": true,
                         "body": "TableInfoView",
                         "fields": [
+                            "mosaicId",
                             "mosaicAliasName",
                             "divisibility",
                             "address",

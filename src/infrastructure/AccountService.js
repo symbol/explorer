@@ -98,6 +98,7 @@ class AccountService {
    */
   static getAccountInfo = async address => {
     const accountInfo = await this.getAccount(address)
+    const accountNames = await NamespaceService.getAccountsNames([Address.createFromRawAddress(address)])
     return {
       ...accountInfo,
       activityBucket: accountInfo.activityBucket.map(activity => ({
@@ -105,7 +106,8 @@ class AccountService {
         recalculationBlock: activity.startHeight,
         totalFeesPaid: helper.toNetworkCurrency(activity.totalFeesPaid),
         importanceScore: activity.rawScore
-      }))
+      })),
+      accountAliasName: this.extractAccountNamespace(accountInfo, accountNames)
     }
   }
 
