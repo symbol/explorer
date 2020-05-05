@@ -26,7 +26,8 @@ class NodeService {
      * @returns StorageInfo
      */
     static getStorageInfo = () => {
-      return http.node.getStorageInfo().toPromise()
+      return http.createRepositoryFactory.createNodeRepository()
+        .getStorageInfo().toPromise()
     }
 
     /**
@@ -34,7 +35,8 @@ class NodeService {
      * @returns NodeInfo
      */
     static getNodeInfo = () => {
-      return http.node.getNodeInfo().toPromise()
+      return http.createRepositoryFactory.createNodeRepository()
+        .getNodeInfo().toPromise()
     }
 
     /**
@@ -50,7 +52,8 @@ class NodeService {
      * @returns NodeInfo[]
      */
     static getNodePeers = async () => {
-      const nodePeers = await http.node.getNodePeers().toPromise()
+      const nodePeers = await http.createRepositoryFactory.createNodeRepository()
+        .getNodePeers().toPromise()
 
       const formattedNodePeers = nodePeers.map(nodeInfo => this.formatNodeInfo(nodeInfo))
 

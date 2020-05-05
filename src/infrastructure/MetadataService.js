@@ -30,7 +30,7 @@ class MetadataService {
    * @returns Metadata[]
    */
   static getAccountMetadata = async (address, pageSize = 10, id = '') => {
-    const metadatas = await http.metadata
+    const metadatas = await http.createRepositoryFactory.createMetadataRepository()
       .getAccountMetadata(Address.createFromRawAddress(address), new QueryParams({ pageSize, id }))
       .toPromise()
 
@@ -45,7 +45,7 @@ class MetadataService {
    * @returns Metadata[]
    */
   static getMosaicMetadata = async (mosaicId, pageSize = 10, id = '') => {
-    const metadatas = await http.metadata
+    const metadatas = await http.createRepositoryFactory.createMetadataRepository()
       .getMosaicMetadata(mosaicId, new QueryParams({ pageSize, id }))
       .toPromise()
 
@@ -60,7 +60,7 @@ class MetadataService {
    * @returns Metadata[]
    */
   static getNamespaceMetadata = async (namespaceId, pageSize = 10, id = '') => {
-    const metadatas = await http.metadata
+    const metadatas = await http.createRepositoryFactory.createMetadataRepository()
       .getNamespaceMetadata(namespaceId, new QueryParams({ pageSize, id }))
       .toPromise()
 

@@ -1,6 +1,6 @@
 describe('Symbol Explorer Transaction detail page for Transfer Transaction', () => {
     beforeEach(() => {
-        cy.visit('/transaction/B6AF0363AEE2BC714C8D1E4311607FEEAE64A1CE39C484010A0DD71D8BCC5061')
+        cy.visit('/transaction/C838773F36EB3F5C5433A9F96A5AC44D2886D1F6467D8FE2F420A2118C3000D8')
     })
 
     describe('Transaction info card should', () => {

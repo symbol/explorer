@@ -16,8 +16,8 @@
  *
  */
 
-import * as symbol from 'symbol-sdk'
 import Constants from '../config/constants'
+import http from './http'
 
 class NetworkService {
   /**
@@ -25,8 +25,8 @@ class NetworkService {
    * @returns rental fees information
    */
   static getRentalFees = async () => {
-    // Todo: Remove hardcore URL, After all, restVersion is 1.0.20.24 above
-    const rentalFees = await new symbol.NetworkHttp('http://oleg-test-01.eu-west-1.symboldev.network:3000').getRentalFees().toPromise()
+    const rentalFees = await http.createRepositoryFactory.createNetworkRepository()
+      .getRentalFees().toPromise()
     return this.formatRentalFees(rentalFees)
   }
 
@@ -36,7 +36,8 @@ class NetworkService {
    */
   static getTransactionFees = async () => {
     // Todo: Remove hardcore URL, After all, restVersion is 1.0.20.24 above
-    const transactionFees = await new symbol.NetworkHttp('http://oleg-test-01.eu-west-1.symboldev.network:3000').getTransactionFees().toPromise()
+    const transactionFees = await http.createRepositoryFactory.createNetworkRepository()
+      .getTransactionFees().toPromise()
     return transactionFees
   }
 

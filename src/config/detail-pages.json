@@ -16,6 +16,7 @@
                         "body": "TableInfoView",
                         "fields": [
                             "address",
+                            "accountAliasName",
                             "addressHeight",
                             "publicKey",
                             "importance",
@@ -24,7 +25,7 @@
                         ],
                         "managerGetter": "account/info",
                         "pagination": false,
-                        "errorMessage": "Account is unknown to the network"
+                        "errorMessage": "Account is unknown to the network."
                     },
                     {
                         "type": "Card",
@@ -39,7 +40,7 @@
                         ],
                         "managerGetter": "account/multisig",
                         "pagination": false,
-                        "errorMessage": "Address is not belong to Multisig"
+                        "errorMessage": "Address is not a multisig account."
                     },
                     {
                         "type": "Card",
@@ -115,7 +116,7 @@
                         "managerGetter": "account/restrictions",
                         "pagination": false,
                         "pageSize": 5,
-                        "errorMessage": "Account Restrictions is no available."
+                        "errorMessage": "Account restrictions are not available."
                     },
                     {
                         "type": "Card",
@@ -187,7 +188,7 @@
                         ],
                         "pagination": false,
                         "managerGetter": "block/info",
-                        "errorMessage": "Block does not exist"
+                        "errorMessage": "Block does not exist."
                     },
                     {
                         "type": "Card",
@@ -276,6 +277,7 @@
                         "fullWidth": true,
                         "body": "TableInfoView",
                         "fields": [
+                            "mosaicId",
                             "mosaicAliasName",
                             "divisibility",
                             "address",
@@ -290,7 +292,7 @@
                         ],
                         "managerGetter": "mosaic/info",
                         "pagination": false,
-                        "errorMessage": "Mosaic does not exist"
+                        "errorMessage": "Mosaic does not exist."
                     },
                     {
                         "type": "Card",
@@ -303,7 +305,7 @@
                         ],
                         "managerGetter": "mosaic/restrictions",
                         "pagination": false,
-                        "errorMessage": "Mosaic does not exist"
+                        "errorMessage": "Mosaic does not exist."
                     },
                     {
                         "type": "Card",
@@ -318,7 +320,7 @@
                         "managerGetter": "mosaic/restrictions",
                         "dataGetter": "mosaic/getMosaicRestrictionList",
                         "pagination": false,
-                        "errorMessage": "Mosaic Global Restrictions is no available."
+                        "errorMessage": "Mosaic global restrictions are not available."
                     },
                     {
                         "type": "Card",
@@ -370,7 +372,7 @@
                         ],
                         "managerGetter": "namespace/info",
                         "pagination": false,
-                        "errorMessage": "Namespace does not exist"
+                        "errorMessage": "Namespace does not exist."
                     },
                     {
                         "type": "Card",
@@ -433,7 +435,7 @@
                         ],
                         "managerGetter": "transaction/info",
                         "pagination": false,
-                        "errorMessage": "Transaction does not exist"
+                        "errorMessage": "Transaction does not exist."
                     },
                     {
                         "type": "Card",
