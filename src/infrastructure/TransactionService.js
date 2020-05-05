@@ -106,7 +106,7 @@ class TransactionService {
 
       const mosaicIdsList = formattedTransaction.mosaics.map(mosaicInfo => mosaicInfo.id)
       const mosaicInfos = await MosaicService.getMosaics(mosaicIdsList)
-      const moasicNames = await NamespaceService.getMosaicsNames(mosaicIdsList)
+      const mosaicNames = await NamespaceService.getMosaicsNames(mosaicIdsList)
 
       const transferMosaics = formattedTransaction.mosaics.map(mosaic => {
         let divisibility = mosaicInfos.find(info => info.mosaicId === mosaic.id.toHex()).divisibility
@@ -114,7 +114,7 @@ class TransactionService {
           ...mosaic,
           mosaicId: mosaic.id.toHex(),
           amount: helper.formatMosaicAmountWithDivisibility(mosaic.amount.compact(), divisibility),
-          mosaicAliasName: MosaicService.extractMosaicNamespace({ mosaicId: mosaic.id.toHex() }, moasicNames)
+          mosaicAliasName: MosaicService.extractMosaicNamespace({ mosaicId: mosaic.id.toHex() }, mosaicNames)
         }
       })
 
@@ -166,7 +166,7 @@ class TransactionService {
       height: transaction.height,
       transactionHash: transaction.hash,
       type: transaction.transactionBody.type,
-      recipient: transaction?.recipient
+      recipient: transaction.transactionBody?.recipient
     }))
   }
 
@@ -374,8 +374,8 @@ class TransactionService {
         mosaicId: transactionBody.mosaicId.toHex(), // Todo format mosaic
         targetAddress: this.formatRecipientAddress(transactionBody.targetAddress),
         restrictionKey: transactionBody.restrictionKey.toHex(),
-        previousRestrictionValue: transactionBody.previousRestrictionValue.compact(),
-        newRestrictionValue: transactionBody.newRestrictionValue.compact()
+        previousRestrictionValue: transactionBody.previousRestrictionValue.toString(),
+        newRestrictionValue: transactionBody.newRestrictionValue.toString()
       }
 
     case TransactionType.MOSAIC_GLOBAL_RESTRICTION:

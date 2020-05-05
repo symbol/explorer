@@ -55,7 +55,7 @@ class NamespaceService {
    * @returns AccountNames[]
    */
   static getAccountsNames = async (addresses) => {
-    const accountNames = await http.createRepositoryFactory.createMultisigRepository()
+    const accountNames = await http.createRepositoryFactory.createNamespaceRepository()
       .getAccountsNames(addresses).toPromise()
 
     const formattedAccountNames = accountNames.map(accountName => this.formatAccountName(accountName))

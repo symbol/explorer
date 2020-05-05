@@ -69,11 +69,11 @@ class MosaicService {
      const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic')
      const mosaicInfo = await this.getMosaic(mosaicId)
 
-     const moasicNames = await NamespaceService.getMosaicsNames([mosaicId])
+     const mosaicNames = await NamespaceService.getMosaicsNames([mosaicId])
 
      return {
        ...mosaicInfo,
-       mosaicAliasName: this.extractMosaicNamespace(mosaicInfo, moasicNames)
+       mosaicAliasName: this.extractMosaicNamespace(mosaicInfo, mosaicNames)
      }
    }
 
@@ -87,14 +87,14 @@ class MosaicService {
      const mosaicInfos = await DataService.getMosaicsByIdWithLimit(limit, fromMosaicId)
 
      const mosaicIdsList = mosaicInfos.map(mosaicInfo => mosaicInfo.id)
-     const moasicNames = await NamespaceService.getMosaicsNames(mosaicIdsList)
+     const mosaicNames = await NamespaceService.getMosaicsNames(mosaicIdsList)
 
      const formattedMosaics = mosaicInfos.map(mosaic => this.formatMosaicInfo(mosaic))
 
      return formattedMosaics.map(formattedMosaic => ({
        ...formattedMosaic,
        owneraddress: formattedMosaic.address,
-       mosaicAliasName: this.extractMosaicNamespace(formattedMosaic, moasicNames)
+       mosaicAliasName: this.extractMosaicNamespace(formattedMosaic, mosaicNames)
      }))
    }
 
@@ -107,12 +107,12 @@ class MosaicService {
      const mosaicAmountViewInfos = await this.getMosaicAmountView(address)
 
      const mosaicIdsList = mosaicAmountViewInfos.map(mosaicAmountViewInfo => new MosaicId(mosaicAmountViewInfo.mosaicId))
-     const moasicNames = await NamespaceService.getMosaicsNames(mosaicIdsList)
+     const mosaicNames = await NamespaceService.getMosaicsNames(mosaicIdsList)
 
      return mosaicAmountViewInfos.map(mosaicAmountViewInfo => ({
        ...mosaicAmountViewInfo,
        amount: helper.formatMosaicAmountWithDivisibility(mosaicAmountViewInfo.amount, mosaicAmountViewInfo.divisibility),
-       mosaicAliasName: this.extractMosaicNamespace(mosaicAmountViewInfo, moasicNames)
+       mosaicAliasName: this.extractMosaicNamespace(mosaicAmountViewInfo, mosaicNames)
      }))
    }
 
@@ -148,12 +148,12 @@ class MosaicService {
    /**
     * Extract Name for Mosaic
     * @param mosaicInfo - mosaicInfo DTO
-    * @param moasicNames - MosaicNames[]
-    * @returns moasicName
+    * @param mosaicNames - MosaicNames[]
+    * @returns mosaicName
     */
-   static extractMosaicNamespace = (mosaicInfo, moasicNames) => {
-     let moasicName = moasicNames.find((name) => name.mosaicId === mosaicInfo.mosaicId)
-     const name = moasicName.names.length > 0 ? moasicName.names[0].name : Constants.Message.UNAVAILABLE
+   static extractMosaicNamespace = (mosaicInfo, mosaicNames) => {
+     let mosaicName = mosaicNames.find((name) => name.mosaicId === mosaicInfo.mosaicId)
+     const name = mosaicName.names.length > 0 ? mosaicName.names[0].name : Constants.Message.UNAVAILABLE
      return name
    }
 }

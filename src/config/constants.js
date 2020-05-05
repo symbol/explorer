@@ -46,7 +46,7 @@ class Constants {
 
   static TransactionType = {
     [TransactionType.TRANSFER]: 'Transfer',
-    [TransactionType.NAMESPACE_REGISTRATION]: 'Namespace Register',
+    [TransactionType.NAMESPACE_REGISTRATION]: 'Namespace Registration',
     [TransactionType.ADDRESS_ALIAS]: 'Address Alias',
     [TransactionType.MOSAIC_ALIAS]: 'Mosaic Alias',
     [TransactionType.MOSAIC_DEFINITION]: 'Mosaic Definition',
