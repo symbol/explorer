@@ -56,7 +56,6 @@ export default {
       if (this.isTypeOf('mosaic')) return this.IconMosaic
       if (this.isTypeOf('aggregate')) return this.IconAggregate
       if (this.isTypeOf('lock') || this.isTypeOf('secret')) return this.IconLock
-
       if (this.isTypeOf('restriction')) return this.IconRestriction
       if (this.isTypeOf('metadata')) return this.IconMetadata
       if (this.isTypeOf('multisig')) return this.IconMultisig
