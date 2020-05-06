@@ -39,6 +39,19 @@ class AccountService {
   }
 
   /**
+   * Gets an AccountInfo for an account.
+   * @param address
+   * @returns Formatted AccountInfo
+   */
+  static getAccounts = async addresses => {
+    const accounts = await http.createRepositoryFactory.createAccountRepository()
+      .getAccountsInfo(addresses.map(a => Address.createFromRawAddress(a)))
+      .toPromise()
+
+    return accounts.map(a => this.formatAccountInfo(a))
+  }
+
+  /**
    * Gets an array of confirmed transactions for which an account is signer or receiver.
    * @param address - Account address
    * @param pageSize - (default 10) no. of data
