@@ -1,6 +1,8 @@
+import config from '../config/network.conf.json'
+
 describe('Symbol Explorer Mosaic Detail page', () => {
     beforeEach(() => {
-        cy.visit('/mosaic/519FC24B9223E0B4')
+        cy.visit(`/mosaic/${config.testMosaic.mosaicId}`)
     })
 
     describe('Mosaic Detail Card should', () => {
@@ -13,7 +15,7 @@ describe('Symbol Explorer Mosaic Detail page', () => {
         })
 
         it('render correct table fields.', () => {
-            const items = ['Alias Namespace', 'Divisibility', 'Address', 'Supply', 'Relative Amount', 'Revision', 'Registered at Height', 'Duration', 'Supply Mutable', 'Transferable', 'Restrictable']
+            const items = ['Mosaic ID', 'Alias Namespace', 'Divisibility', 'Address', 'Supply', 'Relative Amount', 'Revision', 'Registered at Height', 'Duration', 'Supply Mutable', 'Transferable', 'Restrictable']
             cy.renderFieldInTable("Mosaic Detail", items)
         })
     })
