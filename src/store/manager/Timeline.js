@@ -188,7 +188,7 @@ export default class Timeline {
     // if (!this.isLive)
     //     throw new Error('internal error: attempted to addLatestItem for non-live timeline.')
     if (this.isLive) {
-      if (this.data[0][this.keyName] === item[this.keyName])
+      if (this.data?.length && this.data[0][this.keyName] === item[this.keyName])
         console.error('internal error: attempted to add duplicate item to timeline.')
       else {
         const data = [item, ...this.data]
