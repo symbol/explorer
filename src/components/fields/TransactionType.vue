@@ -32,17 +32,17 @@ export default {
 
   data() {
     return {
-        IconTransfer,
-        IconTransferIncoming,
-        IconTransferOutgoing,
-        IconAggregate,
-        IconLock,
-        IconNamespace,
-        IconMosaic,
-        IconRestriction,
-        IconMultisig,
-        IconMetadata,
-        IconLink
+      IconTransfer,
+      IconTransferIncoming,
+      IconTransferOutgoing,
+      IconAggregate,
+      IconLock,
+      IconNamespace,
+      IconMosaic,
+      IconRestriction,
+      IconMultisig,
+      IconMetadata,
+      IconLink
     }
   },
 
