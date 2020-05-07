@@ -7,7 +7,7 @@
                         <th
                             v-for="(columnName, index) in header"
                             class="table-head-cell table-title-item"
-                            :key="view+'h'+index"
+                            :key="'tlv_h'+index"
                         >
                             <span>{{getKeyName(columnName)}}</span>
                         </th>
@@ -17,12 +17,12 @@
                     <tr
                         v-for="(row, rowIndex) in preparedData"
                         class="t-row"
-                        :key="view+'r'+rowIndex"
+                        :key="'tlv_r'+rowIndex"
                     >
                         <td
                             v-for="(item, itemKey) in row"
                             class="table-cell"
-                            :key="view+'r'+rowIndex+'i'+itemKey"
+                            :key="'tlv_r'+rowIndex+'i'+itemKey"
                             :class="{[itemKey]: true}"
                             :title="getKeyName(itemKey) + (typeof item !== 'string' ? '' : ': ' +  item)"
                         >
@@ -33,8 +33,8 @@
                             <TransactionType v-else-if="isTransactionType(itemKey)" :value="item" />
 
                             <div v-else-if="isAggregateInnerTransaction(itemKey)">
-                                <b-link v-b-modal="view+'r'+rowIndex">Show Detail</b-link>
-                                <Modal :id="view+'r'+rowIndex" :title="item.type">
+                                <b-link v-b-modal="'tlv_r'+rowIndex">Show Detail</b-link>
+                                <Modal :id="'tlv_r'+rowIndex" :title="item.type">
                                     <div slot="body">
                                         <AggregateTransaction slot="body" :transactionBody="item" />
                                     </div>

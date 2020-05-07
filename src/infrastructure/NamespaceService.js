@@ -29,7 +29,8 @@ class NamespaceService {
    * @returns Formatted NamespaceName[]
    */
   static getNamespacesName = async (namespaceIds) => {
-    let namespaceNames = await http.namespace.getNamespacesName(namespaceIds).toPromise()
+    let namespaceNames = await http.createRepositoryFactory.createNamespaceRepository()
+      .getNamespacesName(namespaceIds).toPromise()
     let formattedNamespacesName = namespaceNames.map(namespaceName => this.formatNamespaceName(namespaceName))
 
     return formattedNamespacesName
@@ -41,7 +42,8 @@ class NamespaceService {
    * @returns MosaicNames[]
    */
   static getMosaicsNames = async (mosaicIds) => {
-    const mosaicNames = await http.namespace.getMosaicsNames(mosaicIds).toPromise()
+    const mosaicNames = await http.createRepositoryFactory.createNamespaceRepository()
+      .getMosaicsNames(mosaicIds).toPromise()
     const formattedMosaicNames = mosaicNames.map(mosaicName => this.formatMosaicName(mosaicName))
 
     return formattedMosaicNames
@@ -53,7 +55,9 @@ class NamespaceService {
    * @returns AccountNames[]
    */
   static getAccountsNames = async (addresses) => {
-    const accountNames = await http.namespace.getAccountsNames(addresses).toPromise()
+    const accountNames = await http.createRepositoryFactory.createNamespaceRepository()
+      .getAccountsNames(addresses).toPromise()
+
     const formattedAccountNames = accountNames.map(accountName => this.formatAccountName(accountName))
 
     return formattedAccountNames
@@ -67,7 +71,7 @@ class NamespaceService {
    * @returns customize Namespace[]
    */
   static getNamespacesFromAccount = async (address, pageSize = 10, id = '') => {
-    const namespacesFromAccount = await http.namespace
+    const namespacesFromAccount = await http.createRepositoryFactory.createNamespaceRepository()
       .getNamespacesFromAccount(Address.createFromRawAddress(address), new QueryParams({ pageSize, id }))
       .toPromise()
 
