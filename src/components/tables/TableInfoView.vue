@@ -2,7 +2,7 @@
     <div v-if="data" class="table-view">
         <table v-if="dataIsNotEmpty" class="table ex-table-striped">
             <tbody>
-                <tr v-for="(item, itemKey) in formattedData" :key="view+'r'+itemKey">
+                <tr v-for="(item, itemKey) in formattedData" :key="'tiv_r'+itemKey">
                     <td class="table-titles table-titles-ver table-title-item table-cell">
                         {{getKeyName(itemKey)}}
                     </td>

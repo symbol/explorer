@@ -12,11 +12,15 @@
 <script>
 import IconTransfer from '../../styles/img/tx-transfer.png'
 import IconTransferIncoming from '../../styles/img/tx-incoming.png'
-import IconTransferOutgoing from '../../styles/img/tx-outgoing.png'
+import IconTransferOutgoing from '../../styles/img/tx-outgoing-2.png'
 import IconAggregate from '../../styles/img/tx-aggregate.png'
 import IconLock from '../../styles/img/tx-lock.png'
 import IconNamespace from '../../styles/img/tx-namespace.png'
 import IconMosaic from '../../styles/img/tx-mosaic.png'
+import IconRestriction from '../../styles/img/tx-restriction.png'
+import IconMultisig from '../../styles/img/tx-multisig.png'
+import IconMetadata from '../../styles/img/tx-metadata.png'
+import IconLink from '../../styles/img/tx-account-link.png'
 
 export default {
   props: {
@@ -34,7 +38,11 @@ export default {
       IconAggregate,
       IconLock,
       IconNamespace,
-      IconMosaic
+      IconMosaic,
+      IconRestriction,
+      IconMultisig,
+      IconMetadata,
+      IconLink
     }
   },
 
@@ -48,6 +56,10 @@ export default {
       if (this.isTypeOf('mosaic')) return this.IconMosaic
       if (this.isTypeOf('aggregate')) return this.IconAggregate
       if (this.isTypeOf('lock') || this.isTypeOf('secret')) return this.IconLock
+      if (this.isTypeOf('restriction')) return this.IconRestriction
+      if (this.isTypeOf('metadata')) return this.IconMetadata
+      if (this.isTypeOf('multisig')) return this.IconMultisig
+      if (this.isTypeOf('link')) return this.IconLink
       return null
     },
 
