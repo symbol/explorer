@@ -18,7 +18,7 @@
 
 <template>
     <div>
-        <div v-for="(row, rowIndex) in value" :title="row" :key="view+'r'+rowIndex">
+        <div v-for="(row, rowIndex) in value" :title="row" :key="'af_r'+rowIndex">
             <router-link v-if="isKeyClickable(itemKey_) && getItemHref(itemKey_, row)" :to="getItemHref(itemKey_, row)">
                 <Truncate v-if="isTruncate(itemKey_)">{{row}}</Truncate>
                 <div v-else>{{ row }}</div>
