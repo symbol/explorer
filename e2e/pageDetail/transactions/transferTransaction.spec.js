@@ -1,6 +1,8 @@
+import config from '../../config/network.conf.json'
+
 describe('Symbol Explorer Transaction detail page for Transfer Transaction', () => {
     beforeEach(() => {
-        cy.visit('/transaction/C838773F36EB3F5C5433A9F96A5AC44D2886D1F6467D8FE2F420A2118C3000D8')
+        cy.visit(`/transaction/${config.testTransactions.transferTransactionHash}`)
     })
 
     describe('Transaction info card should', () => {

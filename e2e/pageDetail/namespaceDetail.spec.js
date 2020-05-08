@@ -1,6 +1,8 @@
+import config from '../config/network.conf.json'
+
 describe('Symbol Explorer Namespace detail page', () => {
     beforeEach(() => {
-        cy.visit('/namespace/symbol.xym')
+        cy.visit(`/namespace/${config.testNamespace.subNamespace}`)
     })
 
     describe('Namespace Detail Card should', () => {
