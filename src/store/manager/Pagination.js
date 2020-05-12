@@ -18,7 +18,7 @@
 import Constants from '../../config/constants'
 
 export default class Timeline {
-    constructor({ name, fetchFunction, searchCriteria}) {
+    constructor({ name, fetchFunction, searchCriteria, filter}) {
         if (typeof name !== 'string')
             throw Error('Failed to construct Timeline. Name is not provided')
         if (typeof fetchFunction !== 'function')
@@ -27,7 +27,12 @@ export default class Timeline {
         this.name = name
         this.fetchFunction = fetchFunction
         this.searchCriteria = searchCriteria;
-        this.options = options;
+        if(Array.isArray(filter)) {
+            this.options = filter.options;
+            this.filterValue = Object.keys(this.options)[0];
+        }
+        else
+            this.options = [];
 
         this.store = {}
         
@@ -65,6 +70,10 @@ export default class Timeline {
         return this?.searchCriteria?.pageSize || Constants.pageSize;
     }
 
+    get filterOptions() {
+        return this.options
+    }
+
     setStore(store) {
         this.store = store
         this.store.dispatch(this.name, this)
@@ -82,6 +91,8 @@ export default class Timeline {
         this.initialized = false
         this.data = []
         this.searchCriteria.pageNumber = 0
+        if(Array.isArray(filter))
+            this.filterValue = Object.keys(this.options)[0];
         this.loading = false
         this.error = false
     }
@@ -91,7 +102,7 @@ export default class Timeline {
         this.store.dispatch(this.name, this)
 
         try {
-            this.searchCriteria = await this.fetchFunction(this.searchCriteria, this.store)
+            this.searchCriteria = await this.fetchFunction(this.searchCriteria, this.store, this.filterValue)
         } catch (e) {
             console.error(e)
             this.error = true
@@ -156,8 +167,17 @@ export default class Timeline {
         return this
     }
 
+    async changeFilterValue(filterValue) {
+        this.filterValue = filterValue;
+        await this.fetch();
+        this.store.dispatch(this.name, this)
+        return this
+    }
+
     async reset(pageNumber = 0) {
         this.searchCriteria.pageNumber = pageNumber
+        if(Array.isArray(filter))
+            this.filterValue = Object.keys(this.options)[0];
         return this.fetch()
     }
 
