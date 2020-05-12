@@ -21,8 +21,6 @@ export default class Timeline {
     constructor({ name, fetchFunction, searchCriteria}) {
         if (typeof name !== 'string')
             throw Error('Failed to construct Timeline. Name is not provided')
-        // if(!(store && store.state && store.getters && store.commit && store.dispatch))
-        //    throw Error('Failed to construct Timeline. Store context is not provided');
         if (typeof fetchFunction !== 'function')
             throw Error('Cannot create timeline. Fetch function is not provided')
 
