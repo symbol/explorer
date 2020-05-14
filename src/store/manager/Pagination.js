@@ -27,8 +27,8 @@ export default class Timeline {
     this.name = name
     this.fetchFunction = fetchFunction
     this.pageInfo = pageInfo
-    if (Array.isArray(filter)) {
-      this.options = filter.options
+    if (filter !== null && typeof filter === 'object') {
+      this.options = filter
       this.filterValue = Object.keys(this.options)[0]
     } else
       this.options = []
@@ -89,7 +89,7 @@ export default class Timeline {
     this.initialized = false
     this.data = []
     this.pageInfo.pageNumber = 0
-    if (Array.isArray(this.options))
+    if (this.options !== null && typeof this.options === 'object')
       this.filterValue = Object.keys(this.options)[0]
     this.loading = false
     this.error = false
@@ -175,7 +175,7 @@ export default class Timeline {
 
   async reset(pageNumber = 0) {
     this.pageInfo.pageNumber = pageNumber
-    if (Array.isArray(this.options))
+    if (this.options !== null && typeof this.options === 'object')
       this.filterValue = Object.keys(this.options)[0]
     return this.fetch()
   }
