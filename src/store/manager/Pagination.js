@@ -18,7 +18,7 @@
 import Constants from '../../config/constants'
 
 export default class Timeline {
-    constructor({ name, fetchFunction, searchCriteria, filter}) {
+    constructor({ name, fetchFunction, pageInfo, filter }) {
         if (typeof name !== 'string')
             throw Error('Failed to construct Timeline. Name is not provided')
         if (typeof fetchFunction !== 'function')
@@ -26,7 +26,7 @@ export default class Timeline {
 
         this.name = name
         this.fetchFunction = fetchFunction
-        this.searchCriteria = searchCriteria;
+        this.pageInfo = pageInfo;
         if(Array.isArray(filter)) {
             this.options = filter.options;
             this.filterValue = Object.keys(this.options)[0];
@@ -55,19 +55,19 @@ export default class Timeline {
     }
 
     get data() {
-        return this?.searchCriteria?.data || [];
+        return this?.pageInfo?.data || [];
     }
 
     get index() {
         return (
-            this?.searchCriteria?.pageNumber 
-                ? this.searchCriteria.pageNumber - 1 
+            this?.pageInfo?.pageNumber 
+                ? this.pageInfo.pageNumber - 1 
                 : void 0
             ) || 0;
     }
 
     get pageSize() {
-        return this?.searchCriteria?.pageSize || Constants.pageSize;
+        return this?.pageInfo?.pageSize || Constants.pageSize;
     }
 
     get filterOptions() {
@@ -90,8 +90,8 @@ export default class Timeline {
     uninitialize() {
         this.initialized = false
         this.data = []
-        this.searchCriteria.pageNumber = 0
-        if(Array.isArray(filter))
+        this.pageInfo.pageNumber = 0
+        if(Array.isArray(this.options))
             this.filterValue = Object.keys(this.options)[0];
         this.loading = false
         this.error = false
@@ -102,7 +102,7 @@ export default class Timeline {
         this.store.dispatch(this.name, this)
 
         try {
-            this.searchCriteria = await this.fetchFunction(this.searchCriteria, this.store, this.filterValue)
+            this.pageInfo = await this.fetchFunction(this.pageInfo, this.store, this.filterValue)
         } catch (e) {
             console.error(e)
             this.error = true
@@ -114,11 +114,11 @@ export default class Timeline {
     }
 
     get canFetchPrevious() {
-        return this.searchCriteria.pageNumber > 0 && this.loading === false
+        return this.pageInfo.pageNumber > 0 && this.loading === false
     }
 
     get canFetchNext() {
-        return this.searchCriteria.pageNumber < this.totalPages && this.loading === false
+        return this.pageInfo.pageNumber < this.totalPages && this.loading === false
     }
 
     get isLive() {
@@ -128,7 +128,7 @@ export default class Timeline {
     async fetchNext() {
         if (this.canFetchNext) {
             this.store.dispatch(this.name, this)
-            this.searchCriteria.pageNumber++
+            this.pageInfo.pageNumber++
             await this.fetch()
         } else
             console.error('Timeline cannot fetch next')
@@ -141,7 +141,7 @@ export default class Timeline {
     async fetchPrevious() {
         if (this.canFetchPrevious) {
             this.store.dispatch(this.name, this)
-            this.searchCriteria.pageNumber--
+            this.pageInfo.pageNumber--
             await this.fetch()
         } else
             return this.reset()
@@ -150,18 +150,18 @@ export default class Timeline {
         return this
     }
 
-    async fetchWithCriteria(searchCriteria) {
+    async fetchWithCriteria(pageInfo) {
         if (
-            searchCriteria !== null 
-            && typeof searchCriteria !== 'undefined'
+            pageInfo !== null 
+            && typeof pageInfo !== 'undefined'
         ) {
             this.store.dispatch(this.name, this)
-            if(this.searchCriteria === null || typeof this.searchCriteria !== 'object')
-            for(const key in searchCriteria)
-                this.searchCriteria[key] = searchCriteria[key];
+            if(this.pageInfo === null || typeof this.pageInfo !== 'object')
+            for(const key in pageInfo)
+                this.pageInfo[key] = pageInfo[key];
             await this.fetch()
         } else
-            console.error(`[Pagination]: failed to fetchWithCriteria 'searchCriteria' is not an object`)
+            console.error(`[Pagination]: failed to fetchWithCriteria 'pageInfo' is not an object`)
 
         this.store.dispatch(this.name, this)
         return this
@@ -175,8 +175,8 @@ export default class Timeline {
     }
 
     async reset(pageNumber = 0) {
-        this.searchCriteria.pageNumber = pageNumber
-        if(Array.isArray(filter))
+        this.pageInfo.pageNumber = pageNumber
+        if(Array.isArray(this.options))
             this.filterValue = Object.keys(this.options)[0];
         return this.fetch()
     }
