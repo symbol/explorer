@@ -166,18 +166,17 @@ class TransactionService {
 
   /**
    * Gets array of transactions
-   * @param pagination - object for page info such as pageNumber, pageSize
+   * @param pageInfo - object for page info such as pageNumber, pageSize
    * @param filterVaule - object for search criteria
    * @returns Formatted tranctionDTO[]
    */
   static getTransactionList = async (pageInfo, filterVaule) => {
-
-    let searchCriteria = {
+    const searchCriteria = {
       ...pageInfo,
-      id: filterVaule?.id ? filterVaule.id :'id',
-      orderBy: filterVaule?.orderBy ? filterVaule.orderBy :'desc',
-      transactionTypes: filterVaule?.transactionTypes ? filterVaule.transactionTypes : [] ,
-      group: filterVaule?.group ? filterVaule.group : 'Confirmed',
+      id: 'id',
+      orderBy: 'desc',
+      transactionTypes: [filterVaule],
+      group: 'Confirmed'
     }
 
     const transactions = await this.searchTransactions(searchCriteria)
