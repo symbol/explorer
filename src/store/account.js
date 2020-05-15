@@ -30,6 +30,7 @@ import {
   Filter,
   DataSet,
   Timeline,
+  Pagination,
   getStateFromManagers,
   getGettersFromManagers,
   getMutationsFromManagers,
@@ -68,13 +69,13 @@ const managers = [
     'multisig',
     (address) => MultisigService.getMultisigAccountInfo(address)
   ),
-  new Timeline(
-    'transactions',
-    (pageSize, store) => AccountService.getAccountTransactionList(store.getters.getCurrentAccountAddress, pageSize),
-    (key, pageSize, store) => AccountService.getAccountTransactionList(store.getters.getCurrentAccountAddress, pageSize, key),
-    'transactionId',
-    10
-  ),
+  new Pagination({
+    name: 'transactions',
+    fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountTransactionList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
+    pageInfo: {
+      pageSize: 10
+    }
+  }),
   new Timeline(
     'metadatas',
     (pageSize, store) => MetadataService.getAccountMetadataList(store.getters.getCurrentAccountAddress, pageSize),

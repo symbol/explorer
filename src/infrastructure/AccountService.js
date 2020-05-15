@@ -104,9 +104,7 @@ class AccountService {
   static getAccountTransactionList = async (pageInfo, filterVaule, address) => {
     const searchCriteria = {
       ...pageInfo,
-      id: 'id',
       orderBy: 'desc',
-      transactionTypes: [filterVaule],
       group: 'Confirmed',
       address: Address.createFromRawAddress(address)
     }
