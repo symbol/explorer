@@ -29,7 +29,7 @@ export default class Timeline {
     this.pageInfo = pageInfo
     if (filter !== null && typeof filter === 'object') {
       this.options = filter
-      this.filterValue = Object.keys(this.options)[0]
+      this.filterValue = Object.keys(this.options).find(key => key === 'all')
     } else
       this.options = []
 
@@ -59,9 +59,17 @@ export default class Timeline {
   get index() {
     return (
             this?.pageInfo?.pageNumber
-              ? this.pageInfo.pageNumber - 1
+              ? this.pageInfo.pageNumber
               : void 0
-    ) || 0
+    ) || 1
+  }
+
+  get lastPage() {
+    return (
+            this?.pageInfo?.totalPages
+              ? this.pageInfo.totalPages
+              : void 0
+    ) || '..'
   }
 
   get pageSize() {
@@ -87,8 +95,7 @@ export default class Timeline {
 
   uninitialize() {
     this.initialized = false
-    this.data = []
-    this.pageInfo.pageNumber = 0
+    this.pageInfo.pageNumber = 1
     if (this.options !== null && typeof this.options === 'object')
       this.filterValue = Object.keys(this.options)[0]
     this.loading = false
@@ -100,7 +107,7 @@ export default class Timeline {
     this.store.dispatch(this.name, this)
 
     try {
-      this.pageInfo = await this.fetchFunction(this.pageInfo, this.store, this.filterValue)
+      this.pageInfo = await this.fetchFunction(this.pageInfo, this.filterValue, this.store)
     } catch (e) {
       console.error(e)
       this.error = true
@@ -112,15 +119,15 @@ export default class Timeline {
   }
 
   get canFetchPrevious() {
-    return this.pageInfo.pageNumber > 0 && this.loading === false
+    return this.pageInfo.pageNumber > 1 && this.loading === false
   }
 
   get canFetchNext() {
-    return this.pageInfo.pageNumber < this.totalPages && this.loading === false
+    return this.pageInfo.pageNumber < this.pageInfo.totalPages && this.loading === false
   }
 
   get isLive() {
-    return this.index === 0
+    return this.index === 1
   }
 
   async fetchNext() {
@@ -167,13 +174,14 @@ export default class Timeline {
   }
 
   async changeFilterValue(filterValue) {
+    this.uninitialize()
     this.filterValue = filterValue
     await this.fetch()
     this.store.dispatch(this.name, this)
     return this
   }
 
-  async reset(pageNumber = 0) {
+  async reset(pageNumber = 1) {
     this.pageInfo.pageNumber = pageNumber
     if (this.options !== null && typeof this.options === 'object')
       this.filterValue = Object.keys(this.options)[0]

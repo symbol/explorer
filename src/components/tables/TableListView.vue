@@ -60,7 +60,7 @@
             </table>
             <div v-if="pagination || timelinePagination" class="bottom">
                 <div v-if="pagination">{{ pageIndex + 1 }}/{{ lastPage }}</div>
-                <div v-else>{{ timeline.index + 1 }}/..</div>
+                <div v-else>{{ timeline.index }}/ {{ timeline.lastPage }}</div>
                 <div class="pagination-wrapper">
                     <Pagination
                         :canFetchPrevious="prevPageExist"
