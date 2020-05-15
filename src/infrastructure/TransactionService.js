@@ -171,11 +171,12 @@ class TransactionService {
    * @returns Formatted tranctionDTO[]
    */
   static getTransactionList = async (pageInfo, filterVaule) => {
+    const {pageNumber, pageSize} = pageInfo
     const searchCriteria = {
-      ...pageInfo,
-      id: 'id',
+      pageNumber,
+      pageSize,
       orderBy: 'desc',
-      transactionTypes: [filterVaule],
+      transactionTypes: filterVaule === 'all' ? [] : [filterVaule],
       group: 'Confirmed'
     }
 
