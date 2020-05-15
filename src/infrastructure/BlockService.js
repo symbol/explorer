@@ -76,10 +76,7 @@ class BlockService {
   static getBlockTransactionList = async (pageInfo, filterVaule, height) => {
     const searchCriteria = {
       ...pageInfo,
-      id: 'id',
       orderBy: 'desc',
-      transactionTypes: [filterVaule],
-      group: 'Confirmed',
       height: UInt64.fromUint(height)
     }
 

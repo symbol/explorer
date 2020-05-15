@@ -28,6 +28,7 @@ import {
 import {
   DataSet,
   Timeline,
+  Pagination,
   getStateFromManagers,
   getGettersFromManagers,
   getMutationsFromManagers,
@@ -41,13 +42,13 @@ const managers = [
     (key, pageSize) => BlockService.getBlockList(pageSize, key),
     'height'
   ),
-  new Timeline(
-    'blockTransactions',
-    (pageSize, store) => BlockService.getBlockTransactionList(store.getters.currentBlockHeight, pageSize),
-    (key, pageSize, store) => BlockService.getBlockTransactionList(store.getters.currentBlockHeight, pageSize, key),
-    'transactionId',
-    10
-  ),
+  new Pagination({
+    name: 'blockTransactions',
+    fetchFunction: (pageInfo, filterValue, store) => BlockService.getBlockTransactionList(pageInfo, filterValue, store.getters.currentBlockHeight),
+    pageInfo: {
+      pageSize: 10
+    }
+  }),
   new DataSet(
     'blockReceiptInfo',
     (height) => ReceiptService.getBlockReceiptsInfo(height)
