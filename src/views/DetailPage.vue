@@ -19,9 +19,9 @@
                         <template v-for="(headerItem, headerIndex) in item.header">
                             <DropDown
                                 v-if="headerItem.type === 'filter'"
-                                :value="getter(headerItem.filterValueGetter)"
-                                :options="getter(headerItem.filterOptionsGetter)"
-                                @change="action(headerItem.filterChangeAction, $event)"
+                                :value="getter(headerItem.filterGetter).filterValue"
+                                :options="getter(headerItem.filterGetter).options"
+                                @change="changeFilterValue(headerItem.filterGetter, $event)"
                                 :key="item.title + index + 'h' + headerIndex"
                             />
                             <Pagination
@@ -133,6 +133,10 @@ export default {
           field[dataField] = data[dataField]
       }
       return field
+    },
+
+    async changeFilterValue(filterGetter, e) {
+      await this.getter(filterGetter).changeFilterValue(e)
     },
 
     getData(item) {

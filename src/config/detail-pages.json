@@ -77,10 +77,8 @@
                         "fullWidth": true,
                         "header": [
                             {
-                                "type": "filter-tmp-disabled",
-                                "filterOptionsGetter": "account/transactionFilterOptions",
-                                "filterValueGetter": "account/transactionFilterValue",
-                                "filterChangeAction": "account/setTransactionFilterValue"
+                                "type": "filter",
+                                "filterGetter": "account/transactions"
                             }
                         ],
                         "body": "TableListView",
@@ -195,13 +193,19 @@
                         "title": "Block Transactions",
                         "fullWidth": true,
                         "body": "TableListView",
+                        "header": [
+                            {
+                                "type": "filter",
+                                "filterGetter": "block/transactions"
+                            }
+                        ],
                         "fields": [
                             "deadline",
                             "transactionId",
                             "transactionHash",
                             "type"
                         ],
-                        "managerGetter": "block/blockTransactions",
+                        "managerGetter": "block/transactions",
                         "timelinePagination": true
                     },
                     {
