@@ -29,7 +29,7 @@ export default class Timeline {
     this.pageInfo = pageInfo
     if (filter !== null && typeof filter === 'object') {
       this.options = filter
-      this.filterValue = Object.keys(this.options).find(key => key === 'all')
+      this.filterValue = Object.keys(this.options)[0]
     } else
       this.options = []
 

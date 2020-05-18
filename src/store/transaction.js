@@ -36,7 +36,7 @@ const managers = [
       pageSize: 20
     },
     filter: {
-      all: 'All',
+      0: 'All',
       ...Constants.TransactionType
     }
   }),

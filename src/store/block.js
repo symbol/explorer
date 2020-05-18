@@ -43,14 +43,18 @@ const managers = [
     'height'
   ),
   new Pagination({
-    name: 'blockTransactions',
+    name: 'transactions',
     fetchFunction: (pageInfo, filterValue, store) => BlockService.getBlockTransactionList(pageInfo, filterValue, store.getters.currentBlockHeight),
     pageInfo: {
       pageSize: 10
+    },
+    filter: {
+      0: 'All',
+      ...Constants.TransactionType
     }
   }),
   new DataSet(
-    'blockReceiptInfo',
+    'receiptInfo',
     (height) => ReceiptService.getBlockReceiptsInfo(height)
   ),
   new DataSet(
@@ -77,11 +81,11 @@ export default {
     getRecentList: state => state.timeline?.data?.filter((item, index) => index < 4) || [],
     getSubscription: state => state.subscription,
     blockInfo: state => state.info?.data?.blockInfo || {},
-    inflationReceipt: state => state.blockReceiptInfo?.data?.transactionReceipt?.inflationReceipt || [],
-    balanceTransferReceipt: state => state.blockReceiptInfo?.data?.transactionReceipt?.balanceTransferReceipt || [],
-    balanceChangeReceipt: state => state.blockReceiptInfo?.data?.transactionReceipt?.balanceChangeReceipt || [],
-    artifactExpiryReceipt: state => state.blockReceiptInfo?.data?.transactionReceipt?.artifactExpiryReceipt || [],
-    resolutionStatement: state => state.blockReceiptInfo?.data?.resolutionStatements?.resolutionStatement || [],
+    inflationReceipt: state => state.receiptInfo?.data?.transactionReceipt?.inflationReceipt || [],
+    balanceTransferReceipt: state => state.receiptInfo?.data?.transactionReceipt?.balanceTransferReceipt || [],
+    balanceChangeReceipt: state => state.receiptInfo?.data?.transactionReceipt?.balanceChangeReceipt || [],
+    artifactExpiryReceipt: state => state.receiptInfo?.data?.transactionReceipt?.artifactExpiryReceipt || [],
+    resolutionStatement: state => state.receiptInfo?.data?.resolutionStatements?.resolutionStatement || [],
     currentBlockHeight: state => state.currentBlockHeight,
 
     infoText: (s, g, rs, rootGetters) => 'Chain height: ' + rootGetters['chain/getBlockHeight']
@@ -152,8 +156,8 @@ export default {
     fetchBlockInfo: (context, height) => {
       context.commit('currentBlockHeight', height)
       context.getters.info.setStore(context).initialFetch(height)
-      context.getters.blockReceiptInfo.setStore(context).initialFetch(height)
-      context.getters.blockTransactions.setStore(context).initialFetch(height)
+      context.getters.receiptInfo.setStore(context).initialFetch(height)
+      context.getters.transactions.setStore(context).initialFetch(height)
     },
 
     nextBlock: ({ commit, getters, dispatch, rootGetters }) => {

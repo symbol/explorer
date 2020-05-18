@@ -74,6 +74,10 @@ const managers = [
     fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountTransactionList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
     pageInfo: {
       pageSize: 10
+    },
+    filter: {
+      0: 'All',
+      ...Constants.TransactionType
     }
   }),
   new Timeline(
