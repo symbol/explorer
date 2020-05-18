@@ -74,9 +74,13 @@ class BlockService {
    * @returns Custom Transactions dataset
    */
   static getBlockTransactionList = async (pageInfo, filterVaule, height) => {
+    const { pageNumber, pageSize } = pageInfo
     const searchCriteria = {
-      ...pageInfo,
+      pageNumber,
+      pageSize,
       orderBy: 'desc',
+      transactionTypes: filterVaule === '0' ? [] : [filterVaule],
+      group: 'Confirmed',
       height: UInt64.fromUint(height)
     }
 

@@ -102,9 +102,12 @@ class AccountService {
    * @returns Custom AggregateTransaction[]
    */
   static getAccountTransactionList = async (pageInfo, filterVaule, address) => {
+    const { pageNumber, pageSize } = pageInfo
     const searchCriteria = {
-      ...pageInfo,
+      pageNumber,
+      pageSize,
       orderBy: 'desc',
+      transactionTypes: filterVaule === '0' ? [] : [filterVaule],
       group: 'Confirmed',
       address: Address.createFromRawAddress(address)
     }
