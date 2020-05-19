@@ -176,8 +176,9 @@ class TransactionService {
       pageNumber,
       pageSize,
       orderBy: 'desc',
-      transactionTypes: filterVaule === '0' ? [] : [filterVaule],
-      group: 'Confirmed'
+      transactionTypes: [],
+      group: 'Confirmed',
+      ...filterVaule
     }
 
     const transactions = await this.searchTransactions(searchCriteria)

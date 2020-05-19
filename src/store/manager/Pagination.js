@@ -18,188 +18,188 @@
 import Constants from '../../config/constants'
 
 export default class Timeline {
-  constructor({ name, fetchFunction, pageInfo, filter }) {
-    if (typeof name !== 'string')
-      throw Error('Failed to construct Timeline. Name is not provided')
-    if (typeof fetchFunction !== 'function')
-      throw Error('Cannot create timeline. Fetch function is not provided')
+    constructor({ name, fetchFunction, pageInfo, filter }) {
+        if (typeof name !== 'string')
+            throw Error('Failed to construct Timeline. Name is not provided')
+        if (typeof fetchFunction !== 'function')
+            throw Error('Cannot create timeline. Fetch function is not provided')
 
-    this.name = name
-    this.fetchFunction = fetchFunction
-    this.pageInfo = pageInfo
-    if (filter !== null && typeof filter === 'object') {
-      this.options = filter
-      this.filterValue = Object.keys(this.options)[0]
-    } else
-      this.options = []
+        this.name = name
+        this.fetchFunction = fetchFunction
+        this.pageInfo = pageInfo
+        this.options = filter
+        this.store = {}
 
-    this.store = {}
-
-    this.addLatestItem = this.addLatestItem.bind(this)
-    this.initialized = false
-    this.loading = false
-    this.error = false
-  }
-
-  static empty() {
-    return {
-      data: [],
-      canFetchNext: false,
-      canFetchPrevious: false,
-      fetchNext: () => { },
-      fetchPrevious: () => { },
-      reset: () => { }
+        this.addLatestItem = this.addLatestItem.bind(this)
+        this.initialized = false
+        this.loading = false
+        this.error = false
+        this.filterIndex = 0
     }
-  }
 
-  get data() {
-    return this?.pageInfo?.data || []
-  }
+    static empty() {
+        return {
+            data: [],
+            canFetchNext: false,
+            canFetchPrevious: false,
+            fetchNext: () => { },
+            fetchPrevious: () => { },
+            reset: () => { }
+        }
+    }
 
-  get index() {
-    return (
+    get data() {
+        return this?.pageInfo?.data || []
+    }
+
+    get index() {
+        return (
             this?.pageInfo?.pageNumber
-              ? this.pageInfo.pageNumber
-              : void 0
-    ) || 1
-  }
+                ? this.pageInfo.pageNumber
+                : void 0
+        ) || 1
+    }
 
-  get lastPage() {
-    return (
+    get lastPage() {
+        return (
             this?.pageInfo?.totalPages
-              ? this.pageInfo.totalPages
-              : void 0
-    ) || '..'
-  }
-
-  get pageSize() {
-    return this?.pageInfo?.pageSize || Constants.pageSize
-  }
-
-  get filterOptions() {
-    return this.options
-  }
-
-  setStore(store) {
-    this.store = store
-    this.store.dispatch(this.name, this)
-    return this
-  }
-
-  initialFetch() {
-    if (!this.initialized) {
-      this.initialized = true
-      return this.fetch()
+                ? this.pageInfo.totalPages
+                : void 0
+        ) || '..'
     }
-  }
 
-  uninitialize() {
-    this.initialized = false
-    this.pageInfo.pageNumber = 1
-    if (this.options !== null && typeof this.options === 'object')
-      this.filterValue = Object.keys(this.options)[0]
-    this.loading = false
-    this.error = false
-  }
-
-  async fetch() {
-    this.loading = true
-    this.store.dispatch(this.name, this)
-
-    try {
-      this.pageInfo = await this.fetchFunction(this.pageInfo, this.filterValue, this.store)
-    } catch (e) {
-      console.error(e)
-      this.error = true
+    get pageSize() {
+        return this?.pageInfo?.pageSize || Constants.pageSize
     }
-    this.loading = false
 
-    this.store.dispatch(this.name, this)
-    return this
-  }
+    get filterOptions() {
+        return Array.isArray(this.options) ? this.options : []
+    }
 
-  get canFetchPrevious() {
-    return this.pageInfo.pageNumber > 1 && this.loading === false
-  }
+    get filterValue() {
+        return this.filterOptions[this.filterIndex] 
+            ? this.filterOptions[this.filterIndex].value
+            : undefined
+    }
 
-  get canFetchNext() {
-    return this.pageInfo.pageNumber < this.pageInfo.totalPages && this.loading === false
-  }
-
-  get isLive() {
-    return this.index === 1
-  }
-
-  async fetchNext() {
-    if (this.canFetchNext) {
-      this.store.dispatch(this.name, this)
-      this.pageInfo.pageNumber++
-      await this.fetch()
-    } else
-      console.error('Timeline cannot fetch next')
-    this.loading = false
-
-    this.store.dispatch(this.name, this)
-    return this
-  }
-
-  async fetchPrevious() {
-    if (this.canFetchPrevious) {
-      this.store.dispatch(this.name, this)
-      this.pageInfo.pageNumber--
-      await this.fetch()
-    } else
-      return this.reset()
-
-    this.store.dispatch(this.name, this)
-    return this
-  }
-
-  async fetchWithCriteria(pageInfo) {
-    if (
-      pageInfo !== null &&
-            typeof pageInfo !== 'undefined'
-    ) {
-      this.store.dispatch(this.name, this)
-      if (this.pageInfo === null || typeof this.pageInfo !== 'object') {
-        for (const key in pageInfo)
-          this.pageInfo[key] = pageInfo[key]
-      }
-      await this.fetch()
-    } else
-      console.error(`[Pagination]: failed to fetchWithCriteria 'pageInfo' is not an object`)
-
-    this.store.dispatch(this.name, this)
-    return this
-  }
-
-  async changeFilterValue(filterValue) {
-    this.uninitialize()
-    this.filterValue = filterValue
-    await this.fetch()
-    this.store.dispatch(this.name, this)
-    return this
-  }
-
-  async reset(pageNumber = 1) {
-    this.pageInfo.pageNumber = pageNumber
-    if (this.options !== null && typeof this.options === 'object')
-      this.filterValue = Object.keys(this.options)[0]
-    return this.fetch()
-  }
-
-  // Add latest item to current.
-  addLatestItem(item, keyName) {
-    if (this.isLive) {
-      if (this.data?.length && this.data[0][keyName] === item[keyName])
-        console.error('internal error: attempted to add duplicate item to timeline.')
-      else {
-        const data = [item, ...this.data]
-        data.pop()
-        this.data = [].concat.apply([], data)
+    setStore(store) {
+        this.store = store
         this.store.dispatch(this.name, this)
         return this
-      }
     }
-  }
+
+    initialFetch() {
+        if (!this.initialized) {
+            this.initialized = true
+            return this.fetch()
+        }
+    }
+
+    uninitialize() {
+        this.initialized = false
+        this.pageInfo.pageNumber = 1
+        this.filterIndex = 0;
+        this.loading = false
+        this.error = false
+    }
+
+    async fetch() {
+        this.loading = true
+        this.store.dispatch(this.name, this)
+
+        try {
+            this.pageInfo = await this.fetchFunction(this.pageInfo, this.filterValue, this.store)
+        } catch (e) {
+            console.error(e)
+            this.error = true
+        }
+        this.loading = false
+
+        this.store.dispatch(this.name, this)
+        return this
+    }
+
+    get canFetchPrevious() {
+        return this.pageInfo.pageNumber > 1 && this.loading === false
+    }
+
+    get canFetchNext() {
+        return this.pageInfo.pageNumber < this.pageInfo.totalPages && this.loading === false
+    }
+
+    get isLive() {
+        return this.index === 1
+    }
+
+    async fetchNext() {
+        if (this.canFetchNext) {
+            this.store.dispatch(this.name, this)
+            this.pageInfo.pageNumber++
+            await this.fetch()
+        } else
+            console.error('Timeline cannot fetch next')
+        this.loading = false
+
+        this.store.dispatch(this.name, this)
+        return this
+    }
+
+    async fetchPrevious() {
+        if (this.canFetchPrevious) {
+            this.store.dispatch(this.name, this)
+            this.pageInfo.pageNumber--
+            await this.fetch()
+        } else
+            return this.reset()
+
+        this.store.dispatch(this.name, this)
+        return this
+    }
+
+    async fetchWithCriteria(pageInfo) {
+        if (
+            pageInfo !== null &&
+            typeof pageInfo !== 'undefined'
+        ) {
+            this.store.dispatch(this.name, this)
+            if (this.pageInfo === null || typeof this.pageInfo !== 'object') {
+                for (const key in pageInfo)
+                    this.pageInfo[key] = pageInfo[key]
+            }
+            await this.fetch()
+        } else
+            console.error(`[Pagination]: failed to fetchWithCriteria 'pageInfo' is not an object`)
+
+        this.store.dispatch(this.name, this)
+        return this
+    }
+
+    async changeFilterValue(index) {
+        this.uninitialize()
+        this.filterIndex = index;
+        await this.fetch()
+        this.store.dispatch(this.name, this)
+        return this
+    }
+
+    async reset(pageNumber = 1) {
+        this.pageInfo.pageNumber = pageNumber
+        this.filterIndex = 0
+        return this.fetch()
+    }
+
+    // Add latest item to current.
+    addLatestItem(item, keyName) {
+        if (this.isLive) {
+            if (this.data?.length && this.data[0][keyName] === item[keyName])
+                console.error('internal error: attempted to add duplicate item to timeline.')
+            else {
+                const data = [item, ...this.data]
+                data.pop()
+                this.data = [].concat.apply([], data)
+                this.store.dispatch(this.name, this)
+                return this
+            }
+        }
+    }
 }
