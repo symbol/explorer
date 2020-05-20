@@ -98,7 +98,7 @@
     "feeMultiplier": "Мультипликатор Комиссии",
     "blockchain explorer title": "Блокчейн Эксплорер Symbol",
     "Поиск транзакций, адресов, пространств имен и мозаик в сети NEM.": "Поиск транзакций, адресов, пространств имен и мозаик в сети Symbol.",
-    "Search block / tx hash / account / mosaic id / namespace id": "Search block / tx hash / account / mosaic id / namespace id",
+    "Search block / tx hash / account / mosaic id / namespace id": "Поиск Блока / транзакционный хэш / аккаунт / идентификатор мозаики / идентификатор пространства имен",
     "nodes": "Узлы",
     "home": "Домашняя",
     "xemPrice": "XYM Цена",
