@@ -68,12 +68,15 @@ class MosaicService {
    static getMosaicInfo = async (hexOrNamespace) => {
      const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic')
      const mosaicInfo = await this.getMosaic(mosaicId)
-
      const mosaicNames = await NamespaceService.getMosaicsNames([mosaicId])
 
      return {
        ...mosaicInfo,
-       mosaicAliasName: this.extractMosaicNamespace(mosaicInfo, mosaicNames)
+       mosaic_id: mosaicInfo.mosaicId,
+       relative_amount: mosaicInfo.relativeAmount,
+       start_height: mosaicInfo.startHeight,
+       supply_mutable: mosaicInfo.supplyMutable,
+       mosaic_alias_name: this.extractMosaicNamespace(mosaicInfo, mosaicNames)
      }
    }
 
@@ -115,7 +118,7 @@ class MosaicService {
      return mosaicAmountViewInfos.map(mosaicAmountViewInfo => ({
        ...mosaicAmountViewInfo,
        amount: helper.formatMosaicAmountWithDivisibility(mosaicAmountViewInfo.amount, mosaicAmountViewInfo.divisibility),
-       mosaicAliasName: this.extractMosaicNamespace(mosaicAmountViewInfo, mosaicNames)
+       mosaic_alias_name: this.extractMosaicNamespace(mosaicAmountViewInfo, mosaicNames)
      }))
    }
 

@@ -33,7 +33,7 @@ const managers = [
     'timeline',
     () => MosaicService.getMosaicList(Constants.PageSize),
     (key, pageSize) => MosaicService.getMosaicList(pageSize, key),
-    'mosaicId'
+    'mosaic_id'
   ),
   new DataSet(
     'info',
@@ -47,7 +47,7 @@ const managers = [
     'metadatas',
     (pageSize, store) => MetadataService.getMosaicMetadataList(store.getters.getCurrentMosaicId, pageSize),
     (key, pageSize, store) => MetadataService.getMosaicMetadataList(store.getters.getCurrentMosaicId, pageSize, key),
-    'id',
+    'metadata_id',
     10
   )
 ]

@@ -273,71 +273,72 @@
                 "schema": [
                     {
                         "type": "Card",
-                        "title": "Mosaic Detail",
+                        "title": "mosaic_detail",
                         "fullWidth": true,
                         "body": "TableInfoView",
                         "fields": [
-                            "mosaicId",
-                            "mosaicAliasName",
+                            "mosaic_id",
+                            "mosaic_alias_name",
                             "divisibility",
                             "address",
                             "supply",
-                            "relativeAmount",
+                            "relative_amount",
                             "revision",
-                            "startHeight",
+                            "start_height",
                             "duration",
-                            "supplyMutable",
+                            "supply_mutable",
                             "transferable",
                             "restrictable"
                         ],
                         "managerGetter": "mosaic/info",
                         "pagination": false,
-                        "errorMessage": "Mosaic does not exist."
+                        "errorMessage": "mosaic_info_error_message"
                     },
                     {
                         "type": "Card",
-                        "title": "Mosaic Restriction",
+                        "title": "mosaic_restriction",
                         "fullWidth": false,
                         "body": "TableInfoView",
                         "fields": [
-                            "compositeHash",
-                            "entryType"
+                            "composite_hash",
+                            "entry_type"
                         ],
                         "managerGetter": "mosaic/restrictions",
                         "pagination": false,
-                        "errorMessage": "Mosaic does not exist."
+                        "errorMessage": "mosaic_restriction_error_message"
                     },
                     {
                         "type": "Card",
-                        "title": "Mosaic Restriction List",
+                        "title": "mosaic_restriction_list",
                         "fullWidth": false,
                         "body": "TableListView",
                         "fields": [
-                            "restrictionKey",
-                            "restrictionType",
-                            "restrictionValue"
+                            "restriction_key",
+                            "restriction_type",
+                            "restriction_value"
                         ],
                         "managerGetter": "mosaic/restrictions",
                         "dataGetter": "mosaic/getMosaicRestrictionList",
                         "pagination": false,
-                        "errorMessage": "Mosaic global restrictions are not available."
+                        "errorMessage": "mosaic_global_restrictions_error_message"
                     },
                     {
                         "type": "Card",
-                        "title": "Metadata Entries",
+                        "title": "metadata_entries",
                         "fullWidth": true,
                         "body": "TableListView",
                         "fields": [
-                            "metadataId",
-                            "scopedMetadataKey",
-                            "targetId",
-                            "senderAddress",
-                            "targetAddress",
-                            "metadataValue"
+                            "metadata_id",
+                            "scoped_metadata_key",
+                            "target_id",
+                            "sender_address",
+                            "target_address",
+                            "metadata_value"
                         ],
                         "managerGetter": "mosaic/metadatas",
                         "pagination": true,
-                        "pageSize": 5
+                        "pageSize": 5,
+                        "errorMessage": "mosaic_metadatas_error_message"
                     }
                 ]
             }
