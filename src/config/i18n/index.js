@@ -5,7 +5,7 @@ const languages = {
   'Português': require('./pt.json'),
   'Espanhol': require('./es.json'),
   'Українська': require('./ua.json')
-  'Русский ': require('./ru.json')
+  'Русский': require('./ru.json')
 }
 
 const DEFAULT_LANGUAGE = 'en-us'
