@@ -110,7 +110,15 @@ class MetadataService {
   static getMosaicMetadataList = async (hexOrNamespace, pageSize, id) => {
     const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic')
     const mosaicMetadata = await this.getMosaicMetadata(mosaicId, pageSize, id)
-    return mosaicMetadata
+
+    return {
+      metadata_id: mosaicMetadata.metadataId,
+      scoped_metadata_key: mosaicMetadata.scopedMetadataKey,
+      target_id: mosaicMetadata.targetId,
+      sender_address: mosaicMetadata.senderAddress,
+      target_address: mosaicMetadata.targetAddress,
+      metadata_value: mosaicMetadata.metadataValue
+    }
   }
 
   /**

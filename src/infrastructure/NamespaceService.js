@@ -182,7 +182,7 @@ class NamespaceService {
         duration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED,
         isExpired: isExpired,
         approximate_expired: helper.convertSecondToDate(expiredInSecond),
-        expiredIn_block: expiredInBlock
+        expired_in_block: expiredInBlock
       }
     })
   }
