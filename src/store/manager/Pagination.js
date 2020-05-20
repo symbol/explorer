@@ -17,16 +17,21 @@
  */
 import Constants from '../../config/constants'
 
-export default class Timeline {
-  constructor({ name, fetchFunction, pageInfo, filter }) {
+export default class Pagination {
+  constructor({ name, fetchFunction, pageInfo = {}, filter }) {
     if (typeof name !== 'string')
-      throw Error('Failed to construct Timeline. Name is not provided')
+      throw Error('Failed to construct Pagination. Name is not provided')
     if (typeof fetchFunction !== 'function')
-      throw Error('Cannot create timeline. Fetch function is not provided')
+      throw Error('Cannot create Pagination. Fetch function is not provided')
+    if (pageInfo === null || typeof pageInfo !== 'object')
+      throw Error('Cannot create Pagination. "pageInfo" is not an "object"')
 
     this.name = name
     this.fetchFunction = fetchFunction
-    this.pageInfo = pageInfo
+    this.pageInfo = {
+        pageNumber: pageInfo.pageNumber || 1,
+        pageSize: pageInfo.pageSize || Constants.pageSize
+    }
     this.options = filter
     this.store = {}
 
@@ -52,24 +57,28 @@ export default class Timeline {
     return this?.pageInfo?.data || []
   }
 
-  get index() {
-    return (
-            this?.pageInfo?.pageNumber
-              ? this.pageInfo.pageNumber
-              : void 0
-    ) || 1
+  get canFetchPrevious() {
+    return this.pageInfo.pageNumber > 1 && this.loading === false
+  }
+
+  get canFetchNext() {
+    return this.pageInfo.pageNumber < this.pageInfo.totalPages && this.loading === false
+  }
+
+  get isLive() {
+    return this.pageInfo.pageNumber === 1 || false
+  }
+
+  get pageNumber() {
+      return this.pageInfo.pageNumber || 1
   }
 
   get lastPage() {
-    return (
-            this?.pageInfo?.totalPages
-              ? this.pageInfo.totalPages
-              : void 0
-    ) || '..'
+    return this.pageInfo?.totalPages
   }
 
   get pageSize() {
-    return this?.pageInfo?.pageSize || Constants.pageSize
+    return this.pageInfo.pageSize
   }
 
   get filterOptions() {
@@ -82,19 +91,18 @@ export default class Timeline {
       : undefined
   }
 
+  /** Set Vuex.Store context
+   * 
+   */ 
   setStore(store) {
     this.store = store
     this.store.dispatch(this.name, this)
     return this
   }
 
-  initialFetch() {
-    if (!this.initialized) {
-      this.initialized = true
-      return this.fetch()
-    }
-  }
-
+  /** Uninitialize Pagination
+   * 
+   */ 
   uninitialize() {
     this.initialized = false
     this.pageInfo.pageNumber = 1
@@ -103,6 +111,20 @@ export default class Timeline {
     this.error = false
   }
 
+  /** Initialize and fetch data
+   * 
+   */
+  initialFetch() {
+    if (!this.initialized) {
+      this.reset()
+      this.initialized = true
+      return this.fetch()
+    }
+  }
+
+  /** Fetch data
+   * 
+   */ 
   async fetch() {
     this.loading = true
     this.store.dispatch(this.name, this)
@@ -118,19 +140,10 @@ export default class Timeline {
     this.store.dispatch(this.name, this)
     return this
   }
-
-  get canFetchPrevious() {
-    return this.pageInfo.pageNumber > 1 && this.loading === false
-  }
-
-  get canFetchNext() {
-    return this.pageInfo.pageNumber < this.pageInfo.totalPages && this.loading === false
-  }
-
-  get isLive() {
-    return this.index === 1
-  }
-
+ 
+  /** Fetch next page of data
+   * 
+   */ 
   async fetchNext() {
     if (this.canFetchNext) {
       this.store.dispatch(this.name, this)
@@ -144,6 +157,9 @@ export default class Timeline {
     return this
   }
 
+  /** Fetch previous page of data
+   * 
+   */ 
   async fetchPrevious() {
     if (this.canFetchPrevious) {
       this.store.dispatch(this.name, this)
@@ -156,7 +172,11 @@ export default class Timeline {
     return this
   }
 
-  async fetchWithCriteria(pageInfo) {
+
+  /** Fetch data with specific page configuration
+   * 
+   */ 
+  async fetchPage(pageInfo) {
     if (
       pageInfo !== null &&
             typeof pageInfo !== 'undefined'
@@ -174,6 +194,9 @@ export default class Timeline {
     return this
   }
 
+  /** Change filter value by index and fetch data
+   * 
+   */ 
   async changeFilterValue(index) {
     this.uninitialize()
     this.filterIndex = index
@@ -182,6 +205,9 @@ export default class Timeline {
     return this
   }
 
+  /** Reset Pagination and fetch data
+   * 
+   */ 
   async reset(pageNumber = 1) {
     this.pageInfo.pageNumber = pageNumber
     this.filterIndex = 0
