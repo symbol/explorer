@@ -25,7 +25,7 @@
             :title="'Mosaic: ' + item.id + ' | Amount: ' + item.amount"
         >
             <span class="mosaic-name">
-                <router-link :to="getItemHref('mosaicId', item.id)">
+                <router-link :to="getItemHref('mosaic_id', item.id)">
                     <b class="link">{{item.id}}</b>
                 </router-link>
             </span>

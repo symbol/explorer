@@ -1,12 +1,12 @@
 <template>
     <Card :loading="loading">
         <template #title>
-            {{getNameByKey('Recent Blocks')}}
+            {{getNameByKey('recent_blocks')}}
         </template>
 
         <template #control>
             <router-link to="/blocks">
-                <ButtonMore> {{getNameByKey('viewAllBlocks')}} </ButtonMore>
+                <ButtonMore> {{getNameByKey('view_all_blocks')}} </ButtonMore>
             </router-link>
         </template>
 
@@ -29,7 +29,7 @@
                             <router-link
                                 :to="'/block/'+item.height"
                                 class="ex-title-text"
-                                :title="getNameByKey('blockHeight') + ': ' + item.height"
+                                :title="getNameByKey('block_height') + ': ' + item.height"
                             >
                                 {{item.height}}
                             </router-link>

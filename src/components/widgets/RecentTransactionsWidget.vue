@@ -1,12 +1,12 @@
 <template>
     <Card :loading="loading">
         <template #title>
-            {{getNameByKey('Recent Transactions')}}
+            {{getNameByKey('recent_transactions')}}
         </template>
 
         <template #control>
             <router-link to="/transactions">
-                <ButtonMore> {{getNameByKey('viewAllTransactions')}} </ButtonMore>
+                <ButtonMore> {{getNameByKey('view_all_transactions')}} </ButtonMore>
             </router-link>
         </template>
 
@@ -27,11 +27,11 @@
                     >
                         <template #header>
                             <router-link
-                                :to="'/transaction/'+item.transactionHash"
+                                :to="'/transaction/'+item.transaction_hash"
                                 class="ex-title-text ex-long-text"
-                                :title="'Transaction hash: ' + item.transactionHash"
+                                :title="'Transaction hash: ' + item.transaction_hash"
                             >
-                                {{item.transactionHash}}
+                                {{item.transaction_hash}}
                             </router-link>
                         </template>
                         <template #body>

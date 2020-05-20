@@ -1,7 +1,7 @@
 <template>
     <Card :loading="loading">
         <template #title>
-            {{getNameByKey('baseInfo')}}
+            {{getNameByKey('base_info')}}
         </template>
 
         <template #body>
@@ -17,7 +17,7 @@
                 </b-col>
                 <b-col class="ex-item" sm="3" lg="12">
                     <div class="ex-item-title">
-                        {{getNameByKey('marketCap')}}
+                        {{getNameByKey('market_cap')}}
                     </div>
                     <div class="ex-item-value">
                         {{marketData.marketCap}}
@@ -25,7 +25,7 @@
                 </b-col>
                 <b-col class="ex-item" sm="3" lg="12">
                     <div class="ex-item-title">
-                        {{getNameByKey('totalTransactions')}}
+                        {{getNameByKey('total_transactions')}}
                     </div>
                     <div class="ex-item-value">
                         {{storageInfo.numTransactions}}
@@ -33,7 +33,7 @@
                 </b-col>
                 <b-col class="ex-item" sm="3" lg="12">
                     <div class="ex-item-title">
-                        {{getNameByKey('blockHeight')}}
+                        {{getNameByKey('block_height')}}
                     </div>
                     <div class="ex-item-value">
                         {{blockHeight}}

@@ -47,7 +47,7 @@
                 </template>
 
                 <template #error>
-                    {{getNameByKey('Unable to fetch data')}}
+                    {{getNameByKey('unable_to_fetch _data')}}
                 </template>
             </Card>
         </div>

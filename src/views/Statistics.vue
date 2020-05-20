@@ -44,7 +44,7 @@ import ChartBlockTimeDifference from '@/components/widgets/ChartBlockTimeDiffere
 import ChartTransactionPerBlock from '@/components/widgets/ChartTransactionPerBlock.vue'
 
 export default {
-  name: 'Statistics',
+  name: 'statistics',
   components: {
     NetworkFeesWidget,
     NetworkRentalFeesWidget,

@@ -17,7 +17,7 @@ export default {
 
     emptyDataMessage: {
       type: String,
-      default: 'nothingToShow'
+      default: 'nothing_to_show'
     }
   },
 
@@ -31,76 +31,77 @@ export default {
         'height',
         'mosaic',
         'namespace',
-        'namespaceName',
-        'linkedNamespace',
-        'mosaicAliasName',
-        'accountAliasName',
-        'aliasAddress',
-        'aliasMosaic',
-        'linkedAccountKey',
+        'namespace_name',
+        'linked_namespace',
+        'mosaic_alias_name',
+        'account_alias_name',
+        'alias_address',
+        'alias_mosaic',
+        'linked_account_key',
         'transaction',
         'harvester',
-        'mosaicId',
-        'namespaceId',
-        'parentId',
-        'transactionHash',
+        'mosaic_id',
+        'namespace_id',
+        'parent_id',
+        'transaction_hash',
 
-        'addressHeight',
-        'publicKeyHeight',
-        'importanceHeight',
+        'address_height',
+        'public_key_height',
+        'importance_height',
         'multisigAccounts_',
 
         'signer',
         'recipient',
-        'owneraddress',
-        'blockHeight',
-        'endHeight',
-        'startHeight',
-        'remoteAccountAddress',
+        'owner_address',
+        'block_height',
+        'end_height',
+        'start_height',
+        'remote_account_address',
+        'target_public_address',
 
-        'lastActivity',
-        'recalculationBlock',
-        'senderAddress',
-        'targetAddress',
-        'targetMosaicId',
-        'targetNamespaceId',
+        'last_activity',
+        'recalculation_block',
+        'sender_address',
+        'target_address',
+        'target_mosaic_id',
+        'target_namespace_id',
         'unresolved',
-        'addressResolutionEntries',
-        'mosaicResolutionEntries',
-        'restrictionMosaicValues',
-        'restrictionAddressValues',
-        'referenceMosaicId',
-        'restrictionAddressAdditions',
-        'restrictionAddressDeletions',
-        'restrictionMosaicAdditions',
-        'restrictionMosaicDeletions',
-        'publicKeyAdditions',
-        'publicKeyDeletions'
+        'address_resolution_entries',
+        'mosaic_resolution_entries',
+        'restriction_mosaic_values',
+        'restriction_address_values',
+        'reference_mosaic_id',
+        'restriction_address_additions',
+        'restriction_address_deletions',
+        'restriction_mosaic_additions',
+        'restriction_mosaic_deletions',
+        'public_key_additions',
+        'public_key_deletions'
       ],
       disableClickValues: [...Object.values(Constants.Message)],
       changeDecimalColor: [
         'amount',
         'fee',
-        'relativeAmount',
-        'feeMultiplier',
+        'relative_amount',
+        'fee_multiplier',
         'difficulty',
         'balance'
       ],
       allowArrayToView: [
-        'linkedNamespace',
+        'linked_namespace',
         'cosignatories',
-        'multisigAccounts',
-        'restrictionAddressValues',
-        'restrictionMosaicValues',
-        'restrictionTransactionValues',
-        'restrictionAddressAdditions',
-        'restrictionAddressDeletions',
-        'restrictionMosaicAdditions',
-        'restrictionMosaicDeletions',
-        'restrictionOperationAdditions',
-        'restrictionOperationDeletions',
-        'publicKeyAdditions',
-        'publicKeyDeletions'
+        'multisig_accounts',
+        'restriction_address_values',
+        'restriction_mosaic_values',
+        'restriction_transaction_values',
+        'restriction_address_additions',
+        'restriction_address_deletions',
+        'restriction_mosaic_additions',
+        'restriction_mosaic_deletions',
+        'restriction_operation_additions',
+        'restriction_operation_deletions',
+        'public_key_additions',
+        'public_key_deletions'
       ]
     }
   },
@@ -148,10 +149,10 @@ export default {
                 key === 'address' ||
                 key === 'signer' ||
                 key === 'recipient' ||
-                key === 'transactionHash' ||
-                key === 'owneraddress' ||
+                key === 'transaction_hash' ||
+                key === 'owner_address' ||
                 key === 'host' ||
-                key === 'friendlyName' ||
+                key === 'friendly_name' ||
                 key === 'multisigAccounts_'
       )
     },

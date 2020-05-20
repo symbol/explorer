@@ -1,7 +1,7 @@
 <template>
     <Card :loading="loading">
         <template #title>
-            {{getNameByKey('Network Rental Fees')}}
+            {{getNameByKey('network_rental_fees')}}
         </template>
 
         <template #body>
@@ -9,7 +9,7 @@
             <b-row>
                <b-col class="ex-item" sm="4" lg="12">
                     <div class="ex-item-title">
-                        {{getNameByKey('effectiveRootNamespaceRentalFeePerBlock')}}
+                        {{getNameByKey('effective_root_namespace_rental_fee_per_block')}}
                     </div>
                     <div class="ex-item-value">
                         {{rentalFees.effectiveRootNamespaceRentalFeePerBlock}}
@@ -17,7 +17,7 @@
                 </b-col>
                 <b-col class="ex-item" sm="4" lg="12">
                     <div class="ex-item-title">
-                        {{getNameByKey('effectiveChildNamespaceRentalFee')}}
+                        {{getNameByKey('effective_child_namespace_rental_fee')}}
                     </div>
                     <div class="ex-item-value">
                         {{rentalFees.effectiveChildNamespaceRentalFee}}
@@ -25,7 +25,7 @@
                 </b-col>
                 <b-col class="ex-item" sm="4" lg="12">
                     <div class="ex-item-title">
-                        {{getNameByKey('effectiveMosaicRentalFee')}}
+                        {{getNameByKey('effective_mosaic_rental_fee')}}
                     </div>
                     <div class="ex-item-value">
                         {{rentalFees.effectiveMosaicRentalFee}}

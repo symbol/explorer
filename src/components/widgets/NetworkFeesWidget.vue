@@ -1,7 +1,7 @@
 <template>
     <Card :loading="loading">
         <template #title>
-            {{getNameByKey('Network Fees')}}
+            {{getNameByKey('network_fees')}}
         </template>
 
         <template #body>
@@ -9,7 +9,7 @@
             <b-row>
                <b-col class="ex-item" sm="3" lg="12">
                     <div class="ex-item-title">
-                        {{getNameByKey('averageFeeMultiplier')}}
+                        {{getNameByKey('average_fee_multiplier')}}
                     </div>
                     <div class="ex-item-value">
                         {{transactionFees.averageFeeMultiplier}}
@@ -17,7 +17,7 @@
                 </b-col>
                 <b-col class="ex-item" sm="3" lg="12">
                     <div class="ex-item-title">
-                        {{getNameByKey('medianFeeMultiplier')}}
+                        {{getNameByKey('median_fee_multiplier')}}
                     </div>
                     <div class="ex-item-value">
                         {{transactionFees.medianFeeMultiplier}}
@@ -25,7 +25,7 @@
                 </b-col>
                 <b-col class="ex-item" sm="3" lg="12">
                     <div class="ex-item-title">
-                        {{getNameByKey('highestFeeMultiplier')}}
+                        {{getNameByKey('highest_fee_multiplier')}}
                     </div>
                     <div class="ex-item-value">
                         {{transactionFees.highestFeeMultiplier}}
@@ -33,7 +33,7 @@
                 </b-col>
                 <b-col class="ex-item" sm="3" lg="12">
                     <div class="ex-item-title">
-                        {{getNameByKey('lowestFeeMultiplier')}}
+                        {{getNameByKey('lowest_fee_multiplier')}}
                     </div>
                     <div class="ex-item-value">
                         {{transactionFees.lowestFeeMultiplier}}

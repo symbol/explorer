@@ -19,7 +19,7 @@ export default {
       searchString: '',
       searchValidate: '',
       isError: false,
-      placeholder: 'Search'
+      placeholder: 'search_box_placeholder'
     }
   },
 
