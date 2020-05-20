@@ -150,7 +150,7 @@ export default class Pagination {
       this.pageInfo.pageNumber++
       await this.fetch()
     } else
-      console.error('Timeline cannot fetch next')
+      console.error('[Pagination]: cannot fetch next')
     this.loading = false
 
     this.store.dispatch(this.name, this)
@@ -218,7 +218,7 @@ export default class Pagination {
   addLatestItem(item, keyName) {
     if (this.isLive) {
       if (this.data?.length && this.data[0][keyName] === item[keyName])
-        console.error('internal error: attempted to add duplicate item to timeline.')
+        console.error('[Pagination]: attempted to add duplicate item as a latest item')
       else {
         const data = [item, ...this.data]
         data.pop()
