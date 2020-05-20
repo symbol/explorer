@@ -93,8 +93,11 @@ class MosaicService {
 
      return formattedMosaics.map(formattedMosaic => ({
        ...formattedMosaic,
-       owneraddress: formattedMosaic.address,
-       mosaicAliasName: this.extractMosaicNamespace(formattedMosaic, mosaicNames)
+       mosaic_id: formattedMosaic.mosaicId,
+       relative_amount: formattedMosaic.relativeAmount,
+       start_height: formattedMosaic.startHeight,
+       owner_address: formattedMosaic.address,
+       mosaic_alias_name: this.extractMosaicNamespace(formattedMosaic, mosaicNames)
      }))
    }
 

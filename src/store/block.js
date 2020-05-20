@@ -122,7 +122,8 @@ export default {
               ...formattedBlock,
               date: helper.convertToUTCDate(formattedBlock.timestamp),
               age: helper.convertToUTCDate(formattedBlock.timestamp),
-              harvester: formattedBlock.signer
+              harvester: formattedBlock.signer,
+              total_fee: formattedBlock.totalFee
             })
             commit('chain/setBlockHeight', item.height, { root: true })
           },

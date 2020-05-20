@@ -17,7 +17,7 @@
                     "height",
                     "age",
                     "transactions",
-                    "totalFee",
+                    "total_fee",
                     "date",
                     "harvester"
                 ],
@@ -25,7 +25,7 @@
                     "height",
                     "age",
                     "transactions",
-                    "totalFee"
+                    "total_fee"
                 ]
             }
         },
@@ -44,15 +44,15 @@
                 "Fields": [
                     "height",
                     "deadline",
-                    "transactionHash",
+                    "transaction_hash",
                     "type",
-                    "maxFee",
+                    "max_fee",
                     "signer",
                     "recipient"
                 ],
                 "mobileFields": [
                     "height",
-                    "transactionHash",
+                    "transaction_hash",
                     "fee",
                     "signer",
                     "recipient"
@@ -74,9 +74,9 @@
                 "Fields": [
                     "address",
                     "balance",
-                    "lastActivity",
+                    "last_activity",
                     "importance",
-                    "accountAliasName"
+                    "account_alias_name"
                 ],
                 "mobileFields": [
                     "address",
@@ -97,15 +97,15 @@
                 "storeNamespaces": ["namespace"],
                 "managerGetter": "namespace/timeline",
                 "Fields": [
-                    "namespaceName",
-                    "namespaceId",
-                    "owneraddress",
+                    "namespace_name",
+                    "namespace_id",
+                    "owner_address",
                     "duration",
-                    "approximateExpired"
+                    "approximate_expired"
                 ],
                 "mobileFields": [
-                    "namespaceName",
-                    "owneraddress",
+                    "namespace_name",
+                    "owner_address",
                     "duration"
                 ]
             }
@@ -122,18 +122,18 @@
                 "storeNamespaces": ["mosaic"],
                 "managerGetter": "mosaic/timeline",
                 "Fields": [
-                    "mosaicId",
-                    "mosaicAliasName",
-                    "owneraddress",
+                    "mosaic_id",
+                    "mosaic_alias_name",
+                    "owner_address",
                     "supply",
                     "divisibility",
-                    "relativeAmount",
-                    "startHeight"
+                    "relative_amount",
+                    "start_height"
                 ],
                 "mobileFields": [
-                    "mosaicId",
-                    "mosaicAliasName",
-                    "owneraddress"
+                    "mosaic_id",
+                    "mosaic_alias_name",
+                    "owner_address"
                 ]
             }
         },
@@ -156,13 +156,13 @@
                     "host",
                     "port",
                     "address",
-                    "friendlyName"
+                    "friendly_name"
                 ],
                 "mobileFields": [
                     "index",
                     "roles",
                     "address",
-                    "friendlyName",
+                    "friendly_name",
                     "host"
                 ]
             }

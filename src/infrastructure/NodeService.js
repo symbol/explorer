@@ -98,6 +98,7 @@ class NodeService {
 
       return nodePeers.map((el, index) => ({
         index: index + 1,
+        friendly_name: el.friendlyName,
         ...el
       }))
     }

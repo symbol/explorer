@@ -99,8 +99,8 @@ class AccountService {
     return formattedAccountInfos.map(formattedAccountInfo => ({
       ...formattedAccountInfo,
       balance: helper.getNetworkCurrencyBalance(formattedAccountInfo.mosaics),
-      lastActivity: helper.getLastActivityHeight(formattedAccountInfo.activityBucket),
-      accountAliasName: this.extractAccountNamespace(formattedAccountInfo, accountNames)
+      last_activity: helper.getLastActivityHeight(formattedAccountInfo.activityBucket),
+      account_alias_name: this.extractAccountNamespace(formattedAccountInfo, accountNames)
     }))
   }
 

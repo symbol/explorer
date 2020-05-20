@@ -76,7 +76,8 @@ class BlockService {
       ...block,
       date: helper.convertToUTCDate(block.timestamp),
       age: helper.convertToUTCDate(block.timestamp),
-      harvester: block.signer
+      harvester: block.signer,
+      total_fee: block.totalFee
     }))
   }
 

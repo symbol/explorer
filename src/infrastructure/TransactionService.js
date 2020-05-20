@@ -163,8 +163,9 @@ class TransactionService {
 
     return formatted.map(transaction => ({
       ...transaction,
+      max_fee: transaction.maxFee,
       height: transaction.height,
-      transactionHash: transaction.hash,
+      transaction_hash: transaction.hash,
       type: transaction.transactionBody.type,
       recipient: transaction.transactionBody?.recipient
     }))

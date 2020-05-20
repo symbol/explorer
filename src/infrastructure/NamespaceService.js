@@ -167,12 +167,13 @@ class NamespaceService {
       const { isExpired, expiredInSecond, expiredInBlock } = helper.calculateNamespaceExpiration(currentHeight, formattedNamespace.endHeight)
 
       return {
-        ...formattedNamespace,
-        owneraddress: formattedNamespace.owner,
+        namespace_name: formattedNamespace.namespaceName,
+        namespace_id: formattedNamespace.namespaceId,
+        owner_address: formattedNamespace.owner,
         duration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED,
         isExpired: isExpired,
-        approximateExpired: helper.convertSecondToDate(expiredInSecond),
-        expiredInBlock: expiredInBlock
+        approximate_expired: helper.convertSecondToDate(expiredInSecond),
+        expiredIn_block: expiredInBlock
       }
     })
   }
