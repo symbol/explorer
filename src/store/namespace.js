@@ -35,7 +35,7 @@ const managers = [
     'timeline',
     () => NamespaceService.getNamespaceList(Constants.PageSize),
     (key, pageSize) => NamespaceService.getNamespaceList(pageSize, key),
-    'namespaceId'
+    'namespace_id'
   ),
   new DataSet(
     'info',
@@ -49,7 +49,7 @@ const managers = [
     'metadatas',
     (pageSize, store) => MetadataService.getNamespaceMetadataList(store.getters.getCurrentNamespaceId, pageSize),
     (key, pageSize, store) => MetadataService.getNamespaceMetadataList(store.getters.getCurrentNamespaceId, pageSize, key),
-    'id',
+    'metadata_id',
     10
   )
 ]

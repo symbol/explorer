@@ -354,56 +354,58 @@
                 "schema": [
                     {
                         "type": "Card",
-                        "title": "Namespace Detail",
+                        "title": "namespace_detail",
                         "fullWidth": true,
                         "body": "TableInfoView",
                         "fields": [
-                            "owneraddress",
-                            "namespaceName",
-                            "namespaceId",
-                            "registrationType",
+                            "owner_address",
+                            "namespace_name",
+                            "namespace_id",
+                            "registration_type",
                             "status",
-                            "aliasType",
-                            "aliasAddress",
-                            "aliasMosaic",
-                            "startHeight",
-                            "expiredInBlock",
-                            "beforeEndHeight",
-                            "endHeight"
+                            "alias_type",
+                            "alias_address",
+                            "alias_mosaic",
+                            "start_height",
+                            "expired_in_block",
+                            "before_end_height",
+                            "end_height"
                         ],
                         "managerGetter": "namespace/info",
                         "pagination": false,
-                        "errorMessage": "Namespace does not exist."
+                        "errorMessage": "namespace_info_error_message"
                     },
                     {
                         "type": "Card",
-                        "title": "Namespace Level",
+                        "title": "namespace_level",
                         "fullWidth": true,
                         "body": "TableListView",
                         "fields": [
                             "name",
-                            "namespaceId",
-                            "parentId"
+                            "namespace_id",
+                            "parent_id"
                         ],
                         "managerGetter": "namespace/namespaceLevel",
-                        "pagination": false
+                        "pagination": false,
+                        "errorMessage": "namespace_level_error_message"
                     },
                     {
                         "type": "Card",
-                        "title": "Metadata Entries",
+                        "title": "metadata_entries",
                         "fullWidth": true,
                         "body": "TableListView",
                         "fields": [
-                            "metadataId",
-                            "scopedMetadataKey",
-                            "targetId",
-                            "senderAddress",
-                            "targetAddress",
-                            "metadataValue"
+                            "metadata_id",
+                            "scoped_metadata_key",
+                            "target_id",
+                            "sender_address",
+                            "target_address",
+                            "metadata_value"
                         ],
                         "managerGetter": "namespace/metadatas",
                         "pagination": true,
-                        "pageSize": 5
+                        "pageSize": 5,
+                        "errorMessage": "namespace_metadatas_error_message"
                     }
                 ]
             }

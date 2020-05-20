@@ -121,7 +121,15 @@ class MetadataService {
   static getNamespaceMetadataList = async (hexOrNamespace, pageSize, id) => {
     const namespaceId = await helper.hexOrNamespaceToId(hexOrNamespace, 'namespace')
     const namespaceMetadata = await this.getNamespaceMetadata(namespaceId, pageSize, id)
-    return namespaceMetadata
+
+    return {
+      metadata_id: namespaceMetadata.metadataId,
+      scoped_metadata_key: namespaceMetadata.scopedMetadataKey,
+      target_id: namespaceMetadata.targetId,
+      sender_address: namespaceMetadata.senderAddress,
+      target_address: namespaceMetadata.targetAddress,
+      metadata_value: namespaceMetadata.metadataValue
+    }
   }
 }
 

@@ -31,9 +31,8 @@ class NamespaceService {
   static getNamespacesName = async (namespaceIds) => {
     let namespaceNames = await http.createRepositoryFactory.createNamespaceRepository()
       .getNamespacesName(namespaceIds).toPromise()
-    let formattedNamespacesName = namespaceNames.map(namespaceName => this.formatNamespaceName(namespaceName))
 
-    return formattedNamespacesName
+    return namespaceNames.map(namespaceName => this.formatNamespaceName(namespaceName))
   }
 
   /**
@@ -112,24 +111,30 @@ class NamespaceService {
 
     let formattedNamespaceInfo = {
       ...namespace,
-      owneraddress: namespace.owner,
+      owner_address: namespace.owner,
+      namespace_name: namespace.namespaceName,
+      namespace_id: namespace.namespaceId,
+      registration_type: namespace.registrationType,
+      alias_type: namespace.aliasType,
+      start_height: namespace.startHeight,
+      end_height: namespace.endHeight,
       duration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED,
       status: namespace.active
     }
 
     // create alias props by alias type.
     if (namespace.aliasType === Constants.Message.ADDRESS)
-      formattedNamespaceInfo.aliasAddress = namespace.alias
+      formattedNamespaceInfo.alias_address = namespace.alias
 
     if (namespace.aliasType === Constants.Message.MOSAIC)
-      formattedNamespaceInfo.aliasMosaic = namespace.alias
+      formattedNamespaceInfo.alias_mosaic = namespace.alias
 
     // End height disable click before expired.
-    formattedNamespaceInfo.expiredInBlock = Constants.NetworkConfig.NAMESPACE.indexOf(namespace.namespaceName.toUpperCase()) !== -1 ? Constants.Message.INFINITY : expiredInBlock + ` ≈ ` + formattedNamespaceInfo.duration
+    formattedNamespaceInfo.expired_in_block = Constants.NetworkConfig.NAMESPACE.indexOf(namespace.namespaceName.toUpperCase()) !== -1 ? Constants.Message.INFINITY : expiredInBlock + ` ≈ ` + formattedNamespaceInfo.duration
 
     if (!isExpired) {
-      formattedNamespaceInfo.beforeEndHeight = Constants.NetworkConfig.NAMESPACE.indexOf(namespace.namespaceName.toUpperCase()) !== -1 ? Constants.Message.INFINITY : formattedNamespaceInfo.endHeight + ` ( ${Constants.NetworkConfig.NAMESPACE_GRACE_PERIOD_DURATION} blocks of grace period )`
-      delete formattedNamespaceInfo.endHeight
+      formattedNamespaceInfo.before_end_height = Constants.NetworkConfig.NAMESPACE.indexOf(namespace.namespaceName.toUpperCase()) !== -1 ? Constants.Message.INFINITY : formattedNamespaceInfo.endHeight + ` ( ${Constants.NetworkConfig.NAMESPACE_GRACE_PERIOD_DURATION} blocks of grace period )`
+      delete formattedNamespaceInfo.end_height
     }
 
     return formattedNamespaceInfo
@@ -141,10 +146,14 @@ class NamespaceService {
    * @returns Namespace name list
    */
   static getNamespaceLevelList = async (hexOrNamespace) => {
-    let namespaceId = await helper.hexOrNamespaceToId(hexOrNamespace, 'namespace')
-    let namespacesName = await this.getNamespacesName([namespaceId])
+    const namespaceId = await helper.hexOrNamespaceToId(hexOrNamespace, 'namespace')
+    const namespacesName = await this.getNamespacesName([namespaceId])
 
-    return namespacesName
+    return {
+      name: namespacesName.name,
+      namespace_id: namespacesName.namespaceId,
+      parent_id: namespacesName.parentId
+    }
   }
 
   /**
