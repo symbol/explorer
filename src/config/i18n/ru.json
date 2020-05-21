@@ -75,7 +75,7 @@
     "nothingToShow": "Пусто.",
     "transactionBody": "Детали транзакции",
     "name": "Имя",
-    "message": "Сообщение",
+    "message": "Message",: "Сообщение",
     "totalFeesPaid": "Сумма Уплаченных Сборов",
     "beneficiaryCount": "Количество Бенефициаров",
     "importanceScore": "Оценка важности",
@@ -149,5 +149,5 @@
     "expiredInBlock": "Истечение Срока в Блоке",
     "index": "No.",
     "Network Fees": "Рекомендуемый Множитель Комиссий",
-    "Network Rental Fees": "Комиссия За Аренду Сети (XYM)"
+    "Network Rental Fees": "Комиссия За Аренду Сети (XYM)",
 }
