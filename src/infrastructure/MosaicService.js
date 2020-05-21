@@ -117,6 +117,7 @@ class MosaicService {
 
      return mosaicAmountViewInfos.map(mosaicAmountViewInfo => ({
        ...mosaicAmountViewInfo,
+       mosaic_id: mosaicAmountViewInfo.mosaicId,
        amount: helper.formatMosaicAmountWithDivisibility(mosaicAmountViewInfo.amount, mosaicAmountViewInfo.divisibility),
        mosaic_alias_name: this.extractMosaicNamespace(mosaicAmountViewInfo, mosaicNames)
      }))

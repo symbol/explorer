@@ -108,7 +108,11 @@ class RestrictionService {
    */
   static getAccountRestrictionList = async (address) => {
     const accountRestrictions = await this.getAccountRestrictions(address)
-    return accountRestrictions
+    return {
+      restriction_key: accountRestrictions.restrictionKey,
+      restriction_type: accountRestrictions.restrictionType,
+      restriction_value: accountRestrictions.restrictionValue
+    }
   }
 
   /**
@@ -120,7 +124,10 @@ class RestrictionService {
     const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic')
     const mosaicGlobalRestrictionMetadata = await this.getMosaicGlobalRestriction(mosaicId)
 
-    return mosaicGlobalRestrictionMetadata
+    return {
+      composite_hash: mosaicGlobalRestrictionMetadata.compositeHash,
+      entry_type: mosaicGlobalRestrictionMetadata.entryType
+    }
   }
 }
 

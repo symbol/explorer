@@ -11,69 +11,71 @@
                 "schema": [
                     {
                         "type": "Card",
-                        "title": "Account Detail",
+                        "title": "account_detail",
                         "fullWidth": true,
                         "body": "TableInfoView",
                         "fields": [
                             "address",
-                            "accountAliasName",
-                            "addressHeight",
-                            "publicKey",
+                            "account_alias_name",
+                            "address_height",
+                            "public_key",
                             "importance",
                             "type",
-                            "linkedAccountKey"
+                            "linked_account_key"
                         ],
                         "managerGetter": "account/info",
                         "pagination": false,
-                        "errorMessage": "Account is unknown to the network."
+                        "errorMessage": "account_info_error_message"
                     },
                     {
                         "type": "Card",
-                        "title": "Multisig Cosignatories",
+                        "title": "multisig_cosignatories",
                         "fullWidth": false,
                         "body": "TableInfoView",
                         "fields": [
-                            "minApproval",
-                            "minRemoval",
+                            "min_approval",
+                            "min_removal",
                             "cosignatories",
-                            "multisigAccounts"
+                            "multisig_accounts"
                         ],
                         "managerGetter": "account/multisig",
                         "pagination": false,
-                        "errorMessage": "Address is not a multisig account."
+                        "errorMessage": "account_multisig_error_message"
                     },
                     {
                         "type": "Card",
-                        "title": "Owned Mosaics",
+                        "title": "owned_mosaics",
                         "fullWidth": false,
                         "body": "TableListView",
                         "managerGetter": "account/OwnedMosaic",
                         "fields": [
-                            "mosaicId",
+                            "mosaic_id",
                             "amount",
-                            "mosaicAliasName"
+                            "mosaic_alias_name"
                         ],
                         "pagination": true,
-                        "pageSize": 5
+                        "pageSize": 5,
+                        "errorMessage": "account_OwnedMosaic_error_message"
                     },
                     {
                         "type": "Card",
-                        "title": "Owned Namespaces",
+                        "title": "owned_namespaces",
                         "fullWidth": false,
                         "body": "TableListView",
                         "managerGetter": "account/OwnedNamespace",
                         "fields": [
-                            "namespaceName",
+                            "namespace_name",
                             "status",
                             "duration",
-                            "registrationType"
+                            "registration_type"
                         ],
                         "pagination": true,
-                        "pageSize": 5
+                        "pageSize": 5,
+                        "errorMessage": "account_OwnedNamespace_error_message"
                     },
                     {
                         "type": "Card",
-                        "title": "Transactions",
+                        "title": "transactions",
                         "fullWidth": true,
                         "header": [
                             {
@@ -86,69 +88,78 @@
                         "body": "TableListView",
                         "fields": [
                             "deadline",
-                            "transactionHash",
-                            "transactionType",
+                            "transaction_hash",
+                            "transaction_type",
                             "direction"
                         ],
                         "managerGetter": "account/transactions",
-                        "timelinePagination": true
+                        "timelinePagination": true,
+                        "errorMessage": "account_transactions_error_message"
                     },
                     {
                         "type": "Card",
-                        "title": "Account Partial",
+                        "title": "account_partial",
                         "fullWidth": true,
                         "body": "TableListView",
                         "managerGetter": "account/partialTransactions",
                         "fields": [
                             "signer",
-                            "transactionType",
-                            "transactionHash",
+                            "transaction_type",
+                            "transaction_hash",
                             "deadline",
                             "transactionBody"
                         ],
-                        "timelinePagination": true
+                        "timelinePagination": true,
+                        "errorMessage": "account_partial_transactions_error_message"
                     },
                     {
                         "type": "Card",
-                        "title": "Account Restriction",
+                        "title": "account_restriction",
                         "fullWidth": true,
                         "body": "TableListView",
+                        "fields": [
+                            "restriction_key",
+                            "restriction_type",
+                            "restriction_value"
+                        ],
                         "managerGetter": "account/restrictions",
                         "pagination": false,
                         "pageSize": 5,
-                        "errorMessage": "Account restrictions are not available."
+                        "errorMessage": "account_restrictions_error_message"
                     },
                     {
                         "type": "Card",
-                        "title": "Metadata Entries",
+                        "title": "metadata_entries",
                         "fullWidth": true,
                         "body": "TableListView",
                         "fields": [
-                            "metadataId",
-                            "scopedMetadataKey",
-                            "senderAddress",
-                            "targetAddress",
-                            "metadataValue"
+                            "metadata_id",
+                            "scoped_metadata_key",
+                            "sender_address",
+                            "target_address",
+                            "metadata_value"
                         ],
                         "managerGetter": "account/metadatas",
                         "pagination": true,
-                        "pageSize": 5
+                        "pageSize": 5,
+                        "errorMessage": "account_metadatas_error_message"
                     },
                     {
                         "type": "Card",
-                        "title": "Importance History",
+                        "title": "importance_history",
                         "fullWidth": true,
                         "body": "TableListView",
                         "fields": [
-                            "recalculationBlock",
-                            "totalFeesPaid",
-                            "beneficiaryCount",
-                            "importanceScore"
+                            "recalculation_block",
+                            "total_fees_paid",
+                            "beneficiary_count",
+                            "importance_score"
                         ],
                         "managerGetter": "account/info",
                         "dataGetter": "account/getActivityBucketList",
                         "pagination": true,
-                        "pageSize": 5
+                        "pageSize": 5,
+                        "errorMessage": "account_activity_bucket_list_error_message"
                     }
                 ]
             }

@@ -99,7 +99,14 @@ class MetadataService {
    */
   static getAccountMetadataList = async (rawAddress, pageSize, id) => {
     const accountMetadatas = await this.getAccountMetadata(rawAddress, pageSize, id)
-    return accountMetadatas
+
+    return {
+      metadata_id: accountMetadatas.metadataId,
+      scoped_metadata_key: accountMetadatas.scopedMetadataKey,
+      sender_address: accountMetadatas.senderAddress,
+      target_address: accountMetadatas.targetAddress,
+      metadata_value: accountMetadatas.metadataValue
+    }
   }
 
   /**

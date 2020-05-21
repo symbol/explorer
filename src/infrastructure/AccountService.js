@@ -116,11 +116,15 @@ class AccountService {
       ...accountInfo,
       activityBucket: accountInfo.activityBucket.map(activity => ({
         ...activity,
-        recalculationBlock: activity.startHeight,
-        totalFeesPaid: helper.toNetworkCurrency(activity.totalFeesPaid),
-        importanceScore: activity.rawScore
+        recalculation_block: activity.startHeight,
+        beneficiary_count: activity.beneficiaryCount,
+        total_fees_paid: helper.toNetworkCurrency(activity.totalFeesPaid),
+        importance_score: activity.rawScore
       })),
-      accountAliasName: this.extractAccountNamespace(accountInfo, accountNames)
+      account_alias_name: this.extractAccountNamespace(accountInfo, accountNames),
+      linked_account_key: accountInfo.linkedAccountKey,
+      public_key: accountInfo.publicKey,
+      address_height: accountInfo.addressHeight
     }
   }
 
@@ -136,9 +140,9 @@ class AccountService {
 
     return accountTransactions.map(accountTransaction => ({
       ...accountTransaction,
-      transactionId: accountTransaction.id,
-      transactionHash: accountTransaction.hash,
-      transactionType:
+      transaction_id: accountTransaction.id,
+      transaction_hash: accountTransaction.hash,
+      transaction_type:
         accountTransaction.transactionBody.type === 'Transfer'
           ? (accountTransaction.signer === address
             ? 'TransferOutgoing'
@@ -160,8 +164,8 @@ class AccountService {
 
     return partialTransactions.map(partialTransactions => ({
       ...partialTransactions,
-      transactionHash: partialTransactions.hash,
-      transactionType: partialTransactions.transactionBody.type
+      transaction_hash: partialTransactions.hash,
+      transaction_type: partialTransactions.transactionBody.type
     }))
   }
 

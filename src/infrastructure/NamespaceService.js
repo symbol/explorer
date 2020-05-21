@@ -202,6 +202,9 @@ class NamespaceService {
       const { expiredInSecond } = helper.calculateNamespaceExpiration(currentHeight, namespacesFromAccountInfo.endHeight)
       return {
         ...namespacesFromAccountInfo,
+        meta_id: namespacesFromAccountInfo.metaId,
+        namespace_name: namespacesFromAccountInfo.namespaceName,
+        registration_type: namespacesFromAccountInfo.registrationType,
         status: namespacesFromAccountInfo.active,
         duration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED
       }

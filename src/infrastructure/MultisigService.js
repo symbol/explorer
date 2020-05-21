@@ -46,10 +46,13 @@ class MultisigService {
    */
   static getMultisigAccountInfo = async address => {
     const multisigAccountInfo = await this.getMultisigAccount(address)
+
     return {
       ...multisigAccountInfo,
+      min_approval: multisigAccountInfo.minApproval,
+      min_removal: multisigAccountInfo.minRemoval,
       cosignatories: multisigAccountInfo?.cosignatories?.map(cosigner => cosigner.address),
-      multisigAccounts: multisigAccountInfo?.multisigAccounts?.map(cosigner => cosigner.address)
+      multisig_accounts: multisigAccountInfo?.multisigAccounts?.map(cosigner => cosigner.address)
     }
   }
 
