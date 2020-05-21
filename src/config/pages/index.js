@@ -1,4 +1,5 @@
 export default [
     require('./detail-page-example'),
-    require('./transactions'),
+    require('./block-list'),
+    require('./transaction-list'),
 ]
