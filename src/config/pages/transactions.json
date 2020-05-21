@@ -1,9 +1,9 @@
 {
-    "path": "/transactions2",
-    "name": "transactions2",
+    "path": "/transactions",
+    "name": "transactions",
     "meta": {
         "group": "list-page",
-        "keepAliveGoTo": []
+        "keepAliveGoTo": ["detail-page"]
     },
     "props": {
         "layout": "flex",

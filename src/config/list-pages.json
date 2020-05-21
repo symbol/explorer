@@ -30,36 +30,6 @@
             }
         },
         {
-            "path": "/transactions",
-            "name": "transactions",
-            "meta": {
-                "group": "list-page",
-                "keepAliveGoTo": ["detail-page"]
-            },
-            "props": {
-                "title": "transactions",
-                "storeNamespaces": ["transaction"],
-                "managerGetter": "transaction/timeline",
-                "hasFilter": true,
-                "Fields": [
-                    "height",
-                    "deadline",
-                    "transactionHash",
-                    "type",
-                    "maxFee",
-                    "signer",
-                    "recipient"
-                ],
-                "mobileFields": [
-                    "height",
-                    "transactionHash",
-                    "fee",
-                    "signer",
-                    "recipient"
-                ]
-            }
-        },
-        {
             "path": "/accounts",
             "name": "accounts",
             "meta": {
