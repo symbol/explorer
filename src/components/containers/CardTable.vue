@@ -9,7 +9,7 @@
         </template>
         <template #control>
             <div class="ex-infotext" v-if="hasInfoText"> {{infoText}} </div>
-            <Dropdown
+            <DropdownFilter
                 v-if="hasFilter"
                 :options="filterOptions"
                 :value="filterValue"
@@ -49,7 +49,7 @@
 import Card from '@/components/containers/Card.vue'
 import TableListView from '@/components/tables/TableListView.vue'
 import TableInfoView from '@/components/tables/TableInfoView.vue'
-import Dropdown from '@/components/controls/Dropdown.vue'
+import DropdownFilter from '@/components/controls/DropdownFilter.vue'
 import Pagination from '@/components/controls/Pagination.vue'
 
 export default {
@@ -57,7 +57,7 @@ export default {
     Card,
     TableListView,
     TableInfoView,
-    Dropdown,
+    DropdownFilter,
     Pagination
   },
 
