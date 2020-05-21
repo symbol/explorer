@@ -21,7 +21,7 @@ git clone https://github.com/nemfoundation/symbol-explorer.git
 2. Install the required dependencies.
 
 ```
-cd nem2-explorer
+cd symbol-explorer
 npm install
 ```
 
