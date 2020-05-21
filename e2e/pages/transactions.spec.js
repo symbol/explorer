@@ -20,7 +20,7 @@ describe('Symbol Explorer Transactions list page should', () => {
     })
 
     it('redirect to transaction detail page given click on transaction hash', () => {
-        cy.get('tbody tr .transactionHash a')
+        cy.get('tbody tr .transaction_hash a')
         .then($data => {
             return $data[0]
         }).click({ force:true })

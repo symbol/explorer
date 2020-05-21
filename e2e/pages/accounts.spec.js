@@ -29,7 +29,7 @@ describe('Symbol Explorer Accounts list page should', () => {
     })
 
     it('redirect to block detail page given click on Last Activity', () => {
-        cy.get('tbody tr .lastActivity a')
+        cy.get('tbody tr .last_activity a')
         .then($data => {
             return $data[0]
         }).click({ force:true })

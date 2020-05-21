@@ -20,7 +20,7 @@ describe('Symbol Explorer Mosaics list page should', () => {
     })
 
     it('redirect to account detail page given click on Owner Address', () => {
-        cy.get('tbody tr .owneraddress a')
+        cy.get('tbody tr .owner_address a')
         .then($data => {
             return $data[0]
         }).click({ force:true })
@@ -29,7 +29,7 @@ describe('Symbol Explorer Mosaics list page should', () => {
     })
 
     it('redirect to mosaic detail page given click on Mosaic ID', () => {
-        cy.get('tbody tr .mosaicId a')
+        cy.get('tbody tr .mosaic_id a')
         .then($data => {
             return $data[0]
         }).click({ force:true })
@@ -38,7 +38,7 @@ describe('Symbol Explorer Mosaics list page should', () => {
     })
 
     it('redirect to block detail page given click on Registered at Height ', () => {
-        cy.get('tbody tr .startHeight a')
+        cy.get('tbody tr .start_height a')
         .then($data => {
             return $data[0]
         }).click({ force:true })

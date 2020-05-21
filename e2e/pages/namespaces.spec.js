@@ -20,7 +20,7 @@ describe('Symbol Explorer Namespaces list page should', () => {
     })
 
     it('redirect to account detail page given click on Owner Address', () => {
-        cy.get('tbody tr .owneraddress a')
+        cy.get('tbody tr .owner_address a')
         .then($data => {
             return $data[0]
         }).click({ force:true })
@@ -29,7 +29,7 @@ describe('Symbol Explorer Namespaces list page should', () => {
     })
 
     it('redirect to namespace detail page given click on Namespace ID', () => {
-        cy.get('tbody tr .namespaceId a')
+        cy.get('tbody tr .namespace_id a')
         .then($data => {
             return $data[0]
         }).click({ force:true })
@@ -38,7 +38,7 @@ describe('Symbol Explorer Namespaces list page should', () => {
     })
 
     it('redirect to namespace detail page given click on Name', () => {
-        cy.get('tbody tr .namespaceName a')
+        cy.get('tbody tr .namespace_name a')
         .then($data => {
             return $data[0]
         }).click({ force:true })
