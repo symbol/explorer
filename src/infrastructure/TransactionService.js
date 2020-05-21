@@ -123,40 +123,41 @@ class TransactionService {
 
       break
     case TransactionType.NAMESPACE_REGISTRATION:
-      formattedTransaction.registration_type = formattedTransaction.registrationType
-      formattedTransaction.namespace_name = formattedTransaction.namespaceName
-      formattedTransaction.namespace_id = formattedTransaction.namespaceId
-      formattedTransaction.parent_id = formattedTransaction.parentId
+      formattedTransaction.transactionBody.registration_type = formattedTransaction.transactionBody.registrationType
+      formattedTransaction.transactionBody.namespace_name = formattedTransaction.transactionBody.namespaceName
+      formattedTransaction.transactionBody.namespace_id = formattedTransaction.transactionBody.namespaceId
+      formattedTransaction.transactionBody.parent_id = formattedTransaction.transactionBody.parentId
 
       break
     case TransactionType.ADDRESS_ALIAS:
-      formattedTransaction.alias_action = formattedTransaction.aliasAction
-      formattedTransaction.namespace_id = formattedTransaction.namespaceId
-      formattedTransaction.namespace_full_name = formattedTransaction.namespaceFullName
+      formattedTransaction.transactionBody.alias_action = formattedTransaction.transactionBody.aliasAction
+      formattedTransaction.transactionBody.namespace_id = formattedTransaction.transactionBody.namespaceId
+      formattedTransaction.transactionBody.namespace_full_name = formattedTransaction.transactionBody.namespaceFullName
 
       break
     case TransactionType.MOSAIC_ALIAS:
-      formattedTransaction.alias_action = formattedTransaction.aliasAction
-      formattedTransaction.namespace_id = formattedTransaction.namespaceId
-      formattedTransaction.namespace_full_name = formattedTransaction.namespaceFullName
-      formattedTransaction.mosaic_id = formattedTransaction.mosaicId
+      console.log(formattedTransaction)
+      formattedTransaction.transactionBody.alias_action = formattedTransaction.transactionBody.aliasAction
+      formattedTransaction.transactionBody.namespace_id = formattedTransaction.transactionBody.namespaceId
+      formattedTransaction.transactionBody.namespace_full_name = formattedTransaction.transactionBody.namespaceFullName
+      formattedTransaction.transactionBody.mosaic_id = formattedTransaction.transactionBody.mosaicId
 
       break
     case TransactionType.MOSAIC_DEFINITION:
-      formattedTransaction.mosaic_id = formattedTransaction.mosaicId
-      formattedTransaction.supply_mutable = formattedTransaction.supplyMutable
+      formattedTransaction.transactionBody.mosaic_id = formattedTransaction.transactionBody.mosaicId
+      formattedTransaction.transactionBody.supply_mutable = formattedTransaction.transactionBody.supplyMutable
 
       break
     case TransactionType.MOSAIC_SUPPLY_CHANGE:
     case TransactionType.HASH_LOCK:
-      formattedTransaction.mosaic_id = formattedTransaction.mosaicId
+      formattedTransaction.transactionBody.mosaic_id = formattedTransaction.transactionBody.mosaicId
 
       break
     case TransactionType.MULTISIG_ACCOUNT_MODIFICATION:
-      formattedTransaction.min_approval_delta = formattedTransaction.minApprovalDelta
-      formattedTransaction.min_removal_delta = formattedTransaction.minRemovalDelta
-      formattedTransaction.public_key_additions = formattedTransaction.publicKeyAdditions
-      formattedTransaction.public_key_deletions = formattedTransaction.publicKeyDeletions
+      formattedTransaction.transactionBody.min_approval_delta = formattedTransaction.transactionBody.minApprovalDelta
+      formattedTransaction.transactionBody.min_removal_delta = formattedTransaction.transactionBody.minRemovalDelta
+      formattedTransaction.transactionBody.public_key_additions = formattedTransaction.transactionBody.publicKeyAdditions
+      formattedTransaction.transactionBody.public_key_deletions = formattedTransaction.transactionBody.publicKeyDeletions
 
       break
     case TransactionType.AGGREGATE_COMPLETE:
@@ -173,67 +174,67 @@ class TransactionService {
       delete formattedTransaction.transactionBody.cosignatures
       break
     case TransactionType.SECRET_LOCK:
-      formattedTransaction.mosaic_id = formattedTransaction.mosaicId
-      formattedTransaction.hash_algorithm = formattedTransaction.hashAlgorithm
+      formattedTransaction.transactionBody.mosaic_id = formattedTransaction.transactionBody.mosaicId
+      formattedTransaction.transactionBody.hash_algorithm = formattedTransaction.transactionBody.hashAlgorithm
       break
     case TransactionType.SECRET_PROOF:
-      formattedTransaction.hash_algorithm = formattedTransaction.hashAlgorithm
+      formattedTransaction.transactionBody.hash_algorithm = formattedTransaction.transactionBody.hashAlgorithm
       break
     case TransactionType.ACCOUNT_ADDRESS_RESTRICTION:
-      formattedTransaction.restriction_type = formattedTransaction.restrictionType
-      formattedTransaction.restriction_address_additions = formattedTransaction.restrictionAddressAdditions
-      formattedTransaction.restriction_address_deletions = formattedTransaction.restrictionAddressDeletions
+      formattedTransaction.transactionBody.restriction_type = formattedTransaction.transactionBody.restrictionType
+      formattedTransaction.transactionBody.restriction_address_additions = formattedTransaction.transactionBody.restrictionAddressAdditions
+      formattedTransaction.transactionBody.restriction_address_deletions = formattedTransaction.transactionBody.restrictionAddressDeletions
       break
     case TransactionType.ACCOUNT_MOSAIC_RESTRICTION:
-      formattedTransaction.restriction_type = formattedTransaction.restrictionType
-      formattedTransaction.restriction_mosaic_additions = formattedTransaction.restrictionMosaicAdditions
-      formattedTransaction.restriction_mosaic_deletions = formattedTransaction.restrictionMosaicDeletions
+      formattedTransaction.transactionBody.restriction_type = formattedTransaction.transactionBody.restrictionType
+      formattedTransaction.transactionBody.restriction_mosaic_additions = formattedTransaction.transactionBody.restrictionMosaicAdditions
+      formattedTransaction.transactionBody.restriction_mosaic_deletions = formattedTransaction.transactionBody.restrictionMosaicDeletions
 
       break
     case TransactionType.ACCOUNT_OPERATION_RESTRICTION:
-      formattedTransaction.restriction_type = formattedTransaction.restrictionType
-      formattedTransaction.restriction_operation_additions = formattedTransaction.restrictionOperationAdditions
-      formattedTransaction.restriction_operation_deletions = formattedTransaction.restrictionOperationDeletions
+      formattedTransaction.transactionBody.restriction_type = formattedTransaction.transactionBody.restrictionType
+      formattedTransaction.transactionBody.restriction_operation_additions = formattedTransaction.transactionBody.restrictionOperationAdditions
+      formattedTransaction.transactionBody.restriction_operation_deletions = formattedTransaction.transactionBody.restrictionOperationDeletions
       break
     case TransactionType.ACCOUNT_LINK:
-      formattedTransaction.link_action = formattedTransaction.linkAction
-      formattedTransaction.remote_public_key = formattedTransaction.remotePublicKey
-      formattedTransaction.remote_account_address = formattedTransaction.remoteAccountAddress
+      formattedTransaction.transactionBody.link_action = formattedTransaction.transactionBody.linkAction
+      formattedTransaction.transactionBody.remote_public_key = formattedTransaction.transactionBody.remotePublicKey
+      formattedTransaction.transactionBody.remote_account_address = formattedTransaction.transactionBody.remoteAccountAddress
       break
     case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
-      formattedTransaction.mosaic_id = formattedTransaction.mosaicId
-      formattedTransaction.target_address = formattedTransaction.targetAddress
-      formattedTransaction.restriction_key = formattedTransaction.restrictionKey
-      formattedTransaction.previous_restriction_value = formattedTransaction.previousRestrictionValue
-      formattedTransaction.newRestriction_value = formattedTransaction.newRestrictionValue
+      formattedTransaction.transactionBody.mosaic_id = formattedTransaction.transactionBody.mosaicId
+      formattedTransaction.transactionBody.target_address = formattedTransaction.transactionBody.targetAddress
+      formattedTransaction.transactionBody.restriction_key = formattedTransaction.transactionBody.restrictionKey
+      formattedTransaction.transactionBody.previous_restriction_value = formattedTransaction.transactionBody.previousRestrictionValue
+      formattedTransaction.transactionBody.newRestriction_value = formattedTransaction.transactionBody.newRestrictionValue
       break
     case TransactionType.MOSAIC_GLOBAL_RESTRICTION:
-      formattedTransaction.reference_mosaic_id = formattedTransaction.referenceMosaicId
-      formattedTransaction.restriction_key = formattedTransaction.restrictionKey
-      formattedTransaction.previous_restriction_type = formattedTransaction.previousRestrictionType
-      formattedTransaction.previous_restriction_value = formattedTransaction.previousRestrictionValue
-      formattedTransaction.newRestriction_type = formattedTransaction.newRestrictionType
-      formattedTransaction.newRestriction_value = formattedTransaction.newRestrictionValue
+      formattedTransaction.transactionBody.reference_mosaic_id = formattedTransaction.transactionBody.referenceMosaicId
+      formattedTransaction.transactionBody.restriction_key = formattedTransaction.transactionBody.restrictionKey
+      formattedTransaction.transactionBody.previous_restriction_type = formattedTransaction.transactionBody.previousRestrictionType
+      formattedTransaction.transactionBody.previous_restriction_value = formattedTransaction.transactionBody.previousRestrictionValue
+      formattedTransaction.transactionBody.newRestriction_type = formattedTransaction.transactionBody.newRestrictionType
+      formattedTransaction.transactionBody.newRestriction_value = formattedTransaction.transactionBody.newRestrictionValue
       break
     case TransactionType.ACCOUNT_METADATA:
-      formattedTransaction.scoped_metadata_key = formattedTransaction.scopedMetadataKey
-      formattedTransaction.target_address = formattedTransaction.targetAddress
-      formattedTransaction.metadata_value = formattedTransaction.metadataValue
-      formattedTransaction.value_size_delta = formattedTransaction.valueSizeDelta
+      formattedTransaction.transactionBody.scoped_metadata_key = formattedTransaction.transactionBody.scopedMetadataKey
+      formattedTransaction.transactionBody.target_address = formattedTransaction.transactionBody.targetAddress
+      formattedTransaction.transactionBody.metadata_value = formattedTransaction.transactionBody.metadataValue
+      formattedTransaction.transactionBody.value_size_delta = formattedTransaction.transactionBody.valueSizeDelta
       break
     case TransactionType.MOSAIC_METADATA:
-      formattedTransaction.scoped_metadata_key = formattedTransaction.scopedMetadataKey
-      formattedTransaction.target_address = formattedTransaction.targetAddress
-      formattedTransaction.metadata_value = formattedTransaction.metadataValue
-      formattedTransaction.value_size_delta = formattedTransaction.valueSizeDelta
-      formattedTransaction.target_mosaic_id = formattedTransaction.targetMosaicId
+      formattedTransaction.transactionBody.scoped_metadata_key = formattedTransaction.transactionBody.scopedMetadataKey
+      formattedTransaction.transactionBody.target_address = formattedTransaction.transactionBody.targetAddress
+      formattedTransaction.transactionBody.metadata_value = formattedTransaction.transactionBody.metadataValue
+      formattedTransaction.transactionBody.value_size_delta = formattedTransaction.transactionBody.valueSizeDelta
+      formattedTransaction.transactionBody.target_mosaic_id = formattedTransaction.transactionBody.targetMosaicId
       break
     case TransactionType.NAMESPACE_METADATA:
-      formattedTransaction.scoped_metadata_key = formattedTransaction.scopedMetadataKey
-      formattedTransaction.target_address = formattedTransaction.targetAddress
-      formattedTransaction.metadata_value = formattedTransaction.metadataValue
-      formattedTransaction.value_size_delta = formattedTransaction.valueSizeDelta
-      formattedTransaction.target_namespace_id = formattedTransaction.targetNamespaceId
+      formattedTransaction.transactionBody.scoped_metadata_key = formattedTransaction.transactionBody.scopedMetadataKey
+      formattedTransaction.transactionBody.target_address = formattedTransaction.transactionBody.targetAddress
+      formattedTransaction.transactionBody.metadata_value = formattedTransaction.transactionBody.metadataValue
+      formattedTransaction.transactionBody.value_size_delta = formattedTransaction.transactionBody.valueSizeDelta
+      formattedTransaction.transactionBody.target_namespace_id = formattedTransaction.transactionBody.targetNamespaceId
       break
     }
 
@@ -402,7 +403,6 @@ class TransactionService {
 
     case TransactionType.AGGREGATE_BONDED:
       return {
-        rawType: TransactionType.AGGREGATE_BONDED, // todo
         type: transactionBody.type,
         transactionDescriptor: 'transaction_descriptor_' + transactionBody.type,
         innerTransactions: transactionBody.innerTransactions.map(transaction => this.formatTransaction(transaction)),

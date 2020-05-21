@@ -468,16 +468,16 @@
                 "schema": [
                     {
                         "type": "Card",
-                        "title": "Transaction Info",
+                        "title": "transaction_info",
                         "fullWidth": true,
                         "body": "TableInfoView",
                         "fields": [
-                            "blockHeight",
-                            "transactionHash",
-                            "transactionId",
+                            "block_height",
+                            "transaction_hash",
+                            "transaction_id",
                             "date",
                             "deadline",
-                            "effectiveFee",
+                            "effective_fee",
                             "signature",
                             "signer",
                             "status",
@@ -485,40 +485,94 @@
                         ],
                         "managerGetter": "transaction/info",
                         "pagination": false,
-                        "errorMessage": "Transaction does not exist."
+                        "errorMessage": "transaction_info_error_message"
                     },
                     {
                         "type": "Card",
-                        "title": "Transaction Detail",
+                        "title": "transaction_detail",
                         "fullWidth": false,
                         "body": "TableInfoView",
+                        "fields": [
+                            "transaction_descriptor",
+                            "recipient",
+                            "message",
+                            "mosaic_id",
+                            "registration_type",
+                            "namespace_name",
+                            "namespace_id",
+                            "parent_id",
+                            "alias_action",
+                            "namespace_id",
+                            "namespace_full_name",
+                            "supply_mutable",
+                            "min_approval_delta",
+                            "min_removal_delta",
+                            "public_key_additions",
+                            "public_key_deletions",
+                            "hash_algorithm",
+                            "restriction_type",
+                            "restriction_address_additions",
+                            "restriction_address_deletions",
+                            "restriction_mosaic_additions",
+                            "restriction_mosaic_deletions",
+                            "restriction_operation_additions",
+                            "restriction_operation_deletions",
+                            "link_action",
+                            "remote_public_key",
+                            "remote_account_address",
+                            "target_address",
+                            "restriction_key",
+                            "previous_restriction_value",
+                            "newRestriction_value",
+                            "reference_mosaic_id",
+                            "newRestriction_type",
+                            "scoped_metadata_key",
+                            "target_address",
+                            "metadata_value",
+                            "value_size_delta",
+                            "target_mosaic_id",
+                            "target_namespace_id",
+                            "duration",
+                            "divisibility",
+                            "nonce",
+                            "supplyMutable",
+                            "transferable",
+                            "restrictable",
+                            "action",
+                            "delta",
+                            "amount",
+                            "secret",
+                            "proof"
+                        ],
                         "managerGetter": "transaction/info",
                         "dataGetter": "transaction/transactionDetail",
-                        "pagination": false
+                        "pagination": false,
+                        "errorMessage": "transaction_detail_error_message"
                     },
                     {
                         "type": "Card",
-                        "title": "Mosaics",
+                        "title": "mosaics",
                         "fullWidth": false,
                         "body": "TableListView",
                         "fields": [
-                            "mosaicId",
+                            "mosaic_id",
                             "amount",
-                            "mosaicAliasName"
+                            "mosaic_alias_name"
                         ],
                         "managerGetter": "transaction/info",
                         "dataGetter": "transaction/transferMosaics",
                         "hideEmptyData": true,
                         "pagination": true,
-                        "pageSize": 5
+                        "pageSize": 5,
+                        "errorMessage": "transaction_mosaic_error_message"
                     },
                     {
                         "type": "Card",
-                        "title": "Aggregate Inner Transactions",
+                        "title": "aggregate_inner_transactions",
                         "fullWidth": true,
                         "body": "TableListView",
                         "fields": [
-                            "transactionId",
+                            "transaction_id",
                             "type",
                             "signer",
                             "transactionBody"
@@ -527,11 +581,12 @@
                         "dataGetter": "transaction/aggregateInnerTransactions",
                         "hideEmptyData": true,
                         "pagination": true,
-                        "pageSize": 5
+                        "pageSize": 5,
+                        "errorMessage": "transaction_aggregate_inner_error_message"
                     },
                     {
                         "type": "Card",
-                        "title": "Aggregate Cosignatures",
+                        "title": "aggregate_cosignatures",
                         "fullWidth": true,
                         "body": "TableListView",
                         "fields": [
@@ -542,7 +597,8 @@
                         "dataGetter": "transaction/aggregateCosignatures",
                         "hideEmptyData": true,
                         "pagination": true,
-                        "pageSize": 5
+                        "pageSize": 5,
+                        "errorMessage": "transaction_cosignatures_error_message"
                     }
                 ]
             }

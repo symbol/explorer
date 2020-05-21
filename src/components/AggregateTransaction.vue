@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div v-if="transactionBody.rawType === TransactionType.AGGREGATE_BONDED">
+    <div v-if="transactionBody.type === TransactionType.AGGREGATE_BONDED">
       <span>{{getKeyName('inner_transaction')}}</span>
       <div v-for="(row, rowIndex) in transactionBody.innerTransactions" :key="rowIndex" >
         <TableInfoView :data="row.transactionBody"  />
