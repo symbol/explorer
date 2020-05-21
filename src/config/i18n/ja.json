@@ -182,7 +182,7 @@
     "public_key_deletions": "削除署名者",
     "transaction_awaiting_co-signature": "連署名の待機中トランザクション",
     "transaction_awaiting_remark": "このトランザクションは連署者による複数の承認が必要です。",
-    "co-signatures_received": "受信した連署者",
+    "co_signatures_received": "受信した連署者",
     "inner_transaction": "内部トランザクション",
     "account_partial": "アカウントパーシャルトランザクション",
     "balance": "残高",

@@ -7,7 +7,7 @@
     "relative_amount": "Relative Amount",
     "height": "Height",
     "fee": "Fee",
-    "totalFee": "Total Fee",
+    "total_fee": "Total Fee",
     "date": "Date",
     "deadline": "Deadline",
     "status": "Status",
@@ -144,7 +144,7 @@
     "friendly_name": "Friendly Name",
     "direction": "",
     "approximate_expired": "Approximate Expired",
-    "expiredIn_block": "Expired In Block",
+    "expired_in_block": "Expired In Block",
     "index": "No.",
     "network_fees": "Recommended Fees Multiplier",
     "network_rental_fees": "Effective Rental Fees (XYM)",
@@ -182,7 +182,7 @@
     "public_key_deletions": "Deleted Cosigner",
     "transaction_awaiting_co-signature": "Transaction awaiting co-signature(s)",
     "transaction_awaiting_remark": "This transaction needs multiple parties to approve by sending co-signature.",
-    "co-signatures_received": "Co-signatures received",
+    "co_signatures_received": "Co-signatures received",
     "inner_transaction": "Inner Transaction",
     "account_partial": "Account Partial Transactions",
     "balance": "Balance",
@@ -197,5 +197,7 @@
     "resolution_statement": "Resolution Statement",
     "mosaic_restriction": "Mosaic Restriction",
     "mosaic_restriction_list": "Mosaic Restriction List",
-    "maxFee": "Max Fee"
+    "max_fee": "Max Fee",
+    "action": "Action",
+    "delta": "Delta"
 }

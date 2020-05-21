@@ -34,31 +34,31 @@ const managers = [
     'recent',
     () => TransactionService.getTransactionList(Constants.PageSize),
     (key, pageSize) => TransactionService.getTransactionList(pageSize, void 0, key),
-    'transactionHash'
+    'transaction_hash'
   ),
   new Timeline(
     'pending',
     () => TransactionService.getTransactionList(Constants.PageSize, 'unconfirmed'),
     (key, pageSize) => TransactionService.getTransactionList(pageSize, 'unconfirmed', key),
-    'transactionHash'
+    'transaction_hash'
   ),
   new Timeline(
     'transfer',
     () => TransactionService.getTransactionList(Constants.PageSize, 'transfer'),
     (key, pageSize) => TransactionService.getTransactionList(pageSize, 'transfer', key),
-    'transactionHash'
+    'transaction_hash'
   ),
   new Timeline(
     'multisig',
     () => TransactionService.getTransactionList(Constants.PageSize, 'transfer/multisig'),
     (key, pageSize) => TransactionService.getTransactionList(pageSize, 'transfer/multisig', key),
-    'transactionHash'
+    'transaction_hash'
   ),
   new Timeline(
     'mosaic',
     () => TransactionService.getTransactionList(Constants.PageSize, 'transfer/mosaic'),
     (key, pageSize) => TransactionService.getTransactionList(pageSize, 'transfer/mosaic', key),
-    'transactionHash'
+    'transaction_hash'
   ),
   new Filter(
     'timeline',
