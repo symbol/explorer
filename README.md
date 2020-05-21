@@ -7,7 +7,8 @@ Symbol Explorer is a read-only web application to browse the content of the bloc
 
 ## Requirements
 
-- Node.js 8, 9 or 10
+- Node.js 10 or above
+- NPM 6 or above
 
 ## Installation
 
@@ -53,14 +54,14 @@ The file `/src/config/setup.json` contains the node list shown in the node selec
 Use the following available resources to get help:
 
 - [Symbol Documentation][docs]
-- Join the community [slack group (#sig-client)][slack] 
+- Join the community [slack group (#sig-client)][slack]
 - If you found a bug, [open a new issue][issues]
 
 ## Contributing
 
 This project is developed and maintained by NEM Foundation.
 
-Contributions are welcome and appreciated. 
+Contributions are welcome and appreciated.
 Check [CONTRIBUTING](CONTRIBUTING.md) for information on how to contribute.
 
 ## License
