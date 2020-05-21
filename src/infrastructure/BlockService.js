@@ -93,8 +93,8 @@ class BlockService {
 
     return blockTransactions.map(blockTransaction => ({
       ...blockTransaction,
-      transactionId: blockTransaction.id,
-      transactionHash: blockTransaction.hash,
+      transaction_id: blockTransaction.id,
+      transaction_hash: blockTransaction.hash,
       type: blockTransaction.transactionBody.type
     }))
   }
@@ -108,8 +108,9 @@ class BlockService {
     const block = await this.getBlockByHeight(height)
     return {
       ...block,
-      blockHash: block.hash,
+      block_hash: block.hash,
       harvester: block.signer,
+      fee_multiplier: block.feeMultiplier,
       date: helper.convertToUTCDate(block.timestamp)
     }
   }

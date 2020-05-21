@@ -51,8 +51,45 @@ class ReceiptService {
    * @returns Formatted TransactionStatements and ResolutionStatements
    */
   static getBlockReceiptsInfo = async (height) => {
-    let blockReceipts = await this.getBlockReceipts(height)
-    return blockReceipts
+    const blockReceipts = await this.getBlockReceipts(height)
+
+    const artifactExpiryReceipt = blockReceipts.transactionReceipt.artifactExpiryReceipt.map(artifactExpiry => ({
+      ...artifactExpiry,
+      artifact_id: artifactExpiry.artifactId
+    }))
+
+    const balanceChangeReceipt = blockReceipts.transactionReceipt.balanceChangeReceipt.map(balanceChange => ({
+      ...balanceChange,
+      target_public_account: balanceChange.targetPublicAccount,
+      mosaic_id: balanceChange.mosaicId
+    }))
+
+    const balanceTransferReceipt = blockReceipts.transactionReceipt.balanceTransferReceipt.map(balanceTransfer => ({
+      ...balanceTransfer,
+      recipient_address: balanceTransfer.recipientAddress,
+      mosaic_id: balanceTransfer.mosaicId
+    }))
+
+    const inflationReceipt = blockReceipts.transactionReceipt.inflationReceipt.map(inflation => ({
+      ...inflation,
+      mosaic_id: inflation.mosaicId
+    }))
+
+    let resolutionStatements = {
+      ...blockReceipts.resolutionStatements,
+      address_resolution_entries: blockReceipts.resolutionStatements?.addressResolutionEntries,
+      mosaic_resolution_entries: blockReceipts.resolutionStatements?.mosaicResolutionEntries
+    }
+
+    return {
+      transactionReceipt: {
+        balanceChangeReceipt,
+        balanceTransferReceipt,
+        inflationReceipt,
+        artifactExpiryReceipt
+      },
+      resolutionStatements
+    }
   }
 
   /**

@@ -164,7 +164,7 @@
                 "schema": [
                     {
                         "type": "Card",
-                        "title": "Block Detail",
+                        "title": "block_detail",
                         "fullWidth": true,
                         "header": [
                             {
@@ -179,85 +179,121 @@
                         "fields": [
                             "height",
                             "date",
-                            "totalFee",
+                            "total_fee",
                             "difficulty",
-                            "feeMultiplier",
+                            "fee_multiplier",
                             "transactions",
                             "harvester",
-                            "blockHash"
+                            "block_hash"
                         ],
                         "pagination": false,
                         "managerGetter": "block/info",
-                        "errorMessage": "Block does not exist."
+                        "errorMessage": "block_info_error_message"
                     },
                     {
                         "type": "Card",
-                        "title": "Block Transactions",
+                        "title": "block_transactions",
                         "fullWidth": true,
                         "body": "TableListView",
                         "fields": [
                             "deadline",
-                            "transactionId",
-                            "transactionHash",
+                            "transaction_id",
+                            "transaction_hash",
                             "type"
                         ],
                         "managerGetter": "block/blockTransactions",
-                        "timelinePagination": true
+                        "timelinePagination": true,
+                        "errorMessage": "block_transactions_error_message"
                     },
                     {
                         "type": "Card",
-                        "title": "Balance Change Receipt",
+                        "title": "balance_change_receipt",
                         "fullWidth": false,
                         "body": "TableListView",
+                        "fields": [
+                            "version",
+                            "type",
+                            "size",
+                            "target_public_address",
+                            "mosaic_id",
+                            "amount"
+                        ],
                         "dataGetter": "block/balanceChangeReceipt",
                         "managerGetter": "block/blockReceipts",
-                        "hideEmptyData": false,
+                        "hideEmptyData": true,
                         "pagination": true,
-                        "pageSize": 5
+                        "pageSize": 5,
+                        "errorMessage": "block_balance_change_receipt_error_message"
                     },
                     {
                         "type": "Card",
-                        "title": "Balance Transfer Receipt",
+                        "title": "balance_transfer_receipt",
                         "fullWidth": false,
                         "body": "TableListView",
+                        "fields": [
+                            "version",
+                            "type",
+                            "size",
+                            "sender",
+                            "recipient_address",
+                            "mosaic_id",
+                            "amount"
+                        ],
                         "dataGetter": "block/balanceTransferReceipt",
                         "managerGetter": "block/blockReceipts",
                         "hideEmptyData": true,
                         "pagination": true,
-                        "pageSize": 5
+                        "pageSize": 5,
+                        "errorMessage": "block_balance_transfer_receipt_error_message"
                     },
                     {
                         "type": "Card",
-                        "title": "Inflation Receipt",
+                        "title": "inflation_receipt",
                         "fullWidth": false,
                         "body": "TableListView",
+                        "fields": [
+                            "version",
+                            "type",
+                            "size",
+                            "mosaic_id",
+                            "amount"
+                        ],
                         "dataGetter": "block/inflationReceipt",
                         "managerGetter": "block/blockReceipts",
                         "hideEmptyData": true,
                         "pagination": true,
-                        "pageSize": 5
+                        "pageSize": 5,
+                        "errorMessage": "block_inflation_receipt_error_message"
                     },
                     {
                         "type": "Card",
-                        "title": "Artifact Expiry Receipt",
+                        "title": "artifact_expiry_receipt",
                         "fullWidth": false,
                         "body": "TableListView",
+                        "fields": [
+                            "version",
+                            "type",
+                            "size",
+                            "artifact_id"
+                        ],
                         "dataGetter": "block/artifactExpiryReceipt",
                         "managerGetter": "block/blockReceipts",
                         "hideEmptyData": true,
                         "pagination": true,
-                        "pageSize": 5
+                        "pageSize": 5,
+                        "errorMessage": "block_artifact_expiry_receipt_error_message"
                     },
                     {
                         "type": "Card",
-                        "title": "Resolution Statement",
+                        "title": "resolution_statement",
                         "fullWidth": false,
                         "body": "TableListView",
                         "dataGetter": "block/resolutionStatement",
                         "managerGetter": "block/blockReceipts",
                         "hideEmptyData": true,
                         "pagination": true,
-                        "pageSize": 5
+                        "pageSize": 5,
+                        "errorMessage": "block_resolution_statement_error_message"
                     }
                 ]
             }

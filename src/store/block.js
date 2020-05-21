@@ -45,7 +45,7 @@ const managers = [
     'blockTransactions',
     (pageSize, store) => BlockService.getBlockTransactionList(store.getters.currentBlockHeight, pageSize),
     (key, pageSize, store) => BlockService.getBlockTransactionList(store.getters.currentBlockHeight, pageSize, key),
-    'transactionId',
+    'transaction_id',
     10
   ),
   new DataSet(
