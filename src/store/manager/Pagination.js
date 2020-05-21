@@ -27,18 +27,14 @@ export default class Timeline {
     this.name = name
     this.fetchFunction = fetchFunction
     this.pageInfo = pageInfo
-    if (filter !== null && typeof filter === 'object') {
-      this.options = filter
-      this.filterValue = Object.keys(this.options)[0]
-    } else
-      this.options = []
-
+    this.options = filter
     this.store = {}
 
     this.addLatestItem = this.addLatestItem.bind(this)
     this.initialized = false
     this.loading = false
     this.error = false
+    this.filterIndex = 0
   }
 
   static empty() {
@@ -77,7 +73,13 @@ export default class Timeline {
   }
 
   get filterOptions() {
-    return this.options
+    return Array.isArray(this.options) ? this.options : []
+  }
+
+  get filterValue() {
+    return this.filterOptions[this.filterIndex]
+      ? this.filterOptions[this.filterIndex].value
+      : undefined
   }
 
   setStore(store) {
@@ -96,8 +98,7 @@ export default class Timeline {
   uninitialize() {
     this.initialized = false
     this.pageInfo.pageNumber = 1
-    if (this.options !== null && typeof this.options === 'object')
-      this.filterValue = Object.keys(this.options)[0]
+    this.filterIndex = 0
     this.loading = false
     this.error = false
   }
@@ -173,9 +174,9 @@ export default class Timeline {
     return this
   }
 
-  async changeFilterValue(filterValue) {
+  async changeFilterValue(index) {
     this.uninitialize()
-    this.filterValue = filterValue
+    this.filterIndex = index
     await this.fetch()
     this.store.dispatch(this.name, this)
     return this
@@ -183,8 +184,7 @@ export default class Timeline {
 
   async reset(pageNumber = 1) {
     this.pageInfo.pageNumber = pageNumber
-    if (this.options !== null && typeof this.options === 'object')
-      this.filterValue = Object.keys(this.options)[0]
+    this.filterIndex = 0
     return this.fetch()
   }
 
