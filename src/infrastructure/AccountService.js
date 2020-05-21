@@ -16,7 +16,7 @@
  *
  */
 
-import { Address, QueryParams } from 'symbol-sdk'
+import { Address, QueryParams, TransactionType } from 'symbol-sdk'
 import http from './http'
 import { Constants } from '../config'
 import { DataService, NamespaceService, TransactionService } from '../infrastructure'
@@ -142,13 +142,13 @@ class AccountService {
       ...accountTransaction,
       transaction_id: accountTransaction.id,
       transaction_hash: accountTransaction.hash,
-      transaction_type:
-        accountTransaction.transactionBody.type === 'Transfer'
+      transaction_descriptor:
+        accountTransaction.transactionBody.type === TransactionType.TRANSFER
           ? (accountTransaction.signer === address
-            ? 'TransferOutgoing'
-            : 'TransferIncoming'
+            ? 'outgoing_' + accountTransaction.transactionBody.transactionDescriptor
+            : 'incoming_' + accountTransaction.transactionBody.transactionDescriptor
           )
-          : accountTransaction.transactionBody.type
+          : accountTransaction.transactionBody.transactionDescriptor
     }))
   }
 

@@ -18,6 +18,7 @@
                             v-else-if="isKeyClickable(itemKey) && getItemHref(itemKey, item)"
                             :to="getItemHref(itemKey, item)"
                         >{{ item }}</router-link>
+                        <div v-else-if="itemKey === 'transaction_descriptor'">{{getKeyName(item)}}</div>
                         <div v-else>{{ item }}</div>
                     </td>
                 </tr>

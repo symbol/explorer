@@ -95,7 +95,7 @@ class BlockService {
       ...blockTransaction,
       transaction_id: blockTransaction.id,
       transaction_hash: blockTransaction.hash,
-      type: blockTransaction.transactionBody.type
+      transaction_descriptor: blockTransaction.transactionBody.transactionDescriptor
     }))
   }
 

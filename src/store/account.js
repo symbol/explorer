@@ -61,7 +61,7 @@ const managers = [
     'OwnedNamespace',
     (pageSize, store) => NamespaceService.getNamespacesFromAccountList(store.getters.getCurrentAccountAddress, pageSize),
     (key, pageSize, store) => NamespaceService.getNamespacesFromAccountList(store.getters.getCurrentAccountAddress, pageSize, key),
-    'metaId',
+    'meta_id',
     10
   ),
   new DataSet(
@@ -72,14 +72,14 @@ const managers = [
     'transactions',
     (pageSize, store) => AccountService.getAccountTransactionList(store.getters.getCurrentAccountAddress, pageSize),
     (key, pageSize, store) => AccountService.getAccountTransactionList(store.getters.getCurrentAccountAddress, pageSize, key),
-    'transactionId',
+    'transaction_id',
     10
   ),
   new Timeline(
     'metadatas',
     (pageSize, store) => MetadataService.getAccountMetadataList(store.getters.getCurrentAccountAddress, pageSize),
     (key, pageSize, store) => MetadataService.getAccountMetadataList(store.getters.getCurrentAccountAddress, pageSize, key),
-    'id',
+    'metadata_id',
     10
   ),
   new DataSet(
