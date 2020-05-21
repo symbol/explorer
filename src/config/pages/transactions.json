@@ -1,0 +1,39 @@
+{
+    "path": "/transactions2",
+    "name": "transactions2",
+    "meta": {
+        "group": "list-page",
+        "keepAliveGoTo": []
+    },
+    "props": {
+        "layout": "flex",
+        "storeNamespaces": ["transaction"],
+        "schema": [
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "Transactions",
+                "managerGetter": "transaction/timeline",
+                "errorMessage": "Failed to fetch transaction list",
+                "pagination": "server",
+                "hasFilter": true,
+                "fields": [
+                    "height",
+                    "deadline",
+                    "transactionHash",
+                    "type",
+                    "maxFee",
+                    "signer",
+                    "recipient"
+                ],
+                "mobileFields": [
+                    "height",
+                    "transactionHash",
+                    "fee",
+                    "signer",
+                    "recipient"
+                ]
+            }
+        ]
+    }
+}
