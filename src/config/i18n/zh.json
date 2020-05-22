@@ -90,5 +90,7 @@
     "targetNamespaceId": "目标命名空间",
     "type": "类型",
     "valueSizeDelta": "值大小增量",
-    "feeMultiplier": "费用乘数"
+    "feeMultiplier": "费用乘数",
+    "linkedPublicKey": "linked Public Key",
+    "linkedAccountAddress": "linked Account Address"
 }

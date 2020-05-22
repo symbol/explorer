@@ -65,7 +65,10 @@ class Constants {
     [TransactionType.MOSAIC_GLOBAL_RESTRICTION]: 'Mosaic Global Restriction',
     [TransactionType.ACCOUNT_METADATA]: 'Account Metadata',
     [TransactionType.MOSAIC_METADATA]: 'Mosaic Metadata',
-    [TransactionType.NAMESPACE_METADATA]: 'Namespace Metadata'
+    [TransactionType.NAMESPACE_METADATA]: 'Namespace Metadata',
+    [TransactionType.VRF_KEY_LINK]: 'VRF Key Link',
+    [TransactionType.VOTING_KEY_LINK]: 'Voting Key Link',
+    [TransactionType.NODE_KEY_LINK]: 'Node Key Link'
   }
 
   static MosaicSupplyChangeAction = {

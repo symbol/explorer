@@ -196,5 +196,7 @@
     "targetPublicAccount": "Address",
     "cosignatories": "Cosignatories",
     "multisigAccounts": "Multisig Accounts",
-    "effectiveFee": "Fee"
+    "effectiveFee": "Fee",
+    "linkedPublicKey": "linked Public Key",
+    "linkedAccountAddress": "linked Account Address"
 }
