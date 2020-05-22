@@ -127,5 +127,7 @@
     "Transaction Detail": "Деталі транзакції",
     "Mosaics": "Мозаїки",
     "Aggregate Inner Transactions": "Сукупні внутрішні транзакції",
-    "Aggregate Cosignatures": "Сукупні косигнати"
+    "Aggregate Cosignatures": "Сукупні косигнати",
+    "linkedPublicKey": "linked Public Key",
+    "linkedAccountAddress": "linked Account Address"
 }

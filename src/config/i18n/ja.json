@@ -196,5 +196,7 @@
     "targetPublicAccount": "アドレス",
     "cosignatories": "連署者",
     "multisigAccounts": "マルチシグアカウント",
-    "effectiveFee": "手数料"
+    "effectiveFee": "手数料",
+    "linkedPublicKey": "linked Public Key",
+    "linkedAccountAddress": "linked Account Address"
 }
