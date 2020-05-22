@@ -17,6 +17,7 @@
     "accountAliasName": "account",
     "cosignatories": "account",
     "multisigAccounts_": "account",
+    "linkedAccountAddress": "account",
 
     "transactionHash": "transaction",
 

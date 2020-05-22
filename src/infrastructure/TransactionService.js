@@ -418,6 +418,15 @@ class TransactionService {
         metadataValue: transactionBody.value,
         valueSizeDelta: transactionBody.valueSizeDelta
       }
+    case TransactionType.VOTING_KEY_LINK:
+    case TransactionType.VRF_KEY_LINK:
+    case TransactionType.NODE_KEY_LINK:
+      return {
+        type: Constants.TransactionType[transactionBody.type],
+        linkAction: Constants.LinkAction[transactionBody.linkAction],
+        linkedPublicKey: transactionBody.linkedPublicKey,
+        linkedAccountAddress: Address.createFromPublicKey(transactionBody.linkedPublicKey, http.networkType).plain()
+      }
     }
   }
 
