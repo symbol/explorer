@@ -64,7 +64,6 @@ export default new Vuex.Store({
       router.beforeEach((to, from, next) => dispatch('onRouteChange', { to, from, next }))
       // Initialize the API.
       await helper.logError(dispatch, 'api/initialize')
-      helper.logError(dispatch, 'transaction/initialize')
       switch (route.name) {
       // Home
       case 'home':
