@@ -6,7 +6,6 @@
     "recipient": "account",
     "owneraddress": "account",
     "linkedAccountKey": "account",
-    "remoteAccountAddress": "account",
     "aliasAddress": "account",
     "senderAddress": "account",
     "targetAddress": "account",

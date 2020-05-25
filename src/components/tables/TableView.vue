@@ -56,7 +56,6 @@ export default {
         'blockHeight',
         'endHeight',
         'startHeight',
-        'remoteAccountAddress',
 
         'lastActivity',
         'recalculationBlock',

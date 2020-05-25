@@ -50,8 +50,6 @@
     "registrationType": "Тип реєстрації",
     "parentId": "Батьківський ідентифікатор",
     "duration": "Тривалість",
-    "remoteAccountPublicKey": "Публічний ключ віддаленого рахунку",
-    "remoteAccountAddress": "Адреса віддаленого рахунку",
     "startHeight": "Стартова висота",
     "endHeight": "Кінцева висота",
     "beforeEndHeight": "Кінцева висота",
@@ -129,5 +127,11 @@
     "Aggregate Inner Transactions": "Сукупні внутрішні транзакції",
     "Aggregate Cosignatures": "Сукупні косигнати",
     "linkedPublicKey": "linked Public Key",
-    "linkedAccountAddress": "linked Account Address"
+    "linkedAccountAddress": "linked Account Address",
+    "proofGamma": "Proof Gamma",
+    "proofScalar": "Proof Scalar",
+    "proofVarificationHash": "Proof Varification Hash",
+    "accountKeyType": "Type",
+    "key": "Key",
+    "supplementalKeys": "Supplemental Keys"
 }
