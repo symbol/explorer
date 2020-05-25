@@ -329,7 +329,7 @@ class TransactionService {
     case TransactionType.ACCOUNT_ADDRESS_RESTRICTION:
       return {
         type: Constants.TransactionType[TransactionType.ACCOUNT_ADDRESS_RESTRICTION],
-        restrictionType: Constants.AccountRestrictionFlags[transactionBody.restrictionFlags],
+        restrictionType: Constants.AddressRestrictionFlag[transactionBody.restrictionFlags],
         restrictionAddressAdditions: transactionBody.restrictionAdditions.map(restriction => {
           if (restriction instanceof Address)
             return restriction.address
@@ -347,7 +347,7 @@ class TransactionService {
     case TransactionType.ACCOUNT_MOSAIC_RESTRICTION:
       return {
         type: Constants.TransactionType[TransactionType.ACCOUNT_MOSAIC_RESTRICTION],
-        restrictionType: Constants.AccountRestrictionFlags[transactionBody.restrictionFlags],
+        restrictionType: Constants.MosaicRestrictionFlag[transactionBody.restrictionFlags],
         restrictionMosaicAdditions: transactionBody.restrictionAdditions.map(mosaic => mosaic.id.toHex()),
         restrictionMosaicDeletions: transactionBody.restrictionDeletions.map(mosaic => mosaic.id.toHex())
       }
@@ -355,17 +355,9 @@ class TransactionService {
     case TransactionType.ACCOUNT_OPERATION_RESTRICTION:
       return {
         type: Constants.TransactionType[TransactionType.ACCOUNT_OPERATION_RESTRICTION],
-        restrictionType: Constants.AccountRestrictionFlags[transactionBody.restrictionFlags],
+        restrictionType: Constants.OperationRestrictionFlag[transactionBody.restrictionFlags],
         restrictionOperationAdditions: transactionBody.restrictionAdditions.map(operation => Constants.TransactionType[operation]),
         restrictionOperationDeletions: transactionBody.restrictionDeletions.map(operation => Constants.TransactionType[operation])
-      }
-
-    case TransactionType.ACCOUNT_LINK:
-      return {
-        type: Constants.TransactionType[TransactionType.ACCOUNT_LINK],
-        linkAction: Constants.LinkAction[transactionBody.linkAction],
-        remotePublicKey: transactionBody.remotePublicKey,
-        remoteAccountAddress: Address.createFromPublicKey(transactionBody.remotePublicKey, http.networkType).plain()
       }
 
     case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
@@ -421,6 +413,7 @@ class TransactionService {
     case TransactionType.VOTING_KEY_LINK:
     case TransactionType.VRF_KEY_LINK:
     case TransactionType.NODE_KEY_LINK:
+    case TransactionType.ACCOUNT_KEY_LINK:
       return {
         type: Constants.TransactionType[transactionBody.type],
         linkAction: Constants.LinkAction[transactionBody.linkAction],
