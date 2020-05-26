@@ -52,8 +52,6 @@
     "registrationType": "タイプ",
     "parentId": "親ID",
     "duration": "期間",
-    "remoteAccountPublicKey": "リモート公開鍵",
-    "remoteAccountAddress": "リモートアドレス",
     "startHeight": "開始高",
     "endHeight": "終了高",
     "beforeEndHeight": "終了高",
@@ -198,5 +196,11 @@
     "multisigAccounts": "マルチシグアカウント",
     "effectiveFee": "手数料",
     "linkedPublicKey": "linked Public Key",
-    "linkedAccountAddress": "linked Account Address"
+    "linkedAccountAddress": "linked Account Address",
+    "proofGamma": "Proof Gamma",
+    "proofScalar": "Proof Scalar",
+    "proofVarificationHash": "Proof Varification Hash",
+    "accountKeyType": "Type",
+    "key": "Key",
+    "supplementalKeys": "Supplemental Keys"
 }

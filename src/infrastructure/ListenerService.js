@@ -17,7 +17,7 @@
  */
 
 import { Listener } from 'symbol-sdk'
-
+import http from './http'
 class ListenerService {
   /**
    * Subscribe to new blocks announced to the chain.
@@ -26,7 +26,8 @@ class ListenerService {
    * @returns Array object [Listener, Subscription]
    */
   static subscribeNewBlock = async (onAdd, wsEndpoint) => {
-    const listener = new Listener(wsEndpoint, WebSocket)
+    const namespaceRepository = http.createRepositoryFactory.createNamespaceRepository()
+    const listener = new Listener(wsEndpoint, namespaceRepository, WebSocket)
     await listener.open()
     let subscription = listener
       .newBlock()

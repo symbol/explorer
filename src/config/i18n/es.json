@@ -49,8 +49,6 @@
     "registrationType": "Tipo de registro",
     "parentId": "Parent ID",
     "duration": "Duración",
-    "remoteAccountPublicKey": "Remote cuentas Llave pública",
-    "remoteAccountAddress": "Remote cuentas Dirección",
     "startHeight": "Comienzo Altura",
     "endHeight": "Fin Altura",
     "beforeEndHeight": "Fin Altura",
@@ -92,5 +90,11 @@
     "valueSizeDelta": "Value Size Delta",
     "feeMultiplier": "Fee Multiplier",
     "linkedPublicKey": "linked Public Key",
-    "linkedAccountAddress": "linked Account Address"
+    "linkedAccountAddress": "linked Account Address",
+    "proofGamma": "Proof Gamma",
+    "proofScalar": "Proof Scalar",
+    "proofVarificationHash": "Proof Varification Hash",
+    "accountKeyType": "Type",
+    "key": "Key",
+    "supplementalKeys": "Supplemental Keys"
 }

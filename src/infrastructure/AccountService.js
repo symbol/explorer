@@ -177,6 +177,10 @@ class AccountService {
     publicKeyHeight: accountInfo.publicKeyHeight.compact(),
     type: Constants.AccountType[accountInfo.accountType],
     linkedAccountKey: Constants.AccountType[accountInfo.accountType] === 'Unlinked' ? Constants.Message.UNAVAILABLE : Address.createFromPublicKey(accountInfo.linkedAccountKey, http.networkType).plain(),
+    supplementalAccountKeys: accountInfo.supplementalAccountKeys.map(accountKey => ({
+      ...accountKey,
+      accountKeyType: Constants.AccountKeyType[accountKey.keyType]
+    })),
     importance: helper.ImportanceScoreToPercent(accountInfo.importance.compact()),
     importanceHeight: accountInfo.importanceHeight.compact()
   })

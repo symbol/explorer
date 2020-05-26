@@ -5,6 +5,7 @@ import {
   AliasAction,
   LinkAction,
   AccountType,
+  AccountKeyType,
   LockHashAlgorithm,
   NetworkType,
   MetadataType,
@@ -12,7 +13,9 @@ import {
   ResolutionType,
   RoleType,
   Deadline,
-  AccountRestrictionFlags,
+  AddressRestrictionFlag,
+  MosaicRestrictionFlag,
+  OperationRestrictionFlag,
   MosaicRestrictionEntryType,
   MosaicRestrictionType
 } from 'symbol-sdk'
@@ -60,7 +63,7 @@ class Constants {
     [TransactionType.ACCOUNT_ADDRESS_RESTRICTION]: 'Account Address Restriction',
     [TransactionType.ACCOUNT_MOSAIC_RESTRICTION]: 'Account Mosaic Restriction',
     [TransactionType.ACCOUNT_OPERATION_RESTRICTION]: 'Account Operation Restriction',
-    [TransactionType.ACCOUNT_LINK]: 'Account Link',
+    [TransactionType.ACCOUNT_KEY_LINK]: 'Account Key Link',
     [TransactionType.MOSAIC_ADDRESS_RESTRICTION]: 'Mosaic Address Restriction',
     [TransactionType.MOSAIC_GLOBAL_RESTRICTION]: 'Mosaic Global Restriction',
     [TransactionType.ACCOUNT_METADATA]: 'Account Metadata',
@@ -96,6 +99,15 @@ class Constants {
     [AccountType.Main]: 'Main',
     [AccountType.Remote]: 'Remote',
     [AccountType.Remote_Unlinked]: 'Remote Unlinked'
+  }
+
+  static AccountKeyType = {
+    [AccountKeyType.Unset]: 'Unset',
+    [AccountKeyType.Linked]: 'Linked',
+    [AccountKeyType.VRF]: 'VRF',
+    [AccountKeyType.Voting]: 'Voting',
+    [AccountKeyType.Node]: 'Node',
+    [AccountKeyType.All]: 'All'
   }
 
   static LockHashAlgorithm = {
@@ -145,17 +157,21 @@ class Constants {
     [RoleType.DualNode]: 'DUAL NODE'
   }
 
-  static AccountRestrictionFlags = {
-    [AccountRestrictionFlags.AllowIncomingAddress]: 'Allow Incoming Address',
-    [AccountRestrictionFlags.AllowMosaic]: 'Allow Mosaic',
-    [AccountRestrictionFlags.AllowIncomingTransactionType]: 'Allow Incoming Transaction',
-    [AccountRestrictionFlags.AllowOutgoingAddress]: 'Allow Outgoing Address',
-    [AccountRestrictionFlags.AllowOutgoingTransactionType]: 'Allow Outgoing Transaction',
-    [AccountRestrictionFlags.BlockIncomingAddress]: 'Block Incoming Address',
-    [AccountRestrictionFlags.BlockMosaic]: 'Block Mosaic',
-    [AccountRestrictionFlags.BlockIncomingTransactionType]: 'Block IncomingT Transaction',
-    [AccountRestrictionFlags.BlockOutgoingAddress]: 'Block Outgoing Address',
-    [AccountRestrictionFlags.BlockOutgoingTransactionType]: 'Block Outgoing Transaction'
+  static AddressRestrictionFlag = {
+    [AddressRestrictionFlag.AllowIncomingAddress]: 'Allow Incoming Address',
+    [AddressRestrictionFlag.AllowOutgoingAddress]: 'Allow Outgoing Address',
+    [AddressRestrictionFlag.BlockIncomingAddress]: 'Block Incoming Address',
+    [AddressRestrictionFlag.BlockOutgoingAddress]: 'Block Outgoing Address'
+  }
+
+  static MosaicRestrictionFlag = {
+    [MosaicRestrictionFlag.AllowMosaic]: 'Allow Mosaic',
+    [MosaicRestrictionFlag.BlockMosaic]: 'Block Mosaic'
+  }
+
+  static OperationRestrictionFlag = {
+    [OperationRestrictionFlag.AllowOutgoingTransactionType]: 'Allow Outgoing Transaction',
+    [OperationRestrictionFlag.BlockOutgoingTransactionType]: 'Block Outgoing Transaction'
   }
 
   static MosaicRestrictionEntryType = {

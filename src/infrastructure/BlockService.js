@@ -119,20 +119,15 @@ class BlockService {
    * @returns Object readable BlockDTO object
    */
   static formatBlock = block => ({
+    ...block,
     height: block.height.compact(),
-    hash: block.hash,
     timestampRaw: block.timestamp,
     timestamp: helper.networkTimestamp(block.timestamp),
     totalFee: helper.toNetworkCurrency(block.totalFee),
     difficulty: helper.convertBlockDifficultyToReadable(block.difficulty),
     feeMultiplier: block.feeMultiplier.toString(),
     transactions: block.numTransactions,
-    signature: block.signature,
-    signer: helper.publicKeyToAddress(block.signer.publicKey),
-    previousBlockHash: block.previousBlockHash,
-    blockTransactionsHash: block.blockTransactionsHash,
-    blockReceiptsHash: block.blockReceiptsHash,
-    stateHash: block.stateHash
+    signer: helper.publicKeyToAddress(block.signer.publicKey)
   })
 }
 

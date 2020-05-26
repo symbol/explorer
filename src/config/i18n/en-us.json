@@ -52,8 +52,6 @@
     "registrationType": "Registration Type",
     "parentId": "Parent ID",
     "duration": "Duration",
-    "remoteAccountPublicKey": "Remote Account PublicKey",
-    "remoteAccountAddress": "Remote Account Address",
     "startHeight": "Registered at Height",
     "endHeight": "End at Height",
     "beforeEndHeight": "End at Height",
@@ -198,5 +196,11 @@
     "multisigAccounts": "Multisig Accounts",
     "effectiveFee": "Fee",
     "linkedPublicKey": "linked Public Key",
-    "linkedAccountAddress": "linked Account Address"
+    "linkedAccountAddress": "linked Account Address",
+    "proofGamma": "Proof Gamma",
+    "proofScalar": "Proof Scalar",
+    "proofVarificationHash": "Proof Varification Hash",
+    "accountKeyType": "Type",
+    "key": "Key",
+    "supplementalKeys": "Supplemental Keys"
 }
