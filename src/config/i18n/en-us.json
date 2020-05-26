@@ -145,7 +145,7 @@
     "port": "Port",
     "friendlyName": "Friendly Name",
     "direction": "",
-    "approximateExpired": "Approximate Expired",
+    "approximateExpired": "Expiration Date",
     "expiredInBlock": "Expired In Block",
     "index": "No.",
     "Network Fees": "Recommended Fees Multiplier",
@@ -196,5 +196,6 @@
     "targetPublicAccount": "Address",
     "cosignatories": "Cosignatories",
     "multisigAccounts": "Multisig Accounts",
-    "effectiveFee": "Fee"
+    "effectiveFee": "Fee",
+    "expirationDuration": "Expiration"
 }
