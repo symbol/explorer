@@ -193,7 +193,7 @@ class helper {
    * @returns relativeAmount in string
    */
   static formatMosaicAmountWithDivisibility = (amount, divisibility) => {
-    let relativeAmount = divisibility !== 0 ? amount / Math.pow(10, divisibility) : amount
+    let relativeAmount = divisibility !== 0 ? amount / Math.pow(10, divisibility) : amount.compact()
     return relativeAmount.toLocaleString('en-US', { minimumFractionDigits: divisibility })
   }
 

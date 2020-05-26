@@ -113,7 +113,7 @@ class TransactionService {
         return {
           ...mosaic,
           mosaicId: mosaic.id.toHex(),
-          amount: helper.formatMosaicAmountWithDivisibility(mosaic.amount.compact(), divisibility),
+          amount: helper.formatMosaicAmountWithDivisibility(mosaic.amount, divisibility),
           mosaicAliasName: MosaicService.extractMosaicNamespace({ mosaicId: mosaic.id.toHex() }, mosaicNames)
         }
       })
