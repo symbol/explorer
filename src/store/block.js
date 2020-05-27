@@ -28,6 +28,7 @@ import {
 import {
   DataSet,
   Timeline,
+  Pagination,
   getStateFromManagers,
   getGettersFromManagers,
   getMutationsFromManagers,
@@ -41,15 +42,19 @@ const managers = [
     (key, pageSize) => BlockService.getBlockList(pageSize, key),
     'height'
   ),
-  new Timeline(
-    'blockTransactions',
-    (pageSize, store) => BlockService.getBlockTransactionList(store.getters.currentBlockHeight, pageSize),
-    (key, pageSize, store) => BlockService.getBlockTransactionList(store.getters.currentBlockHeight, pageSize, key),
-    'transactionId',
-    10
-  ),
+  new Pagination({
+    name: 'transactions',
+    fetchFunction: (pageInfo, filterValue, store) => BlockService.getBlockTransactionList(pageInfo, filterValue, store.getters.currentBlockHeight),
+    pageInfo: {
+      pageSize: 10
+    },
+    filter: {
+      0: 'All',
+      ...Constants.TransactionType
+    }
+  }),
   new DataSet(
-    'blockReceiptInfo',
+    'receiptInfo',
     (height) => ReceiptService.getBlockReceiptsInfo(height)
   ),
   new DataSet(
@@ -76,11 +81,11 @@ export default {
     getRecentList: state => state.timeline?.data?.filter((item, index) => index < 4) || [],
     getSubscription: state => state.subscription,
     blockInfo: state => state.info?.data?.blockInfo || {},
-    inflationReceipt: state => state.blockReceiptInfo?.data?.transactionReceipt?.inflationReceipt || [],
-    balanceTransferReceipt: state => state.blockReceiptInfo?.data?.transactionReceipt?.balanceTransferReceipt || [],
-    balanceChangeReceipt: state => state.blockReceiptInfo?.data?.transactionReceipt?.balanceChangeReceipt || [],
-    artifactExpiryReceipt: state => state.blockReceiptInfo?.data?.transactionReceipt?.artifactExpiryReceipt || [],
-    resolutionStatement: state => state.blockReceiptInfo?.data?.resolutionStatements?.resolutionStatement || [],
+    inflationReceipt: state => state.receiptInfo?.data?.transactionReceipt?.inflationReceipt || [],
+    balanceTransferReceipt: state => state.receiptInfo?.data?.transactionReceipt?.balanceTransferReceipt || [],
+    balanceChangeReceipt: state => state.receiptInfo?.data?.transactionReceipt?.balanceChangeReceipt || [],
+    artifactExpiryReceipt: state => state.receiptInfo?.data?.transactionReceipt?.artifactExpiryReceipt || [],
+    resolutionStatement: state => state.receiptInfo?.data?.resolutionStatements?.resolutionStatement || [],
     currentBlockHeight: state => state.currentBlockHeight,
 
     infoText: (s, g, rs, rootGetters) => 'Chain height: ' + rootGetters['chain/getBlockHeight']
@@ -116,13 +121,13 @@ export default {
     async subscribe({ commit, getters, rootGetters }) {
       if (getters.getSubscription === null) {
         const subscription = await ListenerService.subscribeNewBlock(
-          (item) => {
-            let formattedBlock = BlockService.formatBlock(item)
+          async (item) => {
+            const latestBlock = await BlockService.getBlockByHeight(item.height.compact())
             getters.timeline.addLatestItem({
-              ...formattedBlock,
-              date: helper.convertToUTCDate(formattedBlock.timestamp),
-              age: helper.convertToUTCDate(formattedBlock.timestamp),
-              harvester: formattedBlock.signer
+              ...latestBlock,
+              date: helper.convertToUTCDate(latestBlock.timestamp),
+              age: helper.convertToUTCDate(latestBlock.timestamp),
+              harvester: latestBlock.signer
             })
             commit('chain/setBlockHeight', item.height, { root: true })
           },
@@ -151,8 +156,8 @@ export default {
     fetchBlockInfo: (context, height) => {
       context.commit('currentBlockHeight', height)
       context.getters.info.setStore(context).initialFetch(height)
-      context.getters.blockReceiptInfo.setStore(context).initialFetch(height)
-      context.getters.blockTransactions.setStore(context).initialFetch(height)
+      context.getters.receiptInfo.setStore(context).initialFetch(height)
+      context.getters.transactions.setStore(context).initialFetch(height)
     },
 
     nextBlock: ({ commit, getters, dispatch, rootGetters }) => {

@@ -1,65 +1,6 @@
 {
     "pages": [
         {
-            "path": "/blocks",
-            "name": "blocks",
-            "meta": {
-                "group": "list-page",
-                "keepAliveGoTo": ["detail-page"]
-            },
-            "props": {
-                "title": "blocks",
-                "hasInfoText": true,
-                "storeNamespaces": ["block"],
-                "managerGetter": "block/timeline",
-                "infoTextGetter": "block/infoText",
-                "Fields": [
-                    "height",
-                    "age",
-                    "transactions",
-                    "totalFee",
-                    "date",
-                    "harvester"
-                ],
-                "mobileFields": [
-                    "height",
-                    "age",
-                    "transactions",
-                    "totalFee"
-                ]
-            }
-        },
-        {
-            "path": "/transactions",
-            "name": "transactions",
-            "meta": {
-                "group": "list-page",
-                "keepAliveGoTo": ["detail-page"]
-            },
-            "props": {
-                "title": "transactions",
-                "storeNamespaces": ["transaction"],
-                "managerGetter": "transaction/timeline",
-                "hasFilter": true,
-                "Fields": [
-                    "height",
-                    "deadline",
-                    "transactionHash",
-                    "type",
-                    "maxFee",
-                    "signer",
-                    "recipient"
-                ],
-                "mobileFields": [
-                    "height",
-                    "transactionHash",
-                    "fee",
-                    "signer",
-                    "recipient"
-                ]
-            }
-        },
-        {
             "path": "/accounts",
             "name": "accounts",
             "meta": {
@@ -100,7 +41,7 @@
                     "namespaceName",
                     "namespaceId",
                     "owneraddress",
-                    "duration",
+                    "expirationDuration",
                     "approximateExpired"
                 ],
                 "mobileFields": [

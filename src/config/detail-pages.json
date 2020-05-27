@@ -73,14 +73,26 @@
                     },
                     {
                         "type": "Card",
+                        "title": "supplementalKeys",
+                        "fullWidth": false,
+                        "body": "TableListView",
+                        "fields": [
+                            "accountKeyType",
+                            "key"
+                        ],
+                        "managerGetter": "account/info",
+                        "dataGetter": "account/getSupplementalAccountKeys",
+                        "pagination": true,
+                        "pageSize": 5
+                    },
+                    {
+                        "type": "Card",
                         "title": "Transactions",
                         "fullWidth": true,
                         "header": [
                             {
-                                "type": "filter-tmp-disabled",
-                                "filterOptionsGetter": "account/transactionFilterOptions",
-                                "filterValueGetter": "account/transactionFilterValue",
-                                "filterChangeAction": "account/setTransactionFilterValue"
+                                "type": "filter",
+                                "filterGetter": "account/transactions"
                             }
                         ],
                         "body": "TableListView",
@@ -184,7 +196,10 @@
                             "feeMultiplier",
                             "transactions",
                             "harvester",
-                            "blockHash"
+                            "blockHash",
+                            "proofGamma",
+                            "proofScalar",
+                            "proofVarificationHash"
                         ],
                         "pagination": false,
                         "managerGetter": "block/info",
@@ -195,13 +210,19 @@
                         "title": "Block Transactions",
                         "fullWidth": true,
                         "body": "TableListView",
+                        "header": [
+                            {
+                                "type": "filter",
+                                "filterGetter": "block/transactions"
+                            }
+                        ],
                         "fields": [
                             "deadline",
                             "transactionId",
                             "transactionHash",
                             "type"
                         ],
-                        "managerGetter": "block/blockTransactions",
+                        "managerGetter": "block/transactions",
                         "timelinePagination": true
                     },
                     {

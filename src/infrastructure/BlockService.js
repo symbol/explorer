@@ -16,7 +16,7 @@
  *
  */
 
-import { UInt64, QueryParams } from 'symbol-sdk'
+import { UInt64 } from 'symbol-sdk'
 import { ChainService, TransactionService } from '../infrastructure'
 import http from './http'
 import helper from '../helper'
@@ -31,20 +31,6 @@ class BlockService {
     const blockInfo = await http.createRepositoryFactory.createBlockRepository()
       .getBlockByHeight(UInt64.fromUint(height)).toPromise()
     return this.formatBlock(blockInfo)
-  }
-
-  /**
-   * Gets array of transactions included in a block for a block height
-   * @param height - block height
-   * @param pageSize - (default 10) no. of data
-   * @param id - (Optional) retrive next transactions in pagination
-   */
-  static getBlockTransactions = async (height, pageSize = 10, id = '') => {
-    const transactions = await http.createRepositoryFactory.createBlockRepository()
-      .getBlockTransactions(UInt64.fromUint(height), new QueryParams({ pageSize, id }))
-      .toPromise()
-
-    return transactions.map(transaction => TransactionService.formatTransaction(transaction))
   }
 
   /**
@@ -82,20 +68,33 @@ class BlockService {
 
   /**
    * Get Custom Transactions dataset into Vue Component
-   * @param height - block height
-   * @param pageSize - no. of data
-   * @param transactionId - (Optional) retrive next transactions in pagination
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param filterVaule - object for search criteria
+   * @param height -  block height
    * @returns Custom Transactions dataset
    */
-  static getBlockTransactionList = async (height, pageSize, transactionId) => {
-    const blockTransactions = await this.getBlockTransactions(height, pageSize, transactionId)
+  static getBlockTransactionList = async (pageInfo, filterVaule, height) => {
+    const { pageNumber, pageSize } = pageInfo
+    const searchCriteria = {
+      pageNumber,
+      pageSize,
+      orderBy: 'desc',
+      transactionTypes: filterVaule === '0' ? [] : [filterVaule],
+      group: 'Confirmed',
+      height: UInt64.fromUint(height)
+    }
 
-    return blockTransactions.map(blockTransaction => ({
-      ...blockTransaction,
-      transactionId: blockTransaction.id,
-      transactionHash: blockTransaction.hash,
-      type: blockTransaction.transactionBody.type
-    }))
+    const blockTransactions = await TransactionService.searchTransactions(searchCriteria)
+
+    return {
+      ...blockTransactions,
+      data: blockTransactions.data.map(blockTransaction => ({
+        ...blockTransaction,
+        transactionId: blockTransaction.id,
+        transactionHash: blockTransaction.hash,
+        type: blockTransaction.transactionBody.type
+      }))
+    }
   }
 
   /**
@@ -119,20 +118,15 @@ class BlockService {
    * @returns Object readable BlockDTO object
    */
   static formatBlock = block => ({
+    ...block,
     height: block.height.compact(),
-    hash: block.hash,
     timestampRaw: block.timestamp,
     timestamp: helper.networkTimestamp(block.timestamp),
     totalFee: helper.toNetworkCurrency(block.totalFee),
     difficulty: helper.convertBlockDifficultyToReadable(block.difficulty),
     feeMultiplier: block.feeMultiplier.toString(),
     transactions: block.numTransactions,
-    signature: block.signature,
-    signer: helper.publicKeyToAddress(block.signer.publicKey),
-    previousBlockHash: block.previousBlockHash,
-    blockTransactionsHash: block.blockTransactionsHash,
-    blockReceiptsHash: block.blockReceiptsHash,
-    stateHash: block.stateHash
+    signer: helper.publicKeyToAddress(block.signer.publicKey)
   })
 }
 

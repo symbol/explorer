@@ -3,6 +3,7 @@ import Vue from 'vue'
 export { default as Filter } from './Filter'
 export { default as Timeline } from './Timeline'
 export { default as DataSet } from './DataSet'
+export { default as Pagination } from './Pagination'
 
 export const getStateFromManagers = (managers) => {
   let state = {}

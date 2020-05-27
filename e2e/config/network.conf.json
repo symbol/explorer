@@ -1,0 +1,18 @@
+{
+    "testAccount": {
+        "address": "TATGZXFW3OTHPZT4G4IVDD2K7PXIJJXGEVCKP72W"
+    },
+    "testMosaic": {
+        "mosaicId": "519FC24B9223E0B4"
+    },
+    "testNamespace": {
+        "rootNamespace": "symbol",
+        "subNamespace": "symbol.xym"
+    },
+    "testBlock": {
+        "height": "1"
+    },
+    "testTransactions":{
+        "transferTransactionHash": "C838773F36EB3F5C5433A9F96A5AC44D2886D1F6467D8FE2F420A2118C3000D8"
+    }
+}

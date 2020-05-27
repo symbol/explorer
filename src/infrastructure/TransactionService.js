@@ -28,7 +28,6 @@ import http from './http'
 import helper from '../helper'
 import {
   BlockService,
-  DataService,
   NamespaceService,
   MosaicService
 } from '../infrastructure'
@@ -74,6 +73,21 @@ class TransactionService {
   }
 
   /**
+   * Gets a transaction from searchCriteria
+   * @param searchCriteria Object of Search Criteria
+   * @returns formatted transaction data with pagination info
+   */
+  static searchTransactions = async (searchCriteria) => {
+    const searchTransactions = await http.createRepositoryFactory.createTransactionRepository()
+      .searchTransactions(searchCriteria).toPromise()
+
+    return {
+      ...searchTransactions,
+      data: searchTransactions.data.map(transaction => this.formatTransaction(transaction))
+    }
+  }
+
+  /**
    * Gets a transaction's effective paid fee
    * @param hash Transaction id or hash
    * @returns formatted effectiveFee string
@@ -113,7 +127,7 @@ class TransactionService {
         return {
           ...mosaic,
           mosaicId: mosaic.id.toHex(),
-          amount: helper.formatMosaicAmountWithDivisibility(mosaic.amount.compact(), divisibility),
+          amount: helper.formatMosaicAmountWithDivisibility(mosaic.amount, divisibility),
           mosaicAliasName: MosaicService.extractMosaicNamespace({ mosaicId: mosaic.id.toHex() }, mosaicNames)
         }
       })
@@ -152,22 +166,33 @@ class TransactionService {
 
   /**
    * Gets array of transactions
-   * @param limit - No of transaction
-   * @param transactionType - filter transction type
-   * @param fromHash - (Optional) retrive next transactions in pagination
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param filterVaule - object for search criteria
    * @returns Formatted tranctionDTO[]
    */
-  static getTransactionList = async (limit, transactionType, fromHash) => {
-    const transactions = await DataService.getTransactionsFromHashWithLimit(limit, transactionType, fromHash)
-    const formatted = transactions.map(transaction => this.formatTransaction(transaction))
+  static getTransactionList = async (pageInfo, filterVaule) => {
+    const { pageNumber, pageSize } = pageInfo
+    const searchCriteria = {
+      pageNumber,
+      pageSize,
+      orderBy: 'desc',
+      transactionTypes: [],
+      group: 'Confirmed',
+      ...filterVaule
+    }
 
-    return formatted.map(transaction => ({
-      ...transaction,
-      height: transaction.height,
-      transactionHash: transaction.hash,
-      type: transaction.transactionBody.type,
-      recipient: transaction.transactionBody?.recipient
-    }))
+    const transactions = await this.searchTransactions(searchCriteria)
+
+    return {
+      ...transactions,
+      data: transactions.data.map(transaction => ({
+        ...transaction,
+        height: transaction.height,
+        transactionHash: transaction.hash,
+        type: transaction.transactionBody.type,
+        recipient: transaction.transactionBody?.recipient
+      }))
+    }
   }
 
   /**
@@ -329,7 +354,7 @@ class TransactionService {
     case TransactionType.ACCOUNT_ADDRESS_RESTRICTION:
       return {
         type: Constants.TransactionType[TransactionType.ACCOUNT_ADDRESS_RESTRICTION],
-        restrictionType: Constants.AccountRestrictionFlags[transactionBody.restrictionFlags],
+        restrictionType: Constants.AddressRestrictionFlag[transactionBody.restrictionFlags],
         restrictionAddressAdditions: transactionBody.restrictionAdditions.map(restriction => {
           if (restriction instanceof Address)
             return restriction.address
@@ -347,7 +372,7 @@ class TransactionService {
     case TransactionType.ACCOUNT_MOSAIC_RESTRICTION:
       return {
         type: Constants.TransactionType[TransactionType.ACCOUNT_MOSAIC_RESTRICTION],
-        restrictionType: Constants.AccountRestrictionFlags[transactionBody.restrictionFlags],
+        restrictionType: Constants.MosaicRestrictionFlag[transactionBody.restrictionFlags],
         restrictionMosaicAdditions: transactionBody.restrictionAdditions.map(mosaic => mosaic.id.toHex()),
         restrictionMosaicDeletions: transactionBody.restrictionDeletions.map(mosaic => mosaic.id.toHex())
       }
@@ -355,17 +380,9 @@ class TransactionService {
     case TransactionType.ACCOUNT_OPERATION_RESTRICTION:
       return {
         type: Constants.TransactionType[TransactionType.ACCOUNT_OPERATION_RESTRICTION],
-        restrictionType: Constants.AccountRestrictionFlags[transactionBody.restrictionFlags],
+        restrictionType: Constants.OperationRestrictionFlag[transactionBody.restrictionFlags],
         restrictionOperationAdditions: transactionBody.restrictionAdditions.map(operation => Constants.TransactionType[operation]),
         restrictionOperationDeletions: transactionBody.restrictionDeletions.map(operation => Constants.TransactionType[operation])
-      }
-
-    case TransactionType.ACCOUNT_LINK:
-      return {
-        type: Constants.TransactionType[TransactionType.ACCOUNT_LINK],
-        linkAction: Constants.LinkAction[transactionBody.linkAction],
-        remotePublicKey: transactionBody.remotePublicKey,
-        remoteAccountAddress: Address.createFromPublicKey(transactionBody.remotePublicKey, http.networkType).plain()
       }
 
     case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
@@ -417,6 +434,16 @@ class TransactionService {
         targetAddress: Address.createFromPublicKey(transactionBody.targetPublicKey, http.networkType).plain(),
         metadataValue: transactionBody.value,
         valueSizeDelta: transactionBody.valueSizeDelta
+      }
+    case TransactionType.VOTING_KEY_LINK:
+    case TransactionType.VRF_KEY_LINK:
+    case TransactionType.NODE_KEY_LINK:
+    case TransactionType.ACCOUNT_KEY_LINK:
+      return {
+        type: Constants.TransactionType[transactionBody.type],
+        linkAction: Constants.LinkAction[transactionBody.linkAction],
+        linkedPublicKey: transactionBody.linkedPublicKey,
+        linkedAccountAddress: Address.createFromPublicKey(transactionBody.linkedPublicKey, http.networkType).plain()
       }
     }
   }

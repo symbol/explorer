@@ -17,12 +17,11 @@
  */
 
 import Lock from './lock'
-import Constants from '../config/constants'
+import { filters } from '../config'
 import { TransactionService } from '../infrastructure'
 import {
-  Filter,
   DataSet,
-  Timeline,
+  Pagination,
   getStateFromManagers,
   getGettersFromManagers,
   getMutationsFromManagers,
@@ -30,46 +29,14 @@ import {
 } from './manager'
 
 const managers = [
-  new Timeline(
-    'recent',
-    () => TransactionService.getTransactionList(Constants.PageSize),
-    (key, pageSize) => TransactionService.getTransactionList(pageSize, void 0, key),
-    'transactionHash'
-  ),
-  new Timeline(
-    'pending',
-    () => TransactionService.getTransactionList(Constants.PageSize, 'unconfirmed'),
-    (key, pageSize) => TransactionService.getTransactionList(pageSize, 'unconfirmed', key),
-    'transactionHash'
-  ),
-  new Timeline(
-    'transfer',
-    () => TransactionService.getTransactionList(Constants.PageSize, 'transfer'),
-    (key, pageSize) => TransactionService.getTransactionList(pageSize, 'transfer', key),
-    'transactionHash'
-  ),
-  new Timeline(
-    'multisig',
-    () => TransactionService.getTransactionList(Constants.PageSize, 'transfer/multisig'),
-    (key, pageSize) => TransactionService.getTransactionList(pageSize, 'transfer/multisig', key),
-    'transactionHash'
-  ),
-  new Timeline(
-    'mosaic',
-    () => TransactionService.getTransactionList(Constants.PageSize, 'transfer/mosaic'),
-    (key, pageSize) => TransactionService.getTransactionList(pageSize, 'transfer/mosaic', key),
-    'transactionHash'
-  ),
-  new Filter(
-    'timeline',
-    {
-      recent: 'Recent',
-      pending: 'Pending Transactions',
-      transfer: 'Transfer Transactions',
-      multisig: 'Multisig Transactions',
-      mosaic: 'Mosaic Transactions'
-    }
-  ),
+  new Pagination({
+    name: 'timeline',
+    fetchFunction: (pageInfo, filterValue) => TransactionService.getTransactionList(pageInfo, filterValue),
+    pageInfo: {
+      pageSize: 20
+    },
+    filter: filters.transaction
+  }),
   new DataSet(
     'info',
     (hash) => TransactionService.getTransactionInfo(hash)
@@ -88,12 +55,12 @@ export default {
   getters: {
     ...getGettersFromManagers(managers),
     getInitialized: state => state.initialized,
-    getRecentList: state => state.recent?.data?.filter((item, index) => index < 4) || [],
     transactionInfo: state => state.info?.data?.transactionInfo || {},
     transactionDetail: state => state.info?.data?.transactionBody || {},
     transferMosaics: state => state.info?.data?.transferMosaics || [],
     aggregateInnerTransactions: state => state.info?.data?.aggregateTransaction?.innerTransactions || [],
-    aggregateCosignatures: state => state.info?.data?.aggregateTransaction?.cosignatures || []
+    aggregateCosignatures: state => state.info?.data?.aggregateTransaction?.cosignatures || [],
+    getRecentList: state => state.timeline?.data?.filter((item, index) => index < 4) || []
   },
   mutations: {
     ...getMutationsFromManagers(managers),
@@ -115,7 +82,7 @@ export default {
     async uninitialize({ commit, dispatch, getters }) {
       const callback = async () => {
         dispatch('unsubscribe')
-        getters.timeline?.uninitialize()
+                getters.timeline?.uninitialize()
       }
       await LOCK.uninitialize(callback, commit, dispatch, getters)
     },
@@ -145,11 +112,6 @@ export default {
 
     // Fetch data from the SDK and initialize the page.
     initializePage(context) {
-      context.getters.recent.setStore(context)
-      context.getters.pending.setStore(context)
-      context.getters.transfer.setStore(context)
-      context.getters.multisig.setStore(context)
-      context.getters.mosaic.setStore(context)
       context.getters.timeline.setStore(context).initialFetch()
     },
 

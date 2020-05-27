@@ -29,10 +29,10 @@
                 </template>
                 <template #control>
                     <div class="ex-infotext" v-if="hasInfoText"> {{infoText}} </div>
-                    <TypeBox
+                    <DropdownFilter
                         v-if="hasFilter"
                         :options="filterOptions"
-                        :value="filterValue"
+                        :index="filterIndex"
                         right
                         @change="changeFilterValue"
                         @reset="resetFilter"
@@ -54,14 +54,14 @@
     </div>
 </template>
 <script>
-import TypeBox from '@/components/controls/Dropdown.vue'
+import DropdownFilter from '@/components/controls/DropdownFilter.vue'
 import View from './View.vue'
 
 export default {
   extends: View,
 
   components: {
-    TypeBox
+    DropdownFilter
   },
 
   props: {
@@ -165,11 +165,11 @@ export default {
         return void 0
     },
 
-    filterValue() {
-      if (typeof this.filterValueGetter === 'string')
-        return this.getter(this.filterValueGetter)
+    filterIndex() {
+      if (typeof this.filterIndexGetter === 'string')
+        return this.getter(this.filterIndexGetter)
       else
-        return this.timeline.filterValue
+        return this.timeline.filterIndex
     },
 
     filterOptions() {

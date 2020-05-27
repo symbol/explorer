@@ -20,7 +20,7 @@ git clone https://github.com/nemfoundation/symbol-explorer.git
 2. Install the required dependencies.
 
 ```
-cd nem2-explorer
+cd symbol-explorer
 npm install
 ```
 
@@ -53,14 +53,14 @@ The file `/src/config/setup.json` contains the node list shown in the node selec
 Use the following available resources to get help:
 
 - [Symbol Documentation][docs]
-- Join the community [slack group (#sig-client)][slack] 
+- Join the community [slack group (#sig-client)][slack]
 - If you found a bug, [open a new issue][issues]
 
 ## Contributing
 
 This project is developed and maintained by NEM Foundation.
 
-Contributions are welcome and appreciated. 
+Contributions are welcome and appreciated.
 Check [CONTRIBUTING](CONTRIBUTING.md) for information on how to contribute.
 
 ## License

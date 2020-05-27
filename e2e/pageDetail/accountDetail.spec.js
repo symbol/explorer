@@ -1,6 +1,8 @@
+import config from '../config/network.conf.json'
+
 describe('Symbol Explorer Account Detail page', () => {
     beforeEach(() => {
-        cy.visit('/account/TATGZXFW3OTHPZT4G4IVDD2K7PXIJJXGEVCKP72W')
+        cy.visit(`/account/${config.testAccount.address}`)
     })
 
     describe('Account Detail Card should', () => {
@@ -13,7 +15,7 @@ describe('Symbol Explorer Account Detail page', () => {
         })
 
         it('render correct table fields.', () => {
-            const items = ['Address', 'Address height', 'Public key', 'Importance', 'Type', 'Linked account key']
+            const items = ['Address', 'Alias Namespace', 'Address height', 'Public key', 'Importance', 'Type', 'Linked account key']
             cy.renderFieldInTable("Account Detail", items)
         })
     })
