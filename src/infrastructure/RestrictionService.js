@@ -1,5 +1,10 @@
 import http from './http'
-import { Address, AccountRestrictionFlags } from 'symbol-sdk'
+import {
+  Address,
+  AddressRestrictionFlag,
+  MosaicRestrictionFlag,
+  OperationRestrictionFlag
+} from 'symbol-sdk'
 import helper from '../helper'
 import Constants from '../config/constants'
 
@@ -49,26 +54,24 @@ class RestrictionService {
    */
   static formatAccountRestriction = accountRestriction => {
     switch (accountRestriction.restrictionFlags) {
-    case AccountRestrictionFlags.AllowIncomingAddress:
-    case AccountRestrictionFlags.BlockIncomingAddress:
-    case AccountRestrictionFlags.AllowOutgoingAddress:
-    case AccountRestrictionFlags.BlockOutgoingAddress:
+    case AddressRestrictionFlag.AllowIncomingAddress:
+    case AddressRestrictionFlag.BlockIncomingAddress:
+    case AddressRestrictionFlag.AllowOutgoingAddress:
+    case AddressRestrictionFlag.BlockOutgoingAddress:
       return {
-        restrictionType: Constants.AccountRestrictionFlags[accountRestriction.restrictionFlags],
+        restrictionType: Constants.AddressRestrictionFlag[accountRestriction.restrictionFlags],
         restrictionAddressValues: accountRestriction.values.map(value => value.address)
       }
-    case AccountRestrictionFlags.AllowMosaic:
-    case AccountRestrictionFlags.BlockMosaic:
+    case MosaicRestrictionFlag.AllowMosaic:
+    case MosaicRestrictionFlag.BlockMosaic:
       return {
-        restrictionType: Constants.AccountRestrictionFlags[accountRestriction.restrictionFlags],
-        restrictionMosaicValues: accountRestriction.values.map(value => value.id.toHex())
+        restrictionType: Constants.MosaicRestrictionFlag[accountRestriction.restrictionFlags],
+        restrictionMosaicValues: MosaicRestrictionFlag.values.map(value => value.id.toHex())
       }
-    case AccountRestrictionFlags.AllowIncomingTransactionType:
-    case AccountRestrictionFlags.AllowOutgoingTransactionType:
-    case AccountRestrictionFlags.BlockIncomingTransactionType:
-    case AccountRestrictionFlags.BlockOutgoingTransactionType:
+    case OperationRestrictionFlag.AllowOutgoingTransactionType:
+    case OperationRestrictionFlag.BlockOutgoingTransactionType:
       return {
-        restrictionType: Constants.AccountRestrictionFlags[accountRestriction.restrictionFlags],
+        restrictionType: Constants.OperationRestrictionFlag[accountRestriction.restrictionFlags],
         restrictionTransactionValues: accountRestriction.values.map(value => Constants.TransactionType[value])
       }
     }

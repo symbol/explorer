@@ -41,7 +41,7 @@
                     "namespaceName",
                     "namespaceId",
                     "owneraddress",
-                    "duration",
+                    "expirationDuration",
                     "approximateExpired"
                 ],
                 "mobileFields": [
