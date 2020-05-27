@@ -120,6 +120,8 @@ export default {
             let formattedBlock = BlockService.formatBlock(item)
             getters.timeline.addLatestItem({
               ...formattedBlock,
+              transactions: 0, // Todo : Because newBlock doesn't include totalTransaction
+              totalFee: 0.000000, // Todo: Because newBlock doesn't include totalfee
               date: helper.convertToUTCDate(formattedBlock.timestamp),
               age: helper.convertToUTCDate(formattedBlock.timestamp),
               harvester: formattedBlock.signer
