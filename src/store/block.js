@@ -116,15 +116,13 @@ export default {
     async subscribe({ commit, getters, rootGetters }) {
       if (getters.getSubscription === null) {
         const subscription = await ListenerService.subscribeNewBlock(
-          (item) => {
-            let formattedBlock = BlockService.formatBlock(item)
+          async (item) => {
+            const latestBlock = await BlockService.getBlockByHeight(item.height.compact())
             getters.timeline.addLatestItem({
-              ...formattedBlock,
-              transactions: 0, // Todo : Because newBlock doesn't include totalTransaction
-              totalFee: 0.000000, // Todo: Because newBlock doesn't include totalfee
-              date: helper.convertToUTCDate(formattedBlock.timestamp),
-              age: helper.convertToUTCDate(formattedBlock.timestamp),
-              harvester: formattedBlock.signer
+              ...latestBlock,
+              date: helper.convertToUTCDate(latestBlock.timestamp),
+              age: helper.convertToUTCDate(latestBlock.timestamp),
+              harvester: latestBlock.signer
             })
             commit('chain/setBlockHeight', item.height, { root: true })
           },
