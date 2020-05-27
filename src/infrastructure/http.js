@@ -22,12 +22,14 @@ import constants from '../config/constants'
 let NODE_URL
 let MARKET_DATA_URL
 let NETWORK_TYPE
+let GENERATION_HASH
 
 export default class http {
   static init = async (nodeUrl, marketDataUrl) => {
     NODE_URL = nodeUrl
     MARKET_DATA_URL = marketDataUrl
     NETWORK_TYPE = await http.createRepositoryFactory.getNetworkType().toPromise() || constants.NetworkConfig.NETWORKTYPE
+    GENERATION_HASH = await http.createRepositoryFactory.getGenerationHash().toPromise()
   }
 
   static get marketDataUrl() {
@@ -38,12 +40,16 @@ export default class http {
     return NODE_URL
   }
 
+  static get generationHash() {
+    return GENERATION_HASH
+  }
+
   static get networkType() {
     return NETWORK_TYPE
   }
 
   static get createRepositoryFactory() {
-    return new symbol.RepositoryFactoryHttp(this.nodeUrl)
+    return new symbol.RepositoryFactoryHttp(this.nodeUrl, this.networkType, this.generationHash)
   }
 
   static get mosaicService() {
