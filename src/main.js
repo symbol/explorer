@@ -22,6 +22,7 @@ import router from './router'
 import store from './store'
 import BootstrapVue from 'bootstrap-vue'
 import 'vue-material-design-icons/styles.css'
+import '@mdi/font/css/materialdesignicons.css'
 import './styles/main.scss'
 
 window.Vue = Vue
