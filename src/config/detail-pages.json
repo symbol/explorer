@@ -73,6 +73,20 @@
                     },
                     {
                         "type": "Card",
+                        "title": "supplementalKeys",
+                        "fullWidth": false,
+                        "body": "TableListView",
+                        "fields": [
+                            "accountKeyType",
+                            "key"
+                        ],
+                        "managerGetter": "account/info",
+                        "dataGetter": "account/getSupplementalAccountKeys",
+                        "pagination": true,
+                        "pageSize": 5
+                    },
+                    {
+                        "type": "Card",
                         "title": "Transactions",
                         "fullWidth": true,
                         "header": [
@@ -182,7 +196,10 @@
                             "feeMultiplier",
                             "transactions",
                             "harvester",
-                            "blockHash"
+                            "blockHash",
+                            "proofGamma",
+                            "proofScalar",
+                            "proofVarificationHash"
                         ],
                         "pagination": false,
                         "managerGetter": "block/info",

@@ -139,6 +139,7 @@ export default {
     ...getGettersFromManagers(managers),
     getInitialized: state => state.initialized,
     getActivityBucketList: state => state.info?.data.activityBucket || [],
+    getSupplementalAccountKeys: state => state.info?.data.supplementalAccountKeys || [],
     getCurrentAccountAddress: state => state.currentAccountAddress
   },
   mutations: {

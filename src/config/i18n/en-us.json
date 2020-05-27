@@ -52,8 +52,6 @@
     "registrationType": "Registration Type",
     "parentId": "Parent ID",
     "duration": "Duration",
-    "remoteAccountPublicKey": "Remote Account PublicKey",
-    "remoteAccountAddress": "Remote Account Address",
     "startHeight": "Registered at Height",
     "endHeight": "End at Height",
     "beforeEndHeight": "End at Height",
@@ -145,7 +143,7 @@
     "port": "Port",
     "friendlyName": "Friendly Name",
     "direction": "",
-    "approximateExpired": "Approximate Expired",
+    "approximateExpired": "Expiration Date",
     "expiredInBlock": "Expired In Block",
     "index": "No.",
     "Network Fees": "Recommended Fees Multiplier",
@@ -196,5 +194,14 @@
     "targetPublicAccount": "Address",
     "cosignatories": "Cosignatories",
     "multisigAccounts": "Multisig Accounts",
-    "effectiveFee": "Fee"
+    "effectiveFee": "Fee",
+    "linkedPublicKey": "linked Public Key",
+    "linkedAccountAddress": "linked Account Address",
+    "proofGamma": "Proof Gamma",
+    "proofScalar": "Proof Scalar",
+    "proofVarificationHash": "Proof Varification Hash",
+    "accountKeyType": "Type",
+    "key": "Key",
+    "supplementalKeys": "Supplemental Keys",
+    "expirationDuration": "Expiration"
 }
