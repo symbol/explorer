@@ -169,7 +169,7 @@ class NamespaceService {
       return {
         ...formattedNamespace,
         owneraddress: formattedNamespace.owner,
-        duration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED,
+        expirationDuration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED,
         isExpired: isExpired,
         approximateExpired: helper.convertSecondToDate(expiredInSecond),
         expiredInBlock: expiredInBlock
