@@ -65,6 +65,10 @@ export default {
       type: Array,
       default: () => []
     },
+    initActions: {
+        type: Array,
+        default: () => []
+    },
     layout: {
       type: String,
       required: true,
@@ -87,6 +91,10 @@ export default {
     if (this.storeNamespaces?.length) {
       for (const namespace of this.storeNamespaces)
         await this.$store.dispatch(namespace + '/initialize')
+    }
+    if (this.initActions?.length) {
+      for (const action of this.initActions)
+        await this.$store.dispatch(action, this.$route.params)
     }
   },
 

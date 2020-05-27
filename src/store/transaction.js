@@ -17,7 +17,7 @@
  */
 
 import Lock from './lock'
-import Constants from '../config/constants'
+import { filters } from '../config'
 import { TransactionService } from '../infrastructure'
 import {
   DataSet,
@@ -35,10 +35,7 @@ const managers = [
     pageInfo: {
       pageSize: 20
     },
-    filter: {
-      0: 'All',
-      ...Constants.TransactionType
-    }
+    filter: filters.transaction
   }),
   new DataSet(
     'info',
@@ -85,7 +82,7 @@ export default {
     async uninitialize({ commit, dispatch, getters }) {
       const callback = async () => {
         dispatch('unsubscribe')
-        getters.timeline?.uninitialize()
+                getters.timeline?.uninitialize()
       }
       await LOCK.uninitialize(callback, commit, dispatch, getters)
     },
