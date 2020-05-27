@@ -1,11 +1,9 @@
 {
 	"peersApi": {
-		"defaultNode":"http://api-01.eu-west-1.0941-v1.symboldev.network:3000",
+		"defaultNode":"http://api-explorer-01.eu-west-1.testnet-0951-v1.symboldev.network:3000",
 		"nodes": [
-				"http://api-01.eu-west-1.0941-v1.symboldev.network:3000",
-				"http://api-02.ap-northeast-1.0941-v1.symboldev.network:3000",
-				"http://api-01.ap-northeast-1.0941-v1.symboldev.network:3000",
-				"http://api-01.eu-central-1.0941-v1.symboldev.network:3000"
+				"http://api-explorer-01.eu-west-1.testnet-0951-v1.symboldev.network:3000",
+				"http://api-01.us-west-1.testnet-0951-v1.symboldev.network:3000"
 		]
 	},
 	"endpoints": {
@@ -53,7 +51,7 @@
 		"MosaicRentalSinkPublicKey": "53E140B5947F104CABC2D6FE8BAEDBC30EF9A0609C717D9613DE593EC2A266D3",
 		"NamespaceRentalSinkPublicKey": "3E82E1C1E4A75ADAA3CBA8C101C3CD31D9817A2EB966EB3B511FB2ED45B8E262",
 		"Namespace": ["SYMBOL", "SYMBOL.XYM"],
-		"NativeMosaicHex": "519FC24B9223E0B4",
+		"NativeMosaicHex": "05D6A80DE3C9ADCA",
 		"NativeMosaicDivisibility": 6,
 		"NetworkType": "TEST_NET",
 		"TargetBlockTime": 15,
