@@ -49,8 +49,6 @@
     "registrationType": "Tipo de registro",
     "parentId": "Parent ID",
     "duration": "Duración",
-    "remoteAccountPublicKey": "Remote cuentas Llave pública",
-    "remoteAccountAddress": "Remote cuentas Dirección",
     "startHeight": "Comienzo Altura",
     "endHeight": "Fin Altura",
     "beforeEndHeight": "Fin Altura",
@@ -64,7 +62,7 @@
     "active": "Activo",
     "alias": "Alias",
     "aliasType": "Alias Type",
-    "hashType": "Hash Type",
+    "hashAlgorithm": "Hash Algorithm",
     "secret": "Secreto",
     "linkedNamespace": "Linked Namespace",
     "minApproval": "Aprobación mínima",
@@ -90,5 +88,13 @@
     "targetNamespaceId": "Target Namespace Id",
     "type": "Type",
     "valueSizeDelta": "Value Size Delta",
-    "feeMultiplier": "Fee Multiplier"
+    "feeMultiplier": "Fee Multiplier",
+    "linkedPublicKey": "linked Public Key",
+    "linkedAccountAddress": "linked Account Address",
+    "proofGamma": "Proof Gamma",
+    "proofScalar": "Proof Scalar",
+    "proofVarificationHash": "Proof Varification Hash",
+    "accountKeyType": "Type",
+    "key": "Key",
+    "supplementalKeys": "Supplemental Keys"
 }

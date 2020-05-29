@@ -17,9 +17,7 @@
  */
 
 import Lock from './lock'
-import sdkDiagnostic from '../infrastructure/getDiagnostic'
-import sdkBlock from '../infrastructure/getBlock'
-import apiMarketData from '../infrastructure/getMarketData'
+import { NodeService, ChainService, DataService } from '../infrastructure'
 
 const LOCK = Lock.create()
 
@@ -33,7 +31,7 @@ export default {
     // The latest transaction hash.
     transactionHash: '',
     // The chain info.
-    chainInfo: {
+    storageInfo: {
       // The total transactions.
       numTransactions: 0,
       // The total Accounts.
@@ -51,16 +49,16 @@ export default {
     getInitialized: state => state.initialized,
     getBlockHeight: state => state.blockHeight,
     getTransactionHash: state => state.transactionHash,
-    getChainInfo: state => state.chainInfo,
+    getStorageInfo: state => state.storageInfo,
     getMarketData: state => state.marketData
   },
   mutations: {
     setInitialized: (state, initialized) => { state.initialized = initialized },
     setBlockHeight: (state, blockHeight) => { state.blockHeight = blockHeight },
     setTransactionHash: (state, transactionHash) => { state.transactionHash = transactionHash },
-    setChainInfo: (state, chainInfo) => {
-      state.chainInfo.numTransactions = chainInfo.numTransactions
-      state.chainInfo.numAccounts = chainInfo.numAccounts
+    setStorageInfo: (state, storageInfo) => {
+      state.storageInfo.numTransactions = storageInfo.numTransactions
+      state.storageInfo.numAccounts = storageInfo.numAccounts
     },
     setMarketData: (state, { marketData, graphData }) => {
       state.marketData.price = marketData.XEM.USD.PRICE
@@ -85,11 +83,11 @@ export default {
 
     // Fetch data from the SDK / API and initialize the page.
     async initializePage({ commit }) {
-      let chainInfo = await sdkDiagnostic.getChainInfo()
-      commit('setChainInfo', chainInfo)
+      let storageInfo = await NodeService.getStorageInfo()
+      commit('setStorageInfo', storageInfo)
 
-      let marketData = await apiMarketData.getXemPriceData()
-      let xemGraph = await apiMarketData.getXemHistoricalHourlyGraph()
+      let marketData = await DataService.getMarketPrice('XEM')
+      let xemGraph = await DataService.getHistoricalHourlyGraph('XEM')
 
       let graphData = []
       if (xemGraph) {
@@ -108,9 +106,8 @@ export default {
     },
 
     async getBlockHeight({ commit }) {
-      let blockList = await sdkBlock.getBlocksFromHeightWithLimit(1)
-      if (blockList.length > 0)
-        commit('setBlockHeight', blockList[0].height)
+      let chainHeight = await ChainService.getBlockchainHeight()
+      commit('setBlockHeight', chainHeight)
     }
   }
 }

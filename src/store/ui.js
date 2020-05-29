@@ -17,9 +17,8 @@
  */
 import router from '../router'
 import { Address, AccountHttp } from 'symbol-sdk'
-import { i18n } from '../config'
-import sdkMosaic from '../infrastructure/getMosaic'
-import sdkNamespace from '../infrastructure/getNamespace'
+import { i18n, keyRedirects } from '../config'
+import { NamespaceService, MosaicService } from '../infrastructure'
 import Vue from 'vue'
 import helper from '../helper'
 
@@ -28,54 +27,7 @@ export default {
   state: {
     languages: i18n.languages,
     currentLanguage: localStorage.getItem('userLanguage'),
-    keyNames: {}, /// put new names here => src/config/i18n/en-us.json
-
-    keyPages: {
-      'height': 'block',
-
-      'harvester': 'account',
-      'address': 'account',
-      'signer': 'account',
-      'recipient': 'account',
-      'owneraddress': 'account',
-      'linkedAccountKey': 'account',
-      'remoteAccountAddress': 'account',
-      'aliasAddress': 'account',
-      'senderAddress': 'account',
-      'targetAddress': 'account',
-      'addressResolutionEntries': 'account',
-      'restrictionAddressValues': 'account',
-      'restrictionAddressAdditions': 'account',
-      'restrictionAddressDeletions': 'account',
-
-      'transactionHash': 'transaction',
-
-      'mosaicId': 'mosaic',
-      'aliasMosaic': 'mosaic',
-      'targetMosaicId': 'mosaic',
-      'mosaicResolutionEntries': 'mosaic',
-      'restrictionMosaicValues': 'mosaic',
-      'referenceMosaicId': 'mosaic',
-      'restrictionMosaicAdditions': 'mosaic',
-      'restrictionMosaicDeletions': 'mosaic',
-
-      'addressHeight': 'block',
-      'publicKeyHeight': 'block',
-      'importanceHeight': 'block',
-      'blockHeight': 'block',
-      'startHeight': 'block',
-      'endHeight': 'block',
-      'lastActivity': 'block',
-      'recalculationBlock': 'block',
-
-      'namespaceName': 'namespace',
-      'namespaceId': 'namespace',
-      'parentId': 'namespace',
-      'linkedNamespace': 'namespace',
-      'mosaicAliasName': 'namespace',
-      'targetNamespaceId': 'namespace',
-      'unresolved': 'namespace'
-    }
+    keyPages: keyRedirects
   },
 
   getters: {
@@ -135,7 +87,7 @@ export default {
     search: ({ dispatch, rootGetters }, searchString) => {
       return new Promise(async (resolve, reject) => {
         if (searchString !== null && searchString !== '') {
-          searchString = searchString.replace(/\s/g, '')
+          searchString = searchString.replace(/\s|-/g, '')
           if (helper.isBlockHeight(searchString)) {
             dispatch('openPage', {
               pageName: 'block',
@@ -188,7 +140,7 @@ export default {
           if (helper.isMosaicOrNamespaceId(searchString)) {
             let result = void 0
             try {
-              result = await sdkMosaic.getMosaicInfo(searchString)
+              result = await MosaicService.getMosaicInfo(searchString)
               if (result) {
                 dispatch('openPage', {
                   pageName: 'mosaic',
@@ -199,7 +151,7 @@ export default {
             } catch (e) {}
           } else {
             try {
-              let result = await sdkNamespace.getNamespaceInfoFormatted(searchString)
+              let result = await NamespaceService.getNamespaceInfo(searchString)
               if (result) {
                 dispatch('openPage', {
                   pageName: 'namespace',

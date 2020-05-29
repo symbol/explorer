@@ -19,29 +19,31 @@
 <template>
     <div class="page-footer">
         <footer class="footer">
-            <b-container fluid>
-                <b-row class="footer-row mx-0 mx-md-4 mx-lg-4 px-lg-4">
-                    <NemDescription class="footer-description"/>
-                    <b-col sm="12" lg="4">
-                        <ul class="social-icon">
-                            <li
-                                v-for="item in items"
-                                :key="item.text"
-                                class="social-icon-item"
-                            >
-                                <a target="_blank" :href="item.href">
-                                    <component :is="item.icon" />
-                                    <span>{{item.text}}</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </b-col>
-                    <b-col lg="4" class="vertical-center">
-                      <NodeSelector class="node-selector" style="float: right; width: 100%"/>
-                    </b-col>
-                </b-row>
-                <NemCopyright />
-            </b-container>
+            <div class="width-limiter">
+                <b-container fluid>
+                    <b-row class="footer-row mx-0 mx-md-4 mx-lg-4 px-lg-4">
+                        <NemDescription class="footer-description"/>
+                        <b-col sm="12" lg="4">
+                            <ul class="social-icon">
+                                <li
+                                    v-for="item in items"
+                                    :key="item.text"
+                                    class="social-icon-item"
+                                >
+                                    <a target="_blank" :href="item.href">
+                                        <component :is="item.icon" />
+                                        <span>{{item.text}}</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </b-col>
+                        <b-col lg="4" class="vertical-center">
+                        <NodeSelector class="horisontal-center"/>
+                        </b-col>
+                    </b-row>
+                    <NemCopyright />
+                </b-container>
+            </div>
         </footer>
     </div>
 </template>
@@ -94,6 +96,8 @@ export default {
 
     .footer-row {
         padding-top: 40px;
+        // width: 100%;
+        // max-width: 1920px;
 
         .footer-description {
             margin-top: -40px;
@@ -117,14 +121,14 @@ export default {
 
 .social-icon {
     list-style: none;
-    justify-content: space-between;
+    justify-content: flex-start;
     flex-wrap: wrap;
     display: flex;
     padding: 0;
+    margin: 0 -15px;
 
     .social-icon-item {
-        flex: auto;
-        margin: 5px;
+        margin: 5px 10px;
 
         a {
             color: #fff;
@@ -143,5 +147,21 @@ export default {
 
 .vertical-center {
     margin-top: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+.horisontal-center {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.width-limiter {
+    display: block;
+    width: 100%;
+    max-width: $footer-max-width;
+    margin-left: auto;
+    margin-right: auto;
 }
 </style>

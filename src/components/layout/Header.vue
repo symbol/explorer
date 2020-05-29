@@ -1,28 +1,30 @@
 <template>
     <div class="blue-gradinet ex-header">
-        <b-container fluid>
-            <b-row>
-                <b-col md="3" class="header-left">
-                    <router-link to="/" class="d-none d-md-block">
-                        <img src="../../styles/img/symbol_logo_white_aw.png" class="header-logo"/>
-                    </router-link>
-                </b-col>
-                <b-col md="6" class="header-center">
+        <div class="width-limiter">
+            <b-container fluid>
+                <b-row>
+                    <b-col md="3" class="header-left">
+                        <router-link to="/" class="d-none d-md-block">
+                            <img src="../../styles/img/symbol_logo_white_aw.png" class="header-logo"/>
+                        </router-link>
+                    </b-col>
+                    <b-col md="6" class="header-center">
 
-                    <div class="header-title">
-                        {{getNameByKey('blockchain explorer title')}}
-                    </div>
-                    <div class="header-sub-title">
-                        {{getNameByKey('Search transactions, addresses, namespaces & mosaics on the nem network.')}}
-                    </div>
+                        <div class="header-title">
+                            {{getNameByKey('blockchain explorer title')}}
+                        </div>
+                        <div class="header-sub-title">
+                            {{getNameByKey('Search transactions, addresses, namespaces & mosaics on the nem network.')}}
+                        </div>
 
-                </b-col>
-                <b-col md="3" class="header-right">
-                    <SearchBox class='search-box' />
-                    <LanguageSelector class="d-none d-md-block language-selector"/>
-                </b-col>
-            </b-row>
-        </b-container>
+                    </b-col>
+                    <b-col md="3" class="header-right">
+                        <SearchBox class='search-box' />
+                        <LanguageSelector class="d-none d-md-block language-selector"/>
+                    </b-col>
+                </b-row>
+            </b-container>
+        </div>
     </div>
 </template>
 
@@ -64,6 +66,14 @@ export default {
     background-size: 100%;
 }
 
+.width-limiter {
+    display: block;
+    width: 100%;
+    max-width: $header-max-width;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 @media (max-width: 764px) {
     .ex-header {
         padding: 5px 0;
@@ -84,7 +94,8 @@ export default {
         min-height: 30px;
 
         .header-logo {
-            width: 200px;
+            width: 100%;
+            max-width: 200px;
         }
     }
 

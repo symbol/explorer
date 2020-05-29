@@ -1,74 +1,44 @@
 <template>
-    <div
-        v-if="data"
-        class="table-view"
-    >
-        <table
-            v-if="dataIsNotEmpty"
-            class="table table-striped"
-        >
+    <div v-if="data" class="table-view">
+        <table v-if="dataIsNotEmpty" class="table ex-table-striped">
             <tbody>
-                <tr
-                    v-for="(item, itemKey) in formattedData"
-                    :key="view+'r'+itemKey"
-                >
-                    <td
-                        class="table-titles table-titles-ver table-title-item table-cell"
-                    >
+                <tr v-for="(item, itemKey) in formattedData" :key="'tiv_r'+itemKey">
+                    <td class="table-titles table-titles-ver table-title-item table-cell">
                         {{getKeyName(itemKey)}}
                     </td>
                     <td
                         class="max-item-width table-cell"
-                        :class="{'table-item-clickable': isItemClickable(itemKey)}"
                         :title="getKeyName(itemKey) + ': ' + item"
                         @click="onItemClick(itemKey, item)"
                     >
-
-                      <div v-if="isAllowArrayToView(itemKey)">
-                        <div v-for="(row, rowIndex) in item" :key="view+'r'+rowIndex">
-                          <router-link v-if="isItemClickable(itemKey) && getItemHref(itemKey, row)" :to="getItemHref(itemKey, row)">
-                            <Truncate v-if="isTruncate(itemKey)">{{row}}</Truncate>
-                            <div v-else>{{ row }}</div>
-                          </router-link>
-                          <div v-else>
-                            <Truncate v-if="isTruncate(itemKey)">{{row}}</Truncate>
-                            <div v-else>{{ row }}</div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <router-link v-else-if="isItemClickable(itemKey) && getItemHref(itemKey, item)" :to="getItemHref(itemKey, item)">
-                        {{ item }}
-                      </router-link>
-
-                      <div v-else>
-                        <Decimal v-if="isChangeDecimalColor(itemKey)" :value="item" />
-                        <div v-else>
-                          {{ item }}
-                          </div>
-                      </div>
+                        <ArrayField v-if="isArrayField(itemKey)" :itemKey="itemKey" :value="item" />
+                        <MosaicsField v-else-if="itemKey === 'mosaics'" :value="item" />
+                        <Decimal v-else-if="isDecimal(itemKey)" :value="item" />
+                        <router-link
+                            v-else-if="isKeyClickable(itemKey) && getItemHref(itemKey, item)"
+                            :to="getItemHref(itemKey, item)"
+                        >{{ item }}</router-link>
+                        <div v-else>{{ item }}</div>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <div
-            v-else
-            class="empty-data"
-        >
-            {{emptyDataMessageFormatted}}
-        </div>
+        <div v-else class="empty-data">{{emptyDataMessageFormatted}}</div>
     </div>
 </template>
 
 <script>
 import TableView from './TableView.vue'
-import Decimal from '../Decimal.vue'
-import Truncate from '../Truncate.vue'
+import MosaicsField from '../fields/MosaicsField.vue'
+import ArrayField from '../fields/ArrayField.vue'
 
 export default {
   extends: TableView,
 
-  components: { Decimal, Truncate },
+  components: {
+    MosaicsField,
+    ArrayField
+  },
 
   props: {
     data: {
@@ -88,8 +58,10 @@ export default {
   computed: {
     formattedData() {
       let formattedData = {}
-      for (let key in this.data)
-        if (this.isItemShown(key, this.data[key])) formattedData[key] = this.data[key]
+      for (let key in this.data) {
+        if (this.isItemShown(key, this.data[key]))
+          formattedData[key] = this.data[key]
+      }
 
       return formattedData
     },

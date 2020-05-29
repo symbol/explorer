@@ -1,109 +1,105 @@
 <template>
-  <div v-if="data" class="table-view">
-    <div v-if="dataIsNotEmpty" class="table-wrapper">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th
-              v-for="(columnName, index) in header"
-              class="table-head-cell table-title-item"
-              :key="view+'h'+index"
-            ><span>{{getKeyName(columnName)}}</span></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(row, rowIndex) in preparedData" class="t-row" :key="view+'r'+rowIndex">
-            <td
-              v-for="(item, itemKey) in row"
-              class="table-cell"
-              :key="view+'r'+rowIndex+'i'+itemKey"
-              :class="{'table-item-clickable': isItemClickable(itemKey), [itemKey]: true}"
-              :title="getKeyName(itemKey) + ': ' + item"
-            >
-              <Age v-if="itemKey === 'age'" :date="item" />
-              <Decimal v-else-if="isChangeDecimalColor(itemKey)" :value="item" />
-              <TransactionDirection v-else-if="itemKey === 'direction'" :value="item" />
+    <div v-if="data" class="table-view">
+        <div v-if="dataIsNotEmpty" class="table-wrapper">
+            <table class="table ex-table-striped">
+                <thead>
+                    <tr>
+                        <th
+                            v-for="(columnName, index) in header"
+                            class="table-head-cell table-title-item"
+                            :key="'tlv_h'+index"
+                        >
+                            <span>{{getKeyName(columnName)}}</span>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr
+                        v-for="(row, rowIndex) in preparedData"
+                        class="t-row"
+                        :key="'tlv_r'+rowIndex"
+                    >
+                        <td
+                            v-for="(item, itemKey) in row"
+                            class="table-cell"
+                            :key="'tlv_r'+rowIndex+'i'+itemKey"
+                            :class="{[itemKey]: true}"
+                            :title="getKeyName(itemKey) + (typeof item !== 'string' ? '' : ': ' +  item)"
+                        >
+                            <ArrayField v-if="isArrayField(itemKey)" :itemKey="itemKey" :value="item" />
+                            <Age v-else-if="isAge(itemKey)" :date="item" />
+                            <Decimal v-else-if="isDecimal(itemKey)" :value="item" />
+                            <MosaicsField v-else-if="isMosaics(itemKey)" :value="item" />
+                            <TransactionType v-else-if="isTransactionType(itemKey)" :value="item" />
 
-              <div v-else-if="isAllowArrayToView(itemKey)">
-                <div v-for="(row, rowIndex) in item" :key="view+'r'+rowIndex">
-                  <router-link v-if="isItemClickable(itemKey) && getItemHref(itemKey, row)" :to="getItemHref(itemKey, row)">
-                    <Truncate v-if="isTruncate(itemKey)">{{row}}</Truncate>
-                    <div v-else>{{ row }}</div>
-                  </router-link>
-                  <div v-else>
-                    <Truncate v-if="isTruncate(itemKey)">{{row}}</Truncate>
-                    <div v-else>{{ row }}</div>
-                  </div>
-                </div>
-              </div>
+                            <div v-else-if="isAggregateInnerTransaction(itemKey)">
+                                <b-link v-b-modal="'tlv_r'+rowIndex">Show Detail</b-link>
+                                <Modal :id="'tlv_r'+rowIndex" :title="item.type">
+                                    <div slot="body">
+                                        <AggregateTransaction slot="body" :transactionBody="item" />
+                                    </div>
+                                </Modal>
+                            </div>
 
-              <div v-else>
-                <div v-if="itemKey === 'transactionBody'">
-                  <div @click="onOpenModal(view+'r'+rowIndex)">Show Detail</div>
-                  <Modal
-                    :id="view+'r'+rowIndex"
-                    v-show="openedModal === view+'r'+rowIndex"
-                    @close="openedModal = null"
-                  >
-                    <div slot="header">{{item.type}}</div>
-                    <div slot="body">
-                      <AggregateTransaction slot="body" :transactionBody="item" />
-                    </div>
-                    <div slot="footer">
-                      <button class="modal-default-button" @click="onCloseModal()">Close</button>
-                    </div>
-                  </Modal>
+                            <div v-else class="max-item-width">
+                                <router-link
+                                    v-if="isKeyClickable(itemKey) && getItemHref(itemKey, item)"
+                                    :to="getItemHref(itemKey, item)"
+                                >
+                                    <Truncate v-if="isTruncate(itemKey)">{{item}}</Truncate>
+                                    <div v-else>{{ item }}</div>
+                                </router-link>
+                                <div v-else>
+                                    <Truncate v-if="isTruncate(itemKey)">{{item}}</Truncate>
+                                    <div v-else>{{ item }}</div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div v-if="pagination || timelinePagination" class="bottom">
+                <div v-if="pagination">{{ pageIndex + 1 }}/{{ lastPage }}</div>
+                <div v-else>{{ timeline.index + 1 }}/..</div>
+                <div class="pagination-wrapper">
+                    <Pagination
+                        :canFetchPrevious="prevPageExist"
+                        :canFetchNext="nextPageExist"
+                        :goUp="false"
+                        class="pagination"
+                        @next="nextPage"
+                        @previous="prevPage"
+                    />
+                    <Loading small v-if="paginationLoading" />
                 </div>
-
-                <div v-else class="max-item-width">
-                  <router-link v-if="isItemClickable(itemKey) && getItemHref(itemKey, item)" :to="getItemHref(itemKey, item)">
-                    <Truncate v-if="isTruncate(itemKey)">{{item}}</Truncate>
-                    <div v-else>{{ item }}</div>
-                  </router-link>
-                  <div v-else>
-                    <Truncate v-if="isTruncate(itemKey)">{{item}}</Truncate>
-                    <div v-else>{{ item }}</div>
-                  </div>
-                </div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-      <div v-if="pagination || timelinePagination" class="bottom">
-        <div v-if="pagination">{{ pageIndex + 1 }}/{{ lastPage }}</div>
-        <div v-else>{{ timeline.index + 1 }}/..</div>
-          <div class="pagination-wrapper">
-            <Pagination
-              :canFetchPrevious="prevPageExist"
-              :canFetchNext="nextPageExist"
-              :goUp="false"
-              class="pagination"
-              @next="nextPage"
-              @previous="prevPage"
-            />
-            <Loading small v-if="paginationLoading" />
+            </div>
         </div>
-      </div>
+        <div v-else class="empty-data">{{emptyDataMessageFormatted}}</div>
     </div>
-    <div v-else class="empty-data">{{emptyDataMessageFormatted}}</div>
-  </div>
 </template>
 
 <script>
 import TableView from './TableView.vue'
-import Modal from '../containers/Modal.vue'
-import AggregateTransaction from '../AggregateTransaction.vue'
-import Pagination from '../controls/Pagination.vue'
-import Decimal from '../Decimal.vue'
-import Truncate from '../Truncate.vue'
-import TransactionDirection from '../TransactionDirection.vue'
+import Modal from '@/components/containers/Modal.vue'
+import AggregateTransaction from '@/components/AggregateTransaction.vue'
+import Pagination from '@/components/controls/Pagination.vue'
+import MosaicsField from '@/components/fields/MosaicsField.vue'
+import TransactionType from '@/components/fields/TransactionType.vue'
+import ArrayField from '../fields/ArrayField.vue'
 import Loading from '@/components/Loading.vue'
 
 export default {
   extends: TableView,
 
-  components: { Modal, AggregateTransaction, Pagination, Decimal, Truncate, TransactionDirection, Loading },
+  components: {
+    Modal,
+    AggregateTransaction,
+    Pagination,
+    MosaicsField,
+    TransactionType,
+    ArrayField,
+    Loading
+  },
 
   props: {
     data: {
@@ -125,22 +121,9 @@ export default {
       type: Object
     },
 
-    // timelineNextAction: {
-    //   type: String
-    // },
-
-    // timelinePreviousAction: {
-    //   type: String
-    // },
-
     pageSize: {
       type: Number,
       default: 10
-    },
-
-    showModal: {
-      type: Boolean,
-      default: false
     }
   },
 
@@ -157,24 +140,28 @@ export default {
 
   computed: {
     preparedData() {
-      if (Array.isArray(this.data) && this.pagination === true && !this.timelinePagination)
-        return this.data.slice(this.pageIndex * this.pageSize, this.pageIndex * this.pageSize + this.pageSize)
-      else
-        return this.data
+      if (
+        Array.isArray(this.data) &&
+                this.pagination === true &&
+                !this.timelinePagination
+      ) {
+        return this.data.slice(
+          this.pageIndex * this.pageSize,
+          this.pageIndex * this.pageSize + this.pageSize
+        )
+      } else return this.data
     },
 
     nextPageExist() {
       if (this.timelinePagination && this.timeline instanceof Object)
         return this.timeline.canFetchNext
-      else
-        return this.pageSize * (this.pageIndex + 1) < this.data.length
+      else return this.pageSize * (this.pageIndex + 1) < this.data.length
     },
 
     prevPageExist() {
       if (this.timelinePagination && this.timeline instanceof Object)
         return this.timeline.canFetchPrevious
-      else
-        return this.pageIndex > 0
+      else return this.pageIndex > 0
     },
 
     lastPage() {
@@ -200,30 +187,22 @@ export default {
     onMoreClick() {
       this.$store.dispatch(this.nextPageAction)
     },
-    onOpenModal(id) {
-      this.openedModal = id
-    },
-    onCloseModal() {
-      this.openedModal = null
-    },
 
     nextPage() {
       if (this.nextPageExist) {
         if (this.timelinePagination)
-          // this.$store.dispatch(this.timelineNextAction)
+        // this.$store.dispatch(this.timelineNextAction)
           this.timeline.fetchNext()
-        else
-          this.pageIndex++
+        else this.pageIndex++
       }
     },
 
     prevPage() {
       if (this.prevPageExist) {
         if (this.timelinePagination)
-          // this.$store.dispatch(this.timelinePreviousAction)
+        // this.$store.dispatch(this.timelinePreviousAction)
           this.timeline.fetchPrevious()
-        else
-          this.pageIndex--
+        else this.pageIndex--
       }
     }
   },

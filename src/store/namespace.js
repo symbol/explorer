@@ -18,7 +18,7 @@
 
 import Lock from './lock'
 import Constants from '../config/constants'
-import sdkNamespace from '../infrastructure/getNamespace'
+import { NamespaceService, MetadataService } from '../infrastructure'
 import {
   DataSet,
   Timeline,
@@ -33,13 +33,24 @@ const LOCK = Lock.create()
 const managers = [
   new Timeline(
     'timeline',
-    () => sdkNamespace.getNamespacesFromIdWithLimit(Constants.PageSize),
-    (key, pageSize) => sdkNamespace.getNamespacesFromIdWithLimit(pageSize, key),
+    () => NamespaceService.getNamespaceList(Constants.PageSize),
+    (key, pageSize) => NamespaceService.getNamespaceList(pageSize, key),
     'namespaceId'
   ),
   new DataSet(
     'info',
-    (namespaceOrHex) => sdkNamespace.getNamespaceInfoFormatted(namespaceOrHex)
+    (namespaceOrHex) => NamespaceService.getNamespaceInfo(namespaceOrHex)
+  ),
+  new DataSet(
+    'namespaceLevel',
+    (namespaceOrHex) => NamespaceService.getNamespaceLevelList(namespaceOrHex)
+  ),
+  new Timeline(
+    'metadatas',
+    (pageSize, store) => MetadataService.getNamespaceMetadataList(store.getters.getCurrentNamespaceId, pageSize),
+    (key, pageSize, store) => MetadataService.getNamespaceMetadataList(store.getters.getCurrentNamespaceId, pageSize, key),
+    'id',
+    10
   )
 ]
 
@@ -48,17 +59,17 @@ export default {
   state: {
     // If the state has been initialized.
     initialized: false,
-    ...getStateFromManagers(managers)
+    ...getStateFromManagers(managers),
+    currentNamespaceId: null
   },
   getters: {
     getInitialized: state => state.initialized,
-    getNamespaceInfo: state => state.info?.data?.namespaceInfo || {},
-    getNamespaceLevels: state => state.info?.data?.namespaceLevels || [],
-    getMetadataList: state => state.info?.data?.metadataList || [],
+    getCurrentNamespaceId: state => state.currentNamespaceId,
     ...getGettersFromManagers(managers)
   },
   mutations: {
     setInitialized: (state, initialized) => { state.initialized = initialized },
+    setCurrentNamespaceId: (state, currentNamespaceId) => { state.currentNamespaceId = currentNamespaceId },
     ...getMutationsFromManagers(managers)
   },
   actions: {
@@ -73,18 +84,23 @@ export default {
 
     // Uninitialize the namespace model.
     async uninitialize({ commit, dispatch, getters }) {
-      const callback = async () => {}
+      const callback = async () => {
+        getters.timeline?.uninitialize()
+      }
       await LOCK.uninitialize(callback, commit, dispatch, getters)
     },
 
     // Fetch data from the SDK and initialize the page.
-    async initializePage(context) {
-      await context.getters.timeline.setStore(context).initialFetch()
+    initializePage(context) {
+      context.getters.timeline.setStore(context).initialFetch()
     },
 
     // Fetch data from the SDK.
-    async fetchNamespaceInfo(context, namespaceOrHex) {
-      await context.getters.info.setStore(context).initialFetch(namespaceOrHex)
+    fetchNamespaceInfo(context, namespaceOrHex) {
+      context.commit('setCurrentNamespaceId', namespaceOrHex)
+      context.getters.info.setStore(context).initialFetch(namespaceOrHex)
+      context.getters.namespaceLevel.setStore(context).initialFetch(namespaceOrHex)
+      context.getters.metadatas.setStore(context).initialFetch(namespaceOrHex)
     }
   }
 }

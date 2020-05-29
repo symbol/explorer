@@ -49,6 +49,7 @@ import IconAccounts from 'vue-material-design-icons/Account.vue'
 import IconMosaics from 'vue-material-design-icons/CheckboxMultipleBlankCircle.vue'
 import IconNodes from 'vue-material-design-icons/VectorTriangle.vue'
 import IconNamespaces from 'vue-material-design-icons/Tag.vue'
+import IconStatistics from 'vue-material-design-icons/ChartBar.vue'
 import LanguageSelector from '@/components/controls/LanguageSelector.vue'
 import { pageMenu } from '../../config/'
 
@@ -62,7 +63,8 @@ export default {
     IconAccounts,
     IconMosaics,
     IconNodes,
-    IconNamespaces
+    IconNamespaces,
+    IconStatistics
   },
 
   props: {

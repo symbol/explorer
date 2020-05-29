@@ -1,18 +1,20 @@
 <template>
     <header class="ex-menu" :class="{'ex-menu-fixed': fixed}" ref="DesktopMenu">
-        <router-link to="/" :class="{'hide': !fixed}">
-            <img src="../../styles/img/logo-w.png" class="menu-logo"/>
-        </router-link>
-        <router-link
-            v-for="item in items"
-            :key="'dsktp_mn_'+getNameByKey(item.text)"
-            class="ex-menu-item"
-            :to="item.to" exact active-class="active"
-        >
-            <component :is="item.icon" class="menu-icon"/>
-            <i :class="item.classname"></i>
-            <span>{{getNameByKey(item.text)}}</span>
-        </router-link>
+        <div class="width-limiter">
+            <router-link to="/" :class="{'hide': !fixed}">
+                <img src="../../styles/img/logo-w.png" class="menu-logo"/>
+            </router-link>
+            <router-link
+                v-for="item in items"
+                :key="'dsktp_mn_'+getNameByKey(item.text)"
+                class="ex-menu-item"
+                :to="item.to" exact active-class="active"
+            >
+                <component :is="item.icon" class="menu-icon"/>
+                <i :class="item.classname"></i>
+                <span>{{getNameByKey(item.text)}}</span>
+            </router-link>
+        </div>
     </header>
 </template>
 
@@ -25,6 +27,7 @@ import IconAccounts from 'vue-material-design-icons/Account.vue'
 import IconMosaics from 'vue-material-design-icons/CheckboxMultipleBlankCircle.vue'
 import IconNodes from 'vue-material-design-icons/VectorTriangle.vue'
 import IconNamespaces from 'vue-material-design-icons/Tag.vue'
+import IconStatistics from 'vue-material-design-icons/ChartBar.vue'
 
 export default {
   components: {
@@ -34,7 +37,8 @@ export default {
     IconAccounts,
     IconMosaics,
     IconNodes,
-    IconNamespaces
+    IconNamespaces,
+    IconStatistics
   },
 
   mounted() {
@@ -68,9 +72,17 @@ export default {
 <style lang="scss" scoped>
 .ex-menu {
     background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
-    box-shadow: 0 2px 10px 2px rgba(0, 0, 0, 0.5);
+    border-top: 1px solid rgba(255, 255, 255, 0.5);
     padding: 0 60px;
     position: relative;
+
+    .width-limiter {
+        display: block;
+        width: 100%;
+        max-width: $navmenu-max-width;
+        margin-left: auto;
+        margin-right: auto;
+    }
 
     .menu-logo {
         width: 30px;
@@ -97,7 +109,6 @@ export default {
     .ex-menu-item.active::before {
         content: '';
         position: absolute;
-        bottom: 0;
         left: 0;
         width: 100%;
         height: 3px;

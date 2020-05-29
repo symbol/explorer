@@ -20,7 +20,7 @@ import Lock from './lock'
 import helper from '../helper'
 import router from '../router'
 import http from '../infrastructure/http'
-import { getNodeHealthStatus } from '../infrastructure/getNodes'
+import { NodeService } from '../infrastructure'
 
 const LOCK = Lock.create()
 
@@ -70,7 +70,8 @@ export default {
 
         const nodeUrl = getters['currentNode']
         const marketDataUrl = getters['marketData']
-        http.init(nodeUrl, marketDataUrl)
+
+        await http.init(nodeUrl, marketDataUrl)
       }
       await LOCK.initialize(callback, commit, dispatch, getters)
     },
@@ -93,12 +94,17 @@ export default {
       let healthyNodes = []
       await Promise.all(nodes.map(async (url) => {
         let endpoint = helper.parseUrl(url).toString()
-        if (await getNodeHealthStatus(endpoint))
+        if (await NodeService.isNodeActive(endpoint))
           healthyNodes.push(url)
       }))
 
       commit('setNodes', healthyNodes)
-      commit('currentNode', healthyNodes[0])
+
+      const currentNode = getters['currentNode']
+      const activeNodes = healthyNodes.map(nodes => nodes.href)
+
+      // Reset the currentNode, if currentNode not longer in healthy status.
+      activeNodes.indexOf(currentNode) === -1 ? commit('currentNode', healthyNodes[0]) : void 0
     }
   }
 }

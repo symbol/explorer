@@ -21,13 +21,6 @@ export default {
       for (const namespace of this.storeNamespaces)
         await this.$store.dispatch(namespace + '/initialize')
     }
-  },
-
-  async destroyed() {
-    if (this.storeNamespaces?.length) {
-      for (const namespace of this.storeNamespaces)
-        await this.$store.dispatch(namespace + '/uninitialize')
-    }
   }
 }
 </script>

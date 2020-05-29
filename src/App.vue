@@ -22,8 +22,9 @@
             <MobileMenu class="d-block d-md-none"/>
             <Header />
             <NavigationMenu class="d-none d-md-block"/>
-            <!--MobileMenu />-->
-            <router-view :key="$route.fullPath"/>
+            <div class="width-limiter">
+                <router-view :key="$route.fullPath"/>
+            </div>
         </div>
         <Footer />
     </div>
@@ -84,6 +85,14 @@ html, body, #fullheight {
 
 .app-content {
     width: 100%;
+}
+
+.width-limiter {
+    display: block;
+    width: 100%;
+    max-width: $page-max-width;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .noselect {

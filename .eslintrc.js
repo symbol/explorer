@@ -18,7 +18,9 @@ module.exports = {
       'named': 'never',
       'asyncArrow': 'always'
     }],
-    'indent': ['error', 2]
+    'indent': ['error', 2],
+    'no-unused-expressions': 'off',
+    //'@typescript-eslint/no-unused-expressions': 'error'
   },
   globals: {
     'globalConfig': true

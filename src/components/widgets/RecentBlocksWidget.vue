@@ -17,6 +17,7 @@
                     sm="6"
                     md="3"
                     lg="6"
+                    xl="12"
                     v-for="(item, index) in blockList"
                     :key="'recent_blocks_'+index+'_'+item.height"
                 >
@@ -66,7 +67,7 @@
 <script>
 import Card from '@/components/containers/Card.vue'
 import ButtonMore from '@/components/controls/ButtonMore.vue'
-import Age from '@/components/Age.vue'
+import Age from '@/components/fields/Age.vue'
 import { mapGetters } from 'vuex'
 
 export default {
@@ -78,9 +79,10 @@ export default {
 
   computed: {
     ...mapGetters({
-      blockList: 'block/getRecentList',
-      loading: 'block/getLoading'
-    })
+      blockList: 'block/getRecentList'
+    }),
+
+    loading() { return !this.blockList.length }
   },
 
   methods: {

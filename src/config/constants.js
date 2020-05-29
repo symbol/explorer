@@ -5,14 +5,17 @@ import {
   AliasAction,
   LinkAction,
   AccountType,
-  HashType,
+  AccountKeyType,
+  LockHashAlgorithm,
   NetworkType,
   MetadataType,
   ReceiptType,
   ResolutionType,
   RoleType,
   Deadline,
-  AccountRestrictionFlags,
+  AddressRestrictionFlag,
+  MosaicRestrictionFlag,
+  OperationRestrictionFlag,
   MosaicRestrictionEntryType,
   MosaicRestrictionType
 } from 'symbol-sdk'
@@ -46,12 +49,12 @@ class Constants {
 
   static TransactionType = {
     [TransactionType.TRANSFER]: 'Transfer',
-    [TransactionType.NAMESPACE_REGISTRATION]: 'Namespace Register',
+    [TransactionType.NAMESPACE_REGISTRATION]: 'Namespace Registration',
     [TransactionType.ADDRESS_ALIAS]: 'Address Alias',
     [TransactionType.MOSAIC_ALIAS]: 'Mosaic Alias',
     [TransactionType.MOSAIC_DEFINITION]: 'Mosaic Definition',
     [TransactionType.MOSAIC_SUPPLY_CHANGE]: 'Mosaic Supply Change',
-    [TransactionType.MULTISIG_ACCOUNT_MODIFICATION]: 'Multisig Account Modify ',
+    [TransactionType.MULTISIG_ACCOUNT_MODIFICATION]: 'Multisig Account Modification',
     [TransactionType.AGGREGATE_COMPLETE]: 'Aggregate Complete',
     [TransactionType.AGGREGATE_BONDED]: 'Aggregate Bonded',
     [TransactionType.HASH_LOCK]: 'Hash Lock',
@@ -60,12 +63,15 @@ class Constants {
     [TransactionType.ACCOUNT_ADDRESS_RESTRICTION]: 'Account Address Restriction',
     [TransactionType.ACCOUNT_MOSAIC_RESTRICTION]: 'Account Mosaic Restriction',
     [TransactionType.ACCOUNT_OPERATION_RESTRICTION]: 'Account Operation Restriction',
-    [TransactionType.ACCOUNT_LINK]: 'Account Link',
+    [TransactionType.ACCOUNT_KEY_LINK]: 'Account Key Link',
     [TransactionType.MOSAIC_ADDRESS_RESTRICTION]: 'Mosaic Address Restriction',
     [TransactionType.MOSAIC_GLOBAL_RESTRICTION]: 'Mosaic Global Restriction',
     [TransactionType.ACCOUNT_METADATA]: 'Account Metadata',
     [TransactionType.MOSAIC_METADATA]: 'Mosaic Metadata',
-    [TransactionType.NAMESPACE_METADATA]: 'Namespace Metadata'
+    [TransactionType.NAMESPACE_METADATA]: 'Namespace Metadata',
+    [TransactionType.VRF_KEY_LINK]: 'VRF Key Link',
+    [TransactionType.VOTING_KEY_LINK]: 'Voting Key Link',
+    [TransactionType.NODE_KEY_LINK]: 'Node Key Link'
   }
 
   static MosaicSupplyChangeAction = {
@@ -95,11 +101,19 @@ class Constants {
     [AccountType.Remote_Unlinked]: 'Remote Unlinked'
   }
 
-  static HashType = {
-    [HashType.Op_Sha3_256]: 'Op_Sha3_256',
-    [HashType.Op_Keccak_256]: 'Op_Keccak_256',
-    [HashType.Op_Hash_160]: 'Op_Hash_160',
-    [HashType.Op_Hash_256]: 'Op_Hash_256'
+  static AccountKeyType = {
+    [AccountKeyType.Unset]: 'Unset',
+    [AccountKeyType.Linked]: 'Linked',
+    [AccountKeyType.VRF]: 'VRF',
+    [AccountKeyType.Voting]: 'Voting',
+    [AccountKeyType.Node]: 'Node',
+    [AccountKeyType.All]: 'All'
+  }
+
+  static LockHashAlgorithm = {
+    [LockHashAlgorithm.Op_Sha3_256]: 'Op_Sha3_256',
+    [LockHashAlgorithm.Op_Hash_160]: 'Op_Hash_160',
+    [LockHashAlgorithm.Op_Hash_256]: 'Op_Hash_256'
   }
 
   static MetadataType = {
@@ -143,17 +157,21 @@ class Constants {
     [RoleType.DualNode]: 'DUAL NODE'
   }
 
-  static AccountRestrictionFlags = {
-    [AccountRestrictionFlags.AllowIncomingAddress]: 'Allow Incoming Address',
-    [AccountRestrictionFlags.AllowMosaic]: 'Allow Mosaic',
-    [AccountRestrictionFlags.AllowIncomingTransactionType]: 'Allow Incoming Transaction',
-    [AccountRestrictionFlags.AllowOutgoingAddress]: 'Allow Outgoing Address',
-    [AccountRestrictionFlags.AllowOutgoingTransactionType]: 'Allow Outgoing Transaction',
-    [AccountRestrictionFlags.BlockIncomingAddress]: 'Block Incoming Address',
-    [AccountRestrictionFlags.BlockMosaic]: 'Block Mosaic',
-    [AccountRestrictionFlags.BlockIncomingTransactionType]: 'Block IncomingT Transaction',
-    [AccountRestrictionFlags.BlockOutgoingAddress]: 'Block Outgoing Address',
-    [AccountRestrictionFlags.BlockOutgoingTransactionType]: 'Block Outgoing Transaction'
+  static AddressRestrictionFlag = {
+    [AddressRestrictionFlag.AllowIncomingAddress]: 'Allow Incoming Address',
+    [AddressRestrictionFlag.AllowOutgoingAddress]: 'Allow Outgoing Address',
+    [AddressRestrictionFlag.BlockIncomingAddress]: 'Block Incoming Address',
+    [AddressRestrictionFlag.BlockOutgoingAddress]: 'Block Outgoing Address'
+  }
+
+  static MosaicRestrictionFlag = {
+    [MosaicRestrictionFlag.AllowMosaic]: 'Allow Mosaic',
+    [MosaicRestrictionFlag.BlockMosaic]: 'Block Mosaic'
+  }
+
+  static OperationRestrictionFlag = {
+    [OperationRestrictionFlag.AllowOutgoingTransactionType]: 'Allow Outgoing Transaction',
+    [OperationRestrictionFlag.BlockOutgoingTransactionType]: 'Block Outgoing Transaction'
   }
 
   static MosaicRestrictionEntryType = {

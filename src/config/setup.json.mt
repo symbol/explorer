@@ -1,14 +1,9 @@
 {
 	"peersApi": {
-		"defaultNode":"http://api-01.us-west-1.symboldev.network:3000",
+		"defaultNode":"http://api-explorer-01.eu-west-1.testnet-0951-v1.symboldev.network:3000",
 		"nodes": [
-			"http://api-01.us-west-1.symboldev.network:3000",
-			"http://api-01.ap-southeast-1.symboldev.network:3000",
-			"http://api-01.ap-northeast-1.symboldev.network:3000",
-			"http://api-01.us-west-2.symboldev.network:3000",
-			"http://api-harvest-01.us-west-1.symboldev.network:3000",
-			"http://api-harvest-01.eu-central-1.symboldev.network:3000",
-			"http://api-harvest-01.eu-west-1.symboldev.network:3000"
+				"http://api-explorer-01.eu-west-1.testnet-0951-v1.symboldev.network:3000",
+				"http://api-01.us-west-1.testnet-0951-v1.symboldev.network:3000"
 		]
 	},
 	"endpoints": {
@@ -41,12 +36,12 @@
 				"icon": "IconGithub"
 			},
 			{
-				"href": "https://symboldev-faucet-01.herokuapp.com/",
+				"href": "http://faucet-951-01.symboldev.network/",
 				"text": "Faucet-01",
 				"icon": "IconHomeCurrencyUsd"
 			},
 			{
-				"href": "https://symboldev-faucet-02.herokuapp.com/",
+				"href": "http://faucet-951-02.symboldev.network/",
 				"text": "Faucet-02",
 				"icon": "IconHomeCurrencyUsd"
 			}
@@ -56,7 +51,7 @@
 		"MosaicRentalSinkPublicKey": "53E140B5947F104CABC2D6FE8BAEDBC30EF9A0609C717D9613DE593EC2A266D3",
 		"NamespaceRentalSinkPublicKey": "3E82E1C1E4A75ADAA3CBA8C101C3CD31D9817A2EB966EB3B511FB2ED45B8E262",
 		"Namespace": ["SYMBOL", "SYMBOL.XYM"],
-		"NativeMosaicHex": "619CE7E50DB644DE",
+		"NativeMosaicHex": "05D6A80DE3C9ADCA",
 		"NativeMosaicDivisibility": 6,
 		"NetworkType": "TEST_NET",
 		"TargetBlockTime": 15,
