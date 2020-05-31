@@ -202,5 +202,6 @@
     "proofVarificationHash": "Proof Varification Hash",
     "accountKeyType": "Type",
     "key": "Key",
-    "supplementalKeys": "Supplemental Keys"
+    "supplementalKeys": "Supplemental Keys",
+    "expirationDuration": "Expiration"
 }
