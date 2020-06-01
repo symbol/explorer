@@ -36,12 +36,12 @@
 				"icon": "IconGithub"
 			},
 			{
-				"href": "https://symboldev-faucet-01.herokuapp.com/",
+				"href": "http://faucet-951-01.symboldev.network/",
 				"text": "Faucet-01",
 				"icon": "IconHomeCurrencyUsd"
 			},
 			{
-				"href": "https://symboldev-faucet-02.herokuapp.com/",
+				"href": "http://faucet-951-02.symboldev.network/",
 				"text": "Faucet-02",
 				"icon": "IconHomeCurrencyUsd"
 			}

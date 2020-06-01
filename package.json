@@ -2,13 +2,14 @@
   "name": "symbol-explorer",
   "description": "Symbol Block and Network Explorer",
   "homepage": "https://github.com/nemfoundation/symbol-explorer",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "scripts": {
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "lint:css": "stylelint '**/*.vue' src/styles/main.scss --syntax scss",
-    "test:e2e": "vue-cli-service test:e2e --headless"
+    "test:e2e": "vue-cli-service test:e2e --headless",
+    "version": "echo $npm_package_version"
   },
   "dependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.8.3",
