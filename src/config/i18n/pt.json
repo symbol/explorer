@@ -121,5 +121,8 @@
     "transactionDescriptor_17220": "Namespace metadata",
     "transactionDescriptor_16963": "VRF key link",
     "transactionDescriptor_16707": "Voting Key link",
-    "transactionDescriptor_16972": "Node Key link"
+    "transactionDescriptor_16972": "Node Key link",
+    "checkTransactionStatus": "Check transaction status",
+    "showDetail": "Show detail",
+    "noDataProvided": "No data provided"
 }

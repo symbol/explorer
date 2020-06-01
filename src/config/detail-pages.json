@@ -11,7 +11,7 @@
                 "schema": [
                     {
                         "type": "Card",
-                        "title": "Account Detail",
+                        "title": "accountDetailTitle",
                         "fullWidth": true,
                         "body": "TableInfoView",
                         "fields": [
@@ -29,7 +29,7 @@
                     },
                     {
                         "type": "Card",
-                        "title": "Multisig Cosignatories",
+                        "title": "multisigCosignatoriesTitle",
                         "fullWidth": false,
                         "body": "TableInfoView",
                         "fields": [
@@ -44,7 +44,7 @@
                     },
                     {
                         "type": "Card",
-                        "title": "Owned Mosaics",
+                        "title": "ownedMosaicsTitle",
                         "fullWidth": false,
                         "body": "TableListView",
                         "managerGetter": "account/OwnedMosaic",
@@ -58,7 +58,7 @@
                     },
                     {
                         "type": "Card",
-                        "title": "Owned Namespaces",
+                        "title": "ownedNamespacesTitle",
                         "fullWidth": false,
                         "body": "TableListView",
                         "managerGetter": "account/OwnedNamespace",
@@ -108,7 +108,7 @@
                     },
                     {
                         "type": "Card",
-                        "title": "Account Partial",
+                        "title": "accountPartialTitle",
                         "fullWidth": true,
                         "body": "TableListView",
                         "managerGetter": "account/partialTransactions",
@@ -123,7 +123,7 @@
                     },
                     {
                         "type": "Card",
-                        "title": "Account Restriction",
+                        "title": "accountRestrictionTitle",
                         "fullWidth": true,
                         "body": "TableListView",
                         "managerGetter": "account/restrictions",
@@ -133,7 +133,7 @@
                     },
                     {
                         "type": "Card",
-                        "title": "Metadata Entries",
+                        "title": "metadataEntriesTitle",
                         "fullWidth": true,
                         "body": "TableListView",
                         "fields": [
@@ -149,7 +149,7 @@
                     },
                     {
                         "type": "Card",
-                        "title": "Importance History",
+                        "title": "importanceHistoryTitle",
                         "fullWidth": true,
                         "body": "TableListView",
                         "fields": [
@@ -177,7 +177,7 @@
                 "schema": [
                     {
                         "type": "Card",
-                        "title": "Block Detail",
+                        "title": "blockDetailTitle",
                         "fullWidth": true,
                         "header": [
                             {
@@ -208,7 +208,7 @@
                     },
                     {
                         "type": "Card",
-                        "title": "Block Transactions",
+                        "title": "blockTransactionsTitle",
                         "fullWidth": true,
                         "body": "TableListView",
                         "fields": [
@@ -222,7 +222,7 @@
                     },
                     {
                         "type": "Card",
-                        "title": "Balance Change Receipt",
+                        "title": "balanceChangeReceiptTitle",
                         "fullWidth": false,
                         "body": "TableListView",
                         "dataGetter": "block/balanceChangeReceipt",
@@ -233,7 +233,7 @@
                     },
                     {
                         "type": "Card",
-                        "title": "Balance Transfer Receipt",
+                        "title": "balanceTransferReceiptTitle",
                         "fullWidth": false,
                         "body": "TableListView",
                         "dataGetter": "block/balanceTransferReceipt",
@@ -244,7 +244,7 @@
                     },
                     {
                         "type": "Card",
-                        "title": "Inflation Receipt",
+                        "title": "inflationReceiptTitle",
                         "fullWidth": false,
                         "body": "TableListView",
                         "dataGetter": "block/inflationReceipt",
@@ -255,7 +255,7 @@
                     },
                     {
                         "type": "Card",
-                        "title": "Artifact Expiry Receipt",
+                        "title": "artifactExpiryReceiptTitle",
                         "fullWidth": false,
                         "body": "TableListView",
                         "dataGetter": "block/artifactExpiryReceipt",
@@ -289,7 +289,7 @@
                 "schema": [
                     {
                         "type": "Card",
-                        "title": "Mosaic Detail",
+                        "title": "mosaicDetailTitle",
                         "fullWidth": true,
                         "body": "TableInfoView",
                         "fields": [
@@ -340,7 +340,7 @@
                     },
                     {
                         "type": "Card",
-                        "title": "Metadata Entries",
+                        "title": "metadataEntriesTitle",
                         "fullWidth": true,
                         "body": "TableListView",
                         "fields": [
@@ -369,7 +369,7 @@
                 "schema": [
                     {
                         "type": "Card",
-                        "title": "Namespace Detail",
+                        "title": "namespaceDetailTitle",
                         "fullWidth": true,
                         "body": "TableInfoView",
                         "fields": [
@@ -392,7 +392,7 @@
                     },
                     {
                         "type": "Card",
-                        "title": "Namespace Level",
+                        "title": "namespaceLevelTitle",
                         "fullWidth": true,
                         "body": "TableListView",
                         "fields": [
@@ -405,7 +405,7 @@
                     },
                     {
                         "type": "Card",
-                        "title": "Metadata Entries",
+                        "title": "metadataEntriesTitle",
                         "fullWidth": true,
                         "body": "TableListView",
                         "fields": [
@@ -434,7 +434,7 @@
                 "schema": [
                     {
                         "type": "Card",
-                        "title": "Transaction Info",
+                        "title": "transactionInfoTitle",
                         "fullWidth": true,
                         "body": "TableInfoView",
                         "fields": [
@@ -455,7 +455,7 @@
                     },
                     {
                         "type": "Card",
-                        "title": "Transaction Detail",
+                        "title": "transactiondetailTitle",
                         "fullWidth": false,
                         "body": "TableInfoView",
                         "managerGetter": "transaction/info",
@@ -480,7 +480,7 @@
                     },
                     {
                         "type": "Card",
-                        "title": "Aggregate Inner Transactions",
+                        "title": "aggregateInnerTransactionsTitle",
                         "fullWidth": true,
                         "body": "TableListView",
                         "fields": [
@@ -497,7 +497,7 @@
                     },
                     {
                         "type": "Card",
-                        "title": "Aggregate Cosignatures",
+                        "title": "aggregateCosignaturesTitle",
                         "fullWidth": true,
                         "body": "TableListView",
                         "fields": [
