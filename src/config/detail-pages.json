@@ -101,8 +101,7 @@
                         "fields": [
                             "deadline",
                             "transactionHash",
-                            "transactionType",
-                            "direction"
+                            "transactionDescriptor"
                         ],
                         "managerGetter": "account/transactions",
                         "timelinePagination": true
@@ -216,7 +215,7 @@
                             "deadline",
                             "transactionId",
                             "transactionHash",
-                            "type"
+                            "transactionDescriptor"
                         ],
                         "managerGetter": "block/blockTransactions",
                         "timelinePagination": true

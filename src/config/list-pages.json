@@ -45,7 +45,7 @@
                     "height",
                     "deadline",
                     "transactionHash",
-                    "type",
+                    "transactionDescriptor",
                     "maxFee",
                     "signer",
                     "recipient"
