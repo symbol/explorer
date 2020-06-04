@@ -100,7 +100,7 @@ export default {
 
   methods: {
     extractTransactionType(value) {
-      if (typeof this.value === 'string')
+      if (typeof value === 'string')
         return Number(value.split('_').pop())
     }
   }
