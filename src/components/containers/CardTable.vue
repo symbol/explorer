@@ -35,7 +35,7 @@
                 :data="data"
             />
             <div v-else>
-                {{getNameByKey('No data provided')}}
+                {{getNameByKey('noDataProvided')}}
             </div>
         </template>
 

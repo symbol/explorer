@@ -135,7 +135,7 @@ export default {
     },
 
     isTransactionType(itemKey) {
-      return itemKey === 'transactionType' || itemKey === 'type'
+      return itemKey === 'transactionDescriptor'
     },
 
     isArrayField(itemKey) {
