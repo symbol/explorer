@@ -18,6 +18,7 @@
 
 import { Constants } from './config'
 import { NetworkType, MosaicId, NamespaceId, Address } from 'symbol-sdk'
+import { NamespaceService } from './infrastructure'
 import http from './infrastructure/http'
 import moment from 'moment'
 
@@ -184,6 +185,24 @@ class helper {
       Id = toId === 'mosaic' ? await http.namespace.getLinkedMosaicId(new NamespaceId(hexOrNamespace)).toPromise() : new NamespaceId(hexOrNamespace)
 
     return Id
+  }
+
+  /**
+   * Decode Account Public key or Namespace name to plan Address.
+   * @param address - Account publicKey string | naemspace name
+   * @returns Plan Address - example : SB3KUBHATFCPV7UZQLWAQ2EUR6SIHBSBEOEDDDF3
+   */
+  static decodeToAddress = async (address) => {
+    if (this.isAccountPublicKey(address))
+      return Address.createFromPublicKey(address, http.networkType).plain()
+
+    if (!this.isAccountAddress(address)) {
+      const namespaceId = new NamespaceId(address)
+      address = await NamespaceService.getLinkedAddress(namespaceId)
+      return address
+    }
+
+    return address
   }
 
   /**
