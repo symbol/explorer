@@ -80,7 +80,7 @@ class Constants {
   }
 
   static NamespaceRegistrationType = {
-    [NamespaceRegistrationType.RootNamespace]: 'Root Namespace',
+    [NamespaceRegistrationType.RootNamespace]: 'rootNamespace',
     [NamespaceRegistrationType.SubNamespace]: 'Sub Namespace'
   }
 

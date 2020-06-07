@@ -8,7 +8,7 @@
                 "keepAliveGoTo": ["detail-page"]
             },
             "props": {
-                "title": "blocks",
+                "title": "blocksTitle",
                 "hasInfoText": true,
                 "storeNamespaces": ["block"],
                 "managerGetter": "block/timeline",
@@ -45,7 +45,7 @@
                     "height",
                     "deadline",
                     "transactionHash",
-                    "type",
+                    "transactionDescriptor",
                     "maxFee",
                     "signer",
                     "recipient"
@@ -67,7 +67,7 @@
                 "keepAliveGoTo": ["detail-page"]
             },
             "props": {
-                "title": "accounts",
+                "title": "accountsTitle",
                 "hasFilter": true,
                 "managerGetter": "account/timeline",
                 "storeNamespaces": ["account"],
@@ -93,7 +93,7 @@
                 "keepAliveGoTo": ["detail-page"]
             },
             "props": {
-                "title": "namespaces",
+                "title": "namespacesTitle",
                 "storeNamespaces": ["namespace"],
                 "managerGetter": "namespace/timeline",
                 "Fields": [
@@ -118,7 +118,7 @@
                 "keepAliveGoTo": ["detail-page"]
             },
             "props": {
-                "title": "mosaics",
+                "title": "mosaicsTitle",
                 "storeNamespaces": ["mosaic"],
                 "managerGetter": "mosaic/timeline",
                 "Fields": [
@@ -145,7 +145,7 @@
                 "keepAliveGoTo": ["detail-page"]
             },
             "props": {
-                "title": "nodes",
+                "title": "nodesTitle",
                 "storeNamespaces": ["node"],
                 "managerGetter": "node/timeline",
                 "Fields": [
