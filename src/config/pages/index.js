@@ -5,5 +5,8 @@ export default [
     require('./mosaic-list'),
     require('./namespace-list'),
     require('./node-list'),
-    require('./transaction-list')
+    require('./transaction-list'),
+
+    require('./account-detail'),
+    require('./transaction-detail')
 ]
