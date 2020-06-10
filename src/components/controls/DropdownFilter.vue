@@ -83,7 +83,7 @@ export default {
     selectedOptionLabel() {
         if (this.options && this.options[this.index] !== void 0)
             return this.options[this.index].label
-        return index
+        return this.index
     }
   },
 
