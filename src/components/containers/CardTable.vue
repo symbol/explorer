@@ -13,6 +13,7 @@
                 v-if="hasFilter"
                 :options="filterOptions"
                 :value="filterValue"
+                :index="filterIndex"
                 right
                 @change="changeFilterValue"
             />
@@ -171,6 +172,10 @@ export default {
 
     filterValue() {
       return this.manager.filterValue
+    },
+
+    filterIndex() {
+      return this.manager.filterIndex
     },
 
     filterOptions() {

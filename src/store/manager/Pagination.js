@@ -37,7 +37,7 @@ export default class Pagination {
 
     this.addLatestItem = this.addLatestItem.bind(this)
     this.initialized = false
-    this.loading = false
+    this.loading = true
     this.error = false
     this.filterIndex = 0
   }
@@ -178,8 +178,8 @@ export default class Pagination {
    */ 
   async fetchPage(pageInfo) {
     if (
-      pageInfo !== null &&
-            typeof pageInfo !== 'undefined'
+        pageInfo !== null &&
+        typeof pageInfo !== 'undefined'
     ) {
       this.store.dispatch(this.name, this)
       if (this.pageInfo === null || typeof this.pageInfo !== 'object') {
@@ -198,9 +198,7 @@ export default class Pagination {
    * 
    */ 
   async changeFilterValue(index) {
-    this.uninitialize()
-    this.filterIndex = index
-    await this.fetch()
+    await this.reset(1, index)
     this.store.dispatch(this.name, this)
     return this
   }
@@ -208,9 +206,11 @@ export default class Pagination {
   /** Reset Pagination and fetch data
    * 
    */ 
-  async reset(pageNumber = 1) {
+  async reset(pageNumber = 1, filterIndex = 0) {
     this.pageInfo.pageNumber = pageNumber
-    this.filterIndex = 0
+    this.filterIndex = filterIndex;
+    this.error = false;
+    this.loading = false;
     return this.fetch()
   }
 
