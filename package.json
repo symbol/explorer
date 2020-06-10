@@ -2,13 +2,14 @@
   "name": "symbol-explorer",
   "description": "Symbol Block and Network Explorer",
   "homepage": "https://github.com/nemfoundation/symbol-explorer",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "scripts": {
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "lint:css": "stylelint '**/*.vue' src/styles/main.scss --syntax scss",
-    "test:e2e": "vue-cli-service test:e2e --headless"
+    "test:e2e": "vue-cli-service test:e2e --headless",
+    "version": "echo $npm_package_version"
   },
   "dependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.8.3",
@@ -21,7 +22,7 @@
     "chart.js": "^2.9.3",
     "core-js": "^2.6.11",
     "moment-timezone": "^0.5.28",
-    "symbol-sdk": "^0.18.0",
+    "symbol-sdk": "^0.19.2",
     "url-parse": "^1.4.7",
     "vue": "^2.6.11",
     "vue-apexcharts": "^1.5.2",
@@ -41,7 +42,7 @@
     "cypress": "^3.8.3",
     "eslint": "^5.16.0",
     "eslint-plugin-vue": "^5.0.0",
-    "node-sass": "^4.13.1",
+    "node-sass": "^4.14.1",
     "sass-loader": "^8.0.2",
     "stylelint": "^11.1.1",
     "stylelint-config-standard": "^19.0.0",

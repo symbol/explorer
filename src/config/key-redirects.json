@@ -6,7 +6,6 @@
     "recipient": "account",
     "owneraddress": "account",
     "linkedAccountKey": "account",
-    "remoteAccountAddress": "account",
     "aliasAddress": "account",
     "senderAddress": "account",
     "targetAddress": "account",
@@ -17,6 +16,7 @@
     "accountAliasName": "account",
     "cosignatories": "account",
     "multisigAccounts_": "account",
+    "linkedAccountAddress": "account",
 
     "transactionHash": "transaction",
 

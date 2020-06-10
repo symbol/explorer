@@ -18,6 +18,7 @@
 
 import Lock from './lock'
 import Constants from '../config/constants'
+import helper from '../helper'
 import {
   AccountService,
   MosaicService,
@@ -134,6 +135,7 @@ export default {
     ...getGettersFromManagers(managers),
     getInitialized: state => state.initialized,
     getActivityBucketList: state => state.info?.data.activityBucket || [],
+    getSupplementalAccountKeys: state => state.info?.data.supplementalAccountKeys || [],
     getCurrentAccountAddress: state => state.currentAccountAddress
   },
   mutations: {
@@ -164,7 +166,10 @@ export default {
     },
 
     // Fetch data from the SDK By Address.
-    fetchAccountDetail(context, address) {
+    async fetchAccountDetail(context, address) {
+      if (!helper.isAccountAddress(address))
+        address = await helper.decodeToAddress(address)
+
       context.dispatch('uninitializeDetail')
       context.commit('setCurrentAccountAddress', address)
 

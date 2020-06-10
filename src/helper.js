@@ -18,6 +18,7 @@
 
 import { Constants } from './config'
 import { NetworkType, MosaicId, NamespaceId, Address } from 'symbol-sdk'
+import { NamespaceService } from './infrastructure'
 import http from './infrastructure/http'
 import moment from 'moment'
 
@@ -187,13 +188,31 @@ class helper {
   }
 
   /**
+   * Decode Account Public key or Namespace name to plan Address.
+   * @param address - Account publicKey string | naemspace name
+   * @returns Plan Address - example : SB3KUBHATFCPV7UZQLWAQ2EUR6SIHBSBEOEDDDF3
+   */
+  static decodeToAddress = async (address) => {
+    if (this.isAccountPublicKey(address))
+      return Address.createFromPublicKey(address, http.networkType).plain()
+
+    if (!this.isAccountAddress(address)) {
+      const namespaceId = new NamespaceId(address)
+      address = await NamespaceService.getLinkedAddress(namespaceId)
+      return address
+    }
+
+    return address
+  }
+
+  /**
    * Convert Mosaic amount to relative Amount with divisibility.
    * @param amount - number
    * @param divisibility - decimal
    * @returns relativeAmount in string
    */
   static formatMosaicAmountWithDivisibility = (amount, divisibility) => {
-    let relativeAmount = divisibility !== 0 ? amount / Math.pow(10, divisibility) : amount
+    let relativeAmount = divisibility !== 0 ? amount / Math.pow(10, divisibility) : amount.compact()
     return relativeAmount.toLocaleString('en-US', { minimumFractionDigits: divisibility })
   }
 

@@ -96,6 +96,18 @@ class NamespaceService {
   }
 
   /**
+   * Get linked address from namespace Id
+   * @param namespaceId - Namespace id
+   * @returns plan address - example : SB3KUBHATFCPV7UZQLWAQ2EUR6SIHBSBEOEDDDF3
+   */
+  static getLinkedAddress = async (namespaceId) => {
+    const address = await http.createRepositoryFactory.createNamespaceRepository()
+      .getLinkedAddress(namespaceId).toPromise()
+
+    return address.plain()
+  }
+
+  /**
    * Get namespace info for Vue Component
    * @param hexOrNamespace - hex value or namespace name
    * @returns customize namespace info Object
@@ -169,7 +181,7 @@ class NamespaceService {
       return {
         ...formattedNamespace,
         owneraddress: formattedNamespace.owner,
-        duration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED,
+        expirationDuration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED,
         isExpired: isExpired,
         approximateExpired: helper.convertSecondToDate(expiredInSecond),
         expiredInBlock: expiredInBlock

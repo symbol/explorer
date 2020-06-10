@@ -56,7 +56,6 @@ export default {
         'blockHeight',
         'endHeight',
         'startHeight',
-        'remoteAccountAddress',
 
         'lastActivity',
         'recalculationBlock',
@@ -75,7 +74,8 @@ export default {
         'restrictionMosaicAdditions',
         'restrictionMosaicDeletions',
         'publicKeyAdditions',
-        'publicKeyDeletions'
+        'publicKeyDeletions',
+        'linkedAccountAddress'
       ],
       disableClickValues: [...Object.values(Constants.Message)],
       changeDecimalColor: [
@@ -135,7 +135,7 @@ export default {
     },
 
     isTransactionType(itemKey) {
-      return itemKey === 'transactionType' || itemKey === 'type'
+      return itemKey === 'transactionDescriptor'
     },
 
     isArrayField(itemKey) {
