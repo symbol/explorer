@@ -1,7 +1,7 @@
 <template>
     <Card :loading="loading">
         <template #title>
-            {{getNameByKey('Check transaction status')}}
+            {{getTranslation('Check transaction status')}}
         </template>
 
         <template #body>
@@ -10,7 +10,7 @@
                     <b-col auto>
                         <b-input
                             v-model="hash"
-                            :placeholder="getNameByKey('transactionHash')"
+                            :placeholder="getTranslation('transactionHash')"
                             size="sm"
                             @focus="clear"
                             @change="getStatus"
@@ -18,13 +18,13 @@
                     </b-col>
                     <b-col style="flex-grow: 0">
                         <b-button @click="getStatus" variant="primary" size="sm">
-                            {{getNameByKey('check')}}
+                            {{getTranslation('check')}}
                         </b-button>
                     </b-col>
                 </b-row>
                 <b-row>
                     <div :style="statusStyle" class="btn-sm m-1 status ">
-                        {{getNameByKey(statusText)}}
+                        {{getTranslation(statusText)}}
                     </div>
                     <b-button
                         v-if="statusDetail"
@@ -33,7 +33,7 @@
                         size="sm"
                         variant="plain"
                     >
-                        {{getNameByKey('Show detail')}}
+                        {{getTranslation('Show detail')}}
                     </b-button>
                     <b-collapse id="collapse-3" class="detail-table">
                         <TableInfoView :data="statusDetail" />
@@ -91,8 +91,8 @@ export default {
       this.$store.dispatch('transaction/clearTransactionStatus')
     },
 
-    getNameByKey(e) {
-      return this.$store.getters['ui/getNameByKey'](e)
+    getTranslation(e) {
+      return this.$store.getters['ui/getTranslation'](e)
     },
 
     getStatus() {

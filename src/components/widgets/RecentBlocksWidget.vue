@@ -1,12 +1,12 @@
 <template>
     <Card :loading="loading">
         <template #title>
-            {{getNameByKey('Recent Blocks')}}
+            {{getTranslation('Recent Blocks')}}
         </template>
 
         <template #control>
             <router-link to="/blocks">
-                <ButtonMore> {{getNameByKey('viewAllBlocks')}} </ButtonMore>
+                <ButtonMore> {{getTranslation('viewAllBlocks')}} </ButtonMore>
             </router-link>
         </template>
 
@@ -29,7 +29,7 @@
                             <router-link
                                 :to="'/block/'+item.height"
                                 class="ex-title-text"
-                                :title="getNameByKey('blockHeight') + ': ' + item.height"
+                                :title="getTranslation('blockHeight') + ': ' + item.height"
                             >
                                 {{item.height}}
                             </router-link>
@@ -37,7 +37,7 @@
                         <template #body>
                             <div class="ex-row">
                                 <div class="ex-text">
-                                    {{ item.numTransactions }} {{getNameByKey('transactions')}}
+                                    {{ item.numTransactions }} {{getTranslation('transactions')}}
                                 </div>
                                 <div class="ex-text">
                                     <Age :date="item.date"/>
@@ -45,7 +45,7 @@
                             </div>
                             <div class="ex-row no-wrap">
                                 <div class="ex-text">
-                                    {{getNameByKey('harvester')}}
+                                    {{getTranslation('harvester')}}
                                 </div>
                                 <router-link
                                     :to="'/account/'+item.signer"
@@ -86,8 +86,8 @@ export default {
   },
 
   methods: {
-    getNameByKey(e) {
-      return this.$store.getters['ui/getNameByKey'](e)
+    getTranslation(e) {
+      return this.$store.getters['ui/getTranslation'](e)
     }
   }
 }

@@ -5,7 +5,7 @@
         :error="error"
     >
         <template #title>
-            {{getNameByKey(title)}}
+            {{getTranslation(title)}}
         </template>
         <template #control>
             <div class="ex-infotext" v-if="hasInfoText"> {{infoText}} </div>
@@ -36,12 +36,12 @@
                 :data="data"
             />
             <div v-else>
-                {{getNameByKey('No data provided')}}
+                {{getTranslation('No data provided')}}
             </div>
         </template>
 
         <template #error>
-            {{getNameByKey(errorMessage)}}
+            {{getTranslation(errorMessage)}}
         </template>
     </Card>
 </template>
@@ -184,8 +184,8 @@ export default {
   },
 
   methods: {
-    getNameByKey(e) {
-      return this.$store.getters['ui/getNameByKey'](e)
+    getTranslation(e) {
+      return this.$store.getters['ui/getTranslation'](e)
     },
 
     changeFilterValue(e) {

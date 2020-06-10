@@ -1,7 +1,7 @@
 <template>
     <Card :loading="loading">
         <template #title>
-            {{getNameByKey('Network Fees')}}
+            {{getTranslation('Network Fees')}}
         </template>
 
         <template #body>
@@ -9,7 +9,7 @@
             <b-row>
                <b-col class="ex-item" sm="3" lg="12">
                     <div class="ex-item-title">
-                        {{getNameByKey('averageFeeMultiplier')}}
+                        {{getTranslation('averageFeeMultiplier')}}
                     </div>
                     <div class="ex-item-value">
                         {{transactionFees.averageFeeMultiplier}}
@@ -17,7 +17,7 @@
                 </b-col>
                 <b-col class="ex-item" sm="3" lg="12">
                     <div class="ex-item-title">
-                        {{getNameByKey('medianFeeMultiplier')}}
+                        {{getTranslation('medianFeeMultiplier')}}
                     </div>
                     <div class="ex-item-value">
                         {{transactionFees.medianFeeMultiplier}}
@@ -25,7 +25,7 @@
                 </b-col>
                 <b-col class="ex-item" sm="3" lg="12">
                     <div class="ex-item-title">
-                        {{getNameByKey('highestFeeMultiplier')}}
+                        {{getTranslation('highestFeeMultiplier')}}
                     </div>
                     <div class="ex-item-value">
                         {{transactionFees.highestFeeMultiplier}}
@@ -33,7 +33,7 @@
                 </b-col>
                 <b-col class="ex-item" sm="3" lg="12">
                     <div class="ex-item-title">
-                        {{getNameByKey('lowestFeeMultiplier')}}
+                        {{getTranslation('lowestFeeMultiplier')}}
                     </div>
                     <div class="ex-item-value">
                         {{transactionFees.lowestFeeMultiplier}}
@@ -63,8 +63,8 @@ export default {
   },
 
   methods: {
-    getNameByKey(e) {
-      return this.$store.getters['ui/getNameByKey'](e)
+    getTranslation(e) {
+      return this.$store.getters['ui/getTranslation'](e)
     }
   }
 }

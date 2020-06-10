@@ -1,7 +1,7 @@
 <template>
     <Card :loading="loading">
         <template #title>
-            {{getNameByKey('baseInfo')}}
+            {{getTranslation('baseInfo')}}
         </template>
 
         <template #body>
@@ -9,7 +9,7 @@
             <b-row>
                 <b-col class="ex-item" sm="3" lg="12">
                     <div class="ex-item-title">
-                        {{getNameByKey('price')}}
+                        {{getTranslation('price')}}
                     </div>
                     <div class="ex-item-value">
                         {{marketData.price}}
@@ -17,7 +17,7 @@
                 </b-col>
                 <b-col class="ex-item" sm="3" lg="12">
                     <div class="ex-item-title">
-                        {{getNameByKey('marketCap')}}
+                        {{getTranslation('marketCap')}}
                     </div>
                     <div class="ex-item-value">
                         {{marketData.marketCap}}
@@ -25,7 +25,7 @@
                 </b-col>
                 <b-col class="ex-item" sm="3" lg="12">
                     <div class="ex-item-title">
-                        {{getNameByKey('totalTransactions')}}
+                        {{getTranslation('totalTransactions')}}
                     </div>
                     <div class="ex-item-value">
                         {{storageInfo.numTransactions}}
@@ -33,7 +33,7 @@
                 </b-col>
                 <b-col class="ex-item" sm="3" lg="12">
                     <div class="ex-item-title">
-                        {{getNameByKey('blockHeight')}}
+                        {{getTranslation('blockHeight')}}
                     </div>
                     <div class="ex-item-value">
                         {{blockHeight}}
@@ -65,8 +65,8 @@ export default {
   },
 
   methods: {
-    getNameByKey(e) {
-      return this.$store.getters['ui/getNameByKey'](e)
+    getTranslation(e) {
+      return this.$store.getters['ui/getTranslation'](e)
     }
   }
 }

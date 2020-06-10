@@ -4,11 +4,11 @@
             <tbody>
                 <tr v-for="(item, itemKey) in formattedData" :key="'tiv_r'+itemKey">
                     <td class="table-titles table-titles-ver table-title-item table-cell">
-                        {{getKeyName(itemKey)}}
+                        {{getTranslation(itemKey)}}
                     </td>
                     <td
                         class="max-item-width table-cell"
-                        :title="getKeyName(itemKey) + ': ' + item"
+                        :title="getTranslation(itemKey) + ': ' + item"
                         @click="onItemClick(itemKey, item)"
                     >
                         <ArrayField v-if="isArrayField(itemKey)" :itemKey="itemKey" :value="item" />

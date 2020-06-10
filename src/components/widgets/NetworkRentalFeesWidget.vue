@@ -1,7 +1,7 @@
 <template>
     <Card :loading="loading">
         <template #title>
-            {{getNameByKey('Network Rental Fees')}}
+            {{getTranslation('Network Rental Fees')}}
         </template>
 
         <template #body>
@@ -9,7 +9,7 @@
             <b-row>
                <b-col class="ex-item" sm="4" lg="12">
                     <div class="ex-item-title">
-                        {{getNameByKey('effectiveRootNamespaceRentalFeePerBlock')}}
+                        {{getTranslation('effectiveRootNamespaceRentalFeePerBlock')}}
                     </div>
                     <div class="ex-item-value">
                         {{rentalFees.effectiveRootNamespaceRentalFeePerBlock}}
@@ -17,7 +17,7 @@
                 </b-col>
                 <b-col class="ex-item" sm="4" lg="12">
                     <div class="ex-item-title">
-                        {{getNameByKey('effectiveChildNamespaceRentalFee')}}
+                        {{getTranslation('effectiveChildNamespaceRentalFee')}}
                     </div>
                     <div class="ex-item-value">
                         {{rentalFees.effectiveChildNamespaceRentalFee}}
@@ -25,7 +25,7 @@
                 </b-col>
                 <b-col class="ex-item" sm="4" lg="12">
                     <div class="ex-item-title">
-                        {{getNameByKey('effectiveMosaicRentalFee')}}
+                        {{getTranslation('effectiveMosaicRentalFee')}}
                     </div>
                     <div class="ex-item-value">
                         {{rentalFees.effectiveMosaicRentalFee}}
@@ -55,8 +55,8 @@ export default {
   },
 
   methods: {
-    getNameByKey(e) {
-      return this.$store.getters['ui/getNameByKey'](e)
+    getTranslation(e) {
+      return this.$store.getters['ui/getTranslation'](e)
     }
   }
 }

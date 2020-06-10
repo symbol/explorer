@@ -9,7 +9,7 @@
                             class="table-head-cell table-title-item"
                             :key="'tlv_h'+index"
                         >
-                            <span>{{getKeyName(columnName)}}</span>
+                            <span>{{getTranslation(columnName)}}</span>
                         </th>
                     </tr>
                 </thead>
@@ -24,7 +24,7 @@
                             class="table-cell"
                             :key="'tlv_r'+rowIndex+'i'+itemKey"
                             :class="{[itemKey]: true}"
-                            :title="getKeyName(itemKey) + (typeof item !== 'string' ? '' : ': ' +  item)"
+                            :title="getTranslation(itemKey) + (typeof item !== 'string' ? '' : ': ' +  item)"
                         >
                             <ArrayField v-if="isArrayField(itemKey)" :itemKey="itemKey" :value="item" />
                             <Age v-else-if="isAge(itemKey)" :date="item" />

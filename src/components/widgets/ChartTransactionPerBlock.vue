@@ -1,7 +1,7 @@
 <template>
     <Card :loading="loading">
         <template #title>
-            {{getNameByKey(transactionPerBlockData.name)}}
+            {{getTranslation(transactionPerBlockData.name)}}
         </template>
 
         <template #body>
@@ -42,8 +42,8 @@ export default {
   },
 
   methods: {
-    getNameByKey(e) {
-      return this.$store.getters['ui/getNameByKey'](e)
+    getTranslation(e) {
+      return this.$store.getters['ui/getTranslation'](e)
     }
   }
 }

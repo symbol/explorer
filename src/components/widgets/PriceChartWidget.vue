@@ -1,11 +1,11 @@
 <template>
     <Card :loading="loading">
         <template #title>
-            {{getNameByKey('xemPrice')}}
+            {{getTranslation('xemPrice')}}
         </template>
 
         <template #control>
-            <!--<ButtonMore> {{getNameByKey('View all statistics')}} </ButtonMore>-->
+            <!--<ButtonMore> {{getTranslation('View all statistics')}} </ButtonMore>-->
         </template>
 
         <template #body>
@@ -51,8 +51,8 @@ export default {
   },
 
   methods: {
-    getNameByKey(e) {
-      return this.$store.getters['ui/getNameByKey'](e)
+    getTranslation(e) {
+      return this.$store.getters['ui/getTranslation'](e)
     }
   }
 }

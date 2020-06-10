@@ -1,18 +1,18 @@
 <template>
   <div>
     <div v-if="transactionBody.rawType === TransactionType.AGGREGATE_BONDED">
-      <span>{{getKeyName('Inner Transaction')}}</span>
+      <span>{{getTranslation('Inner Transaction')}}</span>
       <div v-for="(row, rowIndex) in transactionBody.innerTransactions" :key="rowIndex" >
         <TableInfoView :data="row.transactionBody"  />
       </div>
 
       <div v-if="transactionBody.cosignatures.length < 1">
-        <span>{{getKeyName('Transaction awaiting co-signature')}}</span>
-        <p> {{getKeyName('Transaction awaiting Remark')}} </p>
+        <span>{{getTranslation('Transaction awaiting co-signature')}}</span>
+        <p> {{getTranslation('Transaction awaiting Remark')}} </p>
       </div>
 
       <div v-else>
-        <span>{{getKeyName('Co-signatures received')}}</span>
+        <span>{{getTranslation('Co-signatures received')}}</span>
         <TableListView :data="transactionBody.cosignatures" />
       </div>
     </div>

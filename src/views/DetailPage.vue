@@ -12,7 +12,7 @@
                     :key="item.title + index"
                 >
                     <template #title>
-                        {{getNameByKey(item.title)}}
+                        {{getTranslation(item.title)}}
                     </template>
 
                     <template #control>
@@ -92,13 +92,13 @@ export default {
       return !item.hideEmptyData || this.getter(item.dataGetter)?.length > 0
     },
 
-    getNameByKey(e) {
-      return this.$store.getters['ui/getNameByKey'](e)
+    getTranslation(e) {
+      return this.$store.getters['ui/getTranslation'](e)
     },
 
     getErrorMessage(message) {
       const errorMessage = message || 'Failed to fetch'
-      return this.getNameByKey(errorMessage)
+      return this.getTranslation(errorMessage)
     },
 
     getLoading(item) {

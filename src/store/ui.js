@@ -31,7 +31,7 @@ export default {
   },
 
   getters: {
-    getNameByKey: state => key => i18n.getName(key),
+    getTranslation: state => key => i18n.getName(key),
     languages: state => state.languages,
     currentLanguage: state => state.currentLanguage,
 

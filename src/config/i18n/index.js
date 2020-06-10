@@ -34,7 +34,7 @@ const getName = (language, key) => {
   )
     return language[key]
   else {
-    console.warn("I18n: Cannot find name for '" + key + "' in language '" + language.langName + "'")
+    console.warn("I18n: Cannot find translation for '" + key + "' in language '" + language.langName + "'")
     return key
   }
 }

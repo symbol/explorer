@@ -11,10 +11,10 @@
                     <b-col md="6" class="header-center">
 
                         <div class="header-title">
-                            {{getNameByKey('blockchain explorer title')}}
+                            {{getTranslation('blockchain explorer title')}}
                         </div>
                         <div class="header-sub-title">
-                            {{getNameByKey('Search transactions, addresses, namespaces & mosaics on the nem network.')}}
+                            {{getTranslation('Search transactions, addresses, namespaces & mosaics on the nem network.')}}
                         </div>
 
                     </b-col>
@@ -39,8 +39,8 @@ export default {
   },
 
   methods: {
-    getNameByKey(e) {
-      return this.$store.getters['ui/getNameByKey'](e)
+    getTranslation(e) {
+      return this.$store.getters['ui/getTranslation'](e)
     }
   }
 }

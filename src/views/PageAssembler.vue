@@ -116,8 +116,8 @@ export default {
       return !item.hideEmptyData || this.getData(item)?.length > 0
     },
 
-    getNameByKey(e) {
-      return this.$store.getters['ui/getNameByKey'](e)
+    getTranslation(e) {
+      return this.$store.getters['ui/getTranslation'](e)
     },
 
     getData(item) {

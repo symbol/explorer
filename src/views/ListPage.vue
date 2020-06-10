@@ -25,7 +25,7 @@
                 :error="error"
             >
                 <template #title>
-                    {{getNameByKey(title)}}
+                    {{getTranslation(title)}}
                 </template>
                 <template #control>
                     <div class="ex-infotext" v-if="hasInfoText"> {{infoText}} </div>
@@ -47,7 +47,7 @@
                 </template>
 
                 <template #error>
-                    {{getNameByKey('Unable to fetch data')}}
+                    {{getTranslation('Unable to fetch data')}}
                 </template>
             </Card>
         </div>
@@ -181,8 +181,8 @@ export default {
   },
 
   methods: {
-    getNameByKey(e) {
-      return this.$store.getters['ui/getNameByKey'](e)
+    getTranslation(e) {
+      return this.$store.getters['ui/getTranslation'](e)
     },
 
     changeFilterValue(e) {

@@ -107,7 +107,7 @@ export default {
 
   computed: {
     emptyDataMessageFormatted() {
-      return this.$store.getters['ui/getNameByKey'](
+      return this.$store.getters['ui/getTranslation'](
         this.emptyDataMessage
       )
     }
@@ -184,8 +184,8 @@ export default {
       }
     },
 
-    getKeyName(key) {
-      return this.$store.getters['ui/getNameByKey'](key)
+    getTranslation(key) {
+      return this.$store.getters['ui/getTranslation'](key)
     }
   }
 }

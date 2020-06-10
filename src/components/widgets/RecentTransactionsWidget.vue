@@ -1,12 +1,12 @@
 <template>
     <Card :loading="loading">
         <template #title>
-            {{getNameByKey('Recent Transactions')}}
+            {{getTranslation('Recent Transactions')}}
         </template>
 
         <template #control>
             <router-link to="/transactions">
-                <ButtonMore> {{getNameByKey('viewAllTransactions')}} </ButtonMore>
+                <ButtonMore> {{getTranslation('viewAllTransactions')}} </ButtonMore>
             </router-link>
         </template>
 
@@ -37,7 +37,7 @@
                         <template #body>
                             <div class="ex-row no-wrap">
                                 <div class="ex-text">
-                                    {{getNameByKey('block')}}: {{ item.height }}
+                                    {{getTranslation('block')}}: {{ item.height }}
                                 </div>
                                 <div class="ex-long-text ex-text" :title="'Type: ' + item.type" style="margin-left: 20px">
                                     {{ item.type }}
@@ -45,7 +45,7 @@
                             </div>
                             <div class="ex-row no-wrap">
                                 <div class="ex-text">
-                                    {{getNameByKey('sender')}}
+                                    {{getTranslation('sender')}}
                                 </div>
                                 <router-link
                                     :to="'/account/'+item.signer"
@@ -84,8 +84,8 @@ export default {
   },
 
   methods: {
-    getNameByKey(e) {
-      return this.$store.getters['ui/getNameByKey'](e)
+    getTranslation(e) {
+      return this.$store.getters['ui/getTranslation'](e)
     }
   }
 }

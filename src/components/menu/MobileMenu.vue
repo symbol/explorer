@@ -20,19 +20,19 @@
                     <router-link to="/" class="logo">
                         <img src="../../styles/img/logo-w.png" />
                     </router-link>
-                    <span class="title">{{getNameByKey('blockchain explorer title')}}</span>
+                    <span class="title">{{getTranslation('blockchain explorer title')}}</span>
                     <LanguageSelector />
                 </div>
                 <div class="drawer-body">
                     <router-link
                         v-for="item in items"
-                        :key="'mobl_mn_'+getNameByKey(item.text)"
+                        :key="'mobl_mn_'+getTranslation(item.text)"
                         class="ex-menu-item"
                         :to="item.to" exact active-class="active"
                         @click.native="toggleMenu"
                     >
                         <component :is="item.icon" class="ex-menu-item-icon"/>
-                        <span>{{getNameByKey(item.text)}}</span>
+                        <span>{{getTranslation(item.text)}}</span>
                     </router-link>
                 </div>
             </div>
@@ -87,8 +87,8 @@ export default {
       this.showDrawer = !this.showDrawer
     },
 
-    getNameByKey(e) {
-      return this.$store.getters['ui/getNameByKey'](e)
+    getTranslation(e) {
+      return this.$store.getters['ui/getTranslation'](e)
     }
   }
 }

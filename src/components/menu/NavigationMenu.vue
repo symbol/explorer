@@ -6,13 +6,13 @@
             </router-link>
             <router-link
                 v-for="item in items"
-                :key="'dsktp_mn_'+getNameByKey(item.text)"
+                :key="'dsktp_mn_'+getTranslation(item.text)"
                 class="ex-menu-item"
                 :to="item.to" exact active-class="active"
             >
                 <component :is="item.icon" class="menu-icon"/>
                 <i :class="item.classname"></i>
-                <span>{{getNameByKey(item.text)}}</span>
+                <span>{{getTranslation(item.text)}}</span>
             </router-link>
         </div>
     </header>
@@ -62,8 +62,8 @@ export default {
   },
 
   methods: {
-    getNameByKey(e) {
-      return this.$store.getters['ui/getNameByKey'](e)
+    getTranslation(e) {
+      return this.$store.getters['ui/getTranslation'](e)
     }
   }
 }
