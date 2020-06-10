@@ -1,13 +1,13 @@
 {
-    "path": "/transaction2/:transactionHash",
-    "name": "transaction2",
+    "path": "/transaction/:transactionHash",
+    "name": "transaction-detail",
     "meta": {
         "group": "detail-page",
         "keepAliveGoTo": []
     },
     "props": {
         "layout": "flex",
-        "storeNamespaces": ["transaction"],
+        "storeNamespaces": [],
         "initActions": ["transaction/getTransactionInfoByHash"],
         "schema": [
             {
@@ -15,29 +15,8 @@
                 "type": "CardTable",
                 "title": "Transaction Info",
                 "managerGetter": "transaction/info",
-                "errorMessage": "Failed to fetch transaction list",
+                "errorMessage": "Transaction does not exist.",
                 "pagination": "none",
-                "fields": [
-                    "blockHeight",
-                    "transactionHash",
-                    "transactionId",
-                    "date",
-                    "deadline",
-                    "effectiveFee",
-                    "signature",
-                    "signer",
-                    "status",
-                    "confirm"
-                ]
-            },
-            {
-                "layoutOptions": "full-width",
-                "type": "CardTable",
-                "title": "Transaction Info",
-                "managerGetter": "transaction/info",
-                "errorMessage": "Failed to fetch transaction list",
-                "pagination": "none",
-                "hasFilter": false,
                 "fields": [
                     "blockHeight",
                     "transactionHash",
@@ -57,9 +36,7 @@
                 "title": "Transaction Detail",
                 "managerGetter": "transaction/info",
                 "dataGetter": "transaction/transactionDetail",
-                "errorMessage": "Failed to fetch transaction list",
-                "pagination": "none",
-                "hasFilter": false
+                "pagination": "none"
             },
             {
                 "layoutOptions": "adaptive",
@@ -67,11 +44,44 @@
                 "title": "Mosaics",
                 "managerGetter": "transaction/info",
                 "dataGetter": "transaction/transferMosaics",
-                "errorMessage": "Failed to fetch transaction list",
                 "pagination": "client",
                 "pageSize": 5,
                 "hideEmptyData": true,
-                "hasFilter": false
+                "fields": [
+                    "mosaicId",
+                    "amount",
+                    "mosaicAliasName"
+                ]
+            },
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "Aggregate Inner Transactions",
+                "managerGetter": "transaction/info",
+                "dataGetter": "transaction/aggregateInnerTransactions",
+                "pagination": "client",
+                "pageSize": 5,
+                "hideEmptyData": true,
+                "fields": [
+                    "transactionId",
+                    "type",
+                    "signer",
+                    "transactionBody"
+                ]
+            },
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "Aggregate Inner Transactions",
+                "managerGetter": "transaction/info",
+                "dataGetter": "transaction/aggregateCosignatures",
+                "pagination": "client",
+                "pageSize": 5,
+                "hideEmptyData": true,
+                "fields": [
+                    "signature",
+                    "signer"
+                ]
             }
         ]
     }
