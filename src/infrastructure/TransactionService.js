@@ -166,6 +166,7 @@ class TransactionService {
       height: transaction.height,
       transactionHash: transaction.hash,
       type: transaction.transactionBody.type,
+      transactionDescriptor: transaction.transactionBody.transactionDescriptor,
       recipient: transaction.transactionBody?.recipient
     }))
   }
@@ -208,7 +209,8 @@ class TransactionService {
     switch (transactionBody.type) {
     case TransactionType.TRANSFER:
       return {
-        type: Constants.TransactionType[TransactionType.TRANSFER],
+        type: transactionBody.type,
+        transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         recipient: this.formatRecipientAddress(transactionBody.recipientAddress),
         mosaics: transactionBody.mosaics.map(mosaic => ({ // Todo Format mosaic
           ...mosaic,
@@ -223,7 +225,8 @@ class TransactionService {
       let duration = transactionBody.duration ? transactionBody.duration.compact() : 0
 
       return {
-        type: Constants.TransactionType[TransactionType.NAMESPACE_REGISTRATION],
+        type: transactionBody.type,
+        transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         recipient: Address.createFromPublicKey(Constants.NetworkConfig.NAMESPACE_RENTAL_FEE_SINK_PUBLIC_KEY, http.networkType).plain(),
         registrationType: Constants.NamespaceRegistrationType[transactionBody.registrationType],
         namespaceName: transactionBody.namespaceName,
@@ -234,7 +237,8 @@ class TransactionService {
 
     case TransactionType.ADDRESS_ALIAS:
       return {
-        type: Constants.TransactionType[TransactionType.ADDRESS_ALIAS],
+        type: transactionBody.type,
+        transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         aliasAction: Constants.AliasAction[transactionBody.aliasAction],
         namespaceId: transactionBody.namespaceId.toHex(),
         namespaceFullName: transactionBody.namespaceId.fullName
@@ -242,7 +246,8 @@ class TransactionService {
 
     case TransactionType.MOSAIC_ALIAS:
       return {
-        type: Constants.TransactionType[TransactionType.MOSAIC_ALIAS],
+        type: transactionBody.type,
+        transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         aliasAction: Constants.AliasAction[transactionBody.aliasAction],
         namespaceId: transactionBody.namespaceId.id.toHex(),
         namespaceFullName: transactionBody.namespaceId.fullName,
@@ -251,7 +256,8 @@ class TransactionService {
 
     case TransactionType.MOSAIC_DEFINITION:
       return {
-        type: Constants.TransactionType[TransactionType.MOSAIC_DEFINITION],
+        type: transactionBody.type,
+        transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         recipient: Address.createFromPublicKey(Constants.NetworkConfig.MOSAIC_RENTAL_FEE_SINK_PUBLIC_KEY, http.networkType).plain(),
         mosaicId: transactionBody.mosaicId.toHex(),
         divisibility: transactionBody.divisibility,
@@ -264,7 +270,8 @@ class TransactionService {
 
     case TransactionType.MOSAIC_SUPPLY_CHANGE:
       return {
-        type: Constants.TransactionType[TransactionType.MOSAIC_SUPPLY_CHANGE],
+        type: transactionBody.type,
+        transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         mosaicId: transactionBody.mosaicId.id.toHex(),
         action: Constants.MosaicSupplyChangeAction[transactionBody.action],
         delta: transactionBody.delta.compact()
@@ -272,7 +279,8 @@ class TransactionService {
 
     case TransactionType.MULTISIG_ACCOUNT_MODIFICATION:
       return {
-        type: Constants.TransactionType[TransactionType.MULTISIG_ACCOUNT_MODIFICATION],
+        type: transactionBody.type,
+        transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         minApprovalDelta: transactionBody.minApprovalDelta,
         minRemovalDelta: transactionBody.minRemovalDelta,
         publicKeyAdditions: transactionBody.publicKeyAdditions.map(publicKey => publicKey.address.plain()),
@@ -281,7 +289,8 @@ class TransactionService {
 
     case TransactionType.AGGREGATE_COMPLETE:
       return {
-        type: Constants.TransactionType[TransactionType.AGGREGATE_COMPLETE],
+        type: transactionBody.type,
+        transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         innerTransactions: transactionBody.innerTransactions.map(transaction => this.formatTransaction(transaction)),
         cosignatures: transactionBody.cosignatures.map(cosigner => ({
           ...cosigner,
@@ -291,8 +300,8 @@ class TransactionService {
 
     case TransactionType.AGGREGATE_BONDED:
       return {
-        rawType: TransactionType.AGGREGATE_BONDED,
-        type: Constants.TransactionType[TransactionType.AGGREGATE_BONDED],
+        type: transactionBody.type,
+        transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         innerTransactions: transactionBody.innerTransactions.map(transaction => this.formatTransaction(transaction)),
         cosignatures: transactionBody.cosignatures.map(cosigner => ({
           ...cosigner,
@@ -302,7 +311,8 @@ class TransactionService {
 
     case TransactionType.HASH_LOCK:
       return {
-        type: Constants.TransactionType[TransactionType.HASH_LOCK],
+        type: transactionBody.type,
+        transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         duration: transactionBody.duration.compact(),
         mosaicId: transactionBody.mosaic.id.toHex(), // Todo Format Mosaic
         amount: helper.toNetworkCurrency(transactionBody.mosaic.amount)
@@ -310,7 +320,8 @@ class TransactionService {
 
     case TransactionType.SECRET_LOCK:
       return {
-        type: Constants.TransactionType[TransactionType.SECRET_LOCK],
+        type: transactionBody.type,
+        transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         duration: transactionBody.duration.compact(),
         mosaicId: transactionBody.mosaic.id.toHex(), // Todo Format Mosaic
         secret: transactionBody.secret,
@@ -320,7 +331,8 @@ class TransactionService {
 
     case TransactionType.SECRET_PROOF:
       return {
-        type: Constants.TransactionType[TransactionType.SECRET_PROOF],
+        type: transactionBody.type,
+        transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         hashAlgorithm: Constants.LockHashAlgorithm[transactionBody.hashAlgorithm],
         recipient: this.formatRecipientAddress(transactionBody.recipientAddress),
         secret: transactionBody.secret,
@@ -328,7 +340,8 @@ class TransactionService {
       }
     case TransactionType.ACCOUNT_ADDRESS_RESTRICTION:
       return {
-        type: Constants.TransactionType[TransactionType.ACCOUNT_ADDRESS_RESTRICTION],
+        type: transactionBody.type,
+        transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         restrictionType: Constants.AddressRestrictionFlag[transactionBody.restrictionFlags],
         restrictionAddressAdditions: transactionBody.restrictionAdditions.map(restriction => {
           if (restriction instanceof Address)
@@ -346,7 +359,8 @@ class TransactionService {
 
     case TransactionType.ACCOUNT_MOSAIC_RESTRICTION:
       return {
-        type: Constants.TransactionType[TransactionType.ACCOUNT_MOSAIC_RESTRICTION],
+        type: transactionBody.type,
+        transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         restrictionType: Constants.MosaicRestrictionFlag[transactionBody.restrictionFlags],
         restrictionMosaicAdditions: transactionBody.restrictionAdditions.map(mosaic => mosaic.id.toHex()),
         restrictionMosaicDeletions: transactionBody.restrictionDeletions.map(mosaic => mosaic.id.toHex())
@@ -354,7 +368,8 @@ class TransactionService {
 
     case TransactionType.ACCOUNT_OPERATION_RESTRICTION:
       return {
-        type: Constants.TransactionType[TransactionType.ACCOUNT_OPERATION_RESTRICTION],
+        type: transactionBody.type,
+        transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         restrictionType: Constants.OperationRestrictionFlag[transactionBody.restrictionFlags],
         restrictionOperationAdditions: transactionBody.restrictionAdditions.map(operation => Constants.TransactionType[operation]),
         restrictionOperationDeletions: transactionBody.restrictionDeletions.map(operation => Constants.TransactionType[operation])
@@ -362,7 +377,8 @@ class TransactionService {
 
     case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
       return {
-        type: Constants.TransactionType[TransactionType.MOSAIC_ADDRESS_RESTRICTION],
+        type: transactionBody.type,
+        transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         mosaicId: transactionBody.mosaicId.toHex(), // Todo format mosaic
         targetAddress: this.formatRecipientAddress(transactionBody.targetAddress),
         restrictionKey: transactionBody.restrictionKey.toHex(),
@@ -372,7 +388,8 @@ class TransactionService {
 
     case TransactionType.MOSAIC_GLOBAL_RESTRICTION:
       return {
-        type: Constants.TransactionType[TransactionType.MOSAIC_GLOBAL_RESTRICTION],
+        type: transactionBody.type,
+        transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         referenceMosaicId: transactionBody.referenceMosaicId.toHex() === '0000000000000000' ? transactionBody.mosaicId.toHex() : transactionBody.referenceMosaicId.toHex(), // todo format Mosaic
         restrictionKey: transactionBody.restrictionKey.toHex(),
         previousRestrictionType: Constants.MosaicRestrictionType[transactionBody.previousRestrictionType],
@@ -383,7 +400,8 @@ class TransactionService {
 
     case TransactionType.ACCOUNT_METADATA:
       return {
-        type: Constants.TransactionType[TransactionType.ACCOUNT_METADATA],
+        type: transactionBody.type,
+        transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         scopedMetadataKey: transactionBody.scopedMetadataKey.toHex(),
         targetAddress: Address.createFromPublicKey(transactionBody.targetPublicKey, http.networkType).plain(),
         metadataValue: transactionBody.value,
@@ -392,7 +410,8 @@ class TransactionService {
 
     case TransactionType.MOSAIC_METADATA:
       return {
-        type: Constants.TransactionType[TransactionType.MOSAIC_METADATA],
+        type: transactionBody.type,
+        transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         scopedMetadataKey: transactionBody.scopedMetadataKey.toHex(),
         targetMosaicId: transactionBody.targetMosaicId.toHex(), // Todo Format mosaic
         targetAddress: Address.createFromPublicKey(transactionBody.targetPublicKey, http.networkType).plain(),
@@ -402,7 +421,8 @@ class TransactionService {
 
     case TransactionType.NAMESPACE_METADATA:
       return {
-        type: Constants.TransactionType[TransactionType.NAMESPACE_METADATA],
+        type: transactionBody.type,
+        transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         transactionType: TransactionType.NAMESPACE_METADATA,
         scopedMetadataKey: transactionBody.scopedMetadataKey.toHex(),
         targetNamespaceId: transactionBody.targetNamespaceId.toHex(),
@@ -415,7 +435,8 @@ class TransactionService {
     case TransactionType.NODE_KEY_LINK:
     case TransactionType.ACCOUNT_KEY_LINK:
       return {
-        type: Constants.TransactionType[transactionBody.type],
+        type: transactionBody.type,
+        transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         linkAction: Constants.LinkAction[transactionBody.linkAction],
         linkedPublicKey: transactionBody.linkedPublicKey,
         linkedAccountAddress: Address.createFromPublicKey(transactionBody.linkedPublicKey, http.networkType).plain()
