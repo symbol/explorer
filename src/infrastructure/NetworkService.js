@@ -35,7 +35,6 @@ class NetworkService {
    * @returns transaction fees information
    */
   static getTransactionFees = async () => {
-    // Todo: Remove hardcore URL, After all, restVersion is 1.0.20.24 above
     const transactionFees = await http.createRepositoryFactory.createNetworkRepository()
       .getTransactionFees().toPromise()
     return transactionFees
