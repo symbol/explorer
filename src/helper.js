@@ -133,11 +133,11 @@ class helper {
     }
   }
 
-  static convertToSecond = durationInBlocks => durationInBlocks * Constants.NetworkConfig.TARGET_BLOCK_TIME
+  static convertToSecond = durationInBlocks => durationInBlocks * http.networkConfig.TargetBlockTime
 
   static calculateNamespaceExpiration = (currentHeight, endHeight) => {
-    const expired = currentHeight > endHeight - Constants.NetworkConfig.NAMESPACE_GRACE_PERIOD_DURATION
-    const expiredInBlock = endHeight - Constants.NetworkConfig.NAMESPACE_GRACE_PERIOD_DURATION - currentHeight
+    const expired = currentHeight > endHeight - http.networkConfig.NamespaceGraceDuration
+    const expiredInBlock = endHeight - http.networkConfig.NamespaceGraceDuration - currentHeight
 
     return {
       isExpired: expired,
@@ -258,7 +258,7 @@ class helper {
    * @returns {string}
    */
   static ImportanceScoreToPercent = rawScore => {
-    const totalchainimportance = Constants.NetworkConfig.TOTAL_CHAIN_IMPORTANCE
+    const totalchainimportance = http.networkConfig.TotalChainImportance
     const divisibility = Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY
     let percent = rawScore
 
@@ -288,7 +288,7 @@ class helper {
    * @param timestamp - raw timestamp
    * @returns timestamp - world timestamp
    */
-  static networkTimestamp = timestamp => Math.round(timestamp / 1000) + Constants.NetworkConfig.NEMESIS_TIMESTAMP
+  static networkTimestamp = timestamp => Math.round(timestamp / 1000) + http.networkConfig.NemsisTimestamp
 
   /**
    * Sort Native mosaic to top of list

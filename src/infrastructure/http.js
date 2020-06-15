@@ -17,7 +17,6 @@
  */
 
 import * as symbol from 'symbol-sdk'
-import constants from '../config/constants'
 
 let NODE_URL
 let MARKET_DATA_URL
@@ -29,7 +28,7 @@ export default class http {
   static init = async (nodeUrl, marketDataUrl) => {
     NODE_URL = nodeUrl
     MARKET_DATA_URL = marketDataUrl
-    NETWORK_TYPE = await http.createRepositoryFactory.getNetworkType().toPromise() || constants.NetworkConfig.NETWORKTYPE
+    NETWORK_TYPE = await http.createRepositoryFactory.getNetworkType().toPromise()
     GENERATION_HASH = await http.createRepositoryFactory.getGenerationHash().toPromise()
     NETWORK_PROPERTIES = await http.createRepositoryFactory.createNetworkRepository().getNetworkProperties().toPromise()
   }
@@ -39,9 +38,9 @@ export default class http {
   }
 
   static get networkConfig() {
-    const convertedTotalChainImportance = +this.networkProperties.chain.totalChainImportance.replace(/'/g,'')
-    const convertedNamespaceGracePeriodDuration = +this.networkProperties.plugins.namespace.namespaceGracePeriodDuration.replace(/d/g,'')
-    const convertedBlockGenerationTargetTime = +this.networkProperties.chain.blockGenerationTargetTime.replace(/s/g,'')
+    const convertedTotalChainImportance = +this.networkProperties.chain.totalChainImportance.replace(/'/g, '')
+    const convertedNamespaceGracePeriodDuration = +this.networkProperties.plugins.namespace.namespaceGracePeriodDuration.replace(/d/g, '')
+    const convertedBlockGenerationTargetTime = +this.networkProperties.chain.blockGenerationTargetTime.replace(/s/g, '')
     const blockPerday = (60 / convertedBlockGenerationTargetTime) * 60 * 24
 
     return {
