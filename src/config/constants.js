@@ -33,12 +33,6 @@ class Constants {
     INACTIVE: 'INACTIVE'
   }
 
-  static NetworkConfig = {
-    NAMESPACE: globalConfig.networkConfig.Namespace,
-    NATIVE_MOSAIC_HEX: globalConfig.networkConfig.NativeMosaicHex,
-    NATIVE_MOSAIC_DIVISIBILITY: globalConfig.networkConfig.NativeMosaicDivisibility
-  }
-
   static TransactionType = {
     [TransactionType.TRANSFER]: 'Transfer',
     [TransactionType.NAMESPACE_REGISTRATION]: 'Namespace Registration',
