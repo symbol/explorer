@@ -16,7 +16,6 @@
  *
  */
 
-import Constants from '../config/constants'
 import http from './http'
 
 class NetworkService {
