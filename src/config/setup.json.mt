@@ -46,10 +46,5 @@
 				"icon": "IconHomeCurrencyUsd"
 			}
 		]
-	},
-	"networkConfig": {
-		"Namespace": ["SYMBOL", "SYMBOL.XYM"],
-		"NativeMosaicHex": "05D6A80DE3C9ADCA",
-		"NativeMosaicDivisibility": 6
 	}
 }

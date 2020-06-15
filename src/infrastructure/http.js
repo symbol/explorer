@@ -17,12 +17,14 @@
  */
 
 import * as symbol from 'symbol-sdk'
+import { MosaicService } from '../infrastructure'
 
 let NODE_URL
 let MARKET_DATA_URL
 let NETWORK_TYPE
 let GENERATION_HASH
 let NETWORK_PROPERTIES
+let NETWORK_CURRECY
 
 export default class http {
   static init = async (nodeUrl, marketDataUrl) => {
@@ -31,6 +33,18 @@ export default class http {
     NETWORK_TYPE = await http.createRepositoryFactory.getNetworkType().toPromise()
     GENERATION_HASH = await http.createRepositoryFactory.getGenerationHash().toPromise()
     NETWORK_PROPERTIES = await http.createRepositoryFactory.createNetworkRepository().getNetworkProperties().toPromise()
+
+    const mosaicId = NETWORK_PROPERTIES.chain.currencyMosaicId.replace(/0x|'/g, '')
+    NETWORK_CURRECY = await MosaicService.getMosaicInfo(mosaicId)
+  }
+
+  static get networkCurrecy() {
+    const splitNamespace = NETWORK_CURRECY.mosaicAliasName.toUpperCase().split('.')
+    return {
+      namespace: [...splitNamespace, NETWORK_CURRECY.mosaicAliasName.toUpperCase()],
+      mosaicId: NETWORK_CURRECY.mosaicId,
+      divisibility: NETWORK_CURRECY.divisibility
+    }
   }
 
   static get networkProperties() {
