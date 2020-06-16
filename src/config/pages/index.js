@@ -1,5 +1,4 @@
 export default [
-    require('./detail-page-example'),
     require('./account-list'),
     require('./block-list'),
     require('./mosaic-list'),
