@@ -1,0 +1,105 @@
+{
+    "path": "/block/:height",
+    "name": "block-detail",
+    "meta": {
+        "group": "detail-page",
+        "keepAliveGoTo": []
+    },
+    "props": {
+        "layout": "flex",
+        "storeNamespaces": [],
+        "initActions": ["block/fetchBlockInfo"],
+        "schema": [
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "Block Detail",
+                "managerGetter": "block/info",
+                "errorMessage": "Block does not exist.",
+                "pagination": "custom",
+                "paginationOptions": {
+                    "nextPageAction": "block/nextBlock",
+                    "previousPageAction": "block/previousBlock",
+                    "canFetchPrevious": true,
+                    "canFetchNext": true
+                },
+                "fields": [
+                    "height",
+                    "date",
+                    "totalFee",
+                    "difficulty",
+                    "feeMultiplier",
+                    "transactions",
+                    "harvester",
+                    "blockHash",
+                    "proofGamma",
+                    "proofScalar",
+                    "proofVarificationHash"
+                ]
+            },
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "Block Transactions",
+                "managerGetter": "block/transactions",
+                "pagination": "server",
+                "fields": [
+                    "deadline",
+                    "transactionId",
+                    "transactionHash",
+                    "type"
+                ]
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
+                "title": "Balance Change Receipt",
+                "managerGetter": "block/blockReceipts",
+                "dataGetter": "block/balanceChangeReceipt",
+                "pagination": "client",
+                "pageSize": 5,
+                "hideEmptyData": true
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
+                "title": "Balance Transfer Receipt",
+                "managerGetter": "block/blockReceipts",
+                "dataGetter": "block/balanceTransferReceipt",
+                "pagination": "client",
+                "pageSize": 5,
+                "hideEmptyData": true
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
+                "title": "Inflation Receipt",
+                "managerGetter": "block/blockReceipts",
+                "dataGetter": "block/inflationReceipt",
+                "pagination": "client",
+                "pageSize": 5,
+                "hideEmptyData": true
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
+                "title": "Artifact Expiry Receipt",
+                "managerGetter": "block/blockReceipts",
+                "dataGetter": "block/artifactExpiryReceipt",
+                "pagination": "client",
+                "pageSize": 5,
+                "hideEmptyData": true
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
+                "title": "Resolution Statement",
+                "managerGetter": "block/blockReceipts",
+                "dataGetter": "block/resolutionStatement",
+                "pagination": "client",
+                "pageSize": 5,
+                "hideEmptyData": true
+            }
+        ]
+    }
+}

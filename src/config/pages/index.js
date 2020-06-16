@@ -8,5 +8,7 @@ export default [
     require('./transaction-list'),
 
     require('./account-detail'),
+    require('./block-detail'),
+    require('./mosaic-detail'),
     require('./transaction-detail')
 ]
