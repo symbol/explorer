@@ -481,7 +481,7 @@
                     },
                     {
                         "type": "Card",
-                        "title": "mosaics",
+                        "title": "mosaicsTitle",
                         "fullWidth": false,
                         "body": "TableListView",
                         "fields": [
@@ -503,7 +503,7 @@
                         "body": "TableListView",
                         "fields": [
                             "transactionId",
-                            "type",
+                            "transactionDescriptor",
                             "signer",
                             "transactionBody"
                         ],
