@@ -65,7 +65,7 @@ export default class Timeline {
 
   initialFetch() {
     if (!this.initialized) {
-      this.reset()
+      this.initialized = true
       return this.fetch()
     }
   }
