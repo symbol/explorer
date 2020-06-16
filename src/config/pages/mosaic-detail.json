@@ -1,0 +1,79 @@
+{
+    "path": "/mosaic/:mosaicId",
+    "name": "mosaic-detail",
+    "meta": {
+        "group": "detail-page",
+        "keepAliveGoTo": []
+    },
+    "props": {
+        "layout": "flex",
+        "storeNamespaces": [],
+        "initActions": ["mosaic/fetchMosaicInfo"],
+        "schema": [
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "Mosaic Detail",
+                "managerGetter": "mosaic/info",
+                "errorMessage": "Mosaic does not exist.",
+                "pagination": "none",
+                "fields": [
+                    "mosaicId",
+                    "mosaicAliasName",
+                    "divisibility",
+                    "address",
+                    "supply",
+                    "relativeAmount",
+                    "revision",
+                    "startHeight",
+                    "duration",
+                    "supplyMutable",
+                    "transferable",
+                    "restrictable"
+                ]
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
+                "title": "Mosaic Restriction",
+                "managerGetter": "mosaic/restrictions",
+                "errorMessage": "Mosaic does not exist.",
+                "pagination": "none",
+                "fields": [
+                    "compositeHash",
+                    "entryType"
+                ]
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
+                "title": "Mosaic Restriction List",
+                "managerGetter": "mosaic/restrictions",
+                "dataGetter": "mosaic/getMosaicRestrictionList",
+                "errorMessage": "Mosaic global restrictions are not available.",
+                "pagination": "none",
+                "fields": [
+                    "restrictionKey",
+                    "restrictionType",
+                    "restrictionValue"
+                ]
+            },
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "Metadata Entries",
+                "managerGetter": "mosaic/metadatas",
+                "pagination": "client",
+                "pageSize": 5,
+                "fields": [
+                    "metadataId",
+                    "scopedMetadataKey",
+                    "targetId",
+                    "senderAddress",
+                    "targetAddress",
+                    "metadataValue"
+                ]
+            }
+        ]
+    }
+}
