@@ -9,8 +9,9 @@
         </template>
         <template #control>
             <div class="ex-infotext" v-if="hasInfoText"> {{infoText}} </div>
-            <DropdownFilter
+            <component
                 v-if="hasFilter"
+                :is="filterDropdownComponentName"
                 :options="filterOptions"
                 :value="filterValue"
                 :index="filterIndex"
@@ -51,6 +52,7 @@ import Card from '@/components/containers/Card.vue'
 import TableListView from '@/components/tables/TableListView.vue'
 import TableInfoView from '@/components/tables/TableInfoView.vue'
 import DropdownFilter from '@/components/controls/DropdownFilter.vue'
+import Dropdown from '@/components/controls/Dropdown.vue'
 import Pagination from '@/components/controls/Pagination.vue'
 
 export default {
@@ -59,6 +61,7 @@ export default {
     TableListView,
     TableInfoView,
     DropdownFilter,
+    Dropdown,
     Pagination
   },
 
@@ -180,6 +183,12 @@ export default {
 
     filterOptions() {
       return this.manager.filterOptions
+    },
+
+    filterDropdownComponentName() {
+        return Array.isArray(this.filterOptions)
+            ? 'DropdownFilter'
+            : 'Dropdown'
     }
   },
 
