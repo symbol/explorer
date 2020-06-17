@@ -93,7 +93,15 @@ export default {
     transactionDetail: state => state.info?.data?.transactionBody || {},
     transferMosaics: state => state.info?.data?.transferMosaics || [],
     aggregateInnerTransactions: state => state.info?.data?.aggregateTransaction?.innerTransactions || [],
-    aggregateCosignatures: state => state.info?.data?.aggregateTransaction?.cosignatures || []
+    aggregateCosignatures: state => state.info?.data?.aggregateTransaction?.cosignatures || [],
+    transactionSchema: (state, getters) => {console.log('getters.transactionInfo',getters.transactionInfo); return {
+        loading: getters.info.loading,
+        error: getters.info.error,
+        data: { 
+            accountSigner: getters.info.data.signer,
+            accountRecipient: getters.transactionDetail.recipient,
+        }
+    }}
   },
   mutations: {
     ...getMutationsFromManagers(managers),

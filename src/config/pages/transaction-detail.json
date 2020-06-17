@@ -12,6 +12,11 @@
         "schema": [
             {
                 "layoutOptions": "full-width",
+                "type": "TransactionSchema",
+                "managerGetter": "transaction/transactionSchema"
+            },
+            {
+                "layoutOptions": "full-width",
                 "type": "CardTable",
                 "title": "Transaction Info",
                 "managerGetter": "transaction/info",

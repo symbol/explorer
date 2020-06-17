@@ -334,10 +334,20 @@ class helper {
    * @returns object { R: Number, G: Number, B: Number }
    */
     static getColorFromHash = (hash, isHex = true) => {
-        if(typeof hash !== 'string') 
-            throw new Error('Failed to convert hash to color. Hash is not a String')
-        if(hash.length < 3) 
-            throw new Error('Failed to convert hash to color. Hash string length < 3')
+        const color = {
+            R: 0,
+            G: 0,
+            B: 0
+        };
+
+        if(typeof hash !== 'string') {
+            console.error('Failed to convert hash to color. Hash is not a String')
+            return color;
+        } 
+        if(hash.length < 3) {
+            console.error('Failed to convert hash to color. Hash string length < 3')
+            return color;
+        } 
         
         const hexToRGB = (hexString) => {
             let totalHex = 0;
@@ -358,12 +368,6 @@ class helper {
             return Math.trunc(totalHex * 255 / ((charset.length - 1) * string.length));
         }
 
-        const color = {
-            R: 0,
-            G: 0,
-            B: 0
-        };
-
         const hashLength = hash.length;
         const colorStrLength = Math.trunc(hashLength / 3);
 
@@ -371,7 +375,7 @@ class helper {
         const strGreen = hash.substring(colorStrLength, colorStrLength * 2);
         const strBlue = hash.substring(colorStrLength * 2, colorStrLength * 3);
         
-        color.R = isHex ? hexToRGB(strRed) : charsetToRGB(strRed);
+        color.R = isHex ? hexToRGB(strRed) : charsetToRGB(strRed.substring(2, 3));
         color.G = isHex ? hexToRGB(strGreen) : charsetToRGB(strGreen);
         color.B = isHex ? hexToRGB(strBlue) : charsetToRGB(strBlue);
 

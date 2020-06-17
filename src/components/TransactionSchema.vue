@@ -1,17 +1,14 @@
 <template>
-    <div>
-        <input v-model="accountSigner" />
-        <button @click="getColor" />
+    <div :loading="loading">
         <svg 
             version="1.1" 
             xmlns="http://www.w3.org/2000/svg" 
             xmlns:xlink="http://www.w3.org/1999/xlink" 
             x="0px" 
             y="0px" 
-            width="960px"
-	        height="560px" 
-            viewBox="0 0 960 560" 
-            enable-background="new 0 0 960 560" 
+            width="700px"
+	        height="200px" 
+            viewBox="140 200 700 200" 
             xml:space="preserve"
         >
             <g id="account-1">
@@ -187,10 +184,10 @@
 <script>
 import helper from '../helper'
 export default {
-    data() {
-        return {
-            accountSigner: 'TCR5PZTS7QIBTWBTN5VVPNH3T4SHDPDS64MHQWAZ',
-            accountRecipient: '	TBYFY6IOM6PDGKCNMFLMUU4S57WGXKXCKNUMHEKL'
+    props: {
+        managerGetter: {
+            type: String,
+            required: true
         }
     },
 
@@ -201,6 +198,22 @@ export default {
 
         accountRecipientColor() {
             return this.getColor(this.accountRecipient)
+        },
+
+        accountSigner() {
+            return this.$store.getters[this.managerGetter].data.accountSigner || ''
+        },
+
+        accountRecipient() {
+            return this.$store.getters[this.managerGetter].data.accountRecipient || ''
+        },
+
+        loading() {
+            return this.$store.getters[this.managerGetter].loading
+        },
+
+        error() {
+            return this.$store.getters[this.managerGetter].error
         }
     },
 
