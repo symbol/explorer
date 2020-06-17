@@ -158,7 +158,7 @@
                     font-family="'NotoSans-Bold'" 
                     font-size="14"
                 >
-                    Message: “Hello”
+                    {{ message }}
                 </text>
                 <rect x="459.56" y="252.25" fill-rule="evenodd" clip-rule="evenodd" fill="none" width="65" height="15.5"/>
                 <text 
@@ -166,7 +166,7 @@
                     font-family="'NotoSans-Bold'" 
                     font-size="14"
                 >
-                    183 XYM
+                    
                 </text>
                 <rect x="459.56" y="269.659" fill-rule="evenodd" clip-rule="evenodd" fill="none" width="65" height="15.5"/>
                 <text 
@@ -174,7 +174,7 @@
                     font-family="'NotoSans-Bold'" 
                     font-size="14"
                 >
-                    183 XYM
+                    
                 </text>
             </g>
         </svg>
@@ -185,6 +185,10 @@
 import helper from '../helper'
 export default {
     props: {
+        message: {
+            type: String,
+            default: ''
+        },
         managerGetter: {
             type: String,
             required: true
@@ -228,7 +232,10 @@ export default {
         },
 
         accountClick(address) {
-
+            this.$store.dispatch(`ui/openPage`, {
+                pageName: 'address',
+                param: address
+            });
         }
     }
 }
