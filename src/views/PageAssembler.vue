@@ -66,8 +66,8 @@ export default {
       default: () => []
     },
     initActions: {
-        type: Array,
-        default: () => []
+      type: Array,
+      default: () => []
     },
     layout: {
       type: String,
