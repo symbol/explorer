@@ -98,10 +98,17 @@ export default {
 
     // Fetch data from the SDK.
     fetchMosaicInfo(context, hexOrNamespace) {
+      context.dispatch('uninitializeDetail')
       context.commit('setCurrentMosaicId', hexOrNamespace)
       context.getters.info.setStore(context).initialFetch(hexOrNamespace)
       context.getters.restrictions.setStore(context).initialFetch(hexOrNamespace)
       context.getters.metadatas.setStore(context).initialFetch(hexOrNamespace)
+    },
+
+    uninitializeDetail(context) {
+      context.getters.info.setStore(context).uninitialize()
+      context.getters.restrictions.setStore(context).uninitialize()
+      context.getters.metadatas.setStore(context).uninitialize()
     }
   }
 }

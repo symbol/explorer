@@ -97,10 +97,17 @@ export default {
 
     // Fetch data from the SDK.
     fetchNamespaceInfo(context, namespaceOrHex) {
+      context.dispatch('uninitializeDetail')
       context.commit('setCurrentNamespaceId', namespaceOrHex)
       context.getters.info.setStore(context).initialFetch(namespaceOrHex)
       context.getters.namespaceLevel.setStore(context).initialFetch(namespaceOrHex)
       context.getters.metadatas.setStore(context).initialFetch(namespaceOrHex)
+    },
+
+    uninitializeDetail(context) {
+      context.getters.info.setStore(context).uninitialize()
+      context.getters.namespaceLevel.setStore(context).uninitialize()
+      context.getters.metadatas.setStore(context).uninitialize()
     }
   }
 }
