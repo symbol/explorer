@@ -3,5 +3,18 @@
     "marketDataUrl": "https://min-api.cryptocompare.com/",
     "testAccount": {
         "address": "TATGZXFW3OTHPZT4G4IVDD2K7PXIJJXGEVCKP72W"
+    },
+    "testMosaic": {
+        "mosaicId": "05D6A80DE3C9ADCA"
+    },
+    "testNamespace": {
+        "rootNamespace": "symbol",
+        "subNamespace": "symbol.xym"
+    },
+    "testBlock": {
+        "height": 1
+    },
+    "testTransactions":{
+        "transferTransactionHash": "12D43269B57DBE93213448CD632DDF8313A06905EC55C2E24B6138A51B65CC70"
     }
 }
