@@ -187,7 +187,23 @@ export default {
     props: {
         message: {
             type: String,
-            default: ''
+            default: 'Message'
+        },
+        signer: {
+            type: String,
+            required: true
+        },
+        recipient: {
+            type: String,
+            required: true
+        },
+        mosaics: {
+            type: Array,
+            default: () => [
+                { name: 'symbol.xym', amount: 228 },
+                { name: '072031D75989B881', amount: 1 },
+                { name: '6D1B935676E3659D', amount: 2 }
+            ]
         },
         managerGetter: {
             type: String,
@@ -196,6 +212,15 @@ export default {
     },
 
     computed: {
+        hasMessage() {
+            return typeof this.message === 'string' && this.message.length > 0
+        },
+        hasNativeMosaic() {
+
+        },
+        hasMosaic() {
+
+        },
         accountSignerColor() {
             return this.getColor(this.accountSigner)
         },
@@ -205,20 +230,12 @@ export default {
         },
 
         accountSigner() {
-            return this.$store.getters[this.managerGetter].data.accountSigner || ''
+            return this.signer || ''
         },
 
         accountRecipient() {
-            return this.$store.getters[this.managerGetter].data.accountRecipient || ''
+            return this.recipient || ''
         },
-
-        loading() {
-            return this.$store.getters[this.managerGetter].loading
-        },
-
-        error() {
-            return this.$store.getters[this.managerGetter].error
-        }
     },
 
     methods: {

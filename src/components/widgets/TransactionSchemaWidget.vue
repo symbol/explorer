@@ -1,41 +1,49 @@
 <template>
-    <Card :loading="false">
-        <template #title>
-            {{getNameByKey('transactionSchema')}}
-        </template>
+    <Card :loading="loading">
+        <template #title>{{getNameByKey('transactionSchema')}}</template>
 
         <template #body>
             <div class="body">
-                <TransactionSchema :managerGetter="managerGetter" />
+                <TransactionSchema v-bind="data" />
             </div>
         </template>
     </Card>
 </template>
 
 <script>
-import Card from '@/components/containers/Card.vue'
-import TransactionSchema from '@/components/TransactionSchema.vue'
+import Card from "@/components/containers/Card.vue";
+import TransactionSchema from "@/components/TransactionSchema.vue";
 
 export default {
     props: {
         managerGetter: String
     },
 
-  components: {
-    Card,
-    TransactionSchema
-  },
+    components: {
+        Card,
+        TransactionSchema
+    },
 
-  computed: {
-    loading() { return !this.blockHeight }
-  },
+    computed: {
+        data() {
+            return this.$store.getters[this.managerGetter].data;
+        },
 
-  methods: {
-    getNameByKey(e) {
-      return this.$store.getters['ui/getNameByKey'](e)
+        loading() {
+            return this.$store.getters[this.managerGetter].loading;
+        },
+
+        error() {
+            return this.$store.getters[this.managerGetter].error;
+        }
+    },
+
+    methods: {
+        getNameByKey(e) {
+            return this.$store.getters["ui/getNameByKey"](e);
+        }
     }
-  }
-}
+};
 </script>
 
 <style lang="scss" scoped>

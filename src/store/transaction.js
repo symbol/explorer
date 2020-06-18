@@ -98,8 +98,10 @@ export default {
         loading: getters.info.loading,
         error: getters.info.error,
         data: { 
-            accountSigner: getters.info.data.signer,
-            accountRecipient: getters.transactionDetail.recipient,
+            signer: getters.info.data.signer,
+            recipient: getters.transactionDetail.recipient,
+            message: getters.transactionDetail.message,
+            mosaics: getters.transferMosaics
         }
     }}
   },
