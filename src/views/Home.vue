@@ -34,6 +34,7 @@
             <b-col xs="12" md="12" lg="6">
                 <RecentTransactionsWidget />
             </b-col>
+            <MosaicListWidget />
         </b-row>
     </b-container>
 </template>
@@ -43,6 +44,7 @@ import PriceChartWidget from '@/components/widgets/PriceChartWidget.vue'
 import RecentBlocksWidget from '@/components/widgets/RecentBlocksWidget.vue'
 import RecentTransactionsWidget from '@/components/widgets/RecentTransactionsWidget.vue'
 import TransactionSchema from '@/components/TransactionSchema.vue'
+import MosaicListWidget from '@/components/test/MosaicListWidget.vue'
 
 export default {
   name: 'Home',
@@ -52,7 +54,8 @@ export default {
     PriceChartWidget,
     RecentBlocksWidget,
     RecentTransactionsWidget,
-    TransactionSchema
+    TransactionSchema,
+    MosaicListWidget
   },
 
   mounted() {
