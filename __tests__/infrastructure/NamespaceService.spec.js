@@ -17,4 +17,11 @@ describe('Namespace Service', () => {
             expect(namespace.namespaceName).toEqual(networkConfig.testNamespace.rootNamespace)
         })
     })
+
+    describe('getNamespaceList should', () => {
+        it('return custom namespace list', async () => {
+            const namespaceList = await NamespaceService.getNamespaceList(networkConfig.pagination.pageSize)
+            expect(namespaceList).not.toBeNull()
+        })
+    })
 })

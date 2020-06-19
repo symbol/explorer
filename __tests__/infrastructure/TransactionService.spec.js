@@ -17,4 +17,11 @@ describe('Transaction Service', () => {
             expect(transactionInfo.transactionHash).toEqual(networkConfig.testTransactions.transferTransactionHash)
         })
     })
+
+    describe('getTransactionList should', () => {
+        it('return custom tranasaction list', async () => {
+            const transactionList = await TransactionService.getTransactionList(networkConfig.pagination.pageSize)
+            expect(transactionList).not.toBeNull()
+        })
+    })
 })

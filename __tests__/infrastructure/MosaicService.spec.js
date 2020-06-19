@@ -17,4 +17,11 @@ describe('Mosaic Service', () => {
             expect(mosaicInfo.mosaicId).toEqual(networkConfig.testMosaic.mosaicId)
         })
     })
+
+    describe('getMosaicList should', () => {
+        it('return custom mosaic list', async () => {
+            const mosaicList = await MosaicService.getMosaicList(networkConfig.pagination.pageSize)
+            expect(mosaicList).not.toBeNull()
+        })
+    })
 })

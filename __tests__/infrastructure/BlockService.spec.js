@@ -17,4 +17,11 @@ describe('Block Service', () => {
             expect(blockInfo.height).toEqual(networkConfig.testBlock.height)
         })
     })
+
+    describe('getBlockList should', () => {
+        it('return custom block list', async () => {
+            const blockList = await BlockService.getBlockList(networkConfig.pagination.pageSize)
+            expect(blockList).not.toBeNull()
+        })
+    })
 })

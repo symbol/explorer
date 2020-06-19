@@ -16,4 +16,11 @@ describe('Account Service', () => {
             expect(accountInfo).not.toBeNull()
         })
     })
+
+    describe('getAccountList should', () => {
+        it('return custom account list', async () => {
+            const accountList = await AccountService.getAccountList(networkConfig.pagination.pageSize, 'harvested/blocks')
+            expect(accountList).not.toBeNull()
+        })
+    })
 })
