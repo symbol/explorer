@@ -18,6 +18,7 @@
 
 import { Constants } from './config'
 import { NetworkType, MosaicId, NamespaceId, Address } from 'symbol-sdk'
+import { NamespaceService } from './infrastructure'
 import http from './infrastructure/http'
 import moment from 'moment'
 
@@ -132,11 +133,11 @@ class helper {
     }
   }
 
-  static convertToSecond = durationInBlocks => durationInBlocks * Constants.NetworkConfig.TARGET_BLOCK_TIME
+  static convertToSecond = durationInBlocks => durationInBlocks * http.networkConfig.TargetBlockTime
 
   static calculateNamespaceExpiration = (currentHeight, endHeight) => {
-    const expired = currentHeight > endHeight - Constants.NetworkConfig.NAMESPACE_GRACE_PERIOD_DURATION
-    const expiredInBlock = endHeight - Constants.NetworkConfig.NAMESPACE_GRACE_PERIOD_DURATION - currentHeight
+    const expired = currentHeight > endHeight - http.networkConfig.NamespaceGraceDuration
+    const expiredInBlock = endHeight - http.networkConfig.NamespaceGraceDuration - currentHeight
 
     return {
       isExpired: expired,
@@ -187,6 +188,24 @@ class helper {
   }
 
   /**
+   * Decode Account Public key or Namespace name to plan Address.
+   * @param address - Account publicKey string | naemspace name
+   * @returns Plan Address - example : SB3KUBHATFCPV7UZQLWAQ2EUR6SIHBSBEOEDDDF3
+   */
+  static decodeToAddress = async (address) => {
+    if (this.isAccountPublicKey(address))
+      return Address.createFromPublicKey(address, http.networkType).plain()
+
+    if (!this.isAccountAddress(address)) {
+      const namespaceId = new NamespaceId(address)
+      address = await NamespaceService.getLinkedAddress(namespaceId)
+      return address
+    }
+
+    return address
+  }
+
+  /**
    * Convert Mosaic amount to relative Amount with divisibility.
    * @param amount - number
    * @param divisibility - decimal
@@ -203,7 +222,7 @@ class helper {
    * @returns balance - formatted mosaic amount
    */
   static getNetworkCurrencyBalance = mosaics => {
-    let mosaic = mosaics.find(mosaic => mosaic.id.toHex() === Constants.NetworkConfig.NATIVE_MOSAIC_HEX)
+    let mosaic = mosaics.find(mosaic => mosaic.id.toHex() === http.networkCurrecy.mosaicId)
     let balance = mosaic !== undefined ? this.toNetworkCurrency(mosaic.amount) : Constants.Message.UNAVAILABLE
     return balance
   }
@@ -239,8 +258,8 @@ class helper {
    * @returns {string}
    */
   static ImportanceScoreToPercent = rawScore => {
-    const totalchainimportance = Constants.NetworkConfig.TOTAL_CHAIN_IMPORTANCE
-    const divisibility = Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY
+    const totalchainimportance = http.networkConfig.TotalChainImportance
+    const divisibility = http.networkCurrecy.divisibility
     let percent = rawScore
 
     if (rawScore > 0)
@@ -255,7 +274,7 @@ class helper {
    * @param amount - number
    * @returns amount - (string) with formatted divisibility
    */
-  static toNetworkCurrency = amount => (amount / Math.pow(10, Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY)).toLocaleString('en-US', { minimumFractionDigits: Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY })
+  static toNetworkCurrency = amount => (amount / Math.pow(10, http.networkCurrecy.divisibility)).toLocaleString('en-US', { minimumFractionDigits: http.networkCurrecy.divisibility })
 
   /**
    * Convert public key to Address.
@@ -269,7 +288,7 @@ class helper {
    * @param timestamp - raw timestamp
    * @returns timestamp - world timestamp
    */
-  static networkTimestamp = timestamp => Math.round(timestamp / 1000) + Constants.NetworkConfig.NEMESIS_TIMESTAMP
+  static networkTimestamp = timestamp => Math.round(timestamp / 1000) + http.networkConfig.NemsisTimestamp
 
   /**
    * Sort Native mosaic to top of list
@@ -280,7 +299,7 @@ class helper {
     let sortedMosaics = []
 
     mosaics.forEach(mosaic =>
-      mosaic.mosaicId === Constants.NetworkConfig.NATIVE_MOSAIC_HEX
+      mosaic.mosaicId === http.networkCurrecy.mosaicId
         ? sortedMosaics.unshift(mosaic)
         : sortedMosaics.push(mosaic)
     )
