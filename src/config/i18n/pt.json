@@ -81,7 +81,7 @@
     "compositeHash": "Composite Hash",
     "metadataType": "Type",
     "scopedMetadataKey": "Scoped Metadata Key",
-    "senderAddress": "Sender Address",
+    "sourceAddress": "Sender Address",
     "targetAddress": "Target Address",
     "metadataValue": "Value",
     "targetId": "Target Id",
@@ -167,5 +167,7 @@
     "transactionDetailError": "Transaction detail does not exist.",
     "transactionMosaicsError": "Transaction mosaic does not exist.",
     "aggregateInnerTransactionsError": "Aggregate inner transactions are not available.",
-    "aggregateCosignaturesError": "Cosignatures are not available."
+    "aggregateCosignaturesError": "Cosignatures are not available.",
+
+    "beneficiaryAddress": "Beneficiary Address"
 }

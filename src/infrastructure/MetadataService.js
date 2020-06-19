@@ -85,8 +85,8 @@ class MetadataService {
   static formatMetadataEntry = metadataEntry => ({
     ...metadataEntry,
     scopedMetadataKey: metadataEntry.scopedMetadataKey.toHex(),
-    senderAddress: helper.publicKeyToAddress(metadataEntry.senderPublicKey),
-    targetAddress: helper.publicKeyToAddress(metadataEntry.targetPublicKey),
+    sourceAddress: metadataEntry.sourceAddress.plain(),
+    targetAddress: metadataEntry.targetAddress.plain(),
     metadataType: Constants.MetadataType[metadataEntry.metadataType],
     targetId: metadataEntry.targetId ? metadataEntry.targetId.toHex() : Constants.Message.UNAVAILABLE,
     metadataValue: metadataEntry.value

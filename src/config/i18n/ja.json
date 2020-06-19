@@ -86,7 +86,7 @@
     "compositeHash": "複合ハッシュ",
     "metadataType": "タイプ",
     "scopedMetadataKey": "スコープメタデータキー",
-    "senderAddress": "送信者アドレス",
+    "sourceAddress": "送信者アドレス",
     "targetAddress": "対象アドレス",
     "metadataValue": "値",
     "targetId": "対象ID",
@@ -189,9 +189,8 @@
     "effectiveChildNamespaceRentalFee": "子ネームスペースレンタル手数料",
     "effectiveMosaicRentalFee": "モザイクレンタル手数料",
     "recipientAddress": "受信者",
-    "targetPublicAccount": "アドレス",
     "cosignatories": "連署者",
-    "multisigAccounts": "マルチシグアカウント",
+    "multisigAddresses": "マルチシグアカウント",
     "effectiveFee": "手数料",
     "linkedPublicKey": "リンク済み公開鍵",
     "linkedAccountAddress": "リンク済みアカウントアドレス",
@@ -271,5 +270,7 @@
     "transactionDetailError": "トランザクション詳細は存在しません",
     "transactionMosaicsError": "Transaction mosaic does not exist.",
     "aggregateInnerTransactionsError": "アグリゲート内部トランザクションが有効ではありません",
-    "aggregateCosignaturesError": "連署者が有効ではありません"
+    "aggregateCosignaturesError": "連署者が有効ではありません",
+
+    "beneficiaryAddress": "Beneficiary Address"
 }

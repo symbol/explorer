@@ -48,8 +48,8 @@ class MultisigService {
     const multisigAccountInfo = await this.getMultisigAccount(address)
     return {
       ...multisigAccountInfo,
-      cosignatories: multisigAccountInfo?.cosignatories?.map(cosigner => cosigner.address),
-      multisigAccounts: multisigAccountInfo?.multisigAccounts?.map(cosigner => cosigner.address)
+      cosignatories: multisigAccountInfo?.cosignatoryAddresses?.map(cosigner => cosigner.address.plain()),
+      multisigAddresses: multisigAccountInfo?.multisigAddresses?.map(cosigner => cosigner.address.plain())
     }
   }
 
@@ -60,14 +60,8 @@ class MultisigService {
    */
   static formatMultisigAccountInfo = multisigAccountInfo => ({
     ...multisigAccountInfo,
-    cosignatories: multisigAccountInfo.cosignatories.map(cosigner => ({
-      address: cosigner.address.plain(),
-      publicKey: cosigner.publicKey
-    })),
-    multisigAccounts: multisigAccountInfo.multisigAccounts.map(cosigner => ({
-      address: cosigner.address.plain(),
-      publicKey: cosigner.publicKey
-    }))
+    cosignatories: multisigAccountInfo.cosignatoryAddresses.map(cosigner => cosigner.address.plain()),
+    multisigAddresses: multisigAccountInfo.multisigAddresses.map(cosigner => cosigner.address.plain())
   })
 }
 

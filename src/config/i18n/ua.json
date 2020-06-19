@@ -84,7 +84,7 @@
     "compositeHash": "Композитний хеш",
     "metadataType": "Тип",
     "scopedMetadataKey": "Об'єднаний ключ метаданих",
-    "senderAddress": "Адреса відправника",
+    "sourceAddress": "Адреса відправника",
     "targetAddress": "Цільова адреса",
     "metadataValue": "Значення",
     "targetId": "Цільовий Id",
@@ -202,5 +202,7 @@
     "transactionDetailError": "Transaction detail does not exist.",
     "transactionMosaicsError": "Transaction mosaic does not exist.",
     "aggregateInnerTransactionsError": "Aggregate inner transactions are not available.",
-    "aggregateCosignaturesError": "Cosignatures are not available."
+    "aggregateCosignaturesError": "Cosignatures are not available.",
+
+    "beneficiaryAddress": "Beneficiary Address"
 }

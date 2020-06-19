@@ -88,7 +88,7 @@
     "compositeHash": "Композитный хэш",
     "metadataType": "Тип",
     "scopedMetadataKey": "Объединенный ключ метаданных",
-    "senderAddress": "Адрес отправителя",
+    "sourceAddress": "Адрес отправителя",
     "targetAddress": "Целевой адрес",
     "metadataValue": "Важность",
     "targetId": "Идентификатор Цели",
@@ -218,5 +218,7 @@
     "transactionDetailError": "Transaction detail does not exist.",
     "transactionMosaicsError": "Transaction mosaic does not exist.",
     "aggregateInnerTransactionsError": "Aggregate inner transactions are not available.",
-    "aggregateCosignaturesError": "Cosignatures are not available."
+    "aggregateCosignaturesError": "Cosignatures are not available.",
+
+    "beneficiaryAddress": "Beneficiary Address"
 }

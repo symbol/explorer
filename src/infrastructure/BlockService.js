@@ -20,6 +20,7 @@ import { UInt64 } from 'symbol-sdk'
 import { ChainService, TransactionService } from '../infrastructure'
 import http from './http'
 import helper from '../helper'
+import { Constants } from '../config'
 
 class BlockService {
   /**
@@ -126,7 +127,8 @@ class BlockService {
     difficulty: helper.convertBlockDifficultyToReadable(block.difficulty),
     feeMultiplier: block.feeMultiplier.toString(),
     transactions: block.numTransactions,
-    signer: helper.publicKeyToAddress(block.signer.publicKey)
+    signer: helper.publicKeyToAddress(block.signer.publicKey),
+    beneficiaryAddress: block?.beneficiaryAddress.plain() || Constants.Message.UNAVAILABLE
   })
 }
 

@@ -86,7 +86,7 @@
     "compositeHash": "Composite Hash",
     "metadataType": "Type",
     "scopedMetadataKey": "Scoped Metadata Key",
-    "senderAddress": "Sender Address",
+    "sourceAddress": "Sender Address",
     "targetAddress": "Target Address",
     "metadataValue": "Value",
     "targetId": "Target Id",
@@ -189,9 +189,8 @@
     "effectiveChildNamespaceRentalFee": "Child Namespace Rental Fee",
     "effectiveMosaicRentalFee": "Mosaic Rental Fee",
     "recipientAddress": "Recipient",
-    "targetPublicAccount": "Address",
     "cosignatories": "Cosignatories",
-    "multisigAccounts": "Multisig Accounts",
+    "multisigAddresses": "Multisig Accounts",
     "effectiveFee": "Fee",
     "linkedPublicKey": "linked Public Key",
     "linkedAccountAddress": "linked Account Address",
@@ -271,5 +270,7 @@
     "transactionDetailError": "Transaction detail does not exist.",
     "transactionMosaicsError": "Transaction mosaic does not exist.",
     "aggregateInnerTransactionsError": "Aggregate inner transactions are not available.",
-    "aggregateCosignaturesError": "Cosignatures are not available."
+    "aggregateCosignaturesError": "Cosignatures are not available.",
+
+    "beneficiaryAddress": "Beneficiary Address"
 }
