@@ -207,11 +207,11 @@ export default {
     },
 
     getPageNumber() {
-        const args = [...arguments];
-        const number = args.find( arg => typeof arg === 'number' ) 
-        return typeof number === 'number' 
-            ? number
-            : '..'
+      const args = [...arguments]
+      const number = args.find(arg => typeof arg === 'number')
+      return typeof number === 'number'
+        ? number
+        : '..'
     }
   },
 

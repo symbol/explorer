@@ -29,8 +29,8 @@ export default class Pagination {
     this.name = name
     this.fetchFunction = fetchFunction
     this.pageInfo = {
-        pageNumber: pageInfo.pageNumber || 1,
-        pageSize: pageInfo.pageSize || Constants.pageSize
+      pageNumber: pageInfo.pageNumber || 1,
+      pageSize: pageInfo.pageSize || Constants.pageSize
     }
     this.options = filter
     this.store = {}
@@ -70,7 +70,7 @@ export default class Pagination {
   }
 
   get pageNumber() {
-      return this.pageInfo.pageNumber || 1
+    return this.pageInfo.pageNumber || 1
   }
 
   get lastPage() {
@@ -92,8 +92,8 @@ export default class Pagination {
   }
 
   /** Set Vuex.Store context
-   * 
-   */ 
+   *
+   */
   setStore(store) {
     this.store = store
     this.store.dispatch(this.name, this)
@@ -101,8 +101,8 @@ export default class Pagination {
   }
 
   /** Uninitialize Pagination
-   * 
-   */ 
+   *
+   */
   uninitialize() {
     this.initialized = false
     this.pageInfo.pageNumber = 1
@@ -112,7 +112,7 @@ export default class Pagination {
   }
 
   /** Initialize and fetch data
-   * 
+   *
    */
   initialFetch() {
     if (!this.initialized) {
@@ -123,8 +123,8 @@ export default class Pagination {
   }
 
   /** Fetch data
-   * 
-   */ 
+   *
+   */
   async fetch() {
     this.loading = true
     this.store.dispatch(this.name, this)
@@ -140,10 +140,10 @@ export default class Pagination {
     this.store.dispatch(this.name, this)
     return this
   }
- 
+
   /** Fetch next page of data
-   * 
-   */ 
+   *
+   */
   async fetchNext() {
     if (this.canFetchNext) {
       this.store.dispatch(this.name, this)
@@ -158,8 +158,8 @@ export default class Pagination {
   }
 
   /** Fetch previous page of data
-   * 
-   */ 
+   *
+   */
   async fetchPrevious() {
     if (this.canFetchPrevious) {
       this.store.dispatch(this.name, this)
@@ -172,10 +172,9 @@ export default class Pagination {
     return this
   }
 
-
   /** Fetch data with specific page configuration
-   * 
-   */ 
+   *
+   */
   async fetchPage(pageInfo) {
     if (
       pageInfo !== null &&
@@ -195,8 +194,8 @@ export default class Pagination {
   }
 
   /** Change filter value by index and fetch data
-   * 
-   */ 
+   *
+   */
   async changeFilterValue(index) {
     this.uninitialize()
     this.filterIndex = index
@@ -206,8 +205,8 @@ export default class Pagination {
   }
 
   /** Reset Pagination and fetch data
-   * 
-   */ 
+   *
+   */
   async reset(pageNumber = 1) {
     this.pageInfo.pageNumber = pageNumber
     this.filterIndex = 0
