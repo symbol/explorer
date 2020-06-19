@@ -58,8 +58,8 @@ export default class http {
     const blockPerday = (60 / convertedBlockGenerationTargetTime) * 60 * 24
 
     return {
-      MosaicRentalSinkPublicKey: this.networkProperties.plugins.mosaic.mosaicRentalFeeSinkPublicKey,
-      NamespaceRentalSinkPublicKey: this.networkProperties.plugins.namespace.namespaceRentalFeeSinkPublicKey,
+      MosaicRentalSinkAddress: this.networkProperties.plugins.mosaic.mosaicRentalFeeSinkAddress,
+      NamespaceRentalFeeSinkAddress: this.networkProperties.plugins.namespace.namespaceRentalFeeSinkAddress,
       NetworkType: this.networkType,
       NemsisTimestamp: symbol.Deadline.timestampNemesisBlock,
       TargetBlockTime: convertedBlockGenerationTargetTime,

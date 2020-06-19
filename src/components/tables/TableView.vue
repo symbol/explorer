@@ -48,7 +48,7 @@ export default {
         'addressHeight',
         'publicKeyHeight',
         'importanceHeight',
-        'multisigAccounts_',
+        'multisigAddresses_',
 
         'signer',
         'recipient',
@@ -59,7 +59,7 @@ export default {
 
         'lastActivity',
         'recalculationBlock',
-        'senderAddress',
+        'sourceAddress',
         'targetAddress',
         'targetMosaicId',
         'targetNamespaceId',
@@ -89,7 +89,7 @@ export default {
       allowArrayToView: [
         'linkedNamespace',
         'cosignatories',
-        'multisigAccounts',
+        'multisigAddresses',
         'restrictionAddressValues',
         'restrictionMosaicValues',
         'restrictionTransactionValues',
@@ -152,7 +152,7 @@ export default {
                 key === 'owneraddress' ||
                 key === 'host' ||
                 key === 'friendlyName' ||
-                key === 'multisigAccounts_'
+                key === 'multisigAddresses_'
       )
     },
 

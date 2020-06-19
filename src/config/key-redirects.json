@@ -7,7 +7,7 @@
     "owneraddress": "account",
     "linkedAccountKey": "account",
     "aliasAddress": "account",
-    "senderAddress": "account",
+    "sourceAddress": "account",
     "targetAddress": "account",
     "addressResolutionEntries": "account",
     "restrictionAddressValues": "account",
@@ -15,7 +15,7 @@
     "restrictionAddressDeletions": "account",
     "accountAliasName": "account",
     "cosignatories": "account",
-    "multisigAccounts_": "account",
+    "multisigAddresses_": "account",
     "linkedAccountAddress": "account",
 
     "transactionHash": "transaction",

@@ -123,11 +123,11 @@ class MosaicService {
    static formatMosaicInfo = mosaicInfo => ({
      mosaicId: mosaicInfo.id.toHex(),
      divisibility: mosaicInfo.divisibility,
-     address: mosaicInfo.owner.address.plain(),
+     address: mosaicInfo.ownerAddress.plain(),
      supply: mosaicInfo.supply.compact().toLocaleString('en-US'),
      relativeAmount: helper.formatMosaicAmountWithDivisibility(mosaicInfo.supply, mosaicInfo.divisibility),
      revision: mosaicInfo.revision,
-     startHeight: mosaicInfo.height.compact(),
+     startHeight: mosaicInfo.startHeight.compact(),
      duration: mosaicInfo.duration.compact() > 0 ? mosaicInfo.duration.compact() : Constants.Message.UNLIMITED,
      supplyMutable: mosaicInfo.flags.supplyMutable,
      transferable: mosaicInfo.flags.transferable,

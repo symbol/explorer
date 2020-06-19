@@ -81,7 +81,7 @@
     "compositeHash": "复合哈希",
     "metadataType": "类型",
     "scopedMetadataKey": "作用域元数据密钥",
-    "senderAddress": "发送人地址",
+    "sourceAddress": "发送人地址",
     "targetAddress": "目标地址",
     "metadataValue": "值",
     "targetId": "目标Id",
@@ -167,5 +167,7 @@
     "transactionDetailError": "Transaction detail does not exist.",
     "transactionMosaicsError": "Transaction mosaic does not exist.",
     "aggregateInnerTransactionsError": "Aggregate inner transactions are not available.",
-    "aggregateCosignaturesError": "Cosignatures are not available."
+    "aggregateCosignaturesError": "Cosignatures are not available.",
+
+    "beneficiaryAddress": "Beneficiary Address"
 }
