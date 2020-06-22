@@ -13,9 +13,9 @@
             {
                 "layoutOptions": "full-width",
                 "type": "CardTable",
-                "title": "Namespace Detail",
+                "title": "namespaceDetailTitle",
                 "managerGetter": "namespace/info",
-                "errorMessage": "Namespace does not exist.",
+                "errorMessage": "namespaceDetailError",
                 "pagination": "none",
                 "fields": [
                     "owneraddress",
@@ -35,8 +35,9 @@
             {
                 "layoutOptions": "full-width",
                 "type": "CardTable",
-                "title": "Namespace Level",
+                "title": "namespaceLevelTitle",
                 "managerGetter": "namespace/namespaceLevel",
+                "errorMessage": "namespaceLevelError",
                 "pagination": "none",
                 "fields": [
                     "name",
@@ -47,8 +48,9 @@
             {
                 "layoutOptions": "full-width",
                 "type": "CardTable",
-                "title": "Metadata Entries",
+                "title": "metadataEntriesTitle",
                 "managerGetter": "namespace/metadatas",
+                "errorMessage": "metadataEntriesError",
                 "pagination": "client",
                 "pageSize": 5,
                 "fields": [
