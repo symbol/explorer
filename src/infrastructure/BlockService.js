@@ -17,7 +17,7 @@
  */
 
 import { UInt64 } from 'symbol-sdk'
-import { ChainService, TransactionService } from '../infrastructure'
+import { TransactionService } from '../infrastructure'
 import http from './http'
 import helper from '../helper'
 import { Constants } from '../config'
@@ -47,6 +47,20 @@ class BlockService {
     const formattedBlocks = blocks.map(block => this.formatBlock(block))
 
     return formattedBlocks
+  }
+
+  /**
+   * Gets a blocks from searchCriteria
+   * @param blockSearchCriteria Object of Block Search Criteria
+   * @returns formatted block data with pagination info
+   */
+  static searchBlocks = async (blockSearchCriteria) => {
+    const searchblocks = await http.createRepositoryFactory.createBlockRepository().search(blockSearchCriteria).toPromise()
+
+    return {
+      ...searchblocks,
+      data: searchblocks.data.map(blocks => this.formatBlock(blocks))
+    }
   }
 
   /**
