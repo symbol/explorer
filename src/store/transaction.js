@@ -153,8 +153,8 @@ export default {
       context.getters.timeline.setStore(context).initialFetch()
     },
 
-    getTransactionInfoByHash(context, hash) {
-      context.getters.info.setStore(context).initialFetch(hash)
+    getTransactionInfoByHash(context, payload) {
+      context.getters.info.setStore(context).initialFetch(payload.transactionHash)
     }
   }
 }
