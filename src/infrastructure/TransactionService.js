@@ -21,7 +21,8 @@ import {
   Address,
   TransactionInfo,
   AggregateTransactionInfo,
-  NamespaceId
+  NamespaceId,
+  TransactionGroup
 } from 'symbol-sdk'
 import Constants from '../config/constants'
 import http from './http'
@@ -74,12 +75,12 @@ class TransactionService {
 
   /**
    * Gets a transaction from searchCriteria
-   * @param searchCriteria Object of Search Criteria
+   * @param transactionSearchCriteria Object of Search Criteria
    * @returns formatted transaction data with pagination info
    */
-  static searchTransactions = async (searchCriteria) => {
+  static searchTransactions = async (transactionSearchCriteria) => {
     const searchTransactions = await http.createRepositoryFactory.createTransactionRepository()
-      .searchTransactions(searchCriteria).toPromise()
+      .search(transactionSearchCriteria).toPromise()
 
     return {
       ...searchTransactions,
