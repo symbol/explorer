@@ -175,9 +175,7 @@ class TransactionService {
     const searchCriteria = {
       pageNumber,
       pageSize,
-      orderBy: 'desc',
-      transactionTypes: [],
-      group: 'Confirmed',
+      type: [],
       ...filterVaule
     }
 

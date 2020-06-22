@@ -107,8 +107,7 @@ class AccountService {
       pageNumber,
       pageSize,
       orderBy: 'desc',
-      transactionTypes: filterVaule === '0' ? [] : [filterVaule],
-      group: 'Confirmed',
+      type: filterVaule === '0' ? [] : [filterVaule],
       address: Address.createFromRawAddress(address)
     }
 
@@ -143,8 +142,7 @@ class AccountService {
       ...pageInfo,
       id: 'id',
       orderBy: 'desc',
-      transactionTypes: [filterVaule],
-      group: 'Partial',
+      type: [filterVaule],
       address: Address.createFromRawAddress(address)
     }
 

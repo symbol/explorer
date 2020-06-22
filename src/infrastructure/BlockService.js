@@ -104,8 +104,7 @@ class BlockService {
       pageNumber,
       pageSize,
       orderBy: 'desc',
-      transactionTypes: filterVaule === '0' ? [] : [filterVaule],
-      group: 'Confirmed',
+      type: filterVaule === '0' ? [] : [filterVaule],
       height: UInt64.fromUint(height)
     }
 
