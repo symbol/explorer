@@ -175,7 +175,9 @@ class TransactionService {
     const searchCriteria = {
       pageNumber,
       pageSize,
+      order: Constants.SearchCriteriaOrder.Desc,
       type: [],
+      group: TransactionGroup.Confirmed,
       ...filterVaule
     }
 

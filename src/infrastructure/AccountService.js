@@ -16,7 +16,7 @@
  *
  */
 
-import { Address, TransactionType } from 'symbol-sdk'
+import { Address, TransactionType, TransactionGroup } from 'symbol-sdk'
 import http from './http'
 import { Constants } from '../config'
 import { DataService, NamespaceService, TransactionService } from '../infrastructure'
@@ -108,6 +108,7 @@ class AccountService {
       pageSize,
       orderBy: 'desc',
       type: filterVaule === '0' ? [] : [filterVaule],
+      group: TransactionGroup.Confirmed,
       address: Address.createFromRawAddress(address)
     }
 
@@ -143,6 +144,7 @@ class AccountService {
       id: 'id',
       orderBy: 'desc',
       type: [filterVaule],
+      group: TransactionGroup.Partial,
       address: Address.createFromRawAddress(address)
     }
 

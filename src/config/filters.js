@@ -1,4 +1,4 @@
-import { TransactionType } from 'symbol-sdk'
+import { TransactionType, TransactionGroup } from 'symbol-sdk'
 
 export const transaction = [
   {
@@ -9,7 +9,7 @@ export const transaction = [
   {
     label: 'Unconfirmed',
     icon: 'mdi-dots-horizontal',
-    value: { group: 'unconfirmed' }
+    value: { group: TransactionGroup.Unconfirmed }
   },
   {
     label: 'Transfer',

@@ -16,7 +16,7 @@
  *
  */
 
-import { UInt64 } from 'symbol-sdk'
+import { UInt64, TransactionGroup } from 'symbol-sdk'
 import { TransactionService } from '../infrastructure'
 import http from './http'
 import helper from '../helper'
@@ -59,7 +59,7 @@ class BlockService {
 
     return {
       ...searchblocks,
-      data: searchblocks.data.map(blocks => this.formatBlock(blocks))
+      data: searchblocks.data.map(block => this.formatBlock(block))
     }
   }
 
@@ -69,12 +69,12 @@ class BlockService {
    * @param blockHeight - (Optional) the default is latest block height if not define.
    * @returns Block info list
    */
-  static getBlockList = async (pageInfo, filterVaule) => {
+  static getBlockList = async (pageInfo) => {
     const { pageNumber, pageSize } = pageInfo
     const blockSearchCriteria = {
       pageNumber,
       pageSize,
-      order: 'desc',
+      order: Constants.SearchCriteriaOrder.Desc,
       orderBy: 'height'
     }
 
@@ -105,6 +105,7 @@ class BlockService {
       pageSize,
       orderBy: 'desc',
       type: filterVaule === '0' ? [] : [filterVaule],
+      group: TransactionGroup.Confirmed,
       height: UInt64.fromUint(height)
     }
 
