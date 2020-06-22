@@ -19,7 +19,7 @@
 import http from './http'
 import helper from '../helper'
 import { Address, MosaicId } from 'symbol-sdk'
-import { DataService, NamespaceService } from '../infrastructure'
+import { NamespaceService } from '../infrastructure'
 import { Constants } from '../config'
 
 class MosaicService {
@@ -61,6 +61,21 @@ class MosaicService {
    }
 
    /**
+   * Gets a mosaics list from searchCriteria
+   * @param mosaicSearchCriteria Object of Search Criteria
+   * @returns formatted mosaic data with pagination info
+   */
+  static searchMosaics = async (mosaicSearchCriteria) => {
+    const searchMosaics = await http.createRepositoryFactory.createMosaicRepository()
+      .search(mosaicSearchCriteria).toPromise()
+
+    return {
+      ...searchMosaics,
+      data: searchMosaics.data.map(mosaic => this.formatMosaicInfo(mosaic))
+    }
+  }
+
+   /**
     * Get formatted MosaicInfo dataset into Vue Component
     * @param hexOrNamespace - hex value or namespace name
     * @returns MosaicInfo info object
@@ -83,19 +98,28 @@ class MosaicService {
     * @param fromMosaicId — (Optional) retrive next mosaicInfo in pagination
     * @returns Custom MosaicInfo[]
     */
-   static getMosaicList = async (limit, fromMosaicId) => {
-     const mosaicInfos = await DataService.getMosaicsByIdWithLimit(limit, fromMosaicId)
+   static getMosaicList = async (pageInfo) => {
+     const { pageNumber, pageSize } = pageInfo
+     const searchCriteria = {
+       pageNumber,
+       pageSize,
+       order: Constants.SearchCriteriaOrder.Desc
+     }
 
-     const mosaicIdsList = mosaicInfos.map(mosaicInfo => mosaicInfo.id)
+     const mosaicInfos = await this.searchMosaics(searchCriteria)
+
+     const mosaicIdsList = mosaicInfos.data.map(mosaicInfo => new MosaicId(mosaicInfo.mosaicId))
+
      const mosaicNames = await NamespaceService.getMosaicsNames(mosaicIdsList)
 
-     const formattedMosaics = mosaicInfos.map(mosaic => this.formatMosaicInfo(mosaic))
-
-     return formattedMosaics.map(formattedMosaic => ({
-       ...formattedMosaic,
-       owneraddress: formattedMosaic.address,
-       mosaicAliasName: this.extractMosaicNamespace(formattedMosaic, mosaicNames)
-     }))
+     return {
+       ...mosaicInfos,
+       data: mosaicInfos.data.map(mosaic => ({
+         ...mosaic,
+         owneraddress: mosaic.address,
+         mosaicAliasName: this.extractMosaicNamespace(mosaic, mosaicNames)
+       }))
+     }
    }
 
    /**
@@ -125,7 +149,7 @@ class MosaicService {
      divisibility: mosaicInfo.divisibility,
      address: mosaicInfo.ownerAddress.plain(),
      supply: mosaicInfo.supply.compact().toLocaleString('en-US'),
-     relativeAmount: helper.formatMosaicAmountWithDivisibility(mosaicInfo.supply, mosaicInfo.divisibility),
+     relativeAmount: helper.formatMosaicAmountWithDivisibility(mosaicInfo.supply.compact(), mosaicInfo.divisibility),
      revision: mosaicInfo.revision,
      startHeight: mosaicInfo.startHeight.compact(),
      duration: mosaicInfo.duration.compact() > 0 ? mosaicInfo.duration.compact() : Constants.Message.UNLIMITED,
