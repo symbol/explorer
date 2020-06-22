@@ -154,7 +154,12 @@ export default {
     },
 
     getTransactionInfoByHash(context, payload) {
+      context.dispatch('uninitializeDetail')
       context.getters.info.setStore(context).initialFetch(payload.transactionHash)
+    },
+
+    uninitializeDetail(context) {
+      context.getters.info.setStore(context).uninitialize()
     }
   }
 }

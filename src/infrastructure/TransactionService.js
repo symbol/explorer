@@ -227,7 +227,7 @@ class TransactionService {
       return {
         type: transactionBody.type,
         transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
-        recipient: Address.createFromPublicKey(Constants.NetworkConfig.NAMESPACE_RENTAL_FEE_SINK_PUBLIC_KEY, http.networkType).plain(),
+        recipient: Address.createFromPublicKey(http.networkConfig.NamespaceRentalSinkPublicKey, http.networkType).plain(),
         registrationType: Constants.NamespaceRegistrationType[transactionBody.registrationType],
         namespaceName: transactionBody.namespaceName,
         namespaceId: transactionBody.namespaceId.toHex(),
@@ -258,7 +258,7 @@ class TransactionService {
       return {
         type: transactionBody.type,
         transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
-        recipient: Address.createFromPublicKey(Constants.NetworkConfig.MOSAIC_RENTAL_FEE_SINK_PUBLIC_KEY, http.networkType).plain(),
+        recipient: Address.createFromPublicKey(http.networkConfig.MosaicRentalSinkPublicKey, http.networkType).plain(),
         mosaicId: transactionBody.mosaicId.toHex(),
         divisibility: transactionBody.divisibility,
         duration: transactionBody.duration.compact(),
