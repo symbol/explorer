@@ -13,9 +13,9 @@
             {
                 "layoutOptions": "full-width",
                 "type": "CardTable",
-                "title": "Mosaic Detail",
+                "title": "mosaicDetailTitle",
                 "managerGetter": "mosaic/info",
-                "errorMessage": "Mosaic does not exist.",
+                "errorMessage": "mosaicDetailError",
                 "pagination": "none",
                 "fields": [
                     "mosaicId",
@@ -35,9 +35,9 @@
             {
                 "layoutOptions": "adaptive",
                 "type": "CardTable",
-                "title": "Mosaic Restriction",
+                "title": "mosaicRestrictionTitle",
                 "managerGetter": "mosaic/restrictions",
-                "errorMessage": "Mosaic does not exist.",
+                "errorMessage": "mosaicRestrictionError",
                 "pagination": "none",
                 "fields": [
                     "compositeHash",
@@ -47,10 +47,10 @@
             {
                 "layoutOptions": "adaptive",
                 "type": "CardTable",
-                "title": "Mosaic Restriction List",
+                "title": "mosaicRestrictionListTitle",
                 "managerGetter": "mosaic/restrictions",
                 "dataGetter": "mosaic/getMosaicRestrictionList",
-                "errorMessage": "Mosaic global restrictions are not available.",
+                "errorMessage": "mosaicRestrictionListError",
                 "pagination": "none",
                 "fields": [
                     "restrictionKey",
@@ -61,8 +61,9 @@
             {
                 "layoutOptions": "full-width",
                 "type": "CardTable",
-                "title": "Metadata Entries",
+                "title": "metadataEntriesTitle",
                 "managerGetter": "mosaic/metadatas",
+                "errorMessage": "metadataEntriesError",
                 "pagination": "client",
                 "pageSize": 5,
                 "fields": [
