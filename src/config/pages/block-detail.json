@@ -13,9 +13,9 @@
             {
                 "layoutOptions": "full-width",
                 "type": "CardTable",
-                "title": "Block Detail",
+                "title": "blockDetailTitle",
                 "managerGetter": "block/info",
-                "errorMessage": "Block does not exist.",
+                "errorMessage": "blockDetailError",
                 "pagination": "custom",
                 "paginationOptions": {
                     "nextPageAction": "block/nextBlock",
@@ -40,7 +40,7 @@
             {
                 "layoutOptions": "full-width",
                 "type": "CardTable",
-                "title": "Block Transactions",
+                "title": "blockTransactionsTitle",
                 "managerGetter": "block/blockTransactions",
                 "pagination": "server",
                 "fields": [
@@ -53,7 +53,7 @@
             {
                 "layoutOptions": "adaptive",
                 "type": "CardTable",
-                "title": "Balance Change Receipt",
+                "title": "balanceChangeReceiptTitle",
                 "managerGetter": "block/blockReceipts",
                 "dataGetter": "block/balanceChangeReceipt",
                 "pagination": "client",
@@ -63,7 +63,7 @@
             {
                 "layoutOptions": "adaptive",
                 "type": "CardTable",
-                "title": "Balance Transfer Receipt",
+                "title": "balanceTransferReceiptTitle",
                 "managerGetter": "block/blockReceipts",
                 "dataGetter": "block/balanceTransferReceipt",
                 "pagination": "client",
@@ -73,7 +73,7 @@
             {
                 "layoutOptions": "adaptive",
                 "type": "CardTable",
-                "title": "Inflation Receipt",
+                "title": "inflationReceiptTitle",
                 "managerGetter": "block/blockReceipts",
                 "dataGetter": "block/inflationReceipt",
                 "pagination": "client",
@@ -83,7 +83,7 @@
             {
                 "layoutOptions": "adaptive",
                 "type": "CardTable",
-                "title": "Artifact Expiry Receipt",
+                "title": "artifactExpiryReceiptTitle",
                 "managerGetter": "block/blockReceipts",
                 "dataGetter": "block/artifactExpiryReceipt",
                 "pagination": "client",
@@ -93,7 +93,7 @@
             {
                 "layoutOptions": "adaptive",
                 "type": "CardTable",
-                "title": "Resolution Statement",
+                "title": "resolutionStatementTitle",
                 "managerGetter": "block/blockReceipts",
                 "dataGetter": "block/resolutionStatement",
                 "pagination": "client",
