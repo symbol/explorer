@@ -65,6 +65,10 @@ export default {
       type: Array,
       default: () => []
     },
+    initActions: {
+      type: Array,
+      default: () => []
+    },
     layout: {
       type: String,
       required: true,
@@ -88,6 +92,10 @@ export default {
       for (const namespace of this.storeNamespaces)
         await this.$store.dispatch(namespace + '/initialize')
     }
+    if (this.initActions?.length) {
+      for (const action of this.initActions)
+        await this.$store.dispatch(action, this.$route.params)
+    }
   },
 
   computed: {
@@ -108,8 +116,8 @@ export default {
       return !item.hideEmptyData || this.getData(item)?.length > 0
     },
 
-    getNameByKey(e) {
-      return this.$store.getters['ui/getNameByKey'](e)
+    getKeyName(e) {
+      return this.$store.getters['ui/getKeyName'](e)
     },
 
     getData(item) {

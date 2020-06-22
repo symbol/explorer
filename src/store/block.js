@@ -148,12 +148,12 @@ export default {
       context.getters.timeline.setStore(context).initialFetch()
     },
 
-    fetchBlockInfo: (context, height) => {
+    fetchBlockInfo: (context, payload) => {
       context.dispatch('uninitializeDetail')
-      context.commit('currentBlockHeight', height)
-      context.getters.info.setStore(context).initialFetch(height)
-      context.getters.blockReceiptInfo.setStore(context).initialFetch(height)
-      context.getters.blockTransactions.setStore(context).initialFetch(height)
+      context.commit('currentBlockHeight', payload.height)
+      context.getters.info.setStore(context).initialFetch(payload.height)
+      context.getters.blockReceiptInfo.setStore(context).initialFetch(payload.height)
+      context.getters.blockTransactions.setStore(context).initialFetch(payload.height)
     },
 
     uninitializeDetail(context) {
