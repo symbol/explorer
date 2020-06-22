@@ -69,16 +69,26 @@ class BlockService {
    * @param blockHeight - (Optional) the default is latest block height if not define.
    * @returns Block info list
    */
-  static getBlockList = async (noOfBlock, blockHeight) => {
-    let height = blockHeight === undefined ? await ChainService.getBlockchainHeight() + 1 : blockHeight
-    const blocks = await this.getBlocksByHeightWithLimit(height - noOfBlock, noOfBlock)
+  static getBlockList = async (pageInfo, filterVaule) => {
+    const { pageNumber, pageSize } = pageInfo
+    const blockSearchCriteria = {
+      pageNumber,
+      pageSize,
+      order: 'desc',
+      orderBy: 'height'
+    }
 
-    return blocks.map(block => ({
-      ...block,
-      date: helper.convertToUTCDate(block.timestamp),
-      age: helper.convertToUTCDate(block.timestamp),
-      harvester: block.signer
-    }))
+    const blocks = await this.searchBlocks(blockSearchCriteria)
+
+    return {
+      ...blocks,
+      data: blocks.data.map(block => ({
+        ...block,
+        date: helper.convertToUTCDate(block.timestamp),
+        age: helper.convertToUTCDate(block.timestamp),
+        harvester: block.signer
+      }))
+    }
   }
 
   /**

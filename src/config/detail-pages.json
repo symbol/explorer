@@ -202,11 +202,11 @@
                             "feeMultiplier",
                             "transactions",
                             "harvester",
+                            "beneficiaryAddress",
                             "blockHash",
                             "proofGamma",
                             "proofScalar",
-                            "proofVarificationHash",
-                            "beneficiaryAddress"
+                            "proofVarificationHash"
                         ],
                         "pagination": false,
                         "managerGetter": "block/info",

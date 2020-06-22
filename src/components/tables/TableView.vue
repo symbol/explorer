@@ -40,6 +40,7 @@ export default {
         'linkedAccountKey',
         'transaction',
         'harvester',
+        'beneficiaryAddress',
         'mosaicId',
         'namespaceId',
         'parentId',

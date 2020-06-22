@@ -1,6 +1,7 @@
 {
     "height": "block",
     "harvester": "account",
+    "beneficiaryAddress": "account",
     "address": "account",
     "signer": "account",
     "recipient": "account",
