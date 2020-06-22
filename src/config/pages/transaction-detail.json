@@ -13,9 +13,9 @@
             {
                 "layoutOptions": "full-width",
                 "type": "CardTable",
-                "title": "Transaction Info",
+                "title": "transactionInfoTitle",
                 "managerGetter": "transaction/info",
-                "errorMessage": "Transaction does not exist.",
+                "errorMessage": "transactionInfoError",
                 "pagination": "none",
                 "fields": [
                     "blockHeight",
@@ -33,17 +33,19 @@
             {
                 "layoutOptions": "adaptive",
                 "type": "CardTable",
-                "title": "Transaction Detail",
+                "title": "transactionDetailTitle",
                 "managerGetter": "transaction/info",
                 "dataGetter": "transaction/transactionDetail",
+                "errorMessage": "transactionDetailError",
                 "pagination": "none"
             },
             {
                 "layoutOptions": "adaptive",
                 "type": "CardTable",
-                "title": "Mosaics",
+                "title": "mosaicsTitle",
                 "managerGetter": "transaction/info",
                 "dataGetter": "transaction/transferMosaics",
+                "errorMessage": "transactionMosaicsError",
                 "pagination": "client",
                 "pageSize": 5,
                 "hideEmptyData": true,
@@ -56,9 +58,10 @@
             {
                 "layoutOptions": "full-width",
                 "type": "CardTable",
-                "title": "Aggregate Inner Transactions",
+                "title": "aggregateInnerTransactionsTitle",
                 "managerGetter": "transaction/info",
                 "dataGetter": "transaction/aggregateInnerTransactions",
+                "errorMessage": "aggregateInnerTransactionsError",
                 "pagination": "client",
                 "pageSize": 5,
                 "hideEmptyData": true,
@@ -72,9 +75,10 @@
             {
                 "layoutOptions": "full-width",
                 "type": "CardTable",
-                "title": "Aggregate Inner Transactions",
+                "title": "aggregateCosignaturesTitle",
                 "managerGetter": "transaction/info",
                 "dataGetter": "transaction/aggregateCosignatures",
+                "errorMessage": "aggregateCosignaturesError",
                 "pagination": "client",
                 "pageSize": 5,
                 "hideEmptyData": true,
