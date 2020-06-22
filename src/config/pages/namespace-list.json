@@ -12,7 +12,7 @@
             {
                 "layoutOptions": "full-width",
                 "type": "CardTable",
-                "title": "namespaces",
+                "title": "namespacesTitle",
                 "managerGetter": "namespace/timeline",
                 "errorMessage": "Failed to fetch namespace list",
                 "pagination": "server",

@@ -12,7 +12,7 @@
             {
                 "layoutOptions": "full-width",
                 "type": "CardTable",
-                "title": "mosaics",
+                "title": "mosaicsTitle",
                 "managerGetter": "mosaic/timeline",
                 "errorMessage": "Failed to fetch mosaic list",
                 "pagination": "server",

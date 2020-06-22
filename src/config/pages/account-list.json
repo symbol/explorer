@@ -13,7 +13,7 @@
             {
                 "layoutOptions": "full-width",
                 "type": "CardTable",
-                "title": "accounts",
+                "title": "accountsTitle",
                 "managerGetter": "account/timeline",
                 "errorMessage": "Failed to fetch account list",
                 "pagination": "server",
