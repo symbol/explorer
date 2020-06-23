@@ -110,22 +110,6 @@
                     },
                     {
                         "type": "Card",
-                        "title": "accountPartialTitle",
-                        "fullWidth": true,
-                        "body": "TableListView",
-                        "managerGetter": "account/partialTransactions",
-                        "fields": [
-                            "signer",
-                            "transactionType",
-                            "transactionHash",
-                            "deadline",
-                            "transactionBody"
-                        ],
-                        "timelinePagination": true,
-                        "errorMessage": "accountPartialError"
-                    },
-                    {
-                        "type": "Card",
                         "title": "accountRestrictionTitle",
                         "fullWidth": true,
                         "body": "TableListView",
