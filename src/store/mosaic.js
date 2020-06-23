@@ -17,6 +17,7 @@
  */
 
 import Lock from './lock'
+import { Constants } from '../config'
 import { MosaicService, RestrictionService, MetadataService } from '../infrastructure'
 import {
   DataSet,
@@ -33,7 +34,7 @@ const managers = [
     name: 'timeline',
     fetchFunction: (pageInfo) => MosaicService.getMosaicList(pageInfo),
     pageInfo: {
-      pageSize: 10
+      pageSize: Constants.PageSize
     }
   }),
   new DataSet(

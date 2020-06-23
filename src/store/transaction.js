@@ -17,7 +17,7 @@
  */
 
 import Lock from './lock'
-import { filters } from '../config'
+import { filters, Constants } from '../config'
 import { TransactionService } from '../infrastructure'
 import {
   DataSet,
@@ -33,7 +33,7 @@ const managers = [
     name: 'timeline',
     fetchFunction: (pageInfo, filterValue) => TransactionService.getTransactionList(pageInfo, filterValue),
     pageInfo: {
-      pageSize: 20
+      pageSize: Constants.PageSize
     },
     filter: filters.transaction
   }),

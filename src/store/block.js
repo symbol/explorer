@@ -18,7 +18,7 @@
 
 import Vue from 'vue'
 import Lock from './lock'
-import Constants from '../config/constants'
+import { filters, Constants } from '../config'
 import helper from '../helper'
 import {
   ListenerService,
@@ -39,7 +39,7 @@ const managers = [
     name: 'timeline',
     fetchFunction: (pageInfo) => BlockService.getBlockList(pageInfo),
     pageInfo: {
-      pageSize: 10
+      pageSize: Constants.PageSize
     }
   }),
   new Pagination({
