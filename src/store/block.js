@@ -149,10 +149,17 @@ export default {
     },
 
     fetchBlockInfo: (context, payload) => {
+      context.dispatch('uninitializeDetail')
       context.commit('currentBlockHeight', payload.height)
       context.getters.info.setStore(context).initialFetch(payload.height)
       context.getters.blockReceiptInfo.setStore(context).initialFetch(payload.height)
       context.getters.blockTransactions.setStore(context).initialFetch(payload.height)
+    },
+
+    uninitializeDetail(context) {
+      context.getters.info.setStore(context).uninitialize()
+      context.getters.blockReceiptInfo.setStore(context).uninitialize()
+      context.getters.blockTransactions.setStore(context).uninitialize()
     },
 
     nextBlock: ({ commit, getters, dispatch, rootGetters }) => {

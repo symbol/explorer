@@ -12,7 +12,7 @@
             {
                 "layoutOptions": "full-width",
                 "type": "CardTable",
-                "title": "Transactions",
+                "title": "blocksTitle",
                 "managerGetter": "block/timeline",
                 "infoTextGetter": "block/infoText",
                 "pagination": "server",

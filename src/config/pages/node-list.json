@@ -12,7 +12,7 @@
             {
                 "layoutOptions": "full-width",
                 "type": "CardTable",
-                "title": "nodes",
+                "title": "nodesTitle",
                 "managerGetter": "node/timeline",
                 "errorMessage": "Failed to fetch node list",
                 "pagination": "server",
