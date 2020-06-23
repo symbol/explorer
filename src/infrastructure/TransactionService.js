@@ -67,9 +67,10 @@ class TransactionService {
    * @param hash Transaction id or hash
    * @returns formatted Transaction
    */
-  static getTransaction = async (hash) => {
+  static getTransaction = async (hash, transactionGroup) => {
     const transaction = await http.createRepositoryFactory.createTransactionRepository()
-      .getTransaction(hash).toPromise()
+      .getTransaction(hash, transactionGroup).toPromise()
+
     return this.formatTransaction(transaction)
   }
 
@@ -104,13 +105,11 @@ class TransactionService {
    * @param hash Transaction id or hash
    * @returns Custom Transaction object
    */
-  static getTransactionInfo = async hash => {
-    let formattedTransaction = await this.getTransaction(hash)
+  static getTransactionInfo = async (hash, transactionGroup = TransactionGroup.Confirmed) => {
+    let formattedTransaction = await this.getTransaction(hash, transactionGroup)
 
     let { date } = await BlockService.getBlockInfo(formattedTransaction.transactionInfo.height)
     let effectiveFee = await this.getTransactionEffectiveFee(hash)
-
-    const transactionStatus = await this.getTransactionStatus(hash)
 
     switch (formattedTransaction.type) {
     case TransactionType.TRANSFER:
@@ -158,8 +157,7 @@ class TransactionService {
       transactionId: formattedTransaction.id,
       effectiveFee,
       date,
-      status: transactionStatus.detail.code,
-      confirm: transactionStatus.message
+      confirm: transactionGroup
     }
 
     return transactionInfo
