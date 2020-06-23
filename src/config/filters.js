@@ -12,6 +12,11 @@ export const transaction = [
     value: { group: TransactionGroup.Unconfirmed }
   },
   {
+    label: 'Partial',
+    icon: 'mdi-dots-horizontal',
+    value: { group: TransactionGroup.Partial }
+  },
+  {
     label: 'Transfer',
     icon: 'mdi-swap-vertical',
     value: { type: [TransactionType.TRANSFER] }
