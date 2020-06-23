@@ -98,4 +98,8 @@ export default class http {
     const namespaceRepository = this.createRepositoryFactory.createNamespaceRepository()
     return new symbol.NamespaceService(namespaceRepository)
   }
+
+  static get blockPaginationStreamer() {
+    return new symbol.BlockPaginationStreamer(this.createRepositoryFactory.createBlockRepository())
+  }
 }

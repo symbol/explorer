@@ -21,6 +21,7 @@ import { TransactionService } from '../infrastructure'
 import http from './http'
 import helper from '../helper'
 import { Constants } from '../config'
+import { take, toArray } from 'rxjs/operators'
 
 class BlockService {
   /**
@@ -55,7 +56,8 @@ class BlockService {
    * @returns formatted block data with pagination info
    */
   static searchBlocks = async (blockSearchCriteria) => {
-    const searchblocks = await http.createRepositoryFactory.createBlockRepository().search(blockSearchCriteria).toPromise()
+    const searchblocks = await http.createRepositoryFactory.createBlockRepository()
+      .search(blockSearchCriteria).toPromise()
 
     return {
       ...searchblocks,
@@ -64,9 +66,21 @@ class BlockService {
   }
 
   /**
-   * Get formatted BlockInfo[] dataset into Vue Component
+   * Gets a blocks from streamer
+   * @param searchCriteria - Object  Search Criteria
    * @param noOfBlock - Number of blocks returned.
-   * @param blockHeight - (Optional) the default is latest block height if not define.
+   * @returns formatted BlockInfo[]
+   */
+  static streamerBlocks = async (searchCriteria, noOfBlock) => {
+    const streamerBlocks = await http.blockPaginationStreamer
+      .search(searchCriteria).pipe(take(noOfBlock), toArray()).toPromise()
+
+    return streamerBlocks.map(block => this.formatBlock(block))
+  }
+
+  /**
+   * Get formatted BlockInfo[] dataset into Vue Component
+   * @param pageInfo - pageNumber and pageSize
    * @returns Block info list
    */
   static getBlockList = async (pageInfo) => {
