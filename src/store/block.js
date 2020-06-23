@@ -48,10 +48,7 @@ const managers = [
     pageInfo: {
       pageSize: 10
     },
-    filter: {
-      0: 'All',
-      ...Constants.TransactionType
-    }
+    filter: filters.transaction
   }),
   new DataSet(
     'blockReceipts',

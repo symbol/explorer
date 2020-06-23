@@ -103,10 +103,11 @@ class BlockService {
     const searchCriteria = {
       pageNumber,
       pageSize,
-      orderBy: 'desc',
-      type: filterVaule === '0' ? [] : [filterVaule],
+      order: Constants.SearchCriteriaOrder.Desc,
+      type: [],
       group: TransactionGroup.Confirmed,
-      height: UInt64.fromUint(height)
+      height: UInt64.fromUint(height),
+      ...filterVaule
     }
 
     const blockTransactions = await TransactionService.searchTransactions(searchCriteria)
