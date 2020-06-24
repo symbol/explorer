@@ -381,6 +381,10 @@ class helper {
 
         return color;
     }
+
+    static truncString(str, strLen = 5) {
+        return `${str.substring(0, strLen)}...${str.substring(str.length - strLen, str.length)}`
+    }
 }
 
 export default helper

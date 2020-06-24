@@ -12,7 +12,7 @@
 
 <script>
 import Card from "@/components/containers/Card.vue";
-import TransactionSchema from "@/components/TransactionSchema.vue";
+import TransactionSchema from "@/components/transaction-schema/TransferTransactionSchema.vue";
 
 export default {
     props: {
