@@ -17,7 +17,7 @@
 
                     <template #control>
                         <template v-for="(headerItem, headerIndex) in item.header">
-                            <DropDown
+                            <DropdownFilter
                                 v-if="headerItem.type === 'filter'"
                                 :value="getter(headerItem.filterGetter).filterValue"
                                 :options="getter(headerItem.filterGetter).options"
@@ -58,10 +58,11 @@
 
 <script>
 import View from './View.vue'
+import DropdownFilter from '@/components/controls/DropdownFilter.vue'
 import MetadataEntries from '../components/MetadataEntries'
 export default {
   extends: View,
-  components: { MetadataEntries },
+  components: { MetadataEntries, DropdownFilter },
   props: {
     schema: {
       type: Array,

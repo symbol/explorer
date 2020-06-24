@@ -62,7 +62,7 @@ export default class Pagination {
   }
 
   get canFetchNext() {
-    return this.pageInfo.pageNumber < this.pageInfo.totalPages && this.loading === false
+    return !this.pageInfo.isLastPage && this.loading === false
   }
 
   get isLive() {

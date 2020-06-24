@@ -16,11 +16,12 @@
  *
  */
 
-import { UInt64 } from 'symbol-sdk'
-import { ChainService, TransactionService } from '../infrastructure'
+import { UInt64, TransactionGroup } from 'symbol-sdk'
+import { TransactionService } from '../infrastructure'
 import http from './http'
 import helper from '../helper'
 import { Constants } from '../config'
+import { take, toArray } from 'rxjs/operators'
 
 class BlockService {
   /**
@@ -50,21 +51,58 @@ class BlockService {
   }
 
   /**
-   * Get formatted BlockInfo[] dataset into Vue Component
+   * Gets a blocks from searchCriteria
+   * @param blockSearchCriteria Object of Block Search Criteria
+   * @returns formatted block data with pagination info
+   */
+  static searchBlocks = async (blockSearchCriteria) => {
+    const searchblocks = await http.createRepositoryFactory.createBlockRepository()
+      .search(blockSearchCriteria).toPromise()
+
+    return {
+      ...searchblocks,
+      data: searchblocks.data.map(block => this.formatBlock(block))
+    }
+  }
+
+  /**
+   * Gets a blocks from streamer
+   * @param searchCriteria - Object  Search Criteria
    * @param noOfBlock - Number of blocks returned.
-   * @param blockHeight - (Optional) the default is latest block height if not define.
+   * @returns formatted BlockInfo[]
+   */
+  static streamerBlocks = async (searchCriteria, noOfBlock) => {
+    const streamerBlocks = await http.blockPaginationStreamer
+      .search(searchCriteria).pipe(take(noOfBlock), toArray()).toPromise()
+
+    return streamerBlocks.map(block => this.formatBlock(block))
+  }
+
+  /**
+   * Get formatted BlockInfo[] dataset into Vue Component
+   * @param pageInfo - pageNumber and pageSize
    * @returns Block info list
    */
-  static getBlockList = async (noOfBlock, blockHeight) => {
-    let height = blockHeight === undefined ? await ChainService.getBlockchainHeight() + 1 : blockHeight
-    const blocks = await this.getBlocksByHeightWithLimit(height - noOfBlock, noOfBlock)
+  static getBlockList = async (pageInfo) => {
+    const { pageNumber, pageSize } = pageInfo
+    const blockSearchCriteria = {
+      pageNumber,
+      pageSize,
+      order: Constants.SearchCriteriaOrder.Desc,
+      orderBy: 'height'
+    }
 
-    return blocks.map(block => ({
-      ...block,
-      date: helper.convertToUTCDate(block.timestamp),
-      age: helper.convertToUTCDate(block.timestamp),
-      harvester: block.signer
-    }))
+    const blocks = await this.searchBlocks(blockSearchCriteria)
+
+    return {
+      ...blocks,
+      data: blocks.data.map(block => ({
+        ...block,
+        date: helper.convertToUTCDate(block.timestamp),
+        age: helper.convertToUTCDate(block.timestamp),
+        harvester: block.signer
+      }))
+    }
   }
 
   /**
@@ -79,10 +117,11 @@ class BlockService {
     const searchCriteria = {
       pageNumber,
       pageSize,
-      orderBy: 'desc',
-      transactionTypes: filterVaule === '0' ? [] : [filterVaule],
-      group: 'Confirmed',
-      height: UInt64.fromUint(height)
+      order: Constants.SearchCriteriaOrder.Desc,
+      type: [],
+      group: TransactionGroup.Confirmed,
+      height: UInt64.fromUint(height),
+      ...filterVaule
     }
 
     const blockTransactions = await TransactionService.searchTransactions(searchCriteria)

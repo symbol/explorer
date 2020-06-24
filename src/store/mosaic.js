@@ -17,11 +17,12 @@
  */
 
 import Lock from './lock'
-import Constants from '../config/constants'
+import { Constants } from '../config'
 import { MosaicService, RestrictionService, MetadataService } from '../infrastructure'
 import {
   DataSet,
   Timeline,
+  Pagination,
   getStateFromManagers,
   getGettersFromManagers,
   getMutationsFromManagers,
@@ -29,12 +30,13 @@ import {
 } from './manager'
 
 const managers = [
-  new Timeline(
-    'timeline',
-    () => MosaicService.getMosaicList(Constants.PageSize),
-    (key, pageSize) => MosaicService.getMosaicList(pageSize, key),
-    'mosaicId'
-  ),
+  new Pagination({
+    name: 'timeline',
+    fetchFunction: (pageInfo) => MosaicService.getMosaicList(pageInfo),
+    pageInfo: {
+      pageSize: Constants.PageSize
+    }
+  }),
   new DataSet(
     'info',
     (hexOrNamespace) => MosaicService.getMosaicInfo(hexOrNamespace)

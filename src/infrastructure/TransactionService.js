@@ -21,7 +21,8 @@ import {
   Address,
   TransactionInfo,
   AggregateTransactionInfo,
-  NamespaceId
+  NamespaceId,
+  TransactionGroup
 } from 'symbol-sdk'
 import Constants from '../config/constants'
 import http from './http'
@@ -66,20 +67,21 @@ class TransactionService {
    * @param hash Transaction id or hash
    * @returns formatted Transaction
    */
-  static getTransaction = async (hash) => {
+  static getTransaction = async (hash, transactionGroup) => {
     const transaction = await http.createRepositoryFactory.createTransactionRepository()
-      .getTransaction(hash).toPromise()
+      .getTransaction(hash, transactionGroup).toPromise()
+
     return this.formatTransaction(transaction)
   }
 
   /**
    * Gets a transaction from searchCriteria
-   * @param searchCriteria Object of Search Criteria
+   * @param transactionSearchCriteria Object of Search Criteria
    * @returns formatted transaction data with pagination info
    */
-  static searchTransactions = async (searchCriteria) => {
+  static searchTransactions = async (transactionSearchCriteria) => {
     const searchTransactions = await http.createRepositoryFactory.createTransactionRepository()
-      .searchTransactions(searchCriteria).toPromise()
+      .search(transactionSearchCriteria).toPromise()
 
     return {
       ...searchTransactions,
@@ -103,13 +105,11 @@ class TransactionService {
    * @param hash Transaction id or hash
    * @returns Custom Transaction object
    */
-  static getTransactionInfo = async hash => {
-    let formattedTransaction = await this.getTransaction(hash)
+  static getTransactionInfo = async (hash, transactionGroup = TransactionGroup.Confirmed) => {
+    let formattedTransaction = await this.getTransaction(hash, transactionGroup)
 
     let { date } = await BlockService.getBlockInfo(formattedTransaction.transactionInfo.height)
     let effectiveFee = await this.getTransactionEffectiveFee(hash)
-
-    const transactionStatus = await this.getTransactionStatus(hash)
 
     switch (formattedTransaction.type) {
     case TransactionType.TRANSFER:
@@ -157,8 +157,7 @@ class TransactionService {
       transactionId: formattedTransaction.id,
       effectiveFee,
       date,
-      status: transactionStatus.detail.code,
-      confirm: transactionStatus.message
+      confirm: transactionGroup
     }
 
     return transactionInfo
@@ -175,9 +174,9 @@ class TransactionService {
     const searchCriteria = {
       pageNumber,
       pageSize,
-      orderBy: 'desc',
-      transactionTypes: [],
-      group: 'Confirmed',
+      order: Constants.SearchCriteriaOrder.Desc,
+      type: [],
+      group: TransactionGroup.Confirmed,
       ...filterVaule
     }
 

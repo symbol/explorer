@@ -1,4 +1,4 @@
-import { TransactionType } from 'symbol-sdk'
+import { TransactionType, TransactionGroup } from 'symbol-sdk'
 
 export const transaction = [
   {
@@ -9,25 +9,33 @@ export const transaction = [
   {
     label: 'Unconfirmed',
     icon: 'mdi-dots-horizontal',
-    value: { group: 'Unconfirmed' }
+    value: { group: TransactionGroup.Unconfirmed }
+  },
+  {
+    label: 'Partial',
+    icon: 'mdi-dots-horizontal',
+    value: { group: TransactionGroup.Partial }
   },
   {
     label: 'Transfer',
     icon: 'mdi-swap-vertical',
-    value: { transactionTypes: [TransactionType.TRANSFER] }
+    value: { type: [TransactionType.TRANSFER] }
   },
   {
     label: 'Account',
     icon: 'mdi-account',
     value: {
-      transactionTypes: [
+      type: [
         TransactionType.ADDRESS_ALIAS,
         TransactionType.MULTISIG_ACCOUNT_MODIFICATION,
         TransactionType.ACCOUNT_ADDRESS_RESTRICTION,
         TransactionType.ACCOUNT_MOSAIC_RESTRICTION,
         TransactionType.ACCOUNT_OPERATION_RESTRICTION,
-        TransactionType.ACCOUNT_LINK,
-        TransactionType.ACCOUNT_METADATA
+        TransactionType.ACCOUNT_KEY_LINK,
+        TransactionType.ACCOUNT_METADATA,
+        TransactionType.VRF_KEY_LINK,
+        TransactionType.VOTING_KEY_LINK,
+        TransactionType.NODE_KEY_LINK
       ]
     }
   },
@@ -35,7 +43,7 @@ export const transaction = [
     label: 'Aggregate',
     icon: 'mdi-gamepad-circle',
     value: {
-      transactionTypes: [
+      type: [
         TransactionType.AGGREGATE_COMPLETE,
         TransactionType.AGGREGATE_BONDED,
         TransactionType.HASH_LOCK
@@ -46,7 +54,7 @@ export const transaction = [
     label: 'Alias',
     icon: 'mdi-comment-account',
     value: {
-      transactionTypes: [
+      type: [
         TransactionType.ADDRESS_ALIAS,
         TransactionType.MOSAIC_ALIAS
       ]
@@ -56,7 +64,7 @@ export const transaction = [
     label: 'Metadata',
     icon: 'mdi-xml',
     value: {
-      transactionTypes: [
+      type: [
         TransactionType.ACCOUNT_METADATA,
         TransactionType.MOSAIC_METADATA,
         TransactionType.NAMESPACE_METADATA
@@ -67,7 +75,7 @@ export const transaction = [
     label: 'Mosaic',
     icon: 'mdi-circle',
     value: {
-      transactionTypes: [
+      type: [
         TransactionType.MOSAIC_ALIAS,
         TransactionType.MOSAIC_DEFINITION,
         TransactionType.MOSAIC_SUPPLY_CHANGE,
@@ -82,7 +90,7 @@ export const transaction = [
     label: 'Namespace',
     icon: 'mdi-tag',
     value: {
-      transactionTypes: [
+      type: [
         TransactionType.NAMESPACE_REGISTRATION,
         TransactionType.NAMESPACE_METADATA
       ]
@@ -92,7 +100,7 @@ export const transaction = [
     label: 'Restriction',
     icon: 'mdi-alert',
     value: {
-      transactionTypes: [
+      type: [
         TransactionType.ACCOUNT_ADDRESS_RESTRICTION,
         TransactionType.ACCOUNT_MOSAIC_RESTRICTION,
         TransactionType.ACCOUNT_OPERATION_RESTRICTION,
@@ -105,7 +113,7 @@ export const transaction = [
     label: 'Secret',
     icon: 'mdi-lock',
     value: {
-      transactionTypes: [
+      type: [
         TransactionType.SECRET_LOCK,
         TransactionType.SECRET_PROOF
       ]

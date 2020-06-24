@@ -174,6 +174,11 @@ class Constants {
     [MosaicRestrictionType.NE]: 'Allow Not Equal',
     [MosaicRestrictionType.NONE]: 'No Restriction'
   }
+
+  static SearchCriteriaOrder = {
+    Asc: 'asc',
+    Desc: 'desc'
+  }
 }
 
 export default Constants

@@ -16,7 +16,7 @@
  *
  */
 
-import { Address, TransactionType } from 'symbol-sdk'
+import { Address, TransactionType, TransactionGroup } from 'symbol-sdk'
 import http from './http'
 import { Constants } from '../config'
 import { DataService, NamespaceService, TransactionService } from '../infrastructure'
@@ -106,10 +106,11 @@ class AccountService {
     const searchCriteria = {
       pageNumber,
       pageSize,
-      orderBy: 'desc',
-      transactionTypes: filterVaule === '0' ? [] : [filterVaule],
-      group: 'Confirmed',
-      address: Address.createFromRawAddress(address)
+      order: Constants.SearchCriteriaOrder.Desc,
+      type: [],
+      group: TransactionGroup.Confirmed,
+      address: Address.createFromRawAddress(address),
+      ...filterVaule
     }
 
     const accountTransactions = await TransactionService.searchTransactions(searchCriteria)
@@ -127,35 +128,6 @@ class AccountService {
               : 'incoming_' + accountTransaction.transactionBody.transactionDescriptor
             )
             : accountTransaction.transactionBody.transactionDescriptor
-      }))
-    }
-  }
-
-  /**
-   * Gets custom array of account partial transactions dataset into Vue Component
-   * @param pageInfo - object for page info such as pageNumber, pageSize
-   * @param filterVaule - object for search criteria
-   * @param address - Account address
-   * @returns Custom Transaction[]
-   */
-  static getAccountPartialTransactionList = async (pageInfo, filterVaule, address) => {
-    const searchCriteria = {
-      ...pageInfo,
-      id: 'id',
-      orderBy: 'desc',
-      transactionTypes: [filterVaule],
-      group: 'Partial',
-      address: Address.createFromRawAddress(address)
-    }
-
-    const partialTransactions = await TransactionService.searchTransactions(searchCriteria)
-
-    return {
-      ...partialTransactions,
-      data: partialTransactions.data.map(partialTransactions => ({
-        ...partialTransactions,
-        transactionHash: partialTransactions.hash,
-        transactionType: partialTransactions.transactionBody.type
       }))
     }
   }
