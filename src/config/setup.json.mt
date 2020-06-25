@@ -1,9 +1,8 @@
 {
 	"peersApi": {
-		"defaultNode":"http://api-explorer-01.eu-west-1.testnet-0951-v1.symboldev.network:3000",
+		"defaultNode":"http://api-01.us-west-1.096x.symboldev.network:3000",
 		"nodes": [
-				"http://api-explorer-01.eu-west-1.testnet-0951-v1.symboldev.network:3000",
-				"http://api-01.us-west-1.testnet-0951-v1.symboldev.network:3000"
+				"http://api-01.us-west-1.096x.symboldev.network:3000"
 		]
 	},
 	"endpoints": {
