@@ -36,21 +36,6 @@ class BlockService {
   }
 
   /**
-   * Gets array of BlockInfo for a block height with limit
-   * @param height - Block height
-   * @param noOfBlock - Number of blocks returned.
-   * @returns formatted BlockInfo[]
-   */
-  static getBlocksByHeightWithLimit = async (height, noOfBlock) => {
-    const blocks = await http.createRepositoryFactory.createBlockRepository()
-      .getBlocksByHeightWithLimit(UInt64.fromUint(height), noOfBlock).toPromise()
-
-    const formattedBlocks = blocks.map(block => this.formatBlock(block))
-
-    return formattedBlocks
-  }
-
-  /**
    * Gets a blocks from searchCriteria
    * @param blockSearchCriteria Object of Block Search Criteria
    * @returns formatted block data with pagination info
