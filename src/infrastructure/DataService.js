@@ -62,27 +62,6 @@ class DataService {
   }
 
   /**
-   * Gets array of mosaicInfo
-   * @param limit - No of namespaceInfo
-   * @param fromMosaicId - (Optional) retrive next mosaicInfo in pagination
-   * @returns mosaicInfo[]
-   */
-  static getMosaicsByIdWithLimit = async (limit, fromMosaicId) => {
-    let mosaicId
-    if (fromMosaicId === undefined)
-      mosaicId = 'latest'
-    else
-      mosaicId = fromMosaicId
-
-    // Make request.
-    const path = `/mosaics/from/${mosaicId}/limit/${limit}`
-    const response = await axios.get(http.nodeUrl + path)
-    const mosaics = response.data.map(info => dto.createMosaicInfoFromDTO(info, http.networkType))
-
-    return mosaics
-  }
-
-  /**
    * Gets array of namespaceInfo
    * @param limit - No of namespaceInfo
    * @param fromHash - (Optional) retrive next namespaceInfo in pagination

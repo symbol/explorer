@@ -45,7 +45,7 @@ class TransactionService {
         message: null,
         detail: {}
       }
-      http.createRepositoryFactory.createTransactionRepository()
+      http.createRepositoryFactory.createTransactionStatusRepository()
         .getTransactionStatus(hash).toPromise()
         .then(response => {
           transactionStatus.message = response.group
@@ -111,6 +111,8 @@ class TransactionService {
     let { date } = await BlockService.getBlockInfo(formattedTransaction.transactionInfo.height)
     let effectiveFee = await this.getTransactionEffectiveFee(hash)
 
+    const transactionStatus = await this.getTransactionStatus(hash)
+
     switch (formattedTransaction.type) {
     case TransactionType.TRANSFER:
       await Promise.all(formattedTransaction.mosaics.map(async mosaic => {
@@ -157,7 +159,8 @@ class TransactionService {
       transactionId: formattedTransaction.id,
       effectiveFee,
       date,
-      confirm: transactionGroup
+      status: transactionStatus.detail.code,
+      confirm: transactionStatus.message
     }
 
     return transactionInfo

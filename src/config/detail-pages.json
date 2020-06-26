@@ -83,7 +83,7 @@
                             "key"
                         ],
                         "managerGetter": "account/info",
-                        "dataGetter": "account/getSupplementalAccountKeys",
+                        "dataGetter": "account/getSupplementalPublicKeys",
                         "pagination": true,
                         "pageSize": 5,
                         "errorMessage": "supplementalKeysError"

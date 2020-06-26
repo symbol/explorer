@@ -47,7 +47,7 @@ const createAccountInfoFromDTO = (accountInfoDTO, networkType) =>
     accountInfoDTO.account.publicKey,
     createUInt64FromDTO(accountInfoDTO.account.publicKeyHeight),
     accountInfoDTO.account.accountType.valueOf(),
-    accountInfoDTO.account.supplementalAccountKeys.map(key => new symbol.AccountKey(key.keyType.valueOf(), key.key)),
+    accountInfoDTO.account.supplementalPublicKeys.map(key => new symbol.AccountKey(key.keyType.valueOf(), key.key)),
     accountInfoDTO.account.activityBuckets.map(activityBucketDTO => createActivityBucketFromDTO(activityBucketDTO, networkType)),
     accountInfoDTO.account.mosaics.map(mosaicDTO => createMosaicFromDTO(mosaicDTO, networkType)),
     createUInt64FromDTO(accountInfoDTO.account.importance),
