@@ -16,7 +16,7 @@
  *
  */
 
-import { Address, TransactionType, TransactionGroup } from 'symbol-sdk'
+import { Address, TransactionType, TransactionGroup, Order } from 'symbol-sdk'
 import http from './http'
 import { Constants } from '../config'
 import { DataService, NamespaceService, TransactionService } from '../infrastructure'
@@ -106,7 +106,7 @@ class AccountService {
     const searchCriteria = {
       pageNumber,
       pageSize,
-      order: Constants.SearchCriteriaOrder.Desc,
+      order: Order.Desc,
       type: [],
       group: TransactionGroup.Confirmed,
       address: Address.createFromRawAddress(address),

@@ -18,7 +18,7 @@
 
 import http from './http'
 import helper from '../helper'
-import { Address, MosaicId } from 'symbol-sdk'
+import { Address, MosaicId, Order } from 'symbol-sdk'
 import { NamespaceService } from '../infrastructure'
 import { Constants } from '../config'
 
@@ -103,7 +103,7 @@ class MosaicService {
      const searchCriteria = {
        pageNumber,
        pageSize,
-       order: Constants.SearchCriteriaOrder.Desc
+       order: Order.Desc
      }
 
      const mosaicInfos = await this.searchMosaics(searchCriteria)
