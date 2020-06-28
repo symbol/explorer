@@ -85,7 +85,10 @@ export default class http {
   }
 
   static get createRepositoryFactory() {
-    return new symbol.RepositoryFactoryHttp(this.nodeUrl, this.networkType, this.generationHash)
+    return new symbol.RepositoryFactoryHttp(this.nodeUrl, {
+      networkType: this.networkType,
+      generationHash: this.generationHash
+    })
   }
 
   static get mosaicService() {
