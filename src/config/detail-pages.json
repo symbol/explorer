@@ -77,10 +77,12 @@
                         "type": "Card",
                         "title": "supplementalKeysTitle",
                         "fullWidth": false,
-                        "body": "TableListView",
+                        "body": "TableInfoView",
                         "fields": [
-                            "accountKeyType",
-                            "key"
+                            "linked",
+                            "node",
+                            "vrf",
+                            "voting"
                         ],
                         "managerGetter": "account/info",
                         "dataGetter": "account/getSupplementalPublicKeys",

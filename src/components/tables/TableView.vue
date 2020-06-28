@@ -101,7 +101,8 @@ export default {
         'restrictionOperationAdditions',
         'restrictionOperationDeletions',
         'publicKeyAdditions',
-        'publicKeyDeletions'
+        'publicKeyDeletions',
+        'voting'
       ]
     }
   },
