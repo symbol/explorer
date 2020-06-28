@@ -272,5 +272,9 @@
     "aggregateInnerTransactionsError": "アグリゲート内部トランザクションが有効ではありません",
     "aggregateCosignaturesError": "連署者が有効ではありません",
 
-    "beneficiaryAddress": "Beneficiary Address"
+    "beneficiaryAddress": "Beneficiary Address",
+    "linked": "LINKED",
+    "node": "NODE",
+    "vrf": "VRF",
+    "voting": "VOTING"
 }
