@@ -16,7 +16,7 @@
  *
  */
 
-import { UInt64, TransactionGroup } from 'symbol-sdk'
+import { UInt64, TransactionGroup, Order, BlockOrderBy } from 'symbol-sdk'
 import { TransactionService } from '../infrastructure'
 import http from './http'
 import helper from '../helper'
@@ -73,8 +73,8 @@ class BlockService {
     const blockSearchCriteria = {
       pageNumber,
       pageSize,
-      order: Constants.SearchCriteriaOrder.Desc,
-      orderBy: 'height'
+      order: Order.Desc,
+      orderBy: BlockOrderBy.Height
     }
 
     const blocks = await this.searchBlocks(blockSearchCriteria)
@@ -102,7 +102,7 @@ class BlockService {
     const searchCriteria = {
       pageNumber,
       pageSize,
-      order: Constants.SearchCriteriaOrder.Desc,
+      order: Order.Desc,
       type: [],
       group: TransactionGroup.Confirmed,
       height: UInt64.fromUint(height),

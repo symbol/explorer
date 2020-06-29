@@ -169,5 +169,9 @@
     "aggregateInnerTransactionsError": "Aggregate inner transactions are not available.",
     "aggregateCosignaturesError": "Cosignatures are not available.",
 
-    "beneficiaryAddress": "Beneficiary Address"
+    "beneficiaryAddress": "Beneficiary Address",
+    "linked": "LINKED",
+    "node": "NODE",
+    "vrf": "VRF",
+    "voting": "VOTING"
 }

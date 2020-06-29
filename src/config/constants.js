@@ -5,7 +5,7 @@ import {
   AliasAction,
   LinkAction,
   AccountType,
-  AccountKeyType,
+  AccountKeyTypeFlags,
   LockHashAlgorithm,
   NetworkType,
   MetadataType,
@@ -87,13 +87,12 @@ class Constants {
     [AccountType.Remote_Unlinked]: 'Remote Unlinked'
   }
 
-  static AccountKeyType = {
-    [AccountKeyType.Unset]: 'Unset',
-    [AccountKeyType.Linked]: 'Linked',
-    [AccountKeyType.VRF]: 'VRF',
-    [AccountKeyType.Voting]: 'Voting',
-    [AccountKeyType.Node]: 'Node',
-    [AccountKeyType.All]: 'All'
+  static AccountKeyTypeFlags = {
+    [AccountKeyTypeFlags.Unset]: 'Unset',
+    [AccountKeyTypeFlags.Linked]: 'Linked',
+    [AccountKeyTypeFlags.VRF]: 'VRF',
+    [AccountKeyTypeFlags.Node]: 'Node',
+    [AccountKeyTypeFlags.All]: 'All'
   }
 
   static LockHashAlgorithm = {
@@ -173,11 +172,6 @@ class Constants {
     [MosaicRestrictionType.LT]: 'Allow Less Than',
     [MosaicRestrictionType.NE]: 'Allow Not Equal',
     [MosaicRestrictionType.NONE]: 'No Restriction'
-  }
-
-  static SearchCriteriaOrder = {
-    Asc: 'asc',
-    Desc: 'desc'
   }
 }
 

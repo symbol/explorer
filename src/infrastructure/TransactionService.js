@@ -22,7 +22,8 @@ import {
   TransactionInfo,
   AggregateTransactionInfo,
   NamespaceId,
-  TransactionGroup
+  TransactionGroup,
+  Order
 } from 'symbol-sdk'
 import Constants from '../config/constants'
 import http from './http'
@@ -177,7 +178,7 @@ class TransactionService {
     const searchCriteria = {
       pageNumber,
       pageSize,
-      order: Constants.SearchCriteriaOrder.Desc,
+      order: Order.Desc,
       type: [],
       group: TransactionGroup.Confirmed,
       ...filterVaule

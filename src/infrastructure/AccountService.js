@@ -16,7 +16,7 @@
  *
  */
 
-import { Address, TransactionType, TransactionGroup } from 'symbol-sdk'
+import { Address, TransactionType, TransactionGroup, Order } from 'symbol-sdk'
 import http from './http'
 import { Constants } from '../config'
 import { DataService, NamespaceService, TransactionService } from '../infrastructure'
@@ -90,6 +90,10 @@ class AccountService {
         totalFeesPaid: helper.toNetworkCurrency(activity.totalFeesPaid),
         importanceScore: activity.rawScore
       })),
+      supplementalPublicKeys: {
+        ...accountInfo.supplementalPublicKeys,
+        voting: Array.isArray(accountInfo.supplementalPublicKeys.voting) ? accountInfo.supplementalPublicKeys.voting.map(voting => voting.publicKey) : accountInfo.supplementalPublicKeys.voting
+      },
       accountAliasName: this.extractAccountNamespace(accountInfo, accountNames)
     }
   }
@@ -106,7 +110,7 @@ class AccountService {
     const searchCriteria = {
       pageNumber,
       pageSize,
-      order: Constants.SearchCriteriaOrder.Desc,
+      order: Order.Desc,
       type: [],
       group: TransactionGroup.Confirmed,
       address: Address.createFromRawAddress(address),
@@ -144,12 +148,27 @@ class AccountService {
     publicKeyHeight: accountInfo.publicKeyHeight.compact(),
     type: Constants.AccountType[accountInfo.accountType],
     linkedAccountKey: Constants.AccountType[accountInfo.accountType] === 'Unlinked' ? Constants.Message.UNAVAILABLE : Address.createFromPublicKey(accountInfo.linkedAccountKey, http.networkType).plain(),
-    supplementalPublicKeys: accountInfo.supplementalPublicKeys.map(accountKey => ({
-      ...accountKey,
-      accountKeyType: Constants.AccountKeyType[accountKey.keyType]
-    })),
+    supplementalPublicKeys: this.formatSupplementalPublicKeys(accountInfo.supplementalPublicKeys),
     importance: helper.ImportanceScoreToPercent(accountInfo.importance.compact()),
     importanceHeight: accountInfo.importanceHeight.compact()
+  })
+
+  /**
+   * Format SupplementalPublicKeys to readable SupplementalPublicKeys objecy
+   * @param supplementalPublicKeys - supplementalPublicKeys DTO
+   * @returns Readable supplementalPublicKeys DTO object
+   */
+  static formatSupplementalPublicKeys = (supplementalPublicKeys) => ({
+    ...supplementalPublicKeys,
+    linked: supplementalPublicKeys.linked?.publicKey || Constants.Message.UNAVAILABLE,
+    node: supplementalPublicKeys.node?.publicKey || Constants.Message.UNAVAILABLE,
+    vrf: supplementalPublicKeys.vrf?.publicKey || Constants.Message.UNAVAILABLE,
+    voting: supplementalPublicKeys.voting?.map(vote => ({
+      ...vote,
+      publicKey: vote.publicKey,
+      startPoint: vote.startPoint.compact(),
+      endPoint: vote.endPoint.compact()
+    })) || []
   })
 
   /**

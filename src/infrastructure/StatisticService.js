@@ -17,7 +17,7 @@
  */
 
 import { BlockService } from './index'
-import { Constants } from '../config'
+import { Order } from 'symbol-sdk'
 
 class StatisticService {
   /**
@@ -30,7 +30,7 @@ class StatisticService {
   static getBlockTimeDifferenceData = async (limit, grouping) => {
     const searchCriteria = {
       pageSize: 100,
-      order: Constants.SearchCriteriaOrder.Desc
+      order: Order.Desc
     }
 
     let blockList = await BlockService.streamerBlocks(searchCriteria, limit)
@@ -89,7 +89,7 @@ class StatisticService {
   static getTransactionPerBlockData = async (limit, grouping) => {
     const searchCriteria = {
       pageSize: 100,
-      order: Constants.SearchCriteriaOrder.Desc
+      order: Order.Desc
     }
 
     let blockList = await BlockService.streamerBlocks(searchCriteria, limit)
