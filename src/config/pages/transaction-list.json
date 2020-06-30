@@ -12,7 +12,7 @@
             {
                 "layoutOptions": "full-width",
                 "type": "CardTable",
-                "title": "Transactions",
+                "title": "transactions",
                 "managerGetter": "transaction/timeline",
                 "errorMessage": "Failed to fetch transaction list",
                 "pagination": "server",

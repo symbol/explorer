@@ -1,7 +1,7 @@
 <template>
     <b-dropdown
         :variant="variant"
-        :text="getLabel(index)"
+        :text="selectedOptionLabel"
         :size="_size"
         :right="right"
     >
@@ -78,6 +78,12 @@ export default {
       case 'large': return 'lg'
       }
       return ''
+    },
+
+    selectedOptionLabel() {
+      if (this.options && this.options[this.index] !== void 0)
+        return this.options[this.index].label
+      return this.index
     }
   },
 
@@ -86,12 +92,6 @@ export default {
       this.$emit('change', e)
       if (this.changePageAction)
         this.$store.dispatch(this.changePageAction, e)
-    },
-
-    getLabel(index) {
-      if (this.options && this.options[index] !== void 0)
-        return this.options[index].label
-      return index
     }
   }
 }

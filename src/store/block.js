@@ -43,7 +43,7 @@ const managers = [
     }
   }),
   new Pagination({
-    name: 'transactions',
+    name: 'blockTransactions',
     fetchFunction: (pageInfo, filterValue, store) => BlockService.getBlockTransactionList(pageInfo, filterValue, store.getters.currentBlockHeight),
     pageInfo: {
       pageSize: 10
@@ -150,18 +150,18 @@ export default {
       context.getters.timeline.setStore(context).initialFetch()
     },
 
-    fetchBlockInfo: (context, height) => {
+    fetchBlockInfo: (context, payload) => {
       context.dispatch('uninitializeDetail')
-      context.commit('currentBlockHeight', height)
-      context.getters.info.setStore(context).initialFetch(height)
-      context.getters.blockReceipts.setStore(context).initialFetch(height)
-      context.getters.transactions.setStore(context).initialFetch(height)
+      context.commit('currentBlockHeight', payload.height)
+      context.getters.info.setStore(context).initialFetch(payload.height)
+      context.getters.blockReceiptInfo.setStore(context).initialFetch(payload.height)
+      context.getters.blockTransactions.setStore(context).initialFetch(payload.height)
     },
 
     uninitializeDetail(context) {
       context.getters.info.setStore(context).uninitialize()
       context.getters.blockReceipts.setStore(context).uninitialize()
-      context.getters.transactions.setStore(context).uninitialize()
+      context.getters.blockTransactions.setStore(context).uninitialize()
     },
 
     nextBlock: ({ commit, getters, dispatch, rootGetters }) => {

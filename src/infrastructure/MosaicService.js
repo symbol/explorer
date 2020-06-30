@@ -149,7 +149,7 @@ class MosaicService {
      divisibility: mosaicInfo.divisibility,
      address: mosaicInfo.ownerAddress.plain(),
      supply: mosaicInfo.supply.compact().toLocaleString('en-US'),
-     relativeAmount: helper.formatMosaicAmountWithDivisibility(mosaicInfo.supply.compact(), mosaicInfo.divisibility),
+     relativeAmount: helper.formatMosaicAmountWithDivisibility(mosaicInfo.supply, mosaicInfo.divisibility),
      revision: mosaicInfo.revision,
      startHeight: mosaicInfo.startHeight.compact(),
      duration: mosaicInfo.duration.compact() > 0 ? mosaicInfo.duration.compact() : Constants.Message.UNLIMITED,
