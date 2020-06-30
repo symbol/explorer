@@ -154,7 +154,7 @@ export default {
       context.dispatch('uninitializeDetail')
       context.commit('currentBlockHeight', payload.height)
       context.getters.info.setStore(context).initialFetch(payload.height)
-      context.getters.blockReceiptInfo.setStore(context).initialFetch(payload.height)
+      context.getters.blockReceipts.setStore(context).initialFetch(payload.height)
       context.getters.blockTransactions.setStore(context).initialFetch(payload.height)
     },
 
