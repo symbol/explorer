@@ -144,7 +144,7 @@ export default {
             return this.getIconColor(this.address);
         },
 
-        truncString() {
+        truncatedAddress() {
             return this.truncString(this.address);
         }
     },

@@ -36,23 +36,6 @@
                 :address="recipient"
                 @click="accountClick"
             />
-            <MosaicIcon
-                v-if="false"
-                v-for="(mosaic, index) in mosaics"
-                :x="142 + 40 * index" 
-                :y="190" 
-                :width="100"
-                :height="100"
-                :mosaicId="mosaic.mosaicId"
-                :key="'mosaic'+mosaic.mosaicId+index"
-            />
-            <NativeMosaicIcon
-                v-if="false"
-                :x="542" 
-                :y="190" 
-                :width="100"
-                :height="100"
-            />
             <g id="arrow"> 
                 <g>
                     <line 
@@ -84,12 +67,17 @@
                         <g v-if="hasMessage">
                             <title> {{ message }} </title>
                             <MessageCircle 
-                                x="428" 
-                                y="300" 
+                                :x="428" 
+                                :y="300" 
                             />
                         </g>
                         <circle id="target" v-if="hasMosaic" fill="#3085FF" cx="484.875" cy="318.5" r="17.25"/>
-                        <circle id="target" v-if="hasNativeMosaic" fill="#EC33FF" cx="522.875" cy="318.5" r="17.25"/>
+                        <NativeMosaicCircle 
+                            id="target" 
+                            v-if="hasNativeMosaic" 
+                            :x="504" 
+                            :y="300"
+                        />
                     </g>
                 </g>
                 
@@ -133,6 +121,7 @@ import AccountIcon from '../graphics/AccountIcon.vue';
 import MosaicIcon from '../graphics/MosaicIcon.vue';
 import NativeMosaicIcon from '../graphics/NativeMosaicIcon.vue';
 import MessageCircle from '../graphics/MessageCircle.vue';
+import NativeMosaicCircle from '../graphics/NativeMosaicCircle.vue';
 import MosaicListPopover from '../graphics/MosaicListPopover.vue';
 
 export default {
@@ -141,7 +130,8 @@ export default {
         MosaicIcon,
         NativeMosaicIcon,
         MosaicListPopover,
-        MessageCircle
+        MessageCircle,
+        NativeMosaicCircle
     },
 
     props: {
