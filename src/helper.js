@@ -383,7 +383,13 @@ class helper {
     }
 
     static truncString(str, strLen = 5) {
-        return `${str.substring(0, strLen)}...${str.substring(str.length - strLen, str.length)}`
+        if(typeof str === 'string') {
+            if(str.length > strLen * 2)
+            return `${str.substring(0, strLen)}...${str.substring(str.length - strLen, str.length)}`;
+            return str;
+        }
+        console.error('Failed to trunc string. Provided value is not a string')
+        return str;
     }
 }
 

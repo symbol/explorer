@@ -37,6 +37,7 @@
                 @click="accountClick"
             />
             <MosaicIcon
+                v-if="false"
                 v-for="(mosaic, index) in mosaics"
                 :x="142 + 40 * index" 
                 :y="190" 
@@ -44,6 +45,13 @@
                 :height="100"
                 :mosaicId="mosaic.mosaicId"
                 :key="'mosaic'+mosaic.mosaicId+index"
+            />
+            <NativeMosaicIcon
+                v-if="false"
+                :x="542" 
+                :y="190" 
+                :width="100"
+                :height="100"
             />
             <g id="arrow"> 
                 <g>
@@ -64,14 +72,24 @@
                         />
                     </g>
                     <g id="icons">
-                        <!--<foreignObject class="circle-icon" x="446" y="318" width="100" height="100">
-                            <div style="border:1px green solid">I'm a div inside a SVG.</div>                
-                        </foreignObject>-->
-                        <circle id="icon-3" v-if="hasMessage" fill="#FFA82D" cx="446.875" cy="318.5" r="17.25">
-                            <title> {{ mosaicList }} </title>
-                        </circle>
-                        <circle id="icon-2" v-if="hasMosaic" fill="#3085FF" cx="484.875" cy="318.5" r="17.25"/>
-                        <circle id="icon-1" v-if="hasNativeMosaic" fill="#EC33FF" cx="522.875" cy="318.5" r="17.25"/>
+                        <foreignObject class="circle-icon" x="446" y="318" width="100" height="100">
+                            <!--<div id="target" style="border:1px green solid; position: relative">
+                                I'm a div inside a SVG.
+                            </div> --> 
+                            <MosaicListPopover
+                                target="target"
+                                :mosaics="mosaics"
+                            />              
+                        </foreignObject>
+                        <g v-if="hasMessage">
+                            <title> {{ message }} </title>
+                            <MessageCircle 
+                                x="428" 
+                                y="300" 
+                            />
+                        </g>
+                        <circle id="target" v-if="hasMosaic" fill="#3085FF" cx="484.875" cy="318.5" r="17.25"/>
+                        <circle id="target" v-if="hasNativeMosaic" fill="#EC33FF" cx="522.875" cy="318.5" r="17.25"/>
                     </g>
                 </g>
                 
@@ -113,11 +131,17 @@ import helper from '../../helper';
 import http from '../../infrastructure/http';
 import AccountIcon from '../graphics/AccountIcon.vue';
 import MosaicIcon from '../graphics/MosaicIcon.vue';
+import NativeMosaicIcon from '../graphics/NativeMosaicIcon.vue';
+import MessageCircle from '../graphics/MessageCircle.vue';
+import MosaicListPopover from '../graphics/MosaicListPopover.vue';
 
 export default {
     components: {
         AccountIcon,
-        MosaicIcon
+        MosaicIcon,
+        NativeMosaicIcon,
+        MosaicListPopover,
+        MessageCircle
     },
 
     props: {

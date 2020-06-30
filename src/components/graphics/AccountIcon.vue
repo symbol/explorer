@@ -3,10 +3,10 @@
         version="1.1"
         xmlns="http://www.w3.org/2000/svg"
         xmlns:xlink="http://www.w3.org/1999/xlink"
-        :x="x+'px'"
-        :y="y+'px'"
-        :width="width+'px'"
-        :height="height+'px'"
+        :x="_x"
+        :y="_y"
+        :width="_width"
+        :height="_height"
         viewBox="0 0 261.333 131.313"
         xml:space="preserve"
         class="account"
@@ -117,20 +117,12 @@
 </template>
 
 <script>
-import helper from '../../helper';
+import SchemaComponent from './SchemaComponent.vue'
 
 export default {
+    extends: SchemaComponent,
+
     props: {
-        x: {
-            type: Number,
-            default: 0
-        },
-
-        y: {
-            type: Number,
-            default: 0
-        },
-
         width: {
             type: Number,
             default: 261.333
@@ -149,12 +141,11 @@ export default {
 
     computed: {
         iconColor() {
-            const color = helper.getColorFromHash(this.address, false); 
-            return `RGB(${color.R},${color.G},${color.B})`;
+            return this.getIconColor(this.address);
         },
 
-        truncatedAddress() {
-            return helper.truncString(this.address);
+        truncString() {
+            return this.truncString(this.address);
         }
     },
 
