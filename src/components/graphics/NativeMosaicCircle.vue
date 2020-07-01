@@ -16,7 +16,14 @@
                 <stop offset="100%" stop-color="RGB(233, 42, 255)" />
             </linearGradient>
         </defs>
+        <foreignObject class="circle-icon" x="446" y="318" width="100" height="100">
+            <MosaicListPopover
+                target="native-mosaic-circle"
+                :mosaics="mosaics"
+            />              
+        </foreignObject>
         <circle
+            id="native-mosaic-circle"
             fill-rule="evenodd"
             clip-rule="evenodd"
             fill="url(#native-mosaic-circle-gradient)"
@@ -66,14 +73,26 @@
 
 <script>
 import SchemaComponent from "./SchemaComponent.vue";
+import MosaicListPopover from "./MosaicListPopover.vue"
 
 export default {
-    extends: SchemaComponent
+    extends: SchemaComponent,
+
+    components: {
+        MosaicListPopover
+    },
+
+    props: {
+        mosaics: {
+            type: Array,
+            default: () => []
+        }
+    }
 };
 </script>
 
 <style lang="scss" scoped>
 .connector-shadow {
-    fill: var(--primary);
+    fill: #ebebeb;
 }
 </style>

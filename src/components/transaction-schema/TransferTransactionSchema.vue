@@ -37,50 +37,37 @@
                 @click="accountClick"
             />
             <g id="arrow"> 
-                <g>
-                    <line 
-                        fill="none" 
-                        class="arrow-stroke" 
-                        stroke-width="5" 
-                        stroke-miterlimit="10" 
-                        x1="350" 
-                        y1="318.5" 
-                        x2="617" 
-                        y2="318.5"
+                <line 
+                    fill="none" 
+                    class="arrow-stroke" 
+                    stroke-width="5" 
+                    stroke-miterlimit="10" 
+                    x1="350" 
+                    y1="318.5" 
+                    x2="617" 
+                    y2="318.5"
+                />
+                <polygon 
+                    points="610.177,327.628 614.267,318 610.177,308.372 633,318 "
+                    class="arrow"
+                />
+                <g id="icons">
+                    <MessageCircle
+                        v-if="hasMessage" 
+                        :x="428" 
+                        :y="300" 
+                        :message="message"
                     />
-                    <g>
-                        <polygon 
-                            points="610.177,327.628 614.267,318 610.177,308.372 633,318 "
-                            class="arrow"
-                        />
-                    </g>
-                    <g id="icons">
-                        <foreignObject class="circle-icon" x="446" y="318" width="100" height="100">
-                            <!--<div id="target" style="border:1px green solid; position: relative">
-                                I'm a div inside a SVG.
-                            </div> --> 
-                            <MosaicListPopover
-                                target="target"
-                                :mosaics="mosaics"
-                            />              
-                        </foreignObject>
-                        <g v-if="hasMessage">
-                            <title> {{ message }} </title>
-                            <MessageCircle 
-                                :x="428" 
-                                :y="300" 
-                            />
-                        </g>
-                        <circle id="target" v-if="hasMosaic" fill="#3085FF" cx="484.875" cy="318.5" r="17.25"/>
-                        <NativeMosaicCircle 
-                            id="target" 
-                            v-if="hasNativeMosaic" 
-                            :x="504" 
-                            :y="300"
-                        />
-                    </g>
+                    <circle id="target" v-if="hasMosaic" fill="#3085FF" cx="484.875" cy="318.5" r="17.25"/>
+                    <NativeMosaicCircle 
+                        v-if="hasNativeMosaic" 
+                        id="target" 
+                        :x="504" 
+                        :y="300"
+                        :mosaics="mosaics"
+                    />
                 </g>
-                
+               <!-- 
                 <text 
                     x="490" 
                     y="361.9268"
@@ -108,7 +95,7 @@
                 >
                     <title>{{ mosaics }}</title>
                     {{ mosaic1Text }}    
-                </text>
+                </text>-->
             </g>
         </svg>
     </div>
@@ -137,7 +124,7 @@ export default {
     props: {
         message: {
             type: String,
-            default: 'Message'
+            default: ''
         },
         signer: {
             type: String,
@@ -212,15 +199,7 @@ export default {
 
         messageText() {
             return this.message?.substring(0, 30) + (this.message?.length > 30 ? '...' : '');
-        },
-
-        signerColor() {
-            return this.getColor(this.signer)
-        },
-
-        recipientColor() {
-            return this.getColor(this.recipient)
-        },
+        }
     },
 
     methods: {
