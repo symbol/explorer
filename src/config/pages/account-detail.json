@@ -73,12 +73,14 @@
                 "type": "CardTable",
                 "title": "supplementalKeysTitle",
                 "managerGetter": "account/info",
-                "dataGetter": "account/getSupplementalAccountKeys",
+                "dataGetter": "account/getSupplementalPublicKeys",
                 "pagination": "client",
                 "pageSize": 5,
                 "fields": [
-                    "accountKeyType",
-                    "key"
+                    "linked",
+                    "node",
+                    "vrf",
+                    "voting"
                 ]
             },
             {
@@ -91,22 +93,7 @@
                 "fields": [
                     "deadline",
                     "transactionHash",
-                    "transactionType",
-                    "direction"
-                ]
-            },
-            {
-                "layoutOptions": "full-width",
-                "type": "CardTable",
-                "title": "accountPartialTitle",
-                "managerGetter": "account/partialTransactions",
-                "pagination": "server",
-                "fields": [
-                    "signer",
-                    "transactionType",
-                    "transactionHash",
-                    "deadline",
-                    "transactionBody"
+                    "transactionDescriptor"
                 ]
             },
             {
