@@ -11,19 +11,6 @@
             viewBox="140 200 700 200" 
             xml:space="preserve"
         >
-        <defs>
-            <radialGradient 
-                id="gradient"
-                cx="0.5" 
-                cy="0.5" 
-                r="0.5" 
-                fx="0.25" 
-                fy="0.25"
-            >
-                <stop offset="0%" stop-color="red"/>
-                <stop offset="100%" stop-color="transparent"/>
-            </radialGradient>
-        </defs>
             <AccountIcon 
                 :x="112" 
                 :y="240" 
@@ -36,37 +23,24 @@
                 :address="recipient"
                 @click="accountClick"
             />
-            <g id="arrow"> 
-                <line 
-                    fill="none" 
-                    class="arrow-stroke" 
-                    stroke-width="5" 
-                    stroke-miterlimit="10" 
-                    x1="350" 
-                    y1="318.5" 
-                    x2="617" 
-                    y2="318.5"
-                />
-                <polygon 
-                    points="610.177,327.628 614.267,318 610.177,308.372 633,318 "
-                    class="arrow"
-                />
-                <g id="icons">
-                    <MessageCircle
-                        v-if="hasMessage" 
-                        :x="428" 
-                        :y="300" 
-                        :message="message"
-                    />
-                    <circle id="target" v-if="hasMosaic" fill="#3085FF" cx="484.875" cy="318.5" r="17.25"/>
-                    <NativeMosaicCircle 
-                        v-if="hasNativeMosaic" 
-                        id="target" 
-                        :x="504" 
-                        :y="300"
-                        :mosaics="mosaics"
-                    />
-                </g>
+            <Arrow 
+                :x="341"
+                :y="305" 
+            />
+            <MessageCircle
+                v-if="hasMessage" 
+                :x="428" 
+                :y="300" 
+                :message="message"
+            />
+            <circle id="target" v-if="hasMosaic" fill="#3085FF" cx="484.875" cy="318.5" r="17.25"/>
+            <NativeMosaicCircle 
+                v-if="hasNativeMosaic" 
+                id="target" 
+                :x="504" 
+                :y="300"
+                :mosaics="mosaics"
+            />
                <!-- 
                 <text 
                     x="490" 
@@ -96,7 +70,6 @@
                     <title>{{ mosaics }}</title>
                     {{ mosaic1Text }}    
                 </text>-->
-            </g>
         </svg>
     </div>
 </template>
@@ -109,16 +82,16 @@ import MosaicIcon from '../graphics/MosaicIcon.vue';
 import NativeMosaicIcon from '../graphics/NativeMosaicIcon.vue';
 import MessageCircle from '../graphics/MessageCircle.vue';
 import NativeMosaicCircle from '../graphics/NativeMosaicCircle.vue';
-import MosaicListPopover from '../graphics/MosaicListPopover.vue';
+import Arrow from '../graphics/Arrow.vue';
 
 export default {
     components: {
         AccountIcon,
         MosaicIcon,
         NativeMosaicIcon,
-        MosaicListPopover,
         MessageCircle,
-        NativeMosaicCircle
+        NativeMosaicCircle,
+        Arrow
     },
 
     props: {
