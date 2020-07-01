@@ -65,6 +65,21 @@ describe('Symbol Explorer Account Detail page', () => {
         })
     })
 
+    describe('Supplemental Keys Card should', () => {
+        it('load title', () => {
+            cy.get('[data-cy="supplementalKeysTitle"]').should('contain', 'Supplemental Keys')
+        })
+
+        it('render table in card', ()=> {
+            cy.renderTableInCard("supplementalKeysTitle")
+        })
+
+        it('render correct table fields.', () => {
+            const items = ['LINKED', 'NODE', 'VRF']
+            cy.renderFieldInTable("supplementalKeysTitle", items)
+        })
+    })
+
     describe('Importance History Card should', () => {
         it('load title', () => {
             cy.get('[data-cy="importanceHistoryTitle"]').should('contain', 'Importance History')
@@ -90,7 +105,7 @@ describe('Symbol Explorer Account Detail page', () => {
         })
 
         it('render correct table header.', () => {
-            const items = ['Deadline', 'Transaction Hash', 'Transaction Type']
+            const items = ['Deadline', 'Transaction Hash', 'Type']
             cy.renderHeaderInTable("accountTransactionsTitle", items)
         })
     })

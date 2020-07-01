@@ -8,6 +8,7 @@
                         v-if="isItemShown(item)"
                         class="card-f"
                         :class="{'card-full-width': item.layoutOptions === 'full-width', 'card-adaptive': item.layoutOptions === 'adaptive'}"
+                        :data-cy="item.title"
                         v-bind="item"
                         :key="'col' + item.title + index"
                     />

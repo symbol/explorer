@@ -11,7 +11,6 @@ describe('Symbol Explorer Blocks detail page', () => {
         })
 
         it('render block pagination button', () => {
-            cy.get('[data-cy="blockDetailTitle"] [type="Pagination"]').should('have.length', 1)
             cy.get('[data-cy="blockDetailTitle"] [nextpageaction="block/nextBlock"]').should('have.length', 1)
             cy.get('[data-cy="blockDetailTitle"] [previouspageaction="block/previousBlock"]').should('have.length', 1)
         })

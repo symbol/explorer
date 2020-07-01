@@ -1,9 +1,9 @@
 {
     "testAccount": {
-        "address": "TATGZXFW3OTHPZT4G4IVDD2K7PXIJJXGEVCKP72W"
+        "address": "TA7NCIUTL3Y3MCVHRAGVV7KPYROWAIIWLFU6ALA"
     },
     "testMosaic": {
-        "mosaicId": "05D6A80DE3C9ADCA"
+        "mosaicId": "0BA8E53F4D5E13A6"
     },
     "testNamespace": {
         "rootNamespace": "symbol",
@@ -13,6 +13,6 @@
         "height": "1"
     },
     "testTransactions":{
-        "transferTransactionHash": "12D43269B57DBE93213448CD632DDF8313A06905EC55C2E24B6138A51B65CC70"
+        "transferTransactionHash": "352C2C122BD438B88C649DD51074375727F51B34D55FDDDE33960E300967EC73"
     }
 }

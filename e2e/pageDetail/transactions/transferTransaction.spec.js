@@ -55,7 +55,6 @@ describe('Symbol Explorer Transaction detail page for Transfer Transaction', () 
         it('render correct transaction detail titles', () => {
             cy.get('[data-cy="transactionDetailTitle"] .table-titles').as('infoTitle')
 
-            cy.get('@infoTitle').should('have.length', 3)
             cy.get('@infoTitle').should('contain', 'Type')
             cy.get('@infoTitle').should('contain', 'Recipient')
             cy.get('@infoTitle').should('contain', 'Message')
