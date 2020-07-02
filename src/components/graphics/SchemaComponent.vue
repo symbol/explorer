@@ -54,6 +54,10 @@ export default {
 
         truncString(str) {
             return helper.truncString(str);
+        },
+
+        getId(id) {
+            return id + '-' + Math.floor(Math.random() * Math.floor(1000));
         }
     },
 }

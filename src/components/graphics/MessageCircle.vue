@@ -16,6 +16,12 @@
                 <stop offset="100%" stop-color="RGB(255, 167, 40)" />
             </linearGradient>
         </defs>
+        <foreignObject class="circle-icon" x="446" y="318" width="100" height="100">
+            <MessagePopover
+                :target="this.id"
+                :message="message"
+            />              
+        </foreignObject>
         <circle
             fill-rule="evenodd"
             clip-rule="evenodd"
@@ -65,15 +71,42 @@
                     c0.205-0.154,0.313-0.119,0.402,0.102c0.115,0.283,0.143,0.583,0.143,0.885C29.75,15.63,29.749,17.357,29.749,19.085z"
             />
         </g>
+        <circle
+            :id="this.id"
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            fill="transparent"
+            cx="19.115"
+            cy="19.094"
+            r="17.26"
+        />
     </svg>
 </template>
 
 
 <script>
-import SchemaComponent from './SchemaComponent.vue'
+import SchemaComponent from "./SchemaComponent.vue";
+import MessagePopover from "./MessagePopover.vue";
 
 export default {
     extends: SchemaComponent,
+
+    components: {
+        MessagePopover
+    },
+
+    props: {
+        message: {
+            type: String,
+            default: ''
+        }
+    },
+
+    data() {
+        return {
+            id: this.getId('message-circle')
+        }
+    }
 }
 </script>
 
