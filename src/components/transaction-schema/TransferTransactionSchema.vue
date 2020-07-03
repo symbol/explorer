@@ -29,15 +29,21 @@
             />
             <MessageCircle
                 v-if="hasMessage" 
-                :x="428" 
+                :x="getCirclePosition(0)" 
                 :y="300" 
                 :message="message"
             />
-            <circle id="target" v-if="hasMosaic" fill="#3085FF" cx="484.875" cy="318.5" r="17.25"/>
+            <MosaicsCircle 
+                v-if="hasMosaic" 
+                id="target" 
+                :x="getCirclePosition(1)" 
+                :y="300"
+                :mosaics="mosaics"
+            />
             <NativeMosaicCircle 
                 v-if="hasNativeMosaic" 
                 id="target" 
-                :x="504" 
+                :x="getCirclePosition(2)" 
                 :y="300"
                 :mosaics="mosaics"
             />
@@ -79,8 +85,9 @@ import helper from '../../helper';
 import http from '../../infrastructure/http';
 import AccountIcon from '../graphics/AccountIcon.vue';
 import MosaicIcon from '../graphics/MosaicIcon.vue';
-import NativeMosaicIcon from '../graphics/NativeMosaicIcon.vue';
 import MessageCircle from '../graphics/MessageCircle.vue';
+import MosaicsCircle from '../graphics/MosaicsCircle.vue';
+import NativeMosaicIcon from '../graphics/NativeMosaicIcon.vue';
 import NativeMosaicCircle from '../graphics/NativeMosaicCircle.vue';
 import Arrow from '../graphics/Arrow.vue';
 
@@ -90,6 +97,7 @@ export default {
         MosaicIcon,
         NativeMosaicIcon,
         MessageCircle,
+        MosaicsCircle,
         NativeMosaicCircle,
         Arrow
     },
@@ -111,10 +119,16 @@ export default {
         },
         mosaics: {
             type: Array,
-            default: () => [
-                { name: 'symbol.xym', amount: 228 },
-                { name: '072031D75989B881', amount: 1 },
-                { name: '6D1B935676E3659D', amount: 2 }
+            default: () => []
+        }
+    },
+
+    data() {
+        return {
+            circlesHorisontalPositions: [
+                [466],
+                [447, 485],
+                [428, 466, 504]
             ]
         }
     },
@@ -172,6 +186,10 @@ export default {
 
         messageText() {
             return this.message?.substring(0, 30) + (this.message?.length > 30 ? '...' : '');
+        },
+
+        circlesCount() {
+            return +this.hasMessage + this.hasMosaic + this.hasNativeMosaic;
         }
     },
 
@@ -191,6 +209,30 @@ export default {
                 param: address
             });
         },
+
+        getCirclePosition(index) {
+            const circlesCount = this.circlesCount;
+            switch(index) {
+                case 0:
+                    if(this.hasMessage) 
+                        return this.circlesHorisontalPositions[circlesCount - 1][0];
+                case 1:
+                    if(this.hasMosaic) {
+                        if(this.hasMessage)
+                            return this.circlesHorisontalPositions[circlesCount - 1][1];
+                        return this.circlesHorisontalPositions[circlesCount - 1][0];
+                    } 
+                case 2:
+                    if(this.hasNativeMosaic) {
+                        if(this.hasMessage && this.hasMosaic)
+                            return this.circlesHorisontalPositions[circlesCount - 1][2];
+                        if(this.hasMessage || this.hasMosaic)
+                            return this.circlesHorisontalPositions[circlesCount - 1][1];
+                        return this.circlesHorisontalPositions[circlesCount - 1][0];
+                    } 
+
+            }
+        }
     }
 }
 </script>
