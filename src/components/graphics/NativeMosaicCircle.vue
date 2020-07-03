@@ -18,7 +18,7 @@
         </defs>
         <foreignObject class="circle-icon" x="446" y="318" width="100" height="100">
             <MosaicListPopover
-                target="native-mosaic-circle"
+                :target="id"
                 :mosaics="mosaics"
             />              
         </foreignObject>
@@ -67,6 +67,15 @@
 		            c0.249-0.275,0.479-0.626,0.929-0.624C21.737,21.667,21.739,23.922,21.74,26.177z"
             />
         </g>
+        <circle
+            :id="id"
+            fill-rule="evenodd"
+            clip-rule="evenodd"
+            fill="transparent"
+            cx="19.115"
+            cy="19.094"
+            r="17.26"
+        />
     </svg>
 </template>
 
@@ -86,6 +95,12 @@ export default {
         mosaics: {
             type: Array,
             default: () => []
+        }
+    },
+
+    data() {
+        return {
+            id: this.getId('native-mosaic-circle')
         }
     }
 };
