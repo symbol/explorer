@@ -21,12 +21,12 @@
             x2="276"
             y2="13.5"
         />
-        <polygon 
+        <polygon
             class="arrow-end"
-            points="269.176,22.628 273.267,13 269.176,3.372 292,13" 
+            points="269.176,22.628 273.267,13 269.176,3.372 292,13"
         />
         <foreignObject class="circle-icons-container" x="9" y="0" width="267" height="27">
-            <slot />           
+            <slot />
         </foreignObject>
     </svg>
 </template>
@@ -35,8 +35,8 @@
 import SchemaComponent from './SchemaComponent.vue'
 
 export default {
-    extends: SchemaComponent
-};
+  extends: SchemaComponent
+}
 </script>
 
 <style lang="scss" scoped>

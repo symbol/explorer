@@ -66,38 +66,37 @@
 import SchemaComponent from './SchemaComponent.vue'
 
 export default {
-    extends: SchemaComponent,
+  extends: SchemaComponent,
 
-    props: {
-        width: {
-            type: Number,
-            default: 261.333
-        },
-
-        height: {
-            type: Number,
-            default: 131.313
-        }
+  props: {
+    width: {
+      type: Number,
+      default: 261.333
     },
 
-    computed: {
-        mosaicId() {
-            return this.nativeMosaicId;
-        },
-
-        aliasName() {
-            return this.nativeMosaicAliasName;
-        }
-    },
-
-    methods: {
-        click() {
-            this.$emit("click", this.mosaicId);
-        }
+    height: {
+      type: Number,
+      default: 131.313
     }
-};
-</script>
+  },
 
+  computed: {
+    mosaicId() {
+      return this.nativeMosaicId
+    },
+
+    aliasName() {
+      return this.nativeMosaicAliasName
+    }
+  },
+
+  methods: {
+    click() {
+      this.$emit('click', this.mosaicId)
+    }
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 .connector {

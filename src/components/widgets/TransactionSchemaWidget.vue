@@ -11,46 +11,46 @@
 </template>
 
 <script>
-import Constants from "@/config/constants";
-import Card from "@/components/containers/Card.vue";
-import TransferTransactionSchema from "@/components/transaction-schema/TransferTransactionSchema.vue";
+import Constants from '@/config/constants'
+import Card from '@/components/containers/Card.vue'
+import TransferTransactionSchema from '@/components/transaction-schema/TransferTransactionSchema.vue'
 
 export default {
-    props: {
-        managerGetter: String
-    },
+  props: {
+    managerGetter: String
+  },
 
-    components: {
-        Card,
-        TransferTransactionSchema
-    },
+  components: {
+    Card,
+    TransferTransactionSchema
+  },
 
-    data() {
-        return {
-            TransactionTypes: Constants.TransactionType
-        }
-    },
-
-    computed: {
-        data() {
-            return this.$store.getters[this.managerGetter].data;
-        },
-
-        loading() {
-            return this.$store.getters[this.managerGetter].loading;
-        },
-
-        error() {
-            return this.$store.getters[this.managerGetter].error;
-        }
-    },
-
-    methods: {
-        getNameByKey(e) {
-            return this.$store.getters["ui/getNameByKey"](e);
-        }
+  data() {
+    return {
+      TransactionTypes: Constants.TransactionType
     }
-};
+  },
+
+  computed: {
+    data() {
+      return this.$store.getters[this.managerGetter].data
+    },
+
+    loading() {
+      return this.$store.getters[this.managerGetter].loading
+    },
+
+    error() {
+      return this.$store.getters[this.managerGetter].error
+    }
+  },
+
+  methods: {
+    getNameByKey(e) {
+      return this.$store.getters['ui/getNameByKey'](e)
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

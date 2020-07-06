@@ -59,49 +59,48 @@
 </template>
 
 <script>
-import helper from "../../helper";
 import SchemaComponent from './SchemaComponent.vue'
 
 export default {
-    extends: SchemaComponent,
+  extends: SchemaComponent,
 
-    props: {
-        width: {
-            type: Number,
-            default: 261.333
-        },
-
-        height: {
-            type: Number,
-            default: 131.313
-        },
-
-        mosaicId: {
-            type: String,
-            required: true
-        },
-
-        aliasName: {
-            type: String
-        }
+  props: {
+    width: {
+      type: Number,
+      default: 261.333
     },
 
-    computed: {
-        iconColor() {
-            return this.getIconColorFromHex(this.mosaicId);
-        },
-
-        truncatedMosaicId() {
-            return this.truncString(this.mosaicId);
-        }
+    height: {
+      type: Number,
+      default: 131.313
     },
 
-    methods: {
-        click() {
-            this.$emit("click", this.mosaicId);
-        }
+    mosaicId: {
+      type: String,
+      required: true
+    },
+
+    aliasName: {
+      type: String
     }
-};
+  },
+
+  computed: {
+    iconColor() {
+      return this.getIconColorFromHex(this.mosaicId)
+    },
+
+    truncatedMosaicId() {
+      return this.truncString(this.mosaicId)
+    }
+  },
+
+  methods: {
+    click() {
+      this.$emit('click', this.mosaicId)
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

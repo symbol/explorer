@@ -120,41 +120,41 @@
 import SchemaComponent from './SchemaComponent.vue'
 
 export default {
-    extends: SchemaComponent,
+  extends: SchemaComponent,
 
-    props: {
-        width: {
-            type: Number,
-            default: 261.333
-        },
-
-        height: {
-            type: Number,
-            default: 131.313
-        },
-
-        address: {
-            type: String,
-            required: true
-        }
+  props: {
+    width: {
+      type: Number,
+      default: 261.333
     },
 
-    computed: {
-        iconColor() {
-            return this.getIconColor(this.address);
-        },
-
-        truncatedAddress() {
-            return this.truncString(this.address);
-        }
+    height: {
+      type: Number,
+      default: 131.313
     },
 
-    methods: {
-        click() {
-            this.$emit('click', this.address);
-        }
+    address: {
+      type: String,
+      required: true
     }
-};
+  },
+
+  computed: {
+    iconColor() {
+      return this.getIconColor(this.address)
+    },
+
+    truncatedAddress() {
+      return this.truncString(this.address)
+    }
+  },
+
+  methods: {
+    click() {
+      this.$emit('click', this.address)
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

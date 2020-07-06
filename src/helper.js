@@ -334,62 +334,62 @@ class helper {
    * @returns object { R: Number, G: Number, B: Number }
    */
     static getColorFromHash = (hash, isHex = true) => {
-        const color = {
-            R: 0,
-            G: 0,
-            B: 0
-        };
+      const color = {
+        R: 0,
+        G: 0,
+        B: 0
+      }
 
-        if(typeof hash !== 'string') {
-            console.error('Failed to convert hash to color. Hash is not a String')
-            return color;
-        } 
-        if(hash.length < 3) {
-            console.error('Failed to convert hash to color. Hash string length < 3')
-            return color;
-        } 
-        
-        const hexToRGB = (hexString) => {
-            let totalHex = 0;
+      if (typeof hash !== 'string') {
+        console.error('Failed to convert hash to color. Hash is not a String')
+        return color
+      }
+      if (hash.length < 3) {
+        console.error('Failed to convert hash to color. Hash string length < 3')
+        return color
+      }
 
-            for(const hex of hexString) 
-                totalHex += parseInt(hex, 16);
-                
-            return Math.trunc(totalHex * 255 / (15 * hexString.length));
-        }
+      const hexToRGB = (hexString) => {
+        let totalHex = 0
 
-        const charsetToRGB = (string) => {
-            const charset = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
-            let totalHex = 0;
+        for (const hex of hexString)
+          totalHex += parseInt(hex, 16)
 
-            for(const char of string) 
-                totalHex += charset.indexOf(char.toLowerCase());
-                
-            return Math.trunc(totalHex * 255 / ((charset.length - 1) * string.length));
-        }
+        return Math.trunc(totalHex * 255 / (15 * hexString.length))
+      }
 
-        const hashLength = hash.length;
-        const colorStrLength = Math.trunc(hashLength / 3);
+      const charsetToRGB = (string) => {
+        const charset = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
+        let totalHex = 0
 
-        const strRed = hash.substring(0, colorStrLength);
-        const strGreen = hash.substring(colorStrLength, colorStrLength * 2);
-        const strBlue = hash.substring(colorStrLength * 2, colorStrLength * 3);
-        
-        color.R = isHex ? hexToRGB(strRed) : charsetToRGB(strRed.substring(2, 3));
-        color.G = isHex ? hexToRGB(strGreen) : charsetToRGB(strGreen);
-        color.B = isHex ? hexToRGB(strBlue) : charsetToRGB(strBlue);
+        for (const char of string)
+          totalHex += charset.indexOf(char.toLowerCase())
 
-        return color;
+        return Math.trunc(totalHex * 255 / ((charset.length - 1) * string.length))
+      }
+
+      const hashLength = hash.length
+      const colorStrLength = Math.trunc(hashLength / 3)
+
+      const strRed = hash.substring(0, colorStrLength)
+      const strGreen = hash.substring(colorStrLength, colorStrLength * 2)
+      const strBlue = hash.substring(colorStrLength * 2, colorStrLength * 3)
+
+      color.R = isHex ? hexToRGB(strRed) : charsetToRGB(strRed.substring(2, 3))
+      color.G = isHex ? hexToRGB(strGreen) : charsetToRGB(strGreen)
+      color.B = isHex ? hexToRGB(strBlue) : charsetToRGB(strBlue)
+
+      return color
     }
 
     static truncString(str, strLen = 4) {
-        if(typeof str === 'string') {
-            if(str.length > strLen * 2)
-            return `${str.substring(0, strLen)}...${str.substring(str.length - strLen, str.length)}`;
-            return str;
-        }
-        console.error('Failed to trunc string. Provided value is not a string')
-        return str;
+      if (typeof str === 'string') {
+        if (str.length > strLen * 2)
+          return `${str.substring(0, strLen)}...${str.substring(str.length - strLen, str.length)}`
+        return str
+      }
+      console.error('Failed to trunc string. Provided value is not a string')
+      return str
     }
 }
 

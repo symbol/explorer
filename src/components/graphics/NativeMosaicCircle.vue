@@ -21,7 +21,7 @@
             <MosaicListPopover
                 :target="id"
                 :mosaics="mosaics"
-            />              
+            />
         </foreignObject>
         <circle
             id="native-mosaic-circle"
@@ -80,31 +80,30 @@
     </svg>
 </template>
 
-
 <script>
-import SchemaComponent from "./SchemaComponent.vue";
-import MosaicListPopover from "./MosaicListPopover.vue"
+import SchemaComponent from './SchemaComponent.vue'
+import MosaicListPopover from './MosaicListPopover.vue'
 
 export default {
-    extends: SchemaComponent,
+  extends: SchemaComponent,
 
-    components: {
-        MosaicListPopover
-    },
+  components: {
+    MosaicListPopover
+  },
 
-    props: {
-        mosaics: {
-            type: Array,
-            default: () => []
-        }
-    },
-
-    data() {
-        return {
-            id: this.getId('native-mosaic-circle')
-        }
+  props: {
+    mosaics: {
+      type: Array,
+      default: () => []
     }
-};
+  },
+
+  data() {
+    return {
+      id: this.getId('native-mosaic-circle')
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>

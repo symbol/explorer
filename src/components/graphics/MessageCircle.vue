@@ -21,7 +21,7 @@
             <MessagePopover
                 :target="this.id"
                 :message="message"
-            />              
+            />
         </foreignObject>
         <circle
             fill-rule="evenodd"
@@ -84,30 +84,29 @@
     </svg>
 </template>
 
-
 <script>
-import SchemaComponent from "./SchemaComponent.vue";
-import MessagePopover from "./MessagePopover.vue";
+import SchemaComponent from './SchemaComponent.vue'
+import MessagePopover from './MessagePopover.vue'
 
 export default {
-    extends: SchemaComponent,
+  extends: SchemaComponent,
 
-    components: {
-        MessagePopover
-    },
+  components: {
+    MessagePopover
+  },
 
-    props: {
-        message: {
-            type: String,
-            default: ''
-        }
-    },
-
-    data() {
-        return {
-            id: this.getId('message-circle')
-        }
+  props: {
+    message: {
+      type: String,
+      default: ''
     }
+  },
+
+  data() {
+    return {
+      id: this.getId('message-circle')
+    }
+  }
 }
 </script>
 

@@ -11,87 +11,86 @@
 </template>
 
 <script>
-import http from "../../infrastructure/http";
-import SchemaComponent from "./SchemaComponent.vue";
+import SchemaComponent from './SchemaComponent.vue'
 
 export default {
-    extends: SchemaComponent,
+  extends: SchemaComponent,
 
-    props: {
-        message: {
-            type: String,
-            default: ""
-        },
-
-        title: {
-            type: String,
-            default: "Message"
-        },
-
-        target: {
-            type: String,
-            required: true
-        }
+  props: {
+    message: {
+      type: String,
+      default: ''
     },
 
-    data() {
-        return {
-            isJSON: false
-        };
+    title: {
+      type: String,
+      default: 'Message'
     },
 
-    computed: {
-        formattedMessage() {
-            try {
-                const obj = JSON.parse(this.message);
-                this.isJSON = true;
-                return this.JSONToHTML(obj);
-            } catch (e) {
-                return this.message;
-            }
-        }
-    },
-
-    methods: {
-        JSONToHTML(thing) {
-            const htmlEntities = string => {
-                return string
-                    .replace(/&/g, "&amp;")
-                    .replace(/\\"/g, "&bsol;&quot;")
-                    .replace(/</g, "&lt;")
-                    .replace(/>/g, "&gt;");
-            };
-            const replacer = (match, p1, p2, p3, p4) => {
-                const part = { indent: p1, key: p2, value: p3, end: p4 };
-                const key = "<span class=json-key>";
-                const val = "<span class=json-value>";
-                const bool = "<span class=json-boolean>";
-                const str = "<span class=json-string>";
-                const isBool = ["true", "false"].includes(part.value);
-                const valSpan = /^"/.test(part.value)
-                    ? str
-                    : isBool
-                    ? bool
-                    : val;
-                const findName = /"([\w]+)": |(.*): /;
-                const indentHtml = part.indent || "";
-                const keyHtml = part.key
-                    ? key + part.key.replace(findName, "$1$2") + "</span>: "
-                    : "";
-                const valueHtml = part.value
-                    ? valSpan + part.value + "</span>"
-                    : "";
-                const endHtml = part.end || "";
-                return indentHtml + keyHtml + valueHtml + endHtml;
-            };
-            const jsonLine = /^( *)("[^"]+": )?("[^"]*"|[\w.+-]*)?([{}[\],]*)?$/gm;
-            return htmlEntities(JSON.stringify(thing, null, 3)).replace(
-                jsonLine,
-                replacer
-            );
-        }
+    target: {
+      type: String,
+      required: true
     }
-};
+  },
+
+  data() {
+    return {
+      isJSON: false
+    }
+  },
+
+  computed: {
+    formattedMessage() {
+      try {
+        const obj = JSON.parse(this.message)
+        return this.JSONToHTML(obj)
+      } catch (e) {
+        return this.message
+      }
+    }
+  },
+
+  methods: {
+    JSONToHTML(thing) {
+      const htmlEntities = string => {
+        return string
+          .replace(/&/g, '&amp;')
+          .replace(/\\"/g, '&bsol;&quot;')
+          .replace(/</g, '&lt;')
+          .replace(/>/g, '&gt;')
+      }
+      const replacer = (match, p1, p2, p3, p4) => {
+        const part = { indent: p1, key: p2, value: p3, end: p4 }
+        const key = '<span class=json-key>'
+        const val = '<span class=json-value>'
+        const bool = '<span class=json-boolean>'
+        const str = '<span class=json-string>'
+        const isBool = ['true', 'false'].includes(part.value)
+        const valSpan = /^"/.test(part.value)
+          ? str
+          : isBool
+            ? bool
+            : val
+        const findName = /"([\w]+)": |(.*): /
+        const indentHtml = part.indent || ''
+        const keyHtml = part.key
+          ? key + part.key.replace(findName, '$1$2') + '</span>: '
+          : ''
+        const valueHtml = part.value
+          ? valSpan + part.value + '</span>'
+          : ''
+        const endHtml = part.end || ''
+        return indentHtml + keyHtml + valueHtml + endHtml
+      }
+      const jsonLine = /^( *)("[^"]+": )?("[^"]*"|[\w.+-]*)?([{}[\],]*)?$/gm
+      this.isJSON = true
+      return htmlEntities(JSON.stringify(thing, null, 3)).replace(
+        jsonLine,
+        replacer
+      )
+    }
+  }
+}
 </script>
 
 <style lang="scss">

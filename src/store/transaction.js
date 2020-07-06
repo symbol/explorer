@@ -95,15 +95,15 @@ export default {
     aggregateInnerTransactions: state => state.info?.data?.aggregateTransaction?.innerTransactions || [],
     aggregateCosignatures: state => state.info?.data?.aggregateTransaction?.cosignatures || [],
     transactionSchema: (state, getters) => ({
-        loading: getters.info.loading,
-        error: getters.info.error,
-        data: { 
-            type: getters.info.data.type,
-            signer: getters.info.data.signer,
-            recipient: getters.transactionDetail.recipient,
-            message: getters.transactionDetail.message,
-            mosaics: getters.transferMosaics
-        }
+      loading: getters.info.loading,
+      error: getters.info.error,
+      data: {
+        type: getters.info.data.type,
+        signer: getters.info.data.signer,
+        recipient: getters.transactionDetail.recipient,
+        message: getters.transactionDetail.message,
+        mosaics: getters.transferMosaics
+      }
     })
   },
   mutations: {

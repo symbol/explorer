@@ -438,7 +438,7 @@ class TransactionService {
         type: transactionBody.type,
         transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         linkAction: Constants.LinkAction[transactionBody.linkAction],
-        linkedPublicKey: transactionBody.linkedPublicKey,
+        linkedPublicKey: transactionBody.linkedPublicKey
         // linkedAccountAddress: Address.createFromPublicKey(transactionBody.linkedPublicKey, http.networkType).plain()
       }
     }

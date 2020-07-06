@@ -21,7 +21,7 @@
             <MosaicListPopover
                 :target="id"
                 :mosaics="mosaics"
-            />              
+            />
         </foreignObject>
         <circle
             fill-rule="evenodd"
@@ -71,29 +71,29 @@
 </template>
 
 <script>
-import SchemaComponent from "./SchemaComponent.vue";
-import MosaicListPopover from "./MosaicListPopover.vue"
+import SchemaComponent from './SchemaComponent.vue'
+import MosaicListPopover from './MosaicListPopover.vue'
 
 export default {
-    extends: SchemaComponent,
+  extends: SchemaComponent,
 
-    components: {
-        MosaicListPopover
-    },
+  components: {
+    MosaicListPopover
+  },
 
-    props: {
-        mosaics: {
-            type: Array,
-            default: () => []
-        }
-    },
-
-    data() {
-        return {
-            id: this.getId('mosaics-circle')
-        }
+  props: {
+    mosaics: {
+      type: Array,
+      default: () => []
     }
-};
+  },
+
+  data() {
+    return {
+      id: this.getId('mosaics-circle')
+    }
+  }
+}
 </script>
 
 <style lang="scss" scoped>
