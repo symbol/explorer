@@ -65,7 +65,7 @@ export default {
         },
 
         trunc(str) {
-            return this.truncString(str);
+            return this.truncString(str, 6);
         },
 
         click() {

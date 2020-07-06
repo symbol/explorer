@@ -15,6 +15,16 @@ export default {
         },
     },
 
+    data() {
+        return {
+            circlesHorisontalPositions: [
+                [466],
+                [447, 485],
+                [428, 466, 504]
+            ]
+        }
+    },
+
     computed: {
         nativeMosaicId() {
             return http.networkCurrecy.mosaicId;
@@ -39,6 +49,12 @@ export default {
         _width() {
             return (this.width || '0') + 'px';
         },
+
+        circlesCount() {
+            return Array.isArray(this.circleIconsToDisplay)
+                ? this.circleIconsToDisplay.reduce((acc, value) => acc + value)
+                : 0;
+        },
     },
 
     methods: {
@@ -58,11 +74,39 @@ export default {
 
         getId(id) {
             return id + '-' + Math.floor(Math.random() * Math.floor(1000));
+        },
+
+        
+
+        getCirclePosition(index) {
+            const circlesCount = this.circlesCount;
+            switch(index) {
+                case 0:
+                    if(this.circleIconsToDisplay[0]) 
+                        return this.circlesHorisontalPositions[circlesCount - 1][0];
+                case 1:
+                    if(this.circleIconsToDisplay[1]) {
+                        if(this.circleIconsToDisplay[0])
+                            return this.circlesHorisontalPositions[circlesCount - 1][1];
+                        return this.circlesHorisontalPositions[circlesCount - 1][0];
+                    } 
+                case 2:
+                    if(this.hasNativeMosaic) {
+                        if(this.circleIconsToDisplay[0] && this.circleIconsToDisplay[1])
+                            return this.circlesHorisontalPositions[circlesCount - 1][2];
+                        if(this.circleIconsToDisplay[0] || this.circleIconsToDisplay[1])
+                            return this.circlesHorisontalPositions[circlesCount - 1][1];
+                        return this.circlesHorisontalPositions[circlesCount - 1][0];
+                    } 
+            }
         }
     },
 }
 </script>
 
 <style lang="scss" scoped>
-
+.circle-icon {
+    margin-left: 2px;
+    margin-right: 2px;
+}
 </style>

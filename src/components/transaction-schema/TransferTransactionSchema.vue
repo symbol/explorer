@@ -83,6 +83,7 @@
 <script>
 import helper from '../../helper';
 import http from '../../infrastructure/http';
+import SchemaComponent from '../graphics/SchemaComponent.vue';
 import AccountIcon from '../graphics/AccountIcon.vue';
 import MosaicIcon from '../graphics/MosaicIcon.vue';
 import MessageCircle from '../graphics/MessageCircle.vue';
@@ -92,6 +93,8 @@ import NativeMosaicCircle from '../graphics/NativeMosaicCircle.vue';
 import Arrow from '../graphics/Arrow.vue';
 
 export default {
+    extends: SchemaComponent,
+
     components: {
         AccountIcon,
         MosaicIcon,
@@ -123,17 +126,17 @@ export default {
         }
     },
 
-    data() {
-        return {
-            circlesHorisontalPositions: [
-                [466],
-                [447, 485],
-                [428, 466, 504]
-            ]
-        }
-    },
+    
 
     computed: {
+        circleIconsToDisplay() {
+            return [
+                this.hasMessage,
+                this.hasNativeMosaic,
+                this.hasMosaic
+            ]
+        },
+        
         hasMessage() {
             return typeof this.message === 'string' && this.message.length > 0
         },
@@ -147,11 +150,11 @@ export default {
         },
 
         nativeMosaic() {
-            return this.mosaics.find( mosaic => mosaic.mosaicId === http.networkCurrecy.mosaicId );
+            return this.mosaics.find( mosaic => mosaic.mosaicId === this.nativeMosaicId );
         },
 
         mosaicList() {
-            return this.mosaics.filter( mosaic => mosaic.mosaicId !== http.networkCurrecy.mosaicId );
+            return this.mosaics.filter( mosaic => mosaic.mosaicId !== this.nativeMosaicId );
         },
 
         mosaicListText() {

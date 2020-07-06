@@ -25,6 +25,9 @@
             class="arrow-end"
             points="269.176,22.628 273.267,13 269.176,3.372 292,13" 
         />
+        <foreignObject class="circle-icons-container" x="9" y="0" width="267" height="27">
+            <slot />           
+        </foreignObject>
     </svg>
 </template>
 
@@ -43,5 +46,11 @@ export default {
 
 .arrow-end {
     fill: var(--secondary);
+}
+
+.circle-icons-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 </style>

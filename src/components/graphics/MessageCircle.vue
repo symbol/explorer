@@ -9,6 +9,7 @@
         height="38.167px"
         viewBox="0 0 38.5 38.167"
         xml:space="preserve"
+        class="circle-icon"
     >
         <defs>
             <linearGradient id="message-circle-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -16,7 +17,7 @@
                 <stop offset="100%" stop-color="RGB(255, 167, 40)" />
             </linearGradient>
         </defs>
-        <foreignObject class="circle-icon" x="446" y="318" width="100" height="100">
+        <foreignObject x="446" y="318" width="100" height="100">
             <MessagePopover
                 :target="this.id"
                 :message="message"
