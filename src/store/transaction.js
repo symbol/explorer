@@ -94,7 +94,7 @@ export default {
     transferMosaics: state => state.info?.data?.transferMosaics || [],
     aggregateInnerTransactions: state => state.info?.data?.aggregateTransaction?.innerTransactions || [],
     aggregateCosignatures: state => state.info?.data?.aggregateTransaction?.cosignatures || [],
-    transactionSchema: (state, getters) => {console.log('getters.transactionInfo',getters.transactionInfo); return {
+    transactionSchema: (state, getters) => ({
         loading: getters.info.loading,
         error: getters.info.error,
         data: { 
@@ -104,7 +104,7 @@ export default {
             message: getters.transactionDetail.message,
             mosaics: getters.transferMosaics
         }
-    }}
+    })
   },
   mutations: {
     ...getMutationsFromManagers(managers),

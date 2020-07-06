@@ -38,14 +38,16 @@
                 id="target" 
                 :x="getCirclePosition(1)" 
                 :y="300"
-                :mosaics="mosaics"
+                :mosaics="mosaicList"
             />
             <NativeMosaicCircle 
                 v-if="hasNativeMosaic" 
                 id="target" 
                 :x="getCirclePosition(2)" 
                 :y="300"
-                :mosaics="mosaics"
+                :mosaics="nativeMosaic  
+                    ? [nativeMosaic]
+                    : []"
             />
                <!-- 
                 <text 

@@ -1,5 +1,5 @@
 <template>
-    <b-popover :target="target" placement="bottom" triggers="hover focus">
+    <b-popover :target="target" placement="bottom" triggers="hover">
         <template v-slot:title>{{ title }}</template>
         <b-list-group>
             <b-list-group-item 

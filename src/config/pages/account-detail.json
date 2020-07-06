@@ -92,6 +92,7 @@
                     "deadline",
                     "transactionHash",
                     "transactionType",
+                    "transactionDescriptor",
                     "direction"
                 ]
             },

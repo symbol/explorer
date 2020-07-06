@@ -1,5 +1,5 @@
 <template>
-    <b-popover :target="target" placement="bottom" triggers="hover focus">
+    <b-popover :target="target" placement="bottom" triggers="hover">
         <template v-slot:title>{{ title }}</template>
         <div class="message-popover">
             <pre v-if="true" v-html="formattedMessage"></pre>
@@ -45,10 +45,8 @@ export default {
             try {
                 const obj = JSON.parse(this.message);
                 this.isJSON = true;
-                console.log("JSON", obj, this.JSONToHTML(obj));
                 return this.JSONToHTML(obj);
             } catch (e) {
-                console.log("Not a JSON");
                 return this.message;
             }
         }
