@@ -240,6 +240,7 @@
     "resolutionStatementTitle": "解決ステートメント",
     "mosaicRestrictionTitle": "モザイク制限",
     "mosaicRestrictionListTitle": "モザイク制限リスト",
+    "harvestedBlockTitle": "Harvested Blocks",
 
     "accountDetailError": "アカウントはネットワークに対して不明です。",
     "multisigCosignatoriesError": "アドレスはマルチシグアカウントではありません",
@@ -276,5 +277,6 @@
     "linked": "LINKED",
     "node": "NODE",
     "vrf": "VRF",
-    "voting": "VOTING"
+    "voting": "VOTING",
+    "harvestedBlock": "Harvested blocks (all)"
 }

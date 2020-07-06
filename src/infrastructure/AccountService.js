@@ -16,10 +16,10 @@
  *
  */
 
-import { Address, TransactionType, TransactionGroup, Order } from 'symbol-sdk'
+import { Address, TransactionType, TransactionGroup, Order, BlockOrderBy } from 'symbol-sdk'
 import http from './http'
 import { Constants } from '../config'
-import { DataService, NamespaceService, TransactionService } from '../infrastructure'
+import { DataService, NamespaceService, TransactionService, BlockService } from '../infrastructure'
 import helper from '../helper'
 
 class AccountService {
@@ -82,6 +82,8 @@ class AccountService {
   static getAccountInfo = async address => {
     const accountInfo = await this.getAccount(address)
     const accountNames = await NamespaceService.getAccountsNames([Address.createFromRawAddress(address)])
+    const harvestedBlockList = await BlockService.searchBlocks({ signerPublicKey: accountInfo.publicKey })
+
     return {
       ...accountInfo,
       activityBucket: accountInfo.activityBucket.map(activity => ({
@@ -94,7 +96,8 @@ class AccountService {
         ...accountInfo.supplementalPublicKeys,
         voting: Array.isArray(accountInfo.supplementalPublicKeys.voting) ? accountInfo.supplementalPublicKeys.voting.map(voting => voting.publicKey) : accountInfo.supplementalPublicKeys.voting
       },
-      accountAliasName: this.extractAccountNamespace(accountInfo, accountNames)
+      accountAliasName: this.extractAccountNamespace(accountInfo, accountNames),
+      harvestedBlock: harvestedBlockList?.totalEntries || 0
     }
   }
 
@@ -132,6 +135,30 @@ class AccountService {
               : 'incoming_' + accountTransaction.transactionBody.transactionDescriptor
             )
             : accountTransaction.transactionBody.transactionDescriptor
+      }))
+    }
+  }
+
+  static getAccountHarvestedBlockList = async (pageInfo, address) => {
+    const accountInfo = await this.getAccount(address)
+    const { pageNumber, pageSize } = pageInfo
+    const searchCriteria = {
+      pageNumber,
+      pageSize,
+      order: Order.Desc,
+      orderBy: BlockOrderBy.Height,
+      signerPublicKey: accountInfo.publicKey
+    }
+
+    const accountHarvestedBlockList = await BlockService.searchBlocks(searchCriteria)
+
+    return {
+      ...accountHarvestedBlockList,
+      data: accountHarvestedBlockList.data.map(block => ({
+        ...block,
+        date: helper.convertToUTCDate(block.timestamp),
+        age: helper.convertToUTCDate(block.timestamp),
+        harvester: block.signer
       }))
     }
   }

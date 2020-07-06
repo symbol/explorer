@@ -172,6 +172,7 @@
     "resolutionStatementTitle": "Resolution Statement",
     "mosaicRestrictionTitle": "Mosaic Restriction",
     "mosaicRestrictionListTitle": "Mosaic Restriction List",
+    "harvestedBlockTitle": "Harvested Blocks",
 
     "accountDetailError": "Account is unknown to the network.",
     "multisigCosignatoriesError": "Address is not a multisig account.",
@@ -208,5 +209,6 @@
     "linked": "LINKED",
     "node": "NODE",
     "vrf": "VRF",
-    "voting": "VOTING"
+    "voting": "VOTING",
+    "harvestedBlock": "Harvested blocks (all)"
 }

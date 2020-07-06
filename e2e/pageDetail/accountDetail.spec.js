@@ -15,7 +15,7 @@ describe('Symbol Explorer Account Detail page', () => {
         })
 
         it('render correct table fields.', () => {
-            const items = ['Address', 'Alias Namespace', 'Address height', 'Public key', 'Importance', 'Type', 'Linked account key']
+            const items = ['Address', 'Alias Namespace', 'Address height', 'Public key', 'Importance', 'Type', 'Linked account key', 'Harvested blocks (all)']
             cy.renderFieldInTable("accountDetailTitle", items)
         })
     })
@@ -107,6 +107,21 @@ describe('Symbol Explorer Account Detail page', () => {
         it('render correct table header.', () => {
             const items = ['Deadline', 'Transaction Hash', 'Type']
             cy.renderHeaderInTable("accountTransactionsTitle", items)
+        })
+    })
+
+    describe('Harvested Blocks Card should', () => {
+        it('load title', () => {
+            cy.get('[data-cy="harvestedBlockTitle"]').should('contain', 'Harvested Blocks')
+        })
+
+        it('render table in card', () => {
+            cy.renderTableInCard("harvestedBlockTitle")
+        })
+
+        it('render correct table header.', () => {
+            const items = ['Height', 'Age', 'Transactions', 'Total Fee', 'Date', 'Harvester']
+            cy.renderHeaderInTable("harvestedBlockTitle", items)
         })
     })
 
