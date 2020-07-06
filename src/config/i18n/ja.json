@@ -271,5 +271,7 @@
     "transactionDetailError": "トランザクション詳細は存在しません",
     "transactionMosaicsError": "Transaction mosaic does not exist.",
     "aggregateInnerTransactionsError": "アグリゲート内部トランザクションが有効ではありません",
-    "aggregateCosignaturesError": "連署者が有効ではありません"
+    "aggregateCosignaturesError": "連署者が有効ではありません",
+
+    "transactionGraphic": "Transaction Graphic"
 }

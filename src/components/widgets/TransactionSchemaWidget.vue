@@ -1,18 +1,19 @@
 <template>
     <Card :loading="loading">
-        <template #title>{{getNameByKey('transactionSchema')}}</template>
+        <template #title>{{getNameByKey('transactionGraphic')}}</template>
 
         <template #body>
             <div class="body">
-                <TransactionSchema v-bind="data" />
+                <TransferTransactionSchema v-if="TransactionTypes[data.type] === 'Transfer'" v-bind="data" />
             </div>
         </template>
     </Card>
 </template>
 
 <script>
+import Constants from "@/config/constants";
 import Card from "@/components/containers/Card.vue";
-import TransactionSchema from "@/components/transaction-schema/TransferTransactionSchema.vue";
+import TransferTransactionSchema from "@/components/transaction-schema/TransferTransactionSchema.vue";
 
 export default {
     props: {
@@ -21,7 +22,13 @@ export default {
 
     components: {
         Card,
-        TransactionSchema
+        TransferTransactionSchema
+    },
+
+    data() {
+        return {
+            TransactionTypes: Constants.TransactionType
+        }
     },
 
     computed: {
