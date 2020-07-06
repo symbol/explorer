@@ -102,12 +102,15 @@ export default {
 .json-key {
     color: var(--secondary);
 }
+
 .json-value {
     color: var(--primary);
 }
+
 .json-boolean {
     color: var(--blue);
 }
+
 .json-string {
     color: var(--orange);
 }

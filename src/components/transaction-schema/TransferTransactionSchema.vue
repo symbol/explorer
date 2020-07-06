@@ -261,5 +261,4 @@ export default {
 .arrow {
     fill: var(--secondary);
 }
-
 </style>
