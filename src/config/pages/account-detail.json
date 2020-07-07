@@ -24,7 +24,8 @@
                     "publicKey",
                     "importance",
                     "type",
-                    "linkedAccountKey"
+                    "linkedAccountKey",
+                    "harvestedBlock"
                 ]
             },
             {
@@ -133,6 +134,23 @@
                     "totalFeesPaid",
                     "beneficiaryCount",
                     "importanceScore"
+                ]
+            },
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "harvestedBlockTitle",
+                "managerGetter": "account/harvestedBlocks",
+                "pagination": "server",
+                "pageSize": 5,
+                "hideEmptyData": true,
+                "fields": [
+                    "height",
+                    "age",
+                    "transactions",
+                    "totalFee",
+                    "date",
+                    "harvester"
                 ]
             }
         ]
