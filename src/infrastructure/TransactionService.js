@@ -143,7 +143,8 @@ class TransactionService {
       const innerTransactions = formattedTransaction.aggregateTransaction.innerTransactions.map(transaction => ({
         ...transaction,
         transactionId: transaction.id,
-        type: Constants.TransactionType[transaction.type]
+        type: Constants.TransactionType[transaction.type],
+        transactionDescriptor: 'transactionDescriptor_' + transaction.type
       }))
 
       formattedTransaction.aggregateTransaction.innerTransactions = innerTransactions
@@ -310,8 +311,8 @@ class TransactionService {
         transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         minApprovalDelta: transactionBody.minApprovalDelta,
         minRemovalDelta: transactionBody.minRemovalDelta,
-        publicKeyAdditions: transactionBody.publicKeyAdditions.map(publicKey => publicKey.address.plain()),
-        publicKeyDeletions: transactionBody.publicKeyDeletions.map(publicKey => publicKey.address.plain())
+        addressAdditions: transactionBody.addressAdditions.map(address => address.address),
+        addressDeletions: transactionBody.addressDeletions.map(address => address.address)
       }
 
     case TransactionType.AGGREGATE_COMPLETE:

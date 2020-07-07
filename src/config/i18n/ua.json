@@ -208,5 +208,8 @@
     "linked": "LINKED",
     "node": "NODE",
     "vrf": "VRF",
-    "voting": "VOTING"
+    "voting": "VOTING",
+    "nonce": "Nonce",
+    "action": "Action",
+    "delta": "Delta"
 }
