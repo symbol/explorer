@@ -28,11 +28,11 @@ describe('Search Box component should', () => {
     it('redirect to transaction detail page given correct transaction hash', () => {
 
         cy.get('.search-box')
-        .type(config.testTransactions.transferTransactionHash)
+        .type(config.testTransactions.transferTransaction)
         .type('{enter}')
 
         cy.url()
-        .should('contain', `transaction/${config.testTransactions.transferTransactionHash}`)
+        .should('contain', `transaction/${config.testTransactions.transferTransaction}`)
     })
 
     it('redirect to account detail page given correct account address in plain format', () => {
