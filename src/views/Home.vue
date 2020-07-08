@@ -31,6 +31,7 @@
             <b-col xs="12" md="12" lg="6">
                 <RecentTransactionsWidget />
             </b-col>
+            <MosaicListWidget />
         </b-row>
     </b-container>
 </template>
@@ -47,7 +48,7 @@ export default {
     BaseInfoWidget,
     PriceChartWidget,
     RecentBlocksWidget,
-    RecentTransactionsWidget
+    RecentTransactionsWidget,
   },
 
   mounted() {

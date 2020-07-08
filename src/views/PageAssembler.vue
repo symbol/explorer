@@ -50,6 +50,7 @@ import BaseInfoWidget from '@/components/widgets/BaseInfoWidget.vue'
 import PriceChartWidget from '@/components/widgets/PriceChartWidget.vue'
 import RecentBlocksWidget from '@/components/widgets/RecentBlocksWidget.vue'
 import RecentTransactionsWidget from '@/components/widgets/RecentTransactionsWidget.vue'
+import TransactionSchema from '@/components/widgets/TransactionSchemaWidget.vue'
 
 export default {
   components: {
@@ -57,7 +58,8 @@ export default {
     BaseInfoWidget,
     PriceChartWidget,
     RecentBlocksWidget,
-    RecentTransactionsWidget
+    RecentTransactionsWidget,
+    TransactionSchema
   },
 
   props: {
