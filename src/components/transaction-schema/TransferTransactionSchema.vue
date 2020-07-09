@@ -51,7 +51,6 @@
 </template>
 
 <script>
-import helper from "../../helper";
 import SchemaComponent from "../graphics/SchemaComponent.vue";
 import AccountIcon from "../graphics/AccountIcon.vue";
 import MessageCircle from "../graphics/MessageCircle.vue";
@@ -91,13 +90,11 @@ export default {
         }
     },
 
-    data() {
-        return {
-            transactionType: 'Transfer'
-        }
-    },
-
     computed: {
+        transactionType() {
+            return this.getTransactionTypeCaption(16724); // Transfer
+        },
+
         circleIconsToDisplay() {
             return [this.hasMessage, this.hasMosaic, this.hasNativeMosaic];
         },
@@ -128,3 +125,12 @@ export default {
     }
 };
 </script>
+
+
+<style lang="scss" scoped>
+.message {
+    font-size: 13px;
+    font-weight: bold;
+    fill: var(--blue);
+}
+</style>

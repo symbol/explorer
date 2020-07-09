@@ -10,6 +10,7 @@
         viewBox="0 0 116 105"
         xml:space="preserve"
         class="connector"
+        @click="onMosaicClick(mosaicId)"
     >
         <defs>
             <linearGradient id="native-connector-gradient" x1="0%" y1="0%" x2="100%" y2="100%">

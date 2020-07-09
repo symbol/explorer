@@ -10,7 +10,7 @@
         viewBox="0 0 261.333 131.313"
         xml:space="preserve"
         class="account"
-        @click="click"
+        @click="onAccountClick(address)"
     >
         <title> {{ address }} </title>
         <rect
@@ -146,12 +146,6 @@ export default {
 
     truncatedAddress() {
       return this.truncString(this.address)
-    }
-  },
-
-  methods: {
-    click() {
-      this.$emit('click', this.address)
     }
   }
 }

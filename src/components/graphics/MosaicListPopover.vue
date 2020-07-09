@@ -6,6 +6,7 @@
                 v-for="(mosaic, index) in mosaics"
                 class="d-flex justify-content-between align-items-center mosaic-list"
                 :key="'mlp'+mosaic.mosaicId + index"
+                :title="getMosaicName(mosaic)"
             >
                 <MosaicIcon
                     v-if="!isNativeMosaic(mosaic.mosaicId)"
@@ -21,7 +22,7 @@
                     :mosaicId="mosaic.mosaicId"
                     :key="'mosaic'+mosaic.mosaicId+index"
                 />
-                {{ trunc(mosaic.mosaicAliasName !== 'N/A' ? mosaic.mosaicAliasName : mosaic.mosaicId) }}
+                {{ truncString(getMosaicName(mosaic), 5) }}
                 <b-badge variant="primary" pill>{{ mosaic.amount }}</b-badge>
             </b-list-group-item>
         </b-list-group>
@@ -61,10 +62,6 @@ export default {
   methods: {
     isNativeMosaic(mosaicId) {
       return mosaicId === this.nativeMosaicId
-    },
-
-    trunc(str) {
-      return this.truncString(str, 6)
     },
 
     click() {

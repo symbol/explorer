@@ -1,6 +1,7 @@
 <script>
 import helper from "../../helper";
 import http from "../../infrastructure/http";
+import Constants from "../../config/constants";
 
 export default {
     props: {
@@ -74,8 +75,8 @@ export default {
             return `RGB(${color.R},${color.G},${color.B})`;
         },
 
-        truncString(str) {
-            return helper.truncString(str);
+        truncString(str, strLen) {
+            return helper.truncString(str, strLen);
         },
 
         getId(id) {
@@ -125,6 +126,24 @@ export default {
                     }
                     break;
             }
+        },
+
+        getMosaicName(mosaic) {
+            return mosaic.mosaicAliasName !== 'N/A' 
+                ? mosaic.mosaicAliasName 
+                : mosaic.mosaicId;
+        },
+
+        getMosaicTitle(mosaic) {
+            return `Mosaic: ${this.getMosaicName(mosaic)}`;
+        },
+
+        getAddressTitle(address) {
+            return `Account: ${address}`;
+        },
+
+        getTransactionTypeCaption(type) {
+            return Constants.TransactionType[type];
         },
 
         onAccountClick(address) {
