@@ -64,10 +64,10 @@
 </template>
 
 <script>
-import SchemaComponent from './SchemaComponent.vue'
+import GraphicComponent from './GraphicComponent.vue'
 
 export default {
-  extends: SchemaComponent,
+  extends: GraphicComponent,
 
   props: {
     width: {

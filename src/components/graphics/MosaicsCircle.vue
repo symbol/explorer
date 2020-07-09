@@ -71,11 +71,11 @@
 </template>
 
 <script>
-import SchemaComponent from './SchemaComponent.vue'
+import GraphicComponent from './GraphicComponent.vue'
 import MosaicListPopover from './MosaicListPopover.vue'
 
 export default {
-  extends: SchemaComponent,
+  extends: GraphicComponent,
 
   components: {
     MosaicListPopover

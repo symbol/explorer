@@ -32,10 +32,10 @@
 <script>
 import MosaicIcon from '../graphics/MosaicIcon.vue'
 import NativeMosaicIcon from '../graphics/NativeMosaicIcon.vue'
-import SchemaComponent from './SchemaComponent.vue'
+import GraphicComponent from './GraphicComponent.vue'
 
 export default {
-  extends: SchemaComponent,
+  extends: GraphicComponent,
 
   components: {
     MosaicIcon,

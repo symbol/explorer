@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import SchemaComponent from "../graphics/SchemaComponent.vue";
+import GraphicComponent from "../graphics/GraphicComponent.vue";
 import AccountIcon from "../graphics/AccountIcon.vue";
 import MessageCircle from "../graphics/MessageCircle.vue";
 import MosaicsCircle from "../graphics/MosaicsCircle.vue";
@@ -59,7 +59,7 @@ import NativeMosaicCircle from "../graphics/NativeMosaicCircle.vue";
 import Arrow from "../graphics/Arrow.vue";
 
 export default {
-    extends: SchemaComponent,
+    extends: GraphicComponent,
 
     components: {
         AccountIcon,
