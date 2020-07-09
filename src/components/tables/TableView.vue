@@ -74,8 +74,8 @@ export default {
         'restrictionAddressDeletions',
         'restrictionMosaicAdditions',
         'restrictionMosaicDeletions',
-        'publicKeyAdditions',
-        'publicKeyDeletions',
+        'addressAdditions',
+        'addressDeletions',
         'linkedAccountAddress'
       ],
       disableClickValues: [...Object.values(Constants.Message)],
@@ -100,8 +100,8 @@ export default {
         'restrictionMosaicDeletions',
         'restrictionOperationAdditions',
         'restrictionOperationDeletions',
-        'publicKeyAdditions',
-        'publicKeyDeletions',
+        'addressAdditions',
+        'addressDeletions',
         'voting'
       ]
     }

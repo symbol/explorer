@@ -177,8 +177,8 @@
     "proof": "Proof",
     "minApprovalDelta": "最小承認増減値",
     "minRemovalDelta": "最小削除増減値",
-    "publicKeyAdditions": "追加署名者",
-    "publicKeyDeletions": "削除署名者",
+    "addressAdditions": "追加署名者",
+    "addressDeletions": "削除署名者",
     "transactionAwaitingCosignatureTitle": "連署名の待機中トランザクション",
     "transactionAwaitingRemarkTitle": "このトランザクションは連署者による複数の承認が必要です。",
     "cosignaturesReceivedTitle": "受信した連署者",
@@ -278,5 +278,8 @@
     "node": "NODE",
     "vrf": "VRF",
     "voting": "VOTING",
+    "nonce": "Nonce",
+    "action": "Action",
+    "delta": "Delta",
     "harvestedBlock": "Harvested blocks (all)"
 }

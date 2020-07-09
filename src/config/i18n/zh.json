@@ -175,5 +175,8 @@
     "node": "NODE",
     "vrf": "VRF",
     "voting": "VOTING",
+    "nonce": "Nonce",
+    "action": "Action",
+    "delta": "Delta",
     "harvestedBlock": "Harvested blocks (all)"
 }

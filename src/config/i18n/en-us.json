@@ -177,8 +177,8 @@
     "proof": "Proof",
     "minApprovalDelta": "Min. Approval",
     "minRemovalDelta": "Min Removal",
-    "publicKeyAdditions": "Added Cosigner",
-    "publicKeyDeletions": "Deleted Cosigner",
+    "addressAdditions": "Added Cosigner",
+    "addressDeletions": "Deleted Cosigner",
     "transactionAwaitingCosignatureTitle": "Transaction awaiting co-signature(s)",
     "transactionAwaitingRemarkTitle": "This transaction needs multiple parties to approve by sending co-signature.",
     "cosignaturesReceivedTitle": "Co-signatures received",
@@ -278,5 +278,8 @@
     "node": "NODE",
     "vrf": "VRF",
     "voting": "VOTING",
+    "nonce": "Nonce",
+    "action": "Action",
+    "delta": "Delta",
     "harvestedBlock": "Harvested blocks (all)"
 }
