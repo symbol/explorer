@@ -11,8 +11,16 @@
             viewBox="140 200 700 200"
             xml:space="preserve"
         >
-            <AccountIcon :x="subjectPositionX" :y="subjectPositionY" :address="signer" @click="accountClick" />
-            <AccountIcon :x="objectPositionX" :y="objectPositionY" :address="recipient" @click="accountClick" />
+            <AccountIcon 
+                :x="subjectPositionX" 
+                :y="subjectPositionY" 
+                :address="signer" 
+            />
+            <AccountIcon 
+                :x="objectPositionX" 
+                :y="objectPositionY" 
+                :address="recipient" 
+            />
             <Arrow :x="arrowPositionX" :y="arrowPositionY" />
             <MessageCircle
                 v-if="hasMessage"
@@ -117,41 +125,6 @@ export default {
                 mosaic => mosaic.mosaicId !== this.nativeMosaicId
             );
         }
-    },
-
-    methods: {
-        accountClick(address) {
-            this.$store.dispatch(`ui/openPage`, {
-                pageName: "address",
-                param: address
-            });
-        }
     }
 };
 </script>
-
-<style lang="scss" scoped>
-.account {
-    cursor: pointer;
-}
-
-.account-text {
-    font-size: 18px;
-    font-weight: bold;
-    fill: var(--secondary);
-}
-
-.message {
-    font-size: 13px;
-    font-weight: bold;
-    fill: var(--blue);
-}
-
-.arrow-stroke {
-    stroke: var(--secondary);
-}
-
-.arrow {
-    fill: var(--secondary);
-}
-</style>

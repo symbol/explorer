@@ -125,6 +125,22 @@ export default {
                     }
                     break;
             }
+        },
+
+        onAccountClick(address) {
+            this.$store.dispatch(`ui/openPage`, {
+                pageName: "address",
+                param: address
+            });
+            this.$emit('click', address);
+        },
+
+        onMosaicClick(mosaicId) {
+            this.$store.dispatch(`ui/openPage`, {
+                pageName: "mosaic",
+                param: mosaicId
+            });
+            this.$emit('click', mosaicId);
         }
     }
 };
