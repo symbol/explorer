@@ -22,7 +22,7 @@ export default {
             subjectPositionY: 240,
             objectPositionX: 614,
             objectPositionY: 240,
-            transactionTypeTextPositionX: 490,
+            transactionTypeTextPositionX: 485,
             transactionTypeTextPositionY: 361.9268,
             arrowPositionX: 341,
             arrowPositionY: 305,

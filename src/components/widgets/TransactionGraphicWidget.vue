@@ -4,7 +4,8 @@
 
         <template #body>
             <div class="body">
-                <TransferTransactionGraphic v-if="TransactionTypes[data.type] === 'Transfer'" v-bind="data" />
+                <TransferGraphic v-if="TransactionTypes[data.type] === 'Transfer'" v-bind="data" />
+                <AddressAliasGraphic v-if="data.type === 16974" v-bind="data" />
             </div>
         </template>
     </Card>
@@ -13,7 +14,8 @@
 <script>
 import Constants from '@/config/constants'
 import Card from '@/components/containers/Card.vue'
-import TransferTransactionGraphic from '@/components/transaction-graphic/TransferTransactionGraphic.vue'
+import TransferGraphic from '@/components/transaction-graphic/TransferGraphic.vue'
+import AddressAliasGraphic from '@/components/transaction-graphic/AddressAliasGraphic.vue'
 
 export default {
   props: {
@@ -22,7 +24,8 @@ export default {
 
   components: {
     Card,
-    TransferTransactionGraphic
+    TransferGraphic,
+    AddressAliasGraphic
   },
 
   data() {
