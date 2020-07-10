@@ -18,21 +18,88 @@ export default {
 
     data() {
         return {
-            subjectPositionX: 112,
-            subjectPositionY: 240,
-            objectPositionX: 614,
-            objectPositionY: 240,
+            // Transaction graphic
+            desktopTransactionGraphicViewbox: '140 200 700 200',
+            mobileTransactionGraphicViewbox: '380 240 200 170',
+            desktopSubjectWidth: 700,
+            desktopSubjectHeight: 200,
+            mobileSubjectWidth: 370,
+            mobileSubjectHeight: 150,
+
+
+            // Subject
+            desktopSubjectPositionX: 112,
+            desktopSubjectPositionY: 240,
+            desktopSubjectWidth: 261.333,
+            desktopSubjectHeight: 131.313,
+
+            mobileSubjectPositionX: 180,
+            mobileSubjectPositionY: 275,
+            mobileSubjectWidth: 261,
+            mobileSubjectHeight: 80,
+            
+
+            // Object
+            desktopObjectPositionX: 614,
+            mobileObjectPositionX: 505,
+
+            // objectPositionY: 240,
+
+            // Transaction type text
             transactionTypeTextPositionX: 485,
             transactionTypeTextPositionY: 361.9268,
+
+            // Arrow
             arrowPositionX: 341,
             arrowPositionY: 305,
+
+            // Circle icons
             circlesIconsPositionsX: [[466], [447, 485], [428, 466, 504]],
             circleIconPositionY: 300,
-
         };
     },
 
     computed: {
+        transactionGraphicViewbox() {
+            return this.$store.getters['ui/isMobile']
+                ? this.mobileTransactionGraphicViewbox
+                : this.desktopTransactionGraphicViewbox;
+        },
+
+        subjectPositionX() {
+            return this.$store.getters['ui/isMobile']
+                ? this.mobileSubjectPositionX
+                : this.desktopSubjectPositionX;
+        },
+
+        subjectPositionY() {
+            return this.$store.getters['ui/isMobile']
+                ? this.mobileSubjectPositionY
+                : this.desktopSubjectPositionY;
+        },
+
+        objectPositionX() {
+            return this.$store.getters['ui/isMobile']
+                ? this.mobileObjectPositionX
+                : this.desktopObjectPositionX;
+        },
+
+        objectPositionY() {
+            return this.subjectPositionY;
+        },
+
+        subjectWidth() {
+            return this.$store.getters['ui/isMobile']
+                ? this.mobileSubjectWidth
+                : this.desktopSubjectWidth;
+        },
+
+        subjectHeight() {
+            return this.$store.getters['ui/isMobile']
+                ? this.mobileSubjectHeight
+                : this.desktopSubjectHeight;
+        },
+
         nativeMosaicId() {
             return http.networkCurrecy.mosaicId;
         },

@@ -8,18 +8,30 @@
             y="0px"
             width="700px"
             height="200px"
-            viewBox="140 200 700 200"
+            :viewBox="transactionGraphicViewbox"
             xml:space="preserve"
         >
             <AccountIcon 
                 :x="subjectPositionX" 
                 :y="subjectPositionY" 
+                :width="subjectWidth"
+                :height="subjectHeight"
                 :address="signer" 
             />
             <AccountIcon 
+                v-if="0"
                 :x="objectPositionX" 
                 :y="objectPositionY" 
+                :width="subjectWidth"
+                :height="subjectHeight"
                 :address="signer" 
+            />
+            <NamespaceIcon
+                :x="objectPositionX" 
+                :y="objectPositionY" 
+                :width="subjectWidth"
+                :height="subjectHeight"
+                :namespace="{namespaceName: namespaceId, namespaceId}"
             />
             <Arrow :x="arrowPositionX" :y="arrowPositionY" />
             <NamespaceCircle
@@ -47,6 +59,7 @@ import GraphicComponent from "../graphics/GraphicComponent.vue";
 import AccountIcon from "../graphics/AccountIcon.vue";
 import NamespaceCircle from "../graphics/NamespaceCircle.vue";
 import NamespaceUnlinkCircle from "../graphics/NamespaceUnlinkCircle.vue";
+import NamespaceIcon from "../graphics/NamespaceIcon.vue"
 import Arrow from "../graphics/Arrow.vue";
 
 export default {
@@ -56,7 +69,8 @@ export default {
         AccountIcon,
         NamespaceCircle,
         NamespaceUnlinkCircle,
-        Arrow
+        Arrow,
+        NamespaceIcon
     },
 
     props: {
