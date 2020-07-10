@@ -33,10 +33,10 @@ export default {
             desktopSubjectWidth: 261.333,
             desktopSubjectHeight: 131.313,
 
-            mobileSubjectPositionX: 180,
+            mobileSubjectPositionX: 200,
             mobileSubjectPositionY: 275,
             mobileSubjectWidth: 261,
-            mobileSubjectHeight: 80,
+            mobileSubjectHeight: 90,
             
 
             // Object
@@ -60,26 +60,42 @@ export default {
     },
 
     computed: {
+        isMobile() {
+            return this.$store.getters['ui/isMobile'];
+        },
+
         transactionGraphicViewbox() {
-            return this.$store.getters['ui/isMobile']
+            return this.isMobile
                 ? this.mobileTransactionGraphicViewbox
                 : this.desktopTransactionGraphicViewbox;
         },
 
+        transactionGraphicWidth() {
+            return this.isMobile
+                ? this.mobileTransactionGraphicWidth
+                : this.desktopTransactionGraphicWidth;
+        },
+
+        transactionGraphicHeight() {
+            return this.isMobile
+                ? this.mobileTransactionGraphicHeight
+                : this.desktopTransactionGraphicHeight;
+        },
+
         subjectPositionX() {
-            return this.$store.getters['ui/isMobile']
+            return this.isMobile
                 ? this.mobileSubjectPositionX
                 : this.desktopSubjectPositionX;
         },
 
         subjectPositionY() {
-            return this.$store.getters['ui/isMobile']
+            return this.isMobile
                 ? this.mobileSubjectPositionY
                 : this.desktopSubjectPositionY;
         },
 
         objectPositionX() {
-            return this.$store.getters['ui/isMobile']
+            return this.isMobile
                 ? this.mobileObjectPositionX
                 : this.desktopObjectPositionX;
         },
@@ -89,13 +105,13 @@ export default {
         },
 
         subjectWidth() {
-            return this.$store.getters['ui/isMobile']
+            return this.isMobile
                 ? this.mobileSubjectWidth
                 : this.desktopSubjectWidth;
         },
 
         subjectHeight() {
-            return this.$store.getters['ui/isMobile']
+            return this.isMobile
                 ? this.mobileSubjectHeight
                 : this.desktopSubjectHeight;
         },
@@ -109,19 +125,19 @@ export default {
         },
 
         _x() {
-            return this.x + "px";
+            return this.getPixels(this.x);
         },
 
         _y() {
-            return this.y + "px";
+            return this.getPixels(this.y);
         },
 
         _height() {
-            return (this.height || "0") + "px";
+            return this.getPixels(this.height || "0");
         },
 
         _width() {
-            return (this.width || "0") + "px";
+            return  this.getPixels(this.width || "0");
         },
 
         circlesCount() {
@@ -132,6 +148,10 @@ export default {
     },
 
     methods: {
+        getPixels(value) {
+            return value + "px";
+        },
+
         getIconColor(str) {
             const color = helper.getColorFromHash(str, false);
             return `RGB(${color.R},${color.G},${color.B})`;

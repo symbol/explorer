@@ -6,8 +6,8 @@
             xmlns:xlink="http://www.w3.org/1999/xlink"
             x="0px"
             y="0px"
-            width="700px"
-            height="200px"
+            :width="getPixels(transactionGraphicWidth)"
+            :height="getPixels(transactionGraphicHeight)"
             :viewBox="transactionGraphicViewbox"
             xml:space="preserve"
         >
@@ -19,19 +19,11 @@
                 :address="signer" 
             />
             <AccountIcon 
-                v-if="0"
                 :x="objectPositionX" 
                 :y="objectPositionY" 
                 :width="subjectWidth"
                 :height="subjectHeight"
                 :address="signer" 
-            />
-            <NamespaceIcon
-                :x="objectPositionX" 
-                :y="objectPositionY" 
-                :width="subjectWidth"
-                :height="subjectHeight"
-                :namespace="{namespaceName: namespaceId, namespaceId}"
             />
             <Arrow :x="arrowPositionX" :y="arrowPositionY" />
             <NamespaceCircle
@@ -90,6 +82,13 @@ export default {
         aliasAction: {
             type: String,
             required: true
+        }
+    },
+
+    data() {
+        return {
+            width: this.transactionGraphicWidth,
+            heigth: this.transactionGraphicHeight
         }
     },
 
