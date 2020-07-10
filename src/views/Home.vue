@@ -48,7 +48,7 @@ export default {
     BaseInfoWidget,
     PriceChartWidget,
     RecentBlocksWidget,
-    RecentTransactionsWidget,
+    RecentTransactionsWidget
   },
 
   mounted() {
