@@ -21,10 +21,10 @@ export default {
             // Transaction graphic
             desktopTransactionGraphicViewbox: '140 200 700 200',
             mobileTransactionGraphicViewbox: '380 240 200 170',
-            desktopSubjectWidth: 700,
-            desktopSubjectHeight: 200,
-            mobileSubjectWidth: 370,
-            mobileSubjectHeight: 150,
+            desktopTransactionGraphicWidth: 700,
+            desktopTransactionGraphicHeight: 200,
+            mobileTransactionGraphicWidth: 370,
+            mobileTransactionGraphicHeight: 150,
 
 
             // Subject
