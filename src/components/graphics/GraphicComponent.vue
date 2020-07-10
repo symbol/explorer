@@ -34,7 +34,7 @@ export default {
             desktopSubjectHeight: 131.313,
 
             mobileSubjectPositionX: 200,
-            mobileSubjectPositionY: 275,
+            mobileSubjectPositionY: 277,
             mobileSubjectWidth: 261,
             mobileSubjectHeight: 90,
             

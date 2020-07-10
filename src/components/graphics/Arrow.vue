@@ -17,13 +17,13 @@
                 fill="none"
                 stroke-width="5"
                 stroke-miterlimit="10"
-                x1="29"
+                x1="39"
                 y1="13.5"
-                x2="256"
+                x2="246"
                 y2="13.5"
             />
             <polygon
-                transform="translate(-30 0)"
+                transform="translate(-40 0)"
                 class="arrow-end"
                 points="269.176,22.628 273.267,13 269.176,3.372 292,13"
             />
