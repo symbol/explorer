@@ -134,6 +134,11 @@ class TransactionService {
       delete formattedTransaction.transactionBody.innerTransactions
       delete formattedTransaction.transactionBody.cosignatures
       break
+    case TransactionType.ADDRESS_ALIAS:
+    case TransactionType.MOSAIC_ALIAS:
+      const namespaceName = await NamespaceService.getNamespacesName([NamespaceId.createFromEncoded(formattedTransaction.transactionBody.namespaceId)])
+      formattedTransaction.transactionBody.namespaceName = namespaceName[0].name
+      break
     }
 
     const transactionInfo = {
@@ -241,7 +246,7 @@ class TransactionService {
         transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         aliasAction: Constants.AliasAction[transactionBody.aliasAction],
         namespaceId: transactionBody.namespaceId.toHex(),
-        namespaceFullName: transactionBody.namespaceId.fullName
+        namespaceName: transactionBody.namespaceId.fullName
       }
 
     case TransactionType.MOSAIC_ALIAS:
@@ -250,7 +255,7 @@ class TransactionService {
         transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         aliasAction: Constants.AliasAction[transactionBody.aliasAction],
         namespaceId: transactionBody.namespaceId.id.toHex(),
-        namespaceFullName: transactionBody.namespaceId.fullName,
+        namespaceName: transactionBody.namespaceId.fullName,
         mosaicId: transactionBody.mosaicId.id.toHex()
       }
 
