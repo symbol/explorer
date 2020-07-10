@@ -7,7 +7,7 @@
     "relativeAmount": "相対量",
     "height": "ブロック高",
     "fee": "手数料",
-    "maxFee": "Max Fee",
+    "maxFee": "最大手数料",
     "totalFee": "合計手数料",
     "date": "日付",
     "deadline": "期限",
@@ -15,7 +15,7 @@
     "confirm": "承認",
     "signature": "署名",
     "harvester": "ハーベスタ",
-    "datetime": "日付",
+    "datetime": "日時",
     "difficulty": "難易度",
     "address": "アドレス",
     "account": "アカウント",
@@ -100,12 +100,12 @@
     "Search block / tx hash / account": "ブロック / トランザクションハッシュ / アカウント 検索",
     "nodes": "ノード",
     "home": "ホーム",
-    "xemPrice": "XYM価格",
+    "xemPrice": "XYM相場",
     "baseInfo": "基本情報",
-    "price": "価格",
+    "price": "相場",
     "marketCap": "マーケットキャップ",
-    "recentBlocks": "最近のブロック",
-    "recentTransactions": "最近のトランザクション",
+    "recentBlocks": "直近のブロック",
+    "recentTransactions": "直近のトランザクション",
     "viewAllBlocks": "すべてのブロックを表示",
     "viewAllTransactions": "すべてのトランザクションを表示",
     "sender": "送信者",
@@ -273,5 +273,5 @@
     "aggregateInnerTransactionsError": "アグリゲート内部トランザクションが有効ではありません",
     "aggregateCosignaturesError": "連署者が有効ではありません",
 
-    "transactionGraphic": "Transaction Graphic"
+    "transactionGraphic": "トランザクショングラフィック"
 }
