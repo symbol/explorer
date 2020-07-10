@@ -1,8 +1,8 @@
 import config from '../../config/network.conf.json'
 
-describe('Symbol Explorer Transaction detail page for Transfer Transaction', () => {
+describe('Symbol Explorer Transaction detail page for Aggregate Complete', () => {
     beforeEach(() => {
-        cy.visit(`/transaction/${config.testTransactions.transferTransaction}`)
+        cy.visit(`/transaction/${config.testTransactions.aggregateComplete}`)
     })
 
     describe('Transaction info card should', () => {
@@ -30,23 +30,24 @@ describe('Symbol Explorer Transaction detail page for Transfer Transaction', () 
         })
 
         it('render correct transaction detail titles', () => {
-            const items = ['Type', 'Type', 'Recipient', 'Message']
+            const items = ['Type', 'Type']
             cy.renderFieldInTable("transactionDetailTitle", items)
         })
+
     })
 
-    describe('Mosaics card should', () => {
+    describe('Aggregate Inner Transactions card should', () => {
         it('load title', () => {
-            cy.get('[data-cy="mosaicsTitle"]').should('contain', 'Mosaics')
+            cy.get('[data-cy="aggregateInnerTransactionsTitle"]').should('contain', 'Aggregate Inner Transactions')
         })
 
         it('render data list in table', () => {
-            cy.renderTableInCard('mosaicsTitle')
+            cy.renderTableInCard('aggregateInnerTransactionsTitle')
         })
 
         it('render correct table header.', () => {
-            const items = ['Mosaic ID', 'Amount', 'Alias Namespace']
-            cy.renderHeaderInTable('mosaicsTitle', items)
+            const items = ['Transaction ID', 'Type', 'Signer', 'Transaction Detail']
+            cy.renderHeaderInTable('aggregateInnerTransactionsTitle', items)
         })
     })
 

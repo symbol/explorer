@@ -143,7 +143,6 @@
     "host": "IP/ DNS",
     "port": "Порт",
     "friendlyName": "Дружественное имя",
-    "direction": "направление",
     "approximateExpired": "Приблизительный Срок Окончания",
     "expiredInBlock": "Истечение Срока в Блоке",
     "index": "No.",

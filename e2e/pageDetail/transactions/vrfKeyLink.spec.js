@@ -1,8 +1,8 @@
 import config from '../../config/network.conf.json'
 
-describe('Symbol Explorer Transaction detail page for Transfer Transaction', () => {
+describe('Symbol Explorer Transaction detail page for VRF Key Link.', () => {
     beforeEach(() => {
-        cy.visit(`/transaction/${config.testTransactions.transferTransaction}`)
+        cy.visit(`/transaction/${config.testTransactions.vrfKeyLink}`)
     })
 
     describe('Transaction info card should', () => {
@@ -30,24 +30,9 @@ describe('Symbol Explorer Transaction detail page for Transfer Transaction', () 
         })
 
         it('render correct transaction detail titles', () => {
-            const items = ['Type', 'Type', 'Recipient', 'Message']
+            const items = ['Type', 'Type', 'Link Action', 'linked Public Key', 'linked Account Address']
             cy.renderFieldInTable("transactionDetailTitle", items)
         })
+
     })
-
-    describe('Mosaics card should', () => {
-        it('load title', () => {
-            cy.get('[data-cy="mosaicsTitle"]').should('contain', 'Mosaics')
-        })
-
-        it('render data list in table', () => {
-            cy.renderTableInCard('mosaicsTitle')
-        })
-
-        it('render correct table header.', () => {
-            const items = ['Mosaic ID', 'Amount', 'Alias Namespace']
-            cy.renderHeaderInTable('mosaicsTitle', items)
-        })
-    })
-
 })

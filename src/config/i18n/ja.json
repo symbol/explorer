@@ -141,7 +141,6 @@
     "host": "IP/DNS",
     "port": "ポート",
     "friendlyName": "Friendly Name",
-    "direction": "",
     "approximateExpired": "概算期限切れ",
     "expiredInBlock": "ブロック以内に期限切れ",
     "index": "No.",
