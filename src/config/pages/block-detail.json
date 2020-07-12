@@ -47,7 +47,7 @@
                     "deadline",
                     "transactionId",
                     "transactionHash",
-                    "type"
+                    "transactionDescriptor"
                 ]
             },
             {

@@ -188,6 +188,7 @@
     "effectiveChildNamespaceRentalFee": "子ネームスペースレンタル手数料",
     "effectiveMosaicRentalFee": "モザイクレンタル手数料",
     "recipientAddress": "受信者",
+    "senderAddress": "送信者",
     "cosignatories": "連署者",
     "multisigAddresses": "マルチシグアカウント",
     "effectiveFee": "手数料",

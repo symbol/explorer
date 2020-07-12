@@ -188,6 +188,7 @@
     "effectiveChildNamespaceRentalFee": "Child Namespace Rental Fee",
     "effectiveMosaicRentalFee": "Mosaic Rental Fee",
     "recipientAddress": "Recipient",
+    "senderAddress": "Sender",
     "cosignatories": "Cosignatories",
     "multisigAddresses": "Multisig Accounts",
     "effectiveFee": "Fee",

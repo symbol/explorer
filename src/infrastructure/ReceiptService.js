@@ -92,7 +92,7 @@ class ReceiptService {
           ...receipt,
           size: receipt.size || Constants.Message.UNAVAILABLE,
           type: Constants.ReceiptType[receipt.type],
-          sender: receipt.senderAddress.plain(),
+          senderAddress: receipt.senderAddress.address,
           recipientAddress: receipt.recipientAddress.address,
           amount: helper.formatMosaicAmountWithDivisibility(receipt.amount, http.networkCurrecy.divisibility),
           mosaicId: receipt.mosaicId.toHex()
