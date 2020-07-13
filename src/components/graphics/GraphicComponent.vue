@@ -148,6 +148,10 @@ export default {
     },
 
     methods: {
+        getTranslation(key) {
+            return this.$store.getters['ui/getNameByKey'](key)
+        },
+
         getPixels(value) {
             return value + "px";
         },

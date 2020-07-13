@@ -6,10 +6,10 @@
                 v-for="(value, key) in data"
                 class="d-flex justify-content-between align-items-center table-list"
                 :key="'tp' + value + key"
-                :title="key + ': ' + value"
+                :title="getTranslation(key) + ': ' + value"
             >
                 <span>
-                    {{ truncString(key, 7) }}:
+                    {{ truncString(getTranslation(key), 7) }}:
                 </span>
                 <span>
                     {{ truncString(value, 5) }}

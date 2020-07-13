@@ -19,7 +19,7 @@
             </linearGradient>
         </defs>
         <g>
-            <title> {{ aliasName || mosaicId }} </title>
+            <title> {{ title }} </title>
             <path
                 fill-rule="evenodd"
                 clip-rule="evenodd"
@@ -87,6 +87,9 @@ export default {
   },
 
   computed: {
+      title() {
+          return this.getTranslation('mosaic') + ': ' + (this.aliasName || this.mosaicId) 
+      },
     iconColor() {
       return this.getIconColorFromHex(this.mosaicId)
     },

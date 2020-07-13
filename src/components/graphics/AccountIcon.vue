@@ -12,7 +12,7 @@
         class="account"
         @click="onAccountClick(address)"
     >
-        <title> {{ address }} </title>
+        <title> {{ title }} </title>
         <rect
             x="25.266"
             y="107.646"
@@ -140,6 +140,9 @@ export default {
   },
 
   computed: {
+      title() {
+          return this.getTranslation('address') + ': ' + this.address
+      },
     iconColor() {
       return this.getIconColor(this.address)
     },

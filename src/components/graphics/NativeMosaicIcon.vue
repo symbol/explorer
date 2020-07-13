@@ -23,7 +23,7 @@
             </linearGradient>
         </defs>
         <g>
-            <title> {{ aliasName || mosaicId }} </title>
+            <title> {{ title }} </title>
             <path
                 fill-rule="evenodd"
                 clip-rule="evenodd"
@@ -82,6 +82,10 @@ export default {
   },
 
   computed: {
+      title() {
+          return this.getTranslation('mosaic') + ': ' + this.nativeMosaicAliasName
+      },
+
     mosaicId() {
       return this.nativeMosaicId
     },

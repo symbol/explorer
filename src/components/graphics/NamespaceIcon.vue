@@ -12,7 +12,7 @@
         class="namespace"
         @click="onNamespaceClick(namespace.namespaceId)"
     >
-        <title> {{ namespace.namespaceName }} </title>
+        <title> {{ title }} </title>
         <rect
             x="25.266"
             y="107.646"
@@ -74,6 +74,9 @@ export default {
   },
 
   computed: {
+      title() {
+          return this.getTranslation('namespace') + ': ' + this.namespace.namespaceName 
+      },
     iconColor() {
       return this.getIconColorFromHex(this.namespace.namespaceId);
     },
