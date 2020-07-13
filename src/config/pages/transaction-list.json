@@ -28,8 +28,8 @@
                 ],
                 "mobileFields": [
                     "height",
+                    "transactionDescriptor",
                     "transactionHash",
-                    "fee",
                     "signer",
                     "recipient"
                 ]

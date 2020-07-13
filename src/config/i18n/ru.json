@@ -35,7 +35,6 @@
     "importanceHeight": "Высота важности",
     "accountType": "Тип аккаунта",
     "accountAliasName": "Пространство Имен Псевдонимов",
-    "linkedAccountKey": "Ключ связанного аккаунта",
     "lastActivity": "Последняя Активность",
     "accounts": "Аккаунты",
     "blocks": "Блоки",
@@ -228,5 +227,6 @@
     "nonce": "Nonce",
     "action": "Action",
     "delta": "Delta",
-    "harvestedBlock": "Harvested blocks (all)"
+    "harvestedBlock": "Harvested blocks (all)",
+    "transactionGraphic": "Схема транзакции"
 }

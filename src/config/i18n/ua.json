@@ -33,7 +33,6 @@
     "importance": "Важливість",
     "importanceHeight": "Висота важливісті",
     "accountType": "Тип рахунку",
-    "linkedAccountKey": "Ключ рахунку",
     "lastActivity": "Остання активність",
     "accounts": "Рахунки",
     "blocks": "Блоки",
@@ -213,5 +212,6 @@
     "nonce": "Nonce",
     "action": "Action",
     "delta": "Delta",
-    "harvestedBlock": "Harvested blocks (all)"
+    "harvestedBlock": "Harvested blocks (all)",
+    "transactionGraphic": "Схема транзакції"
 }

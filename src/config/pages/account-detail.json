@@ -24,7 +24,6 @@
                     "publicKey",
                     "importance",
                     "type",
-                    "linkedAccountKey",
                     "harvestedBlock"
                 ]
             },
@@ -94,7 +93,8 @@
                 "fields": [
                     "deadline",
                     "transactionHash",
-                    "transactionDescriptor"
+                    "transactionDescriptor",
+                    "direction"
                 ]
             },
             {

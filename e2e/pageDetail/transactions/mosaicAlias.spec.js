@@ -30,7 +30,7 @@ describe('Symbol Explorer Transaction detail page for Mosaic Alias', () => {
         })
 
         it('render correct transaction detail titles', () => {
-            const items = ['Type', 'Type', 'Alias Action', 'Namespace ID', 'Mosaic ID']
+            const items = ['Type', 'Type', 'Alias Action', 'Namespace ID', 'Mosaic ID', 'Name']
             cy.renderFieldInTable("transactionDetailTitle", items)
         })
 

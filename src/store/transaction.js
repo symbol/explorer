@@ -60,7 +60,18 @@ export default {
     transferMosaics: state => state.info?.data?.transferMosaics || [],
     aggregateInnerTransactions: state => state.info?.data?.aggregateTransaction?.innerTransactions || [],
     aggregateCosignatures: state => state.info?.data?.aggregateTransaction?.cosignatures || [],
-    getRecentList: state => state.timeline?.data?.filter((item, index) => index < 4) || []
+    getRecentList: state => state.timeline?.data?.filter((item, index) => index < 4) || [],
+    transactionSchema: (state, getters) => ({
+      loading: getters.info.loading,
+      error: getters.info.error,
+      data: {
+        type: getters.info.data.type,
+        signer: getters.info.data.signer,
+        recipient: getters.transactionDetail.recipient,
+        message: getters.transactionDetail.message,
+        mosaics: getters.transferMosaics
+      }
+    })
   },
   mutations: {
     ...getMutationsFromManagers(managers),
