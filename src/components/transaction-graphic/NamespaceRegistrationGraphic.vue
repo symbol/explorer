@@ -62,21 +62,29 @@ export default {
             type: String,
             default: ""
         },
+
         signer: {
             type: String,
             required: true,
             default: ""
         },
+
         namespaceId: {
             type: String,
             required: true,
             default: ""
         },
+
         namespaceName: {
             type: String,
             required: true,
             default: ""
-        }
+        },
+
+        duration: {
+            type: Number,
+            required: true
+        },
     },
 
     computed: {
@@ -91,7 +99,8 @@ export default {
         namespace() {
             return {
                 namespaceName: this.namespaceName,
-                namespaceId: this.namespaceId
+                namespaceId: this.namespaceId,
+                duration: this.duration
             }
         }  
     }
