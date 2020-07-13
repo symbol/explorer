@@ -3,7 +3,7 @@
         <template v-slot:title>{{ title }}</template>
         <b-list-group>
             <b-list-group-item
-                v-for="(value, key) in table"
+                v-for="(value, key) in data"
                 class="d-flex justify-content-between align-items-center table-list"
                 :key="'tp' + value + key"
                 :title="key + ': ' + value"
@@ -31,7 +31,7 @@ export default {
   },
 
   props: {
-    table: {
+    data: {
       type: Object,
       default: () => ({})
     },
