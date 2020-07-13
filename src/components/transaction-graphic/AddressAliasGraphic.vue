@@ -77,6 +77,10 @@ export default {
       type: String,
       required: true
     },
+    namespaceName: {
+      type: String,
+      required: true
+    },
     aliasAction: {
       type: String,
       required: true
@@ -105,6 +109,10 @@ export default {
 
     subTitle() {
       return `. ${this.aliasAction} namespace`
+    },
+
+    namespace() {
+      return { namespaceId: this.namespaceId, namespaceName: this.namespaceName }
     }
   }
 }

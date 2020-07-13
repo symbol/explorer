@@ -8,22 +8,28 @@
                 :key="'tp' + value + key"
                 :title="getTranslation(key) + ': ' + value"
             >
-                <span>
+                <span class="key">
                     {{ truncString(getTranslation(key), 7) }}:
                 </span>
-                <span>
+                <span class="value">
                     {{ truncString(value, 5) }}
                 </span>
             </b-list-group-item>
         </b-list-group>
+        <!--<TableInfoView :data="data" />-->
     </b-popover>
 </template>
 
 <script>
 import GraphicComponent from './GraphicComponent.vue'
+import TableInfoView from '@/components/tables/TableInfoView.vue'
 
 export default {
   extends: GraphicComponent,
+
+  components: {
+      TableInfoView
+  },
 
   props: {
     data: {
@@ -47,5 +53,17 @@ export default {
 <style lang="scss" scoped>
 .table-list {
     min-width: 250px;
+
+    .key {
+        color: $table-title-text-color;
+        font-weight: bolder;
+        font-size: 12px;
+        letter-spacing: 1px;
+    }
+
+    .value {
+        font-size: 12px;
+        color: $table-text-color;
+    }
 }
 </style>
