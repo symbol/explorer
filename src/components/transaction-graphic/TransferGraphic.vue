@@ -6,19 +6,23 @@
             xmlns:xlink="http://www.w3.org/1999/xlink"
             x="0px"
             y="0px"
-            width="700px"
-            height="200px"
-            viewBox="140 200 700 200"
+            :width="getPixels(transactionGraphicWidth)"
+            :height="getPixels(transactionGraphicHeight)"
+            :viewBox="transactionGraphicViewbox"
             xml:space="preserve"
         >
             <AccountIcon 
                 :x="subjectPositionX" 
                 :y="subjectPositionY" 
+                :width="subjectWidth"
+                :height="subjectHeight"
                 :address="signer" 
             />
             <AccountIcon 
                 :x="objectPositionX" 
-                :y="objectPositionY" 
+                :y="objectPositionY"
+                :width="subjectWidth"
+                :height="subjectHeight" 
                 :address="recipient" 
             />
             <Arrow :x="arrowPositionX" :y="arrowPositionY" />

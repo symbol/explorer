@@ -30,13 +30,13 @@
                 v-if="isLinkAction"
                 :x="getCircleIconPositionX(0)"
                 :y="circleIconPositionY"
-                :namespaceName="namespaceId"
+                :namespaces="[{namespaceId, namespaceName: namespaceId}]"
             />
             <NamespaceUnlinkCircle
                 v-else
                 :x="getCircleIconPositionX(0)"
                 :y="circleIconPositionY"
-                :namespaceName="namespaceId"
+                :namespaces="[{namespaceId, namespaceName: namespaceId}]"
             />
             <text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
                 {{ transactionType + subTitle }}

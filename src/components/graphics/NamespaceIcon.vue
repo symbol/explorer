@@ -7,7 +7,7 @@
         :y="_y"
         :width="_width"
         :height="_height"
-        viewBox="0 0 261.333 131.313"
+        :viewBox="viewBox"
         xml:space="preserve"
         class="namespace"
         @click="onNamespaceClick(namespace.namespaceId)"
@@ -23,6 +23,7 @@
             height="23.667"
         />
         <text
+            v-if="!hideCaption"
             x="130"
             y="122.8457"
             class="namespace-text"
@@ -64,6 +65,11 @@ export default {
           namespaceId: '',
           namespaceName: ''
       })
+    },
+
+    'hideCaption': {
+        type: Boolean,
+        default: false
     }
   },
 
@@ -74,6 +80,12 @@ export default {
 
     truncatedNamespaceName() {
       return this.truncString(this.namespace.namespaceName, 5);
+    },
+
+    viewBox() {
+        return this.hideCaption
+            ? '115 0 16 105'
+            : '0 0 261.333 131.313';
     }
   }
 }

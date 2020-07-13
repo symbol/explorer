@@ -18,10 +18,10 @@
             </linearGradient>
         </defs>
         <foreignObject x="446" y="318" width="100" height="100">
-            <MessagePopover
+            <NamespaceListPopover
                 :target="id"
-                title="Namespace name"
-                :message="namespaceName"
+                title="Linked namespace"
+                :namespaces="namespaces"
             />
         </foreignObject>
         <circle
@@ -55,18 +55,18 @@
 
 <script>
 import GraphicComponent from './GraphicComponent.vue'
-import MessagePopover from './MessagePopover'
+import NamespaceListPopover from './NamespaceListPopover'
 
 export default {
   extends: GraphicComponent,
 
   components: {
-    MessagePopover
+    NamespaceListPopover
   },
 
   props: {
-    namespaceName: {
-      type: String,
+    namespaces: {
+      type: Array,
       required: true
     }
   },
