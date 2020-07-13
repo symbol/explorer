@@ -251,6 +251,14 @@ export default {
                 param: mosaicId
             });
             this.$emit('click', mosaicId);
+        },
+
+        onNamespaceClick(namespaceId) {
+            this.$store.dispatch(`ui/openPage`, {
+                pageName: "namespace",
+                param: namespaceId
+            });
+            this.$emit('click', namespaceId);
         }
     }
 };
@@ -260,5 +268,11 @@ export default {
 .circle-icon {
     margin-left: 2px;
     margin-right: 2px;
+}
+
+.message {
+    font-size: 13px;
+    font-weight: bold;
+    fill: var(--blue);
 }
 </style>

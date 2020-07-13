@@ -12,6 +12,13 @@
         class="namespace"
         @click="onNamespaceClick(namespace.namespaceId)"
     >
+        <defs>
+            <radialGradient :id="id" cx="50%" y="50%" fx="70%" fy="5%">
+                <stop offset="0%" :stop-color="iconColor" stop-opacity="0.5"/>
+                <stop offset="60%" :stop-color="iconColor" />
+                <stop offset="100%" :stop-color="iconColor" />
+            </radialGradient>
+        </defs>
         <title> {{ title }} </title>
         <rect
             x="25.266"
@@ -73,6 +80,12 @@ export default {
     }
   },
 
+  data() {
+    return {
+      id: this.getId('namespace-icon')
+    }
+  },
+
   computed: {
       title() {
           return this.getTranslation('namespace') + ': ' + this.namespace.namespaceName 
@@ -80,6 +93,10 @@ export default {
     iconColor() {
       return this.getIconColorFromHex(this.namespace.namespaceId);
     },
+
+    // iconFill() {
+    //     return `url(#${this.id})`;
+    // },
 
     truncatedNamespaceName() {
       return this.truncString(this.namespace.namespaceName, 5);
