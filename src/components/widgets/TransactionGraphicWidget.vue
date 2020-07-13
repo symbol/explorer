@@ -1,5 +1,5 @@
 <template>
-    <Card :loading="loading">
+    <Card :loading="loading" v-if="isWidgetShown">
         <template #title>{{getNameByKey('transactionGraphic')}}</template>
 
         <template #body>
@@ -41,6 +41,13 @@ export default {
   },
 
   computed: {
+    isWidgetShown() {
+      return this.data.type === 16724 ||
+        this.data.type === 16974 ||
+        this.data.type === 17230 ||
+        this.data.type === 16718
+    },
+
     data() {
       return this.$store.getters[this.managerGetter].data
     },
