@@ -179,7 +179,6 @@ export default {
       case 0:
         if (this.circleIconsToDisplay[0])
           return this.circlesIconsPositionsX[circlesCount - 1][0]
-
         break
       case 1:
         if (this.circleIconsToDisplay[1]) {
@@ -196,13 +195,11 @@ export default {
             this.circleIconsToDisplay[1]
           )
             return this.circlesIconsPositionsX[circlesCount - 1][2]
-
           if (
             this.circleIconsToDisplay[0] ||
             this.circleIconsToDisplay[1]
           )
             return this.circlesIconsPositionsX[circlesCount - 1][1]
-
           return this.circlesIconsPositionsX[circlesCount - 1][0]
         }
         break
