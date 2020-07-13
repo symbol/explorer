@@ -9,7 +9,7 @@
                 :title="key + ': ' + value"
             >
                 <span>
-                    {{ truncString(key, 5) }} :
+                    {{ truncString(key, 7) }}:
                 </span>
                 <span>
                     {{ truncString(value, 5) }}
