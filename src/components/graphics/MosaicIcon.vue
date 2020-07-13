@@ -10,7 +10,7 @@
         viewBox="0 0 116 105"
         xml:space="preserve"
         class="connector"
-        @click="onMosaicClick(mosaicId)"
+        @click="onMosaicClick(mosaicId || mosaic.mosaicId)"
     >
         <defs>
             <linearGradient id="connector-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -76,9 +76,16 @@ export default {
       default: 131.313
     },
 
+    mosaic: {
+        type: Object,
+        default: () => ({
+            mosaicId: '',
+            aliasName: ''
+        })
+    },
+
     mosaicId: {
       type: String,
-      required: true
     },
 
     aliasName: {
@@ -87,22 +94,16 @@ export default {
   },
 
   computed: {
-      title() {
-          return this.getTranslation('mosaic') + ': ' + (this.aliasName || this.mosaicId) 
-      },
-    iconColor() {
-      return this.getIconColorFromHex(this.mosaicId)
-    },
+        title() {
+            return this.getTranslation('mosaic') + ': ' + ((this.aliasName || this.mosaic.aliasName) || (this.mosaicId || this.mosaic.mosaicId)) 
+        },
+        iconColor() {
+            return this.getIconColorFromHex(this.mosaicId || this.mosaic.mosaicId)
+        },
 
-    truncatedMosaicId() {
-      return this.truncString(this.mosaicId)
-    }
-  },
-
-  methods: {
-    click() {
-      this.$emit('click', this.mosaicId)
-    }
+        truncatedMosaicId() {
+            return this.truncString(this.mosaicId || this.mosaic.mosaicId)
+        }
   }
 }
 </script>
