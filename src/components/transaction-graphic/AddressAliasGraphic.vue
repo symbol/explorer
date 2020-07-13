@@ -11,19 +11,19 @@
             :viewBox="transactionGraphicViewbox"
             xml:space="preserve"
         >
-            <AccountIcon 
-                :x="subjectPositionX" 
-                :y="subjectPositionY" 
+            <AccountIcon
+                :x="subjectPositionX"
+                :y="subjectPositionY"
                 :width="subjectWidth"
                 :height="subjectHeight"
-                :address="signer" 
+                :address="signer"
             />
-            <AccountIcon 
-                :x="objectPositionX" 
-                :y="objectPositionY" 
+            <AccountIcon
+                :x="objectPositionX"
+                :y="objectPositionY"
                 :width="subjectWidth"
                 :height="subjectHeight"
-                :address="signer" 
+                :address="signer"
             />
             <Arrow :x="arrowPositionX" :y="arrowPositionY" />
             <NamespaceCircle
@@ -47,67 +47,65 @@
 </template>
 
 <script>
-import GraphicComponent from "../graphics/GraphicComponent.vue";
-import AccountIcon from "../graphics/AccountIcon.vue";
-import NamespaceCircle from "../graphics/NamespaceCircle.vue";
-import NamespaceUnlinkCircle from "../graphics/NamespaceUnlinkCircle.vue";
-import NamespaceIcon from "../graphics/NamespaceIcon.vue"
-import Arrow from "../graphics/Arrow.vue";
+import GraphicComponent from '../graphics/GraphicComponent.vue'
+import AccountIcon from '../graphics/AccountIcon.vue'
+import NamespaceCircle from '../graphics/NamespaceCircle.vue'
+import NamespaceUnlinkCircle from '../graphics/NamespaceUnlinkCircle.vue'
+import Arrow from '../graphics/Arrow.vue'
 
 export default {
-    extends: GraphicComponent,
+  extends: GraphicComponent,
 
-    components: {
-        AccountIcon,
-        NamespaceCircle,
-        NamespaceUnlinkCircle,
-        Arrow,
-        NamespaceIcon
+  components: {
+    AccountIcon,
+    NamespaceCircle,
+    NamespaceUnlinkCircle,
+    Arrow
+  },
+
+  props: {
+    message: {
+      type: String,
+      default: ''
     },
-
-    props: {
-        message: {
-            type: String,
-            default: ""
-        },
-        signer: {
-            type: String,
-            required: true,
-            default: ""
-        },
-        namespaceId: {
-            type: String,
-            required: true
-        },
-        aliasAction: {
-            type: String,
-            required: true
-        }
+    signer: {
+      type: String,
+      required: true,
+      default: ''
     },
-
-    data() {
-        return {
-            width: this.transactionGraphicWidth,
-            heigth: this.transactionGraphicHeight
-        }
+    namespaceId: {
+      type: String,
+      required: true
     },
-
-    computed: {
-        transactionType() {
-            return this.getTransactionTypeCaption(16974); // Address Alias
-        },
-
-        circleIconsToDisplay() {
-            return [true];
-        },
-
-        isLinkAction() {
-            return this.aliasAction === 'Link';
-        },
-
-        subTitle() {
-            return `. ${this.aliasAction} namespace`
-        }
+    aliasAction: {
+      type: String,
+      required: true
     }
-};
+  },
+
+  data() {
+    return {
+      width: this.transactionGraphicWidth,
+      heigth: this.transactionGraphicHeight
+    }
+  },
+
+  computed: {
+    transactionType() {
+      return this.getTransactionTypeCaption(16974) // Address Alias
+    },
+
+    circleIconsToDisplay() {
+      return [true]
+    },
+
+    isLinkAction() {
+      return this.aliasAction === 'Link'
+    },
+
+    subTitle() {
+      return `. ${this.aliasAction} namespace`
+    }
+  }
+}
 </script>

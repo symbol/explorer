@@ -82,9 +82,9 @@ export default {
   },
 
   computed: {
-      title() {
-          return this.getTranslation('mosaic') + ': ' + this.nativeMosaicAliasName
-      },
+    title() {
+      return this.getTranslation('mosaic') + ': ' + this.nativeMosaicAliasName
+    },
 
     mosaicId() {
       return this.nativeMosaicId

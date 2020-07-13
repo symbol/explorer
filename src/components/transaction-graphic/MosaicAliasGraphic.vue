@@ -11,19 +11,19 @@
             :viewBox="transactionGraphicViewbox"
             xml:space="preserve"
         >
-            <AccountIcon 
-                :x="subjectPositionX" 
-                :y="subjectPositionY" 
+            <AccountIcon
+                :x="subjectPositionX"
+                :y="subjectPositionY"
                 :width="subjectWidth"
                 :height="subjectHeight"
-                :address="signer" 
+                :address="signer"
             />
-            <MosaicIcon 
-                :x="objectPositionX" 
-                :y="objectPositionY" 
+            <MosaicIcon
+                :x="objectPositionX"
+                :y="objectPositionY"
                 :width="subjectWidth"
                 :height="subjectHeight"
-                :mosaic="mosaic" 
+                :mosaic="mosaic"
             />
             <Arrow :x="arrowPositionX" :y="arrowPositionY" />
             <NamespaceCircle
@@ -47,79 +47,79 @@
 </template>
 
 <script>
-import GraphicComponent from "../graphics/GraphicComponent.vue";
-import AccountIcon from "../graphics/AccountIcon.vue";
-import NamespaceCircle from "../graphics/NamespaceCircle.vue";
-import NamespaceUnlinkCircle from "../graphics/NamespaceUnlinkCircle.vue";
-import MosaicIcon from "../graphics/MosaicIcon.vue"
-import Arrow from "../graphics/Arrow.vue";
+import GraphicComponent from '../graphics/GraphicComponent.vue'
+import AccountIcon from '../graphics/AccountIcon.vue'
+import NamespaceCircle from '../graphics/NamespaceCircle.vue'
+import NamespaceUnlinkCircle from '../graphics/NamespaceUnlinkCircle.vue'
+import MosaicIcon from '../graphics/MosaicIcon.vue'
+import Arrow from '../graphics/Arrow.vue'
 
 export default {
-    extends: GraphicComponent,
+  extends: GraphicComponent,
 
-    components: {
-        AccountIcon,
-        NamespaceCircle,
-        NamespaceUnlinkCircle,
-        Arrow,
-        MosaicIcon
+  components: {
+    AccountIcon,
+    NamespaceCircle,
+    NamespaceUnlinkCircle,
+    Arrow,
+    MosaicIcon
+  },
+
+  props: {
+    message: {
+      type: String,
+      default: ''
     },
-
-    props: {
-        message: {
-            type: String,
-            default: ""
-        },
-        signer: {
-            type: String,
-            required: true,
-            default: ""
-        },
-        namespaceId: {
-            type: String,
-            required: true
-        },
-        aliasAction: {
-            type: String,
-            required: true
-        },
-        mosaicId: {
-            type: String,
-            required: true
-        },
+    signer: {
+      type: String,
+      required: true,
+      default: ''
     },
-
-    data() {
-        return {
-            width: this.transactionGraphicWidth,
-            heigth: this.transactionGraphicHeight
-        }
+    namespaceId: {
+      type: String,
+      required: true
     },
-
-    computed: {
-        transactionType() {
-            return this.getTransactionTypeCaption(17230); // Mosaic alias
-        },
-
-        circleIconsToDisplay() {
-            return [true];
-        },
-
-        isLinkAction() {
-            return this.aliasAction === 'Link';
-        },
-
-        subTitle() {
-            return `. ${this.aliasAction} namespace`
-        },
-
-        mosaic() {
-            return { mosaicId: this.mosaicId }
-        },
-
-        namespace() {
-            return { namespaceId: this.namespaceId, namespaceName: this.namespaceId }
-        }
+    aliasAction: {
+      type: String,
+      required: true
+    },
+    mosaicId: {
+      type: String,
+      required: true
     }
-};
+  },
+
+  data() {
+    return {
+      width: this.transactionGraphicWidth,
+      heigth: this.transactionGraphicHeight
+    }
+  },
+
+  computed: {
+    transactionType() {
+      return this.getTransactionTypeCaption(17230) // Mosaic alias
+    },
+
+    circleIconsToDisplay() {
+      return [true]
+    },
+
+    isLinkAction() {
+      return this.aliasAction === 'Link'
+    },
+
+    subTitle() {
+      return `. ${this.aliasAction} namespace`
+    },
+
+    mosaic() {
+      return { mosaicId: this.mosaicId }
+    },
+
+    namespace() {
+      return { namespaceId: this.namespaceId, namespaceName: this.namespaceId }
+    }
+  }
+}
 </script>

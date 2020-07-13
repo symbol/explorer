@@ -20,15 +20,10 @@
 </template>
 
 <script>
-import NamespaceIcon from '../graphics/NamespaceIcon.vue'
 import GraphicComponent from './GraphicComponent.vue'
 
 export default {
   extends: GraphicComponent,
-
-  components: {
-    NamespaceIcon
-  },
 
   props: {
     data: {

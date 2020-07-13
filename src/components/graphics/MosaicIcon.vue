@@ -77,15 +77,15 @@ export default {
     },
 
     mosaic: {
-        type: Object,
-        default: () => ({
-            mosaicId: '',
-            aliasName: ''
-        })
+      type: Object,
+      default: () => ({
+        mosaicId: '',
+        aliasName: ''
+      })
     },
 
     mosaicId: {
-      type: String,
+      type: String
     },
 
     aliasName: {
@@ -94,16 +94,16 @@ export default {
   },
 
   computed: {
-        title() {
-            return this.getTranslation('mosaic') + ': ' + ((this.aliasName || this.mosaic.aliasName) || (this.mosaicId || this.mosaic.mosaicId)) 
-        },
-        iconColor() {
-            return this.getIconColorFromHex(this.mosaicId || this.mosaic.mosaicId)
-        },
+    title() {
+      return this.getTranslation('mosaic') + ': ' + ((this.aliasName || this.mosaic.aliasName) || (this.mosaicId || this.mosaic.mosaicId))
+    },
+    iconColor() {
+      return this.getIconColorFromHex(this.mosaicId || this.mosaic.mosaicId)
+    },
 
-        truncatedMosaicId() {
-            return this.truncString(this.mosaicId || this.mosaic.mosaicId)
-        }
+    truncatedMosaicId() {
+      return this.truncString(this.mosaicId || this.mosaic.mosaicId)
+    }
   }
 }
 </script>

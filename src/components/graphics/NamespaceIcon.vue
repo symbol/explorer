@@ -69,14 +69,14 @@ export default {
       type: Object,
       required: true,
       default: () => ({
-          namespaceId: '',
-          namespaceName: ''
+        namespaceId: '',
+        namespaceName: ''
       })
     },
 
     'hideCaption': {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false
     }
   },
 
@@ -87,11 +87,11 @@ export default {
   },
 
   computed: {
-      title() {
-          return this.getTranslation('namespace') + ': ' + this.namespace.namespaceName 
-      },
+    title() {
+      return this.getTranslation('namespace') + ': ' + this.namespace.namespaceName
+    },
     iconColor() {
-      return this.getIconColorFromHex(this.namespace.namespaceId);
+      return this.getIconColorFromHex(this.namespace.namespaceId)
     },
 
     // iconFill() {
@@ -99,13 +99,13 @@ export default {
     // },
 
     truncatedNamespaceName() {
-      return this.truncString(this.namespace.namespaceName, 5);
+      return this.truncString(this.namespace.namespaceName, 5)
     },
 
     viewBox() {
-        return this.hideCaption
-            ? '115 0 16 105'
-            : '0 0 261.333 131.313';
+      return this.hideCaption
+        ? '115 0 16 105'
+        : '0 0 261.333 131.313'
     }
   }
 }

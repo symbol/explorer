@@ -98,7 +98,7 @@ export default {
       loading: getters.info.loading,
       error: getters.info.error,
       data: {
-        ... getters.info.data,
+        ...getters.info.data,
         ...getters.transactionDetail,
         mosaics: getters.transferMosaics
       }

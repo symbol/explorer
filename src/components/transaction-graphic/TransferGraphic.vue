@@ -11,19 +11,19 @@
             :viewBox="transactionGraphicViewbox"
             xml:space="preserve"
         >
-            <AccountIcon 
-                :x="subjectPositionX" 
-                :y="subjectPositionY" 
+            <AccountIcon
+                :x="subjectPositionX"
+                :y="subjectPositionY"
                 :width="subjectWidth"
                 :height="subjectHeight"
-                :address="signer" 
+                :address="signer"
             />
-            <AccountIcon 
-                :x="objectPositionX" 
+            <AccountIcon
+                :x="objectPositionX"
                 :y="objectPositionY"
                 :width="subjectWidth"
-                :height="subjectHeight" 
-                :address="recipient" 
+                :height="subjectHeight"
+                :address="recipient"
             />
             <Arrow :x="arrowPositionX" :y="arrowPositionY" />
             <MessageCircle
@@ -55,81 +55,80 @@
 </template>
 
 <script>
-import GraphicComponent from "../graphics/GraphicComponent.vue";
-import AccountIcon from "../graphics/AccountIcon.vue";
-import MessageCircle from "../graphics/MessageCircle.vue";
-import MosaicsCircle from "../graphics/MosaicsCircle.vue";
-import NativeMosaicCircle from "../graphics/NativeMosaicCircle.vue";
-import Arrow from "../graphics/Arrow.vue";
+import GraphicComponent from '../graphics/GraphicComponent.vue'
+import AccountIcon from '../graphics/AccountIcon.vue'
+import MessageCircle from '../graphics/MessageCircle.vue'
+import MosaicsCircle from '../graphics/MosaicsCircle.vue'
+import NativeMosaicCircle from '../graphics/NativeMosaicCircle.vue'
+import Arrow from '../graphics/Arrow.vue'
 
 export default {
-    extends: GraphicComponent,
+  extends: GraphicComponent,
 
-    components: {
-        AccountIcon,
-        MessageCircle,
-        MosaicsCircle,
-        NativeMosaicCircle,
-        Arrow
+  components: {
+    AccountIcon,
+    MessageCircle,
+    MosaicsCircle,
+    NativeMosaicCircle,
+    Arrow
+  },
+
+  props: {
+    message: {
+      type: String,
+      default: ''
     },
-
-    props: {
-        message: {
-            type: String,
-            default: ""
-        },
-        signer: {
-            type: String,
-            required: true,
-            default: ""
-        },
-        recipient: {
-            type: String,
-            required: true,
-            default: ""
-        },
-        mosaics: {
-            type: Array,
-            default: () => []
-        }
+    signer: {
+      type: String,
+      required: true,
+      default: ''
     },
-
-    computed: {
-        transactionType() {
-            return this.getTransactionTypeCaption(16724); // Transfer
-        },
-
-        circleIconsToDisplay() {
-            return [this.hasMessage, this.hasMosaic, this.hasNativeMosaic];
-        },
-
-        hasMessage() {
-            return typeof this.message === "string" && this.message.length > 0;
-        },
-
-        hasNativeMosaic() {
-            return typeof this.nativeMosaic !== "undefined";
-        },
-
-        hasMosaic() {
-            return this.mosaicList.length > 0;
-        },
-
-        nativeMosaic() {
-            return this.mosaics.find(
-                mosaic => mosaic.mosaicId === this.nativeMosaicId
-            );
-        },
-
-        mosaicList() {
-            return this.mosaics.filter(
-                mosaic => mosaic.mosaicId !== this.nativeMosaicId
-            );
-        }
+    recipient: {
+      type: String,
+      required: true,
+      default: ''
+    },
+    mosaics: {
+      type: Array,
+      default: () => []
     }
-};
-</script>
+  },
 
+  computed: {
+    transactionType() {
+      return this.getTransactionTypeCaption(16724) // Transfer
+    },
+
+    circleIconsToDisplay() {
+      return [this.hasMessage, this.hasMosaic, this.hasNativeMosaic]
+    },
+
+    hasMessage() {
+      return typeof this.message === 'string' && this.message.length > 0
+    },
+
+    hasNativeMosaic() {
+      return typeof this.nativeMosaic !== 'undefined'
+    },
+
+    hasMosaic() {
+      return this.mosaicList.length > 0
+    },
+
+    nativeMosaic() {
+      return this.mosaics.find(
+        mosaic => mosaic.mosaicId === this.nativeMosaicId
+      )
+    },
+
+    mosaicList() {
+      return this.mosaics.filter(
+        mosaic => mosaic.mosaicId !== this.nativeMosaicId
+      )
+    }
+  }
+}
+</script>
 
 <style lang="scss" scoped>
 .message {

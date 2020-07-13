@@ -60,10 +60,10 @@ export default {
   },
 
   props: {
-      title: {
-          type: String,
-          default: 'Creation'
-      },
+    title: {
+      type: String,
+      default: 'Creation'
+    },
     data: {
       type: Object,
       default: () => ({})

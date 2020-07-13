@@ -146,9 +146,9 @@ export default {
   },
 
   computed: {
-      title() {
-          return this.getTranslation('address') + ': ' + this.address
-      },
+    title() {
+      return this.getTranslation('address') + ': ' + this.address
+    },
 
     iconColor() {
       return this.getIconColor(this.address)
