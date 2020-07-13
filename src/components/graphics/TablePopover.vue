@@ -22,14 +22,9 @@
 
 <script>
 import GraphicComponent from './GraphicComponent.vue'
-import TableInfoView from '@/components/tables/TableInfoView.vue'
 
 export default {
   extends: GraphicComponent,
-
-  components: {
-      TableInfoView
-  },
 
   props: {
     data: {
