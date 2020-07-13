@@ -30,7 +30,7 @@ describe('Symbol Explorer Transaction detail page for VRF Key Link.', () => {
         })
 
         it('render correct transaction detail titles', () => {
-            const items = ['Type', 'Type', 'Link Action', 'linked Public Key', 'linked Account Address']
+            const items = ['Type', 'Type', 'Link Action', 'linked Public Key']
             cy.renderFieldInTable("transactionDetailTitle", items)
         })
 

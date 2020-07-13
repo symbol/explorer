@@ -6,7 +6,6 @@
     "signer": "account",
     "recipient": "account",
     "owneraddress": "account",
-    "linkedAccountKey": "account",
     "aliasAddress": "account",
     "sourceAddress": "account",
     "targetAddress": "account",

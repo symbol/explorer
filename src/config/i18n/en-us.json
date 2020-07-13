@@ -35,7 +35,6 @@
     "importanceHeight": "Importance height",
     "accountType": "Account type",
     "accountAliasName": "Alias Namespace",
-    "linkedAccountKey": "Linked account key",
     "lastActivity": "Last Activity",
     "accounts": "Accounts",
     "blocks": "Blocks",
@@ -281,5 +280,6 @@
     "nonce": "Nonce",
     "action": "Action",
     "delta": "Delta",
-    "harvestedBlock": "Harvested blocks (all)"
+    "harvestedBlock": "Harvested blocks (all)",
+    "transactionGraphic": "Transaction Graphic"
 }

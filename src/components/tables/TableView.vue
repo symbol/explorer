@@ -37,7 +37,6 @@ export default {
         'accountAliasName',
         'aliasAddress',
         'aliasMosaic',
-        'linkedAccountKey',
         'transaction',
         'harvester',
         'beneficiaryAddress',

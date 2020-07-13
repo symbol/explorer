@@ -33,7 +33,6 @@
     "importance": "Valor",
     "importanceHeight": "Valor height",
     "accountType": "Account type",
-    "linkedAccountKey": "Linked account key",
     "lastActivity": "ultima atividade",
     "accounts": "Accounts",
     "blocks": "Blocos",
@@ -178,5 +177,6 @@
     "nonce": "Nonce",
     "action": "Action",
     "delta": "Delta",
-    "harvestedBlock": "Harvested blocks (all)"
+    "harvestedBlock": "Harvested blocks (all)",
+    "transactionGraphic": "Transaction Graphic"
 }

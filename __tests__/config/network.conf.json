@@ -5,10 +5,10 @@
         "pageSize": 25
     },
     "testAccount": {
-        "address": "TA7NCIUTL3Y3MCVHRAGVV7KPYROWAIIWLFU6ALA"
+        "address": "TDS44G6KUHO7MODUB6E6WVJOK277QY65XCBJX5Y"
     },
     "testMosaic": {
-        "mosaicId": "0BA8E53F4D5E13A6"
+        "mosaicId": "5E62990DCAC5BE8A"
     },
     "testNamespace": {
         "rootNamespace": "symbol",
@@ -18,6 +18,6 @@
         "height": 1
     },
     "testTransactions":{
-        "transferTransactionHash": "B9EDA90361785283A17BEE7E49E43AFE9FE3FCC5CFB3408FB4C4D03AE0EA19A4"
+        "transferTransactionHash": "38E7FF47113FAD41C019EF928168CCBF2707D5B894F8F588AAAE0C5A7AC369F5"
     }
 }

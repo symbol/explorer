@@ -23,6 +23,8 @@ module.exports = {
     }],
     'indent': ['error', 2],
     'no-unused-expressions': 'off',
+    "no-tabs": 0,
+    "no-mixed-spaces-and-tabs": 0
     //'@typescript-eslint/no-unused-expressions': 'error'
   },
 
