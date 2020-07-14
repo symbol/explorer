@@ -4,10 +4,10 @@
 
         <template #body>
             <div class="body">
-                <TransferGraphic v-if="TransactionTypes[data.type] === 'Transfer'" v-bind="data" />
-                <AddressAliasGraphic v-if="data.type === 16974" v-bind="data" />
-                <MosaicAliasGraphic v-if="data.type === 17230" v-bind="data" />
-                <NamespaceRegistrationGraphic v-if="data.type === 16718" v-bind="data" />
+                <TransferGraphic v-if="data.type === TransactionType.TRANSFER" v-bind="data" />
+                <AddressAliasGraphic v-if="data.type === TransactionType.ADDRESS_ALIAS" v-bind="data" />
+                <MosaicAliasGraphic v-if="data.type === TransactionType.MOSAIC_ALIAS" v-bind="data" />
+                <NamespaceRegistrationGraphic v-if="data.type === TransactionType.NAMESPACE_REGISTRATION" v-bind="data" />
             </div>
         </template>
     </Card>
@@ -20,6 +20,7 @@ import TransferGraphic from '@/components/transaction-graphic/TransferGraphic.vu
 import AddressAliasGraphic from '@/components/transaction-graphic/AddressAliasGraphic.vue'
 import MosaicAliasGraphic from '@/components/transaction-graphic/MosaicAliasGraphic.vue'
 import NamespaceRegistrationGraphic from '@/components/transaction-graphic/NamespaceRegistrationGraphic.vue'
+import { TransactionType } from 'symbol-sdk'
 
 export default {
   props: {
@@ -36,16 +37,16 @@ export default {
 
   data() {
     return {
-      TransactionTypes: Constants.TransactionType
+      TransactionType
     }
   },
 
   computed: {
     isWidgetShown() {
-      return this.data.type === 16724 ||
-        this.data.type === 16974 ||
-        this.data.type === 17230 ||
-        this.data.type === 16718
+      return this.data.type === TransactionType.TRANSFER ||
+        this.data.type === TransactionType.ADDRESS_ALIAS ||
+        this.data.type === TransactionType.MOSAIC_ALIAS ||
+        this.data.type === TransactionType.NAMESPACE_REGISTRATION
     },
 
     data() {
