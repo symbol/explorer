@@ -10,9 +10,9 @@
         viewBox="0 0 261.333 131.313"
         xml:space="preserve"
         class="account"
-        @click="click"
+        @click="onAccountClick(address)"
     >
-        <title> {{ address }} </title>
+        <title> {{ title }} </title>
         <rect
             x="25.266"
             y="107.646"
@@ -117,10 +117,10 @@
 </template>
 
 <script>
-import SchemaComponent from './SchemaComponent.vue'
+import GraphicComponent from './GraphicComponent.vue'
 
 export default {
-  extends: SchemaComponent,
+  extends: GraphicComponent,
 
   props: {
     width: {
@@ -139,19 +139,23 @@ export default {
     }
   },
 
+  data() {
+    return {
+      id: this.getId('account-icon')
+    }
+  },
+
   computed: {
+    title() {
+      return this.getTranslation('address') + ': ' + this.address
+    },
+
     iconColor() {
       return this.getIconColor(this.address)
     },
 
     truncatedAddress() {
       return this.truncString(this.address)
-    }
-  },
-
-  methods: {
-    click() {
-      this.$emit('click', this.address)
     }
   }
 }

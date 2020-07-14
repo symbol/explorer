@@ -10,6 +10,7 @@
         viewBox="0 0 116 105"
         xml:space="preserve"
         class="connector"
+        @click="onMosaicClick(mosaicId)"
     >
         <defs>
             <linearGradient id="native-connector-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -22,7 +23,7 @@
             </linearGradient>
         </defs>
         <g>
-            <title> {{ aliasName || mosaicId }} </title>
+            <title> {{ title }} </title>
             <path
                 fill-rule="evenodd"
                 clip-rule="evenodd"
@@ -63,10 +64,10 @@
 </template>
 
 <script>
-import SchemaComponent from './SchemaComponent.vue'
+import GraphicComponent from './GraphicComponent.vue'
 
 export default {
-  extends: SchemaComponent,
+  extends: GraphicComponent,
 
   props: {
     width: {
@@ -81,6 +82,10 @@ export default {
   },
 
   computed: {
+    title() {
+      return this.getTranslation('mosaic') + ': ' + this.nativeMosaicAliasName
+    },
+
     mosaicId() {
       return this.nativeMosaicId
     },

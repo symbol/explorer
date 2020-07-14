@@ -10,6 +10,7 @@
         viewBox="0 0 116 105"
         xml:space="preserve"
         class="connector"
+        @click="onMosaicClick(mosaicId || mosaic.mosaicId)"
     >
         <defs>
             <linearGradient id="connector-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -18,7 +19,7 @@
             </linearGradient>
         </defs>
         <g>
-            <title> {{ aliasName || mosaicId }} </title>
+            <title> {{ title }} </title>
             <path
                 fill-rule="evenodd"
                 clip-rule="evenodd"
@@ -59,10 +60,10 @@
 </template>
 
 <script>
-import SchemaComponent from './SchemaComponent.vue'
+import GraphicComponent from './GraphicComponent.vue'
 
 export default {
-  extends: SchemaComponent,
+  extends: GraphicComponent,
 
   props: {
     width: {
@@ -75,9 +76,16 @@ export default {
       default: 131.313
     },
 
+    mosaic: {
+      type: Object,
+      default: () => ({
+        mosaicId: '',
+        aliasName: ''
+      })
+    },
+
     mosaicId: {
-      type: String,
-      required: true
+      type: String
     },
 
     aliasName: {
@@ -86,18 +94,15 @@ export default {
   },
 
   computed: {
+    title() {
+      return this.getTranslation('mosaic') + ': ' + ((this.aliasName || this.mosaic.aliasName) || (this.mosaicId || this.mosaic.mosaicId))
+    },
     iconColor() {
-      return this.getIconColorFromHex(this.mosaicId)
+      return this.getIconColorFromHex(this.mosaicId || this.mosaic.mosaicId)
     },
 
     truncatedMosaicId() {
-      return this.truncString(this.mosaicId)
-    }
-  },
-
-  methods: {
-    click() {
-      this.$emit('click', this.mosaicId)
+      return this.truncString(this.mosaicId || this.mosaic.mosaicId)
     }
   }
 }
