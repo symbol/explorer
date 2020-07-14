@@ -7,7 +7,9 @@ module.exports = {
 
   extends: [
     'plugin:vue/essential',
-    '@vue/standard'
+    '@vue/standard',
+    "airbnb-base",
+    "plugin:prettier/recommended"
   ],
 
   rules: {
