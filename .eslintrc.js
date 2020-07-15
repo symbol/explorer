@@ -8,8 +8,8 @@ module.exports = {
     extends: [
         'plugin:vue/essential',
         '@vue/standard',
-        // "airbnb-base",
-        // "plugin:prettier/recommended"
+        // 'airbnb-base',
+        // 'plugin:prettier/recommended'
     ],
 
     rules: {
@@ -23,21 +23,21 @@ module.exports = {
             'named': 'never',
             'asyncArrow': 'always'
         }],
-        'indent': ['error', 4],
+        'indent': ['error', 'tab'],
         'no-unused-expressions': 'off',
-        "no-tabs": 0,
-        "no-mixed-spaces-and-tabs": 0,
-        "semi": ["error", "always"],
-        "newline-per-chained-call": ["error"],
-        "brace-style": ["error", "stroustrup"],
-        // "array-bracket-newline": ["error", { "multiline": true, "minItems": 2 }],
-        "newline-after-var": ["error", "always"],
-        "vue/html-indent": ["error", "tab", {
-            "attribute": 1,
-            "baseIndent": 1,
-            "closeBracket": 0,
-            "alignAttributesVertically": false,
-            "ignores": []
+        'no-tabs': 0,
+        'no-mixed-spaces-and-tabs': 0,
+        'semi': ['error', 'always'],
+        'newline-per-chained-call': ['error'],
+        'brace-style': ['error', 'stroustrup'],
+        // 'array-bracket-newline': ['error', { 'multiline': true, 'minItems': 2 }],
+        'newline-after-var': ['error', 'always'],
+        'vue/html-indent': ['error', 'tab', {
+            'attribute': 1,
+            'baseIndent': 1,
+            'closeBracket': 0,
+            'alignAttributesVertically': false,
+            'ignores': []
         }]
         // '@typescript-eslint/no-unused-expressions': 'error'
 
