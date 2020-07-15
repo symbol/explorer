@@ -16,10 +16,10 @@
  *
  */
 
-import { UInt64, QueryParams } from 'symbol-sdk'
-import { ChainService, TransactionService } from '../infrastructure'
-import http from './http'
-import helper from '../helper'
+import { UInt64, QueryParams } from 'symbol-sdk';
+import { ChainService, TransactionService } from '../infrastructure';
+import http from './http';
+import helper from '../helper';
 
 class BlockService {
   /**
@@ -28,9 +28,11 @@ class BlockService {
    * @returns Formatted BlockDTO
    */
   static getBlockByHeight = async (height) => {
-    const blockInfo = await http.createRepositoryFactory.createBlockRepository()
-      .getBlockByHeight(UInt64.fromUint(height)).toPromise()
-    return this.formatBlock(blockInfo)
+      const blockInfo = await http.createRepositoryFactory.createBlockRepository()
+          .getBlockByHeight(UInt64.fromUint(height))
+          .toPromise();
+
+      return this.formatBlock(blockInfo);
   }
 
   /**
@@ -40,11 +42,11 @@ class BlockService {
    * @param id - (Optional) retrive next transactions in pagination
    */
   static getBlockTransactions = async (height, pageSize = 10, id = '') => {
-    const transactions = await http.createRepositoryFactory.createBlockRepository()
-      .getBlockTransactions(UInt64.fromUint(height), new QueryParams({ pageSize, id }))
-      .toPromise()
+      const transactions = await http.createRepositoryFactory.createBlockRepository()
+          .getBlockTransactions(UInt64.fromUint(height), new QueryParams({ pageSize, id }))
+          .toPromise();
 
-    return transactions.map(transaction => TransactionService.formatTransaction(transaction))
+      return transactions.map(transaction => TransactionService.formatTransaction(transaction));
   }
 
   /**
@@ -54,12 +56,13 @@ class BlockService {
    * @returns formatted BlockInfo[]
    */
   static getBlocksByHeightWithLimit = async (height, noOfBlock) => {
-    const blocks = await http.createRepositoryFactory.createBlockRepository()
-      .getBlocksByHeightWithLimit(UInt64.fromUint(height), noOfBlock).toPromise()
+      const blocks = await http.createRepositoryFactory.createBlockRepository()
+          .getBlocksByHeightWithLimit(UInt64.fromUint(height), noOfBlock)
+          .toPromise();
 
-    const formattedBlocks = blocks.map(block => this.formatBlock(block))
+      const formattedBlocks = blocks.map(block => this.formatBlock(block));
 
-    return formattedBlocks
+      return formattedBlocks;
   }
 
   /**
@@ -69,15 +72,15 @@ class BlockService {
    * @returns Block info list
    */
   static getBlockList = async (noOfBlock, blockHeight) => {
-    let height = blockHeight === undefined ? await ChainService.getBlockchainHeight() + 1 : blockHeight
-    const blocks = await this.getBlocksByHeightWithLimit(height - noOfBlock, noOfBlock)
+      let height = blockHeight === undefined ? await ChainService.getBlockchainHeight() + 1 : blockHeight;
+      const blocks = await this.getBlocksByHeightWithLimit(height - noOfBlock, noOfBlock);
 
-    return blocks.map(block => ({
-      ...block,
-      date: helper.convertToUTCDate(block.timestamp),
-      age: helper.convertToUTCDate(block.timestamp),
-      harvester: block.signer
-    }))
+      return blocks.map(block => ({
+          ...block,
+          date: helper.convertToUTCDate(block.timestamp),
+          age: helper.convertToUTCDate(block.timestamp),
+          harvester: block.signer
+      }));
   }
 
   /**
@@ -88,14 +91,14 @@ class BlockService {
    * @returns Custom Transactions dataset
    */
   static getBlockTransactionList = async (height, pageSize, transactionId) => {
-    const blockTransactions = await this.getBlockTransactions(height, pageSize, transactionId)
+      const blockTransactions = await this.getBlockTransactions(height, pageSize, transactionId);
 
-    return blockTransactions.map(blockTransaction => ({
-      ...blockTransaction,
-      transactionId: blockTransaction.id,
-      transactionHash: blockTransaction.hash,
-      transactionDescriptor: blockTransaction.transactionBody.transactionDescriptor
-    }))
+      return blockTransactions.map(blockTransaction => ({
+          ...blockTransaction,
+          transactionId: blockTransaction.id,
+          transactionHash: blockTransaction.hash,
+          transactionDescriptor: blockTransaction.transactionBody.transactionDescriptor
+      }));
   }
 
   /**
@@ -104,13 +107,14 @@ class BlockService {
    * @returns Block info object
    */
   static getBlockInfo = async height => {
-    const block = await this.getBlockByHeight(height)
-    return {
-      ...block,
-      blockHash: block.hash,
-      harvester: block.signer,
-      date: helper.convertToUTCDate(block.timestamp)
-    }
+      const block = await this.getBlockByHeight(height);
+
+      return {
+          ...block,
+          blockHash: block.hash,
+          harvester: block.signer,
+          date: helper.convertToUTCDate(block.timestamp)
+      };
   }
 
   /**
@@ -119,16 +123,16 @@ class BlockService {
    * @returns Object readable BlockDTO object
    */
   static formatBlock = block => ({
-    ...block,
-    height: block.height.compact(),
-    timestampRaw: block.timestamp,
-    timestamp: helper.networkTimestamp(block.timestamp),
-    totalFee: helper.toNetworkCurrency(block.totalFee),
-    difficulty: helper.convertBlockDifficultyToReadable(block.difficulty),
-    feeMultiplier: block.feeMultiplier.toString(),
-    transactions: block.numTransactions,
-    signer: helper.publicKeyToAddress(block.signer.publicKey)
+      ...block,
+      height: block.height.compact(),
+      timestampRaw: block.timestamp,
+      timestamp: helper.networkTimestamp(block.timestamp),
+      totalFee: helper.toNetworkCurrency(block.totalFee),
+      difficulty: helper.convertBlockDifficultyToReadable(block.difficulty),
+      feeMultiplier: block.feeMultiplier.toString(),
+      transactions: block.numTransactions,
+      signer: helper.publicKeyToAddress(block.signer.publicKey)
   })
 }
 
-export default BlockService
+export default BlockService;

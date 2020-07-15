@@ -16,8 +16,8 @@
  *
  */
 
-import http from './http'
-import { Address } from 'symbol-sdk'
+import http from './http';
+import { Address } from 'symbol-sdk';
 
 class MultisigService {
   /**
@@ -26,17 +26,21 @@ class MultisigService {
    * @returns MultisigAccountInfo
    */
   static getMultisigAccount = async address => {
-    let multisigAccountInfo
-    try {
-      multisigAccountInfo = await http.createRepositoryFactory.createMultisigRepository()
-        .getMultisigAccountInfo(Address.createFromRawAddress(address)).toPromise()
-    } catch (e) {
-      // To Catach statusCode 404 if Address is not a multisig account.
-      throw Error('Address is not a multisig account.')
-    }
+      let multisigAccountInfo;
 
-    const formattedMultisigAccount = this.formatMultisigAccountInfo(multisigAccountInfo)
-    return formattedMultisigAccount
+      try {
+          multisigAccountInfo = await http.createRepositoryFactory.createMultisigRepository()
+              .getMultisigAccountInfo(Address.createFromRawAddress(address))
+              .toPromise();
+      }
+      catch (e) {
+      // To Catach statusCode 404 if Address is not a multisig account.
+          throw Error('Address is not a multisig account.');
+      }
+
+      const formattedMultisigAccount = this.formatMultisigAccountInfo(multisigAccountInfo);
+
+      return formattedMultisigAccount;
   }
 
   /**
@@ -45,12 +49,13 @@ class MultisigService {
    * @returns customize MultisigAccountInfo
    */
   static getMultisigAccountInfo = async address => {
-    const multisigAccountInfo = await this.getMultisigAccount(address)
-    return {
-      ...multisigAccountInfo,
-      cosignatories: multisigAccountInfo?.cosignatories?.map(cosigner => cosigner.address),
-      multisigAccounts: multisigAccountInfo?.multisigAccounts?.map(cosigner => cosigner.address)
-    }
+      const multisigAccountInfo = await this.getMultisigAccount(address);
+
+      return {
+          ...multisigAccountInfo,
+          cosignatories: multisigAccountInfo?.cosignatories?.map(cosigner => cosigner.address),
+          multisigAccounts: multisigAccountInfo?.multisigAccounts?.map(cosigner => cosigner.address)
+      };
   }
 
   /**
@@ -59,16 +64,16 @@ class MultisigService {
    * @returns formatted multisigAccountInfo DTO
    */
   static formatMultisigAccountInfo = multisigAccountInfo => ({
-    ...multisigAccountInfo,
-    cosignatories: multisigAccountInfo.cosignatories.map(cosigner => ({
-      address: cosigner.address.plain(),
-      publicKey: cosigner.publicKey
-    })),
-    multisigAccounts: multisigAccountInfo.multisigAccounts.map(cosigner => ({
-      address: cosigner.address.plain(),
-      publicKey: cosigner.publicKey
-    }))
+      ...multisigAccountInfo,
+      cosignatories: multisigAccountInfo.cosignatories.map(cosigner => ({
+          address: cosigner.address.plain(),
+          publicKey: cosigner.publicKey
+      })),
+      multisigAccounts: multisigAccountInfo.multisigAccounts.map(cosigner => ({
+          address: cosigner.address.plain(),
+          publicKey: cosigner.publicKey
+      }))
   })
 }
 
-export default MultisigService
+export default MultisigService;

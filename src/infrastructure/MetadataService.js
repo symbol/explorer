@@ -16,10 +16,10 @@
  *
  */
 
-import http from './http'
-import { Address, QueryParams } from 'symbol-sdk'
-import helper from '../helper'
-import Constants from '../config/constants'
+import http from './http';
+import { Address, QueryParams } from 'symbol-sdk';
+import helper from '../helper';
+import Constants from '../config/constants';
 
 class MetadataService {
   /**
@@ -30,11 +30,11 @@ class MetadataService {
    * @returns Metadata[]
    */
   static getAccountMetadata = async (address, pageSize = 10, id = '') => {
-    const metadatas = await http.createRepositoryFactory.createMetadataRepository()
-      .getAccountMetadata(Address.createFromRawAddress(address), new QueryParams({ pageSize, id }))
-      .toPromise()
+      const metadatas = await http.createRepositoryFactory.createMetadataRepository()
+          .getAccountMetadata(Address.createFromRawAddress(address), new QueryParams({ pageSize, id }))
+          .toPromise();
 
-    return metadatas.map(metadata => this.formatMetadata(metadata))
+      return metadatas.map(metadata => this.formatMetadata(metadata));
   }
 
   /**
@@ -45,11 +45,11 @@ class MetadataService {
    * @returns Metadata[]
    */
   static getMosaicMetadata = async (mosaicId, pageSize = 10, id = '') => {
-    const metadatas = await http.createRepositoryFactory.createMetadataRepository()
-      .getMosaicMetadata(mosaicId, new QueryParams({ pageSize, id }))
-      .toPromise()
+      const metadatas = await http.createRepositoryFactory.createMetadataRepository()
+          .getMosaicMetadata(mosaicId, new QueryParams({ pageSize, id }))
+          .toPromise();
 
-    return metadatas.map(metadata => this.formatMetadata(metadata))
+      return metadatas.map(metadata => this.formatMetadata(metadata));
   }
 
   /**
@@ -60,11 +60,11 @@ class MetadataService {
    * @returns Metadata[]
    */
   static getNamespaceMetadata = async (namespaceId, pageSize = 10, id = '') => {
-    const metadatas = await http.createRepositoryFactory.createMetadataRepository()
-      .getNamespaceMetadata(namespaceId, new QueryParams({ pageSize, id }))
-      .toPromise()
+      const metadatas = await http.createRepositoryFactory.createMetadataRepository()
+          .getNamespaceMetadata(namespaceId, new QueryParams({ pageSize, id }))
+          .toPromise();
 
-    return metadatas.map(metadata => this.formatMetadata(metadata))
+      return metadatas.map(metadata => this.formatMetadata(metadata));
   }
 
   /**
@@ -73,8 +73,8 @@ class MetadataService {
    * @returns readable Metadata object
    */
   static formatMetadata = metadata => ({
-    metadataId: metadata.id,
-    ...this.formatMetadataEntry(metadata.metadataEntry)
+      metadataId: metadata.id,
+      ...this.formatMetadataEntry(metadata.metadataEntry)
   })
 
   /**
@@ -83,13 +83,13 @@ class MetadataService {
    * @returns readable metadataEntry object
    */
   static formatMetadataEntry = metadataEntry => ({
-    ...metadataEntry,
-    scopedMetadataKey: metadataEntry.scopedMetadataKey.toHex(),
-    senderAddress: helper.publicKeyToAddress(metadataEntry.senderPublicKey),
-    targetAddress: helper.publicKeyToAddress(metadataEntry.targetPublicKey),
-    metadataType: Constants.MetadataType[metadataEntry.metadataType],
-    targetId: metadataEntry.targetId ? metadataEntry.targetId.toHex() : Constants.Message.UNAVAILABLE,
-    metadataValue: metadataEntry.value
+      ...metadataEntry,
+      scopedMetadataKey: metadataEntry.scopedMetadataKey.toHex(),
+      senderAddress: helper.publicKeyToAddress(metadataEntry.senderPublicKey),
+      targetAddress: helper.publicKeyToAddress(metadataEntry.targetPublicKey),
+      metadataType: Constants.MetadataType[metadataEntry.metadataType],
+      targetId: metadataEntry.targetId ? metadataEntry.targetId.toHex() : Constants.Message.UNAVAILABLE,
+      metadataValue: metadataEntry.value
   })
 
   /**
@@ -98,8 +98,9 @@ class MetadataService {
    * @returns Account Metadata list
    */
   static getAccountMetadataList = async (rawAddress, pageSize, id) => {
-    const accountMetadatas = await this.getAccountMetadata(rawAddress, pageSize, id)
-    return accountMetadatas
+      const accountMetadatas = await this.getAccountMetadata(rawAddress, pageSize, id);
+
+      return accountMetadatas;
   }
 
   /**
@@ -108,9 +109,10 @@ class MetadataService {
    * @returns Mosaic Metadata list
    */
   static getMosaicMetadataList = async (hexOrNamespace, pageSize, id) => {
-    const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic')
-    const mosaicMetadata = await this.getMosaicMetadata(mosaicId, pageSize, id)
-    return mosaicMetadata
+      const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic');
+      const mosaicMetadata = await this.getMosaicMetadata(mosaicId, pageSize, id);
+
+      return mosaicMetadata;
   }
 
   /**
@@ -119,10 +121,11 @@ class MetadataService {
    * @returns Namespace Metadata list
    */
   static getNamespaceMetadataList = async (hexOrNamespace, pageSize, id) => {
-    const namespaceId = await helper.hexOrNamespaceToId(hexOrNamespace, 'namespace')
-    const namespaceMetadata = await this.getNamespaceMetadata(namespaceId, pageSize, id)
-    return namespaceMetadata
+      const namespaceId = await helper.hexOrNamespaceToId(hexOrNamespace, 'namespace');
+      const namespaceMetadata = await this.getNamespaceMetadata(namespaceId, pageSize, id);
+
+      return namespaceMetadata;
   }
 }
 
-export default MetadataService
+export default MetadataService;

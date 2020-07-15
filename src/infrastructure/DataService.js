@@ -16,9 +16,9 @@
  *
  */
 
-import axios from 'axios'
-import http from './http'
-import dto from './dto'
+import axios from 'axios';
+import http from './http';
+import dto from './dto';
 
 class DataService {
   /**
@@ -27,18 +27,19 @@ class DataService {
    * @returns Object of data
    */
   static getMarketPrice = (cryptocurrency) => {
-    return new Promise((resolve, reject) => {
-      let url = http.marketDataUrl + `data/pricemultifull?fsyms=${cryptocurrency}&tsyms=USD`
-      axios
-        .get(url)
-        .then(res => {
-          return resolve(res.data.DISPLAY)
-        })
-        .catch(error => {
-          // reject(new Error('Fail to request XEM price.'))
-          reject(new Error(error))
-        })
-    })
+      return new Promise((resolve, reject) => {
+          let url = http.marketDataUrl + `data/pricemultifull?fsyms=${cryptocurrency}&tsyms=USD`;
+
+          axios
+              .get(url)
+              .then(res => {
+                  return resolve(res.data.DISPLAY);
+              })
+              .catch(error => {
+                  // reject(new Error('Fail to request XEM price.'))
+                  reject(new Error(error));
+              });
+      });
   }
 
   /**
@@ -47,18 +48,19 @@ class DataService {
    * @returns Array of Data
    */
   static getHistoricalHourlyGraph = (cryptocurrency) => {
-    return new Promise((resolve, reject) => {
-      let url = http.marketDataUrl + `data/histohour?fsym=${cryptocurrency}&tsym=USD&limit=168`
-      axios
-        .get(url)
-        .then(res => {
-          return resolve(res.data)
-        })
-        .catch(error => {
-          // reject(new Error('Fail to request Xem historical hourly graph.'))
-          reject(new Error(error))
-        })
-    })
+      return new Promise((resolve, reject) => {
+          let url = http.marketDataUrl + `data/histohour?fsym=${cryptocurrency}&tsym=USD&limit=168`;
+
+          axios
+              .get(url)
+              .then(res => {
+                  return resolve(res.data);
+              })
+              .catch(error => {
+                  // reject(new Error('Fail to request Xem historical hourly graph.'))
+                  reject(new Error(error));
+              });
+      });
   }
 
   /**
@@ -68,18 +70,19 @@ class DataService {
    * @returns mosaicInfo[]
    */
   static getMosaicsByIdWithLimit = async (limit, fromMosaicId) => {
-    let mosaicId
-    if (fromMosaicId === undefined)
-      mosaicId = 'latest'
-    else
-      mosaicId = fromMosaicId
+      let mosaicId;
 
-    // Make request.
-    const path = `/mosaics/from/${mosaicId}/limit/${limit}`
-    const response = await axios.get(http.nodeUrl + path)
-    const mosaics = response.data.map(info => dto.createMosaicInfoFromDTO(info, http.networkType))
+      if (fromMosaicId === undefined)
+          mosaicId = 'latest';
+      else
+          mosaicId = fromMosaicId;
 
-    return mosaics
+      // Make request.
+      const path = `/mosaics/from/${mosaicId}/limit/${limit}`;
+      const response = await axios.get(http.nodeUrl + path);
+      const mosaics = response.data.map(info => dto.createMosaicInfoFromDTO(info, http.networkType));
+
+      return mosaics;
   }
 
   /**
@@ -89,18 +92,19 @@ class DataService {
    * @returns namespaceInfo[]
    */
   static getNamespacesFromIdWithLimit = async (limit, fromNamespaceId) => {
-    let namespaceId
-    if (fromNamespaceId === undefined)
-      namespaceId = 'latest'
-    else
-      namespaceId = fromNamespaceId
+      let namespaceId;
 
-    // Make request.
-    const path = `/namespaces/from/${namespaceId}/limit/${limit}`
-    const response = await axios.get(http.nodeUrl + path)
-    const namespaceInfo = response.data.map(info => dto.createNamespaceInfoFromDTO(info, http.networkType))
+      if (fromNamespaceId === undefined)
+          namespaceId = 'latest';
+      else
+          namespaceId = fromNamespaceId;
 
-    return namespaceInfo
+      // Make request.
+      const path = `/namespaces/from/${namespaceId}/limit/${limit}`;
+      const response = await axios.get(http.nodeUrl + path);
+      const namespaceInfo = response.data.map(info => dto.createNamespaceInfoFromDTO(info, http.networkType));
+
+      return namespaceInfo;
   }
 
   /**
@@ -111,36 +115,40 @@ class DataService {
    * @returns tranctionDTO[]
    */
   static getTransactionsFromHashWithLimit = async (limit, transactionType, fromHash) => {
-    let hash
-    if (fromHash === undefined)
-      hash = 'latest'
-    else
-      hash = fromHash
+      let hash;
 
-    // Get the path to the URL dependent on the config
-    let path
-    if (transactionType === undefined)
-      path = `/transactions/from/${hash}/limit/${limit}`
-    else if (transactionType === 'unconfirmed')
-      path = `/transactions/unconfirmed/from/${hash}/limit/${limit}`
-    else if (transactionType === 'partial')
-      path = `/transactions/partial/from/${hash}/limit/${limit}`
-    else {
-      const array = transactionType.split('/')
-      if (array.length === 1) {
-        // No filter present
-        path = `/transactions/from/${hash}/type/${transactionType}/limit/${limit}`
-      } else {
-        // We have a filter.
-        path = `/transactions/from/${hash}/type/${array[0]}/filter/${array[1]}/limit/${limit}`
+      if (fromHash === undefined)
+          hash = 'latest';
+      else
+          hash = fromHash;
+
+      // Get the path to the URL dependent on the config
+      let path;
+
+      if (transactionType === undefined)
+          path = `/transactions/from/${hash}/limit/${limit}`;
+      else if (transactionType === 'unconfirmed')
+          path = `/transactions/unconfirmed/from/${hash}/limit/${limit}`;
+      else if (transactionType === 'partial')
+          path = `/transactions/partial/from/${hash}/limit/${limit}`;
+      else {
+          const array = transactionType.split('/');
+
+          if (array.length === 1) {
+              // No filter present
+              path = `/transactions/from/${hash}/type/${transactionType}/limit/${limit}`;
+          }
+          else {
+              // We have a filter.
+              path = `/transactions/from/${hash}/type/${array[0]}/filter/${array[1]}/limit/${limit}`;
+          }
       }
-    }
 
-    // Make request.
-    const response = await axios.get(http.nodeUrl + path)
-    const transactions = response.data.map(info => dto.createTransactionFromDTO(info, http.networkType))
+      // Make request.
+      const response = await axios.get(http.nodeUrl + path);
+      const transactions = response.data.map(info => dto.createTransactionFromDTO(info, http.networkType));
 
-    return transactions
+      return transactions;
   }
 
   /**
@@ -151,19 +159,20 @@ class DataService {
    * @returns accountInfo[]
    */
   static getAccountsFromAddressWithLimit = async (limit, accountType, fromAddress) => {
-    let address
-    if (fromAddress === undefined)
-      address = 'most'
-    else
-      address = fromAddress
+      let address;
 
-    // Make request.
-    const path = `/accounts/${accountType}/from/${address}/limit/${limit}`
-    const response = await axios.get(http.nodeUrl + path)
-    const accounts = response.data.map(info => dto.createAccountInfoFromDTO(info, http.networkType))
+      if (fromAddress === undefined)
+          address = 'most';
+      else
+          address = fromAddress;
 
-    return accounts
+      // Make request.
+      const path = `/accounts/${accountType}/from/${address}/limit/${limit}`;
+      const response = await axios.get(http.nodeUrl + path);
+      const accounts = response.data.map(info => dto.createAccountInfoFromDTO(info, http.networkType));
+
+      return accounts;
   }
 }
 
-export default DataService
+export default DataService;

@@ -16,7 +16,7 @@
  *
  */
 
-import { BlockService, ChainService } from './index'
+import { BlockService, ChainService } from './index';
 
 class StatisticService {
   /**
@@ -27,59 +27,69 @@ class StatisticService {
    * @returns block time difference dataset.
    */
   static getBlockTimeDifferenceData = async (limit, grouping) => {
-    const latestHeight = await ChainService.getBlockchainHeight()
-    let fromBlock = latestHeight - limit
-    let blockList = []
+      const latestHeight = await ChainService.getBlockchainHeight();
 
-    while (blockList.length < limit) {
-      let startFromBlock = fromBlock + blockList.length
-      let numberOfBlock = limit - blockList.length
-      let blocks = await BlockService.getBlocksByHeightWithLimit(startFromBlock, numberOfBlock)
-      blockList.unshift(...blocks)
-    }
+      let fromBlock = latestHeight - limit;
 
-    const heights = blockList.map(data => Number(data.height))
-    let timestamps = blockList.map(data => data.timestampRaw)
+      let blockList = [];
 
-    for (let i = 0; i < timestamps.length - 1; ++i)
-      timestamps[i] -= timestamps[i + 1]
+      while (blockList.length < limit) {
+          let startFromBlock = fromBlock + blockList.length;
 
-    let averages = []
-    let sum = 0
-    for (let i = 0; i < grouping; ++i)
-      sum += timestamps[i]
+          let numberOfBlock = limit - blockList.length;
 
-    for (let i = grouping; i < timestamps.length; ++i) {
-      averages.push(sum / grouping)
-      sum -= timestamps[i - grouping]
-      sum += timestamps[i]
-    }
-    averages.push(0)
+          let blocks = await BlockService.getBlocksByHeightWithLimit(startFromBlock, numberOfBlock);
 
-    let timeDifferenceDataset = []
-    let averagesDataset = []
-    for (let i = 0; i < timestamps.length - 1; ++i) {
-      timeDifferenceDataset.push([heights[i], timestamps[i] / 1000])
-      averagesDataset.push([heights[i], (averages[i] / 1000).toFixed(3)])
-    }
-
-    let dataset = [
-      {
-        name: 'Time Difference (in seconds)',
-        data: timeDifferenceDataset
-      },
-      {
-        name: `Average Time Difference (per ${grouping} blocks)`,
-        data: averagesDataset
+          blockList.unshift(...blocks);
       }
-    ]
 
-    return {
-      limit: limit,
-      grouping: grouping,
-      name: `Block time differences in last ${limit} blocks`,
-      data: dataset
-    }
+      const heights = blockList.map(data => Number(data.height));
+
+      let timestamps = blockList.map(data => data.timestampRaw);
+
+      for (let i = 0; i < timestamps.length - 1; ++i)
+          timestamps[i] -= timestamps[i + 1];
+
+      let averages = [];
+
+      let sum = 0;
+
+      for (let i = 0; i < grouping; ++i)
+          sum += timestamps[i];
+
+      for (let i = grouping; i < timestamps.length; ++i) {
+          averages.push(sum / grouping);
+          sum -= timestamps[i - grouping];
+          sum += timestamps[i];
+      }
+      averages.push(0);
+
+      let timeDifferenceDataset = [];
+
+      let averagesDataset = [];
+
+      for (let i = 0; i < timestamps.length - 1; ++i) {
+          timeDifferenceDataset.push([heights[i], timestamps[i] / 1000]);
+          averagesDataset.push([heights[i], (averages[i] / 1000).toFixed(3)]);
+      }
+
+      let dataset = [
+          {
+              name: 'Time Difference (in seconds)',
+              data: timeDifferenceDataset
+          },
+          {
+              name: `Average Time Difference (per ${grouping} blocks)`,
+              data: averagesDataset
+          }
+      ];
+
+      return {
+          limit: limit,
+          grouping: grouping,
+          name: `Block time differences in last ${limit} blocks`,
+          data: dataset
+      };
   }
 
   /**
@@ -90,57 +100,67 @@ class StatisticService {
    * @returns transaction data per block dataset.
    */
   static getTransactionPerBlockData = async (limit, grouping) => {
-    const latestHeight = await ChainService.getBlockchainHeight()
-    let fromBlock = latestHeight - limit
-    let blockList = []
+      const latestHeight = await ChainService.getBlockchainHeight();
 
-    while (blockList.length < limit) {
-      let startFromBlock = fromBlock + blockList.length
-      let numberOfBlock = limit - blockList.length
-      let blocks = await BlockService.getBlocksByHeightWithLimit(startFromBlock, numberOfBlock)
-      blockList.unshift(...blocks)
-    }
+      let fromBlock = latestHeight - limit;
 
-    const heights = blockList.map(data => Number(data.height))
-    let numTransactions = blockList.map(data => data.transactions)
+      let blockList = [];
 
-    let averages = []
-    let sum = 0
-    for (let i = 0; i < grouping; ++i)
-      sum += numTransactions[i]
+      while (blockList.length < limit) {
+          let startFromBlock = fromBlock + blockList.length;
 
-    for (let i = grouping; i < numTransactions.length; ++i) {
-      averages.push(sum / grouping)
-      sum -= numTransactions[i - grouping]
-      sum += numTransactions[i]
-    }
-    averages.push(0)
+          let numberOfBlock = limit - blockList.length;
 
-    let numTransactionsPerBlockDataset = []
-    let averagesDataset = []
-    for (let i = 0; i < numTransactions.length - 1; ++i) {
-      numTransactionsPerBlockDataset.push([heights[i], numTransactions[i]])
-      averagesDataset.push([heights[i], Math.floor(averages[i])])
-    }
+          let blocks = await BlockService.getBlocksByHeightWithLimit(startFromBlock, numberOfBlock);
 
-    let dataset = [
-      {
-        name: 'Number of transactions',
-        data: numTransactionsPerBlockDataset
-      },
-      {
-        name: `Average number of transaction (per ${grouping} blocks)`,
-        data: averagesDataset
+          blockList.unshift(...blocks);
       }
-    ]
 
-    return {
-      limit: limit,
-      grouping: grouping,
-      name: `Transaction per block in last ${limit} blocks`,
-      data: dataset
-    }
+      const heights = blockList.map(data => Number(data.height));
+
+      let numTransactions = blockList.map(data => data.transactions);
+
+      let averages = [];
+
+      let sum = 0;
+
+      for (let i = 0; i < grouping; ++i)
+          sum += numTransactions[i];
+
+      for (let i = grouping; i < numTransactions.length; ++i) {
+          averages.push(sum / grouping);
+          sum -= numTransactions[i - grouping];
+          sum += numTransactions[i];
+      }
+      averages.push(0);
+
+      let numTransactionsPerBlockDataset = [];
+
+      let averagesDataset = [];
+
+      for (let i = 0; i < numTransactions.length - 1; ++i) {
+          numTransactionsPerBlockDataset.push([heights[i], numTransactions[i]]);
+          averagesDataset.push([heights[i], Math.floor(averages[i])]);
+      }
+
+      let dataset = [
+          {
+              name: 'Number of transactions',
+              data: numTransactionsPerBlockDataset
+          },
+          {
+              name: `Average number of transaction (per ${grouping} blocks)`,
+              data: averagesDataset
+          }
+      ];
+
+      return {
+          limit: limit,
+          grouping: grouping,
+          name: `Transaction per block in last ${limit} blocks`,
+          data: dataset
+      };
   }
 }
 
-export default StatisticService
+export default StatisticService;
