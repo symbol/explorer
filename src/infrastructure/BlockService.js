@@ -16,12 +16,12 @@
  *
  */
 
-import { UInt64, TransactionGroup, Order, BlockOrderBy } from 'symbol-sdk'
-import { TransactionService } from '../infrastructure'
-import http from './http'
-import helper from '../helper'
-import { Constants } from '../config'
-import { take, toArray } from 'rxjs/operators'
+import { UInt64, TransactionGroup, Order, BlockOrderBy } from 'symbol-sdk';
+import { TransactionService } from '../infrastructure';
+import http from './http';
+import helper from '../helper';
+import { Constants } from '../config';
+import { take, toArray } from 'rxjs/operators';
 
 class BlockService {
   /**
@@ -30,9 +30,11 @@ class BlockService {
    * @returns Formatted BlockDTO
    */
   static getBlockByHeight = async (height) => {
-    const blockInfo = await http.createRepositoryFactory.createBlockRepository()
-      .getBlockByHeight(UInt64.fromUint(height)).toPromise()
-    return this.formatBlock(blockInfo)
+      const blockInfo = await http.createRepositoryFactory.createBlockRepository()
+          .getBlockByHeight(UInt64.fromUint(height))
+          .toPromise();
+
+      return this.formatBlock(blockInfo);
   }
 
   /**
@@ -41,13 +43,14 @@ class BlockService {
    * @returns formatted block data with pagination info
    */
   static searchBlocks = async (blockSearchCriteria) => {
-    const searchblocks = await http.createRepositoryFactory.createBlockRepository()
-      .search(blockSearchCriteria).toPromise()
+      const searchblocks = await http.createRepositoryFactory.createBlockRepository()
+          .search(blockSearchCriteria)
+          .toPromise();
 
-    return {
-      ...searchblocks,
-      data: searchblocks.data.map(block => this.formatBlock(block))
-    }
+      return {
+          ...searchblocks,
+          data: searchblocks.data.map(block => this.formatBlock(block))
+      };
   }
 
   /**
@@ -57,10 +60,11 @@ class BlockService {
    * @returns formatted BlockInfo[]
    */
   static streamerBlocks = async (searchCriteria, noOfBlock) => {
-    const streamerBlocks = await http.blockPaginationStreamer
-      .search(searchCriteria).pipe(take(noOfBlock), toArray()).toPromise()
+      const streamerBlocks = await http.blockPaginationStreamer
+          .search(searchCriteria).pipe(take(noOfBlock), toArray())
+          .toPromise();
 
-    return streamerBlocks.map(block => this.formatBlock(block))
+      return streamerBlocks.map(block => this.formatBlock(block));
   }
 
   /**
@@ -69,25 +73,25 @@ class BlockService {
    * @returns Block info list
    */
   static getBlockList = async (pageInfo) => {
-    const { pageNumber, pageSize } = pageInfo
-    const blockSearchCriteria = {
-      pageNumber,
-      pageSize,
-      order: Order.Desc,
-      orderBy: BlockOrderBy.Height
-    }
+      const { pageNumber, pageSize } = pageInfo;
+      const blockSearchCriteria = {
+          pageNumber,
+          pageSize,
+          order: Order.Desc,
+          orderBy: BlockOrderBy.Height
+      };
 
-    const blocks = await this.searchBlocks(blockSearchCriteria)
+      const blocks = await this.searchBlocks(blockSearchCriteria);
 
-    return {
-      ...blocks,
-      data: blocks.data.map(block => ({
-        ...block,
-        date: helper.convertToUTCDate(block.timestamp),
-        age: helper.convertToUTCDate(block.timestamp),
-        harvester: block.signer
-      }))
-    }
+      return {
+          ...blocks,
+          data: blocks.data.map(block => ({
+              ...block,
+              date: helper.convertToUTCDate(block.timestamp),
+              age: helper.convertToUTCDate(block.timestamp),
+              harvester: block.signer
+          }))
+      };
   }
 
   /**
@@ -98,28 +102,28 @@ class BlockService {
    * @returns Custom Transactions dataset
    */
   static getBlockTransactionList = async (pageInfo, filterVaule, height) => {
-    const { pageNumber, pageSize } = pageInfo
-    const searchCriteria = {
-      pageNumber,
-      pageSize,
-      order: Order.Desc,
-      type: [],
-      group: TransactionGroup.Confirmed,
-      height: UInt64.fromUint(height),
-      ...filterVaule
-    }
+      const { pageNumber, pageSize } = pageInfo;
+      const searchCriteria = {
+          pageNumber,
+          pageSize,
+          order: Order.Desc,
+          type: [],
+          group: TransactionGroup.Confirmed,
+          height: UInt64.fromUint(height),
+          ...filterVaule
+      };
 
-    const blockTransactions = await TransactionService.searchTransactions(searchCriteria)
+      const blockTransactions = await TransactionService.searchTransactions(searchCriteria);
 
-    return {
-      ...blockTransactions,
-      data: blockTransactions.data.map(blockTransaction => ({
-        ...blockTransaction,
-        transactionId: blockTransaction.id,
-        transactionHash: blockTransaction.hash,
-        transactionDescriptor: blockTransaction.transactionBody.transactionDescriptor
-      }))
-    }
+      return {
+          ...blockTransactions,
+          data: blockTransactions.data.map(blockTransaction => ({
+              ...blockTransaction,
+              transactionId: blockTransaction.id,
+              transactionHash: blockTransaction.hash,
+              transactionDescriptor: blockTransaction.transactionBody.transactionDescriptor
+          }))
+      };
   }
 
   /**
@@ -128,13 +132,14 @@ class BlockService {
    * @returns Block info object
    */
   static getBlockInfo = async height => {
-    const block = await this.getBlockByHeight(height)
-    return {
-      ...block,
-      blockHash: block.hash,
-      harvester: block.signer,
-      date: helper.convertToUTCDate(block.timestamp)
-    }
+      const block = await this.getBlockByHeight(height);
+
+      return {
+          ...block,
+          blockHash: block.hash,
+          harvester: block.signer,
+          date: helper.convertToUTCDate(block.timestamp)
+      };
   }
 
   /**
@@ -143,17 +148,17 @@ class BlockService {
    * @returns Object readable BlockDTO object
    */
   static formatBlock = block => ({
-    ...block,
-    height: block.height.compact(),
-    timestampRaw: block.timestamp,
-    timestamp: helper.networkTimestamp(block.timestamp),
-    totalFee: helper.toNetworkCurrency(block.totalFee),
-    difficulty: helper.convertBlockDifficultyToReadable(block.difficulty),
-    feeMultiplier: block.feeMultiplier.toString(),
-    transactions: block.numTransactions,
-    signer: helper.publicKeyToAddress(block.signer.publicKey),
-    beneficiaryAddress: block?.beneficiaryAddress.plain() || Constants.Message.UNAVAILABLE
+      ...block,
+      height: block.height.compact(),
+      timestampRaw: block.timestamp,
+      timestamp: helper.networkTimestamp(block.timestamp),
+      totalFee: helper.toNetworkCurrency(block.totalFee),
+      difficulty: helper.convertBlockDifficultyToReadable(block.difficulty),
+      feeMultiplier: block.feeMultiplier.toString(),
+      transactions: block.numTransactions,
+      signer: helper.publicKeyToAddress(block.signer.publicKey),
+      beneficiaryAddress: block?.beneficiaryAddress.plain() || Constants.Message.UNAVAILABLE
   })
 }
 
-export default BlockService
+export default BlockService;

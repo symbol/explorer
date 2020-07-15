@@ -16,9 +16,9 @@
  *
  */
 
-import axios from 'axios'
-import http from './http'
-import dto from './dto'
+import axios from 'axios';
+import http from './http';
+import dto from './dto';
 
 class DataService {
   /**
@@ -27,18 +27,19 @@ class DataService {
    * @returns Object of data
    */
   static getMarketPrice = (cryptocurrency) => {
-    return new Promise((resolve, reject) => {
-      let url = http.marketDataUrl + `data/pricemultifull?fsyms=${cryptocurrency}&tsyms=USD`
-      axios
-        .get(url)
-        .then(res => {
-          return resolve(res.data.DISPLAY)
-        })
-        .catch(error => {
-          // reject(new Error('Fail to request XEM price.'))
-          reject(new Error(error))
-        })
-    })
+      return new Promise((resolve, reject) => {
+          let url = http.marketDataUrl + `data/pricemultifull?fsyms=${cryptocurrency}&tsyms=USD`;
+
+          axios
+              .get(url)
+              .then(res => {
+                  return resolve(res.data.DISPLAY);
+              })
+              .catch(error => {
+                  // reject(new Error('Fail to request XEM price.'))
+                  reject(new Error(error));
+              });
+      });
   }
 
   /**
@@ -47,18 +48,19 @@ class DataService {
    * @returns Array of Data
    */
   static getHistoricalHourlyGraph = (cryptocurrency) => {
-    return new Promise((resolve, reject) => {
-      let url = http.marketDataUrl + `data/histohour?fsym=${cryptocurrency}&tsym=USD&limit=168`
-      axios
-        .get(url)
-        .then(res => {
-          return resolve(res.data)
-        })
-        .catch(error => {
-          // reject(new Error('Fail to request Xem historical hourly graph.'))
-          reject(new Error(error))
-        })
-    })
+      return new Promise((resolve, reject) => {
+          let url = http.marketDataUrl + `data/histohour?fsym=${cryptocurrency}&tsym=USD&limit=168`;
+
+          axios
+              .get(url)
+              .then(res => {
+                  return resolve(res.data);
+              })
+              .catch(error => {
+                  // reject(new Error('Fail to request Xem historical hourly graph.'))
+                  reject(new Error(error));
+              });
+      });
   }
 
   /**
@@ -68,18 +70,19 @@ class DataService {
    * @returns namespaceInfo[]
    */
   static getNamespacesFromIdWithLimit = async (limit, fromNamespaceId) => {
-    let namespaceId
-    if (fromNamespaceId === undefined)
-      namespaceId = 'latest'
-    else
-      namespaceId = fromNamespaceId
+      let namespaceId;
 
-    // Make request.
-    const path = `/namespaces/from/${namespaceId}/limit/${limit}`
-    const response = await axios.get(http.nodeUrl + path)
-    const namespaceInfo = response.data.map(info => dto.createNamespaceInfoFromDTO(info, http.networkType))
+      if (fromNamespaceId === undefined)
+          namespaceId = 'latest';
+      else
+          namespaceId = fromNamespaceId;
 
-    return namespaceInfo
+      // Make request.
+      const path = `/namespaces/from/${namespaceId}/limit/${limit}`;
+      const response = await axios.get(http.nodeUrl + path);
+      const namespaceInfo = response.data.map(info => dto.createNamespaceInfoFromDTO(info, http.networkType));
+
+      return namespaceInfo;
   }
 
   /**
@@ -90,19 +93,20 @@ class DataService {
    * @returns accountInfo[]
    */
   static getAccountsFromAddressWithLimit = async (limit, accountType, fromAddress) => {
-    let address
-    if (fromAddress === undefined)
-      address = 'most'
-    else
-      address = fromAddress
+      let address;
 
-    // Make request.
-    const path = `/accounts/${accountType}/from/${address}/limit/${limit}`
-    const response = await axios.get(http.nodeUrl + path)
-    const accounts = response.data.map(info => dto.createAccountInfoFromDTO(info, http.networkType))
+      if (fromAddress === undefined)
+          address = 'most';
+      else
+          address = fromAddress;
 
-    return accounts
+      // Make request.
+      const path = `/accounts/${accountType}/from/${address}/limit/${limit}`;
+      const response = await axios.get(http.nodeUrl + path);
+      const accounts = response.data.map(info => dto.createAccountInfoFromDTO(info, http.networkType));
+
+      return accounts;
   }
 }
 
-export default DataService
+export default DataService;
