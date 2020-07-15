@@ -58,8 +58,8 @@ export default class http {
     const blockPerday = (60 / convertedBlockGenerationTargetTime) * 60 * 24
 
     return {
-      MosaicRentalSinkPublicKey: this.networkProperties.plugins.mosaic.mosaicRentalFeeSinkPublicKey,
-      NamespaceRentalSinkPublicKey: this.networkProperties.plugins.namespace.namespaceRentalFeeSinkPublicKey,
+      MosaicRentalSinkAddress: this.networkProperties.plugins.mosaic.mosaicRentalFeeSinkAddress,
+      NamespaceRentalFeeSinkAddress: this.networkProperties.plugins.namespace.namespaceRentalFeeSinkAddress,
       NetworkType: this.networkType,
       NemsisTimestamp: symbol.Deadline.timestampNemesisBlock,
       TargetBlockTime: convertedBlockGenerationTargetTime,
@@ -85,7 +85,10 @@ export default class http {
   }
 
   static get createRepositoryFactory() {
-    return new symbol.RepositoryFactoryHttp(this.nodeUrl, this.networkType, this.generationHash)
+    return new symbol.RepositoryFactoryHttp(this.nodeUrl, {
+      networkType: this.networkType,
+      generationHash: this.generationHash
+    })
   }
 
   static get mosaicService() {
@@ -97,5 +100,9 @@ export default class http {
   static get namespaceService() {
     const namespaceRepository = this.createRepositoryFactory.createNamespaceRepository()
     return new symbol.NamespaceService(namespaceRepository)
+  }
+
+  static get blockPaginationStreamer() {
+    return new symbol.BlockPaginationStreamer(this.createRepositoryFactory.createBlockRepository())
   }
 }

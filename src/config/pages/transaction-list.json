@@ -22,6 +22,7 @@
                     "deadline",
                     "transactionHash",
                     "transactionDescriptor",
+                    "maxFee",
                     "signer",
                     "recipient"
                 ],

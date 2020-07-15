@@ -16,10 +16,10 @@
  *
  */
 
-import { Address, QueryParams, TransactionType } from 'symbol-sdk'
+import { Address, TransactionType, TransactionGroup, Order, BlockOrderBy } from 'symbol-sdk'
 import http from './http'
 import { Constants } from '../config'
-import { DataService, NamespaceService, TransactionService } from '../infrastructure'
+import { DataService, NamespaceService, TransactionService, BlockService } from '../infrastructure'
 import helper from '../helper'
 
 class AccountService {
@@ -49,36 +49,6 @@ class AccountService {
       .toPromise()
 
     return accounts.map(a => this.formatAccountInfo(a))
-  }
-
-  /**
-   * Gets an array of confirmed transactions for which an account is signer or receiver.
-   * @param address - Account address
-   * @param pageSize - (default 10) no. of data
-   * @param id - (Optional) retrive next account transaction in pagination
-   * @returns Formatted Transaction[]
-   */
-  static getAccountTransactions = async (address, pageSize = 10, id = '') => {
-    const transactions = await http.createRepositoryFactory.createAccountRepository()
-      .getAccountTransactions(Address.createFromRawAddress(address), new QueryParams({ pageSize, id }))
-      .toPromise()
-
-    return transactions.map(transaction => TransactionService.formatTransaction(transaction))
-  }
-
-  /**
-   * Gets an array of transactions for which an account is the sender or has sign the transaction. A transaction is said to be aggregate bonded with respect to an account if there are missing signatures.
-   * @param address - Account address
-   * @param pageSize - (default 10) no. of data
-   * @param id - (Optional) retrive next account partial transaction in pagination
-   * @returns AggregateTransaction[]
-   */
-  static getAccountPartialTransactions = async (address, pageSize = 10, id = '') => {
-    const partialTransactions = await http.createRepositoryFactory.createAccountRepository()
-      .getAccountPartialTransactions(Address.createFromRawAddress(address), new QueryParams({ pageSize, id }))
-      .toPromise()
-
-    return partialTransactions.map(transaction => TransactionService.formatTransaction(transaction))
   }
 
   /**
@@ -112,6 +82,8 @@ class AccountService {
   static getAccountInfo = async address => {
     const accountInfo = await this.getAccount(address)
     const accountNames = await NamespaceService.getAccountsNames([Address.createFromRawAddress(address)])
+    const harvestedBlockList = await BlockService.searchBlocks({ signerPublicKey: accountInfo.publicKey })
+
     return {
       ...accountInfo,
       activityBucket: accountInfo.activityBucket.map(activity => ({
@@ -120,49 +92,75 @@ class AccountService {
         totalFeesPaid: helper.toNetworkCurrency(activity.totalFeesPaid),
         importanceScore: activity.rawScore
       })),
-      accountAliasName: this.extractAccountNamespace(accountInfo, accountNames)
+      supplementalPublicKeys: {
+        ...accountInfo.supplementalPublicKeys,
+        voting: Array.isArray(accountInfo.supplementalPublicKeys.voting) ? accountInfo.supplementalPublicKeys.voting.map(voting => voting.publicKey) : accountInfo.supplementalPublicKeys.voting
+      },
+      accountAliasName: this.extractAccountNamespace(accountInfo, accountNames),
+      harvestedBlock: harvestedBlockList?.totalEntries || 0
     }
   }
 
   /**
    * Gets custom array of confirmed transactions dataset into Vue Component
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param filterVaule - object for search criteria
    * @param address - Account address
-   * @param pageSize - (default 10) no. of data
-   * @param id - (Optional) retrive next account partial transaction in pagination
    * @returns Custom AggregateTransaction[]
    */
-  static getAccountTransactionList = async (address, pageSize, id) => {
-    const accountTransactions = await this.getAccountTransactions(address, pageSize, id)
+  static getAccountTransactionList = async (pageInfo, filterVaule, address) => {
+    const { pageNumber, pageSize } = pageInfo
+    const searchCriteria = {
+      pageNumber,
+      pageSize,
+      order: Order.Desc,
+      type: [],
+      group: TransactionGroup.Confirmed,
+      address: Address.createFromRawAddress(address),
+      ...filterVaule
+    }
 
-    return accountTransactions.map(accountTransaction => ({
-      ...accountTransaction,
-      transactionId: accountTransaction.id,
-      transactionHash: accountTransaction.hash,
-      transactionDescriptor:
-        accountTransaction.transactionBody.type === TransactionType.TRANSFER
-          ? (accountTransaction.signer === address
-            ? 'outgoing_' + accountTransaction.transactionBody.transactionDescriptor
-            : 'incoming_' + accountTransaction.transactionBody.transactionDescriptor
-          )
-          : accountTransaction.transactionBody.transactionDescriptor
-    }))
+    const accountTransactions = await TransactionService.searchTransactions(searchCriteria)
+
+    return {
+      ...accountTransactions,
+      data: accountTransactions.data.map(accountTransaction => ({
+        ...accountTransaction,
+        transactionId: accountTransaction.id,
+        transactionHash: accountTransaction.hash,
+        transactionDescriptor:
+          accountTransaction.transactionBody.type === TransactionType.TRANSFER
+            ? (accountTransaction.signer === address
+              ? 'outgoing_' + accountTransaction.transactionBody.transactionDescriptor
+              : 'incoming_' + accountTransaction.transactionBody.transactionDescriptor
+            )
+            : accountTransaction.transactionBody.transactionDescriptor
+      }))
+    }
   }
 
-  /**
-   * Gets custom array of account partial transactions dataset into Vue Component
-   * @param address - Account address
-   * @param pageSize - (default 10) no. of data
-   * @param id - (Optional) retrive next account partial transaction in pagination
-   * @returns Custom Transaction[]
-   */
-  static getAccountPartialTransactionList = async (address, pageSize, id) => {
-    const partialTransactions = await this.getAccountPartialTransactions(address, pageSize, id)
+  static getAccountHarvestedBlockList = async (pageInfo, address) => {
+    const accountInfo = await this.getAccount(address)
+    const { pageNumber, pageSize } = pageInfo
+    const searchCriteria = {
+      pageNumber,
+      pageSize,
+      order: Order.Desc,
+      orderBy: BlockOrderBy.Height,
+      signerPublicKey: accountInfo.publicKey
+    }
 
-    return partialTransactions.map(partialTransactions => ({
-      ...partialTransactions,
-      transactionHash: partialTransactions.hash,
-      transactionType: partialTransactions.transactionBody.type
-    }))
+    const accountHarvestedBlockList = await BlockService.searchBlocks(searchCriteria)
+
+    return {
+      ...accountHarvestedBlockList,
+      data: accountHarvestedBlockList.data.map(block => ({
+        ...block,
+        date: helper.convertToUTCDate(block.timestamp),
+        age: helper.convertToUTCDate(block.timestamp),
+        harvester: block.signer
+      }))
+    }
   }
 
   /**
@@ -176,12 +174,27 @@ class AccountService {
     addressHeight: accountInfo.addressHeight.compact(),
     publicKeyHeight: accountInfo.publicKeyHeight.compact(),
     type: Constants.AccountType[accountInfo.accountType],
-    supplementalAccountKeys: accountInfo.supplementalAccountKeys.map(accountKey => ({
-      ...accountKey,
-      accountKeyType: Constants.AccountKeyType[accountKey.keyType]
-    })),
+    supplementalPublicKeys: this.formatSupplementalPublicKeys(accountInfo.supplementalPublicKeys),
     importance: helper.ImportanceScoreToPercent(accountInfo.importance.compact()),
     importanceHeight: accountInfo.importanceHeight.compact()
+  })
+
+  /**
+   * Format SupplementalPublicKeys to readable SupplementalPublicKeys objecy
+   * @param supplementalPublicKeys - supplementalPublicKeys DTO
+   * @returns Readable supplementalPublicKeys DTO object
+   */
+  static formatSupplementalPublicKeys = (supplementalPublicKeys) => ({
+    ...supplementalPublicKeys,
+    linked: supplementalPublicKeys.linked?.publicKey || Constants.Message.UNAVAILABLE,
+    node: supplementalPublicKeys.node?.publicKey || Constants.Message.UNAVAILABLE,
+    vrf: supplementalPublicKeys.vrf?.publicKey || Constants.Message.UNAVAILABLE,
+    voting: supplementalPublicKeys.voting?.map(vote => ({
+      ...vote,
+      publicKey: vote.publicKey,
+      startPoint: vote.startPoint.compact(),
+      endPoint: vote.endPoint.compact()
+    })) || []
   })
 
   /**

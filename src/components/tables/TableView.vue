@@ -37,9 +37,9 @@ export default {
         'accountAliasName',
         'aliasAddress',
         'aliasMosaic',
-        'linkedAccountKey',
         'transaction',
         'harvester',
+        'beneficiaryAddress',
         'mosaicId',
         'namespaceId',
         'parentId',
@@ -48,7 +48,7 @@ export default {
         'addressHeight',
         'publicKeyHeight',
         'importanceHeight',
-        'multisigAccounts_',
+        'multisigAddresses_',
 
         'signer',
         'recipient',
@@ -59,7 +59,7 @@ export default {
 
         'lastActivity',
         'recalculationBlock',
-        'senderAddress',
+        'sourceAddress',
         'targetAddress',
         'targetMosaicId',
         'targetNamespaceId',
@@ -73,8 +73,8 @@ export default {
         'restrictionAddressDeletions',
         'restrictionMosaicAdditions',
         'restrictionMosaicDeletions',
-        'publicKeyAdditions',
-        'publicKeyDeletions',
+        'addressAdditions',
+        'addressDeletions',
         'linkedAccountAddress'
       ],
       disableClickValues: [...Object.values(Constants.Message)],
@@ -89,7 +89,7 @@ export default {
       allowArrayToView: [
         'linkedNamespace',
         'cosignatories',
-        'multisigAccounts',
+        'multisigAddresses',
         'restrictionAddressValues',
         'restrictionMosaicValues',
         'restrictionTransactionValues',
@@ -99,8 +99,9 @@ export default {
         'restrictionMosaicDeletions',
         'restrictionOperationAdditions',
         'restrictionOperationDeletions',
-        'publicKeyAdditions',
-        'publicKeyDeletions'
+        'addressAdditions',
+        'addressDeletions',
+        'voting'
       ]
     }
   },
@@ -152,7 +153,7 @@ export default {
                 key === 'owneraddress' ||
                 key === 'host' ||
                 key === 'friendlyName' ||
-                key === 'multisigAccounts_'
+                key === 'multisigAddresses_'
       )
     },
 

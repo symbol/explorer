@@ -124,7 +124,7 @@ class NamespaceService {
 
     let formattedNamespaceInfo = {
       ...namespace,
-      owneraddress: namespace.owner,
+      owneraddress: namespace.ownerAddress,
       duration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED,
       status: namespace.active
     }
@@ -180,7 +180,7 @@ class NamespaceService {
 
       return {
         ...formattedNamespace,
-        owneraddress: formattedNamespace.owner,
+        owneraddress: formattedNamespace.ownerAddress,
         expirationDuration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED,
         isExpired: isExpired,
         approximateExpired: helper.convertSecondToDate(expiredInSecond),
@@ -271,7 +271,7 @@ class NamespaceService {
    */
   static formatNamespace = namespace => ({
     ...namespace,
-    owner: namespace.owner.address.plain(),
+    ownerAddress: namespace.ownerAddress.plain(),
     namespaceName: namespace.name,
     namespaceId: namespace.id.toHex(),
     registrationType: Constants.NamespaceRegistrationType[namespace.registrationType],

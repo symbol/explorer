@@ -17,7 +17,7 @@
  */
 
 import Lock from './lock'
-import Constants from '../config/constants'
+import { Constants, filters } from '../config'
 import helper from '../helper'
 import {
   AccountService,
@@ -31,6 +31,7 @@ import {
   Filter,
   DataSet,
   Timeline,
+  Pagination,
   getStateFromManagers,
   getGettersFromManagers,
   getMutationsFromManagers,
@@ -69,13 +70,21 @@ const managers = [
     'multisig',
     (address) => MultisigService.getMultisigAccountInfo(address)
   ),
-  new Timeline(
-    'transactions',
-    (pageSize, store) => AccountService.getAccountTransactionList(store.getters.getCurrentAccountAddress, pageSize),
-    (key, pageSize, store) => AccountService.getAccountTransactionList(store.getters.getCurrentAccountAddress, pageSize, key),
-    'transactionId',
-    10
-  ),
+  new Pagination({
+    name: 'transactions',
+    fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountTransactionList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
+    pageInfo: {
+      pageSize: 10
+    },
+    filter: filters.transaction
+  }),
+  new Pagination({
+    name: 'harvestedBlocks',
+    fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountHarvestedBlockList(pageInfo, store.getters.getCurrentAccountAddress),
+    pageInfo: {
+      pageSize: 10
+    }
+  }),
   new Timeline(
     'metadatas',
     (pageSize, store) => MetadataService.getAccountMetadataList(store.getters.getCurrentAccountAddress, pageSize),
@@ -86,39 +95,7 @@ const managers = [
   new DataSet(
     'restrictions',
     (address) => RestrictionService.getAccountRestrictionList(address)
-  ),
-  new Timeline(
-    'partialTransactions',
-    (pageSize, store) => AccountService.getAccountPartialTransactionList(store.getters.getCurrentAccountAddress, pageSize),
-    (key, pageSize, store) => AccountService.getAccountPartialTransactionList(store.getters.getCurrentAccountAddress, pageSize, key),
-    'id',
-    10
   )
-
-  // TODO OlegMakarenko: Add `getAccountTransactions` method to `infratructure.getAccount`
-  // new Timeline(
-  //   'all',
-  //   (pageSize, store) => sdkAccount.getAccountTransactions(pageSize, null, store.getters.currentAccountAddress),
-  //   (key, pageSize, store) => sdkAccount.getAccountTransactions(pageSize, null, store.getters.currentAccountAddress, key),
-  //   'transactionHash',
-  //   10
-  // ),
-  // new Timeline(
-  //   'transfer',
-  //   (pageSize, store) => sdkAccount.getAccountTransactions(pageSize, 'transfer', store.getters.currentAccountAddress),
-  //   (key, pageSize, store) => sdkAccount.getAccountTransactions(pageSize, 'transfer', store.getters.currentAccountAddress, key),
-  //   'transactionHash',
-  //   10
-  // ),
-  // new Filter(
-  //   'transactions',
-  //   {
-  //     all: 'All transactions',
-  //     mosaic: 'Mosaic transactions',
-  //     namespace: 'Namespace transactions',
-  //     transfer: 'Transfers'
-  //   }
-  // )
 ]
 
 const LOCK = Lock.create()
@@ -135,7 +112,7 @@ export default {
     ...getGettersFromManagers(managers),
     getInitialized: state => state.initialized,
     getActivityBucketList: state => state.info?.data.activityBucket || [],
-    getSupplementalAccountKeys: state => state.info?.data.supplementalAccountKeys || [],
+    getSupplementalPublicKeys: state => state.info?.data.supplementalPublicKeys || {},
     getCurrentAccountAddress: state => state.currentAccountAddress
   },
   mutations: {
@@ -180,7 +157,7 @@ export default {
       context.getters.transactions.setStore(context).initialFetch(payload.address)
       context.getters.metadatas.setStore(context).initialFetch(payload.address)
       context.getters.restrictions.setStore(context).initialFetch(payload.address)
-      context.getters.partialTransactions.setStore(context).initialFetch(payload.address)
+      context.getters.harvestedBlocks.setStore(context).initialFetch(payload.address)
     },
 
     uninitializeDetail(context) {
@@ -191,7 +168,7 @@ export default {
       context.getters.transactions.setStore(context).uninitialize()
       context.getters.metadatas.setStore(context).uninitialize()
       context.getters.restrictions.setStore(context).uninitialize()
-      context.getters.partialTransactions.setStore(context).uninitialize()
+      context.getters.harvestedBlocks.setStore(context).uninitialize()
     }
   }
 }

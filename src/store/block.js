@@ -18,7 +18,7 @@
 
 import Vue from 'vue'
 import Lock from './lock'
-import Constants from '../config/constants'
+import { filters, Constants } from '../config'
 import helper from '../helper'
 import {
   ListenerService,
@@ -27,7 +27,7 @@ import {
 } from '../infrastructure'
 import {
   DataSet,
-  Timeline,
+  Pagination,
   getStateFromManagers,
   getGettersFromManagers,
   getMutationsFromManagers,
@@ -35,21 +35,23 @@ import {
 } from './manager'
 
 const managers = [
-  new Timeline(
-    'timeline',
-    () => BlockService.getBlockList(Constants.PageSize),
-    (key, pageSize) => BlockService.getBlockList(pageSize, key),
-    'height'
-  ),
-  new Timeline(
-    'blockTransactions',
-    (pageSize, store) => BlockService.getBlockTransactionList(store.getters.currentBlockHeight, pageSize),
-    (key, pageSize, store) => BlockService.getBlockTransactionList(store.getters.currentBlockHeight, pageSize, key),
-    'transactionId',
-    10
-  ),
+  new Pagination({
+    name: 'timeline',
+    fetchFunction: (pageInfo) => BlockService.getBlockList(pageInfo),
+    pageInfo: {
+      pageSize: Constants.PageSize
+    }
+  }),
+  new Pagination({
+    name: 'blockTransactions',
+    fetchFunction: (pageInfo, filterValue, store) => BlockService.getBlockTransactionList(pageInfo, filterValue, store.getters.currentBlockHeight),
+    pageInfo: {
+      pageSize: 10
+    },
+    filter: filters.transaction
+  }),
   new DataSet(
-    'blockReceiptInfo',
+    'blockReceipts',
     (height) => ReceiptService.getBlockReceiptsInfo(height)
   ),
   new DataSet(
@@ -76,11 +78,11 @@ export default {
     getRecentList: state => state.timeline?.data?.filter((item, index) => index < 4) || [],
     getSubscription: state => state.subscription,
     blockInfo: state => state.info?.data?.blockInfo || {},
-    inflationReceipt: state => state.blockReceiptInfo?.data?.transactionReceipt?.inflationReceipt || [],
-    balanceTransferReceipt: state => state.blockReceiptInfo?.data?.transactionReceipt?.balanceTransferReceipt || [],
-    balanceChangeReceipt: state => state.blockReceiptInfo?.data?.transactionReceipt?.balanceChangeReceipt || [],
-    artifactExpiryReceipt: state => state.blockReceiptInfo?.data?.transactionReceipt?.artifactExpiryReceipt || [],
-    resolutionStatement: state => state.blockReceiptInfo?.data?.resolutionStatements?.resolutionStatement || [],
+    inflationReceipt: state => state.blockReceipts?.data?.transactionReceipt?.inflationReceipt || [],
+    balanceTransferReceipt: state => state.blockReceipts?.data?.transactionReceipt?.balanceTransferReceipt || [],
+    balanceChangeReceipt: state => state.blockReceipts?.data?.transactionReceipt?.balanceChangeReceipt || [],
+    artifactExpiryReceipt: state => state.blockReceipts?.data?.transactionReceipt?.artifactExpiryReceipt || [],
+    resolutionStatement: state => state.blockReceipts?.data?.resolutionStatements?.resolutionStatement || [],
     currentBlockHeight: state => state.currentBlockHeight,
 
     infoText: (s, g, rs, rootGetters) => 'Chain height: ' + rootGetters['chain/getBlockHeight']
@@ -152,13 +154,13 @@ export default {
       context.dispatch('uninitializeDetail')
       context.commit('currentBlockHeight', payload.height)
       context.getters.info.setStore(context).initialFetch(payload.height)
-      context.getters.blockReceiptInfo.setStore(context).initialFetch(payload.height)
+      context.getters.blockReceipts.setStore(context).initialFetch(payload.height)
       context.getters.blockTransactions.setStore(context).initialFetch(payload.height)
     },
 
     uninitializeDetail(context) {
       context.getters.info.setStore(context).uninitialize()
-      context.getters.blockReceiptInfo.setStore(context).uninitialize()
+      context.getters.blockReceipts.setStore(context).uninitialize()
       context.getters.blockTransactions.setStore(context).uninitialize()
     },
 

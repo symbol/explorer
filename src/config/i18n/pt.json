@@ -33,7 +33,6 @@
     "importance": "Valor",
     "importanceHeight": "Valor height",
     "accountType": "Account type",
-    "linkedAccountKey": "Linked account key",
     "lastActivity": "ultima atividade",
     "accounts": "Accounts",
     "blocks": "Blocos",
@@ -81,7 +80,7 @@
     "compositeHash": "Composite Hash",
     "metadataType": "Type",
     "scopedMetadataKey": "Scoped Metadata Key",
-    "senderAddress": "Sender Address",
+    "sourceAddress": "Sender Address",
     "targetAddress": "Target Address",
     "metadataValue": "Value",
     "targetId": "Target Id",
@@ -137,6 +136,7 @@
     "resolutionStatementTitle": "Resolution Statement",
     "mosaicRestrictionTitle": "Mosaic Restriction",
     "mosaicRestrictionListTitle": "Mosaic Restriction List",
+    "harvestedBlockTitle": "Harvested Blocks",
 
     "accountDetailError": "Account is unknown to the network.",
     "multisigCosignatoriesError": "Address is not a multisig account.",
@@ -169,5 +169,14 @@
     "aggregateInnerTransactionsError": "Aggregate inner transactions are not available.",
     "aggregateCosignaturesError": "Cosignatures are not available.",
 
+    "beneficiaryAddress": "Beneficiary Address",
+    "linked": "LINKED",
+    "node": "NODE",
+    "vrf": "VRF",
+    "voting": "VOTING",
+    "nonce": "Nonce",
+    "action": "Action",
+    "delta": "Delta",
+    "harvestedBlock": "Harvested blocks (all)",
     "transactionGraphic": "Transaction Graphic"
 }

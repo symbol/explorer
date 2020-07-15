@@ -16,10 +16,12 @@
  *
  */
 
-import { UInt64, QueryParams } from 'symbol-sdk'
-import { ChainService, TransactionService } from '../infrastructure'
+import { UInt64, TransactionGroup, Order, BlockOrderBy } from 'symbol-sdk'
+import { TransactionService } from '../infrastructure'
 import http from './http'
 import helper from '../helper'
+import { Constants } from '../config'
+import { take, toArray } from 'rxjs/operators'
 
 class BlockService {
   /**
@@ -34,68 +36,90 @@ class BlockService {
   }
 
   /**
-   * Gets array of transactions included in a block for a block height
-   * @param height - block height
-   * @param pageSize - (default 10) no. of data
-   * @param id - (Optional) retrive next transactions in pagination
+   * Gets a blocks from searchCriteria
+   * @param blockSearchCriteria Object of Block Search Criteria
+   * @returns formatted block data with pagination info
    */
-  static getBlockTransactions = async (height, pageSize = 10, id = '') => {
-    const transactions = await http.createRepositoryFactory.createBlockRepository()
-      .getBlockTransactions(UInt64.fromUint(height), new QueryParams({ pageSize, id }))
-      .toPromise()
+  static searchBlocks = async (blockSearchCriteria) => {
+    const searchblocks = await http.createRepositoryFactory.createBlockRepository()
+      .search(blockSearchCriteria).toPromise()
 
-    return transactions.map(transaction => TransactionService.formatTransaction(transaction))
+    return {
+      ...searchblocks,
+      data: searchblocks.data.map(block => this.formatBlock(block))
+    }
   }
 
   /**
-   * Gets array of BlockInfo for a block height with limit
-   * @param height - Block height
+   * Gets a blocks from streamer
+   * @param searchCriteria - Object  Search Criteria
    * @param noOfBlock - Number of blocks returned.
    * @returns formatted BlockInfo[]
    */
-  static getBlocksByHeightWithLimit = async (height, noOfBlock) => {
-    const blocks = await http.createRepositoryFactory.createBlockRepository()
-      .getBlocksByHeightWithLimit(UInt64.fromUint(height), noOfBlock).toPromise()
+  static streamerBlocks = async (searchCriteria, noOfBlock) => {
+    const streamerBlocks = await http.blockPaginationStreamer
+      .search(searchCriteria).pipe(take(noOfBlock), toArray()).toPromise()
 
-    const formattedBlocks = blocks.map(block => this.formatBlock(block))
-
-    return formattedBlocks
+    return streamerBlocks.map(block => this.formatBlock(block))
   }
 
   /**
    * Get formatted BlockInfo[] dataset into Vue Component
-   * @param noOfBlock - Number of blocks returned.
-   * @param blockHeight - (Optional) the default is latest block height if not define.
+   * @param pageInfo - pageNumber and pageSize
    * @returns Block info list
    */
-  static getBlockList = async (noOfBlock, blockHeight) => {
-    let height = blockHeight === undefined ? await ChainService.getBlockchainHeight() + 1 : blockHeight
-    const blocks = await this.getBlocksByHeightWithLimit(height - noOfBlock, noOfBlock)
+  static getBlockList = async (pageInfo) => {
+    const { pageNumber, pageSize } = pageInfo
+    const blockSearchCriteria = {
+      pageNumber,
+      pageSize,
+      order: Order.Desc,
+      orderBy: BlockOrderBy.Height
+    }
 
-    return blocks.map(block => ({
-      ...block,
-      date: helper.convertToUTCDate(block.timestamp),
-      age: helper.convertToUTCDate(block.timestamp),
-      harvester: block.signer
-    }))
+    const blocks = await this.searchBlocks(blockSearchCriteria)
+
+    return {
+      ...blocks,
+      data: blocks.data.map(block => ({
+        ...block,
+        date: helper.convertToUTCDate(block.timestamp),
+        age: helper.convertToUTCDate(block.timestamp),
+        harvester: block.signer
+      }))
+    }
   }
 
   /**
    * Get Custom Transactions dataset into Vue Component
-   * @param height - block height
-   * @param pageSize - no. of data
-   * @param transactionId - (Optional) retrive next transactions in pagination
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param filterVaule - object for search criteria
+   * @param height -  block height
    * @returns Custom Transactions dataset
    */
-  static getBlockTransactionList = async (height, pageSize, transactionId) => {
-    const blockTransactions = await this.getBlockTransactions(height, pageSize, transactionId)
+  static getBlockTransactionList = async (pageInfo, filterVaule, height) => {
+    const { pageNumber, pageSize } = pageInfo
+    const searchCriteria = {
+      pageNumber,
+      pageSize,
+      order: Order.Desc,
+      type: [],
+      group: TransactionGroup.Confirmed,
+      height: UInt64.fromUint(height),
+      ...filterVaule
+    }
 
-    return blockTransactions.map(blockTransaction => ({
-      ...blockTransaction,
-      transactionId: blockTransaction.id,
-      transactionHash: blockTransaction.hash,
-      transactionDescriptor: blockTransaction.transactionBody.transactionDescriptor
-    }))
+    const blockTransactions = await TransactionService.searchTransactions(searchCriteria)
+
+    return {
+      ...blockTransactions,
+      data: blockTransactions.data.map(blockTransaction => ({
+        ...blockTransaction,
+        transactionId: blockTransaction.id,
+        transactionHash: blockTransaction.hash,
+        transactionDescriptor: blockTransaction.transactionBody.transactionDescriptor
+      }))
+    }
   }
 
   /**
@@ -127,7 +151,8 @@ class BlockService {
     difficulty: helper.convertBlockDifficultyToReadable(block.difficulty),
     feeMultiplier: block.feeMultiplier.toString(),
     transactions: block.numTransactions,
-    signer: helper.publicKeyToAddress(block.signer.publicKey)
+    signer: helper.publicKeyToAddress(block.signer.publicKey),
+    beneficiaryAddress: block?.beneficiaryAddress.plain() || Constants.Message.UNAVAILABLE
   })
 }
 

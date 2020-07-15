@@ -72,7 +72,7 @@
                 "hideEmptyData": true,
                 "fields": [
                     "transactionId",
-                    "type",
+                    "transactionDescriptor",
                     "signer",
                     "transactionBody"
                 ]

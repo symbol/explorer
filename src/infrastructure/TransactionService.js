@@ -21,14 +21,15 @@ import {
   Address,
   TransactionInfo,
   AggregateTransactionInfo,
-  NamespaceId
+  NamespaceId,
+  TransactionGroup,
+  Order
 } from 'symbol-sdk'
 import Constants from '../config/constants'
 import http from './http'
 import helper from '../helper'
 import {
   BlockService,
-  DataService,
   NamespaceService,
   MosaicService
 } from '../infrastructure'
@@ -45,7 +46,7 @@ class TransactionService {
         message: null,
         detail: {}
       }
-      http.createRepositoryFactory.createTransactionRepository()
+      http.createRepositoryFactory.createTransactionStatusRepository()
         .getTransactionStatus(hash).toPromise()
         .then(response => {
           transactionStatus.message = response.group
@@ -67,10 +68,26 @@ class TransactionService {
    * @param hash Transaction id or hash
    * @returns formatted Transaction
    */
-  static getTransaction = async (hash) => {
+  static getTransaction = async (hash, transactionGroup) => {
     const transaction = await http.createRepositoryFactory.createTransactionRepository()
-      .getTransaction(hash).toPromise()
+      .getTransaction(hash, transactionGroup).toPromise()
+
     return this.formatTransaction(transaction)
+  }
+
+  /**
+   * Gets a transaction from searchCriteria
+   * @param transactionSearchCriteria Object of Search Criteria
+   * @returns formatted transaction data with pagination info
+   */
+  static searchTransactions = async (transactionSearchCriteria) => {
+    const searchTransactions = await http.createRepositoryFactory.createTransactionRepository()
+      .search(transactionSearchCriteria).toPromise()
+
+    return {
+      ...searchTransactions,
+      data: searchTransactions.data.map(transaction => this.formatTransaction(transaction))
+    }
   }
 
   /**
@@ -89,8 +106,8 @@ class TransactionService {
    * @param hash Transaction id or hash
    * @returns Custom Transaction object
    */
-  static getTransactionInfo = async hash => {
-    let formattedTransaction = await this.getTransaction(hash)
+  static getTransactionInfo = async (hash, transactionGroup = TransactionGroup.Confirmed) => {
+    let formattedTransaction = await this.getTransaction(hash, transactionGroup)
 
     let { date } = await BlockService.getBlockInfo(formattedTransaction.transactionInfo.height)
     let effectiveFee = await this.getTransactionEffectiveFee(hash)
@@ -126,7 +143,8 @@ class TransactionService {
       const innerTransactions = formattedTransaction.aggregateTransaction.innerTransactions.map(transaction => ({
         ...transaction,
         transactionId: transaction.id,
-        type: Constants.TransactionType[transaction.type]
+        type: Constants.TransactionType[transaction.type],
+        transactionDescriptor: 'transactionDescriptor_' + transaction.type
       }))
 
       formattedTransaction.aggregateTransaction.innerTransactions = innerTransactions
@@ -157,23 +175,33 @@ class TransactionService {
 
   /**
    * Gets array of transactions
-   * @param limit - No of transaction
-   * @param transactionType - filter transction type
-   * @param fromHash - (Optional) retrive next transactions in pagination
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param filterVaule - object for search criteria
    * @returns Formatted tranctionDTO[]
    */
-  static getTransactionList = async (limit, transactionType, fromHash) => {
-    const transactions = await DataService.getTransactionsFromHashWithLimit(limit, transactionType, fromHash)
-    const formatted = transactions.map(transaction => this.formatTransaction(transaction))
+  static getTransactionList = async (pageInfo, filterVaule) => {
+    const { pageNumber, pageSize } = pageInfo
+    const searchCriteria = {
+      pageNumber,
+      pageSize,
+      order: Order.Desc,
+      type: [],
+      group: TransactionGroup.Confirmed,
+      ...filterVaule
+    }
 
-    return formatted.map(transaction => ({
-      ...transaction,
-      height: transaction.height,
-      transactionHash: transaction.hash,
-      type: transaction.transactionBody.type,
-      transactionDescriptor: transaction.transactionBody.transactionDescriptor,
-      recipient: transaction.transactionBody?.recipient
-    }))
+    const transactions = await this.searchTransactions(searchCriteria)
+
+    return {
+      ...transactions,
+      data: transactions.data.map(transaction => ({
+        ...transaction,
+        height: transaction.height,
+        transactionHash: transaction.hash,
+        transactionDescriptor: transaction.transactionBody.transactionDescriptor,
+        recipient: transaction.transactionBody?.recipient
+      }))
+    }
   }
 
   /**
@@ -232,7 +260,7 @@ class TransactionService {
       return {
         type: transactionBody.type,
         transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
-        recipient: Address.createFromPublicKey(http.networkConfig.NamespaceRentalSinkPublicKey, http.networkType).plain(),
+        recipient: http.networkConfig.NamespaceRentalFeeSinkAddress,
         registrationType: Constants.NamespaceRegistrationType[transactionBody.registrationType],
         namespaceName: transactionBody.namespaceName,
         namespaceId: transactionBody.namespaceId.toHex(),
@@ -263,7 +291,7 @@ class TransactionService {
       return {
         type: transactionBody.type,
         transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
-        recipient: Address.createFromPublicKey(http.networkConfig.MosaicRentalSinkPublicKey, http.networkType).plain(),
+        recipient: http.networkConfig.MosaicRentalSinkAddress,
         mosaicId: transactionBody.mosaicId.toHex(),
         divisibility: transactionBody.divisibility,
         duration: transactionBody.duration.compact(),
@@ -288,8 +316,8 @@ class TransactionService {
         transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         minApprovalDelta: transactionBody.minApprovalDelta,
         minRemovalDelta: transactionBody.minRemovalDelta,
-        publicKeyAdditions: transactionBody.publicKeyAdditions.map(publicKey => publicKey.address.plain()),
-        publicKeyDeletions: transactionBody.publicKeyDeletions.map(publicKey => publicKey.address.plain())
+        addressAdditions: transactionBody.addressAdditions.map(address => address.address),
+        addressDeletions: transactionBody.addressDeletions.map(address => address.address)
       }
 
     case TransactionType.AGGREGATE_COMPLETE:

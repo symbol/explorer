@@ -33,7 +33,6 @@
     "importance": "重要性",
     "importanceHeight": "重要性的高度",
     "accountType": "账户类型",
-    "linkedAccountKey": "已绑定账户钥匙",
     "lastActivity": "最后活动",
     "accounts": "账户",
     "blocks": "块",
@@ -81,7 +80,7 @@
     "compositeHash": "复合哈希",
     "metadataType": "类型",
     "scopedMetadataKey": "作用域元数据密钥",
-    "senderAddress": "发送人地址",
+    "sourceAddress": "发送人地址",
     "targetAddress": "目标地址",
     "metadataValue": "值",
     "targetId": "目标Id",
@@ -137,6 +136,7 @@
     "resolutionStatementTitle": "Resolution Statement",
     "mosaicRestrictionTitle": "Mosaic Restriction",
     "mosaicRestrictionListTitle": "Mosaic Restriction List",
+    "harvestedBlockTitle": "Harvested Blocks",
 
     "accountDetailError": "Account is unknown to the network.",
     "multisigCosignatoriesError": "Address is not a multisig account.",
@@ -167,5 +167,15 @@
     "transactionDetailError": "Transaction detail does not exist.",
     "transactionMosaicsError": "Transaction mosaic does not exist.",
     "aggregateInnerTransactionsError": "Aggregate inner transactions are not available.",
-    "aggregateCosignaturesError": "Cosignatures are not available."
+    "aggregateCosignaturesError": "Cosignatures are not available.",
+
+    "beneficiaryAddress": "Beneficiary Address",
+    "linked": "LINKED",
+    "node": "NODE",
+    "vrf": "VRF",
+    "voting": "VOTING",
+    "nonce": "Nonce",
+    "action": "Action",
+    "delta": "Delta",
+    "harvestedBlock": "Harvested blocks (all)"
 }

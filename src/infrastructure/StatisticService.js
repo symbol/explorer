@@ -16,7 +16,8 @@
  *
  */
 
-import { BlockService, ChainService } from './index'
+import { BlockService } from './index'
+import { Order } from 'symbol-sdk'
 
 class StatisticService {
   /**
@@ -27,16 +28,12 @@ class StatisticService {
    * @returns block time difference dataset.
    */
   static getBlockTimeDifferenceData = async (limit, grouping) => {
-    const latestHeight = await ChainService.getBlockchainHeight()
-    let fromBlock = latestHeight - limit
-    let blockList = []
-
-    while (blockList.length < limit) {
-      let startFromBlock = fromBlock + blockList.length
-      let numberOfBlock = limit - blockList.length
-      let blocks = await BlockService.getBlocksByHeightWithLimit(startFromBlock, numberOfBlock)
-      blockList.unshift(...blocks)
+    const searchCriteria = {
+      pageSize: 100,
+      order: Order.Desc
     }
+
+    let blockList = await BlockService.streamerBlocks(searchCriteria, limit)
 
     const heights = blockList.map(data => Number(data.height))
     let timestamps = blockList.map(data => data.timestampRaw)
@@ -90,16 +87,12 @@ class StatisticService {
    * @returns transaction data per block dataset.
    */
   static getTransactionPerBlockData = async (limit, grouping) => {
-    const latestHeight = await ChainService.getBlockchainHeight()
-    let fromBlock = latestHeight - limit
-    let blockList = []
-
-    while (blockList.length < limit) {
-      let startFromBlock = fromBlock + blockList.length
-      let numberOfBlock = limit - blockList.length
-      let blocks = await BlockService.getBlocksByHeightWithLimit(startFromBlock, numberOfBlock)
-      blockList.unshift(...blocks)
+    const searchCriteria = {
+      pageSize: 100,
+      order: Order.Desc
     }
+
+    let blockList = await BlockService.streamerBlocks(searchCriteria, limit)
 
     const heights = blockList.map(data => Number(data.height))
     let numTransactions = blockList.map(data => data.transactions)

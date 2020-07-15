@@ -1,14 +1,14 @@
 {
-    "nodeUrl": "http://api-explorer-01.eu-west-1.testnet-0951-v1.symboldev.network:3000",
+    "nodeUrl": "http://api-01.us-west-1.096x.symboldev.network:3000",
     "marketDataUrl": "https://min-api.cryptocompare.com/",
     "pagination": {
         "pageSize": 25
     },
     "testAccount": {
-        "address": "TATGZXFW3OTHPZT4G4IVDD2K7PXIJJXGEVCKP72W"
+        "address": "TDS44G6KUHO7MODUB6E6WVJOK277QY65XCBJX5Y"
     },
     "testMosaic": {
-        "mosaicId": "05D6A80DE3C9ADCA"
+        "mosaicId": "5E62990DCAC5BE8A"
     },
     "testNamespace": {
         "rootNamespace": "symbol",
@@ -18,6 +18,6 @@
         "height": 1
     },
     "testTransactions":{
-        "transferTransactionHash": "12D43269B57DBE93213448CD632DDF8313A06905EC55C2E24B6138A51B65CC70"
+        "transferTransactionHash": "38E7FF47113FAD41C019EF928168CCBF2707D5B894F8F588AAAE0C5A7AC369F5"
     }
 }
