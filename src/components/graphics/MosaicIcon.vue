@@ -63,48 +63,48 @@
 import GraphicComponent from './GraphicComponent.vue';
 
 export default {
-    extends: GraphicComponent,
+	extends: GraphicComponent,
 
-    props: {
-        width: {
-            type: Number,
-            default: 261.333
-        },
+	props: {
+		width: {
+			type: Number,
+			default: 261.333
+		},
 
-        height: {
-            type: Number,
-            default: 131.313
-        },
+		height: {
+			type: Number,
+			default: 131.313
+		},
 
-        mosaic: {
-            type: Object,
-            default: () => ({
-                mosaicId: '',
-                aliasName: ''
-            })
-        },
+		mosaic: {
+			type: Object,
+			default: () => ({
+				mosaicId: '',
+				aliasName: ''
+			})
+		},
 
-        mosaicId: {
-            type: String
-        },
+		mosaicId: {
+			type: String
+		},
 
-        aliasName: {
-            type: String
-        }
-    },
+		aliasName: {
+			type: String
+		}
+	},
 
-    computed: {
-        title() {
-            return this.getTranslation('mosaic') + ': ' + ((this.aliasName || this.mosaic.aliasName) || (this.mosaicId || this.mosaic.mosaicId));
-        },
-        iconColor() {
-            return this.getIconColorFromHex(this.mosaicId || this.mosaic.mosaicId);
-        },
+	computed: {
+		title() {
+			return this.getTranslation('mosaic') + ': ' + ((this.aliasName || this.mosaic.aliasName) || (this.mosaicId || this.mosaic.mosaicId));
+		},
+		iconColor() {
+			return this.getIconColorFromHex(this.mosaicId || this.mosaic.mosaicId);
+		},
 
-        truncatedMosaicId() {
-            return this.truncString(this.mosaicId || this.mosaic.mosaicId);
-        }
-    }
+		truncatedMosaicId() {
+			return this.truncString(this.mosaicId || this.mosaic.mosaicId);
+		}
+	}
 };
 </script>
 

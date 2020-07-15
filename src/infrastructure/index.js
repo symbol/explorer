@@ -15,19 +15,19 @@ import NetworkService from './NetworkService';
 import StatisticService from './StatisticService';
 
 export {
-    NodeService,
-    AccountService,
-    MetadataService,
-    RestrictionService,
-    ListenerService,
-    ChainService,
-    ReceiptService,
-    DataService,
-    MosaicService,
-    NamespaceService,
-    TransactionService,
-    BlockService,
-    MultisigService,
-    NetworkService,
-    StatisticService
+	NodeService,
+	AccountService,
+	MetadataService,
+	RestrictionService,
+	ListenerService,
+	ChainService,
+	ReceiptService,
+	DataService,
+	MosaicService,
+	NamespaceService,
+	TransactionService,
+	BlockService,
+	MultisigService,
+	NetworkService,
+	StatisticService
 };

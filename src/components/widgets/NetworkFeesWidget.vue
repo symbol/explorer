@@ -50,23 +50,23 @@ import Card from '@/components/containers/Card.vue';
 import { mapGetters } from 'vuex';
 
 export default {
-    components: {
-        Card
-    },
+	components: {
+		Card
+	},
 
-    computed: {
-        ...mapGetters({
-            transactionFees: 'statistic/getNetworkTransactionFees',
-            loading: 'statistic/getLoadingInfo',
-            error: 'statistic/getError'
-        })
-    },
+	computed: {
+		...mapGetters({
+			transactionFees: 'statistic/getNetworkTransactionFees',
+			loading: 'statistic/getLoadingInfo',
+			error: 'statistic/getError'
+		})
+	},
 
-    methods: {
-        getNameByKey(e) {
-            return this.$store.getters['ui/getNameByKey'](e);
-        }
-    }
+	methods: {
+		getNameByKey(e) {
+			return this.$store.getters['ui/getNameByKey'](e);
+		}
+	}
 };
 </script>
 

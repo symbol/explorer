@@ -32,67 +32,67 @@ import IconArrowLeft from 'vue-material-design-icons/ArrowLeft.vue';
 import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue';
 
 export default {
-    components: {
-        IconArrowLeft,
-        IconArrowRight,
-        ButtonLess,
-        ButtonMore
-    },
+	components: {
+		IconArrowLeft,
+		IconArrowRight,
+		ButtonLess,
+		ButtonMore
+	},
 
-    props: {
-        canFetchPrevious: {
-            type: Boolean,
-            required: true
-        },
+	props: {
+		canFetchPrevious: {
+			type: Boolean,
+			required: true
+		},
 
-        canFetchNext: {
-            type: Boolean,
-            required: true
-        },
+		canFetchNext: {
+			type: Boolean,
+			required: true
+		},
 
-        nextPageAction: {
-            type: String,
-            required: false
-        },
+		nextPageAction: {
+			type: String,
+			required: false
+		},
 
-        previousPageAction: {
-            type: String,
-            required: false
-        },
+		previousPageAction: {
+			type: String,
+			required: false
+		},
 
-        goUp: {
-            type: Boolean,
-            required: false,
-            default: true
-        }
-    },
+		goUp: {
+			type: Boolean,
+			required: false,
+			default: true
+		}
+	},
 
-    methods: {
-        nextPage() {
-            if (this.nextPageAction)
-                this.$store.dispatch(this.nextPageAction);
-            this.$emit('next');
-            if (this.goUp)
-                this.goToTop();
-        },
+	methods: {
+		nextPage() {
+			if (this.nextPageAction)
+				this.$store.dispatch(this.nextPageAction);
+			this.$emit('next');
+			if (this.goUp)
+				this.goToTop();
+		},
 
-        previousPage() {
-            if (this.previousPageAction)
-                this.$store.dispatch(this.previousPageAction);
-            this.$emit('previous');
-            if (this.goUp)
-                this.goToTop();
-        },
+		previousPage() {
+			if (this.previousPageAction)
+				this.$store.dispatch(this.previousPageAction);
+			this.$emit('previous');
+			if (this.goUp)
+				this.goToTop();
+		},
 
-        goToTop() {
-            document.body.scrollTop = 0;
-            document.documentElement.scrollTop = 0;
-        },
+		goToTop() {
+			document.body.scrollTop = 0;
+			document.documentElement.scrollTop = 0;
+		},
 
-        getNameByKey(e) {
-            return this.$store.getters['ui/getNameByKey'](e);
-        }
-    }
+		getNameByKey(e) {
+			return this.$store.getters['ui/getNameByKey'](e);
+		}
+	}
 };
 </script>
 

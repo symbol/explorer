@@ -27,19 +27,19 @@ class DataService {
    * @returns Object of data
    */
   static getMarketPrice = (cryptocurrency) => {
-      return new Promise((resolve, reject) => {
-          let url = http.marketDataUrl + `data/pricemultifull?fsyms=${cryptocurrency}&tsyms=USD`;
+  	return new Promise((resolve, reject) => {
+  		let url = http.marketDataUrl + `data/pricemultifull?fsyms=${cryptocurrency}&tsyms=USD`;
 
-          axios
-              .get(url)
-              .then(res => {
-                  return resolve(res.data.DISPLAY);
-              })
-              .catch(error => {
-                  // reject(new Error('Fail to request XEM price.'))
-                  reject(new Error(error));
-              });
-      });
+  		axios
+  			.get(url)
+  			.then(res => {
+  				return resolve(res.data.DISPLAY);
+  			})
+  			.catch(error => {
+  				// reject(new Error('Fail to request XEM price.'))
+  				reject(new Error(error));
+  			});
+  	});
   }
 
   /**
@@ -48,19 +48,19 @@ class DataService {
    * @returns Array of Data
    */
   static getHistoricalHourlyGraph = (cryptocurrency) => {
-      return new Promise((resolve, reject) => {
-          let url = http.marketDataUrl + `data/histohour?fsym=${cryptocurrency}&tsym=USD&limit=168`;
+  	return new Promise((resolve, reject) => {
+  		let url = http.marketDataUrl + `data/histohour?fsym=${cryptocurrency}&tsym=USD&limit=168`;
 
-          axios
-              .get(url)
-              .then(res => {
-                  return resolve(res.data);
-              })
-              .catch(error => {
-                  // reject(new Error('Fail to request Xem historical hourly graph.'))
-                  reject(new Error(error));
-              });
-      });
+  		axios
+  			.get(url)
+  			.then(res => {
+  				return resolve(res.data);
+  			})
+  			.catch(error => {
+  				// reject(new Error('Fail to request Xem historical hourly graph.'))
+  				reject(new Error(error));
+  			});
+  	});
   }
 
   /**
@@ -70,19 +70,19 @@ class DataService {
    * @returns namespaceInfo[]
    */
   static getNamespacesFromIdWithLimit = async (limit, fromNamespaceId) => {
-      let namespaceId;
+  	let namespaceId;
 
-      if (fromNamespaceId === undefined)
-          namespaceId = 'latest';
-      else
-          namespaceId = fromNamespaceId;
+  	if (fromNamespaceId === undefined)
+  		namespaceId = 'latest';
+  	else
+  		namespaceId = fromNamespaceId;
 
-      // Make request.
-      const path = `/namespaces/from/${namespaceId}/limit/${limit}`;
-      const response = await axios.get(http.nodeUrl + path);
-      const namespaceInfo = response.data.map(info => dto.createNamespaceInfoFromDTO(info, http.networkType));
+  	// Make request.
+  	const path = `/namespaces/from/${namespaceId}/limit/${limit}`;
+  	const response = await axios.get(http.nodeUrl + path);
+  	const namespaceInfo = response.data.map(info => dto.createNamespaceInfoFromDTO(info, http.networkType));
 
-      return namespaceInfo;
+  	return namespaceInfo;
   }
 
   /**
@@ -93,19 +93,19 @@ class DataService {
    * @returns accountInfo[]
    */
   static getAccountsFromAddressWithLimit = async (limit, accountType, fromAddress) => {
-      let address;
+  	let address;
 
-      if (fromAddress === undefined)
-          address = 'most';
-      else
-          address = fromAddress;
+  	if (fromAddress === undefined)
+  		address = 'most';
+  	else
+  		address = fromAddress;
 
-      // Make request.
-      const path = `/accounts/${accountType}/from/${address}/limit/${limit}`;
-      const response = await axios.get(http.nodeUrl + path);
-      const accounts = response.data.map(info => dto.createAccountInfoFromDTO(info, http.networkType));
+  	// Make request.
+  	const path = `/accounts/${accountType}/from/${address}/limit/${limit}`;
+  	const response = await axios.get(http.nodeUrl + path);
+  	const accounts = response.data.map(info => dto.createAccountInfoFromDTO(info, http.networkType));
 
-      return accounts;
+  	return accounts;
   }
 }
 

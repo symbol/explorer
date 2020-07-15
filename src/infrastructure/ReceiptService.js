@@ -28,21 +28,21 @@ class ReceiptService {
    * @returns Statement
    */
   static getBlockReceipts = async (height) => {
-      const blockReceipts = await http.createRepositoryFactory.createReceiptRepository()
-          .getBlockReceipts(UInt64.fromUint(height))
-          .toPromise();
+  	const blockReceipts = await http.createRepositoryFactory.createReceiptRepository()
+  		.getBlockReceipts(UInt64.fromUint(height))
+  		.toPromise();
 
-      let transactionReceipt = blockReceipts.transactionStatements.reduce((receipt, item) => {
-          receipt.push(...item.receipts);
-          return receipt;
-      }, []) || [];
+  	let transactionReceipt = blockReceipts.transactionStatements.reduce((receipt, item) => {
+  		receipt.push(...item.receipts);
+  		return receipt;
+  	}, []) || [];
 
-      let resolutionStatements = [...blockReceipts.addressResolutionStatements, ...blockReceipts.mosaicResolutionStatements];
+  	let resolutionStatements = [...blockReceipts.addressResolutionStatements, ...blockReceipts.mosaicResolutionStatements];
 
-      return {
-          transactionReceipt: this.formatTransactionStatement(transactionReceipt),
-          resolutionStatements: resolutionStatements.map(statement => this.formatResolutionStatement(statement))
-      };
+  	return {
+  		transactionReceipt: this.formatTransactionStatement(transactionReceipt),
+  		resolutionStatements: resolutionStatements.map(statement => this.formatResolutionStatement(statement))
+  	};
   }
 
   /**
@@ -51,9 +51,9 @@ class ReceiptService {
    * @returns Formatted TransactionStatements and ResolutionStatements
    */
   static getBlockReceiptsInfo = async (height) => {
-      let blockReceipts = await this.getBlockReceipts(height);
+  	let blockReceipts = await this.getBlockReceipts(height);
 
-      return blockReceipts;
+  	return blockReceipts;
   }
 
   /**
@@ -63,73 +63,73 @@ class ReceiptService {
    *
    */
   static formatTransactionStatement = transactionStatement => {
-      let balanceChangeReceipt = [];
+  	let balanceChangeReceipt = [];
 
-      let balanceTransferReceipt = [];
+  	let balanceTransferReceipt = [];
 
-      let inflationReceipt = [];
+  	let inflationReceipt = [];
 
-      let artifactExpiryReceipt = [];
+  	let artifactExpiryReceipt = [];
 
-      transactionStatement.forEach(receipt => {
-          switch (receipt.type) {
-          case ReceiptType.Harvest_Fee:
-          case ReceiptType.LockHash_Created:
-          case ReceiptType.LockHash_Completed:
-          case ReceiptType.LockHash_Expired:
-          case ReceiptType.LockSecret_Created:
-          case ReceiptType.LockSecret_Completed:
-          case ReceiptType.LockSecret_Expired:
-              balanceChangeReceipt.push({
-                  ...receipt,
-                  size: receipt.size || Constants.Message.UNAVAILABLE,
-                  type: Constants.ReceiptType[receipt.type],
-                  targetAddress: receipt.targetAddress.plain(),
-                  amount: helper.formatMosaicAmountWithDivisibility(receipt.amount, http.networkCurrecy.divisibility),
-                  mosaicId: receipt.mosaicId.toHex()
-              });
-              break;
-          case ReceiptType.Mosaic_Levy:
-          case ReceiptType.Mosaic_Rental_Fee:
-          case ReceiptType.Namespace_Rental_Fee:
-              balanceTransferReceipt.push({
-                  ...receipt,
-                  size: receipt.size || Constants.Message.UNAVAILABLE,
-                  type: Constants.ReceiptType[receipt.type],
-                  senderAddress: receipt.senderAddress.address,
-                  recipientAddress: receipt.recipientAddress.address,
-                  amount: helper.formatMosaicAmountWithDivisibility(receipt.amount, http.networkCurrecy.divisibility),
-                  mosaicId: receipt.mosaicId.toHex()
-              });
-              break;
-          case ReceiptType.Mosaic_Expired:
-          case ReceiptType.Namespace_Expired:
-          case ReceiptType.Namespace_Deleted:
-              artifactExpiryReceipt.push({
-                  ...receipt,
-                  size: receipt.size || Constants.Message.UNAVAILABLE,
-                  type: Constants.ReceiptType[receipt.type],
-                  artifactId: receipt.artifactId.toHex()
-              });
-              break;
-          case ReceiptType.Inflation:
-              inflationReceipt.push({
-                  ...receipt,
-                  size: receipt.size || Constants.Message.UNAVAILABLE,
-                  type: Constants.ReceiptType[receipt.type],
-                  amount: helper.formatMosaicAmountWithDivisibility(receipt.amount, http.networkCurrecy.divisibility),
-                  mosaicId: receipt.mosaicId.toHex()
-              });
-              break;
-          }
-      });
+  	transactionStatement.forEach(receipt => {
+  		switch (receipt.type) {
+  		case ReceiptType.Harvest_Fee:
+  		case ReceiptType.LockHash_Created:
+  		case ReceiptType.LockHash_Completed:
+  		case ReceiptType.LockHash_Expired:
+  		case ReceiptType.LockSecret_Created:
+  		case ReceiptType.LockSecret_Completed:
+  		case ReceiptType.LockSecret_Expired:
+  			balanceChangeReceipt.push({
+  				...receipt,
+  				size: receipt.size || Constants.Message.UNAVAILABLE,
+  				type: Constants.ReceiptType[receipt.type],
+  				targetAddress: receipt.targetAddress.plain(),
+  				amount: helper.formatMosaicAmountWithDivisibility(receipt.amount, http.networkCurrecy.divisibility),
+  				mosaicId: receipt.mosaicId.toHex()
+  			});
+  			break;
+  		case ReceiptType.Mosaic_Levy:
+  		case ReceiptType.Mosaic_Rental_Fee:
+  		case ReceiptType.Namespace_Rental_Fee:
+  			balanceTransferReceipt.push({
+  				...receipt,
+  				size: receipt.size || Constants.Message.UNAVAILABLE,
+  				type: Constants.ReceiptType[receipt.type],
+  				senderAddress: receipt.senderAddress.address,
+  				recipientAddress: receipt.recipientAddress.address,
+  				amount: helper.formatMosaicAmountWithDivisibility(receipt.amount, http.networkCurrecy.divisibility),
+  				mosaicId: receipt.mosaicId.toHex()
+  			});
+  			break;
+  		case ReceiptType.Mosaic_Expired:
+  		case ReceiptType.Namespace_Expired:
+  		case ReceiptType.Namespace_Deleted:
+  			artifactExpiryReceipt.push({
+  				...receipt,
+  				size: receipt.size || Constants.Message.UNAVAILABLE,
+  				type: Constants.ReceiptType[receipt.type],
+  				artifactId: receipt.artifactId.toHex()
+  			});
+  			break;
+  		case ReceiptType.Inflation:
+  			inflationReceipt.push({
+  				...receipt,
+  				size: receipt.size || Constants.Message.UNAVAILABLE,
+  				type: Constants.ReceiptType[receipt.type],
+  				amount: helper.formatMosaicAmountWithDivisibility(receipt.amount, http.networkCurrecy.divisibility),
+  				mosaicId: receipt.mosaicId.toHex()
+  			});
+  			break;
+  		}
+  	});
 
-      return {
-          balanceChangeReceipt,
-          balanceTransferReceipt,
-          inflationReceipt,
-          artifactExpiryReceipt
-      };
+  	return {
+  		balanceChangeReceipt,
+  		balanceTransferReceipt,
+  		inflationReceipt,
+  		artifactExpiryReceipt
+  	};
   }
 
   /**
@@ -138,20 +138,20 @@ class ReceiptService {
    * @returns Address Resolution | Mosaic Resolution
    */
   static formatResolutionStatement = resolutionStatement => {
-      if (resolutionStatement.resolutionType === ResolutionType.Address) {
-          return {
-              type: Constants.ResolutionType[resolutionStatement.resolutionType],
-              unresolved: resolutionStatement.unresolved.toHex(),
-              addressResolutionEntries: resolutionStatement.resolutionEntries[0].resolved.toHex()
-          };
-      }
-      else if (resolutionStatement.resolutionType === ResolutionType.Mosaic) {
-          return {
-              type: Constants.ResolutionType[resolutionStatement.resolutionType],
-              unresolved: resolutionStatement.unresolved.toHex(),
-              mosaicResolutionEntries: resolutionStatement.resolutionEntries[0].resolved.toHex()
-          };
-      }
+  	if (resolutionStatement.resolutionType === ResolutionType.Address) {
+  		return {
+  			type: Constants.ResolutionType[resolutionStatement.resolutionType],
+  			unresolved: resolutionStatement.unresolved.toHex(),
+  			addressResolutionEntries: resolutionStatement.resolutionEntries[0].resolved.toHex()
+  		};
+  	}
+  	else if (resolutionStatement.resolutionType === ResolutionType.Mosaic) {
+  		return {
+  			type: Constants.ResolutionType[resolutionStatement.resolutionType],
+  			unresolved: resolutionStatement.unresolved.toHex(),
+  			mosaicResolutionEntries: resolutionStatement.resolutionEntries[0].resolved.toHex()
+  		};
+  	}
   }
 }
 

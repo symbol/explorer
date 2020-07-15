@@ -89,141 +89,141 @@ import ArrayField from '../fields/ArrayField.vue';
 import Loading from '@/components/Loading.vue';
 
 export default {
-    extends: TableView,
+	extends: TableView,
 
-    components: {
-        Modal,
-        AggregateTransaction,
-        Pagination,
-        MosaicsField,
-        TransactionType,
-        ArrayField,
-        Loading
-    },
+	components: {
+		Modal,
+		AggregateTransaction,
+		Pagination,
+		MosaicsField,
+		TransactionType,
+		ArrayField,
+		Loading
+	},
 
-    props: {
-        data: {
-            type: Array,
-            required: true
-        },
+	props: {
+		data: {
+			type: Array,
+			required: true
+		},
 
-        pagination: {
-            type: Boolean,
-            default: false
-        },
+		pagination: {
+			type: Boolean,
+			default: false
+		},
 
-        timelinePagination: {
-            type: Boolean,
-            default: false
-        },
+		timelinePagination: {
+			type: Boolean,
+			default: false
+		},
 
-        timeline: {
-            type: Object
-        },
+		timeline: {
+			type: Object
+		},
 
-        pageSize: {
-            type: Number,
-            default: 10
-        }
-    },
+		pageSize: {
+			type: Number,
+			default: 10
+		}
+	},
 
-    created() {
-        this.componentType = 'list';
-    },
+	created() {
+		this.componentType = 'list';
+	},
 
-    data() {
-        return {
-            pageIndex: 0,
-            openedModal: null
-        };
-    },
+	data() {
+		return {
+			pageIndex: 0,
+			openedModal: null
+		};
+	},
 
-    computed: {
-        preparedData() {
-            if (
-                Array.isArray(this.data) &&
+	computed: {
+		preparedData() {
+			if (
+				Array.isArray(this.data) &&
                 this.pagination === true &&
                 !this.timelinePagination
-            ) {
-                return this.data.slice(
-                    this.pageIndex * this.pageSize,
-                    this.pageIndex * this.pageSize + this.pageSize
-                );
-            }
-            else return this.data;
-        },
+			) {
+				return this.data.slice(
+					this.pageIndex * this.pageSize,
+					this.pageIndex * this.pageSize + this.pageSize
+				);
+			}
+			else return this.data;
+		},
 
-        nextPageExist() {
-            if (this.timelinePagination && this.timeline instanceof Object)
-                return this.timeline.canFetchNext;
-            else return this.pageSize * (this.pageIndex + 1) < this.data.length;
-        },
+		nextPageExist() {
+			if (this.timelinePagination && this.timeline instanceof Object)
+				return this.timeline.canFetchNext;
+			else return this.pageSize * (this.pageIndex + 1) < this.data.length;
+		},
 
-        prevPageExist() {
-            if (this.timelinePagination && this.timeline instanceof Object)
-                return this.timeline.canFetchPrevious;
-            else return this.pageIndex > 0;
-        },
+		prevPageExist() {
+			if (this.timelinePagination && this.timeline instanceof Object)
+				return this.timeline.canFetchPrevious;
+			else return this.pageIndex > 0;
+		},
 
-        lastPage() {
-            return Math.ceil(this.data.length / this.pageSize);
-        },
+		lastPage() {
+			return Math.ceil(this.data.length / this.pageSize);
+		},
 
-        header() {
-            let header = [];
+		header() {
+			let header = [];
 
-            if (this.data) for (let key in this.data[0]) header.push(key);
-            return header;
-        },
+			if (this.data) for (let key in this.data[0]) header.push(key);
+			return header;
+		},
 
-        dataIsNotEmpty() {
-            return this.data.length;
-        },
+		dataIsNotEmpty() {
+			return this.data.length;
+		},
 
-        paginationLoading() {
-            return this.timeline?.isLoading === true;
-        }
-    },
+		paginationLoading() {
+			return this.timeline?.isLoading === true;
+		}
+	},
 
-    methods: {
-        onMoreClick() {
-            this.$store.dispatch(this.nextPageAction);
-        },
+	methods: {
+		onMoreClick() {
+			this.$store.dispatch(this.nextPageAction);
+		},
 
-        nextPage() {
-            if (this.nextPageExist) {
-                if (this.timelinePagination)
-                // this.$store.dispatch(this.timelineNextAction)
-                    this.timeline.fetchNext();
-                else this.pageIndex++;
-            }
-        },
+		nextPage() {
+			if (this.nextPageExist) {
+				if (this.timelinePagination)
+				// this.$store.dispatch(this.timelineNextAction)
+					this.timeline.fetchNext();
+				else this.pageIndex++;
+			}
+		},
 
-        prevPage() {
-            if (this.prevPageExist) {
-                if (this.timelinePagination)
-                // this.$store.dispatch(this.timelinePreviousAction)
-                    this.timeline.fetchPrevious();
-                else this.pageIndex--;
-            }
-        },
+		prevPage() {
+			if (this.prevPageExist) {
+				if (this.timelinePagination)
+				// this.$store.dispatch(this.timelinePreviousAction)
+					this.timeline.fetchPrevious();
+				else this.pageIndex--;
+			}
+		},
 
-        getPageNumber() {
-            const args = [...arguments];
-            const number = args.find(arg => typeof arg === 'number');
+		getPageNumber() {
+			const args = [...arguments];
+			const number = args.find(arg => typeof arg === 'number');
 
-            return typeof number === 'number'
-                ? number
-                : '..';
-        }
-    },
+			return typeof number === 'number'
+				? number
+				: '..';
+		}
+	},
 
-    watch: {
-        preparedData() {
-            if (this.pageIndex >= this.lastPage)
-                this.pageIndex = this.lastPage - 1;
-        }
-    }
+	watch: {
+		preparedData() {
+			if (this.pageIndex >= this.lastPage)
+				this.pageIndex = this.lastPage - 1;
+		}
+	}
 };
 </script>
 

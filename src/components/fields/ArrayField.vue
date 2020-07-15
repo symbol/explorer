@@ -35,25 +35,25 @@
 import TableView from '@/components/tables/TableView.vue';
 
 export default {
-    name: 'ArrayField',
-    extends: TableView,
+	name: 'ArrayField',
+	extends: TableView,
 
-    props: {
-        itemKey: {
-            type: String,
-            required: true
-        },
+	props: {
+		itemKey: {
+			type: String,
+			required: true
+		},
 
-        value: {
-            type: Array,
-            required: true
-        }
-    },
+		value: {
+			type: Array,
+			required: true
+		}
+	},
 
-    computed: {
-        itemKey_() {
-            return this.itemKey + '_';
-        }
-    }
+	computed: {
+		itemKey_() {
+			return this.itemKey + '_';
+		}
+	}
 };
 </script>

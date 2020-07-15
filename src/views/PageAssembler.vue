@@ -54,82 +54,82 @@ import RecentTransactionsWidget from '@/components/widgets/RecentTransactionsWid
 import TransactionGraphicWidget from '@/components/widgets/TransactionGraphicWidget.vue';
 
 export default {
-    components: {
-        CardTable,
-        BaseInfoWidget,
-        PriceChartWidget,
-        RecentBlocksWidget,
-        RecentTransactionsWidget,
-        TransactionGraphicWidget
-    },
+	components: {
+		CardTable,
+		BaseInfoWidget,
+		PriceChartWidget,
+		RecentBlocksWidget,
+		RecentTransactionsWidget,
+		TransactionGraphicWidget
+	},
 
-    props: {
-        storeNamespaces: {
-            type: Array,
-            default: () => []
-        },
-        initActions: {
-            type: Array,
-            default: () => []
-        },
-        layout: {
-            type: String,
-            required: true,
-            default: 'flex'
-        },
-        layoutOptions: {
-            type: String,
-            default: ''
-        },
-        schema: {
-            type: Array,
-            required: true,
-            default: () => []
-        }
-    },
+	props: {
+		storeNamespaces: {
+			type: Array,
+			default: () => []
+		},
+		initActions: {
+			type: Array,
+			default: () => []
+		},
+		layout: {
+			type: String,
+			required: true,
+			default: 'flex'
+		},
+		layoutOptions: {
+			type: String,
+			default: ''
+		},
+		schema: {
+			type: Array,
+			required: true,
+			default: () => []
+		}
+	},
 
-    async mounted() {
-        console.log('initialize', this.storeNamespaces);
-        await this.$store.dispatch('initialize', this.$route);
-        if (this.storeNamespaces?.length) {
-            for (const namespace of this.storeNamespaces)
-                await this.$store.dispatch(namespace + '/initialize');
-        }
-        if (this.initActions?.length) {
-            for (const action of this.initActions)
-                await this.$store.dispatch(action, this.$route.params);
-        }
-    },
+	async mounted() {
+		console.log('initialize', this.storeNamespaces);
+		await this.$store.dispatch('initialize', this.$route);
+		if (this.storeNamespaces?.length) {
+			for (const namespace of this.storeNamespaces)
+				await this.$store.dispatch(namespace + '/initialize');
+		}
+		if (this.initActions?.length) {
+			for (const action of this.initActions)
+				await this.$store.dispatch(action, this.$route.params);
+		}
+	},
 
-    computed: {
-        prop() {
-            for (let key in this.$route.params)
-                return this.$route.params[key];
-            return null;
-        }
-    },
+	computed: {
+		prop() {
+			for (let key in this.$route.params)
+				return this.$route.params[key];
+			return null;
+		}
+	},
 
-    methods: {
-        getter(e) {
-            if (typeof e === 'string')
-                return this.$store.getters[e];
-        },
+	methods: {
+		getter(e) {
+			if (typeof e === 'string')
+				return this.$store.getters[e];
+		},
 
-        isItemShown(item) {
-            return !item.hideEmptyData || this.getData(item)?.length > 0;
-        },
+		isItemShown(item) {
+			return !item.hideEmptyData || this.getData(item)?.length > 0;
+		},
 
-        getKeyName(e) {
-            return this.$store.getters['ui/getKeyName'](e);
-        },
+		getKeyName(e) {
+			return this.$store.getters['ui/getKeyName'](e);
+		},
 
-        getData(item) {
-            if (typeof item.dataGetter === 'string')
-                return this.getter(item.dataGetter);
-            else
-                return this.getter(item.managerGetter)?.data;
-        }
-    }
+		getData(item) {
+			if (typeof item.dataGetter === 'string')
+				return this.getter(item.dataGetter);
+			else
+				return this.getter(item.managerGetter)?.data;
+		}
+	}
 };
 </script>
 

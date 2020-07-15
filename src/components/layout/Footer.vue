@@ -61,25 +61,25 @@ import IconTelegram from 'vue-material-design-icons/Telegram.vue';
 import IconHomeCurrencyUsd from 'vue-material-design-icons/HomeCurrencyUsd.vue';
 
 export default {
-    components: {
-        NemDescription,
-        NemCopyright,
-        NodeSelector,
+	components: {
+		NemDescription,
+		NemCopyright,
+		NodeSelector,
 
-        IconGithub,
-        IconNewspaper,
-        IconReddit,
-        IconForum,
-        IconTelegram,
-        IconHomeCurrencyUsd
-    },
+		IconGithub,
+		IconNewspaper,
+		IconReddit,
+		IconForum,
+		IconTelegram,
+		IconHomeCurrencyUsd
+	},
 
-    data() {
-        return {
-            loading: 1,
-            items: globalConfig.footer.link
-        };
-    }
+	data() {
+		return {
+			loading: 1,
+			items: globalConfig.footer.link
+		};
+	}
 };
 </script>
 

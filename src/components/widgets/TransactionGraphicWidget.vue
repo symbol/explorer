@@ -22,50 +22,50 @@ import NamespaceRegistrationGraphic from '@/components/transaction-graphic/Names
 import { TransactionType } from 'symbol-sdk';
 
 export default {
-    props: {
-        managerGetter: String
-    },
+	props: {
+		managerGetter: String
+	},
 
-    components: {
-        Card,
-        TransferGraphic,
-        AddressAliasGraphic,
-        MosaicAliasGraphic,
-        NamespaceRegistrationGraphic
-    },
+	components: {
+		Card,
+		TransferGraphic,
+		AddressAliasGraphic,
+		MosaicAliasGraphic,
+		NamespaceRegistrationGraphic
+	},
 
-    data() {
-        return {
-            TransactionType
-        };
-    },
+	data() {
+		return {
+			TransactionType
+		};
+	},
 
-    computed: {
-        isWidgetShown() {
-            return this.data.type === TransactionType.TRANSFER ||
+	computed: {
+		isWidgetShown() {
+			return this.data.type === TransactionType.TRANSFER ||
         this.data.type === TransactionType.ADDRESS_ALIAS ||
         this.data.type === TransactionType.MOSAIC_ALIAS ||
         this.data.type === TransactionType.NAMESPACE_REGISTRATION;
-        },
+		},
 
-        data() {
-            return this.$store.getters[this.managerGetter].data;
-        },
+		data() {
+			return this.$store.getters[this.managerGetter].data;
+		},
 
-        loading() {
-            return this.$store.getters[this.managerGetter].loading;
-        },
+		loading() {
+			return this.$store.getters[this.managerGetter].loading;
+		},
 
-        error() {
-            return this.$store.getters[this.managerGetter].error;
-        }
-    },
+		error() {
+			return this.$store.getters[this.managerGetter].error;
+		}
+	},
 
-    methods: {
-        getNameByKey(e) {
-            return this.$store.getters['ui/getNameByKey'](e);
-        }
-    }
+	methods: {
+		getNameByKey(e) {
+			return this.$store.getters['ui/getNameByKey'](e);
+		}
+	}
 };
 </script>
 

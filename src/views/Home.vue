@@ -41,17 +41,17 @@ import RecentBlocksWidget from '@/components/widgets/RecentBlocksWidget.vue';
 import RecentTransactionsWidget from '@/components/widgets/RecentTransactionsWidget.vue';
 
 export default {
-    name: 'Home',
+	name: 'Home',
 
-    components: {
-        BaseInfoWidget,
-        PriceChartWidget,
-        RecentBlocksWidget,
-        RecentTransactionsWidget
-    },
+	components: {
+		BaseInfoWidget,
+		PriceChartWidget,
+		RecentBlocksWidget,
+		RecentTransactionsWidget
+	},
 
-    mounted() {
-        this.$store.dispatch('initialize', this.$route);
-    }
+	mounted() {
+		this.$store.dispatch('initialize', this.$route);
+	}
 };
 </script>

@@ -52,62 +52,62 @@
 import GraphicComponent from './GraphicComponent.vue';
 
 export default {
-    extends: GraphicComponent,
+	extends: GraphicComponent,
 
-    props: {
-        width: {
-            type: Number,
-            default: 261.333
-        },
+	props: {
+		width: {
+			type: Number,
+			default: 261.333
+		},
 
-        height: {
-            type: Number,
-            default: 131.313
-        },
+		height: {
+			type: Number,
+			default: 131.313
+		},
 
-        namespace: {
-            type: Object,
-            required: true,
-            default: () => ({
-                namespaceId: '',
-                namespaceName: ''
-            })
-        },
+		namespace: {
+			type: Object,
+			required: true,
+			default: () => ({
+				namespaceId: '',
+				namespaceName: ''
+			})
+		},
 
-        'hideCaption': {
-            type: Boolean,
-            default: false
-        }
-    },
+		'hideCaption': {
+			type: Boolean,
+			default: false
+		}
+	},
 
-    data() {
-        return {
-            id: this.getId('namespace-icon')
-        };
-    },
+	data() {
+		return {
+			id: this.getId('namespace-icon')
+		};
+	},
 
-    computed: {
-        title() {
-            return this.getTranslation('namespace') + ': ' + this.namespace.namespaceName;
-        },
-        iconColor() {
-            return this.getIconColorFromHex(this.namespace.namespaceId);
-        },
+	computed: {
+		title() {
+			return this.getTranslation('namespace') + ': ' + this.namespace.namespaceName;
+		},
+		iconColor() {
+			return this.getIconColorFromHex(this.namespace.namespaceId);
+		},
 
-        // iconFill() {
-        //     return `url(#${this.id})`;
-        // },
+		// iconFill() {
+		//     return `url(#${this.id})`;
+		// },
 
-        truncatedNamespaceName() {
-            return this.truncString(this.namespace.namespaceName, 5);
-        },
+		truncatedNamespaceName() {
+			return this.truncString(this.namespace.namespaceName, 5);
+		},
 
-        viewBox() {
-            return this.hideCaption
-                ? '115 0 16 105'
-                : '0 0 261.333 131.313';
-        }
-    }
+		viewBox() {
+			return this.hideCaption
+				? '115 0 16 105'
+				: '0 0 261.333 131.313';
+		}
+	}
 };
 </script>
 

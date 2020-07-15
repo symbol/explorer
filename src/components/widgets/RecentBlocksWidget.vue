@@ -71,27 +71,27 @@ import Age from '@/components/fields/Age.vue';
 import { mapGetters } from 'vuex';
 
 export default {
-    components: {
-        Card,
-        ButtonMore,
-        Age
-    },
+	components: {
+		Card,
+		ButtonMore,
+		Age
+	},
 
-    computed: {
-        ...mapGetters({
-            blockList: 'block/getRecentList'
-        }),
+	computed: {
+		...mapGetters({
+			blockList: 'block/getRecentList'
+		}),
 
-        loading() {
-            return !this.blockList.length;
-        }
-    },
+		loading() {
+			return !this.blockList.length;
+		}
+	},
 
-    methods: {
-        getNameByKey(e) {
-            return this.$store.getters['ui/getNameByKey'](e);
-        }
-    }
+	methods: {
+		getNameByKey(e) {
+			return this.$store.getters['ui/getNameByKey'](e);
+		}
+	}
 };
 </script>
 

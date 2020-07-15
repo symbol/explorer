@@ -1,9 +1,9 @@
 import http from './http';
 import {
-    Address,
-    AddressRestrictionFlag,
-    MosaicRestrictionFlag,
-    OperationRestrictionFlag
+	Address,
+	AddressRestrictionFlag,
+	MosaicRestrictionFlag,
+	OperationRestrictionFlag
 } from 'symbol-sdk';
 import helper from '../helper';
 import Constants from '../config/constants';
@@ -15,21 +15,21 @@ class RestrictionService {
    * @returns AccountRestrictions[]
    */
   static getAccountRestrictions = async address => {
-      let accountRestrictions;
+  	let accountRestrictions;
 
-      try {
-          accountRestrictions = await http.createRepositoryFactory.createRestrictionAccountRepository()
-              .getAccountRestrictions(Address.createFromRawAddress(address))
-              .toPromise();
-      }
-      catch (e) {
-      // To Catach statusCode 404 if Account restrictions are not available.
-          throw Error('Account restrictions are not available.');
-      }
+  	try {
+  		accountRestrictions = await http.createRepositoryFactory.createRestrictionAccountRepository()
+  			.getAccountRestrictions(Address.createFromRawAddress(address))
+  			.toPromise();
+  	}
+  	catch (e) {
+  		// To Catach statusCode 404 if Account restrictions are not available.
+  		throw Error('Account restrictions are not available.');
+  	}
 
-      const formattedAccountRestrictions = accountRestrictions.map(accountRestriction => this.formatAccountRestriction(accountRestriction));
+  	const formattedAccountRestrictions = accountRestrictions.map(accountRestriction => this.formatAccountRestriction(accountRestriction));
 
-      return formattedAccountRestrictions;
+  	return formattedAccountRestrictions;
   }
 
   /**
@@ -38,19 +38,19 @@ class RestrictionService {
    * @returns MosaicGlobalRestriction
    */
   static getMosaicGlobalRestriction = async mosaicId => {
-      let mosaicGlobalRestrictions;
+  	let mosaicGlobalRestrictions;
 
-      try {
-          mosaicGlobalRestrictions = await http.createRepositoryFactory.createRestrictionMosaicRepository()
-              .getMosaicGlobalRestriction(mosaicId)
-              .toPromise();
-      }
-      catch (e) {
-      // To Catach statusCode 404 if Mosaic global restrictions are not available.
-          throw Error('Mosaic global restrictions are not available.');
-      }
+  	try {
+  		mosaicGlobalRestrictions = await http.createRepositoryFactory.createRestrictionMosaicRepository()
+  			.getMosaicGlobalRestriction(mosaicId)
+  			.toPromise();
+  	}
+  	catch (e) {
+  		// To Catach statusCode 404 if Mosaic global restrictions are not available.
+  		throw Error('Mosaic global restrictions are not available.');
+  	}
 
-      return this.formatMosaicGlobalRestrictions(mosaicGlobalRestrictions);
+  	return this.formatMosaicGlobalRestrictions(mosaicGlobalRestrictions);
   }
 
   /**
@@ -59,28 +59,28 @@ class RestrictionService {
    * @returns Object readable AccountRestriction object
    */
   static formatAccountRestriction = accountRestriction => {
-      switch (accountRestriction.restrictionFlags) {
-      case AddressRestrictionFlag.AllowIncomingAddress:
-      case AddressRestrictionFlag.BlockIncomingAddress:
-      case AddressRestrictionFlag.AllowOutgoingAddress:
-      case AddressRestrictionFlag.BlockOutgoingAddress:
-          return {
-              restrictionType: Constants.AddressRestrictionFlag[accountRestriction.restrictionFlags],
-              restrictionAddressValues: accountRestriction.values.map(value => value.address)
-          };
-      case MosaicRestrictionFlag.AllowMosaic:
-      case MosaicRestrictionFlag.BlockMosaic:
-          return {
-              restrictionType: Constants.MosaicRestrictionFlag[accountRestriction.restrictionFlags],
-              restrictionMosaicValues: MosaicRestrictionFlag.values.map(value => value.id.toHex())
-          };
-      case OperationRestrictionFlag.AllowOutgoingTransactionType:
-      case OperationRestrictionFlag.BlockOutgoingTransactionType:
-          return {
-              restrictionType: Constants.OperationRestrictionFlag[accountRestriction.restrictionFlags],
-              restrictionTransactionValues: accountRestriction.values.map(value => Constants.TransactionType[value])
-          };
-      }
+  	switch (accountRestriction.restrictionFlags) {
+  	case AddressRestrictionFlag.AllowIncomingAddress:
+  	case AddressRestrictionFlag.BlockIncomingAddress:
+  	case AddressRestrictionFlag.AllowOutgoingAddress:
+  	case AddressRestrictionFlag.BlockOutgoingAddress:
+  		return {
+  			restrictionType: Constants.AddressRestrictionFlag[accountRestriction.restrictionFlags],
+  			restrictionAddressValues: accountRestriction.values.map(value => value.address)
+  		};
+  	case MosaicRestrictionFlag.AllowMosaic:
+  	case MosaicRestrictionFlag.BlockMosaic:
+  		return {
+  			restrictionType: Constants.MosaicRestrictionFlag[accountRestriction.restrictionFlags],
+  			restrictionMosaicValues: MosaicRestrictionFlag.values.map(value => value.id.toHex())
+  		};
+  	case OperationRestrictionFlag.AllowOutgoingTransactionType:
+  	case OperationRestrictionFlag.BlockOutgoingTransactionType:
+  		return {
+  			restrictionType: Constants.OperationRestrictionFlag[accountRestriction.restrictionFlags],
+  			restrictionTransactionValues: accountRestriction.values.map(value => Constants.TransactionType[value])
+  		};
+  	}
   }
 
   /**
@@ -89,25 +89,25 @@ class RestrictionService {
    * @returns Object readable MosaicGlobalRestrictions object
    */
   static formatMosaicGlobalRestrictions = mosaicRestriction => {
-      let mosaicGlobalRestrictionItem = [];
+  	let mosaicGlobalRestrictionItem = [];
 
-      // Convert Map<k,v> to Array
-      mosaicRestriction.restrictions.forEach((value, key) => {
-          mosaicGlobalRestrictionItem.push({ key, ...value });
-          return mosaicGlobalRestrictionItem;
-      });
+  	// Convert Map<k,v> to Array
+  	mosaicRestriction.restrictions.forEach((value, key) => {
+  		mosaicGlobalRestrictionItem.push({ key, ...value });
+  		return mosaicGlobalRestrictionItem;
+  	});
 
-      return {
-          ...mosaicRestriction,
-          entryType: Constants.MosaicRestrictionEntryType[mosaicRestriction.entryType],
-          mosaicId: mosaicRestriction.mosaicId.toHex(),
-          restrictions: mosaicGlobalRestrictionItem.map(item => ({
-              restrictionKey: item.key,
-              restrictionType: Constants.MosaicRestrictionType[item.restrictionType],
-              restrictionValue: item.restrictionValue,
-              referenceMosaicId: item.referenceMosaicId.toHex() === '0000000000000000' ? mosaicRestriction.mosaicId.toHex() : item.referenceMosaicId.toHex()
-          }))
-      };
+  	return {
+  		...mosaicRestriction,
+  		entryType: Constants.MosaicRestrictionEntryType[mosaicRestriction.entryType],
+  		mosaicId: mosaicRestriction.mosaicId.toHex(),
+  		restrictions: mosaicGlobalRestrictionItem.map(item => ({
+  			restrictionKey: item.key,
+  			restrictionType: Constants.MosaicRestrictionType[item.restrictionType],
+  			restrictionValue: item.restrictionValue,
+  			referenceMosaicId: item.referenceMosaicId.toHex() === '0000000000000000' ? mosaicRestriction.mosaicId.toHex() : item.referenceMosaicId.toHex()
+  		}))
+  	};
   }
 
   /**
@@ -116,9 +116,9 @@ class RestrictionService {
    * @returns Account Restriction list
    */
   static getAccountRestrictionList = async (address) => {
-      const accountRestrictions = await this.getAccountRestrictions(address);
+  	const accountRestrictions = await this.getAccountRestrictions(address);
 
-      return accountRestrictions;
+  	return accountRestrictions;
   }
 
   /**
@@ -127,10 +127,10 @@ class RestrictionService {
    * @returns Mosaic Global Restriction info
    */
   static getMosaicGlobalRestrictionInfo = async (hexOrNamespace) => {
-      const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic');
-      const mosaicGlobalRestrictionMetadata = await this.getMosaicGlobalRestriction(mosaicId);
+  	const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic');
+  	const mosaicGlobalRestrictionMetadata = await this.getMosaicGlobalRestriction(mosaicId);
 
-      return mosaicGlobalRestrictionMetadata;
+  	return mosaicGlobalRestrictionMetadata;
   }
 }
 

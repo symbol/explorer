@@ -50,27 +50,27 @@ import Card from '@/components/containers/Card.vue';
 import { mapGetters } from 'vuex';
 
 export default {
-    components: {
-        Card
-    },
+	components: {
+		Card
+	},
 
-    computed: {
-        ...mapGetters({
-            blockHeight: 'chain/getBlockHeight',
-            storageInfo: 'chain/getStorageInfo',
-            marketData: 'chain/getMarketData'
-        }),
+	computed: {
+		...mapGetters({
+			blockHeight: 'chain/getBlockHeight',
+			storageInfo: 'chain/getStorageInfo',
+			marketData: 'chain/getMarketData'
+		}),
 
-        loading() {
-            return !this.blockHeight;
-        }
-    },
+		loading() {
+			return !this.blockHeight;
+		}
+	},
 
-    methods: {
-        getNameByKey(e) {
-            return this.$store.getters['ui/getNameByKey'](e);
-        }
-    }
+	methods: {
+		getNameByKey(e) {
+			return this.$store.getters['ui/getNameByKey'](e);
+		}
+	}
 };
 </script>
 

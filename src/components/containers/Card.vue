@@ -24,21 +24,21 @@
 import Loading from '@/components/Loading.vue';
 
 export default {
-    components: {
-        Loading
-    },
+	components: {
+		Loading
+	},
 
-    props: {
-        loading: {
-            type: Boolean,
-            default: false
-        },
+	props: {
+		loading: {
+			type: Boolean,
+			default: false
+		},
 
-        error: {
-            type: Boolean,
-            default: false
-        }
-    }
+		error: {
+			type: Boolean,
+			default: false
+		}
+	}
 };
 </script>
 

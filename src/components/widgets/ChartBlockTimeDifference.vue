@@ -25,26 +25,26 @@ import Chart from '@/components/Chart.vue';
 import { mapGetters } from 'vuex';
 
 export default {
-    components: {
-        Card,
-        Chart
-    },
+	components: {
+		Card,
+		Chart
+	},
 
-    computed: {
-        ...mapGetters({
-            blockTimeDifferenceData: 'statistic/getBlockTimeDifferenceData',
-            loading: 'statistic/getLoadingBlockTimeDifference'
-        }),
+	computed: {
+		...mapGetters({
+			blockTimeDifferenceData: 'statistic/getBlockTimeDifferenceData',
+			loading: 'statistic/getLoadingBlockTimeDifference'
+		}),
 
-        chartData() {
-            return this.blockTimeDifferenceData.data;
-        }
-    },
+		chartData() {
+			return this.blockTimeDifferenceData.data;
+		}
+	},
 
-    methods: {
-        getNameByKey(e) {
-            return this.$store.getters['ui/getNameByKey'](e);
-        }
-    }
+	methods: {
+		getNameByKey(e) {
+			return this.$store.getters['ui/getNameByKey'](e);
+		}
+	}
 };
 </script>

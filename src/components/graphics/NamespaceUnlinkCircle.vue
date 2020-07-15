@@ -59,23 +59,23 @@ import GraphicComponent from './GraphicComponent.vue';
 import NamespaceListPopover from './NamespaceListPopover';
 
 export default {
-    extends: GraphicComponent,
+	extends: GraphicComponent,
 
-    components: {
-        NamespaceListPopover
-    },
+	components: {
+		NamespaceListPopover
+	},
 
-    props: {
-        namespaces: {
-            type: Array,
-            required: true
-        }
-    },
+	props: {
+		namespaces: {
+			type: Array,
+			required: true
+		}
+	},
 
-    data() {
-        return {
-            id: this.getId('namespace-circle')
-        };
-    }
+	data() {
+		return {
+			id: this.getId('namespace-circle')
+		};
+	}
 };
 </script>

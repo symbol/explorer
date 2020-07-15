@@ -35,51 +35,51 @@ import ArrayField from '@/components/fields/ArrayField.vue';
 import TransactionType from '@/components/fields/TransactionType.vue';
 
 export default {
-    extends: TableView,
+	extends: TableView,
 
-    components: {
-        MosaicsField,
-        ArrayField,
-        TransactionType
-    },
+	components: {
+		MosaicsField,
+		ArrayField,
+		TransactionType
+	},
 
-    props: {
-        data: {
-            type: Object,
-            required: true
-        }
-    },
+	props: {
+		data: {
+			type: Object,
+			required: true
+		}
+	},
 
-    created() {
-        this.componentType = 'info';
-    },
+	created() {
+		this.componentType = 'info';
+	},
 
-    mounted() {
-    // this.$store.dispatch(this.view + "/fetchInfo", this.infoId);
-    },
+	mounted() {
+		// this.$store.dispatch(this.view + "/fetchInfo", this.infoId);
+	},
 
-    computed: {
-        formattedData() {
-            let formattedData = {};
+	computed: {
+		formattedData() {
+			let formattedData = {};
 
-            for (let key in this.data) {
-                if (this.isItemShown(key, this.data[key]))
-                    formattedData[key] = this.data[key];
-            }
+			for (let key in this.data) {
+				if (this.isItemShown(key, this.data[key]))
+					formattedData[key] = this.data[key];
+			}
 
-            return formattedData;
-        },
+			return formattedData;
+		},
 
-        header() {
-            let header = ['', ''];
+		header() {
+			let header = ['', ''];
 
-            return header;
-        },
+			return header;
+		},
 
-        dataIsNotEmpty() {
-            return Object.keys(this.data).length;
-        }
-    }
+		dataIsNotEmpty() {
+			return Object.keys(this.data).length;
+		}
+	}
 };
 </script>
 

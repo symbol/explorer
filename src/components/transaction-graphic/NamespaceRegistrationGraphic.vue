@@ -48,61 +48,61 @@ import NamespaceIcon from '../graphics/NamespaceIcon.vue';
 import Arrow from '../graphics/Arrow.vue';
 
 export default {
-    extends: GraphicComponent,
+	extends: GraphicComponent,
 
-    components: {
-        AccountIcon,
-        AddCircle,
-        NamespaceIcon,
-        Arrow
-    },
+	components: {
+		AccountIcon,
+		AddCircle,
+		NamespaceIcon,
+		Arrow
+	},
 
-    props: {
-        message: {
-            type: String,
-            default: ''
-        },
+	props: {
+		message: {
+			type: String,
+			default: ''
+		},
 
-        signer: {
-            type: String,
-            required: true,
-            default: ''
-        },
+		signer: {
+			type: String,
+			required: true,
+			default: ''
+		},
 
-        namespaceId: {
-            type: String,
-            required: true,
-            default: ''
-        },
+		namespaceId: {
+			type: String,
+			required: true,
+			default: ''
+		},
 
-        namespaceName: {
-            type: String,
-            required: true,
-            default: ''
-        },
+		namespaceName: {
+			type: String,
+			required: true,
+			default: ''
+		},
 
-        duration: {
-            type: Number,
-            required: true
-        }
-    },
+		duration: {
+			type: Number,
+			required: true
+		}
+	},
 
-    computed: {
-        transactionType() {
-            return this.getTransactionTypeCaption(16718); // Namespace registration
-        },
+	computed: {
+		transactionType() {
+			return this.getTransactionTypeCaption(16718); // Namespace registration
+		},
 
-        circleIconsToDisplay() {
-            return [true];
-        },
+		circleIconsToDisplay() {
+			return [true];
+		},
 
-        namespace() {
-            return {
-                namespaceName: this.namespaceName,
-                namespaceId: this.namespaceId,
-                duration: this.duration
-            };
-        }
-    }
+		namespace() {
+			return {
+				namespaceName: this.namespaceName,
+				namespaceId: this.namespaceId,
+				duration: this.duration
+			};
+		}
+	}
 };
 </script>

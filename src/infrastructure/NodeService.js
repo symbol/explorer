@@ -26,9 +26,9 @@ class NodeService {
      * @returns StorageInfo
      */
     static getStorageInfo = () => {
-        return http.createRepositoryFactory.createNodeRepository()
-            .getStorageInfo()
-            .toPromise();
+    	return http.createRepositoryFactory.createNodeRepository()
+    		.getStorageInfo()
+    		.toPromise();
     }
 
     /**
@@ -36,9 +36,9 @@ class NodeService {
      * @returns NodeInfo
      */
     static getNodeInfo = () => {
-        return http.createRepositoryFactory.createNodeRepository()
-            .getNodeInfo()
-            .toPromise();
+    	return http.createRepositoryFactory.createNodeRepository()
+    		.getNodeInfo()
+    		.toPromise();
     }
 
     /**
@@ -46,7 +46,7 @@ class NodeService {
      * @returns ServerInfo
      */
     static getServerInfo = () => {
-        return http.node.getServerInfo().toPromise();
+    	return http.node.getServerInfo().toPromise();
     }
 
     /**
@@ -54,13 +54,13 @@ class NodeService {
      * @returns NodeInfo[]
      */
     static getNodePeers = async () => {
-        const nodePeers = await http.createRepositoryFactory.createNodeRepository()
-            .getNodePeers()
-            .toPromise();
+    	const nodePeers = await http.createRepositoryFactory.createNodeRepository()
+    		.getNodePeers()
+    		.toPromise();
 
-        const formattedNodePeers = nodePeers.map(nodeInfo => this.formatNodeInfo(nodeInfo));
+    	const formattedNodePeers = nodePeers.map(nodeInfo => this.formatNodeInfo(nodeInfo));
 
-        return formattedNodePeers;
+    	return formattedNodePeers;
     }
 
     /**
@@ -69,17 +69,17 @@ class NodeService {
      * @returns boolean
      */
     static isNodeActive = async (currentUrl) => {
-        let status = true;
+    	let status = true;
 
-        try {
-            await new symbol.NodeHttp(currentUrl).getNodeHealth()
-                .toPromise();
-        }
-        catch (e) {
-            status = false;
-        }
+    	try {
+    		await new symbol.NodeHttp(currentUrl).getNodeHealth()
+    			.toPromise();
+    	}
+    	catch (e) {
+    		status = false;
+    	}
 
-        return status;
+    	return status;
     }
 
     /**
@@ -88,10 +88,10 @@ class NodeService {
      * @returns Object readable NodeInfo object
      */
     static formatNodeInfo = nodeInfo => ({
-        ...nodeInfo,
-        address: symbol.Address.createFromPublicKey(nodeInfo.publicKey, nodeInfo.networkIdentifier).plain(),
-        roles: Constants.RoleType[nodeInfo.roles],
-        network: Constants.NetworkType[nodeInfo.networkIdentifier]
+    	...nodeInfo,
+    	address: symbol.Address.createFromPublicKey(nodeInfo.publicKey, nodeInfo.networkIdentifier).plain(),
+    	roles: Constants.RoleType[nodeInfo.roles],
+    	network: Constants.NetworkType[nodeInfo.networkIdentifier]
     })
 
     /**
@@ -99,12 +99,12 @@ class NodeService {
      * @returns Node peers object for Vue component
      */
     static getNodePeerList = async () => {
-        let nodePeers = await this.getNodePeers();
+    	let nodePeers = await this.getNodePeers();
 
-        return nodePeers.map((el, index) => ({
-            index: index + 1,
-            ...el
-        }));
+    	return nodePeers.map((el, index) => ({
+    		index: index + 1,
+    		...el
+    	}));
     }
 }
 

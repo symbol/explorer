@@ -70,26 +70,26 @@ import ButtonMore from '@/components/controls/ButtonMore.vue';
 import { mapGetters } from 'vuex';
 
 export default {
-    components: {
-        Card,
-        ButtonMore
-    },
+	components: {
+		Card,
+		ButtonMore
+	},
 
-    computed: {
-        ...mapGetters({
-            transactionList: 'transaction/getRecentList'
-        }),
+	computed: {
+		...mapGetters({
+			transactionList: 'transaction/getRecentList'
+		}),
 
-        loading() {
-            return !this.transactionList.length;
-        }
-    },
+		loading() {
+			return !this.transactionList.length;
+		}
+	},
 
-    methods: {
-        getNameByKey(e) {
-            return this.$store.getters['ui/getNameByKey'](e);
-        }
-    }
+	methods: {
+		getNameByKey(e) {
+			return this.$store.getters['ui/getNameByKey'](e);
+		}
+	}
 };
 </script>
 

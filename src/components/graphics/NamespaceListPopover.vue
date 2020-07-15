@@ -27,28 +27,28 @@ import NamespaceIcon from '../graphics/NamespaceIcon.vue';
 import GraphicComponent from './GraphicComponent.vue';
 
 export default {
-    extends: GraphicComponent,
+	extends: GraphicComponent,
 
-    components: {
-        NamespaceIcon
-    },
+	components: {
+		NamespaceIcon
+	},
 
-    props: {
-        namespaces: {
-            type: Array,
-            default: () => []
-        },
+	props: {
+		namespaces: {
+			type: Array,
+			default: () => []
+		},
 
-        title: {
-            type: String,
-            default: 'Namespaces'
-        },
+		title: {
+			type: String,
+			default: 'Namespaces'
+		},
 
-        target: {
-            type: String,
-            required: true
-        }
-    }
+		target: {
+			type: String,
+			required: true
+		}
+	}
 };
 </script>
 

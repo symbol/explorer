@@ -67,39 +67,39 @@
 import GraphicComponent from './GraphicComponent.vue';
 
 export default {
-    extends: GraphicComponent,
+	extends: GraphicComponent,
 
-    props: {
-        width: {
-            type: Number,
-            default: 261.333
-        },
+	props: {
+		width: {
+			type: Number,
+			default: 261.333
+		},
 
-        height: {
-            type: Number,
-            default: 131.313
-        }
-    },
+		height: {
+			type: Number,
+			default: 131.313
+		}
+	},
 
-    computed: {
-        title() {
-            return this.getTranslation('mosaic') + ': ' + this.nativeMosaicAliasName;
-        },
+	computed: {
+		title() {
+			return this.getTranslation('mosaic') + ': ' + this.nativeMosaicAliasName;
+		},
 
-        mosaicId() {
-            return this.nativeMosaicId;
-        },
+		mosaicId() {
+			return this.nativeMosaicId;
+		},
 
-        aliasName() {
-            return this.nativeMosaicAliasName;
-        }
-    },
+		aliasName() {
+			return this.nativeMosaicAliasName;
+		}
+	},
 
-    methods: {
-        click() {
-            this.$emit('click', this.mosaicId);
-        }
-    }
+	methods: {
+		click() {
+			this.$emit('click', this.mosaicId);
+		}
+	}
 };
 </script>
 

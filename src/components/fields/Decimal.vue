@@ -24,15 +24,15 @@
 </template>
 <script>
 export default {
-    name: 'Decimal',
-    props: {
-        value: String
-    },
-    methods: {
-        decimalSplit(value) {
-            return value.split('.', 2);
-        }
-    }
+	name: 'Decimal',
+	props: {
+		value: String
+	},
+	methods: {
+		decimalSplit(value) {
+			return value.split('.', 2);
+		}
+	}
 };
 </script>
 

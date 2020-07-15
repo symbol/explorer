@@ -54,7 +54,7 @@
 import GraphicComponent from './GraphicComponent.vue';
 
 export default {
-    extends: GraphicComponent
+	extends: GraphicComponent
 };
 </script>
 

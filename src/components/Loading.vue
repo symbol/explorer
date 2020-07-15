@@ -46,12 +46,12 @@
 
 <script>
 export default {
-    props: {
-        small: {
-            type: Boolean,
-            default: false
-        }
-    }
+	props: {
+		small: {
+			type: Boolean,
+			default: false
+		}
+	}
 };
 </script>
 

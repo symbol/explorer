@@ -89,23 +89,23 @@ import GraphicComponent from './GraphicComponent.vue';
 import MessagePopover from './MessagePopover.vue';
 
 export default {
-    extends: GraphicComponent,
+	extends: GraphicComponent,
 
-    components: {
-        MessagePopover
-    },
+	components: {
+		MessagePopover
+	},
 
-    props: {
-        message: {
-            type: String,
-            default: ''
-        }
-    },
+	props: {
+		message: {
+			type: String,
+			default: ''
+		}
+	},
 
-    data() {
-        return {
-            id: this.getId('message-circle')
-        };
-    }
+	data() {
+		return {
+			id: this.getId('message-circle')
+		};
+	}
 };
 </script>

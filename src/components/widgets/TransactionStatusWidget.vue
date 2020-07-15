@@ -51,83 +51,83 @@ import TableInfoView from '@/components/tables/TableInfoView.vue';
 import { mapGetters } from 'vuex';
 
 export default {
-    components: {
-        Card,
-        TableInfoView
-    },
+	components: {
+		Card,
+		TableInfoView
+	},
 
-    mounted() {
-        this.clear();
-    },
+	mounted() {
+		this.clear();
+	},
 
-    data() {
-        return {
-            hash: '',
-            statusStyle: {},
-            statusText: '',
-            statusDetail: null
-        };
-    },
+	data() {
+		return {
+			hash: '',
+			statusStyle: {},
+			statusText: '',
+			statusDetail: null
+		};
+	},
 
-    computed: {
-        ...mapGetters({
-            blockHeight: 'transaction/getBlockHeight',
-            transactionStatus: 'transaction/getTransactionStatus'
-        }),
+	computed: {
+		...mapGetters({
+			blockHeight: 'transaction/getBlockHeight',
+			transactionStatus: 'transaction/getTransactionStatus'
+		}),
 
-        loading() {
-            return !this.blockHeight;
-        }
-    },
+		loading() {
+			return !this.blockHeight;
+		}
+	},
 
-    methods: {
-        clear() {
-            this.clearStatus();
-            this.hash = '';
-        },
+	methods: {
+		clear() {
+			this.clearStatus();
+			this.hash = '';
+		},
 
-        clearStatus() {
-            this.statusStyle = {};
-            this.statusText = '';
-            this.statusDetail = null;
-            this.$store.dispatch('transaction/clearTransactionStatus');
-        },
+		clearStatus() {
+			this.statusStyle = {};
+			this.statusText = '';
+			this.statusDetail = null;
+			this.$store.dispatch('transaction/clearTransactionStatus');
+		},
 
-        getNameByKey(e) {
-            return this.$store.getters['ui/getNameByKey'](e);
-        },
+		getNameByKey(e) {
+			return this.$store.getters['ui/getNameByKey'](e);
+		},
 
-        getStatus() {
-            const hash = this.hash;
+		getStatus() {
+			const hash = this.hash;
 
-            this.clearStatus();
-            this.$store.dispatch('transaction/getTransactionStatus', hash);
-        }
-    },
+			this.clearStatus();
+			this.$store.dispatch('transaction/getTransactionStatus', hash);
+		}
+	},
 
-    watch: {
-        transactionStatus(status) {
-            let color = '';
+	watch: {
+		transactionStatus(status) {
+			let color = '';
 
-            switch (status.message) {
-            case 'confirmed':
-                color = '--green';
-                break;
-            case 'unconfirmed':
-                color = '--orange';
-                break;
-            default:
-                color = '--red';
-                break;
-            }
+			switch (status.message) {
+			case 'confirmed':
+				color = '--green';
+				break;
+			case 'unconfirmed':
+				color = '--orange';
+				break;
+			default:
+				color = '--red';
+				break;
+			}
 
-            this.statusText = status.message
-                ? status.message.charAt(0).toUpperCase() + status.message.slice(1)
-                : status.message;
-            this.statusDetail = status.detail;
-            this.statusStyle = { color: `var(${color})` };
-        }
-    }
+			this.statusText = status.message
+				? status.message.charAt(0).toUpperCase() + status.message.slice(1)
+				: status.message;
+			this.statusDetail = status.detail;
+			this.statusStyle = { color: `var(${color})` };
+		}
+	}
 };
 </script>
 

@@ -75,23 +75,23 @@ import GraphicComponent from './GraphicComponent.vue';
 import MosaicListPopover from './MosaicListPopover.vue';
 
 export default {
-    extends: GraphicComponent,
+	extends: GraphicComponent,
 
-    components: {
-        MosaicListPopover
-    },
+	components: {
+		MosaicListPopover
+	},
 
-    props: {
-        mosaics: {
-            type: Array,
-            default: () => []
-        }
-    },
+	props: {
+		mosaics: {
+			type: Array,
+			default: () => []
+		}
+	},
 
-    data() {
-        return {
-            id: this.getId('mosaics-circle')
-        };
-    }
+	data() {
+		return {
+			id: this.getId('mosaics-circle')
+		};
+	}
 };
 </script>

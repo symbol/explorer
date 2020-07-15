@@ -44,16 +44,16 @@ import ChartBlockTimeDifference from '@/components/widgets/ChartBlockTimeDiffere
 import ChartTransactionPerBlock from '@/components/widgets/ChartTransactionPerBlock.vue';
 
 export default {
-    name: 'Statistics',
-    components: {
-        NetworkFeesWidget,
-        NetworkRentalFeesWidget,
-        ChartBlockTimeDifference,
-        ChartTransactionPerBlock
-    },
-    methods: {},
-    mounted() {
-        this.$store.dispatch('statistic/initialize', this.$route);
-    }
+	name: 'Statistics',
+	components: {
+		NetworkFeesWidget,
+		NetworkRentalFeesWidget,
+		ChartBlockTimeDifference,
+		ChartTransactionPerBlock
+	},
+	methods: {},
+	mounted() {
+		this.$store.dispatch('statistic/initialize', this.$route);
+	}
 };
 </script>

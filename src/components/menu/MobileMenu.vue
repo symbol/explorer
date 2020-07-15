@@ -54,43 +54,43 @@ import LanguageSelector from '@/components/controls/LanguageSelector.vue';
 import { pageMenu } from '../../config/';
 
 export default {
-    components: {
-        IconMenu,
-        LanguageSelector,
-        IconHome,
-        IconBlocks,
-        IconTransactions,
-        IconAccounts,
-        IconMosaics,
-        IconNodes,
-        IconNamespaces,
-        IconStatistics
-    },
+	components: {
+		IconMenu,
+		LanguageSelector,
+		IconHome,
+		IconBlocks,
+		IconTransactions,
+		IconAccounts,
+		IconMosaics,
+		IconNodes,
+		IconNamespaces,
+		IconStatistics
+	},
 
-    props: {
-        fixed: {
-            type: Boolean,
-            default: false
-        }
-    },
+	props: {
+		fixed: {
+			type: Boolean,
+			default: false
+		}
+	},
 
-    data() {
-        return {
-            items: pageMenu.items,
-            showDrawer: false,
-            scrolled: true
-        };
-    },
+	data() {
+		return {
+			items: pageMenu.items,
+			showDrawer: false,
+			scrolled: true
+		};
+	},
 
-    methods: {
-        toggleMenu() {
-            this.showDrawer = !this.showDrawer;
-        },
+	methods: {
+		toggleMenu() {
+			this.showDrawer = !this.showDrawer;
+		},
 
-        getNameByKey(e) {
-            return this.$store.getters['ui/getNameByKey'](e);
-        }
-    }
+		getNameByKey(e) {
+			return this.$store.getters['ui/getNameByKey'](e);
+		}
+	}
 };
 </script>
 

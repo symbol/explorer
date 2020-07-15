@@ -24,24 +24,24 @@
 import GraphicComponent from './GraphicComponent.vue';
 
 export default {
-    extends: GraphicComponent,
+	extends: GraphicComponent,
 
-    props: {
-        data: {
-            type: Object,
-            default: () => ({})
-        },
+	props: {
+		data: {
+			type: Object,
+			default: () => ({})
+		},
 
-        title: {
-            type: String,
-            default: 'Table'
-        },
+		title: {
+			type: String,
+			default: 'Table'
+		},
 
-        target: {
-            type: String,
-            required: true
-        }
-    }
+		target: {
+			type: String,
+			required: true
+		}
+	}
 };
 </script>
 

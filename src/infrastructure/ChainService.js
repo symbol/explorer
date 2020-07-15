@@ -24,11 +24,11 @@ class ChainService {
    * @returns block height
    */
   static getBlockchainHeight = async () => {
-      const blockHeight = await http.createRepositoryFactory.createChainRepository()
-          .getBlockchainHeight()
-          .toPromise();
+  	const blockHeight = await http.createRepositoryFactory.createChainRepository()
+  		.getBlockchainHeight()
+  		.toPromise();
 
-      return blockHeight.compact();
+  	return blockHeight.compact();
   }
 
   /**
@@ -36,13 +36,13 @@ class ChainService {
    * @returns
    */
   static getChainScore = async () => {
-      const chainScore = await http.createRepositoryFactory.createChainRepository()
-          .getChainScore()
-          .toPromise();
+  	const chainScore = await http.createRepositoryFactory.createChainRepository()
+  		.getChainScore()
+  		.toPromise();
 
-      const formattedChainScore = this.formatBlockchainScore(chainScore);
+  	const formattedChainScore = this.formatBlockchainScore(chainScore);
 
-      return formattedChainScore;
+  	return formattedChainScore;
   }
 
   /**
@@ -50,9 +50,9 @@ class ChainService {
    * @param BlockchainScoreDTO
    */
   static formatBlockchainScore = blockchainScore => ({
-      ...blockchainScore,
-      scoreLow: blockchainScore.scoreLow.compact(),
-      scoreHigh: blockchainScore.scoreHigh.compact()
+  	...blockchainScore,
+  	scoreLow: blockchainScore.scoreLow.compact(),
+  	scoreHigh: blockchainScore.scoreHigh.compact()
   })
 }
 

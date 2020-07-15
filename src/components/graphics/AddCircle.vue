@@ -53,27 +53,27 @@ import GraphicComponent from './GraphicComponent.vue';
 import TablePopover from './TablePopover.vue';
 
 export default {
-    extends: GraphicComponent,
+	extends: GraphicComponent,
 
-    components: {
-        TablePopover
-    },
+	components: {
+		TablePopover
+	},
 
-    props: {
-        title: {
-            type: String,
-            default: 'Creation'
-        },
-        data: {
-            type: Object,
-            default: () => ({})
-        }
-    },
+	props: {
+		title: {
+			type: String,
+			default: 'Creation'
+		},
+		data: {
+			type: Object,
+			default: () => ({})
+		}
+	},
 
-    data() {
-        return {
-            id: this.getId('add-circle')
-        };
-    }
+	data() {
+		return {
+			id: this.getId('add-circle')
+		};
+	}
 };
 </script>

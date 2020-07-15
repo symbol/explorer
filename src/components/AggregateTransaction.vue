@@ -28,23 +28,23 @@ import TableView from '@/components/tables/TableView.vue';
 import { TransactionType } from 'symbol-sdk';
 
 export default {
-    extends: TableView,
-    components: {
-    // https://vuejs.org/v2/guide/components-edge-cases.html#Circular-References-Between-Components
-    // eslint-disable-next-line
+	extends: TableView,
+	components: {
+		// https://vuejs.org/v2/guide/components-edge-cases.html#Circular-References-Between-Components
+		// eslint-disable-next-line
     TableListView: () => import('../components/tables/TableListView'),
-        TableInfoView
-    },
-    data() {
-        return {
-            TransactionType: TransactionType
-        };
-    },
-    props: {
-        transactionBody: {
-            type: Object,
-            required: true
-        }
-    }
+		TableInfoView
+	},
+	data() {
+		return {
+			TransactionType: TransactionType
+		};
+	},
+	props: {
+		transactionBody: {
+			type: Object,
+			required: true
+		}
+	}
 };
 </script>

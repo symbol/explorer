@@ -92,151 +92,151 @@ import NativeMosaicCircle from '../graphics/NativeMosaicCircle.vue';
 import Arrow from '../graphics/Arrow.vue';
 
 export default {
-    extends: GraphicComponent,
+	extends: GraphicComponent,
 
-    components: {
-        AccountIcon,
-        MessageCircle,
-        MosaicsCircle,
-        NativeMosaicCircle,
-        Arrow
-    },
+	components: {
+		AccountIcon,
+		MessageCircle,
+		MosaicsCircle,
+		NativeMosaicCircle,
+		Arrow
+	},
 
-    props: {
-        message: {
-            type: String,
-            default: ''
-        },
-        signer: {
-            type: String,
-            required: true,
-            default: ''
-        },
-        recipient: {
-            type: String,
-            required: true,
-            default: ''
-        },
-        mosaics: {
-            type: Array,
-            default: () => []
-        }
-    },
+	props: {
+		message: {
+			type: String,
+			default: ''
+		},
+		signer: {
+			type: String,
+			required: true,
+			default: ''
+		},
+		recipient: {
+			type: String,
+			required: true,
+			default: ''
+		},
+		mosaics: {
+			type: Array,
+			default: () => []
+		}
+	},
 
-    computed: {
-        circleIconsToDisplay() {
-            return [
-                this.hasMessage,
-                this.hasNativeMosaic,
-                this.hasMosaic
-            ];
-        },
+	computed: {
+		circleIconsToDisplay() {
+			return [
+				this.hasMessage,
+				this.hasNativeMosaic,
+				this.hasMosaic
+			];
+		},
 
-        hasMessage() {
-            return typeof this.message === 'string' && this.message.length > 0;
-        },
+		hasMessage() {
+			return typeof this.message === 'string' && this.message.length > 0;
+		},
 
-        hasNativeMosaic() {
-            return typeof this.nativeMosaic !== 'undefined';
-        },
+		hasNativeMosaic() {
+			return typeof this.nativeMosaic !== 'undefined';
+		},
 
-        hasMosaic() {
-            return this.mosaicList.length > 0;
-        },
+		hasMosaic() {
+			return this.mosaicList.length > 0;
+		},
 
-        nativeMosaic() {
-            return this.mosaics.find(mosaic => mosaic.mosaicId === this.nativeMosaicId);
-        },
+		nativeMosaic() {
+			return this.mosaics.find(mosaic => mosaic.mosaicId === this.nativeMosaicId);
+		},
 
-        mosaicList() {
-            return this.mosaics.filter(mosaic => mosaic.mosaicId !== this.nativeMosaicId);
-        },
+		mosaicList() {
+			return this.mosaics.filter(mosaic => mosaic.mosaicId !== this.nativeMosaicId);
+		},
 
-        mosaicListText() {
-            const mosaicList = this.mosaicList;
-            const name = mosaicList[0].mosaicAliasName !== 'N/A'
-                ? mosaicList[0].mosaicAliasName
-                : this.trunc(mosaicList[0].mosaicId);
-            const amount = mosaicList[0].amount;
-            const more = mosaicList.length - 1 > 0
-                ? `[+${mosaicList.length - 1}]`
-                : '';
+		mosaicListText() {
+			const mosaicList = this.mosaicList;
+			const name = mosaicList[0].mosaicAliasName !== 'N/A'
+				? mosaicList[0].mosaicAliasName
+				: this.trunc(mosaicList[0].mosaicId);
+			const amount = mosaicList[0].amount;
+			const more = mosaicList.length - 1 > 0
+				? `[+${mosaicList.length - 1}]`
+				: '';
 
-            return `${name} - ${amount} ${more}`;
-        },
+			return `${name} - ${amount} ${more}`;
+		},
 
-        nativeMosaicText() {
-            if (this.hasNativeMosaic)
-                return `${this.nativeMosaic.amount} XYM`;
-            return '';
-        },
+		nativeMosaicText() {
+			if (this.hasNativeMosaic)
+				return `${this.nativeMosaic.amount} XYM`;
+			return '';
+		},
 
-        mosaic2Text() {
-            if (this.hasMosaic)
-                return this.nativeMosaicText;
-            return '';
-        },
+		mosaic2Text() {
+			if (this.hasMosaic)
+				return this.nativeMosaicText;
+			return '';
+		},
 
-        mosaic1Text() {
-            if (this.hasMosaic)
-                return this.mosaicListText;
-            return this.nativeMosaicText;
-        },
+		mosaic1Text() {
+			if (this.hasMosaic)
+				return this.mosaicListText;
+			return this.nativeMosaicText;
+		},
 
-        messageText() {
-            return this.message?.substring(0, 30) + (this.message?.length > 30 ? '...' : '');
-        },
+		messageText() {
+			return this.message?.substring(0, 30) + (this.message?.length > 30 ? '...' : '');
+		},
 
-        circlesCount() {
-            return +this.hasMessage + this.hasMosaic + this.hasNativeMosaic;
-        }
-    },
+		circlesCount() {
+			return +this.hasMessage + this.hasMosaic + this.hasNativeMosaic;
+		}
+	},
 
-    methods: {
-        getColor(hash) {
-            const color = helper.getColorFromHash(hash, false);
+	methods: {
+		getColor(hash) {
+			const color = helper.getColorFromHash(hash, false);
 
-            return `RGB(${color.R},${color.G},${color.B})`;
-        },
+			return `RGB(${color.R},${color.G},${color.B})`;
+		},
 
-        trunc(hash, strLen = 5) {
-            return `${hash.substring(0, strLen)}...${hash.substring(hash.length - strLen, hash.length)}`;
-        },
+		trunc(hash, strLen = 5) {
+			return `${hash.substring(0, strLen)}...${hash.substring(hash.length - strLen, hash.length)}`;
+		},
 
-        accountClick(address) {
-            this.$store.dispatch(`ui/openPage`, {
-                pageName: 'address',
-                param: address
-            });
-        },
+		accountClick(address) {
+			this.$store.dispatch(`ui/openPage`, {
+				pageName: 'address',
+				param: address
+			});
+		},
 
-        getCirclePosition(index) {
-            const circlesCount = this.circlesCount;
+		getCirclePosition(index) {
+			const circlesCount = this.circlesCount;
 
-            switch (index) {
-            case 0:
-                if (this.hasMessage)
-                    return this.circlesHorisontalPositions[circlesCount - 1][0];
-                break;
-            case 1:
-                if (this.hasMosaic) {
-                    if (this.hasMessage)
-                        return this.circlesHorisontalPositions[circlesCount - 1][1];
-                    return this.circlesHorisontalPositions[circlesCount - 1][0];
-                }
-                break;
-            case 2:
-                if (this.hasNativeMosaic) {
-                    if (this.hasMessage && this.hasMosaic)
-                        return this.circlesHorisontalPositions[circlesCount - 1][2];
-                    if (this.hasMessage || this.hasMosaic)
-                        return this.circlesHorisontalPositions[circlesCount - 1][1];
-                    return this.circlesHorisontalPositions[circlesCount - 1][0];
-                }
-                break;
-            }
-        }
-    }
+			switch (index) {
+			case 0:
+				if (this.hasMessage)
+					return this.circlesHorisontalPositions[circlesCount - 1][0];
+				break;
+			case 1:
+				if (this.hasMosaic) {
+					if (this.hasMessage)
+						return this.circlesHorisontalPositions[circlesCount - 1][1];
+					return this.circlesHorisontalPositions[circlesCount - 1][0];
+				}
+				break;
+			case 2:
+				if (this.hasNativeMosaic) {
+					if (this.hasMessage && this.hasMosaic)
+						return this.circlesHorisontalPositions[circlesCount - 1][2];
+					if (this.hasMessage || this.hasMosaic)
+						return this.circlesHorisontalPositions[circlesCount - 1][1];
+					return this.circlesHorisontalPositions[circlesCount - 1][0];
+				}
+				break;
+			}
+		}
+	}
 };
 </script>
 

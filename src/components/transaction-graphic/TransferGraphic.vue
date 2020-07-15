@@ -63,70 +63,70 @@ import NativeMosaicCircle from '../graphics/NativeMosaicCircle.vue';
 import Arrow from '../graphics/Arrow.vue';
 
 export default {
-    extends: GraphicComponent,
+	extends: GraphicComponent,
 
-    components: {
-        AccountIcon,
-        MessageCircle,
-        MosaicsCircle,
-        NativeMosaicCircle,
-        Arrow
-    },
+	components: {
+		AccountIcon,
+		MessageCircle,
+		MosaicsCircle,
+		NativeMosaicCircle,
+		Arrow
+	},
 
-    props: {
-        message: {
-            type: String,
-            default: ''
-        },
-        signer: {
-            type: String,
-            required: true,
-            default: ''
-        },
-        recipient: {
-            type: String,
-            required: true,
-            default: ''
-        },
-        mosaics: {
-            type: Array,
-            default: () => []
-        }
-    },
+	props: {
+		message: {
+			type: String,
+			default: ''
+		},
+		signer: {
+			type: String,
+			required: true,
+			default: ''
+		},
+		recipient: {
+			type: String,
+			required: true,
+			default: ''
+		},
+		mosaics: {
+			type: Array,
+			default: () => []
+		}
+	},
 
-    computed: {
-        transactionType() {
-            return this.getTransactionTypeCaption(16724); // Transfer
-        },
+	computed: {
+		transactionType() {
+			return this.getTransactionTypeCaption(16724); // Transfer
+		},
 
-        circleIconsToDisplay() {
-            return [this.hasMessage, this.hasMosaic, this.hasNativeMosaic];
-        },
+		circleIconsToDisplay() {
+			return [this.hasMessage, this.hasMosaic, this.hasNativeMosaic];
+		},
 
-        hasMessage() {
-            return typeof this.message === 'string' && this.message.length > 0;
-        },
+		hasMessage() {
+			return typeof this.message === 'string' && this.message.length > 0;
+		},
 
-        hasNativeMosaic() {
-            return typeof this.nativeMosaic !== 'undefined';
-        },
+		hasNativeMosaic() {
+			return typeof this.nativeMosaic !== 'undefined';
+		},
 
-        hasMosaic() {
-            return this.mosaicList.length > 0;
-        },
+		hasMosaic() {
+			return this.mosaicList.length > 0;
+		},
 
-        nativeMosaic() {
-            return this.mosaics.find(
-                mosaic => mosaic.mosaicId === this.nativeMosaicId
-            );
-        },
+		nativeMosaic() {
+			return this.mosaics.find(
+				mosaic => mosaic.mosaicId === this.nativeMosaicId
+			);
+		},
 
-        mosaicList() {
-            return this.mosaics.filter(
-                mosaic => mosaic.mosaicId !== this.nativeMosaicId
-            );
-        }
-    }
+		mosaicList() {
+			return this.mosaics.filter(
+				mosaic => mosaic.mosaicId !== this.nativeMosaicId
+			);
+		}
+	}
 };
 </script>
 

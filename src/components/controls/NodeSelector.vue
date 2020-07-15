@@ -12,36 +12,36 @@
 <script>
 import Dropdown from './Dropdown.vue';
 export default {
-    components: {
-        Dropdown
-    },
+	components: {
+		Dropdown
+	},
 
-    computed: {
-        nodeList() {
-            return this.$store.getters['api/nodes'] || [];
-        },
+	computed: {
+		nodeList() {
+			return this.$store.getters['api/nodes'] || [];
+		},
 
-        options() {
-            let options = {};
+		options() {
+			let options = {};
 
-            this.nodeList.forEach(node => {
-                options[node.toString()] = node.hostname;
-            }
-            );
-            return options;
-        },
+			this.nodeList.forEach(node => {
+				options[node.toString()] = node.hostname;
+			}
+			);
+			return options;
+		},
 
-        currentNode() {
-            return 'Node: ' + this.$store.getters['api/currentNodeHostname'];
-        }
-    },
+		currentNode() {
+			return 'Node: ' + this.$store.getters['api/currentNodeHostname'];
+		}
+	},
 
-    methods: {
-        async setNode(url) {
-            this.$emit('change', url);
-            await this.$store.dispatch('api/changeNode', url);
-        }
-    }
+	methods: {
+		async setNode(url) {
+			this.$emit('change', url);
+			await this.$store.dispatch('api/changeNode', url);
+		}
+	}
 };
 </script>
 

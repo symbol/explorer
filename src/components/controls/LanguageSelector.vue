@@ -11,35 +11,35 @@
 <script>
 import Dropdown from './Dropdown.vue';
 export default {
-    components: {
-        Dropdown
-    },
+	components: {
+		Dropdown
+	},
 
-    computed: {
-        languageList() {
-            return this.$store.getters['ui/languages'] || [];
-        },
+	computed: {
+		languageList() {
+			return this.$store.getters['ui/languages'] || [];
+		},
 
-        options() {
-            let options = {};
+		options() {
+			let options = {};
 
-            this.languageList.forEach(lang => {
-                options[lang] = lang;
-            }
-            );
-            return options;
-        },
+			this.languageList.forEach(lang => {
+				options[lang] = lang;
+			}
+			);
+			return options;
+		},
 
-        currentLanguage() {
-            return 'Language: ' + this.$store.getters['ui/currentLanguage'];
-        }
-    },
+		currentLanguage() {
+			return 'Language: ' + this.$store.getters['ui/currentLanguage'];
+		}
+	},
 
-    methods: {
-        setLanguage(language) {
-            this.$store.dispatch('ui/changeLanguage', language);
-        }
-    }
+	methods: {
+		setLanguage(language) {
+			this.$store.dispatch('ui/changeLanguage', language);
+		}
+	}
 };
 </script>
 

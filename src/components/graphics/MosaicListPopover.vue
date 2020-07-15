@@ -35,39 +35,39 @@ import NativeMosaicIcon from '../graphics/NativeMosaicIcon.vue';
 import GraphicComponent from './GraphicComponent.vue';
 
 export default {
-    extends: GraphicComponent,
+	extends: GraphicComponent,
 
-    components: {
-        MosaicIcon,
-        NativeMosaicIcon
-    },
+	components: {
+		MosaicIcon,
+		NativeMosaicIcon
+	},
 
-    props: {
-        mosaics: {
-            type: Array,
-            default: () => []
-        },
+	props: {
+		mosaics: {
+			type: Array,
+			default: () => []
+		},
 
-        title: {
-            type: String,
-            default: 'Mosaics'
-        },
+		title: {
+			type: String,
+			default: 'Mosaics'
+		},
 
-        target: {
-            type: String,
-            required: true
-        }
-    },
+		target: {
+			type: String,
+			required: true
+		}
+	},
 
-    methods: {
-        isNativeMosaic(mosaicId) {
-            return mosaicId === this.nativeMosaicId;
-        },
+	methods: {
+		isNativeMosaic(mosaicId) {
+			return mosaicId === this.nativeMosaicId;
+		},
 
-        click() {
-            this.$emit('click', this.mosaicId);
-        }
-    }
+		click() {
+			this.$emit('click', this.mosaicId);
+		}
+	}
 };
 </script>
 

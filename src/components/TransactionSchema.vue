@@ -222,114 +222,114 @@
 import helper from '../helper';
 import Constants from '../config/constants';
 export default {
-    props: {
-        message: {
-            type: String,
-            default: 'Message'
-        },
-        signer: {
-            type: String,
-            required: true,
-            default: ''
-        },
-        recipient: {
-            type: String,
-            required: true,
-            default: ''
-        },
-        mosaics: {
-            type: Array,
-            default: () => [
-                { name: 'symbol.xym', amount: 228 },
-                { name: '072031D75989B881', amount: 1 },
-                { name: '6D1B935676E3659D', amount: 2 }
-            ]
-        }
-    },
+	props: {
+		message: {
+			type: String,
+			default: 'Message'
+		},
+		signer: {
+			type: String,
+			required: true,
+			default: ''
+		},
+		recipient: {
+			type: String,
+			required: true,
+			default: ''
+		},
+		mosaics: {
+			type: Array,
+			default: () => [
+				{ name: 'symbol.xym', amount: 228 },
+				{ name: '072031D75989B881', amount: 1 },
+				{ name: '6D1B935676E3659D', amount: 2 }
+			]
+		}
+	},
 
-    computed: {
-        hasMessage() {
-            return typeof this.message === 'string' && this.message.length > 0;
-        },
+	computed: {
+		hasMessage() {
+			return typeof this.message === 'string' && this.message.length > 0;
+		},
 
-        hasNativeMosaic() {
-            return typeof this.nativeMosaic !== 'undefined';
-        },
+		hasNativeMosaic() {
+			return typeof this.nativeMosaic !== 'undefined';
+		},
 
-        hasMosaic() {
-            return this.mosaicList.length > 0;
-        },
+		hasMosaic() {
+			return this.mosaicList.length > 0;
+		},
 
-        nativeMosaic() {
-            return this.mosaics.find(mosaic => mosaic.mosaicId === Constants.NetworkConfig.NATIVE_MOSAIC_HEX);
-        },
+		nativeMosaic() {
+			return this.mosaics.find(mosaic => mosaic.mosaicId === Constants.NetworkConfig.NATIVE_MOSAIC_HEX);
+		},
 
-        mosaicList() {
-            return this.mosaics.filter(mosaic => mosaic.mosaicId !== Constants.NetworkConfig.NATIVE_MOSAIC_HEX);
-        },
+		mosaicList() {
+			return this.mosaics.filter(mosaic => mosaic.mosaicId !== Constants.NetworkConfig.NATIVE_MOSAIC_HEX);
+		},
 
-        mosaicListText() {
-            const mosaicList = this.mosaicList;
-            const name = mosaicList[0].mosaicAliasName !== 'N/A'
-                ? mosaicList[0].mosaicAliasName
-                : this.trunc(mosaicList[0].mosaicId);
-            const amount = mosaicList[0].amount;
-            const more = mosaicList.length - 1 > 0
-                ? `[+${mosaicList.length - 1}]`
-                : '';
+		mosaicListText() {
+			const mosaicList = this.mosaicList;
+			const name = mosaicList[0].mosaicAliasName !== 'N/A'
+				? mosaicList[0].mosaicAliasName
+				: this.trunc(mosaicList[0].mosaicId);
+			const amount = mosaicList[0].amount;
+			const more = mosaicList.length - 1 > 0
+				? `[+${mosaicList.length - 1}]`
+				: '';
 
-            return `${name} - ${amount} ${more}`;
-        },
+			return `${name} - ${amount} ${more}`;
+		},
 
-        nativeMosaicText() {
-            if (this.hasNativeMosaic)
-                return `${this.nativeMosaic.amount} XYM`;
-            return '';
-        },
+		nativeMosaicText() {
+			if (this.hasNativeMosaic)
+				return `${this.nativeMosaic.amount} XYM`;
+			return '';
+		},
 
-        mosaic2Text() {
-            if (this.hasMosaic)
-                return this.nativeMosaicText;
-            return '';
-        },
+		mosaic2Text() {
+			if (this.hasMosaic)
+				return this.nativeMosaicText;
+			return '';
+		},
 
-        mosaic1Text() {
-            if (this.hasMosaic)
-                return this.mosaicListText;
-            return this.nativeMosaicText;
-        },
+		mosaic1Text() {
+			if (this.hasMosaic)
+				return this.mosaicListText;
+			return this.nativeMosaicText;
+		},
 
-        messageText() {
-            return this.message?.substring(0, 30) + (this.message?.length > 30 ? '...' : '');
-        },
+		messageText() {
+			return this.message?.substring(0, 30) + (this.message?.length > 30 ? '...' : '');
+		},
 
-        signerColor() {
-            return this.getColor(this.signer);
-        },
+		signerColor() {
+			return this.getColor(this.signer);
+		},
 
-        recipientColor() {
-            return this.getColor(this.recipient);
-        }
-    },
+		recipientColor() {
+			return this.getColor(this.recipient);
+		}
+	},
 
-    methods: {
-        getColor(hash) {
-            const color = helper.getColorFromHash(hash, false);
+	methods: {
+		getColor(hash) {
+			const color = helper.getColorFromHash(hash, false);
 
-            return `RGB(${color.R},${color.G},${color.B})`;
-        },
+			return `RGB(${color.R},${color.G},${color.B})`;
+		},
 
-        trunc(hash, strLen = 5) {
-            return `${hash.substring(0, strLen)}...${hash.substring(hash.length - strLen, hash.length)}`;
-        },
+		trunc(hash, strLen = 5) {
+			return `${hash.substring(0, strLen)}...${hash.substring(hash.length - strLen, hash.length)}`;
+		},
 
-        accountClick(address) {
-            this.$store.dispatch(`ui/openPage`, {
-                pageName: 'address',
-                param: address
-            });
-        }
-    }
+		accountClick(address) {
+			this.$store.dispatch(`ui/openPage`, {
+				pageName: 'address',
+				param: address
+			});
+		}
+	}
 };
 </script>
 

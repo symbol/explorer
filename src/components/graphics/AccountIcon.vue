@@ -120,44 +120,44 @@
 import GraphicComponent from './GraphicComponent.vue';
 
 export default {
-    extends: GraphicComponent,
+	extends: GraphicComponent,
 
-    props: {
-        width: {
-            type: Number,
-            default: 261.333
-        },
+	props: {
+		width: {
+			type: Number,
+			default: 261.333
+		},
 
-        height: {
-            type: Number,
-            default: 131.313
-        },
+		height: {
+			type: Number,
+			default: 131.313
+		},
 
-        address: {
-            type: String,
-            required: true
-        }
-    },
+		address: {
+			type: String,
+			required: true
+		}
+	},
 
-    data() {
-        return {
-            id: this.getId('account-icon')
-        };
-    },
+	data() {
+		return {
+			id: this.getId('account-icon')
+		};
+	},
 
-    computed: {
-        title() {
-            return this.getTranslation('address') + ': ' + this.address;
-        },
+	computed: {
+		title() {
+			return this.getTranslation('address') + ': ' + this.address;
+		},
 
-        iconColor() {
-            return this.getIconColor(this.address);
-        },
+		iconColor() {
+			return this.getIconColor(this.address);
+		},
 
-        truncatedAddress() {
-            return this.truncString(this.address);
-        }
-    }
+		truncatedAddress() {
+			return this.truncString(this.address);
+		}
+	}
 };
 </script>
 

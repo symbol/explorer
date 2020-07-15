@@ -13,9 +13,9 @@
 <script>
 import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue';
 export default {
-    components: {
-        IconArrowRight
-    }
+	components: {
+		IconArrowRight
+	}
 };
 </script>
 

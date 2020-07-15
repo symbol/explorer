@@ -28,60 +28,60 @@ class StatisticService {
    * @returns block time difference dataset.
    */
   static getBlockTimeDifferenceData = async (limit, grouping) => {
-      const searchCriteria = {
-          pageSize: 100,
-          order: Order.Desc
-      };
+  	const searchCriteria = {
+  		pageSize: 100,
+  		order: Order.Desc
+  	};
 
-      let blockList = await BlockService.streamerBlocks(searchCriteria, limit);
+  	let blockList = await BlockService.streamerBlocks(searchCriteria, limit);
 
-      const heights = blockList.map(data => Number(data.height));
+  	const heights = blockList.map(data => Number(data.height));
 
-      let timestamps = blockList.map(data => data.timestampRaw);
+  	let timestamps = blockList.map(data => data.timestampRaw);
 
-      for (let i = 0; i < timestamps.length - 1; ++i)
-          timestamps[i] -= timestamps[i + 1];
+  	for (let i = 0; i < timestamps.length - 1; ++i)
+  		timestamps[i] -= timestamps[i + 1];
 
-      let averages = [];
+  	let averages = [];
 
-      let sum = 0;
+  	let sum = 0;
 
-      for (let i = 0; i < grouping; ++i)
-          sum += timestamps[i];
+  	for (let i = 0; i < grouping; ++i)
+  		sum += timestamps[i];
 
-      for (let i = grouping; i < timestamps.length; ++i) {
-          averages.push(sum / grouping);
-          sum -= timestamps[i - grouping];
-          sum += timestamps[i];
-      }
-      averages.push(0);
+  	for (let i = grouping; i < timestamps.length; ++i) {
+  		averages.push(sum / grouping);
+  		sum -= timestamps[i - grouping];
+  		sum += timestamps[i];
+  	}
+  	averages.push(0);
 
-      let timeDifferenceDataset = [];
+  	let timeDifferenceDataset = [];
 
-      let averagesDataset = [];
+  	let averagesDataset = [];
 
-      for (let i = 0; i < timestamps.length - 1; ++i) {
-          timeDifferenceDataset.push([heights[i], timestamps[i] / 1000]);
-          averagesDataset.push([heights[i], (averages[i] / 1000).toFixed(3)]);
-      }
+  	for (let i = 0; i < timestamps.length - 1; ++i) {
+  		timeDifferenceDataset.push([heights[i], timestamps[i] / 1000]);
+  		averagesDataset.push([heights[i], (averages[i] / 1000).toFixed(3)]);
+  	}
 
-      let dataset = [
-          {
-              name: 'Time Difference (in seconds)',
-              data: timeDifferenceDataset
-          },
-          {
-              name: `Average Time Difference (per ${grouping} blocks)`,
-              data: averagesDataset
-          }
-      ];
+  	let dataset = [
+  		{
+  			name: 'Time Difference (in seconds)',
+  			data: timeDifferenceDataset
+  		},
+  		{
+  			name: `Average Time Difference (per ${grouping} blocks)`,
+  			data: averagesDataset
+  		}
+  	];
 
-      return {
-          limit: limit,
-          grouping: grouping,
-          name: `Block time differences in last ${limit} blocks`,
-          data: dataset
-      };
+  	return {
+  		limit: limit,
+  		grouping: grouping,
+  		name: `Block time differences in last ${limit} blocks`,
+  		data: dataset
+  	};
   }
 
   /**
@@ -92,57 +92,57 @@ class StatisticService {
    * @returns transaction data per block dataset.
    */
   static getTransactionPerBlockData = async (limit, grouping) => {
-      const searchCriteria = {
-          pageSize: 100,
-          order: Order.Desc
-      };
+  	const searchCriteria = {
+  		pageSize: 100,
+  		order: Order.Desc
+  	};
 
-      let blockList = await BlockService.streamerBlocks(searchCriteria, limit);
+  	let blockList = await BlockService.streamerBlocks(searchCriteria, limit);
 
-      const heights = blockList.map(data => Number(data.height));
+  	const heights = blockList.map(data => Number(data.height));
 
-      let numTransactions = blockList.map(data => data.transactions);
+  	let numTransactions = blockList.map(data => data.transactions);
 
-      let averages = [];
+  	let averages = [];
 
-      let sum = 0;
+  	let sum = 0;
 
-      for (let i = 0; i < grouping; ++i)
-          sum += numTransactions[i];
+  	for (let i = 0; i < grouping; ++i)
+  		sum += numTransactions[i];
 
-      for (let i = grouping; i < numTransactions.length; ++i) {
-          averages.push(sum / grouping);
-          sum -= numTransactions[i - grouping];
-          sum += numTransactions[i];
-      }
-      averages.push(0);
+  	for (let i = grouping; i < numTransactions.length; ++i) {
+  		averages.push(sum / grouping);
+  		sum -= numTransactions[i - grouping];
+  		sum += numTransactions[i];
+  	}
+  	averages.push(0);
 
-      let numTransactionsPerBlockDataset = [];
+  	let numTransactionsPerBlockDataset = [];
 
-      let averagesDataset = [];
+  	let averagesDataset = [];
 
-      for (let i = 0; i < numTransactions.length - 1; ++i) {
-          numTransactionsPerBlockDataset.push([heights[i], numTransactions[i]]);
-          averagesDataset.push([heights[i], Math.floor(averages[i])]);
-      }
+  	for (let i = 0; i < numTransactions.length - 1; ++i) {
+  		numTransactionsPerBlockDataset.push([heights[i], numTransactions[i]]);
+  		averagesDataset.push([heights[i], Math.floor(averages[i])]);
+  	}
 
-      let dataset = [
-          {
-              name: 'Number of transactions',
-              data: numTransactionsPerBlockDataset
-          },
-          {
-              name: `Average number of transaction (per ${grouping} blocks)`,
-              data: averagesDataset
-          }
-      ];
+  	let dataset = [
+  		{
+  			name: 'Number of transactions',
+  			data: numTransactionsPerBlockDataset
+  		},
+  		{
+  			name: `Average number of transaction (per ${grouping} blocks)`,
+  			data: averagesDataset
+  		}
+  	];
 
-      return {
-          limit: limit,
-          grouping: grouping,
-          name: `Transaction per block in last ${limit} blocks`,
-          data: dataset
-      };
+  	return {
+  		limit: limit,
+  		grouping: grouping,
+  		name: `Transaction per block in last ${limit} blocks`,
+  		data: dataset
+  	};
   }
 }
 

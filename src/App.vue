@@ -37,33 +37,33 @@ import MobileMenu from '@/components/menu/MobileMenu.vue';
 import Header from '@/components/layout/Header.vue';
 
 export default {
-    components: {
-        Footer,
-        NavigationMenu,
-        MobileMenu,
-        Header
-    },
+	components: {
+		Footer,
+		NavigationMenu,
+		MobileMenu,
+		Header
+	},
 
-    data: () => {
-        return {
-            info: 1
-        };
-    },
-    created() {
-        this.initialize();
-    },
-    destroyed() {
-        this.uninitialize();
-    },
-    methods: {
-        initialize() {
-            this.$store.dispatch('api/initialize')
-                .catch(error => console.log(error));
-        },
-        uninitialize() {
-            this.$store.dispatch('uninitialize');
-        }
-    }
+	data: () => {
+		return {
+			info: 1
+		};
+	},
+	created() {
+		this.initialize();
+	},
+	destroyed() {
+		this.uninitialize();
+	},
+	methods: {
+		initialize() {
+			this.$store.dispatch('api/initialize')
+				.catch(error => console.log(error));
+		},
+		uninitialize() {
+			this.$store.dispatch('uninitialize');
+		}
+	}
 };
 </script>
 

@@ -30,43 +30,43 @@ import IconNamespaces from 'vue-material-design-icons/Tag.vue';
 import IconStatistics from 'vue-material-design-icons/ChartBar.vue';
 
 export default {
-    components: {
-        IconHome,
-        IconBlocks,
-        IconTransactions,
-        IconAccounts,
-        IconMosaics,
-        IconNodes,
-        IconNamespaces,
-        IconStatistics
-    },
+	components: {
+		IconHome,
+		IconBlocks,
+		IconTransactions,
+		IconAccounts,
+		IconMosaics,
+		IconNodes,
+		IconNamespaces,
+		IconStatistics
+	},
 
-    mounted() {
-        let DesktopMenu = this.$refs.DesktopMenu;
+	mounted() {
+		let DesktopMenu = this.$refs.DesktopMenu;
 
-        let offset = DesktopMenu.offsetTop;
+		let offset = DesktopMenu.offsetTop;
 
-        window.onscroll = () => {
-            if (window.pageYOffset > offset)
-                this.fixed = true;
-            else
-                this.fixed = false;
-        };
-    },
+		window.onscroll = () => {
+			if (window.pageYOffset > offset)
+				this.fixed = true;
+			else
+				this.fixed = false;
+		};
+	},
 
-    data() {
-        return {
-            items: pageMenu.items,
-            fixed: false,
-            scrollListener: {}
-        };
-    },
+	data() {
+		return {
+			items: pageMenu.items,
+			fixed: false,
+			scrollListener: {}
+		};
+	},
 
-    methods: {
-        getNameByKey(e) {
-            return this.$store.getters['ui/getNameByKey'](e);
-        }
-    }
+	methods: {
+		getNameByKey(e) {
+			return this.$store.getters['ui/getNameByKey'](e);
+		}
+	}
 };
 </script>
 

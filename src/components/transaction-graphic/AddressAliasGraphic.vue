@@ -54,66 +54,66 @@ import NamespaceUnlinkCircle from '../graphics/NamespaceUnlinkCircle.vue';
 import Arrow from '../graphics/Arrow.vue';
 
 export default {
-    extends: GraphicComponent,
+	extends: GraphicComponent,
 
-    components: {
-        AccountIcon,
-        NamespaceCircle,
-        NamespaceUnlinkCircle,
-        Arrow
-    },
+	components: {
+		AccountIcon,
+		NamespaceCircle,
+		NamespaceUnlinkCircle,
+		Arrow
+	},
 
-    props: {
-        message: {
-            type: String,
-            default: ''
-        },
-        signer: {
-            type: String,
-            required: true,
-            default: ''
-        },
-        namespaceId: {
-            type: String,
-            required: true
-        },
-        namespaceName: {
-            type: String,
-            required: true
-        },
-        aliasAction: {
-            type: String,
-            required: true
-        }
-    },
+	props: {
+		message: {
+			type: String,
+			default: ''
+		},
+		signer: {
+			type: String,
+			required: true,
+			default: ''
+		},
+		namespaceId: {
+			type: String,
+			required: true
+		},
+		namespaceName: {
+			type: String,
+			required: true
+		},
+		aliasAction: {
+			type: String,
+			required: true
+		}
+	},
 
-    data() {
-        return {
-            width: this.transactionGraphicWidth,
-            heigth: this.transactionGraphicHeight
-        };
-    },
+	data() {
+		return {
+			width: this.transactionGraphicWidth,
+			heigth: this.transactionGraphicHeight
+		};
+	},
 
-    computed: {
-        transactionType() {
-            return this.getTransactionTypeCaption(16974); // Address Alias
-        },
+	computed: {
+		transactionType() {
+			return this.getTransactionTypeCaption(16974); // Address Alias
+		},
 
-        circleIconsToDisplay() {
-            return [true];
-        },
+		circleIconsToDisplay() {
+			return [true];
+		},
 
-        isLinkAction() {
-            return this.aliasAction === 'Link';
-        },
+		isLinkAction() {
+			return this.aliasAction === 'Link';
+		},
 
-        subTitle() {
-            return `. ${this.aliasAction} namespace`;
-        },
+		subTitle() {
+			return `. ${this.aliasAction} namespace`;
+		},
 
-        namespace() {
-            return { namespaceId: this.namespaceId, namespaceName: this.namespaceName };
-        }
-    }
+		namespace() {
+			return { namespaceId: this.namespaceId, namespaceName: this.namespaceName };
+		}
+	}
 };
 </script>
