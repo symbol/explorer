@@ -22,7 +22,6 @@
                     "deadline",
                     "transactionHash",
                     "transactionDescriptor",
-                    "maxFee",
                     "signer",
                     "recipient"
                 ],
@@ -30,8 +29,7 @@
                     "height",
                     "transactionDescriptor",
                     "transactionHash",
-                    "signer",
-                    "recipient"
+                    "signer"
                 ]
             }
         ]
