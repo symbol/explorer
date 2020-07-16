@@ -13,7 +13,6 @@
     "restrictionAddressValues": "account",
     "restrictionAddressAdditions": "account",
     "restrictionAddressDeletions": "account",
-    "accountAliasName": "account",
     "cosignatories": "account",
     "multisigAddresses_": "account",
     "linkedAccountAddress": "account",
@@ -43,6 +42,7 @@
     "parentId": "namespace",
     "linkedNamespace": "namespace",
     "mosaicAliasName": "namespace",
+    "accountAliasName": "namespace",
     "targetNamespaceId": "namespace",
     "unresolved": "namespace"
 }

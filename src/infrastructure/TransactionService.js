@@ -280,7 +280,8 @@ class TransactionService {
         transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         aliasAction: Constants.AliasAction[transactionBody.aliasAction],
         namespaceId: transactionBody.namespaceId.toHex(),
-        namespaceName: transactionBody.namespaceId.fullName
+        namespaceName: transactionBody.namespaceId.fullName,
+        address: transactionBody.address.address
       }
 
     case TransactionType.MOSAIC_ALIAS:

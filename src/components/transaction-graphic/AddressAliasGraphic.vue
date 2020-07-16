@@ -23,7 +23,7 @@
                 :y="objectPositionY"
                 :width="subjectWidth"
                 :height="subjectHeight"
-                :address="signer"
+                :address="address"
             />
             <Arrow :x="arrowPositionX" :y="arrowPositionY" />
             <NamespaceCircle
@@ -69,6 +69,11 @@ export default {
       default: ''
     },
     signer: {
+      type: String,
+      required: true,
+      default: ''
+    },
+    address: {
       type: String,
       required: true,
       default: ''
