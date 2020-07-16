@@ -239,7 +239,7 @@
     "resolutionStatementTitle": "解決ステートメント",
     "mosaicRestrictionTitle": "モザイク制限",
     "mosaicRestrictionListTitle": "モザイク制限リスト",
-    "harvestedBlockTitle": "Harvested Blocks",
+    "harvestedBlockTitle": "ハーベスト済ブロック",
 
     "accountDetailError": "アカウントはネットワークに対して不明です。",
     "multisigCosignatoriesError": "アドレスはマルチシグアカウントではありません",
@@ -272,7 +272,7 @@
     "aggregateInnerTransactionsError": "アグリゲート内部トランザクションが有効ではありません",
     "aggregateCosignaturesError": "連署者が有効ではありません",
 
-    "beneficiaryAddress": "Beneficiary Address",
+    "beneficiaryAddress": "受益者アドレス",
     "linked": "LINKED",
     "node": "NODE",
     "vrf": "VRF",
@@ -280,6 +280,6 @@
     "nonce": "Nonce",
     "action": "Action",
     "delta": "Delta",
-    "harvestedBlock": "Harvested blocks (all)",
+    "harvestedBlock": "ハーベスト済ブロック(すべて)",
     "transactionGraphic": "トランザクショングラフィック"
 }
