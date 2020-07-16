@@ -15,7 +15,7 @@
                 "type": "CardTable",
                 "title": "accountDetailTitle",
                 "managerGetter": "account/info",
-                "errorMessage": "accountDetailError",
+				"errorMessage": "accountDetailError",
                 "pagination": "none",
                 "fields": [
                     "address",
@@ -33,7 +33,8 @@
                 "title": "multisigCosignatoriesTitle",
                 "managerGetter": "account/multisig",
                 "errorMessage": "multisigCosignatoriesError",
-                "pagination": "none",
+				"pagination": "none",
+				"hideOnError": true,
                 "fields": [
                     "minApproval",
                     "minRemoval",
@@ -47,7 +48,8 @@
                 "title": "ownedMosaicsTitle",
                 "managerGetter": "account/OwnedMosaic",
                 "pagination": "client",
-                "pageSize": 5,
+				"pageSize": 5,
+				"hideOnError": true,
                 "fields": [
                     "mosaicId",
                     "amount",
@@ -60,7 +62,8 @@
                 "title": "ownedNamespacesTitle",
                 "managerGetter": "account/OwnedNamespace",
                 "pagination": "client",
-                "pageSize": 5,
+				"pageSize": 5,
+				"hideOnError": true,
                 "fields": [
                     "namespaceName",
                     "status",
@@ -75,7 +78,8 @@
                 "managerGetter": "account/info",
                 "dataGetter": "account/getSupplementalPublicKeys",
                 "pagination": "client",
-                "pageSize": 5,
+				"pageSize": 5,
+				"hideOnError": true,
                 "fields": [
                     "linked",
                     "node",
@@ -89,7 +93,8 @@
                 "title": "accountTransactionsTitle",
                 "managerGetter": "account/transactions",
                 "pagination": "server",
-                "hasFilter": true,
+				"hasFilter": true,
+				"hideOnError": true,
                 "fields": [
                     "deadline",
                     "transactionHash",
@@ -102,7 +107,8 @@
                 "type": "CardTable",
                 "title": "accountRestrictionTitle",
                 "managerGetter": "account/restrictions",
-                "pagination": "none",
+				"pagination": "none",
+				"hideOnError": true,
                 "errorMessage": "Account restrictions are not available."
             },
             {
@@ -111,7 +117,8 @@
                 "title": "metadataEntriesTitle",
                 "managerGetter": "account/metadatas",
                 "pagination": "client",
-                "pageSize": 5,
+				"pageSize": 5,
+				"hideOnError": true,
                 "fields": [
                     "metadataId",
                     "scopedMetadataKey",
@@ -128,7 +135,7 @@
                 "dataGetter": "account/getActivityBucketList",
                 "pagination": "client",
                 "pageSize": 5,
-                "hideEmptyData": false,
+				"hideOnError": true,
                 "fields": [
                     "recalculationBlock",
                     "totalFeesPaid",
@@ -143,7 +150,8 @@
                 "managerGetter": "account/harvestedBlocks",
                 "pagination": "server",
                 "pageSize": 5,
-                "hideEmptyData": true,
+				"hideEmptyData": true,
+				"hideOnError": true,
                 "fields": [
                     "height",
                     "age",
