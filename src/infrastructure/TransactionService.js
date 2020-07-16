@@ -118,8 +118,11 @@ class TransactionService {
     case TransactionType.TRANSFER:
       await Promise.all(formattedTransaction.mosaics.map(async mosaic => {
         if (mosaic.id instanceof NamespaceId)
-          return (mosaic.id = await http.createRepositoryFactory.createNamespaceRepository().getLinkedMosaicId(mosaic.id).toPromise())
+          return (mosaic.id = await NamespaceService.getLinkedMosaicId(mosaic.id))
       }))
+
+      // UnresolvedAddress
+      formattedTransaction.transactionBody.recipient = await helper.resolvedAddress(formattedTransaction.recipientAddress)
 
       const mosaicIdsList = formattedTransaction.mosaics.map(mosaicInfo => mosaicInfo.id)
       const mosaicInfos = await MosaicService.getMosaics(mosaicIdsList)
@@ -157,6 +160,15 @@ class TransactionService {
       const namespaceName = await NamespaceService.getNamespacesName([NamespaceId.createFromEncoded(formattedTransaction.transactionBody.namespaceId)])
       formattedTransaction.transactionBody.namespaceName = namespaceName[0].name
       break
+    case TransactionType.SECRET_LOCK:
+    case TransactionType.SECRET_PROOF:
+      // UnresolvedAddress
+      formattedTransaction.transactionBody.recipient = await helper.resolvedAddress(formattedTransaction.recipientAddress)
+      break
+    case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
+      // UnresolvedAddress
+      formattedTransaction.transactionBody.targetAddress = await helper.resolvedAddress(formattedTransaction.targetAddress)
+      break
     }
 
     const transactionInfo = {
@@ -192,6 +204,12 @@ class TransactionService {
 
     const transactions = await this.searchTransactions(searchCriteria)
 
+    // resolvedAddress
+    await Promise.all(transactions.data.map(async transaction => {
+      if (transaction.transactionBody?.recipient)
+        return (transaction.transactionBody.recipient = await helper.resolvedAddress(transaction.transactionBody.recipient))
+    }))
+
     return {
       ...transactions,
       data: transactions.data.map(transaction => ({
@@ -222,18 +240,6 @@ class TransactionService {
   })
 
   /**
-   * Format recipientAddressDTO
-   * @param recipientAddressDTO
-   * @returns NamespaceId.full | address
-   */
-  static formatRecipientAddress = recipientAddress => {
-    if (recipientAddress instanceof NamespaceId)
-      return recipientAddress.fullName | recipientAddress.id.toHex()
-
-    return recipientAddress.address
-  }
-
-  /**
    * Format Different Type of Transaction such as TransferTransaction
    * @param TransactionDTO
    * @returns readable TransactionBody object
@@ -244,7 +250,7 @@ class TransactionService {
       return {
         type: transactionBody.type,
         transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
-        recipient: this.formatRecipientAddress(transactionBody.recipientAddress),
+        recipient: transactionBody.recipientAddress,
         mosaics: transactionBody.mosaics.map(mosaic => ({ // Todo Format mosaic
           ...mosaic,
           id: mosaic.id.toHex(),
@@ -358,7 +364,7 @@ class TransactionService {
         duration: transactionBody.duration.compact(),
         mosaicId: transactionBody.mosaic.id.toHex(), // Todo Format Mosaic
         secret: transactionBody.secret,
-        recipient: this.formatRecipientAddress(transactionBody.recipientAddress),
+        recipient: transactionBody.recipientAddress,
         hashAlgorithm: Constants.LockHashAlgorithm[transactionBody.hashAlgorithm]
       }
 
@@ -367,7 +373,7 @@ class TransactionService {
         type: transactionBody.type,
         transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         hashAlgorithm: Constants.LockHashAlgorithm[transactionBody.hashAlgorithm],
-        recipient: this.formatRecipientAddress(transactionBody.recipientAddress),
+        recipient: transactionBody.recipientAddress,
         secret: transactionBody.secret,
         proof: transactionBody.proof
       }
@@ -413,7 +419,7 @@ class TransactionService {
         type: transactionBody.type,
         transactionDescriptor: 'transactionDescriptor_' + transactionBody.type,
         mosaicId: transactionBody.mosaicId.toHex(), // Todo format mosaic
-        targetAddress: this.formatRecipientAddress(transactionBody.targetAddress),
+        targetAddress: transactionBody.targetAddress,
         restrictionKey: transactionBody.restrictionKey.toHex(),
         previousRestrictionValue: transactionBody.previousRestrictionValue.toString(),
         newRestrictionValue: transactionBody.newRestrictionValue.toString()
