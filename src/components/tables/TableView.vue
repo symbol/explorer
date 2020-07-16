@@ -216,7 +216,7 @@ export default {
 
     .empty-data {
         font-size: 14px;
-        color: $table-text-color-light;
+        color: $card-error-text-color;
         display: flex;
         justify-content: center;
     }
