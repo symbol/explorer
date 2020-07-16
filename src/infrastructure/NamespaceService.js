@@ -103,14 +103,30 @@ class NamespaceService {
   /**
    * Get linked address from namespace Id
    * @param namespaceId - Namespace id
-   * @returns plan address - example : SB3KUBHATFCPV7UZQLWAQ2EUR6SIHBSBEOEDDDF3
+   * @returns Address
    */
   static getLinkedAddress = async (namespaceId) => {
   	const address = await http.createRepositoryFactory.createNamespaceRepository()
   		.getLinkedAddress(namespaceId)
   		.toPromise();
 
+<<<<<<< HEAD
   	return address.plain();
+=======
+    return address
+  }
+
+  /**
+   * Get linked mosaicId from namespace Id
+   * @param namespaceId - Namespace id
+   * @returns mosaicId
+   */
+  static getLinkedMosaicId = async (namespaceId) => {
+    const mosaicId = await http.createRepositoryFactory.createNamespaceRepository()
+      .getLinkedMosaicId(namespaceId).toPromise()
+
+    return mosaicId
+>>>>>>> master
   }
 
   /**

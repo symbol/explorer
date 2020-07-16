@@ -60,6 +60,7 @@ export default class http {
   }
 
   static get networkConfig() {
+<<<<<<< HEAD
   	const convertedTotalChainImportance = +this.networkProperties.chain.totalChainImportance.replace(/'/g, '');
   	const convertedNamespaceGracePeriodDuration = +this.networkProperties.plugins.namespace.namespaceGracePeriodDuration.replace(/d/g, '');
   	const convertedBlockGenerationTargetTime = +this.networkProperties.chain.blockGenerationTargetTime.replace(/s/g, '');
@@ -74,6 +75,22 @@ export default class http {
   		NamespaceGraceDuration: convertedNamespaceGracePeriodDuration * blockPerday,
   		TotalChainImportance: convertedTotalChainImportance
   	};
+=======
+    const convertedTotalChainImportance = +this.networkProperties.chain.totalChainImportance.replace(/'/g, '')
+    const convertedNamespaceGracePeriodDuration = +this.networkProperties.plugins.namespace.namespaceGracePeriodDuration.replace(/d/g, '')
+    const convertedBlockGenerationTargetTime = +this.networkProperties.chain.blockGenerationTargetTime.replace(/s/g, '')
+    const blockPerday = (60 / convertedBlockGenerationTargetTime) * 60 * 24
+
+    return {
+      MosaicRentalSinkAddress: symbol.Address.createFromRawAddress(this.networkProperties.plugins.mosaic.mosaicRentalFeeSinkAddress),
+      NamespaceRentalFeeSinkAddress: symbol.Address.createFromRawAddress(this.networkProperties.plugins.namespace.namespaceRentalFeeSinkAddress),
+      NetworkType: this.networkType,
+      NemsisTimestamp: symbol.Deadline.timestampNemesisBlock,
+      TargetBlockTime: convertedBlockGenerationTargetTime,
+      NamespaceGraceDuration: convertedNamespaceGracePeriodDuration * blockPerday,
+      TotalChainImportance: convertedTotalChainImportance
+    }
+>>>>>>> master
   }
 
   static get marketDataUrl() {
