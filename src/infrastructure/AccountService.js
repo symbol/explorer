@@ -52,6 +52,21 @@ class AccountService {
   }
 
   /**
+   * Gets a accounts list from searchCriteria
+   * @param accountSearchCriteria Object of Search Criteria
+   * @returns formatted account data with pagination info
+   */
+  static searchAccounts = async (accountSearchCriteria) => {
+    const searchAccounts = await http.createRepositoryFactory.createAccountRepository()
+      .search(accountSearchCriteria).toPromise()
+
+    return {
+      ...searchMosaics,
+      data: searchMosaics.data.map(mosaic => this.formatMosaicInfo(mosaic))
+    }
+  }
+
+  /**
    * Get custom Account list dataset into Vue Component
    * @param limit - No of account
    * @param accountType - filter account type
