@@ -355,124 +355,64 @@ class helper {
    * @param hash - hash to be converted
    * @returns object { R: Number, G: Number, B: Number }
    */
-<<<<<<< HEAD
-    static getColorFromHash = (hash, isHex = true) => {
-    	const color = {
-    		R: 0,
-    		G: 0,
-    		B: 0
-    	};
-
-    	if (typeof hash !== 'string') {
-    		console.error('Failed to convert hash to color. Hash is not a String');
-    		return color;
-    	}
-    	if (hash.length < 3) {
-    		console.error('Failed to convert hash to color. Hash string length < 3');
-    		return color;
-    	}
-
-    	const hexToRGB = (hexString) => {
-    		let totalHex = 0;
-
-    		for (const hex of hexString)
-    			totalHex += parseInt(hex, 16);
-
-    		return Math.trunc(totalHex * 255 / (15 * hexString.length));
-    	};
-
-    	const charsetToRGB = (string) => {
-    		const charset = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
-
-    		let totalHex = 0;
-
-    		for (const char of string)
-    			totalHex += charset.indexOf(char.toLowerCase());
-
-    		return Math.trunc(totalHex * 255 / ((charset.length - 1) * string.length));
-    	};
-
-    	const hashLength = hash.length;
-    	const colorStrLength = Math.trunc(hashLength / 3);
-
-    	const strRed = hash.substring(0, colorStrLength);
-    	const strGreen = hash.substring(colorStrLength, colorStrLength * 2);
-    	const strBlue = hash.substring(colorStrLength * 2, colorStrLength * 3);
-
-    	color.R = isHex ? hexToRGB(strRed) : charsetToRGB(strRed.substring(2, 3));
-    	color.G = isHex ? hexToRGB(strGreen) : charsetToRGB(strGreen);
-    	color.B = isHex ? hexToRGB(strBlue) : charsetToRGB(strBlue);
-
-    	return color;
-    }
-
-    static truncString(str, strLen = 4) {
-    	if (typeof str === 'string') {
-    		if (str.length > strLen * 2)
-    			return `${str.substring(0, strLen)}...${str.substring(str.length - strLen, str.length)}`;
-    		return str;
-    	}
-    	console.error('Failed to trunc string. Provided value is not a string');
-    	return str;
-=======
   static getColorFromHash = (hash, isHex = true) => {
-    const color = {
-      R: 0,
-      G: 0,
-      B: 0
-    }
+  	const color = {
+  		R: 0,
+  		G: 0,
+  		B: 0
+  	};
 
-    if (typeof hash !== 'string') {
-      console.error('Failed to convert hash to color. Hash is not a String')
-      return color
-    }
-    if (hash.length < 3) {
-      console.error('Failed to convert hash to color. Hash string length < 3')
-      return color
-    }
+  	if (typeof hash !== 'string') {
+  		console.error('Failed to convert hash to color. Hash is not a String');
+  		return color;
+  	}
+  	if (hash.length < 3) {
+  		console.error('Failed to convert hash to color. Hash string length < 3');
+  		return color;
+  	}
 
-    const hexToRGB = (hexString) => {
-      let totalHex = 0
+  	const hexToRGB = (hexString) => {
+  		let totalHex = 0;
 
-      for (const hex of hexString)
-        totalHex += parseInt(hex, 16)
+  		for (const hex of hexString)
+  			totalHex += parseInt(hex, 16);
 
-      return Math.trunc(totalHex * 255 / (15 * hexString.length))
-    }
+  		return Math.trunc(totalHex * 255 / (15 * hexString.length));
+  	};
 
-    const charsetToRGB = (string) => {
-      const charset = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z']
-      let totalHex = 0
+  	const charsetToRGB = (string) => {
+  		const charset = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 
-      for (const char of string)
-        totalHex += charset.indexOf(char.toLowerCase())
+  		let totalHex = 0;
 
-      return Math.trunc(totalHex * 255 / ((charset.length - 1) * string.length))
-    }
+  		for (const char of string)
+  			totalHex += charset.indexOf(char.toLowerCase());
 
-    const hashLength = hash.length
-    const colorStrLength = Math.trunc(hashLength / 3)
+  		return Math.trunc(totalHex * 255 / ((charset.length - 1) * string.length));
+  	};
 
-    const strRed = hash.substring(0, colorStrLength)
-    const strGreen = hash.substring(colorStrLength, colorStrLength * 2)
-    const strBlue = hash.substring(colorStrLength * 2, colorStrLength * 3)
+  	const hashLength = hash.length;
+  	const colorStrLength = Math.trunc(hashLength / 3);
 
-    color.R = isHex ? hexToRGB(strRed) : charsetToRGB(strRed.substring(2, 3))
-    color.G = isHex ? hexToRGB(strGreen) : charsetToRGB(strGreen)
-    color.B = isHex ? hexToRGB(strBlue) : charsetToRGB(strBlue)
+  	const strRed = hash.substring(0, colorStrLength);
+  	const strGreen = hash.substring(colorStrLength, colorStrLength * 2);
+  	const strBlue = hash.substring(colorStrLength * 2, colorStrLength * 3);
 
-    return color
+  	color.R = isHex ? hexToRGB(strRed) : charsetToRGB(strRed.substring(2, 3));
+  	color.G = isHex ? hexToRGB(strGreen) : charsetToRGB(strGreen);
+  	color.B = isHex ? hexToRGB(strBlue) : charsetToRGB(strBlue);
+
+  	return color;
   }
 
   static truncString(str, strLen = 4) {
-    if (typeof str === 'string') {
-      if (str.length > strLen * 2)
-        return `${str.substring(0, strLen)}...${str.substring(str.length - strLen, str.length)}`
-      return str
->>>>>>> master
-    }
-    console.error('Failed to trunc string. Provided value is not a string')
-    return str
+  	if (typeof str === 'string') {
+  		if (str.length > strLen * 2)
+  			return `${str.substring(0, strLen)}...${str.substring(str.length - strLen, str.length)}`;
+  		return str;
+  	}
+  	console.error('Failed to trunc string. Provided value is not a string');
+  	return str;
   }
 
   /**
@@ -481,10 +421,11 @@ class helper {
    * @returns plain address - example : SB3KUBHATFCPV7UZQLWAQ2EUR6SIHBSBEOEDDDF3
    */
   static resolvedAddress = async (unResolvedAddress) => {
-    if (!(unResolvedAddress instanceof NamespaceId)) return unResolvedAddress.address
+  	if (!(unResolvedAddress instanceof NamespaceId)) return unResolvedAddress.address;
 
-    const address = await NamespaceService.getLinkedAddress(unResolvedAddress)
-    return address.plain()
+  	const address = await NamespaceService.getLinkedAddress(unResolvedAddress);
+
+  	return address.plain();
   }
 }
 

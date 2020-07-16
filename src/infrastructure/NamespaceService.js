@@ -110,10 +110,7 @@ class NamespaceService {
   		.getLinkedAddress(namespaceId)
   		.toPromise();
 
-<<<<<<< HEAD
-  	return address.plain();
-=======
-    return address
+  	return address;
   }
 
   /**
@@ -122,11 +119,11 @@ class NamespaceService {
    * @returns mosaicId
    */
   static getLinkedMosaicId = async (namespaceId) => {
-    const mosaicId = await http.createRepositoryFactory.createNamespaceRepository()
-      .getLinkedMosaicId(namespaceId).toPromise()
+  	const mosaicId = await http.createRepositoryFactory.createNamespaceRepository()
+  		.getLinkedMosaicId(namespaceId)
+  		.toPromise();
 
-    return mosaicId
->>>>>>> master
+  	return mosaicId;
   }
 
   /**
