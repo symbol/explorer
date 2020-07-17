@@ -22,9 +22,14 @@
 				:timelinePagination="pagination === 'server'"
 				:pagination="pagination === 'client'"
 				:pageSize="pageSize"
+				:emptyDataMessage="emptyDataMessage"
 			/>
-			<TableInfoView v-else-if="typeof data === 'object'" :data="data" />
-			<div v-else>{{getNameByKey('No data provided')}}</div>
+			<TableInfoView 
+				v-else-if="typeof data === 'object'" 
+				:data="data"
+				:emptyDataMessage="emptyDataMessage" 
+			/>
+			<div v-else>{{ getNameByKey(emptyDataMessage) }}</div>
 		</template>
 
 		<template #error>{{getNameByKey(errorMessage)}}</template>
@@ -102,6 +107,11 @@ export default {
 		errorMessage: {
 			type: String,
 			default: 'Unable to fetch data'
+		},
+
+		emptyDataMessage: {
+			type: String,
+			default: 'nothingToShow'
 		}
 	},
 
