@@ -73,7 +73,7 @@ export default {
 
     .ex-card-error {
         font-size: 14px;
-        color: #98a8b4;
+        color: $card-error-text-color;
         display: flex;
         justify-content: center;
         text-align: center;
