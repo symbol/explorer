@@ -136,7 +136,7 @@ export default {
 			) {
 				let fields = null;
 
-				if (this.$store.getters['ui/isMobile'])
+				if (this.$store.getters['ui/isMobile'] && this.mobileFields?.length)
 					fields = this.mobileFields;
 				else fields = this.fields;
 				if (Array.isArray(fields) && fields.length) {

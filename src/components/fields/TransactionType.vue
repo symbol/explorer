@@ -124,6 +124,7 @@ export default {
     .text {
         display: flex;
         align-items: center;
+        word-break: normal;
     }
 }
 </style>
