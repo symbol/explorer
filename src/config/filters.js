@@ -136,3 +136,39 @@ export const account = [
     }
   }
 ]
+
+export const namespace = [
+  {
+    label: 'Recent',
+    icon: 'mdi-clock-outline',
+    value: {}
+  },
+  {
+    label: 'Address Alias',
+    icon: 'mdi-account',
+    value: {
+      aliasType: AliasType.Address
+    }
+  },
+  {
+    label: 'Mosaic Alias',
+    icon: 'mdi-circle',
+    value: {
+      aliasType: AliasType.Mosaic
+    }
+  },
+  {
+    label: 'Root',
+    icon: 'mdi-tag',
+    value: {
+      registrationType: NamespaceRegistrationType.RootNamespace
+    }
+  },
+  {
+    label: 'Sub',
+    icon: 'mdi-tag',
+    value: {
+      registrationType: NamespaceRegistrationType.SubNamespace
+    }
+  }
+]

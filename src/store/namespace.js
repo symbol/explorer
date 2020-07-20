@@ -17,11 +17,12 @@
  */
 
 import Lock from './lock'
-import Constants from '../config/constants'
+import { Constants, filters } from '../config'
 import { NamespaceService, MetadataService } from '../infrastructure'
 import {
   DataSet,
   Timeline,
+  Pagination,
   getStateFromManagers,
   getGettersFromManagers,
   getMutationsFromManagers,
@@ -31,12 +32,14 @@ import {
 const LOCK = Lock.create()
 
 const managers = [
-  new Timeline(
-    'timeline',
-    () => NamespaceService.getNamespaceList(Constants.PageSize),
-    (key, pageSize) => NamespaceService.getNamespaceList(pageSize, key),
-    'namespaceId'
-  ),
+  new Pagination({
+    name: 'timeline',
+    fetchFunction: (pageInfo, filterVaule) => NamespaceService.getNamespaceList(pageInfo, filterVaule),
+    pageInfo: {
+      pageSize: Constants.PageSize
+    },
+    filter: filters.namespace
+  }),
   new DataSet(
     'info',
     (namespaceOrHex) => NamespaceService.getNamespaceInfo(namespaceOrHex)
