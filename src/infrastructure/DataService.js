@@ -18,7 +18,6 @@
 
 import axios from 'axios'
 import http from './http'
-import dto from './dto'
 
 class DataService {
   /**
@@ -59,49 +58,6 @@ class DataService {
           reject(new Error(error))
         })
     })
-  }
-
-  /**
-   * Gets array of namespaceInfo
-   * @param limit - No of namespaceInfo
-   * @param fromHash - (Optional) retrive next namespaceInfo in pagination
-   * @returns namespaceInfo[]
-   */
-  static getNamespacesFromIdWithLimit = async (limit, fromNamespaceId) => {
-    let namespaceId
-    if (fromNamespaceId === undefined)
-      namespaceId = 'latest'
-    else
-      namespaceId = fromNamespaceId
-
-    // Make request.
-    const path = `/namespaces/from/${namespaceId}/limit/${limit}`
-    const response = await axios.get(http.nodeUrl + path)
-    const namespaceInfo = response.data.map(info => dto.createNamespaceInfoFromDTO(info, http.networkType))
-
-    return namespaceInfo
-  }
-
-  /**
-   * Gets array of accounts
-   * @param limit - No of account
-   * @param accountType - filter account type
-   * @param fromAddress - (Optional) retrive next account in pagination
-   * @returns accountInfo[]
-   */
-  static getAccountsFromAddressWithLimit = async (limit, accountType, fromAddress) => {
-    let address
-    if (fromAddress === undefined)
-      address = 'most'
-    else
-      address = fromAddress
-
-    // Make request.
-    const path = `/accounts/${accountType}/from/${address}/limit/${limit}`
-    const response = await axios.get(http.nodeUrl + path)
-    const accounts = response.data.map(info => dto.createAccountInfoFromDTO(info, http.networkType))
-
-    return accounts
   }
 }
 
