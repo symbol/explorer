@@ -1,4 +1,4 @@
-import { TransactionType, TransactionGroup } from 'symbol-sdk'
+import { TransactionType, TransactionGroup, AliasType, NamespaceRegistrationType, MosaicId, AccountOrderBy } from 'symbol-sdk'
 
 export const transaction = [
   {
@@ -117,6 +117,22 @@ export const transaction = [
         TransactionType.SECRET_LOCK,
         TransactionType.SECRET_PROOF
       ]
+    }
+  }
+]
+
+export const account = [
+  {
+    label: 'Recent',
+    icon: 'mdi-clock-outline',
+    value: {}
+  },
+  {
+    label: 'Rich List',
+    icon: 'mdi-circle',
+    value: {
+      orderBy: AccountOrderBy.Balance,
+      mosaicId: new MosaicId('5E62990DCAC5BE8A')
     }
   }
 ]

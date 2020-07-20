@@ -19,7 +19,7 @@
 import { Address, TransactionType, TransactionGroup, Order, BlockOrderBy } from 'symbol-sdk'
 import http from './http'
 import { Constants } from '../config'
-import { DataService, NamespaceService, TransactionService, BlockService } from '../infrastructure'
+import { NamespaceService, TransactionService, BlockService, ChainService } from '../infrastructure'
 import helper from '../helper'
 
 class AccountService {
@@ -61,32 +61,41 @@ class AccountService {
       .search(accountSearchCriteria).toPromise()
 
     return {
-      ...searchMosaics,
-      data: searchMosaics.data.map(mosaic => this.formatMosaicInfo(mosaic))
+      ...searchAccounts,
+      data: searchAccounts.data.map(account => this.formatAccountInfo(account))
     }
   }
 
   /**
    * Get custom Account list dataset into Vue Component
-   * @param limit - No of account
-   * @param accountType - filter account type
-   * @param fromAddress - (Optional) retrive next account in pagination
+   * @param pageInfo - pagination info
+   * @param filterVaule - extra params for searchCriteria
    * @returns Custom AccountInfo[]
    */
-  static getAccountList = async (limit, accountType, fromAddress) => {
-    const accountInfos = await DataService.getAccountsFromAddressWithLimit(limit, accountType, fromAddress)
+  static getAccountList = async (pageInfo, filterVaule) => {
+    const { pageNumber, pageSize } = pageInfo
+    const searchCriteria = {
+      pageNumber,
+      pageSize,
+      order: Order.Desc,
+      ...filterVaule
+    }
 
-    const addresses = accountInfos.map(accountInfo => accountInfo.address)
+    const accountInfos = await this.searchAccounts(searchCriteria)
+
+    const addresses = accountInfos.data.map(accountInfo => Address.createFromRawAddress(accountInfo.address))
+
     const accountNames = await NamespaceService.getAccountsNames(addresses)
 
-    const formattedAccountInfos = accountInfos.map(accountInfo => this.formatAccountInfo(accountInfo))
-
-    return formattedAccountInfos.map(formattedAccountInfo => ({
-      ...formattedAccountInfo,
-      balance: helper.getNetworkCurrencyBalance(formattedAccountInfo.mosaics),
-      lastActivity: helper.getLastActivityHeight(formattedAccountInfo.activityBucket),
-      accountAliasName: this.extractAccountNamespace(formattedAccountInfo, accountNames)
-    }))
+    return {
+      ...accountInfos,
+      data: accountInfos.data.map(account => ({
+        ...account,
+        balance: helper.getNetworkCurrencyBalance(account.mosaics),
+        lastActivity: helper.getLastActivityHeight(account.activityBucket),
+        accountAliasName: this.extractAccountNamespace(account, accountNames)
+      }))
+    }
   }
 
   /**
@@ -151,6 +160,40 @@ class AccountService {
             )
             : accountTransaction.transactionBody.transactionDescriptor
       }))
+    }
+  }
+
+  /**
+   * Gets custom array of confirmed transactions dataset into Vue Component
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param filterVaule - object for search criteria
+   * @param address - Account address
+   * @returns Custom AggregateTransaction[]
+   */
+  static getAccountNamespaceList = async (pageInfo, filterVaule, address) => {
+    const { pageNumber, pageSize } = pageInfo
+    const searchCriteria = {
+      pageNumber,
+      pageSize,
+      order: Order.Desc,
+      address: Address.createFromRawAddress(address),
+      ...filterVaule
+    }
+
+    const accountNamespaces = await NamespaceService.searchNamespaces(searchCriteria)
+
+    const currentHeight = await ChainService.getBlockchainHeight()
+
+    return {
+      ...accountNamespaces,
+      data: accountNamespaces.data.map(namespaces => {
+        const { expiredInSecond } = helper.calculateNamespaceExpiration(currentHeight, namespaces.endHeight)
+        return {
+          ...namespaces,
+          status: namespaces.active,
+          duration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED
+        }
+      })
     }
   }
 

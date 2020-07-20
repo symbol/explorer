@@ -59,8 +59,8 @@
                 "type": "CardTable",
                 "title": "ownedNamespacesTitle",
                 "managerGetter": "account/OwnedNamespace",
-                "pagination": "client",
-                "pageSize": 5,
+                "pagination": "server",
+                "hasFilter": true,
                 "fields": [
                     "namespaceName",
                     "status",
