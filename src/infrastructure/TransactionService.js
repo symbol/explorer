@@ -157,7 +157,7 @@ class TransactionService {
       break
     case TransactionType.ADDRESS_ALIAS:
     case TransactionType.MOSAIC_ALIAS:
-      const namespaceName = await NamespaceService.getNamespacesName([NamespaceId.createFromEncoded(formattedTransaction.transactionBody.namespaceId)])
+      const namespaceName = await NamespaceService.getNamespacesNames([NamespaceId.createFromEncoded(formattedTransaction.transactionBody.namespaceId)])
       formattedTransaction.transactionBody.namespaceName = namespaceName[0].name
       break
     case TransactionType.SECRET_LOCK:
