@@ -172,6 +172,7 @@ class NamespaceService {
   /**
    * Get customize NamespaceInfo dataset into Vue Component
    * @param pageInfo - pagination info
+   * @param filterVaule - object for search criteria
    * @returns customize NamespaceInfo[]
    */
   static getNamespaceList = async (pageInfo, filterVaule) => {

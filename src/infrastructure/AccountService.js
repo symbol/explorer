@@ -69,7 +69,7 @@ class AccountService {
   /**
    * Get custom Account list dataset into Vue Component
    * @param pageInfo - pagination info
-   * @param filterVaule - extra params for searchCriteria
+   * @param filterVaule - object for search criteria
    * @returns Custom AccountInfo[]
    */
   static getAccountList = async (pageInfo, filterVaule) => {
@@ -197,6 +197,11 @@ class AccountService {
     }
   }
 
+  /**
+   * Gets custom array of block list dataset into Vue Component
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param address - Account address
+   */
   static getAccountHarvestedBlockList = async (pageInfo, address) => {
     const accountInfo = await this.getAccount(address)
     const { pageNumber, pageSize } = pageInfo

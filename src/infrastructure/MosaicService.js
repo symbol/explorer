@@ -94,8 +94,7 @@ class MosaicService {
 
    /**
     * Get custom MosaicInfo dataset into Vue Component
-    * @param limit — No of namespaceInfo
-    * @param fromMosaicId — (Optional) retrive next mosaicInfo in pagination
+    * @param pageInfo - pagination info
     * @returns Custom MosaicInfo[]
     */
    static getMosaicList = async (pageInfo) => {
