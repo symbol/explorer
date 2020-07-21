@@ -26,18 +26,19 @@ class DataService {
    * @returns Object of data
    */
   static getMarketPrice = (cryptocurrency) => {
-    return new Promise((resolve, reject) => {
-      let url = http.marketDataUrl + `data/pricemultifull?fsyms=${cryptocurrency}&tsyms=USD`
-      axios
-        .get(url)
-        .then(res => {
-          return resolve(res.data.DISPLAY)
-        })
-        .catch(error => {
-          // reject(new Error('Fail to request XEM price.'))
-          reject(new Error(error))
-        })
-    })
+  	return new Promise((resolve, reject) => {
+  		let url = http.marketDataUrl + `data/pricemultifull?fsyms=${cryptocurrency}&tsyms=USD`;
+
+  		axios
+  			.get(url)
+  			.then(res => {
+  				return resolve(res.data.DISPLAY);
+  			})
+  			.catch(error => {
+  				// reject(new Error('Fail to request XEM price.'))
+  				reject(new Error(error));
+  			});
+  	});
   }
 
   /**
@@ -46,19 +47,20 @@ class DataService {
    * @returns Array of Data
    */
   static getHistoricalHourlyGraph = (cryptocurrency) => {
-    return new Promise((resolve, reject) => {
-      let url = http.marketDataUrl + `data/histohour?fsym=${cryptocurrency}&tsym=USD&limit=168`
-      axios
-        .get(url)
-        .then(res => {
-          return resolve(res.data)
-        })
-        .catch(error => {
-          // reject(new Error('Fail to request Xem historical hourly graph.'))
-          reject(new Error(error))
-        })
-    })
+  	return new Promise((resolve, reject) => {
+  		let url = http.marketDataUrl + `data/histohour?fsym=${cryptocurrency}&tsym=USD&limit=168`;
+
+  		axios
+  			.get(url)
+  			.then(res => {
+  				return resolve(res.data);
+  			})
+  			.catch(error => {
+  				// reject(new Error('Fail to request Xem historical hourly graph.'))
+  				reject(new Error(error));
+  			});
+  	});
   }
 }
 
-export default DataService
+export default DataService;

@@ -29,13 +29,13 @@ class AccountService {
    * @returns Formatted AccountInfo
    */
   static getAccount = async address => {
-    const account = await http.createRepositoryFactory.createAccountRepository()
-      .getAccountInfo(Address.createFromRawAddress(address))
-      .toPromise()
+  	const account = await http.createRepositoryFactory.createAccountRepository()
+  		.getAccountInfo(Address.createFromRawAddress(address))
+  		.toPromise();
 
-    const formattedAccount = this.formatAccountInfo(account)
+  	const formattedAccount = this.formatAccountInfo(account);
 
-    return formattedAccount
+  	return formattedAccount;
   }
 
   /**
@@ -44,11 +44,11 @@ class AccountService {
    * @returns Formatted AccountInfo
    */
   static getAccounts = async addresses => {
-    const accounts = await http.createRepositoryFactory.createAccountRepository()
-      .getAccountsInfo(addresses.map(a => Address.createFromRawAddress(a)))
-      .toPromise()
+  	const accounts = await http.createRepositoryFactory.createAccountRepository()
+  		.getAccountsInfo(addresses.map(a => Address.createFromRawAddress(a)))
+  		.toPromise();
 
-    return accounts.map(a => this.formatAccountInfo(a))
+  	return accounts.map(a => this.formatAccountInfo(a));
   }
 
   /**
@@ -104,25 +104,25 @@ class AccountService {
    * @returns Custom AccountInfo
    */
   static getAccountInfo = async address => {
-    const accountInfo = await this.getAccount(address)
-    const accountNames = await NamespaceService.getAccountsNames([Address.createFromRawAddress(address)])
-    const harvestedBlockList = await BlockService.searchBlocks({ signerPublicKey: accountInfo.publicKey })
+  	const accountInfo = await this.getAccount(address);
+  	const accountNames = await NamespaceService.getAccountsNames([Address.createFromRawAddress(address)]);
+  	const harvestedBlockList = await BlockService.searchBlocks({ signerPublicKey: accountInfo.publicKey });
 
-    return {
-      ...accountInfo,
-      activityBucket: accountInfo.activityBucket.map(activity => ({
-        ...activity,
-        recalculationBlock: activity.startHeight,
-        totalFeesPaid: helper.toNetworkCurrency(activity.totalFeesPaid),
-        importanceScore: activity.rawScore
-      })),
-      supplementalPublicKeys: {
-        ...accountInfo.supplementalPublicKeys,
-        voting: Array.isArray(accountInfo.supplementalPublicKeys.voting) ? accountInfo.supplementalPublicKeys.voting.map(voting => voting.publicKey) : accountInfo.supplementalPublicKeys.voting
-      },
-      accountAliasName: this.extractAccountNamespace(accountInfo, accountNames),
-      harvestedBlock: harvestedBlockList?.totalEntries || 0
-    }
+  	return {
+  		...accountInfo,
+  		activityBucket: accountInfo.activityBucket.map(activity => ({
+  			...activity,
+  			recalculationBlock: activity.startHeight,
+  			totalFeesPaid: helper.toNetworkCurrency(activity.totalFeesPaid),
+  			importanceScore: activity.rawScore
+  		})),
+  		supplementalPublicKeys: {
+  			...accountInfo.supplementalPublicKeys,
+  			voting: Array.isArray(accountInfo.supplementalPublicKeys.voting) ? accountInfo.supplementalPublicKeys.voting.map(voting => voting.publicKey) : accountInfo.supplementalPublicKeys.voting
+  		},
+  		accountAliasName: this.extractAccountNamespace(accountInfo, accountNames),
+  		harvestedBlock: harvestedBlockList?.totalEntries || 0
+  	};
   }
 
   /**
@@ -133,34 +133,34 @@ class AccountService {
    * @returns Custom AggregateTransaction[]
    */
   static getAccountTransactionList = async (pageInfo, filterVaule, address) => {
-    const { pageNumber, pageSize } = pageInfo
-    const searchCriteria = {
-      pageNumber,
-      pageSize,
-      order: Order.Desc,
-      type: [],
-      group: TransactionGroup.Confirmed,
-      address: Address.createFromRawAddress(address),
-      ...filterVaule
-    }
+  	const { pageNumber, pageSize } = pageInfo;
+  	const searchCriteria = {
+  		pageNumber,
+  		pageSize,
+  		order: Order.Desc,
+  		type: [],
+  		group: TransactionGroup.Confirmed,
+  		address: Address.createFromRawAddress(address),
+  		...filterVaule
+  	};
 
-    const accountTransactions = await TransactionService.searchTransactions(searchCriteria)
+  	const accountTransactions = await TransactionService.searchTransactions(searchCriteria);
 
-    return {
-      ...accountTransactions,
-      data: accountTransactions.data.map(accountTransaction => ({
-        ...accountTransaction,
-        transactionId: accountTransaction.id,
-        transactionHash: accountTransaction.hash,
-        transactionDescriptor:
+  	return {
+  		...accountTransactions,
+  		data: accountTransactions.data.map(accountTransaction => ({
+  			...accountTransaction,
+  			transactionId: accountTransaction.id,
+  			transactionHash: accountTransaction.hash,
+  			transactionDescriptor:
           accountTransaction.transactionBody.type === TransactionType.TRANSFER
-            ? (accountTransaction.signer === address
-              ? 'outgoing_' + accountTransaction.transactionBody.transactionDescriptor
-              : 'incoming_' + accountTransaction.transactionBody.transactionDescriptor
-            )
-            : accountTransaction.transactionBody.transactionDescriptor
-      }))
-    }
+          	? (accountTransaction.signer === address
+          		? 'outgoing_' + accountTransaction.transactionBody.transactionDescriptor
+          		: 'incoming_' + accountTransaction.transactionBody.transactionDescriptor
+          	)
+          	: accountTransaction.transactionBody.transactionDescriptor
+  		}))
+  	};
   }
 
   /**
@@ -203,27 +203,27 @@ class AccountService {
    * @param address - Account address
    */
   static getAccountHarvestedBlockList = async (pageInfo, address) => {
-    const accountInfo = await this.getAccount(address)
-    const { pageNumber, pageSize } = pageInfo
-    const searchCriteria = {
-      pageNumber,
-      pageSize,
-      order: Order.Desc,
-      orderBy: BlockOrderBy.Height,
-      signerPublicKey: accountInfo.publicKey
-    }
+  	const accountInfo = await this.getAccount(address);
+  	const { pageNumber, pageSize } = pageInfo;
+  	const searchCriteria = {
+  		pageNumber,
+  		pageSize,
+  		order: Order.Desc,
+  		orderBy: BlockOrderBy.Height,
+  		signerPublicKey: accountInfo.publicKey
+  	};
 
-    const accountHarvestedBlockList = await BlockService.searchBlocks(searchCriteria)
+  	const accountHarvestedBlockList = await BlockService.searchBlocks(searchCriteria);
 
-    return {
-      ...accountHarvestedBlockList,
-      data: accountHarvestedBlockList.data.map(block => ({
-        ...block,
-        date: helper.convertToUTCDate(block.timestamp),
-        age: helper.convertToUTCDate(block.timestamp),
-        harvester: block.signer
-      }))
-    }
+  	return {
+  		...accountHarvestedBlockList,
+  		data: accountHarvestedBlockList.data.map(block => ({
+  			...block,
+  			date: helper.convertToUTCDate(block.timestamp),
+  			age: helper.convertToUTCDate(block.timestamp),
+  			harvester: block.signer
+  		}))
+  	};
   }
 
   /**
@@ -232,14 +232,14 @@ class AccountService {
    * @returns Readable AccountInfo DTO object
    */
   static formatAccountInfo = (accountInfo) => ({
-    ...accountInfo,
-    address: accountInfo.address.address,
-    addressHeight: accountInfo.addressHeight.compact(),
-    publicKeyHeight: accountInfo.publicKeyHeight.compact(),
-    type: Constants.AccountType[accountInfo.accountType],
-    supplementalPublicKeys: this.formatSupplementalPublicKeys(accountInfo.supplementalPublicKeys),
-    importance: helper.ImportanceScoreToPercent(accountInfo.importance.compact()),
-    importanceHeight: accountInfo.importanceHeight.compact()
+  	...accountInfo,
+  	address: accountInfo.address.address,
+  	addressHeight: accountInfo.addressHeight.compact(),
+  	publicKeyHeight: accountInfo.publicKeyHeight.compact(),
+  	type: Constants.AccountType[accountInfo.accountType],
+  	supplementalPublicKeys: this.formatSupplementalPublicKeys(accountInfo.supplementalPublicKeys),
+  	importance: helper.ImportanceScoreToPercent(accountInfo.importance.compact()),
+  	importanceHeight: accountInfo.importanceHeight.compact()
   })
 
   /**
@@ -248,16 +248,16 @@ class AccountService {
    * @returns Readable supplementalPublicKeys DTO object
    */
   static formatSupplementalPublicKeys = (supplementalPublicKeys) => ({
-    ...supplementalPublicKeys,
-    linked: supplementalPublicKeys.linked?.publicKey || Constants.Message.UNAVAILABLE,
-    node: supplementalPublicKeys.node?.publicKey || Constants.Message.UNAVAILABLE,
-    vrf: supplementalPublicKeys.vrf?.publicKey || Constants.Message.UNAVAILABLE,
-    voting: supplementalPublicKeys.voting?.map(vote => ({
-      ...vote,
-      publicKey: vote.publicKey,
-      startPoint: vote.startPoint.compact(),
-      endPoint: vote.endPoint.compact()
-    })) || []
+  	...supplementalPublicKeys,
+  	linked: supplementalPublicKeys.linked?.publicKey || Constants.Message.UNAVAILABLE,
+  	node: supplementalPublicKeys.node?.publicKey || Constants.Message.UNAVAILABLE,
+  	vrf: supplementalPublicKeys.vrf?.publicKey || Constants.Message.UNAVAILABLE,
+  	voting: supplementalPublicKeys.voting?.map(vote => ({
+  		...vote,
+  		publicKey: vote.publicKey,
+  		startPoint: vote.startPoint.compact(),
+  		endPoint: vote.endPoint.compact()
+  	})) || []
   })
 
   /**
@@ -267,10 +267,11 @@ class AccountService {
    * @returns accountName
    */
   static extractAccountNamespace = (accountInfo, accountNames) => {
-    let accountName = accountNames.find((name) => name.address === accountInfo.address)
-    const name = accountName.names.length > 0 ? accountName.names[0].name : Constants.Message.UNAVAILABLE
-    return name
+  	let accountName = accountNames.find((name) => name.address === accountInfo.address);
+  	const name = accountName.names.length > 0 ? accountName.names[0].name : Constants.Message.UNAVAILABLE;
+
+  	return name;
   }
 }
 
-export default AccountService
+export default AccountService;

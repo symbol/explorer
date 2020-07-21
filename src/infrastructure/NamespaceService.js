@@ -33,7 +33,9 @@ class NamespaceService {
       .getNamespacesNames(namespaceIds).toPromise()
     let formattedNamespacesName = namespaceNames.map(namespaceName => this.formatNamespaceName(namespaceName))
 
-    return formattedNamespacesName
+  	let formattedNamespacesName = namespaceNames.map(namespaceName => this.formatNamespaceName(namespaceName));
+
+  	return formattedNamespacesName;
   }
 
   /**
@@ -42,11 +44,12 @@ class NamespaceService {
    * @returns MosaicNames[]
    */
   static getMosaicsNames = async (mosaicIds) => {
-    const mosaicNames = await http.createRepositoryFactory.createNamespaceRepository()
-      .getMosaicsNames(mosaicIds).toPromise()
-    const formattedMosaicNames = mosaicNames.map(mosaicName => this.formatMosaicName(mosaicName))
+  	const mosaicNames = await http.createRepositoryFactory.createNamespaceRepository()
+  		.getMosaicsNames(mosaicIds)
+  		.toPromise();
+  	const formattedMosaicNames = mosaicNames.map(mosaicName => this.formatMosaicName(mosaicName));
 
-    return formattedMosaicNames
+  	return formattedMosaicNames;
   }
 
   /**
@@ -55,12 +58,13 @@ class NamespaceService {
    * @returns AccountNames[]
    */
   static getAccountsNames = async (addresses) => {
-    const accountNames = await http.createRepositoryFactory.createNamespaceRepository()
-      .getAccountsNames(addresses).toPromise()
+  	const accountNames = await http.createRepositoryFactory.createNamespaceRepository()
+  		.getAccountsNames(addresses)
+  		.toPromise();
 
-    const formattedAccountNames = accountNames.map(accountName => this.formatAccountName(accountName))
+  	const formattedAccountNames = accountNames.map(accountName => this.formatAccountName(accountName));
 
-    return formattedAccountNames
+  	return formattedAccountNames;
   }
 
   /**
@@ -69,10 +73,11 @@ class NamespaceService {
    * @returns formatted namespace info and name
    */
   static getNamespace = async (namespaceId) => {
-    let namespace = await http.namespaceService.namespace(namespaceId).toPromise()
-    let formattedNamespace = this.formatNamespace(namespace)
+  	let namespace = await http.namespaceService.namespace(namespaceId).toPromise();
 
-    return formattedNamespace
+  	let formattedNamespace = this.formatNamespace(namespace);
+
+  	return formattedNamespace;
   }
 
   /**
@@ -81,10 +86,11 @@ class NamespaceService {
    * @returns Address
    */
   static getLinkedAddress = async (namespaceId) => {
-    const address = await http.createRepositoryFactory.createNamespaceRepository()
-      .getLinkedAddress(namespaceId).toPromise()
+  	const address = await http.createRepositoryFactory.createNamespaceRepository()
+  		.getLinkedAddress(namespaceId)
+  		.toPromise();
 
-    return address
+  	return address;
   }
 
   /**
@@ -93,10 +99,11 @@ class NamespaceService {
    * @returns mosaicId
    */
   static getLinkedMosaicId = async (namespaceId) => {
-    const mosaicId = await http.createRepositoryFactory.createNamespaceRepository()
-      .getLinkedMosaicId(namespaceId).toPromise()
+  	const mosaicId = await http.createRepositoryFactory.createNamespaceRepository()
+  		.getLinkedMosaicId(namespaceId)
+  		.toPromise();
 
-    return mosaicId
+  	return mosaicId;
   }
 
   /**
@@ -123,38 +130,40 @@ class NamespaceService {
    * @returns customize namespace info Object
    */
   static getNamespaceInfo = async (hexOrNamespace) => {
-    let namespaceId = await helper.hexOrNamespaceToId(hexOrNamespace, 'namespace')
-    let namespace = await this.getNamespace(namespaceId)
-    const currentHeight = await ChainService.getBlockchainHeight()
-    let {
-      isExpired,
-      expiredInBlock,
-      expiredInSecond
-    } = helper.calculateNamespaceExpiration(currentHeight, namespace.endHeight)
+  	let namespaceId = await helper.hexOrNamespaceToId(hexOrNamespace, 'namespace');
 
-    let formattedNamespaceInfo = {
-      ...namespace,
-      owneraddress: namespace.ownerAddress,
-      duration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED,
-      status: namespace.active
-    }
+  	let namespace = await this.getNamespace(namespaceId);
+  	const currentHeight = await ChainService.getBlockchainHeight();
 
-    // create alias props by alias type.
-    if (namespace.aliasType === Constants.Message.ADDRESS)
-      formattedNamespaceInfo.aliasAddress = namespace.alias
+  	let {
+  		isExpired,
+  		expiredInBlock,
+  		expiredInSecond
+  	} = helper.calculateNamespaceExpiration(currentHeight, namespace.endHeight);
 
-    if (namespace.aliasType === Constants.Message.MOSAIC)
-      formattedNamespaceInfo.aliasMosaic = namespace.alias
+  	let formattedNamespaceInfo = {
+  		...namespace,
+  		owneraddress: namespace.ownerAddress,
+  		duration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED,
+  		status: namespace.active
+  	};
 
-    // End height disable click before expired.
-    formattedNamespaceInfo.expiredInBlock = http.networkCurrecy.namespace.indexOf(namespace.namespaceName.toUpperCase()) !== -1 ? Constants.Message.INFINITY : expiredInBlock + ` ≈ ` + formattedNamespaceInfo.duration
+  	// create alias props by alias type.
+  	if (namespace.aliasType === Constants.Message.ADDRESS)
+  		formattedNamespaceInfo.aliasAddress = namespace.alias;
 
-    if (!isExpired) {
-      formattedNamespaceInfo.beforeEndHeight = http.networkCurrecy.namespace.indexOf(namespace.namespaceName.toUpperCase()) !== -1 ? Constants.Message.INFINITY : formattedNamespaceInfo.endHeight + ` ( ${http.networkConfig.NamespaceGraceDuration} blocks of grace period )`
-      delete formattedNamespaceInfo.endHeight
-    }
+  	if (namespace.aliasType === Constants.Message.MOSAIC)
+  		formattedNamespaceInfo.aliasMosaic = namespace.alias;
 
-    return formattedNamespaceInfo
+  	// End height disable click before expired.
+  	formattedNamespaceInfo.expiredInBlock = http.networkCurrecy.namespace.indexOf(namespace.namespaceName.toUpperCase()) !== -1 ? Constants.Message.INFINITY : expiredInBlock + ` ≈ ` + formattedNamespaceInfo.duration;
+
+  	if (!isExpired) {
+  		formattedNamespaceInfo.beforeEndHeight = http.networkCurrecy.namespace.indexOf(namespace.namespaceName.toUpperCase()) !== -1 ? Constants.Message.INFINITY : formattedNamespaceInfo.endHeight + ` ( ${http.networkConfig.NamespaceGraceDuration} blocks of grace period )`;
+  		delete formattedNamespaceInfo.endHeight;
+  	}
+
+  	return formattedNamespaceInfo;
   }
 
   /**
@@ -166,7 +175,7 @@ class NamespaceService {
     let namespaceId = await helper.hexOrNamespaceToId(hexOrNamespace, 'namespace')
     let namespacesName = await this.getNamespacesNames([namespaceId])
 
-    return namespacesName
+  	return namespacesName;
   }
 
   /**
@@ -225,9 +234,9 @@ class NamespaceService {
    * @returns readable namespaceNameDTO
    */
   static formatNamespaceName = namespaceName => ({
-    ...namespaceName,
-    namespaceId: namespaceName.namespaceId.toHex(),
-    parentId: namespaceName?.parentId ? namespaceName.parentId.toHex() : Constants.Message.UNAVAILABLE
+  	...namespaceName,
+  	namespaceId: namespaceName.namespaceId.toHex(),
+  	parentId: namespaceName?.parentId ? namespaceName.parentId.toHex() : Constants.Message.UNAVAILABLE
   })
 
   /**
@@ -236,25 +245,25 @@ class NamespaceService {
    * @returns readable Alias object
    */
   static formatAlias = alias => {
-    switch (alias.type) {
-    case 0:
-      return {
-        ...alias,
-        aliasType: Constants.Message.UNAVAILABLE
-      }
-    case 1: // Mosaic id alias
-      return {
-        ...alias,
-        aliasType: Constants.Message.MOSAIC,
-        alias: alias?.mosaicId.toHex()
-      }
-    case 2: // Address alias
-      return {
-        ...alias,
-        aliasType: Constants.Message.ADDRESS,
-        alias: alias?.address.plain()
-      }
-    }
+  	switch (alias.type) {
+  	case 0:
+  		return {
+  			...alias,
+  			aliasType: Constants.Message.UNAVAILABLE
+  		};
+  	case 1: // Mosaic id alias
+  		return {
+  			...alias,
+  			aliasType: Constants.Message.MOSAIC,
+  			alias: alias?.mosaicId.toHex()
+  		};
+  	case 2: // Address alias
+  		return {
+  			...alias,
+  			aliasType: Constants.Message.ADDRESS,
+  			alias: alias?.address.plain()
+  		};
+  	}
   }
 
   /**
@@ -263,19 +272,19 @@ class NamespaceService {
    * @returns readable namespaceDTO
    */
   static formatNamespace = namespace => ({
-    ...namespace,
-    ownerAddress: namespace.ownerAddress.plain(),
-    namespaceName: namespace.name,
-    namespaceId: namespace.id.toHex(),
-    registrationType: Constants.NamespaceRegistrationType[namespace.registrationType],
-    startHeight: namespace.startHeight.compact(),
-    endHeight: http.networkCurrecy.namespace.indexOf(namespace.name.toUpperCase()) !== -1
-      ? Constants.Message.INFINITY
-      : namespace.endHeight.compact(),
-    active: namespace.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
-    ...this.formatAlias(namespace.alias),
-    parentName: namespace.registrationType !== 0 ? namespace.name.split('.')[0].toUpperCase() : '',
-    levels: namespace.levels
+  	...namespace,
+  	ownerAddress: namespace.ownerAddress.plain(),
+  	namespaceName: namespace.name,
+  	namespaceId: namespace.id.toHex(),
+  	registrationType: Constants.NamespaceRegistrationType[namespace.registrationType],
+  	startHeight: namespace.startHeight.compact(),
+  	endHeight: http.networkCurrecy.namespace.indexOf(namespace.name.toUpperCase()) !== -1
+  		? Constants.Message.INFINITY
+  		: namespace.endHeight.compact(),
+  	active: namespace.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
+  	...this.formatAlias(namespace.alias),
+  	parentName: namespace.registrationType !== 0 ? namespace.name.split('.')[0].toUpperCase() : '',
+  	levels: namespace.levels
   })
 
   /**
@@ -284,8 +293,8 @@ class NamespaceService {
    * @returns readable mosaicName DTO
    */
   static formatMosaicName = mosaicName => ({
-    ...mosaicName,
-    mosaicId: mosaicName.mosaicId.toHex()
+  	...mosaicName,
+  	mosaicId: mosaicName.mosaicId.toHex()
   })
 
   /**
@@ -294,9 +303,9 @@ class NamespaceService {
    * @returns readable accountName DTO
    */
   static formatAccountName = accountName => ({
-    ...accountName,
-    address: accountName.address.plain(),
-    names: accountName.names.map(name => this.formatNamespaceName(name))
+  	...accountName,
+  	address: accountName.address.plain(),
+  	names: accountName.names.map(name => this.formatNamespaceName(name))
   })
 
   /**
@@ -306,15 +315,15 @@ class NamespaceService {
    * @returns full name
    */
   static extractFullNamespace = (namespaceInfo, namespaceNames) => {
-    return namespaceInfo.levels.map((level) => {
-      const namespaceName = namespaceNames.find((name) => name.namespaceId === level.toHex())
+  	return namespaceInfo.levels.map((level) => {
+  		const namespaceName = namespaceNames.find((name) => name.namespaceId === level.toHex());
 
-      if (namespaceName === undefined) throw new Error('Not found')
-      return namespaceName
-    })
-      .map((namespaceName) => namespaceName.name)
-      .join('.')
+  		if (namespaceName === undefined) throw new Error('Not found');
+  		return namespaceName;
+  	})
+  		.map((namespaceName) => namespaceName.name)
+  		.join('.');
   }
 }
 
-export default NamespaceService
+export default NamespaceService;

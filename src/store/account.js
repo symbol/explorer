@@ -16,9 +16,9 @@
  *
  */
 
-import Lock from './lock'
-import { Constants, filters } from '../config'
-import helper from '../helper'
+import Lock from './lock';
+import { Constants, filters } from '../config';
+import helper from '../helper';
 import {
   AccountService,
   MosaicService,
@@ -93,76 +93,84 @@ const managers = [
   )
 ]
 
-const LOCK = Lock.create()
+const LOCK = Lock.create();
 
 export default {
-  namespaced: true,
-  state: {
-    ...getStateFromManagers(managers),
-    // If the state has been initialized.
-    initialized: false,
-    currentAccountAddress: null
-  },
-  getters: {
-    ...getGettersFromManagers(managers),
-    getInitialized: state => state.initialized,
-    getActivityBucketList: state => state.info?.data.activityBucket || [],
-    getSupplementalPublicKeys: state => state.info?.data.supplementalPublicKeys || {},
-    getCurrentAccountAddress: state => state.currentAccountAddress
-  },
-  mutations: {
-    ...getMutationsFromManagers(managers),
-    setInitialized: (state, initialized) => { state.initialized = initialized },
-    setCurrentAccountAddress: (state, currentAccountAddress) => { state.currentAccountAddress = currentAccountAddress }
-  },
-  actions: {
-    ...getActionsFromManagers(managers),
-    // Initialize the account model.
-    async initialize({ commit, dispatch, getters }) {
-      const callback = async () => {
-        await dispatch('initializePage')
-      }
-      await LOCK.initialize(callback, commit, dispatch, getters)
-    },
+	namespaced: true,
+	state: {
+		...getStateFromManagers(managers),
+		// If the state has been initialized.
+		initialized: false,
+		currentAccountAddress: null
+	},
+	getters: {
+		...getGettersFromManagers(managers),
+		getInitialized: state => state.initialized,
+		getActivityBucketList: state => state.info?.data.activityBucket || [],
+		getSupplementalPublicKeys: state => state.info?.data.supplementalPublicKeys || {},
+		getCurrentAccountAddress: state => state.currentAccountAddress
+	},
+	mutations: {
+		...getMutationsFromManagers(managers),
+		setInitialized: (state, initialized) => {
+			state.initialized = initialized;
+		},
+		setCurrentAccountAddress: (state, currentAccountAddress) => {
+			state.currentAccountAddress = currentAccountAddress;
+		}
+	},
+	actions: {
+		...getActionsFromManagers(managers),
+		// Initialize the account model.
+		async initialize({ commit, dispatch, getters }) {
+			const callback = async () => {
+				await dispatch('initializePage');
+			};
 
-    // Uninitialize the account model.
-    async uninitialize({ commit, dispatch, getters }) {
-      const callback = async () => { getters.timeline?.uninitialize() }
-      await LOCK.uninitialize(callback, commit, dispatch, getters)
-    },
+			await LOCK.initialize(callback, commit, dispatch, getters);
+		},
 
-    // Fetch data from the SDK and initialize the page.
-    initializePage(context) {
-      context.getters.timeline.setStore(context).initialFetch()
-    },
+		// Uninitialize the account model.
+		async uninitialize({ commit, dispatch, getters }) {
+			const callback = async () => {
+        getters.timeline?.uninitialize();
+			};
 
-    // Fetch data from the SDK By Address.
-    async fetchAccountDetail(context, payload) {
-      if (!helper.isAccountAddress(payload.address))
-        payload.address = await helper.decodeToAddress(payload.address)
+			await LOCK.uninitialize(callback, commit, dispatch, getters);
+		},
 
-      context.dispatch('uninitializeDetail')
-      context.commit('setCurrentAccountAddress', payload.address)
+		// Fetch data from the SDK and initialize the page.
+		initializePage(context) {
+			context.getters.timeline.setStore(context).initialFetch();
+		},
 
-      context.getters.info.setStore(context).initialFetch(payload.address)
-      context.getters.OwnedMosaic.setStore(context).initialFetch(payload.address)
-      context.getters.OwnedNamespace.setStore(context).initialFetch(payload.address)
-      context.getters.multisig.setStore(context).initialFetch(payload.address)
-      context.getters.transactions.setStore(context).initialFetch(payload.address)
-      context.getters.metadatas.setStore(context).initialFetch(payload.address)
-      context.getters.restrictions.setStore(context).initialFetch(payload.address)
-      context.getters.harvestedBlocks.setStore(context).initialFetch(payload.address)
-    },
+		// Fetch data from the SDK By Address.
+		async fetchAccountDetail(context, payload) {
+			if (!helper.isAccountAddress(payload.address))
+				payload.address = await helper.decodeToAddress(payload.address);
 
-    uninitializeDetail(context) {
-      context.getters.info.setStore(context).uninitialize()
-      context.getters.OwnedMosaic.setStore(context).uninitialize()
-      context.getters.OwnedNamespace.setStore(context).uninitialize()
-      context.getters.multisig.setStore(context).uninitialize()
-      context.getters.transactions.setStore(context).uninitialize()
-      context.getters.metadatas.setStore(context).uninitialize()
-      context.getters.restrictions.setStore(context).uninitialize()
-      context.getters.harvestedBlocks.setStore(context).uninitialize()
-    }
-  }
-}
+			context.dispatch('uninitializeDetail');
+			context.commit('setCurrentAccountAddress', payload.address);
+
+			context.getters.info.setStore(context).initialFetch(payload.address);
+			context.getters.OwnedMosaic.setStore(context).initialFetch(payload.address);
+			context.getters.OwnedNamespace.setStore(context).initialFetch(payload.address);
+			context.getters.multisig.setStore(context).initialFetch(payload.address);
+			context.getters.transactions.setStore(context).initialFetch(payload.address);
+			context.getters.metadatas.setStore(context).initialFetch(payload.address);
+			context.getters.restrictions.setStore(context).initialFetch(payload.address);
+			context.getters.harvestedBlocks.setStore(context).initialFetch(payload.address);
+		},
+
+		uninitializeDetail(context) {
+			context.getters.info.setStore(context).uninitialize();
+			context.getters.OwnedMosaic.setStore(context).uninitialize();
+			context.getters.OwnedNamespace.setStore(context).uninitialize();
+			context.getters.multisig.setStore(context).uninitialize();
+			context.getters.transactions.setStore(context).uninitialize();
+			context.getters.metadatas.setStore(context).uninitialize();
+			context.getters.restrictions.setStore(context).uninitialize();
+			context.getters.harvestedBlocks.setStore(context).uninitialize();
+		}
+	}
+};
