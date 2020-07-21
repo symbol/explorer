@@ -20,78 +20,78 @@ import Lock from './lock';
 import { Constants, filters } from '../config';
 import helper from '../helper';
 import {
-  AccountService,
-  MosaicService,
-  MultisigService,
-  MetadataService,
-  RestrictionService
-} from '../infrastructure'
+	AccountService,
+	MosaicService,
+	MultisigService,
+	MetadataService,
+	RestrictionService
+} from '../infrastructure';
 import {
-  DataSet,
-  Timeline,
-  Pagination,
-  getStateFromManagers,
-  getGettersFromManagers,
-  getMutationsFromManagers,
-  getActionsFromManagers
-} from './manager'
+	DataSet,
+	Timeline,
+	Pagination,
+	getStateFromManagers,
+	getGettersFromManagers,
+	getMutationsFromManagers,
+	getActionsFromManagers
+} from './manager';
 
 const managers = [
-  new Pagination({
-    name: 'timeline',
-    fetchFunction: (pageInfo, filterVaule) => AccountService.getAccountList(pageInfo, filterVaule),
-    pageInfo: {
-      pageSize: Constants.PageSize
-    },
-    filter: filters.account
-  }),
-  new DataSet(
-    'info',
-    (address) => AccountService.getAccountInfo(address)
-  ),
-  new DataSet(
-    'OwnedMosaic',
-    (address) => MosaicService.getMosaicAmountViewList(address)
-  ),
-  new Pagination({
-    name: 'OwnedNamespace',
-    fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountNamespaceList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
-    pageInfo: {
-      pageSize: 10
-    },
-    filter: filters.namespace
-  }),
-  new DataSet(
-    'multisig',
-    (address) => MultisigService.getMultisigAccountInfo(address)
-  ),
-  new Pagination({
-    name: 'transactions',
-    fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountTransactionList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
-    pageInfo: {
-      pageSize: 10
-    },
-    filter: filters.transaction
-  }),
-  new Pagination({
-    name: 'harvestedBlocks',
-    fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountHarvestedBlockList(pageInfo, store.getters.getCurrentAccountAddress),
-    pageInfo: {
-      pageSize: 10
-    }
-  }),
-  new Timeline(
-    'metadatas',
-    (pageSize, store) => MetadataService.getAccountMetadataList(store.getters.getCurrentAccountAddress, pageSize),
-    (key, pageSize, store) => MetadataService.getAccountMetadataList(store.getters.getCurrentAccountAddress, pageSize, key),
-    'id',
-    10
-  ),
-  new DataSet(
-    'restrictions',
-    (address) => RestrictionService.getAccountRestrictionList(address)
-  )
-]
+	new Pagination({
+		name: 'timeline',
+		fetchFunction: (pageInfo, filterVaule) => AccountService.getAccountList(pageInfo, filterVaule),
+		pageInfo: {
+			pageSize: Constants.PageSize
+		},
+		filter: filters.account
+	}),
+	new DataSet(
+		'info',
+		(address) => AccountService.getAccountInfo(address)
+	),
+	new DataSet(
+		'OwnedMosaic',
+		(address) => MosaicService.getMosaicAmountViewList(address)
+	),
+	new Pagination({
+		name: 'OwnedNamespace',
+		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountNamespaceList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
+		pageInfo: {
+			pageSize: 10
+		},
+		filter: filters.namespace
+	}),
+	new DataSet(
+		'multisig',
+		(address) => MultisigService.getMultisigAccountInfo(address)
+	),
+	new Pagination({
+		name: 'transactions',
+		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountTransactionList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
+		pageInfo: {
+			pageSize: 10
+		},
+		filter: filters.transaction
+	}),
+	new Pagination({
+		name: 'harvestedBlocks',
+		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountHarvestedBlockList(pageInfo, store.getters.getCurrentAccountAddress),
+		pageInfo: {
+			pageSize: 10
+		}
+	}),
+	new Timeline(
+		'metadatas',
+		(pageSize, store) => MetadataService.getAccountMetadataList(store.getters.getCurrentAccountAddress, pageSize),
+		(key, pageSize, store) => MetadataService.getAccountMetadataList(store.getters.getCurrentAccountAddress, pageSize, key),
+		'id',
+		10
+	),
+	new DataSet(
+		'restrictions',
+		(address) => RestrictionService.getAccountRestrictionList(address)
+	)
+];
 
 const LOCK = Lock.create();
 

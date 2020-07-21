@@ -16,46 +16,46 @@
  *
  */
 
-import Lock from './lock'
-import { Constants, filters } from '../config'
-import { NamespaceService, MetadataService } from '../infrastructure'
+import Lock from './lock';
+import { Constants, filters } from '../config';
+import { NamespaceService, MetadataService } from '../infrastructure';
 import {
-  DataSet,
-  Timeline,
-  Pagination,
-  getStateFromManagers,
-  getGettersFromManagers,
-  getMutationsFromManagers,
-  getActionsFromManagers
-} from './manager'
+	DataSet,
+	Timeline,
+	Pagination,
+	getStateFromManagers,
+	getGettersFromManagers,
+	getMutationsFromManagers,
+	getActionsFromManagers
+} from './manager';
 
 const LOCK = Lock.create();
 
 const managers = [
-  new Pagination({
-    name: 'timeline',
-    fetchFunction: (pageInfo, filterVaule) => NamespaceService.getNamespaceList(pageInfo, filterVaule),
-    pageInfo: {
-      pageSize: Constants.PageSize
-    },
-    filter: filters.namespace
-  }),
-  new DataSet(
-    'info',
-    (namespaceOrHex) => NamespaceService.getNamespaceInfo(namespaceOrHex)
-  ),
-  new DataSet(
-    'namespaceLevel',
-    (namespaceOrHex) => NamespaceService.getNamespaceLevelList(namespaceOrHex)
-  ),
-  new Timeline(
-    'metadatas',
-    (pageSize, store) => MetadataService.getNamespaceMetadataList(store.getters.getCurrentNamespaceId, pageSize),
-    (key, pageSize, store) => MetadataService.getNamespaceMetadataList(store.getters.getCurrentNamespaceId, pageSize, key),
-    'id',
-    10
-  )
-]
+	new Pagination({
+		name: 'timeline',
+		fetchFunction: (pageInfo, filterVaule) => NamespaceService.getNamespaceList(pageInfo, filterVaule),
+		pageInfo: {
+			pageSize: Constants.PageSize
+		},
+		filter: filters.namespace
+	}),
+	new DataSet(
+		'info',
+		(namespaceOrHex) => NamespaceService.getNamespaceInfo(namespaceOrHex)
+	),
+	new DataSet(
+		'namespaceLevel',
+		(namespaceOrHex) => NamespaceService.getNamespaceLevelList(namespaceOrHex)
+	),
+	new Timeline(
+		'metadatas',
+		(pageSize, store) => MetadataService.getNamespaceMetadataList(store.getters.getCurrentNamespaceId, pageSize),
+		(key, pageSize, store) => MetadataService.getNamespaceMetadataList(store.getters.getCurrentNamespaceId, pageSize, key),
+		'id',
+		10
+	)
+];
 
 export default {
 	namespaced: true,

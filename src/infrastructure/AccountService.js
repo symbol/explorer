@@ -16,11 +16,11 @@
  *
  */
 
-import { Address, TransactionType, TransactionGroup, Order, BlockOrderBy } from 'symbol-sdk'
-import http from './http'
-import { Constants } from '../config'
-import { NamespaceService, TransactionService, BlockService, ChainService } from '../infrastructure'
-import helper from '../helper'
+import { Address, TransactionType, TransactionGroup, Order, BlockOrderBy } from 'symbol-sdk';
+import http from './http';
+import { Constants } from '../config';
+import { NamespaceService, TransactionService, BlockService, ChainService } from '../infrastructure';
+import helper from '../helper';
 
 class AccountService {
   /**
@@ -57,13 +57,14 @@ class AccountService {
    * @returns formatted account data with pagination info
    */
   static searchAccounts = async (accountSearchCriteria) => {
-    const searchAccounts = await http.createRepositoryFactory.createAccountRepository()
-      .search(accountSearchCriteria).toPromise()
+  	const searchAccounts = await http.createRepositoryFactory.createAccountRepository()
+  		.search(accountSearchCriteria)
+  		.toPromise();
 
-    return {
-      ...searchAccounts,
-      data: searchAccounts.data.map(account => this.formatAccountInfo(account))
-    }
+  	return {
+  		...searchAccounts,
+  		data: searchAccounts.data.map(account => this.formatAccountInfo(account))
+  	};
   }
 
   /**
@@ -73,29 +74,29 @@ class AccountService {
    * @returns Custom AccountInfo[]
    */
   static getAccountList = async (pageInfo, filterVaule) => {
-    const { pageNumber, pageSize } = pageInfo
-    const searchCriteria = {
-      pageNumber,
-      pageSize,
-      order: Order.Desc,
-      ...filterVaule
-    }
+  	const { pageNumber, pageSize } = pageInfo;
+  	const searchCriteria = {
+  		pageNumber,
+  		pageSize,
+  		order: Order.Desc,
+  		...filterVaule
+  	};
 
-    const accountInfos = await this.searchAccounts(searchCriteria)
+  	const accountInfos = await this.searchAccounts(searchCriteria);
 
-    const addresses = accountInfos.data.map(accountInfo => Address.createFromRawAddress(accountInfo.address))
+  	const addresses = accountInfos.data.map(accountInfo => Address.createFromRawAddress(accountInfo.address));
 
-    const accountNames = await NamespaceService.getAccountsNames(addresses)
+  	const accountNames = await NamespaceService.getAccountsNames(addresses);
 
-    return {
-      ...accountInfos,
-      data: accountInfos.data.map(account => ({
-        ...account,
-        balance: helper.getNetworkCurrencyBalance(account.mosaics),
-        lastActivity: helper.getLastActivityHeight(account.activityBucket),
-        accountAliasName: this.extractAccountNamespace(account, accountNames)
-      }))
-    }
+  	return {
+  		...accountInfos,
+  		data: accountInfos.data.map(account => ({
+  			...account,
+  			balance: helper.getNetworkCurrencyBalance(account.mosaics),
+  			lastActivity: helper.getLastActivityHeight(account.activityBucket),
+  			accountAliasName: this.extractAccountNamespace(account, accountNames)
+  		}))
+  	};
   }
 
   /**
@@ -171,30 +172,31 @@ class AccountService {
    * @returns Custom AggregateTransaction[]
    */
   static getAccountNamespaceList = async (pageInfo, filterVaule, address) => {
-    const { pageNumber, pageSize } = pageInfo
-    const searchCriteria = {
-      pageNumber,
-      pageSize,
-      order: Order.Desc,
-      address: Address.createFromRawAddress(address),
-      ...filterVaule
-    }
+  	const { pageNumber, pageSize } = pageInfo;
+  	const searchCriteria = {
+  		pageNumber,
+  		pageSize,
+  		order: Order.Desc,
+  		address: Address.createFromRawAddress(address),
+  		...filterVaule
+  	};
 
-    const accountNamespaces = await NamespaceService.searchNamespaces(searchCriteria)
+  	const accountNamespaces = await NamespaceService.searchNamespaces(searchCriteria);
 
-    const currentHeight = await ChainService.getBlockchainHeight()
+  	const currentHeight = await ChainService.getBlockchainHeight();
 
-    return {
-      ...accountNamespaces,
-      data: accountNamespaces.data.map(namespaces => {
-        const { expiredInSecond } = helper.calculateNamespaceExpiration(currentHeight, namespaces.endHeight)
-        return {
-          ...namespaces,
-          status: namespaces.active,
-          duration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED
-        }
-      })
-    }
+  	return {
+  		...accountNamespaces,
+  		data: accountNamespaces.data.map(namespaces => {
+  			const { expiredInSecond } = helper.calculateNamespaceExpiration(currentHeight, namespaces.endHeight);
+
+  			return {
+  				...namespaces,
+  				status: namespaces.active,
+  				duration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED
+  			};
+  		})
+  	};
   }
 
   /**

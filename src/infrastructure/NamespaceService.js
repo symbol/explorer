@@ -16,11 +16,11 @@
  *
  */
 
-import http from './http'
-import helper from '../helper'
-import Constants from '../config/constants'
-import { ChainService } from '../infrastructure'
-import { Order } from 'symbol-sdk'
+import http from './http';
+import helper from '../helper';
+import Constants from '../config/constants';
+import { ChainService } from '../infrastructure';
+import { Order } from 'symbol-sdk';
 
 class NamespaceService {
   /**
@@ -29,9 +29,9 @@ class NamespaceService {
    * @returns Formatted NamespaceName[]
    */
   static getNamespacesNames = async (namespaceIds) => {
-    let namespaceNames = await http.createRepositoryFactory.createNamespaceRepository()
-      .getNamespacesNames(namespaceIds).toPromise()
-    let formattedNamespacesName = namespaceNames.map(namespaceName => this.formatNamespaceName(namespaceName))
+  	let namespaceNames = await http.createRepositoryFactory.createNamespaceRepository()
+  		.getNamespacesNames(namespaceIds)
+  		.toPromise();
 
   	let formattedNamespacesName = namespaceNames.map(namespaceName => this.formatNamespaceName(namespaceName));
 
@@ -112,16 +112,17 @@ class NamespaceService {
    * @returns formatted namespace data with pagination info
    */
   static searchNamespaces = async (namespaceSearchCriteria) => {
-    const searchNamespaces = await http.createRepositoryFactory.createNamespaceRepository()
-      .search(namespaceSearchCriteria).toPromise()
+  	const searchNamespaces = await http.createRepositoryFactory.createNamespaceRepository()
+  		.search(namespaceSearchCriteria)
+  		.toPromise();
 
-    // Convert NamespaceInfo[] to Namespace[]
-    const namespaces = await this.toNamespaces(searchNamespaces.data)
+  	// Convert NamespaceInfo[] to Namespace[]
+  	const namespaces = await this.toNamespaces(searchNamespaces.data);
 
-    return {
-      ...searchNamespaces,
-      data: namespaces.map(namespace => this.formatNamespace(namespace))
-    }
+  	return {
+  		...searchNamespaces,
+  		data: namespaces.map(namespace => this.formatNamespace(namespace))
+  	};
   }
 
   /**
@@ -172,8 +173,9 @@ class NamespaceService {
    * @returns Namespace name list
    */
   static getNamespaceLevelList = async (hexOrNamespace) => {
-    let namespaceId = await helper.hexOrNamespaceToId(hexOrNamespace, 'namespace')
-    let namespacesName = await this.getNamespacesNames([namespaceId])
+  	let namespaceId = await helper.hexOrNamespaceToId(hexOrNamespace, 'namespace');
+
+  	let namespacesName = await this.getNamespacesNames([namespaceId]);
 
   	return namespacesName;
   }
@@ -185,31 +187,32 @@ class NamespaceService {
    * @returns customize NamespaceInfo[]
    */
   static getNamespaceList = async (pageInfo, filterVaule) => {
-    const { pageNumber, pageSize } = pageInfo
-    const searchCriteria = {
-      pageNumber,
-      pageSize,
-      order: Order.Desc,
-      ...filterVaule
-    }
+  	const { pageNumber, pageSize } = pageInfo;
+  	const searchCriteria = {
+  		pageNumber,
+  		pageSize,
+  		order: Order.Desc,
+  		...filterVaule
+  	};
 
-    const namespaceInfos = await this.searchNamespaces(searchCriteria)
-    const currentHeight = await ChainService.getBlockchainHeight()
+  	const namespaceInfos = await this.searchNamespaces(searchCriteria);
+  	const currentHeight = await ChainService.getBlockchainHeight();
 
-    return {
-      ...namespaceInfos,
-      data: namespaceInfos.data.map(namespace => {
-        const { isExpired, expiredInSecond, expiredInBlock } = helper.calculateNamespaceExpiration(currentHeight, namespace.endHeight)
-        return {
-          ...namespace,
-          owneraddress: namespace.ownerAddress,
-          expirationDuration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED,
-          isExpired: isExpired,
-          approximateExpired: helper.convertSecondToDate(expiredInSecond),
-          expiredInBlock: expiredInBlock
-        }
-      })
-    }
+  	return {
+  		...namespaceInfos,
+  		data: namespaceInfos.data.map(namespace => {
+  			const { isExpired, expiredInSecond, expiredInBlock } = helper.calculateNamespaceExpiration(currentHeight, namespace.endHeight);
+
+  			return {
+  				...namespace,
+  				owneraddress: namespace.ownerAddress,
+  				expirationDuration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED,
+  				isExpired: isExpired,
+  				approximateExpired: helper.convertSecondToDate(expiredInSecond),
+  				expiredInBlock: expiredInBlock
+  			};
+  		})
+  	};
   }
 
   /**
@@ -218,14 +221,14 @@ class NamespaceService {
    * @returns Namespace[]
    */
   static toNamespaces = async (namespaceInfos) => {
-    const namespaceIdsList = namespaceInfos.map(namespaceInfo => namespaceInfo.id)
-    const namespaceNames = await this.getNamespacesNames(namespaceIdsList)
+  	const namespaceIdsList = namespaceInfos.map(namespaceInfo => namespaceInfo.id);
+  	const namespaceNames = await this.getNamespacesNames(namespaceIdsList);
 
-    return namespaceInfos.map(namespaceInfo => ({
-      ...namespaceInfo,
-      id: namespaceInfo.id,
-      name: this.extractFullNamespace(namespaceInfo, namespaceNames)
-    }))
+  	return namespaceInfos.map(namespaceInfo => ({
+  		...namespaceInfo,
+  		id: namespaceInfo.id,
+  		name: this.extractFullNamespace(namespaceInfo, namespaceNames)
+  	}));
   }
 
   /**

@@ -49,7 +49,7 @@ export default {
 				'publicKeyHeight',
 				'importanceHeight',
 				'multisigAddresses_',
-        'cosignatories_',
+				'cosignatories_',
 
 				'signer',
 				'recipient',

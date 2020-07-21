@@ -116,13 +116,13 @@ export default {
 		},
 
 		isItemShown(item) {
-			if(!item.hideEmptyData && !item.hideOnError)
+			if (!item.hideEmptyData && !item.hideOnError)
 				return true;
 
-			if(item.hideEmptyData && this.getData(item)?.length > 0)
+			if (item.hideEmptyData && this.getData(item)?.length > 0)
 				return true;
 
-			if(item.hideOnError && !this.getter(item.managerGetter)?.error)	
+			if (item.hideOnError && !this.getter(item.managerGetter)?.error)
 				return true;
 
 			return false;
