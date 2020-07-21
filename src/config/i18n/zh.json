@@ -24,7 +24,6 @@
     "namespaceName": "命名空间的名字",
     "transaction": "交易",
     "transactionHash": "交易Hash",
-    "transactionId": "交易ID",
     "totalTransactions": "共交易",
     "transactionType": "交易类型",
     "addressHeight": "地址的高度",
