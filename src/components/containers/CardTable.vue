@@ -24,10 +24,10 @@
 				:pageSize="pageSize"
 				:emptyDataMessage="emptyDataMessage"
 			/>
-			<TableInfoView 
-				v-else-if="typeof data === 'object'" 
+			<TableInfoView
+				v-else-if="typeof data === 'object'"
 				:data="data"
-				:emptyDataMessage="emptyDataMessage" 
+				:emptyDataMessage="emptyDataMessage"
 			/>
 			<div v-else>{{ getNameByKey(emptyDataMessage) }}</div>
 		</template>
