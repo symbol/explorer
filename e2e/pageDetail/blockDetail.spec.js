@@ -36,7 +36,7 @@ describe('Symbol Explorer Blocks detail page', () => {
         })
 
         it('render correct table header.', () => {
-            const items = ['Deadline', 'Transaction ID', 'Transaction Hash', 'Type']
+            const items = ['Deadline', 'Transaction Hash', 'Type']
             cy.renderHeaderInTable("blockTransactionsTitle", items)
         })
     })

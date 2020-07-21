@@ -96,9 +96,6 @@ class helper {
   static isMosaicOrNamespaceId = (str) =>
   	str.length === 16
 
-  static isTransactionId = (str) =>
-  	str.length === 24
-
   static isAccountPublicKey = (str) =>
   	str.length === 64 &&
     str.match('^[A-z0-9]+$')

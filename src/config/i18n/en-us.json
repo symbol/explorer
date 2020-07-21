@@ -25,7 +25,6 @@
     "namespaceName": "Name",
     "transaction": "Transaction",
     "transactionHash": "Transaction Hash",
-    "transactionId": "Transaction ID",
     "totalTransactions": "Total Transactions",
     "transactionType": "Transaction Type",
     "addressHeight": "Address height",
