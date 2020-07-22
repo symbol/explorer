@@ -64,7 +64,7 @@ export default {
 		transactionSchema: (state, getters) => ({
 			loading: getters.info.loading,
 			error: getters.info.error,
-			data: getters.info.data?.aggregateTransaction
+			data: getters.info.data?.aggregateTransaction?.innerTransactions
 				? {
 					type: getters.info.data?.type,
 					innerTransactions: getters.info.data.aggregateTransaction.innerTransactions.map( transaction => ({

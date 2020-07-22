@@ -11,7 +11,7 @@
 						:key="'tgw' + index"
 					/>
 				</div>
-				<TransactionGraphic v-else v-bind="data" />
+				<TransactionGraphic v-else :data="data" />
 			</div>
 		</template>
 	</Card>
@@ -23,11 +23,6 @@ import TransactionGraphic from '@/components/transaction-graphic/TransactionGrap
 import { TransactionType } from 'symbol-sdk';
 
 export default {
-	mounted() {
-		setInterval(() => {
-			console.log('DATA', this.data)
-		}, 5000)	
-	},
 	props: {
 		managerGetter: String
 	},
