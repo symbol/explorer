@@ -120,7 +120,7 @@ class BlockService {
   		data: blockTransactions.data.map(blockTransaction => ({
   			...blockTransaction,
   			transactionHash: blockTransaction.hash,
-  			transactionDescriptor: blockTransaction.transactionBody.transactionDescriptor
+  			transactionType: blockTransaction.transactionBody.transactionType
   		}))
   	};
   }
