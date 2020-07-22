@@ -4,10 +4,14 @@
 
 		<template #body>
 			<div class="body">
-				<TransferGraphic v-if="data.type === TransactionType.TRANSFER" v-bind="data" />
-				<AddressAliasGraphic v-if="data.type === TransactionType.ADDRESS_ALIAS" v-bind="data" />
-				<MosaicAliasGraphic v-if="data.type === TransactionType.MOSAIC_ALIAS" v-bind="data" />
-				<NamespaceRegistrationGraphic v-if="data.type === TransactionType.NAMESPACE_REGISTRATION" v-bind="data" />
+				<div v-if="isAggregate">
+					<TransactionGraphic 
+						v-for="(innerTransactionData, index) in data"
+						v-bind="innerTransactionData" 
+						:key="'tgw' + index"
+					/>
+				</div>
+				<TransactionGraphic v-else v-bind="data" />
 			</div>
 		</template>
 	</Card>
@@ -15,10 +19,7 @@
 
 <script>
 import Card from '@/components/containers/Card.vue';
-import TransferGraphic from '@/components/transaction-graphic/TransferGraphic.vue';
-import AddressAliasGraphic from '@/components/transaction-graphic/AddressAliasGraphic.vue';
-import MosaicAliasGraphic from '@/components/transaction-graphic/MosaicAliasGraphic.vue';
-import NamespaceRegistrationGraphic from '@/components/transaction-graphic/NamespaceRegistrationGraphic.vue';
+import TransactionGraphic from '@/components/transaction-graphic/TransactionGraphic.vue';
 import { TransactionType } from 'symbol-sdk';
 
 export default {
@@ -28,10 +29,7 @@ export default {
 
 	components: {
 		Card,
-		TransferGraphic,
-		AddressAliasGraphic,
-		MosaicAliasGraphic,
-		NamespaceRegistrationGraphic
+		TransactionGraphic,
 	},
 
 	data() {
@@ -43,9 +41,17 @@ export default {
 	computed: {
 		isWidgetShown() {
 			return this.data.type === TransactionType.TRANSFER ||
-        this.data.type === TransactionType.ADDRESS_ALIAS ||
-        this.data.type === TransactionType.MOSAIC_ALIAS ||
-        this.data.type === TransactionType.NAMESPACE_REGISTRATION;
+				this.data.type === TransactionType.ADDRESS_ALIAS ||
+				this.data.type === TransactionType.MOSAIC_ALIAS ||
+				this.data.type === TransactionType.NAMESPACE_REGISTRATION ||
+				this.data.type === TransactionType.MOSAIC_DEFINITION ||
+				this.data.type === TransactionType.AGGREGATE_COMPLETE||
+				this.data.type === TransactionType.AGGREGATE_BONDED;
+		},
+
+		isAggregate() {
+			return this.data.type === TransactionType.AGGREGATE_COMPLETE||
+				this.data.type === TransactionType.AGGREGATE_BONDED;
 		},
 
 		data() {

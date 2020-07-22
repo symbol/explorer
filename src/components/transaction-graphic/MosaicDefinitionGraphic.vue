@@ -42,8 +42,7 @@
 <script>
 import GraphicComponent from '../graphics/GraphicComponent.vue';
 import AccountIcon from '../graphics/AccountIcon.vue';
-import NamespaceCircle from '../graphics/NamespaceCircle.vue';
-import NamespaceUnlinkCircle from '../graphics/NamespaceUnlinkCircle.vue';
+import AddCircle from '../graphics/AddCircle.vue';
 import MosaicIcon from '../graphics/MosaicIcon.vue';
 import Arrow from '../graphics/Arrow.vue';
 
