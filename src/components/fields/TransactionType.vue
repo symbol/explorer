@@ -93,17 +93,13 @@ export default {
 		},
 
 		transactionText() {
-			let transactionType = this.value;
+			const transactionType = this.value.toString()
+				.replace('incoming_', '')
+				.replace('outgoing_', '');
 
-			if (typeof transactionType === 'string') {
-				transactionType = this.value
-					.replace('incoming_', '')
-					.replace('outgoing_', '');
-			}
+			const transactionDescriptor = `transactionDescriptor_${transactionType}`;
 
-			const translateTransactionType = `transactionDescriptor_${transactionType}`;
-
-			return this.$store.getters['ui/getNameByKey'](translateTransactionType);
+			return this.$store.getters['ui/getNameByKey'](transactionDescriptor);
 		}
 	},
 
