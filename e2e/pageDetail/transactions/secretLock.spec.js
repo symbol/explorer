@@ -31,7 +31,7 @@ describe('Symbol Explorer Transaction detail page for Secret Lock.', () => {
         })
 
         it('render correct transaction detail titles', () => {
-            const items = ['Type', 'Type', 'Duration', 'Mosaic ID', 'Secret', 'Recipient', 'Hash Algorithm']
+            const items = ['Type', 'Duration', 'Mosaic ID', 'Secret', 'Recipient', 'Hash Algorithm']
             cy.renderFieldInTable("transactionDetailTitle", items)
         })
     })
