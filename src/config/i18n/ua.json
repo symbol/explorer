@@ -24,7 +24,6 @@
     "namespaceName": "Ім'я",
     "transaction": "транзакція",
     "transactionHash": "Хеш транзакції",
-    "transactionId": "ID транзакції",
     "totalTransactions": "Усього транзакцій",
     "transactionType": "Тип транзакції",
     "addressHeight": "Висота адреси",

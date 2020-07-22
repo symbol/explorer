@@ -102,13 +102,6 @@ export default {
 						resolve();
 					}
 					else
-					if (helper.isTransactionId(searchString))
-						reject(new Error('Search by tx id is not supported yet..'));
-					// dispatch('openPage', {
-					//     pageName: 'transaction',
-					//     param: searchString
-					// });
-					else
 					if (helper.isAccountPublicKey(searchString)) {
 						// check the string is a public key of an account
 

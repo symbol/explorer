@@ -151,7 +151,6 @@ class AccountService {
   		...accountTransactions,
   		data: accountTransactions.data.map(accountTransaction => ({
   			...accountTransaction,
-  			transactionId: accountTransaction.id,
   			transactionHash: accountTransaction.hash,
   			transactionDescriptor:
           accountTransaction.transactionBody.type === TransactionType.TRANSFER

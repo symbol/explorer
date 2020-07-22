@@ -37,7 +37,7 @@ import {
 class TransactionService {
   /**
    * Gets a transaction status for a transaction hash
-   * @param hash Transaction id or hash
+   * @param hash Transaction hash
    * @returns TransactionStatus object
    */
   static getTransactionStatus = (hash) => {
@@ -66,8 +66,8 @@ class TransactionService {
   }
 
   /**
-   * Gets a transaction from hash or transaction Id
-   * @param hash Transaction id or hash
+   * Gets a transaction from hash
+   * @param hash Transaction hash
    * @returns formatted Transaction
    */
   static getTransaction = async (hash, transactionGroup) => {
@@ -96,7 +96,7 @@ class TransactionService {
 
   /**
    * Gets a transaction's effective paid fee
-   * @param hash Transaction id or hash
+   * @param hash Transaction hash
    * @returns formatted effectiveFee string
    */
   static getTransactionEffectiveFee = async (hash) => {
@@ -109,7 +109,7 @@ class TransactionService {
 
   /**
    * Gets Formatted Transaction Info for Vue component
-   * @param hash Transaction id or hash
+   * @param hash Transaction hash
    * @returns Custom Transaction object
    */
   static getTransactionInfo = async (hash, transactionGroup = TransactionGroup.Confirmed) => {
@@ -153,7 +153,6 @@ class TransactionService {
   	case TransactionType.AGGREGATE_BONDED:
   		const innerTransactions = formattedTransaction.aggregateTransaction.innerTransactions.map(transaction => ({
   			...transaction,
-  			transactionId: transaction.id,
   			type: Constants.TransactionType[transaction.type],
   			transactionDescriptor: 'transactionDescriptor_' + transaction.type
   		}));
@@ -184,7 +183,6 @@ class TransactionService {
   		...formattedTransaction,
   		blockHeight: formattedTransaction.height,
   		transactionHash: formattedTransaction.hash,
-  		transactionId: formattedTransaction.id,
   		effectiveFee,
   		date,
   		status: transactionStatus.detail.code,

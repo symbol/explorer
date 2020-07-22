@@ -1,4 +1,5 @@
 import config from '../../config/network.conf.json'
+import datafiled from '../../config/datafiled.json'
 
 describe('Symbol Explorer Transaction detail page for Secret Lock.', () => {
     beforeEach(() => {
@@ -15,7 +16,7 @@ describe('Symbol Explorer Transaction detail page for Secret Lock.', () => {
         })
 
         it('render correct transaction info titles', ()=> {
-            const items = ['Block Height', 'Transaction Hash', 'Transaction ID', 'Date', 'Deadline', 'Fee', 'Signature', 'Signer', 'Status', 'Confirmation']
+            const items = datafiled.transactionInfoFields
             cy.renderFieldInTable("transactionInfoTitle", items)
         })
     })

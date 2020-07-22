@@ -25,7 +25,6 @@
     "namespaceName": "Имя",
     "transaction": "Транзакция",
     "transactionHash": "Хэш Транзакции",
-    "transactionId": "(ID) Идентификатор Транзакции",
     "totalTransactions": "Всего Транзакций",
     "transactionType": "Тип Транзакции",
     "addressHeight": "Высота Адреса",

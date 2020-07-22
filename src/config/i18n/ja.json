@@ -25,7 +25,6 @@
     "namespaceName": "スペース名",
     "transaction": "トランザクション",
     "transactionHash": "トランザクションハッシュ",
-    "transactionId": "トランザクションID",
     "totalTransactions": "合計トランザクション",
     "transactionType": "トランザクションタイプ",
     "addressHeight": "アドレスのブロック高",

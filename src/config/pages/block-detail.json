@@ -45,7 +45,6 @@
                 "pagination": "server",
                 "fields": [
                     "deadline",
-                    "transactionId",
                     "transactionHash",
                     "transactionDescriptor"
                 ]
