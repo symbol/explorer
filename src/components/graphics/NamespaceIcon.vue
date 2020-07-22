@@ -74,7 +74,7 @@ export default {
 			})
 		},
 
-		'hideCaption': {
+		hideCaption: {
 			type: Boolean,
 			default: false
 		}

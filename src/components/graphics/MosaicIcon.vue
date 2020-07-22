@@ -7,7 +7,7 @@
 		:y="_y"
 		:width="_width"
 		:height="_height"
-		viewBox="0 0 116 105"
+		:viewBox="viewBox"
 		xml:space="preserve"
 		class="connector"
 		@click="onMosaicClick(mosaicId || mosaic.mosaicId)"
@@ -56,6 +56,13 @@
 		            c1.371-1.518,2.64-3.447,5.115-3.435C72.014,67.167,72.02,79.578,72.025,91.988z"
 			/>
 		</g>
+		<text
+			v-if="!hideCaption"
+			x="130"
+			y="122.8457"
+			class="mosaic-text"
+			text-anchor="middle"
+		>{{ truncatedMosaicName }}</text>
 	</svg>
 </template>
 
@@ -90,6 +97,11 @@ export default {
 
 		aliasName: {
 			type: String
+		},
+
+		hideCaption: {
+			type: Boolean,
+			default: false
 		}
 	},
 
@@ -97,12 +109,28 @@ export default {
 		title() {
 			return this.getTranslation('mosaic') + ': ' + ((this.aliasName || this.mosaic.aliasName) || (this.mosaicId || this.mosaic.mosaicId));
 		},
+
 		iconColor() {
 			return this.getIconColorFromHex(this.mosaicId || this.mosaic.mosaicId);
 		},
 
 		truncatedMosaicId() {
 			return this.truncString(this.mosaicId || this.mosaic.mosaicId);
+		},
+
+		truncatedMosaicName() {
+			const aliasName = this.aliasName || this.mosaic.aliasName;
+			const mosaicId = this.mosaicId || this.mosaic.mosaicId;
+			if(aliasName)
+				return this.truncString(aliasName, 5);
+			return this.truncString(mosaicId);
+		},
+
+		viewBox() {
+			return this.hideCaption
+				? '115 0 16 105'
+				: '0 0 261.333 131.313';
+				// 0 0 116 105
 		}
 	}
 };
@@ -116,5 +144,11 @@ export default {
 .connector-body {
     font-size: 18px;
     font-weight: bold;
+}
+
+.mosaic-text {
+    font-size: 18px;
+    font-weight: bold;
+    fill: var(--secondary);
 }
 </style>
