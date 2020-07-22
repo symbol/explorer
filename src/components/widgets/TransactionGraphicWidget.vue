@@ -6,8 +6,8 @@
 			<div class="body">
 				<div v-if="isAggregate">
 					<TransactionGraphic 
-						v-for="(innerTransactionData, index) in data"
-						v-bind="innerTransactionData" 
+						v-for="(innerTransactionData, index) in data.innerTransactions"
+						:data="innerTransactionData" 
 						:key="'tgw' + index"
 					/>
 				</div>
@@ -23,6 +23,11 @@ import TransactionGraphic from '@/components/transaction-graphic/TransactionGrap
 import { TransactionType } from 'symbol-sdk';
 
 export default {
+	mounted() {
+		setInterval(() => {
+			console.log('DATA', this.data)
+		}, 5000)	
+	},
 	props: {
 		managerGetter: String
 	},
@@ -50,7 +55,7 @@ export default {
 		},
 
 		isAggregate() {
-			return this.data.type === TransactionType.AGGREGATE_COMPLETE||
+			return this.data.type === TransactionType.AGGREGATE_COMPLETE ||
 				this.data.type === TransactionType.AGGREGATE_BONDED;
 		},
 

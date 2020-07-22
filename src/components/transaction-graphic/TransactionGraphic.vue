@@ -37,7 +37,7 @@ export default {
 
 	computed: {
 		graphicComponent() {
-			switch(this.data.type) {
+			switch(this.data?.type) {
 				case TransactionType.TRANSFER: return 'TransferGraphic';
 				case TransactionType.ADDRESS_ALIAS: return 'AddressAliasGraphic';
 				case TransactionType.MOSAIC_ALIAS: return 'MosaicAliasGraphic';
