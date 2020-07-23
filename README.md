@@ -15,7 +15,7 @@ The explorer supports searching for transactions, accounts, namespaces, mosaics,
 1. Clone the project.
 
 ```
-git clone https://github.com/nemfoundation/symbol-explorer.git
+git clone https://github.com/nemgrouplimited/symbol-explorer.git
 ```
 
 2. Install the required dependencies.
