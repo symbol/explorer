@@ -44,7 +44,7 @@ npm run dev
 
 ### How to change the node list
 
-The file `/src/config/setup.json` contains the node list shown in the node selector dropdown.
+The file `/src/config/setup.json.mt` contains the node list shown in the node selector dropdown.
 
 1. Edit `peersApi.nodes` array to set up the custom node list.
 2. Set `peersApi.defaultNode` property to the default node url.
