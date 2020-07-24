@@ -25,7 +25,7 @@
 					"addressHeight",
 					"publicKey",
 					"importance",
-					"type",
+					"accountType",
 					"harvestedBlock"
 				]
 			},
@@ -100,7 +100,7 @@
 				"fields": [
 					"deadline",
 					"transactionHash",
-					"transactionDescriptor",
+					"transactionType",
 					"direction"
 				]
 			},
