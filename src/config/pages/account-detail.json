@@ -40,8 +40,8 @@
 				"fields": [
 					"minApproval",
 					"minRemoval",
-					"cosignatories",
-					"multisigAccounts"
+					"cosignatoryAddresses",
+					"multisigAddresses"
 				]
 			},
 			{

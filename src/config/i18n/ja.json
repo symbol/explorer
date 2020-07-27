@@ -187,7 +187,7 @@
     "effectiveMosaicRentalFee": "モザイクレンタル手数料",
     "recipientAddress": "受信者",
     "senderAddress": "送信者",
-    "cosignatories": "連署者",
+    "cosignatoryAddresses": "連署者",
     "multisigAddresses": "マルチシグアカウント",
     "effectiveFee": "手数料",
     "linkedPublicKey": "リンク済み公開鍵",

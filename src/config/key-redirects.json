@@ -13,8 +13,10 @@
     "restrictionAddressValues": "account",
     "restrictionAddressAdditions": "account",
     "restrictionAddressDeletions": "account",
-    "cosignatories": "account",
+    "cosignatoryAddresses_": "account",
     "multisigAddresses_": "account",
+    "addressAdditions_": "account",
+    "addressDeletions_": "account",
     "linkedAccountAddress": "account",
 
     "transactionHash": "transaction",
