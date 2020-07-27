@@ -19,8 +19,8 @@
 import http from './http';
 import helper from '../helper';
 import Constants from '../config/constants';
-import { ChainService } from '../infrastructure';
-import { Order } from 'symbol-sdk';
+import { ChainService, MetadataService } from '../infrastructure';
+import { Order, NamespaceId } from 'symbol-sdk';
 
 class NamespaceService {
   /**
@@ -213,6 +213,27 @@ class NamespaceService {
   			};
   		})
   	};
+  }
+
+  /**
+   * Gets namespace metadata list dataset into Vue component
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param filterVaule - object for search criteria
+   * @param namespaceId - namespaceId
+   * @returns formatted mamespace Metadata list
+   */
+  static getNamespaceMetadataList = async (pageInfo, filterVaule, namespaceId) => {
+  	const { pageNumber, pageSize } = pageInfo;
+  	const searchCriteria = {
+	   pageNumber,
+	   pageSize,
+	   order: Order.Desc,
+	   targetId: new NamespaceId(namespaceId),
+	   ...filterVaule
+  	};
+  	const namespaceMetadatas = await MetadataService.searchMetadatas(searchCriteria);
+
+  	return namespaceMetadatas;
   }
 
   /**

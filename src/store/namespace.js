@@ -18,10 +18,9 @@
 
 import Lock from './lock';
 import { Constants, filters } from '../config';
-import { NamespaceService, MetadataService } from '../infrastructure';
+import { NamespaceService } from '../infrastructure';
 import {
 	DataSet,
-	Timeline,
 	Pagination,
 	getStateFromManagers,
 	getGettersFromManagers,
@@ -48,13 +47,14 @@ const managers = [
 		'namespaceLevel',
 		(namespaceOrHex) => NamespaceService.getNamespaceLevelList(namespaceOrHex)
 	),
-	new Timeline(
-		'metadatas',
-		(pageSize, store) => MetadataService.getNamespaceMetadataList(store.getters.getCurrentNamespaceId, pageSize),
-		(key, pageSize, store) => MetadataService.getNamespaceMetadataList(store.getters.getCurrentNamespaceId, pageSize, key),
-		'id',
-		10
-	)
+	new Pagination({
+		name: 'metadatas',
+		fetchFunction: (pageInfo, filterValue, store) => NamespaceService.getNamespaceMetadataList(pageInfo, filterValue, store.getters.getCurrentNamespaceId),
+		pageInfo: {
+			pageSize: 10
+		},
+		filter: filters.metadata
+	})
 ];
 
 export default {
