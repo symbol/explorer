@@ -17,11 +17,10 @@
  */
 
 import Lock from './lock';
-import { Constants } from '../config';
-import { MosaicService, RestrictionService, MetadataService } from '../infrastructure';
+import { Constants, filters } from '../config';
+import { MosaicService, RestrictionService } from '../infrastructure';
 import {
 	DataSet,
-	Timeline,
 	Pagination,
 	getStateFromManagers,
 	getGettersFromManagers,
@@ -45,13 +44,14 @@ const managers = [
 		'restrictions',
 		(address) => RestrictionService.getMosaicGlobalRestrictionInfo(address)
 	),
-	new Timeline(
-		'metadatas',
-		(pageSize, store) => MetadataService.getMosaicMetadataList(store.getters.getCurrentMosaicId, pageSize),
-		(key, pageSize, store) => MetadataService.getMosaicMetadataList(store.getters.getCurrentMosaicId, pageSize, key),
-		'id',
-		10
-	)
+	new Pagination({
+		name: 'metadatas',
+		fetchFunction: (pageInfo, filterValue, store) => MosaicService.getMosaicMetadataList(pageInfo, filterValue, store.getters.getCurrentMosaicId),
+		pageInfo: {
+			pageSize: 10
+		},
+		filter: filters.metadata
+	})
 ];
 
 const LOCK = Lock.create();
