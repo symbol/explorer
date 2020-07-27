@@ -53,8 +53,10 @@ class MultisigService {
 
   	return {
   		...multisigAccountInfo,
-  		cosignatories: multisigAccountInfo?.cosignatoryAddresses?.map(cosigner => cosigner.address.plain()),
-  		multisigAddresses: multisigAccountInfo?.multisigAddresses?.map(cosigner => cosigner.address.plain())
+  		minApproval: multisigAccountInfo?.cosignatoryAddresses.length > 0 ? multisigAccountInfo.minApproval : null,
+  		minRemoval: multisigAccountInfo?.cosignatoryAddresses.length > 0 ? multisigAccountInfo.minRemoval : null,
+  		cosignatoryAddresses: multisigAccountInfo?.cosignatoryAddresses,
+  		multisigAddresses: multisigAccountInfo?.multisigAddresses
   	};
   }
 
@@ -65,8 +67,8 @@ class MultisigService {
    */
   static formatMultisigAccountInfo = multisigAccountInfo => ({
   	...multisigAccountInfo,
-  	cosignatories: multisigAccountInfo.cosignatoryAddresses.map(cosigner => cosigner.address.plain()),
-  	multisigAddresses: multisigAccountInfo.multisigAddresses.map(cosigner => cosigner.address.plain())
+  	cosignatoryAddresses: multisigAccountInfo.cosignatoryAddresses.map(address => address.plain()),
+  	multisigAddresses: multisigAccountInfo.multisigAddresses.map(address => address.plain())
   })
 }
 
