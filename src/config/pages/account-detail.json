@@ -116,8 +116,8 @@
                 "type": "CardTable",
                 "title": "metadataEntriesTitle",
                 "managerGetter": "account/metadatas",
-                "pagination": "client",
-				"pageSize": 5,
+                "pagination": "server",
+                "hasFilter": true,
 				"hideOnError": true,
                 "fields": [
                     "metadataId",

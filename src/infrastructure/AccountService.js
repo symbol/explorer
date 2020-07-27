@@ -19,7 +19,7 @@
 import { Address, TransactionType, TransactionGroup, Order, BlockOrderBy } from 'symbol-sdk';
 import http from './http';
 import { Constants } from '../config';
-import { NamespaceService, TransactionService, BlockService, ChainService } from '../infrastructure';
+import { NamespaceService, TransactionService, BlockService, ChainService, MetadataService } from '../infrastructure';
 import helper from '../helper';
 
 class AccountService {
@@ -176,11 +176,11 @@ class AccountService {
   		pageNumber,
   		pageSize,
   		order: Order.Desc,
-  		address: Address.createFromRawAddress(address),
+  		ownerAddress: Address.createFromRawAddress(address),
   		...filterVaule
-  	};
+	  };
 
-  	const accountNamespaces = await NamespaceService.searchNamespaces(searchCriteria);
+	  const accountNamespaces = await NamespaceService.searchNamespaces(searchCriteria);
 
   	const currentHeight = await ChainService.getBlockchainHeight();
 
@@ -225,6 +225,27 @@ class AccountService {
   			harvester: block.signer
   		}))
   	};
+  }
+
+  /**
+   * Gets Account Metadata list dataset into Vue component
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param filterVaule - object for search criteria
+   * @param address - Account address
+   * @returns formatted account metadata list
+   */
+  static getAccountMetadataList = async (pageInfo, filterVaule, address) => {
+  	const { pageNumber, pageSize } = pageInfo;
+  	const searchCriteria = {
+  		pageNumber,
+  		pageSize,
+  		order: Order.Desc,
+  		sourceAddress: Address.createFromRawAddress(address),
+  		...filterVaule
+  	};
+  	const accountMetadatas = await MetadataService.searchMetadatas(searchCriteria);
+
+  	return accountMetadatas;
   }
 
   /**

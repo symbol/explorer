@@ -23,12 +23,10 @@ import {
 	AccountService,
 	MosaicService,
 	MultisigService,
-	MetadataService,
 	RestrictionService
 } from '../infrastructure';
 import {
 	DataSet,
-	Timeline,
 	Pagination,
 	getStateFromManagers,
 	getGettersFromManagers,
@@ -80,13 +78,14 @@ const managers = [
 			pageSize: 10
 		}
 	}),
-	new Timeline(
-		'metadatas',
-		(pageSize, store) => MetadataService.getAccountMetadataList(store.getters.getCurrentAccountAddress, pageSize),
-		(key, pageSize, store) => MetadataService.getAccountMetadataList(store.getters.getCurrentAccountAddress, pageSize, key),
-		'id',
-		10
-	),
+	new Pagination({
+		name: 'metadatas',
+		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountMetadataList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
+		pageInfo: {
+			pageSize: 10
+		},
+		filter: filters.metadata
+	}),
 	new DataSet(
 		'restrictions',
 		(address) => RestrictionService.getAccountRestrictionList(address)
