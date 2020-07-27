@@ -1,4 +1,12 @@
-import { TransactionType, TransactionGroup, AliasType, NamespaceRegistrationType, MosaicId, AccountOrderBy } from 'symbol-sdk';
+import {
+	TransactionType,
+	TransactionGroup,
+	AliasType,
+	NamespaceRegistrationType,
+	MosaicId,
+	AccountOrderBy,
+	MetadataType
+} from 'symbol-sdk';
 
 export const transaction = [
 	{
@@ -169,6 +177,35 @@ export const namespace = [
 		icon: 'mdi-tag',
 		value: {
 			registrationType: NamespaceRegistrationType.SubNamespace
+		}
+	}
+];
+
+export const metadata = [
+	{
+		label: 'Recent',
+		icon: 'mdi-clock-outline',
+		value: {}
+	},
+	{
+		label: 'Address Alias',
+		icon: 'mdi-account',
+		value: {
+			metadataType: MetadataType.Account
+		}
+	},
+	{
+		label: 'Mosaic Alias',
+		icon: 'mdi-circle',
+		value: {
+			metadataType: MetadataType.Mosaic
+		}
+	},
+	{
+		label: 'Namespace',
+		icon: 'mdi-tag',
+		value: {
+			metadataType: MetadataType.Namespace
 		}
 	}
 ];
