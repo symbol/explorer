@@ -176,5 +176,7 @@
     "nonce": "Nonce",
     "action": "Action",
     "delta": "Delta",
-    "harvestedBlock": "Harvested blocks (all)"
+    "harvestedBlock": "Harvested blocks (all)",
+    "resolutionType": "类型",
+    "receiptType": "类型"
 }

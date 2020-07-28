@@ -227,5 +227,7 @@
     "action": "Action",
     "delta": "Delta",
     "harvestedBlock": "Harvested blocks (all)",
-    "transactionGraphic": "Схема транзакции"
+    "transactionGraphic": "Схема транзакции",
+    "resolutionType": "Тип",
+    "receiptType": "Тип"
 }

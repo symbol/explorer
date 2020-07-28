@@ -177,5 +177,7 @@
     "action": "Action",
     "delta": "Delta",
     "harvestedBlock": "Harvested blocks (all)",
-    "transactionGraphic": "Transaction Graphic"
+    "transactionGraphic": "Transaction Graphic",
+    "resolutionType": "Type",
+    "receiptType": "Type"
 }

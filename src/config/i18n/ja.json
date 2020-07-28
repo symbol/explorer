@@ -280,5 +280,7 @@
     "action": "Action",
     "delta": "Delta",
     "harvestedBlock": "ハーベスト済ブロック(すべて)",
-    "transactionGraphic": "トランザクショングラフィック"
+    "transactionGraphic": "トランザクショングラフィック",
+    "resolutionType": "タイプ",
+    "receiptType": "タイプ"
 }

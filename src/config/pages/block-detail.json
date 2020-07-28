@@ -97,7 +97,13 @@
                 "dataGetter": "block/resolutionStatement",
                 "pagination": "client",
                 "pageSize": 5,
-                "hideEmptyData": true
+                "hideEmptyData": true,
+                "fields": [
+                    "resolutionType",
+                    "unresolved",
+                    "addressResolutionEntries",
+                    "mosaicResolutionEntries"
+                ]
             }
         ]
     }
