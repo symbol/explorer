@@ -31,7 +31,7 @@ describe('Symbol Explorer Transaction detail page for Transfer Transaction', () 
         })
 
         it('render correct transaction detail titles', () => {
-            const items = ['Type', 'Type', 'Recipient', 'Message']
+            const items = ['Type', 'Recipient', 'Message']
             cy.renderFieldInTable("transactionDetailTitle", items)
         })
     })

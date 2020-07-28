@@ -139,7 +139,7 @@ export default {
 		},
 
 		isTransactionType(itemKey) {
-			return itemKey === 'transactionDescriptor';
+			return itemKey === 'transactionType';
 		},
 
 		isArrayField(itemKey) {

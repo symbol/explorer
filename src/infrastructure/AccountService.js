@@ -107,7 +107,7 @@ class AccountService {
   static getAccountInfo = async address => {
   	const accountInfo = await this.getAccount(address);
   	const accountNames = await NamespaceService.getAccountsNames([Address.createFromRawAddress(address)]);
-  	const harvestedBlockList = await BlockService.searchBlocks({ signerPublicKey: accountInfo.publicKey });
+	  const harvestedBlockList = await BlockService.searchBlocks({ signerPublicKey: accountInfo.publicKey });
 
   	return {
   		...accountInfo,
@@ -152,13 +152,13 @@ class AccountService {
   		data: accountTransactions.data.map(accountTransaction => ({
   			...accountTransaction,
   			transactionHash: accountTransaction.hash,
-  			transactionDescriptor:
-          accountTransaction.transactionBody.type === TransactionType.TRANSFER
+  			transactionType:
+          accountTransaction.transactionBody.transactionType === TransactionType.TRANSFER
           	? (accountTransaction.signer === address
-          		? 'outgoing_' + accountTransaction.transactionBody.transactionDescriptor
-          		: 'incoming_' + accountTransaction.transactionBody.transactionDescriptor
+          		? 'outgoing_' + accountTransaction.transactionBody.transactionType
+          		: 'incoming_' + accountTransaction.transactionBody.transactionType
           	)
-          	: accountTransaction.transactionBody.transactionDescriptor
+          	: accountTransaction.transactionBody.transactionType
   		}))
   	};
   }
@@ -258,7 +258,7 @@ class AccountService {
   	address: accountInfo.address.address,
   	addressHeight: accountInfo.addressHeight.compact(),
   	publicKeyHeight: accountInfo.publicKeyHeight.compact(),
-  	type: Constants.AccountType[accountInfo.accountType],
+  	accountType: Constants.AccountType[accountInfo.accountType],
   	supplementalPublicKeys: this.formatSupplementalPublicKeys(accountInfo.supplementalPublicKeys),
   	importance: helper.ImportanceScoreToPercent(accountInfo.importance.compact()),
   	importanceHeight: accountInfo.importanceHeight.compact()

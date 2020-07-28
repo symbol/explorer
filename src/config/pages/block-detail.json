@@ -46,7 +46,7 @@
                 "fields": [
                     "deadline",
                     "transactionHash",
-                    "transactionDescriptor"
+                    "transactionType"
                 ]
             },
             {

@@ -199,7 +199,6 @@
     "key": "Key",
     "supplementalKeys": "Supplemental Keys",
     "expirationDuration": "Expiration",
-    "transactionDescriptor": "Type",
     "transactionDescriptor_16724": "Transfer",
     "transactionDescriptor_16718": "Namespace registration",
     "transactionDescriptor_16974": "Address alias",

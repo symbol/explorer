@@ -70,7 +70,7 @@
                 "pageSize": 5,
                 "hideEmptyData": true,
                 "fields": [
-                    "transactionDescriptor",
+                    "transactionType",
                     "signer",
                     "transactionBody"
                 ]

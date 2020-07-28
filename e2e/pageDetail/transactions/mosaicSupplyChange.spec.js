@@ -31,7 +31,7 @@ describe('Symbol Explorer Transaction detail page for Mosaic Supply Change', () 
         })
 
         it('render correct transaction detail titles', () => {
-            const items = ['Type', 'Type', 'Mosaic ID', 'Action', 'Delta']
+            const items = ['Type', 'Mosaic ID', 'Action', 'Delta']
             cy.renderFieldInTable("transactionDetailTitle", items)
         })
 

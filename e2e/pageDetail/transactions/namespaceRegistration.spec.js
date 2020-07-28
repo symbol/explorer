@@ -31,7 +31,7 @@ describe('Symbol Explorer Transaction detail page for Namespace Registration', (
         })
 
         it('render correct transaction detail titles', () => {
-            const items = ['Type', 'Type', 'Recipient', 'Registration Type', 'Name', 'Namespace ID', 'Parent ID', 'Duration']
+            const items = ['Type', 'Recipient', 'Registration Type', 'Name', 'Namespace ID', 'Parent ID', 'Duration']
             cy.renderFieldInTable("transactionDetailTitle", items)
         })
 

@@ -199,7 +199,6 @@
     "key": "キー",
     "supplementalKeys": "Supplementalキー",
     "expirationDuration": "期限",
-    "transactionDescriptor": "タイプ",
     "transactionDescriptor_16724": "転送",
     "transactionDescriptor_16718": "ネームスペース登録",
     "transactionDescriptor_16974": "アドレスエイリアス",
