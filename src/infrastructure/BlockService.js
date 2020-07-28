@@ -17,7 +17,7 @@
  */
 
 import { UInt64, TransactionGroup, Order, BlockOrderBy } from 'symbol-sdk';
-import { TransactionService } from '../infrastructure';
+import { TransactionService, ReceiptService } from '../infrastructure';
 import http from './http';
 import helper from '../helper';
 import { Constants } from '../config';
@@ -122,6 +122,25 @@ class BlockService {
   			transactionHash: blockTransaction.hash,
   			transactionDescriptor: blockTransaction.transactionBody.transactionDescriptor
   		}))
+  	};
+  }
+
+  /**
+   * Gets formatted Receipt and Resolution statements
+   * @param height - Block height.
+   * @returns Receipt and Resolution info object
+   */
+  static getBlockReceiptsInfo = async (height) => {
+  	const searchCriteria = {
+  		order: Order.Desc,
+  		height: UInt64.fromUint(height)
+	  };
+
+	const [blockReceipts, address, mosaic] = await Promise.all([ReceiptService.streamerReceipts(searchCriteria), ReceiptService.streamerAddressResolution(searchCriteria), ReceiptService.streamerMosaicResolution(searchCriteria)]);
+
+  	return {
+  		transactionReceipt: blockReceipts,
+  		resolutionStatements: [...address, ...mosaic]
   	};
   }
 
