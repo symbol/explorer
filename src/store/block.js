@@ -132,7 +132,7 @@ export default {
 							date: helper.convertToUTCDate(latestBlock.timestamp),
 							age: helper.convertToUTCDate(latestBlock.timestamp),
 							harvester: latestBlock.signer
-						});
+						}, 'height');
 						commit('chain/setBlockHeight', item.height, { root: true });
 					},
 					rootGetters['api/wsEndpoint']
