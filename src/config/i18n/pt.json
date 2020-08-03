@@ -92,7 +92,7 @@
     "linkedAccountAddress": "linked Account Address",
     "proofGamma": "Proof Gamma",
     "proofScalar": "Proof Scalar",
-    "proofVarificationHash": "Proof Varification Hash",
+    "proofVerificationHash": "Proof Varification Hash",
     "accountKeyType": "Type",
     "key": "Key",
     "supplementalKeys": "Supplemental Keys",

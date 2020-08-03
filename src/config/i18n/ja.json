@@ -194,7 +194,7 @@
     "linkedAccountAddress": "リンク済みアカウントアドレス",
     "proofGamma": "Proofガンマ",
     "proofScalar": "Proofスカラ",
-    "proofVarificationHash": "Proof検証ハッシュ",
+    "proofVerificationHash": "Proof検証ハッシュ",
     "accountKeyType": "タイプ",
     "key": "キー",
     "supplementalKeys": "Supplementalキー",
