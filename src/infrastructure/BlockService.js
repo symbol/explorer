@@ -31,8 +31,8 @@ class BlockService {
    */
   static getBlockByHeight = async (height) => {
   	const blockInfo = await http.createRepositoryFactory.createBlockRepository()
-  		.getBlockByHeight(UInt64.fromUint(height))
-  		.toPromise();
+		  .getBlockByHeight(UInt64.fromUint(height))
+		  .toPromise();
 
   	return this.formatBlock(blockInfo);
   }
@@ -131,13 +131,22 @@ class BlockService {
    * @returns Block info object
    */
   static getBlockInfo = async height => {
-  	const block = await this.getBlockByHeight(height);
+	const block = await this.getBlockByHeight(height);
+
+  	// get merkle info
+  	const { stateHash, stateHashSubCacheMerkleRoots, blockReceiptsHash, blockTransactionsHash } = block;
 
   	return {
   		...block,
   		blockHash: block.hash,
   		harvester: block.signer,
-  		date: helper.convertToUTCDate(block.timestamp)
+  		date: helper.convertToUTCDate(block.timestamp),
+  		merkleInfo: {
+  			stateHash,
+  			stateHashSubCacheMerkleRoots,
+  			blockReceiptsHash,
+  			blockTransactionsHash
+  		}
   	};
   }
 
