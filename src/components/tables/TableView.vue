@@ -49,7 +49,7 @@ export default {
 				'publicKeyHeight',
 				'importanceHeight',
 				'multisigAddresses_',
-				'cosignatories_',
+				'cosignatoryAddresses_',
 
 				'signer',
 				'recipient',
@@ -74,8 +74,8 @@ export default {
 				'restrictionAddressDeletions',
 				'restrictionMosaicAdditions',
 				'restrictionMosaicDeletions',
-				'addressAdditions',
-				'addressDeletions',
+				'addressAdditions_',
+				'addressDeletions_',
 				'linkedAccountAddress'
 			],
 			disableClickValues: [...Object.values(Constants.Message)],
@@ -89,7 +89,7 @@ export default {
 			],
 			allowArrayToView: [
 				'linkedNamespace',
-				'cosignatories',
+				'cosignatoryAddresses',
 				'multisigAddresses',
 				'restrictionAddressValues',
 				'restrictionMosaicValues',
@@ -156,7 +156,10 @@ export default {
                 key === 'owneraddress' ||
                 key === 'host' ||
                 key === 'friendlyName' ||
-                key === 'multisigAddresses_'
+                key === 'multisigAddresses_' ||
+				key === 'cosignatoryAddresses_' ||
+				key === 'addressAdditions_' ||
+				key === 'addressDeletions_'
 			);
 		},
 

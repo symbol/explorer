@@ -256,7 +256,7 @@ class TransactionService {
   		return {
   			transactionType: transactionBody.type,
   			recipient: transactionBody.recipientAddress,
-  			mosaics: transactionBody.mosaics.map(mosaic => ({ // Todo Format mosaic
+  			mosaics: transactionBody.mosaics.map(mosaic => ({
   				...mosaic,
   				id: mosaic.id.toHex(),
   				amount: mosaic.amount.compact().toString()
@@ -432,7 +432,7 @@ class TransactionService {
   		return {
   			transactionType: transactionBody.type,
   			scopedMetadataKey: transactionBody.scopedMetadataKey.toHex(),
-  			targetAddress: Address.createFromPublicKey(transactionBody.targetPublicKey, http.networkType).plain(),
+  			targetAddress: transactionBody.targetAddress.address,
   			metadataValue: transactionBody.value,
   			valueSizeDelta: transactionBody.valueSizeDelta
   		};
@@ -441,8 +441,8 @@ class TransactionService {
   		return {
   			transactionType: transactionBody.type,
   			scopedMetadataKey: transactionBody.scopedMetadataKey.toHex(),
-  			targetMosaicId: transactionBody.targetMosaicId.toHex(), // Todo Format mosaic
-  			targetAddress: Address.createFromPublicKey(transactionBody.targetPublicKey, http.networkType).plain(),
+  			targetMosaicId: transactionBody.targetMosaicId.toHex(),
+  			targetAddress: transactionBody.targetAddress.address,
   			metadataValue: transactionBody.value,
   			valueSizeDelta: transactionBody.valueSizeDelta
   		};
@@ -452,7 +452,7 @@ class TransactionService {
   			transactionType: transactionBody.type,
   			scopedMetadataKey: transactionBody.scopedMetadataKey.toHex(),
   			targetNamespaceId: transactionBody.targetNamespaceId.toHex(),
-  			targetAddress: Address.createFromPublicKey(transactionBody.targetPublicKey, http.networkType).plain(),
+  			targetAddress: transactionBody.targetAddress.address,
   			metadataValue: transactionBody.value,
   			valueSizeDelta: transactionBody.valueSizeDelta
   		};

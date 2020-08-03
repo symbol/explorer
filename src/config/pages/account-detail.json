@@ -37,19 +37,19 @@
 				"errorMessage": "multisigCosignatoriesError",
 				"pagination": "none",
 				"hideOnError": true,
-                "fields": [
-                    "minApproval",
-                    "minRemoval",
-                    "cosignatories",
-                    "multisigAccounts"
-                ]
-            },
-            {
-                "layoutOptions": "adaptive",
-                "type": "CardTable",
-                "title": "ownedMosaicsTitle",
-                "managerGetter": "account/OwnedMosaic",
-                "pagination": "client",
+				"fields": [
+					"minApproval",
+					"minRemoval",
+					"cosignatoryAddresses",
+					"multisigAddresses"
+				]
+			},
+			{
+				"layoutOptions": "adaptive",
+				"type": "CardTable",
+				"title": "ownedMosaicsTitle",
+				"managerGetter": "account/OwnedMosaic",
+				"pagination": "client",
 				"pageSize": 5,
 				"hideOnError": true,
                 "fields": [
