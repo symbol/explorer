@@ -68,11 +68,11 @@ class BlockService {
   }
 
   static getMerkleTransaction = async (height, hash) => {
-	const merklePath = await http.createRepositoryFactory.createBlockRepository()
-		.getMerkleTransaction(UInt64.fromUint(height), hash)
-		.toPromise();
+  	const merklePath = await http.createRepositoryFactory.createBlockRepository()
+  		.getMerkleTransaction(UInt64.fromUint(height), hash)
+  		.toPromise();
 
-	return merklePath.merklePath || []
+  	return merklePath.merklePath || [];
   }
 
   /**
@@ -139,10 +139,15 @@ class BlockService {
    * @returns Block info object
    */
   static getBlockInfo = async height => {
-	const block = await this.getBlockByHeight(height);
+  	const block = await this.getBlockByHeight(height);
 
-  	// get merkle info
-  	const { stateHash, stateHashSubCacheMerkleRoots, blockReceiptsHash, blockTransactionsHash } = block;
+  	// Get merkle info
+  	let { stateHash, stateHashSubCacheMerkleRoots, blockReceiptsHash, blockTransactionsHash } = block;
+
+  	// Append merkle root name into hash
+  	stateHashSubCacheMerkleRoots = stateHashSubCacheMerkleRoots.map((root, index) => {
+  		return `${Constants.MerkleRootsOrder[index]} - ${root}`;
+  	});
 
   	return {
   		...block,

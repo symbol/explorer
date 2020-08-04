@@ -115,13 +115,13 @@ class TransactionService {
   static getTransactionInfo = async (hash, transactionGroup = TransactionGroup.Confirmed) => {
   	let formattedTransaction = await this.getTransaction(hash, transactionGroup);
 
-	let { date } = await BlockService.getBlockInfo(formattedTransaction.transactionInfo.height);
+  	let { date } = await BlockService.getBlockInfo(formattedTransaction.transactionInfo.height);
 
   	let effectiveFee = await this.getTransactionEffectiveFee(hash);
 
-	const transactionStatus = await this.getTransactionStatus(hash);
+  	const transactionStatus = await this.getTransactionStatus(hash);
 
-	const merklePath = await BlockService.getMerkleTransaction(formattedTransaction.transactionInfo.height, hash)
+  	const merklePath = await BlockService.getMerkleTransaction(formattedTransaction.transactionInfo.height, hash);
 
   	switch (formattedTransaction.type) {
   	case TransactionType.TRANSFER:
@@ -187,8 +187,8 @@ class TransactionService {
   		effectiveFee,
   		date,
   		status: transactionStatus.detail.code,
-		confirm: transactionStatus.message,
-		merklePath
+  		confirm: transactionStatus.message,
+  		merklePath
   	};
 
   	return transactionInfo;
