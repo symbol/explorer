@@ -98,7 +98,8 @@
                 "dataGetter": "transaction/merklePath",
                 "pagination": "client",
                 "pageSize": 5,
-                "hideEmptyData": true
+                "hideEmptyData": true,
+                "hideOnError": true
             }
         ]
     }
