@@ -67,6 +67,14 @@ class BlockService {
   	return streamerBlocks.map(block => this.formatBlock(block));
   }
 
+  static getMerkleTransaction = async (height, hash) => {
+	const merklePath = await http.createRepositoryFactory.createBlockRepository()
+		.getMerkleTransaction(UInt64.fromUint(height), hash)
+		.toPromise();
+
+	return merklePath.merklePath || []
+  }
+
   /**
    * Get formatted BlockInfo[] dataset into Vue Component
    * @param pageInfo - pageNumber and pageSize
