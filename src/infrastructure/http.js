@@ -115,4 +115,8 @@ export default class http {
   static get blockPaginationStreamer() {
   	return new symbol.BlockPaginationStreamer(this.createRepositoryFactory.createBlockRepository());
   }
+
+  static get transactionPaginationStreamer() {
+  	return new symbol.TransactionPaginationStreamer(this.createRepositoryFactory.createTransactionRepository());
+  }
 }
