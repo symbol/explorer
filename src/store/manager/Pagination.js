@@ -100,6 +100,15 @@ export default class Pagination {
 		return this;
 	}
 
+	/**
+	 * Set timeline data
+	 * @param data
+	 */
+	setData(data) {
+		this.pageInfo.data = data;
+		return this;
+	}
+
 	/** Uninitialize Pagination
    *
    */
@@ -226,7 +235,10 @@ export default class Pagination {
 				const data = [item, ...this.data];
 
 				data.pop();
-				this.data = [].concat.apply([], data);
+
+				const newTimeline = [].concat.apply([], data);
+
+				this.setData(newTimeline);
 				this.store.dispatch(this.name, this);
 				return this;
 			}
