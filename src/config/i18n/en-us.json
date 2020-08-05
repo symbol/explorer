@@ -187,7 +187,7 @@
     "effectiveMosaicRentalFee": "Mosaic Rental Fee",
     "recipientAddress": "Recipient",
     "senderAddress": "Sender",
-    "cosignatories": "Cosignatories",
+    "cosignatoryAddresses": "Cosignatories",
     "multisigAddresses": "Multisig Accounts",
     "effectiveFee": "Fee",
     "linkedPublicKey": "linked Public Key",
@@ -239,7 +239,7 @@
     "mosaicRestrictionListTitle": "Mosaic Restriction List",
     "harvestedBlockTitle": "Harvested Blocks",
 
-    "accountDetailError": "Account is unknown to the network.",
+    "accountDetailError": "This account does not have a public key yet",
     "multisigCosignatoriesError": "Address is not a multisig account.",
     "ownedMosaicsError": "Account owned mosaics are not available.",
     "ownedNamespacesError": "Account owned namespaces are not available.",
@@ -258,7 +258,7 @@
     "resolutionStatementError": "Block resolution statement are not available.",
 
     "mosaicDetailError": "Mosaic does not exist.",
-    "mosaicRestrictionError": "Mosaic does not exist.",
+    "mosaicRestrictionError": "Mosaic restriction does not exist.",
     "mosaicRestrictionListError": "Mosaic global restrictions are not available.",
 
     "namespaceDetailError": "Namespace does not exist.",
