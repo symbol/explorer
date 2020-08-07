@@ -33,6 +33,7 @@ import {
 	NamespaceService,
 	MosaicService
 } from '../infrastructure';
+import { toArray } from 'rxjs/operators';
 
 class TransactionService {
   /**
@@ -92,6 +93,19 @@ class TransactionService {
   		...searchTransactions,
   		data: searchTransactions.data.map(transaction => this.formatTransaction(transaction))
   	};
+  }
+
+  /**
+   * Gets a transactions from streamer
+   * @param transactionSearchCriteria Object of Search Criteria
+   * @returns formatted Transaction[]
+   */
+  static streamerTransactions = async (transactionSearchCriteria) => {
+  	const streamerTransactions = await http.transactionPaginationStreamer
+  		.search(transactionSearchCriteria).pipe(toArray())
+  		.toPromise();
+
+  	return streamerTransactions.map(transaction => this.formatTransaction(transaction));
   }
 
   /**
