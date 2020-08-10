@@ -78,6 +78,7 @@ export default {
 		getRecentList: state => state.timeline?.data?.filter((item, index) => index < 4) || [],
 		getSubscription: state => state.subscription,
 		blockInfo: state => state.info?.data?.blockInfo || {},
+		merkleInfo: state => state.info?.data?.merkleInfo || {},
 		inflationReceipt: state => state.blockReceipts?.data?.transactionReceipt?.inflationReceipt || [],
 		balanceTransferReceipt: state => state.blockReceipts?.data?.transactionReceipt?.balanceTransferReceipt || [],
 		balanceChangeReceipt: state => state.blockReceipts?.data?.transactionReceipt?.balanceChangeReceipt || [],

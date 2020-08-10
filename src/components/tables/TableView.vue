@@ -102,7 +102,8 @@ export default {
 				'restrictionOperationDeletions',
 				'addressAdditions',
 				'addressDeletions',
-				'voting'
+				'voting',
+				'stateHashSubCacheMerkleRoots'
 			]
 		};
 	},
