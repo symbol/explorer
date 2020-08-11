@@ -127,4 +127,8 @@ export default class http {
   static mosaicResolutionStatementPaginationStreamer() {
 	  return symbol.ReceiptPaginationStreamer.mosaicResolutionStatements(this.createRepositoryFactory.createReceiptRepository());
   }
+
+  static get transactionPaginationStreamer() {
+  	return new symbol.TransactionPaginationStreamer(this.createRepositoryFactory.createTransactionRepository());
+  }
 }

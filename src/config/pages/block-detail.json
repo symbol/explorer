@@ -31,10 +31,11 @@
                     "feeMultiplier",
                     "transactions",
                     "harvester",
+                    "beneficiaryAddress",
                     "blockHash",
                     "proofGamma",
                     "proofScalar",
-                    "proofVarificationHash"
+                    "proofVerificationHash"
                 ]
             },
             {
@@ -48,6 +49,14 @@
                     "transactionHash",
                     "transactionType"
                 ]
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
+                "title": "Merkle Info",
+                "managerGetter": "block/info",
+                "dataGetter": "block/merkleInfo",
+                "pagination": "none"
             },
             {
                 "layoutOptions": "adaptive",

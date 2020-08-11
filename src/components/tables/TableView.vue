@@ -104,7 +104,8 @@ export default {
 				'addressDeletions',
 				'voting',
 				'addressResolutionEntries',
-				'mosaicResolutionEntries'
+				'mosaicResolutionEntries',
+				'stateHashSubCacheMerkleRoots'
 			]
 		};
 	},

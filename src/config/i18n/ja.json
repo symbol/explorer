@@ -194,7 +194,7 @@
     "linkedAccountAddress": "リンク済みアカウントアドレス",
     "proofGamma": "Proofガンマ",
     "proofScalar": "Proofスカラ",
-    "proofVarificationHash": "Proof検証ハッシュ",
+    "proofVerificationHash": "Proof検証ハッシュ",
     "accountKeyType": "タイプ",
     "key": "キー",
     "supplementalKeys": "Supplementalキー",
@@ -281,5 +281,11 @@
     "harvestedBlock": "ハーベスト済ブロック(すべて)",
     "transactionGraphic": "トランザクショングラフィック",
     "resolutionType": "タイプ",
-    "receiptType": "タイプ"
+    "receiptType": "タイプ",
+    "stateHash": "State Hash",
+    "stateHashSubCacheMerkleRoots": "State Hash Sub Cache Merkle Roots",
+    "blockReceiptsHash": "Receipts Hash",
+    "blockTransactionsHash": "Transactions Hash",
+    "position": "Position",
+    "hash": "Hash"
 }

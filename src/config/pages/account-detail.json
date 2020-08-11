@@ -37,6 +37,7 @@
 				"errorMessage": "multisigCosignatoriesError",
 				"pagination": "none",
 				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
 				"fields": [
 					"minApproval",
 					"minRemoval",
@@ -52,51 +53,55 @@
 				"pagination": "client",
 				"pageSize": 5,
 				"hideOnError": true,
-                "fields": [
-                    "mosaicId",
-                    "amount",
-                    "mosaicAliasName"
-                ]
-            },
-            {
-                "layoutOptions": "adaptive",
-                "type": "CardTable",
-                "title": "ownedNamespacesTitle",
-                "managerGetter": "account/OwnedNamespace",
-                "pagination": "server",
-				"hasFilter": true,
-				"hideOnError": true,
-                "fields": [
-                    "namespaceName",
-                    "status",
-                    "duration",
-                    "registrationType"
-                ]
-            },
-            {
-                "layoutOptions": "adaptive",
-                "type": "CardTable",
-                "title": "supplementalKeysTitle",
-                "managerGetter": "account/info",
-                "dataGetter": "account/getSupplementalPublicKeys",
-                "pagination": "client",
+				"hideDependOnGetter": "account/info",
+				"fields": [
+					"mosaicId",
+					"amount",
+					"mosaicAliasName"
+				]
+			},
+			{
+				"layoutOptions": "adaptive",
+				"type": "CardTable",
+				"title": "ownedNamespacesTitle",
+				"managerGetter": "account/OwnedNamespace",
+				"pagination": "client",
 				"pageSize": 5,
 				"hideOnError": true,
-                "fields": [
-                    "linked",
-                    "node",
-                    "vrf",
-                    "voting"
-                ]
-            },
-            {
-                "layoutOptions": "full-width",
-                "type": "CardTable",
-                "title": "accountTransactionsTitle",
-                "managerGetter": "account/transactions",
-                "pagination": "server",
+				"hideDependOnGetter": "account/info",
+				"fields": [
+					"namespaceName",
+					"status",
+					"duration",
+					"registrationType"
+				]
+			},
+			{
+				"layoutOptions": "adaptive",
+				"type": "CardTable",
+				"title": "supplementalKeysTitle",
+				"managerGetter": "account/info",
+				"dataGetter": "account/getSupplementalPublicKeys",
+				"pagination": "client",
+				"pageSize": 5,
+				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
+				"fields": [
+					"linked",
+					"node",
+					"vrf",
+					"voting"
+				]
+			},
+			{
+				"layoutOptions": "full-width",
+				"type": "CardTable",
+				"title": "accountTransactionsTitle",
+				"managerGetter": "account/transactions",
+				"pagination": "server",
 				"hasFilter": true,
 				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
 				"fields": [
 					"deadline",
 					"transactionHash",
@@ -111,59 +116,62 @@
 				"managerGetter": "account/restrictions",
 				"pagination": "none",
 				"hideOnError": true,
-                "errorMessage": "Account restrictions are not available."
-            },
-            {
-                "layoutOptions": "full-width",
-                "type": "CardTable",
-                "title": "metadataEntriesTitle",
-                "managerGetter": "account/metadatas",
-                "pagination": "server",
-                "hasFilter": true,
+				"hideDependOnGetter": "account/info",
+				"errorMessage": "Account restrictions are not available."
+			},
+			{
+				"layoutOptions": "full-width",
+				"type": "CardTable",
+				"title": "metadataEntriesTitle",
+				"managerGetter": "account/metadatas",
+				"pagination": "client",
+				"pageSize": 5,
 				"hideOnError": true,
-                "fields": [
-                    "metadataId",
-                    "scopedMetadataKey",
-                    "senderAddress",
-                    "targetAddress",
-                    "metadataValue"
-                ]
-            },
-            {
-                "layoutOptions": "full-width",
-                "type": "CardTable",
-                "title": "importanceHistoryTitle",
-                "managerGetter": "account/info",
-                "dataGetter": "account/getActivityBucketList",
-                "pagination": "client",
-                "pageSize": 5,
-				"hideEmptyData": false,
+				"hideDependOnGetter": "account/info",
+				"fields": [
+					"metadataId",
+					"scopedMetadataKey",
+					"senderAddress",
+					"targetAddress",
+					"metadataValue"
+				]
+			},
+			{
+				"layoutOptions": "full-width",
+				"type": "CardTable",
+				"title": "importanceHistoryTitle",
+				"managerGetter": "account/info",
+				"dataGetter": "account/getActivityBucketList",
+				"pagination": "client",
+				"pageSize": 5,
 				"hideOnError": true,
-                "fields": [
-                    "recalculationBlock",
-                    "totalFeesPaid",
-                    "beneficiaryCount",
-                    "importanceScore"
-                ]
-            },
-            {
-                "layoutOptions": "full-width",
-                "type": "CardTable",
-                "title": "harvestedBlockTitle",
-                "managerGetter": "account/harvestedBlocks",
-                "pagination": "server",
-                "pageSize": 5,
+				"hideDependOnGetter": "account/info",
+				"fields": [
+					"recalculationBlock",
+					"totalFeesPaid",
+					"beneficiaryCount",
+					"importanceScore"
+				]
+			},
+			{
+				"layoutOptions": "full-width",
+				"type": "CardTable",
+				"title": "harvestedBlockTitle",
+				"managerGetter": "account/harvestedBlocks",
+				"pagination": "server",
+				"pageSize": 5,
 				"hideEmptyData": true,
 				"hideOnError": true,
-                "fields": [
-                    "height",
-                    "age",
-                    "transactions",
-                    "totalFee",
-                    "date",
-                    "harvester"
-                ]
-            }
-        ]
-    }
+				"hideDependOnGetter": "account/info",
+				"fields": [
+					"height",
+					"age",
+					"transactions",
+					"totalFee",
+					"date",
+					"harvester"
+				]
+			}
+		]
+	}
 }

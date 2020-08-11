@@ -23,6 +23,8 @@
     "bootstrap-vue": "^2.7.0",
     "chart.js": "^2.9.3",
     "core-js": "^2.6.11",
+    "js-sha3": "^0.8.0",
+    "merkletreejs": "^0.2.9",
     "moment-timezone": "^0.5.28",
     "symbol-sdk": "^0.20.7-alpha-202007231453",
     "url-parse": "^1.4.7",
