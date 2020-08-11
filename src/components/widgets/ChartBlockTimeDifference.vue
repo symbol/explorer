@@ -12,6 +12,7 @@
 						:data="chartData"
 						:height="265"
 						xaxisType="numeric"
+						strokeCurve="straight"
 					/>
 				</b-col>
 			</b-row>
