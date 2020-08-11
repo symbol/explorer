@@ -22,6 +22,8 @@ import http from './http';
 import helper from '../helper';
 import { Constants } from '../config';
 import { take, toArray } from 'rxjs/operators';
+import { MerkleTree } from 'merkletreejs';
+import { sha3_256 as sha3256 } from 'js-sha3';
 
 class BlockService {
   /**
@@ -31,8 +33,8 @@ class BlockService {
    */
   static getBlockByHeight = async (height) => {
   	const blockInfo = await http.createRepositoryFactory.createBlockRepository()
-  		.getBlockByHeight(UInt64.fromUint(height))
-  		.toPromise();
+		  .getBlockByHeight(UInt64.fromUint(height))
+		  .toPromise();
 
   	return this.formatBlock(blockInfo);
   }
@@ -65,6 +67,48 @@ class BlockService {
   		.toPromise();
 
   	return streamerBlocks.map(block => this.formatBlock(block));
+  }
+
+  /**
+   * Gets a merkle path for merkle proof.
+   * @param height - Block height
+   * @param hash Transaction hash
+   * @returns MerkleProofInfo[]
+   */
+  static getMerkleTransaction = async (height, hash) => {
+  	const merklePath = await http.createRepositoryFactory.createBlockRepository()
+  		.getMerkleTransaction(UInt64.fromUint(height), hash)
+  		.toPromise();
+
+  	return merklePath.merklePath || [];
+  }
+
+  /**
+   * Gets transactions a merkle tree.
+   * @param height - Block height
+   * @returns merkleTree object
+   */
+  static getMerkleTransactionTree = async (height) => {
+  	const searchCriteria = {
+  		group: TransactionGroup.Confirmed,
+  		height: UInt64.fromUint(height),
+  		pageSize: 100,
+  		order: Order.Desc
+  	};
+
+  	const transactions = await TransactionService.streamerTransactions(searchCriteria);
+  	const leaves = transactions.sort((n1, n2) => n1.transactionInfo.index - n2.transactionInfo.index)
+  		.map(transaction => transaction.transactionInfo.hash);
+
+  	const tree = new MerkleTree(leaves, sha3256, {
+  		duplicateOdd: true,
+  		hashLeaves: false,
+  		sort: false,
+  		sortLeaves: false,
+  		sortPairs: false,
+  		isBitcoinTree: false });
+
+  	return tree.getLayersAsObject();
   }
 
   /**
@@ -133,11 +177,25 @@ class BlockService {
   static getBlockInfo = async height => {
   	const block = await this.getBlockByHeight(height);
 
+  	// Get merkle info
+  	let { stateHash, stateHashSubCacheMerkleRoots, blockReceiptsHash, blockTransactionsHash } = block;
+
+  	// Append merkle root name into hash
+  	stateHashSubCacheMerkleRoots = stateHashSubCacheMerkleRoots.map((root, index) => {
+  		return `${Constants.MerkleRootsOrder[index]} - ${root}`;
+	  });
+
   	return {
   		...block,
   		blockHash: block.hash,
   		harvester: block.signer,
-  		date: helper.convertToUTCDate(block.timestamp)
+  		date: helper.convertToUTCDate(block.timestamp),
+  		merkleInfo: {
+  			stateHash,
+  			stateHashSubCacheMerkleRoots,
+  			blockReceiptsHash,
+  			blockTransactionsHash
+  		}
   	};
   }
 

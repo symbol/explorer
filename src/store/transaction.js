@@ -60,6 +60,7 @@ export default {
 		transferMosaics: state => state.info?.data?.transferMosaics || [],
 		aggregateInnerTransactions: state => state.info?.data?.aggregateTransaction?.innerTransactions || [],
 		aggregateCosignatures: state => state.info?.data?.aggregateTransaction?.cosignatures || [],
+		merklePath: state => state.info?.data?.merklePath || [],
 		getRecentList: state => state.timeline?.data?.filter((item, index) => index < 4) || [],
 		transactionSchema: (state, getters) => ({
 			loading: getters.info.loading,

@@ -173,6 +173,8 @@ class Constants {
   	[MosaicRestrictionType.NE]: 'Allow Not Equal',
   	[MosaicRestrictionType.NONE]: 'No Restriction'
   }
+
+  static MerkleRootsOrder = ['AccountState', 'Namespace', 'Mosaic', 'Multisig', 'HashLockInfo', 'SecretLockInfo', 'AccountRestriction', 'MosaicRestriction', 'Metadata']
 }
 
 export default Constants;
