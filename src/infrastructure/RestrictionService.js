@@ -50,7 +50,25 @@ class RestrictionService {
   		throw Error('Mosaic global restrictions are not available.');
   	}
 
-  	return this.formatMosaicGlobalRestrictions(mosaicGlobalRestrictions);
+  /**
+   * Get Mosaic Address Restriction from symbol SDK
+   * @param address - Account address to be created from PublicKey or RawAddress
+   * @param mosaicId - Mosaic identifier
+   * @returns MosaicAddressRestriction
+   */
+  static getMosaicAddressRestriction = async (mosaicId, address) => {
+  	let mosaicAddressRestriction;
+
+  	try {
+  		mosaicAddressRestriction = await http.createRepositoryFactory.createRestrictionMosaicRepository()
+  			.getMosaicAddressRestriction(mosaicId, Address.createFromRawAddress(address))
+  			.toPromise();
+  	}
+  	catch (error) {
+  		throw Error('Mosaic address restrictions are not available.');
+  	}
+
+  	return this.formatMosaicAddressRestriction(mosaicAddressRestriction);
   }
 
   /**
@@ -106,6 +124,31 @@ class RestrictionService {
   			restrictionType: Constants.MosaicRestrictionType[item.restrictionType],
   			restrictionValue: item.restrictionValue,
   			referenceMosaicId: item.referenceMosaicId.toHex() === '0000000000000000' ? mosaicRestriction.mosaicId.toHex() : item.referenceMosaicId.toHex()
+  		}))
+  	};
+  }
+
+  /**
+   * Format MosaicAddressRestriction to readable object
+   * @param addressRestrictionDTO
+   * @returns Custom address restriction object
+   */
+  static formatMosaicAddressRestriction = addressRestriction => {
+  	let mosaicAddressRestrictionItem = [];
+
+  	// Convert Map<k,v> to Array
+  	addressRestriction.restrictions.forEach((value, key) => {
+  		mosaicAddressRestrictionItem.push({ key, ...value });
+  		return mosaicAddressRestrictionItem;
+  	});
+
+  	return {
+  		...addressRestriction,
+  		entryType: Constants.MosaicRestrictionEntryType[addressRestriction.entryType],
+  		mosaicId: addressRestriction.mosaicId.toHex(),
+  		restrictions: mosaicAddressRestrictionItem.map(item => ({
+  			restrictionKey: item.key,
+  			restrictionValue: item.value
   		}))
   	};
   }
