@@ -38,10 +38,10 @@ class RestrictionService {
    * @returns MosaicGlobalRestriction
    */
   static getMosaicGlobalRestriction = async mosaicId => {
-  	let mosaicGlobalRestrictions;
+	let mosaicGlobalRestriction;
 
   	try {
-  		mosaicGlobalRestrictions = await http.createRepositoryFactory.createRestrictionMosaicRepository()
+  		mosaicGlobalRestriction = await http.createRepositoryFactory.createRestrictionMosaicRepository()
   			.getMosaicGlobalRestriction(mosaicId)
   			.toPromise();
   	}
@@ -49,6 +49,9 @@ class RestrictionService {
   		// To Catach statusCode 404 if Mosaic global restrictions are not available.
   		throw Error('Mosaic global restrictions are not available.');
   	}
+
+  	return this.formatMosaicGlobalRestriction(mosaicGlobalRestriction);
+  }
 
   /**
    * Get Mosaic Address Restriction from symbol SDK
@@ -106,7 +109,7 @@ class RestrictionService {
    * @param MosaicGlobalRestrictionDTO
    * @returns Object readable MosaicGlobalRestrictions object
    */
-  static formatMosaicGlobalRestrictions = mosaicRestriction => {
+  static formatMosaicGlobalRestriction = mosaicRestriction => {
   	let mosaicGlobalRestrictionItem = [];
 
   	// Convert Map<k,v> to Array
