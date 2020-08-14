@@ -11,7 +11,6 @@ describe('Symbol Explorer Blocks detail page', () => {
         })
 
         it('render block pagination button', () => {
-            cy.get('[data-cy="blockDetailTitle"] [type="Pagination"]').should('have.length', 1)
             cy.get('[data-cy="blockDetailTitle"] [nextpageaction="block/nextBlock"]').should('have.length', 1)
             cy.get('[data-cy="blockDetailTitle"] [previouspageaction="block/previousBlock"]').should('have.length', 1)
         })
@@ -21,7 +20,7 @@ describe('Symbol Explorer Blocks detail page', () => {
         })
 
         it('render correct table fields.', () => {
-            const items = ['Height', 'Date', 'Total Fee', 'Difficulty', 'Fee Multiplier', 'Transactions', 'Harvester', 'Block Hash', 'Proof Gamma', 'Proof Scalar']
+            const items = ['Height', 'Date', 'Total Fee', 'Difficulty', 'Fee Multiplier', 'Transactions', 'Harvester', 'Block Hash', 'Proof Gamma', 'Proof Scalar', 'Beneficiary Address', 'Proof Varification Hash']
             cy.renderFieldInTable("blockDetailTitle", items)
         })
     })
@@ -37,7 +36,7 @@ describe('Symbol Explorer Blocks detail page', () => {
         })
 
         it('render correct table header.', () => {
-            const items = ['Deadline', 'Transaction ID', 'Transaction Hash', 'Type']
+            const items = ['Deadline', 'Transaction Hash', 'Type']
             cy.renderHeaderInTable("blockTransactionsTitle", items)
         })
     })

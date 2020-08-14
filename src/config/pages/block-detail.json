@@ -1,0 +1,149 @@
+{
+    "path": "/block/:height",
+    "name": "block-detail",
+    "meta": {
+        "group": "detail-page",
+        "keepAliveGoTo": []
+    },
+    "props": {
+        "layout": "flex",
+        "storeNamespaces": ["block"],
+        "initActions": ["block/fetchBlockInfo"],
+        "schema": [
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "blockDetailTitle",
+                "managerGetter": "block/info",
+                "errorMessage": "blockDetailError",
+                "pagination": "custom",
+                "paginationOptions": {
+                    "nextPageAction": "block/nextBlock",
+                    "previousPageAction": "block/previousBlock",
+                    "canFetchPrevious": true,
+                    "canFetchNext": true
+                },
+                "fields": [
+                    "height",
+                    "date",
+                    "totalFee",
+                    "difficulty",
+                    "feeMultiplier",
+                    "transactions",
+                    "harvester",
+                    "beneficiaryAddress",
+                    "blockHash",
+                    "proofGamma",
+                    "proofScalar",
+                    "proofVerificationHash"
+                ]
+            },
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "blockTransactionsTitle",
+                "managerGetter": "block/blockTransactions",
+                "pagination": "server",
+                "fields": [
+                    "deadline",
+                    "transactionHash",
+                    "transactionType"
+                ]
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
+                "title": "Merkle Info",
+                "managerGetter": "block/info",
+                "dataGetter": "block/merkleInfo",
+                "pagination": "none"
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
+                "title": "balanceChangeReceiptTitle",
+                "managerGetter": "block/blockReceipts",
+                "dataGetter": "block/balanceChangeReceipt",
+                "pagination": "client",
+                "pageSize": 5,
+                "hideEmptyData": true,
+                "fields": [
+                    "version",
+                    "size",
+  					"receiptType",
+  					"targetAddress",
+  					"amount",
+  					"mosaicId"
+                ]
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
+                "title": "balanceTransferReceiptTitle",
+                "managerGetter": "block/blockReceipts",
+                "dataGetter": "block/balanceTransferReceipt",
+                "pagination": "client",
+                "pageSize": 5,
+                "hideEmptyData": true,
+                "fields": [
+                    "version",
+                    "size",
+  					"receiptType",
+  					"senderAddress",
+  					"recipientAddress",
+  					"amount",
+  					"mosaicId"
+                ]
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
+                "title": "inflationReceiptTitle",
+                "managerGetter": "block/blockReceipts",
+                "dataGetter": "block/inflationReceipt",
+                "pagination": "client",
+                "pageSize": 5,
+                "hideEmptyData": true,
+                "fields": [
+                    "version",
+                    "size",
+  					"receiptType",
+  					"amount",
+  					"mosaicId"
+                ]
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
+                "title": "artifactExpiryReceiptTitle",
+                "managerGetter": "block/blockReceipts",
+                "dataGetter": "block/artifactExpiryReceipt",
+                "pagination": "client",
+                "pageSize": 5,
+                "hideEmptyData": true,
+                "fields": [
+                    "version",
+                    "size",
+                    "receiptType",
+                    "artifactId"
+                ]
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
+                "title": "resolutionStatementTitle",
+                "managerGetter": "block/blockReceipts",
+                "dataGetter": "block/resolutionStatement",
+                "pagination": "client",
+                "pageSize": 5,
+                "hideEmptyData": true,
+                "fields": [
+                    "resolutionType",
+                    "unresolved",
+                    "addressResolutionEntries",
+                    "mosaicResolutionEntries"
+                ]
+            }
+        ]
+    }
+}
