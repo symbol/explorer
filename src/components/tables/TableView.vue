@@ -65,8 +65,8 @@ export default {
 				'targetMosaicId',
 				'targetNamespaceId',
 				'unresolved',
-				'addressResolutionEntries',
-				'mosaicResolutionEntries',
+				'addressResolutionEntries_',
+				'mosaicResolutionEntries_',
 				'restrictionMosaicValues',
 				'restrictionAddressValues',
 				'referenceMosaicId',
@@ -103,6 +103,8 @@ export default {
 				'addressAdditions',
 				'addressDeletions',
 				'voting',
+				'addressResolutionEntries',
+				'mosaicResolutionEntries',
 				'stateHashSubCacheMerkleRoots'
 			]
 		};
