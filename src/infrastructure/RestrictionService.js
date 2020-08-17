@@ -38,7 +38,7 @@ class RestrictionService {
    * @returns MosaicGlobalRestriction
    */
   static getMosaicGlobalRestriction = async mosaicId => {
-	let mosaicGlobalRestriction;
+  	let mosaicGlobalRestriction;
 
   	try {
   		mosaicGlobalRestriction = await http.createRepositoryFactory.createRestrictionMosaicRepository()
@@ -141,14 +141,14 @@ class RestrictionService {
 
   	// Convert Map<k,v> to Array
   	addressRestriction.restrictions.forEach((value, key) => {
-  		mosaicAddressRestrictionItem.push({ key, ...value });
-  		return mosaicAddressRestrictionItem;
-  	});
+  		mosaicAddressRestrictionItem.push({ key, value });
+	  });
 
   	return {
   		...addressRestriction,
   		entryType: Constants.MosaicRestrictionEntryType[addressRestriction.entryType],
   		mosaicId: addressRestriction.mosaicId.toHex(),
+  		targetAddress: addressRestriction.targetAddress.address,
   		restrictions: mosaicAddressRestrictionItem.map(item => ({
   			restrictionKey: item.key,
   			restrictionValue: item.value
@@ -168,15 +168,28 @@ class RestrictionService {
   }
 
   /**
-   * Format Mosaic Global Restriction info dataset into Vue component
+   * Gets Mosaic Global Restriction info dataset into Vue component
    * @param hexOrNamespace - hex value or namespace name
-   * @returns Mosaic Global Restriction info
+   * @returns Formatted Mosaic Global Restriction info
    */
   static getMosaicGlobalRestrictionInfo = async (hexOrNamespace) => {
   	const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic');
   	const mosaicGlobalRestrictionMetadata = await this.getMosaicGlobalRestriction(mosaicId);
 
   	return mosaicGlobalRestrictionMetadata;
+  }
+
+  /**
+   * Gets Mosaic Address Restriction info dataset into Vue component
+   * @param hexOrNamespace - hex value or namespace name
+   * @param address - Account address to be created from PublicKey or RawAddress
+   * @returns Formatted Mosaic Address Restriction info
+   */
+  static getMosaicAddressRestrictionInfo = async (hexOrNamespace, address) => {
+  	const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic');
+  	const mosaicAddressRestriction = await this.getMosaicAddressRestriction(mosaicId, address);
+
+  	return mosaicAddressRestriction;
   }
 }
 
