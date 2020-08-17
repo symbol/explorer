@@ -52,6 +52,7 @@ import PriceChartWidget from '@/components/widgets/PriceChartWidget.vue';
 import RecentBlocksWidget from '@/components/widgets/RecentBlocksWidget.vue';
 import RecentTransactionsWidget from '@/components/widgets/RecentTransactionsWidget.vue';
 import TransactionGraphicWidget from '@/components/widgets/TransactionGraphicWidget.vue';
+import MosaicAddressRestrictionWidget from '@/components/widgets/MosaicAddressRestrictionWidget.vue';
 
 export default {
 	components: {
@@ -60,7 +61,8 @@ export default {
 		PriceChartWidget,
 		RecentBlocksWidget,
 		RecentTransactionsWidget,
-		TransactionGraphicWidget
+		TransactionGraphicWidget,
+		MosaicAddressRestrictionWidget
 	},
 
 	props: {
