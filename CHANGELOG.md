@@ -3,6 +3,48 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v0.5.0][v0.5.0] - 15-Aug-2020
+
+### Milestone: [catapult-server@v0.9.6.4](https://github.com/nemtech/catapult-server/releases/tag/v0.9.6.4)
+
+Package  | Version  | Link
+---|---|---
+REST Core| v1.2.0 | [catapult-rest](https://github.com/nemtech/catapult-rest/releases/tag/v1.2.0)
+SDK Core| v0.20.7 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
+
+### Added
+- Added compatibility for 0.9.6.4 server.
+- Added search Criteria for Blocks, Accounts, Namespaces, Transactions and Mosaics.
+- Added PageAssembler component.
+- Added Transaction filter component into transaction list.
+- Added resolved address in transaction list and transaction detail page.
+- Added more transaction test case for cypress e2e.
+- Added Transaction Graphic widget to visualize transaction info
+    - Address Alias
+    - Mosaic Alias
+    - Namespace Registration
+    - TransferTransaction
+- Added account filter component into account list.
+- Added supplemental Keys info into Account Detail page.
+- Added harvested info into Account Detail page.
+- Added namespace filter component into namespace list.
+- Added namespace name into alias transaction detail page.
+- Added Merkle-tree infomation into Block Detail page.
+- Added more japanese translations (Thanks @44uk).
+
+### Update
+- Refactor infrastructure to use `repositoryFactory`
+- Refactor statistics chart effect.
+- Load network config from network.
+- Enhanced mobile view experience.
+
+### Fixed
+- Pagination. Block-list live update does not work [#555](https://github.com/nemgrouplimited/symbol-explorer/issues/555)
+- Multisig account not showing correctly [#559](https://github.com/nemgrouplimited/symbol-explorer/issues/559)
+- Transaction Detail. Unable to show the data [#562](https://github.com/nemgrouplimited/symbol-explorer/issues/562)
+- Transaction Detail. Missing address in address alias [#534](https://github.com/nemgrouplimited/symbol-explorer/issues/534)
+- PageAssembler. Mobile view doesn't work properly [#533](https://github.com/nemgrouplimited/symbol-explorer/issues/533)
+
 ## [v0.4.0][v0.4.0]
 
 ### Milestone: [catapult-server@v0.9.5.1](https://github.com/nemtech/catapult-server/releases/tag/v0.9.5.1)
@@ -37,3 +79,4 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 [v0.3.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.3.0
 [v0.4.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.4.0
+[v0.5.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.5.0

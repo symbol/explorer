@@ -1,4 +1,12 @@
-import { TransactionType, TransactionGroup } from 'symbol-sdk';
+import {
+	TransactionType,
+	TransactionGroup,
+	AliasType,
+	NamespaceRegistrationType,
+	MosaicId,
+	AccountOrderBy,
+	MetadataType
+} from 'symbol-sdk';
 
 export const transaction = [
 	{
@@ -117,6 +125,87 @@ export const transaction = [
 				TransactionType.SECRET_LOCK,
 				TransactionType.SECRET_PROOF
 			]
+		}
+	}
+];
+
+export const account = [
+	{
+		label: 'Recent',
+		icon: 'mdi-clock-outline',
+		value: {}
+	},
+	{
+		label: 'Rich List',
+		icon: 'mdi-circle',
+		value: {
+			orderBy: AccountOrderBy.Balance,
+			mosaicId: new MosaicId('5E62990DCAC5BE8A')
+		}
+	}
+];
+
+export const namespace = [
+	{
+		label: 'Recent',
+		icon: 'mdi-clock-outline',
+		value: {}
+	},
+	{
+		label: 'Address Alias',
+		icon: 'mdi-account',
+		value: {
+			aliasType: AliasType.Address
+		}
+	},
+	{
+		label: 'Mosaic Alias',
+		icon: 'mdi-circle',
+		value: {
+			aliasType: AliasType.Mosaic
+		}
+	},
+	{
+		label: 'Root',
+		icon: 'mdi-tag',
+		value: {
+			registrationType: NamespaceRegistrationType.RootNamespace
+		}
+	},
+	{
+		label: 'Sub',
+		icon: 'mdi-tag',
+		value: {
+			registrationType: NamespaceRegistrationType.SubNamespace
+		}
+	}
+];
+
+export const metadata = [
+	{
+		label: 'Recent',
+		icon: 'mdi-clock-outline',
+		value: {}
+	},
+	{
+		label: 'Address Alias',
+		icon: 'mdi-account',
+		value: {
+			metadataType: MetadataType.Account
+		}
+	},
+	{
+		label: 'Mosaic Alias',
+		icon: 'mdi-circle',
+		value: {
+			metadataType: MetadataType.Mosaic
+		}
+	},
+	{
+		label: 'Namespace',
+		icon: 'mdi-tag',
+		value: {
+			metadataType: MetadataType.Namespace
 		}
 	}
 ];
