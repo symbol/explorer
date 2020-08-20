@@ -3,7 +3,7 @@ import datafiled from '../../config/datafiled.json'
 
 describe('Symbol Explorer Transaction detail page for Mosaic Alias', () => {
     beforeEach(() => {
-        cy.visit(`/transaction/${config.testTransactions.mosaicAlias}`)
+        cy.visit(`/transactions/${config.testTransactions.mosaicAlias}`)
     })
 
     describe('Transaction info card should', () => {
