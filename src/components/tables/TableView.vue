@@ -142,6 +142,9 @@ export default {
 		isTransactionType(itemKey) {
 			return itemKey === 'transactionType';
 		},
+		isFinalizedBlockMarker(itemKey) {
+			return itemKey === 'finalizedBlockMarker';
+		},
 
 		isArrayField(itemKey) {
 			return this.allowArrayToView.indexOf(itemKey) !== -1;

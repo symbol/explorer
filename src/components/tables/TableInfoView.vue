@@ -19,6 +19,7 @@
 							v-else-if="isKeyClickable(itemKey) && getItemHref(itemKey, item)"
 							:to="getItemHref(itemKey, item)"
 						>{{ item }}</router-link>
+						<FinalizedBlockMarker v-else-if="isFinalizedBlockMarker(itemKey)" :value="item" />
 						<div v-else>{{ item }}</div>
 					</td>
 				</tr>
@@ -33,6 +34,7 @@ import TableView from './TableView.vue';
 import MosaicsField from '@/components/fields/MosaicsField.vue';
 import ArrayField from '@/components/fields/ArrayField.vue';
 import TransactionType from '@/components/fields/TransactionType.vue';
+import FinalizedBlockMarker from '@/components/fields/FinalizedBlockMarker.vue';
 
 export default {
 	extends: TableView,
@@ -40,7 +42,8 @@ export default {
 	components: {
 		MosaicsField,
 		ArrayField,
-		TransactionType
+		TransactionType,
+		FinalizedBlockMarker
 	},
 
 	props: {
