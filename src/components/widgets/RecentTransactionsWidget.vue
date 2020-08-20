@@ -27,7 +27,7 @@
 						>
 							<template #header>
 								<router-link
-									:to="'/transaction/'+item.transactionHash"
+									:to="'/transactions/'+item.transactionHash"
 									class="ex-title-text ex-long-text"
 									:title="'Transaction hash: ' + item.transactionHash"
 								>
@@ -48,7 +48,7 @@
 										{{getNameByKey('sender')}}
 									</div>
 									<router-link
-										:to="'/account/'+item.signer"
+										:to="'/accounts/'+item.signer"
 										class="ex-long-text ex-account-text"
 										:title="item.signer"
 									>

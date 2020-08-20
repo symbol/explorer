@@ -1,5 +1,5 @@
 {
-    "path": "/transaction/:transactionHash",
+    "path": "/transactions/:transactionHash",
     "name": "transaction-detail",
     "meta": {
         "group": "detail-page",
