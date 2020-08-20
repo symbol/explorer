@@ -17,7 +17,7 @@
  */
 
 import { UInt64, TransactionGroup, Order, BlockOrderBy } from 'symbol-sdk';
-import { TransactionService, ReceiptService } from '../infrastructure';
+import { TransactionService, ReceiptService, ChainService } from '../infrastructure';
 import http from './http';
 import helper from '../helper';
 import { Constants } from '../config';
@@ -196,6 +196,7 @@ class BlockService {
   static getBlockInfo = async height => {
   	const block = await this.getBlockByHeight(height);
 
+	const currentHeight = await ChainService.getBlockchainHeight();
   	// Get merkle info
   	let { stateHash, stateHashSubCacheMerkleRoots, blockReceiptsHash, blockTransactionsHash } = block;
 
@@ -207,7 +208,12 @@ class BlockService {
   	return {
   		...block,
   		blockHash: block.hash,
-  		harvester: block.signer,
+		harvester: block.signer,
+		finalizedBlockMarker: {
+			blockHeight: block.height,
+			status: currentHeight - height > 10 ? true : false,
+		},
+		confirmations: `${(currentHeight - height) + 1 } Blocks`,
   		date: helper.convertToUTCDate(block.timestamp),
   		merkleInfo: {
   			stateHash,

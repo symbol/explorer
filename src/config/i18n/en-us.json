@@ -287,5 +287,6 @@
     "blockReceiptsHash": "Receipts Hash",
     "blockTransactionsHash": "Transactions Hash",
     "position": "Position",
-    "hash": "Hash"
+    "hash": "Hash",
+    "finalizedBlockMarker": "Finalized"
 }

@@ -24,6 +24,8 @@
                     "canFetchNext": true
                 },
                 "fields": [
+                    "finalizedBlockMarker",
+                    "confirmations",
                     "height",
                     "date",
                     "totalFee",
