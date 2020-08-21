@@ -1,5 +1,5 @@
 {
-    "path": "/mosaic/:mosaicId",
+    "path": "/mosaics/:mosaicId",
     "name": "mosaic-detail",
     "meta": {
         "group": "detail-page",

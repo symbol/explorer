@@ -3,7 +3,7 @@ import datafiled from '../../config/datafiled.json'
 
 describe('Symbol Explorer Transaction detail page for Mosaic Supply Change', () => {
     beforeEach(() => {
-        cy.visit(`/transaction/${config.testTransactions.mosaicSupplyChange}`)
+        cy.visit(`/transactions/${config.testTransactions.mosaicSupplyChange}`)
     })
 
     describe('Transaction info card should', () => {

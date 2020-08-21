@@ -2,7 +2,7 @@ import config from '../config/network.conf.json'
 
 describe('Symbol Explorer Blocks detail page', () => {
     beforeEach(() => {
-        cy.visit(`/block/${config.testBlock.height}`)
+        cy.visit(`/blocks/${config.testBlock.height}`)
     })
 
     describe('Block Detail Card should', () => {

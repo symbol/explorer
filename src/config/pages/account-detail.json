@@ -1,5 +1,5 @@
 {
-	"path": "/account/:address",
+	"path": "/accounts/:address",
 	"name": "account-detail",
 	"meta": {
 		"group": "detail-page",

@@ -1,5 +1,5 @@
 {
-    "path": "/block/:height",
+    "path": "/blocks/:height",
     "name": "block-detail",
     "meta": {
         "group": "detail-page",
