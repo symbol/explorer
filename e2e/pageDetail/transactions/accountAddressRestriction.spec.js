@@ -3,7 +3,7 @@ import datafiled from '../../config/datafiled.json'
 
 describe('Symbol Explorer Transaction detail page for Account Address Restriction.', () => {
     beforeEach(() => {
-        cy.visit(`/transaction/${config.testTransactions.accountAddressRestriction}`)
+        cy.visit(`/transactions/${config.testTransactions.accountAddressRestriction}`)
     })
 
     describe('Transaction info card should', () => {

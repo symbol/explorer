@@ -2,7 +2,7 @@ import config from '../config/network.conf.json'
 
 describe('Symbol Explorer Account Detail page', () => {
     beforeEach(() => {
-        cy.visit(`/account/${config.testAccount.address}`)
+        cy.visit(`/accounts/${config.testAccount.address}`)
     })
 
     describe('Account Detail Card should', () => {

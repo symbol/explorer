@@ -27,7 +27,7 @@
 						>
 							<template #header>
 								<router-link
-									:to="'/block/'+item.height"
+									:to="'/blocks/'+item.height"
 									class="ex-title-text"
 									:title="getNameByKey('blockHeight') + ': ' + item.height"
 								>
@@ -48,7 +48,7 @@
 										{{getNameByKey('harvester')}}
 									</div>
 									<router-link
-										:to="'/account/'+item.signer"
+										:to="'/accounts/'+item.signer"
 										class="ex-long-text ex-account-text"
 										:title="item.signer"
 									>
