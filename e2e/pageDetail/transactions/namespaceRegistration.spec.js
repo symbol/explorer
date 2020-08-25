@@ -3,7 +3,7 @@ import datafiled from '../../config/datafiled.json'
 
 describe('Symbol Explorer Transaction detail page for Namespace Registration', () => {
     beforeEach(() => {
-        cy.visit(`/transaction/${config.testTransactions.namespaceRegistration}`)
+        cy.visit(`/transactions/${config.testTransactions.namespaceRegistration}`)
     })
 
     describe('Transaction info card should', () => {

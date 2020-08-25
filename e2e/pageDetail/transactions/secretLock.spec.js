@@ -3,7 +3,7 @@ import datafiled from '../../config/datafiled.json'
 
 describe('Symbol Explorer Transaction detail page for Secret Lock.', () => {
     beforeEach(() => {
-        cy.visit(`/transaction/${config.testTransactions.secretLock}`)
+        cy.visit(`/transactions/${config.testTransactions.secretLock}`)
     })
 
     describe('Transaction info card should', () => {
