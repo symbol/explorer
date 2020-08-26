@@ -184,5 +184,7 @@
     "blockReceiptsHash": "Receipts Hash",
     "blockTransactionsHash": "Transactions Hash",
     "position": "Position",
-    "hash": "Hash"
+    "hash": "Hash",
+    "startPoint": "Start Finalization Point",
+    "endPoint": "End Finalization Point"
 }
