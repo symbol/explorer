@@ -10,6 +10,7 @@
 				<NamespaceRegistrationGraphic v-if="data.type === TransactionType.NAMESPACE_REGISTRATION" v-bind="data" />
 				<VrfKeyGraphic v-if="data.type === TransactionType.VRF_KEY_LINK" v-bind="data" />
 				<AccountKeyLinkGraphic v-if="data.type === TransactionType.ACCOUNT_KEY_LINK" v-bind="data" />
+				<NodeKeyLinkGraphic v-if="data.type === TransactionType.NODE_KEY_LINK" v-bind="data" />
 			</div>
 		</template>
 	</Card>
@@ -23,6 +24,7 @@ import MosaicAliasGraphic from '@/components/transaction-graphic/MosaicAliasGrap
 import NamespaceRegistrationGraphic from '@/components/transaction-graphic/NamespaceRegistrationGraphic.vue';
 import VrfKeyGraphic from '@/components/transaction-graphic/VrfKeyGraphic.vue';
 import AccountKeyLinkGraphic from '@/components/transaction-graphic/AccountKeyLinkGraphic.vue';
+import NodeKeyLinkGraphic from '@/components/transaction-graphic/NodeKeyLinkGraphic.vue';
 import { TransactionType } from 'symbol-sdk';
 
 export default {
@@ -37,7 +39,8 @@ export default {
 		MosaicAliasGraphic,
 		NamespaceRegistrationGraphic,
 		VrfKeyGraphic,
-		AccountKeyLinkGraphic
+		AccountKeyLinkGraphic,
+		NodeKeyLinkGraphic
 	},
 
 	data() {
@@ -53,7 +56,8 @@ export default {
         this.data.type === TransactionType.MOSAIC_ALIAS ||
         this.data.type === TransactionType.NAMESPACE_REGISTRATION ||
         this.data.type === TransactionType.VRF_KEY_LINK ||
-        this.data.type === TransactionType.ACCOUNT_KEY_LINK;
+        this.data.type === TransactionType.ACCOUNT_KEY_LINK ||
+        this.data.type === TransactionType.NODE_KEY_LINK;
 		},
 
 		data() {
