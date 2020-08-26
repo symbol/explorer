@@ -11,6 +11,7 @@
 				<VrfKeyGraphic v-if="data.type === TransactionType.VRF_KEY_LINK" v-bind="data" />
 				<AccountKeyLinkGraphic v-if="data.type === TransactionType.ACCOUNT_KEY_LINK" v-bind="data" />
 				<NodeKeyLinkGraphic v-if="data.type === TransactionType.NODE_KEY_LINK" v-bind="data" />
+				<VotingKeyLinkGraphic v-if="data.type === TransactionType.VOTING_KEY_LINK" v-bind="data" />
 			</div>
 		</template>
 	</Card>
@@ -25,6 +26,7 @@ import NamespaceRegistrationGraphic from '@/components/transaction-graphic/Names
 import VrfKeyGraphic from '@/components/transaction-graphic/VrfKeyGraphic.vue';
 import AccountKeyLinkGraphic from '@/components/transaction-graphic/AccountKeyLinkGraphic.vue';
 import NodeKeyLinkGraphic from '@/components/transaction-graphic/NodeKeyLinkGraphic.vue';
+import VotingKeyLinkGraphic from '@/components/transaction-graphic/VotingKeyLinkGraphic.vue';
 import { TransactionType } from 'symbol-sdk';
 
 export default {
@@ -40,7 +42,8 @@ export default {
 		NamespaceRegistrationGraphic,
 		VrfKeyGraphic,
 		AccountKeyLinkGraphic,
-		NodeKeyLinkGraphic
+		NodeKeyLinkGraphic,
+		VotingKeyLinkGraphic
 	},
 
 	data() {
@@ -57,7 +60,8 @@ export default {
         this.data.type === TransactionType.NAMESPACE_REGISTRATION ||
         this.data.type === TransactionType.VRF_KEY_LINK ||
         this.data.type === TransactionType.ACCOUNT_KEY_LINK ||
-        this.data.type === TransactionType.NODE_KEY_LINK;
+		this.data.type === TransactionType.NODE_KEY_LINK ||
+		this.data.type === TransactionType.VOTING_KEY_LINK;
 		},
 
 		data() {
