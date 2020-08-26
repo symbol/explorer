@@ -44,6 +44,10 @@ const managers = [
 		'restrictions',
 		(address) => RestrictionService.getMosaicGlobalRestrictionInfo(address)
 	),
+	new DataSet(
+		'mosaicAddressRestriction',
+		({ mosaicId, address }) => RestrictionService.getMosaicAddressRestrictionInfo(mosaicId, address)
+	),
 	new Pagination({
 		name: 'metadatas',
 		fetchFunction: (pageInfo, filterValue, store) => MosaicService.getMosaicMetadataList(pageInfo, filterValue, store.getters.getCurrentMosaicId),
@@ -111,6 +115,11 @@ export default {
 			context.getters.info.setStore(context).initialFetch(payload.mosaicId);
 			context.getters.restrictions.setStore(context).initialFetch(payload.mosaicId);
 			context.getters.metadatas.setStore(context).initialFetch(payload.mosaicId);
+		},
+
+		fetchMosaicAddressRestriction(context, payload) {
+			context.getters.mosaicAddressRestriction.setStore(context).uninitialize();
+			context.getters.mosaicAddressRestriction.setStore(context).initialFetch(payload);
 		},
 
 		uninitializeDetail(context) {
