@@ -54,6 +54,7 @@ import AccountIcon from '../graphics/AccountIcon.vue';
 import KeyLinkCircle from '../graphics/KeyLinkCircle.vue';
 import KeyUnlinkCircle from '../graphics/KeyUnlinkCircle.vue';
 import Arrow from '../graphics/Arrow.vue';
+import { TransactionType } from 'symbol-sdk';
 
 export default {
 	extends: GraphicComponent,
@@ -66,6 +67,10 @@ export default {
 	},
 
 	props: {
+		type: {
+			type: Number,
+			default: TransactionType.ACCOUNT_KEY_LINK
+		},
 		message: {
 			type: String,
 			default: ''
@@ -101,7 +106,7 @@ export default {
 
 	computed: {
 		transactionType() {
-			return this.getTransactionTypeCaption(16963);
+			return this.getTransactionTypeCaption(this.type);
 		},
 
 		circleIconsToDisplay() {
