@@ -30,14 +30,14 @@
 				v-if="isLinkAction"
 				:x="getCircleIconPositionX(0)"
 				:y="circleIconPositionY"
-				title="VRF Key Link"
+				title="Account Key Link"
 				:data="keyLinkInfo"
 			/>
 			<KeyUnlinkCircle
 				v-else
 				:x="getCircleIconPositionX(0)"
 				:y="circleIconPositionY"
-				title="VRF Key Link"
+				title="Account Key Link"
 				:data="keyLinkInfo"
 			/>
 			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
