@@ -38,10 +38,10 @@ class RestrictionService {
    * @returns MosaicGlobalRestriction
    */
   static getMosaicGlobalRestriction = async mosaicId => {
-  	let mosaicGlobalRestrictions;
+  	let mosaicGlobalRestriction;
 
   	try {
-  		mosaicGlobalRestrictions = await http.createRepositoryFactory.createRestrictionMosaicRepository()
+  		mosaicGlobalRestriction = await http.createRepositoryFactory.createRestrictionMosaicRepository()
   			.getMosaicGlobalRestriction(mosaicId)
   			.toPromise();
   	}
@@ -50,7 +50,28 @@ class RestrictionService {
   		throw Error('Mosaic global restrictions are not available.');
   	}
 
-  	return this.formatMosaicGlobalRestrictions(mosaicGlobalRestrictions);
+  	return this.formatMosaicGlobalRestriction(mosaicGlobalRestriction);
+  }
+
+  /**
+   * Get Mosaic Address Restriction from symbol SDK
+   * @param address - Account address to be created from PublicKey or RawAddress
+   * @param mosaicId - Mosaic identifier
+   * @returns MosaicAddressRestriction
+   */
+  static getMosaicAddressRestriction = async (mosaicId, address) => {
+  	let mosaicAddressRestriction;
+
+  	try {
+  		mosaicAddressRestriction = await http.createRepositoryFactory.createRestrictionMosaicRepository()
+  			.getMosaicAddressRestriction(mosaicId, Address.createFromRawAddress(address))
+  			.toPromise();
+  	}
+  	catch (error) {
+  		throw Error('Mosaic address restrictions are not available.');
+  	}
+
+  	return this.formatMosaicAddressRestriction(mosaicAddressRestriction);
   }
 
   /**
@@ -88,7 +109,7 @@ class RestrictionService {
    * @param MosaicGlobalRestrictionDTO
    * @returns Object readable MosaicGlobalRestrictions object
    */
-  static formatMosaicGlobalRestrictions = mosaicRestriction => {
+  static formatMosaicGlobalRestriction = mosaicRestriction => {
   	let mosaicGlobalRestrictionItem = [];
 
   	// Convert Map<k,v> to Array
@@ -111,6 +132,31 @@ class RestrictionService {
   }
 
   /**
+   * Format MosaicAddressRestriction to readable object
+   * @param addressRestrictionDTO
+   * @returns Custom address restriction object
+   */
+  static formatMosaicAddressRestriction = addressRestriction => {
+  	let mosaicAddressRestrictionItem = [];
+
+  	// Convert Map<k,v> to Array
+  	addressRestriction.restrictions.forEach((value, key) => {
+  		mosaicAddressRestrictionItem.push({ key, value });
+	  });
+
+  	return {
+  		...addressRestriction,
+  		entryType: Constants.MosaicRestrictionEntryType[addressRestriction.entryType],
+  		mosaicId: addressRestriction.mosaicId.toHex(),
+  		targetAddress: addressRestriction.targetAddress.address,
+  		restrictions: mosaicAddressRestrictionItem.map(item => ({
+  			restrictionKey: item.key,
+  			restrictionValue: item.value
+  		}))
+  	};
+  }
+
+  /**
    * Format Account Restriction list dataset into Vue component
    * @param address - Address in string format.
    * @returns Account Restriction list
@@ -122,15 +168,28 @@ class RestrictionService {
   }
 
   /**
-   * Format Mosaic Global Restriction info dataset into Vue component
+   * Gets Mosaic Global Restriction info dataset into Vue component
    * @param hexOrNamespace - hex value or namespace name
-   * @returns Mosaic Global Restriction info
+   * @returns Formatted Mosaic Global Restriction info
    */
   static getMosaicGlobalRestrictionInfo = async (hexOrNamespace) => {
   	const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic');
   	const mosaicGlobalRestrictionMetadata = await this.getMosaicGlobalRestriction(mosaicId);
 
   	return mosaicGlobalRestrictionMetadata;
+  }
+
+  /**
+   * Gets Mosaic Address Restriction info dataset into Vue component
+   * @param hexOrNamespace - hex value or namespace name
+   * @param address - Account address to be created from PublicKey or RawAddress
+   * @returns Formatted Mosaic Address Restriction info
+   */
+  static getMosaicAddressRestrictionInfo = async (hexOrNamespace, address) => {
+  	const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic');
+  	const mosaicAddressRestriction = await this.getMosaicAddressRestriction(mosaicId, address);
+
+  	return mosaicAddressRestriction;
   }
 }
 
