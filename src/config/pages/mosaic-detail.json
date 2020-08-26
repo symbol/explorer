@@ -74,6 +74,12 @@
                     "targetAddress",
                     "metadataValue"
                 ]
+            },
+            {
+                "layoutOptions": "full-width",
+                "type": "MosaicAddressRestrictionWidget",
+                "hideDependOnGetter": "mosaic/restrictions"
+
             }
         ]
     }
