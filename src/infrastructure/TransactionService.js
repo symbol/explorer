@@ -33,6 +33,7 @@ import {
 	NamespaceService,
 	MosaicService
 } from '../infrastructure';
+import { toArray } from 'rxjs/operators';
 
 class TransactionService {
   /**
@@ -95,6 +96,19 @@ class TransactionService {
   }
 
   /**
+   * Gets a transactions from streamer
+   * @param transactionSearchCriteria Object of Search Criteria
+   * @returns formatted Transaction[]
+   */
+  static streamerTransactions = async (transactionSearchCriteria) => {
+  	const streamerTransactions = await http.transactionPaginationStreamer
+  		.search(transactionSearchCriteria).pipe(toArray())
+  		.toPromise();
+
+  	return streamerTransactions.map(transaction => this.formatTransaction(transaction));
+  }
+
+  /**
    * Gets a transaction's effective paid fee
    * @param hash Transaction hash
    * @returns formatted effectiveFee string
@@ -115,11 +129,15 @@ class TransactionService {
   static getTransactionInfo = async (hash, transactionGroup = TransactionGroup.Confirmed) => {
   	let formattedTransaction = await this.getTransaction(hash, transactionGroup);
 
-  	let { date } = await BlockService.getBlockInfo(formattedTransaction.transactionInfo.height);
+  	let { transactionInfo: { height, merkleComponentHash } } = formattedTransaction;
+
+  	let { date } = await BlockService.getBlockInfo(height);
 
   	let effectiveFee = await this.getTransactionEffectiveFee(hash);
 
   	const transactionStatus = await this.getTransactionStatus(hash);
+
+  	const merklePath = await BlockService.getMerkleTransaction(height, merkleComponentHash);
 
   	switch (formattedTransaction.type) {
   	case TransactionType.TRANSFER:
@@ -163,7 +181,7 @@ class TransactionService {
   		break;
   	case TransactionType.ADDRESS_ALIAS:
   	case TransactionType.MOSAIC_ALIAS:
-  		const namespaceName = await NamespaceService.getNamespacesName([NamespaceId.createFromEncoded(formattedTransaction.transactionBody.namespaceId)]);
+  		const namespaceName = await NamespaceService.getNamespacesNames([NamespaceId.createFromEncoded(formattedTransaction.transactionBody.namespaceId)]);
 
   		formattedTransaction.transactionBody.namespaceName = namespaceName[0].name;
   		break;
@@ -185,7 +203,8 @@ class TransactionService {
   		effectiveFee,
   		date,
   		status: transactionStatus.detail.code,
-  		confirm: transactionStatus.message
+  		confirm: transactionStatus.message,
+  		merklePath
   	};
 
   	return transactionInfo;

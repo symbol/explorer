@@ -3,7 +3,7 @@ import datafiled from '../../config/datafiled.json'
 
 describe('Symbol Explorer Transaction detail page for Transfer Transaction', () => {
     beforeEach(() => {
-        cy.visit(`/transaction/${config.testTransactions.transferTransaction}`)
+        cy.visit(`/transactions/${config.testTransactions.transferTransaction}`)
     })
 
     describe('Transaction info card should', () => {

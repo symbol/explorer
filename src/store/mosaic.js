@@ -17,11 +17,10 @@
  */
 
 import Lock from './lock';
-import { Constants } from '../config';
-import { MosaicService, RestrictionService, MetadataService } from '../infrastructure';
+import { Constants, filters } from '../config';
+import { MosaicService, RestrictionService } from '../infrastructure';
 import {
 	DataSet,
-	Timeline,
 	Pagination,
 	getStateFromManagers,
 	getGettersFromManagers,
@@ -45,13 +44,18 @@ const managers = [
 		'restrictions',
 		(address) => RestrictionService.getMosaicGlobalRestrictionInfo(address)
 	),
-	new Timeline(
-		'metadatas',
-		(pageSize, store) => MetadataService.getMosaicMetadataList(store.getters.getCurrentMosaicId, pageSize),
-		(key, pageSize, store) => MetadataService.getMosaicMetadataList(store.getters.getCurrentMosaicId, pageSize, key),
-		'id',
-		10
-	)
+	new DataSet(
+		'mosaicAddressRestriction',
+		({ mosaicId, address }) => RestrictionService.getMosaicAddressRestrictionInfo(mosaicId, address)
+	),
+	new Pagination({
+		name: 'metadatas',
+		fetchFunction: (pageInfo, filterValue, store) => MosaicService.getMosaicMetadataList(pageInfo, filterValue, store.getters.getCurrentMosaicId),
+		pageInfo: {
+			pageSize: 10
+		},
+		filter: filters.metadata
+	})
 ];
 
 const LOCK = Lock.create();
@@ -112,6 +116,11 @@ export default {
 			context.getters.info.setStore(context).initialFetch(payload.mosaicId);
 			context.getters.restrictions.setStore(context).initialFetch(payload.mosaicId);
 			context.getters.metadatas.setStore(context).initialFetch(payload.mosaicId);
+		},
+
+		fetchMosaicAddressRestriction(context, payload) {
+			context.getters.mosaicAddressRestriction.setStore(context).uninitialize();
+			context.getters.mosaicAddressRestriction.setStore(context).initialFetch(payload);
 		},
 
 		uninitializeDetail(context) {

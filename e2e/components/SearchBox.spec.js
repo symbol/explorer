@@ -42,7 +42,7 @@ describe('Search Box component should', () => {
         .type('{enter}')
 
         cy.url()
-        .should('contain', `account/${config.testAccount.address}`)
+        .should('contain', `accounts/${config.testAccount.address}`)
     })
 
     it('redirect to account detail page given correct account address in pretty format', () => {
@@ -54,6 +54,6 @@ describe('Search Box component should', () => {
         .type('{enter}')
 
         cy.url()
-        .should('contain', `account/${config.testAccount.address}`)
+        .should('contain', `accounts/${config.testAccount.address}`)
     })
 })

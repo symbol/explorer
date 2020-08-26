@@ -22,8 +22,7 @@ import { filters, Constants } from '../config';
 import helper from '../helper';
 import {
 	ListenerService,
-	BlockService,
-	ReceiptService
+	BlockService
 } from '../infrastructure';
 import {
 	DataSet,
@@ -52,7 +51,7 @@ const managers = [
 	}),
 	new DataSet(
 		'blockReceipts',
-		(height) => ReceiptService.getBlockReceiptsInfo(height)
+		(height) => BlockService.getBlockReceiptsInfo(height)
 	),
 	new DataSet(
 		'info',
@@ -78,11 +77,12 @@ export default {
 		getRecentList: state => state.timeline?.data?.filter((item, index) => index < 4) || [],
 		getSubscription: state => state.subscription,
 		blockInfo: state => state.info?.data?.blockInfo || {},
+		merkleInfo: state => state.info?.data?.merkleInfo || {},
 		inflationReceipt: state => state.blockReceipts?.data?.transactionReceipt?.inflationReceipt || [],
 		balanceTransferReceipt: state => state.blockReceipts?.data?.transactionReceipt?.balanceTransferReceipt || [],
 		balanceChangeReceipt: state => state.blockReceipts?.data?.transactionReceipt?.balanceChangeReceipt || [],
 		artifactExpiryReceipt: state => state.blockReceipts?.data?.transactionReceipt?.artifactExpiryReceipt || [],
-		resolutionStatement: state => state.blockReceipts?.data?.resolutionStatements?.resolutionStatement || [],
+		resolutionStatement: state => state.blockReceipts?.data?.resolutionStatements || [],
 		currentBlockHeight: state => state.currentBlockHeight,
 
 		infoText: (s, g, rs, rootGetters) => 'Chain height: ' + rootGetters['chain/getBlockHeight']

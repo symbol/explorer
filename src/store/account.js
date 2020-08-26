@@ -22,15 +22,11 @@ import helper from '../helper';
 import {
 	AccountService,
 	MosaicService,
-	NamespaceService,
 	MultisigService,
-	MetadataService,
 	RestrictionService
 } from '../infrastructure';
 import {
-	Filter,
 	DataSet,
-	Timeline,
 	Pagination,
 	getStateFromManagers,
 	getGettersFromManagers,
@@ -39,18 +35,14 @@ import {
 } from './manager';
 
 const managers = [
-	new Timeline(
-		'harvester',
-		() => AccountService.getAccountList(Constants.PageSize, 'harvested/blocks'),
-		(key, pageSize) => AccountService.getAccountList(pageSize, 'harvested/blocks', key),
-		'address'
-	),
-	new Filter(
-		'timeline',
-		{
-			'harvester': 'Harvester List'
-		}
-	),
+	new Pagination({
+		name: 'timeline',
+		fetchFunction: (pageInfo, filterVaule) => AccountService.getAccountList(pageInfo, filterVaule),
+		pageInfo: {
+			pageSize: Constants.PageSize
+		},
+		filter: filters.account
+	}),
 	new DataSet(
 		'info',
 		(address) => AccountService.getAccountInfo(address)
@@ -59,13 +51,14 @@ const managers = [
 		'OwnedMosaic',
 		(address) => MosaicService.getMosaicAmountViewList(address)
 	),
-	new Timeline(
-		'OwnedNamespace',
-		(pageSize, store) => NamespaceService.getNamespacesFromAccountList(store.getters.getCurrentAccountAddress, pageSize),
-		(key, pageSize, store) => NamespaceService.getNamespacesFromAccountList(store.getters.getCurrentAccountAddress, pageSize, key),
-		'metaId',
-		10
-	),
+	new Pagination({
+		name: 'OwnedNamespace',
+		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountNamespaceList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
+		pageInfo: {
+			pageSize: 10
+		},
+		filter: filters.namespace
+	}),
 	new DataSet(
 		'multisig',
 		(address) => MultisigService.getMultisigAccountInfo(address)
@@ -85,13 +78,14 @@ const managers = [
 			pageSize: 10
 		}
 	}),
-	new Timeline(
-		'metadatas',
-		(pageSize, store) => MetadataService.getAccountMetadataList(store.getters.getCurrentAccountAddress, pageSize),
-		(key, pageSize, store) => MetadataService.getAccountMetadataList(store.getters.getCurrentAccountAddress, pageSize, key),
-		'id',
-		10
-	),
+	new Pagination({
+		name: 'metadatas',
+		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountMetadataList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
+		pageInfo: {
+			pageSize: 10
+		},
+		filter: filters.metadata
+	}),
 	new DataSet(
 		'restrictions',
 		(address) => RestrictionService.getAccountRestrictionList(address)
@@ -147,7 +141,6 @@ export default {
 
 		// Fetch data from the SDK and initialize the page.
 		initializePage(context) {
-			context.getters.harvester.setStore(context);
 			context.getters.timeline.setStore(context).initialFetch();
 		},
 

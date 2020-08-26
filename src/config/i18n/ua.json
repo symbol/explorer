@@ -127,7 +127,7 @@
     "linkedAccountAddress": "linked Account Address",
     "proofGamma": "Proof Gamma",
     "proofScalar": "Proof Scalar",
-    "proofVarificationHash": "Proof Varification Hash",
+    "proofVerificationHash": "Proof Varification Hash",
     "accountKeyType": "Type",
     "key": "Key",
     "supplementalKeys": "Supplemental Keys",
@@ -211,5 +211,15 @@
     "action": "Action",
     "delta": "Delta",
     "harvestedBlock": "Harvested blocks (all)",
-    "transactionGraphic": "Схема транзакції"
+    "transactionGraphic": "Схема транзакції",
+    "resolutionType": "Тип",
+    "receiptType": "Тип",
+    "stateHash": "State Hash",
+    "stateHashSubCacheMerkleRoots": "State Hash Sub Cache Merkle Roots",
+    "blockReceiptsHash": "Receipts Hash",
+    "blockTransactionsHash": "Transactions Hash",
+    "position": "Position",
+    "hash": "Hash",
+    "checkMosaicAddressRestrictionStatus": "Check Mosaic Address Restriction",
+    "check": "Check"
 }

@@ -3,7 +3,7 @@ import datafiled from '../../config/datafiled.json'
 
 describe('Symbol Explorer Transaction detail page for Aggregate Complete', () => {
     beforeEach(() => {
-        cy.visit(`/transaction/${config.testTransactions.aggregateComplete}`)
+        cy.visit(`/transactions/${config.testTransactions.aggregateComplete}`)
     })
 
     describe('Transaction info card should', () => {
