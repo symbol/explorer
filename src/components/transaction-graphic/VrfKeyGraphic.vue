@@ -51,9 +51,10 @@
 <script>
 import GraphicComponent from '../graphics/GraphicComponent.vue';
 import AccountIcon from '../graphics/AccountIcon.vue';
-import KeyCircle from '../graphics/KeyCircle.vue';
+import KeyCircle from '../graphics/KeyCircle';
 import KeyUnlinkCircle from '../graphics/KeyUnlinkCircle.vue';
 import Arrow from '../graphics/Arrow.vue';
+import { TransactionType } from 'symbol-sdk';
 
 export default {
 	extends: GraphicComponent,
@@ -66,9 +67,9 @@ export default {
 	},
 
 	props: {
-		message: {
-			type: String,
-			default: ''
+		type: {
+			type: Number,
+			default: TransactionType.VRF_KEY_LINK
 		},
 		signer: {
 			type: String,
@@ -101,7 +102,7 @@ export default {
 
 	computed: {
 		transactionType() {
-			return this.getTransactionTypeCaption(16963);
+			return this.getTransactionTypeCaption(this.type);
 		},
 
 		circleIconsToDisplay() {

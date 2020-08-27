@@ -26,7 +26,7 @@
 				:address="linkedAccountAddress"
 			/>
 			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
-			<KeyLinkCircle
+			<KeyCircle
 				v-if="isLinkAction"
 				:x="getCircleIconPositionX(0)"
 				:y="circleIconPositionY"
@@ -51,7 +51,7 @@
 <script>
 import GraphicComponent from '../graphics/GraphicComponent.vue';
 import AccountIcon from '../graphics/AccountIcon.vue';
-import KeyLinkCircle from '../graphics/KeyLinkCircle.vue';
+import KeyCircle from '../graphics/KeyCircle.vue';
 import KeyUnlinkCircle from '../graphics/KeyUnlinkCircle.vue';
 import Arrow from '../graphics/Arrow.vue';
 import { TransactionType } from 'symbol-sdk';
@@ -62,7 +62,7 @@ export default {
 	components: {
 		AccountIcon,
 		Arrow,
-		KeyLinkCircle,
+		KeyCircle,
 		KeyUnlinkCircle
 	},
 
@@ -70,10 +70,6 @@ export default {
 		type: {
 			type: Number,
 			default: TransactionType.NODE_KEY_LINK
-		},
-		message: {
-			type: String,
-			default: ''
 		},
 		signer: {
 			type: String,
