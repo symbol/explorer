@@ -119,7 +119,7 @@ export default {
 		},
 
 		nativeMosaicAliasName() {
-			return http.networkCurrecy.mosaicId.namespace;
+			return http.networkCurrecy.namespace;
 		},
 
 		_x() {
