@@ -108,7 +108,7 @@ export default {
 				return {
 					mosaicId: this.mosaicId,
 					amount: this.amount,
-					mosaicAliasName: 'TEST'
+					mosaicAliasName: this.nativeMosaicAliasName
 				};
 			}
 
