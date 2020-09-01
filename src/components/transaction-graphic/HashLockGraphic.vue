@@ -20,8 +20,8 @@
 			/>
 			<!-- Todo: hash lock icon -->
 			<AccountIcon
-				:x="subjectPositionX"
-				:y="subjectPositionY"
+				:x="objectPositionX"
+				:y="objectPositionY"
 				:width="subjectWidth"
 				:height="subjectHeight"
 				:address="signer"
@@ -80,6 +80,11 @@ export default {
 			type: String,
 			required: true,
 			default: ''
+		},
+		mosaicAliasName: {
+			type: String,
+			required: true,
+			default: ''
 		}
 	},
 
@@ -108,7 +113,7 @@ export default {
 				return {
 					mosaicId: this.mosaicId,
 					amount: this.amount,
-					mosaicAliasName: this.nativeMosaicAliasName
+					mosaicAliasName: this.mosaicAliasName
 				};
 			}
 
