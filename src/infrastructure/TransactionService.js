@@ -23,7 +23,8 @@ import {
 	AggregateTransactionInfo,
 	NamespaceId,
 	TransactionGroup,
-	Order
+	Order,
+	MosaicId
 } from 'symbol-sdk';
 import Constants from '../config/constants';
 import http from './http';
@@ -186,6 +187,15 @@ class TransactionService {
   		formattedTransaction.transactionBody.namespaceName = namespaceName[0].name;
   		break;
   	case TransactionType.SECRET_LOCK:
+  		const mosaicId = new MosaicId(formattedTransaction.transactionBody.mosaicId);
+  		const getMosaicNames = await NamespaceService.getMosaicsNames([mosaicId]);
+  		const mosaicAliasName = MosaicService.extractMosaicNamespace({ mosaicId: mosaicId.id.toHex() }, getMosaicNames);
+
+  		// UnresolvedAddress
+  		const recipient = await helper.resolvedAddress(formattedTransaction.recipientAddress);
+
+  		Object.assign(formattedTransaction.transactionBody, { mosaicAliasName, recipient });
+  		break;
   	case TransactionType.SECRET_PROOF:
   		// UnresolvedAddress
   		formattedTransaction.transactionBody.recipient = await helper.resolvedAddress(formattedTransaction.recipientAddress);
@@ -379,6 +389,7 @@ class TransactionService {
   			transactionType: transactionBody.type,
   			duration: transactionBody.duration.compact(),
   			mosaicId: transactionBody.mosaic.id.toHex(), // Todo Format Mosaic
+  			amount: helper.toNetworkCurrency(transactionBody.mosaic.amount),
   			secret: transactionBody.secret,
   			recipient: transactionBody.recipientAddress,
   			hashAlgorithm: Constants.LockHashAlgorithm[transactionBody.hashAlgorithm]
