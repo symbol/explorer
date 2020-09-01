@@ -380,7 +380,8 @@ class TransactionService {
   			transactionType: transactionBody.type,
   			duration: transactionBody.duration.compact(),
   			mosaicId: transactionBody.mosaic.id.toHex(),
-  			amount: helper.toNetworkCurrency(transactionBody.mosaic.amount)
+  			amount: helper.toNetworkCurrency(transactionBody.mosaic.amount),
+  			hash: transactionBody.hash
   		};
 
   	case TransactionType.SECRET_LOCK:

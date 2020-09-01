@@ -27,12 +27,11 @@
 				:address="signer"
 			/>
 			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
-			<NativeMosaicCircle
-				v-if="hasNativeMosaic"
+			<MosaicsCircle
 				id="target"
 				:x="getCircleIconPositionX(0)"
 				:y="circleIconPositionY"
-				:mosaics="[nativeMosaic]"
+				:mosaics="[mosaic]"
 			/>
 			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
 				{{ transactionType + subTitle }}
@@ -45,7 +44,7 @@
 <script>
 import GraphicComponent from '../graphics/GraphicComponent.vue';
 import AccountIcon from '../graphics/AccountIcon.vue';
-import NativeMosaicCircle from '../graphics/NativeMosaicCircle.vue';
+import MosaicsCircle from '../graphics/MosaicsCircle.vue';
 import { TransactionType } from 'symbol-sdk';
 import Arrow from '../graphics/Arrow.vue';
 
@@ -54,7 +53,7 @@ export default {
 
 	components: {
 		AccountIcon,
-		NativeMosaicCircle,
+		MosaicsCircle,
 		Arrow
 	},
 
@@ -101,23 +100,15 @@ export default {
 		},
 
 		circleIconsToDisplay() {
-			return [this.hasNativeMosaic];
+			return [true];
 		},
 
-		hasNativeMosaic() {
-			return typeof this.nativeMosaic !== 'undefined';
-		},
-
-		nativeMosaic() {
-			if (this.mosaicId === this.nativeMosaicId) {
-				return {
-					mosaicId: this.mosaicId,
-					amount: this.amount,
-					mosaicAliasName: this.mosaicAliasName
-				};
-			}
-
-			return {};
+		mosaic() {
+			return {
+				mosaicId: this.mosaicId,
+				amount: this.amount,
+				mosaicAliasName: this.mosaicAliasName
+			};
 		},
 
 		subTitle() {
