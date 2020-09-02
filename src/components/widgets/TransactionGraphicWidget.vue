@@ -8,6 +8,7 @@
 				<AddressAliasGraphic v-if="data.type === TransactionType.ADDRESS_ALIAS" v-bind="data" />
 				<MosaicAliasGraphic v-if="data.type === TransactionType.MOSAIC_ALIAS" v-bind="data" />
 				<NamespaceRegistrationGraphic v-if="data.type === TransactionType.NAMESPACE_REGISTRATION" v-bind="data" />
+				<SecretProofGraphic v-if="data.type === TransactionType.SECRET_PROOF" v-bind="data" />
 			</div>
 		</template>
 	</Card>
@@ -19,6 +20,7 @@ import TransferGraphic from '@/components/transaction-graphic/TransferGraphic.vu
 import AddressAliasGraphic from '@/components/transaction-graphic/AddressAliasGraphic.vue';
 import MosaicAliasGraphic from '@/components/transaction-graphic/MosaicAliasGraphic.vue';
 import NamespaceRegistrationGraphic from '@/components/transaction-graphic/NamespaceRegistrationGraphic.vue';
+import SecretProofGraphic from '@/components/transaction-graphic/SecretProofGraphic.vue';
 import { TransactionType } from 'symbol-sdk';
 
 export default {
@@ -31,7 +33,8 @@ export default {
 		TransferGraphic,
 		AddressAliasGraphic,
 		MosaicAliasGraphic,
-		NamespaceRegistrationGraphic
+		NamespaceRegistrationGraphic,
+		SecretProofGraphic
 	},
 
 	data() {
@@ -45,7 +48,8 @@ export default {
 			return this.data.type === TransactionType.TRANSFER ||
         this.data.type === TransactionType.ADDRESS_ALIAS ||
         this.data.type === TransactionType.MOSAIC_ALIAS ||
-        this.data.type === TransactionType.NAMESPACE_REGISTRATION;
+		this.data.type === TransactionType.NAMESPACE_REGISTRATION ||
+		this.data.type === TransactionType.SECRET_PROOF;
 		},
 
 		data() {
