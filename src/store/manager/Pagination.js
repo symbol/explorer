@@ -73,10 +73,6 @@ export default class Pagination {
 		return this.pageInfo.pageNumber || 1;
 	}
 
-	get lastPage() {
-		return this.pageInfo?.totalPages;
-	}
-
 	get pageSize() {
 		return this.pageInfo.pageSize;
 	}
