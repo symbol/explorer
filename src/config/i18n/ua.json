@@ -221,5 +221,6 @@
     "position": "Position",
     "hash": "Hash",
     "checkMosaicAddressRestrictionStatus": "Check Mosaic Address Restriction",
-    "check": "Check"
+    "check": "Check",
+    "payloadSize": "Size (bytes)"
 }
