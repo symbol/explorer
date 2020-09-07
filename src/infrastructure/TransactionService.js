@@ -131,13 +131,12 @@ class TransactionService {
 
   	let { transactionInfo: { height, merkleComponentHash } } = formattedTransaction;
 
-  	let { date } = await BlockService.getBlockInfo(height);
-
-  	let effectiveFee = await this.getTransactionEffectiveFee(hash);
-
-  	const transactionStatus = await this.getTransactionStatus(hash);
-
-  	const merklePath = await BlockService.getMerkleTransaction(height, merkleComponentHash);
+  	const [{ date }, effectiveFee, transactionStatus, merklePath] = await Promise.all([
+		  BlockService.getBlockInfo(height),
+		  this.getTransactionEffectiveFee(hash),
+		  this.getTransactionStatus(hash),
+		  BlockService.getMerkleTransaction(height, merkleComponentHash)
+  	]);
 
   	switch (formattedTransaction.type) {
   	case TransactionType.TRANSFER:
@@ -150,8 +149,11 @@ class TransactionService {
   		formattedTransaction.transactionBody.recipient = await helper.resolvedAddress(formattedTransaction.recipientAddress);
 
   		const mosaicIdsList = formattedTransaction.mosaics.map(mosaicInfo => mosaicInfo.id);
-  		const mosaicInfos = await MosaicService.getMosaics(mosaicIdsList);
-  		const mosaicNames = await NamespaceService.getMosaicsNames(mosaicIdsList);
+
+  		const [mosaicInfos, mosaicNames] = await Promise.all([
+  			MosaicService.getMosaics(mosaicIdsList),
+  			NamespaceService.getMosaicsNames(mosaicIdsList)
+  		]);
 
   		const transferMosaics = formattedTransaction.mosaics.map(mosaic => {
   			let divisibility = mosaicInfos.find(info => info.mosaicId === mosaic.id.toHex()).divisibility;
