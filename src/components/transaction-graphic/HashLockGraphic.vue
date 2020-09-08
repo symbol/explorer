@@ -18,13 +18,12 @@
 				:height="subjectHeight"
 				:address="signer"
 			/>
-			<!-- Todo: hash lock icon -->
-			<AccountIcon
+			<LockIcon
 				:x="objectPositionX"
 				:y="objectPositionY"
 				:width="subjectWidth"
 				:height="subjectHeight"
-				:address="signer"
+				:lockName="transactionType"
 			/>
 			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
 			<MosaicsCircle
@@ -34,8 +33,8 @@
 				:mosaics="[mosaic]"
 			/>
 			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
-				{{ transactionType + subTitle }}
-				<title>{{ transactionType }}</title>
+				{{ subTitle }}
+				<!-- <title>{{ transactionType }}</title> -->
 			</text>
 		</svg>
 	</div>
@@ -44,6 +43,7 @@
 <script>
 import GraphicComponent from '../graphics/GraphicComponent.vue';
 import AccountIcon from '../graphics/AccountIcon.vue';
+import LockIcon from '../graphics/LockIcon.vue';
 import MosaicsCircle from '../graphics/MosaicsCircle.vue';
 import { TransactionType } from 'symbol-sdk';
 import Arrow from '../graphics/Arrow.vue';
@@ -53,6 +53,7 @@ export default {
 
 	components: {
 		AccountIcon,
+		LockIcon,
 		MosaicsCircle,
 		Arrow
 	},
@@ -112,7 +113,7 @@ export default {
 		},
 
 		subTitle() {
-			return `. Duration ${this.duration} blocks`;
+			return `Duration ${this.duration} blocks`;
 		}
 	}
 };
