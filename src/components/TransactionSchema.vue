@@ -325,7 +325,7 @@ export default {
 
 		accountClick(address) {
 			this.$store.dispatch(`ui/openPage`, {
-				pageName: 'address',
+				pageName: 'account',
 				param: address
 			});
 		}

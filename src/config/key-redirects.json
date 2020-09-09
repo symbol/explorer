@@ -1,4 +1,5 @@
 {
+    "account": "accounts",
     "harvester": "accounts",
     "beneficiaryAddress": "accounts",
     "address": "accounts",
@@ -18,8 +19,10 @@
     "addressDeletions_": "accounts",
     "linkedAccountAddress": "accounts",
 
+    "transaction": "transactions",
     "transactionHash": "transactions",
 
+    "mosaic": "mosaics",
     "mosaicId": "mosaics",
     "aliasMosaic": "mosaics",
     "targetMosaicId": "mosaics",
@@ -29,6 +32,7 @@
     "restrictionMosaicAdditions": "mosaics",
     "restrictionMosaicDeletions": "mosaics",
 
+    "block": "blocks",
     "height": "blocks",
     "addressHeight": "blocks",
     "publicKeyHeight": "blocks",
@@ -39,6 +43,7 @@
     "lastActivity": "blocks",
     "recalculationBlock": "blocks",
 
+    "namespace": "namespaces",
     "namespaceName": "namespaces",
     "namespaceId": "namespaces",
     "parentId": "namespaces",

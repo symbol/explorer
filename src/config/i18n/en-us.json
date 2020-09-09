@@ -288,5 +288,7 @@
     "blockTransactionsHash": "Transactions Hash",
     "position": "Position",
     "hash": "Hash",
-    "finalizedBlockMarker": "Finalized"
+    "finalizedBlockMarker": "Finalized",
+    "checkMosaicAddressRestrictionStatus": "Check Mosaic Address Restriction",
+    "check": "Check"
 }
