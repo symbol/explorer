@@ -39,6 +39,14 @@
 							{{blockHeight}}
 						</div>
 					</b-col>
+					<b-col class="ex-item" sm="3" lg="12">
+						<div class="ex-item-title">
+							{{getNameByKey('finalizedHeight')}}
+						</div>
+						<div class="ex-item-value">
+							{{finalizedHeight}}
+						</div>
+					</b-col>
 				</b-row>
 			</b-container>
 		</template>
@@ -63,6 +71,11 @@ export default {
 
 		loading() {
 			return !this.blockHeight;
+		},
+
+		finalizedHeight() {
+			// Todo: finalized Height
+			return this.blockHeight - 18;
 		}
 	},
 
