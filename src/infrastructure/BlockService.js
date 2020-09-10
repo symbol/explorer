@@ -206,6 +206,7 @@ class BlockService {
 
   	return {
   		...block,
+  		payloadSize: block.size,
   		blockHash: block.hash,
   		harvester: block.signer,
   		date: helper.convertToUTCDate(block.timestamp),
