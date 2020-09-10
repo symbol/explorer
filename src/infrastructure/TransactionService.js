@@ -290,7 +290,7 @@ class TransactionService {
 
   		return {
   			transactionType: transactionBody.type,
-  			recipient: http.networkConfig.NamespaceRentalFeeSinkAddress,
+  			recipient: http.networkConfig.NamespaceRentalFeeSinkAddress.address,
   			registrationType: Constants.NamespaceRegistrationType[transactionBody.registrationType],
   			namespaceName: transactionBody.namespaceName,
   			namespaceId: transactionBody.namespaceId.toHex(),
@@ -319,7 +319,7 @@ class TransactionService {
   	case TransactionType.MOSAIC_DEFINITION:
   		return {
   			transactionType: transactionBody.type,
-  			recipient: http.networkConfig.MosaicRentalSinkAddress,
+  			recipient: http.networkConfig.MosaicRentalSinkAddress.address,
   			mosaicId: transactionBody.mosaicId.toHex(),
   			divisibility: transactionBody.divisibility,
   			duration: transactionBody.duration.compact(),
@@ -476,14 +476,22 @@ class TransactionService {
   			valueSizeDelta: transactionBody.valueSizeDelta
   		};
   	case TransactionType.VOTING_KEY_LINK:
+		  return {
+  			transactionType: transactionBody.type,
+  			linkAction: Constants.LinkAction[transactionBody.linkAction],
+  			linkedPublicKey: transactionBody.linkedPublicKey,
+  			linkedAccountAddress: Address.createFromPublicKey(transactionBody.linkedPublicKey, http.networkType).plain(),
+  			startPoint: transactionBody.startPoint.compact(),
+  			endPoint: transactionBody.endPoint.compact()
+  		};
   	case TransactionType.VRF_KEY_LINK:
   	case TransactionType.NODE_KEY_LINK:
   	case TransactionType.ACCOUNT_KEY_LINK:
   		return {
   			transactionType: transactionBody.type,
   			linkAction: Constants.LinkAction[transactionBody.linkAction],
-  			linkedPublicKey: transactionBody.linkedPublicKey
-  			// linkedAccountAddress: Address.createFromPublicKey(transactionBody.linkedPublicKey, http.networkType).plain()
+  			linkedPublicKey: transactionBody.linkedPublicKey,
+  			linkedAccountAddress: Address.createFromPublicKey(transactionBody.linkedPublicKey, http.networkType).plain()
   		};
   	}
   }
