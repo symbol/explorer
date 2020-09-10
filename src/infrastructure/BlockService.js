@@ -194,26 +194,20 @@ class BlockService {
    * @returns Block info object
    */
   static getBlockInfo = async height => {
-  	const block = await this.getBlockByHeight(height);
+	const block = await this.getBlockByHeight(height);
 
-	const currentHeight = await ChainService.getBlockchainHeight();
-  	// Get merkle info
+	// Get merkle info
   	let { stateHash, stateHashSubCacheMerkleRoots, blockReceiptsHash, blockTransactionsHash } = block;
 
   	// Append merkle root name into hash
   	stateHashSubCacheMerkleRoots = stateHashSubCacheMerkleRoots.map((root, index) => {
   		return `${Constants.MerkleRootsOrder[index]} - ${root}`;
-	  });
+	});
 
   	return {
   		...block,
   		blockHash: block.hash,
-		harvester: block.signer,
-		finalizedBlockMarker: {
-			blockHeight: block.height,
-			status: currentHeight - height > 10 ? true : false,
-		},
-		confirmations: `${(currentHeight - height) + 1 } Blocks`,
+  		harvester: block.signer,
   		date: helper.convertToUTCDate(block.timestamp),
   		merkleInfo: {
   			stateHash,

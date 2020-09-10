@@ -79,6 +79,9 @@ export default {
 				const marketDataUrl = getters['marketData'];
 
 				await http.init(nodeUrl, marketDataUrl);
+
+				// Todo: Trigger Listener for Finiles block
+				await dispatch('block/initialize', null, { root: true });
 			};
 
 			await LOCK.initialize(callback, commit, dispatch, getters);
