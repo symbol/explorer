@@ -24,6 +24,7 @@
                 "pagination": "none",
                 "fields": [
                     "blockHeight",
+                    "payloadSize",
                     "transactionHash",
                     "date",
                     "deadline",
