@@ -26,8 +26,7 @@
 				:address="recipient"
 			/>
 			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
-			<!-- Todo: Secret Proof Circle -->
-			<KeyCircle
+			<LockCircle
 				:x="getCircleIconPositionX(0)"
 				:y="circleIconPositionY"
 				title="Secret Proof"
@@ -44,7 +43,7 @@
 <script>
 import GraphicComponent from '../graphics/GraphicComponent.vue';
 import AccountIcon from '../graphics/AccountIcon.vue';
-import KeyCircle from '../graphics/KeyCircle.vue';
+import LockCircle from '../graphics/LockCircle.vue';
 import Arrow from '../graphics/Arrow.vue';
 import { TransactionType } from 'symbol-sdk';
 
@@ -53,7 +52,7 @@ export default {
 
 	components: {
 		AccountIcon,
-		KeyCircle,
+		LockCircle,
 		Arrow
 	},
 
