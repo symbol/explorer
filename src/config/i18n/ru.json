@@ -238,5 +238,6 @@
     "startPoint": "Start Finalization Point",
     "endPoint": "End Finalization Point",
     "checkMosaicAddressRestrictionStatus": "Check Mosaic Address Restriction",
-    "check": "Check"
+    "check": "Check",
+    "payloadSize": "Size (bytes)"
 }

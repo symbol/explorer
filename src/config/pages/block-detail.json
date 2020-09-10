@@ -25,6 +25,7 @@
                 },
                 "fields": [
                     "height",
+                    "payloadSize",
                     "date",
                     "totalFee",
                     "difficulty",
