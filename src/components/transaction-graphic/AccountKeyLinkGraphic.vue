@@ -30,14 +30,14 @@
 				v-if="isLinkAction"
 				:x="getCircleIconPositionX(0)"
 				:y="circleIconPositionY"
-				title="VRF Key Link"
+				title="Account Key Link"
 				:data="keyLinkInfo"
 			/>
 			<KeyUnlinkCircle
 				v-else
 				:x="getCircleIconPositionX(0)"
 				:y="circleIconPositionY"
-				title="VRF Key Link"
+				title="Account Key Link"
 				:data="keyLinkInfo"
 			/>
 			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
@@ -51,7 +51,7 @@
 <script>
 import GraphicComponent from '../graphics/GraphicComponent.vue';
 import AccountIcon from '../graphics/AccountIcon.vue';
-import KeyCircle from '../graphics/KeyCircle';
+import KeyCircle from '../graphics/KeyCircle.vue';
 import KeyUnlinkCircle from '../graphics/KeyUnlinkCircle.vue';
 import Arrow from '../graphics/Arrow.vue';
 import { TransactionType } from 'symbol-sdk';
@@ -69,7 +69,7 @@ export default {
 	props: {
 		type: {
 			type: Number,
-			default: TransactionType.VRF_KEY_LINK
+			default: TransactionType.ACCOUNT_KEY_LINK
 		},
 		signer: {
 			type: String,
