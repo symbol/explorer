@@ -132,13 +132,12 @@ class TransactionService {
 
   	let { transactionInfo: { height, merkleComponentHash } } = formattedTransaction;
 
-  	let { date } = await BlockService.getBlockInfo(height);
-
-  	let effectiveFee = await this.getTransactionEffectiveFee(hash);
-
-  	const transactionStatus = await this.getTransactionStatus(hash);
-
-  	const merklePath = await BlockService.getMerkleTransaction(height, merkleComponentHash);
+  	const [{ date }, effectiveFee, transactionStatus, merklePath] = await Promise.all([
+		  BlockService.getBlockInfo(height),
+		  this.getTransactionEffectiveFee(hash),
+		  this.getTransactionStatus(hash),
+		  BlockService.getMerkleTransaction(height, merkleComponentHash)
+  	]);
 
   	switch (formattedTransaction.type) {
   	case TransactionType.TRANSFER:
@@ -151,8 +150,11 @@ class TransactionService {
   		formattedTransaction.transactionBody.recipient = await helper.resolvedAddress(formattedTransaction.recipientAddress);
 
   		const mosaicIdsList = formattedTransaction.mosaics.map(mosaicInfo => mosaicInfo.id);
-  		const mosaicInfos = await MosaicService.getMosaics(mosaicIdsList);
-  		const mosaicNames = await NamespaceService.getMosaicsNames(mosaicIdsList);
+
+  		const [mosaicInfos, mosaicNames] = await Promise.all([
+  			MosaicService.getMosaics(mosaicIdsList),
+  			NamespaceService.getMosaicsNames(mosaicIdsList)
+  		]);
 
   		const transferMosaics = formattedTransaction.mosaics.map(mosaic => {
   			let divisibility = mosaicInfos.find(info => info.mosaicId === mosaic.id.toHex()).divisibility;
@@ -300,7 +302,7 @@ class TransactionService {
 
   		return {
   			transactionType: transactionBody.type,
-  			recipient: http.networkConfig.NamespaceRentalFeeSinkAddress,
+  			recipient: http.networkConfig.NamespaceRentalFeeSinkAddress.address,
   			registrationType: Constants.NamespaceRegistrationType[transactionBody.registrationType],
   			namespaceName: transactionBody.namespaceName,
   			namespaceId: transactionBody.namespaceId.toHex(),
@@ -329,7 +331,7 @@ class TransactionService {
   	case TransactionType.MOSAIC_DEFINITION:
   		return {
   			transactionType: transactionBody.type,
-  			recipient: http.networkConfig.MosaicRentalSinkAddress,
+  			recipient: http.networkConfig.MosaicRentalSinkAddress.address,
   			mosaicId: transactionBody.mosaicId.toHex(),
   			divisibility: transactionBody.divisibility,
   			duration: transactionBody.duration.compact(),
@@ -487,14 +489,22 @@ class TransactionService {
   			valueSizeDelta: transactionBody.valueSizeDelta
   		};
   	case TransactionType.VOTING_KEY_LINK:
+		  return {
+  			transactionType: transactionBody.type,
+  			linkAction: Constants.LinkAction[transactionBody.linkAction],
+  			linkedPublicKey: transactionBody.linkedPublicKey,
+  			linkedAccountAddress: Address.createFromPublicKey(transactionBody.linkedPublicKey, http.networkType).plain(),
+  			startPoint: transactionBody.startPoint.compact(),
+  			endPoint: transactionBody.endPoint.compact()
+  		};
   	case TransactionType.VRF_KEY_LINK:
   	case TransactionType.NODE_KEY_LINK:
   	case TransactionType.ACCOUNT_KEY_LINK:
   		return {
   			transactionType: transactionBody.type,
   			linkAction: Constants.LinkAction[transactionBody.linkAction],
-  			linkedPublicKey: transactionBody.linkedPublicKey
-  			// linkedAccountAddress: Address.createFromPublicKey(transactionBody.linkedPublicKey, http.networkType).plain()
+  			linkedPublicKey: transactionBody.linkedPublicKey,
+  			linkedAccountAddress: Address.createFromPublicKey(transactionBody.linkedPublicKey, http.networkType).plain()
   		};
   	}
   }
