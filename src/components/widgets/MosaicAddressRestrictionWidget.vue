@@ -106,7 +106,7 @@ export default {
 
 			this.$store.dispatch('mosaic/fetchMosaicAddressRestriction', payload);
 		}
-	},
+	}
 };
 </script>
 
