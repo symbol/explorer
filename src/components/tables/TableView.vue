@@ -142,8 +142,9 @@ export default {
 		isTransactionType(itemKey) {
 			return itemKey === 'transactionType';
 		},
-		isFinalizedBlockMarker(itemKey) {
-			return itemKey === 'finalizedBlockMarker';
+
+		isBlockHeightWithFinalizedStatus(itemKey) {
+			return itemKey === 'height' || itemKey === 'blockHeight';
 		},
 
 		isArrayField(itemKey) {
