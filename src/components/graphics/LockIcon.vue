@@ -95,6 +95,10 @@ export default {
 			return this.getTranslation('lock') + ': ' + this.lockName;
 		},
 
+		iconColor() {
+			return this.getIconColor(this.lockName);
+		},
+
 		truncatedLockName() {
 			return this.truncString(this.lockName, 5);
 		},
