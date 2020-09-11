@@ -45,7 +45,7 @@ export default class http {
   	NETWORK_CURRECY = await MosaicService.getMosaicInfo(mosaicId);
   }
 
-  static get networkCurrecy() {
+  static get networkCurrency() {
   	const networkNamespace = NETWORK_CURRECY.mosaicAliasName.toUpperCase();
 
   	return {

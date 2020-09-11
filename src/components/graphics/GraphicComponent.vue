@@ -115,11 +115,11 @@ export default {
 		},
 
 		nativeMosaicId() {
-			return http.networkCurrecy.mosaicId;
+			return http.networkCurrency.mosaicId;
 		},
 
 		nativeMosaicAliasName() {
-			return http.networkCurrecy.namespace.namespaceName;
+			return http.networkCurrency.namespace.namespaceName;
 		},
 
 		_x() {
