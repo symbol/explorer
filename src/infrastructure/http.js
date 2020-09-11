@@ -46,10 +46,14 @@ export default class http {
   }
 
   static get networkCurrecy() {
-  	const splitNamespace = NETWORK_CURRECY.mosaicAliasName.toUpperCase().split('.');
+  	const networkNamespace = NETWORK_CURRECY.mosaicAliasName.toUpperCase();
 
   	return {
-  		namespace: [...splitNamespace, NETWORK_CURRECY.mosaicAliasName.toUpperCase()],
+		  namespace: {
+			  rootNamespace: networkNamespace.split('.')[0],
+			  subNamespace: networkNamespace.split('.')[1],
+			  namespaceName: networkNamespace
+		  },
   		mosaicId: NETWORK_CURRECY.mosaicId,
   		divisibility: NETWORK_CURRECY.divisibility
   	};
