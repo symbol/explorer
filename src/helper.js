@@ -424,6 +424,17 @@ class helper {
 
   	return address.plain();
   }
+
+  /**
+   * Check native namespace.
+   * @param namespaceName - namespace name in string format.
+   * @returns boolean
+   */
+  static isNativeNamespace = (namespaceName) => {
+  	const values = Object.values(http.networkCurrency.namespace);
+
+  	return values.indexOf(namespaceName) !== -1;
+  }
 }
 
 export default helper;
