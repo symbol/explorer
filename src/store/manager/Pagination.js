@@ -141,7 +141,7 @@ export default class Pagination {
 			// Update isLastPage from REST endpoint
 			this.isLastPage = this.pageInfo.isLastPage;
 
-			// if isLastPage false from REST endpoint
+			// if isLastPage false SDK REST endpoint
 			// Do one more request to verify from REST
 			if (!this.pageInfo.isLastPage) {
 				const nextPage = {
