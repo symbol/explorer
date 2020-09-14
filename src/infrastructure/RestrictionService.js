@@ -5,9 +5,10 @@ import {
 	MosaicRestrictionFlag,
 	OperationRestrictionFlag,
 	MosaicAddressRestriction,
-	MosaicGlobalRestriction
+	MosaicGlobalRestriction,
+	Order,
+	MosaicId
 } from 'symbol-sdk';
-import helper from '../helper';
 import Constants from '../config/constants';
 
 class RestrictionService {
@@ -192,28 +193,26 @@ class RestrictionService {
   }
 
   /**
-   * Gets Mosaic Global Restriction info dataset into Vue component
-   * @param hexOrNamespace - hex value or namespace name
-   * @returns Formatted Mosaic Global Restriction info
+   * Gets Mosaic Restriction list dataset into Vue component
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param filterVaule - object for search criteria eg. mosaic global or mosaic address
+   * @param mosaicId - mosaicId
+   * @returns formatted mosaic restriction list
    */
-  static getMosaicGlobalRestrictionInfo = async (hexOrNamespace) => {
-  	const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic');
-  	const mosaicGlobalRestrictionMetadata = await this.getMosaicGlobalRestriction(mosaicId);
+  static getMosaicRestrictionList = async (pageInfo, filterVaule, mosaicId) => {
+  	const { pageNumber, pageSize } = pageInfo;
 
-  	return mosaicGlobalRestrictionMetadata;
-  }
+  	const searchCriteria = {
+  		pageNumber,
+  		pageSize,
+  		order: Order.Desc,
+  		mosaicId: new MosaicId(mosaicId),
+  		...filterVaule
+  	};
 
-  /**
-   * Gets Mosaic Address Restriction info dataset into Vue component
-   * @param hexOrNamespace - hex value or namespace name
-   * @param address - Account address to be created from PublicKey or RawAddress
-   * @returns Formatted Mosaic Address Restriction info
-   */
-  static getMosaicAddressRestrictionInfo = async (hexOrNamespace, address) => {
-  	const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic');
-  	const mosaicAddressRestriction = await this.getMosaicAddressRestriction(mosaicId, address);
+  	const mosaicRestrictions = await this.searchMosaicRestrictions(searchCriteria);
 
-  	return mosaicAddressRestriction;
+  	return mosaicRestrictions;
   }
 }
 
