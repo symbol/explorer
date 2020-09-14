@@ -3,7 +3,9 @@ import {
 	Address,
 	AddressRestrictionFlag,
 	MosaicRestrictionFlag,
-	OperationRestrictionFlag
+	OperationRestrictionFlag,
+	MosaicAddressRestriction,
+	MosaicGlobalRestriction
 } from 'symbol-sdk';
 import helper from '../helper';
 import Constants from '../config/constants';
@@ -30,6 +32,28 @@ class RestrictionService {
   	const formattedAccountRestrictions = accountRestrictions.map(accountRestriction => this.formatAccountRestriction(accountRestriction));
 
   	return formattedAccountRestrictions;
+  }
+
+  /**
+   * Gets a mosaic restrictions list from searchCriteria
+   * @param restrictionMosaicSearchCriteria Object of Search Criteria
+   * @returns formatted namespace data with pagination info
+   */
+  static searchMosaicRestrictions = async restrictionMosaicSearchCriteria => {
+  	const searchMosaicRestrictions = await http.createRepositoryFactory.createRestrictionMosaicRepository()
+  		.searchMosaicRestrictions(restrictionMosaicSearchCriteria)
+  		.toPromise();
+
+  	return {
+  		...searchMosaicRestrictions,
+  		data: searchMosaicRestrictions.data.map(mosaicRestriction => {
+  			if (mosaicRestriction instanceof MosaicAddressRestriction)
+				  return this.formatMosaicAddressRestriction(mosaicRestriction);
+
+  			if (mosaicRestriction instanceof MosaicGlobalRestriction)
+  				return this.formatMosaicGlobalRestriction(mosaicRestriction);
+  		})
+  	};
   }
 
   /**
