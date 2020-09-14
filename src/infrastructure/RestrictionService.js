@@ -27,7 +27,7 @@ class RestrictionService {
   	catch (e) {
   		// To Catach statusCode 404 if Account restrictions are not available.
   		throw Error('Account restrictions are not available.');
-  	}
+	  }
 
   	const formattedAccountRestrictions = accountRestrictions.map(accountRestriction => this.formatAccountRestriction(accountRestriction));
 
@@ -117,7 +117,7 @@ class RestrictionService {
   	case MosaicRestrictionFlag.BlockMosaic:
   		return {
   			restrictionType: Constants.MosaicRestrictionFlag[accountRestriction.restrictionFlags],
-  			restrictionMosaicValues: MosaicRestrictionFlag.values.map(value => value.id.toHex())
+  			restrictionMosaicValues: accountRestriction.values.map(value => value.id.toHex())
   		};
   	case OperationRestrictionFlag.AllowOutgoingTransactionType:
   	case OperationRestrictionFlag.BlockOutgoingTransactionType:
@@ -186,7 +186,7 @@ class RestrictionService {
    * @returns Account Restriction list
    */
   static getAccountRestrictionList = async (address) => {
-  	const accountRestrictions = await this.getAccountRestrictions(address);
+	  const accountRestrictions = await this.getAccountRestrictions(address);
 
   	return accountRestrictions;
   }
