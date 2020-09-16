@@ -157,6 +157,7 @@
     "restrictionTransactionValues": "値",
     "restrictionType": "タイプ",
     "accountRestrictionTitle": "アカウント制限",
+    "mosaicAddressRestrictionTitle": "Mosaic Address Restrictions",
     "restrictionAddressAdditions": "追加",
     "restrictionAddressDeletions": "削除",
     "restrictionMosaicAdditions": "追加",
@@ -292,5 +293,6 @@
     "endPoint": "End Finalization Point",
     "checkMosaicAddressRestrictionStatus": "Check Mosaic Address Restriction",
     "check": "Check",
-    "payloadSize": "Size (bytes)"
+    "payloadSize": "Size (bytes)",
+    "restrictions": "Restrictions (Allow If)"
 }
