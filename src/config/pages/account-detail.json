@@ -113,11 +113,31 @@
 				"layoutOptions": "full-width",
 				"type": "CardTable",
 				"title": "accountRestrictionTitle",
-				"managerGetter": "account/restrictions",
-				"pagination": "none",
+				"managerGetter": "account/accountRestrictions",
+				"pagination": "client",
 				"hideOnError": true,
 				"hideDependOnGetter": "account/info",
-				"errorMessage": "Account restrictions are not available."
+				"errorMessage": " Account restrictions are not available.",
+				"fields": [
+					"restrictionType",
+					"restrictionMosaicValues"
+				]
+			},
+			{
+				"layoutOptions": "full-width",
+				"type": "CardTable",
+				"title": "mosaicAddressRestrictionTitle",
+				"managerGetter": "account/mosaicAddressRestrictions",
+				"pagination": "server",
+				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
+				"errorMessage": "Mosaic address restrictions are not available.",
+				"fields": [
+                    "compositeHash",
+					"entryType",
+					"mosaicId",
+                    "restrictions"
+                ]
 			},
 			{
 				"layoutOptions": "full-width",
