@@ -6,6 +6,7 @@ import {
 	OperationRestrictionFlag,
 	MosaicAddressRestriction,
 	MosaicGlobalRestriction,
+	MosaicRestrictionEntryType,
 	Order,
 	MosaicId
 } from 'symbol-sdk';
@@ -55,48 +56,6 @@ class RestrictionService {
   				return this.formatMosaicGlobalRestriction(mosaicRestriction);
   		})
   	};
-  }
-
-  /**
-   * Get Mosaic Global Restriction from symbol SDK
-   * @param mosaicId - - Mosaic identifier
-   * @returns MosaicGlobalRestriction
-   */
-  static getMosaicGlobalRestriction = async mosaicId => {
-  	let mosaicGlobalRestriction;
-
-  	try {
-  		mosaicGlobalRestriction = await http.createRepositoryFactory.createRestrictionMosaicRepository()
-  			.getMosaicGlobalRestriction(mosaicId)
-  			.toPromise();
-  	}
-  	catch (e) {
-  		// To Catach statusCode 404 if Mosaic global restrictions are not available.
-  		throw Error('Mosaic global restrictions are not available.');
-  	}
-
-  	return this.formatMosaicGlobalRestriction(mosaicGlobalRestriction);
-  }
-
-  /**
-   * Get Mosaic Address Restriction from symbol SDK
-   * @param address - Account address to be created from PublicKey or RawAddress
-   * @param mosaicId - Mosaic identifier
-   * @returns MosaicAddressRestriction
-   */
-  static getMosaicAddressRestriction = async (mosaicId, address) => {
-  	let mosaicAddressRestriction;
-
-  	try {
-  		mosaicAddressRestriction = await http.createRepositoryFactory.createRestrictionMosaicRepository()
-  			.getMosaicAddressRestriction(mosaicId, Address.createFromRawAddress(address))
-  			.toPromise();
-  	}
-  	catch (error) {
-  		throw Error('Mosaic address restrictions are not available.');
-  	}
-
-  	return this.formatMosaicAddressRestriction(mosaicAddressRestriction);
   }
 
   /**
@@ -208,11 +167,33 @@ class RestrictionService {
   		order: Order.Desc,
   		mosaicId: new MosaicId(mosaicId),
   		...filterVaule
-  	};
+	  };
 
   	const mosaicRestrictions = await this.searchMosaicRestrictions(searchCriteria);
 
   	return mosaicRestrictions;
+  }
+
+  /**
+   * Gets Mosaic Address Restriction list dataset into Vue component
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param address - account Address
+   * @returns formatted mosaic address restriction list
+   */
+  static getMosaicAddressRestrictionList = async (pageInfo, address) => {
+  	const { pageNumber, pageSize } = pageInfo;
+
+  	const searchCriteria = {
+  		pageNumber,
+  		pageSize,
+  		order: Order.Desc,
+  		entryType: MosaicRestrictionEntryType.ADDRESS,
+  		targetAddress: Address.createFromRawAddress(address)
+  	};
+
+  	const addressRestrictions = await this.searchMosaicRestrictions(searchCriteria);
+
+  	return addressRestrictions;
   }
 }
 
