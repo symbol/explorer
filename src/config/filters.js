@@ -213,11 +213,6 @@ export const metadata = [
 
 export const mosaicRestriction = [
 	{
-		label: 'Recent',
-		icon: 'mdi-clock-outline',
-		value: {}
-	},
-	{
 		label: 'Mosaic Global Restriction',
 		icon: 'mdi-alert',
 		value: {

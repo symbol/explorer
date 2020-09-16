@@ -43,6 +43,7 @@
                 "fields": [
                     "compositeHash",
                     "entryType",
+                    "targetAddress",
                     "restrictions"
                 ]
             },
