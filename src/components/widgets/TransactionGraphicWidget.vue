@@ -4,26 +4,15 @@
 
 		<template #body>
 			<div class="body">
-<<<<<<< HEAD
+
 				<div v-if="isAggregate">
 					<TransactionGraphic 
 						v-for="(innerTransactionData, index) in data.innerTransactions"
-						:data="innerTransactionData" 
+						:data="innerTransactionData"
 						:key="'tgw' + index"
 					/>
 				</div>
 				<TransactionGraphic v-else :data="data" />
-=======
-				<TransferGraphic v-if="data.type === TransactionType.TRANSFER" v-bind="data" />
-				<AddressAliasGraphic v-if="data.type === TransactionType.ADDRESS_ALIAS" v-bind="data" />
-				<MosaicAliasGraphic v-if="data.type === TransactionType.MOSAIC_ALIAS" v-bind="data" />
-				<NamespaceRegistrationGraphic v-if="data.type === TransactionType.NAMESPACE_REGISTRATION" v-bind="data" />
-				<HashLockGraphic v-if="data.type === TransactionType.HASH_LOCK" v-bind="data" />
-				<VrfKeyGraphic v-if="data.type === TransactionType.VRF_KEY_LINK" v-bind="data" />
-				<AccountKeyLinkGraphic v-if="data.type === TransactionType.ACCOUNT_KEY_LINK" v-bind="data" />
-				<NodeKeyLinkGraphic v-if="data.type === TransactionType.NODE_KEY_LINK" v-bind="data" />
-				<VotingKeyLinkGraphic v-if="data.type === TransactionType.VOTING_KEY_LINK" v-bind="data" />
->>>>>>> main
 			</div>
 		</template>
 	</Card>
@@ -31,19 +20,8 @@
 
 <script>
 import Card from '@/components/containers/Card.vue';
-<<<<<<< HEAD
+
 import TransactionGraphic from '@/components/transaction-graphic/TransactionGraphic.vue';
-=======
-import TransferGraphic from '@/components/transaction-graphic/TransferGraphic.vue';
-import AddressAliasGraphic from '@/components/transaction-graphic/AddressAliasGraphic.vue';
-import MosaicAliasGraphic from '@/components/transaction-graphic/MosaicAliasGraphic.vue';
-import NamespaceRegistrationGraphic from '@/components/transaction-graphic/NamespaceRegistrationGraphic.vue';
-import HashLockGraphic from '@/components/transaction-graphic/HashLockGraphic.vue';
-import VrfKeyGraphic from '@/components/transaction-graphic/VrfKeyGraphic.vue';
-import AccountKeyLinkGraphic from '@/components/transaction-graphic/AccountKeyLinkGraphic.vue';
-import NodeKeyLinkGraphic from '@/components/transaction-graphic/NodeKeyLinkGraphic.vue';
-import VotingKeyLinkGraphic from '@/components/transaction-graphic/VotingKeyLinkGraphic.vue';
->>>>>>> main
 import { TransactionType } from 'symbol-sdk';
 
 export default {
@@ -53,19 +31,7 @@ export default {
 
 	components: {
 		Card,
-<<<<<<< HEAD
-		TransactionGraphic,
-=======
-		TransferGraphic,
-		AddressAliasGraphic,
-		MosaicAliasGraphic,
-		NamespaceRegistrationGraphic,
-		HashLockGraphic,
-		VrfKeyGraphic,
-		AccountKeyLinkGraphic,
-		NodeKeyLinkGraphic,
-		VotingKeyLinkGraphic
->>>>>>> main
+		TransactionGraphic
 	},
 
 	data() {
@@ -81,8 +47,8 @@ export default {
 				this.data.type === TransactionType.MOSAIC_ALIAS ||
 				this.data.type === TransactionType.NAMESPACE_REGISTRATION ||
 				this.data.type === TransactionType.MOSAIC_DEFINITION ||
-				this.data.type === TransactionType.AGGREGATE_COMPLETE||
-				this.data.type === TransactionType.AGGREGATE_BONDED;
+				this.data.type === TransactionType.AGGREGATE_COMPLETE ||
+				this.data.type === TransactionType.AGGREGATE_BONDED ||
 				this.data.type === TransactionType.HASH_LOCK ||
 				this.data.type === TransactionType.VRF_KEY_LINK ||
 				this.data.type === TransactionType.ACCOUNT_KEY_LINK ||

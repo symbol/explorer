@@ -11,6 +11,11 @@ import AddressAliasGraphic from '@/components/transaction-graphic/AddressAliasGr
 import MosaicAliasGraphic from '@/components/transaction-graphic/MosaicAliasGraphic.vue';
 import NamespaceRegistrationGraphic from '@/components/transaction-graphic/NamespaceRegistrationGraphic.vue';
 import MosaicDefinitionGraphic from '@/components/transaction-graphic/MosaicDefinitionGraphic.vue';
+import HashLockGraphic from '@/components/transaction-graphic/HashLockGraphic.vue';
+import VrfKeyGraphic from '@/components/transaction-graphic/VrfKeyGraphic.vue';
+import AccountKeyLinkGraphic from '@/components/transaction-graphic/AccountKeyLinkGraphic.vue';
+import NodeKeyLinkGraphic from '@/components/transaction-graphic/NodeKeyLinkGraphic.vue';
+import VotingKeyLinkGraphic from '@/components/transaction-graphic/VotingKeyLinkGraphic.vue';
 import { TransactionType } from 'symbol-sdk';
 
 export default {
@@ -26,7 +31,12 @@ export default {
 		AddressAliasGraphic,
 		MosaicAliasGraphic,
 		NamespaceRegistrationGraphic,
-		MosaicDefinitionGraphic
+		MosaicDefinitionGraphic,
+		HashLockGraphic,
+		VrfKeyGraphic,
+		AccountKeyLinkGraphic,
+		NodeKeyLinkGraphic,
+		VotingKeyLinkGraphic
 	},
 
 	data() {
@@ -43,6 +53,11 @@ export default {
 				case TransactionType.MOSAIC_ALIAS: return 'MosaicAliasGraphic';
 				case TransactionType.NAMESPACE_REGISTRATION: return 'NamespaceRegistrationGraphic';
 				case TransactionType.MOSAIC_DEFINITION: return 'MosaicDefinitionGraphic';
+				case TransactionType.HASH_LOCK: return 'HashLockGraphic';
+				case TransactionType.VRF_KEY_LINK: return 'VrfKeyGraphic';
+				case TransactionType.ACCOUNT_KEY_LINK: return 'AccountKeyLinkGraphic';
+				case TransactionType.NODE_KEY_LINK: return 'NodeKeyLinkGraphic';
+				case TransactionType.VOTING_KEY_LINK: return 'VotingKeyLinkGraphic';
 			}
 			return null;
 		}
