@@ -26,7 +26,7 @@ import { TransactionType } from 'symbol-sdk';
 export default {
 	props: {
 		value: {
-			type: String,
+			type: [String, Number],
 			required: true
 		}
 	},
@@ -51,8 +51,10 @@ export default {
 		iconUrl() {
 			switch (this.extractTransactionType(this.value)) {
 			case TransactionType.TRANSFER:
-				if (this.value.toLowerCase().includes('incoming')) return this.IconTransferIncoming;
-				if (this.value.toLowerCase().includes('outgoing')) return this.IconTransferOutgoing;
+				if (this.value.toString().toLowerCase()
+					.includes('incoming')) return this.IconTransferIncoming;
+				if (this.value.toString().toLowerCase()
+					.includes('outgoing')) return this.IconTransferOutgoing;
 				return this.IconTransfer;
 			case TransactionType.NAMESPACE_REGISTRATION:
 			case TransactionType.ADDRESS_ALIAS:
@@ -91,11 +93,13 @@ export default {
 		},
 
 		transactionText() {
-			let text = this.value
+			const transactionType = this.value.toString()
 				.replace('incoming_', '')
 				.replace('outgoing_', '');
 
-			return this.$store.getters['ui/getNameByKey'](text);
+			const transactionDescriptor = `transactionDescriptor_${transactionType}`;
+
+			return this.$store.getters['ui/getNameByKey'](transactionDescriptor);
 		}
 	},
 
@@ -103,6 +107,8 @@ export default {
 		extractTransactionType(value) {
 			if (typeof value === 'string')
 				return Number(value.split('_').pop());
+
+			return value;
 		}
 	}
 };

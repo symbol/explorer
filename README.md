@@ -1,6 +1,6 @@
 # Symbol Explorer
 
-[![Build Status](https://travis-ci.com/nemgrouplimited/symbol-explorer.svg?branch=master)](https://travis-ci.com/nemgrouplimited/symbol-explorer)
+[![Build Status](https://travis-ci.com/nemgrouplimited/symbol-explorer.svg?branch=main)](https://travis-ci.com/nemgrouplimited/symbol-explorer)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 Symbol Explorer is a read-only web application to browse the content of the blockchain.
@@ -15,7 +15,7 @@ The explorer supports searching for transactions, accounts, namespaces, mosaics,
 1. Clone the project.
 
 ```
-git clone https://github.com/nemfoundation/symbol-explorer.git
+git clone https://github.com/nemgrouplimited/symbol-explorer.git
 ```
 
 2. Install the required dependencies.
@@ -44,7 +44,7 @@ npm run dev
 
 ### How to change the node list
 
-The file `/src/config/setup.json` contains the node list shown in the node selector dropdown.
+The file `/src/config/setup.json.mt` contains the node list shown in the node selector dropdown.
 
 1. Edit `peersApi.nodes` array to set up the custom node list.
 2. Set `peersApi.defaultNode` property to the default node url.

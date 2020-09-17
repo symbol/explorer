@@ -115,4 +115,20 @@ export default class http {
   static get blockPaginationStreamer() {
   	return new symbol.BlockPaginationStreamer(this.createRepositoryFactory.createBlockRepository());
   }
+
+  static transactionStatementPaginationStreamer() {
+	  return symbol.ReceiptPaginationStreamer.transactionStatements(this.createRepositoryFactory.createReceiptRepository());
+  }
+
+  static addressResolutionStatementPaginationStreamer() {
+	  return symbol.ReceiptPaginationStreamer.addressResolutionStatements(this.createRepositoryFactory.createReceiptRepository());
+  }
+
+  static mosaicResolutionStatementPaginationStreamer() {
+	  return symbol.ReceiptPaginationStreamer.mosaicResolutionStatements(this.createRepositoryFactory.createReceiptRepository());
+  }
+
+  static get transactionPaginationStreamer() {
+  	return new symbol.TransactionPaginationStreamer(this.createRepositoryFactory.createTransactionRepository());
+  }
 }

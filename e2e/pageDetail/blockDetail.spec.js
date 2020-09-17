@@ -2,7 +2,7 @@ import config from '../config/network.conf.json'
 
 describe('Symbol Explorer Blocks detail page', () => {
     beforeEach(() => {
-        cy.visit(`/block/${config.testBlock.height}`)
+        cy.visit(`/blocks/${config.testBlock.height}`)
     })
 
     describe('Block Detail Card should', () => {
@@ -20,7 +20,7 @@ describe('Symbol Explorer Blocks detail page', () => {
         })
 
         it('render correct table fields.', () => {
-            const items = ['Height', 'Date', 'Total Fee', 'Difficulty', 'Fee Multiplier', 'Transactions', 'Harvester', 'Block Hash', 'Proof Gamma', 'Proof Scalar']
+            const items = ['Height', 'Date', 'Total Fee', 'Difficulty', 'Fee Multiplier', 'Transactions', 'Harvester', 'Block Hash', 'Proof Gamma', 'Proof Scalar', 'Beneficiary Address', 'Proof Varification Hash']
             cy.renderFieldInTable("blockDetailTitle", items)
         })
     })

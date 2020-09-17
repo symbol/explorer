@@ -16,28 +16,19 @@
  *
  */
 
-import { BlockService } from './index';
-import { Order } from 'symbol-sdk';
-
 class StatisticService {
   /**
    * Gets Block Time Difference dataset.
    * The dataset in use for Chart.
+   * @param blocks - streamer blocks []
    * @param limit - number of the block.
    * @param grouping - grouping block for calculation
    * @returns block time difference dataset.
    */
-  static getBlockTimeDifferenceData = async (limit, grouping) => {
-  	const searchCriteria = {
-  		pageSize: 100,
-  		order: Order.Desc
-  	};
+  static getBlockTimeDifferenceData = (blocks, limit, grouping) => {
+  	const heights = blocks.map(data => Number(data.height));
 
-  	let blockList = await BlockService.streamerBlocks(searchCriteria, limit);
-
-  	const heights = blockList.map(data => Number(data.height));
-
-  	let timestamps = blockList.map(data => data.timestampRaw);
+  	let timestamps = blocks.map(data => data.timestampRaw);
 
   	for (let i = 0; i < timestamps.length - 1; ++i)
   		timestamps[i] -= timestamps[i + 1];
@@ -61,8 +52,14 @@ class StatisticService {
   	let averagesDataset = [];
 
   	for (let i = 0; i < timestamps.length - 1; ++i) {
-  		timeDifferenceDataset.push([heights[i], timestamps[i] / 1000]);
-  		averagesDataset.push([heights[i], (averages[i] / 1000).toFixed(3)]);
+  		let height = heights[i];
+
+  		let difference = timestamps[i] / 1000;
+
+  		let average = averages[i] / 1000;
+
+  		timeDifferenceDataset.push([height, difference.toFixed(2)]);
+  		averagesDataset.push([height, average.toFixed(2) === 'NaN' ? null : average.toFixed(2)]);
   	}
 
   	let dataset = [
@@ -87,21 +84,15 @@ class StatisticService {
   /**
    * Gets Transaction data per block dataset
    * The dataset in use for Chart.
+   * @param blocks - streamer blocks []
    * @param limit - number of the block.
    * @param grouping - grouping block for calculation
    * @returns transaction data per block dataset.
    */
-  static getTransactionPerBlockData = async (limit, grouping) => {
-  	const searchCriteria = {
-  		pageSize: 100,
-  		order: Order.Desc
-  	};
+  static getTransactionPerBlockData = (blocks, limit, grouping) => {
+  	const heights = blocks.map(data => Number(data.height));
 
-  	let blockList = await BlockService.streamerBlocks(searchCriteria, limit);
-
-  	const heights = blockList.map(data => Number(data.height));
-
-  	let numTransactions = blockList.map(data => data.transactions);
+  	let numTransactions = blocks.map(data => data.transactions);
 
   	let averages = [];
 

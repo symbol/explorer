@@ -3,7 +3,7 @@ import datafiled from '../../config/datafiled.json'
 
 describe('Symbol Explorer Transaction detail page for Aggregate Complete', () => {
     beforeEach(() => {
-        cy.visit(`/transaction/${config.testTransactions.aggregateComplete}`)
+        cy.visit(`/transactions/${config.testTransactions.aggregateComplete}`)
     })
 
     describe('Transaction info card should', () => {
@@ -31,7 +31,7 @@ describe('Symbol Explorer Transaction detail page for Aggregate Complete', () =>
         })
 
         it('render correct transaction detail titles', () => {
-            const items = ['Type', 'Type']
+            const items = ['Type']
             cy.renderFieldInTable("transactionDetailTitle", items)
         })
 
@@ -47,7 +47,7 @@ describe('Symbol Explorer Transaction detail page for Aggregate Complete', () =>
         })
 
         it('render correct table header.', () => {
-            const items = ['Transaction ID', 'Type', 'Signer', 'Transaction Detail']
+            const items = ['Transaction Type', 'Signer', 'Transaction Detail']
             cy.renderHeaderInTable('aggregateInnerTransactionsTitle', items)
         })
     })

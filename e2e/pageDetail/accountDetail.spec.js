@@ -2,7 +2,7 @@ import config from '../config/network.conf.json'
 
 describe('Symbol Explorer Account Detail page', () => {
     beforeEach(() => {
-        cy.visit(`/account/${config.testAccount.address}`)
+        cy.visit(`/accounts/${config.testAccount.address}`)
     })
 
     describe('Account Detail Card should', () => {
@@ -15,7 +15,7 @@ describe('Symbol Explorer Account Detail page', () => {
         })
 
         it('render correct table fields.', () => {
-            const items = ['Address', 'Alias Namespace', 'Address height', 'Public key', 'Importance', 'Type', 'Harvested blocks (all)']
+            const items = ['Address', 'Alias Namespace', 'Address height', 'Public key', 'Importance', 'Account type', 'Harvested blocks (all)']
             cy.renderFieldInTable("accountDetailTitle", items)
         })
     })

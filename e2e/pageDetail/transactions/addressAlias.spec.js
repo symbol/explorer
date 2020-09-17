@@ -3,7 +3,7 @@ import datafiled from '../../config/datafiled.json'
 
 describe('Symbol Explorer Transaction detail page for Address Alias', () => {
     beforeEach(() => {
-        cy.visit(`/transaction/${config.testTransactions.addressAlias}`)
+        cy.visit(`/transactions/${config.testTransactions.addressAlias}`)
     })
 
     describe('Transaction info card should', () => {
@@ -31,7 +31,7 @@ describe('Symbol Explorer Transaction detail page for Address Alias', () => {
         })
 
         it('render correct transaction detail titles', () => {
-            const items = ['Type', 'Type', 'Alias Action', 'Namespace ID', 'Name', 'Address']
+            const items = ['Type', 'Alias Action', 'Namespace ID', 'Name', 'Address']
             cy.renderFieldInTable("transactionDetailTitle", items)
         })
 

@@ -3,7 +3,7 @@ import datafiled from '../../config/datafiled.json'
 
 describe('Symbol Explorer Transaction detail page for Secret Lock.', () => {
     beforeEach(() => {
-        cy.visit(`/transaction/${config.testTransactions.secretLock}`)
+        cy.visit(`/transactions/${config.testTransactions.secretLock}`)
     })
 
     describe('Transaction info card should', () => {
@@ -31,7 +31,7 @@ describe('Symbol Explorer Transaction detail page for Secret Lock.', () => {
         })
 
         it('render correct transaction detail titles', () => {
-            const items = ['Type', 'Type', 'Duration', 'Mosaic ID', 'Secret', 'Recipient', 'Hash Algorithm']
+            const items = ['Type', 'Duration', 'Mosaic ID', 'Secret', 'Recipient', 'Hash Algorithm']
             cy.renderFieldInTable("transactionDetailTitle", items)
         })
     })

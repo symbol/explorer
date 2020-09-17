@@ -3,7 +3,7 @@ import datafiled from '../../config/datafiled.json'
 
 describe('Symbol Explorer Transaction detail page for Account Mosaic Restriction.', () => {
     beforeEach(() => {
-        cy.visit(`/transaction/${config.testTransactions.accountMosaicRestriction}`)
+        cy.visit(`/transactions/${config.testTransactions.accountMosaicRestriction}`)
     })
 
     describe('Transaction info card should', () => {
@@ -31,7 +31,7 @@ describe('Symbol Explorer Transaction detail page for Account Mosaic Restriction
         })
 
         it('render correct transaction detail titles', () => {
-            const items = ['Type', 'Type', 'Restriction Type', 'Additions']
+            const items = ['Type', 'Restriction Type', 'Additions']
             cy.renderFieldInTable("transactionDetailTitle", items)
         })
 

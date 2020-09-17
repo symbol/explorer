@@ -1,5 +1,5 @@
 {
-    "path": "/transaction/:transactionHash",
+    "path": "/transactions/:transactionHash",
     "name": "transaction-detail",
     "meta": {
         "group": "detail-page",
@@ -70,7 +70,7 @@
                 "pageSize": 5,
                 "hideEmptyData": true,
                 "fields": [
-                    "transactionDescriptor",
+                    "transactionType",
                     "signer",
                     "transactionBody"
                 ]
@@ -89,6 +89,17 @@
                     "signature",
                     "signer"
                 ]
+            },
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "Merkle Path",
+                "managerGetter": "transaction/info",
+                "dataGetter": "transaction/merklePath",
+                "pagination": "client",
+                "pageSize": 5,
+                "hideEmptyData": true,
+                "hideOnError": true
             }
         ]
     }
