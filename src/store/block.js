@@ -84,9 +84,7 @@ export default {
 		artifactExpiryReceipt: state => state.blockReceipts?.data?.transactionReceipt?.artifactExpiryReceipt || [],
 		resolutionStatement: state => state.blockReceipts?.data?.resolutionStatements || [],
 		currentBlockHeight: state => state.currentBlockHeight,
-
-		infoText: (s, g, rs, rootGetters) => 'Chain height: ' + rootGetters['chain/getChainInfo'].currentHeight
-	},
+		infoText: (s, g, rs, rootGetters) => rootGetters['ui/getNameByKey']('chainHeight') + ': ' + (rootGetters['chain/getChainInfo'] && rootGetters['chain/getChainInfo'].currentHeight ? rootGetters['chain/getChainInfo'].currentHeight : 0) },
 	mutations: {
 		...getMutationsFromManagers(managers),
 		setInitialized: (state, initialized) => {

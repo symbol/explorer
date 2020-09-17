@@ -36,7 +36,7 @@
 							{{getNameByKey('blockHeight')}}
 						</div>
 						<div class="ex-item-value">
-							{{chainInfo.currentHeight}}
+							{{currentHeight}}
 						</div>
 					</b-col>
 				</b-row>
@@ -63,6 +63,10 @@ export default {
 
 		loading() {
 			return !this.chainInfo;
+		},
+
+		currentHeight() {
+			return this.chainInfo.currentHeight;
 		}
 	},
 
