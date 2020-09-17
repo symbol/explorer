@@ -24,7 +24,7 @@ export default {
 		data: {
 			type: Object,
 			required: true,
-			default: {}
+			default: () => {}
 		}
 	},
 
@@ -50,22 +50,21 @@ export default {
 
 	computed: {
 		graphicComponent() {
-			switch(this.data?.type) {
-				case TransactionType.TRANSFER: return 'TransferGraphic';
-				case TransactionType.ADDRESS_ALIAS: return 'AddressAliasGraphic';
-				case TransactionType.MOSAIC_ALIAS: return 'MosaicAliasGraphic';
-				case TransactionType.NAMESPACE_REGISTRATION: return 'NamespaceRegistrationGraphic';
-				case TransactionType.MOSAIC_DEFINITION: return 'MosaicDefinitionGraphic';
-				case TransactionType.MOSAIC_SUPPLY_CHANGE: return 'MosaicSupplyChangeGraphic';
-				case TransactionType.HASH_LOCK: return 'HashLockGraphic';
-				case TransactionType.VRF_KEY_LINK: return 'VrfKeyGraphic';
-				case TransactionType.ACCOUNT_KEY_LINK: return 'AccountKeyLinkGraphic';
-				case TransactionType.NODE_KEY_LINK: return 'NodeKeyLinkGraphic';
-				case TransactionType.VOTING_KEY_LINK: return 'VotingKeyLinkGraphic';
+			switch (this.data?.type) {
+			case TransactionType.TRANSFER: return 'TransferGraphic';
+			case TransactionType.ADDRESS_ALIAS: return 'AddressAliasGraphic';
+			case TransactionType.MOSAIC_ALIAS: return 'MosaicAliasGraphic';
+			case TransactionType.NAMESPACE_REGISTRATION: return 'NamespaceRegistrationGraphic';
+			case TransactionType.MOSAIC_DEFINITION: return 'MosaicDefinitionGraphic';
+			case TransactionType.MOSAIC_SUPPLY_CHANGE: return 'MosaicSupplyChangeGraphic';
+			case TransactionType.HASH_LOCK: return 'HashLockGraphic';
+			case TransactionType.VRF_KEY_LINK: return 'VrfKeyGraphic';
+			case TransactionType.ACCOUNT_KEY_LINK: return 'AccountKeyLinkGraphic';
+			case TransactionType.NODE_KEY_LINK: return 'NodeKeyLinkGraphic';
+			case TransactionType.VOTING_KEY_LINK: return 'VotingKeyLinkGraphic';
 			}
 			return null;
 		}
 	}
 };
 </script>
-

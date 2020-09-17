@@ -68,7 +68,7 @@ export default {
 			data: getters.info.data?.aggregateTransaction?.innerTransactions
 				? {
 					type: getters.info.data?.type,
-					innerTransactions: getters.info.data.aggregateTransaction.innerTransactions.map( transaction => ({
+					innerTransactions: getters.info.data.aggregateTransaction.innerTransactions.map(transaction => ({
 						...transaction,
 						...transaction.transactionInfo,
 						...transaction.transactionBody

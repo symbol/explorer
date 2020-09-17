@@ -121,7 +121,8 @@ export default {
 		truncatedMosaicName() {
 			const aliasName = this.aliasName || this.mosaic.aliasName;
 			const mosaicId = this.mosaicId || this.mosaic.mosaicId;
-			if(aliasName)
+
+			if (aliasName)
 				return this.truncString(aliasName, 5);
 			return this.truncString(mosaicId);
 		},
@@ -130,7 +131,7 @@ export default {
 			return this.hideCaption
 				? '115 0 16 105'
 				: '0 0 261.333 131.313';
-				// 0 0 116 105
+			// 0 0 116 105
 		}
 	}
 };

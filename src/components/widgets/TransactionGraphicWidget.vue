@@ -7,7 +7,7 @@
 
 				<div v-if="isAggregate" :class="aggregateContainerClass">
 					<div class="aggregate-title">{{ aggregateTitle }}</div>
-					<div 
+					<div
 						class="aggregate-inner"
 						v-for="(innerTransactionData, index) in data.innerTransactions"
 						:key="'tgw' + index"
@@ -15,7 +15,7 @@
 						<div class="aggregate-inner-index">
 							{{index + 1}}
 						</div>
-						<TransactionGraphic 
+						<TransactionGraphic
 							:data="innerTransactionData"
 						/>
 					</div>
@@ -78,9 +78,10 @@ export default {
 
 		aggregateContainerClass() {
 			const isMobile = this.$store.getters['ui/isMobile'];
-			if(isMobile) 
+
+			if (isMobile)
 				return 'aggregate-container-mobile';
-			return 'aggregate-container'
+			return 'aggregate-container';
 		},
 
 		data() {

@@ -114,7 +114,7 @@ export default {
 		},
 
 		data() {
-			return { 
+			return {
 				divisibility: this.divisibility,
 				duration: this.duration,
 				supplyMutable: this.supplyMutable,

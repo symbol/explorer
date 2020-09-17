@@ -102,10 +102,10 @@ export default {
 		},
 
 		data() {
-			return { 
+			return {
 				mosaicId: this.mosaicId,
 				delta: this.delta,
-				action: this.action,
+				action: this.action
 			};
 		}
 	}
