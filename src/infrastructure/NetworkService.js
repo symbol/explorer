@@ -68,9 +68,9 @@ class NetworkService {
    * @returns readable RentalfeesDTO object
    */
   static formatRentalFees = rentalFees => ({
-  	effectiveRootNamespaceRentalFeePerBlock: rentalFees.effectiveRootNamespaceRentalFeePerBlock / Math.pow(10, http.networkCurrecy.divisibility),
-  	effectiveChildNamespaceRentalFee: rentalFees.effectiveChildNamespaceRentalFee / Math.pow(10, http.networkCurrecy.divisibility),
-  	effectiveMosaicRentalFee: rentalFees.effectiveMosaicRentalFee / Math.pow(10, http.networkCurrecy.divisibility)
+  	effectiveRootNamespaceRentalFeePerBlock: rentalFees.effectiveRootNamespaceRentalFeePerBlock / Math.pow(10, http.networkCurrency.divisibility),
+  	effectiveChildNamespaceRentalFee: rentalFees.effectiveChildNamespaceRentalFee / Math.pow(10, http.networkCurrency.divisibility),
+  	effectiveMosaicRentalFee: rentalFees.effectiveMosaicRentalFee / Math.pow(10, http.networkCurrency.divisibility)
   })
 }
 
