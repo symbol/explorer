@@ -134,7 +134,7 @@ class NamespaceService {
   	let namespaceId = await helper.hexOrNamespaceToId(hexOrNamespace, 'namespace');
 
   	let namespace = await this.getNamespace(namespaceId);
-  	const currentHeight = await ChainService.getBlockchainHeight();
+  	const { height: currentHeight } = await ChainService.getChainInfo();
 
   	let {
   		isExpired,
@@ -196,7 +196,7 @@ class NamespaceService {
   	};
 
   	const namespaceInfos = await this.searchNamespaces(searchCriteria);
-  	const currentHeight = await ChainService.getBlockchainHeight();
+  	const { height: currentHeight } = await ChainService.getChainInfo();
 
   	return {
   		...namespaceInfos,

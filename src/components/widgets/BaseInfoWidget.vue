@@ -36,7 +36,7 @@
 							{{getNameByKey('blockHeight')}}
 						</div>
 						<div class="ex-item-value">
-							{{blockHeight}}
+							{{chainInfo.currentHeight}}
 						</div>
 					</b-col>
 				</b-row>
@@ -56,13 +56,13 @@ export default {
 
 	computed: {
 		...mapGetters({
-			blockHeight: 'chain/getBlockHeight',
+			chainInfo: 'chain/getChainInfo',
 			storageInfo: 'chain/getStorageInfo',
 			marketData: 'chain/getMarketData'
 		}),
 
 		loading() {
-			return !this.blockHeight;
+			return !this.chainInfo;
 		}
 	},
 
