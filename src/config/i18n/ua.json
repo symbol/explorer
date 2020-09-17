@@ -219,5 +219,10 @@
     "blockReceiptsHash": "Receipts Hash",
     "blockTransactionsHash": "Transactions Hash",
     "position": "Position",
-    "hash": "Hash"
+    "hash": "Hash",
+    "startPoint": "Start Finalization Point",
+    "endPoint": "End Finalization Point",
+    "checkMosaicAddressRestrictionStatus": "Check Mosaic Address Restriction",
+    "check": "Check",
+    "payloadSize": "Size (bytes)"
 }

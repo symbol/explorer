@@ -287,5 +287,10 @@
     "blockReceiptsHash": "レシートハッシュ",
     "blockTransactionsHash": "トランザクションハッシュ",
     "position": "ポジション",
-    "hash": "ハッシュ"
+    "hash": "ハッシュ",
+    "startPoint": "Start Finalization Point",
+    "endPoint": "End Finalization Point",
+    "checkMosaicAddressRestrictionStatus": "Check Mosaic Address Restriction",
+    "check": "Check",
+    "payloadSize": "Size (bytes)"
 }

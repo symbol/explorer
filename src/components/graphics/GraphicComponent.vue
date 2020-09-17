@@ -115,11 +115,11 @@ export default {
 		},
 
 		nativeMosaicId() {
-			return http.networkCurrecy.mosaicId;
+			return http.networkCurrency.mosaicId;
 		},
 
 		nativeMosaicAliasName() {
-			return http.networkCurrecy.mosaicId.namespace;
+			return http.networkCurrency.namespace.namespaceName;
 		},
 
 		_x() {
@@ -228,7 +228,7 @@ export default {
 
 		onAccountClick(address) {
 			this.$store.dispatch(`ui/openPage`, {
-				pageName: 'address',
+				pageName: 'account',
 				param: address
 			});
 			this.$emit('click', address);

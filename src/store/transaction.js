@@ -104,6 +104,7 @@ export default {
 		async uninitialize({ commit, dispatch, getters }) {
 			const callback = async () => {
 				dispatch('unsubscribe');
+				dispatch('uninitializeDetail');
                 getters.timeline?.uninitialize();
 			};
 
