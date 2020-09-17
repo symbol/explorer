@@ -239,5 +239,6 @@
     "endPoint": "End Finalization Point",
     "checkMosaicAddressRestrictionStatus": "Check Mosaic Address Restriction",
     "check": "Check",
-    "payloadSize": "Size (bytes)"
+    "payloadSize": "Size (bytes)",
+    "chainHeight": "Chain Height"
 }
