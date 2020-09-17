@@ -47,6 +47,7 @@ export default {
 				this.data.type === TransactionType.MOSAIC_ALIAS ||
 				this.data.type === TransactionType.NAMESPACE_REGISTRATION ||
 				this.data.type === TransactionType.MOSAIC_DEFINITION ||
+				this.data.type === TransactionType.MOSAIC_SUPPLY_CHANGE ||
 				this.data.type === TransactionType.AGGREGATE_COMPLETE ||
 				this.data.type === TransactionType.AGGREGATE_BONDED ||
 				this.data.type === TransactionType.HASH_LOCK ||

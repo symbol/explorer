@@ -26,7 +26,7 @@
 				:mosaic="mosaic"
 			/>
 			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
-			<AddCircle
+			<EditCircle
 				:x="getCircleIconPositionX(0)"
 				:y="circleIconPositionY"
 				:data="data"
@@ -42,7 +42,7 @@
 <script>
 import GraphicComponent from '../graphics/GraphicComponent.vue';
 import AccountIcon from '../graphics/AccountIcon.vue';
-import AddCircle from '../graphics/AddCircle.vue';
+import EditCircle from '../graphics/EditCircle.vue';
 import MosaicIcon from '../graphics/MosaicIcon.vue';
 import Arrow from '../graphics/Arrow.vue';
 
@@ -51,7 +51,7 @@ export default {
 
 	components: {
 		AccountIcon,
-		AddCircle,
+		EditCircle,
 		Arrow,
 		MosaicIcon
 	},
@@ -70,24 +70,12 @@ export default {
 			type: String,
 			required: true
 		},
-		divisibility: {
+		delta: {
 			type: Number,
 			required: true
 		},
-		duration: {
-			type: Number,
-			required: true
-		},
-		supplyMutable: {
-			type: Boolean,
-			required: true
-		},
-		transferable: {
-			type: Boolean,
-			required: true
-		},
-		restrictable: {
-			type: Boolean,
+		action: {
+			type: String,
 			required: true
 		}
 	},
@@ -101,7 +89,7 @@ export default {
 
 	computed: {
 		transactionType() {
-			return this.getTransactionTypeCaption(17230); // Mosaic alias
+			return this.getTransactionTypeCaption(this.type); // Mosaic alias
 		},
 
 		circleIconsToDisplay() {
@@ -114,11 +102,9 @@ export default {
 
 		data() {
 			return { 
-				divisibility: this.divisibility,
-				duration: this.duration,
-				supplyMutable: this.supplyMutable,
-				transferable: this.transferable,
-				restrictable: this.restrictable
+				mosaicId: this.mosaicId,
+				delta: this.delta,
+				action: this.action,
 			};
 		}
 	}

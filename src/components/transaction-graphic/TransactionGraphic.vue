@@ -11,6 +11,7 @@ import AddressAliasGraphic from '@/components/transaction-graphic/AddressAliasGr
 import MosaicAliasGraphic from '@/components/transaction-graphic/MosaicAliasGraphic.vue';
 import NamespaceRegistrationGraphic from '@/components/transaction-graphic/NamespaceRegistrationGraphic.vue';
 import MosaicDefinitionGraphic from '@/components/transaction-graphic/MosaicDefinitionGraphic.vue';
+import MosaicSupplyChangeGraphic from '@/components/transaction-graphic/MosaicSupplyChangeGraphic.vue';
 import HashLockGraphic from '@/components/transaction-graphic/HashLockGraphic.vue';
 import VrfKeyGraphic from '@/components/transaction-graphic/VrfKeyGraphic.vue';
 import AccountKeyLinkGraphic from '@/components/transaction-graphic/AccountKeyLinkGraphic.vue';
@@ -22,7 +23,8 @@ export default {
 	props: {
 		data: {
 			type: Object,
-			required: true
+			required: true,
+			default: {}
 		}
 	},
 
@@ -32,6 +34,7 @@ export default {
 		MosaicAliasGraphic,
 		NamespaceRegistrationGraphic,
 		MosaicDefinitionGraphic,
+		MosaicSupplyChangeGraphic,
 		HashLockGraphic,
 		VrfKeyGraphic,
 		AccountKeyLinkGraphic,
@@ -53,6 +56,7 @@ export default {
 				case TransactionType.MOSAIC_ALIAS: return 'MosaicAliasGraphic';
 				case TransactionType.NAMESPACE_REGISTRATION: return 'NamespaceRegistrationGraphic';
 				case TransactionType.MOSAIC_DEFINITION: return 'MosaicDefinitionGraphic';
+				case TransactionType.MOSAIC_SUPPLY_CHANGE: return 'MosaicSupplyChangeGraphic';
 				case TransactionType.HASH_LOCK: return 'HashLockGraphic';
 				case TransactionType.VRF_KEY_LINK: return 'VrfKeyGraphic';
 				case TransactionType.ACCOUNT_KEY_LINK: return 'AccountKeyLinkGraphic';

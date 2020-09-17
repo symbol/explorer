@@ -5,6 +5,9 @@ import Constants from '../../config/constants';
 
 export default {
 	props: {
+		type: {
+			default: 0
+		},
 		x: {
 			type: Number,
 			default: 0
