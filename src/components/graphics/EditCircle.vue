@@ -33,8 +33,9 @@
 			r="17.26"
 		/>
 		<g>
-			<rect x="17" y="11" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="4" height="16"/>
-			<rect x="11" y="17" fill-rule="evenodd" clip-rule="evenodd" fill="#FFFFFF" width="16" height="4"/>
+			<path fill="#FFFFFF" d="M27.152,14.584c0.354-0.354,0.354-0.943,0-1.279l-2.124-2.124c-0.336-0.354-0.926-0.354-1.279,0
+				l-1.669,1.661l3.402,3.403 M11.082,23.849v3.403h3.403l10.036-10.045l-3.403-3.403L11.082,23.849z"
+			/>
 		</g>
 		<circle
 			:id="this.id"
@@ -62,7 +63,7 @@ export default {
 	props: {
 		title: {
 			type: String,
-			default: 'Creation'
+			default: 'Edit'
 		},
 		data: {
 			type: Object,
@@ -72,7 +73,7 @@ export default {
 
 	data() {
 		return {
-			id: this.getId('add-circle')
+			id: this.getId('edit-circle')
 		};
 	}
 };
