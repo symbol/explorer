@@ -5,12 +5,20 @@
 		<template #body>
 			<div class="body">
 
-				<div v-if="isAggregate">
-					<TransactionGraphic 
+				<div v-if="isAggregate" :class="aggregateContainerClass">
+					<div class="aggregate-title">{{ aggregateTitle }}</div>
+					<div 
+						class="aggregate-inner"
 						v-for="(innerTransactionData, index) in data.innerTransactions"
-						:data="innerTransactionData"
 						:key="'tgw' + index"
-					/>
+					>
+						<div class="aggregate-inner-index">
+							{{index + 1}}
+						</div>
+						<TransactionGraphic 
+							:data="innerTransactionData"
+						/>
+					</div>
 				</div>
 				<TransactionGraphic v-else :data="data" />
 			</div>
@@ -20,11 +28,13 @@
 
 <script>
 import Card from '@/components/containers/Card.vue';
-
+import GraphicComponent from '../graphics/GraphicComponent.vue';
 import TransactionGraphic from '@/components/transaction-graphic/TransactionGraphic.vue';
 import { TransactionType } from 'symbol-sdk';
 
 export default {
+	extends: GraphicComponent,
+
 	props: {
 		managerGetter: String
 	},
@@ -62,6 +72,17 @@ export default {
 				this.data.type === TransactionType.AGGREGATE_BONDED;
 		},
 
+		aggregateTitle() {
+			return this.getTransactionTypeCaption(this.data.type);
+		},
+
+		aggregateContainerClass() {
+			const isMobile = this.$store.getters['ui/isMobile'];
+			if(isMobile) 
+				return 'aggregate-container-mobile';
+			return 'aggregate-container'
+		},
+
 		data() {
 			return this.$store.getters[this.managerGetter].data;
 		},
@@ -87,5 +108,42 @@ export default {
 .body {
     display: flex;
     justify-content: center;
+
+	.aggregate-container {
+		border-style: dashed;
+		border-radius: 10px;
+		border-color: var(--orange);
+		border-width: 4px;
+
+		.aggregate-title {
+			font-size: 1.5rem;
+			line-height: 150%;
+			color: var(--orange);
+			font-weight: 700;
+			margin: 20px 40px 0;
+		}
+
+		.aggregate-inner {
+			position: relative;
+			padding: 0 40px;
+			.aggregate-inner-index {
+				position: absolute;
+				top: 43%;
+				left: 40px;
+				font-size: 1.25rem;
+				font-weight: 700;
+				color: var(--orange);
+			}
+		}
+	}
+
+	.aggregate-container-mobile {
+		.aggregate-title {
+			width: 100%;
+			text-align: center;
+			font-weight: 700;
+			color: var(--orange);
+		}
+	}
 }
 </style>

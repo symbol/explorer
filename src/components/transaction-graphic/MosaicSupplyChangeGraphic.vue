@@ -30,6 +30,7 @@
 				:x="getCircleIconPositionX(0)"
 				:y="circleIconPositionY"
 				:data="data"
+				:title="transactionType"
 			/>
 			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
 				{{ transactionType }}
