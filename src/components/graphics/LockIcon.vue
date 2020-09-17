@@ -11,13 +11,6 @@
 		xml:space="preserve"
 		class="lock"
 	>
-		<defs>
-			<radialGradient :id="id" cx="50%" y="50%" fx="70%" fy="5%">
-				<stop offset="0%" :stop-color="iconColor" stop-opacity="0.5" />
-				<stop offset="60%" :stop-color="iconColor" />
-				<stop offset="100%" :stop-color="iconColor" />
-			</radialGradient>
-		</defs>
 		<title>{{ title }}</title>
 		<rect
 			x="25.266"
@@ -93,10 +86,6 @@ export default {
 	computed: {
 		title() {
 			return this.getTranslation('lock') + ': ' + this.lockName;
-		},
-
-		iconColor() {
-			return this.getIconColor(this.lockName);
 		},
 
 		truncatedLockName() {
