@@ -40,6 +40,7 @@ export default class Pagination {
 		this.loading = false;
 		this.error = false;
 		this.filterIndex = 0;
+		this.isLastPage = false;
 	}
 
 	static empty() {
@@ -62,7 +63,7 @@ export default class Pagination {
 	}
 
 	get canFetchNext() {
-		return !this.pageInfo.isLastPage && this.loading === false;
+		return !this.isLastPage && this.loading === false;
 	}
 
 	get isLive() {
@@ -71,10 +72,6 @@ export default class Pagination {
 
 	get pageNumber() {
 		return this.pageInfo.pageNumber || 1;
-	}
-
-	get lastPage() {
-		return this.pageInfo?.totalPages;
 	}
 
 	get pageSize() {
@@ -140,6 +137,22 @@ export default class Pagination {
 
 		try {
 			this.pageInfo = await this.fetchFunction(this.pageInfo, this.filterValue, this.store);
+
+			// Update isLastPage from SDK endpoint
+			this.isLastPage = this.pageInfo.isLastPage;
+
+			// if isLastPage false SDK endpoint
+			// Do one more request to verify from REST
+			if (!this.pageInfo.isLastPage) {
+				const nextPage = {
+					...this.pageInfo,
+					pageNumber: this.pageInfo.pageNumber + 1
+				};
+
+				const { data: nextPageData } = await this.fetchFunction(nextPage, this.filterValue, this.store);
+
+				this.isLastPage = nextPageData.length === 0;
+			}
 		}
 		catch (e) {
 			console.error(e);
