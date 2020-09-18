@@ -112,41 +112,42 @@ export default {
     display: flex;
     justify-content: center;
 
-	.aggregate-container {
-		border-style: dashed;
-		border-radius: 10px;
-		border-color: var(--orange);
-		border-width: 4px;
+    .aggregate-container {
+        border-style: dashed;
+        border-radius: 10px;
+        border-color: var(--orange);
+        border-width: 4px;
 
-		.aggregate-title {
-			font-size: 1.5rem;
-			line-height: 150%;
-			color: var(--orange);
-			font-weight: 700;
-			margin: 20px 40px 0;
-		}
+        .aggregate-title {
+            font-size: 1.5rem;
+            line-height: 150%;
+            color: var(--orange);
+            font-weight: 700;
+            margin: 20px 40px 0;
+        }
 
-		.aggregate-inner {
-			position: relative;
-			padding: 0 40px;
-			.aggregate-inner-index {
-				position: absolute;
-				top: 43%;
-				left: 40px;
-				font-size: 1.25rem;
-				font-weight: 700;
-				color: var(--orange);
-			}
-		}
-	}
+        .aggregate-inner {
+            position: relative;
+            padding: 0 40px;
+            
+            .aggregate-inner-index {
+                position: absolute;
+                top: 43%;
+                left: 40px;
+                font-size: 1.25rem;
+                font-weight: 700;
+                color: var(--orange);
+            }
+        }
+    }
 
-	.aggregate-container-mobile {
-		.aggregate-title {
-			width: 100%;
-			text-align: center;
-			font-weight: 700;
-			color: var(--orange);
-		}
-	}
+    .aggregate-container-mobile {
+        .aggregate-title {
+            width: 100%;
+            text-align: center;
+            font-weight: 700;
+            color: var(--orange);
+        }
+    }
 }
 </style>
