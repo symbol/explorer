@@ -182,7 +182,7 @@ class AccountService {
 
 	  const accountNamespaces = await NamespaceService.searchNamespaces(searchCriteria);
 
-  	const currentHeight = await ChainService.getBlockchainHeight();
+	  const { height: currentHeight } = await ChainService.getChainInfo();
 
   	return {
   		...accountNamespaces,
@@ -274,12 +274,7 @@ class AccountService {
   	linked: supplementalPublicKeys.linked?.publicKey || Constants.Message.UNAVAILABLE,
   	node: supplementalPublicKeys.node?.publicKey || Constants.Message.UNAVAILABLE,
   	vrf: supplementalPublicKeys.vrf?.publicKey || Constants.Message.UNAVAILABLE,
-  	voting: supplementalPublicKeys.voting?.map(vote => ({
-  		...vote,
-  		publicKey: vote.publicKey,
-  		startPoint: vote.startPoint.compact(),
-  		endPoint: vote.endPoint.compact()
-  	})) || []
+  	voting: supplementalPublicKeys.voting || []
   })
 
   /**

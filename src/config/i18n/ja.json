@@ -292,5 +292,6 @@
     "endPoint": "ファイナライズ終了ポイント",
     "checkMosaicAddressRestrictionStatus": "モザイクアドレス制限チェック",
     "check": "チェック",
-    "payloadSize": "サイズ (バイト)"
+    "payloadSize": "サイズ (バイト)",
+    "chainHeight": "Chain Height"
 }

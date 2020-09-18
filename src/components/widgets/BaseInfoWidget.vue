@@ -36,7 +36,7 @@
 							{{getNameByKey('blockHeight')}}
 						</div>
 						<div class="ex-item-value">
-							{{blockHeight}}
+							{{currentHeight}}
 						</div>
 					</b-col>
 					<b-col class="ex-item" sm="3" lg="12">
@@ -64,18 +64,21 @@ export default {
 
 	computed: {
 		...mapGetters({
-			blockHeight: 'chain/getBlockHeight',
+			chainInfo: 'chain/getChainInfo',
 			storageInfo: 'chain/getStorageInfo',
 			marketData: 'chain/getMarketData'
 		}),
 
 		loading() {
-			return !this.blockHeight;
+			return !this.chainInfo;
+		},
+
+		currentHeight() {
+			return this.chainInfo.currentHeight;
 		},
 
 		finalizedHeight() {
-			// Todo: finalized Height
-			return this.blockHeight - 18;
+			return this.chainInfo.finalizedBlockHeight;
 		}
 	},
 
