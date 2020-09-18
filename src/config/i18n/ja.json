@@ -293,5 +293,8 @@
     "checkMosaicAddressRestrictionStatus": "モザイクアドレス制限チェック",
     "check": "チェック",
     "payloadSize": "サイズ (バイト)",
-    "chainHeight": "Chain Height"
+    "chainHeight": "Chain Height",
+    "finalized": "Block Finalized",
+    "pending": "Block Pending to Finalized",
+    "finalizedHeight": "Finalized Height"
 }

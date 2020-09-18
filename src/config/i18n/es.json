@@ -190,5 +190,8 @@
     "checkMosaicAddressRestrictionStatus": "Check Mosaic Address Restriction",
     "check": "Check",
     "payloadSize": "Size (bytes)",
-    "chainHeight": "Chain Height"
+    "chainHeight": "Chain Height",
+    "finalized": "Block Finalized",
+    "pending": "Block Pending to Finalized",
+    "finalizedHeight": "Finalized Height"
 }
