@@ -22,11 +22,11 @@
 			v-for="(item, index) in value"
 			class="restriction"
 			:key="'restriction_key_' + index"
-			:title="'restriction type: ' + item.restrictionType + ' | restriction value: ' + item.restrictionValue"
+			:title="getTranslation('restrictionType') + ': ' + item.restrictionType + ' | ' + getTranslation('restrictionValue') + ': ' + item.restrictionValue"
 		>
 
 			<span class="restriction-content">
-				Key {{ item.restrictionKey }} {{ item.restrictionType || ':' }} {{ item.restrictionValue }}
+				{{getTranslation('restrictionKey')}} {{ item.restrictionKey }} {{ item.restrictionType || ':' }} {{ item.restrictionValue }}
 			</span>
 		</span>
 	</div>
@@ -40,6 +40,12 @@ export default {
 		value: {
 			type: Array,
 			required: true
+		}
+	},
+
+	methods: {
+		getTranslation(key) {
+			return this.$store.getters['ui/getNameByKey'](key);
 		}
 	}
 };
