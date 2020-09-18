@@ -143,7 +143,7 @@ class ReceiptService {
   					size: receipt.size || Constants.Message.UNAVAILABLE,
   					receiptType: Constants.ReceiptType[receipt.type],
   					targetAddress: receipt.targetAddress.plain(),
-  					amount: helper.formatMosaicAmountWithDivisibility(receipt.amount, http.networkCurrecy.divisibility),
+  					amount: helper.formatMosaicAmountWithDivisibility(receipt.amount, http.networkCurrency.divisibility),
   					mosaicId: receipt.mosaicId.toHex()
   				});
   				break;
@@ -156,7 +156,7 @@ class ReceiptService {
   					receiptType: Constants.ReceiptType[receipt.type],
   					senderAddress: receipt.senderAddress.address,
   					recipientAddress: receipt.recipientAddress.address,
-  					amount: helper.formatMosaicAmountWithDivisibility(receipt.amount, http.networkCurrecy.divisibility),
+  					amount: helper.formatMosaicAmountWithDivisibility(receipt.amount, http.networkCurrency.divisibility),
   					mosaicId: receipt.mosaicId.toHex()
   				});
   				break;
@@ -175,7 +175,7 @@ class ReceiptService {
   					...receipt,
   					size: receipt.size || Constants.Message.UNAVAILABLE,
   					receiptType: Constants.ReceiptType[receipt.type],
-  					amount: helper.formatMosaicAmountWithDivisibility(receipt.amount, http.networkCurrecy.divisibility),
+  					amount: helper.formatMosaicAmountWithDivisibility(receipt.amount, http.networkCurrency.divisibility),
   					mosaicId: receipt.mosaicId.toHex()
   				});
   				break;
