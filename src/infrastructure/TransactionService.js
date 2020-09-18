@@ -139,73 +139,7 @@ class TransactionService {
 		  BlockService.getMerkleTransaction(height, merkleComponentHash)
   	]);
 
-  	switch (formattedTransaction.type) {
-  	case TransactionType.TRANSFER:
-  		await Promise.all(formattedTransaction.mosaics.map(async mosaic => {
-  			if (mosaic.id instanceof NamespaceId)
-  				return (mosaic.id = await NamespaceService.getLinkedMosaicId(mosaic.id));
-  		}));
-
-  		// UnresolvedAddress
-  		formattedTransaction.transactionBody.recipient = await helper.resolvedAddress(formattedTransaction.recipientAddress);
-
-  		const mosaicIdsList = formattedTransaction.mosaics.map(mosaicInfo => mosaicInfo.id);
-
-  		const [mosaicInfos, mosaicNames] = await Promise.all([
-  			MosaicService.getMosaics(mosaicIdsList),
-  			NamespaceService.getMosaicsNames(mosaicIdsList)
-  		]);
-
-  		const transferMosaics = formattedTransaction.mosaics.map(mosaic => {
-  			let divisibility = mosaicInfos.find(info => info.mosaicId === mosaic.id.toHex()).divisibility;
-
-  			return {
-  				...mosaic,
-  				mosaicId: mosaic.id.toHex(),
-  				amount: helper.formatMosaicAmountWithDivisibility(mosaic.amount, divisibility),
-  				mosaicAliasName: MosaicService.extractMosaicNamespace({ mosaicId: mosaic.id.toHex() }, mosaicNames)
-  			};
-  		});
-
-  		formattedTransaction.transferMosaics = transferMosaics;
-  		delete formattedTransaction.transactionBody.mosaics;
-  		break;
-  	case TransactionType.AGGREGATE_COMPLETE:
-  	case TransactionType.AGGREGATE_BONDED:
-  		const innerTransactions = formattedTransaction.aggregateTransaction.innerTransactions.map(transaction => ({
-  			...transaction,
-  			transactionType: transaction.type
-  		}));
-
-  		formattedTransaction.aggregateTransaction.innerTransactions = innerTransactions;
-
-  		delete formattedTransaction.transactionBody.innerTransactions;
-  		delete formattedTransaction.transactionBody.cosignatures;
-  		break;
-  	case TransactionType.ADDRESS_ALIAS:
-  	case TransactionType.MOSAIC_ALIAS:
-  		const namespaceName = await NamespaceService.getNamespacesNames([NamespaceId.createFromEncoded(formattedTransaction.transactionBody.namespaceId)]);
-
-  		formattedTransaction.transactionBody.namespaceName = namespaceName[0].name;
-  		break;
-  	case TransactionType.HASH_LOCK:
-		  const mosaicId = new MosaicId(formattedTransaction.transactionBody.mosaicId);
-
-		  const getMosaicNames = await NamespaceService.getMosaicsNames([mosaicId]);
-		  const mosaicAliasName = MosaicService.extractMosaicNamespace({ mosaicId: mosaicId.id.toHex() }, getMosaicNames);
-
-		  Object.assign(formattedTransaction.transactionBody, { mosaicAliasName: mosaicAliasName });
-  		break;
-  	case TransactionType.SECRET_LOCK:
-  	case TransactionType.SECRET_PROOF:
-  		// UnresolvedAddress
-  		formattedTransaction.transactionBody.recipient = await helper.resolvedAddress(formattedTransaction.recipientAddress);
-  		break;
-  	case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
-  		// UnresolvedAddress
-  		formattedTransaction.transactionBody.targetAddress = await helper.resolvedAddress(formattedTransaction.targetAddress);
-  		break;
-  	}
+  	await this.formatTransaction2(formattedTransaction);
 
   	const transactionInfo = {
   		...formattedTransaction,
@@ -219,6 +153,75 @@ class TransactionService {
   	};
 
   	return transactionInfo;
+  }
+
+  static formatTransaction2 = async formattedTransaction => {
+	switch (formattedTransaction.type) {
+		case TransactionType.TRANSFER:
+			await Promise.all(formattedTransaction.mosaics.map(async mosaic => {
+				if (mosaic.id instanceof NamespaceId)
+					return (mosaic.id = await NamespaceService.getLinkedMosaicId(mosaic.id));
+			}));
+  
+			// UnresolvedAddress
+			formattedTransaction.transactionBody.recipient = await helper.resolvedAddress(formattedTransaction.recipientAddress);
+  
+			const mosaicIdsList = formattedTransaction.mosaics.map(mosaicInfo => mosaicInfo.id);
+  
+			const [mosaicInfos, mosaicNames] = await Promise.all([
+				MosaicService.getMosaics(mosaicIdsList),
+				NamespaceService.getMosaicsNames(mosaicIdsList)
+			]);
+  
+			const transferMosaics = formattedTransaction.mosaics.map(mosaic => {
+				let divisibility = mosaicInfos.find(info => info.mosaicId === mosaic.id.toHex()).divisibility;
+  
+				return {
+					...mosaic,
+					mosaicId: mosaic.id.toHex(),
+					amount: helper.formatMosaicAmountWithDivisibility(mosaic.amount, divisibility),
+					mosaicAliasName: MosaicService.extractMosaicNamespace({ mosaicId: mosaic.id.toHex() }, mosaicNames)
+				};
+			});
+  
+			formattedTransaction.transferMosaics = transferMosaics;
+			delete formattedTransaction.transactionBody.mosaics;
+			break;
+		case TransactionType.AGGREGATE_COMPLETE:
+		case TransactionType.AGGREGATE_BONDED:
+			const innerTransactions = formattedTransaction.aggregateTransaction.innerTransactions.map(transaction => ({
+				...transaction,
+				transactionType: transaction.type
+			}));
+			await Promise.all(innerTransactions.map(transaction => this.formatTransaction2(transaction)));
+			formattedTransaction.aggregateTransaction.innerTransactions = innerTransactions;
+			delete formattedTransaction.transactionBody.innerTransactions;
+			delete formattedTransaction.transactionBody.cosignatures;
+			break;
+		case TransactionType.ADDRESS_ALIAS:
+		case TransactionType.MOSAIC_ALIAS:
+			const namespaceName = await NamespaceService.getNamespacesNames([NamespaceId.createFromEncoded(formattedTransaction.transactionBody.namespaceId)]);
+  
+			formattedTransaction.transactionBody.namespaceName = namespaceName[0].name;
+			break;
+		case TransactionType.HASH_LOCK:
+			const mosaicId = new MosaicId(formattedTransaction.transactionBody.mosaicId);
+  
+			const getMosaicNames = await NamespaceService.getMosaicsNames([mosaicId]);
+			const mosaicAliasName = MosaicService.extractMosaicNamespace({ mosaicId: mosaicId.id.toHex() }, getMosaicNames);
+  
+			Object.assign(formattedTransaction.transactionBody, { mosaicAliasName: mosaicAliasName });
+			break;
+		case TransactionType.SECRET_LOCK:
+		case TransactionType.SECRET_PROOF:
+			// UnresolvedAddress
+			formattedTransaction.transactionBody.recipient = await helper.resolvedAddress(formattedTransaction.recipientAddress);
+			break;
+		case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
+			// UnresolvedAddress
+			formattedTransaction.transactionBody.targetAddress = await helper.resolvedAddress(formattedTransaction.targetAddress);
+			break;
+		}
   }
 
   /**
