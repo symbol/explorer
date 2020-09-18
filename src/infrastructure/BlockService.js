@@ -17,7 +17,7 @@
  */
 
 import { UInt64, TransactionGroup, Order, BlockOrderBy } from 'symbol-sdk';
-import { TransactionService, ReceiptService, ChainService } from '../infrastructure';
+import { TransactionService, ReceiptService } from '../infrastructure';
 import http from './http';
 import helper from '../helper';
 import { Constants } from '../config';
@@ -194,15 +194,15 @@ class BlockService {
    * @returns Block info object
    */
   static getBlockInfo = async height => {
-	const block = await this.getBlockByHeight(height);
+  	const block = await this.getBlockByHeight(height);
 
-	// Get merkle info
+  	// Get merkle info
   	let { stateHash, stateHashSubCacheMerkleRoots, blockReceiptsHash, blockTransactionsHash } = block;
 
   	// Append merkle root name into hash
   	stateHashSubCacheMerkleRoots = stateHashSubCacheMerkleRoots.map((root, index) => {
   		return `${Constants.MerkleRootsOrder[index]} - ${root}`;
-	});
+  	});
 
   	return {
   		...block,

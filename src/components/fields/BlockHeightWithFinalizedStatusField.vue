@@ -1,13 +1,17 @@
 <template>
 	<div class="blockHeightWithfinalizedStatus">
 		<div class="text">
-			<router-link :to="getItemHref('blocks', blocksHeight)">
-				<b class="link">{{ blocksHeight }}</b>
+			<router-link :to="getItemHref('blocks', blockHeight)">
+				<b class="link">{{ blockHeight }}</b>
 			</router-link>
 
 		</div>
 		<div class="icon">
-			<span class="mdi" :class="{[markerIcon]: true}"/>
+			<span
+				:title="isFinalized ? getTranslation('finalized') : getTranslation('pending')"
+				class="mdi"
+				:class="{[markerIcon]: true}"
+			/>
 		</div>
 	</div>
 </template>
@@ -28,22 +32,27 @@ export default {
 
 	computed: {
 		markerIcon() {
-			if (this.getLatestFinalizedHeight >= this.value)
+			if (this.isFinalized)
 				return `mdi-lock`;
 			return `mdi-clock-outline`;
 		},
-		blocksHeight() {
+		blockHeight() {
 			return this.value;
 		},
 		getLatestFinalizedHeight() {
-			// Todo: Get latest Finalized height from getter
-			return this.$store.getters[`chain/getBlockHeight`] - 18
+			return this.$store.getters[`chain/getChainInfo`].finalizedBlockHeight;
+		},
+		isFinalized() {
+			return this.getLatestFinalizedHeight >= this.blockHeight;
 		}
 	},
 
 	methods: {
 		getItemHref(itemKey, item) {
 			return this.$store.getters[`ui/getPageHref`]({ pageName: itemKey, param: item });
+		},
+		getTranslation(key) {
+			return this.$store.getters['ui/getNameByKey'](key);
 		}
 	}
 };

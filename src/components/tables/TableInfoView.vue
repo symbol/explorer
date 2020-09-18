@@ -15,7 +15,7 @@
 						<MosaicsField v-else-if="itemKey === 'mosaics'" :value="item" />
 						<Decimal v-else-if="isDecimal(itemKey)" :value="item" />
 						<TransactionType v-else-if="isTransactionType(itemKey)" :value="item" />
-						<BlockHeightWithFinalizedStatus v-else-if="isBlockHeightWithFinalizedStatus(itemKey)" :value="item" />
+						<BlockHeightWithFinalizedStatusField v-else-if="isBlockHeightWithFinalizedStatus(itemKey)" :value="item" />
 
 						<router-link
 							v-else-if="isKeyClickable(itemKey) && getItemHref(itemKey, item)"
@@ -36,7 +36,7 @@ import TableView from './TableView.vue';
 import MosaicsField from '@/components/fields/MosaicsField.vue';
 import ArrayField from '@/components/fields/ArrayField.vue';
 import TransactionType from '@/components/fields/TransactionType.vue';
-import BlockHeightWithFinalizedStatus from '@/components/fields/BlockHeightWithFinalizedStatus.vue';
+import BlockHeightWithFinalizedStatusField from '@/components/fields/BlockHeightWithFinalizedStatusField.vue';
 
 export default {
 	extends: TableView,
@@ -45,7 +45,7 @@ export default {
 		MosaicsField,
 		ArrayField,
 		TransactionType,
-		BlockHeightWithFinalizedStatus
+		BlockHeightWithFinalizedStatusField
 	},
 
 	props: {

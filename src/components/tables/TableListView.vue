@@ -31,7 +31,7 @@
 							<Decimal v-else-if="isDecimal(itemKey)" :value="item" />
 							<MosaicsField v-else-if="isMosaics(itemKey)" :value="item" />
 							<TransactionType v-else-if="isTransactionType(itemKey)" :value="item" />
-							<BlockHeightWithFinalizedStatus v-else-if="isBlockHeightWithFinalizedStatus(itemKey)" :value="item" />
+							<BlockHeightWithFinalizedStatusField v-else-if="isBlockHeightWithFinalizedStatus(itemKey)" :value="item" />
 
 							<div v-else-if="isAggregateInnerTransaction(itemKey)">
 								<b-link v-b-modal="'tlv_r'+rowIndex">Show Detail</b-link>
@@ -88,7 +88,7 @@ import MosaicsField from '@/components/fields/MosaicsField.vue';
 import TransactionType from '@/components/fields/TransactionType.vue';
 import ArrayField from '../fields/ArrayField.vue';
 import Loading from '@/components/Loading.vue';
-import BlockHeightWithFinalizedStatus from '@/components/fields/BlockHeightWithFinalizedStatus.vue';
+import BlockHeightWithFinalizedStatusField from '@/components/fields/BlockHeightWithFinalizedStatusField.vue';
 
 export default {
 	extends: TableView,
@@ -101,7 +101,7 @@ export default {
 		TransactionType,
 		ArrayField,
 		Loading,
-		BlockHeightWithFinalizedStatus
+		BlockHeightWithFinalizedStatusField
 	},
 
 	props: {

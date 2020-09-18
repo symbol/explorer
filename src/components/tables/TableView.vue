@@ -144,7 +144,7 @@ export default {
 		},
 
 		isBlockHeightWithFinalizedStatus(itemKey) {
-			return itemKey === 'height' || itemKey === 'blockHeight';
+			return itemKey === 'height' || itemKey === 'blockHeight' || itemKey === 'startHeight';
 		},
 
 		isArrayField(itemKey) {
