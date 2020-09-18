@@ -156,7 +156,8 @@
     "restrictionValues": "Values",
     "restrictionTransactionValues": "Values",
     "restrictionType": "Restriction Type",
-    "accountRestrictionTitle": "Account Restriction",
+    "accountRestrictionTitle": "Account Restrictions",
+    "mosaicAddressRestrictionTitle": "Mosaic Address Restrictions",
     "restrictionAddressAdditions": "Additions",
     "restrictionAddressDeletions": "Deletions",
     "restrictionMosaicAdditions": "Additions",
@@ -293,5 +294,6 @@
     "checkMosaicAddressRestrictionStatus": "Check Mosaic Address Restriction",
     "check": "Check",
     "payloadSize": "Size (bytes)",
-    "chainHeight": "Chain Height"
+    "chainHeight": "Chain Height",
+    "restrictions": "Restrictions (Allow If)"
 }

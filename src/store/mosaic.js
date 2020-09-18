@@ -36,17 +36,17 @@ const managers = [
 			pageSize: Constants.PageSize
 		}
 	}),
+	new Pagination({
+		name: 'restrictions',
+		fetchFunction: (pageInfo, filterValue, store) => RestrictionService.getMosaicRestrictionList(pageInfo, filterValue, store.getters.getCurrentMosaicId),
+		pageInfo: {
+			pageSize: Constants.PageSize
+		},
+		filter: filters.mosaicRestriction
+	}),
 	new DataSet(
 		'info',
 		(hexOrNamespace) => MosaicService.getMosaicInfo(hexOrNamespace)
-	),
-	new DataSet(
-		'restrictions',
-		(address) => RestrictionService.getMosaicGlobalRestrictionInfo(address)
-	),
-	new DataSet(
-		'mosaicAddressRestriction',
-		({ mosaicId, address }) => RestrictionService.getMosaicAddressRestrictionInfo(mosaicId, address)
 	),
 	new Pagination({
 		name: 'metadatas',
@@ -71,7 +71,6 @@ export default {
 	getters: {
 		...getGettersFromManagers(managers),
 		getInitialized: state => state.initialized,
-		getMosaicRestrictionList: state => state.restrictions?.data.restrictions || [],
 		getCurrentMosaicId: state => state.currentMosaicId
 	},
 	mutations: {
@@ -116,11 +115,6 @@ export default {
 			context.getters.info.setStore(context).initialFetch(payload.mosaicId);
 			context.getters.restrictions.setStore(context).initialFetch(payload.mosaicId);
 			context.getters.metadatas.setStore(context).initialFetch(payload.mosaicId);
-		},
-
-		fetchMosaicAddressRestriction(context, payload) {
-			context.getters.mosaicAddressRestriction.setStore(context).uninitialize();
-			context.getters.mosaicAddressRestriction.setStore(context).initialFetch(payload);
 		},
 
 		uninitializeDetail(context) {

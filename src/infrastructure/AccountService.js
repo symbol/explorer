@@ -107,7 +107,6 @@ class AccountService {
   static getAccountInfo = async address => {
   	const accountInfo = await this.getAccount(address);
   	const accountNames = await NamespaceService.getAccountsNames([Address.createFromRawAddress(address)]);
-	  const harvestedBlockList = await BlockService.searchBlocks({ signerPublicKey: accountInfo.publicKey });
 
   	return {
   		...accountInfo,
@@ -121,8 +120,7 @@ class AccountService {
   			...accountInfo.supplementalPublicKeys,
   			voting: Array.isArray(accountInfo.supplementalPublicKeys.voting) ? accountInfo.supplementalPublicKeys.voting.map(voting => voting.publicKey) : accountInfo.supplementalPublicKeys.voting
   		},
-  		accountAliasName: this.extractAccountNamespace(accountInfo, accountNames),
-  		harvestedBlock: harvestedBlockList?.totalEntries || 0
+  		accountAliasName: this.extractAccountNamespace(accountInfo, accountNames)
   	};
   }
 
