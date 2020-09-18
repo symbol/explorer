@@ -157,6 +157,7 @@
     "restrictionTransactionValues": "値",
     "restrictionType": "タイプ",
     "accountRestrictionTitle": "アカウント制限",
+    "mosaicAddressRestrictionTitle": "Mosaic Address Restrictions",
     "restrictionAddressAdditions": "追加",
     "restrictionAddressDeletions": "削除",
     "restrictionMosaicAdditions": "追加",
