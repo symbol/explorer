@@ -68,8 +68,10 @@ export default {
 		},
 
 		isAggregate() {
-			return this.data.type === TransactionType.AGGREGATE_COMPLETE ||
-				this.data.type === TransactionType.AGGREGATE_BONDED;
+			return process.env.NODE_ENV === 'development' && (
+				this.data.type === TransactionType.AGGREGATE_COMPLETE ||
+				this.data.type === TransactionType.AGGREGATE_BONDED
+			);
 		},
 
 		aggregateTitle() {
