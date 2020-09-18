@@ -138,10 +138,10 @@ export default class Pagination {
 		try {
 			this.pageInfo = await this.fetchFunction(this.pageInfo, this.filterValue, this.store);
 
-			// Update isLastPage from REST endpoint
+			// Update isLastPage from SDK endpoint
 			this.isLastPage = this.pageInfo.isLastPage;
 
-			// if isLastPage false SDK REST endpoint
+			// if isLastPage false SDK endpoint
 			// Do one more request to verify from REST
 			if (!this.pageInfo.isLastPage) {
 				const nextPage = {
@@ -149,9 +149,9 @@ export default class Pagination {
 					pageNumber: this.pageInfo.pageNumber + 1
 				};
 
-				const { isLastPage } = await this.fetchFunction(nextPage, this.filterValue, this.store);
+				const { data: nextPageData } = await this.fetchFunction(nextPage, this.filterValue, this.store);
 
-				this.isLastPage = isLastPage;
+				this.isLastPage = nextPageData.length === 0;
 			}
 		}
 		catch (e) {
