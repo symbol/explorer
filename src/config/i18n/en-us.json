@@ -156,7 +156,8 @@
     "restrictionValues": "Values",
     "restrictionTransactionValues": "Values",
     "restrictionType": "Restriction Type",
-    "accountRestrictionTitle": "Account Restriction",
+    "accountRestrictionTitle": "Account Restrictions",
+    "mosaicAddressRestrictionTitle": "Mosaic Address Restrictions",
     "restrictionAddressAdditions": "Additions",
     "restrictionAddressDeletions": "Deletions",
     "restrictionMosaicAdditions": "Additions",
@@ -288,13 +289,14 @@
     "blockTransactionsHash": "Transactions Hash",
     "position": "Position",
     "hash": "Hash",
-    "startPoint": "Start Finalization Point",
-    "endPoint": "End Finalization Point",
+    "startEpoch": "Start Finalization Epoch",
+    "endEpoch": "End Finalization Epoch",
     "checkMosaicAddressRestrictionStatus": "Check Mosaic Address Restriction",
     "check": "Check",
     "payloadSize": "Size (bytes)",
     "chainHeight": "Chain Height",
     "finalized": "Block Finalized",
     "pending": "Block Pending to Finalized",
-    "finalizedHeight": "Finalized Height"
+    "finalizedHeight": "Finalized Height",
+    "restrictions": "Restrictions (Allow If)"
 }

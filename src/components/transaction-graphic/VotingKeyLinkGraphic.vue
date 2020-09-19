@@ -91,10 +91,10 @@ export default {
 			required: true,
 			default: ''
 		},
-		startPoint: {
+		startEpoch: {
 			type: Number
 		},
-		endPoint: {
+		endEpoch: {
 			type: Number
 		}
 	},
@@ -126,8 +126,8 @@ export default {
 		keyLinkInfo() {
 			return {
 				publicKey: this.linkedPublicKey,
-				startPoint: this.startPoint,
-				endPoint: this.endPoint
+				startEpoch: this.startEpoch,
+				endEpoch: this.endEpoch
 			};
 		}
 	}

@@ -165,12 +165,12 @@ class Constants {
   }
 
   static MosaicRestrictionType = {
-  	[MosaicRestrictionType.EQ]: 'Allow Equal',
-  	[MosaicRestrictionType.GE]: 'Allow Greater Than Or Equal',
-  	[MosaicRestrictionType.GT]: 'Allow Greater Than',
-  	[MosaicRestrictionType.LE]: 'Allow Less Than Or Equal',
-  	[MosaicRestrictionType.LT]: 'Allow Less Than',
-  	[MosaicRestrictionType.NE]: 'Allow Not Equal',
+  	[MosaicRestrictionType.EQ]: 'Equal',
+  	[MosaicRestrictionType.GE]: 'Greater Than Or Equal',
+  	[MosaicRestrictionType.GT]: 'Greater Than',
+  	[MosaicRestrictionType.LE]: 'Less Than Or Equal',
+  	[MosaicRestrictionType.LT]: 'Less Than',
+  	[MosaicRestrictionType.NE]: 'Not Equal',
   	[MosaicRestrictionType.NONE]: 'No Restriction'
   }
 

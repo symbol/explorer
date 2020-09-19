@@ -79,6 +79,13 @@ const managers = [
 		}
 	}),
 	new Pagination({
+		name: 'mosaicAddressRestrictions',
+		fetchFunction: (pageInfo, filterValue, store) => RestrictionService.getMosaicAddressRestrictionList(pageInfo, store.getters.getCurrentAccountAddress),
+		pageInfo: {
+			pageSize: Constants.PageSize
+		}
+	}),
+	new Pagination({
 		name: 'metadatas',
 		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountMetadataList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
 		pageInfo: {
@@ -87,7 +94,7 @@ const managers = [
 		filter: filters.metadata
 	}),
 	new DataSet(
-		'restrictions',
+		'accountRestrictions',
 		(address) => RestrictionService.getAccountRestrictionList(address)
 	)
 ];
@@ -158,8 +165,9 @@ export default {
 			context.getters.multisig.setStore(context).initialFetch(payload.address);
 			context.getters.transactions.setStore(context).initialFetch(payload.address);
 			context.getters.metadatas.setStore(context).initialFetch(payload.address);
-			context.getters.restrictions.setStore(context).initialFetch(payload.address);
+			context.getters.mosaicAddressRestrictions.setStore(context).initialFetch(payload.address);
 			context.getters.harvestedBlocks.setStore(context).initialFetch(payload.address);
+			context.getters.accountRestrictions.setStore(context).initialFetch(payload.address);
 		},
 
 		uninitializeDetail(context) {
@@ -169,8 +177,9 @@ export default {
 			context.getters.multisig.setStore(context).uninitialize();
 			context.getters.transactions.setStore(context).uninitialize();
 			context.getters.metadatas.setStore(context).uninitialize();
-			context.getters.restrictions.setStore(context).uninitialize();
+			context.getters.mosaicAddressRestrictions.setStore(context).uninitialize();
 			context.getters.harvestedBlocks.setStore(context).uninitialize();
+			context.getters.accountRestrictions.setStore(context).uninitialize();
 		}
 	}
 };

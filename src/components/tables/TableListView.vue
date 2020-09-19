@@ -32,6 +32,7 @@
 							<MosaicsField v-else-if="isMosaics(itemKey)" :value="item" />
 							<TransactionType v-else-if="isTransactionType(itemKey)" :value="item" />
 							<BlockHeightWithFinalizedStatusField v-else-if="isBlockHeightWithFinalizedStatus(itemKey)" :value="item" />
+							<RestrictionField v-else-if="itemKey === 'restrictions'" :value="item" />
 
 							<div v-else-if="isAggregateInnerTransaction(itemKey)">
 								<b-link v-b-modal="'tlv_r'+rowIndex">Show Detail</b-link>
@@ -61,7 +62,7 @@
 			</table>
 			<div v-if="pagination || timelinePagination" class="bottom">
 				<div v-if="pagination">{{ pageIndex + 1 }}/{{ getPageNumber(lastPage) }}</div>
-				<div v-else>{{ getPageNumber(timeline.index, timeline.pageNumber) }}/ {{ getPageNumber(timeline.lastPage) }}</div>
+				<div v-else>{{ getPageNumber(timeline.index, timeline.pageNumber) }}/ {{ getPageNumber() }}</div>
 				<div class="pagination-wrapper">
 					<Pagination
 						:canFetchPrevious="prevPageExist"
@@ -86,7 +87,8 @@ import AggregateTransaction from '@/components/AggregateTransaction.vue';
 import Pagination from '@/components/controls/Pagination.vue';
 import MosaicsField from '@/components/fields/MosaicsField.vue';
 import TransactionType from '@/components/fields/TransactionType.vue';
-import ArrayField from '../fields/ArrayField.vue';
+import ArrayField from '@/components/fields/ArrayField.vue';
+import RestrictionField from '@/components/fields/RestrictionField.vue';
 import Loading from '@/components/Loading.vue';
 import BlockHeightWithFinalizedStatusField from '@/components/fields/BlockHeightWithFinalizedStatusField.vue';
 
@@ -100,8 +102,9 @@ export default {
 		MosaicsField,
 		TransactionType,
 		ArrayField,
-		Loading,
-		BlockHeightWithFinalizedStatusField
+		BlockHeightWithFinalizedStatusField,
+		RestrictionField,
+		Loading
 	},
 
 	props: {

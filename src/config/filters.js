@@ -5,7 +5,8 @@ import {
 	NamespaceRegistrationType,
 	MosaicId,
 	AccountOrderBy,
-	MetadataType
+	MetadataType,
+	MosaicRestrictionEntryType
 } from 'symbol-sdk';
 
 export const transaction = [
@@ -206,6 +207,23 @@ export const metadata = [
 		icon: 'mdi-tag',
 		value: {
 			metadataType: MetadataType.Namespace
+		}
+	}
+];
+
+export const mosaicRestriction = [
+	{
+		label: 'Mosaic Global Restriction',
+		icon: 'mdi-alert',
+		value: {
+			entryType: MosaicRestrictionEntryType.GLOBAL
+		}
+	},
+	{
+		label: 'Mosaic Address Restriction',
+		icon: 'mdi-account',
+		value: {
+			entryType: MosaicRestrictionEntryType.ADDRESS
 		}
 	}
 ];
