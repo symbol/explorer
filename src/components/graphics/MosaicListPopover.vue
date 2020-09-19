@@ -10,6 +10,7 @@
 			>
 				<MosaicIcon
 					v-if="!isNativeMosaic(mosaic.mosaicId)"
+					hideCaption
 					:width="32"
 					:height="32"
 					:mosaicId="mosaic.mosaicId"

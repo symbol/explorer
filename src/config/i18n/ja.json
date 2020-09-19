@@ -157,6 +157,7 @@
     "restrictionTransactionValues": "値",
     "restrictionType": "タイプ",
     "accountRestrictionTitle": "アカウント制限",
+    "mosaicAddressRestrictionTitle": "Mosaic Address Restrictions",
     "restrictionAddressAdditions": "追加",
     "restrictionAddressDeletions": "削除",
     "restrictionMosaicAdditions": "追加",
@@ -288,9 +289,14 @@
     "blockTransactionsHash": "トランザクションハッシュ",
     "position": "ポジション",
     "hash": "ハッシュ",
-    "startPoint": "ファイナライズ開始ポイント",
-    "endPoint": "ファイナライズ終了ポイント",
+    "startEpoch": "ファイナライズ開始ポイント",
+    "endEpoch": "ファイナライズ終了ポイント",
     "checkMosaicAddressRestrictionStatus": "モザイクアドレス制限チェック",
     "check": "チェック",
-    "payloadSize": "サイズ (バイト)"
+    "payloadSize": "サイズ (バイト)",
+    "chainHeight": "Chain Height",
+    "finalized": "Block Finalized",
+    "pending": "Block Pending to Finalized",
+    "finalizedHeight": "Finalized Height",
+    "restrictions": "Restrictions (Allow If)"
 }

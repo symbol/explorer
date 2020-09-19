@@ -79,6 +79,8 @@ export default {
 				const marketDataUrl = getters['marketData'];
 
 				await http.init(nodeUrl, marketDataUrl);
+
+				dispatch('chain/getChainInfo', null, { root: true });
 			};
 
 			await LOCK.initialize(callback, commit, dispatch, getters);

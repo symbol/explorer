@@ -67,8 +67,8 @@ export default {
 				'unresolved',
 				'addressResolutionEntries_',
 				'mosaicResolutionEntries_',
-				'restrictionMosaicValues',
-				'restrictionAddressValues',
+				'restrictionMosaicValues_',
+				'restrictionAddressValues_',
 				'referenceMosaicId',
 				'restrictionAddressAdditions',
 				'restrictionAddressDeletions',
@@ -141,6 +141,10 @@ export default {
 
 		isTransactionType(itemKey) {
 			return itemKey === 'transactionType';
+		},
+
+		isBlockHeightWithFinalizedStatus(itemKey) {
+			return itemKey === 'height' || itemKey === 'blockHeight' || itemKey === 'startHeight';
 		},
 
 		isArrayField(itemKey) {
