@@ -297,5 +297,8 @@
     "check": "Check",
     "payloadSize": "Size (bytes)",
     "chainHeight": "Chain Height",
+    "finalized": "Block Finalized",
+    "pending": "Block Pending to Finalized",
+    "finalizedHeight": "Finalized Height",
     "restrictions": "Restrictions (Allow If)"
 }
