@@ -26,7 +26,7 @@
     "js-sha3": "^0.8.0",
     "merkletreejs": "^0.2.9",
     "moment-timezone": "^0.5.28",
-    "symbol-sdk": "^0.20.8-alpha-202009151852",
+    "symbol-sdk": "^0.20.8-alpha-202009180859",
     "url-parse": "^1.4.7",
     "vue": "^2.6.11",
     "vue-apexcharts": "^1.5.2",
