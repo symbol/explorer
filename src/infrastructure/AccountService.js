@@ -107,7 +107,6 @@ class AccountService {
   static getAccountInfo = async address => {
   	const accountInfo = await this.getAccount(address);
   	const accountNames = await NamespaceService.getAccountsNames([Address.createFromRawAddress(address)]);
-	  const harvestedBlockList = await BlockService.searchBlocks({ signerPublicKey: accountInfo.publicKey });
 
   	return {
   		...accountInfo,
@@ -121,8 +120,7 @@ class AccountService {
   			...accountInfo.supplementalPublicKeys,
   			voting: Array.isArray(accountInfo.supplementalPublicKeys.voting) ? accountInfo.supplementalPublicKeys.voting.map(voting => voting.publicKey) : accountInfo.supplementalPublicKeys.voting
   		},
-  		accountAliasName: this.extractAccountNamespace(accountInfo, accountNames),
-  		harvestedBlock: harvestedBlockList?.totalEntries || 0
+  		accountAliasName: this.extractAccountNamespace(accountInfo, accountNames)
   	};
   }
 
@@ -182,7 +180,7 @@ class AccountService {
 
 	  const accountNamespaces = await NamespaceService.searchNamespaces(searchCriteria);
 
-  	const currentHeight = await ChainService.getBlockchainHeight();
+	  const { height: currentHeight } = await ChainService.getChainInfo();
 
   	return {
   		...accountNamespaces,
@@ -274,12 +272,7 @@ class AccountService {
   	linked: supplementalPublicKeys.linked?.publicKey || Constants.Message.UNAVAILABLE,
   	node: supplementalPublicKeys.node?.publicKey || Constants.Message.UNAVAILABLE,
   	vrf: supplementalPublicKeys.vrf?.publicKey || Constants.Message.UNAVAILABLE,
-  	voting: supplementalPublicKeys.voting?.map(vote => ({
-  		...vote,
-  		publicKey: vote.publicKey,
-  		startPoint: vote.startPoint.compact(),
-  		endPoint: vote.endPoint.compact()
-  	})) || []
+  	voting: supplementalPublicKeys.voting || []
   })
 
   /**
