@@ -143,6 +143,10 @@ export default {
 			return itemKey === 'transactionType';
 		},
 
+		isBlockHeightWithFinalizedStatus(itemKey) {
+			return itemKey === 'height' || itemKey === 'blockHeight' || itemKey === 'startHeight';
+		},
+
 		isArrayField(itemKey) {
 			return this.allowArrayToView.indexOf(itemKey) !== -1;
 		},

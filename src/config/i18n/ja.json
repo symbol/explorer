@@ -295,5 +295,8 @@
     "check": "チェック",
     "payloadSize": "サイズ (バイト)",
     "chainHeight": "Chain Height",
+    "finalized": "Block Finalized",
+    "pending": "Block Pending to Finalized",
+    "finalizedHeight": "Finalized Height",
     "restrictions": "Restrictions (Allow If)"
 }
