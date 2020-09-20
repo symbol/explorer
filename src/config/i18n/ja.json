@@ -123,6 +123,7 @@
     "namespaceLevelTitle": "ネームスペース階層",
     "transactionInfoTitle": "トランザクション情報",
     "transactionDetailTitle": "トランザクション詳細",
+    "merkleInfoTitle": "Merkle Info",
     "aggregateInnerTransactionsTitle": "アグリゲート内部トランザクション",
     "aggregateCosignaturesTitle": "アグリゲート連署名",
     "version":"バージョン",

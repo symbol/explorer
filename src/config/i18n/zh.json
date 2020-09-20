@@ -118,6 +118,7 @@
     "namespaceLevelTitle": "Namespace Level",
     "transactionInfoTitle": "Transaction Info",
     "transactionDetailTitle": "Transaction Detail",
+    "merkleInfoTitle": "Merkle Info",
     "aggregateInnerTransactionsTitle": "Aggregate Inner Transactions",
     "aggregateCosignaturesTitle": "Aggregate Cosignatures",
     "version":"Version",

@@ -125,6 +125,7 @@
     "namespaceLevelTitle": "Уровень Пространства имен",
     "transactionInfoTitle": "Информация о Транзакции",
     "transactionDetailTitle": "Детали Транзакции",
+    "merkleInfoTitle": "Merkle Info",
     "aggregateInnerTransactionsTitle": "Агрегированные Транзакции",
     "aggregateCosignaturesTitle": "Агрегированные подписи",
     "version":"Версия",
