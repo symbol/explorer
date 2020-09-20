@@ -41,4 +41,9 @@ describe('Symbol Explorer Menu Route should', () => {
         cy.get('.ex-menu').contains('Nodes').click()
         cy.url().should('contain', '/nodes')
     })
+
+    it('redirect to statistics page given click on statistics tab', () => {
+        cy.get('.ex-menu').contains('Statistics').click()
+        cy.url().should('contain', '/statistics')
+    })
 })

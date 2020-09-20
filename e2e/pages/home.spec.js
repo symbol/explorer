@@ -1,5 +1,5 @@
 // cypress/integration/spec.js
-describe.skip('Symbol Explorer Home Page should', () => {
+describe('Symbol Explorer Home Page should', () => {
   beforeEach(() => {
     cy.visit('/')
   })
@@ -25,13 +25,13 @@ describe.skip('Symbol Explorer Home Page should', () => {
     .should('be.visible')
 
     cy.get('.ex-item-title')
-    .should('have.length', 4)
+    .should('have.length', 5)
 
     cy.get('.ex-item-value')
     .should('be.visible')
 
     cy.get('.ex-item-value')
-    .should('have.length', 4)
+    .should('have.length', 5)
   })
 
   it('load Recent Transactions', () => {
