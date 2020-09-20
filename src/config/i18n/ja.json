@@ -289,9 +289,14 @@
     "blockTransactionsHash": "トランザクションハッシュ",
     "position": "ポジション",
     "hash": "ハッシュ",
-    "startPoint": "ファイナライズ開始ポイント",
-    "endPoint": "ファイナライズ終了ポイント",
+    "startEpoch": "ファイナライズ開始ポイント",
+    "endEpoch": "ファイナライズ終了ポイント",
     "checkMosaicAddressRestrictionStatus": "モザイクアドレス制限チェック",
     "check": "チェック",
-    "payloadSize": "サイズ (バイト)"
+    "payloadSize": "サイズ (バイト)",
+    "chainHeight": "Chain Height",
+    "finalized": "Block Finalized",
+    "pending": "Block Pending to Finalized",
+    "finalizedHeight": "Finalized Height",
+    "restrictions": "Restrictions (Allow If)"
 }

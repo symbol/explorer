@@ -18,30 +18,22 @@
 				:height="subjectHeight"
 				:address="signer"
 			/>
-			<AccountIcon
+			<MosaicIcon
 				:x="objectPositionX"
 				:y="objectPositionY"
 				:width="subjectWidth"
 				:height="subjectHeight"
-				:address="linkedAccountAddress"
+				:mosaic="mosaic"
 			/>
 			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
-			<KeyCircle
-				v-if="isLinkAction"
+			<AddCircle
 				:x="getCircleIconPositionX(0)"
 				:y="circleIconPositionY"
-				title="Voting Key Link"
-				:data="keyLinkInfo"
-			/>
-			<KeyUnlinkCircle
-				v-else
-				:x="getCircleIconPositionX(0)"
-				:y="circleIconPositionY"
-				title="Voting Key Link"
-				:data="keyLinkInfo"
+				:data="data"
+				:title="transactionType"
 			/>
 			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
-				{{ transactionType + subTitle }}
+				{{ transactionType }}
 				<title>{{ transactionType }}</title>
 			</text>
 		</svg>
@@ -51,51 +43,53 @@
 <script>
 import GraphicComponent from '../graphics/GraphicComponent.vue';
 import AccountIcon from '../graphics/AccountIcon.vue';
-import KeyCircle from '../graphics/KeyCircle.vue';
-import KeyUnlinkCircle from '../graphics/KeyUnlinkCircle.vue';
+import AddCircle from '../graphics/AddCircle.vue';
+import MosaicIcon from '../graphics/MosaicIcon.vue';
 import Arrow from '../graphics/Arrow.vue';
-import { TransactionType } from 'symbol-sdk';
 
 export default {
 	extends: GraphicComponent,
 
 	components: {
 		AccountIcon,
+		AddCircle,
 		Arrow,
-		KeyCircle,
-		KeyUnlinkCircle
+		MosaicIcon
 	},
 
 	props: {
-		type: {
-			type: Number,
-			default: TransactionType.VOTING_KEY_LINK
+		message: {
+			type: String,
+			default: ''
 		},
 		signer: {
 			type: String,
 			required: true,
 			default: ''
 		},
-		linkedAccountAddress: {
+		mosaicId: {
 			type: String,
-			required: true,
-			default: ''
+			required: true
 		},
-		linkAction: {
-			type: String,
-			required: true,
-			default: ''
+		divisibility: {
+			type: Number,
+			required: true
 		},
-		linkedPublicKey: {
-			type: String,
-			required: true,
-			default: ''
+		duration: {
+			type: Number,
+			required: true
 		},
-		startEpoch: {
-			type: Number
+		supplyMutable: {
+			type: Boolean,
+			required: true
 		},
-		endEpoch: {
-			type: Number
+		transferable: {
+			type: Boolean,
+			required: true
+		},
+		restrictable: {
+			type: Boolean,
+			required: true
 		}
 	},
 
@@ -115,19 +109,17 @@ export default {
 			return [true];
 		},
 
-		isLinkAction() {
-			return this.linkAction === 'Link';
+		mosaic() {
+			return { mosaicId: this.mosaicId };
 		},
 
-		subTitle() {
-			return `. ${this.linkAction} account`;
-		},
-
-		keyLinkInfo() {
+		data() {
 			return {
-				publicKey: this.linkedPublicKey,
-				startEpoch: this.startEpoch,
-				endEpoch: this.endEpoch
+				divisibility: this.divisibility,
+				duration: this.duration,
+				supplyMutable: this.supplyMutable,
+				transferable: this.transferable,
+				restrictable: this.restrictable
 			};
 		}
 	}
