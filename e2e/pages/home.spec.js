@@ -4,15 +4,15 @@ describe('Symbol Explorer Home Page should', () => {
     cy.visit('/')
   })
 
-  it('load XYM Price graph', () => {
+  it('load XEM Price graph', () => {
 
-    cy.contains('XYM Price')
+    cy.contains('XEM Price')
 
     // view all statistic button is clickable
     // cy.contains('View all statistics').click()
     // cy.url().should('contain', '/statistics')
 
-    // XYM price chart is visible
+    // XEM price chart is visible
     cy.get('.apexcharts-svg').should('be.visible')
 
   })
