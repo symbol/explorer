@@ -189,14 +189,19 @@ class TransactionService {
   		formattedTransaction.transactionBody.namespaceName = namespaceName[0].name;
   		break;
   	case TransactionType.HASH_LOCK:
-		  const mosaicId = new MosaicId(formattedTransaction.transactionBody.mosaicId);
+		  const hashLockMosaicAliasName = await helper.getSingleMosaicAliasName(new MosaicId(formattedTransaction.transactionBody.mosaicId));
 
-		  const getMosaicNames = await NamespaceService.getMosaicsNames([mosaicId]);
-		  const mosaicAliasName = MosaicService.extractMosaicNamespace({ mosaicId: mosaicId.id.toHex() }, getMosaicNames);
-
-		  Object.assign(formattedTransaction.transactionBody, { mosaicAliasName: mosaicAliasName });
+		  Object.assign(formattedTransaction.transactionBody, {
+			  mosaicAliasName: hashLockMosaicAliasName
+  		});
   		break;
   	case TransactionType.SECRET_LOCK:
+		  const secretLockMosaicAliasName = await helper.getSingleMosaicAliasName(new MosaicId(formattedTransaction.transactionBody.mosaicId));
+  		// UnresolvedAddress
+  		const recipient = await helper.resolvedAddress(formattedTransaction.recipientAddress);
+
+  		Object.assign(formattedTransaction.transactionBody, { mosaicAliasName: secretLockMosaicAliasName, recipient });
+  		break;
   	case TransactionType.SECRET_PROOF:
   		// UnresolvedAddress
   		formattedTransaction.transactionBody.recipient = await helper.resolvedAddress(formattedTransaction.recipientAddress);
@@ -391,6 +396,7 @@ class TransactionService {
   			transactionType: transactionBody.type,
   			duration: transactionBody.duration.compact(),
   			mosaicId: transactionBody.mosaic.id.toHex(), // Todo Format Mosaic
+  			amount: helper.toNetworkCurrency(transactionBody.mosaic.amount),
   			secret: transactionBody.secret,
   			recipient: transactionBody.recipientAddress,
   			hashAlgorithm: Constants.LockHashAlgorithm[transactionBody.hashAlgorithm]
