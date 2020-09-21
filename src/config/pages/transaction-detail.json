@@ -47,6 +47,21 @@
             {
                 "layoutOptions": "adaptive",
                 "type": "CardTable",
+                "title": "HashLockTitle",
+                "managerGetter": "transaction/hashLock",
+                "errorMessage": "transactionHashLockError",
+                "pagination": "none",
+                "fields": [
+					"amount",
+					"endHeight",
+					"ownerAddress",
+					"mosaicId",
+					"status"
+				]
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
                 "title": "mosaicsTitle",
                 "managerGetter": "transaction/info",
                 "dataGetter": "transaction/transferMosaics",

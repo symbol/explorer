@@ -18,6 +18,7 @@
     "addressAdditions_": "accounts",
     "addressDeletions_": "accounts",
     "linkedAccountAddress": "accounts",
+    "ownerAddress": "accounts",
 
     "transaction": "transactions",
     "transactionHash": "transactions",
