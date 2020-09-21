@@ -56,6 +56,7 @@ export default {
 				this.data.type === TransactionType.ADDRESS_ALIAS ||
 				this.data.type === TransactionType.MOSAIC_ALIAS ||
 				this.data.type === TransactionType.NAMESPACE_REGISTRATION ||
+				this.data.type === TransactionType.SECRET_LOCK ||
 				this.data.type === TransactionType.MOSAIC_DEFINITION ||
 				this.data.type === TransactionType.MOSAIC_SUPPLY_CHANGE ||
 				this.data.type === TransactionType.AGGREGATE_COMPLETE ||
@@ -129,7 +130,7 @@ export default {
         .aggregate-inner {
             position: relative;
             padding: 0 40px;
-            
+
             .aggregate-inner-index {
                 position: absolute;
                 top: 43%;
