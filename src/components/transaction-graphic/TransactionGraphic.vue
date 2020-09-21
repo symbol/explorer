@@ -18,6 +18,7 @@ import VrfKeyGraphic from '@/components/transaction-graphic/VrfKeyGraphic.vue';
 import AccountKeyLinkGraphic from '@/components/transaction-graphic/AccountKeyLinkGraphic.vue';
 import NodeKeyLinkGraphic from '@/components/transaction-graphic/NodeKeyLinkGraphic.vue';
 import VotingKeyLinkGraphic from '@/components/transaction-graphic/VotingKeyLinkGraphic.vue';
+import SecretProofGraphic from '@/components/transaction-graphic/SecretProofGraphic.vue';
 import { TransactionType } from 'symbol-sdk';
 
 export default {
@@ -38,6 +39,7 @@ export default {
 		MosaicSupplyChangeGraphic,
 		SecretLockGraphic,
 		HashLockGraphic,
+		SecretProofGraphic,
 		VrfKeyGraphic,
 		AccountKeyLinkGraphic,
 		NodeKeyLinkGraphic,
@@ -61,6 +63,7 @@ export default {
 			case TransactionType.MOSAIC_SUPPLY_CHANGE: return 'MosaicSupplyChangeGraphic';
 			case TransactionType.SECRET_LOCK: return 'SecretLockGraphic';
 			case TransactionType.HASH_LOCK: return 'HashLockGraphic';
+			case TransactionType.SECRET_PROOF: return 'SecretProofGraphic';
 			case TransactionType.VRF_KEY_LINK: return 'VrfKeyGraphic';
 			case TransactionType.ACCOUNT_KEY_LINK: return 'AccountKeyLinkGraphic';
 			case TransactionType.NODE_KEY_LINK: return 'NodeKeyLinkGraphic';

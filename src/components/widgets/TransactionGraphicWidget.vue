@@ -62,6 +62,7 @@ export default {
 				this.data.type === TransactionType.AGGREGATE_COMPLETE ||
 				this.data.type === TransactionType.AGGREGATE_BONDED ||
 				this.data.type === TransactionType.HASH_LOCK ||
+				this.data.type === TransactionType.SECRET_PROOF ||
 				this.data.type === TransactionType.VRF_KEY_LINK ||
 				this.data.type === TransactionType.ACCOUNT_KEY_LINK ||
 				this.data.type === TransactionType.NODE_KEY_LINK ||
