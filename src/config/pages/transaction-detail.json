@@ -47,7 +47,7 @@
             {
                 "layoutOptions": "adaptive",
                 "type": "CardTable",
-                "title": "HashLockTitle",
+                "title": "hashLockTitle",
                 "managerGetter": "transaction/hashLock",
                 "errorMessage": "transactionHashLockError",
                 "pagination": "none",

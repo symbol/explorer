@@ -263,6 +263,9 @@
     "transactionInfoError": "Transaction does not exist.",
     "transactionDetailError": "Transaction detail does not exist.",
     "transactionMosaicsError": "Transaction mosaic does not exist.",
+    "secretLockError": "Secret locks are not available.",
+    "hashLockError": "Hash locks are not available.",
+    "mosaicAddressRestrictionError": "Mosaic address restrictions are not available.",
     "aggregateInnerTransactionsError": "Aggregate inner transactions are not available.",
     "aggregateCosignaturesError": "Cosignatures are not available.",
 
@@ -293,5 +296,8 @@
     "finalized": "Block Finalized",
     "pending": "Block Pending to Finalized",
     "finalizedHeight": "Finalized Height",
-    "restrictions": "Restrictions (Allow If)"
+    "restrictions": "Restrictions (Allow If)",
+    "hashLockTitle": "Hash Lock",
+    "secretLockTitle": "Secret Lock",
+    "ownerAddress": "Owner Address"
 }

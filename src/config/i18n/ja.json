@@ -268,6 +268,10 @@
     "transactionInfoError": "トランザクションは存在しません",
     "transactionDetailError": "トランザクション詳細は存在しません",
     "transactionMosaicsError": "トランザクションモザイクは存在しません",
+
+    "secretLockError": "Secret locks are not available.",
+    "hashLockError": "Hash locks are not available.",
+    "mosaicAddressRestrictionError": "Mosaic address restrictions are not available.",
     "aggregateInnerTransactionsError": "アグリゲート内部トランザクションが有効ではありません",
     "aggregateCosignaturesError": "連署者が有効ではありません",
 
@@ -298,5 +302,8 @@
     "finalized": "Block Finalized",
     "pending": "Block Pending to Finalized",
     "finalizedHeight": "Finalized Height",
-    "restrictions": "Restrictions (Allow If)"
+    "restrictions": "Restrictions (Allow If)",
+    "hashLockTitle": "Hash Lock",
+    "secretLockTitle": "Secret Lock",
+    "ownerAddress": "Owner Address"
 }

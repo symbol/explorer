@@ -158,7 +158,7 @@
 			{
 				"layoutOptions": "full-width",
 				"type": "CardTable",
-				"title": "HashLockTitle",
+				"title": "hashLockTitle",
 				"managerGetter": "account/hashLocks",
 				"pagination": "server",
 				"hideOnError": true,
@@ -175,7 +175,7 @@
 			{
 				"layoutOptions": "full-width",
 				"type": "CardTable",
-				"title": "SecretLockTitle",
+				"title": "secretLockTitle",
 				"managerGetter": "account/secretLocks",
 				"pagination": "server",
 				"hideOnError": true,
