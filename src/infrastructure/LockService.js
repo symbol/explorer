@@ -18,6 +18,7 @@
 
 import http from './http';
 import helper from '../helper';
+import { Constants } from '../config';
 
 class LockService {
     /**
@@ -48,6 +49,37 @@ class LockService {
 
     	return this.formatHashLockInfo(hashLock);
     }
+
+    /**
+     * Gets a secret lock from searchCriteria
+     * @param secretLockSearchCriteria Object of Search Criteria
+     * @returns formatted secret lock data with pagination info
+     */
+    static searchSecretLocks = async (secretLockSearchCriteria) => {
+    	const searchSecretLocks = await http.createRepositoryFactory.createSecretLockRepository()
+  		.search(secretLockSearchCriteria)
+    		.toPromise();
+
+    	return {
+    		...searchSecretLocks,
+    		data: searchSecretLocks.data.map(hashLock => this.formatSecretLockInfo(hashLock))
+    	};
+    }
+
+    /**
+     * Format secretLockInfoDTO
+     * @param secretLockInfo
+     * @returns readable secretLockInfoDTO object
+     */
+    static formatSecretLockInfo = (secretLockInfo) => ({
+    	...secretLockInfo,
+    	amount: helper.formatMosaicAmountWithDivisibility(secretLockInfo.amount, http.networkCurrency.divisibility),
+    	endHeight: secretLockInfo.endHeight.compact(),
+    	mosaicId: secretLockInfo.mosaicId.toHex(),
+    	ownerAddress: secretLockInfo.ownerAddress.plain(),
+    	recipient: secretLockInfo.recipientAddress.plain(),
+    	hashAlgorithm: Constants.LockHashAlgorithm[secretLockInfo.hashAlgorithm]
+    })
 
     /**
      * Format HashLockInfoDTO

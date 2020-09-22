@@ -96,9 +96,9 @@ class Constants {
   }
 
   static LockHashAlgorithm = {
-  	[LockHashAlgorithm.Op_Sha3_256]: 'Op_Sha3_256',
-  	[LockHashAlgorithm.Op_Hash_160]: 'Op_Hash_160',
-  	[LockHashAlgorithm.Op_Hash_256]: 'Op_Hash_256'
+  	[LockHashAlgorithm.Op_Sha3_256]: 'Sha3 256',
+  	[LockHashAlgorithm.Op_Hash_160]: 'Hash 160',
+  	[LockHashAlgorithm.Op_Hash_256]: 'Hash 256'
   }
 
   static MetadataType = {
