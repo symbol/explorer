@@ -100,6 +100,13 @@ const managers = [
 			pageSize: 10
 		}
 	}),
+	new Pagination({
+		name: 'secretLocks',
+		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountSecretLockList(pageInfo, store.getters.getCurrentAccountAddress),
+		pageInfo: {
+			pageSize: 10
+		}
+	}),
 	new DataSet(
 		'accountRestrictions',
 		(address) => RestrictionService.getAccountRestrictionList(address)
@@ -176,6 +183,7 @@ export default {
 			context.getters.harvestedBlocks.setStore(context).initialFetch(payload.address);
 			context.getters.accountRestrictions.setStore(context).initialFetch(payload.address);
 			context.getters.hashLocks.setStore(context).initialFetch(payload.address);
+			context.getters.secretLocks.setStore(context).initialFetch(payload.address);
 		},
 
 		uninitializeDetail(context) {
@@ -189,6 +197,7 @@ export default {
 			context.getters.harvestedBlocks.setStore(context).uninitialize();
 			context.getters.accountRestrictions.setStore(context).uninitialize();
 			context.getters.hashLocks.setStore(context).uninitialize();
+			context.getters.secretLocks.setStore(context).uninitialize();
 		}
 	}
 };

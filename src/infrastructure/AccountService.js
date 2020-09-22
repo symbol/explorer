@@ -274,6 +274,25 @@ class AccountService {
   }
 
   /**
+   * Gets Account Secret Lock list dataset into Vue component
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param address - Account address
+   * @returns formatted account secret lock list
+   */
+  static getAccountSecretLockList = async (pageInfo, address) => {
+  	const { pageNumber, pageSize } = pageInfo;
+  	const searchCriteria = {
+  		pageNumber,
+  		pageSize,
+  		order: Order.Desc,
+  		address: Address.createFromRawAddress(address)
+  	};
+	  const accountSecretLocks = await LockService.searchSecretLocks(searchCriteria);
+
+	  return accountSecretLocks;
+  }
+
+  /**
    * Format AccountInfo to readable accountInfo objecy
    * @param accountInfo - AccountInfo DTO
    * @returns Readable AccountInfo DTO object
