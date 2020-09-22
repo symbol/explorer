@@ -56,7 +56,7 @@
     "beforeEndHeight": "終了高",
     "divisibility": "可分性",
     "supply": "供給量",
-    "owneraddress": "所有者アドレス",
+    "owneraddress": "所有アドレス",
     "revision": "リビジョン",
     "supplyMutable": "供給可変",
     "transferable": "転送可能",
@@ -157,7 +157,7 @@
     "restrictionTransactionValues": "値",
     "restrictionType": "タイプ",
     "accountRestrictionTitle": "アカウント制限",
-    "mosaicAddressRestrictionTitle": "Mosaic Address Restrictions",
+    "mosaicAddressRestrictionTitle": "モザイクアドレス制限",
     "restrictionAddressAdditions": "追加",
     "restrictionAddressDeletions": "削除",
     "restrictionMosaicAdditions": "追加",
@@ -294,9 +294,9 @@
     "checkMosaicAddressRestrictionStatus": "モザイクアドレス制限チェック",
     "check": "チェック",
     "payloadSize": "サイズ (バイト)",
-    "chainHeight": "Chain Height",
-    "finalized": "Block Finalized",
-    "pending": "Block Pending to Finalized",
-    "finalizedHeight": "Finalized Height",
-    "restrictions": "Restrictions (Allow If)"
+    "chainHeight": "チェーン高",
+    "finalized": "ファイナライズ済みブロック",
+    "pending": "ファイナライズ待ちブロック",
+    "finalizedHeight": "ファイナライズ済み高",
+    "restrictions": "制限 (許可されている場合)"
 }
