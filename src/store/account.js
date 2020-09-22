@@ -93,6 +93,13 @@ const managers = [
 		},
 		filter: filters.metadata
 	}),
+	new Pagination({
+		name: 'hashLocks',
+		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountHashLockList(pageInfo, store.getters.getCurrentAccountAddress),
+		pageInfo: {
+			pageSize: 10
+		}
+	}),
 	new DataSet(
 		'accountRestrictions',
 		(address) => RestrictionService.getAccountRestrictionList(address)
@@ -168,6 +175,7 @@ export default {
 			context.getters.mosaicAddressRestrictions.setStore(context).initialFetch(payload.address);
 			context.getters.harvestedBlocks.setStore(context).initialFetch(payload.address);
 			context.getters.accountRestrictions.setStore(context).initialFetch(payload.address);
+			context.getters.hashLocks.setStore(context).initialFetch(payload.address);
 		},
 
 		uninitializeDetail(context) {
@@ -180,6 +188,7 @@ export default {
 			context.getters.mosaicAddressRestrictions.setStore(context).uninitialize();
 			context.getters.harvestedBlocks.setStore(context).uninitialize();
 			context.getters.accountRestrictions.setStore(context).uninitialize();
+			context.getters.hashLocks.setStore(context).uninitialize();
 		}
 	}
 };

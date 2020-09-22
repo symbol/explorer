@@ -158,6 +158,23 @@
 			{
 				"layoutOptions": "full-width",
 				"type": "CardTable",
+				"title": "Hash Locks",
+				"managerGetter": "account/hashLocks",
+				"pagination": "server",
+				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
+				"errorMessage": "Hash locks are not available.",
+				"fields": [
+					"transactionHash",
+					"amount",
+					"endHeight",
+					"mosaicId",
+					"status"
+				]
+			},
+			{
+				"layoutOptions": "full-width",
+				"type": "CardTable",
 				"title": "importanceHistoryTitle",
 				"managerGetter": "account/info",
 				"dataGetter": "account/getActivityBucketList",
