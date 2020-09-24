@@ -19,7 +19,7 @@
 import { Address, TransactionType, TransactionGroup, Order, BlockOrderBy } from 'symbol-sdk';
 import http from './http';
 import { Constants } from '../config';
-import { NamespaceService, TransactionService, BlockService, ChainService, MetadataService } from '../infrastructure';
+import { NamespaceService, TransactionService, BlockService, ChainService, MetadataService, LockService } from '../infrastructure';
 import helper from '../helper';
 
 class AccountService {
@@ -143,7 +143,7 @@ class AccountService {
   		...filterVaule
   	};
 
-  	const accountTransactions = await TransactionService.searchTransactions(searchCriteria);
+	  const accountTransactions = await TransactionService.searchTransactions(searchCriteria);
 
   	return {
   		...accountTransactions,
@@ -244,6 +244,52 @@ class AccountService {
   	const accountMetadatas = await MetadataService.searchMetadatas(searchCriteria);
 
   	return accountMetadatas;
+  }
+
+  /**
+   * Gets Account Hash Lock list dataset into Vue component
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param address - Account address
+   * @returns formatted account hash lock list
+   */
+  static getAccountHashLockList = async (pageInfo, address) => {
+  	const { pageNumber, pageSize } = pageInfo;
+  	const searchCriteria = {
+  		pageNumber,
+  		pageSize,
+  		order: Order.Desc,
+  		address: Address.createFromRawAddress(address)
+  	};
+	  const accountHashLocks = await LockService.searchHashLocks(searchCriteria);
+
+	  return {
+  		...accountHashLocks,
+  		data: accountHashLocks.data.map(hashLock => {
+  			return {
+  				...hashLock,
+  				transactionHash: hashLock.hash
+  			};
+  		})
+  	};
+  }
+
+  /**
+   * Gets Account Secret Lock list dataset into Vue component
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param address - Account address
+   * @returns formatted account secret lock list
+   */
+  static getAccountSecretLockList = async (pageInfo, address) => {
+  	const { pageNumber, pageSize } = pageInfo;
+  	const searchCriteria = {
+  		pageNumber,
+  		pageSize,
+  		order: Order.Desc,
+  		address: Address.createFromRawAddress(address)
+  	};
+	  const accountSecretLocks = await LockService.searchSecretLocks(searchCriteria);
+
+	  return accountSecretLocks;
   }
 
   /**
