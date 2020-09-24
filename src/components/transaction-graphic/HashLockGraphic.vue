@@ -23,7 +23,7 @@
 				:y="objectPositionY"
 				:width="subjectWidth"
 				:height="subjectHeight"
-				:lockName="transactionType"
+				:lockName="subTitle"
 			/>
 			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
 			<MosaicsCircle
@@ -33,8 +33,8 @@
 				:mosaics="[mosaic]"
 			/>
 			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
-				{{ subTitle }}
-				<!-- <title>{{ transactionType }}</title> -->
+				{{ transactionType }}
+				<title>{{ transactionType }}</title>
 			</text>
 		</svg>
 	</div>
@@ -113,7 +113,7 @@ export default {
 		},
 
 		subTitle() {
-			return `Duration ${this.duration} blocks`;
+			return `${this.duration} Blocks`;
 		}
 	}
 };
