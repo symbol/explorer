@@ -32,7 +32,8 @@ import helper from '../helper';
 import {
 	BlockService,
 	NamespaceService,
-	MosaicService
+	MosaicService,
+	LockService
 } from '../infrastructure';
 import { toArray } from 'rxjs/operators';
 
@@ -58,11 +59,7 @@ class TransactionService {
   				resolve(transactionStatus);
   			})
   			.catch(error => {
-  				if (error.statusCode === 404)
-  					reject(error);
-  				transactionStatus.message = error.errorDetails.message;
-  				transactionStatus.detail = error.body;
-  				resolve(transactionStatus);
+  				reject(error);
   			});
   	});
   }
@@ -224,6 +221,17 @@ class TransactionService {
   	};
 
   	return transactionInfo;
+  }
+
+  /**
+   * Gets Formatted Hash Lock Info for Vue component
+   * @param hash Transaction hash
+   * @returns Custom Hash Lock object
+   */
+  static getHashLockInfo = async (hash) => {
+  	const hashInfo = await LockService.getHashLock(hash);
+
+  	return hashInfo;
   }
 
   /**

@@ -76,7 +76,8 @@ export default {
 				'restrictionMosaicDeletions',
 				'addressAdditions_',
 				'addressDeletions_',
-				'linkedAccountAddress'
+				'linkedAccountAddress',
+				'ownerAddress'
 			],
 			disableClickValues: [...Object.values(Constants.Message)],
 			changeDecimalColor: [

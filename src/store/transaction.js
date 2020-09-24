@@ -40,6 +40,10 @@ const managers = [
 	new DataSet(
 		'info',
 		(hash) => TransactionService.getTransactionInfo(hash)
+	),
+	new DataSet(
+		'hashLock',
+		(hash) => TransactionService.getHashLockInfo(hash)
 	)
 ];
 
@@ -143,10 +147,12 @@ export default {
 		getTransactionInfoByHash(context, payload) {
 			context.dispatch('uninitializeDetail');
 			context.getters.info.setStore(context).initialFetch(payload.transactionHash);
+			context.getters.hashLock.setStore(context).initialFetch(payload.transactionHash);
 		},
 
 		uninitializeDetail(context) {
 			context.getters.info.setStore(context).uninitialize();
+			context.getters.hashLock.setStore(context).uninitialize();
 		}
 	}
 };

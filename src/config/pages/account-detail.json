@@ -116,7 +116,7 @@
 				"pagination": "client",
 				"hideOnError": true,
 				"hideDependOnGetter": "account/info",
-				"errorMessage": " Account restrictions are not available.",
+				"errorMessage": "accountRestrictionError",
 				"fields": [
 					"restrictionType",
 					"restrictionMosaicValues"
@@ -130,7 +130,7 @@
 				"pagination": "server",
 				"hideOnError": true,
 				"hideDependOnGetter": "account/info",
-				"errorMessage": "Mosaic address restrictions are not available.",
+				"errorMessage": "mosaicAddressRestrictionError",
 				"fields": [
                     "compositeHash",
 					"entryType",
@@ -153,6 +153,42 @@
 					"senderAddress",
 					"targetAddress",
 					"metadataValue"
+				]
+			},
+			{
+				"layoutOptions": "full-width",
+				"type": "CardTable",
+				"title": "hashLockTitle",
+				"managerGetter": "account/hashLocks",
+				"pagination": "server",
+				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
+				"errorMessage": "hashLockError",
+				"fields": [
+					"transactionHash",
+					"amount",
+					"endHeight",
+					"mosaicId",
+					"status"
+				]
+			},
+			{
+				"layoutOptions": "full-width",
+				"type": "CardTable",
+				"title": "secretLockTitle",
+				"managerGetter": "account/secretLocks",
+				"pagination": "server",
+				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
+				"errorMessage": "secretLockError",
+				"fields": [
+					"recipient",
+					"secret",
+					"amount",
+					"endHeight",
+					"mosaicId",
+					"status",
+					"hashAlgorithm"
 				]
 			},
 			{
