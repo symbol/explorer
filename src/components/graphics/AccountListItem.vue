@@ -51,7 +51,7 @@ export default {
 		},
 
 		_value() {
-			return this.value || this.address.amount;
+			return this.value || this.account.amount;
 		}
 	}
 }
