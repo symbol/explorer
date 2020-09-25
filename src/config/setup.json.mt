@@ -1,13 +1,13 @@
 {
 	"peersApi": {
-		"defaultNode":"http://api-01.eu-central-1.097x.symboldev.network:3000",
+		"defaultNode":"http://api-01.eu-central-1.0.10.0.x.symboldev.network:3000",
 		"nodes": [
-				"http://api-01.ap-northeast-1.097x.symboldev.network:3000",
-				"http://api-01.ap-southeast-1.097x.symboldev.network:3000",
-				"http://api-01.eu-central-1.097x.symboldev.network:3000",
-				"http://api-01.eu-west-1.097x.symboldev.network:3000",
-				"http://api-01.us-east-1.097x.symboldev.network:3000",
-				"http://api-01.us-west-1.097x.symboldev.network:3000"
+				"http://api-01.ap-northeast-1.0.10.0.x.symboldev.network:3000",
+				"http://api-01.ap-southeast-1.0.10.0.x.symboldev.network:3000",
+				"http://api-01.eu-central-1.0.10.0.x.symboldev.network:3000",
+				"http://api-01.eu-west-1.0.10.0.x.symboldev.network:3000",
+				"http://api-01.us-east-1.0.10.0.x.symboldev.network:3000",
+				"http://api-01.us-west-1.0.10.0.x.symboldev.network:3000"
 		]
 	},
 	"endpoints": {
@@ -40,12 +40,12 @@
 				"icon": "IconGithub"
 			},
 			{
-				"href": "http://faucet-97x-01.symboldev.network/",
+				"href": "http://faucet-0.10.0.x-01.symboldev.network/",
 				"text": "Faucet-01",
 				"icon": "IconHomeCurrencyUsd"
 			},
 			{
-				"href": "http://faucet-97x-02.symboldev.network/",
+				"href": "http://faucet-0.10.0.x-02.symboldev.network/",
 				"text": "Faucet-02",
 				"icon": "IconHomeCurrencyUsd"
 			}
