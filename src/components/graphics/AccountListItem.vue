@@ -1,6 +1,6 @@
 <template>
     <b-list-group-item
-        class="d-flex justify-content-between align-items-center mosaic-list"
+        class="d-flex justify-content-between align-items-center list-item"
         :title="title"
     >
         <AccountIcon
@@ -56,3 +56,9 @@ export default {
 	}
 }
 </script>
+
+<style lang="scss" scoped>
+.list-item {
+    min-width: 250px;
+}
+</style>

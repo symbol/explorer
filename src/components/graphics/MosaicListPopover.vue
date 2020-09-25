@@ -48,7 +48,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.mosaic-list {
+.list-item {
     min-width: 250px;
 }
 </style>

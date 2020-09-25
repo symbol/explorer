@@ -3,18 +3,10 @@
         class="d-flex justify-content-between align-items-center list-item"
         :title="title"
     >
-        <MosaicIcon
-            v-if="!isNativeMosaic(mosaic.mosaicId)"
-            hideCaption
+        <IconTransactions
             :width="32"
             :height="32"
-            :mosaicId="mosaic.mosaicId"
-        />
-        <NativeMosaicIcon
-            v-else
-            :width="32"
-            :height="32"
-            :mosaicId="mosaic.mosaicId"
+            :title="transactionType"
         />
         {{ text }}
         <b-badge v-if="isValueExist" variant="primary" pill>{{ _value }}</b-badge>
@@ -23,22 +15,19 @@
 </template>
 
 <script>
-import MosaicIcon from '../graphics/MosaicIcon.vue';
-import NativeMosaicIcon from '../graphics/NativeMosaicIcon.vue';
+import IconTransactions from 'vue-material-design-icons/Send.vue';
 import GraphicComponent from './GraphicComponent.vue';
 
 export default {
 	extends: GraphicComponent,
 
 	components: {
-		MosaicIcon,
-		NativeMosaicIcon
+		IconTransactions
 	},
 
 	props: {
-		mosaic: {
-			type: Object,
-			default: () => ({})
+		transactionType: {
+			type: Number,
 		},
 
 		value: {
@@ -48,11 +37,11 @@ export default {
 
 	computed: {
 		text() {
-			return this.truncString(this.getMosaicName(this.mosaic), 5);
+			return this.truncString(this.getTransactionTypeCaption(this.transactionType), 5);
 		},
 
 		title() {
-			return this.getMosaicName(this.mosaic);
+			return this.getTransactionTypeCaption(this.transactionType);
 		},
 
 		isValueExist() {
@@ -60,13 +49,7 @@ export default {
 		},
 
 		_value() {
-			return this.value || this.mosaic.amount
-		}
-	},
-
-	methods: {
-		isNativeMosaic(mosaicId) {
-			return mosaicId === this.nativeMosaicId;
+			return this.value;
 		}
 	}
 }
