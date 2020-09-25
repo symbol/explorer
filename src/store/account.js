@@ -79,6 +79,13 @@ const managers = [
 		}
 	}),
 	new Pagination({
+		name: 'mosaicAddressRestrictions',
+		fetchFunction: (pageInfo, filterValue, store) => RestrictionService.getMosaicAddressRestrictionList(pageInfo, store.getters.getCurrentAccountAddress),
+		pageInfo: {
+			pageSize: Constants.PageSize
+		}
+	}),
+	new Pagination({
 		name: 'metadatas',
 		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountMetadataList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
 		pageInfo: {
@@ -86,8 +93,22 @@ const managers = [
 		},
 		filter: filters.metadata
 	}),
+	new Pagination({
+		name: 'hashLocks',
+		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountHashLockList(pageInfo, store.getters.getCurrentAccountAddress),
+		pageInfo: {
+			pageSize: 10
+		}
+	}),
+	new Pagination({
+		name: 'secretLocks',
+		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountSecretLockList(pageInfo, store.getters.getCurrentAccountAddress),
+		pageInfo: {
+			pageSize: 10
+		}
+	}),
 	new DataSet(
-		'restrictions',
+		'accountRestrictions',
 		(address) => RestrictionService.getAccountRestrictionList(address)
 	)
 ];
@@ -132,7 +153,8 @@ export default {
 		// Uninitialize the account model.
 		async uninitialize({ commit, dispatch, getters }) {
 			const callback = async () => {
-        getters.timeline?.uninitialize();
+				dispatch('uninitializeDetail');
+ 				getters.timeline?.uninitialize();
 			};
 
 			await LOCK.uninitialize(callback, commit, dispatch, getters);
@@ -157,8 +179,11 @@ export default {
 			context.getters.multisig.setStore(context).initialFetch(payload.address);
 			context.getters.transactions.setStore(context).initialFetch(payload.address);
 			context.getters.metadatas.setStore(context).initialFetch(payload.address);
-			context.getters.restrictions.setStore(context).initialFetch(payload.address);
+			context.getters.mosaicAddressRestrictions.setStore(context).initialFetch(payload.address);
 			context.getters.harvestedBlocks.setStore(context).initialFetch(payload.address);
+			context.getters.accountRestrictions.setStore(context).initialFetch(payload.address);
+			context.getters.hashLocks.setStore(context).initialFetch(payload.address);
+			context.getters.secretLocks.setStore(context).initialFetch(payload.address);
 		},
 
 		uninitializeDetail(context) {
@@ -168,8 +193,11 @@ export default {
 			context.getters.multisig.setStore(context).uninitialize();
 			context.getters.transactions.setStore(context).uninitialize();
 			context.getters.metadatas.setStore(context).uninitialize();
-			context.getters.restrictions.setStore(context).uninitialize();
+			context.getters.mosaicAddressRestrictions.setStore(context).uninitialize();
 			context.getters.harvestedBlocks.setStore(context).uninitialize();
+			context.getters.accountRestrictions.setStore(context).uninitialize();
+			context.getters.hashLocks.setStore(context).uninitialize();
+			context.getters.secretLocks.setStore(context).uninitialize();
 		}
 	}
 };

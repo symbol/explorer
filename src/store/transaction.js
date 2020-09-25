@@ -40,6 +40,10 @@ const managers = [
 	new DataSet(
 		'info',
 		(hash) => TransactionService.getTransactionInfo(hash)
+	),
+	new DataSet(
+		'hashLock',
+		(hash) => TransactionService.getHashLockInfo(hash)
 	)
 ];
 
@@ -65,11 +69,20 @@ export default {
 		transactionSchema: (state, getters) => ({
 			loading: getters.info.loading,
 			error: getters.info.error,
-			data: {
-				...getters.info.data,
-				...getters.transactionDetail,
-				mosaics: getters.transferMosaics
-			}
+			data: getters.info.data?.aggregateTransaction?.innerTransactions
+				? {
+					type: getters.info.data?.type,
+					innerTransactions: getters.info.data.aggregateTransaction.innerTransactions.map(transaction => ({
+						...transaction,
+						...transaction.transactionInfo,
+						...transaction.transactionBody
+					}))
+				}
+				: {
+					...getters.info.data,
+					...getters.transactionDetail,
+					mosaics: getters.transferMosaics
+				}
 		})
 	},
 	mutations: {
@@ -95,6 +108,7 @@ export default {
 		async uninitialize({ commit, dispatch, getters }) {
 			const callback = async () => {
 				dispatch('unsubscribe');
+				dispatch('uninitializeDetail');
                 getters.timeline?.uninitialize();
 			};
 
@@ -133,10 +147,12 @@ export default {
 		getTransactionInfoByHash(context, payload) {
 			context.dispatch('uninitializeDetail');
 			context.getters.info.setStore(context).initialFetch(payload.transactionHash);
+			context.getters.hashLock.setStore(context).initialFetch(payload.transactionHash);
 		},
 
 		uninitializeDetail(context) {
 			context.getters.info.setStore(context).uninitialize();
+			context.getters.hashLock.setStore(context).uninitialize();
 		}
 	}
 };

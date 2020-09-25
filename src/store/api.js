@@ -32,8 +32,8 @@ export default {
 		initialized: false,
 		nodes: [...globalConfig.peersApi.nodes],
 		defaultNode: helper.parseUrl(globalConfig.peersApi.defaultNode),
-		currentNode: helper.parseUrl(globalConfig.peersApi.defaultNode),
-		wsEndpoint: globalConfig.peersApi.defaultNode |> helper.httpToWsUrl,
+		currentNode: localStorage.getItem('currentNode') ? helper.parseUrl(localStorage.getItem('currentNode')) : helper.parseUrl(globalConfig.peersApi.defaultNode),
+		wsEndpoint: localStorage.getItem('currentNode') || globalConfig.peersApi.defaultNode |> helper.httpToWsUrl,
 		marketData: helper.parseUrl(globalConfig.endpoints.marketData)
 	},
 
@@ -56,9 +56,10 @@ export default {
 		mutate: (state, { key, value }) => Vue.set(state, key, value),
 		currentNode: (state, payload) => {
 			if (undefined !== payload) {
-				let currentNode = helper.parseUrl(payload);
+				const currentNode = helper.parseUrl(payload);
+				const wsEndpoint = currentNode.toString() |> helper.httpToWsUrl;
 
-				let wsEndpoint = currentNode.toString() |> helper.httpToWsUrl;
+				localStorage.setItem('currentNode', currentNode);
 
 				Vue.set(state, 'currentNode', currentNode);
 				Vue.set(state, 'wsEndpoint', wsEndpoint);
@@ -78,6 +79,8 @@ export default {
 				const marketDataUrl = getters['marketData'];
 
 				await http.init(nodeUrl, marketDataUrl);
+
+				dispatch('chain/getChainInfo', null, { root: true });
 			};
 
 			await LOCK.initialize(callback, commit, dispatch, getters);

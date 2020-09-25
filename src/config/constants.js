@@ -96,9 +96,9 @@ class Constants {
   }
 
   static LockHashAlgorithm = {
-  	[LockHashAlgorithm.Op_Sha3_256]: 'Op_Sha3_256',
-  	[LockHashAlgorithm.Op_Hash_160]: 'Op_Hash_160',
-  	[LockHashAlgorithm.Op_Hash_256]: 'Op_Hash_256'
+  	[LockHashAlgorithm.Op_Sha3_256]: 'Sha3 256',
+  	[LockHashAlgorithm.Op_Hash_160]: 'Hash 160',
+  	[LockHashAlgorithm.Op_Hash_256]: 'Hash 256'
   }
 
   static MetadataType = {
@@ -139,7 +139,7 @@ class Constants {
   static RoleType = {
   	[RoleType.ApiNode]: 'API NODE',
   	[RoleType.PeerNode]: 'PEER NODE',
-  	[RoleType.DualNode]: 'DUAL NODE'
+  	[RoleType.VotingNode]: 'VOTING NODE'
   }
 
   static AddressRestrictionFlag = {
@@ -165,12 +165,12 @@ class Constants {
   }
 
   static MosaicRestrictionType = {
-  	[MosaicRestrictionType.EQ]: 'Allow Equal',
-  	[MosaicRestrictionType.GE]: 'Allow Greater Than Or Equal',
-  	[MosaicRestrictionType.GT]: 'Allow Greater Than',
-  	[MosaicRestrictionType.LE]: 'Allow Less Than Or Equal',
-  	[MosaicRestrictionType.LT]: 'Allow Less Than',
-  	[MosaicRestrictionType.NE]: 'Allow Not Equal',
+  	[MosaicRestrictionType.EQ]: 'Equal',
+  	[MosaicRestrictionType.GE]: 'Greater Than Or Equal',
+  	[MosaicRestrictionType.GT]: 'Greater Than',
+  	[MosaicRestrictionType.LE]: 'Less Than Or Equal',
+  	[MosaicRestrictionType.LT]: 'Less Than',
+  	[MosaicRestrictionType.NE]: 'Not Equal',
   	[MosaicRestrictionType.NONE]: 'No Restriction'
   }
 

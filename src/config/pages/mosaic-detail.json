@@ -1,5 +1,5 @@
 {
-    "path": "/mosaic/:mosaicId",
+    "path": "/mosaics/:mosaicId",
     "name": "mosaic-detail",
     "meta": {
         "group": "detail-page",
@@ -35,27 +35,16 @@
             {
                 "layoutOptions": "adaptive",
                 "type": "CardTable",
-                "title": "mosaicRestrictionTitle",
-                "managerGetter": "mosaic/restrictions",
-                "errorMessage": "mosaicRestrictionError",
-                "pagination": "none",
-                "fields": [
-                    "compositeHash",
-                    "entryType"
-                ]
-            },
-            {
-                "layoutOptions": "adaptive",
-                "type": "CardTable",
                 "title": "mosaicRestrictionListTitle",
                 "managerGetter": "mosaic/restrictions",
-                "dataGetter": "mosaic/getMosaicRestrictionList",
                 "errorMessage": "mosaicRestrictionListError",
-                "pagination": "none",
+                "pagination": "server",
+                "hasFilter": true,
                 "fields": [
-                    "restrictionKey",
-                    "restrictionType",
-                    "restrictionValue"
+                    "compositeHash",
+                    "entryType",
+                    "targetAddress",
+                    "restrictions"
                 ]
             },
             {

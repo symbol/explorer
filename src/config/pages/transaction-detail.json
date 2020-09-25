@@ -1,5 +1,5 @@
 {
-    "path": "/transaction/:transactionHash",
+    "path": "/transactions/:transactionHash",
     "name": "transaction-detail",
     "meta": {
         "group": "detail-page",
@@ -24,6 +24,7 @@
                 "pagination": "none",
                 "fields": [
                     "blockHeight",
+                    "payloadSize",
                     "transactionHash",
                     "date",
                     "deadline",
@@ -42,6 +43,21 @@
                 "dataGetter": "transaction/transactionDetail",
                 "errorMessage": "transactionDetailError",
                 "pagination": "none"
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
+                "title": "hashLockTitle",
+                "managerGetter": "transaction/hashLock",
+                "errorMessage": "transactionHashLockError",
+                "pagination": "none",
+                "fields": [
+					"amount",
+					"endHeight",
+					"ownerAddress",
+					"mosaicId",
+					"status"
+				]
             },
             {
                 "layoutOptions": "adaptive",

@@ -18,7 +18,7 @@
 
 import { Constants } from './config';
 import { NetworkType, MosaicId, NamespaceId, Address } from 'symbol-sdk';
-import { NamespaceService } from './infrastructure';
+import { NamespaceService, MosaicService } from './infrastructure';
 import http from './infrastructure/http';
 import moment from 'moment';
 
@@ -231,7 +231,7 @@ class helper {
    * @returns balance - formatted mosaic amount
    */
   static getNetworkCurrencyBalance = mosaics => {
-  	let mosaic = mosaics.find(mosaic => mosaic.id.toHex() === http.networkCurrecy.mosaicId);
+  	let mosaic = mosaics.find(mosaic => mosaic.id.toHex() === http.networkCurrency.mosaicId);
 
   	let balance = mosaic !== undefined ? this.toNetworkCurrency(mosaic.amount) : Constants.Message.UNAVAILABLE;
 
@@ -273,7 +273,7 @@ class helper {
    */
   static ImportanceScoreToPercent = rawScore => {
   	const totalchainimportance = http.networkConfig.TotalChainImportance;
-  	const divisibility = http.networkCurrecy.divisibility;
+  	const divisibility = http.networkCurrency.divisibility;
 
   	let percent = rawScore;
 
@@ -289,7 +289,7 @@ class helper {
    * @param amount - number
    * @returns amount - (string) with formatted divisibility
    */
-  static toNetworkCurrency = amount => (amount / Math.pow(10, http.networkCurrecy.divisibility)).toLocaleString('en-US', { minimumFractionDigits: http.networkCurrecy.divisibility })
+  static toNetworkCurrency = amount => (amount / Math.pow(10, http.networkCurrency.divisibility)).toLocaleString('en-US', { minimumFractionDigits: http.networkCurrency.divisibility })
 
   /**
    * Convert public key to Address.
@@ -314,7 +314,7 @@ class helper {
   	let sortedMosaics = [];
 
   	mosaics.forEach(mosaic =>
-  		mosaic.mosaicId === http.networkCurrecy.mosaicId
+  		mosaic.mosaicId === http.networkCurrency.mosaicId
   			? sortedMosaics.unshift(mosaic)
   			: sortedMosaics.push(mosaic)
   	);
@@ -423,6 +423,29 @@ class helper {
   	const address = await NamespaceService.getLinkedAddress(unResolvedAddress);
 
   	return address.plain();
+  }
+
+  /**
+   * Check native namespace.
+   * @param namespaceName - namespace name in string format.
+   * @returns boolean
+   */
+  static isNativeNamespace = (namespaceName) => {
+  	const values = Object.values(http.networkCurrency.namespace);
+
+  	return values.indexOf(namespaceName) !== -1;
+  }
+
+  /**
+   * Gets single mosaic alias name
+   * @param mosaicId
+   * @return mosaic alias name
+   */
+  static getSingleMosaicAliasName = async (mosaicId) => {
+  	const getMosaicNames = await NamespaceService.getMosaicsNames([mosaicId]);
+  	const mosaicAliasName = MosaicService.extractMosaicNamespace({ mosaicId: mosaicId.id.toHex() }, getMosaicNames);
+
+  	return mosaicAliasName;
   }
 }
 

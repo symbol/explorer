@@ -1,18 +1,18 @@
 // cypress/integration/spec.js
-describe.skip('Symbol Explorer Home Page should', () => {
+describe('Symbol Explorer Home Page should', () => {
   beforeEach(() => {
     cy.visit('/')
   })
 
-  it('load XYM Price graph', () => {
+  it('load XEM Price graph', () => {
 
-    cy.contains('XYM Price')
+    cy.contains('XEM Price')
 
     // view all statistic button is clickable
     // cy.contains('View all statistics').click()
     // cy.url().should('contain', '/statistics')
 
-    // XYM price chart is visible
+    // XEM price chart is visible
     cy.get('.apexcharts-svg').should('be.visible')
 
   })
@@ -25,13 +25,13 @@ describe.skip('Symbol Explorer Home Page should', () => {
     .should('be.visible')
 
     cy.get('.ex-item-title')
-    .should('have.length', 4)
+    .should('have.length', 5)
 
     cy.get('.ex-item-value')
     .should('be.visible')
 
     cy.get('.ex-item-value')
-    .should('have.length', 4)
+    .should('have.length', 5)
   })
 
   it('load Recent Transactions', () => {

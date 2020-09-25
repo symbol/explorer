@@ -3,7 +3,7 @@ import datafiled from '../../config/datafiled.json'
 
 describe('Symbol Explorer Transaction detail page for Hash Lock.', () => {
     beforeEach(() => {
-        cy.visit(`/transaction/${config.testTransactions.hashLock}`)
+        cy.visit(`/transactions/${config.testTransactions.hashLock}`)
     })
 
     describe('Transaction info card should', () => {
@@ -31,7 +31,7 @@ describe('Symbol Explorer Transaction detail page for Hash Lock.', () => {
         })
 
         it('render correct transaction detail titles', () => {
-            const items = ['Type', 'Duration', 'Mosaic ID', 'Amount']
+            const items = ['Transaction Type', 'Duration', 'Mosaic ID', 'Amount', 'Hash', 'Alias Namespace']
             cy.renderFieldInTable("transactionDetailTitle", items)
         })
 

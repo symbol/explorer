@@ -67,8 +67,8 @@ export default {
 				'unresolved',
 				'addressResolutionEntries_',
 				'mosaicResolutionEntries_',
-				'restrictionMosaicValues',
-				'restrictionAddressValues',
+				'restrictionMosaicValues_',
+				'restrictionAddressValues_',
 				'referenceMosaicId',
 				'restrictionAddressAdditions',
 				'restrictionAddressDeletions',
@@ -76,7 +76,8 @@ export default {
 				'restrictionMosaicDeletions',
 				'addressAdditions_',
 				'addressDeletions_',
-				'linkedAccountAddress'
+				'linkedAccountAddress',
+				'ownerAddress'
 			],
 			disableClickValues: [...Object.values(Constants.Message)],
 			changeDecimalColor: [
@@ -141,6 +142,10 @@ export default {
 
 		isTransactionType(itemKey) {
 			return itemKey === 'transactionType';
+		},
+
+		isBlockHeightWithFinalizedStatus(itemKey) {
+			return itemKey === 'height' || itemKey === 'blockHeight' || itemKey === 'startHeight';
 		},
 
 		isArrayField(itemKey) {

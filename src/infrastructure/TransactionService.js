@@ -23,7 +23,8 @@ import {
 	AggregateTransactionInfo,
 	NamespaceId,
 	TransactionGroup,
-	Order
+	Order,
+	MosaicId
 } from 'symbol-sdk';
 import Constants from '../config/constants';
 import http from './http';
@@ -31,7 +32,8 @@ import helper from '../helper';
 import {
 	BlockService,
 	NamespaceService,
-	MosaicService
+	MosaicService,
+	LockService
 } from '../infrastructure';
 import { toArray } from 'rxjs/operators';
 
@@ -57,11 +59,7 @@ class TransactionService {
   				resolve(transactionStatus);
   			})
   			.catch(error => {
-  				if (error.statusCode === 404)
-  					reject(error);
-  				transactionStatus.message = error.errorDetails.message;
-  				transactionStatus.detail = error.body;
-  				resolve(transactionStatus);
+  				reject(error);
   			});
   	});
   }
@@ -131,14 +129,30 @@ class TransactionService {
 
   	let { transactionInfo: { height, merkleComponentHash } } = formattedTransaction;
 
-  	let { date } = await BlockService.getBlockInfo(height);
+  	const [{ date }, effectiveFee, transactionStatus, merklePath] = await Promise.all([
+		  BlockService.getBlockInfo(height),
+		  this.getTransactionEffectiveFee(hash),
+		  this.getTransactionStatus(hash),
+		  BlockService.getMerkleTransaction(height, merkleComponentHash)
+  	]);
 
-  	let effectiveFee = await this.getTransactionEffectiveFee(hash);
+  	await this.formatTransaction2(formattedTransaction);
 
-  	const transactionStatus = await this.getTransactionStatus(hash);
+  	const transactionInfo = {
+  		...formattedTransaction,
+  		blockHeight: formattedTransaction.height,
+  		transactionHash: formattedTransaction.hash,
+  		effectiveFee,
+  		date,
+  		status: transactionStatus.detail.code,
+  		confirm: transactionStatus.message,
+  		merklePath
+  	};
 
-  	const merklePath = await BlockService.getMerkleTransaction(height, merkleComponentHash);
+  	return transactionInfo;
+  }
 
+  static formatTransaction2 = async formattedTransaction => {
   	switch (formattedTransaction.type) {
   	case TransactionType.TRANSFER:
   		await Promise.all(formattedTransaction.mosaics.map(async mosaic => {
@@ -150,8 +164,11 @@ class TransactionService {
   		formattedTransaction.transactionBody.recipient = await helper.resolvedAddress(formattedTransaction.recipientAddress);
 
   		const mosaicIdsList = formattedTransaction.mosaics.map(mosaicInfo => mosaicInfo.id);
-  		const mosaicInfos = await MosaicService.getMosaics(mosaicIdsList);
-  		const mosaicNames = await NamespaceService.getMosaicsNames(mosaicIdsList);
+
+  		const [mosaicInfos, mosaicNames] = await Promise.all([
+  			MosaicService.getMosaics(mosaicIdsList),
+  			NamespaceService.getMosaicsNames(mosaicIdsList)
+  		]);
 
   		const transferMosaics = formattedTransaction.mosaics.map(mosaic => {
   			let divisibility = mosaicInfos.find(info => info.mosaicId === mosaic.id.toHex()).divisibility;
@@ -185,7 +202,20 @@ class TransactionService {
 
   		formattedTransaction.transactionBody.namespaceName = namespaceName[0].name;
   		break;
+  	case TransactionType.HASH_LOCK:
+		  const hashLockMosaicAliasName = await helper.getSingleMosaicAliasName(new MosaicId(formattedTransaction.transactionBody.mosaicId));
+
+		  Object.assign(formattedTransaction.transactionBody, {
+			  mosaicAliasName: hashLockMosaicAliasName
+  		});
+  		break;
   	case TransactionType.SECRET_LOCK:
+		  const secretLockMosaicAliasName = await helper.getSingleMosaicAliasName(new MosaicId(formattedTransaction.transactionBody.mosaicId));
+  		// UnresolvedAddress
+  		const recipient = await helper.resolvedAddress(formattedTransaction.recipientAddress);
+
+  		Object.assign(formattedTransaction.transactionBody, { mosaicAliasName: secretLockMosaicAliasName, recipient });
+  		break;
   	case TransactionType.SECRET_PROOF:
   		// UnresolvedAddress
   		formattedTransaction.transactionBody.recipient = await helper.resolvedAddress(formattedTransaction.recipientAddress);
@@ -195,19 +225,17 @@ class TransactionService {
   		formattedTransaction.transactionBody.targetAddress = await helper.resolvedAddress(formattedTransaction.targetAddress);
   		break;
   	}
+  }
 
-  	const transactionInfo = {
-  		...formattedTransaction,
-  		blockHeight: formattedTransaction.height,
-  		transactionHash: formattedTransaction.hash,
-  		effectiveFee,
-  		date,
-  		status: transactionStatus.detail.code,
-  		confirm: transactionStatus.message,
-  		merklePath
-  	};
+  /**
+   * Gets Formatted Hash Lock Info for Vue component
+   * @param hash Transaction hash
+   * @returns Custom Hash Lock object
+   */
+  static getHashLockInfo = async (hash) => {
+  	const hashInfo = await LockService.getHashLock(hash);
 
-  	return transactionInfo;
+  	return hashInfo;
   }
 
   /**
@@ -290,7 +318,7 @@ class TransactionService {
 
   		return {
   			transactionType: transactionBody.type,
-  			recipient: http.networkConfig.NamespaceRentalFeeSinkAddress,
+  			recipient: http.networkConfig.NamespaceRentalFeeSinkAddress.address,
   			registrationType: Constants.NamespaceRegistrationType[transactionBody.registrationType],
   			namespaceName: transactionBody.namespaceName,
   			namespaceId: transactionBody.namespaceId.toHex(),
@@ -319,7 +347,7 @@ class TransactionService {
   	case TransactionType.MOSAIC_DEFINITION:
   		return {
   			transactionType: transactionBody.type,
-  			recipient: http.networkConfig.MosaicRentalSinkAddress,
+  			recipient: http.networkConfig.MosaicRentalSinkAddress.address,
   			mosaicId: transactionBody.mosaicId.toHex(),
   			divisibility: transactionBody.divisibility,
   			duration: transactionBody.duration.compact(),
@@ -370,8 +398,9 @@ class TransactionService {
   		return {
   			transactionType: transactionBody.type,
   			duration: transactionBody.duration.compact(),
-  			mosaicId: transactionBody.mosaic.id.toHex(), // Todo Format Mosaic
-  			amount: helper.toNetworkCurrency(transactionBody.mosaic.amount)
+  			mosaicId: transactionBody.mosaic.id.toHex(),
+  			amount: helper.toNetworkCurrency(transactionBody.mosaic.amount),
+  			hash: transactionBody.hash
   		};
 
   	case TransactionType.SECRET_LOCK:
@@ -379,6 +408,7 @@ class TransactionService {
   			transactionType: transactionBody.type,
   			duration: transactionBody.duration.compact(),
   			mosaicId: transactionBody.mosaic.id.toHex(), // Todo Format Mosaic
+  			amount: helper.toNetworkCurrency(transactionBody.mosaic.amount),
   			secret: transactionBody.secret,
   			recipient: transactionBody.recipientAddress,
   			hashAlgorithm: Constants.LockHashAlgorithm[transactionBody.hashAlgorithm]
@@ -476,14 +506,22 @@ class TransactionService {
   			valueSizeDelta: transactionBody.valueSizeDelta
   		};
   	case TransactionType.VOTING_KEY_LINK:
+		  return {
+  			transactionType: transactionBody.type,
+  			linkAction: Constants.LinkAction[transactionBody.linkAction],
+  			linkedPublicKey: transactionBody.linkedPublicKey,
+  			linkedAccountAddress: Address.createFromPublicKey(transactionBody.linkedPublicKey, http.networkType).plain(),
+  			startEpoch: transactionBody.startEpoch,
+  			endEpoch: transactionBody.endEpoch
+  		};
   	case TransactionType.VRF_KEY_LINK:
   	case TransactionType.NODE_KEY_LINK:
   	case TransactionType.ACCOUNT_KEY_LINK:
   		return {
   			transactionType: transactionBody.type,
   			linkAction: Constants.LinkAction[transactionBody.linkAction],
-  			linkedPublicKey: transactionBody.linkedPublicKey
-  			// linkedAccountAddress: Address.createFromPublicKey(transactionBody.linkedPublicKey, http.networkType).plain()
+  			linkedPublicKey: transactionBody.linkedPublicKey,
+  			linkedAccountAddress: Address.createFromPublicKey(transactionBody.linkedPublicKey, http.networkType).plain()
   		};
   	}
   }

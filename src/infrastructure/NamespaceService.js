@@ -134,7 +134,7 @@ class NamespaceService {
   	let namespaceId = await helper.hexOrNamespaceToId(hexOrNamespace, 'namespace');
 
   	let namespace = await this.getNamespace(namespaceId);
-  	const currentHeight = await ChainService.getBlockchainHeight();
+  	const { height: currentHeight } = await ChainService.getChainInfo();
 
   	let {
   		isExpired,
@@ -157,10 +157,10 @@ class NamespaceService {
   		formattedNamespaceInfo.aliasMosaic = namespace.alias;
 
   	// End height disable click before expired.
-  	formattedNamespaceInfo.expiredInBlock = http.networkCurrecy.namespace.indexOf(namespace.namespaceName.toUpperCase()) !== -1 ? Constants.Message.INFINITY : expiredInBlock + ` ≈ ` + formattedNamespaceInfo.duration;
+  	formattedNamespaceInfo.expiredInBlock = helper.isNativeNamespace(namespace.namespaceName.toUpperCase()) ? Constants.Message.INFINITY : expiredInBlock + ` ≈ ` + formattedNamespaceInfo.duration;
 
   	if (!isExpired) {
-  		formattedNamespaceInfo.beforeEndHeight = http.networkCurrecy.namespace.indexOf(namespace.namespaceName.toUpperCase()) !== -1 ? Constants.Message.INFINITY : formattedNamespaceInfo.endHeight + ` ( ${http.networkConfig.NamespaceGraceDuration} blocks of grace period )`;
+  		formattedNamespaceInfo.beforeEndHeight = helper.isNativeNamespace(namespace.namespaceName.toUpperCase()) ? Constants.Message.INFINITY : formattedNamespaceInfo.endHeight + ` ( ${http.networkConfig.NamespaceGraceDuration} blocks of grace period )`;
   		delete formattedNamespaceInfo.endHeight;
   	}
 
@@ -196,7 +196,7 @@ class NamespaceService {
   	};
 
   	const namespaceInfos = await this.searchNamespaces(searchCriteria);
-  	const currentHeight = await ChainService.getBlockchainHeight();
+  	const { height: currentHeight } = await ChainService.getChainInfo();
 
   	return {
   		...namespaceInfos,
@@ -302,7 +302,7 @@ class NamespaceService {
   	namespaceId: namespace.id.toHex(),
   	registrationType: Constants.NamespaceRegistrationType[namespace.registrationType],
   	startHeight: namespace.startHeight.compact(),
-  	endHeight: http.networkCurrecy.namespace.indexOf(namespace.name.toUpperCase()) !== -1
+  	endHeight: helper.isNativeNamespace(namespace.name.toUpperCase())
   		? Constants.Message.INFINITY
   		: namespace.endHeight.compact(),
   	active: namespace.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
