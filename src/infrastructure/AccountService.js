@@ -19,7 +19,7 @@
 import { Address, TransactionType, TransactionGroup, Order, BlockOrderBy } from 'symbol-sdk';
 import http from './http';
 import { Constants } from '../config';
-import { NamespaceService, TransactionService, BlockService, ChainService, MetadataService } from '../infrastructure';
+import { NamespaceService, TransactionService, BlockService, ChainService, MetadataService, LockService } from '../infrastructure';
 import helper from '../helper';
 
 class AccountService {
@@ -107,7 +107,6 @@ class AccountService {
   static getAccountInfo = async address => {
   	const accountInfo = await this.getAccount(address);
   	const accountNames = await NamespaceService.getAccountsNames([Address.createFromRawAddress(address)]);
-	  const harvestedBlockList = await BlockService.searchBlocks({ signerPublicKey: accountInfo.publicKey });
 
   	return {
   		...accountInfo,
@@ -121,8 +120,7 @@ class AccountService {
   			...accountInfo.supplementalPublicKeys,
   			voting: Array.isArray(accountInfo.supplementalPublicKeys.voting) ? accountInfo.supplementalPublicKeys.voting.map(voting => voting.publicKey) : accountInfo.supplementalPublicKeys.voting
   		},
-  		accountAliasName: this.extractAccountNamespace(accountInfo, accountNames),
-  		harvestedBlock: harvestedBlockList?.totalEntries || 0
+  		accountAliasName: this.extractAccountNamespace(accountInfo, accountNames)
   	};
   }
 
@@ -145,7 +143,7 @@ class AccountService {
   		...filterVaule
   	};
 
-  	const accountTransactions = await TransactionService.searchTransactions(searchCriteria);
+	  const accountTransactions = await TransactionService.searchTransactions(searchCriteria);
 
   	return {
   		...accountTransactions,
@@ -182,7 +180,7 @@ class AccountService {
 
 	  const accountNamespaces = await NamespaceService.searchNamespaces(searchCriteria);
 
-  	const currentHeight = await ChainService.getBlockchainHeight();
+	  const { height: currentHeight } = await ChainService.getChainInfo();
 
   	return {
   		...accountNamespaces,
@@ -249,6 +247,52 @@ class AccountService {
   }
 
   /**
+   * Gets Account Hash Lock list dataset into Vue component
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param address - Account address
+   * @returns formatted account hash lock list
+   */
+  static getAccountHashLockList = async (pageInfo, address) => {
+  	const { pageNumber, pageSize } = pageInfo;
+  	const searchCriteria = {
+  		pageNumber,
+  		pageSize,
+  		order: Order.Desc,
+  		address: Address.createFromRawAddress(address)
+  	};
+	  const accountHashLocks = await LockService.searchHashLocks(searchCriteria);
+
+	  return {
+  		...accountHashLocks,
+  		data: accountHashLocks.data.map(hashLock => {
+  			return {
+  				...hashLock,
+  				transactionHash: hashLock.hash
+  			};
+  		})
+  	};
+  }
+
+  /**
+   * Gets Account Secret Lock list dataset into Vue component
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param address - Account address
+   * @returns formatted account secret lock list
+   */
+  static getAccountSecretLockList = async (pageInfo, address) => {
+  	const { pageNumber, pageSize } = pageInfo;
+  	const searchCriteria = {
+  		pageNumber,
+  		pageSize,
+  		order: Order.Desc,
+  		address: Address.createFromRawAddress(address)
+  	};
+	  const accountSecretLocks = await LockService.searchSecretLocks(searchCriteria);
+
+	  return accountSecretLocks;
+  }
+
+  /**
    * Format AccountInfo to readable accountInfo objecy
    * @param accountInfo - AccountInfo DTO
    * @returns Readable AccountInfo DTO object
@@ -274,12 +318,7 @@ class AccountService {
   	linked: supplementalPublicKeys.linked?.publicKey || Constants.Message.UNAVAILABLE,
   	node: supplementalPublicKeys.node?.publicKey || Constants.Message.UNAVAILABLE,
   	vrf: supplementalPublicKeys.vrf?.publicKey || Constants.Message.UNAVAILABLE,
-  	voting: supplementalPublicKeys.voting?.map(vote => ({
-  		...vote,
-  		publicKey: vote.publicKey,
-  		startPoint: vote.startPoint.compact(),
-  		endPoint: vote.endPoint.compact()
-  	})) || []
+  	voting: supplementalPublicKeys.voting || []
   })
 
   /**

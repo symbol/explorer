@@ -18,7 +18,7 @@
 
 import { Constants } from './config';
 import { NetworkType, MosaicId, NamespaceId, Address } from 'symbol-sdk';
-import { NamespaceService } from './infrastructure';
+import { NamespaceService, MosaicService } from './infrastructure';
 import http from './infrastructure/http';
 import moment from 'moment';
 
@@ -434,6 +434,18 @@ class helper {
   	const values = Object.values(http.networkCurrency.namespace);
 
   	return values.indexOf(namespaceName) !== -1;
+  }
+
+  /**
+   * Gets single mosaic alias name
+   * @param mosaicId
+   * @return mosaic alias name
+   */
+  static getSingleMosaicAliasName = async (mosaicId) => {
+  	const getMosaicNames = await NamespaceService.getMosaicsNames([mosaicId]);
+  	const mosaicAliasName = MosaicService.extractMosaicNamespace({ mosaicId: mosaicId.id.toHex() }, getMosaicNames);
+
+  	return mosaicAliasName;
   }
 }
 

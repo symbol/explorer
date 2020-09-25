@@ -25,8 +25,7 @@
 					"addressHeight",
 					"publicKey",
 					"importance",
-					"accountType",
-					"harvestedBlock"
+					"accountType"
 				]
 			},
 			{
@@ -113,11 +112,31 @@
 				"layoutOptions": "full-width",
 				"type": "CardTable",
 				"title": "accountRestrictionTitle",
-				"managerGetter": "account/restrictions",
-				"pagination": "none",
+				"managerGetter": "account/accountRestrictions",
+				"pagination": "client",
 				"hideOnError": true,
 				"hideDependOnGetter": "account/info",
-				"errorMessage": "Account restrictions are not available."
+				"errorMessage": "accountRestrictionError",
+				"fields": [
+					"restrictionType",
+					"restrictionMosaicValues"
+				]
+			},
+			{
+				"layoutOptions": "full-width",
+				"type": "CardTable",
+				"title": "mosaicAddressRestrictionTitle",
+				"managerGetter": "account/mosaicAddressRestrictions",
+				"pagination": "server",
+				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
+				"errorMessage": "mosaicAddressRestrictionError",
+				"fields": [
+                    "compositeHash",
+					"entryType",
+					"mosaicId",
+                    "restrictions"
+                ]
 			},
 			{
 				"layoutOptions": "full-width",
@@ -134,6 +153,42 @@
 					"senderAddress",
 					"targetAddress",
 					"metadataValue"
+				]
+			},
+			{
+				"layoutOptions": "full-width",
+				"type": "CardTable",
+				"title": "hashLockTitle",
+				"managerGetter": "account/hashLocks",
+				"pagination": "server",
+				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
+				"errorMessage": "hashLockError",
+				"fields": [
+					"transactionHash",
+					"amount",
+					"endHeight",
+					"mosaicId",
+					"status"
+				]
+			},
+			{
+				"layoutOptions": "full-width",
+				"type": "CardTable",
+				"title": "secretLockTitle",
+				"managerGetter": "account/secretLocks",
+				"pagination": "server",
+				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
+				"errorMessage": "secretLockError",
+				"fields": [
+					"recipient",
+					"secret",
+					"amount",
+					"endHeight",
+					"mosaicId",
+					"status",
+					"hashAlgorithm"
 				]
 			},
 			{

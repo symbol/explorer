@@ -156,7 +156,8 @@
     "restrictionValues": "Values",
     "restrictionTransactionValues": "Values",
     "restrictionType": "Restriction Type",
-    "accountRestrictionTitle": "Account Restriction",
+    "accountRestrictionTitle": "Account Restrictions",
+    "mosaicAddressRestrictionTitle": "Mosaic Address Restrictions",
     "restrictionAddressAdditions": "Additions",
     "restrictionAddressDeletions": "Deletions",
     "restrictionMosaicAdditions": "Additions",
@@ -248,6 +249,7 @@
     "accountPartialError":"Account partial transactions not available.",
     "metadataEntriesError": "Metadatas are not available.",
     "importanceHistoryError":"Account importance history are not available.",
+    "accountRestrictionError": "Account restrictions are not available.",
 
     "blockDetailError": "Block does not exist.",
     "blockTransactionsError": "Block transactions are not available.",
@@ -267,6 +269,11 @@
     "transactionInfoError": "Transaction does not exist.",
     "transactionDetailError": "Transaction detail does not exist.",
     "transactionMosaicsError": "Transaction mosaic does not exist.",
+    "transactionHashLockError": "Transaction hash lock does not exist.",
+
+    "secretLockError": "Secret locks are not available.",
+    "hashLockError": "Hash locks are not available.",
+    "mosaicAddressRestrictionError": "Mosaic address restrictions are not available.",
     "aggregateInnerTransactionsError": "Aggregate inner transactions are not available.",
     "aggregateCosignaturesError": "Cosignatures are not available.",
 
@@ -288,9 +295,17 @@
     "blockTransactionsHash": "Transactions Hash",
     "position": "Position",
     "hash": "Hash",
-    "startPoint": "Start Finalization Point",
-    "endPoint": "End Finalization Point",
+    "startEpoch": "Start Finalization Epoch",
+    "endEpoch": "End Finalization Epoch",
     "checkMosaicAddressRestrictionStatus": "Check Mosaic Address Restriction",
     "check": "Check",
-    "payloadSize": "Size (bytes)"
+    "payloadSize": "Size (bytes)",
+    "chainHeight": "Chain Height",
+    "finalized": "Block Finalized",
+    "pending": "Block Pending to Finalized",
+    "finalizedHeight": "Finalized Height",
+    "restrictions": "Restrictions (Allow If)",
+    "hashLockTitle": "Hash Lock",
+    "secretLockTitle": "Secret Lock",
+    "ownerAddress": "Owner Address"
 }

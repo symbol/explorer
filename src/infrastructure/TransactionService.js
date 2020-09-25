@@ -32,7 +32,8 @@ import helper from '../helper';
 import {
 	BlockService,
 	NamespaceService,
-	MosaicService
+	MosaicService,
+	LockService
 } from '../infrastructure';
 import { toArray } from 'rxjs/operators';
 
@@ -58,11 +59,7 @@ class TransactionService {
   				resolve(transactionStatus);
   			})
   			.catch(error => {
-  				if (error.statusCode === 404)
-  					reject(error);
-  				transactionStatus.message = error.errorDetails.message;
-  				transactionStatus.detail = error.body;
-  				resolve(transactionStatus);
+  				reject(error);
   			});
   	});
   }
@@ -157,71 +154,88 @@ class TransactionService {
 
   static formatTransaction2 = async formattedTransaction => {
 	switch (formattedTransaction.type) {
-		case TransactionType.TRANSFER:
-			await Promise.all(formattedTransaction.mosaics.map(async mosaic => {
-				if (mosaic.id instanceof NamespaceId)
-					return (mosaic.id = await NamespaceService.getLinkedMosaicId(mosaic.id));
-			}));
-  
-			// UnresolvedAddress
-			formattedTransaction.transactionBody.recipient = await helper.resolvedAddress(formattedTransaction.recipientAddress);
-  
-			const mosaicIdsList = formattedTransaction.mosaics.map(mosaicInfo => mosaicInfo.id);
-  
-			const [mosaicInfos, mosaicNames] = await Promise.all([
-				MosaicService.getMosaics(mosaicIdsList),
-				NamespaceService.getMosaicsNames(mosaicIdsList)
-			]);
-  
-			const transferMosaics = formattedTransaction.mosaics.map(mosaic => {
-				let divisibility = mosaicInfos.find(info => info.mosaicId === mosaic.id.toHex()).divisibility;
-  
-				return {
-					...mosaic,
-					mosaicId: mosaic.id.toHex(),
-					amount: helper.formatMosaicAmountWithDivisibility(mosaic.amount, divisibility),
-					mosaicAliasName: MosaicService.extractMosaicNamespace({ mosaicId: mosaic.id.toHex() }, mosaicNames)
-				};
-			});
-  
-			formattedTransaction.transferMosaics = transferMosaics;
-			delete formattedTransaction.transactionBody.mosaics;
-			break;
-		case TransactionType.AGGREGATE_COMPLETE:
-		case TransactionType.AGGREGATE_BONDED:
-			const innerTransactions = formattedTransaction.aggregateTransaction.innerTransactions.map(transaction => ({
-				...transaction,
-				transactionType: transaction.type
-			}));
-			await Promise.all(innerTransactions.map(transaction => this.formatTransaction2(transaction)));
-			formattedTransaction.aggregateTransaction.innerTransactions = innerTransactions;
-			delete formattedTransaction.transactionBody.innerTransactions;
-			delete formattedTransaction.transactionBody.cosignatures;
-			break;
-		case TransactionType.ADDRESS_ALIAS:
-		case TransactionType.MOSAIC_ALIAS:
-			const namespaceName = await NamespaceService.getNamespacesNames([NamespaceId.createFromEncoded(formattedTransaction.transactionBody.namespaceId)]);
-  
-			formattedTransaction.transactionBody.namespaceName = namespaceName[0].name;
-			break;
-		case TransactionType.HASH_LOCK:
-			const mosaicId = new MosaicId(formattedTransaction.transactionBody.mosaicId);
-  
-			const getMosaicNames = await NamespaceService.getMosaicsNames([mosaicId]);
-			const mosaicAliasName = MosaicService.extractMosaicNamespace({ mosaicId: mosaicId.id.toHex() }, getMosaicNames);
-  
-			Object.assign(formattedTransaction.transactionBody, { mosaicAliasName: mosaicAliasName });
-			break;
-		case TransactionType.SECRET_LOCK:
-		case TransactionType.SECRET_PROOF:
-			// UnresolvedAddress
-			formattedTransaction.transactionBody.recipient = await helper.resolvedAddress(formattedTransaction.recipientAddress);
-			break;
-		case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
-			// UnresolvedAddress
-			formattedTransaction.transactionBody.targetAddress = await helper.resolvedAddress(formattedTransaction.targetAddress);
-			break;
-		}
+  	case TransactionType.TRANSFER:
+  		await Promise.all(formattedTransaction.mosaics.map(async mosaic => {
+  			if (mosaic.id instanceof NamespaceId)
+  				return (mosaic.id = await NamespaceService.getLinkedMosaicId(mosaic.id));
+  		}));
+
+  		// UnresolvedAddress
+  		formattedTransaction.transactionBody.recipient = await helper.resolvedAddress(formattedTransaction.recipientAddress);
+
+  		const mosaicIdsList = formattedTransaction.mosaics.map(mosaicInfo => mosaicInfo.id);
+
+  		const [mosaicInfos, mosaicNames] = await Promise.all([
+  			MosaicService.getMosaics(mosaicIdsList),
+  			NamespaceService.getMosaicsNames(mosaicIdsList)
+  		]);
+
+  		const transferMosaics = formattedTransaction.mosaics.map(mosaic => {
+  			let divisibility = mosaicInfos.find(info => info.mosaicId === mosaic.id.toHex()).divisibility;
+
+  			return {
+  				...mosaic,
+  				mosaicId: mosaic.id.toHex(),
+  				amount: helper.formatMosaicAmountWithDivisibility(mosaic.amount, divisibility),
+  				mosaicAliasName: MosaicService.extractMosaicNamespace({ mosaicId: mosaic.id.toHex() }, mosaicNames)
+  			};
+  		});
+
+  		formattedTransaction.transferMosaics = transferMosaics;
+  		delete formattedTransaction.transactionBody.mosaics;
+  		break;
+  	case TransactionType.AGGREGATE_COMPLETE:
+  	case TransactionType.AGGREGATE_BONDED:
+  		const innerTransactions = formattedTransaction.aggregateTransaction.innerTransactions.map(transaction => ({
+  			...transaction,
+  			transactionType: transaction.type
+  		}));
+
+  		formattedTransaction.aggregateTransaction.innerTransactions = innerTransactions;
+
+  		delete formattedTransaction.transactionBody.innerTransactions;
+  		delete formattedTransaction.transactionBody.cosignatures;
+  		break;
+  	case TransactionType.ADDRESS_ALIAS:
+  	case TransactionType.MOSAIC_ALIAS:
+  		const namespaceName = await NamespaceService.getNamespacesNames([NamespaceId.createFromEncoded(formattedTransaction.transactionBody.namespaceId)]);
+
+  		formattedTransaction.transactionBody.namespaceName = namespaceName[0].name;
+  		break;
+  	case TransactionType.HASH_LOCK:
+		  const hashLockMosaicAliasName = await helper.getSingleMosaicAliasName(new MosaicId(formattedTransaction.transactionBody.mosaicId));
+
+		  Object.assign(formattedTransaction.transactionBody, {
+			  mosaicAliasName: hashLockMosaicAliasName
+  		});
+  		break;
+  	case TransactionType.SECRET_LOCK:
+		  const secretLockMosaicAliasName = await helper.getSingleMosaicAliasName(new MosaicId(formattedTransaction.transactionBody.mosaicId));
+  		// UnresolvedAddress
+  		const recipient = await helper.resolvedAddress(formattedTransaction.recipientAddress);
+
+  		Object.assign(formattedTransaction.transactionBody, { mosaicAliasName: secretLockMosaicAliasName, recipient });
+  		break;
+  	case TransactionType.SECRET_PROOF:
+  		// UnresolvedAddress
+  		formattedTransaction.transactionBody.recipient = await helper.resolvedAddress(formattedTransaction.recipientAddress);
+  		break;
+  	case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
+  		// UnresolvedAddress
+  		formattedTransaction.transactionBody.targetAddress = await helper.resolvedAddress(formattedTransaction.targetAddress);
+  		break;
+  	}
+  }
+
+  /**
+   * Gets Formatted Hash Lock Info for Vue component
+   * @param hash Transaction hash
+   * @returns Custom Hash Lock object
+   */
+  static getHashLockInfo = async (hash) => {
+  	const hashInfo = await LockService.getHashLock(hash);
+
+  	return hashInfo;
   }
 
   /**
@@ -394,6 +408,7 @@ class TransactionService {
   			transactionType: transactionBody.type,
   			duration: transactionBody.duration.compact(),
   			mosaicId: transactionBody.mosaic.id.toHex(), // Todo Format Mosaic
+  			amount: helper.toNetworkCurrency(transactionBody.mosaic.amount),
   			secret: transactionBody.secret,
   			recipient: transactionBody.recipientAddress,
   			hashAlgorithm: Constants.LockHashAlgorithm[transactionBody.hashAlgorithm]
@@ -496,8 +511,8 @@ class TransactionService {
   			linkAction: Constants.LinkAction[transactionBody.linkAction],
   			linkedPublicKey: transactionBody.linkedPublicKey,
   			linkedAccountAddress: Address.createFromPublicKey(transactionBody.linkedPublicKey, http.networkType).plain(),
-  			startPoint: transactionBody.startPoint.compact(),
-  			endPoint: transactionBody.endPoint.compact()
+  			startEpoch: transactionBody.startEpoch,
+  			endEpoch: transactionBody.endEpoch
   		};
   	case TransactionType.VRF_KEY_LINK:
   	case TransactionType.NODE_KEY_LINK:

@@ -18,19 +18,19 @@
 				:height="subjectHeight"
 				:address="signer"
 			/>
-			<LockIcon
+			<AccountIcon
 				:x="objectPositionX"
 				:y="objectPositionY"
 				:width="subjectWidth"
 				:height="subjectHeight"
-				:lockName="subTitle"
+				:address="recipient"
 			/>
 			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
-			<MosaicsCircle
-				id="target"
+			<LockCircle
 				:x="getCircleIconPositionX(0)"
 				:y="circleIconPositionY"
-				:mosaics="[mosaic]"
+				title="Secret Proof"
+				:data="secretProofInfo"
 			/>
 			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
 				{{ transactionType }}
@@ -43,56 +43,50 @@
 <script>
 import GraphicComponent from '../graphics/GraphicComponent.vue';
 import AccountIcon from '../graphics/AccountIcon.vue';
-import LockIcon from '../graphics/LockIcon.vue';
-import MosaicsCircle from '../graphics/MosaicsCircle.vue';
-import { TransactionType } from 'symbol-sdk';
+import LockCircle from '../graphics/LockCircle.vue';
 import Arrow from '../graphics/Arrow.vue';
+import { TransactionType } from 'symbol-sdk';
 
 export default {
 	extends: GraphicComponent,
 
 	components: {
 		AccountIcon,
-		LockIcon,
-		MosaicsCircle,
+		LockCircle,
 		Arrow
 	},
 
 	props: {
 		type: {
 			type: Number,
-			default: TransactionType.HASH_LOCK
+			required: true,
+			default: TransactionType.SECRET_PROOF
 		},
 		signer: {
 			type: String,
 			required: true,
 			default: ''
 		},
-		amount: {
+		recipient: {
 			type: String,
 			required: true,
 			default: ''
 		},
-		duration: {
-			type: Number
-		},
-		mosaicId: {
+		secret: {
 			type: String,
 			required: true,
 			default: ''
 		},
-		mosaicAliasName: {
+		hashAlgorithm: {
+			type: String,
+			required: true,
+			default: ''
+		},
+		proof: {
 			type: String,
 			required: true,
 			default: ''
 		}
-	},
-
-	data() {
-		return {
-			width: this.transactionGraphicWidth,
-			heigth: this.transactionGraphicHeight
-		};
 	},
 
 	computed: {
@@ -104,17 +98,21 @@ export default {
 			return [true];
 		},
 
-		mosaic() {
+		secretProofInfo() {
 			return {
-				mosaicId: this.mosaicId,
-				amount: this.amount,
-				mosaicAliasName: this.mosaicAliasName
+				secret: this.secret,
+				hashAlgorithm: this.hashAlgorithm,
+				proof: this.proof
 			};
-		},
-
-		subTitle() {
-			return `${this.duration} Blocks`;
 		}
 	}
 };
 </script>
+
+<style lang="scss" scoped>
+.message {
+    font-size: 13px;
+    font-weight: bold;
+    fill: var(--blue);
+}
+</style>

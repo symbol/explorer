@@ -18,17 +18,24 @@
 				:height="subjectHeight"
 				:address="signer"
 			/>
-			<LockIcon
+			<AccountIcon
 				:x="objectPositionX"
 				:y="objectPositionY"
 				:width="subjectWidth"
 				:height="subjectHeight"
-				:lockName="subTitle"
+				:address="recipient"
 			/>
 			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
-			<MosaicsCircle
-				id="target"
+			<LockCircle
 				:x="getCircleIconPositionX(0)"
+				:y="circleIconPositionY"
+				title="Secret Lock"
+				:data="secretLockInfo"
+			/>
+			<MosaicsCircle
+				v-if="hasMosaic"
+				id="target"
+				:x="getCircleIconPositionX(1)"
 				:y="circleIconPositionY"
 				:mosaics="[mosaic]"
 			/>
@@ -43,27 +50,43 @@
 <script>
 import GraphicComponent from '../graphics/GraphicComponent.vue';
 import AccountIcon from '../graphics/AccountIcon.vue';
-import LockIcon from '../graphics/LockIcon.vue';
 import MosaicsCircle from '../graphics/MosaicsCircle.vue';
-import { TransactionType } from 'symbol-sdk';
+import LockCircle from '../graphics/LockCircle.vue';
 import Arrow from '../graphics/Arrow.vue';
+import { TransactionType } from 'symbol-sdk';
 
 export default {
 	extends: GraphicComponent,
 
 	components: {
 		AccountIcon,
-		LockIcon,
 		MosaicsCircle,
+		LockCircle,
 		Arrow
 	},
 
 	props: {
 		type: {
 			type: Number,
-			default: TransactionType.HASH_LOCK
+			required: true,
+			default: TransactionType.SECRET_LOCK
 		},
 		signer: {
+			type: String,
+			required: true,
+			default: ''
+		},
+		duration: {
+			type: Number,
+			required: true,
+			default: 0
+		},
+		recipient: {
+			type: String,
+			required: true,
+			default: ''
+		},
+		mosaicId: {
 			type: String,
 			required: true,
 			default: ''
@@ -73,26 +96,21 @@ export default {
 			required: true,
 			default: ''
 		},
-		duration: {
-			type: Number
-		},
-		mosaicId: {
-			type: String,
-			required: true,
-			default: ''
-		},
 		mosaicAliasName: {
 			type: String,
 			required: true,
 			default: ''
+		},
+		secret: {
+			type: String,
+			required: true,
+			default: ''
+		},
+		hashAlgorithm: {
+			type: String,
+			required: true,
+			default: ''
 		}
-	},
-
-	data() {
-		return {
-			width: this.transactionGraphicWidth,
-			heigth: this.transactionGraphicHeight
-		};
 	},
 
 	computed: {
@@ -101,7 +119,7 @@ export default {
 		},
 
 		circleIconsToDisplay() {
-			return [true];
+			return [true, this.hasMosaic];
 		},
 
 		mosaic() {
@@ -112,9 +130,25 @@ export default {
 			};
 		},
 
-		subTitle() {
-			return `${this.duration} Blocks`;
+		hasMosaic() {
+			return this.mosaicId !== 'undefined';
+		},
+
+		secretLockInfo() {
+			return {
+				duration: this.duration,
+				secret: this.secret,
+				hashAlgorithm: this.hashAlgorithm
+			};
 		}
 	}
 };
 </script>
+
+<style lang="scss" scoped>
+.message {
+    font-size: 13px;
+    font-weight: bold;
+    fill: var(--blue);
+}
+</style>

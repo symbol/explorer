@@ -43,14 +43,18 @@ export default {
 			price: 0,
 			historicalHourlyGraph: {}
 		},
+		chainInfo: {
+			currentHeight: 0,
+			finalizedBlockHeight: 0
+		},
 		transactionStatus: ''
 	},
 	getters: {
 		getInitialized: state => state.initialized,
-		getBlockHeight: state => state.blockHeight,
 		getTransactionHash: state => state.transactionHash,
 		getStorageInfo: state => state.storageInfo,
-		getMarketData: state => state.marketData
+		getMarketData: state => state.marketData,
+		getChainInfo: state => state.chainInfo
 	},
 	mutations: {
 		setInitialized: (state, initialized) => {
@@ -70,6 +74,10 @@ export default {
 			state.marketData.price = marketData.XEM.USD.PRICE;
 			state.marketData.marketCap = marketData.XEM.USD.MKTCAP;
 			state.marketData.historicalHourlyGraph = graphData;
+		},
+		setChainInfo: (state, { currentHeight, finalizedBlockHeight }) => {
+			state.chainInfo.currentHeight = currentHeight;
+			state.chainInfo.finalizedBlockHeight = finalizedBlockHeight;
 		}
 	},
 	actions: {
@@ -91,13 +99,18 @@ export default {
 
 		// Fetch data from the SDK / API and initialize the page.
 		async initializePage({ commit }) {
-			let storageInfo = await NodeService.getStorageInfo();
+			const [storageInfo, marketData, xemGraph, chainInfo] = await Promise.all([
+				NodeService.getStorageInfo(),
+				DataService.getMarketPrice('XEM'),
+				DataService.getHistoricalHourlyGraph('XEM'),
+				ChainService.getChainInfo()
+			]);
 
 			commit('setStorageInfo', storageInfo);
-
-			let marketData = await DataService.getMarketPrice('XEM');
-
-			let xemGraph = await DataService.getHistoricalHourlyGraph('XEM');
+			commit('setChainInfo', {
+				currentHeight: chainInfo.height,
+				finalizedBlockHeight: chainInfo.latestFinalizedBlock.height
+			});
 
 			let graphData = [];
 
@@ -117,10 +130,13 @@ export default {
 			commit('setMarketData', { marketData, graphData });
 		},
 
-		async getBlockHeight({ commit }) {
-			let chainHeight = await ChainService.getBlockchainHeight();
+		async getChainInfo({ commit }) {
+			const chainInfo = await ChainService.getChainInfo();
 
-			commit('setBlockHeight', chainHeight);
+			commit('setChainInfo', {
+				currentHeight: chainInfo.height,
+				finalizedBlockHeight: chainInfo.latestFinalizedBlock.height
+			});
 		}
 	}
 };

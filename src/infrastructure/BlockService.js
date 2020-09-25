@@ -202,7 +202,7 @@ class BlockService {
   	// Append merkle root name into hash
   	stateHashSubCacheMerkleRoots = stateHashSubCacheMerkleRoots.map((root, index) => {
   		return `${Constants.MerkleRootsOrder[index]} - ${root}`;
-	  });
+  	});
 
   	return {
   		...block,

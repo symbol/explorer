@@ -18,19 +18,19 @@
 				:height="subjectHeight"
 				:address="signer"
 			/>
-			<LockIcon
+			<MosaicIcon
 				:x="objectPositionX"
 				:y="objectPositionY"
 				:width="subjectWidth"
 				:height="subjectHeight"
-				:lockName="subTitle"
+				:mosaic="mosaic"
 			/>
 			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
-			<MosaicsCircle
-				id="target"
+			<AddCircle
 				:x="getCircleIconPositionX(0)"
 				:y="circleIconPositionY"
-				:mosaics="[mosaic]"
+				:data="data"
+				:title="transactionType"
 			/>
 			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
 				{{ transactionType }}
@@ -43,9 +43,8 @@
 <script>
 import GraphicComponent from '../graphics/GraphicComponent.vue';
 import AccountIcon from '../graphics/AccountIcon.vue';
-import LockIcon from '../graphics/LockIcon.vue';
-import MosaicsCircle from '../graphics/MosaicsCircle.vue';
-import { TransactionType } from 'symbol-sdk';
+import AddCircle from '../graphics/AddCircle.vue';
+import MosaicIcon from '../graphics/MosaicIcon.vue';
 import Arrow from '../graphics/Arrow.vue';
 
 export default {
@@ -53,38 +52,44 @@ export default {
 
 	components: {
 		AccountIcon,
-		LockIcon,
-		MosaicsCircle,
-		Arrow
+		AddCircle,
+		Arrow,
+		MosaicIcon
 	},
 
 	props: {
-		type: {
-			type: Number,
-			default: TransactionType.HASH_LOCK
+		message: {
+			type: String,
+			default: ''
 		},
 		signer: {
 			type: String,
 			required: true,
 			default: ''
 		},
-		amount: {
-			type: String,
-			required: true,
-			default: ''
-		},
-		duration: {
-			type: Number
-		},
 		mosaicId: {
 			type: String,
-			required: true,
-			default: ''
+			required: true
 		},
-		mosaicAliasName: {
-			type: String,
-			required: true,
-			default: ''
+		divisibility: {
+			type: Number,
+			required: true
+		},
+		duration: {
+			type: Number,
+			required: true
+		},
+		supplyMutable: {
+			type: Boolean,
+			required: true
+		},
+		transferable: {
+			type: Boolean,
+			required: true
+		},
+		restrictable: {
+			type: Boolean,
+			required: true
 		}
 	},
 
@@ -105,15 +110,17 @@ export default {
 		},
 
 		mosaic() {
-			return {
-				mosaicId: this.mosaicId,
-				amount: this.amount,
-				mosaicAliasName: this.mosaicAliasName
-			};
+			return { mosaicId: this.mosaicId };
 		},
 
-		subTitle() {
-			return `${this.duration} Blocks`;
+		data() {
+			return {
+				divisibility: this.divisibility,
+				duration: this.duration,
+				supplyMutable: this.supplyMutable,
+				transferable: this.transferable,
+				restrictable: this.restrictable
+			};
 		}
 	}
 };
