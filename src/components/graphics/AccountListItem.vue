@@ -47,7 +47,7 @@ export default {
 		},
 
 		isValueExist() {
-			return typeof this.value === 'number' || typeof this.value === 'string';
+			return typeof this._value === 'number' || typeof this._value === 'string';
 		},
 
 		_value() {

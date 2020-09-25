@@ -17,7 +17,7 @@
             :mosaicId="mosaic.mosaicId"
         />
         {{ text }}
-        <b-badge v-if="isValueExist" variant="primary" pill>{{ value }}</b-badge>
+        <b-badge v-if="isValueExist" variant="primary" pill>{{ _value }}</b-badge>
 		<div v-else> &nbsp; </div>
     </b-list-group-item>
 </template>
@@ -39,6 +39,10 @@ export default {
 		mosaic: {
 			type: Object,
 			default: () => ({})
+		},
+
+		value: {
+			type: [Number, String]
 		}
 	},
 
@@ -52,11 +56,11 @@ export default {
 		},
 
 		isValueExist() {
-			return typeof this.mosaic.amount === 'number' || typeof this.mosaic.amount === 'string';
+			return typeof this._value === 'number' || typeof this._value === 'string';
 		},
 
-		value() {
-			return this.mosaic.amount
+		_value() {
+			return this.value || this.mosaic.amount
 		}
 	},
 
