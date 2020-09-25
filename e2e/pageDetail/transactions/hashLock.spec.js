@@ -31,7 +31,7 @@ describe('Symbol Explorer Transaction detail page for Hash Lock.', () => {
         })
 
         it('render correct transaction detail titles', () => {
-            const items = ['Type', 'Duration', 'Mosaic ID', 'Amount']
+            const items = ['Transaction Type', 'Duration', 'Mosaic ID', 'Amount', 'Hash', 'Alias Namespace']
             cy.renderFieldInTable("transactionDetailTitle", items)
         })
 

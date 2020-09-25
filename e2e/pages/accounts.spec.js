@@ -28,12 +28,13 @@ describe('Symbol Explorer Accounts list page should', () => {
         cy.url().should('contain', '/account')
     })
 
-    it('redirect to block detail page given click on Last Activity', () => {
-        cy.get('tbody tr .lastActivity a')
-        .then($data => {
-            return $data[0]
-        }).click({ force:true })
+    // Todo
+    // it('redirect to block detail page given click on Last Activity', () => {
+    //     cy.get('tbody tr .lastActivity a')
+    //     .then($data => {
+    //         return $data[0]
+    //     }).click({ force:true })
 
-        cy.url().should('contain', '/block')
-    })
+    //     cy.url().should('contain', '/block')
+    // })
 })

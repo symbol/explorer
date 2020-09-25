@@ -1,9 +1,9 @@
 import config from '../../config/network.conf.json'
 import datafiled from '../../config/datafiled.json'
 
-describe('Symbol Explorer Transaction detail page for VRF Key Link.', () => {
+describe('Symbol Explorer Transaction detail page for Voting Key Link.', () => {
     beforeEach(() => {
-        cy.visit(`/transactions/${config.testTransactions.vrfKeyLink}`)
+        cy.visit(`/transactions/${config.testTransactions.votingKeyLink}`)
     })
 
     describe('Transaction info card should', () => {
@@ -31,7 +31,7 @@ describe('Symbol Explorer Transaction detail page for VRF Key Link.', () => {
         })
 
         it('render correct transaction detail titles', () => {
-            const items = ['Transaction Type', 'Link Action', 'linked Public Key', 'linked Account Address']
+            const items = ['Transaction Type', 'Link Action', 'linked Public Key', 'linked Account Address', 'Start Finalization Epoch', 'End Finalization Epoch']
             cy.renderFieldInTable("transactionDetailTitle", items)
         })
 

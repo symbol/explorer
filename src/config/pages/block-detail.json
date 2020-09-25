@@ -55,7 +55,7 @@
             {
                 "layoutOptions": "adaptive",
                 "type": "CardTable",
-                "title": "Merkle Info",
+                "title": "merkleInfoTitle",
                 "managerGetter": "block/info",
                 "dataGetter": "block/merkleInfo",
                 "pagination": "none"
