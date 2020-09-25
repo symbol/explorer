@@ -90,7 +90,7 @@ class NodeService {
     static formatNodeInfo = nodeInfo => ({
     	...nodeInfo,
     	address: symbol.Address.createFromPublicKey(nodeInfo.publicKey, nodeInfo.networkIdentifier).plain(),
-    	roles: Constants.RoleType[nodeInfo.roles],
+    	roles: nodeInfo.roles.map(role => Constants.RoleType[role]).join(','),
     	network: Constants.NetworkType[nodeInfo.networkIdentifier]
     })
 
