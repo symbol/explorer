@@ -7,7 +7,14 @@
 
 		</div>
 		<div class="icon">
+			<img
+				v-if="this.isFinalized"
+				:title="isFinalized ? getTranslation('finalized') : getTranslation('pending')"
+				class="icon-finalized"
+				:src="FinalizedIcon"
+			/>
 			<span
+				v-else
 				:title="isFinalized ? getTranslation('finalized') : getTranslation('pending')"
 				class="mdi"
 				:class="{[markerIcon]: true}"
@@ -17,6 +24,7 @@
 </template>
 
 <script>
+import FinalizedIcon from '../../styles/img/finalized.png';
 export default {
 	props: {
 		value: {
@@ -27,6 +35,7 @@ export default {
 
 	data() {
 		return {
+			FinalizedIcon
 		};
 	},
 
@@ -64,6 +73,11 @@ export default {
 
     .icon {
         margin-left: 10px;
+
+		.icon-finalized {
+			height: 12px;
+			margin-bottom: 2px;
+		}
     }
 
     .text {
