@@ -3,18 +3,14 @@
         class="d-flex justify-content-between align-items-center list-item"
         :title="title"
     >
-        <IconTransactions
-            :width="32"
-            :height="32"
-            :title="transactionType"
-        />
-        {{ text }}
+		<TransactionType :value="transactionType" />
         <b-badge v-if="isValueExist" variant="primary" pill>{{ _value }}</b-badge>
 		<div v-else> &nbsp; </div>
     </b-list-group-item>
 </template>
 
 <script>
+import TransactionType from '@/components/fields/TransactionType.vue';
 import IconTransactions from 'vue-material-design-icons/Send.vue';
 import GraphicComponent from './GraphicComponent.vue';
 
@@ -22,7 +18,8 @@ export default {
 	extends: GraphicComponent,
 
 	components: {
-		IconTransactions
+		IconTransactions,
+		TransactionType
 	},
 
 	props: {
@@ -41,7 +38,9 @@ export default {
 		},
 
 		title() {
-			return this.getTransactionTypeCaption(this.transactionType);
+			return this.isValueExist  
+				? this.getTransactionTypeCaption(this.transactionType) + ' - ' + this._value
+				: this.getTransactionTypeCaption(this.transactionType);
 		},
 
 		isValueExist() {
