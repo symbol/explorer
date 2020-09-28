@@ -31,7 +31,7 @@ describe('Symbol Explorer Transaction detail page for Secret Proof.', () => {
         })
 
         it('render correct transaction detail titles', () => {
-            const items = ['Type', 'Hash Algorithm', 'Recipient', 'Secret', 'Proof']
+            const items = ['Transaction Type', 'Hash Algorithm', 'Recipient', 'Secret', 'Proof']
             cy.renderFieldInTable("transactionDetailTitle", items)
         })
     })
