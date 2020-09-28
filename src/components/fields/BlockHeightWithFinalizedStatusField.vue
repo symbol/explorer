@@ -74,10 +74,10 @@ export default {
     .icon {
         margin-left: 10px;
 
-		.icon-finalized {
-			height: 12px;
-			margin-bottom: 2px;
-		}
+        .icon-finalized {
+            height: 12px;
+            margin-bottom: 2px;
+        }
     }
 
     .text {
