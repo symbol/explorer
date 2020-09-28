@@ -22,3 +22,16 @@ deploy:
     script: /bin/sh travis/release.sh
     on:
       branch: $RELEASE_BRANCH
+  # automation build docker images for release branch
+  - provider: script
+    skip_cleanup: true
+    script: /bin/sh travis/docker.sh
+    on:
+      branch: $RELEASE_BRANCH
+  # automation build docker images for main branch
+  - provider: script
+    skip_cleanup: true
+    script: /bin/sh travis/docker.sh
+    on:
+      branch: $MAIN_BRANCH
+
