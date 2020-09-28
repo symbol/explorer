@@ -153,7 +153,7 @@ class TransactionService {
   }
 
   static formatTransaction2 = async formattedTransaction => {
-	switch (formattedTransaction.type) {
+  	switch (formattedTransaction.type) {
   	case TransactionType.TRANSFER:
   		await Promise.all(formattedTransaction.mosaics.map(async mosaic => {
   			if (mosaic.id instanceof NamespaceId)

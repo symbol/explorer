@@ -121,6 +121,7 @@
     "namespaceLevelTitle": "Рівень простору імен",
     "transactionInfoTitle": "Інформація про транзакцію",
     "transactionDetailTitle": "Деталі транзакції",
+    "merkleInfoTitle": "Merkle Info",
     "aggregateInnerTransactionsTitle": "Сукупні внутрішні транзакції",
     "aggregateCosignaturesTitle": "Сукупні косигнати",
     "version":"Version",
