@@ -91,7 +91,7 @@ export default {
 			return [true];
 		},
 
-		restrictionOperation() {
+		restrictionAddress() {
 			return {
 				added: this.restrictionAddressAdditions,
 				removed: this.restrictionAddressDeletions

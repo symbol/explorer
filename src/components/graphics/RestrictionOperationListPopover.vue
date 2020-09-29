@@ -4,14 +4,14 @@
 		<b-list-group>
 			<TransactionTypeListItem
 				v-for="(value, key) in addedRestriction"
-				:key="'transaction_type_list ' + key"
+				:key="'rolp_' + key"
 				:transactionType="value"
 				:value="'Added'"
 			/>
 
 			<TransactionTypeListItem
 				v-for="(value, key) in removedRestriction"
-				:key="'transaction_type_list ' + key"
+				:key="'rolp_' + key"
 				:transactionType="value"
 				:value="'Removed'"
 			/>

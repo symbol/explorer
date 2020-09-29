@@ -4,14 +4,14 @@
 		<b-list-group>
 			<AccountListItem
 				v-for="(value, key) in addedRestriction"
-				:key="'account_list ' + key"
+				:key="'ralp_' + key"
 				:address="value"
 				:value="'Added'"
 			/>
 
 			<AccountListItem
 				v-for="(value, key) in removedRestriction"
-				:key="'account_list ' + key"
+				:key="'ralp_' + key"
 				:address="value"
 				:value="'Removed'"
 			/>

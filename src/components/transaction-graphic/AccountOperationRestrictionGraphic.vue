@@ -29,7 +29,6 @@
 			<RestrictionOperationCircle
 				:x="getCircleIconPositionX(0)"
 				:y="circleIconPositionY"
-				:restriction="restriction"
 				:title="restrictionType"
 				:data="restrictionOperation"
 			/>
@@ -86,10 +85,6 @@ export default {
 	computed: {
 		transactionType() {
 			return this.getTransactionTypeCaption(this.type);
-		},
-
-		restriction() {
-			return this.type;
 		},
 
 		circleIconsToDisplay() {
