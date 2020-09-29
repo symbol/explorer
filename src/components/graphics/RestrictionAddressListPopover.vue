@@ -21,7 +21,7 @@
 
 <script>
 import GraphicComponent from './GraphicComponent.vue';
-import AccountListItem from './AccountListItem';
+import AccountListItem from './AccountListItem.vue';
 
 export default {
 	extends: GraphicComponent,
@@ -46,14 +46,17 @@ export default {
 			required: true
 		}
 	},
+
 	computed: {
 		addedRestriction() {
 			return this.data.added;
 		},
 		removedRestriction() {
 			return this.data.removed;
-		}
+		},
+
 	},
+
 	methods: {
 		getTranslation(key) {
 			return this.$store.getters['ui/getNameByKey'](key);
@@ -78,7 +81,7 @@ export default {
     }
 
     .value {
-        display:flex;
+        display: flex;
         font-size: 12px;
         color: $table-text-color;
     }

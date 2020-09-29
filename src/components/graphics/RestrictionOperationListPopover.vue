@@ -22,7 +22,6 @@
 <script>
 import GraphicComponent from './GraphicComponent.vue';
 import TransactionTypeListItem from './TransactionTypeListItem.vue';
-import { TransactionType } from 'symbol-sdk';
 
 export default {
 	extends: GraphicComponent,
@@ -53,20 +52,6 @@ export default {
 		},
 		removedRestriction() {
 			return this.data.removed;
-		},
-		isAccountAddressRestriction() {
-			return this.restriction === TransactionType.ACCOUNT_ADDRESS_RESTRICTION;
-		},
-		isAccountMosaicRestriction() {
-			return this.restriction === TransactionType.ACCOUNT_MOSAIC_RESTRICTION;
-		},
-		isAccountOperationRestriction() {
-			return this.restriction === TransactionType.ACCOUNT_OPERATION_RESTRICTION;
-		},
-		account() {
-			return {
-				address: 'TAIWUA6U2O2WVFIWYFKP4D67CY5F4U4CX64LZCY'
-			};
 		}
 	},
 	methods: {
@@ -93,7 +78,7 @@ export default {
     }
 
     .value {
-        display:flex;
+        display: flex;
         font-size: 12px;
         color: $table-text-color;
     }

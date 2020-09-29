@@ -60,7 +60,7 @@ export default {
 		type: {
 			type: Number,
 			required: true,
-			default: TransactionType.ACCOUNT_OPERATION_RESTRICTION
+			default: TransactionType.ACCOUNT_MOSAIC_RESTRICTION
 		},
 		signer: {
 			type: String,

@@ -4,14 +4,14 @@
 		<b-list-group>
 			<MosaicListItem
 				v-for="(value, key) in addedRestriction"
-				:key="'rmlp ' + key"
+				:key="'rmlp_' + key"
 				:mosaic="value"
 				:value="'Added'"
 			/>
 
 			<MosaicListItem
 				v-for="(value, key) in removedRestriction"
-				:key="'rmlp ' + key"
+				:key="'rmlp_' + key"
 				:mosaic="value"
 				:value="'Removed'"
 			/>
@@ -56,7 +56,6 @@ export default {
 	},
 	methods: {
 		getTranslation(key) {
-			console.log(key);
 			return this.$store.getters['ui/getNameByKey'](key);
 		}
 	}
@@ -79,7 +78,7 @@ export default {
     }
 
     .value {
-        display:flex;
+        display: flex;
         font-size: 12px;
         color: $table-text-color;
     }

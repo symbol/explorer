@@ -30,7 +30,7 @@
 				:x="getCircleIconPositionX(0)"
 				:y="circleIconPositionY"
 				:title="restrictionType"
-				:data="restrictionOperation"
+				:data="restrictionAddress"
 			/>
 			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
 				{{ transactionType  }}
@@ -60,7 +60,7 @@ export default {
 		type: {
 			type: Number,
 			required: true,
-			default: TransactionType.ACCOUNT_OPERATION_RESTRICTION
+			default: TransactionType.ACCOUNT_ADDRESS_RESTRICTION
 		},
 		signer: {
 			type: String,
