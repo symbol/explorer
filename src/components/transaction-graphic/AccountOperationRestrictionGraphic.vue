@@ -26,9 +26,10 @@
 				:address="signer"
 			/>
 			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
-			<RestrictionCircle
+			<RestrictionOperationCircle
 				:x="getCircleIconPositionX(0)"
 				:y="circleIconPositionY"
+				:restriction="restriction"
 				:title="restrictionType"
 				:data="restrictionOperation"
 			/>
@@ -43,7 +44,7 @@
 <script>
 import GraphicComponent from '../graphics/GraphicComponent.vue';
 import AccountIcon from '../graphics/AccountIcon.vue';
-import RestrictionCircle from '../graphics/RestrictionCircle.vue';
+import RestrictionOperationCircle from '../graphics/RestrictionOperationCircle';
 import Arrow from '../graphics/Arrow.vue';
 import { TransactionType } from 'symbol-sdk';
 
@@ -52,7 +53,7 @@ export default {
 
 	components: {
 		AccountIcon,
-		RestrictionCircle,
+		RestrictionOperationCircle,
 		Arrow
 	},
 
@@ -85,6 +86,10 @@ export default {
 	computed: {
 		transactionType() {
 			return this.getTransactionTypeCaption(this.type);
+		},
+
+		restriction() {
+			return this.type;
 		},
 
 		circleIconsToDisplay() {

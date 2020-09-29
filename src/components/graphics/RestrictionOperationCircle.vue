@@ -18,7 +18,7 @@
 			</linearGradient>
 		</defs>
 		<foreignObject x="446" y="318" width="100" height="100">
-			<RestrictionListPopover :title="title" :target="this.id" :data="data" />
+			<RestrictionOperationListPopover :title="title" :target="this.id" :data="data" />
 		</foreignObject>
 		<circle
 			fill-rule="evenodd"
@@ -51,13 +51,13 @@
 
 <script>
 import GraphicComponent from './GraphicComponent.vue';
-import RestrictionListPopover from './RestrictionListPopover.vue';
+import RestrictionOperationListPopover from './RestrictionOperationListPopover.vue';
 
 export default {
 	extends: GraphicComponent,
 
 	components: {
-		RestrictionListPopover
+		RestrictionOperationListPopover
 	},
 
 	props: {
