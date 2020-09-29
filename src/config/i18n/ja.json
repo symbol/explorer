@@ -250,6 +250,7 @@
     "accountPartialError":"アカウントパーシャルトランザクションは有効ではありません。",
     "metadataEntriesError": "メタデータは有効ではありません",
     "importanceHistoryError":"アカウントインポータンス履歴は有効ではありません",
+    "accountRestrictionError": "Account restrictions are not available.",
 
     "blockDetailError": "ブロックは存在しません",
     "blockTransactionsError": "ブロックトランザクションは有効ではありません",
@@ -269,6 +270,7 @@
     "transactionInfoError": "トランザクションは存在しません",
     "transactionDetailError": "トランザクション詳細は存在しません",
     "transactionMosaicsError": "トランザクションモザイクは存在しません",
+    "transactionHashLockError": "Transaction hash lock does not exist.",
 
     "secretLockError": "Secret locks are not available.",
     "hashLockError": "Hash locks are not available.",
