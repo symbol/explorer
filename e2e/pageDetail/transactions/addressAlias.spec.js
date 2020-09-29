@@ -31,7 +31,7 @@ describe('Symbol Explorer Transaction detail page for Address Alias', () => {
         })
 
         it('render correct transaction detail titles', () => {
-            const items = ['Type', 'Alias Action', 'Namespace ID', 'Name', 'Address']
+            const items = ['Transaction Type', 'Alias Action', 'Namespace ID', 'Name', 'Address']
             cy.renderFieldInTable("transactionDetailTitle", items)
         })
 

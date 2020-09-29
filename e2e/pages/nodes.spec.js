@@ -1,4 +1,4 @@
-describe('Symbol Explorer Namespaces list page should', () => {
+describe('Symbol Explorer Nodes list page should', () => {
     beforeEach(() => {
         cy.visit('/nodes')
     })

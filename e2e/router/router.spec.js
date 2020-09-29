@@ -5,7 +5,7 @@ describe('Symbol Explorer Menu Route should', () => {
     })
 
     it('redirect to home given click on home tab', () => {
-        cy.contains('XYM Price')
+        cy.contains('XEM Price')
         cy.contains('Base Info')
         cy.contains('Recent Transactions')
         cy.contains('Recent Blocks')
@@ -40,5 +40,10 @@ describe('Symbol Explorer Menu Route should', () => {
     it('redirect to nodes listing given click on nodes tab', () => {
         cy.get('.ex-menu').contains('Nodes').click()
         cy.url().should('contain', '/nodes')
+    })
+
+    it('redirect to statistics page given click on statistics tab', () => {
+        cy.get('.ex-menu').contains('Statistics').click()
+        cy.url().should('contain', '/statistics')
     })
 })

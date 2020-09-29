@@ -31,7 +31,7 @@ describe('Symbol Explorer Transaction detail page for Account Operation Restrict
         })
 
         it('render correct transaction detail titles', () => {
-            const items = ['Type', 'Restriction Type', 'Additions']
+            const items = ['Transaction Type', 'Restriction Type', 'Additions']
             cy.renderFieldInTable("transactionDetailTitle", items)
         })
 

@@ -136,6 +136,23 @@ class TransactionService {
 		  BlockService.getMerkleTransaction(height, merkleComponentHash)
   	]);
 
+  	await this.formatTransaction2(formattedTransaction);
+
+  	const transactionInfo = {
+  		...formattedTransaction,
+  		blockHeight: formattedTransaction.height,
+  		transactionHash: formattedTransaction.hash,
+  		effectiveFee,
+  		date,
+  		status: transactionStatus.detail.code,
+  		confirm: transactionStatus.message,
+  		merklePath
+  	};
+
+  	return transactionInfo;
+  }
+
+  static formatTransaction2 = async formattedTransaction => {
   	switch (formattedTransaction.type) {
   	case TransactionType.TRANSFER:
   		await Promise.all(formattedTransaction.mosaics.map(async mosaic => {
@@ -208,19 +225,6 @@ class TransactionService {
   		formattedTransaction.transactionBody.targetAddress = await helper.resolvedAddress(formattedTransaction.targetAddress);
   		break;
   	}
-
-  	const transactionInfo = {
-  		...formattedTransaction,
-  		blockHeight: formattedTransaction.height,
-  		transactionHash: formattedTransaction.hash,
-  		effectiveFee,
-  		date,
-  		status: transactionStatus.detail.code,
-  		confirm: transactionStatus.message,
-  		merklePath
-  	};
-
-  	return transactionInfo;
   }
 
   /**
