@@ -20,6 +20,7 @@ import NodeKeyLinkGraphic from '@/components/transaction-graphic/NodeKeyLinkGrap
 import VotingKeyLinkGraphic from '@/components/transaction-graphic/VotingKeyLinkGraphic.vue';
 import SecretProofGraphic from '@/components/transaction-graphic/SecretProofGraphic.vue';
 import AccountOperationRestrictionGraphic from '@/components/transaction-graphic/AccountOperationRestrictionGraphic.vue';
+import AccountAddressRestrictionGraphic from '@/components/transaction-graphic/AccountAddressRestrictionGraphic.vue';
 import { TransactionType } from 'symbol-sdk';
 
 export default {
@@ -45,7 +46,8 @@ export default {
 		AccountKeyLinkGraphic,
 		NodeKeyLinkGraphic,
 		VotingKeyLinkGraphic,
-		AccountOperationRestrictionGraphic
+		AccountOperationRestrictionGraphic,
+		AccountAddressRestrictionGraphic
 	},
 
 	data() {
@@ -71,6 +73,7 @@ export default {
 			case TransactionType.NODE_KEY_LINK: return 'NodeKeyLinkGraphic';
 			case TransactionType.VOTING_KEY_LINK: return 'VotingKeyLinkGraphic';
 			case TransactionType.ACCOUNT_OPERATION_RESTRICTION: return 'AccountOperationRestrictionGraphic';
+			case TransactionType.ACCOUNT_ADDRESS_RESTRICTION: return 'AccountAddressRestrictionGraphic';
 			}
 			return null;
 		}

@@ -1,18 +1,18 @@
 <template>
-    <b-list-group-item
-        class="d-flex justify-content-between align-items-center list-item"
-        :title="title"
-    >
-        <AccountIcon
-            hideCaption
-            :width="32"
-            :height="32"
-            :address="account.address"
-        />
-        {{ text }}
-        <b-badge v-if="isValueExist" variant="primary" pill>{{ _value }}</b-badge>
+	<b-list-group-item
+		class="d-flex justify-content-between align-items-center list-item"
+		:title="title"
+	>
+		<AccountIcon
+			hideCaption
+			:width="32"
+			:height="32"
+			:address="address"
+		/>
+		{{ text }}
+		<b-badge v-if="isValueExist" variant="primary" pill>{{ _value }}</b-badge>
 		<div v-else> &nbsp; </div>
-    </b-list-group-item>
+	</b-list-group-item>
 </template>
 
 <script>
@@ -27,9 +27,9 @@ export default {
 	},
 
 	props: {
-		account: {
-			type: Object,
-			default: () => ({})
+		address: {
+			type: String,
+			default: ''
 		},
 
 		value: {
@@ -39,11 +39,11 @@ export default {
 
 	computed: {
 		text() {
-			return this.truncString(this.account.address, 5);
+			return this.truncString(this.address, 5);
 		},
 
 		title() {
-			return this.account.address;
+			return this.address;
 		},
 
 		isValueExist() {
@@ -51,10 +51,10 @@ export default {
 		},
 
 		_value() {
-			return this.value || this.account.amount;
+			return this.value || this.amount;
 		}
 	}
-}
+};
 </script>
 
 <style lang="scss" scoped>
