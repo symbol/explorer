@@ -141,7 +141,7 @@ export const account = [
 		icon: 'mdi-circle',
 		value: {
 			orderBy: AccountOrderBy.Balance,
-			mosaicId: new MosaicId('5E62990DCAC5BE8A')
+			mosaicId: new MosaicId('5B66E76BECAD0860')
 		}
 	}
 ];
