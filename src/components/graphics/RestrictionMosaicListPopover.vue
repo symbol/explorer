@@ -1,0 +1,87 @@
+<template>
+	<b-popover :target="target" placement="bottom" triggers="hover">
+		<template v-slot:title>{{ title }}</template>
+		<b-list-group>
+			<MosaicListItem
+				v-for="(value, key) in addedRestriction"
+				:key="'rmlp ' + key"
+				:mosaic="value"
+				:value="'Added'"
+			/>
+
+			<MosaicListItem
+				v-for="(value, key) in removedRestriction"
+				:key="'rmlp ' + key"
+				:mosaic="value"
+				:value="'Removed'"
+			/>
+		</b-list-group>
+	</b-popover>
+</template>
+
+<script>
+import GraphicComponent from './GraphicComponent.vue';
+import MosaicListItem from './MosaicListItem';
+
+export default {
+	extends: GraphicComponent,
+
+	components: {
+		MosaicListItem
+	},
+
+	props: {
+		data: {
+			type: Object,
+			default: () => ({})
+		},
+
+		title: {
+			type: String,
+			default: 'Table'
+		},
+
+		target: {
+			type: String,
+			required: true
+		}
+	},
+	computed: {
+		addedRestriction() {
+			return this.data.added;
+		},
+		removedRestriction() {
+			return this.data.removed;
+		}
+	},
+	methods: {
+		getTranslation(key) {
+			console.log(key);
+			return this.$store.getters['ui/getNameByKey'](key);
+		}
+	}
+};
+</script>
+
+<style lang="scss" scoped>
+.test {
+    border: none;
+}
+
+.table-list {
+    min-width: 250px;
+
+    .key {
+        color: $table-title-text-color;
+        font-weight: bolder;
+        font-size: 12px;
+        letter-spacing: 1px;
+    }
+
+    .value {
+        display:flex;
+        font-size: 12px;
+        color: $table-text-color;
+    }
+}
+</style>

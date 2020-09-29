@@ -1,25 +1,25 @@
 <template>
-    <b-list-group-item
-        class="d-flex justify-content-between align-items-center list-item"
-        :title="title"
-    >
-        <MosaicIcon
-            v-if="!isNativeMosaic(mosaic.mosaicId)"
-            hideCaption
-            :width="32"
-            :height="32"
-            :mosaicId="mosaic.mosaicId"
-        />
-        <NativeMosaicIcon
-            v-else
-            :width="32"
-            :height="32"
-            :mosaicId="mosaic.mosaicId"
-        />
-        {{ text }}
-        <b-badge v-if="isValueExist" variant="primary" pill>{{ _value }}</b-badge>
+	<b-list-group-item
+		class="d-flex justify-content-between align-items-center list-item"
+		:title="title"
+	>
+		<MosaicIcon
+			v-if="!isNativeMosaic(mosaic.mosaicId)"
+			hideCaption
+			:width="32"
+			:height="32"
+			:mosaicId="mosaic.mosaicId"
+		/>
+		<NativeMosaicIcon
+			v-else
+			:width="32"
+			:height="32"
+			:mosaicId="mosaic.mosaicId"
+		/>
+		{{ text }}
+		<b-badge v-if="isValueExist" variant="primary" pill>{{ _value }}</b-badge>
 		<div v-else> &nbsp; </div>
-    </b-list-group-item>
+	</b-list-group-item>
 </template>
 
 <script>
@@ -60,7 +60,7 @@ export default {
 		},
 
 		_value() {
-			return this.value || this.mosaic.amount
+			return this.value || this.mosaic.amount;
 		}
 	},
 
@@ -69,7 +69,7 @@ export default {
 			return mosaicId === this.nativeMosaicId;
 		}
 	}
-}
+};
 </script>
 
 <style lang="scss" scoped>
