@@ -6,14 +6,14 @@
 				v-for="(value, key) in addedRestriction"
 				:key="'rolp_' + key"
 				:transactionType="value"
-				:value="'Added'"
+				:value="getTranslation('restrictionAdded')"
 			/>
 
 			<TransactionTypeListItem
 				v-for="(value, key) in removedRestriction"
 				:key="'rolp_' + key"
 				:transactionType="value"
-				:value="'Removed'"
+				:value="getTranslation('restrictionRemoved')"
 			/>
 		</b-list-group>
 	</b-popover>

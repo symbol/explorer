@@ -6,14 +6,14 @@
 				v-for="(value, key) in addedRestriction"
 				:key="'ralp_' + key"
 				:address="value"
-				:value="'Added'"
+				:value="getTranslation('restrictionAdded')"
 			/>
 
 			<AccountListItem
 				v-for="(value, key) in removedRestriction"
 				:key="'ralp_' + key"
 				:address="value"
-				:value="'Removed'"
+				:value="getTranslation('restrictionRemoved')"
 			/>
 		</b-list-group>
 	</b-popover>

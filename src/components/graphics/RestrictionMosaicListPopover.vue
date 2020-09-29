@@ -6,14 +6,14 @@
 				v-for="(value, key) in addedRestriction"
 				:key="'rmlp_' + key"
 				:mosaic="value"
-				:value="'Added'"
+				:value="getTranslation('restrictionAdded')"
 			/>
 
 			<MosaicListItem
 				v-for="(value, key) in removedRestriction"
 				:key="'rmlp_' + key"
 				:mosaic="value"
-				:value="'Removed'"
+				:value="getTranslation('restrictionRemoved')"
 			/>
 		</b-list-group>
 	</b-popover>

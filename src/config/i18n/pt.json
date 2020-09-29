@@ -300,5 +300,7 @@
     "restrictions": "Restrictions (Allow If)",
     "hashLockTitle": "Hash Lock",
     "secretLockTitle": "Secret Lock",
-    "ownerAddress": "Owner Address"
+    "ownerAddress": "Owner Address",
+    "restrictionAdded": "Added",
+    "restrictionRemoved": "Removed"
 }
