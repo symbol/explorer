@@ -107,6 +107,12 @@ export default {
 				'addressResolutionEntries',
 				'mosaicResolutionEntries',
 				'stateHashSubCacheMerkleRoots'
+			],
+			valuesToTranslate: [
+				'newRestrictionType',
+				'previousRestrictionType',
+				'restrictionType',
+				'mosaicRestrictionType'
 			]
 		};
 	},
@@ -120,6 +126,12 @@ export default {
 	},
 
 	methods: {
+		translateValue(key, value) {
+			if(this.valuesToTranslate.includes(key))
+				return this.$store.getters['ui/getNameByKey'](value);
+			return value;
+		},
+
 		isKeyClickable(itemKey) {
 			return this.clickableKeys.indexOf(itemKey) !== -1;
 		},
