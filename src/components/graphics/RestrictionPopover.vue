@@ -61,23 +61,24 @@ export default {
 
 	computed: {
 		titleGlobalRestriction() {
-			return `${this.getTranslation('restrictionKey')}: ${this.data.restrictionKey}` 
-				+ `${this.getTranslation('newRestrictionType')}: ${this.getTranslation(this.data.newRestrictionType)}` 
-				+ `${this.getTranslation('newRestrictionValue')}: ${this.data.newRestrictionValue}`
+			return `${this.getTranslation('restrictionKey')}: ${this.data.restrictionKey}` +
+				`${this.getTranslation('newRestrictionType')}: ${this.getTranslation(this.data.newRestrictionType)}` +
+				`${this.getTranslation('newRestrictionValue')}: ${this.data.newRestrictionValue}`;
 		},
 
 		isGlobalRestriction() {
-			return this.data.type === 'mosaic.global'; 
+			return this.data.type === 'mosaic.global';
 		},
 
 		isAddressRestriction() {
-			return this.data.type === 'mosaic.address'; 
+			return this.data.type === 'mosaic.address';
 		},
 
 		restrictionTypeText() {
 			const restrictionType = this.data.newRestrictionType;
-			switch(restrictionType) {
-				case 'MosaicRestrictionType.EQ': return '=';
+
+			switch (restrictionType) {
+			case 'MosaicRestrictionType.EQ': return '=';
   				case 'MosaicRestrictionType.GE': return '≥';
   				case 'MosaicRestrictionType.GT': return '>';
   				case 'MosaicRestrictionType.LE': return '≤';
@@ -85,6 +86,7 @@ export default {
   				case 'MosaicRestrictionType.NE': return '≠';
   				case 'MosaicRestrictionType.NONE': return 'none';
 			}
+			return '-';
 		}
 	}
 };

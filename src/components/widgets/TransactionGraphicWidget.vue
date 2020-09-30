@@ -81,7 +81,7 @@ export default {
 				) &&
 				(
 					process.env.NODE_ENV === 'development' ||
-					this.data?.innerTransactions?.every(inner => isTransactionTypeSupported(inner.type) === true)
+					this.data?.innerTransactions?.every(inner => this.isTransactionTypeSupported(inner.type) === true)
 				)
 			);
 		},
