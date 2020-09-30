@@ -62,7 +62,8 @@ export default {
 				TransactionType.VRF_KEY_LINK,
 				TransactionType.ACCOUNT_KEY_LINK,
 				TransactionType.NODE_KEY_LINK,
-				TransactionType.VOTING_KEY_LINK
+				TransactionType.VOTING_KEY_LINK,
+				TransactionType.MOSAIC_GLOBAL_RESTRICTION
 			]
 		};
 	},

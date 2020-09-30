@@ -26,7 +26,7 @@
 				:mosaic="mosaic"
 			/>
 			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
-			<EditCircle
+			<MosaicRestrictionCircle
 				:x="getCircleIconPositionX(0)"
 				:y="circleIconPositionY"
 				:data="data"
@@ -43,7 +43,7 @@
 <script>
 import GraphicComponent from '../graphics/GraphicComponent.vue';
 import AccountIcon from '../graphics/AccountIcon.vue';
-import EditCircle from '../graphics/EditCircle.vue';
+import MosaicRestrictionCircle from '../graphics/MosaicRestrictionCircle.vue';
 import MosaicIcon from '../graphics/MosaicIcon.vue';
 import Arrow from '../graphics/Arrow.vue';
 
@@ -52,7 +52,7 @@ export default {
 
 	components: {
 		AccountIcon,
-		EditCircle,
+		MosaicRestrictionCircle,
 		Arrow,
 		MosaicIcon
 	},
@@ -67,7 +67,7 @@ export default {
 			type: String,
 			required: true
 		},
-		key: {
+		restrictionKey: {
 			type: String,
 			required: true
 		},
@@ -111,9 +111,13 @@ export default {
 
 		data() {
 			return {
-				mosaicId: this.mosaicId,
-				delta: this.delta,
-				action: this.action
+				type: 'mosaic.global',
+				mosaicId: this.referenceMosaicId,
+				restrictionKey: this.restrictionKey,
+				previousRestrictionType: this.previousRestrictionType,
+				previousRestrictionValue: this.previousRestrictionValue,
+				newRestrictionType: this.newRestrictionType,
+				newRestrictionValue: this.newRestrictionValue
 			};
 		}
 	}
