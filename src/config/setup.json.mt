@@ -13,6 +13,11 @@
 	"endpoints": {
 		"marketData": "https://min-api.cryptocompare.com/"
 	},
+	"networkConfig": {
+		"namespaceName": "SYMBOL.XEM",
+		"mosaicId": "5B66E76BECAD0860",
+		"divisibility": "6"
+	},
 	"footer": {
 		"link": [{
 				"href": "https://nemflash.io/",
