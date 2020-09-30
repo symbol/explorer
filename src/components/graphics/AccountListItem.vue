@@ -1,18 +1,18 @@
 <template>
-    <b-list-group-item
-        class="d-flex justify-content-between align-items-center list-item"
-        :title="title"
-    >
-        <AccountIcon
-            hideCaption
-            :width="32"
-            :height="32"
-            :address="account.address"
-        />
-        {{ text }}
-        <b-badge v-if="isValueExist" variant="primary" pill>{{ _value }}</b-badge>
+	<b-list-group-item
+		class="d-flex justify-content-between align-items-center list-item"
+		:title="title"
+	>
+		<AccountIcon
+			hideCaption
+			:width="32"
+			:height="32"
+			:address="account.address"
+		/>
+		{{ text }}
+		<b-badge v-if="isValueExist" variant="primary" pill>{{ _value }}</b-badge>
 		<div v-else> &nbsp; </div>
-    </b-list-group-item>
+	</b-list-group-item>
 </template>
 
 <script>
@@ -54,7 +54,7 @@ export default {
 			return this.value || this.account.amount;
 		}
 	}
-}
+};
 </script>
 
 <style lang="scss" scoped>

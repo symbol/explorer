@@ -61,9 +61,9 @@ export default {
 
 	computed: {
 		titleGlobalRestriction() {
-			return `${this.getTranslation('restrictionKey')}: ${this.data.restrictionKey} 
-${this.getTranslation('newRestrictionType')}: ${this.getTranslation(this.data.newRestrictionType)} 
-${this.getTranslation('newRestrictionValue')}: ${this.data.newRestrictionValue} `
+			return `${this.getTranslation('restrictionKey')}: ${this.data.restrictionKey}` 
+				+ `${this.getTranslation('newRestrictionType')}: ${this.getTranslation(this.data.newRestrictionType)}` 
+				+ `${this.getTranslation('newRestrictionValue')}: ${this.data.newRestrictionValue}`
 		},
 
 		isGlobalRestriction() {
@@ -92,27 +92,27 @@ ${this.getTranslation('newRestrictionValue')}: ${this.data.newRestrictionValue} 
 
 <style lang="scss" scoped>
 .item {
-	min-width: 250px;
-	background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
+    min-width: 250px;
+    background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
 
-	.key {
+    .key {
         color: #fff;
         font-weight: 700;
         font-size: 12px;
-	}
-	
-	.type {
-		color: #f0f;
+    }
+
+    .type {
+        color: #f0f;
         font-weight: 700;
-		font-size: 18px;
-		line-height: 12px;
-		margin: 0 10px;
+        font-size: 18px;
+        line-height: 12px;
+        margin: 0 10px;
 	}
 
     .value {
         font-size: 12px;
         color: #fff;
         font-weight: 400;
-	}
+    }
 }
 </style>

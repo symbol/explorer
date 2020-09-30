@@ -1,12 +1,12 @@
 <template>
-    <b-list-group-item
-        class="d-flex justify-content-between align-items-center list-item"
-        :title="title"
-    >
+	<b-list-group-item
+		class="d-flex justify-content-between align-items-center list-item"
+		:title="title"
+	>
 		<TransactionType :value="transactionType" />
 		<b-badge v-if="isValueExist" variant="primary" pill>{{ _value }}</b-badge>
 		<div v-else> &nbsp; </div>
-    </b-list-group-item>
+	</b-list-group-item>
 </template>
 
 <script>
@@ -22,7 +22,7 @@ export default {
 
 	props: {
 		transactionType: {
-			type: Number,
+			type: Number
 		},
 
 		value: {
@@ -32,7 +32,7 @@ export default {
 
 	computed: {
 		title() {
-			return this.isValueExist  
+			return this.isValueExist
 				? this.getTransactionTypeCaption(this.transactionType) + ' - ' + this._value
 				: this.getTransactionTypeCaption(this.transactionType);
 		},
@@ -45,7 +45,7 @@ export default {
 			return this.value;
 		}
 	}
-}
+};
 </script>
 
 <style lang="scss" scoped>

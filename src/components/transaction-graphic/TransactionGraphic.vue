@@ -57,20 +57,20 @@ export default {
 	computed: {
 		graphicComponent() {
 			switch (this.data?.type) {
-				case TransactionType.TRANSFER: return 'TransferGraphic';
-				case TransactionType.ADDRESS_ALIAS: return 'AddressAliasGraphic';
-				case TransactionType.MOSAIC_ALIAS: return 'MosaicAliasGraphic';
-				case TransactionType.NAMESPACE_REGISTRATION: return 'NamespaceRegistrationGraphic';
-				case TransactionType.MOSAIC_DEFINITION: return 'MosaicDefinitionGraphic';
-				case TransactionType.MOSAIC_SUPPLY_CHANGE: return 'MosaicSupplyChangeGraphic';
-				case TransactionType.SECRET_LOCK: return 'SecretLockGraphic';
-				case TransactionType.HASH_LOCK: return 'HashLockGraphic';
-				case TransactionType.SECRET_PROOF: return 'SecretProofGraphic';
-				case TransactionType.VRF_KEY_LINK: return 'VrfKeyGraphic';
-				case TransactionType.ACCOUNT_KEY_LINK: return 'AccountKeyLinkGraphic';
-				case TransactionType.NODE_KEY_LINK: return 'NodeKeyLinkGraphic';
-				case TransactionType.VOTING_KEY_LINK: return 'VotingKeyLinkGraphic';
-				case TransactionType.MOSAIC_GLOBAL_RESTRICTION: return 'MosaicGlobalRestrictionGraphic';
+			case TransactionType.TRANSFER: return 'TransferGraphic';
+			case TransactionType.ADDRESS_ALIAS: return 'AddressAliasGraphic';
+			case TransactionType.MOSAIC_ALIAS: return 'MosaicAliasGraphic';
+			case TransactionType.NAMESPACE_REGISTRATION: return 'NamespaceRegistrationGraphic';
+			case TransactionType.MOSAIC_DEFINITION: return 'MosaicDefinitionGraphic';
+			case TransactionType.MOSAIC_SUPPLY_CHANGE: return 'MosaicSupplyChangeGraphic';
+			case TransactionType.SECRET_LOCK: return 'SecretLockGraphic';
+			case TransactionType.HASH_LOCK: return 'HashLockGraphic';
+			case TransactionType.SECRET_PROOF: return 'SecretProofGraphic';
+			case TransactionType.VRF_KEY_LINK: return 'VrfKeyGraphic';
+			case TransactionType.ACCOUNT_KEY_LINK: return 'AccountKeyLinkGraphic';
+			case TransactionType.NODE_KEY_LINK: return 'NodeKeyLinkGraphic';
+			case TransactionType.VOTING_KEY_LINK: return 'VotingKeyLinkGraphic';
+			case TransactionType.MOSAIC_GLOBAL_RESTRICTION: return 'MosaicGlobalRestrictionGraphic';
 			}
 			return null;
 		}

@@ -78,10 +78,10 @@ export default {
 				(
 					this.data.type === TransactionType.AGGREGATE_COMPLETE ||
 					this.data.type === TransactionType.AGGREGATE_BONDED
-				)
-				&& (
-					process.env.NODE_ENV === 'development'
-					|| this.data?.innerTransactions?.every(inner => isTransactionTypeSupported(inner.type) === true)
+				) &&
+				(
+					process.env.NODE_ENV === 'development' ||
+					this.data?.innerTransactions?.every(inner => isTransactionTypeSupported(inner.type) === true)
 				)
 			);
 		},

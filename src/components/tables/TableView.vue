@@ -127,7 +127,7 @@ export default {
 
 	methods: {
 		translateValue(key, value) {
-			if(this.valuesToTranslate.includes(key))
+			if (this.valuesToTranslate.includes(key))
 				return this.$store.getters['ui/getNameByKey'](value);
 			return value;
 		},
