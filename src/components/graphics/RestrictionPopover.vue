@@ -109,7 +109,7 @@ export default {
         font-size: 18px;
         line-height: 12px;
         margin: 0 10px;
-	}
+    }
 
     .value {
         font-size: 12px;
