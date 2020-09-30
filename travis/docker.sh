@@ -29,22 +29,23 @@ docker build -t "${DOCKER_IMAGE_NAME}:${CURRENT_VERSION}" .
 if [ "$TRAVIS_BRANCH" = "$MAIN_BRANCH" ]
 then
     echo "Building for ${$MAIN_BRANCH} branch..."
-    echo "Docker build latest version"
-    docker tag ${DOCKER_IMAGE_NAME}:${CURRENT_VERSION} ${DOCKER_IMAGE_NAME}:latest
-    docker push "${DOCKER_IMAGE_NAME}:latest"
 
-    echo "Docker build alpha version"
-    docker tag ${DOCKER_IMAGE_NAME}:${CURRENT_VERSION} ${DOCKER_IMAGE_NAME}:${VERSION}-alpha
-    docker push "${DOCKER_IMAGE_NAME}:${VERSION}-alpha"
+    echo "Docker tagging alpha version"
+    docker tag "${DOCKER_IMAGE_NAME}:${CURRENT_VERSION}" "${DOCKER_IMAGE_NAME}:${CURRENT_VERSION}-alpha"
+    docker tag "${DOCKER_IMAGE_NAME}:${CURRENT_VERSION}" "${DOCKER_IMAGE_NAME}:${CURRENT_VERSION}-alpha-$(date +%Y%m%d%H%M)"
+
+    echo "Docker pushing alpha"
+    docker push "${DOCKER_IMAGE_NAME}:${CURRENT_VERSION}-alpha"
+    docker push "${DOCKER_IMAGE_NAME}:${CURRENT_VERSION}-alpha-$(date +%Y%m%d%H%M)"
 fi
 
 if [ "$TRAVIS_BRANCH" = "$RELEASE_BRANCH" ]
 then
     echo "Building for ${$RELEASE_BRANCH} branch..."
-    echo "Docker build release version"
-    docker tag ${DOCKER_IMAGE_NAME}:${CURRENT_VERSION} ${DOCKER_IMAGE_NAME}:release
-    docker push "${DOCKER_IMAGE_NAME}:release"
+    echo "Docker tagging release version"
+    docker tag "${DOCKER_IMAGE_NAME}:${CURRENT_VERSION}" "${DOCKER_IMAGE_NAME}:release"
 
-    echo "Docker build release current version"
+    echo "Docker pushing release"
+    docker push "${DOCKER_IMAGE_NAME}:release"
     docker push "${DOCKER_IMAGE_NAME}:${CURRENT_VERSION}"
 fi
