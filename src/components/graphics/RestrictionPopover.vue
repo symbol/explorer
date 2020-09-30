@@ -4,7 +4,7 @@
 		<b-list-group>
 			<b-list-group-item
 				v-if="isGlobalRestriction"
-				class="d-flex justify-content-between align-items-center item"
+				class="d-flex justify-content-center align-items-center item"
 				:title="titleGlobalRestriction"
 			>
 				<span class="key">
@@ -19,7 +19,7 @@
 			</b-list-group-item>
 			<b-list-group-item
 				v-if="isAddressRestriction"
-				class="d-flex justify-content-between align-items-center item"
+				class="d-flex justify-content-center align-items-center item"
 				:title="data.restrictionKey + '=' + data.newRestrictionValue"
 			>
 				<span class="key">
@@ -83,7 +83,7 @@ ${this.getTranslation('newRestrictionValue')}: ${this.data.newRestrictionValue} 
   				case 'MosaicRestrictionType.LE': return '≤';
   				case 'MosaicRestrictionType.LT': return '<';
   				case 'MosaicRestrictionType.NE': return '≠';
-  				case 'MosaicRestrictionType.NONE': return '';
+  				case 'MosaicRestrictionType.NONE': return 'none';
 			}
 		}
 	}
@@ -106,6 +106,7 @@ ${this.getTranslation('newRestrictionValue')}: ${this.data.newRestrictionValue} 
         font-weight: 700;
 		font-size: 18px;
 		line-height: 12px;
+		margin: 0 10px;
 	}
 
     .value {
