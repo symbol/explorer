@@ -78,13 +78,13 @@ export default {
 			const restrictionType = this.data.newRestrictionType;
 
 			switch (restrictionType) {
-			case 'MosaicRestrictionType.EQ': return '=';
-  				case 'MosaicRestrictionType.GE': return '≥';
-  				case 'MosaicRestrictionType.GT': return '>';
-  				case 'MosaicRestrictionType.LE': return '≤';
-  				case 'MosaicRestrictionType.LT': return '<';
-  				case 'MosaicRestrictionType.NE': return '≠';
-  				case 'MosaicRestrictionType.NONE': return 'none';
+  				case 'mosaicRestrictionType.EQ': return '=';
+  				case 'mosaicRestrictionType.GE': return '≥';
+  				case 'mosaicRestrictionType.GT': return '>';
+  				case 'mosaicRestrictionType.LE': return '≤';
+  				case 'mosaicRestrictionType.LT': return '<';
+  				case 'mosaicRestrictionType.NE': return '≠';
+  				case 'mosaicRestrictionType.NONE': return 'none';
 			}
 			return '-';
 		}
