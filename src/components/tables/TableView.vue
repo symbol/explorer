@@ -153,7 +153,7 @@ export default {
 		},
 
 		isTransactionType(itemKey) {
-			return itemKey === 'transactionType';
+			return itemKey === 'transactionType' || itemKey === 'restrictionOperationAdditions_' || itemKey === 'restrictionOperationDeletions_';
 		},
 
 		isBlockHeightWithFinalizedStatus(itemKey) {

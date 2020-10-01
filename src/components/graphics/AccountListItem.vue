@@ -7,7 +7,7 @@
 			hideCaption
 			:width="32"
 			:height="32"
-			:address="account.address"
+			:address="address"
 		/>
 		{{ text }}
 		<b-badge v-if="isValueExist" variant="primary" pill>{{ _value }}</b-badge>
@@ -27,9 +27,9 @@ export default {
 	},
 
 	props: {
-		account: {
-			type: Object,
-			default: () => ({})
+		address: {
+			type: String,
+			default: ''
 		},
 
 		value: {
@@ -39,11 +39,11 @@ export default {
 
 	computed: {
 		text() {
-			return this.truncString(this.account.address, 5);
+			return this.truncString(this.address, 5);
 		},
 
 		title() {
-			return this.account.address;
+			return this.address;
 		},
 
 		isValueExist() {
@@ -51,7 +51,7 @@ export default {
 		},
 
 		_value() {
-			return this.value || this.account.amount;
+			return this.value || this.amount;
 		}
 	}
 };

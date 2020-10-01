@@ -143,20 +143,20 @@ class Constants {
   }
 
   static AddressRestrictionFlag = {
-  	[AddressRestrictionFlag.AllowIncomingAddress]: 'Allow Incoming Address',
-  	[AddressRestrictionFlag.AllowOutgoingAddress]: 'Allow Outgoing Address',
-  	[AddressRestrictionFlag.BlockIncomingAddress]: 'Block Incoming Address',
-  	[AddressRestrictionFlag.BlockOutgoingAddress]: 'Block Outgoing Address'
+  	[AddressRestrictionFlag.AllowIncomingAddress]: 'Allow Incoming Addresses',
+  	[AddressRestrictionFlag.AllowOutgoingAddress]: 'Allow Outgoing Addresses',
+  	[AddressRestrictionFlag.BlockIncomingAddress]: 'Block Incoming Addresses',
+  	[AddressRestrictionFlag.BlockOutgoingAddress]: 'Block Outgoing Addresses'
   }
 
   static MosaicRestrictionFlag = {
-  	[MosaicRestrictionFlag.AllowMosaic]: 'Allow Mosaic',
-  	[MosaicRestrictionFlag.BlockMosaic]: 'Block Mosaic'
+  	[MosaicRestrictionFlag.AllowMosaic]: 'Allow Mosaics',
+  	[MosaicRestrictionFlag.BlockMosaic]: 'Block Mosaics'
   }
 
   static OperationRestrictionFlag = {
-  	[OperationRestrictionFlag.AllowOutgoingTransactionType]: 'Allow Outgoing Transaction',
-  	[OperationRestrictionFlag.BlockOutgoingTransactionType]: 'Block Outgoing Transaction'
+  	[OperationRestrictionFlag.AllowOutgoingTransactionType]: 'Allow Outgoing Transactions',
+  	[OperationRestrictionFlag.BlockOutgoingTransactionType]: 'Block Outgoing Transactions'
   }
 
   static MosaicRestrictionEntryType = {
@@ -165,13 +165,13 @@ class Constants {
   }
 
   static MosaicRestrictionType = {
-  	[MosaicRestrictionType.EQ]: 'MosaicRestrictionType.EQ',
-  	[MosaicRestrictionType.GE]: 'MosaicRestrictionType.GE',
-  	[MosaicRestrictionType.GT]: 'MosaicRestrictionType.GT',
-  	[MosaicRestrictionType.LE]: 'MosaicRestrictionType.LE',
-  	[MosaicRestrictionType.LT]: 'MosaicRestrictionType.LT',
-  	[MosaicRestrictionType.NE]: 'MosaicRestrictionType.NE',
-  	[MosaicRestrictionType.NONE]: 'MosaicRestrictionType.NONE'
+  	[MosaicRestrictionType.EQ]: 'mosaicRestrictionType.EQ',
+  	[MosaicRestrictionType.GE]: 'mosaicRestrictionType.GE',
+  	[MosaicRestrictionType.GT]: 'mosaicRestrictionType.GT',
+  	[MosaicRestrictionType.LE]: 'mosaicRestrictionType.LE',
+  	[MosaicRestrictionType.LT]: 'mosaicRestrictionType.LT',
+  	[MosaicRestrictionType.NE]: 'mosaicRestrictionType.NE',
+  	[MosaicRestrictionType.NONE]: 'mosaicRestrictionType.NONE'
   }
 
   static MerkleRootsOrder = ['AccountState', 'Namespace', 'Mosaic', 'Multisig', 'HashLockInfo', 'SecretLockInfo', 'AccountRestriction', 'MosaicRestriction', 'Metadata']
