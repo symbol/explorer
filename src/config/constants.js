@@ -165,13 +165,13 @@ class Constants {
   }
 
   static MosaicRestrictionType = {
-  	[MosaicRestrictionType.EQ]: 'MosaicRestrictionType.EQ',
-  	[MosaicRestrictionType.GE]: 'MosaicRestrictionType.GE',
-  	[MosaicRestrictionType.GT]: 'MosaicRestrictionType.GT',
-  	[MosaicRestrictionType.LE]: 'MosaicRestrictionType.LE',
-  	[MosaicRestrictionType.LT]: 'MosaicRestrictionType.LT',
-  	[MosaicRestrictionType.NE]: 'MosaicRestrictionType.NE',
-  	[MosaicRestrictionType.NONE]: 'MosaicRestrictionType.NONE'
+  	[MosaicRestrictionType.EQ]: 'mosaicRestrictionType.EQ',
+  	[MosaicRestrictionType.GE]: 'mosaicRestrictionType.GE',
+  	[MosaicRestrictionType.GT]: 'mosaicRestrictionType.GT',
+  	[MosaicRestrictionType.LE]: 'mosaicRestrictionType.LE',
+  	[MosaicRestrictionType.LT]: 'mosaicRestrictionType.LT',
+  	[MosaicRestrictionType.NE]: 'mosaicRestrictionType.NE',
+  	[MosaicRestrictionType.NONE]: 'mosaicRestrictionType.NONE'
   }
 
   static MerkleRootsOrder = ['AccountState', 'Namespace', 'Mosaic', 'Multisig', 'HashLockInfo', 'SecretLockInfo', 'AccountRestriction', 'MosaicRestriction', 'Metadata']
