@@ -66,7 +66,10 @@ export default {
 				this.data.type === TransactionType.VRF_KEY_LINK ||
 				this.data.type === TransactionType.ACCOUNT_KEY_LINK ||
 				this.data.type === TransactionType.NODE_KEY_LINK ||
-				this.data.type === TransactionType.VOTING_KEY_LINK;
+				this.data.type === TransactionType.VOTING_KEY_LINK ||
+				this.data.type === TransactionType.ACCOUNT_OPERATION_RESTRICTION ||
+				this.data.type === TransactionType.ACCOUNT_ADDRESS_RESTRICTION ||
+				this.data.type === TransactionType.ACCOUNT_MOSAIC_RESTRICTION;
 		},
 
 		isAggregate() {
