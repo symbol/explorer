@@ -66,7 +66,8 @@ export default {
 				this.data.type === TransactionType.VRF_KEY_LINK ||
 				this.data.type === TransactionType.ACCOUNT_KEY_LINK ||
 				this.data.type === TransactionType.NODE_KEY_LINK ||
-				this.data.type === TransactionType.VOTING_KEY_LINK;
+				this.data.type === TransactionType.VOTING_KEY_LINK ||
+				this.data.type === TransactionType.ACCOUNT_METADATA;
 		},
 
 		isAggregate() {
