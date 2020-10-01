@@ -46,36 +46,47 @@ export default {
 
 	data() {
 		return {
-			TransactionType
+			TransactionType,
+			supportedTransactionTypes: [
+				TransactionType.TRANSFER,
+				TransactionType.ADDRESS_ALIAS,
+				TransactionType.MOSAIC_ALIAS,
+				TransactionType.NAMESPACE_REGISTRATION,
+				TransactionType.SECRET_LOCK,
+				TransactionType.MOSAIC_DEFINITION,
+				TransactionType.MOSAIC_SUPPLY_CHANGE,
+				TransactionType.AGGREGATE_COMPLETE,
+				TransactionType.AGGREGATE_BONDED,
+				TransactionType.HASH_LOCK,
+				TransactionType.SECRET_PROOF,
+				TransactionType.VRF_KEY_LINK,
+				TransactionType.ACCOUNT_KEY_LINK,
+				TransactionType.NODE_KEY_LINK,
+				TransactionType.VOTING_KEY_LINK,
+				TransactionType.MOSAIC_GLOBAL_RESTRICTION,
+				TransactionType.MOSAIC_ADDRESS_RESTRICTION,
+        TransactionType.ACCOUNT_OPERATION_RESTRICTIO,
+        TransactionType.ACCOUNT_ADDRESS_RESTRICTION,
+        TransactionType.ACCOUNT_MOSAIC_RESTRICTION
+			]
 		};
 	},
 
 	computed: {
 		isWidgetShown() {
-			return this.data.type === TransactionType.TRANSFER ||
-				this.data.type === TransactionType.ADDRESS_ALIAS ||
-				this.data.type === TransactionType.MOSAIC_ALIAS ||
-				this.data.type === TransactionType.NAMESPACE_REGISTRATION ||
-				this.data.type === TransactionType.SECRET_LOCK ||
-				this.data.type === TransactionType.MOSAIC_DEFINITION ||
-				this.data.type === TransactionType.MOSAIC_SUPPLY_CHANGE ||
-				this.data.type === TransactionType.AGGREGATE_COMPLETE ||
-				this.data.type === TransactionType.AGGREGATE_BONDED ||
-				this.data.type === TransactionType.HASH_LOCK ||
-				this.data.type === TransactionType.SECRET_PROOF ||
-				this.data.type === TransactionType.VRF_KEY_LINK ||
-				this.data.type === TransactionType.ACCOUNT_KEY_LINK ||
-				this.data.type === TransactionType.NODE_KEY_LINK ||
-				this.data.type === TransactionType.VOTING_KEY_LINK ||
-				this.data.type === TransactionType.ACCOUNT_OPERATION_RESTRICTION ||
-				this.data.type === TransactionType.ACCOUNT_ADDRESS_RESTRICTION ||
-				this.data.type === TransactionType.ACCOUNT_MOSAIC_RESTRICTION;
+			return this.isTransactionTypeSupported(this.data.type);
 		},
 
 		isAggregate() {
-			return process.env.NODE_ENV === 'development' && (
-				this.data.type === TransactionType.AGGREGATE_COMPLETE ||
-				this.data.type === TransactionType.AGGREGATE_BONDED
+			return (
+				(
+					this.data.type === TransactionType.AGGREGATE_COMPLETE ||
+					this.data.type === TransactionType.AGGREGATE_BONDED
+				) &&
+				(
+					process.env.NODE_ENV === 'development' ||
+					this.data?.innerTransactions?.every(inner => this.isTransactionTypeSupported(inner.type) === true)
+				)
 			);
 		},
 
@@ -107,6 +118,10 @@ export default {
 	methods: {
 		getNameByKey(e) {
 			return this.$store.getters['ui/getNameByKey'](e);
+		},
+
+		isTransactionTypeSupported(type) {
+			return !!this.supportedTransactionTypes.find(transactionType => transactionType === type);
 		}
 	}
 };
