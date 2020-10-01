@@ -117,15 +117,13 @@ export default {
 			return [true];
 		},
 
-		mosaic() {
-			return { mosaicId: this.mosaicId };
-		},
-
 		data() {
 			return {
-				mosaicId: this.mosaicId,
-				delta: this.delta,
-				action: this.action
+				minRemovalDelta: this.minRemovalDelta,
+				minApprovalDelta: this.minApprovalDelta,
+				addressAdditionsCount: this.addressAdditionsCount,
+				addressDeletionsCount: this.addressDeletionsCount,
+				multisigAccountModificationTransactionBody_Reserved1: this.multisigAccountModificationTransactionBody_Reserved1
 			};
 		}
 	}
