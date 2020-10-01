@@ -23,6 +23,7 @@
 				<Truncate v-if="isTruncate(itemKey_)">{{row}}</Truncate>
 				<div v-else>{{ row }}</div>
 			</router-link>
+			<TransactionType v-else-if="isTransactionType(itemKey_)" :value="row" />
 			<div v-else>
 				<Truncate v-if="isTruncate(itemKey_)">{{row}}</Truncate>
 				<div v-else>{{ row }}</div>
@@ -33,10 +34,15 @@
 
 <script>
 import TableView from '@/components/tables/TableView.vue';
+import TransactionType from '@/components/fields/TransactionType.vue';
 
 export default {
 	name: 'ArrayField',
 	extends: TableView,
+
+	components: {
+		TransactionType
+	},
 
 	props: {
 		itemKey: {

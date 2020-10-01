@@ -8,6 +8,7 @@
     "height": "Altura",
     "fee": "Taxas",
     "maxFee": "Max Fee",
+    "totalFee": "Total Fee",
     "date": "Date",
     "deadline": "Deadline",
     "status": "Estatus",
@@ -32,6 +33,7 @@
     "importance": "Valor",
     "importanceHeight": "Valor height",
     "accountType": "Account type",
+    "accountAliasName": "Alias Namespace",
     "lastActivity": "ultima atividade",
     "accounts": "Accounts",
     "blocks": "Blocos",
@@ -39,6 +41,7 @@
     "namespaces": "Namespaces",
     "namespaceId": "Namespace ID",
     "depth": "Depth",
+    "info": "Info",
     "transactions": "Transações",
     "mosaicId": "Mosaicos ID",
     "blockHeight": "Block Height",
@@ -68,6 +71,8 @@
     "minRemoval": "Remoção mínima",
     "nothingToShow": "Nothing to show..",
     "transactionBody": "Detalhe da transação",
+    "name": "Name",
+    "message": "Message",
     "totalFeesPaid": "Total de taxas pagas",
     "beneficiaryCount": "Contagem de Beneficiários",
     "importanceScore": "Pontuação de importância",
@@ -245,6 +250,7 @@
     "accountPartialError":"Account partial transactions not available.",
     "metadataEntriesError": "Metadatas are not available.",
     "importanceHistoryError":"Account importance history are not available.",
+    "accountRestrictionError": "Account restrictions are not available.",
 
     "blockDetailError": "Block does not exist.",
     "blockTransactionsError": "Block transactions are not available.",
@@ -264,6 +270,8 @@
     "transactionInfoError": "Transaction does not exist.",
     "transactionDetailError": "Transaction detail does not exist.",
     "transactionMosaicsError": "Transaction mosaic does not exist.",
+    "transactionHashLockError": "Transaction hash lock does not exist.",
+
     "secretLockError": "Secret locks are not available.",
     "hashLockError": "Hash locks are not available.",
     "mosaicAddressRestrictionError": "Mosaic address restrictions are not available.",
@@ -300,5 +308,7 @@
     "restrictions": "Restrictions (Allow If)",
     "hashLockTitle": "Hash Lock",
     "secretLockTitle": "Secret Lock",
-    "ownerAddress": "Owner Address"
+    "ownerAddress": "Owner Address",
+    "restrictionAdded": "Added",
+    "restrictionRemoved": "Removed"
 }

@@ -452,8 +452,8 @@ class TransactionService {
   		return {
   			transactionType: transactionBody.type,
   			restrictionType: Constants.OperationRestrictionFlag[transactionBody.restrictionFlags],
-  			restrictionOperationAdditions: transactionBody.restrictionAdditions.map(operation => Constants.TransactionType[operation]),
-  			restrictionOperationDeletions: transactionBody.restrictionDeletions.map(operation => Constants.TransactionType[operation])
+  			restrictionOperationAdditions: transactionBody.restrictionAdditions.map(operation => operation),
+  			restrictionOperationDeletions: transactionBody.restrictionDeletions.map(operation => operation)
   		};
 
   	case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
