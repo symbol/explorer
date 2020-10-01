@@ -21,6 +21,9 @@ import VotingKeyLinkGraphic from '@/components/transaction-graphic/VotingKeyLink
 import SecretProofGraphic from '@/components/transaction-graphic/SecretProofGraphic.vue';
 import MosaicGlobalRestrictionGraphic from '@/components/transaction-graphic/MosaicGlobalRestrictionGraphic.vue';
 import MosaicAddressRestrictionGraphic from '@/components/transaction-graphic/MosaicAddressRestrictionGraphic.vue';
+import AccountOperationRestrictionGraphic from '@/components/transaction-graphic/AccountOperationRestrictionGraphic.vue';
+import AccountAddressRestrictionGraphic from '@/components/transaction-graphic/AccountAddressRestrictionGraphic.vue';
+import AccountMosaicRestrictionGraphic from '@/components/transaction-graphic/AccountMosaicRestrictionGraphic.vue';
 import { TransactionType } from 'symbol-sdk';
 
 export default {
@@ -47,7 +50,10 @@ export default {
 		NodeKeyLinkGraphic,
 		VotingKeyLinkGraphic,
 		MosaicGlobalRestrictionGraphic,
-		MosaicAddressRestrictionGraphic
+		MosaicAddressRestrictionGraphic,
+		AccountOperationRestrictionGraphic,
+		AccountAddressRestrictionGraphic,
+		AccountMosaicRestrictionGraphic
 	},
 
 	data() {
@@ -74,6 +80,9 @@ export default {
 				case TransactionType.VOTING_KEY_LINK: return 'VotingKeyLinkGraphic';
 				case TransactionType.MOSAIC_GLOBAL_RESTRICTION: return 'MosaicGlobalRestrictionGraphic';
 				case TransactionType.MOSAIC_ADDRESS_RESTRICTION: return 'MosaicAddressRestrictionGraphic';
+				case TransactionType.ACCOUNT_OPERATION_RESTRICTION: return 'AccountOperationRestrictionGraphic';
+				case TransactionType.ACCOUNT_ADDRESS_RESTRICTION: return 'AccountAddressRestrictionGraphic';
+				case TransactionType.ACCOUNT_MOSAIC_RESTRICTION: return 'AccountMosaicRestrictionGraphic';
 			}
 			return null;
 		}
