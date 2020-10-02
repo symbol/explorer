@@ -119,7 +119,9 @@
 				"errorMessage": "accountRestrictionError",
 				"fields": [
 					"restrictionType",
-					"restrictionMosaicValues"
+					"restrictionMosaicValues",
+					"restrictionAddressValues",
+					"restrictionTransactionValues"
 				]
 			},
 			{
@@ -148,7 +150,6 @@
 				"hideOnError": true,
 				"hideDependOnGetter": "account/info",
 				"fields": [
-					"metadataId",
 					"scopedMetadataKey",
 					"senderAddress",
 					"targetAddress",

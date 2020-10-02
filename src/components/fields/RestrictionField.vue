@@ -22,11 +22,11 @@
 			v-for="(item, index) in value"
 			class="restriction"
 			:key="'restriction_key_' + index"
-			:title="getTranslation('restrictionType') + ': ' + item.restrictionType + ' | ' + getTranslation('restrictionValue') + ': ' + item.restrictionValue"
+			:title="getTranslation('restrictionType') + ': ' + getTranslation(item.restrictionType) + ' | ' + getTranslation('restrictionValue') + ': ' + item.restrictionValue"
 		>
 
 			<span class="restriction-content">
-				{{getTranslation('restrictionKey')}} {{ item.restrictionKey }} {{ item.restrictionType || ':' }} {{ item.restrictionValue }}
+				{{getTranslation('restrictionKey')}} {{ item.restrictionKey }} {{ getTranslation(item.restrictionType) || ':' }} {{ item.restrictionValue }}
 			</span>
 		</span>
 	</div>

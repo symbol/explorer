@@ -172,7 +172,14 @@
     "previousRestrictionType": "前制限タイプ",
     "previousRestrictionValue": "前制限値",
     "newRestrictionType": "新制限タイプ",
-    "newRestrictionValue": "新制限値",
+	"newRestrictionValue": "新制限値",
+	"mosaicRestrictionType.EQ": "Equal",
+	"mosaicRestrictionType.GE": "Greater Than Or Equal",
+	"mosaicRestrictionType.GT": "Greater Than",
+	"mosaicRestrictionType.LE": "Less Than Or Equal",
+	"mosaicRestrictionType.LT": "Less Than",
+	"mosaicRestrictionType.NE": "Not Equal",
+	"mosaicRestrictionType.NONE": "No Restriction",
     "proof": "Proof",
     "minApprovalDelta": "最小承認増減値",
     "minRemovalDelta": "最小削除増減値",
@@ -250,6 +257,7 @@
     "accountPartialError":"アカウントパーシャルトランザクションは有効ではありません。",
     "metadataEntriesError": "メタデータは有効ではありません",
     "importanceHistoryError":"アカウントインポータンス履歴は有効ではありません",
+    "accountRestrictionError": "Account restrictions are not available.",
 
     "blockDetailError": "ブロックは存在しません",
     "blockTransactionsError": "ブロックトランザクションは有効ではありません",
@@ -269,6 +277,7 @@
     "transactionInfoError": "トランザクションは存在しません",
     "transactionDetailError": "トランザクション詳細は存在しません",
     "transactionMosaicsError": "トランザクションモザイクは存在しません",
+    "transactionHashLockError": "Transaction hash lock does not exist.",
 
     "secretLockError": "Secret locks are not available.",
     "hashLockError": "Hash locks are not available.",
@@ -306,5 +315,8 @@
     "restrictions": "制限 (許可されている場合)",
     "hashLockTitle": "Hash Lock",
     "secretLockTitle": "Secret Lock",
-    "ownerAddress": "Owner Address"
+    "ownerAddress": "Owner Address",
+    "restrictionAdded": "Added",
+    "restrictionRemoved": "Removed",
+    "statements": "Statements"
 }

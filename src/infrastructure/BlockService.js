@@ -232,7 +232,8 @@ class BlockService {
   	totalFee: helper.toNetworkCurrency(block.totalFee),
   	difficulty: helper.convertBlockDifficultyToReadable(block.difficulty),
   	feeMultiplier: block.feeMultiplier.toString(),
-  	transactions: block.numTransactions,
+  	transactions: block.totalTransactionsCount,
+  	statements: block.statementsCount,
   	signer: helper.publicKeyToAddress(block.signer.publicKey),
   	beneficiaryAddress: block?.beneficiaryAddress.plain() || Constants.Message.UNAVAILABLE
   })

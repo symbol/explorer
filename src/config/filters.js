@@ -8,6 +8,7 @@ import {
 	MetadataType,
 	MosaicRestrictionEntryType
 } from 'symbol-sdk';
+import http from '../infrastructure/http';
 
 export const transaction = [
 	{
@@ -141,7 +142,7 @@ export const account = [
 		icon: 'mdi-circle',
 		value: {
 			orderBy: AccountOrderBy.Balance,
-			mosaicId: new MosaicId('5E62990DCAC5BE8A')
+			mosaicId: new MosaicId(http.networkCurrency.mosaicId)
 		}
 	}
 ];
