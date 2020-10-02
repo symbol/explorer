@@ -21,6 +21,7 @@ import VotingKeyLinkGraphic from '@/components/transaction-graphic/VotingKeyLink
 import SecretProofGraphic from '@/components/transaction-graphic/SecretProofGraphic.vue';
 import AccountMetadataGraphic from '@/components/transaction-graphic/AccountMetadataGraphic.vue';
 import NamespaceMetadataGraphic from '@/components/transaction-graphic/NamespaceMetadataGraphic.vue';
+import MosaicMetadataGraphic from '@/components/transaction-graphic/MosaicMetadataGraphic.vue';
 import MosaicGlobalRestrictionGraphic from '@/components/transaction-graphic/MosaicGlobalRestrictionGraphic.vue';
 import MosaicAddressRestrictionGraphic from '@/components/transaction-graphic/MosaicAddressRestrictionGraphic.vue';
 import AccountOperationRestrictionGraphic from '@/components/transaction-graphic/AccountOperationRestrictionGraphic.vue';
@@ -53,6 +54,7 @@ export default {
 		VotingKeyLinkGraphic,
 		AccountMetadataGraphic,
 		NamespaceMetadataGraphic,
+		MosaicMetadataGraphic,
 		MosaicGlobalRestrictionGraphic,
 		MosaicAddressRestrictionGraphic,
 		AccountOperationRestrictionGraphic,
@@ -89,6 +91,7 @@ export default {
 				case TransactionType.ACCOUNT_MOSAIC_RESTRICTION: return 'AccountMosaicRestrictionGraphic';
 				case TransactionType.ACCOUNT_METADATA: return 'AccountMetadataGraphic';
 				case TransactionType.NAMESPACE_METADATA: return 'NamespaceMetadataGraphic';
+				case TransactionType.MOSAIC_METADATA: return 'MosaicMetadataGraphic';
 			}
 			return null;
 		}
