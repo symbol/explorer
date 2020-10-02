@@ -150,7 +150,6 @@
 				"hideOnError": true,
 				"hideDependOnGetter": "account/info",
 				"fields": [
-					"metadataId",
 					"scopedMetadataKey",
 					"senderAddress",
 					"targetAddress",
