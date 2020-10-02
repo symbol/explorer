@@ -20,6 +20,7 @@ import NodeKeyLinkGraphic from '@/components/transaction-graphic/NodeKeyLinkGrap
 import VotingKeyLinkGraphic from '@/components/transaction-graphic/VotingKeyLinkGraphic.vue';
 import SecretProofGraphic from '@/components/transaction-graphic/SecretProofGraphic.vue';
 import AccountMetadataGraphic from '@/components/transaction-graphic/AccountMetadataGraphic.vue';
+import NamespaceMetadataGraphic from '@/components/transaction-graphic/NamespaceMetadataGraphic.vue';
 import { TransactionType } from 'symbol-sdk';
 
 export default {
@@ -45,7 +46,8 @@ export default {
 		AccountKeyLinkGraphic,
 		NodeKeyLinkGraphic,
 		VotingKeyLinkGraphic,
-		AccountMetadataGraphic
+		AccountMetadataGraphic,
+		NamespaceMetadataGraphic
 	},
 
 	data() {
@@ -71,6 +73,7 @@ export default {
 			case TransactionType.NODE_KEY_LINK: return 'NodeKeyLinkGraphic';
 			case TransactionType.VOTING_KEY_LINK: return 'VotingKeyLinkGraphic';
 			case TransactionType.ACCOUNT_METADATA: return 'AccountMetadataGraphic';
+			case TransactionType.NAMESPACE_METADATA: return 'NamespaceMetadataGraphic';
 			}
 			return null;
 		}

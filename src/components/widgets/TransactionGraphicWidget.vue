@@ -67,7 +67,8 @@ export default {
 				this.data.type === TransactionType.ACCOUNT_KEY_LINK ||
 				this.data.type === TransactionType.NODE_KEY_LINK ||
 				this.data.type === TransactionType.VOTING_KEY_LINK ||
-				this.data.type === TransactionType.ACCOUNT_METADATA;
+				this.data.type === TransactionType.ACCOUNT_METADATA ||
+				this.data.type === TransactionType.NAMESPACE_METADATA;
 		},
 
 		isAggregate() {
