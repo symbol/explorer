@@ -317,5 +317,6 @@
     "secretLockTitle": "Secret Lock",
     "ownerAddress": "Owner Address",
     "restrictionAdded": "Added",
-    "restrictionRemoved": "Removed"
+    "restrictionRemoved": "Removed",
+    "statements": "Statements"
 }

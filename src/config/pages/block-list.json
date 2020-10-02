@@ -22,6 +22,7 @@
                     "height",
                     "age",
                     "transactions",
+                    "statements",
                     "totalFee",
                     "date",
                     "harvester"
