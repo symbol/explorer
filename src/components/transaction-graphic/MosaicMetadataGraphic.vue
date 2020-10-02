@@ -18,7 +18,7 @@
 				:height="subjectHeight"
 				:address="signer"
 			/>
-            <MosaicIcon
+			<MosaicIcon
 				:x="objectPositionX"
 				:y="objectPositionY"
 				:width="subjectWidth"
@@ -114,9 +114,9 @@ export default {
 				valueSizeDelta: this.valueSizeDelta,
 				scopedMetadataKey: this.scopedMetadataKey
 			};
-        },
+		},
 
-        mosaic() {
+		mosaic() {
 			return { mosaicId: this.targetMosaicId };
 		}
 	}

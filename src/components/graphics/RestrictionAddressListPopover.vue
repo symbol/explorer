@@ -53,7 +53,7 @@ export default {
 		},
 		removedRestriction() {
 			return this.data.removed;
-		},
+		}
 
 	},
 
