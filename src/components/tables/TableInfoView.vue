@@ -20,9 +20,9 @@
 						<router-link
 							v-else-if="isKeyClickable(itemKey) && getItemHref(itemKey, item)"
 							:to="getItemHref(itemKey, item)"
-						>{{ item }}</router-link>
+						>{{ translateValue(itemKey, item) }}</router-link>
 
-						<div v-else>{{ item }}</div>
+						<div v-else>{{ translateValue(itemKey, item) }}</div>
 					</td>
 				</tr>
 			</tbody>
