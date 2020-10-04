@@ -228,5 +228,3 @@ export const mosaicRestriction = [
 		}
 	}
 ];
-
-console.log(account);

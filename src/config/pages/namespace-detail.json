@@ -54,7 +54,6 @@
                 "pagination": "server",
                 "hasFilter": true,
                 "fields": [
-                    "metadataId",
                     "scopedMetadataKey",
                     "targetId",
                     "senderAddress",

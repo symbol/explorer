@@ -65,9 +65,9 @@ export default {
 				TransactionType.VOTING_KEY_LINK,
 				TransactionType.MOSAIC_GLOBAL_RESTRICTION,
 				TransactionType.MOSAIC_ADDRESS_RESTRICTION,
-        TransactionType.ACCOUNT_OPERATION_RESTRICTIO,
-        TransactionType.ACCOUNT_ADDRESS_RESTRICTION,
-        TransactionType.ACCOUNT_MOSAIC_RESTRICTION
+				TransactionType.ACCOUNT_OPERATION_RESTRICTION,
+				TransactionType.ACCOUNT_ADDRESS_RESTRICTION,
+				TransactionType.ACCOUNT_MOSAIC_RESTRICTION
 			]
 		};
 	},
