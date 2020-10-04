@@ -32,6 +32,18 @@
 				:data="data"
 				:title="transactionType"
 			/>
+			<AccountCircle
+				v-if="!!addressAdditions.length"
+				:x="getCircleIconPositionX(1)"
+				:y="circleIconPositionY"
+				:data="addressAdditions"
+			/>
+			<AccountRemoveCircle
+				v-if="!!addressDeletions.length"
+				:x="getCircleIconPositionX(2)"
+				:y="circleIconPositionY"
+				:data="addressDeletions"
+			/>
 			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
 				{{ transactionType }}
 				<title>{{ transactionType }}</title>
@@ -43,6 +55,8 @@
 <script>
 import GraphicComponent from '../graphics/GraphicComponent.vue';
 import AccountIcon from '../graphics/AccountIcon.vue';
+import AccountCircle from '../graphics/AccountCircle.vue';
+import AccountRemoveCircle from '../graphics/AccountRemoveCircle.vue';
 import EditCircle from '../graphics/EditCircle.vue';
 import Arrow from '../graphics/Arrow.vue';
 
@@ -51,6 +65,8 @@ export default {
 
 	components: {
 		AccountIcon,
+		AccountCircle,
+		AccountRemoveCircle,
 		EditCircle,
 		Arrow,
 		MosaicIcon
@@ -114,7 +130,7 @@ export default {
 		},
 
 		circleIconsToDisplay() {
-			return [true];
+			return [true, !!addressAdditions.length, !!addressDeletions.length];
 		},
 
 		data() {
