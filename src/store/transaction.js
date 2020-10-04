@@ -81,7 +81,7 @@ export default {
 				: {
 					...getters.info.data,
 					...getters.transactionDetail,
-					mosaics: getters.transferMosaics
+					transferMosaics: getters.transferMosaics
 				}
 		})
 	},

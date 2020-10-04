@@ -25,8 +25,8 @@
 			:title="'Mosaic: ' + item.id + ' | Amount: ' + item.amount"
 		>
 			<span class="mosaic-name">
-				<router-link :to="getItemHref('mosaicId', item.id)">
-					<b class="link">{{item.id}}</b>
+				<router-link :to="getItemHref('mosaicId', item.mosaicId)">
+					<b class="link">{{item.mosaicAliasName || item.mosaicId}}</b>
 				</router-link>
 			</span>
 			<span class="mosaic-amount">
@@ -98,6 +98,7 @@ export default {
         .mosaic-amount {
             .decimal {
                 display: inline;
+				color: #fff;
             }
         }
     }
