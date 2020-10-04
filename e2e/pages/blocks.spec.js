@@ -18,10 +18,10 @@ describe('Symbol Explorer Blocks list page should', () => {
         cy.renderTable()
     })
 
-    it('render 6 items in table header', () => {
+    it('render 7 items in table header', () => {
         cy.visit('/blocks')
 
-        cy.renderHeaderItem(6)
+        cy.renderHeaderItem(7)
     })
 
     it('render at least 1 row data in the table list', () => {
