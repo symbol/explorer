@@ -20,7 +20,7 @@
 		<foreignObject x="446" y="318" width="100" height="100">
 			<AccountListPopover
 				:target="id"
-				title="Added accounts"
+				title="Add accounts"
 				:accounts="accounts"
 			/>
 		</foreignObject>
