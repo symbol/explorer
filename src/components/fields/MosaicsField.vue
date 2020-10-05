@@ -98,7 +98,7 @@ export default {
         .mosaic-amount {
             .decimal {
                 display: inline;
-				color: #fff;
+                color: #fff;
             }
         }
     }
