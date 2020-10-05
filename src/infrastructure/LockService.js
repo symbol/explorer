@@ -74,7 +74,7 @@ class LockService {
     static formatSecretLockInfo = (secretLockInfo) => ({
     	...secretLockInfo,
     	amount: helper.formatMosaicAmountWithDivisibility(secretLockInfo.amount, http.networkCurrency.divisibility),
-    	endHeight: secretLockInfo.endHeight.compact(),
+    	endHeight: Number(secretLockInfo.endHeight.toString()),
     	mosaicId: secretLockInfo.mosaicId.toHex(),
     	ownerAddress: secretLockInfo.ownerAddress.plain(),
     	recipient: secretLockInfo.recipientAddress.plain(),
@@ -89,7 +89,7 @@ class LockService {
     static formatHashLockInfo = (hashLockInfo) => ({
     	...hashLockInfo,
     	amount: helper.formatMosaicAmountWithDivisibility(hashLockInfo.amount, http.networkCurrency.divisibility),
-    	endHeight: hashLockInfo.endHeight.compact(),
+    	endHeight: Number(hashLockInfo.endHeight.toString()),
     	mosaicId: hashLockInfo.mosaicId.toHex(),
     	ownerAddress: hashLockInfo.ownerAddress.plain()
     })
