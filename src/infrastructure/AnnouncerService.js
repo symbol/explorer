@@ -17,19 +17,12 @@
  */
 
 import {
-    TransactionType,
     AggregateTransaction,
     Account,
     Address,
-    TransactionInfo,
-    AggregateTransactionInfo,
     HashLockTransaction,
-    NamespaceId,
-    TransactionGroup,
-    NetworkType,
     PublicAccount,
     Listener,
-    Order,
     MosaicId,
     Mosaic,
     RepositoryFactoryHttp,
@@ -38,16 +31,8 @@ import {
     Deadline,
     UInt64
 } from 'symbol-sdk';
-import Constants from '../config/constants';
 import http from './http';
 import helper from '../helper';
-import {
-    BlockService,
-    NamespaceService,
-    MosaicService,
-    LockService
-} from '../infrastructure';
-import { toArray } from 'rxjs/operators';
 
 class AnnounceService {
     static announceHashLock = (signedHashLockTransaction, signedTransaction) => {
@@ -107,7 +92,7 @@ class AnnounceService {
         additions = [], 
         deletions = []
     }) => {
-        const transactionRepository = await http.createRepositoryFactory.createTransactionRepository();
+        //const transactionRepository = await http.createRepositoryFactory.createTransactionRepository();
         const networkType = http.networkType;
         const networkGenerationHash = http.generationHash;
         const account = Account.createFromPrivateKey(accountPrivateKey, networkType);;
