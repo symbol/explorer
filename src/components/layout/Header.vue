@@ -31,7 +31,6 @@
 <script>
 import SearchBox from '@/components/controls/SearchBox.vue';
 import LanguageSelector from '@/components/controls/LanguageSelector.vue';
-import AnnounceService from '../../infrastructure/AnnouncerService'
 
 export default {
 	components: {
