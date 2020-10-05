@@ -100,25 +100,41 @@ class AnnounceService {
         return signedHashLockTransaction;
     }
 
-    static multisigAccountModification = async (privateKey, cosignatoryPublicKeys) => {
+    static multisigAccountModification = async ({
+        accountPrivateKey, 
+        minApprovalDelta = 1,
+        minRemovalDelta = 1,
+        additions = [], 
+        deletions = []
+    }) => {
         const transactionRepository = await http.createRepositoryFactory.createTransactionRepository();
         const networkType = http.networkType;
         const networkGenerationHash = http.generationHash;
-
-
-        // Candidate multisig account
-        const account = Account.createFromPrivateKey(privateKey, networkType);
-        // Cosignatory accounts
-        const cosignatoryAccountList = cosignatoryPublicKeys.map(publicKey => PublicAccount.createFromPublicKey(publicKey, networkType));
-        const cosignatoryAddressList = cosignatoryAccountList.map(account => account.address);
+        const account = Account.createFromPrivateKey(accountPrivateKey, networkType);;
         
+        const addressAdditions = additions.map(addition => { 
+            if(typeof addition === 'string' && addition.length === 64)
+                return PublicAccount.createFromPublicKey(addition, networkType).address;
+            if(typeof addition === 'string' && addition.length === 39)
+                return Address.createFromRawAddress(addition);
+            return addition;
+        });
+
+        const addressDeletions = deletions.map(delition => {
+            if(typeof delition === 'string' && delition.length === 64)
+                return PublicAccount.createFromPublicKey(delition, networkType).address;
+            if(typeof delition === 'string' && delition.length === 39)
+                return Address.createFromRawAddress(delition);
+            return delition;
+        });
+    
 
         const multisigAccountModificationTransaction = MultisigAccountModificationTransaction.create(
             Deadline.create(),
-            1,
-            1,
-            cosignatoryAddressList,
-            [],
+            minApprovalDelta,
+            minRemovalDelta,
+            addressAdditions,
+            addressDeletions,
             networkType
         );
 
