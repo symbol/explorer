@@ -23,7 +23,7 @@
 				:y="objectPositionY"
 				:width="subjectWidth"
 				:height="subjectHeight"
-				:mosaic="recipient"
+				:address="signer"
 			/>
 			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
 			<EditCircle
@@ -36,13 +36,13 @@
 				v-if="!!addressAdditions.length"
 				:x="getCircleIconPositionX(1)"
 				:y="circleIconPositionY"
-				:data="addressAdditions"
+				:accounts="addressAdditions"
 			/>
 			<AccountRemoveCircle
 				v-if="!!addressDeletions.length"
 				:x="getCircleIconPositionX(2)"
 				:y="circleIconPositionY"
-				:data="addressDeletions"
+				:accounts="addressDeletions"
 			/>
 			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
 				{{ transactionType }}
@@ -68,8 +68,7 @@ export default {
 		AccountCircle,
 		AccountRemoveCircle,
 		EditCircle,
-		Arrow,
-		MosaicIcon
+		Arrow
 	},
 
 	props: {
@@ -78,11 +77,6 @@ export default {
 			default: ''
 		},
 		signer: {
-			type: String,
-			required: true,
-			default: ''
-		},
-		recipient: {
 			type: String,
 			required: true,
 			default: ''
@@ -96,24 +90,18 @@ export default {
 			required: true
 		},
 		addressAdditionsCount: {
-			type: Number,
-			required: true
+			type: Number
 		},
 		addressDeletionsCount: {
-			type: Number,
-			required: true
-		},
-		multisigAccountModificationTransactionBody_Reserved1: {
-			type: Number,
-			required: true
+			type: Number
 		},
 		addressAdditions: {
 			type: Array,
-			required: () => []
+			default: () => []
 		},
 		addressDeletions: {
 			type: Array,
-			required: () => []
+			default: () => []
 		}
 	},
 
@@ -130,16 +118,13 @@ export default {
 		},
 
 		circleIconsToDisplay() {
-			return [true, !!addressAdditions.length, !!addressDeletions.length];
+			return [true, !!this.addressAdditions.length, !!this.addressDeletions.length];
 		},
 
 		data() {
 			return {
 				minRemovalDelta: this.minRemovalDelta,
-				minApprovalDelta: this.minApprovalDelta,
-				addressAdditionsCount: this.addressAdditionsCount,
-				addressDeletionsCount: this.addressDeletionsCount,
-				multisigAccountModificationTransactionBody_Reserved1: this.multisigAccountModificationTransactionBody_Reserved1
+				minApprovalDelta: this.minApprovalDelta
 			};
 		}
 	}
