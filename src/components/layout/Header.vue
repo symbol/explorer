@@ -21,7 +21,6 @@
 					<b-col md="3" class="header-right">
 						<SearchBox class='search-box' />
 						<LanguageSelector class="d-none d-md-block language-selector"/>
-                        <button @click="announce" value="send">Send</button>
 					</b-col>
 				</b-row>
 			</b-container>
@@ -43,16 +42,6 @@ export default {
 	methods: {
 		getNameByKey(e) {
 			return this.$store.getters['ui/getNameByKey'](e);
-        },
-        
-        announce() {
-            AnnounceService.multisigAccountModification(
-                '8512DB0079D7108929CA8AB8997495DF92CA7772E52A68075284401135215950',
-                [
-                    '0B39AAA88B458AEEE3F426CA551784453976A38CD7CB276F2CC19CC1BEDCDCCF',
-                    '35689A47E8B6A44E7CE911EF2F72964FCEE3F0A4B7382CDB40EA8DF24B761D1C'
-                ]
-            )
         }
 	}
 };
