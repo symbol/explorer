@@ -30,7 +30,8 @@ class Constants {
   	ADDRESS: 'ADDRESS',
   	NO_ALIAS: 'NO ALIAS',
   	ACTIVE: 'ACTIVE',
-  	INACTIVE: 'INACTIVE'
+	INACTIVE: 'INACTIVE',
+	UNKNOWN: 'UNKNOWN'
   }
 
   static TransactionType = {

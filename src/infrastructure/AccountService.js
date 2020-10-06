@@ -300,7 +300,8 @@ class AccountService {
   static formatAccountInfo = (accountInfo) => ({
   	...accountInfo,
   	address: accountInfo.address.address,
-  	addressHeight: accountInfo.addressHeight.compact(),
+	addressHeight: accountInfo.addressHeight.compact(),
+	publicKey: accountInfo.publicKeyHeight.compact() > 0 ? accountInfo.publicKey : Constants.Message.UNKNOWN,
   	publicKeyHeight: accountInfo.publicKeyHeight.compact(),
   	accountType: Constants.AccountType[accountInfo.accountType],
   	supplementalPublicKeys: this.formatSupplementalPublicKeys(accountInfo.supplementalPublicKeys),
