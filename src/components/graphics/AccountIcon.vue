@@ -7,7 +7,7 @@
 		:y="_y"
 		:width="_width"
 		:height="_height"
-		viewBox="0 0 261.333 131.313"
+		:viewBox="viewBox"
 		xml:space="preserve"
 		class="account"
 		@click="onAccountClick(address)"
@@ -23,6 +23,7 @@
 			height="23.667"
 		/>
 		<text
+			v-if="!hideCaption"
 			x="130"
 			y="122.8457"
 			class="account-text"
@@ -136,6 +137,11 @@ export default {
 		address: {
 			type: String,
 			required: true
+		},
+
+		hideCaption: {
+			type: Boolean,
+			default: false
 		}
 	},
 
@@ -156,6 +162,12 @@ export default {
 
 		truncatedAddress() {
 			return this.truncString(this.address);
+		},
+
+		viewBox() {
+			return this.hideCaption
+				? '115 0 16 105'
+				: '0 0 261.333 131.313';
 		}
 	}
 };

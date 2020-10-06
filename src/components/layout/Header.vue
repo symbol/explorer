@@ -41,7 +41,7 @@ export default {
 	methods: {
 		getNameByKey(e) {
 			return this.$store.getters['ui/getNameByKey'](e);
-		}
+        }
 	}
 };
 </script>

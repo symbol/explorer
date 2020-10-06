@@ -27,6 +27,7 @@ import MosaicAddressRestrictionGraphic from '@/components/transaction-graphic/Mo
 import AccountOperationRestrictionGraphic from '@/components/transaction-graphic/AccountOperationRestrictionGraphic.vue';
 import AccountAddressRestrictionGraphic from '@/components/transaction-graphic/AccountAddressRestrictionGraphic.vue';
 import AccountMosaicRestrictionGraphic from '@/components/transaction-graphic/AccountMosaicRestrictionGraphic.vue';
+import MultisigAccountModificationGraphic from '@/components/transaction-graphic/MultisigAccountModificationGraphic.vue'
 import { TransactionType } from 'symbol-sdk';
 
 export default {
@@ -59,7 +60,8 @@ export default {
 		MosaicAddressRestrictionGraphic,
 		AccountOperationRestrictionGraphic,
 		AccountAddressRestrictionGraphic,
-		AccountMosaicRestrictionGraphic
+		AccountMosaicRestrictionGraphic,
+		MultisigAccountModificationGraphic
 	},
 
 	data() {
@@ -71,27 +73,28 @@ export default {
 	computed: {
 		graphicComponent() {
 			switch (this.data?.type) {
-			case TransactionType.TRANSFER: return 'TransferGraphic';
-			case TransactionType.ADDRESS_ALIAS: return 'AddressAliasGraphic';
-			case TransactionType.MOSAIC_ALIAS: return 'MosaicAliasGraphic';
-			case TransactionType.NAMESPACE_REGISTRATION: return 'NamespaceRegistrationGraphic';
-			case TransactionType.MOSAIC_DEFINITION: return 'MosaicDefinitionGraphic';
-			case TransactionType.MOSAIC_SUPPLY_CHANGE: return 'MosaicSupplyChangeGraphic';
-			case TransactionType.SECRET_LOCK: return 'SecretLockGraphic';
-			case TransactionType.HASH_LOCK: return 'HashLockGraphic';
-			case TransactionType.SECRET_PROOF: return 'SecretProofGraphic';
-			case TransactionType.VRF_KEY_LINK: return 'VrfKeyGraphic';
-			case TransactionType.ACCOUNT_KEY_LINK: return 'AccountKeyLinkGraphic';
-			case TransactionType.NODE_KEY_LINK: return 'NodeKeyLinkGraphic';
-			case TransactionType.VOTING_KEY_LINK: return 'VotingKeyLinkGraphic';
-			case TransactionType.MOSAIC_GLOBAL_RESTRICTION: return 'MosaicGlobalRestrictionGraphic';
-			case TransactionType.MOSAIC_ADDRESS_RESTRICTION: return 'MosaicAddressRestrictionGraphic';
-			case TransactionType.ACCOUNT_OPERATION_RESTRICTION: return 'AccountOperationRestrictionGraphic';
-			case TransactionType.ACCOUNT_ADDRESS_RESTRICTION: return 'AccountAddressRestrictionGraphic';
-			case TransactionType.ACCOUNT_MOSAIC_RESTRICTION: return 'AccountMosaicRestrictionGraphic';
-			case TransactionType.ACCOUNT_METADATA: return 'AccountMetadataGraphic';
-			case TransactionType.NAMESPACE_METADATA: return 'NamespaceMetadataGraphic';
-			case TransactionType.MOSAIC_METADATA: return 'MosaicMetadataGraphic';
+				case TransactionType.TRANSFER: return 'TransferGraphic';
+				case TransactionType.ADDRESS_ALIAS: return 'AddressAliasGraphic';
+				case TransactionType.MOSAIC_ALIAS: return 'MosaicAliasGraphic';
+				case TransactionType.NAMESPACE_REGISTRATION: return 'NamespaceRegistrationGraphic';
+				case TransactionType.MOSAIC_DEFINITION: return 'MosaicDefinitionGraphic';
+				case TransactionType.MOSAIC_SUPPLY_CHANGE: return 'MosaicSupplyChangeGraphic';
+				case TransactionType.SECRET_LOCK: return 'SecretLockGraphic';
+				case TransactionType.HASH_LOCK: return 'HashLockGraphic';
+				case TransactionType.SECRET_PROOF: return 'SecretProofGraphic';
+				case TransactionType.VRF_KEY_LINK: return 'VrfKeyGraphic';
+				case TransactionType.ACCOUNT_KEY_LINK: return 'AccountKeyLinkGraphic';
+				case TransactionType.NODE_KEY_LINK: return 'NodeKeyLinkGraphic';
+				case TransactionType.VOTING_KEY_LINK: return 'VotingKeyLinkGraphic';
+				case TransactionType.MOSAIC_GLOBAL_RESTRICTION: return 'MosaicGlobalRestrictionGraphic';
+				case TransactionType.MOSAIC_ADDRESS_RESTRICTION: return 'MosaicAddressRestrictionGraphic';
+				case TransactionType.ACCOUNT_OPERATION_RESTRICTION: return 'AccountOperationRestrictionGraphic';
+				case TransactionType.ACCOUNT_ADDRESS_RESTRICTION: return 'AccountAddressRestrictionGraphic';
+				case TransactionType.ACCOUNT_MOSAIC_RESTRICTION: return 'AccountMosaicRestrictionGraphic';
+				case TransactionType.MULTISIG_ACCOUNT_MODIFICATION: return 'MultisigAccountModificationGraphic';
+				case TransactionType.ACCOUNT_METADATA: return 'AccountMetadataGraphic';
+				case TransactionType.NAMESPACE_METADATA: return 'NamespaceMetadataGraphic';
+				case TransactionType.MOSAIC_METADATA: return 'MosaicMetadataGraphic';
 			}
 			return null;
 		}
