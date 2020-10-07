@@ -6,7 +6,7 @@
 			<div class="body">
 				<div v-if="isAggregate" :class="aggregateContainerClass">
 					<div class="aggregate-title">{{ aggregateTitle }}</div>
-					<div class="signers-section-wrapper">
+					<div v-if="cosigners.length" class="signers-section-wrapper">
 						<div class="signers-section">
 							<!--:style="{'background-image': 'url('+SignatureIcon+')'}"-->
 							<img :src="SignatureIcon" class="signature-icon" />
