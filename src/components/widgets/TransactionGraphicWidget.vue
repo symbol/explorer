@@ -179,46 +179,45 @@ export default {
             margin: 20px 40px 0;
         }
 
-		.signers-section-wrapper {
-			width: 100%;
-			display: flex;
-			justify-content: flex-start;
-			flex-direction: row;
-			flex: 1;
+        .signers-section-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            flex-direction: row;
+            flex: 1;
 
-			.signers-section {
-				margin: 20px 40px 0;
-				position: relative;
-				display: inline-block;
-				width: auto;
-				max-width: 700px;
-				background: #f2f4f8;
-				padding: 10px 20px;
-				border-radius: 40px;
+            .signers-section {
+                margin: 20px 40px 0;
+                position: relative;
+                display: inline-block;
+                width: auto;
+                max-width: 700px;
+                background: #f2f4f8;
+                padding: 10px 20px;
+                border-radius: 40px;
 
-				.signature-icon {
-					position: absolute;
-					height: 40px;
-					top: -10px;
-					right: 0;
-				}
-			}
-		}
+                .signature-icon {
+                    position: absolute;
+                    height: 40px;
+                    top: -10px;
+                    right: 0;
+                }
+            }
+        }
 
-		.aggregate-inner {
-			position: relative;
-			padding: 0 40px;
+        .aggregate-inner {
+            position: relative;
+            padding: 0 40px;
 
-			.aggregate-inner-index {
-				position: absolute;
-				top: 43%;
-				left: 40px;
-				font-size: 1.25rem;
-				font-weight: 700;
-				color: var(--orange);
-			}
-		}
-		
+            .aggregate-inner-index {
+                position: absolute;
+                top: 43%;
+                left: 40px;
+                font-size: 1.25rem;
+                font-weight: 700;
+                color: var(--orange);
+            }
+        }
     }
 
     .aggregate-container-mobile {
@@ -229,15 +228,15 @@ export default {
             color: var(--orange);
         }
 
-		.signers-section-wrapper {
-			display: none;
-		}
+        .signers-section-wrapper {
+            display: none;
+        }
 
-		.aggregate-inner {
-			.aggregate-inner-index {
-				display: none;
-			}
-		}
+        .aggregate-inner {
+            .aggregate-inner-index {
+                display: none;
+            }
+        }
     }
 }
 </style>
