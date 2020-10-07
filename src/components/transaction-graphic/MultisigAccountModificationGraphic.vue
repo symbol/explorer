@@ -23,28 +23,26 @@
 				:y="objectPositionY"
 				:width="subjectWidth"
 				:height="subjectHeight"
-				:address="recipient"
+				:address="signer"
 			/>
 			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
-			<MessageCircle
-				v-if="hasMessage"
+			<EditCircle
 				:x="getCircleIconPositionX(0)"
 				:y="circleIconPositionY"
-				:message="message"
+				:data="data"
+				:title="transactionType"
 			/>
-			<MosaicsCircle
-				v-if="hasMosaic"
-				id="target"
+			<AccountCircle
+				v-if="!!addressAdditions.length"
 				:x="getCircleIconPositionX(1)"
 				:y="circleIconPositionY"
-				:mosaics="mosaicList"
+				:accounts="addressAdditions"
 			/>
-			<NativeMosaicCircle
-				v-if="hasNativeMosaic"
-				id="target"
+			<AccountRemoveCircle
+				v-if="!!addressDeletions.length"
 				:x="getCircleIconPositionX(2)"
 				:y="circleIconPositionY"
-				:mosaics="[nativeMosaic]"
+				:accounts="addressDeletions"
 			/>
 			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
 				{{ transactionType }}
@@ -57,9 +55,9 @@
 <script>
 import GraphicComponent from '../graphics/GraphicComponent.vue';
 import AccountIcon from '../graphics/AccountIcon.vue';
-import MessageCircle from '../graphics/MessageCircle.vue';
-import MosaicsCircle from '../graphics/MosaicsCircle.vue';
-import NativeMosaicCircle from '../graphics/NativeMosaicCircle.vue';
+import AccountCircle from '../graphics/AccountCircle.vue';
+import AccountRemoveCircle from '../graphics/AccountRemoveCircle.vue';
+import EditCircle from '../graphics/EditCircle.vue';
 import Arrow from '../graphics/Arrow.vue';
 
 export default {
@@ -67,9 +65,9 @@ export default {
 
 	components: {
 		AccountIcon,
-		MessageCircle,
-		MosaicsCircle,
-		NativeMosaicCircle,
+		AccountCircle,
+		AccountRemoveCircle,
+		EditCircle,
 		Arrow
 	},
 
@@ -83,57 +81,52 @@ export default {
 			required: true,
 			default: ''
 		},
-		recipient: {
-			type: String,
-			required: true,
-			default: ''
+		minRemovalDelta: {
+			type: Number,
+			required: true
 		},
-		transferMosaics: {
+		minApprovalDelta: {
+			type: Number,
+			required: true
+		},
+		addressAdditionsCount: {
+			type: Number
+		},
+		addressDeletionsCount: {
+			type: Number
+		},
+		addressAdditions: {
+			type: Array,
+			default: () => []
+		},
+		addressDeletions: {
 			type: Array,
 			default: () => []
 		}
 	},
 
+	data() {
+		return {
+			width: this.transactionGraphicWidth,
+			heigth: this.transactionGraphicHeight
+		};
+	},
+
 	computed: {
 		transactionType() {
-			return this.getTransactionTypeCaption(16724); // Transfer
+			return this.getTransactionTypeCaption(this.type);
 		},
 
 		circleIconsToDisplay() {
-			return [this.hasMessage, this.hasMosaic, this.hasNativeMosaic];
+			return [true, !!this.addressAdditions.length, !!this.addressDeletions.length];
 		},
 
-		hasMessage() {
-			return typeof this.message === 'string' && this.message.length > 0;
-		},
-
-		hasNativeMosaic() {
-			return typeof this.nativeMosaic !== 'undefined';
-		},
-
-		hasMosaic() {
-			return this.mosaicList.length > 0;
-		},
-
-		nativeMosaic() {
-			return this.transferMosaics.find(
-				mosaic => mosaic.mosaicId === this.nativeMosaicId
-			);
-		},
-
-		mosaicList() {
-			return this.transferMosaics.filter(
-				mosaic => mosaic.mosaicId !== this.nativeMosaicId
-			);
+		data() {
+			return {
+				minRemovalDelta: this.minRemovalDelta,
+				minApprovalDelta: this.minApprovalDelta
+			};
 		}
 	}
 };
 </script>
-
-<style lang="scss" scoped>
-.message {
-    font-size: 13px;
-    font-weight: bold;
-    fill: var(--blue);
-}
-</style>

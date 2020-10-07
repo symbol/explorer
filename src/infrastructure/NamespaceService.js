@@ -157,10 +157,10 @@ class NamespaceService {
   		formattedNamespaceInfo.aliasMosaic = namespace.alias;
 
   	// End height disable click before expired.
-  	formattedNamespaceInfo.expiredInBlock = helper.isNativeNamespace(namespace.namespaceName.toUpperCase()) ? Constants.Message.INFINITY : expiredInBlock + ` ≈ ` + formattedNamespaceInfo.duration;
+  	formattedNamespaceInfo.expiredInBlock = helper.isNativeNamespace(namespace.namespaceName) ? Constants.Message.INFINITY : expiredInBlock + ` ≈ ` + formattedNamespaceInfo.duration;
 
   	if (!isExpired) {
-  		formattedNamespaceInfo.beforeEndHeight = helper.isNativeNamespace(namespace.namespaceName.toUpperCase()) ? Constants.Message.INFINITY : formattedNamespaceInfo.endHeight + ` ( ${http.networkConfig.NamespaceGraceDuration} blocks of grace period )`;
+  		formattedNamespaceInfo.beforeEndHeight = helper.isNativeNamespace(namespace.namespaceName) ? Constants.Message.INFINITY : formattedNamespaceInfo.endHeight + ` ( ${http.networkConfig.NamespaceGraceDuration} blocks of grace period )`;
   		delete formattedNamespaceInfo.endHeight;
   	}
 
@@ -201,14 +201,14 @@ class NamespaceService {
   	return {
   		...namespaceInfos,
   		data: namespaceInfos.data.map(namespace => {
-  			const { isExpired, expiredInSecond, expiredInBlock } = helper.calculateNamespaceExpiration(currentHeight, namespace.endHeight);
+			  const { isExpired, expiredInSecond, expiredInBlock } = helper.calculateNamespaceExpiration(currentHeight, namespace.endHeight);
 
   			return {
   				...namespace,
   				owneraddress: namespace.ownerAddress,
-  				expirationDuration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED,
+  				expirationDuration: helper.isNativeNamespace(namespace.namespaceName) ? Constants.Message.INFINITY : helper.convertTimeFromNowInSec(expiredInSecond),
   				isExpired: isExpired,
-  				approximateExpired: helper.convertSecondToDate(expiredInSecond),
+  				approximateExpired: helper.isNativeNamespace(namespace.namespaceName) ? Constants.Message.INFINITY : helper.convertSecondToDate(expiredInSecond),
   				expiredInBlock: expiredInBlock
   			};
   		})
@@ -301,10 +301,10 @@ class NamespaceService {
   	namespaceName: namespace.name,
   	namespaceId: namespace.id.toHex(),
   	registrationType: Constants.NamespaceRegistrationType[namespace.registrationType],
-  	startHeight: namespace.startHeight.compact(),
-  	endHeight: helper.isNativeNamespace(namespace.name.toUpperCase())
+  	startHeight: Number(namespace.startHeight.toString()),
+  	endHeight: helper.isNativeNamespace(namespace.name)
   		? Constants.Message.INFINITY
-  		: namespace.endHeight.compact(),
+  		: Number(namespace.endHeight.toString()),
   	active: namespace.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
   	...this.formatAlias(namespace.alias),
   	parentName: namespace.registrationType !== 0 ? namespace.name.split('.')[0].toUpperCase() : '',

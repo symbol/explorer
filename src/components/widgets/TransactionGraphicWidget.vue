@@ -67,7 +67,11 @@ export default {
 				TransactionType.MOSAIC_ADDRESS_RESTRICTION,
 				TransactionType.ACCOUNT_OPERATION_RESTRICTION,
 				TransactionType.ACCOUNT_ADDRESS_RESTRICTION,
-				TransactionType.ACCOUNT_MOSAIC_RESTRICTION
+				TransactionType.ACCOUNT_MOSAIC_RESTRICTION,
+				TransactionType.MULTISIG_ACCOUNT_MODIFICATION,
+				TransactionType.ACCOUNT_METADATA,
+				TransactionType.NAMESPACE_METADATA,
+				TransactionType.MOSAIC_METADATA
 			]
 		};
 	},

@@ -175,7 +175,7 @@ class MosaicService {
    	supply: mosaicInfo.supply.compact().toLocaleString('en-US'),
    	relativeAmount: helper.formatMosaicAmountWithDivisibility(mosaicInfo.supply, mosaicInfo.divisibility),
    	revision: mosaicInfo.revision,
-   	startHeight: mosaicInfo.startHeight.compact(),
+   	startHeight: Number(mosaicInfo.startHeight.toString()),
    	duration: mosaicInfo.duration.compact() > 0 ? mosaicInfo.duration.compact() : Constants.Message.UNLIMITED,
    	supplyMutable: mosaicInfo.flags.supplyMutable,
    	transferable: mosaicInfo.flags.transferable,
