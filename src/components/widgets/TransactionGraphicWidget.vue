@@ -8,19 +8,7 @@
 					<div class="aggregate-title">{{ aggregateTitle }}</div>
 					<div v-if="cosigners.length" class="signers-section-wrapper">
 						<div class="signers-section">
-							<!--:style="{'background-image': 'url('+SignatureIcon+')'}"-->
 							<img :src="SignatureIcon" class="signature-icon" />
-							<svg 
-								class="signer"
-								viewBox="35 35 60 60"
-								:width="64"
-								:height="64"
-							>
-								<AccountIcon :address="data.signer"
-									:width="128"
-									:height="128"
-								/>
-							</svg>
 							<svg
 								v-for="(address, index) in cosigners"
 								:key="'tg-cos' + index"
@@ -144,7 +132,10 @@ export default {
 
 		cosigners() {
 			if(this.data.type === TransactionType.AGGREGATE_BONDED)
-				return this.data.cosignatures.map(cosignature => cosignature.signer.address.address);
+				return [
+					this.data.signer, 
+					...this.data.cosignatures.map(cosignature => cosignature.signer.address.address)
+				];
 			return [];
 		},
 
