@@ -83,14 +83,8 @@ export default {
 
 		isAggregate() {
 			return (
-				(
-					this.data.type === TransactionType.AGGREGATE_COMPLETE ||
-					this.data.type === TransactionType.AGGREGATE_BONDED
-				) &&
-				(
-					process.env.NODE_ENV === 'development' ||
-					this.data?.innerTransactions?.every(inner => this.isTransactionTypeSupported(inner.type) === true)
-				)
+				this.data.type === TransactionType.AGGREGATE_COMPLETE ||
+				this.data.type === TransactionType.AGGREGATE_BONDED
 			);
 		},
 
