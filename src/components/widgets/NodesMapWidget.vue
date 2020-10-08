@@ -1,5 +1,5 @@
 <template>
-    <Card :loading="loading">
+    <Card class="card-f" :loading="loading" :error="error">
         <template #title>
             {{getNameByKey('nodes')}}
         </template>
@@ -35,9 +35,35 @@ export default {
     ButtonMore
   },
 
+  props: {
+    // Data Manager getter (DataSet, Timeline, Filter)
+		managerGetter: {
+			type: String
+		},
+		// Object or Array. If not provided, will use data from Data Manager
+		dataGetter: {
+			type: String
+		},
+  },
+
   computed: {
-    nodeList() { return this.$store.getters['node/timeline']?.data || []},
-    loading() { return !this.nodeList.length }
+    manager() {
+			return this.getter(this.managerGetter) || {};
+		},
+
+		data() {
+      const data = this.getter(this.dataGetter) || this.manager.data;
+    },
+
+    loading() {
+			return this.manager.loading;
+		},
+
+		error() {
+			return this.manager.error;
+    },
+    
+    nodeList() { return this.data || [] },
   },
 
   methods: {

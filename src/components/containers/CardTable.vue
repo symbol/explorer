@@ -1,5 +1,5 @@
 <template>
-	<Card class="card-f card-full-width" :loading="loading" :error="error">
+	<Card class="card-f" :loading="loading" :error="error">
 		<template #title>{{getNameByKey(title)}}</template>
 		<template #control>
 			<div class="ex-infotext" v-if="hasInfoText">{{infoText}}</div>
