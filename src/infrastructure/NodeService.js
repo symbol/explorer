@@ -19,6 +19,7 @@
 import http from './http';
 import Constants from '../config/constants';
 import * as symbol from 'symbol-sdk';
+import Axios from 'axios';
 
 class NodeService {
     /**
@@ -54,9 +55,11 @@ class NodeService {
      * @returns NodeInfo[]
      */
     static getNodePeers = async () => {
-    	const nodePeers = await http.createRepositoryFactory.createNodeRepository()
+    	const nodePeers1 = await http.createRepositoryFactory.createNodeRepository()
     		.getNodePeers()
-    		.toPromise();
+        	.toPromise();
+        console.log(nodePeers1)
+        const nodePeers = (await Axios.get('http://localhost:4001/nodes')).data.map(node => ({...node, roles: [node.roles]}));
 
     	const formattedNodePeers = nodePeers.map(nodeInfo => this.formatNodeInfo(nodeInfo));
 

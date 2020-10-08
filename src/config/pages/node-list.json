@@ -11,13 +11,19 @@
         "schema": [
             {
                 "layoutOptions": "full-width",
+                "type": "NodesMapWidget",
+                "title": "nodesTitle",
+                "managerGetter": "node/timeline",
+                "errorMessage": "Failed to fetch node list"
+            },
+            {
+                "layoutOptions": "full-width",
                 "type": "CardTable",
                 "title": "nodesTitle",
                 "managerGetter": "node/timeline",
                 "errorMessage": "Failed to fetch node list",
                 "pagination": "server",
                 "fields": [
-                    "index",
                     "version",
                     "roles",
                     "network",
@@ -27,7 +33,6 @@
                     "friendlyName"
                 ],
                 "mobileFields": [
-                    "index",
                     "roles",
                     "address",
                     "friendlyName",

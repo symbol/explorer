@@ -52,7 +52,7 @@ export default {
 		},
 
 		data() {
-      const data = this.getter(this.dataGetter) || this.manager.data;
+      return this.getter(this.dataGetter) || this.manager.data;
     },
 
     loading() {
@@ -69,7 +69,11 @@ export default {
   methods: {
     getNameByKey(e) {
       return this.$store.getters['ui/getNameByKey'](e)
-    }
+    },
+
+    getter(name) {
+			return this.$store.getters[name];
+		}
   }
 }
 </script>

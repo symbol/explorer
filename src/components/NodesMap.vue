@@ -5,9 +5,10 @@
 </template>
 
 <script>
-import leaflet from 'leaflet'
+import "leaflet/dist/leaflet.css";
+import leaflet from 'leaflet';
 import markerCluster from 'leaflet.markercluster';
-import iconUrl from '../styles/img/node-marker-3.png'
+import iconUrl from '../styles/img/node-marker-3.png';
 
 export default {
     props: {
@@ -53,8 +54,8 @@ export default {
             )
 
             leaflet.tileLayer( 
-                 'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', 
-                // 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+                 //'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', 
+                 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                 {
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
                     subdomains: ['a','b','c']
@@ -92,8 +93,8 @@ export default {
                     '</span><br/><span title="' + node.location +'"><b>' + this.getNameByKey('location') + ':</b> ' + this.formatText(node.location) +
                     '</span>';
                 
-                if(node.coordinates?.length === 2) {
-                    const m = L.marker([node.coordinates[0], node.coordinates[1]], {icon})
+                if(node.coordinates) {
+                    const m = L.marker([node.coordinates.latitude, node.coordinates.longitude], {icon})
                         .bindPopup(popup);
                     
                     markerClusters.addLayer(m);
