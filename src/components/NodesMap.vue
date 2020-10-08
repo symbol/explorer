@@ -20,7 +20,12 @@ export default {
         height: {
             type: Number,
             default: 300
-        }
+        },
+
+        zoom: {
+            type: Number,
+            default: 1
+        },
     },
 
     mounted() {
@@ -49,7 +54,7 @@ export default {
                 {
                     center: [35, 0],
                     minZoom: 1,
-                    zoom: 1
+                    zoom: this.zoom
                 }
             )
 

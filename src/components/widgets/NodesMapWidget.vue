@@ -4,18 +4,19 @@
             {{getNameByKey('nodes')}}
         </template>
 
-        <template #control>
+        <!-- <template #control>
             <router-link to="/nodes">
                 <ButtonMore> {{getNameByKey('View all nodes')}} </ButtonMore>
             </router-link>
-        </template>
+        </template> -->
 
         <template #body>
-            <b-row>
-                <b-col>
+            <b-row class="map-container">
+                <b-col class="map" :style="{'max-width': maxWidth+'px'}">
                     <NodesMap
                         :nodes="nodeList"
-                        :height="400"
+                        :height="height"
+                        :zoom="zoom"
                     />
                 </b-col>
             </b-row>
@@ -36,6 +37,16 @@ export default {
   },
 
   props: {
+    height: {
+      default: 400
+    },
+    maxWidth: {
+      default: 400
+    },
+    zoom: {
+      type: Number,
+      default: 1
+    },
     // Data Manager getter (DataSet, Timeline, Filter)
 		managerGetter: {
 			type: String
@@ -77,3 +88,18 @@ export default {
   }
 }
 </script>
+
+<style scoped>
+.map-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.map {
+  border-radius: 10px;
+  box-shadow: 0 0 30px rgba(0,0,0,0.1);
+  padding: 0;
+  margin: 10px 20px;
+}
+</style>
