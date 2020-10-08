@@ -4,21 +4,12 @@ describe('Symbol Explorer Blocks list page should', () => {
         cy.contains('Blocks')
     })
 
-    it('load chain height and block height is more than 0', () => {
-        cy.server({ force404: true })
-        cy.route('GET', '/blocks/from/latest/limit/**').as('getLatestBlock')
-
+    it('load chain height and block height is exist', () => {
         cy.visit('/blocks')
-        cy.wait('@getLatestBlock')
 
         cy.get('.ex-infotext')
         .should('be.visible')
         .should('not.empty')
-
-        cy.get('.ex-infotext')
-        .then(($data) => {
-            return $data.text().split(': ')[1]
-        }).should('be.at.least', 1)
     })
 
     it('render table header and table body', () => {

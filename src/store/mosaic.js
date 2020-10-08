@@ -16,78 +16,107 @@
  *
  */
 
-import Lock from './lock'
-import Constants from '../config/constants'
-import sdkMosaic from '../infrastructure/getMosaic'
+import Lock from './lock';
+import { Constants } from '../config';
+import { MosaicService, RestrictionService, MetadataService } from '../infrastructure';
 import {
-  DataSet,
-  Timeline,
-  getStateFromManagers,
-  getGettersFromManagers,
-  getMutationsFromManagers,
-  getActionsFromManagers
-} from './manager'
+	DataSet,
+	Timeline,
+	Pagination,
+	getStateFromManagers,
+	getGettersFromManagers,
+	getMutationsFromManagers,
+	getActionsFromManagers
+} from './manager';
 
 const managers = [
-  new Timeline(
-    'timeline',
-    () => sdkMosaic.getMosaicsFromIdWithLimit(Constants.PageSize),
-    (key, pageSize) => sdkMosaic.getMosaicsFromIdWithLimit(pageSize, key),
-    'mosaicId'
-  ),
-  new DataSet(
-    'info',
-    (mosaicHexOrNamespace) => sdkMosaic.getMosaicInfoFormatted(mosaicHexOrNamespace)
-  )
-]
+	new Pagination({
+		name: 'timeline',
+		fetchFunction: (pageInfo) => MosaicService.getMosaicList(pageInfo),
+		pageInfo: {
+			pageSize: Constants.PageSize
+		}
+	}),
+	new DataSet(
+		'info',
+		(hexOrNamespace) => MosaicService.getMosaicInfo(hexOrNamespace)
+	),
+	new DataSet(
+		'restrictions',
+		(address) => RestrictionService.getMosaicGlobalRestrictionInfo(address)
+	),
+	new Timeline(
+		'metadatas',
+		(pageSize, store) => MetadataService.getMosaicMetadataList(store.getters.getCurrentMosaicId, pageSize),
+		(key, pageSize, store) => MetadataService.getMosaicMetadataList(store.getters.getCurrentMosaicId, pageSize, key),
+		'id',
+		10
+	)
+];
 
-const LOCK = Lock.create()
+const LOCK = Lock.create();
 
 export default {
-  namespaced: true,
-  state: {
-    ...getStateFromManagers(managers),
-    // If the state has been initialized.
-    initialized: false
-  },
-  getters: {
-    ...getGettersFromManagers(managers),
-    getInitialized: state => state.initialized,
-    getMosaicInfo: state => state.info?.data.mosaicInfo || {},
-    getMetadataList: state => state.info?.data.metadataList || [],
-    getMosaicRestrictionList: state => state.info?.data.mosaicRestrictionList || [],
-    getMosaicRestrictionInfo: state => state.info?.data.mosaicRestrictionInfo || {}
-  },
-  mutations: {
-    ...getMutationsFromManagers(managers),
-    setInitialized: (state, initialized) => { state.initialized = initialized }
-  },
-  actions: {
-    ...getActionsFromManagers(managers),
-    // Initialize the mosaic model.
-    async initialize({ commit, dispatch, getters }) {
-      const callback = async () => {
-        await dispatch('initializePage')
-      }
-      await LOCK.initialize(callback, commit, dispatch, getters)
-    },
+	namespaced: true,
+	state: {
+		...getStateFromManagers(managers),
+		// If the state has been initialized.
+		initialized: false,
+		currentMosaicId: null
+	},
+	getters: {
+		...getGettersFromManagers(managers),
+		getInitialized: state => state.initialized,
+		getMosaicRestrictionList: state => state.restrictions?.data.restrictions || [],
+		getCurrentMosaicId: state => state.currentMosaicId
+	},
+	mutations: {
+		...getMutationsFromManagers(managers),
+		setInitialized: (state, initialized) => {
+			state.initialized = initialized;
+		},
+		setCurrentMosaicId: (state, currentMosaicId) => {
+			state.currentMosaicId = currentMosaicId;
+		}
+	},
+	actions: {
+		...getActionsFromManagers(managers),
+		// Initialize the mosaic model.
+		async initialize({ commit, dispatch, getters }) {
+			const callback = async () => {
+				await dispatch('initializePage');
+			};
 
-    // Uninitialize the mosaic model.
-    async uninitialize({ commit, dispatch, getters }) {
-      const callback = async () => {
-        getters.timeline?.uninitialize()
-      }
-      await LOCK.uninitialize(callback, commit, dispatch, getters)
-    },
+			await LOCK.initialize(callback, commit, dispatch, getters);
+		},
 
-    // Fetch data from the SDK and initialize the page.
-    async initializePage(context) {
-      await context.getters.timeline.setStore(context).initialFetch()
-    },
+		// Uninitialize the mosaic model.
+		async uninitialize({ commit, dispatch, getters }) {
+			const callback = async () => {
+        getters.timeline?.uninitialize();
+			};
 
-    // Fetch data from the SDK.
-    async fetchMosaicInfo(context, mosaicHexOrNamespace) {
-      await context.getters.info.setStore(context).initialFetch(mosaicHexOrNamespace)
-    }
-  }
-}
+			await LOCK.uninitialize(callback, commit, dispatch, getters);
+		},
+
+		// Fetch data from the SDK and initialize the page.
+		initializePage(context) {
+			context.getters.timeline.setStore(context).initialFetch();
+		},
+
+		// Fetch data from the SDK.
+		fetchMosaicInfo(context, payload) {
+			context.dispatch('uninitializeDetail');
+			context.commit('setCurrentMosaicId', payload.mosaicId);
+			context.getters.info.setStore(context).initialFetch(payload.mosaicId);
+			context.getters.restrictions.setStore(context).initialFetch(payload.mosaicId);
+			context.getters.metadatas.setStore(context).initialFetch(payload.mosaicId);
+		},
+
+		uninitializeDetail(context) {
+			context.getters.info.setStore(context).uninitialize();
+			context.getters.restrictions.setStore(context).uninitialize();
+			context.getters.metadatas.setStore(context).uninitialize();
+		}
+	}
+};

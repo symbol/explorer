@@ -15,90 +15,106 @@
  * limitations under the License.
  *
  */
-import Vue from 'vue'
-import Lock from './lock'
-import helper from '../helper'
-import router from '../router'
-import http from '../infrastructure/http'
-import { NodeService } from '../infrastructure'
+import Vue from 'vue';
+import Lock from './lock';
+import helper from '../helper';
+import router from '../router';
+import http from '../infrastructure/http';
+import { NodeService } from '../infrastructure';
 
-const LOCK = Lock.create()
+const LOCK = Lock.create();
 
 export default {
-  namespaced: true,
+	namespaced: true,
 
-  state: {
-    // If the global state has been initialized.
-    initialized: false,
-    nodes: [...globalConfig.peersApi.nodes],
-    defaultNode: helper.parseUrl(globalConfig.peersApi.defaultNode),
-    currentNode: helper.parseUrl(globalConfig.peersApi.defaultNode),
-    wsEndpoint: globalConfig.peersApi.defaultNode |> helper.httpToWsUrl,
-    marketData: helper.parseUrl(globalConfig.endpoints.marketData)
-  },
+	state: {
+		// If the global state has been initialized.
+		initialized: false,
+		nodes: [...globalConfig.peersApi.nodes],
+		defaultNode: helper.parseUrl(globalConfig.peersApi.defaultNode),
+		currentNode: helper.parseUrl(globalConfig.peersApi.defaultNode),
+		wsEndpoint: globalConfig.peersApi.defaultNode |> helper.httpToWsUrl,
+		marketData: helper.parseUrl(globalConfig.endpoints.marketData)
+	},
 
-  getters: {
-    getInitialized: state => state.initialized,
-    nodes: state =>
-      Array.isArray(state.nodes)
-        ? state.nodes.map(node => helper.parseUrl(node))
-        : [],
-    currentNode: state => state.currentNode.toString(),
-    currentNodeHostname: state => state.currentNode.hostname,
-    wsEndpoint: state => state.wsEndpoint.toString(),
-    marketData: state => state.marketData.toString()
-  },
+	getters: {
+		getInitialized: state => state.initialized,
+		nodes: state =>
+			Array.isArray(state.nodes)
+				? state.nodes.map(node => helper.parseUrl(node))
+				: [],
+		currentNode: state => state.currentNode.toString(),
+		currentNodeHostname: state => state.currentNode.hostname,
+		wsEndpoint: state => state.wsEndpoint.toString(),
+		marketData: state => state.marketData.toString()
+	},
 
-  mutations: {
-    setInitialized: (state, initialized) => { state.initialized = initialized },
-    mutate: (state, { key, value }) => Vue.set(state, key, value),
-    currentNode: (state, payload) => {
-      if (undefined !== payload) {
-        let currentNode = helper.parseUrl(payload)
-        let wsEndpoint = currentNode.toString() |> helper.httpToWsUrl
-        Vue.set(state, 'currentNode', currentNode)
-        Vue.set(state, 'wsEndpoint', wsEndpoint)
-      }
-    },
-    setNodes: (state, nodes) => { state.nodes = nodes }
-  },
+	mutations: {
+		setInitialized: (state, initialized) => {
+			state.initialized = initialized;
+		},
+		mutate: (state, { key, value }) => Vue.set(state, key, value),
+		currentNode: (state, payload) => {
+			if (undefined !== payload) {
+				let currentNode = helper.parseUrl(payload);
 
-  actions: {
-    async initialize({ commit, dispatch, getters }) {
-      const callback = async () => {
-        dispatch('filterHealthyNodes')
+				let wsEndpoint = currentNode.toString() |> helper.httpToWsUrl;
 
-        const nodeUrl = getters['currentNode']
-        const marketDataUrl = getters['marketData']
-        http.init(nodeUrl, marketDataUrl)
-      }
-      await LOCK.initialize(callback, commit, dispatch, getters)
-    },
+				Vue.set(state, 'currentNode', currentNode);
+				Vue.set(state, 'wsEndpoint', wsEndpoint);
+			}
+		},
+		setNodes: (state, nodes) => {
+			state.nodes = nodes;
+		}
+	},
 
-    async changeNode({ commit, dispatch }, currentNodeUrl) {
-      if (helper.validURL(currentNodeUrl)) {
-        // Set the current node URL.
-        commit('currentNode', currentNodeUrl)
-        commit('setInitialized', false)
-        // Uninitialize the data and re-initialize the API.
-        await dispatch('uninitialize', null, { root: true })
-        await dispatch('initialize', router.currentRoute, { root: true })
-      } else
-        throw Error('Cannot change node. URL is not valid: ' + currentNodeUrl)
-    },
+	actions: {
+		async initialize({ commit, dispatch, getters }) {
+			const callback = async () => {
+				dispatch('filterHealthyNodes');
 
-    async filterHealthyNodes({ commit, getters }) {
-      const nodes = getters['nodes']
+				const nodeUrl = getters['currentNode'];
+				const marketDataUrl = getters['marketData'];
 
-      let healthyNodes = []
-      await Promise.all(nodes.map(async (url) => {
-        let endpoint = helper.parseUrl(url).toString()
-        if (await NodeService.isNodeActive(endpoint))
-          healthyNodes.push(url)
-      }))
+				await http.init(nodeUrl, marketDataUrl);
+			};
 
-      commit('setNodes', healthyNodes)
-      commit('currentNode', healthyNodes[0])
-    }
-  }
-}
+			await LOCK.initialize(callback, commit, dispatch, getters);
+		},
+
+		async changeNode({ commit, dispatch }, currentNodeUrl) {
+			if (helper.validURL(currentNodeUrl)) {
+				// Set the current node URL.
+				commit('currentNode', currentNodeUrl);
+				commit('setInitialized', false);
+				// Uninitialize the data and re-initialize the API.
+				await dispatch('uninitialize', null, { root: true });
+				await dispatch('initialize', router.currentRoute, { root: true });
+			}
+			else
+				throw Error('Cannot change node. URL is not valid: ' + currentNodeUrl);
+		},
+
+		async filterHealthyNodes({ commit, getters }) {
+			const nodes = getters['nodes'];
+
+			let healthyNodes = [];
+
+			await Promise.all(nodes.map(async (url) => {
+				let endpoint = helper.parseUrl(url).toString();
+
+				if (await NodeService.isNodeActive(endpoint))
+					healthyNodes.push(url);
+			}));
+
+			commit('setNodes', healthyNodes);
+
+			const currentNode = getters['currentNode'];
+			const activeNodes = healthyNodes.map(nodes => nodes.href);
+
+			// Reset the currentNode, if currentNode not longer in healthy status.
+			activeNodes.indexOf(currentNode) === -1 ? commit('currentNode', healthyNodes[0]) : void 0;
+		}
+	}
+};

@@ -7,11 +7,7 @@ Symbol Explorer is a read-only web application to browse the content of the bloc
 
 ## Requirements
 
-### NodeJS
-
-- NodeJS 8.9.X
-- NodeJS 9.X.X
-- NodeJS 10.X.X
+- Node.js 8, 9 or 10
 
 ## Installation
 
@@ -24,7 +20,7 @@ git clone https://github.com/nemfoundation/symbol-explorer.git
 2. Install the required dependencies.
 
 ```
-cd nem2-explorer
+cd symbol-explorer
 npm install
 ```
 
@@ -40,23 +36,31 @@ npm run dev
 
 ### Architecture
 
-* `/src/store`: Handles the application logic with state management.
+* `/src/config`: Handles the explorer configuration.
 * `/src/infrastructure`: Handles the API / SDK request from Symbol nodes.
+* `/src/store`: Handles the application logic with state management.
 * `/src/views`: Handles the UI of the explorer.
+
+### How to change the node list
+
+The file `/src/config/setup.json` contains the node list shown in the node selector dropdown.
+
+1. Edit `peersApi.nodes` array to set up the custom node list.
+2. Set `peersApi.defaultNode` property to the default node url.
 
 ## Getting help
 
 Use the following available resources to get help:
 
 - [Symbol Documentation][docs]
-- Join the community [slack group (#sig-client)][slack] 
+- Join the community [slack group (#sig-client)][slack]
 - If you found a bug, [open a new issue][issues]
 
 ## Contributing
 
 This project is developed and maintained by NEM Foundation.
 
-Contributions are welcome and appreciated. 
+Contributions are welcome and appreciated.
 Check [CONTRIBUTING](CONTRIBUTING.md) for information on how to contribute.
 
 ## License

@@ -16,81 +16,77 @@
  *
  */
 
-import Vue from 'vue'
-import Router from 'vue-router'
-import listPages from './config/list-pages'
-import detailPages from './config/detail-pages'
+import Vue from 'vue';
+import Router from 'vue-router';
+import PageAssembler from './views/PageAssembler.vue';
+import pages from './config/pages';
+Vue.use(Router);
 
-Vue.use(Router)
-
-const listPagesRoutes = listPages.pages.map(page => ({
-  ...page,
-  meta: {
-    ...page.meta,
-    storeNamespaces: page.props?.storeNamespaces || []
-  },
-  component: () => import('./views/ListPage.vue')
-}))
-const detailPagesRoutes = detailPages.pages.map(page => ({
-  ...page,
-  meta: {
-    ...page.meta,
-    storeNamespaces: page.props?.storeNamespaces || []
-  },
-  component: () => import('./views/DetailPage.vue')
-}))
+const pagesRoutes = pages.map(page => ({
+	...page,
+	meta: {
+		...page.meta,
+		storeNamespaces: page.props?.storeNamespaces || []
+	},
+	component: PageAssembler
+}));
 
 const routerConfig = {
-  mode: 'history',
-  scrollBehavior() {
-    return { x: 0, y: 0 }
-  },
-  routes: [
-    ...listPagesRoutes,
-    ...detailPagesRoutes,
-    {
-      path: '/',
-      name: 'home',
-      meta: {
-        group: 'page',
-        keepAliveGoTo: []
-      },
-      component: () =>
-        import('./views/Home.vue')
-    },
-    {
-      path: '/terms',
-      name: 'terms',
-      meta: {
-        group: 'page',
-        keepAliveGoTo: []
-      },
-      component: () =>
-        import('./views/Terms.vue')
-    },
-    {
-      path: '/privacy',
-      name: 'privacy',
-      meta: {
-        group: 'page',
-        keepAliveGoTo: []
-      },
-      component: () =>
-        import('./views/Privacy.vue')
-    },
-    {
-      path: '*',
-      name: '404',
-      meta: {
-        group: 'page',
-        keepAliveGoTo: []
-      },
-      component: () => import('./views/NotFound.vue')
-    }
-  ]
-}
+	mode: 'history',
+	scrollBehavior() {
+		return { x: 0, y: 0 };
+	},
+	routes: [
+		...pagesRoutes,
+		{
+			path: '/',
+			name: 'home',
+			meta: {
+				group: 'page',
+				keepAliveGoTo: []
+			},
+			component: () =>
+				import('./views/Home.vue')
+		},
+		{
+			path: '/statistics',
+			name: 'statistics',
+			component: () =>
+				import('./views/Statistics.vue')
+		},
+		{
+			path: '/terms',
+			name: 'terms',
+			meta: {
+				group: 'page',
+				keepAliveGoTo: []
+			},
+			component: () =>
+				import('./views/Terms.vue')
+		},
+		{
+			path: '/privacy',
+			name: 'privacy',
+			meta: {
+				group: 'page',
+				keepAliveGoTo: []
+			},
+			component: () =>
+				import('./views/Privacy.vue')
+		},
+		{
+			path: '*',
+			name: '404',
+			meta: {
+				group: 'page',
+				keepAliveGoTo: []
+			},
+			component: () => import('./views/NotFound.vue')
+		}
+	]
+};
 
-export default new Router(routerConfig)
+export default new Router(routerConfig);
 
 // const router =  new Router(routerConfig);
 // router.beforeEach((to, from, next) => {

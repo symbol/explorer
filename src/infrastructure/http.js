@@ -16,89 +16,103 @@
  *
  */
 
-import * as symbol from 'symbol-sdk'
-import constants from '../config/constants'
+import * as symbol from 'symbol-sdk';
+import { MosaicService } from '../infrastructure';
 
-let NODE_URL
-let MARKET_DATA_URL
-let NETWORK_TYPE
+let NODE_URL;
+
+let MARKET_DATA_URL;
+
+let NETWORK_TYPE;
+
+let GENERATION_HASH;
+
+let NETWORK_PROPERTIES;
+
+let NETWORK_CURRECY;
 
 export default class http {
   static init = async (nodeUrl, marketDataUrl) => {
-    NODE_URL = nodeUrl
-    MARKET_DATA_URL = marketDataUrl
-    NETWORK_TYPE = await http.network.getNetworkType().toPromise() || constants.NetworkConfig.NETWORKTYPE
+  	NODE_URL = nodeUrl;
+  	MARKET_DATA_URL = marketDataUrl;
+  	NETWORK_TYPE = await http.createRepositoryFactory.getNetworkType().toPromise();
+  	GENERATION_HASH = await http.createRepositoryFactory.getGenerationHash().toPromise();
+  	NETWORK_PROPERTIES = await http.createRepositoryFactory.createNetworkRepository().getNetworkProperties()
+  		.toPromise();
+
+  	const mosaicId = NETWORK_PROPERTIES.chain.currencyMosaicId.replace(/0x|'/g, '');
+
+  	NETWORK_CURRECY = await MosaicService.getMosaicInfo(mosaicId);
+  }
+
+  static get networkCurrecy() {
+  	const splitNamespace = NETWORK_CURRECY.mosaicAliasName.toUpperCase().split('.');
+
+  	return {
+  		namespace: [...splitNamespace, NETWORK_CURRECY.mosaicAliasName.toUpperCase()],
+  		mosaicId: NETWORK_CURRECY.mosaicId,
+  		divisibility: NETWORK_CURRECY.divisibility
+  	};
+  }
+
+  static get networkProperties() {
+  	return new symbol.NetworkConfiguration(NETWORK_PROPERTIES.network, NETWORK_PROPERTIES.chain, NETWORK_PROPERTIES.plugins);
+  }
+
+  static get networkConfig() {
+  	const convertedTotalChainImportance = +this.networkProperties.chain.totalChainImportance.replace(/'/g, '');
+  	const convertedNamespaceGracePeriodDuration = +this.networkProperties.plugins.namespace.namespaceGracePeriodDuration.replace(/d/g, '');
+  	const convertedBlockGenerationTargetTime = +this.networkProperties.chain.blockGenerationTargetTime.replace(/s/g, '');
+  	const blockPerday = (60 / convertedBlockGenerationTargetTime) * 60 * 24;
+
+  	return {
+  		MosaicRentalSinkAddress: symbol.Address.createFromRawAddress(this.networkProperties.plugins.mosaic.mosaicRentalFeeSinkAddress),
+  		NamespaceRentalFeeSinkAddress: symbol.Address.createFromRawAddress(this.networkProperties.plugins.namespace.namespaceRentalFeeSinkAddress),
+  		NetworkType: this.networkType,
+  		NemsisTimestamp: symbol.Deadline.timestampNemesisBlock,
+  		TargetBlockTime: convertedBlockGenerationTargetTime,
+  		NamespaceGraceDuration: convertedNamespaceGracePeriodDuration * blockPerday,
+  		TotalChainImportance: convertedTotalChainImportance
+  	};
   }
 
   static get marketDataUrl() {
-    return MARKET_DATA_URL
+  	return MARKET_DATA_URL;
   }
 
   static get nodeUrl() {
-    return NODE_URL
+  	return NODE_URL;
+  }
+
+  static get generationHash() {
+  	return GENERATION_HASH;
   }
 
   static get networkType() {
-    return NETWORK_TYPE
+  	return NETWORK_TYPE;
   }
 
-  static get account() {
-    return new symbol.AccountHttp(http.nodeUrl)
-  }
-
-  static get block() {
-    return new symbol.BlockHttp(http.nodeUrl)
-  }
-
-  static get chain() {
-    return new symbol.ChainHttp(http.nodeUrl)
-  }
-
-  static get mosaic() {
-    return new symbol.MosaicHttp(http.nodeUrl)
+  static get createRepositoryFactory() {
+  	return new symbol.RepositoryFactoryHttp(this.nodeUrl, {
+  		networkType: this.networkType,
+  		generationHash: this.generationHash
+  	});
   }
 
   static get mosaicService() {
-    return new symbol.MosaicService(http.account, http.mosaic)
-  }
+  	const accountRepository = this.createRepositoryFactory.createAccountRepository();
+  	const mosaicRepository = this.createRepositoryFactory.createMosaicRepository();
 
-  static get namespace() {
-    return new symbol.NamespaceHttp(http.nodeUrl)
+  	return new symbol.MosaicService(accountRepository, mosaicRepository);
   }
 
   static get namespaceService() {
-    return new symbol.NamespaceService(http.namespace)
+  	const namespaceRepository = this.createRepositoryFactory.createNamespaceRepository();
+
+  	return new symbol.NamespaceService(namespaceRepository);
   }
 
-  static get network() {
-    return new symbol.NetworkHttp(http.nodeUrl)
-  }
-
-  static get transaction() {
-    return new symbol.TransactionHttp(http.nodeUrl)
-  }
-
-  static get multisig() {
-    return new symbol.MultisigHttp(http.nodeUrl)
-  }
-
-  static get metadata() {
-    return new symbol.MetadataHttp(http.nodeUrl)
-  }
-
-  static get receipt() {
-    return new symbol.ReceiptHttp(http.nodeUrl)
-  }
-
-  static get restrictionAccount() {
-    return new symbol.RestrictionAccountHttp(http.nodeUrl)
-  }
-
-  static get restrictionMosaic() {
-    return new symbol.RestrictionMosaicHttp(http.nodeUrl)
-  }
-
-  static get node() {
-    return new symbol.NodeHttp(http.nodeUrl)
+  static get blockPaginationStreamer() {
+  	return new symbol.BlockPaginationStreamer(this.createRepositoryFactory.createBlockRepository());
   }
 }
