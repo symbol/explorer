@@ -10,60 +10,6 @@
 			</router-link>
 		</template>
 
-<<<<<<< HEAD
-        <template #body>
-            <b-container fluid>
-            <b-row>
-                <b-col
-                    sm="6"
-                    md="3"
-                    lg="6"
-                    xl="6"
-                    v-for="(item, index) in blockList"
-                    :key="'recent_blocks_'+index+'_'+item.height"
-                >
-                    <Card
-                        class='card-item'
-                        :item="item"
-                    >
-                        <template #header>
-                            <router-link
-                                :to="'/block/'+item.height"
-                                class="ex-title-text"
-                                :title="getNameByKey('blockHeight') + ': ' + item.height"
-                            >
-                                {{item.height}}
-                            </router-link>
-                        </template>
-                        <template #body>
-                            <div class="ex-row">
-                                <div class="ex-text">
-                                    {{ item.numTransactions }} {{getNameByKey('transactions')}}
-                                </div>
-                                <div class="ex-text">
-                                    <Age :date="item.date"/>
-                                </div>
-                            </div>
-                            <div class="ex-row no-wrap">
-                                <div class="ex-text">
-                                    {{getNameByKey('harvester')}}
-                                </div>
-                                <router-link
-                                    :to="'/account/'+item.signer"
-                                    class="ex-long-text ex-account-text"
-                                    :title="item.signer"
-                                >
-                                    {{item.signer}}
-                                </router-link>
-                            </div>
-                        </template>
-                    </Card>
-                </b-col>
-            </b-row>
-            </b-container>
-        </template>
-    </Card>
-=======
 		<template #body>
 			<b-container fluid>
 				<b-row>
@@ -116,7 +62,6 @@
 			</b-container>
 		</template>
 	</Card>
->>>>>>> master
 </template>
 
 <script>

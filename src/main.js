@@ -16,17 +16,6 @@
  *
  */
 
-<<<<<<< HEAD
-import Vue from 'vue'
-import App from './App.vue'
-import router from './router'
-import store from './store'
-import BootstrapVue from 'bootstrap-vue'
-import 'leaflet/dist/leaflet.css';
-import 'leaflet.markercluster/dist/MarkerCluster.css';
-import 'vue-material-design-icons/styles.css'
-import './styles/main.scss'
-=======
 import Vue from 'vue';
 import App from './App.vue';
 import router from './router';
@@ -35,7 +24,6 @@ import BootstrapVue from 'bootstrap-vue';
 import 'vue-material-design-icons/styles.css';
 import '@mdi/font/css/materialdesignicons.css';
 import './styles/main.scss';
->>>>>>> master
 
 window.Vue = Vue;
 Vue.config.productionTip = false;

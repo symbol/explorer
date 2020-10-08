@@ -33,50 +33,6 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-<<<<<<< HEAD
-  // Disable use-strict mode because it fails with the SDK listener.
-  strict: false,
-  modules: {
-    api,
-    block,
-    chain,
-    transaction,
-    ui,
-    account,
-    mosaic,
-    namespace,
-    node
-  },
-  state: {
-    destructionList: []
-  },
-  getters: {
-    destructionList: state => state.destructionList
-  },
-  mutations: {
-    destructionList: (state, payload) => { state.destructionList = payload }
-  },
-  actions: {
-    // Initialize the store (call on mount or re-initialization).
-    // This handles initialization of a dependent item based on the
-    // key provided.
-    async initialize({ dispatch }, route) {
-      router.beforeEach((to, from, next) => dispatch('onRouteChange', { to, from, next }))
-      // Initialize the API.
-      await helper.logError(dispatch, 'api/initialize')
-      helper.logError(dispatch, 'transaction/initialize')
-      switch (route.name) {
-      // Home
-      case 'home':
-      case 'statistics':
-        // Home: Requires blocks, chain, and transactions.
-        return Promise.all([
-          helper.logError(dispatch, 'block/initialize'),
-          helper.logError(dispatch, 'chain/initialize'),
-          helper.logError(dispatch, 'transaction/initialize'),
-          helper.logError(dispatch, 'node/initialize')
-        ])
-=======
 	// Disable use-strict mode because it fails with the SDK listener.
 	strict: false,
 	modules: {
@@ -119,7 +75,6 @@ export default new Vuex.Store({
 					helper.logError(dispatch, 'chain/initialize'),
 					helper.logError(dispatch, 'transaction/initialize')
 				]);
->>>>>>> master
 
 				// Timeline Views
 			case 'accounts':
