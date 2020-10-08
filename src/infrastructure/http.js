@@ -45,13 +45,17 @@ export default class http {
   	NETWORK_CURRECY = await MosaicService.getMosaicInfo(mosaicId);
   }
 
-  static get networkCurrecy() {
-  	const splitNamespace = NETWORK_CURRECY.mosaicAliasName.toUpperCase().split('.');
+  static get networkCurrency() {
+  	const networkNamespace = NETWORK_CURRECY?.mosaicAliasName.toUpperCase() || globalConfig.networkConfig.namespaceName.toUpperCase();
 
   	return {
-  		namespace: [...splitNamespace, NETWORK_CURRECY.mosaicAliasName.toUpperCase()],
-  		mosaicId: NETWORK_CURRECY.mosaicId,
-  		divisibility: NETWORK_CURRECY.divisibility
+		  namespace: {
+			  rootNamespace: networkNamespace.split('.')[0],
+			  subNamespace: networkNamespace.split('.')[1],
+			  namespaceName: networkNamespace
+		  },
+  		mosaicId: NETWORK_CURRECY?.mosaicId || globalConfig.networkConfig.mosaicId,
+  		divisibility: NETWORK_CURRECY?.divisibility || globalConfig.networkConfig.divisibility
   	};
   }
 
@@ -114,5 +118,21 @@ export default class http {
 
   static get blockPaginationStreamer() {
   	return new symbol.BlockPaginationStreamer(this.createRepositoryFactory.createBlockRepository());
+  }
+
+  static transactionStatementPaginationStreamer() {
+	  return symbol.ReceiptPaginationStreamer.transactionStatements(this.createRepositoryFactory.createReceiptRepository());
+  }
+
+  static addressResolutionStatementPaginationStreamer() {
+	  return symbol.ReceiptPaginationStreamer.addressResolutionStatements(this.createRepositoryFactory.createReceiptRepository());
+  }
+
+  static mosaicResolutionStatementPaginationStreamer() {
+	  return symbol.ReceiptPaginationStreamer.mosaicResolutionStatements(this.createRepositoryFactory.createReceiptRepository());
+  }
+
+  static get transactionPaginationStreamer() {
+  	return new symbol.TransactionPaginationStreamer(this.createRepositoryFactory.createTransactionRepository());
   }
 }

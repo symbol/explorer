@@ -1,5 +1,5 @@
 {
-	"path": "/account/:address",
+	"path": "/accounts/:address",
 	"name": "account-detail",
 	"meta": {
 		"group": "detail-page",
@@ -25,8 +25,7 @@
 					"addressHeight",
 					"publicKey",
 					"importance",
-					"type",
-					"harvestedBlock"
+					"accountType"
 				]
 			},
 			{
@@ -37,11 +36,12 @@
 				"errorMessage": "multisigCosignatoriesError",
 				"pagination": "none",
 				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
 				"fields": [
 					"minApproval",
 					"minRemoval",
-					"cosignatories",
-					"multisigAccounts"
+					"cosignatoryAddresses",
+					"multisigAddresses"
 				]
 			},
 			{
@@ -52,6 +52,7 @@
 				"pagination": "client",
 				"pageSize": 5,
 				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
 				"fields": [
 					"mosaicId",
 					"amount",
@@ -66,6 +67,7 @@
 				"pagination": "client",
 				"pageSize": 5,
 				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
 				"fields": [
 					"namespaceName",
 					"status",
@@ -82,6 +84,7 @@
 				"pagination": "client",
 				"pageSize": 5,
 				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
 				"fields": [
 					"linked",
 					"node",
@@ -97,10 +100,11 @@
 				"pagination": "server",
 				"hasFilter": true,
 				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
 				"fields": [
 					"deadline",
 					"transactionHash",
-					"transactionDescriptor",
+					"transactionType",
 					"direction"
 				]
 			},
@@ -108,10 +112,33 @@
 				"layoutOptions": "full-width",
 				"type": "CardTable",
 				"title": "accountRestrictionTitle",
-				"managerGetter": "account/restrictions",
-				"pagination": "none",
+				"managerGetter": "account/accountRestrictions",
+				"pagination": "client",
 				"hideOnError": true,
-				"errorMessage": "Account restrictions are not available."
+				"hideDependOnGetter": "account/info",
+				"errorMessage": "accountRestrictionError",
+				"fields": [
+					"restrictionType",
+					"restrictionMosaicValues",
+					"restrictionAddressValues",
+					"restrictionTransactionValues"
+				]
+			},
+			{
+				"layoutOptions": "full-width",
+				"type": "CardTable",
+				"title": "mosaicAddressRestrictionTitle",
+				"managerGetter": "account/mosaicAddressRestrictions",
+				"pagination": "server",
+				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
+				"errorMessage": "mosaicAddressRestrictionError",
+				"fields": [
+                    "compositeHash",
+					"entryType",
+					"mosaicId",
+                    "restrictions"
+                ]
 			},
 			{
 				"layoutOptions": "full-width",
@@ -121,12 +148,48 @@
 				"pagination": "client",
 				"pageSize": 5,
 				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
 				"fields": [
-					"metadataId",
 					"scopedMetadataKey",
 					"senderAddress",
 					"targetAddress",
 					"metadataValue"
+				]
+			},
+			{
+				"layoutOptions": "full-width",
+				"type": "CardTable",
+				"title": "hashLockTitle",
+				"managerGetter": "account/hashLocks",
+				"pagination": "server",
+				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
+				"errorMessage": "hashLockError",
+				"fields": [
+					"transactionHash",
+					"amount",
+					"endHeight",
+					"mosaicId",
+					"status"
+				]
+			},
+			{
+				"layoutOptions": "full-width",
+				"type": "CardTable",
+				"title": "secretLockTitle",
+				"managerGetter": "account/secretLocks",
+				"pagination": "server",
+				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
+				"errorMessage": "secretLockError",
+				"fields": [
+					"recipient",
+					"secret",
+					"amount",
+					"endHeight",
+					"mosaicId",
+					"status",
+					"hashAlgorithm"
 				]
 			},
 			{
@@ -138,6 +201,7 @@
 				"pagination": "client",
 				"pageSize": 5,
 				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
 				"fields": [
 					"recalculationBlock",
 					"totalFeesPaid",
@@ -154,6 +218,7 @@
 				"pageSize": 5,
 				"hideEmptyData": true,
 				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
 				"fields": [
 					"height",
 					"age",

@@ -22,7 +22,7 @@ describe('Search Box component should', () => {
         .type('{enter}')
 
         cy.url()
-        .should('contain', 'block/1')
+        .should('contain', 'blocks/1')
     })
 
     it('redirect to transaction detail page given correct transaction hash', () => {
@@ -32,7 +32,7 @@ describe('Search Box component should', () => {
         .type('{enter}')
 
         cy.url()
-        .should('contain', `transaction/${config.testTransactions.transferTransaction}`)
+        .should('contain', `transactions/${config.testTransactions.transferTransaction}`)
     })
 
     it('redirect to account detail page given correct account address in plain format', () => {
@@ -42,7 +42,7 @@ describe('Search Box component should', () => {
         .type('{enter}')
 
         cy.url()
-        .should('contain', `account/${config.testAccount.address}`)
+        .should('contain', `accounts/${config.testAccount.address}`)
     })
 
     it('redirect to account detail page given correct account address in pretty format', () => {
@@ -54,6 +54,6 @@ describe('Search Box component should', () => {
         .type('{enter}')
 
         cy.url()
-        .should('contain', `account/${config.testAccount.address}`)
+        .should('contain', `accounts/${config.testAccount.address}`)
     })
 })

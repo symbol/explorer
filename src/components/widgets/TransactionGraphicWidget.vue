@@ -4,52 +4,139 @@
 
 		<template #body>
 			<div class="body">
-				<TransferGraphic v-if="data.type === TransactionType.TRANSFER" v-bind="data" />
-				<AddressAliasGraphic v-if="data.type === TransactionType.ADDRESS_ALIAS" v-bind="data" />
-				<MosaicAliasGraphic v-if="data.type === TransactionType.MOSAIC_ALIAS" v-bind="data" />
-				<NamespaceRegistrationGraphic v-if="data.type === TransactionType.NAMESPACE_REGISTRATION" v-bind="data" />
+				<div v-if="isAggregate" :class="aggregateContainerClass">
+					<div class="aggregate-title">{{ aggregateTitle }}</div>
+					<div v-if="cosigners.length" class="signers-section-wrapper">
+						<div class="signers-section">
+							<img :src="SignatureIcon" class="signature-icon" />
+							<svg
+								v-for="(address, index) in cosigners"
+								:key="'tg-cos' + index"
+								class="cosigner"
+								viewBox="35 35 60 60"
+								:width="64"
+								:height="64"
+							>
+								<AccountIcon
+									:width="128"
+									:height="128"
+									:address="address"
+								/>
+							</svg>
+						</div>
+					</div>
+					<div
+						class="aggregate-inner"
+						v-for="(innerTransactionData, index) in data.innerTransactions"
+						:key="'tgw' + index"
+					>
+						<div class="aggregate-inner-index">
+							{{index + 1}}
+						</div>
+						<TransactionGraphic
+							:data="innerTransactionData"
+						/>
+					</div>
+				</div>
+				<TransactionGraphic v-else :data="data" />
 			</div>
 		</template>
 	</Card>
 </template>
 
 <script>
+import SignatureIcon from '../../styles/img/signature.png';
 import Card from '@/components/containers/Card.vue';
-import TransferGraphic from '@/components/transaction-graphic/TransferGraphic.vue';
-import AddressAliasGraphic from '@/components/transaction-graphic/AddressAliasGraphic.vue';
-import MosaicAliasGraphic from '@/components/transaction-graphic/MosaicAliasGraphic.vue';
-import NamespaceRegistrationGraphic from '@/components/transaction-graphic/NamespaceRegistrationGraphic.vue';
+import GraphicComponent from '../graphics/GraphicComponent.vue';
+import AccountIcon from '../graphics/AccountIcon.vue';
+import TransactionGraphic from '@/components/transaction-graphic/TransactionGraphic.vue';
 import { TransactionType } from 'symbol-sdk';
 
 export default {
+	extends: GraphicComponent,
+
 	props: {
 		managerGetter: String
 	},
 
 	components: {
 		Card,
-		TransferGraphic,
-		AddressAliasGraphic,
-		MosaicAliasGraphic,
-		NamespaceRegistrationGraphic
+		TransactionGraphic,
+		AccountIcon
 	},
 
 	data() {
 		return {
-			TransactionType
+			TransactionType,
+			SignatureIcon,
+			supportedTransactionTypes: [
+				TransactionType.TRANSFER,
+				TransactionType.ADDRESS_ALIAS,
+				TransactionType.MOSAIC_ALIAS,
+				TransactionType.NAMESPACE_REGISTRATION,
+				TransactionType.SECRET_LOCK,
+				TransactionType.MOSAIC_DEFINITION,
+				TransactionType.MOSAIC_SUPPLY_CHANGE,
+				TransactionType.AGGREGATE_COMPLETE,
+				TransactionType.AGGREGATE_BONDED,
+				TransactionType.HASH_LOCK,
+				TransactionType.SECRET_PROOF,
+				TransactionType.VRF_KEY_LINK,
+				TransactionType.ACCOUNT_KEY_LINK,
+				TransactionType.NODE_KEY_LINK,
+				TransactionType.VOTING_KEY_LINK,
+				TransactionType.MOSAIC_GLOBAL_RESTRICTION,
+				TransactionType.MOSAIC_ADDRESS_RESTRICTION,
+				TransactionType.ACCOUNT_OPERATION_RESTRICTION,
+				TransactionType.ACCOUNT_ADDRESS_RESTRICTION,
+				TransactionType.ACCOUNT_MOSAIC_RESTRICTION,
+				TransactionType.MULTISIG_ACCOUNT_MODIFICATION,
+				TransactionType.ACCOUNT_METADATA,
+				TransactionType.NAMESPACE_METADATA,
+				TransactionType.MOSAIC_METADATA
+			]
 		};
 	},
 
 	computed: {
 		isWidgetShown() {
-			return this.data.type === TransactionType.TRANSFER ||
-        this.data.type === TransactionType.ADDRESS_ALIAS ||
-        this.data.type === TransactionType.MOSAIC_ALIAS ||
-        this.data.type === TransactionType.NAMESPACE_REGISTRATION;
+			return this.isTransactionTypeSupported(this.data.type);
+		},
+
+		isAggregate() {
+			return (
+				this.data.type === TransactionType.AGGREGATE_COMPLETE ||
+				this.data.type === TransactionType.AGGREGATE_BONDED
+			);
+		},
+
+		aggregateTitle() {
+			return this.getTransactionTypeCaption(this.data.type);
+		},
+
+		isMobile() {
+			return this.$store.getters['ui/isMobile'];
+		},
+
+		aggregateContainerClass() {
+			const isMobile = this.isMobile;
+
+			if (isMobile)
+				return 'aggregate-container-mobile';
+			return 'aggregate-container';
 		},
 
 		data() {
 			return this.$store.getters[this.managerGetter].data;
+		},
+
+		cosigners() {
+			if(this.data.type === TransactionType.AGGREGATE_BONDED)
+				return [
+					this.data.signer, 
+					...this.data.cosignatures.map(cosignature => cosignature.signer.address.address)
+				];
+			return [];
 		},
 
 		loading() {
@@ -64,6 +151,10 @@ export default {
 	methods: {
 		getNameByKey(e) {
 			return this.$store.getters['ui/getNameByKey'](e);
+		},
+
+		isTransactionTypeSupported(type) {
+			return !!this.supportedTransactionTypes.find(transactionType => transactionType === type);
 		}
 	}
 };
@@ -73,5 +164,79 @@ export default {
 .body {
     display: flex;
     justify-content: center;
+
+    .aggregate-container {
+        border-style: dashed;
+        border-radius: 10px;
+        border-color: var(--orange);
+        border-width: 4px;
+
+        .aggregate-title {
+            font-size: 1.5rem;
+            line-height: 150%;
+            color: var(--orange);
+            font-weight: 700;
+            margin: 20px 40px 0;
+        }
+
+        .signers-section-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            flex-direction: row;
+            flex: 1;
+
+            .signers-section {
+                margin: 20px 40px 0;
+                position: relative;
+                display: inline-block;
+                width: auto;
+                max-width: 700px;
+                background: #f2f4f8;
+                padding: 10px 20px;
+                border-radius: 40px;
+
+                .signature-icon {
+                    position: absolute;
+                    height: 40px;
+                    top: -10px;
+                    right: 0;
+                }
+            }
+        }
+
+        .aggregate-inner {
+            position: relative;
+            padding: 0 40px;
+
+            .aggregate-inner-index {
+                position: absolute;
+                top: 43%;
+                left: 40px;
+                font-size: 1.25rem;
+                font-weight: 700;
+                color: var(--orange);
+            }
+        }
+    }
+
+    .aggregate-container-mobile {
+        .aggregate-title {
+            width: 100%;
+            text-align: center;
+            font-weight: 700;
+            color: var(--orange);
+        }
+
+        .signers-section-wrapper {
+            display: none;
+        }
+
+        .aggregate-inner {
+            .aggregate-inner-index {
+                display: none;
+            }
+        }
+    }
 }
 </style>

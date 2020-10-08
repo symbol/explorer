@@ -49,7 +49,7 @@ export default {
 				'publicKeyHeight',
 				'importanceHeight',
 				'multisigAddresses_',
-        'cosignatories_',
+				'cosignatoryAddresses_',
 
 				'signer',
 				'recipient',
@@ -65,18 +65,19 @@ export default {
 				'targetMosaicId',
 				'targetNamespaceId',
 				'unresolved',
-				'addressResolutionEntries',
-				'mosaicResolutionEntries',
-				'restrictionMosaicValues',
-				'restrictionAddressValues',
+				'addressResolutionEntries_',
+				'mosaicResolutionEntries_',
+				'restrictionMosaicValues_',
+				'restrictionAddressValues_',
 				'referenceMosaicId',
 				'restrictionAddressAdditions',
 				'restrictionAddressDeletions',
 				'restrictionMosaicAdditions',
 				'restrictionMosaicDeletions',
-				'addressAdditions',
-				'addressDeletions',
-				'linkedAccountAddress'
+				'addressAdditions_',
+				'addressDeletions_',
+				'linkedAccountAddress',
+				'ownerAddress'
 			],
 			disableClickValues: [...Object.values(Constants.Message)],
 			changeDecimalColor: [
@@ -89,7 +90,7 @@ export default {
 			],
 			allowArrayToView: [
 				'linkedNamespace',
-				'cosignatories',
+				'cosignatoryAddresses',
 				'multisigAddresses',
 				'restrictionAddressValues',
 				'restrictionMosaicValues',
@@ -102,7 +103,16 @@ export default {
 				'restrictionOperationDeletions',
 				'addressAdditions',
 				'addressDeletions',
-				'voting'
+				'voting',
+				'addressResolutionEntries',
+				'mosaicResolutionEntries',
+				'stateHashSubCacheMerkleRoots'
+			],
+			valuesToTranslate: [
+				'newRestrictionType',
+				'previousRestrictionType',
+				'restrictionType',
+				'mosaicRestrictionType'
 			]
 		};
 	},
@@ -116,6 +126,12 @@ export default {
 	},
 
 	methods: {
+		translateValue(key, value) {
+			if (this.valuesToTranslate.includes(key))
+				return this.$store.getters['ui/getNameByKey'](value);
+			return value;
+		},
+
 		isKeyClickable(itemKey) {
 			return this.clickableKeys.indexOf(itemKey) !== -1;
 		},
@@ -137,7 +153,11 @@ export default {
 		},
 
 		isTransactionType(itemKey) {
-			return itemKey === 'transactionDescriptor';
+			return itemKey === 'transactionType' || itemKey === 'restrictionOperationAdditions_' || itemKey === 'restrictionOperationDeletions_';
+		},
+
+		isBlockHeightWithFinalizedStatus(itemKey) {
+			return itemKey === 'height' || itemKey === 'blockHeight' || itemKey === 'startHeight';
 		},
 
 		isArrayField(itemKey) {
@@ -154,7 +174,10 @@ export default {
                 key === 'owneraddress' ||
                 key === 'host' ||
                 key === 'friendlyName' ||
-                key === 'multisigAddresses_'
+                key === 'multisigAddresses_' ||
+				key === 'cosignatoryAddresses_' ||
+				key === 'addressAdditions_' ||
+				key === 'addressDeletions_'
 			);
 		},
 

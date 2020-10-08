@@ -73,10 +73,6 @@ export default class Pagination {
 		return this.pageInfo.pageNumber || 1;
 	}
 
-	get lastPage() {
-		return this.pageInfo?.totalPages;
-	}
-
 	get pageSize() {
 		return this.pageInfo.pageSize;
 	}
@@ -97,6 +93,15 @@ export default class Pagination {
 	setStore(store) {
 		this.store = store;
 		this.store.dispatch(this.name, this);
+		return this;
+	}
+
+	/**
+	 * Set timeline data
+	 * @param data
+	 */
+	setData(data) {
+		this.pageInfo.data = data;
 		return this;
 	}
 
@@ -226,7 +231,10 @@ export default class Pagination {
 				const data = [item, ...this.data];
 
 				data.pop();
-				this.data = [].concat.apply([], data);
+
+				const newTimeline = [].concat.apply([], data);
+
+				this.setData(newTimeline);
 				this.store.dispatch(this.name, this);
 				return this;
 			}

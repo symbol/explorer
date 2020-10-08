@@ -22,8 +22,7 @@ import { filters, Constants } from '../config';
 import helper from '../helper';
 import {
 	ListenerService,
-	BlockService,
-	ReceiptService
+	BlockService
 } from '../infrastructure';
 import {
 	DataSet,
@@ -52,7 +51,7 @@ const managers = [
 	}),
 	new DataSet(
 		'blockReceipts',
-		(height) => ReceiptService.getBlockReceiptsInfo(height)
+		(height) => BlockService.getBlockReceiptsInfo(height)
 	),
 	new DataSet(
 		'info',
@@ -78,15 +77,14 @@ export default {
 		getRecentList: state => state.timeline?.data?.filter((item, index) => index < 4) || [],
 		getSubscription: state => state.subscription,
 		blockInfo: state => state.info?.data?.blockInfo || {},
+		merkleInfo: state => state.info?.data?.merkleInfo || {},
 		inflationReceipt: state => state.blockReceipts?.data?.transactionReceipt?.inflationReceipt || [],
 		balanceTransferReceipt: state => state.blockReceipts?.data?.transactionReceipt?.balanceTransferReceipt || [],
 		balanceChangeReceipt: state => state.blockReceipts?.data?.transactionReceipt?.balanceChangeReceipt || [],
 		artifactExpiryReceipt: state => state.blockReceipts?.data?.transactionReceipt?.artifactExpiryReceipt || [],
-		resolutionStatement: state => state.blockReceipts?.data?.resolutionStatements?.resolutionStatement || [],
+		resolutionStatement: state => state.blockReceipts?.data?.resolutionStatements || [],
 		currentBlockHeight: state => state.currentBlockHeight,
-
-		infoText: (s, g, rs, rootGetters) => 'Chain height: ' + rootGetters['chain/getBlockHeight']
-	},
+		infoText: (s, g, rs, rootGetters) => rootGetters['ui/getNameByKey']('chainHeight') + ': ' + (rootGetters['chain/getChainInfo'] && rootGetters['chain/getChainInfo'].currentHeight ? rootGetters['chain/getChainInfo'].currentHeight : 0) },
 	mutations: {
 		...getMutationsFromManagers(managers),
 		setInitialized: (state, initialized) => {
@@ -114,14 +112,15 @@ export default {
 		async uninitialize({ commit, dispatch, getters }) {
 			const callback = async () => {
 				dispatch('unsubscribe');
-        getters.timeline?.uninitialize();
+				dispatch('uninitializeDetail');
+				getters.timeline?.uninitialize();
 			};
 
 			await LOCK.uninitialize(callback, commit, dispatch, getters);
 		},
 
 		// Subscribe to the latest blocks.
-		async subscribe({ commit, getters, rootGetters }) {
+		async subscribe({ commit, dispatch, getters, rootGetters }) {
 			if (getters.getSubscription === null) {
 				const subscription = await ListenerService.subscribeNewBlock(
 					async (item) => {
@@ -132,8 +131,9 @@ export default {
 							date: helper.convertToUTCDate(latestBlock.timestamp),
 							age: helper.convertToUTCDate(latestBlock.timestamp),
 							harvester: latestBlock.signer
-						});
-						commit('chain/setBlockHeight', item.height, { root: true });
+						}, 'height');
+
+						dispatch('chain/getChainInfo', null, { root: true });
 					},
 					rootGetters['api/wsEndpoint']
 				);
@@ -155,7 +155,7 @@ export default {
 
 		// Fetch data from the SDK and initialize the page.
 		initializePage(context) {
-			context.dispatch('chain/getBlockHeight', null, { root: true });
+			context.dispatch('chain/getChainInfo', null, { root: true });
 			context.getters.timeline.setStore(context).initialFetch();
 		},
 
@@ -174,7 +174,7 @@ export default {
 		},
 
 		nextBlock: ({ commit, getters, dispatch, rootGetters }) => {
-			if (getters.currentBlockHeight < rootGetters['chain/getBlockHeight']) {
+			if (getters.currentBlockHeight < rootGetters['chain/getChainInfo'].currentHeight) {
 				dispatch('ui/openPage', {
 					pageName: 'block',
 					param: +getters.currentBlockHeight + 1

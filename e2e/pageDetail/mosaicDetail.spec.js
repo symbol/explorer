@@ -2,7 +2,7 @@ import config from '../config/network.conf.json'
 
 describe('Symbol Explorer Mosaic Detail page', () => {
     beforeEach(() => {
-        cy.visit(`/mosaic/${config.testMosaic.mosaicId}`)
+        cy.visit(`/mosaics/${config.testMosaic.mosaicId}`)
     })
 
     describe('Mosaic Detail Card should', () => {

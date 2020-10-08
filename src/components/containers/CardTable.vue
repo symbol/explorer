@@ -24,10 +24,10 @@
 				:pageSize="pageSize"
 				:emptyDataMessage="emptyDataMessage"
 			/>
-			<TableInfoView 
-				v-else-if="typeof data === 'object'" 
+			<TableInfoView
+				v-else-if="typeof data === 'object'"
 				:data="data"
-				:emptyDataMessage="emptyDataMessage" 
+				:emptyDataMessage="emptyDataMessage"
 			/>
 			<div v-else>{{ getNameByKey(emptyDataMessage) }}</div>
 		</template>
@@ -136,7 +136,7 @@ export default {
 			) {
 				let fields = null;
 
-				if (this.$store.getters['ui/isMobile'])
+				if (this.$store.getters['ui/isMobile'] && this.mobileFields?.length)
 					fields = this.mobileFields;
 				else fields = this.fields;
 				if (Array.isArray(fields) && fields.length) {

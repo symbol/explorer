@@ -1,18 +1,22 @@
 {
 	"peersApi": {
-		"defaultNode":"http://api-01.us-west-1.096x.symboldev.network:3000",
+		"defaultNode":"http://api-01.eu-central-1.0.10.0.x.symboldev.network:3000",
 		"nodes": [
-				"http://api-01.us-east-1.096x.symboldev.network:3000",
-				"http://api-01.eu-west-1.096x.symboldev.network:3000",
-				"http://api-01.us-west-1.096x.symboldev.network:3000",
-				"http://api-01.ap-southeast-1.096x.symboldev.network:3000",
-				"http://api-01.ap-southeast-1.096x.symboldev.network:3000",
-				"http://api-01.eu-central-1.096x.symboldev.network:3000",
-				"http://api-01.ap-northeast-1.096x.symboldev.network:3000"
+				"http://api-01.ap-northeast-1.0.10.0.x.symboldev.network:3000",
+				"http://api-01.ap-southeast-1.0.10.0.x.symboldev.network:3000",
+				"http://api-01.eu-central-1.0.10.0.x.symboldev.network:3000",
+				"http://api-01.eu-west-1.0.10.0.x.symboldev.network:3000",
+				"http://api-01.us-east-1.0.10.0.x.symboldev.network:3000",
+				"http://api-01.us-west-1.0.10.0.x.symboldev.network:3000"
 		]
 	},
 	"endpoints": {
 		"marketData": "https://min-api.cryptocompare.com/"
+	},
+	"networkConfig": {
+		"namespaceName": "SYMBOL.XEM",
+		"mosaicId": "5B66E76BECAD0860",
+		"divisibility": "6"
 	},
 	"footer": {
 		"link": [{
@@ -41,12 +45,12 @@
 				"icon": "IconGithub"
 			},
 			{
-				"href": "http://faucet-96x-01.symboldev.network/",
+				"href": "http://faucet-0.10.0.x-01.symboldev.network/",
 				"text": "Faucet-01",
 				"icon": "IconHomeCurrencyUsd"
 			},
 			{
-				"href": "http://faucet-96x-02.symboldev.network/",
+				"href": "http://faucet-0.10.0.x-02.symboldev.network/",
 				"text": "Faucet-02",
 				"icon": "IconHomeCurrencyUsd"
 			}

@@ -3,9 +3,13 @@ import {
 	Address,
 	AddressRestrictionFlag,
 	MosaicRestrictionFlag,
-	OperationRestrictionFlag
+	OperationRestrictionFlag,
+	MosaicAddressRestriction,
+	MosaicGlobalRestriction,
+	MosaicRestrictionEntryType,
+	Order,
+	MosaicId
 } from 'symbol-sdk';
-import helper from '../helper';
 import Constants from '../config/constants';
 
 class RestrictionService {
@@ -25,7 +29,7 @@ class RestrictionService {
   	catch (e) {
   		// To Catach statusCode 404 if Account restrictions are not available.
   		throw Error('Account restrictions are not available.');
-  	}
+	  }
 
   	const formattedAccountRestrictions = accountRestrictions.map(accountRestriction => this.formatAccountRestriction(accountRestriction));
 
@@ -33,24 +37,25 @@ class RestrictionService {
   }
 
   /**
-   * Get Mosaic Global Restriction from symbol SDK
-   * @param mosaicId - - Mosaic identifier
-   * @returns MosaicGlobalRestriction
+   * Gets a mosaic restrictions list from searchCriteria
+   * @param restrictionMosaicSearchCriteria Object of Search Criteria
+   * @returns formatted namespace data with pagination info
    */
-  static getMosaicGlobalRestriction = async mosaicId => {
-  	let mosaicGlobalRestrictions;
+  static searchMosaicRestrictions = async restrictionMosaicSearchCriteria => {
+  	const searchMosaicRestrictions = await http.createRepositoryFactory.createRestrictionMosaicRepository()
+  		.searchMosaicRestrictions(restrictionMosaicSearchCriteria)
+  		.toPromise();
 
-  	try {
-  		mosaicGlobalRestrictions = await http.createRepositoryFactory.createRestrictionMosaicRepository()
-  			.getMosaicGlobalRestriction(mosaicId)
-  			.toPromise();
-  	}
-  	catch (e) {
-  		// To Catach statusCode 404 if Mosaic global restrictions are not available.
-  		throw Error('Mosaic global restrictions are not available.');
-  	}
+  	return {
+  		...searchMosaicRestrictions,
+  		data: searchMosaicRestrictions.data.map(mosaicRestriction => {
+  			if (mosaicRestriction instanceof MosaicAddressRestriction)
+				  return this.formatMosaicAddressRestriction(mosaicRestriction);
 
-  	return this.formatMosaicGlobalRestrictions(mosaicGlobalRestrictions);
+  			if (mosaicRestriction instanceof MosaicGlobalRestriction)
+  				return this.formatMosaicGlobalRestriction(mosaicRestriction);
+  		})
+  	};
   }
 
   /**
@@ -72,7 +77,7 @@ class RestrictionService {
   	case MosaicRestrictionFlag.BlockMosaic:
   		return {
   			restrictionType: Constants.MosaicRestrictionFlag[accountRestriction.restrictionFlags],
-  			restrictionMosaicValues: MosaicRestrictionFlag.values.map(value => value.id.toHex())
+  			restrictionMosaicValues: accountRestriction.values.map(value => value.id.toHex())
   		};
   	case OperationRestrictionFlag.AllowOutgoingTransactionType:
   	case OperationRestrictionFlag.BlockOutgoingTransactionType:
@@ -88,7 +93,7 @@ class RestrictionService {
    * @param MosaicGlobalRestrictionDTO
    * @returns Object readable MosaicGlobalRestrictions object
    */
-  static formatMosaicGlobalRestrictions = mosaicRestriction => {
+  static formatMosaicGlobalRestriction = mosaicRestriction => {
   	let mosaicGlobalRestrictionItem = [];
 
   	// Convert Map<k,v> to Array
@@ -111,26 +116,84 @@ class RestrictionService {
   }
 
   /**
+   * Format MosaicAddressRestriction to readable object
+   * @param addressRestrictionDTO
+   * @returns Custom address restriction object
+   */
+  static formatMosaicAddressRestriction = addressRestriction => {
+  	let mosaicAddressRestrictionItem = [];
+
+  	// Convert Map<k,v> to Array
+  	addressRestriction.restrictions.forEach((value, key) => {
+  		mosaicAddressRestrictionItem.push({ key, value });
+	  });
+
+  	return {
+  		...addressRestriction,
+  		entryType: Constants.MosaicRestrictionEntryType[addressRestriction.entryType],
+  		mosaicId: addressRestriction.mosaicId.toHex(),
+  		targetAddress: addressRestriction.targetAddress.address,
+  		restrictions: mosaicAddressRestrictionItem.map(item => ({
+  			restrictionKey: item.key,
+  			restrictionValue: item.value
+  		}))
+  	};
+  }
+
+  /**
    * Format Account Restriction list dataset into Vue component
    * @param address - Address in string format.
    * @returns Account Restriction list
    */
   static getAccountRestrictionList = async (address) => {
-  	const accountRestrictions = await this.getAccountRestrictions(address);
+	  const accountRestrictions = await this.getAccountRestrictions(address);
 
   	return accountRestrictions;
   }
 
   /**
-   * Format Mosaic Global Restriction info dataset into Vue component
-   * @param hexOrNamespace - hex value or namespace name
-   * @returns Mosaic Global Restriction info
+   * Gets Mosaic Restriction list dataset into Vue component
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param filterVaule - object for search criteria eg. mosaic global or mosaic address
+   * @param mosaicId - mosaicId
+   * @returns formatted mosaic restriction list
    */
-  static getMosaicGlobalRestrictionInfo = async (hexOrNamespace) => {
-  	const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic');
-  	const mosaicGlobalRestrictionMetadata = await this.getMosaicGlobalRestriction(mosaicId);
+  static getMosaicRestrictionList = async (pageInfo, filterVaule, mosaicId) => {
+  	const { pageNumber, pageSize } = pageInfo;
 
-  	return mosaicGlobalRestrictionMetadata;
+  	const searchCriteria = {
+  		pageNumber,
+  		pageSize,
+  		order: Order.Desc,
+  		mosaicId: new MosaicId(mosaicId),
+  		...filterVaule
+	  };
+
+  	const mosaicRestrictions = await this.searchMosaicRestrictions(searchCriteria);
+
+  	return mosaicRestrictions;
+  }
+
+  /**
+   * Gets Mosaic Address Restriction list dataset into Vue component
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param address - account Address
+   * @returns formatted mosaic address restriction list
+   */
+  static getMosaicAddressRestrictionList = async (pageInfo, address) => {
+  	const { pageNumber, pageSize } = pageInfo;
+
+  	const searchCriteria = {
+  		pageNumber,
+  		pageSize,
+  		order: Order.Desc,
+  		entryType: MosaicRestrictionEntryType.ADDRESS,
+  		targetAddress: Address.createFromRawAddress(address)
+  	};
+
+  	const addressRestrictions = await this.searchMosaicRestrictions(searchCriteria);
+
+  	return addressRestrictions;
   }
 }
 

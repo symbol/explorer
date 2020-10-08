@@ -2,7 +2,7 @@ import config from '../config/network.conf.json'
 
 describe('Symbol Explorer Account Detail page', () => {
     beforeEach(() => {
-        cy.visit(`/account/${config.testAccount.address}`)
+        cy.visit(`/accounts/${config.testAccount.address}`)
     })
 
     describe('Account Detail Card should', () => {
@@ -15,25 +15,26 @@ describe('Symbol Explorer Account Detail page', () => {
         })
 
         it('render correct table fields.', () => {
-            const items = ['Address', 'Alias Namespace', 'Address height', 'Public key', 'Importance', 'Type', 'Harvested blocks (all)']
+            const items = ['Address', 'Alias Namespace', 'Address height', 'Public key', 'Importance', 'Account type']
             cy.renderFieldInTable("accountDetailTitle", items)
         })
     })
 
-    describe('Multisig Cosignatories Card should', () => {
-        it('load title', () => {
-            cy.get('[data-cy="multisigCosignatoriesTitle"]').should('contain', 'Multisig Cosignatories')
-        })
+    // Todo: Multisig Cosignatories
+    // describe('Multisig Cosignatories Card should', () => {
+    //     it('load title', () => {
+    //         cy.get('[data-cy="multisigCosignatoriesTitle"]').should('contain', 'Multisig Cosignatories')
+    //     })
 
-        it('render table in card', ()=> {
-            cy.renderTableInCard("multisigCosignatoriesTitle")
-        })
+    //     it('render table in card', ()=> {
+    //         cy.renderTableInCard("multisigCosignatoriesTitle")
+    //     })
 
-        it('render correct table fields.', () => {
-            const items = ['Minimum Approval', 'Minimum Removal', 'Cosignatories']
-            cy.renderFieldInTable("multisigCosignatoriesTitle", items)
-        })
-    })
+    //     it('render correct table fields.', () => {
+    //         const items = ['Minimum Approval', 'Minimum Removal', 'Cosignatories']
+    //         cy.renderFieldInTable("multisigCosignatoriesTitle", items)
+    //     })
+    // })
 
     describe('Owned Mosaics Card should', () => {
         it('load title', () => {
@@ -110,20 +111,21 @@ describe('Symbol Explorer Account Detail page', () => {
         })
     })
 
-    describe('Harvested Blocks Card should', () => {
-        it('load title', () => {
-            cy.get('[data-cy="harvestedBlockTitle"]').should('contain', 'Harvested Blocks')
-        })
+    // Todo: Harvested Blocks Card
+    // describe('Harvested Blocks Card should', () => {
+    //     it('load title', () => {
+    //         cy.get('[data-cy="harvestedBlockTitle"]').should('contain', 'Harvested Blocks')
+    //     })
 
-        it('render table in card', () => {
-            cy.renderTableInCard("harvestedBlockTitle")
-        })
+    //     it('render table in card', () => {
+    //         cy.renderTableInCard("harvestedBlockTitle")
+    //     })
 
-        it('render correct table header.', () => {
-            const items = ['Height', 'Age', 'Transactions', 'Total Fee', 'Date', 'Harvester']
-            cy.renderHeaderInTable("harvestedBlockTitle", items)
-        })
-    })
+    //     it('render correct table header.', () => {
+    //         const items = ['Height', 'Age', 'Transactions', 'Total Fee', 'Date', 'Harvester']
+    //         cy.renderHeaderInTable("harvestedBlockTitle", items)
+    //     })
+    // })
 
     // Todo: Metadata Entries
     // Todo: Account Restriction

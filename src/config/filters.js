@@ -1,4 +1,14 @@
-import { TransactionType, TransactionGroup } from 'symbol-sdk';
+import {
+	TransactionType,
+	TransactionGroup,
+	AliasType,
+	NamespaceRegistrationType,
+	MosaicId,
+	AccountOrderBy,
+	MetadataType,
+	MosaicRestrictionEntryType
+} from 'symbol-sdk';
+import http from '../infrastructure/http';
 
 export const transaction = [
 	{
@@ -117,6 +127,104 @@ export const transaction = [
 				TransactionType.SECRET_LOCK,
 				TransactionType.SECRET_PROOF
 			]
+		}
+	}
+];
+
+export const account = [
+	{
+		label: 'Recent',
+		icon: 'mdi-clock-outline',
+		value: {}
+	},
+	{
+		label: 'Rich List',
+		icon: 'mdi-circle',
+		value: {
+			orderBy: AccountOrderBy.Balance,
+			mosaicId: new MosaicId(http.networkCurrency.mosaicId)
+		}
+	}
+];
+
+export const namespace = [
+	{
+		label: 'Recent',
+		icon: 'mdi-clock-outline',
+		value: {}
+	},
+	{
+		label: 'Address Alias',
+		icon: 'mdi-account',
+		value: {
+			aliasType: AliasType.Address
+		}
+	},
+	{
+		label: 'Mosaic Alias',
+		icon: 'mdi-circle',
+		value: {
+			aliasType: AliasType.Mosaic
+		}
+	},
+	{
+		label: 'Root',
+		icon: 'mdi-tag',
+		value: {
+			registrationType: NamespaceRegistrationType.RootNamespace
+		}
+	},
+	{
+		label: 'Sub',
+		icon: 'mdi-tag',
+		value: {
+			registrationType: NamespaceRegistrationType.SubNamespace
+		}
+	}
+];
+
+export const metadata = [
+	{
+		label: 'Recent',
+		icon: 'mdi-clock-outline',
+		value: {}
+	},
+	{
+		label: 'Address Alias',
+		icon: 'mdi-account',
+		value: {
+			metadataType: MetadataType.Account
+		}
+	},
+	{
+		label: 'Mosaic Alias',
+		icon: 'mdi-circle',
+		value: {
+			metadataType: MetadataType.Mosaic
+		}
+	},
+	{
+		label: 'Namespace',
+		icon: 'mdi-tag',
+		value: {
+			metadataType: MetadataType.Namespace
+		}
+	}
+];
+
+export const mosaicRestriction = [
+	{
+		label: 'Mosaic Global Restriction',
+		icon: 'mdi-alert',
+		value: {
+			entryType: MosaicRestrictionEntryType.GLOBAL
+		}
+	},
+	{
+		label: 'Mosaic Address Restriction',
+		icon: 'mdi-account',
+		value: {
+			entryType: MosaicRestrictionEntryType.ADDRESS
 		}
 	}
 ];

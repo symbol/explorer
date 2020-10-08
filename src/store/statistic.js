@@ -17,7 +17,8 @@
  */
 
 import Lock from './lock';
-import { NetworkService, StatisticService } from '../infrastructure';
+import { NetworkService, StatisticService, BlockService } from '../infrastructure';
+import { Order } from 'symbol-sdk';
 
 const LOCK = Lock.create();
 
@@ -114,12 +115,19 @@ export default {
 				commit('setNetworkRentalFees', rentalFeesInfo);
 				commit('setLoadingInfo', false);
 
-				let blockTimeDifferenceDataset = await StatisticService.getBlockTimeDifferenceData(240, 60);
+				const searchCriteria = {
+					pageSize: 100,
+					order: Order.Desc
+				};
+
+				const blocks = await BlockService.streamerBlocks(searchCriteria, 240);
+
+				let blockTimeDifferenceDataset = StatisticService.getBlockTimeDifferenceData(blocks, 240, 60);
 
 				commit('setBlockTimeDifferenceData', blockTimeDifferenceDataset);
 				commit('setLoadingBlockTimeDifference', false);
 
-				let transactionPerBlockDataset = await StatisticService.getTransactionPerBlockData(240, 60);
+				let transactionPerBlockDataset = StatisticService.getTransactionPerBlockData(blocks, 240, 60);
 
 				commit('setTransactionPerBlockData', transactionPerBlockDataset);
 				commit('setLoadingTransactionPerBlock', false);

@@ -56,6 +56,11 @@ export default {
 		xaxisType: {
 			type: String,
 			default: 'datetime'
+		},
+
+		strokeCurve: {
+			type: String,
+			default: 'smooth'
 		}
 	},
 
@@ -80,7 +85,7 @@ export default {
 				},
 				stroke: {
 					show: true,
-					curve: 'smooth',
+					curve: this.strokeCurve,
 					lineCap: 'butt',
 					width: 2,
 					dashArray: 0

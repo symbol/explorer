@@ -1,5 +1,5 @@
 {
-    "path": "/block/:height",
+    "path": "/blocks/:height",
     "name": "block-detail",
     "meta": {
         "group": "detail-page",
@@ -24,17 +24,20 @@
                     "canFetchNext": true
                 },
                 "fields": [
+                    "confirmations",
                     "height",
+                    "payloadSize",
                     "date",
                     "totalFee",
                     "difficulty",
                     "feeMultiplier",
                     "transactions",
                     "harvester",
+                    "beneficiaryAddress",
                     "blockHash",
                     "proofGamma",
                     "proofScalar",
-                    "proofVarificationHash"
+                    "proofVerificationHash"
                 ]
             },
             {
@@ -45,10 +48,17 @@
                 "pagination": "server",
                 "fields": [
                     "deadline",
-                    "transactionId",
                     "transactionHash",
-                    "transactionDescriptor"
+                    "transactionType"
                 ]
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
+                "title": "merkleInfoTitle",
+                "managerGetter": "block/info",
+                "dataGetter": "block/merkleInfo",
+                "pagination": "none"
             },
             {
                 "layoutOptions": "adaptive",
@@ -58,7 +68,15 @@
                 "dataGetter": "block/balanceChangeReceipt",
                 "pagination": "client",
                 "pageSize": 5,
-                "hideEmptyData": true
+                "hideEmptyData": true,
+                "fields": [
+                    "version",
+                    "size",
+  					"receiptType",
+  					"targetAddress",
+  					"amount",
+  					"mosaicId"
+                ]
             },
             {
                 "layoutOptions": "adaptive",
@@ -68,7 +86,16 @@
                 "dataGetter": "block/balanceTransferReceipt",
                 "pagination": "client",
                 "pageSize": 5,
-                "hideEmptyData": true
+                "hideEmptyData": true,
+                "fields": [
+                    "version",
+                    "size",
+  					"receiptType",
+  					"senderAddress",
+  					"recipientAddress",
+  					"amount",
+  					"mosaicId"
+                ]
             },
             {
                 "layoutOptions": "adaptive",
@@ -78,7 +105,14 @@
                 "dataGetter": "block/inflationReceipt",
                 "pagination": "client",
                 "pageSize": 5,
-                "hideEmptyData": true
+                "hideEmptyData": true,
+                "fields": [
+                    "version",
+                    "size",
+  					"receiptType",
+  					"amount",
+  					"mosaicId"
+                ]
             },
             {
                 "layoutOptions": "adaptive",
@@ -88,7 +122,13 @@
                 "dataGetter": "block/artifactExpiryReceipt",
                 "pagination": "client",
                 "pageSize": 5,
-                "hideEmptyData": true
+                "hideEmptyData": true,
+                "fields": [
+                    "version",
+                    "size",
+                    "receiptType",
+                    "artifactId"
+                ]
             },
             {
                 "layoutOptions": "adaptive",
@@ -98,7 +138,13 @@
                 "dataGetter": "block/resolutionStatement",
                 "pagination": "client",
                 "pageSize": 5,
-                "hideEmptyData": true
+                "hideEmptyData": true,
+                "fields": [
+                    "resolutionType",
+                    "unresolved",
+                    "addressResolutionEntries",
+                    "mosaicResolutionEntries"
+                ]
             }
         ]
     }

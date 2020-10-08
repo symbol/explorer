@@ -38,6 +38,6 @@ export default {
 
 <style lang="scss" scoped>
 .decimalLight {
-    color: $table-text-color-light;//#98a8b48c;
+    opacity: 0.5;//#98a8b48c;
 }
 </style>

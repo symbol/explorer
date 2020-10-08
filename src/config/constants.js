@@ -30,7 +30,8 @@ class Constants {
   	ADDRESS: 'ADDRESS',
   	NO_ALIAS: 'NO ALIAS',
   	ACTIVE: 'ACTIVE',
-  	INACTIVE: 'INACTIVE'
+	INACTIVE: 'INACTIVE',
+	UNKNOWN: 'UNKNOWN'
   }
 
   static TransactionType = {
@@ -96,9 +97,9 @@ class Constants {
   }
 
   static LockHashAlgorithm = {
-  	[LockHashAlgorithm.Op_Sha3_256]: 'Op_Sha3_256',
-  	[LockHashAlgorithm.Op_Hash_160]: 'Op_Hash_160',
-  	[LockHashAlgorithm.Op_Hash_256]: 'Op_Hash_256'
+  	[LockHashAlgorithm.Op_Sha3_256]: 'Sha3 256',
+  	[LockHashAlgorithm.Op_Hash_160]: 'Hash 160',
+  	[LockHashAlgorithm.Op_Hash_256]: 'Hash 256'
   }
 
   static MetadataType = {
@@ -139,24 +140,24 @@ class Constants {
   static RoleType = {
   	[RoleType.ApiNode]: 'API NODE',
   	[RoleType.PeerNode]: 'PEER NODE',
-  	[RoleType.DualNode]: 'DUAL NODE'
+  	[RoleType.VotingNode]: 'VOTING NODE'
   }
 
   static AddressRestrictionFlag = {
-  	[AddressRestrictionFlag.AllowIncomingAddress]: 'Allow Incoming Address',
-  	[AddressRestrictionFlag.AllowOutgoingAddress]: 'Allow Outgoing Address',
-  	[AddressRestrictionFlag.BlockIncomingAddress]: 'Block Incoming Address',
-  	[AddressRestrictionFlag.BlockOutgoingAddress]: 'Block Outgoing Address'
+  	[AddressRestrictionFlag.AllowIncomingAddress]: 'Allow Incoming Addresses',
+  	[AddressRestrictionFlag.AllowOutgoingAddress]: 'Allow Outgoing Addresses',
+  	[AddressRestrictionFlag.BlockIncomingAddress]: 'Block Incoming Addresses',
+  	[AddressRestrictionFlag.BlockOutgoingAddress]: 'Block Outgoing Addresses'
   }
 
   static MosaicRestrictionFlag = {
-  	[MosaicRestrictionFlag.AllowMosaic]: 'Allow Mosaic',
-  	[MosaicRestrictionFlag.BlockMosaic]: 'Block Mosaic'
+  	[MosaicRestrictionFlag.AllowMosaic]: 'Allow Mosaics',
+  	[MosaicRestrictionFlag.BlockMosaic]: 'Block Mosaics'
   }
 
   static OperationRestrictionFlag = {
-  	[OperationRestrictionFlag.AllowOutgoingTransactionType]: 'Allow Outgoing Transaction',
-  	[OperationRestrictionFlag.BlockOutgoingTransactionType]: 'Block Outgoing Transaction'
+  	[OperationRestrictionFlag.AllowOutgoingTransactionType]: 'Allow Outgoing Transactions',
+  	[OperationRestrictionFlag.BlockOutgoingTransactionType]: 'Block Outgoing Transactions'
   }
 
   static MosaicRestrictionEntryType = {
@@ -165,14 +166,16 @@ class Constants {
   }
 
   static MosaicRestrictionType = {
-  	[MosaicRestrictionType.EQ]: 'Allow Equal',
-  	[MosaicRestrictionType.GE]: 'Allow Greater Than Or Equal',
-  	[MosaicRestrictionType.GT]: 'Allow Greater Than',
-  	[MosaicRestrictionType.LE]: 'Allow Less Than Or Equal',
-  	[MosaicRestrictionType.LT]: 'Allow Less Than',
-  	[MosaicRestrictionType.NE]: 'Allow Not Equal',
-  	[MosaicRestrictionType.NONE]: 'No Restriction'
+  	[MosaicRestrictionType.EQ]: 'mosaicRestrictionType.EQ',
+  	[MosaicRestrictionType.GE]: 'mosaicRestrictionType.GE',
+  	[MosaicRestrictionType.GT]: 'mosaicRestrictionType.GT',
+  	[MosaicRestrictionType.LE]: 'mosaicRestrictionType.LE',
+  	[MosaicRestrictionType.LT]: 'mosaicRestrictionType.LT',
+  	[MosaicRestrictionType.NE]: 'mosaicRestrictionType.NE',
+  	[MosaicRestrictionType.NONE]: 'mosaicRestrictionType.NONE'
   }
+
+  static MerkleRootsOrder = ['AccountState', 'Namespace', 'Mosaic', 'Multisig', 'HashLockInfo', 'SecretLockInfo', 'AccountRestriction', 'MosaicRestriction', 'Metadata']
 }
 
 export default Constants;

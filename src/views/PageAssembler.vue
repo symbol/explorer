@@ -116,16 +116,16 @@ export default {
 		},
 
 		isItemShown(item) {
-			if(!item.hideEmptyData && !item.hideOnError)
-				return true;
+			if (this.getter(item.hideDependOnGetter)?.error)
+				return false;
 
-			if(item.hideEmptyData && this.getData(item)?.length > 0)
-				return true;
+			if (item.hideEmptyData && this.getData(item)?.length === 0)
+				return false;
 
-			if(item.hideOnError && !this.getter(item.managerGetter)?.error)	
-				return true;
+			if (item.hideOnError && this.getter(item.managerGetter)?.error)
+				return false;
 
-			return false;
+			return true;
 		},
 
 		getKeyName(e) {

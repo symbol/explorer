@@ -19,7 +19,7 @@
 import http from './http';
 import helper from '../helper';
 import { Address, MosaicId, Order } from 'symbol-sdk';
-import { NamespaceService } from '../infrastructure';
+import { NamespaceService, MetadataService } from '../infrastructure';
 import { Constants } from '../config';
 
 class MosaicService {
@@ -98,8 +98,7 @@ class MosaicService {
 
    /**
     * Get custom MosaicInfo dataset into Vue Component
-    * @param limit — No of namespaceInfo
-    * @param fromMosaicId — (Optional) retrive next mosaicInfo in pagination
+    * @param pageInfo - pagination info
     * @returns Custom MosaicInfo[]
     */
    static getMosaicList = async (pageInfo) => {
@@ -144,6 +143,27 @@ class MosaicService {
    }
 
    /**
+   * Gets mosaic Metadata list dataset into Vue component
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param filterVaule - object for search criteria
+   * @param mosaicId - mosaicid
+   * @returns formatted mosaic Metadata list
+   */
+   static getMosaicMetadataList = async (pageInfo, filterVaule, mosaicId) => {
+   	const { pageNumber, pageSize } = pageInfo;
+   	const searchCriteria = {
+   		pageNumber,
+   		pageSize,
+   		order: Order.Desc,
+   		targetId: new MosaicId(mosaicId),
+   		...filterVaule
+   	};
+   	const mosaicMetadatas = await MetadataService.searchMetadatas(searchCriteria);
+
+   	return mosaicMetadatas;
+   }
+
+   /**
     * Format MosaicInfo to readable mosaicInfo object
     * @param MosaicInfoDTO
     * @returns Object readable MosaicInfoDTO object
@@ -155,7 +175,7 @@ class MosaicService {
    	supply: mosaicInfo.supply.compact().toLocaleString('en-US'),
    	relativeAmount: helper.formatMosaicAmountWithDivisibility(mosaicInfo.supply, mosaicInfo.divisibility),
    	revision: mosaicInfo.revision,
-   	startHeight: mosaicInfo.startHeight.compact(),
+   	startHeight: Number(mosaicInfo.startHeight.toString()),
    	duration: mosaicInfo.duration.compact() > 0 ? mosaicInfo.duration.compact() : Constants.Message.UNLIMITED,
    	supplyMutable: mosaicInfo.flags.supplyMutable,
    	transferable: mosaicInfo.flags.transferable,

@@ -88,7 +88,7 @@ export default {
 			required: true,
 			default: ''
 		},
-		mosaics: {
+		transferMosaics: {
 			type: Array,
 			default: () => []
 		}
@@ -116,13 +116,13 @@ export default {
 		},
 
 		nativeMosaic() {
-			return this.mosaics.find(
+			return this.transferMosaics.find(
 				mosaic => mosaic.mosaicId === this.nativeMosaicId
 			);
 		},
 
 		mosaicList() {
-			return this.mosaics.filter(
+			return this.transferMosaics.filter(
 				mosaic => mosaic.mosaicId !== this.nativeMosaicId
 			);
 		}

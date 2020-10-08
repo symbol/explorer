@@ -2,44 +2,24 @@
 	<b-popover :target="target" placement="bottom" triggers="hover">
 		<template v-slot:title>{{ title }}</template>
 		<b-list-group>
-			<b-list-group-item
+			<MosaicListItem
 				v-for="(mosaic, index) in mosaics"
-				class="d-flex justify-content-between align-items-center mosaic-list"
 				:key="'mlp'+mosaic.mosaicId + index"
-				:title="getMosaicName(mosaic)"
-			>
-				<MosaicIcon
-					v-if="!isNativeMosaic(mosaic.mosaicId)"
-					:width="32"
-					:height="32"
-					:mosaicId="mosaic.mosaicId"
-					:key="'mosaic'+mosaic.mosaicId+index"
-				/>
-				<NativeMosaicIcon
-					v-else
-					:width="32"
-					:height="32"
-					:mosaicId="mosaic.mosaicId"
-					:key="'mosaic'+mosaic.mosaicId+index"
-				/>
-				{{ truncString(getMosaicName(mosaic), 5) }}
-				<b-badge variant="primary" pill>{{ mosaic.amount }}</b-badge>
-			</b-list-group-item>
+				:mosaic="mosaic"
+			/>
 		</b-list-group>
 	</b-popover>
 </template>
 
 <script>
-import MosaicIcon from '../graphics/MosaicIcon.vue';
-import NativeMosaicIcon from '../graphics/NativeMosaicIcon.vue';
+import MosaicListItem from '../graphics/MosaicListItem.vue';
 import GraphicComponent from './GraphicComponent.vue';
 
 export default {
 	extends: GraphicComponent,
 
 	components: {
-		MosaicIcon,
-		NativeMosaicIcon
+		MosaicListItem
 	},
 
 	props: {
@@ -60,10 +40,6 @@ export default {
 	},
 
 	methods: {
-		isNativeMosaic(mosaicId) {
-			return mosaicId === this.nativeMosaicId;
-		},
-
 		click() {
 			this.$emit('click', this.mosaicId);
 		}
@@ -72,7 +48,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.mosaic-list {
+.list-item {
     min-width: 250px;
 }
 </style>

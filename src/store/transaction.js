@@ -40,6 +40,10 @@ const managers = [
 	new DataSet(
 		'info',
 		(hash) => TransactionService.getTransactionInfo(hash)
+	),
+	new DataSet(
+		'hashLock',
+		(hash) => TransactionService.getHashLockInfo(hash)
 	)
 ];
 
@@ -60,15 +64,27 @@ export default {
 		transferMosaics: state => state.info?.data?.transferMosaics || [],
 		aggregateInnerTransactions: state => state.info?.data?.aggregateTransaction?.innerTransactions || [],
 		aggregateCosignatures: state => state.info?.data?.aggregateTransaction?.cosignatures || [],
+		merklePath: state => state.info?.data?.merklePath || [],
 		getRecentList: state => state.timeline?.data?.filter((item, index) => index < 4) || [],
 		transactionSchema: (state, getters) => ({
 			loading: getters.info.loading,
 			error: getters.info.error,
-			data: {
-				...getters.info.data,
-				...getters.transactionDetail,
-				mosaics: getters.transferMosaics
-			}
+			data: getters.info.data?.aggregateTransaction?.innerTransactions
+				? {
+					...getters.info.data,
+					...getters.transactionDetail,
+					type: getters.info.data?.type,
+					innerTransactions: getters.info.data.aggregateTransaction.innerTransactions.map(transaction => ({
+						...transaction,
+						...transaction.transactionInfo,
+						...transaction.transactionBody
+					}))
+				}
+				: {
+					...getters.info.data,
+					...getters.transactionDetail,
+					transferMosaics: getters.transferMosaics
+				}
 		})
 	},
 	mutations: {
@@ -94,6 +110,7 @@ export default {
 		async uninitialize({ commit, dispatch, getters }) {
 			const callback = async () => {
 				dispatch('unsubscribe');
+				dispatch('uninitializeDetail');
                 getters.timeline?.uninitialize();
 			};
 
@@ -132,10 +149,12 @@ export default {
 		getTransactionInfoByHash(context, payload) {
 			context.dispatch('uninitializeDetail');
 			context.getters.info.setStore(context).initialFetch(payload.transactionHash);
+			context.getters.hashLock.setStore(context).initialFetch(payload.transactionHash);
 		},
 
 		uninitializeDetail(context) {
 			context.getters.info.setStore(context).uninitialize();
+			context.getters.hashLock.setStore(context).uninitialize();
 		}
 	}
 };
