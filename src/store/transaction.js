@@ -71,6 +71,8 @@ export default {
 			error: getters.info.error,
 			data: getters.info.data?.aggregateTransaction?.innerTransactions
 				? {
+					...getters.info.data,
+					...getters.transactionDetail,
 					type: getters.info.data?.type,
 					innerTransactions: getters.info.data.aggregateTransaction.innerTransactions.map(transaction => ({
 						...transaction,
