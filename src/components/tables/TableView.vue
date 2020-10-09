@@ -77,7 +77,9 @@ export default {
 				'addressAdditions_',
 				'addressDeletions_',
 				'linkedAccountAddress',
-				'ownerAddress'
+				'ownerAddress',
+
+				'nodePublicKey'
 			],
 			disableClickValues: [...Object.values(Constants.Message)],
 			changeDecimalColor: [

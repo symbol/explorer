@@ -1,6 +1,6 @@
 {
     "path": "/nodes/:publicKey",
-    "name": "namespace-detail",
+    "name": "node-detail",
     "meta": {
         "group": "detail-page",
         "keepAliveGoTo": []
@@ -8,25 +8,57 @@
     "props": {
         "layout": "flex",
         "storeNamespaces": [],
-        "initActions": ["namespace/fetchNodeInfo"],
+        "initActions": ["node/fetchNodeInfo"],
         "schema": [
             {
                 "layoutOptions": "adaptive",
                 "type": "NodesMapWidget",
-                "title": "nodelocationTitle",
-                "height": 400,
+                "title": "nodeLocationMapTitle",
+                "height": 350,
                 "maxWidth": 500,
                 "zoom": 1,
-                "managerGetter": "node/nodeInfoMap",
+                "managerGetter": "node/info",
+                "dataGetter": "node/mapInfo",
                 "errorMessage": "Failed to fetch node list"
             },
             {
                 "layoutOptions": "adaptive",
                 "type": "CardTable",
+                "title": "nodeHostDetailTitle",
+                "managerGetter": "node/info",
+                "errorMessage": "nodeDetailError",
+                "pagination": "none",
+                "fields": [
+                    "ip",
+                    "organization",
+                    "as",
+                    "continent",
+                    "country",
+                    "region",
+                    "city",
+                    "district",
+                    "zip"
+                ]
+            },
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
                 "title": "nodeDetailTitle",
                 "managerGetter": "node/info",
                 "errorMessage": "nodeDetailError",
-                "pagination": "none"
+                "pagination": "none",
+                "fields": [
+                    "friendlyName",
+                    "roles",
+                    "version",
+                    "host",
+                    "port",
+                    "networkGenerationHashSeed",
+                    "network",
+                    "networkIdentifier",
+                    "publicKey",
+                    "address"
+                ]
             }
         ]
     }

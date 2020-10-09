@@ -1,7 +1,7 @@
 <template>
     <Card class="card-f" :loading="loading" :error="error">
         <template #title>
-            {{getNameByKey('nodes')}}
+            {{getNameByKey(title)}}
         </template>
 
         <!-- <template #control>
@@ -17,6 +17,7 @@
                         :nodes="nodeList"
                         :height="height"
                         :zoom="zoom"
+                        :minZoom="minZoom"
                     />
                 </b-col>
             </b-row>
@@ -47,6 +48,14 @@ export default {
       type: Number,
       default: 1
     },
+    minZoom: {
+      type: Number,
+      default: 1
+    },
+    title: {
+      type: String,
+      default: 'nodes'
+    },
     // Data Manager getter (DataSet, Timeline, Filter)
 		managerGetter: {
 			type: String
@@ -54,7 +63,10 @@ export default {
 		// Object or Array. If not provided, will use data from Data Manager
 		dataGetter: {
 			type: String
-		},
+    },
+    title: {
+
+    }
   },
 
   computed: {
@@ -63,6 +75,7 @@ export default {
 		},
 
 		data() {
+      console.log(this.dataGetter, this.getter(this.dataGetter))
       return this.getter(this.dataGetter) || this.manager.data;
     },
 

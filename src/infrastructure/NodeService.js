@@ -91,7 +91,8 @@ class NodeService {
      * @returns Object readable NodeInfo object
      */
     static formatNodeInfo = nodeInfo => ({
-    	...nodeInfo,
+        ...nodeInfo,
+        nodePublicKey: nodeInfo.publicKey,
     	address: symbol.Address.createFromPublicKey(nodeInfo.publicKey, nodeInfo.networkIdentifier).plain(),
     	roles: nodeInfo.roles.map(role => Constants.RoleType[role]).join(','),
     	network: Constants.NetworkType[nodeInfo.networkIdentifier]
@@ -108,6 +109,15 @@ class NodeService {
     		index: index + 1,
     		...el
     	}));
+    }
+
+
+    static getNodeInfo = async (publicKey) => {
+        const node = (await Axios.get('http://localhost:4001/nodes/' + publicKey)).data;
+
+    	const formattedNodePeers = this.formatNodeInfo({...node, roles: [node.roles]});
+
+    	return formattedNodePeers;
     }
 }
 

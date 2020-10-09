@@ -20,6 +20,7 @@ import Lock from './lock';
 import { NodeService } from '../infrastructure';
 import {
 	Timeline,
+	DataSet,
 	getStateFromManagers,
 	getGettersFromManagers,
 	getMutationsFromManagers,
@@ -32,7 +33,11 @@ const managers = [
 		() => NodeService.getNodePeerList(),
 		() => [],
 		''// node id
-	)
+	),
+	new DataSet(
+		'info',
+		(nodePublicKey) => NodeService.getNodeInfo(nodePublicKey)
+	),
 ];
 
 const LOCK = Lock.create();
@@ -46,7 +51,8 @@ export default {
 	},
 	getters: {
 		getInitialized: state => state.initialized,
-		...getGettersFromManagers(managers)
+		...getGettersFromManagers(managers),
+		mapInfo: state => [ state.info?.data ],
 	},
 	mutations: {
 		setInitialized: (state, initialized) => {
@@ -68,7 +74,7 @@ export default {
 		// Uninitialize the node model.
 		async uninitialize({ commit, dispatch, getters }) {
 			const callback = async () => {
-        getters.timeline?.uninitialize();
+				getters.timeline?.uninitialize();
 			};
 
 			await LOCK.uninitialize(callback, commit, dispatch, getters);
@@ -77,6 +83,16 @@ export default {
 		// Fetch data from the SDK and initialize the page.
 		async initializePage(context) {
 			await context.getters.timeline.setStore(context).initialFetch();
+		},
+
+		// Fetch data from the SDK.
+		fetchNodeInfo(context, payload) {
+			context.dispatch('uninitializeDetail');
+			context.getters.info.setStore(context).initialFetch(Object.values(payload)[0]);
+		},
+
+		uninitializeDetail(context) {
+			context.getters.info.setStore(context).uninitialize();
 		}
 	}
 };

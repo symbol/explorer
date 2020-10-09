@@ -26,6 +26,11 @@ export default {
             type: Number,
             default: 1
         },
+
+        minZoom: {
+            type: Number,
+            default: 1
+        },
     },
 
     mounted() {
@@ -101,7 +106,7 @@ export default {
                 this.$refs.map,
                 {
                     center: [35, 0],
-                    minZoom: 2,
+                    minZoom: this.minZoom,
                     zoom: this.zoom,
                     maxBounds: bounds,
                 }
