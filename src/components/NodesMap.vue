@@ -90,12 +90,17 @@ export default {
 
     methods: {
         initialize() {
+            const southWest = L.latLng(-89.98155760646617, -180);
+            const northEast = L.latLng(89.99346179538875, 180);
+            const bounds = L.latLngBounds(southWest, northEast);
+
             const map = leaflet.map(
                 this.$refs.map,
                 {
                     center: [35, 0],
-                    minZoom: 1,
-                    zoom: this.zoom
+                    minZoom: 2,
+                    zoom: this.zoom,
+                    maxBounds: bounds,
                 }
             )
 
