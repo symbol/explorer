@@ -1,0 +1,33 @@
+{
+    "path": "/nodes/:publicKey",
+    "name": "namespace-detail",
+    "meta": {
+        "group": "detail-page",
+        "keepAliveGoTo": []
+    },
+    "props": {
+        "layout": "flex",
+        "storeNamespaces": [],
+        "initActions": ["namespace/fetchNodeInfo"],
+        "schema": [
+            {
+                "layoutOptions": "adaptive",
+                "type": "NodesMapWidget",
+                "title": "nodelocationTitle",
+                "height": 400,
+                "maxWidth": 500,
+                "zoom": 1,
+                "managerGetter": "node/nodeInfoMap",
+                "errorMessage": "Failed to fetch node list"
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
+                "title": "nodeDetailTitle",
+                "managerGetter": "node/info",
+                "errorMessage": "nodeDetailError",
+                "pagination": "none"
+            }
+        ]
+    }
+}
