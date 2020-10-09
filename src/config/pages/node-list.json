@@ -14,7 +14,7 @@
                 "type": "NodesMapWidget",
                 "title": "nodesTitle",
                 "height": 500,
-                "maxWidth": 1100,
+                "maxWidth": 1500,
                 "zoom": 2,
                 "managerGetter": "node/timeline",
                 "errorMessage": "Failed to fetch node list"
@@ -26,7 +26,7 @@
                 "managerGetter": "node/timeline",
                 "errorMessage": "Failed to fetch node list",
                 "pagination": "client",
-                "pageSize": 20,
+                "pageSize": 15,
                 "fields": [
                     "version",
                     "roles",

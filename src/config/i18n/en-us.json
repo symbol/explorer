@@ -318,5 +318,6 @@
     "ownerAddress": "Owner Address",
     "restrictionAdded": "Added",
     "restrictionRemoved": "Removed",
-    "statements": "Statements"
+    "statements": "Statements",
+    "nodeDetailTitle": "Node Detail"
 }

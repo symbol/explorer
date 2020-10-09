@@ -44,6 +44,47 @@ export default {
             return {
                 height: this.height + 'px'
             }
+        },
+
+        buttonContainerStyle() {
+            return `display: flex;
+                justify-content: flex-end;
+                margin: 15px 0;
+            `;
+        },
+
+        button1Style() {
+            return `border-radius: 3px; 
+                color: #fff;
+                background-color: #5200c6;
+                font-family: Noto Sans;
+                font-weight: bold;
+                font-size: 13px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 5px 10px;
+                margin-right: 10px;
+                cursor: pointer;
+            `;
+        },
+
+        button2Style() {
+            return `border-radius: 3px;
+                border-width: 2px;
+                border-style: solid;
+                border-color: #5200c6;
+                color: #5200c6;
+                background-color: #fff;
+                font-family: Noto Sans;
+                font-weight: bold;
+                font-size: 13px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                padding: 5px 10px;
+                cursor: pointer;
+            `;
         }
     },
 
@@ -87,7 +128,9 @@ export default {
                 popupAnchor: [3, -15]
             });
 
-            const markerClusters = leaflet.markerClusterGroup();
+            const markerClusters = leaflet.markerClusterGroup({
+                maxClusterRadius: 30
+            });
 
             for (const node of this.nodes) {
                 const popup = 
@@ -96,6 +139,8 @@ export default {
                     '</span><br/><span title="' + node.network +'"><b>' + this.getNameByKey('network') + ':</b> ' + this.formatText(node.network) +
                     '</span><br/><span title="' + node.address +'"><b>' + this.getNameByKey('address') + ':</b> ' + this.formatText(node.address) +
                     '</span><br/><span title="' + node.location +'"><b>' + this.getNameByKey('location') + ':</b> ' + this.formatText(node.location) +
+                    '</span><br/><span style="' + this.buttonContainerStyle + '"><div style="' + this.button1Style + '" variant="primary" size="sm">' + this.getNameByKey('nodeDetailTitle') + 
+                    '</div><div style="' + this.button2Style + '" size="sm"> ' + this.getNameByKey('accountDetailTitle') + '</div>' +
                     '</span>';
                 
                 if(node.coordinates) {
