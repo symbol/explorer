@@ -64,8 +64,8 @@ export default {
                 justify-content: center;
                 align-items: center;
                 padding: 5px 10px;
-                margin-right: 10px;
                 cursor: pointer;
+                text-decoration: none;
             `;
         },
 
@@ -84,6 +84,9 @@ export default {
                 align-items: center;
                 padding: 5px 10px;
                 cursor: pointer;
+                text-decoration: none;
+                margin-left: 10px;
+                display: none;
             `;
         }
     },
@@ -144,8 +147,9 @@ export default {
                     '</span><br/><span title="' + node.network +'"><b>' + this.getNameByKey('network') + ':</b> ' + this.formatText(node.network) +
                     '</span><br/><span title="' + node.address +'"><b>' + this.getNameByKey('address') + ':</b> ' + this.formatText(node.address) +
                     '</span><br/><span title="' + node.location +'"><b>' + this.getNameByKey('location') + ':</b> ' + this.formatText(node.location) +
-                    '</span><br/><span style="' + this.buttonContainerStyle + '"><div style="' + this.button1Style + '" variant="primary" size="sm">' + this.getNameByKey('nodeDetailTitle') + 
-                    '</div><div style="' + this.button2Style + '" size="sm"> ' + this.getNameByKey('accountDetailTitle') + '</div>' +
+                    '</span><br/><span style="' + this.buttonContainerStyle + '">' + 
+                    '<a style="' + this.button1Style + '" href="' + this.getPageHref('node', node.publicKey) + '">' + this.getNameByKey('nodeDetailTitle') + 
+                    '</a><a style="' + this.button2Style + '" href="' + this.getPageHref('address', node.address) + '"> ' + this.getNameByKey('accountDetailTitle') + '</a>' +
                     '</span>';
                 
                 if(node.coordinates) {
@@ -172,6 +176,13 @@ export default {
         getNameByKey(e) {
             return this.$store.getters['ui/getNameByKey'](e)
         },
+
+        getPageHref(itemKey, item) {
+            return this.$store.getters[`ui/getPageHref`]({
+                pageName: itemKey,
+                param: item
+            });
+		},
     }
 }
 </script>
