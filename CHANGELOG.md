@@ -3,6 +3,23 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v0.6.2][v0.6.2] - 9-Oct-2020
+
+### Milestone: [catapult-server@v0.10.0.3](https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.3)
+
+Package  | Version  | Link
+---|---|---
+REST Core| v2.1.0 | [catapult-rest](https://github.com/nemtech/catapult-rest/releases/tag/v2.1.0)
+SDK Core| v0.21.0 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
+
+### Added
+- Completed Transaction Graphic widget [#547](https://github.com/nemgrouplimited/symbol-explorer/issues/547)
+
+### Fixed
+- Namespaces List. Showing wrong Expiration and Expiration Date [#644](https://github.com/nemgrouplimited/symbol-explorer/issues/644)
+- Problem with presenting address without outgoing transactions. [#663](https://github.com/nemgrouplimited/symbol-explorer/issues/663)
+
+
 ## [v0.6.1][v0.6.1] - 2-Oct-2020
 
 ### Milestone: [catapult-server@v0.10.0.3](https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.3)
@@ -148,3 +165,4 @@ SDK Core| v0.20.7 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 [v0.5.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.5.0
 [v0.6.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.6.0
 [v0.6.1]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.6.1
+[v0.6.2]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.6.2
