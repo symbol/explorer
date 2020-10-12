@@ -128,9 +128,29 @@ class NodeService {
     static getNodeInfo = async (publicKey) => {
         const node = (await Axios.get(globalConfig.endpoints.statisticsService + 'nodes/' + publicKey)).data;
 
-    	const formattedNodePeers = this.formatNodeInfo(node);
+        const formattedNodePeers = this.formatNodeInfo(node);
+        const status = await this.getNodeStatus(formattedNodePeers.apiEndpoint)
+        formattedNodePeers.status = status;
 
     	return formattedNodePeers;
+    }
+
+    static getNodeStatus = async (nodeUrl) => {
+        const status = {
+            connectionStatus: false,
+            databaseStatus: Constants.Message.UNAVAILABLE,
+            apiNodeStatus: Constants.Message.UNAVAILABLE,
+        };
+
+        try {
+            const nodeStatus = (await Axios.get(nodeUrl + '/node/health')).data.status;
+            status.connectionStatus = true;
+            status.apiNodeStatus = nodeStatus.apiNode === 'up';
+            status.databaseStatus = nodeStatus.db === 'up';
+        }
+        catch(e) { console.error('Failed to get node status', e)};
+
+        return status;
     }
 }
 

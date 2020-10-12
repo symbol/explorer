@@ -60,6 +60,7 @@ export default {
 		getInitialized: state => state.initialized,
 		...getGettersFromManagers(managers),
 		mapInfo: state => [ state.info?.data ],
+		status: state => state.info?.data?.status || {},
 	},
 	mutations: {
 		setInitialized: (state, initialized) => {

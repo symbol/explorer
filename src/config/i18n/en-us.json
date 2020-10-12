@@ -322,5 +322,22 @@
     "nodeDetailTitle": "Node Detail",
     "nodeHostDetailTitle": "Host Detail",
     "nodeLocationMapTitle": "Host Location",
-    "nodePublicKey": "Public Key"
+    "nodePublicKey": "Public Key",
+    "apiEndpoint": "API Endpoint",
+    "networkGenerationHashSeed": "Network Generation Hash Seed",
+    "networkIdentifier": "Network Identifier",
+    "location": "Location",
+    "ip": "IP",
+    "organization": "Organization",
+    "as": "AS",
+    "continent": "Continent",
+    "country": "Country",
+    "region": "Region",
+    "city": "City",
+    "district": "District",
+    "zip": "Zip",
+    "nodeStatusTitle": "Node Status",
+    "connectionStatus": "Connection",
+    "databaseStatus": "Data Base",
+    "apiNodeStatus": "API Node"
 }

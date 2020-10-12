@@ -60,6 +60,15 @@
                     "district",
                     "zip"
                 ]
+            },
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "nodeStatusTitle",
+                "managerGetter": "node/info",
+                "dataGetter": "node/status",
+                "errorMessage": "nodeDetailError",
+                "pagination": "none"
             }
         ]
     }
