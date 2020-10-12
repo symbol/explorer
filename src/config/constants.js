@@ -138,9 +138,13 @@ class Constants {
   }
 
   static RoleType = {
-  	[RoleType.ApiNode]: 'API NODE',
-  	[RoleType.PeerNode]: 'PEER NODE',
-  	[RoleType.VotingNode]: 'VOTING NODE'
+	1: 'Peer node',
+	2: 'Api node',
+	3: 'Peer Api node',
+	4: 'Voting node',
+	5: 'Peer Voting node',
+	6: 'Api Voting node',
+	7: 'Peer Api Voting node'
   }
 
   static AddressRestrictionFlag = {

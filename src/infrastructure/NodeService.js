@@ -59,7 +59,7 @@ class NodeService {
     		.getNodePeers()
         	.toPromise();
         console.log(nodePeers1)
-        const nodePeers = (await Axios.get('http://localhost:4001/nodes')).data.map(node => ({...node, roles: [node.roles]}));
+        const nodePeers = (await Axios.get('http://localhost:4001/nodes')).data;
 
     	const formattedNodePeers = nodePeers.map(nodeInfo => this.formatNodeInfo(nodeInfo));
 
@@ -94,7 +94,8 @@ class NodeService {
         ...nodeInfo,
         nodePublicKey: nodeInfo.publicKey,
     	address: symbol.Address.createFromPublicKey(nodeInfo.publicKey, nodeInfo.networkIdentifier).plain(),
-    	roles: nodeInfo.roles.map(role => Constants.RoleType[role]).join(','),
+        rolesRaw: nodeInfo.roles,
+        roles: Constants.RoleType[nodeInfo.roles],
     	network: Constants.NetworkType[nodeInfo.networkIdentifier]
     })
 
@@ -115,7 +116,7 @@ class NodeService {
     static getNodeInfo = async (publicKey) => {
         const node = (await Axios.get('http://localhost:4001/nodes/' + publicKey)).data;
 
-    	const formattedNodePeers = this.formatNodeInfo({...node, roles: [node.roles]});
+    	const formattedNodePeers = this.formatNodeInfo(node);
 
     	return formattedNodePeers;
     }
