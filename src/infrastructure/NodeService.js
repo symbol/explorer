@@ -59,7 +59,7 @@ class NodeService {
     		.getNodePeers()
         	.toPromise();
         console.log(nodePeers1)
-        const nodePeers = (await Axios.get('http://localhost:4001/nodes')).data;
+        const nodePeers = (await Axios.get(globalConfig.endpoints.statisticsService + 'nodes')).data;
 
     	const formattedNodePeers = nodePeers.map(nodeInfo => this.formatNodeInfo(nodeInfo));
 
@@ -96,25 +96,37 @@ class NodeService {
     	address: symbol.Address.createFromPublicKey(nodeInfo.publicKey, nodeInfo.networkIdentifier).plain(),
         rolesRaw: nodeInfo.roles,
         roles: Constants.RoleType[nodeInfo.roles],
-    	network: Constants.NetworkType[nodeInfo.networkIdentifier]
+        network: Constants.NetworkType[nodeInfo.networkIdentifier],
+        apiEndpoint: 
+            nodeInfo.roles === 2 ||
+            nodeInfo.roles === 3 ||
+            nodeInfo.roles === 6 ||
+            nodeInfo.roles === 7 
+            ? 'http://' + nodeInfo.host + ':' + globalConfig.apiNodePort
+            : Constants.Message.UNAVAILABLE
     })
 
     /**
      * Format Node Peers dataset into Vue Component
      * @returns Node peers object for Vue component
      */
-    static getNodePeerList = async () => {
+    static getNodePeerList = async (filter) => {
     	let nodePeers = await this.getNodePeers();
 
-    	return nodePeers.map((el, index) => ({
-    		index: index + 1,
-    		...el
-    	}));
+    	return { 
+            data: 
+                nodePeers
+                    .filter(el => filter.rolesRaw === null || el.rolesRaw === filter.rolesRaw)
+                    .map((el, index) => ({
+                        index: index + 1,
+                        ...el
+            }))
+        };
     }
 
 
     static getNodeInfo = async (publicKey) => {
-        const node = (await Axios.get('http://localhost:4001/nodes/' + publicKey)).data;
+        const node = (await Axios.get(globalConfig.endpoints.statisticsService + 'nodes/' + publicKey)).data;
 
     	const formattedNodePeers = this.formatNodeInfo(node);
 

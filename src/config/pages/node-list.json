@@ -28,6 +28,7 @@
                 "errorMessage": "Failed to fetch node list",
                 "pagination": "client",
                 "pageSize": 10,
+                "hasFilter": true,
                 "fields": [
                     "host",
                     "friendlyName",

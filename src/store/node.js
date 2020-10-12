@@ -18,8 +18,9 @@
 
 import Lock from './lock';
 import { NodeService } from '../infrastructure';
+import { filters } from '../config';
 import {
-	Timeline,
+	Pagination,
 	DataSet,
 	getStateFromManagers,
 	getGettersFromManagers,
@@ -28,12 +29,18 @@ import {
 } from './manager';
 
 const managers = [
-	new Timeline(
-		'timeline',
-		() => NodeService.getNodePeerList(),
-		() => [],
-		''// node id
-	),
+	// new Timeline(
+	// 	'timeline',
+	// 	() => NodeService.getNodePeerList(),
+	// 	() => [],
+	// 	'',// node id
+		
+	// ),
+	new Pagination({
+		name: 'timeline',
+		fetchFunction: (pageInfo, filterValue) => NodeService.getNodePeerList(filterValue),
+		filter: filters.nodeRoles
+	}),
 	new DataSet(
 		'info',
 		(nodePublicKey) => NodeService.getNodeInfo(nodePublicKey)

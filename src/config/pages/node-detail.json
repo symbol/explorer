@@ -23,6 +23,7 @@
                     "version",
                     "host",
                     "port",
+                    "apiEndpoint",
                     "networkGenerationHashSeed",
                     "network",
                     "networkIdentifier",

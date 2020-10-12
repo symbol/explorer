@@ -232,6 +232,13 @@ export const mosaicRestriction = [
 
 export const nodeRoles = [
 	{
+		label: 'All Nodes',
+		icon: '',
+		value: {
+			rolesRaw: null
+		}
+	},
+	{
 		label: Constants.RoleType[1],
 		icon: '',
 		value: {
