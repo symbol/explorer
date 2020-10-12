@@ -8,7 +8,10 @@
 import "leaflet/dist/leaflet.css";
 import leaflet from 'leaflet';
 import markerCluster from 'leaflet.markercluster';
-import iconUrl from '../styles/img/node-marker-3.png';
+import IconOrange from '../styles/img/connector_orange.png';
+import IconBlue from '../styles/img/connector_blue.png';
+import IconGreen from '../styles/img/connector_green.png';
+import IconPink from '../styles/img/connector_pink.png';
 
 export default {
     props: {
@@ -100,7 +103,7 @@ export default {
         initialize() {
             const southWest = leaflet.latLng(-89.98155760646617, -180);
             const northEast = leaflet.latLng(89.99346179538875, 180);
-            const bounds = L.latLngBounds(southWest, northEast);
+            const bounds = leaflet.latLngBounds(southWest, northEast);
 
             const map = leaflet.map(
                 this.$refs.map,
@@ -113,7 +116,7 @@ export default {
             )
 
             leaflet.tileLayer( 
-                 //'https://cartodb-basemaps-{s}.global.ssl.fastly.net/light_all/{z}/{x}/{y}.png', 
+                 //'https://cartodb-basemaps-{s}.globaleaflet.ssleaflet.fastly.net/light_all/{z}/{x}/{y}.png', 
                  'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
                 {
                     attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>',
@@ -133,13 +136,20 @@ export default {
             //     popupAnchor: [7, -46]
             // });
 
-            const icon = leaflet.icon({
-                iconUrl,
-                iconRetinaUrl: iconUrl,
-                iconSize: [46, 46],
-                iconAnchor: [20, 23],
-                popupAnchor: [3, -15]
-            });
+            const getIcon = (icon) => {
+                return leaflet.icon({
+                    iconUrl: icon,
+                    iconRetinaUrl: icon,
+                    iconSize: [32, 29],
+                    iconAnchor: [16, 18],
+                    popupAnchor: [0, -15]
+                });
+            };
+
+            const iconPeer = getIcon(IconBlue);
+            const iconVoting = getIcon(IconGreen);
+            const iconApi = getIcon(IconPink);
+            const iconApiVoting = getIcon(IconOrange);
 
             const markerClusters = leaflet.markerClusterGroup({
                 maxClusterRadius: 30
@@ -149,6 +159,7 @@ export default {
                 const popup = 
                     '<br/><span title="' + node.friendlyName +'"><b>' + this.getNameByKey('friendlyName') + ':</b> ' + this.formatText(node.friendlyName) +
                     '</span><br/><span title="' + node.host +'"><b>' + this.getNameByKey('host') + ':</b> ' + this.formatText(node.host) +
+                     '</span><br/><span title="' + node.host +'"><b>' + this.getNameByKey('roles') + ':</b> ' + this.formatText(node.roles) +
                     '</span><br/><span title="' + node.network +'"><b>' + this.getNameByKey('network') + ':</b> ' + this.formatText(node.network) +
                     '</span><br/><span title="' + node.address +'"><b>' + this.getNameByKey('address') + ':</b> ' + this.formatText(node.address) +
                     '</span><br/><span title="' + node.location +'"><b>' + this.getNameByKey('location') + ':</b> ' + this.formatText(node.location) +
@@ -158,7 +169,24 @@ export default {
                     '</span>';
                 
                 if(node.coordinates) {
-                    const m = L.marker([node.coordinates.latitude, node.coordinates.longitude], {icon})
+                    let icon = iconPeer;
+
+                    switch(node.rolesRaw) {
+                        case 2:
+                        case 3:
+                            icon = iconApi; 
+                            break;
+                        case 4:
+                        case 5:
+                            icon = iconVoting; 
+                            break;
+                        case 6:
+                        case 7:
+                            icon = iconApiVoting; 
+                            break;
+                    }
+
+                    const m = leaflet.marker([node.coordinates.latitude, node.coordinates.longitude], {icon})
                         .bindPopup(popup);
                     
                     markerClusters.addLayer(m);
