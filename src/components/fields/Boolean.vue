@@ -31,11 +31,18 @@
     />
 </template>
 <script>
-import IconTrue from '../../styles/img/connector_green.png';
-import IconFalse from '../../styles/img/connector_green.png';
+import IconTrue from '../../styles/img/true.png';
+import IconFalse from '../../styles/img/false.png';
 export default {
 	props: {
 		value: [Boolean, String, Number]
+    },
+
+    data() {
+        return {
+            IconTrue,
+            IconFalse
+        }
     },
 
     computed: {

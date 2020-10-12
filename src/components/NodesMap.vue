@@ -140,9 +140,9 @@ export default {
                 return leaflet.icon({
                     iconUrl: icon,
                     iconRetinaUrl: icon,
-                    iconSize: [32, 29],
-                    iconAnchor: [16, 18],
-                    popupAnchor: [0, -15]
+                    iconSize: [46, 46],
+                    iconAnchor: [22, 23],
+                    popupAnchor: [1, -15]
                 });
             };
 

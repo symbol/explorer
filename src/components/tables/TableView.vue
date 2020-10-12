@@ -3,12 +3,14 @@ import Age from '../fields/Age.vue';
 import Constants from '../../config/constants';
 import Decimal from '@/components/fields/Decimal.vue';
 import Truncate from '@/components/fields/Truncate.vue';
+import Boolean from '@/components/fields/Boolean.vue';
 
 export default {
 	components: {
 		Age,
 		Decimal,
-		Truncate
+		Truncate,
+		Boolean
 	},
 	props: {
 		height: {
@@ -181,6 +183,10 @@ export default {
 				key === 'addressAdditions_' ||
 				key === 'addressDeletions_'
 			);
+		},
+
+		isBoolean(key) {
+			return key.search('Status') > 0;
 		},
 
 		isAggregateInnerTransaction(itemKey) {

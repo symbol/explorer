@@ -129,13 +129,39 @@ class NodeService {
         const node = (await Axios.get(globalConfig.endpoints.statisticsService + 'nodes/' + publicKey)).data;
 
         const formattedNodePeers = this.formatNodeInfo(node);
-        const status = await this.getNodeStatus(formattedNodePeers.apiEndpoint)
-        formattedNodePeers.status = status;
+        if(formattedNodePeers.rolesRaw === 2 ||
+            formattedNodePeers.rolesRaw === 3 ||
+            formattedNodePeers.rolesRaw === 6 ||
+            formattedNodePeers.rolesRaw === 7
+        ) {
+            const status = await this.getNodeStatus(formattedNodePeers.apiEndpoint);
+            formattedNodePeers.status = status;
 
+            const chainInfo = await this.getNodeChainInfo(formattedNodePeers.apiEndpoint);
+        }
+        
     	return formattedNodePeers;
     }
 
     static getNodeStatus = async (nodeUrl) => {
+        const status = {
+            connectionStatus: false,
+            databaseStatus: Constants.Message.UNAVAILABLE,
+            apiNodeStatus: Constants.Message.UNAVAILABLE,
+        };
+
+        try {
+            const nodeStatus = (await Axios.get(nodeUrl + '/node/health')).data.status;
+            status.connectionStatus = true;
+            status.apiNodeStatus = nodeStatus.apiNode === 'up';
+            status.databaseStatus = nodeStatus.db === 'up';
+        }
+        catch(e) { console.error('Failed to get node status', e)};
+
+        return status;
+    }
+
+    static getNodeChainInfo = async (nodeUrl) => {
         const status = {
             connectionStatus: false,
             databaseStatus: Constants.Message.UNAVAILABLE,

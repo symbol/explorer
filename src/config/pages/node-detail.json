@@ -68,7 +68,8 @@
                 "managerGetter": "node/info",
                 "dataGetter": "node/status",
                 "errorMessage": "nodeDetailError",
-                "pagination": "none"
+                "pagination": "none",
+                "hideEmptyData": true
             }
         ]
     }
