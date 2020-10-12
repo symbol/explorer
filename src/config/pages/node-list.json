@@ -18,7 +18,8 @@
                 "zoom": 2,
                 "minZoom": 2,
                 "managerGetter": "node/timeline",
-                "errorMessage": "Failed to fetch node list"
+                "errorMessage": "Failed to fetch node list",
+                "hasFilter": true
             },
             {
                 "layoutOptions": "full-width",
@@ -27,9 +28,10 @@
                 "managerGetter": "node/timeline",
                 "errorMessage": "Failed to fetch node list",
                 "pagination": "client",
-                "pageSize": 10,
+                "pageSize": 1000,
                 "hasFilter": true,
                 "fields": [
+                    "index",
                     "host",
                     "friendlyName",
                     "roles",
@@ -38,10 +40,9 @@
                     "network"
                 ],
                 "mobileFields": [
-                    "roles",
-                    "address",
+                    "host",
                     "friendlyName",
-                    "host"
+                    "nodePublicKey"
                 ]
             }
         ]

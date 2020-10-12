@@ -4,11 +4,16 @@
             {{getNameByKey(title)}}
         </template>
 
-        <!-- <template #control>
-            <router-link to="/nodes">
-                <ButtonMore> {{getNameByKey('View all nodes')}} </ButtonMore>
-            </router-link>
-        </template> -->
+        <template #control>
+          <DropdownFilter
+				    v-if="hasFilter"
+            :options="filterOptions"
+            :value="filterValue"
+            :index="filterIndex"
+            right
+            @change="changeFilterValue"
+			    />
+        </template>
 
         <template #body>
             <b-row class="map-container">
@@ -26,15 +31,17 @@
 </template>
 
 <script>
-import Card from '@/components/containers/Card.vue'
-import NodesMap from '@/components/NodesMap.vue'
-import ButtonMore from '@/components/controls/ButtonMore.vue'
+import Card from '@/components/containers/Card.vue';
+import NodesMap from '@/components/NodesMap.vue';
+import ButtonMore from '@/components/controls/ButtonMore.vue';
+import DropdownFilter from '@/components/controls/DropdownFilter.vue';
 
 export default {
   components: {
     Card,
     NodesMap,
-    ButtonMore
+    ButtonMore,
+    DropdownFilter
   },
 
   props: {
@@ -64,6 +71,11 @@ export default {
 		dataGetter: {
 			type: String
     },
+    // Adds dropdown for Filter Data Manager
+		hasFilter: {
+			type: Boolean,
+			default: false
+		},
     title: {
 
     }
@@ -88,6 +100,18 @@ export default {
     },
     
     nodeList() { return this.data || [] },
+
+    filterValue() {
+			return this.manager.filterValue;
+		},
+
+		filterIndex() {
+			return this.manager.filterIndex;
+		},
+
+		filterOptions() {
+			return this.manager.filterOptions;
+		},
   },
 
   methods: {
@@ -97,7 +121,17 @@ export default {
 
     getter(name) {
 			return this.$store.getters[name];
-		}
+    },
+    
+    changeFilterValue(e) {
+			if (typeof this.manager.changeFilterValue === 'function')
+				this.manager.changeFilterValue(e);
+			else {
+				console.error(
+					'Failed to change filter value. "changeFilterValue" is not a function'
+				);
+			}
+		},
   }
 }
 </script>
