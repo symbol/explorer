@@ -321,6 +321,6 @@
     "statements": "Statements",
     "nodeDetailTitle": "Node Detail",
     "nodeHostDetailTitle": "Host Detail",
-    "nodeLocationMapTitle": "Node Location",
+    "nodeLocationMapTitle": "Host Location",
     "nodePublicKey": "Public Key"
 }
