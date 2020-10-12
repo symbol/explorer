@@ -98,8 +98,8 @@ export default {
 
     methods: {
         initialize() {
-            const southWest = L.latLng(-89.98155760646617, -180);
-            const northEast = L.latLng(89.99346179538875, 180);
+            const southWest = leaflet.latLng(-89.98155760646617, -180);
+            const northEast = leaflet.latLng(89.99346179538875, 180);
             const bounds = L.latLngBounds(southWest, northEast);
 
             const map = leaflet.map(
