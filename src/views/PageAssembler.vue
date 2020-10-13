@@ -124,8 +124,8 @@ export default {
 			if (item.hideEmptyData && (
 				!this.getData(item) || (
 					Array.isArray(this.getData(item)) && !this.getData(item)?.length
-					)
 				)
+			)
 			)
 				return false;
 

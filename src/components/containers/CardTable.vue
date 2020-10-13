@@ -122,7 +122,7 @@ export default {
 
 		data() {
 			const data = this.dataGetter
-				? this.getter(this.dataGetter) 
+				? this.getter(this.dataGetter)
 				: this.manager.data;
 
 			if (typeof data === 'undefined') {

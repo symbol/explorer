@@ -30,8 +30,8 @@ class Constants {
   	ADDRESS: 'ADDRESS',
   	NO_ALIAS: 'NO ALIAS',
   	ACTIVE: 'ACTIVE',
-	INACTIVE: 'INACTIVE',
-	UNKNOWN: 'UNKNOWN'
+  	INACTIVE: 'INACTIVE',
+  	UNKNOWN: 'UNKNOWN'
   }
 
   static TransactionType = {
@@ -138,13 +138,13 @@ class Constants {
   }
 
   static RoleType = {
-	1: 'Peer node',
-	2: 'Api node',
-	3: 'Peer Api node',
-	4: 'Voting node',
-	5: 'Peer Voting node',
-	6: 'Api Voting node',
-	7: 'Peer Api Voting node'
+  	1: 'Peer node',
+  	2: 'Api node',
+  	3: 'Peer Api node',
+  	4: 'Voting node',
+  	5: 'Peer Voting node',
+  	6: 'Api Voting node',
+  	7: 'Peer Api Voting node'
   }
 
   static AddressRestrictionFlag = {

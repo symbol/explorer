@@ -34,7 +34,7 @@ const managers = [
 	// 	() => NodeService.getNodePeerList(),
 	// 	() => [],
 	// 	'',// node id
-		
+
 	// ),
 	new Pagination({
 		name: 'timeline',
@@ -44,7 +44,7 @@ const managers = [
 	new DataSet(
 		'info',
 		(nodePublicKey) => NodeService.getNodeInfo(nodePublicKey)
-	),
+	)
 ];
 
 const LOCK = Lock.create();
@@ -62,7 +62,7 @@ export default {
 		mapInfo: state => [ state.info?.data ],
 		peerStatus: state => state.info?.data?.peerStatus,
 		apiStatus: state => state.info?.data?.apiStatus,
-		chainInfo: state => state.info?.data?.chainInfo,
+		chainInfo: state => state.info?.data?.chainInfo
 	},
 	mutations: {
 		setInitialized: (state, initialized) => {

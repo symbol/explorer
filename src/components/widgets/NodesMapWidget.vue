@@ -1,33 +1,33 @@
 <template>
-    <Card class="card-f" :loading="loading" :error="error">
-        <template #title>
-            {{getNameByKey(title)}}
-        </template>
+	<Card class="card-f" :loading="loading" :error="error">
+		<template #title>
+			{{getNameByKey(title)}}
+		</template>
 
-        <template #control>
-          <DropdownFilter
-				    v-if="hasFilter"
-            :options="filterOptions"
-            :value="filterValue"
-            :index="filterIndex"
-            right
-            @change="changeFilterValue"
-			    />
-        </template>
+		<template #control>
+			<DropdownFilter
+				v-if="hasFilter"
+				:options="filterOptions"
+				:value="filterValue"
+				:index="filterIndex"
+				right
+				@change="changeFilterValue"
+			/>
+		</template>
 
-        <template #body>
-            <b-row class="map-container">
-                <b-col class="map" :style="{'max-width': maxWidth+'px'}">
-                    <NodesMap
-                        :nodes="nodeList"
-                        :height="height"
-                        :zoom="zoom"
-                        :minZoom="minZoom"
-                    />
-                </b-col>
-            </b-row>
-        </template>
-    </Card>
+		<template #body>
+			<b-row class="map-container">
+				<b-col class="map" :style="{'max-width': maxWidth+'px'}">
+					<NodesMap
+						:nodes="nodeList"
+						:height="height"
+						:zoom="zoom"
+						:minZoom="minZoom"
+					/>
+				</b-col>
+			</b-row>
+		</template>
+	</Card>
 </template>
 
 <script>
@@ -37,70 +37,72 @@ import ButtonMore from '@/components/controls/ButtonMore.vue';
 import DropdownFilter from '@/components/controls/DropdownFilter.vue';
 
 export default {
-  components: {
-    Card,
-    NodesMap,
-    ButtonMore,
-    DropdownFilter
-  },
+	components: {
+		Card,
+		NodesMap,
+		ButtonMore,
+		DropdownFilter
+	},
 
-  props: {
-    height: {
-      default: 400
-    },
-    maxWidth: {
-      default: 400
-    },
-    zoom: {
-      type: Number,
-      default: 1
-    },
-    minZoom: {
-      type: Number,
-      default: 1
-    },
-    title: {
-      type: String,
-      default: 'nodes'
-    },
-    // Data Manager getter (DataSet, Timeline, Filter)
+	props: {
+		height: {
+			default: 400
+		},
+		maxWidth: {
+			default: 400
+		},
+		zoom: {
+			type: Number,
+			default: 1
+		},
+		minZoom: {
+			type: Number,
+			default: 1
+		},
+		title: {
+			type: String,
+			default: 'nodes'
+		},
+		// Data Manager getter (DataSet, Timeline, Filter)
 		managerGetter: {
 			type: String
 		},
 		// Object or Array. If not provided, will use data from Data Manager
 		dataGetter: {
 			type: String
-    },
-    // Adds dropdown for Filter Data Manager
+		},
+		// Adds dropdown for Filter Data Manager
 		hasFilter: {
 			type: Boolean,
 			default: false
 		},
-    title: {
+		title: {
 
-    }
-  },
+		}
+	},
 
-  computed: {
-    manager() {
+	computed: {
+		manager() {
 			return this.getter(this.managerGetter) || {};
 		},
 
 		data() {
-      return this.getter(this.dataGetter) || this.manager.data;
-    },
+			return this.getter(this.dataGetter) || this.manager.data;
+		},
 
-    loading() {
+		loading() {
 			return this.manager.loading;
 		},
 
 		error() {
 			return this.manager.error;
-    },
-    
-    nodeList() { return this.data || [] },
+		},
 
-    filterValue() {
+		nodeList() {
+			return this.data || [];
+		},
+
+		filterValue() {
 			return this.manager.filterValue;
 		},
 
@@ -110,19 +112,19 @@ export default {
 
 		filterOptions() {
 			return this.manager.filterOptions;
+		}
+	},
+
+	methods: {
+		getNameByKey(e) {
+			return this.$store.getters['ui/getNameByKey'](e);
 		},
-  },
 
-  methods: {
-    getNameByKey(e) {
-      return this.$store.getters['ui/getNameByKey'](e)
-    },
-
-    getter(name) {
+		getter(name) {
 			return this.$store.getters[name];
-    },
-    
-    changeFilterValue(e) {
+		},
+
+		changeFilterValue(e) {
 			if (typeof this.manager.changeFilterValue === 'function')
 				this.manager.changeFilterValue(e);
 			else {
@@ -130,9 +132,9 @@ export default {
 					'Failed to change filter value. "changeFilterValue" is not a function'
 				);
 			}
-		},
-  }
-}
+		}
+	}
+};
 </script>
 
 <style scoped>
