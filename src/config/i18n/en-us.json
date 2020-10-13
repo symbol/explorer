@@ -339,5 +339,11 @@
     "nodeStatusTitle": "Node Status",
     "connectionStatus": "Connection",
     "databaseStatus": "Data Base",
-    "apiNodeStatus": "API Node"
+    "apiNodeStatus": "API Node",
+    "nodeChainInfoTitle": "Node Chain Info",
+    "scoreHigh": "Score High",
+    "scoreLow": "Score Low",
+    "finalizationEpoch": "Finalization Epoch",
+    "finalizationPoint": "Finalization Point",
+    "finalizedHash": "Finalized Hash"
 }

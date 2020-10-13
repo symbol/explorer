@@ -138,8 +138,9 @@ class NodeService {
             formattedNodePeers.status = status;
 
             const chainInfo = await this.getNodeChainInfo(formattedNodePeers.apiEndpoint);
+            formattedNodePeers.chainInfo = chainInfo;
         }
-        
+        console.log('formNode', formattedNodePeers)
     	return formattedNodePeers;
     }
 
@@ -162,21 +163,22 @@ class NodeService {
     }
 
     static getNodeChainInfo = async (nodeUrl) => {
-        const status = {
-            connectionStatus: false,
-            databaseStatus: Constants.Message.UNAVAILABLE,
-            apiNodeStatus: Constants.Message.UNAVAILABLE,
-        };
+        let chainInfo = {};
 
         try {
-            const nodeStatus = (await Axios.get(nodeUrl + '/node/health')).data.status;
-            status.connectionStatus = true;
-            status.apiNodeStatus = nodeStatus.apiNode === 'up';
-            status.databaseStatus = nodeStatus.db === 'up';
+            chainInfo = {};
+            const nodeChainInfo = (await Axios.get(nodeUrl + '/chain/info')).data;
+            chainInfo.height = nodeChainInfo.height;
+            chainInfo.scoreHigh = nodeChainInfo.scoreHigh;
+            chainInfo.scoreLow = nodeChainInfo.scoreLow;
+            chainInfo.finalizationEpoch = nodeChainInfo.latestFinalizedBlock.finalizationEpoch;
+            chainInfo.finalizationPoint = nodeChainInfo.latestFinalizedBlock.finalizationPoint;
+            chainInfo.finalizedHeight = nodeChainInfo.latestFinalizedBlock.height;
+            chainInfo.finalizedHash = nodeChainInfo.latestFinalizedBlock.hash;
         }
-        catch(e) { console.error('Failed to get node status', e)};
+        catch(e) { console.error('Failed to get node chain info', e)};
 
-        return status;
+        return chainInfo;
     }
 }
 

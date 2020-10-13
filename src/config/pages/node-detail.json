@@ -70,6 +70,16 @@
                 "errorMessage": "nodeDetailError",
                 "pagination": "none",
                 "hideEmptyData": true
+            },
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "nodeChainInfoTitle",
+                "managerGetter": "node/info",
+                "dataGetter": "node/chainInfo",
+                "errorMessage": "nodeDetailError",
+                "pagination": "none",
+                "hideEmptyData": true
             }
         ]
     }
