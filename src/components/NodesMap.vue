@@ -112,6 +112,7 @@ export default {
                     minZoom: this.minZoom,
                     zoom: this.zoom,
                     maxBounds: bounds,
+                    zoomControl: false
                 }
             )
 

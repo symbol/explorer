@@ -153,7 +153,7 @@ export default {
 		},
 
 		isAge(itemKey) {
-			return itemKey === 'age';
+			return itemKey === 'age' || itemKey === 'lastStatusCheck';
 		},
 
 		isTransactionType(itemKey) {
@@ -186,7 +186,11 @@ export default {
 		},
 
 		isBoolean(key) {
-			return key.search('Status') > 0;
+			return (
+				key === 'connectionStatus' ||
+                key === 'apiNodeStatus' ||
+                key === 'databaseStatus'
+			);
 		},
 
 		isAggregateInnerTransaction(itemKey) {

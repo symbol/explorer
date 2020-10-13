@@ -340,6 +340,7 @@
     "connectionStatus": "Connection",
     "databaseStatus": "Data Base",
     "apiNodeStatus": "API Node",
+    "lastStatusCheck": "Last Status Check Time Ago",
     "nodeChainInfoTitle": "Node Chain Info",
     "scoreHigh": "Score High",
     "scoreLow": "Score Low",

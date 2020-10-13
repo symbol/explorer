@@ -20,6 +20,7 @@ import http from './http';
 import Constants from '../config/constants';
 import * as symbol from 'symbol-sdk';
 import Axios from 'axios';
+import moment from 'moment';
 
 class NodeService {
     /**
@@ -149,6 +150,7 @@ class NodeService {
             connectionStatus: false,
             databaseStatus: Constants.Message.UNAVAILABLE,
             apiNodeStatus: Constants.Message.UNAVAILABLE,
+            lastStatusCheck: moment().format('YYYY-MM-DD HH:mm:ss')
         };
 
         try {
@@ -156,6 +158,7 @@ class NodeService {
             status.connectionStatus = true;
             status.apiNodeStatus = nodeStatus.apiNode === 'up';
             status.databaseStatus = nodeStatus.db === 'up';
+            status.lastStatusCheck = moment().format('YYYY-MM-DD HH:mm:ss');
         }
         catch(e) { console.error('Failed to get node status', e)};
 
