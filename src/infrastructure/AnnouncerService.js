@@ -33,6 +33,7 @@ import {
 } from 'symbol-sdk';
 import http from './http';
 import helper from '../helper';
+import globalConfig from '../config/globalConfig';
 
 class AnnounceService {
     static announceHashLock = (signedHashLockTransaction, signedTransaction) => {
@@ -86,18 +87,18 @@ class AnnounceService {
     }
 
     static multisigAccountModification = async ({
-        accountPrivateKey, 
+        accountPrivateKey,
         minApprovalDelta = 1,
         minRemovalDelta = 1,
-        additions = [], 
+        additions = [],
         deletions = []
     }) => {
         //const transactionRepository = await http.createRepositoryFactory.createTransactionRepository();
         const networkType = http.networkType;
         const networkGenerationHash = http.generationHash;
         const account = Account.createFromPrivateKey(accountPrivateKey, networkType);;
-        
-        const addressAdditions = additions.map(addition => { 
+
+        const addressAdditions = additions.map(addition => {
             if(typeof addition === 'string' && addition.length === 64)
                 return PublicAccount.createFromPublicKey(addition, networkType).address;
             if(typeof addition === 'string' && addition.length === 39)
@@ -112,7 +113,7 @@ class AnnounceService {
                 return Address.createFromRawAddress(delition);
             return delition;
         });
-    
+
 
         const multisigAccountModificationTransaction = MultisigAccountModificationTransaction.create(
             Deadline.create(),
@@ -131,11 +132,11 @@ class AnnounceService {
             UInt64.fromUint(2000000)
         );
 
-        
+
         const signedTransaction = account.sign(aggregateTransaction, networkGenerationHash);
         console.log(signedTransaction.hash);
         const signedHashLockTransaction = this.getSignedHashLosck(signedTransaction, account);
-        this.announceHashLock(signedHashLockTransaction, signedTransaction);    
+        this.announceHashLock(signedHashLockTransaction, signedTransaction);
     }
 }
 

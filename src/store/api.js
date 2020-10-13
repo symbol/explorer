@@ -21,6 +21,7 @@ import helper from '../helper';
 import router from '../router';
 import http from '../infrastructure/http';
 import { NodeService } from '../infrastructure';
+import globalConfig from '../config/globalConfig';
 
 const LOCK = Lock.create();
 
