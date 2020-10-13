@@ -134,15 +134,15 @@ export default {
 
 <style scoped>
 .map-container {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .map {
-  border-radius: 10px;
-  box-shadow: 0 0 30px rgba(0,0,0,0.1);
-  padding: 0;
-  margin: 10px 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.1);
+    padding: 0;
+    margin: 10px 20px;
 }
 </style>
