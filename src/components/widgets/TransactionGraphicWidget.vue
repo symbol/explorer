@@ -131,11 +131,12 @@ export default {
 		},
 
 		cosigners() {
-			if(this.data.type === TransactionType.AGGREGATE_BONDED)
+			if (this.data.type === TransactionType.AGGREGATE_BONDED) {
 				return [
 					this.data.signer,
 					...this.data.cosignatures.map(cosignature => cosignature.signer.address.address)
 				];
+			}
 			return [];
 		},
 
