@@ -60,7 +60,8 @@ export default {
 		getInitialized: state => state.initialized,
 		...getGettersFromManagers(managers),
 		mapInfo: state => [ state.info?.data ],
-		status: state => state.info?.data?.status,
+		peerStatus: state => state.info?.data?.peerStatus,
+		apiStatus: state => state.info?.data?.apiStatus,
 		chainInfo: state => state.info?.data?.chainInfo,
 	},
 	mutations: {

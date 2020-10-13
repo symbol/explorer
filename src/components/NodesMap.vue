@@ -129,14 +129,6 @@ export default {
         },
 
         addMarkers() {
-            // const icon = leaflet.icon({
-            //     iconUrl,
-            //     iconRetinaUrl: iconUrl,
-            //     iconSize: [32, 46],
-            //     iconAnchor: [9, 46],
-            //     popupAnchor: [7, -46]
-            // });
-
             const getIcon = (icon) => {
                 return leaflet.icon({
                     iconUrl: icon,
@@ -160,7 +152,7 @@ export default {
                 const popup = 
                     '<br/><span title="' + node.friendlyName +'"><b>' + this.getNameByKey('friendlyName') + ':</b> ' + this.formatText(node.friendlyName) +
                     '</span><br/><span title="' + node.host +'"><b>' + this.getNameByKey('host') + ':</b> ' + this.formatText(node.host) +
-                     '</span><br/><span title="' + node.host +'"><b>' + this.getNameByKey('roles') + ':</b> ' + this.formatText(node.roles) +
+                    '</span><br/><span title="' + node.host +'"><b>' + this.getNameByKey('roles') + ':</b> ' + this.formatText(node.roles) +
                     '</span><br/><span title="' + node.network +'"><b>' + this.getNameByKey('network') + ':</b> ' + this.formatText(node.network) +
                     '</span><br/><span title="' + node.address +'"><b>' + this.getNameByKey('address') + ':</b> ' + this.formatText(node.address) +
                     '</span><br/><span title="' + node.location +'"><b>' + this.getNameByKey('location') + ':</b> ' + this.formatText(node.location) +

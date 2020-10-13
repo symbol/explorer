@@ -87,7 +87,6 @@ export default {
 		},
 
 		data() {
-      console.log(this.dataGetter, this.getter(this.dataGetter))
       return this.getter(this.dataGetter) || this.manager.data;
     },
 

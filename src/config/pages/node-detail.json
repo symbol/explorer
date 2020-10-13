@@ -64,9 +64,19 @@
             {
                 "layoutOptions": "full-width",
                 "type": "CardTable",
-                "title": "nodeStatusTitle",
+                "title": "nodePeerStatusTitle",
                 "managerGetter": "node/info",
-                "dataGetter": "node/status",
+                "dataGetter": "node/peerStatus",
+                "errorMessage": "nodeDetailError",
+                "pagination": "none",
+                "hideEmptyData": true
+            },
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "nodeApiStatusTitle",
+                "managerGetter": "node/info",
+                "dataGetter": "node/apiStatus",
                 "errorMessage": "nodeDetailError",
                 "pagination": "none",
                 "hideEmptyData": true

@@ -56,11 +56,15 @@ class NodeService {
      * @returns NodeInfo[]
      */
     static getNodePeers = async () => {
-    	const nodePeers1 = await http.createRepositoryFactory.createNodeRepository()
-    		.getNodePeers()
-        	.toPromise();
-        console.log(nodePeers1)
-        const nodePeers = (await Axios.get(globalConfig.endpoints.statisticsService + 'nodes')).data;
+        let nodePeers = []; 
+        try {
+            nodePeers = (await Axios.get(globalConfig.endpoints.statisticsService + 'nodes')).data;
+        }
+        catch(e) {
+            nodePeers = await http.createRepositoryFactory.createNodeRepository()
+                .getNodePeers()
+                .toPromise();   
+        }
 
     	const formattedNodePeers = nodePeers.map(nodeInfo => this.formatNodeInfo(nodeInfo));
 
@@ -135,17 +139,18 @@ class NodeService {
             formattedNodePeers.rolesRaw === 6 ||
             formattedNodePeers.rolesRaw === 7
         ) {
-            const status = await this.getNodeStatus(formattedNodePeers.apiEndpoint);
-            formattedNodePeers.status = status;
+            const status = await this.getApiNodeStatus(formattedNodePeers.apiEndpoint);
+            formattedNodePeers.apiStatus = status;
 
             const chainInfo = await this.getNodeChainInfo(formattedNodePeers.apiEndpoint);
             formattedNodePeers.chainInfo = chainInfo;
         }
-        console.log('formNode', formattedNodePeers)
+        if(formattedNodePeers?.peerStatus)
+            formattedNodePeers.peerStatus.lastStatusCheck = moment(formattedNodePeers.peerStatus.lastStatusCheck).format('YYYY-MM-DD HH:mm:ss');
     	return formattedNodePeers;
     }
 
-    static getNodeStatus = async (nodeUrl) => {
+    static getApiNodeStatus = async (nodeUrl) => {
         const status = {
             connectionStatus: false,
             databaseStatus: Constants.Message.UNAVAILABLE,

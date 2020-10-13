@@ -189,7 +189,8 @@ export default {
 			return (
 				key === 'connectionStatus' ||
                 key === 'apiNodeStatus' ||
-                key === 'databaseStatus'
+				key === 'databaseStatus' ||
+				key === 'isAvailable'
 			);
 		},
 
