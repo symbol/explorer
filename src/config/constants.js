@@ -11,7 +11,6 @@ import {
 	MetadataType,
 	ReceiptType,
 	ResolutionType,
-	RoleType,
 	AddressRestrictionFlag,
 	MosaicRestrictionFlag,
 	OperationRestrictionFlag,

@@ -7,7 +7,7 @@
 <script>
 import 'leaflet/dist/leaflet.css';
 import leaflet from 'leaflet';
-import markerCluster from 'leaflet.markercluster';
+import markerCluster from 'leaflet.markercluster'; // eslint-disable-line
 import IconOrange from '../styles/img/connector_orange.png';
 import IconBlue from '../styles/img/connector_blue.png';
 import IconGreen from '../styles/img/connector_green.png';

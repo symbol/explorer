@@ -33,14 +33,12 @@
 <script>
 import Card from '@/components/containers/Card.vue';
 import NodesMap from '@/components/NodesMap.vue';
-import ButtonMore from '@/components/controls/ButtonMore.vue';
 import DropdownFilter from '@/components/controls/DropdownFilter.vue';
 
 export default {
 	components: {
 		Card,
 		NodesMap,
-		ButtonMore,
 		DropdownFilter
 	},
 
@@ -75,9 +73,6 @@ export default {
 		hasFilter: {
 			type: Boolean,
 			default: false
-		},
-		title: {
-
 		}
 	},
 
