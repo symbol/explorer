@@ -128,7 +128,11 @@ export default {
 		getInitialized: state => state.initialized,
 		getActivityBucketList: state => state.info?.data.activityBucket || [],
 		getSupplementalPublicKeys: state => state.info?.data.supplementalPublicKeys || {},
-		getCurrentAccountAddress: state => state.currentAccountAddress
+		getCurrentAccountAddress: state => state.currentAccountAddress,
+		balanceWidget: (state, getters) => ({
+			address: state.currentAccountAddress,
+			balance: getters.OwnedMosaic?.data[0]?.amount || 0
+		})
 	},
 	mutations: {
 		...getMutationsFromManagers(managers),

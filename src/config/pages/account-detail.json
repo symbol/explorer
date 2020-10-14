@@ -49,6 +49,7 @@
 				"type": "AccountBalanceWidget",
 				"title": "accountBalanceTitle",
 				"managerGetter": "account/OwnedMosaic",
+				"dataGetter": "account/balanceWidget",
 				"pageSize": 5,
 				"hideOnError": true,
 				"hideDependOnGetter": "account/info"
