@@ -18,7 +18,6 @@
 import Vue from 'vue';
 import Lock from './lock';
 import helper from '../helper';
-import router from '../router';
 import http from '../infrastructure/http';
 import { NodeService } from '../infrastructure';
 

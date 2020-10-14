@@ -46,7 +46,7 @@
 							</div>
 
 							<div v-else class="max-item-width">
-								<div 
+								<div
 									v-if="isKeyClickable(itemKey) && getItemHref(itemKey, item)"
 									@click.stop
 									@click.prevent
@@ -240,7 +240,7 @@ export default {
 		},
 
 		onRowClick(row) {
-			if(this.onRowClickKey)
+			if (this.onRowClickKey)
 				this.onItemClick(this.onRowClickKey, row[this.onRowClickKey]);
 		}
 	},
