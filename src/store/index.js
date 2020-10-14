@@ -75,34 +75,6 @@ export default new Vuex.Store({
 					helper.logError(dispatch, 'chain/initialize'),
 					helper.logError(dispatch, 'transaction/initialize')
 				]);
-
-				// Timeline Views
-			case 'accounts':
-				return helper.logError(dispatch, 'account/initialize');
-			case 'blocks':
-				return helper.logError(dispatch, 'block/initialize');
-			case 'mosaics':
-				return helper.logError(dispatch, 'mosaic/initialize');
-			case 'namespaces':
-				return helper.logError(dispatch, 'namespace/initialize');
-			case 'nodes':
-				return helper.logError(dispatch, 'node/initialize');
-			case 'transactions':
-				return helper.logError(dispatch, 'transaction/initialize');
-			case 'statistics':
-				return helper.logError(dispatch, 'statistic/initialize');
-
-				// Page Detail
-			case 'account-detail':
-				return helper.logError(dispatch, 'account/fetchAccountDetail', route.params);
-			case 'block-detail':
-				return helper.logError(dispatch, 'block/fetchBlockInfo', route.params);
-			case 'mosaic-detail':
-				return helper.logError(dispatch, 'mosaic/fetchMosaicInfo', route.params);
-			case 'namespace-detail':
-				return helper.logError(dispatch, 'namespace/fetchNamespaceInfo', route.params);
-			case 'transaction-detail':
-				return helper.logError(dispatch, 'transaction/getTransactionInfoByHash', route.params);
 			}
 		},
 

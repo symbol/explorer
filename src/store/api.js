@@ -92,8 +92,7 @@ export default {
 				commit('currentNode', currentNodeUrl);
 				commit('setInitialized', false);
 				// Uninitialize the data and re-initialize the API.
-				await dispatch('uninitialize', null, { root: true });
-				await dispatch('initialize', router.currentRoute, { root: true });
+				location.reload();
 			}
 			else
 				throw Error('Cannot change node. URL is not valid: ' + currentNodeUrl);
