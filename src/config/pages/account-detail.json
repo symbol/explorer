@@ -46,6 +46,15 @@
 			},
 			{
 				"layoutOptions": "adaptive",
+				"type": "AccountBalanceWidget",
+				"title": "accountBalanceTitle",
+				"managerGetter": "account/OwnedMosaic",
+				"pageSize": 5,
+				"hideOnError": true,
+				"hideDependOnGetter": "account/info"
+			},
+			{
+				"layoutOptions": "adaptive",
 				"type": "CardTable",
 				"title": "ownedMosaicsTitle",
 				"managerGetter": "account/OwnedMosaic",
