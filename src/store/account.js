@@ -49,7 +49,7 @@ const managers = [
 	),
 	new DataSet(
 		'OwnedMosaic',
-		(address) => MosaicService.getMosaicAmountViewList(address)
+		(address) => AccountService.getAccountMosaicList(address)
 	),
 	new Pagination({
 		name: 'OwnedNamespace',
