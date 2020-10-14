@@ -75,6 +75,8 @@ export default new Vuex.Store({
 					helper.logError(dispatch, 'chain/initialize'),
 					helper.logError(dispatch, 'transaction/initialize')
 				]);
+			case 'statistics':
+				return helper.logError(dispatch, 'statistic/initialize');
 			}
 		},
 
