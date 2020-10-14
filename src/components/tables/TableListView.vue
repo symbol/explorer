@@ -17,7 +17,9 @@
 					<tr
 						v-for="(row, rowIndex) in preparedData"
 						class="t-row"
+						:class="{'pointer': isRowPointerShown}"
 						:key="'tlv_r'+rowIndex"
+						@click.stop="onRowClick(row)"
 					>
 						<td
 							v-for="(item, itemKey) in row"
@@ -44,13 +46,19 @@
 							</div>
 
 							<div v-else class="max-item-width">
-								<router-link
+								<div 
 									v-if="isKeyClickable(itemKey) && getItemHref(itemKey, item)"
-									:to="getItemHref(itemKey, item)"
+									@click.stop
+									@click.prevent
 								>
-									<Truncate v-if="isTruncate(itemKey)">{{item}}</Truncate>
-									<div v-else>{{ translateValue(itemKey, item) }}</div>
-								</router-link>
+									<router-link
+										:to="getItemHref(itemKey, item)"
+										@click.stop
+									>
+										<Truncate v-if="isTruncate(itemKey)">{{item}}</Truncate>
+										<div v-else>{{ translateValue(itemKey, item) }}</div>
+									</router-link>
+								</div>
 								<div v-else>
 									<Truncate v-if="isTruncate(itemKey)">{{item}}</Truncate>
 									<div v-else>{{ translateValue(itemKey, item) }}</div>
@@ -130,6 +138,10 @@ export default {
 		pageSize: {
 			type: Number,
 			default: 10
+		},
+
+		onRowClickKey: {
+			type: String
 		}
 	},
 
@@ -188,6 +200,10 @@ export default {
 
 		paginationLoading() {
 			return this.timeline?.isLoading === true;
+		},
+
+		isRowPointerShown() {
+			return !!this.onRowClickKey;
 		}
 	},
 
@@ -221,6 +237,11 @@ export default {
 			return typeof number === 'number'
 				? number
 				: '..';
+		},
+
+		onRowClick(row) {
+			if(this.onRowClickKey)
+				this.onItemClick(this.onRowClickKey, row[this.onRowClickKey]);
 		}
 	},
 
@@ -236,6 +257,10 @@ export default {
 <style lang="scss" scoped>
 .table-view {
     overflow: auto;
+
+    .pointer {
+        cursor: pointer;
+    }
 
     .bottom {
         display: flex;
