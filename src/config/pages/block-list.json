@@ -17,7 +17,8 @@
                 "infoTextGetter": "block/infoText",
                 "pagination": "server",
                 "hasFilter": false,
-                "hasInfoText": true,
+				"hasInfoText": true,
+				"onRowClickKey": "height",
                 "fields": [
                     "height",
                     "age",

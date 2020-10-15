@@ -1,6 +1,6 @@
 <template>
 	<div class="blockHeightWithfinalizedStatus">
-		<div class="text">
+		<div class="text" @click.stop>
 			<router-link :to="getItemHref('blocks', blockHeight)">
 				<b class="link">{{ blockHeight }}</b>
 			</router-link>
