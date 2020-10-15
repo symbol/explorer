@@ -16,7 +16,8 @@
                 "managerGetter": "namespace/timeline",
                 "errorMessage": "Failed to fetch namespace list",
                 "pagination": "server",
-                "hasFilter": true,
+				"hasFilter": true,
+				"onRowClickKey": "namespaceName",
                 "fields": [
                     "namespaceName",
                     "namespaceId",

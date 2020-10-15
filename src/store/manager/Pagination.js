@@ -37,7 +37,7 @@ export default class Pagination {
 
 		this.addLatestItem = this.addLatestItem.bind(this);
 		this.initialized = false;
-		this.loading = false;
+		this.loading = true;
 		this.error = false;
 		this.filterIndex = 0;
 	}

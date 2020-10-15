@@ -24,7 +24,7 @@
 			:key="'mos_s' + index"
 			:title="'Mosaic: ' + item.mosaicId + ' | Amount: ' + item.amount"
 		>
-			<span class="mosaic-name">
+			<span class="mosaic-name" @click.stop>
 				<router-link :to="getItemHref('mosaicId', item.mosaicId)">
 					<b class="link">{{item.mosaicAliasName || item.mosaicId}}</b>
 				</router-link>

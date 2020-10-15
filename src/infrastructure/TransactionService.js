@@ -181,21 +181,22 @@ class TransactionService {
   			};
   		});
 
-		formattedTransaction.transferMosaics = transferMosaics;
-		formattedTransaction.transactionBody.mosaics = transferMosaics;
-  		//delete formattedTransaction.transactionBody.mosaics;
+  		formattedTransaction.transferMosaics = transferMosaics;
+  		formattedTransaction.transactionBody.mosaics = transferMosaics;
+  		// delete formattedTransaction.transactionBody.mosaics;
   		break;
   	case TransactionType.AGGREGATE_COMPLETE:
   	case TransactionType.AGGREGATE_BONDED:
-		const innerTransactions = formattedTransaction.aggregateTransaction.innerTransactions.map(transaction => ({
-			...transaction,
-			transactionType: transaction.type
-		}));
-		await Promise.all(innerTransactions.map(transaction => this.formatTransaction2(transaction)));
-		formattedTransaction.aggregateTransaction.innerTransactions = innerTransactions;
-		delete formattedTransaction.transactionBody.innerTransactions;
-		delete formattedTransaction.transactionBody.cosignatures;
-		break;
+  		const innerTransactions = formattedTransaction.aggregateTransaction.innerTransactions.map(transaction => ({
+  			...transaction,
+  			transactionType: transaction.type
+  		}));
+
+  		await Promise.all(innerTransactions.map(transaction => this.formatTransaction2(transaction)));
+  		formattedTransaction.aggregateTransaction.innerTransactions = innerTransactions;
+  		delete formattedTransaction.transactionBody.innerTransactions;
+  		delete formattedTransaction.transactionBody.cosignatures;
+  		break;
   	case TransactionType.ADDRESS_ALIAS:
   	case TransactionType.MOSAIC_ALIAS:
   		const namespaceName = await NamespaceService.getNamespacesNames([NamespaceId.createFromEncoded(formattedTransaction.transactionBody.namespaceId)]);
