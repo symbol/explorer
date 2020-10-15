@@ -112,9 +112,16 @@
 				"hideDependOnGetter": "account/info",
 				"fields": [
 					"deadline",
-					"transactionHash",
+					"direction",
 					"transactionType",
-					"direction"
+					"transactionHash",
+					"recipient"
+				],
+				"mobileFields": [
+					"deadline",
+					"direction",
+					"transactionType",
+					"transactionHash"
 				]
 			},
 			{

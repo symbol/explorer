@@ -156,7 +156,8 @@ class AccountService {
 							? 'outgoing_' + accountTransaction.transactionBody.transactionType
 							: 'incoming_' + accountTransaction.transactionBody.transactionType
 						)
-						: accountTransaction.transactionBody.transactionType
+						: accountTransaction.transactionBody.transactionType,
+					recipient: accountTransaction.recipientAddress?.address
 			}))
 		};
 	}
