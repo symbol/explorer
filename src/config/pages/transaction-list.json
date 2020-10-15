@@ -16,7 +16,8 @@
                 "managerGetter": "transaction/timeline",
                 "errorMessage": "Failed to fetch transaction list",
                 "pagination": "server",
-                "hasFilter": true,
+				"hasFilter": true,
+				"onRowClickKey": "transactionHash",
                 "fields": [
                     "height",
                     "deadline",
