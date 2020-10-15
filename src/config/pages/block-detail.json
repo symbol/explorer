@@ -45,7 +45,8 @@
                 "type": "CardTable",
                 "title": "blockTransactionsTitle",
                 "managerGetter": "block/blockTransactions",
-                "pagination": "server",
+				"pagination": "server",
+				"onRowClickKey": "transactionHash",
                 "fields": [
                     "deadline",
                     "transactionHash",
