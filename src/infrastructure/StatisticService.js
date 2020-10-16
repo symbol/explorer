@@ -138,7 +138,7 @@ class StatisticService {
 
 	static isUrlProvided() {
 		try {
-			new URL(globalConfig?.endpoints?.statisticsService);
+			new URL(globalConfig?.endpoints?.statisticsService); // eslint-disable-line no-new
 			return true;
 		}
 		catch(e){
