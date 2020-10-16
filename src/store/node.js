@@ -29,13 +29,6 @@ import {
 } from './manager';
 
 const managers = [
-	// new Timeline(
-	// 	'timeline',
-	// 	() => NodeService.getNodePeerList(),
-	// 	() => [],
-	// 	'',// node id
-
-	// ),
 	new Pagination({
 		name: 'timeline',
 		fetchFunction: (pageInfo, filterValue) => NodeService.getNodePeerList(filterValue),

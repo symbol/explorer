@@ -30,7 +30,8 @@
                 "errorMessage": "Failed to fetch node list",
                 "pagination": "client",
                 "pageSize": 1000,
-                "hasFilter": true,
+				"hasFilter": true,
+				"onRowClickKey": "nodePublicKey",
                 "fields": [
                     "index",
                     "host",
