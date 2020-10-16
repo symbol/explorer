@@ -38,17 +38,20 @@
                 "height": 350,
                 "maxWidth": 500,
                 "zoom": 1,
-                "managerGetter": "node/info",
+                "managerGetter": "node/hostInfoManager",
                 "dataGetter": "node/mapInfo",
-                "errorMessage": "Failed to fetch node list"
+				"errorMessage": "Failed to fetch node list",
+				"hideOnError": true
             },
             {
                 "layoutOptions": "adaptive",
                 "type": "CardTable",
                 "title": "nodeHostDetailTitle",
-                "managerGetter": "node/info",
+				"managerGetter": "node/hostInfoManager",
+				"dataGetter": "node/nodeInfo",
                 "errorMessage": "nodeDetailError",
-                "pagination": "none",
+				"pagination": "none",
+				"hideOnError": true,
                 "fields": [
                     "ip",
                     "organization",

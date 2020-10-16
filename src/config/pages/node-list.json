@@ -17,9 +17,11 @@
                 "maxWidth": 1500,
                 "zoom": 2,
                 "minZoom": 2,
-                "managerGetter": "node/timeline",
+				"managerGetter": "node/hostInfoManager",
+				"dataGetter": "node/nodeList",
                 "errorMessage": "Failed to fetch node list",
-                "hasFilter": true
+				"hasFilter": true,
+				"hideOnError": true
             },
             {
                 "layoutOptions": "full-width",
