@@ -60,7 +60,7 @@ const defaultGlobalConfig = {
 	}
 };
 
-//TODO Migrate this to a rest ajax call instead of a global window variable.
+// TODO Migrate this to a rest ajax call instead of a global window variable.
 const globalConfig = window.globalConfig || defaultGlobalConfig;
 
 export default globalConfig;

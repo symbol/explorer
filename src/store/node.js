@@ -64,10 +64,10 @@ export default {
 		apiStatus: state => state.info?.data?.apiStatus,
 		chainInfo: state => state.info?.data?.chainInfo,
 		hostInfoManager: (state, getters) => ({
-			loading: getters.timeline?.loading || 
+			loading: getters.timeline?.loading ||
 				getters.info?.loading,
-			error: !StatisticService.isUrlProvided() || 
-				getters.timeline?.error || 
+			error: !StatisticService.isUrlProvided() ||
+				getters.timeline?.error ||
 				getters.info?.error
 		})
 	},

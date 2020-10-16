@@ -141,7 +141,7 @@ class StatisticService {
 			new URL(globalConfig?.endpoints?.statisticsService); // eslint-disable-line no-new
 			return true;
 		}
-		catch(e){
+		catch (e) {
 			return false;
 		}
 	}
