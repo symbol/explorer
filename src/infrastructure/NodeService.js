@@ -131,8 +131,14 @@ class NodeService {
     }
 
     static getNodeInfo = async (publicKey) => {
-    	const node = (await Axios.get(globalConfig.endpoints.statisticsService + 'nodes/' + publicKey)).data;
-
+		let node = {};
+		try {
+    		node = (await Axios.get(globalConfig.endpoints.statisticsService + 'nodes/' + publicKey)).data;
+		}
+		catch(e) {
+			const nodes = (await Axios.get(http.nodeUrl + '/node/peers')).data;
+			node = nodes.find(n => n.publicKey === publicKey);
+		}
     	const formattedNodePeers = this.formatNodeInfo(node);
 
     	if (formattedNodePeers.rolesRaw === 2 ||
@@ -196,7 +202,7 @@ class NodeService {
     	};
 
     	return chainInfo;
-    }
+	}
 }
 
 export default NodeService;
