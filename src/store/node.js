@@ -17,7 +17,7 @@
  */
 
 import Lock from './lock';
-import { NodeService } from '../infrastructure';
+import { NodeService, StatisticService } from '../infrastructure';
 import { filters } from '../config';
 import {
 	Pagination,
@@ -59,10 +59,19 @@ export default {
 	getters: {
 		getInitialized: state => state.initialized,
 		...getGettersFromManagers(managers),
+		nodeList: (state, getters) => getters.timeline.data,
+		nodeInfo: (state, getters) => getters.info.data,
 		mapInfo: state => [ state.info?.data ],
 		peerStatus: state => state.info?.data?.peerStatus,
 		apiStatus: state => state.info?.data?.apiStatus,
-		chainInfo: state => state.info?.data?.chainInfo
+		chainInfo: state => state.info?.data?.chainInfo,
+		hostDetailManager: (state, getters) => ({
+			loading: getters.timeline?.loading || 
+				getters.info?.loading,
+			error: !StatisticService.isUrlProvided() || 
+				getters.timeline?.error || 
+				getters.info?.error
+		})
 	},
 	mutations: {
 		setInitialized: (state, initialized) => {
