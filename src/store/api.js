@@ -20,6 +20,7 @@ import Lock from './lock';
 import helper from '../helper';
 import http from '../infrastructure/http';
 import { NodeService } from '../infrastructure';
+import globalConfig from '../config/globalConfig';
 
 const LOCK = Lock.create();
 
