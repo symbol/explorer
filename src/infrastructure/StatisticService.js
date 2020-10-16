@@ -138,7 +138,7 @@ class StatisticService {
 
 	static isUrlProvided() {
 		try {
-			new Url(globalConfig?.endpoints?.statisticsService);
+			new URL(globalConfig?.endpoints?.statisticsService);
 			return true;
 		}
 		catch(e){

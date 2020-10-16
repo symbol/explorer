@@ -59,8 +59,6 @@ export default {
 	getters: {
 		getInitialized: state => state.initialized,
 		...getGettersFromManagers(managers),
-		nodeList: (state, getters) => getters.timeline.data,
-		nodeInfo: (state, getters) => getters.info.data,
 		mapInfo: state => [ state.info?.data ],
 		peerStatus: state => state.info?.data?.peerStatus,
 		apiStatus: state => state.info?.data?.apiStatus,
