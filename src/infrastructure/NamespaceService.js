@@ -19,8 +19,8 @@
 import http from './http';
 import helper from '../helper';
 import Constants from '../config/constants';
-import { ChainService, MetadataService } from '../infrastructure';
-import { Order, NamespaceId } from 'symbol-sdk';
+import { ChainService, MetadataService, TransactionService } from '../infrastructure';
+import { Order, NamespaceId, UInt64, TransactionType, TransactionGroup } from 'symbol-sdk';
 
 class NamespaceService {
   /**
@@ -250,6 +250,34 @@ class NamespaceService {
   		id: namespaceInfo.id,
   		name: this.extractFullNamespace(namespaceInfo, namespaceNames)
   	}));
+  }
+
+  /**
+   * Gets native namespaces name in from nemesis transactions.
+   * @returns Namespace[]
+   */
+  static getNativeNamespaces = async () => {
+  	const searchCriteria = {
+  		pageSize: 100,
+  		height: UInt64.fromUint(1),
+  		type: [TransactionType.NAMESPACE_REGISTRATION],
+  		group: TransactionGroup.Confirmed
+  	};
+
+  	const searchNamespaces = await TransactionService.streamerTransactions(searchCriteria);
+
+  	const namespaceids = searchNamespaces.map(namespace => namespace.namespaceId);
+
+  	const namespaceInfos = await Promise.all(namespaceids.map(async namespaceid => {
+  		return (NamespaceService.getNamespace(namespaceid));
+  	}));
+
+  	const nativeNamespaces = await NamespaceService.toNamespaces(namespaceInfos.map(namespaceInfo => ({
+  		...namespaceInfo,
+  		id: NamespaceId.createFromEncoded(namespaceInfo.namespaceId)
+  	})));
+
+  	return nativeNamespaces;
   }
 
   /**
