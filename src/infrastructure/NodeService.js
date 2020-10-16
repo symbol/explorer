@@ -59,7 +59,7 @@ class NodeService {
     	let nodePeers = [];
 
     	try {
-    		nodePeers = (await Axios.get(globalConfig.endpoints.statisticsService + 'nodes')).data;
+    		nodePeers = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes')).data;
     	}
     	catch (e) {
     		nodePeers = await http.createRepositoryFactory.createNodeRepository()
@@ -134,7 +134,7 @@ class NodeService {
     	let node = {};
 
     	try {
-    		node = (await Axios.get(globalConfig.endpoints.statisticsService + 'nodes/' + publicKey)).data;
+    		node = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes/' + publicKey)).data;
     	}
     	catch (e) {
     		const nodes = (await Axios.get(http.nodeUrl + '/node/peers')).data;
