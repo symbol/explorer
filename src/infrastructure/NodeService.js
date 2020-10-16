@@ -108,7 +108,7 @@ class NodeService {
             nodeInfo.roles === 3 ||
             nodeInfo.roles === 6 ||
             nodeInfo.roles === 7
-            	? 'http://' + nodeInfo.host + ':' + globalConfig.apiNodePort
+            	? 'http://' + nodeInfo.host + ':' + (globalConfig.apiNodePort || 3000)
             	: Constants.Message.UNAVAILABLE
     })
 
