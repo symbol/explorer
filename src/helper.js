@@ -450,6 +450,7 @@ class helper {
 
 	static fallbackCopyTextToClipboard = (text) => {
 		let textArea = document.createElement('textarea');
+
 		let success = false;
 
 		textArea.value = text;
@@ -477,18 +478,18 @@ class helper {
 	static copyTextToClipboard = (text) => {
 		return new Promise((resolve, reject) => {
 			if (!navigator.clipboard) {
-				if(this.fallbackCopyTextToClipboard(text))
+				if (this.fallbackCopyTextToClipboard(text))
 					resolve();
 				else
-					reject();
+					reject(Error('Could not copy text. document.execCommand() failed'));
 			}
 			navigator.clipboard.writeText(text).then(function () {
 				resolve();
 			}, function (err) {
 				console.error('Async: Could not copy text: ', err);
-				reject();
+				reject(Error('Async: Could not copy text: ', err));
 			});
-		});	
+		});
 	}
 }
 

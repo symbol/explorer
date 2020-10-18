@@ -21,7 +21,6 @@ import { Constants, filters } from '../config';
 import helper from '../helper';
 import {
 	AccountService,
-	MosaicService,
 	MultisigService,
 	RestrictionService
 } from '../infrastructure';
