@@ -23,6 +23,7 @@
 				:pagination="pagination === 'client'"
 				:pageSize="pageSize"
 				:emptyDataMessage="emptyDataMessage"
+				:onRowClickKey="onRowClickKey"
 			/>
 			<TableInfoView
 				v-else-if="typeof data === 'object'"
@@ -112,6 +113,10 @@ export default {
 		emptyDataMessage: {
 			type: String,
 			default: 'nothingToShow'
+		},
+
+		onRowClickKey: {
+			type: String
 		}
 	},
 

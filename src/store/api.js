@@ -18,9 +18,9 @@
 import Vue from 'vue';
 import Lock from './lock';
 import helper from '../helper';
-import router from '../router';
 import http from '../infrastructure/http';
 import { NodeService } from '../infrastructure';
+import globalConfig from '../config/globalConfig';
 
 const LOCK = Lock.create();
 
@@ -92,8 +92,7 @@ export default {
 				commit('currentNode', currentNodeUrl);
 				commit('setInitialized', false);
 				// Uninitialize the data and re-initialize the API.
-				await dispatch('uninitialize', null, { root: true });
-				await dispatch('initialize', router.currentRoute, { root: true });
+				location.reload();
 			}
 			else
 				throw Error('Cannot change node. URL is not valid: ' + currentNodeUrl);

@@ -18,6 +18,7 @@
 
 import * as symbol from 'symbol-sdk';
 import { MosaicService } from '../infrastructure';
+import globalConfig from '../config/globalConfig';
 
 let NODE_URL;
 
