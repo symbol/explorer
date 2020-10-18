@@ -21,7 +21,10 @@
 						</svg>
 						<div>
 							<img :src="ConnectorIcon" class="icon noselect" />
-							<div class="address">{{address}}</div>
+							<div class="address">
+								<div>{{address}}</div>
+								<div>{{alias}}</div>
+							</div>
 						</div>
 					</div>
 					<div class="mosaic">{{mosaicName}}</div>
@@ -75,6 +78,10 @@ export default {
 			return this.data.address;
 		},
 
+		alias() {
+			return this.data.alias;
+		},
+
 		mosaicName() {
 			return this.data.mosaicName || 'XYM';
 		},
@@ -126,7 +133,7 @@ export default {
 				font-size: 1rem;
 				line-height: 1.75rem;
 				margin: 0 0 33.2px;
-				max-width: 60%;
+				max-width: 100%;
 			}
 
 			.icon {

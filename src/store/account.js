@@ -33,6 +33,7 @@ import {
 	getMutationsFromManagers,
 	getActionsFromManagers
 } from './manager';
+import { Address } from 'symbol-sdk';
 
 const managers = [
 	new Pagination({
@@ -130,8 +131,9 @@ export default {
 		getSupplementalPublicKeys: state => state.info?.data.supplementalPublicKeys || {},
 		getCurrentAccountAddress: state => state.currentAccountAddress,
 		balanceWidget: (state, getters) => ({
-			address: state.currentAccountAddress,
-			balance: getters.OwnedMosaic?.data[0]?.amount || 0
+			address: new Address(state.currentAccountAddress).pretty(),
+			balance: getters.OwnedMosaic?.data[0]?.amount || 0,
+			alias: getters.info?.data?.accountAliasName /*|| Constants.Message.UNAVAILABLE*/
 		})
 	},
 	mutations: {
