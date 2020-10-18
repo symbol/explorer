@@ -40,6 +40,8 @@ import Card from '@/components/containers/Card.vue';
 import Decimal from '@/components/fields/Decimal.vue';
 import AccountIcon from '../graphics/AccountIcon.vue';
 import ConnectorIcon from '../../styles/img/connector_bg_1.png';
+import helper from '../../helper';
+import Constants from '../../config/constants';
 
 export default {
 	props: {
@@ -79,7 +81,9 @@ export default {
 		},
 
 		alias() {
-			return this.data.alias;
+			return Constants.Message.UNAVAILABLE !== this.data.alias
+				? this.data.alias
+				: this.getNameByKey('noAlias');
 		},
 
 		mosaicName() {
@@ -98,6 +102,11 @@ export default {
 	methods: {
 		getNameByKey(e) {
 			return this.$store.getters['ui/getNameByKey'](e);
+		},
+
+		onCopyClick() {
+			helper.copyTextToClipboard(this.address);
+			alert(this.getNameByKey('success'));
 		}
 	}
 };

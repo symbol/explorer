@@ -286,6 +286,7 @@
 	"aggregateCosignaturesError": "Cosignatures are not available.",
 	
 	"accountBalanceTitle": "Account Balance",
+	"noAlias": "No alias",
 
     "beneficiaryAddress": "Beneficiary Address",
     "linked": "LINKED",
