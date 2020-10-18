@@ -22,7 +22,13 @@
 						<div>
 							<img :src="ConnectorIcon" class="icon noselect" />
 							<div class="address">
-								<div>{{address}}</div>
+								<div>
+									{{address}} 
+									<img 
+										:src="IconCopy" 
+										class="icon-copy noselect"
+										@click="onCopyClick" />
+								</div>
 								<div>{{alias}}</div>
 							</div>
 						</div>
@@ -42,6 +48,7 @@ import AccountIcon from '../graphics/AccountIcon.vue';
 import ConnectorIcon from '../../styles/img/connector_bg_1.png';
 import helper from '../../helper';
 import Constants from '../../config/constants';
+import IconCopy from '../../styles/img/copy.png';
 
 export default {
 	props: {
@@ -61,7 +68,8 @@ export default {
 
 	data() {
 		return {
-			ConnectorIcon
+			ConnectorIcon,
+			IconCopy
 		};
 	},
 
@@ -106,13 +114,27 @@ export default {
 
 		onCopyClick() {
 			helper.copyTextToClipboard(this.address);
-			alert(this.getNameByKey('success'));
+			this.makeToast('success');
+		},
+
+		makeToast() {
+			this.$bvToast.toast(this.getNameByKey('addressBeenCopied'), {
+				variant: 'success',
+				solid: true,
+				'noCloseButton': true
+			})
 		}
 	}
 };
 </script>
 
 <style lang="scss" scoped>
+.icon-copy {
+	margin-top: -2px;
+	margin-left: 5px;
+	opacity: 0.5;
+	cursor: pointer;
+}
 .body-wrapper {
 	display: flex;
 	justify-content: center;
