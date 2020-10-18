@@ -187,8 +187,8 @@ export default {
         }
 
         .mosaic {
-            font-size: 2.5rem;
-            line-height: 3.25rem;
+            font-size: 	1.5rem;
+            line-height: 2.25rem;
         }
 
         .balance {
