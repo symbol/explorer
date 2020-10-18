@@ -288,6 +288,7 @@
 	"accountBalanceTitle": "Account Balance",
 	"noAlias": "No alias",
 	"addressBeenCopied": "The address was copied to the clipboard",
+	"failedToCopy": "Failed to copy",
 
     "beneficiaryAddress": "Beneficiary Address",
     "linked": "LINKED",

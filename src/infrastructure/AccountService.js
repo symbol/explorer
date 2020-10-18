@@ -157,7 +157,7 @@ class AccountService {
 							: 'incoming_' + accountTransaction.transactionBody.transactionType
 						)
 						: accountTransaction.transactionBody.transactionType,
-					recipient: accountTransaction.recipientAddress?.address
+				recipient: accountTransaction.recipientAddress?.address
 			}))
 		};
 	}
@@ -343,9 +343,11 @@ class AccountService {
 	 */
 	static getAccountMosaicList = async address => {
 		const mosaics = await MosaicService.getMosaicAmountViewList(address);
-		for(let i = 0; i < mosaics.length; i++) {
+
+		for (let i = 0; i < mosaics.length; i++) {
 			const mosaic = mosaics[i];
-			if(mosaic.mosaicId === http.networkCurrency.mosaicId) {
+
+			if (mosaic.mosaicId === http.networkCurrency.mosaicId) {
 				mosaics.splice(i, 1);
 				mosaics.unshift(mosaic);
 				break;

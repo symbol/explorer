@@ -449,39 +449,46 @@ class helper {
 	}
 
 	static fallbackCopyTextToClipboard = (text) => {
-		var textArea = document.createElement("textarea");
+		let textArea = document.createElement('textarea');
+		let success = false;
+
 		textArea.value = text;
 
 		// Avoid scrolling to bottom
-		textArea.style.top = "0";
-		textArea.style.left = "0";
-		textArea.style.position = "fixed";
+		textArea.style.top = '0';
+		textArea.style.left = '0';
+		textArea.style.position = 'fixed';
 
 		document.body.appendChild(textArea);
 		textArea.focus();
 		textArea.select();
 
 		try {
-			var successful = document.execCommand('copy');
-			var msg = successful ? 'successful' : 'unsuccessful';
-			console.log('Fallback: Copying text command was ' + msg);
-		} catch (err) {
-			console.error('Fallback: Oops, unable to copy', err);
+			success = document.execCommand('copy');
+		}
+		catch (err) {
+			console.error('Fallback: Could not copy text', err);
 		}
 
 		document.body.removeChild(textArea);
+		return success;
 	}
-	
+
 	static copyTextToClipboard = (text) => {
-		if (!navigator.clipboard) {
-			fallbackCopyTextToClipboard(text);
-			return;
-		}
-		navigator.clipboard.writeText(text).then(function () {
-			console.log('Async: Copying to clipboard was successful!');
-		}, function (err) {
-			console.error('Async: Could not copy text: ', err);
-		});
+		return new Promise((resolve, reject) => {
+			if (!navigator.clipboard) {
+				if(this.fallbackCopyTextToClipboard(text))
+					resolve();
+				else
+					reject();
+			}
+			navigator.clipboard.writeText(text).then(function () {
+				resolve();
+			}, function (err) {
+				console.error('Async: Could not copy text: ', err);
+				reject();
+			});
+		});	
 	}
 }
 

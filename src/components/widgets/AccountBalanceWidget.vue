@@ -23,9 +23,9 @@
 							<img :src="ConnectorIcon" class="icon noselect" />
 							<div class="address">
 								<div>
-									{{address}} 
-									<img 
-										:src="IconCopy" 
+									{{address}}
+									<img
+										:src="IconCopy"
 										class="icon-copy noselect"
 										@click="onCopyClick" />
 								</div>
@@ -34,7 +34,7 @@
 						</div>
 					</div>
 					<div class="mosaic">{{mosaicName}}</div>
-					<Decimal class="balance" :value="balance" />	
+					<Decimal class="balance" :value="balance" />
 				</div>
 			</div>
 		</template>
@@ -113,16 +113,25 @@ export default {
 		},
 
 		onCopyClick() {
-			helper.copyTextToClipboard(this.address);
-			this.makeToast('success');
+			helper.copyTextToClipboard(this.address)
+				.then(() => this.successMsg())
+				.catch(() => this.errorMsg());
 		},
 
-		makeToast() {
+		successMsg() {
 			this.$bvToast.toast(this.getNameByKey('addressBeenCopied'), {
 				variant: 'success',
 				solid: true,
 				'noCloseButton': true
-			})
+			});
+		},
+
+		errorMsg() {
+			this.$bvToast.toast(this.getNameByKey('failedToCopy'), {
+				variant: 'danger',
+				solid: true,
+				'noCloseButton': true
+			});
 		}
 	}
 };
@@ -130,61 +139,62 @@ export default {
 
 <style lang="scss" scoped>
 .icon-copy {
-	margin-top: -2px;
-	margin-left: 5px;
-	opacity: 0.5;
-	cursor: pointer;
+    margin-top: -2px;
+    margin-left: 5px;
+    opacity: 0.5;
+    cursor: pointer;
 }
+
 .body-wrapper {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 
-	.body {
-		background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
-		color: #fff;
-		border-radius: 5px;
-		position: relative;
-		display: inline-block;
-		padding: 40px;
+    .body {
+        background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
+        color: #fff;
+        border-radius: 5px;
+        position: relative;
+        display: inline-block;
+        padding: 40px;
 
-		.section {
-			display: flex;
-			flex-direction: row;
-			justify-content: space-between;
+        .section {
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
 
-			.account-icon {
-				margin-right: 20px;
-				background: #fff;
-				border-radius: 20px;
-				padding: 10px;
-			}
+            .account-icon {
+                margin-right: 20px;
+                background: #fff;
+                border-radius: 20px;
+                padding: 10px;
+            }
 
-			.address {
-				font-size: 1rem;
-				line-height: 1.75rem;
-				margin: 0 0 33.2px;
-				max-width: 100%;
-			}
+            .address {
+                font-size: 1rem;
+                line-height: 1.75rem;
+                margin: 0 0 33.2px;
+                max-width: 100%;
+            }
 
-			.icon {
-				position: absolute;
-				bottom: 0;
-				right: 0;
-				height: 100%;
-				pointer-events: none;
-			}
-		}
+            .icon {
+                position: absolute;
+                bottom: 0;
+                right: 0;
+                height: 100%;
+                pointer-events: none;
+            }
+        }
 
-		.mosaic {
-			font-size: 2.5rem;
-			line-height: 3.25rem;
-		}
+        .mosaic {
+            font-size: 2.5rem;
+            line-height: 3.25rem;
+        }
 
-		.balance {
-			font-size: 2.5rem;
-			line-height: 3.25rem;
-		}
-	}
+        .balance {
+            font-size: 2.5rem;
+            line-height: 3.25rem;
+        }
+    }
 }
 </style>
