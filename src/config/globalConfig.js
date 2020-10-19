@@ -10,8 +10,10 @@ const defaultGlobalConfig = {
 			'http://api-01.us-west-1.0.10.0.x.symboldev.network:3000'
 		]
 	},
+	'apiNodePort': 3000,
 	'endpoints': {
-		'marketData': 'https://min-api.cryptocompare.com/'
+		'marketData': 'https://min-api.cryptocompare.com/',
+		'statisticsService': ''
 	},
 	'networkConfig': {
 		'namespaceName': 'SYMBOL.XEM',
@@ -58,7 +60,7 @@ const defaultGlobalConfig = {
 	}
 };
 
-//TODO Migrate this to a rest ajax call instead of a global window variable.
+// TODO Migrate this to a rest ajax call instead of a global window variable.
 const globalConfig = window.globalConfig || defaultGlobalConfig;
 
 export default globalConfig;

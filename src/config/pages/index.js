@@ -10,5 +10,6 @@ export default [
 	require('./block-detail'),
 	require('./mosaic-detail'),
 	require('./namespace-detail'),
+	require('./node-detail'),
 	require('./transaction-detail')
 ];
