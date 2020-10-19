@@ -1,5 +1,5 @@
 <template>
-	<Card class="card-f card-full-width" :loading="loading" :error="error">
+	<Card class="card-f" :loading="loading" :error="error">
 		<template #title>{{getNameByKey(title)}}</template>
 		<template #control>
 			<div class="ex-infotext" v-if="hasInfoText">{{infoText}}</div>
@@ -126,7 +126,9 @@ export default {
 		},
 
 		data() {
-			const data = this.getter(this.dataGetter) || this.manager.data;
+			const data = this.dataGetter
+				? this.getter(this.dataGetter)
+				: this.manager.data;
 
 			if (typeof data === 'undefined') {
 				throw Error(

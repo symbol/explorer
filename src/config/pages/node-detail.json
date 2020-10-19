@@ -1,0 +1,98 @@
+{
+    "path": "/nodes/:publicKey",
+    "name": "node-detail",
+    "meta": {
+        "group": "detail-page",
+        "keepAliveGoTo": []
+    },
+    "props": {
+        "layout": "flex",
+        "storeNamespaces": [],
+        "initActions": ["node/fetchNodeInfo"],
+        "schema": [
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "nodeDetailTitle",
+                "managerGetter": "node/info",
+                "errorMessage": "nodeDetailError",
+                "pagination": "none",
+                "fields": [
+                    "friendlyName",
+                    "roles",
+                    "version",
+                    "host",
+                    "port",
+                    "apiEndpoint",
+                    "networkGenerationHashSeed",
+                    "network",
+                    "networkIdentifier",
+                    "publicKey",
+                    "address"
+                ]
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "NodesMapWidget",
+                "title": "nodeLocationMapTitle",
+                "height": 350,
+                "maxWidth": 500,
+                "zoom": 1,
+                "managerGetter": "node/info",
+				"dataGetter": "node/mapInfo",
+				"hideDependOnGetter": "node/hostInfoManager",
+                "errorMessage": "Failed to fetch node list"
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
+                "title": "nodeHostDetailTitle",
+				"managerGetter": "node/info",
+				"hideDependOnGetter": "node/hostInfoManager",
+                "errorMessage": "nodeDetailError",
+                "pagination": "none",
+                "fields": [
+                    "ip",
+                    "organization",
+                    "as",
+                    "continent",
+                    "country",
+                    "region",
+                    "city",
+                    "district",
+                    "zip"
+                ]
+            },
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "nodePeerStatusTitle",
+                "managerGetter": "node/info",
+                "dataGetter": "node/peerStatus",
+                "errorMessage": "nodeDetailError",
+                "pagination": "none",
+                "hideEmptyData": true
+            },
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "nodeApiStatusTitle",
+                "managerGetter": "node/info",
+                "dataGetter": "node/apiStatus",
+                "errorMessage": "nodeDetailError",
+                "pagination": "none",
+                "hideEmptyData": true
+            },
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "nodeChainInfoTitle",
+                "managerGetter": "node/info",
+                "dataGetter": "node/chainInfo",
+                "errorMessage": "nodeDetailError",
+                "pagination": "none",
+                "hideEmptyData": true
+            }
+        ]
+    }
+}

@@ -23,6 +23,8 @@
     "bootstrap-vue": "^2.7.0",
     "chart.js": "^2.9.3",
     "core-js": "^2.6.11",
+    "leaflet": "^1.6.0",
+    "leaflet.markercluster": "^1.4.1",
     "js-sha3": "^0.8.0",
     "merkletreejs": "^0.2.9",
     "moment-timezone": "^0.5.28",
