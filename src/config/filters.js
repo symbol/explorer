@@ -9,6 +9,7 @@ import {
 	MosaicRestrictionEntryType
 } from 'symbol-sdk';
 import http from '../infrastructure/http';
+import Constants from '../config/constants';
 
 export const transaction = [
 	{
@@ -225,6 +226,65 @@ export const mosaicRestriction = [
 		icon: 'mdi-account',
 		value: {
 			entryType: MosaicRestrictionEntryType.ADDRESS
+		}
+	}
+];
+
+export const nodeRoles = [
+	{
+		label: 'All Nodes',
+		icon: '',
+		value: {
+			rolesRaw: null
+		}
+	},
+	{
+		label: Constants.RoleType[1],
+		icon: '',
+		value: {
+			rolesRaw: 1
+		}
+	},
+	{
+		label: Constants.RoleType[2],
+		icon: '',
+		value: {
+			rolesRaw: 2
+		}
+	},
+	{
+		label: Constants.RoleType[3],
+		icon: '',
+		value: {
+			rolesRaw: 3
+		}
+	},
+	{
+		label: Constants.RoleType[4],
+		icon: '',
+		value: {
+			rolesRaw: 4
+		}
+	},
+	{
+		label: Constants.RoleType[5],
+		icon: '',
+		value: {
+			rolesRaw: 5
+		}
+	},
+	{
+		label: Constants.RoleType[6],
+		icon: '',
+		value: {
+			rolesRaw: 6
+		}
+	},
+	{
+		label: Constants.RoleType[7],
+		icon: '',
+		value: {
+			rolesRaw: 7
 		}
 	}
 ];
