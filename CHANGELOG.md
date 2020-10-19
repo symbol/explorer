@@ -27,7 +27,7 @@ SDK Core| v0.21.0 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 - Problem with presenting address without outgoing transactions. [#663](https://github.com/nemgrouplimited/symbol-explorer/issues/663)
 - Problem with displaying account detail. [#638](https://github.com/nemgrouplimited/symbol-explorer/issues/638)
 - Page Assembler 'adaptive' card layout. 
-
+- Fixes wrong display expiration date in the namespace list on the private network. [#686](https://github.com/nemgrouplimited/symbol-explorer/pull/686)
 
 ## [v0.6.1][v0.6.1] - 2-Oct-2020
 
