@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [v0.6.2][v0.6.2] - 9-Oct-2020
+## [v0.6.2][v0.6.2] - 19-Oct-2020
 
 ### Milestone: [catapult-server@v0.10.0.3](https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.3)
 
@@ -14,10 +14,19 @@ SDK Core| v0.21.0 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 
 ### Added
 - Completed Transaction Graphic widget [#547](https://github.com/nemgrouplimited/symbol-explorer/issues/547)
+- Improved the Node Pages [#677](https://github.com/nemgrouplimited/symbol-explorer/pull/677)
+  - Added the Node Map Widget to display node host location.
+  - Getting the full node list from the Statistics Service.
+  - Added filter by node roles.
+  - Added the Node Detail page.
+  - Added the Peer and API Node status check.
+- Improved table navigation experience. [#688](https://github.com/nemgrouplimited/symbol-explorer/pull/688)
 
 ### Fixed
 - Namespaces List. Showing wrong Expiration and Expiration Date [#644](https://github.com/nemgrouplimited/symbol-explorer/issues/644)
 - Problem with presenting address without outgoing transactions. [#663](https://github.com/nemgrouplimited/symbol-explorer/issues/663)
+- Problem with displaying account detail. [#638](https://github.com/nemgrouplimited/symbol-explorer/issues/638)
+- Page Assembler 'adaptive' card layout. 
 
 
 ## [v0.6.1][v0.6.1] - 2-Oct-2020
