@@ -53,6 +53,7 @@ import RecentBlocksWidget from '@/components/widgets/RecentBlocksWidget.vue';
 import RecentTransactionsWidget from '@/components/widgets/RecentTransactionsWidget.vue';
 import TransactionGraphicWidget from '@/components/widgets/TransactionGraphicWidget.vue';
 import AccountBalanceWidget from '@/components/widgets/AccountBalanceWidget.vue';
+import NodesMapWidget from '@/components/widgets/NodesMapWidget.vue';
 
 export default {
 	components: {
@@ -62,7 +63,8 @@ export default {
 		RecentBlocksWidget,
 		RecentTransactionsWidget,
 		TransactionGraphicWidget,
-		AccountBalanceWidget
+		AccountBalanceWidget,
+		NodesMapWidget
 	},
 
 	props: {
@@ -121,7 +123,12 @@ export default {
 			if (this.getter(item.hideDependOnGetter)?.error)
 				return false;
 
-			if (item.hideEmptyData && this.getData(item)?.length === 0)
+			if (item.hideEmptyData && (
+				!this.getData(item) || (
+					Array.isArray(this.getData(item)) && !this.getData(item)?.length
+				)
+			)
+			)
 				return false;
 
 			if (item.hideOnError && this.getter(item.managerGetter)?.error)

@@ -3,12 +3,14 @@ import Age from '../fields/Age.vue';
 import Constants from '../../config/constants';
 import Decimal from '@/components/fields/Decimal.vue';
 import Truncate from '@/components/fields/Truncate.vue';
+import Boolean from '@/components/fields/Boolean.vue';
 
 export default {
 	components: {
 		Age,
 		Decimal,
-		Truncate
+		Truncate,
+		Boolean
 	},
 	props: {
 		height: {
@@ -77,7 +79,9 @@ export default {
 				'addressAdditions_',
 				'addressDeletions_',
 				'linkedAccountAddress',
-				'ownerAddress'
+				'ownerAddress',
+
+				'nodePublicKey'
 			],
 			disableClickValues: [...Object.values(Constants.Message)],
 			changeDecimalColor: [
@@ -149,7 +153,7 @@ export default {
 		},
 
 		isAge(itemKey) {
-			return itemKey === 'age';
+			return itemKey === 'age' || itemKey === 'lastStatusCheck';
 		},
 
 		isTransactionType(itemKey) {
@@ -178,6 +182,15 @@ export default {
 				key === 'cosignatoryAddresses_' ||
 				key === 'addressAdditions_' ||
 				key === 'addressDeletions_'
+			);
+		},
+
+		isBoolean(key) {
+			return (
+				key === 'connectionStatus' ||
+                key === 'apiNodeStatus' ||
+				key === 'databaseStatus' ||
+				key === 'isAvailable'
 			);
 		},
 
