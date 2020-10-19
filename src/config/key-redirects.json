@@ -52,5 +52,8 @@
     "mosaicAliasName": "namespaces",
     "accountAliasName": "namespaces",
     "targetNamespaceId": "namespaces",
-    "unresolved": "namespaces"
+    "unresolved": "namespaces",
+
+    "node": "nodes",
+    "nodePublicKey": "nodes"
 }

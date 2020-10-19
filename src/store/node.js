@@ -17,9 +17,11 @@
  */
 
 import Lock from './lock';
-import { NodeService } from '../infrastructure';
+import { NodeService, StatisticService } from '../infrastructure';
+import { filters } from '../config';
 import {
-	Timeline,
+	Pagination,
+	DataSet,
 	getStateFromManagers,
 	getGettersFromManagers,
 	getMutationsFromManagers,
@@ -27,11 +29,14 @@ import {
 } from './manager';
 
 const managers = [
-	new Timeline(
-		'timeline',
-		() => NodeService.getNodePeerList(),
-		() => [],
-		''// node id
+	new Pagination({
+		name: 'timeline',
+		fetchFunction: (pageInfo, filterValue) => NodeService.getNodePeerList(filterValue),
+		filter: filters.nodeRoles
+	}),
+	new DataSet(
+		'info',
+		(nodePublicKey) => NodeService.getNodeInfo(nodePublicKey)
 	)
 ];
 
@@ -46,7 +51,18 @@ export default {
 	},
 	getters: {
 		getInitialized: state => state.initialized,
-		...getGettersFromManagers(managers)
+		...getGettersFromManagers(managers),
+		mapInfo: state => [ state.info?.data ],
+		peerStatus: state => state.info?.data?.peerStatus,
+		apiStatus: state => state.info?.data?.apiStatus,
+		chainInfo: state => state.info?.data?.chainInfo,
+		hostInfoManager: (state, getters) => ({
+			loading: getters.timeline?.loading ||
+				getters.info?.loading,
+			error: !StatisticService.isUrlProvided() ||
+				getters.timeline?.error ||
+				getters.info?.error
+		})
 	},
 	mutations: {
 		setInitialized: (state, initialized) => {
@@ -68,7 +84,7 @@ export default {
 		// Uninitialize the node model.
 		async uninitialize({ commit, dispatch, getters }) {
 			const callback = async () => {
-        getters.timeline?.uninitialize();
+				getters.timeline?.uninitialize();
 			};
 
 			await LOCK.uninitialize(callback, commit, dispatch, getters);
@@ -77,6 +93,16 @@ export default {
 		// Fetch data from the SDK and initialize the page.
 		async initializePage(context) {
 			await context.getters.timeline.setStore(context).initialFetch();
+		},
+
+		// Fetch data from the SDK.
+		fetchNodeInfo(context, payload) {
+			context.dispatch('uninitializeDetail');
+			context.getters.info.setStore(context).initialFetch(Object.values(payload)[0]);
+		},
+
+		uninitializeDetail(context) {
+			context.getters.info.setStore(context).uninitialize();
 		}
 	}
 };
