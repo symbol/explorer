@@ -2,6 +2,7 @@ const fs = require('fs');
 const http = require('http');
 
 const PORT = 4000;
+const CONFIG_ROUTE = '/config';
 const STATIC_FOLDER = '/www';
 const INDEX_HTML = '/index.html';
 const ENV = JSON.stringify(process.env);
@@ -40,7 +41,7 @@ http.createServer((req, res) => {
 	if(req.url === '/')
 		req.url = INDEX_HTML;
 
-	if(req.url === '/config') { 
+	if(req.url === CONFIG_ROUTE) { 
 		sendJSON(res, ENV);
 	}
 	else {
