@@ -14,6 +14,7 @@ import MultisigService from './MultisigService';
 import NetworkService from './NetworkService';
 import StatisticService from './StatisticService';
 import LockService from './LockService';
+import CreateTransaction from './CreateTransaction';
 
 export {
 	NodeService,
@@ -31,5 +32,6 @@ export {
 	MultisigService,
 	NetworkService,
 	StatisticService,
-	LockService
+	LockService,
+	CreateTransaction
 };
