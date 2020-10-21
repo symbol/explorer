@@ -137,13 +137,16 @@ class CreateTransaction {
     	const resolvedMosaic = await helper.resolvedMosaic(transactionObj.mosaic);
     	const mosaicAliasName = await helper.getSingleMosaicAliasName(resolvedMosaic);
 
+    	const mosaic = new Mosaic(new MosaicId(resolvedMosaic.toHex()), transactionObj.mosaic.amount);
+
+    	const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder([mosaic]);
+
     	return {
     		...transactionObj,
     		transactionBody: {
+    			transactionType: transactionObj.type,
     			duration: transactionObj.duration.compact(),
-    			mosaicId: resolvedMosaic.toHex(),
-    			mosaicAliasName: mosaicAliasName,
-    			amount: helper.toNetworkCurrency(transactionObj.mosaic.amount),
+    			mosaics: mosaicsFieldObject,
     			hash: transactionObj.hash
     		}
     	};
