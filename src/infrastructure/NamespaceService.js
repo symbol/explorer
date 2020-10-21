@@ -19,8 +19,8 @@
 import http from './http';
 import helper from '../helper';
 import Constants from '../config/constants';
-import { ChainService, MetadataService } from '../infrastructure';
-import { Order, NamespaceId } from 'symbol-sdk';
+import { ChainService, MetadataService, TransactionService } from '../infrastructure';
+import { Order, NamespaceId, UInt64, TransactionType, TransactionGroup } from 'symbol-sdk';
 
 class NamespaceService {
   /**
@@ -157,10 +157,10 @@ class NamespaceService {
   		formattedNamespaceInfo.aliasMosaic = namespace.alias;
 
   	// End height disable click before expired.
-  	formattedNamespaceInfo.expiredInBlock = helper.isNativeNamespace(namespace.namespaceName.toUpperCase()) ? Constants.Message.INFINITY : expiredInBlock + ` ≈ ` + formattedNamespaceInfo.duration;
+  	formattedNamespaceInfo.expiredInBlock = helper.isNativeNamespace(namespace.namespaceName) ? Constants.Message.INFINITY : expiredInBlock + ` ≈ ` + formattedNamespaceInfo.duration;
 
   	if (!isExpired) {
-  		formattedNamespaceInfo.beforeEndHeight = helper.isNativeNamespace(namespace.namespaceName.toUpperCase()) ? Constants.Message.INFINITY : formattedNamespaceInfo.endHeight + ` ( ${http.networkConfig.NamespaceGraceDuration} blocks of grace period )`;
+  		formattedNamespaceInfo.beforeEndHeight = helper.isNativeNamespace(namespace.namespaceName) ? Constants.Message.INFINITY : formattedNamespaceInfo.endHeight + ` ( ${http.networkConfig.NamespaceGraceDuration} blocks of grace period )`;
   		delete formattedNamespaceInfo.endHeight;
   	}
 
@@ -201,14 +201,14 @@ class NamespaceService {
   	return {
   		...namespaceInfos,
   		data: namespaceInfos.data.map(namespace => {
-  			const { isExpired, expiredInSecond, expiredInBlock } = helper.calculateNamespaceExpiration(currentHeight, namespace.endHeight);
+			  const { isExpired, expiredInSecond, expiredInBlock } = helper.calculateNamespaceExpiration(currentHeight, namespace.endHeight);
 
   			return {
   				...namespace,
   				owneraddress: namespace.ownerAddress,
-  				expirationDuration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED,
+  				expirationDuration: helper.isNativeNamespace(namespace.namespaceName) ? Constants.Message.INFINITY : helper.convertTimeFromNowInSec(expiredInSecond),
   				isExpired: isExpired,
-  				approximateExpired: helper.convertSecondToDate(expiredInSecond),
+  				approximateExpired: helper.isNativeNamespace(namespace.namespaceName) ? Constants.Message.INFINITY : helper.convertSecondToDate(expiredInSecond),
   				expiredInBlock: expiredInBlock
   			};
   		})
@@ -250,6 +250,34 @@ class NamespaceService {
   		id: namespaceInfo.id,
   		name: this.extractFullNamespace(namespaceInfo, namespaceNames)
   	}));
+  }
+
+  /**
+   * Gets native namespaces name in from nemesis transactions.
+   * @returns Namespace[]
+   */
+  static getNativeNamespaces = async () => {
+  	const searchCriteria = {
+  		pageSize: 100,
+  		height: UInt64.fromUint(1),
+  		type: [TransactionType.NAMESPACE_REGISTRATION],
+  		group: TransactionGroup.Confirmed
+  	};
+
+  	const searchNamespaces = await TransactionService.streamerTransactions(searchCriteria);
+
+  	const namespaceids = searchNamespaces.map(namespace => namespace.namespaceId);
+
+  	const namespaceInfos = await Promise.all(namespaceids.map(async namespaceid => {
+  		return (NamespaceService.getNamespace(namespaceid));
+  	}));
+
+  	const nativeNamespaces = await NamespaceService.toNamespaces(namespaceInfos.map(namespaceInfo => ({
+  		...namespaceInfo,
+  		id: NamespaceId.createFromEncoded(namespaceInfo.namespaceId)
+  	})));
+
+  	return nativeNamespaces;
   }
 
   /**
@@ -301,10 +329,10 @@ class NamespaceService {
   	namespaceName: namespace.name,
   	namespaceId: namespace.id.toHex(),
   	registrationType: Constants.NamespaceRegistrationType[namespace.registrationType],
-  	startHeight: namespace.startHeight.compact(),
-  	endHeight: helper.isNativeNamespace(namespace.name.toUpperCase())
+  	startHeight: Number(namespace.startHeight.toString()),
+  	endHeight: helper.isNativeNamespace(namespace.name)
   		? Constants.Message.INFINITY
-  		: namespace.endHeight.compact(),
+  		: Number(namespace.endHeight.toString()),
   	active: namespace.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
   	...this.formatAlias(namespace.alias),
   	parentName: namespace.registrationType !== 0 ? namespace.name.split('.')[0].toUpperCase() : '',

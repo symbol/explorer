@@ -182,7 +182,8 @@ class TransactionService {
   		});
 
   		formattedTransaction.transferMosaics = transferMosaics;
-  		delete formattedTransaction.transactionBody.mosaics;
+  		formattedTransaction.transactionBody.mosaics = transferMosaics;
+  		// delete formattedTransaction.transactionBody.mosaics;
   		break;
   	case TransactionType.AGGREGATE_COMPLETE:
   	case TransactionType.AGGREGATE_BONDED:
@@ -191,8 +192,8 @@ class TransactionService {
   			transactionType: transaction.type
   		}));
 
+  		await Promise.all(innerTransactions.map(transaction => this.formatTransaction2(transaction)));
   		formattedTransaction.aggregateTransaction.innerTransactions = innerTransactions;
-
   		delete formattedTransaction.transactionBody.innerTransactions;
   		delete formattedTransaction.transactionBody.cosignatures;
   		break;

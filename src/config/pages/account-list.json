@@ -17,7 +17,8 @@
                 "managerGetter": "account/timeline",
                 "errorMessage": "Failed to fetch account list",
                 "pagination": "server",
-                "hasFilter": true,
+				"hasFilter": true,
+				"onRowClickKey": "address",
                 "fields": [
                     "address",
                     "balance",

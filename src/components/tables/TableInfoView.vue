@@ -16,6 +16,8 @@
 						<Decimal v-else-if="isDecimal(itemKey)" :value="item" />
 						<TransactionType v-else-if="isTransactionType(itemKey)" :value="item" />
 						<BlockHeightWithFinalizedStatusField v-else-if="isBlockHeightWithFinalizedStatus(itemKey)" :value="item" />
+						<Boolean v-else-if="isBoolean(itemKey)" :value="item" />
+						<Age v-else-if="isAge(itemKey)" :date="item" />
 
 						<router-link
 							v-else-if="isKeyClickable(itemKey) && getItemHref(itemKey, item)"

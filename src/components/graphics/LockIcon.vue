@@ -89,7 +89,7 @@ export default {
 		},
 
 		truncatedLockName() {
-			return this.truncString(this.lockName, 5);
+			return this.truncString(this.lockName, 8);
 		},
 
 		viewBox() {

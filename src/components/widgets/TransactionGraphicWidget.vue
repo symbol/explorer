@@ -4,9 +4,27 @@
 
 		<template #body>
 			<div class="body">
-
 				<div v-if="isAggregate" :class="aggregateContainerClass">
 					<div class="aggregate-title">{{ aggregateTitle }}</div>
+					<div v-if="cosigners.length" class="signers-section-wrapper">
+						<div class="signers-section">
+							<img :src="SignatureIcon" class="signature-icon" />
+							<svg
+								v-for="(address, index) in cosigners"
+								:key="'tg-cos' + index"
+								class="cosigner"
+								viewBox="35 35 60 60"
+								:width="64"
+								:height="64"
+							>
+								<AccountIcon
+									:width="128"
+									:height="128"
+									:address="address"
+								/>
+							</svg>
+						</div>
+					</div>
 					<div
 						class="aggregate-inner"
 						v-for="(innerTransactionData, index) in data.innerTransactions"
@@ -27,8 +45,10 @@
 </template>
 
 <script>
+import SignatureIcon from '../../styles/img/signature.png';
 import Card from '@/components/containers/Card.vue';
 import GraphicComponent from '../graphics/GraphicComponent.vue';
+import AccountIcon from '../graphics/AccountIcon.vue';
 import TransactionGraphic from '@/components/transaction-graphic/TransactionGraphic.vue';
 import { TransactionType } from 'symbol-sdk';
 
@@ -41,12 +61,14 @@ export default {
 
 	components: {
 		Card,
-		TransactionGraphic
+		TransactionGraphic,
+		AccountIcon
 	},
 
 	data() {
 		return {
 			TransactionType,
+			SignatureIcon,
 			supportedTransactionTypes: [
 				TransactionType.TRANSFER,
 				TransactionType.ADDRESS_ALIAS,
@@ -67,7 +89,11 @@ export default {
 				TransactionType.MOSAIC_ADDRESS_RESTRICTION,
 				TransactionType.ACCOUNT_OPERATION_RESTRICTION,
 				TransactionType.ACCOUNT_ADDRESS_RESTRICTION,
-				TransactionType.ACCOUNT_MOSAIC_RESTRICTION
+				TransactionType.ACCOUNT_MOSAIC_RESTRICTION,
+				TransactionType.MULTISIG_ACCOUNT_MODIFICATION,
+				TransactionType.ACCOUNT_METADATA,
+				TransactionType.NAMESPACE_METADATA,
+				TransactionType.MOSAIC_METADATA
 			]
 		};
 	},
@@ -79,14 +105,8 @@ export default {
 
 		isAggregate() {
 			return (
-				(
-					this.data.type === TransactionType.AGGREGATE_COMPLETE ||
-					this.data.type === TransactionType.AGGREGATE_BONDED
-				) &&
-				(
-					process.env.NODE_ENV === 'development' ||
-					this.data?.innerTransactions?.every(inner => this.isTransactionTypeSupported(inner.type) === true)
-				)
+				this.data.type === TransactionType.AGGREGATE_COMPLETE ||
+				this.data.type === TransactionType.AGGREGATE_BONDED
 			);
 		},
 
@@ -94,8 +114,12 @@ export default {
 			return this.getTransactionTypeCaption(this.data.type);
 		},
 
+		isMobile() {
+			return this.$store.getters['ui/isMobile'];
+		},
+
 		aggregateContainerClass() {
-			const isMobile = this.$store.getters['ui/isMobile'];
+			const isMobile = this.isMobile;
 
 			if (isMobile)
 				return 'aggregate-container-mobile';
@@ -104,6 +128,16 @@ export default {
 
 		data() {
 			return this.$store.getters[this.managerGetter].data;
+		},
+
+		cosigners() {
+			if (this.data.type === TransactionType.AGGREGATE_BONDED) {
+				return [
+					this.data.signer,
+					...this.data.cosignatures.map(cosignature => cosignature.signer.address.address)
+				];
+			}
+			return [];
 		},
 
 		loading() {
@@ -146,6 +180,32 @@ export default {
             margin: 20px 40px 0;
         }
 
+        .signers-section-wrapper {
+            width: 100%;
+            display: flex;
+            justify-content: flex-start;
+            flex-direction: row;
+            flex: 1;
+
+            .signers-section {
+                margin: 20px 40px 0;
+                position: relative;
+                display: inline-block;
+                width: auto;
+                max-width: 700px;
+                background: #f2f4f8;
+                padding: 10px 20px;
+                border-radius: 40px;
+
+                .signature-icon {
+                    position: absolute;
+                    height: 40px;
+                    top: -10px;
+                    right: 0;
+                }
+            }
+        }
+
         .aggregate-inner {
             position: relative;
             padding: 0 40px;
@@ -167,6 +227,16 @@ export default {
             text-align: center;
             font-weight: 700;
             color: var(--orange);
+        }
+
+        .signers-section-wrapper {
+            display: none;
+        }
+
+        .aggregate-inner {
+            .aggregate-inner-index {
+                display: none;
+            }
         }
     }
 }

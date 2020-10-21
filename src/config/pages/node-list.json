@@ -11,27 +11,40 @@
         "schema": [
             {
                 "layoutOptions": "full-width",
+                "type": "NodesMapWidget",
+                "title": "nodesTitle",
+                "height": 500,
+                "maxWidth": 1500,
+                "zoom": 2,
+                "minZoom": 2,
+				"managerGetter": "node/timeline",
+				"hideDependOnGetter": "node/hostInfoManager",
+                "errorMessage": "Failed to fetch node list",
+				"hasFilter": true
+            },
+            {
+                "layoutOptions": "full-width",
                 "type": "CardTable",
                 "title": "nodesTitle",
                 "managerGetter": "node/timeline",
                 "errorMessage": "Failed to fetch node list",
-                "pagination": "server",
+                "pagination": "client",
+                "pageSize": 1000,
+				"hasFilter": true,
+				"onRowClickKey": "nodePublicKey",
                 "fields": [
                     "index",
-                    "version",
-                    "roles",
-                    "network",
                     "host",
-                    "port",
-                    "address",
-                    "friendlyName"
+                    "friendlyName",
+                    "roles",
+                    "nodePublicKey",
+                    "version",
+                    "network"
                 ],
                 "mobileFields": [
-                    "index",
-                    "roles",
-                    "address",
+                    "host",
                     "friendlyName",
-                    "host"
+                    "nodePublicKey"
                 ]
             }
         ]

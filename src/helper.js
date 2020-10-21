@@ -431,9 +431,12 @@ class helper {
    * @returns boolean
    */
   static isNativeNamespace = (namespaceName) => {
-  	const values = Object.values(http.networkCurrency.namespace);
+	  if (!http.nativeNamespaces)
+		  return false;
 
-  	return values.indexOf(namespaceName) !== -1;
+  	const values = http.nativeNamespaces.map(namespace => namespace.namespaceName.toUpperCase());
+
+  	return values.indexOf(namespaceName.toUpperCase()) !== -1;
   }
 
   /**
