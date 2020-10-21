@@ -17,7 +17,7 @@
  */
 
 import { Constants } from './config';
-import { NetworkType, MosaicId, NamespaceId, Address } from 'symbol-sdk';
+import { NetworkType, MosaicId, NamespaceId, Address, Mosaic } from 'symbol-sdk';
 import { NamespaceService, MosaicService } from './infrastructure';
 import http from './infrastructure/http';
 import moment from 'moment';
@@ -423,6 +423,53 @@ class helper {
   	const address = await NamespaceService.getLinkedAddress(unResolvedAddress);
 
   	return address.plain();
+  }
+
+  /**
+   * To resolved unresolvedMosaicId.
+   * @param unresolvedMosaicId - NamespaceId | MosaicId
+   * @returns Id
+   */
+  static resolvedMosaic = async (unresolvedMosaicId) => {
+  	if (!(unresolvedMosaicId instanceof NamespaceId)) return unresolvedMosaicId.id;
+
+  	const mosaicId = await NamespaceService.getLinkedMosaicId(unresolvedMosaicId);
+
+  	return mosaicId.id;
+  }
+
+  /**
+   * Build mosaic field object use in MosaicField components
+   * @param mosaics - Mosaic[]
+   * @returns mosaicsFieldObject - { mosaicId, amount, mosaicAliasName }
+   */
+  static mosaicsFieldObjectBuilder = async (mosaics) => {
+  	if (mosaics.length === 0) return [];
+
+  	const resolvedMosaics = await Promise.all(mosaics.map(async mosaic => {
+  		const resolvedMosaic = await this.resolvedMosaic(mosaic.id);
+  		const mosaicId = new MosaicId(resolvedMosaic.toHex()).id;
+
+  		return new Mosaic(mosaicId, mosaic.amount);
+  	}));
+
+  	const resolvedMosaicIds = resolvedMosaics.map(mosaic => mosaic.id);
+
+  	const [mosaicInfos, mosaicNames] = await Promise.all([
+  		MosaicService.getMosaics(resolvedMosaicIds),
+  		NamespaceService.getMosaicsNames(resolvedMosaicIds)
+	  ]);
+
+  	return resolvedMosaics.map(mosaic => {
+  		let divisibility = mosaicInfos.find(info => info.mosaicId === mosaic.id.toHex()).divisibility;
+
+  		return {
+  			...mosaic,
+  			mosaicId: mosaic.id.toHex(),
+  			amount: helper.formatMosaicAmountWithDivisibility(mosaic.amount, divisibility),
+  			mosaicAliasName: MosaicService.extractMosaicNamespace({ mosaicId: mosaic.id.toHex() }, mosaicNames)
+  		};
+  	});
   }
 
   /**

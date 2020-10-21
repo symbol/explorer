@@ -26,7 +26,7 @@ class CreateTransaction {
     static transferTransaction = async (transactionObj) => {
     	const [resolvedAddress, mosaicsFieldObject] = await Promise.all([
     		helper.resolvedAddress(transactionObj.recipientAddress),
-    		helper.MosaicsFieldObjectBuilder(transactionObj.mosaics)
+    		helper.mosaicsFieldObjectBuilder(transactionObj.mosaics)
     	]);
 
     	return {
@@ -151,7 +151,7 @@ class CreateTransaction {
 
     static secretLock = async (transactionObj) => {
     	const [mosaicsFieldObject, resolvedAddress] = await Promise.all([
-    		helper.MosaicsFieldObjectBuilder([transactionObj.mosaic]),
+    		helper.mosaicsFieldObjectBuilder([transactionObj.mosaic]),
     		helper.resolvedAddress(transactionObj.recipientAddress)
     	]);
 
