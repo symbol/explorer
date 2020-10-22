@@ -37,7 +37,7 @@
 				id="target"
 				:x="getCircleIconPositionX(1)"
 				:y="circleIconPositionY"
-				:mosaics="[mosaic]"
+				:mosaics="mosaics"
 			/>
 			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
 				{{ transactionType }}
@@ -86,20 +86,9 @@ export default {
 			required: true,
 			default: ''
 		},
-		mosaicId: {
-			type: String,
-			required: true,
-			default: ''
-		},
-		amount: {
-			type: String,
-			required: true,
-			default: ''
-		},
-		mosaicAliasName: {
-			type: String,
-			required: true,
-			default: ''
+		mosaics: {
+			type: Array,
+			default: () => []
 		},
 		secret: {
 			type: String,
