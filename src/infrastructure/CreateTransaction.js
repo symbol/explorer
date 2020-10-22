@@ -20,7 +20,7 @@ import http from './http';
 import helper from '../helper';
 import { Constants } from '../config';
 import { NamespaceService } from '../infrastructure';
-import { Address } from 'symbol-sdk';
+import { Address, Mosaic, MosaicId } from 'symbol-sdk';
 
 class CreateTransaction {
     static transferTransaction = async (transactionObj) => {
@@ -32,6 +32,7 @@ class CreateTransaction {
     	return {
     		...transactionObj,
     		transactionBody: {
+    			transactionType: transactionObj.type,
     			message: transactionObj.message.payload,
     			recipient: resolvedAddress,
     			mosaics: mosaicsFieldObject
@@ -43,6 +44,7 @@ class CreateTransaction {
     	return {
     		...transactionObj,
   			transactionBody: {
+    			transactionType: transactionObj.type,
   				recipient: http.networkConfig.NamespaceRentalFeeSinkAddress.address,
   				registrationType: Constants.NamespaceRegistrationType[transactionObj.registrationType],
   				namespaceName: transactionObj.namespaceName,
@@ -54,28 +56,32 @@ class CreateTransaction {
     }
 
     static addressAlias = async (transactionObj) => {
-    	const namespaceName = await NamespaceService.getNamespacesNames([transactionObj.namespaceId]);
+    	const namespaceNames = await NamespaceService.getNamespacesNames([transactionObj.namespaceId]);
+    	const namespaceName = namespaceNames.find(namespace => namespace.namespaceId === transactionObj.namespaceId.toHex());
 
     	return {
     		...transactionObj,
     		transactionBody: {
+    			transactionType: transactionObj.type,
     			aliasAction: Constants.AliasAction[transactionObj.aliasAction],
     			namespaceId: transactionObj.namespaceId.toHex(),
-    			namespaceName: namespaceName,
+    			namespaceName: namespaceName.name,
     			address: transactionObj.address.address
     		}
     	};
     }
 
     static mosaicAlias = async (transactionObj) => {
-    	const namespaceName = await NamespaceService.getNamespacesNames([transactionObj.namespaceId]);
+    	const namespaceNames = await NamespaceService.getNamespacesNames([transactionObj.namespaceId]);
+    	const namespaceName = namespaceNames.find(namespace => namespace.namespaceId === transactionObj.namespaceId.toHex());
 
     	return {
     		...transactionObj,
     		transactionBody: {
+    			transactionType: transactionObj.type,
     			aliasAction: Constants.AliasAction[transactionObj.aliasAction],
     			namespaceId: transactionObj.namespaceId.id.toHex(),
-    			namespaceName: namespaceName,
+    			namespaceName: namespaceName.name,
     			mosaicId: transactionObj.mosaicId.id.toHex()
     		}
     	};
@@ -87,6 +93,7 @@ class CreateTransaction {
     	return {
     		...transactionObj,
     		transactionBody: {
+    			transactionType: transactionObj.type,
     			recipient: http.networkConfig.MosaicRentalSinkAddress.address,
     			mosaicId: resolvedMosaic.toHex(),
     			divisibility: transactionObj.divisibility,
@@ -105,6 +112,7 @@ class CreateTransaction {
     	return {
     		...transactionObj,
     		transactionBody: {
+    			transactionType: transactionObj.type,
     			mosaicId: resolvedMosaic.toHex(),
     			action: Constants.MosaicSupplyChangeAction[transactionObj.action],
     			delta: transactionObj.delta.compact()
@@ -114,17 +122,18 @@ class CreateTransaction {
 
     static multisigAccountModification = async (transactionObj) => {
     	const [addressAdditions, addressDeletions] = await Promise.all([
-    		transactionObj.addressAdditions.map(address => {
-    			return helper.resolvedAddress(address.address);
-    		}),
-    		transactionObj.addressDeletions.map(address => {
-    			return helper.resolvedAddress(address.address);
-    		})
+    		Promise.all(transactionObj.addressAdditions.map(address => {
+    			return helper.resolvedAddress(address);
+    		})),
+    		Promise.all(transactionObj.addressDeletions.map(address => {
+    			return helper.resolvedAddress(address);
+    		}))
     	]);
 
     	return {
     		...transactionObj,
     		transactionBody: {
+    			transactionType: transactionObj.type,
     			minApprovalDelta: transactionObj.minApprovalDelta,
     			minRemovalDelta: transactionObj.minRemovalDelta,
     			addressAdditions: addressAdditions,
@@ -135,7 +144,6 @@ class CreateTransaction {
 
     static hashLock = async (transactionObj) => {
     	const resolvedMosaic = await helper.resolvedMosaic(transactionObj.mosaic);
-    	const mosaicAliasName = await helper.getSingleMosaicAliasName(resolvedMosaic);
 
     	const mosaic = new Mosaic(new MosaicId(resolvedMosaic.toHex()), transactionObj.mosaic.amount);
 
@@ -161,6 +169,7 @@ class CreateTransaction {
     	return {
     		...transactionObj,
     		transactionBody: {
+    			transactionType: transactionObj.type,
     			duration: transactionObj.duration.compact(),
     			mosaics: mosaicsFieldObject,
     			secret: transactionObj.secret,
@@ -176,6 +185,7 @@ class CreateTransaction {
     	return {
     		...transactionObj,
     		transactionBody: {
+    			transactionType: transactionObj.type,
     			hashAlgorithm: Constants.LockHashAlgorithm[transactionObj.hashAlgorithm],
     			recipient: resolvedAddress,
     			secret: transactionObj.secret,
@@ -186,17 +196,18 @@ class CreateTransaction {
 
     static accountAddressRestriction = async (transactionObj) => {
     	const [addressAdditions, addressDeletions] = await Promise.all([
-    		transactionObj.restrictionAdditions.map(restriction => {
-    			return helper.resolvedAddress(restriction.address);
-    		}),
-    		transactionObj.restrictionDeletions.map(restriction => {
-    			return helper.resolvedAddress(restriction.address);
-    		})
+    		Promise.all(transactionObj.restrictionAdditions.map(address => {
+    			return helper.resolvedAddress(address);
+    		})),
+    		Promise.all(transactionObj.restrictionDeletions.map(address => {
+    			return helper.resolvedAddress(address);
+    		}))
     	]);
 
     	return {
     		...transactionObj,
     		transactionBody: {
+    			transactionType: transactionObj.type,
     			restrictionType: Constants.AddressRestrictionFlag[transactionObj.restrictionFlags],
     			restrictionAddressAdditions: addressAdditions,
     			restrictionAddressDeletions: addressDeletions
@@ -209,6 +220,7 @@ class CreateTransaction {
     	return {
     		...transactionObj,
     		transactionBody: {
+    			transactionType: transactionObj.type,
     			restrictionType: Constants.MosaicRestrictionFlag[transactionObj.restrictionFlags],
     			restrictionMosaicAdditions: transactionObj.restrictionAdditions.map(restriction => restriction.id.toHex()),
     			restrictionMosaicDeletions: transactionObj.restrictionDeletions.map(restriction => restriction.id.toHex())
@@ -220,9 +232,10 @@ class CreateTransaction {
     	return {
     		...transactionObj,
     		transactionBody: {
+    			transactionType: transactionObj.type,
     			restrictionType: Constants.OperationRestrictionFlag[transactionObj.restrictionFlags],
-				restrictionOperationAdditions: transactionObj.restrictionAdditions.map(operation => operation),
-				restrictionOperationDeletions: transactionObj.restrictionDeletions.map(operation => operation)
+    			restrictionOperationAdditions: transactionObj.restrictionAdditions.map(operation => operation),
+    			restrictionOperationDeletions: transactionObj.restrictionDeletions.map(operation => operation)
     		}
     	};
     };
@@ -238,6 +251,7 @@ class CreateTransaction {
     	return {
     		...transactionObj,
     		transactionBody: {
+    			transactionType: transactionObj.type,
     			mosaicId: resolvedMosaic.toHex(),
     			mosaicAliasName: mosaicAliasName,
     			targetAddress: targetAddress,
@@ -255,6 +269,7 @@ class CreateTransaction {
     	return {
     		...transactionObj,
     		transactionBody: {
+    			transactionType: transactionObj.type,
     			referenceMosaicId: referenceMosaicId.toHex(),
     			mosaicAliasName: mosaicAliasName,
     			restrictionKey: transactionObj.restrictionKey.toHex(),
@@ -272,6 +287,7 @@ class CreateTransaction {
     	return {
     		...transactionObj,
     		transactionBody: {
+    			transactionType: transactionObj.type,
     			scopedMetadataKey: transactionObj.scopedMetadataKey.toHex(),
     			targetAddress: resolvedAddress,
     			metadataValue: transactionObj.value,
@@ -290,6 +306,7 @@ class CreateTransaction {
     	return {
     		...transactionObj,
     		transactionBody: {
+    			transactionType: transactionObj.type,
     			scopedMetadataKey: transactionObj.scopedMetadataKey.toHex(),
     			targetMosaicId: resolvedMosaic.toHex(),
     			targetMosaicAliasName: mosaicAliasName,
@@ -309,6 +326,7 @@ class CreateTransaction {
     	return {
     		...transactionObj,
     		transactionBody: {
+    			transactionType: transactionObj.type,
     			scopedMetadataKey: transactionObj.scopedMetadataKey.toHex(),
     			targetNamespaceId: transactionObj.targetNamespaceId.toHex(),
     			namespaceName: namespaceName,
@@ -336,6 +354,7 @@ class CreateTransaction {
     	return {
     		...transactionObj,
     		transactionBody: {
+    			transactionType: transactionObj.type,
     			linkAction: Constants.LinkAction[transactionObj.linkAction],
     			linkedPublicKey: transactionObj.linkedPublicKey,
     			linkedAccountAddress: Address.createFromPublicKey(transactionObj.linkedPublicKey, http.networkType).plain()
@@ -347,6 +366,7 @@ class CreateTransaction {
     	return {
     		...transactionObj,
     		transactionBody: {
+    			transactionType: transactionObj.type,
     			linkAction: Constants.LinkAction[transactionObj.linkAction],
     			linkedPublicKey: transactionObj.linkedPublicKey,
     			linkedAccountAddress: Address.createFromPublicKey(transactionObj.linkedPublicKey, http.networkType).plain()
@@ -358,6 +378,7 @@ class CreateTransaction {
     	return {
     		...transactionObj,
     		transactionBody: {
+    			transactionType: transactionObj.type,
     			linkAction: Constants.LinkAction[transactionObj.linkAction],
     			linkedPublicKey: transactionObj.linkedPublicKey,
     			linkedAccountAddress: Address.createFromPublicKey(transactionObj.linkedPublicKey, http.networkType).plain()
