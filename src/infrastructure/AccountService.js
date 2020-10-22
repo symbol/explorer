@@ -143,15 +143,20 @@ class AccountService {
   		...filterVaule
   	};
 
-	  const accountTransactions = await TransactionService.searchTransactions(searchCriteria);
+  	const searchTransactions = await TransactionService.searchTransactions(searchCriteria);
+
+  	const accountTransactions = {
+  		...searchTransactions,
+  		data: searchTransactions.data.map(transaction => TransactionService.formatTransaction(transaction))
+  	};
 
   	return {
   		...accountTransactions,
   		data: accountTransactions.data.map(accountTransaction => ({
   			...accountTransaction,
-  			transactionHash: accountTransaction.hash,
+  			transactionHash: accountTransaction.transactionInfo.hash,
   			transactionType:
-          accountTransaction.transactionBody.transactionType === TransactionType.TRANSFER
+          accountTransaction.type === TransactionType.TRANSFER
           	? (accountTransaction.signer === address
           		? 'outgoing_' + accountTransaction.transactionBody.transactionType
           		: 'incoming_' + accountTransaction.transactionBody.transactionType

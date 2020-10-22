@@ -96,7 +96,9 @@ class BlockService {
   		order: Order.Desc
   	};
 
-  	const transactions = await TransactionService.streamerTransactions(searchCriteria);
+  	const streamerTransactions = await TransactionService.streamerTransactions(searchCriteria);
+  	const transactions = streamerTransactions.map(transaction => TransactionService.formatTransaction(transaction));
+
   	const leaves = transactions.sort((n1, n2) => n1.transactionInfo.index - n2.transactionInfo.index)
   		.map(transaction => transaction.transactionInfo.hash);
 
@@ -155,16 +157,21 @@ class BlockService {
   		group: TransactionGroup.Confirmed,
   		height: UInt64.fromUint(height),
   		...filterVaule
-  	};
+	  };
 
-  	const blockTransactions = await TransactionService.searchTransactions(searchCriteria);
+  	const searchTransactions = await TransactionService.searchTransactions(searchCriteria);
+
+  	const blockTransactions = {
+  		...searchTransactions,
+  		data: searchTransactions.data.map(transaction => TransactionService.formatTransaction(transaction))
+  	};
 
   	return {
   		...blockTransactions,
   		data: blockTransactions.data.map(blockTransaction => ({
   			...blockTransaction,
-  			transactionHash: blockTransaction.hash,
-  			transactionType: blockTransaction.transactionBody.transactionType
+  			transactionHash: blockTransaction.transactionInfo.hash,
+  			transactionType: blockTransaction.type
   		}))
   	};
   }
