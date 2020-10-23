@@ -5,6 +5,7 @@
     "address": "accounts",
     "signer": "accounts",
     "recipient": "accounts",
+    "senderAddress": "accounts",
     "owneraddress": "accounts",
     "aliasAddress": "accounts",
     "sourceAddress": "accounts",

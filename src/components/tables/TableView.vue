@@ -80,6 +80,7 @@ export default {
 				'addressDeletions_',
 				'linkedAccountAddress',
 				'ownerAddress',
+				'senderAddress',
 
 				'nodePublicKey'
 			],
