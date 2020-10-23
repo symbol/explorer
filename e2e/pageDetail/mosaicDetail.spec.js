@@ -15,7 +15,7 @@ describe('Symbol Explorer Mosaic Detail page', () => {
         })
 
         it('render correct table fields.', () => {
-            const items = ['Mosaic ID', 'Alias Namespace', 'Divisibility', 'Address', 'Supply', 'Relative Amount', 'Revision', 'Registered at Height', 'Duration', 'Supply Mutable', 'Transferable', 'Restrictable']
+            const items = ['Mosaic ID', 'Alias Namespace', 'Divisibility', 'Address', 'Supply', 'Revision', 'Height', 'Duration', 'Supply Mutable', 'Transferable', 'Restrictable']
             cy.renderFieldInTable("mosaicDetailTitle", items)
         })
     })
