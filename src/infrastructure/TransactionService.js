@@ -181,8 +181,8 @@ class TransactionService {
   	};
 
   	await Promise.all(transactions.data.map(async transaction => {
-  		if (transaction.transactionBody?.recipient)
-  			return (transaction.transactionBody.recipient = await helper.resolvedAddress(transaction.transactionBody.recipient));
+  		if (transaction?.recipientAddress)
+  			return (transaction.transactionBody.recipient = await helper.resolvedAddress(transaction.recipientAddress));
   	}));
 
   	return {
