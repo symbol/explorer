@@ -430,7 +430,7 @@ class helper {
    * @param unresolvedMosaicId - NamespaceId | MosaicId
    * @returns Id
    */
-  static resolvedMosaic = async (unresolvedMosaicId) => {
+  static resolveMosaicId = async (unresolvedMosaicId) => {
   	if (!(unresolvedMosaicId instanceof NamespaceId)) return unresolvedMosaicId.id;
 
   	const mosaicId = await NamespaceService.getLinkedMosaicId(unresolvedMosaicId);
