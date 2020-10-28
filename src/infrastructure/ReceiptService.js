@@ -155,7 +155,7 @@ class ReceiptService {
   					size: receipt.size || Constants.Message.UNAVAILABLE,
   					receiptType: Constants.ReceiptType[receipt.type],
   					senderAddress: receipt.senderAddress.address,
-  					recipientAddress: receipt.recipientAddress.address,
+  					recipient: receipt.recipientAddress.address,
   					amount: helper.formatMosaicAmountWithDivisibility(receipt.amount, http.networkCurrency.divisibility),
   					mosaicId: receipt.mosaicId.toHex()
   				});
