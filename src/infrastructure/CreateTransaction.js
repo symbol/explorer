@@ -88,7 +88,7 @@ class CreateTransaction {
     };
 
     static mosaicDefinition = async (transactionObj) => {
-    	const resolvedMosaic = await helper.resolvedMosaic(transactionObj.mosaicId);
+    	const resolvedMosaic = await helper.resolveMosaicId(transactionObj.mosaicId);
 
     	return {
     		...transactionObj,
@@ -107,7 +107,7 @@ class CreateTransaction {
     };
 
     static mosaicSupplyChange = async (transactionObj) => {
-    	const resolvedMosaic = await helper.resolvedMosaic(transactionObj.mosaicId);
+    	const resolvedMosaic = await helper.resolveMosaicId(transactionObj.mosaicId);
 
     	return {
     		...transactionObj,
@@ -143,7 +143,7 @@ class CreateTransaction {
     }
 
     static hashLock = async (transactionObj) => {
-    	const resolvedMosaic = await helper.resolvedMosaic(transactionObj.mosaic);
+    	const resolvedMosaic = await helper.resolveMosaicId(transactionObj.mosaic);
 
     	const mosaic = new Mosaic(new MosaicId(resolvedMosaic.toHex()), transactionObj.mosaic.amount);
 
@@ -242,7 +242,7 @@ class CreateTransaction {
 
     static mosaicAddressRestriction = async (transactionObj) => {
     	const [resolvedMosaic, targetAddress] = await Promise.all([
-    		helper.resolvedMosaic(transactionObj.mosaicId),
+    		helper.resolveMosaicId(transactionObj.mosaicId),
     		helper.resolvedAddress(transactionObj.targetAddress)
     	]);
 
@@ -298,7 +298,7 @@ class CreateTransaction {
 
     static mosaicMetadata = async (transactionObj) => {
     	const [resolvedMosaic, resolvedAddress] = await Promise.all([
-    		helper.resolvedMosaic(transactionObj.targetMosaicId),
+    		helper.resolveMosaicId(transactionObj.targetMosaicId),
     		helper.resolvedAddress(transactionObj.targetAddress.address)
     	]);
     	const mosaicAliasName = await helper.getSingleMosaicAliasName(resolvedMosaic);

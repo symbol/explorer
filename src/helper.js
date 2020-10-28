@@ -447,7 +447,7 @@ class helper {
   	if (mosaics.length === 0) return [];
 
   	const resolvedMosaics = await Promise.all(mosaics.map(async mosaic => {
-  		const resolvedMosaic = await this.resolvedMosaic(mosaic.id);
+  		const resolvedMosaic = await this.resolveMosaicId(mosaic.id);
   		const mosaicId = new MosaicId(resolvedMosaic.toHex()).id;
 
   		return new Mosaic(mosaicId, mosaic.amount);
