@@ -192,7 +192,8 @@ class TransactionService {
   			height: transaction.transactionInfo.height,
   			transactionHash: transaction.transactionInfo.hash,
   			transactionType: transaction.type,
-  			recipient: transaction.transactionBody?.recipient
+			recipient: transaction.transactionBody?.recipient,
+			value: this.extendGraphicValue(transaction)
   		}))
   	};
   }
@@ -466,6 +467,34 @@ class TransactionService {
 
   	return {};
   }
+
+  /**
+   * extend graphic value for transaction list.
+   * @param {*} transactionInfo
+   * @returns graphicValue []
+   */
+  static extendGraphicValue = transactionInfo => {
+    const transactionBody = transactionInfo.transactionBody;
+
+    switch (transactionInfo.type) {
+        case TransactionType.TRANSFER:
+            return [
+                { message: transactionBody.message },
+                { nativeMosaic: transactionBody.mosaics.find(mosaic => mosaic.id === http.networkCurrency.mosaicId)?.amount || 0 },
+                { mosaics: transactionBody.mosaics.filter(mosaic => mosaic.id !== http.networkCurrency.mosaicId) }
+        ];
+        case TransactionType.ADDRESS_ALIAS:
+            return [
+            transactionInfo.aliasAction === AliasAction.Link
+                ? { linkNamespaceName: transactionBody.namespaceId }
+                : { unlinkNamespaceName: transactionBody.namespaceId }
+            ];
+        case TransactionType.NAMESPACE_REGISTRATION:
+            return [{ namespaceName: transactionBody.namespaceName }];
+        default:
+            return [];
+    }
+}
 
   /**
    * Build standalone transanction object for Vue components.
