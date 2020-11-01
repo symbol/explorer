@@ -8,7 +8,7 @@
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
     "lint:css": "stylelint '**/*.vue' src/styles/main.scss --syntax scss",
-    "prettier:fix": "prettier --write ./src/**",
+    "prettier:fix": "prettier --write ./src/** ./__tests__ ./e2e",
     "style:fix": "npm run prettier:fix && npm run lint && npm run lint:css",
     "test:e2e": "vue-cli-service test:e2e --headless",
     "test": "vue-cli-service test:unit",

@@ -1,24 +1,34 @@
-import config from '../config/network.conf.json'
+import config from '../config/network.conf.json';
 
 describe('Symbol Explorer Account Detail page', () => {
     beforeEach(() => {
-        cy.visit(`/accounts/${config.testAccount.address}`)
-    })
+        cy.visit(`/accounts/${config.testAccount.address}`);
+    });
 
     describe('Account Detail Card should', () => {
         it('load title', () => {
-            cy.get('[data-cy="accountDetailTitle"]').should('contain', 'Account Detail')
-        })
+            cy.get('[data-cy="accountDetailTitle"]').should(
+                'contain',
+                'Account Detail',
+            );
+        });
 
-        it('render table in card', ()=> {
-            cy.renderTableInCard("accountDetailTitle")
-        })
+        it('render table in card', () => {
+            cy.renderTableInCard('accountDetailTitle');
+        });
 
         it('render correct table fields.', () => {
-            const items = ['Address', 'Alias Namespace', 'Address height', 'Public key', 'Importance', 'Account type']
-            cy.renderFieldInTable("accountDetailTitle", items)
-        })
-    })
+            const items = [
+                'Address',
+                'Alias Namespace',
+                'Address height',
+                'Public key',
+                'Importance',
+                'Account type',
+            ];
+            cy.renderFieldInTable('accountDetailTitle', items);
+        });
+    });
 
     // Todo: Multisig Cosignatories
     // describe('Multisig Cosignatories Card should', () => {
@@ -38,78 +48,98 @@ describe('Symbol Explorer Account Detail page', () => {
 
     describe('Owned Mosaics Card should', () => {
         it('load title', () => {
-            cy.get('[data-cy="ownedMosaicsTitle"]').should('contain', 'Owned Mosaics')
-        })
+            cy.get('[data-cy="ownedMosaicsTitle"]').should(
+                'contain',
+                'Owned Mosaics',
+            );
+        });
 
         it('render table in card', () => {
-            cy.renderTableInCard("ownedMosaicsTitle")
-        })
+            cy.renderTableInCard('ownedMosaicsTitle');
+        });
 
         it('render correct table header.', () => {
-            const items = ['Mosaic ID', 'Amount', 'Alias Namespace']
-            cy.renderHeaderInTable("ownedMosaicsTitle", items)
-        })
-    })
+            const items = ['Mosaic ID', 'Amount', 'Alias Namespace'];
+            cy.renderHeaderInTable('ownedMosaicsTitle', items);
+        });
+    });
 
     describe('Owned Namespaces Card should', () => {
         it('load title', () => {
-            cy.get('[data-cy="ownedNamespacesTitle"]').should('contain', 'Owned Namespaces')
-        })
+            cy.get('[data-cy="ownedNamespacesTitle"]').should(
+                'contain',
+                'Owned Namespaces',
+            );
+        });
 
         it('render table in card', () => {
-            cy.renderTableInCard("ownedNamespacesTitle")
-        })
+            cy.renderTableInCard('ownedNamespacesTitle');
+        });
 
         it('render correct table header.', () => {
-            const items = ['Name', 'Status', 'Duration', 'Registration Type']
-            cy.renderHeaderInTable("ownedNamespacesTitle", items)
-        })
-    })
+            const items = ['Name', 'Status', 'Duration', 'Registration Type'];
+            cy.renderHeaderInTable('ownedNamespacesTitle', items);
+        });
+    });
 
     describe('Supplemental Keys Card should', () => {
         it('load title', () => {
-            cy.get('[data-cy="supplementalKeysTitle"]').should('contain', 'Supplemental Keys')
-        })
+            cy.get('[data-cy="supplementalKeysTitle"]').should(
+                'contain',
+                'Supplemental Keys',
+            );
+        });
 
-        it('render table in card', ()=> {
-            cy.renderTableInCard("supplementalKeysTitle")
-        })
+        it('render table in card', () => {
+            cy.renderTableInCard('supplementalKeysTitle');
+        });
 
         it('render correct table fields.', () => {
-            const items = ['LINKED', 'NODE', 'VRF']
-            cy.renderFieldInTable("supplementalKeysTitle", items)
-        })
-    })
+            const items = ['LINKED', 'NODE', 'VRF'];
+            cy.renderFieldInTable('supplementalKeysTitle', items);
+        });
+    });
 
     describe('Importance History Card should', () => {
         it('load title', () => {
-            cy.get('[data-cy="importanceHistoryTitle"]').should('contain', 'Importance History')
-        })
+            cy.get('[data-cy="importanceHistoryTitle"]').should(
+                'contain',
+                'Importance History',
+            );
+        });
 
         it('render table in card', () => {
-            cy.renderTableInCard("importanceHistoryTitle")
-        })
+            cy.renderTableInCard('importanceHistoryTitle');
+        });
 
         it('render correct table header.', () => {
-            const items = ['Recalculation Block #', 'Total Fees Paid', 'Beneficiary Count', 'Importance Score']
-            cy.renderHeaderInTable("importanceHistoryTitle", items)
-        })
-    })
+            const items = [
+                'Recalculation Block #',
+                'Total Fees Paid',
+                'Beneficiary Count',
+                'Importance Score',
+            ];
+            cy.renderHeaderInTable('importanceHistoryTitle', items);
+        });
+    });
 
     describe('Transactions Card should', () => {
         it('load title', () => {
-            cy.get('[data-cy="accountTransactionsTitle"]').should('contain', 'Transactions')
-        })
+            cy.get('[data-cy="accountTransactionsTitle"]').should(
+                'contain',
+                'Transactions',
+            );
+        });
 
         it('render table in card', () => {
-            cy.renderTableInCard("accountTransactionsTitle")
-        })
+            cy.renderTableInCard('accountTransactionsTitle');
+        });
 
         it('render correct table header.', () => {
-            const items = ['Deadline', 'Transaction Hash', 'Type']
-            cy.renderHeaderInTable("accountTransactionsTitle", items)
-        })
-    })
+            const items = ['Deadline', 'Transaction Hash', 'Type'];
+            cy.renderHeaderInTable('accountTransactionsTitle', items);
+        });
+    });
 
     // Todo: Harvested Blocks Card
     // describe('Harvested Blocks Card should', () => {
@@ -129,5 +159,4 @@ describe('Symbol Explorer Account Detail page', () => {
 
     // Todo: Metadata Entries
     // Todo: Account Restriction
-
-  })
+});
