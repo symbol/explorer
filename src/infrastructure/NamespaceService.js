@@ -264,7 +264,8 @@ class NamespaceService {
   		group: TransactionGroup.Confirmed
   	};
 
-  	const searchNamespaces = await TransactionService.streamerTransactions(searchCriteria);
+  	const streamerTransactions = await TransactionService.streamerTransactions(searchCriteria);
+  	const searchNamespaces = streamerTransactions.map(transaction => TransactionService.formatTransaction(transaction));
 
   	const namespaceids = searchNamespaces.map(namespace => namespace.namespaceId);
 
