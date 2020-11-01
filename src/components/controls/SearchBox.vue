@@ -1,53 +1,52 @@
 <template>
-	<b-form-input
-		v-model="searchString"
-		:class="{'is-invalid': isError}"
-		class="bg-transparent"
-		size="sm"
-		:placeholder="getNameByKey(placeholder)"
-		@change="onSearch"
-	>
-	</b-form-input>
+    <b-form-input
+        v-model="searchString"
+        :class="{ 'is-invalid': isError }"
+        class="bg-transparent"
+        size="sm"
+        :placeholder="getNameByKey(placeholder)"
+        @change="onSearch"
+    >
+    </b-form-input>
 </template>
 
 <script>
 export default {
-	mounted() {},
+    data() {
+        return {
+            searchString: '',
+            searchValidate: '',
+            isError: false,
+            placeholder: 'searchBoxPlaceholder',
+        };
+    },
 
-	data() {
-		return {
-			searchString: '',
-			searchValidate: '',
-			isError: false,
-			placeholder: 'searchBoxPlaceholder'
-		};
-	},
+    computed: {},
+    mounted() {},
 
-	computed: {},
+    methods: {
+        onSearch() {
+            this.$store
+                .dispatch('ui/search', this.searchString)
+                .then(() => {
+                    return (this.searchString = '');
+                })
+                .catch((e) => this.fail(e));
+        },
 
-	methods: {
-		onSearch() {
-			this.$store
-				.dispatch('ui/search', this.searchString)
-				.then(() => {
-					return (this.searchString = '');
-				})
-				.catch(e => this.fail(e));
-		},
+        fail(e) {
+            this.searchString = e;
+            this.isError = true;
+            setTimeout(() => {
+                this.isError = false;
+                this.searchString = '';
+            }, 1000);
+        },
 
-		fail(e) {
-			this.searchString = e;
-			this.isError = true;
-			setTimeout(() => {
-				this.isError = false;
-				this.searchString = '';
-			}, 1000);
-		},
-
-		getNameByKey(e) {
-			return this.$store.getters['ui/getNameByKey'](e);
-		}
-	}
+        getNameByKey(e) {
+            return this.$store.getters['ui/getNameByKey'](e);
+        },
+    },
 };
 </script>
 

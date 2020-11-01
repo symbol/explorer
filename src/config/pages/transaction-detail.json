@@ -52,12 +52,12 @@
                 "errorMessage": "transactionHashLockError",
                 "pagination": "none",
                 "fields": [
-					"amount",
-					"endHeight",
-					"ownerAddress",
-					"mosaicId",
-					"status"
-				]
+                    "amount",
+                    "endHeight",
+                    "ownerAddress",
+                    "mosaicId",
+                    "status"
+                ]
             },
             {
                 "layoutOptions": "full-width",
@@ -86,10 +86,7 @@
                 "pagination": "client",
                 "pageSize": 5,
                 "hideEmptyData": true,
-                "fields": [
-                    "signature",
-                    "signer"
-                ]
+                "fields": ["signature", "signer"]
             },
             {
                 "layoutOptions": "full-width",

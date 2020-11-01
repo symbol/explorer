@@ -1,36 +1,60 @@
 <template>
-	<div v-if="data" class="table-view">
-		<table v-if="dataIsNotEmpty" class="table ex-table-striped">
-			<tbody>
-				<tr v-for="(item, itemKey) in formattedData" :key="'tiv_r'+itemKey">
-					<td class="table-titles table-titles-ver table-title-item table-cell">
-						{{getKeyName(itemKey)}}
-					</td>
-					<td
-						class="max-item-width table-cell"
-						:title="getKeyName(itemKey) + ': ' + item"
-						@click="onItemClick(itemKey, item)"
-					>
-						<ArrayField v-if="isArrayField(itemKey)" :itemKey="itemKey" :value="item" />
-						<MosaicsField v-else-if="itemKey === 'mosaics'" :value="item" />
-						<Decimal v-else-if="isDecimal(itemKey)" :value="item" />
-						<TransactionType v-else-if="isTransactionType(itemKey)" :value="item" />
-						<BlockHeightWithFinalizedStatusField v-else-if="isBlockHeightWithFinalizedStatus(itemKey)" :value="item" />
-						<Boolean v-else-if="isBoolean(itemKey)" :value="item" />
-						<Age v-else-if="isAge(itemKey)" :date="item" />
+    <div v-if="data" class="table-view">
+        <table v-if="dataIsNotEmpty" class="table ex-table-striped">
+            <tbody>
+                <tr
+                    v-for="(item, itemKey) in formattedData"
+                    :key="'tiv_r' + itemKey"
+                >
+                    <td
+                        class="table-titles table-titles-ver table-title-item table-cell"
+                    >
+                        {{ getKeyName(itemKey) }}
+                    </td>
+                    <td
+                        class="max-item-width table-cell"
+                        :title="getKeyName(itemKey) + ': ' + item"
+                        @click="onItemClick(itemKey, item)"
+                    >
+                        <ArrayField
+                            v-if="isArrayField(itemKey)"
+                            :item-key="itemKey"
+                            :value="item"
+                        />
+                        <MosaicsField
+                            v-else-if="itemKey === 'mosaics'"
+                            :value="item"
+                        />
+                        <Decimal v-else-if="isDecimal(itemKey)" :value="item" />
+                        <TransactionType
+                            v-else-if="isTransactionType(itemKey)"
+                            :value="item"
+                        />
+                        <BlockHeightWithFinalizedStatusField
+                            v-else-if="
+                                isBlockHeightWithFinalizedStatus(itemKey)
+                            "
+                            :value="item"
+                        />
+                        <Boolean v-else-if="isBoolean(itemKey)" :value="item" />
+                        <Age v-else-if="isAge(itemKey)" :date="item" />
 
-						<router-link
-							v-else-if="isKeyClickable(itemKey) && getItemHref(itemKey, item)"
-							:to="getItemHref(itemKey, item)"
-						>{{ translateValue(itemKey, item) }}</router-link>
+                        <router-link
+                            v-else-if="
+                                isKeyClickable(itemKey) &&
+                                getItemHref(itemKey, item)
+                            "
+                            :to="getItemHref(itemKey, item)"
+                            >{{ translateValue(itemKey, item) }}</router-link
+                        >
 
-						<div v-else>{{ translateValue(itemKey, item) }}</div>
-					</td>
-				</tr>
-			</tbody>
-		</table>
-		<div v-else class="empty-data">{{emptyDataMessageFormatted}}</div>
-	</div>
+                        <div v-else>{{ translateValue(itemKey, item) }}</div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div v-else class="empty-data">{{ emptyDataMessageFormatted }}</div>
+    </div>
 </template>
 
 <script>
@@ -41,52 +65,51 @@ import TransactionType from '@/components/fields/TransactionType.vue';
 import BlockHeightWithFinalizedStatusField from '@/components/fields/BlockHeightWithFinalizedStatusField.vue';
 
 export default {
-	extends: TableView,
+    components: {
+        MosaicsField,
+        ArrayField,
+        TransactionType,
+        BlockHeightWithFinalizedStatusField,
+    },
+    extends: TableView,
 
-	components: {
-		MosaicsField,
-		ArrayField,
-		TransactionType,
-		BlockHeightWithFinalizedStatusField
-	},
+    props: {
+        data: {
+            type: Object,
+            required: true,
+        },
+    },
 
-	props: {
-		data: {
-			type: Object,
-			required: true
-		}
-	},
+    computed: {
+        formattedData() {
+            let formattedData = {};
 
-	created() {
-		this.componentType = 'info';
-	},
+            for (let key in this.data) {
+                if (this.isItemShown(key, this.data[key]))
+                    formattedData[key] = this.data[key];
+            }
 
-	mounted() {
-		// this.$store.dispatch(this.view + "/fetchInfo", this.infoId);
-	},
+            return formattedData;
+        },
 
-	computed: {
-		formattedData() {
-			let formattedData = {};
+        header() {
+            let header = ['', ''];
 
-			for (let key in this.data) {
-				if (this.isItemShown(key, this.data[key]))
-					formattedData[key] = this.data[key];
-			}
+            return header;
+        },
 
-			return formattedData;
-		},
+        dataIsNotEmpty() {
+            return Object.keys(this.data).length;
+        },
+    },
 
-		header() {
-			let header = ['', ''];
+    created() {
+        this.componentType = 'info';
+    },
 
-			return header;
-		},
-
-		dataIsNotEmpty() {
-			return Object.keys(this.data).length;
-		}
-	}
+    mounted() {
+        // this.$store.dispatch(this.view + "/fetchInfo", this.infoId);
+    },
 };
 </script>
 

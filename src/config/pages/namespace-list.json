@@ -16,8 +16,8 @@
                 "managerGetter": "namespace/timeline",
                 "errorMessage": "Failed to fetch namespace list",
                 "pagination": "server",
-				"hasFilter": true,
-				"onRowClickKey": "namespaceName",
+                "hasFilter": true,
+                "onRowClickKey": "namespaceName",
                 "fields": [
                     "namespaceName",
                     "namespaceId",
@@ -25,11 +25,7 @@
                     "expirationDuration",
                     "approximateExpired"
                 ],
-                "mobileFields": [
-                    "namespaceName",
-                    "owneraddress",
-                    "duration"
-                ]
+                "mobileFields": ["namespaceName", "owneraddress", "duration"]
             }
         ]
     }

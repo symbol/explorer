@@ -1,23 +1,23 @@
 <template>
-	<Card :loading="loading">
-		<template #title>
-			{{getNameByKey(blockTimeDifferenceData.name)}}
-		</template>
+    <Card :loading="loading">
+        <template #title>
+            {{ getNameByKey(blockTimeDifferenceData.name) }}
+        </template>
 
-		<template #body>
-			<b-row style="margin: -20px">
-				<b-col>
-					<Chart
-						type="line"
-						:data="chartData"
-						:height="265"
-						xaxisType="numeric"
-						strokeCurve="straight"
-					/>
-				</b-col>
-			</b-row>
-		</template>
-	</Card>
+        <template #body>
+            <b-row style="margin: -20px">
+                <b-col>
+                    <Chart
+                        type="line"
+                        :data="chartData"
+                        :height="265"
+                        xaxis-type="numeric"
+                        stroke-curve="straight"
+                    />
+                </b-col>
+            </b-row>
+        </template>
+    </Card>
 </template>
 
 <script>
@@ -26,26 +26,26 @@ import Chart from '@/components/Chart.vue';
 import { mapGetters } from 'vuex';
 
 export default {
-	components: {
-		Card,
-		Chart
-	},
+    components: {
+        Card,
+        Chart,
+    },
 
-	computed: {
-		...mapGetters({
-			blockTimeDifferenceData: 'statistic/getBlockTimeDifferenceData',
-			loading: 'statistic/getLoadingBlockTimeDifference'
-		}),
+    computed: {
+        ...mapGetters({
+            blockTimeDifferenceData: 'statistic/getBlockTimeDifferenceData',
+            loading: 'statistic/getLoadingBlockTimeDifference',
+        }),
 
-		chartData() {
-			return this.blockTimeDifferenceData.data;
-		}
-	},
+        chartData() {
+            return this.blockTimeDifferenceData.data;
+        },
+    },
 
-	methods: {
-		getNameByKey(e) {
-			return this.$store.getters['ui/getNameByKey'](e);
-		}
-	}
+    methods: {
+        getNameByKey(e) {
+            return this.$store.getters['ui/getNameByKey'](e);
+        },
+    },
 };
 </script>

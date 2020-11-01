@@ -1,25 +1,21 @@
 <template>
-	<Card :loading="loading">
-		<template #title>
-			{{getNameByKey('xemPrice')}}
-		</template>
+    <Card :loading="loading">
+        <template #title>
+            {{ getNameByKey('xemPrice') }}
+        </template>
 
-		<template #control>
-			<!--<ButtonMore> {{getNameByKey('View all statistics')}} </ButtonMore>-->
-		</template>
+        <template #control>
+            <!--<ButtonMore> {{getNameByKey('View all statistics')}} </ButtonMore>-->
+        </template>
 
-		<template #body>
-			<b-row style="margin: -20px">
-				<b-col>
-					<Chart
-						type="area"
-						:height="325"
-						:data="chartData"
-					/>
-				</b-col>
-			</b-row>
-		</template>
-	</Card>
+        <template #body>
+            <b-row style="margin: -20px">
+                <b-col>
+                    <Chart type="area" :height="325" :data="chartData" />
+                </b-col>
+            </b-row>
+        </template>
+    </Card>
 </template>
 
 <script>
@@ -28,34 +24,34 @@ import Chart from '@/components/Chart.vue';
 import { mapGetters } from 'vuex';
 
 export default {
-	components: {
-		Card,
-		Chart
-	},
+    components: {
+        Card,
+        Chart,
+    },
 
-	computed: {
-		...mapGetters({
-			marketData: 'chain/getMarketData'
-		}),
+    computed: {
+        ...mapGetters({
+            marketData: 'chain/getMarketData',
+        }),
 
-		chartData() {
-			return [
-				{
-					name: 'Price (USD)',
-					data: this.marketData.historicalHourlyGraph
-				}
-			];
-		},
+        chartData() {
+            return [
+                {
+                    name: 'Price (USD)',
+                    data: this.marketData.historicalHourlyGraph,
+                },
+            ];
+        },
 
-		loading() {
-			return !this.marketData.historicalHourlyGraph.length;
-		}
-	},
+        loading() {
+            return !this.marketData.historicalHourlyGraph.length;
+        },
+    },
 
-	methods: {
-		getNameByKey(e) {
-			return this.$store.getters['ui/getNameByKey'](e);
-		}
-	}
+    methods: {
+        getNameByKey(e) {
+            return this.$store.getters['ui/getNameByKey'](e);
+        },
+    },
 };
 </script>

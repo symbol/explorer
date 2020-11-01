@@ -27,15 +27,18 @@ class LockService {
      * @returns formatted hash lock data with pagination info
      */
     static searchHashLocks = async (hashLockSearchCriteria) => {
-    	const searchHashLocks = await http.createRepositoryFactory.createHashLockRepository()
-  		.search(hashLockSearchCriteria)
-    		.toPromise();
+        const searchHashLocks = await http.createRepositoryFactory
+            .createHashLockRepository()
+            .search(hashLockSearchCriteria)
+            .toPromise();
 
-    	return {
-    		...searchHashLocks,
-    		data: searchHashLocks.data.map(hashLock => this.formatHashLockInfo(hashLock))
-    	};
-    }
+        return {
+            ...searchHashLocks,
+            data: searchHashLocks.data.map((hashLock) =>
+                this.formatHashLockInfo(hashLock),
+            ),
+        };
+    };
 
     /**
      * Gets hash lock from hash
@@ -43,12 +46,13 @@ class LockService {
      * @returns formatted Hash lock info
      */
     static getHashLock = async (hash) => {
-    	const hashLock = await http.createRepositoryFactory.createHashLockRepository()
-    		.getHashLock(hash)
-    		.toPromise();
+        const hashLock = await http.createRepositoryFactory
+            .createHashLockRepository()
+            .getHashLock(hash)
+            .toPromise();
 
-    	return this.formatHashLockInfo(hashLock);
-    }
+        return this.formatHashLockInfo(hashLock);
+    };
 
     /**
      * Gets a secret lock from searchCriteria
@@ -56,15 +60,18 @@ class LockService {
      * @returns formatted secret lock data with pagination info
      */
     static searchSecretLocks = async (secretLockSearchCriteria) => {
-    	const searchSecretLocks = await http.createRepositoryFactory.createSecretLockRepository()
-  		.search(secretLockSearchCriteria)
-    		.toPromise();
+        const searchSecretLocks = await http.createRepositoryFactory
+            .createSecretLockRepository()
+            .search(secretLockSearchCriteria)
+            .toPromise();
 
-    	return {
-    		...searchSecretLocks,
-    		data: searchSecretLocks.data.map(hashLock => this.formatSecretLockInfo(hashLock))
-    	};
-    }
+        return {
+            ...searchSecretLocks,
+            data: searchSecretLocks.data.map((hashLock) =>
+                this.formatSecretLockInfo(hashLock),
+            ),
+        };
+    };
 
     /**
      * Format secretLockInfoDTO
@@ -72,14 +79,18 @@ class LockService {
      * @returns readable secretLockInfoDTO object
      */
     static formatSecretLockInfo = (secretLockInfo) => ({
-    	...secretLockInfo,
-    	amount: helper.formatMosaicAmountWithDivisibility(secretLockInfo.amount, http.networkCurrency.divisibility),
-    	endHeight: Number(secretLockInfo.endHeight.toString()),
-    	mosaicId: secretLockInfo.mosaicId.toHex(),
-    	ownerAddress: secretLockInfo.ownerAddress.plain(),
-    	recipient: secretLockInfo.recipientAddress.plain(),
-    	hashAlgorithm: Constants.LockHashAlgorithm[secretLockInfo.hashAlgorithm]
-    })
+        ...secretLockInfo,
+        amount: helper.formatMosaicAmountWithDivisibility(
+            secretLockInfo.amount,
+            http.networkCurrency.divisibility,
+        ),
+        endHeight: Number(secretLockInfo.endHeight.toString()),
+        mosaicId: secretLockInfo.mosaicId.toHex(),
+        ownerAddress: secretLockInfo.ownerAddress.plain(),
+        recipient: secretLockInfo.recipientAddress.plain(),
+        hashAlgorithm:
+            Constants.LockHashAlgorithm[secretLockInfo.hashAlgorithm],
+    });
 
     /**
      * Format HashLockInfoDTO
@@ -87,12 +98,15 @@ class LockService {
      * @returns readable HashLockInfoDTO object
      */
     static formatHashLockInfo = (hashLockInfo) => ({
-    	...hashLockInfo,
-    	amount: helper.formatMosaicAmountWithDivisibility(hashLockInfo.amount, http.networkCurrency.divisibility),
-    	endHeight: Number(hashLockInfo.endHeight.toString()),
-    	mosaicId: hashLockInfo.mosaicId.toHex(),
-    	ownerAddress: hashLockInfo.ownerAddress.plain()
-    })
+        ...hashLockInfo,
+        amount: helper.formatMosaicAmountWithDivisibility(
+            hashLockInfo.amount,
+            http.networkCurrency.divisibility,
+        ),
+        endHeight: Number(hashLockInfo.endHeight.toString()),
+        mosaicId: hashLockInfo.mosaicId.toHex(),
+        ownerAddress: hashLockInfo.ownerAddress.plain(),
+    });
 }
 
 export default LockService;

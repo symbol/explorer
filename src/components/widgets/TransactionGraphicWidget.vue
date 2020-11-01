@@ -1,47 +1,49 @@
 <template>
-	<Card :loading="loading" v-if="isWidgetShown">
-		<template #title>{{getNameByKey('transactionGraphic')}}</template>
+    <Card v-if="isWidgetShown" :loading="loading">
+        <template #title>{{ getNameByKey('transactionGraphic') }}</template>
 
-		<template #body>
-			<div class="body">
-				<div v-if="isAggregate" :class="aggregateContainerClass">
-					<div class="aggregate-title">{{ aggregateTitle }}</div>
-					<div v-if="cosigners.length" class="signers-section-wrapper">
-						<div class="signers-section">
-							<img :src="SignatureIcon" class="signature-icon" />
-							<svg
-								v-for="(address, index) in cosigners"
-								:key="'tg-cos' + index"
-								class="cosigner"
-								viewBox="35 35 60 60"
-								:width="64"
-								:height="64"
-							>
-								<AccountIcon
-									:width="128"
-									:height="128"
-									:address="address"
-								/>
-							</svg>
-						</div>
-					</div>
-					<div
-						class="aggregate-inner"
-						v-for="(innerTransactionData, index) in data.innerTransactions"
-						:key="'tgw' + index"
-					>
-						<div class="aggregate-inner-index">
-							{{index + 1}}
-						</div>
-						<TransactionGraphic
-							:data="innerTransactionData"
-						/>
-					</div>
-				</div>
-				<TransactionGraphic v-else :data="data" />
-			</div>
-		</template>
-	</Card>
+        <template #body>
+            <div class="body">
+                <div v-if="isAggregate" :class="aggregateContainerClass">
+                    <div class="aggregate-title">{{ aggregateTitle }}</div>
+                    <div
+                        v-if="cosigners.length"
+                        class="signers-section-wrapper"
+                    >
+                        <div class="signers-section">
+                            <img :src="SignatureIcon" class="signature-icon" />
+                            <svg
+                                v-for="(address, index) in cosigners"
+                                :key="'tg-cos' + index"
+                                class="cosigner"
+                                viewBox="35 35 60 60"
+                                :width="64"
+                                :height="64"
+                            >
+                                <AccountIcon
+                                    :width="128"
+                                    :height="128"
+                                    :address="address"
+                                />
+                            </svg>
+                        </div>
+                    </div>
+                    <div
+                        v-for="(innerTransactionData,
+                        index) in data.innerTransactions"
+                        :key="'tgw' + index"
+                        class="aggregate-inner"
+                    >
+                        <div class="aggregate-inner-index">
+                            {{ index + 1 }}
+                        </div>
+                        <TransactionGraphic :data="innerTransactionData" />
+                    </div>
+                </div>
+                <TransactionGraphic v-else :data="data" />
+            </div>
+        </template>
+    </Card>
 </template>
 
 <script>
@@ -53,111 +55,113 @@ import TransactionGraphic from '@/components/transaction-graphic/TransactionGrap
 import { TransactionType } from 'symbol-sdk';
 
 export default {
-	extends: GraphicComponent,
+    components: {
+        Card,
+        TransactionGraphic,
+        AccountIcon,
+    },
+    extends: GraphicComponent,
 
-	props: {
-		managerGetter: String
-	},
+    props: {
+        managerGetter: String,
+    },
 
-	components: {
-		Card,
-		TransactionGraphic,
-		AccountIcon
-	},
+    data() {
+        return {
+            TransactionType,
+            SignatureIcon,
+            supportedTransactionTypes: [
+                TransactionType.TRANSFER,
+                TransactionType.ADDRESS_ALIAS,
+                TransactionType.MOSAIC_ALIAS,
+                TransactionType.NAMESPACE_REGISTRATION,
+                TransactionType.SECRET_LOCK,
+                TransactionType.MOSAIC_DEFINITION,
+                TransactionType.MOSAIC_SUPPLY_CHANGE,
+                TransactionType.AGGREGATE_COMPLETE,
+                TransactionType.AGGREGATE_BONDED,
+                TransactionType.HASH_LOCK,
+                TransactionType.SECRET_PROOF,
+                TransactionType.VRF_KEY_LINK,
+                TransactionType.ACCOUNT_KEY_LINK,
+                TransactionType.NODE_KEY_LINK,
+                TransactionType.VOTING_KEY_LINK,
+                TransactionType.MOSAIC_GLOBAL_RESTRICTION,
+                TransactionType.MOSAIC_ADDRESS_RESTRICTION,
+                TransactionType.ACCOUNT_OPERATION_RESTRICTION,
+                TransactionType.ACCOUNT_ADDRESS_RESTRICTION,
+                TransactionType.ACCOUNT_MOSAIC_RESTRICTION,
+                TransactionType.MULTISIG_ACCOUNT_MODIFICATION,
+                TransactionType.ACCOUNT_METADATA,
+                TransactionType.NAMESPACE_METADATA,
+                TransactionType.MOSAIC_METADATA,
+            ],
+        };
+    },
 
-	data() {
-		return {
-			TransactionType,
-			SignatureIcon,
-			supportedTransactionTypes: [
-				TransactionType.TRANSFER,
-				TransactionType.ADDRESS_ALIAS,
-				TransactionType.MOSAIC_ALIAS,
-				TransactionType.NAMESPACE_REGISTRATION,
-				TransactionType.SECRET_LOCK,
-				TransactionType.MOSAIC_DEFINITION,
-				TransactionType.MOSAIC_SUPPLY_CHANGE,
-				TransactionType.AGGREGATE_COMPLETE,
-				TransactionType.AGGREGATE_BONDED,
-				TransactionType.HASH_LOCK,
-				TransactionType.SECRET_PROOF,
-				TransactionType.VRF_KEY_LINK,
-				TransactionType.ACCOUNT_KEY_LINK,
-				TransactionType.NODE_KEY_LINK,
-				TransactionType.VOTING_KEY_LINK,
-				TransactionType.MOSAIC_GLOBAL_RESTRICTION,
-				TransactionType.MOSAIC_ADDRESS_RESTRICTION,
-				TransactionType.ACCOUNT_OPERATION_RESTRICTION,
-				TransactionType.ACCOUNT_ADDRESS_RESTRICTION,
-				TransactionType.ACCOUNT_MOSAIC_RESTRICTION,
-				TransactionType.MULTISIG_ACCOUNT_MODIFICATION,
-				TransactionType.ACCOUNT_METADATA,
-				TransactionType.NAMESPACE_METADATA,
-				TransactionType.MOSAIC_METADATA
-			]
-		};
-	},
+    computed: {
+        isWidgetShown() {
+            return this.isTransactionTypeSupported(this.data.type);
+        },
 
-	computed: {
-		isWidgetShown() {
-			return this.isTransactionTypeSupported(this.data.type);
-		},
+        isAggregate() {
+            return (
+                this.data.type === TransactionType.AGGREGATE_COMPLETE ||
+                this.data.type === TransactionType.AGGREGATE_BONDED
+            );
+        },
 
-		isAggregate() {
-			return (
-				this.data.type === TransactionType.AGGREGATE_COMPLETE ||
-				this.data.type === TransactionType.AGGREGATE_BONDED
-			);
-		},
+        aggregateTitle() {
+            return this.getTransactionTypeCaption(this.data.type);
+        },
 
-		aggregateTitle() {
-			return this.getTransactionTypeCaption(this.data.type);
-		},
+        isMobile() {
+            return this.$store.getters['ui/isMobile'];
+        },
 
-		isMobile() {
-			return this.$store.getters['ui/isMobile'];
-		},
+        aggregateContainerClass() {
+            const isMobile = this.isMobile;
 
-		aggregateContainerClass() {
-			const isMobile = this.isMobile;
+            if (isMobile) return 'aggregate-container-mobile';
+            return 'aggregate-container';
+        },
 
-			if (isMobile)
-				return 'aggregate-container-mobile';
-			return 'aggregate-container';
-		},
+        data() {
+            return this.$store.getters[this.managerGetter].data;
+        },
 
-		data() {
-			return this.$store.getters[this.managerGetter].data;
-		},
+        cosigners() {
+            if (this.data.type === TransactionType.AGGREGATE_BONDED) {
+                return [
+                    this.data.signer,
+                    ...this.data.cosignatures.map(
+                        (cosignature) => cosignature.signer,
+                    ),
+                ];
+            }
+            return [];
+        },
 
-		cosigners() {
-			if (this.data.type === TransactionType.AGGREGATE_BONDED) {
-				return [
-					this.data.signer,
-					...this.data.cosignatures.map(cosignature => cosignature.signer)
-				];
-			}
-			return [];
-		},
+        loading() {
+            return this.$store.getters[this.managerGetter].loading;
+        },
 
-		loading() {
-			return this.$store.getters[this.managerGetter].loading;
-		},
+        error() {
+            return this.$store.getters[this.managerGetter].error;
+        },
+    },
 
-		error() {
-			return this.$store.getters[this.managerGetter].error;
-		}
-	},
+    methods: {
+        getNameByKey(e) {
+            return this.$store.getters['ui/getNameByKey'](e);
+        },
 
-	methods: {
-		getNameByKey(e) {
-			return this.$store.getters['ui/getNameByKey'](e);
-		},
-
-		isTransactionTypeSupported(type) {
-			return !!this.supportedTransactionTypes.find(transactionType => transactionType === type);
-		}
-	}
+        isTransactionTypeSupported(type) {
+            return !!this.supportedTransactionTypes.find(
+                (transactionType) => transactionType === type,
+            );
+        },
+    },
 };
 </script>
 

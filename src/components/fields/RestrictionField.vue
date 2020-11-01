@@ -1,3 +1,4 @@
+<!-- prettier-ignore -->
 /*
  *
  * Copyright (c) 2019-present for NEM
@@ -17,37 +18,47 @@
  */
 
 <template>
-	<div class="restriction-tag-container">
-		<span
-			v-for="(item, index) in value"
-			class="restriction"
-			:key="'restriction_key_' + index"
-			:title="getTranslation('restrictionType') + ': ' + getTranslation(item.restrictionType) + ' | ' + getTranslation('restrictionValue') + ': ' + item.restrictionValue"
-		>
-
-			<span class="restriction-content">
-				{{getTranslation('restrictionKey')}} {{ item.restrictionKey }} {{ getTranslation(item.restrictionType) || ':' }} {{ item.restrictionValue }}
-			</span>
-		</span>
-	</div>
+    <div class="restriction-tag-container">
+        <span
+            v-for="(item, index) in value"
+            :key="'restriction_key_' + index"
+            class="restriction"
+            :title="
+                getTranslation('restrictionType') +
+                ': ' +
+                getTranslation(item.restrictionType) +
+                ' | ' +
+                getTranslation('restrictionValue') +
+                ': ' +
+                item.restrictionValue
+            "
+        >
+            <span class="restriction-content">
+                {{ getTranslation('restrictionKey') }}
+                {{ item.restrictionKey }}
+                {{ getTranslation(item.restrictionType) || ':' }}
+                {{ item.restrictionValue }}
+            </span>
+        </span>
+    </div>
 </template>
 
 <script>
 export default {
-	name: 'RestrictionField',
+    name: 'RestrictionField',
 
-	props: {
-		value: {
-			type: Array,
-			required: true
-		}
-	},
+    props: {
+        value: {
+            type: Array,
+            required: true,
+        },
+    },
 
-	methods: {
-		getTranslation(key) {
-			return this.$store.getters['ui/getNameByKey'](key);
-		}
-	}
+    methods: {
+        getTranslation(key) {
+            return this.$store.getters['ui/getNameByKey'](key);
+        },
+    },
 };
 </script>
 

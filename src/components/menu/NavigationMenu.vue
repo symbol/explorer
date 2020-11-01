@@ -1,21 +1,27 @@
 <template>
-	<header class="ex-menu" :class="{'ex-menu-fixed': fixed}" ref="DesktopMenu">
-		<div class="width-limiter">
-			<router-link to="/" :class="{'hide': !fixed}">
-				<img src="../../styles/img/logo-w.png" class="menu-logo"/>
-			</router-link>
-			<router-link
-				v-for="item in items"
-				:key="'dsktp_mn_'+getNameByKey(item.text)"
-				class="ex-menu-item"
-				:to="item.to" exact active-class="active"
-			>
-				<component :is="item.icon" class="menu-icon"/>
-				<i :class="item.classname"></i>
-				<span>{{getNameByKey(item.text)}}</span>
-			</router-link>
-		</div>
-	</header>
+    <header
+        ref="DesktopMenu"
+        class="ex-menu"
+        :class="{ 'ex-menu-fixed': fixed }"
+    >
+        <div class="width-limiter">
+            <router-link to="/" :class="{ hide: !fixed }">
+                <img src="../../styles/img/logo-w.png" class="menu-logo" />
+            </router-link>
+            <router-link
+                v-for="item in items"
+                :key="'dsktp_mn_' + getNameByKey(item.text)"
+                class="ex-menu-item"
+                :to="item.to"
+                exact
+                active-class="active"
+            >
+                <component :is="item.icon" class="menu-icon" />
+                <i :class="item.classname"></i>
+                <span>{{ getNameByKey(item.text) }}</span>
+            </router-link>
+        </div>
+    </header>
 </template>
 
 <script>
@@ -30,49 +36,51 @@ import IconNamespaces from 'vue-material-design-icons/Tag.vue';
 import IconStatistics from 'vue-material-design-icons/ChartBar.vue';
 
 export default {
-	components: {
-		IconHome,
-		IconBlocks,
-		IconTransactions,
-		IconAccounts,
-		IconMosaics,
-		IconNodes,
-		IconNamespaces,
-		IconStatistics
-	},
+    components: {
+        IconHome,
+        IconBlocks,
+        IconTransactions,
+        IconAccounts,
+        IconMosaics,
+        IconNodes,
+        IconNamespaces,
+        IconStatistics,
+    },
 
-	mounted() {
-		let DesktopMenu = this.$refs.DesktopMenu;
+    data() {
+        return {
+            items: pageMenu.items,
+            fixed: false,
+            scrollListener: {},
+        };
+    },
 
-		let offset = DesktopMenu.offsetTop;
+    mounted() {
+        let DesktopMenu = this.$refs.DesktopMenu;
 
-		window.onscroll = () => {
-			if (window.pageYOffset > offset)
-				this.fixed = true;
-			else
-				this.fixed = false;
-		};
-	},
+        let offset = DesktopMenu.offsetTop;
 
-	data() {
-		return {
-			items: pageMenu.items,
-			fixed: false,
-			scrollListener: {}
-		};
-	},
+        window.onscroll = () => {
+            if (window.pageYOffset > offset) this.fixed = true;
+            else this.fixed = false;
+        };
+    },
 
-	methods: {
-		getNameByKey(e) {
-			return this.$store.getters['ui/getNameByKey'](e);
-		}
-	}
+    methods: {
+        getNameByKey(e) {
+            return this.$store.getters['ui/getNameByKey'](e);
+        },
+    },
 };
 </script>
 
 <style lang="scss" scoped>
 .ex-menu {
-    background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
+    background: linear-gradient(
+        120deg,
+        var(--primary) 0%,
+        var(--secondary) 100%
+    );
     border-top: 1px solid rgba(255, 255, 255, 0.5);
     padding: 0 60px;
     position: relative;

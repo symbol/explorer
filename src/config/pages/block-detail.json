@@ -45,13 +45,9 @@
                 "type": "CardTable",
                 "title": "blockTransactionsTitle",
                 "managerGetter": "block/blockTransactions",
-				"pagination": "server",
-				"onRowClickKey": "transactionHash",
-                "fields": [
-                    "deadline",
-                    "transactionHash",
-                    "transactionType"
-                ]
+                "pagination": "server",
+                "onRowClickKey": "transactionHash",
+                "fields": ["deadline", "transactionHash", "transactionType"]
             },
             {
                 "layoutOptions": "adaptive",
@@ -73,10 +69,10 @@
                 "fields": [
                     "version",
                     "size",
-  					"receiptType",
-  					"targetAddress",
-  					"amount",
-  					"mosaicId"
+                    "receiptType",
+                    "targetAddress",
+                    "amount",
+                    "mosaicId"
                 ]
             },
             {
@@ -91,11 +87,11 @@
                 "fields": [
                     "version",
                     "size",
-  					"receiptType",
-  					"senderAddress",
-  					"recipient",
-  					"amount",
-  					"mosaicId"
+                    "receiptType",
+                    "senderAddress",
+                    "recipient",
+                    "amount",
+                    "mosaicId"
                 ]
             },
             {
@@ -110,9 +106,9 @@
                 "fields": [
                     "version",
                     "size",
-  					"receiptType",
-  					"amount",
-  					"mosaicId"
+                    "receiptType",
+                    "amount",
+                    "mosaicId"
                 ]
             },
             {
@@ -124,12 +120,7 @@
                 "pagination": "client",
                 "pageSize": 5,
                 "hideEmptyData": true,
-                "fields": [
-                    "version",
-                    "size",
-                    "receiptType",
-                    "artifactId"
-                ]
+                "fields": ["version", "size", "receiptType", "artifactId"]
             },
             {
                 "layoutOptions": "adaptive",

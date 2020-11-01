@@ -39,11 +39,7 @@
                 "managerGetter": "namespace/namespaceLevel",
                 "errorMessage": "namespaceLevelError",
                 "pagination": "none",
-                "fields": [
-                    "name",
-                    "namespaceId",
-                    "parentId"
-                ]
+                "fields": ["name", "namespaceId", "parentId"]
             },
             {
                 "layoutOptions": "full-width",

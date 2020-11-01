@@ -28,49 +28,57 @@ class NodeService {
      * @returns StorageInfo
      */
     static getStorageInfo = () => {
-    	return http.createRepositoryFactory.createNodeRepository()
-    		.getStorageInfo()
-    		.toPromise();
-    }
+        return http.createRepositoryFactory
+            .createNodeRepository()
+            .getStorageInfo()
+            .toPromise();
+    };
 
     /**
      * Get Node Info from symbol SDK
      * @returns NodeInfo
      */
     static getNodeInfo = () => {
-    	return http.createRepositoryFactory.createNodeRepository()
-    		.getNodeInfo()
-    		.toPromise();
-    }
+        return http.createRepositoryFactory
+            .createNodeRepository()
+            .getNodeInfo()
+            .toPromise();
+    };
 
     /**
      * Get Server Info from symbol SDK
      * @returns ServerInfo
      */
     static getServerInfo = () => {
-    	return http.node.getServerInfo().toPromise();
-    }
+        return http.node.getServerInfo().toPromise();
+    };
 
     /**
      * Get Node Peers from symbol SDK
      * @returns NodeInfo[]
      */
     static getNodePeers = async () => {
-    	let nodePeers = [];
+        let nodePeers = [];
 
-    	try {
-    		nodePeers = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes')).data;
-    	}
-    	catch (e) {
-    		nodePeers = await http.createRepositoryFactory.createNodeRepository()
-    			.getNodePeers()
-    			.toPromise();
-    	}
+        try {
+            nodePeers = (
+                await Axios.get(
+                    globalConfig.endpoints.statisticsService + '/nodes',
+                )
+            ).data;
+        } catch (e) {
+            nodePeers = await http.createRepositoryFactory
+                .createNodeRepository()
+                .getNodePeers()
+                .toPromise();
+        }
 
-    	const formattedNodePeers = nodePeers.map(nodeInfo => this.formatNodeInfo(nodeInfo));
+        const formattedNodePeers = nodePeers.map((nodeInfo) =>
+            this.formatNodeInfo(nodeInfo),
+        );
 
-    	return formattedNodePeers;
-    }
+        return formattedNodePeers;
+    };
 
     /**
      * Get node health status by endpoint.
@@ -78,133 +86,155 @@ class NodeService {
      * @returns boolean
      */
     static isNodeActive = async (currentUrl) => {
-    	let status = true;
+        let status = true;
 
-    	try {
-    		await new symbol.NodeHttp(currentUrl).getNodeHealth()
-    			.toPromise();
-    	}
-    	catch (e) {
-    		status = false;
-    	}
+        try {
+            await new symbol.NodeHttp(currentUrl).getNodeHealth().toPromise();
+        } catch (e) {
+            status = false;
+        }
 
-    	return status;
-    }
+        return status;
+    };
 
     /**
      * Format NodoInfoDTO to readable NodoInfo object
      * @param NodoInfoDTO
      * @returns Object readable NodeInfo object
      */
-    static formatNodeInfo = nodeInfo => ({
-    	...nodeInfo,
-    	nodePublicKey: nodeInfo.publicKey,
-    	address: symbol.Address.createFromPublicKey(nodeInfo.publicKey, nodeInfo.networkIdentifier).plain(),
-    	rolesRaw: nodeInfo.roles,
-    	roles: Constants.RoleType[nodeInfo.roles],
-    	network: Constants.NetworkType[nodeInfo.networkIdentifier],
-    	apiEndpoint:
+    static formatNodeInfo = (nodeInfo) => ({
+        ...nodeInfo,
+        nodePublicKey: nodeInfo.publicKey,
+        address: symbol.Address.createFromPublicKey(
+            nodeInfo.publicKey,
+            nodeInfo.networkIdentifier,
+        ).plain(),
+        rolesRaw: nodeInfo.roles,
+        roles: Constants.RoleType[nodeInfo.roles],
+        network: Constants.NetworkType[nodeInfo.networkIdentifier],
+        apiEndpoint:
             nodeInfo.roles === 2 ||
             nodeInfo.roles === 3 ||
             nodeInfo.roles === 6 ||
             nodeInfo.roles === 7
-            	? 'http://' + nodeInfo.host + ':' + (globalConfig.apiNodePort || 3000)
-            	: Constants.Message.UNAVAILABLE
-    })
+                ? 'http://' +
+                  nodeInfo.host +
+                  ':' +
+                  (globalConfig.apiNodePort || 3000)
+                : Constants.Message.UNAVAILABLE,
+    });
 
     /**
      * Format Node Peers dataset into Vue Component
      * @returns Node peers object for Vue component
      */
     static getNodePeerList = async (filter) => {
-    	let nodePeers = await this.getNodePeers();
+        let nodePeers = await this.getNodePeers();
 
-    	return {
-    		data:
-                nodePeers
-                	.filter(el => filter.rolesRaw === null || el.rolesRaw === filter.rolesRaw)
-                	.map((el, index) => ({
-                		index: index + 1,
-                		...el
-                	}))
-    	};
-    }
+        return {
+            data: nodePeers
+                .filter(
+                    (el) =>
+                        filter.rolesRaw === null ||
+                        el.rolesRaw === filter.rolesRaw,
+                )
+                .map((el, index) => ({
+                    index: index + 1,
+                    ...el,
+                })),
+        };
+    };
 
     static getNodeInfo = async (publicKey) => {
-    	let node = {};
+        let node = {};
 
-    	try {
-    		node = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes/' + publicKey)).data;
-    	}
-    	catch (e) {
-    		const nodes = (await Axios.get(http.nodeUrl + '/node/peers')).data;
+        try {
+            node = (
+                await Axios.get(
+                    globalConfig.endpoints.statisticsService +
+                        '/nodes/' +
+                        publicKey,
+                )
+            ).data;
+        } catch (e) {
+            const nodes = (await Axios.get(http.nodeUrl + '/node/peers')).data;
 
-    		node = nodes.find(n => n.publicKey === publicKey);
-    	}
-    	const formattedNodePeers = this.formatNodeInfo(node);
+            node = nodes.find((n) => n.publicKey === publicKey);
+        }
+        const formattedNodePeers = this.formatNodeInfo(node);
 
-    	if (formattedNodePeers.rolesRaw === 2 ||
+        if (
+            formattedNodePeers.rolesRaw === 2 ||
             formattedNodePeers.rolesRaw === 3 ||
             formattedNodePeers.rolesRaw === 6 ||
             formattedNodePeers.rolesRaw === 7
-    	) {
-    		const status = await this.getApiNodeStatus(formattedNodePeers.apiEndpoint);
+        ) {
+            const status = await this.getApiNodeStatus(
+                formattedNodePeers.apiEndpoint,
+            );
 
-    		formattedNodePeers.apiStatus = status;
+            formattedNodePeers.apiStatus = status;
 
-    		const chainInfo = await this.getNodeChainInfo(formattedNodePeers.apiEndpoint);
+            const chainInfo = await this.getNodeChainInfo(
+                formattedNodePeers.apiEndpoint,
+            );
 
-    		formattedNodePeers.chainInfo = chainInfo;
-    	}
-    	if (formattedNodePeers?.peerStatus)
-    		formattedNodePeers.peerStatus.lastStatusCheck = moment(formattedNodePeers.peerStatus.lastStatusCheck).format('YYYY-MM-DD HH:mm:ss');
-    	return formattedNodePeers;
-    }
+            formattedNodePeers.chainInfo = chainInfo;
+        }
+        if (formattedNodePeers?.peerStatus)
+            formattedNodePeers.peerStatus.lastStatusCheck = moment(
+                formattedNodePeers.peerStatus.lastStatusCheck,
+            ).format('YYYY-MM-DD HH:mm:ss');
+        return formattedNodePeers;
+    };
 
     static getApiNodeStatus = async (nodeUrl) => {
-    	const status = {
-    		connectionStatus: false,
-    		databaseStatus: Constants.Message.UNAVAILABLE,
-    		apiNodeStatus: Constants.Message.UNAVAILABLE,
-    		lastStatusCheck: moment().format('YYYY-MM-DD HH:mm:ss')
-    	};
+        const status = {
+            connectionStatus: false,
+            databaseStatus: Constants.Message.UNAVAILABLE,
+            apiNodeStatus: Constants.Message.UNAVAILABLE,
+            lastStatusCheck: moment().format('YYYY-MM-DD HH:mm:ss'),
+        };
 
-    	try {
-    		const nodeStatus = (await Axios.get(nodeUrl + '/node/health')).data.status;
+        try {
+            const nodeStatus = (await Axios.get(nodeUrl + '/node/health')).data
+                .status;
 
-    		status.connectionStatus = true;
-    		status.apiNodeStatus = nodeStatus.apiNode === 'up';
-    		status.databaseStatus = nodeStatus.db === 'up';
-    		status.lastStatusCheck = moment().format('YYYY-MM-DD HH:mm:ss');
-    	}
-    	catch (e) {
-    		console.error('Failed to get node status', e);
-    	};
+            status.connectionStatus = true;
+            status.apiNodeStatus = nodeStatus.apiNode === 'up';
+            status.databaseStatus = nodeStatus.db === 'up';
+            status.lastStatusCheck = moment().format('YYYY-MM-DD HH:mm:ss');
+        } catch (e) {
+            console.error('Failed to get node status', e);
+        }
 
-    	return status;
-    }
+        return status;
+    };
 
     static getNodeChainInfo = async (nodeUrl) => {
-    	let chainInfo = {};
+        let chainInfo = {};
 
-    	try {
-    		chainInfo = {};
-    		const nodeChainInfo = (await Axios.get(nodeUrl + '/chain/info')).data;
+        try {
+            chainInfo = {};
+            const nodeChainInfo = (await Axios.get(nodeUrl + '/chain/info'))
+                .data;
 
-    		chainInfo.height = nodeChainInfo.height;
-    		chainInfo.scoreHigh = nodeChainInfo.scoreHigh;
-    		chainInfo.scoreLow = nodeChainInfo.scoreLow;
-    		chainInfo.finalizationEpoch = nodeChainInfo.latestFinalizedBlock.finalizationEpoch;
-    		chainInfo.finalizationPoint = nodeChainInfo.latestFinalizedBlock.finalizationPoint;
-    		chainInfo.finalizedHeight = nodeChainInfo.latestFinalizedBlock.height;
-    		chainInfo.finalizedHash = nodeChainInfo.latestFinalizedBlock.hash;
-    	}
-    	catch (e) {
-    		console.error('Failed to get node chain info', e);
-    	};
+            chainInfo.height = nodeChainInfo.height;
+            chainInfo.scoreHigh = nodeChainInfo.scoreHigh;
+            chainInfo.scoreLow = nodeChainInfo.scoreLow;
+            chainInfo.finalizationEpoch =
+                nodeChainInfo.latestFinalizedBlock.finalizationEpoch;
+            chainInfo.finalizationPoint =
+                nodeChainInfo.latestFinalizedBlock.finalizationPoint;
+            chainInfo.finalizedHeight =
+                nodeChainInfo.latestFinalizedBlock.height;
+            chainInfo.finalizedHash = nodeChainInfo.latestFinalizedBlock.hash;
+        } catch (e) {
+            console.error('Failed to get node chain info', e);
+        }
 
-    	return chainInfo;
-    }
+        return chainInfo;
+    };
 }
 
 export default NodeService;

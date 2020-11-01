@@ -17,7 +17,7 @@
     "testBlock": {
         "height": 1
     },
-    "testTransactions":{
+    "testTransactions": {
         "transferTransactionHash": "38E7FF47113FAD41C019EF928168CCBF2707D5B894F8F588AAAE0C5A7AC369F5"
     }
 }

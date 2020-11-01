@@ -1,4 +1,3 @@
-
 {
     "path": "/accounts",
     "name": "accounts",
@@ -17,8 +16,8 @@
                 "managerGetter": "account/timeline",
                 "errorMessage": "Failed to fetch account list",
                 "pagination": "server",
-				"hasFilter": true,
-				"onRowClickKey": "address",
+                "hasFilter": true,
+                "onRowClickKey": "address",
                 "fields": [
                     "address",
                     "balance",
@@ -26,13 +25,8 @@
                     "importance",
                     "accountAliasName"
                 ],
-                "mobileFields": [
-                    "address",
-                    "importance",
-                    "info"
-                ]
+                "mobileFields": ["address", "importance", "info"]
             }
         ]
     }
 }
-        

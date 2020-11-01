@@ -1,3 +1,4 @@
+<!-- prettier-ignore -->
 /*
  *
  * Copyright (c) 2019-present for NEM
@@ -17,17 +18,17 @@
  */
 
 <template>
-	<div id="app">
-		<div class="app-content">
-			<MobileMenu class="d-block d-md-none"/>
-			<Header />
-			<NavigationMenu class="d-none d-md-block"/>
-			<div class="width-limiter">
-				<router-view :key="$route.fullPath"/>
-			</div>
-		</div>
-		<Footer />
-	</div>
+    <div id="app">
+        <div class="app-content">
+            <MobileMenu class="d-block d-md-none" />
+            <Header />
+            <NavigationMenu class="d-none d-md-block" />
+            <div class="width-limiter">
+                <router-view :key="$route.fullPath" />
+            </div>
+        </div>
+        <Footer />
+    </div>
 </template>
 
 <script>
@@ -37,38 +38,41 @@ import MobileMenu from '@/components/menu/MobileMenu.vue';
 import Header from '@/components/layout/Header.vue';
 
 export default {
-	components: {
-		Footer,
-		NavigationMenu,
-		MobileMenu,
-		Header
-	},
+    components: {
+        Footer,
+        NavigationMenu,
+        MobileMenu,
+        Header,
+    },
 
-	data: () => {
-		return {
-			info: 1
-		};
-	},
-	created() {
-		this.initialize();
-	},
-	destroyed() {
-		this.uninitialize();
-	},
-	methods: {
-		initialize() {
-			this.$store.dispatch('api/initialize')
-				.catch(error => console.log(error));
-		},
-		uninitialize() {
-			this.$store.dispatch('uninitialize');
-		}
-	}
+    data: () => {
+        return {
+            info: 1,
+        };
+    },
+    created() {
+        this.initialize();
+    },
+    destroyed() {
+        this.uninitialize();
+    },
+    methods: {
+        initialize() {
+            this.$store
+                .dispatch('api/initialize')
+                .catch((error) => console.log(error));
+        },
+        uninitialize() {
+            this.$store.dispatch('uninitialize');
+        },
+    },
 };
 </script>
 
 <style lang="scss">
-html, body, #fullheight {
+html,
+body,
+#fullheight {
     min-width: 100% !important;
     width: 100%;
 }

@@ -20,56 +20,68 @@ import http from './http';
 import { Address } from 'symbol-sdk';
 
 class MultisigService {
-  /**
-   * Gets a MultisigAccountInfo for an account.
-   * @param address - Account Address
-   * @returns MultisigAccountInfo
-   */
-  static getMultisigAccount = async address => {
-  	let multisigAccountInfo;
+    /**
+     * Gets a MultisigAccountInfo for an account.
+     * @param address - Account Address
+     * @returns MultisigAccountInfo
+     */
+    static getMultisigAccount = async (address) => {
+        let multisigAccountInfo;
 
-  	try {
-  		multisigAccountInfo = await http.createRepositoryFactory.createMultisigRepository()
-  			.getMultisigAccountInfo(Address.createFromRawAddress(address))
-  			.toPromise();
-  	}
-  	catch (e) {
-  		// To Catach statusCode 404 if Address is not a multisig account.
-  		throw Error('Address is not a multisig account.');
-  	}
+        try {
+            multisigAccountInfo = await http.createRepositoryFactory
+                .createMultisigRepository()
+                .getMultisigAccountInfo(Address.createFromRawAddress(address))
+                .toPromise();
+        } catch (e) {
+            // To Catach statusCode 404 if Address is not a multisig account.
+            throw Error('Address is not a multisig account.');
+        }
 
-  	const formattedMultisigAccount = this.formatMultisigAccountInfo(multisigAccountInfo);
+        const formattedMultisigAccount = this.formatMultisigAccountInfo(
+            multisigAccountInfo,
+        );
 
-  	return formattedMultisigAccount;
-  }
+        return formattedMultisigAccount;
+    };
 
-  /**
-   * Get Customize MultisigAccountInfo for Vue component
-   * @param address - Account Address
-   * @returns customize MultisigAccountInfo
-   */
-  static getMultisigAccountInfo = async address => {
-  	const multisigAccountInfo = await this.getMultisigAccount(address);
+    /**
+     * Get Customize MultisigAccountInfo for Vue component
+     * @param address - Account Address
+     * @returns customize MultisigAccountInfo
+     */
+    static getMultisigAccountInfo = async (address) => {
+        const multisigAccountInfo = await this.getMultisigAccount(address);
 
-  	return {
-  		...multisigAccountInfo,
-  		minApproval: multisigAccountInfo?.cosignatoryAddresses.length > 0 ? multisigAccountInfo.minApproval : null,
-  		minRemoval: multisigAccountInfo?.cosignatoryAddresses.length > 0 ? multisigAccountInfo.minRemoval : null,
-  		cosignatoryAddresses: multisigAccountInfo?.cosignatoryAddresses,
-  		multisigAddresses: multisigAccountInfo?.multisigAddresses
-  	};
-  }
+        return {
+            ...multisigAccountInfo,
+            minApproval:
+                multisigAccountInfo?.cosignatoryAddresses.length > 0
+                    ? multisigAccountInfo.minApproval
+                    : null,
+            minRemoval:
+                multisigAccountInfo?.cosignatoryAddresses.length > 0
+                    ? multisigAccountInfo.minRemoval
+                    : null,
+            cosignatoryAddresses: multisigAccountInfo?.cosignatoryAddresses,
+            multisigAddresses: multisigAccountInfo?.multisigAddresses,
+        };
+    };
 
-  /**
-   * Format multisigAccountInfo DTO to readable object
-   * @param multisigAccountInfo - multisigAccountInfo DTO
-   * @returns formatted multisigAccountInfo DTO
-   */
-  static formatMultisigAccountInfo = multisigAccountInfo => ({
-  	...multisigAccountInfo,
-  	cosignatoryAddresses: multisigAccountInfo.cosignatoryAddresses.map(address => address.plain()),
-  	multisigAddresses: multisigAccountInfo.multisigAddresses.map(address => address.plain())
-  })
+    /**
+     * Format multisigAccountInfo DTO to readable object
+     * @param multisigAccountInfo - multisigAccountInfo DTO
+     * @returns formatted multisigAccountInfo DTO
+     */
+    static formatMultisigAccountInfo = (multisigAccountInfo) => ({
+        ...multisigAccountInfo,
+        cosignatoryAddresses: multisigAccountInfo.cosignatoryAddresses.map(
+            (address) => address.plain(),
+        ),
+        multisigAddresses: multisigAccountInfo.multisigAddresses.map(
+            (address) => address.plain(),
+        ),
+    });
 }
 
 export default MultisigService;

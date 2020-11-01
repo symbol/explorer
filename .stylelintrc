@@ -3,13 +3,12 @@
     "extends": "stylelint-config-standard",
     "rules": {
         "indentation": [4],
-        "selector-list-comma-space-after": "always",
         "selector-list-comma-space-before": "never",
-        "selector-list-comma-newline-after": "never-multi-line",
         "selector-list-comma-newline-before": "never-multi-line",
         "font-family-no-missing-generic-family-keyword": null,
         "no-descending-specificity": null,
         "comment-empty-line-before": null,
-        "no-empty-source": null
+        "no-empty-source": null,
+        "declaration-colon-newline-after": null
     }
 }

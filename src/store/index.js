@@ -33,90 +33,99 @@ import Vuex from 'vuex';
 Vue.use(Vuex);
 
 export default new Vuex.Store({
-	// Disable use-strict mode because it fails with the SDK listener.
-	strict: false,
-	modules: {
-		api,
-		block,
-		chain,
-		transaction,
-		ui,
-		account,
-		mosaic,
-		namespace,
-		node,
-		statistic
-	},
-	state: {
-		destructionList: []
-	},
-	getters: {
-		destructionList: state => state.destructionList
-	},
-	mutations: {
-		destructionList: (state, payload) => {
-			state.destructionList = payload;
-		}
-	},
-	actions: {
-		// Initialize the store (call on mount or re-initialization).
-		// This handles initialization of a dependent item based on the
-		// key provided.
-		async initialize({ dispatch }, route) {
-			router.beforeEach((to, from, next) => dispatch('onRouteChange', { to, from, next }));
-			// Initialize the API.
-			await helper.logError(dispatch, 'api/initialize');
-			switch (route.name) {
-			// Home
-			case 'home':
-				// Home: Requires blocks, chain, and transactions.
-				return Promise.all([
-					helper.logError(dispatch, 'block/initialize'),
-					helper.logError(dispatch, 'chain/initialize'),
-					helper.logError(dispatch, 'transaction/initialize')
-				]);
-			case 'statistics':
-				return helper.logError(dispatch, 'statistic/initialize');
-			}
-		},
+    // Disable use-strict mode because it fails with the SDK listener.
+    strict: false,
+    modules: {
+        api,
+        block,
+        chain,
+        transaction,
+        ui,
+        account,
+        mosaic,
+        namespace,
+        node,
+        statistic,
+    },
+    state: {
+        destructionList: [],
+    },
+    getters: {
+        destructionList: (state) => state.destructionList,
+    },
+    mutations: {
+        destructionList: (state, payload) => {
+            state.destructionList = payload;
+        },
+    },
+    actions: {
+        // Initialize the store (call on mount or re-initialization).
+        // This handles initialization of a dependent item based on the
+        // key provided.
+        async initialize({ dispatch }, route) {
+            router.beforeEach((to, from, next) =>
+                dispatch('onRouteChange', { to, from, next }),
+            );
+            // Initialize the API.
+            await helper.logError(dispatch, 'api/initialize');
+            switch (route.name) {
+                // Home
+                case 'home':
+                    // Home: Requires blocks, chain, and transactions.
+                    return Promise.all([
+                        helper.logError(dispatch, 'block/initialize'),
+                        helper.logError(dispatch, 'chain/initialize'),
+                        helper.logError(dispatch, 'transaction/initialize'),
+                    ]);
+                case 'statistics':
+                    return helper.logError(dispatch, 'statistic/initialize');
+            }
+        },
 
-		// Uninitialize the stores (call on app destroyed).
-		async uninitialize({ dispatch }) {
-			await Promise.all([
-				dispatch('account/uninitialize'),
-				dispatch('block/uninitialize'),
-				dispatch('chain/uninitialize'),
-				dispatch('mosaic/uninitialize'),
-				dispatch('namespace/uninitialize'),
-				dispatch('transaction/uninitialize'),
-				dispatch('statistic/uninitialize'),
-				dispatch('node/uninitialize')
-			]);
-		},
+        // Uninitialize the stores (call on app destroyed).
+        async uninitialize({ dispatch }) {
+            await Promise.all([
+                dispatch('account/uninitialize'),
+                dispatch('block/uninitialize'),
+                dispatch('chain/uninitialize'),
+                dispatch('mosaic/uninitialize'),
+                dispatch('namespace/uninitialize'),
+                dispatch('transaction/uninitialize'),
+                dispatch('statistic/uninitialize'),
+                dispatch('node/uninitialize'),
+            ]);
+        },
 
-		onRouteChange({ commit, getters, dispatch }, { to, from, next }) {
-			let destructionList = getters.destructionList;
+        onRouteChange({ commit, getters, dispatch }, { to, from, next }) {
+            let destructionList = getters.destructionList;
 
-			if (to.fullPath !== from.fullPath) {
-				destructionList.push({
-					name: from.name,
-					group: from.meta.group,
-					keepAliveGoTo: from.meta.keepAliveGoTo,
-					storeNamespaces: from.meta.storeNamespaces
-				});
+            if (to.fullPath !== from.fullPath) {
+                destructionList.push({
+                    name: from.name,
+                    group: from.meta.group,
+                    keepAliveGoTo: from.meta.keepAliveGoTo,
+                    storeNamespaces: from.meta.storeNamespaces,
+                });
 
-				destructionList = destructionList.filter(el => {
-					if (el.keepAliveGoTo?.includes(to.meta.group) || el.name === to.name)
-						return true;
-					else {
-            el.storeNamespaces?.forEach(namespace => dispatch(`${namespace}/uninitialize`, null, { root: true }));
-            return false;
-					}
-				});
+                destructionList = destructionList.filter((el) => {
+                    if (
+                        el.keepAliveGoTo?.includes(to.meta.group) ||
+                        el.name === to.name
+                    )
+                        return true;
+                    else {
+                        el.storeNamespaces?.forEach((namespace) =>
+                            dispatch(`${namespace}/uninitialize`, null, {
+                                root: true,
+                            }),
+                        );
+                        return false;
+                    }
+                });
 
-				commit('destructionList', destructionList);
-				next();
-			}
-		}
-	}
+                commit('destructionList', destructionList);
+                next();
+            }
+        },
+    },
 });

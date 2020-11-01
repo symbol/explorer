@@ -17,10 +17,10 @@
                 "maxWidth": 1500,
                 "zoom": 2,
                 "minZoom": 2,
-				"managerGetter": "node/timeline",
-				"hideDependOnGetter": "node/hostInfoManager",
+                "managerGetter": "node/timeline",
+                "hideDependOnGetter": "node/hostInfoManager",
                 "errorMessage": "Failed to fetch node list",
-				"hasFilter": true
+                "hasFilter": true
             },
             {
                 "layoutOptions": "full-width",
@@ -30,8 +30,8 @@
                 "errorMessage": "Failed to fetch node list",
                 "pagination": "client",
                 "pageSize": 1000,
-				"hasFilter": true,
-				"onRowClickKey": "nodePublicKey",
+                "hasFilter": true,
+                "onRowClickKey": "nodePublicKey",
                 "fields": [
                     "index",
                     "host",
@@ -41,11 +41,7 @@
                     "version",
                     "network"
                 ],
-                "mobileFields": [
-                    "host",
-                    "friendlyName",
-                    "nodePublicKey"
-                ]
+                "mobileFields": ["host", "friendlyName", "nodePublicKey"]
             }
         ]
     }

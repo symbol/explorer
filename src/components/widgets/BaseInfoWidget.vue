@@ -1,56 +1,56 @@
 <template>
-	<Card :loading="loading">
-		<template #title>
-			{{getNameByKey('baseInfo')}}
-		</template>
+    <Card :loading="loading">
+        <template #title>
+            {{ getNameByKey('baseInfo') }}
+        </template>
 
-		<template #body>
-			<b-container fluid style="height: 100%">
-				<b-row>
-					<b-col class="ex-item" sm="3" lg="12">
-						<div class="ex-item-title">
-							{{getNameByKey('price')}}
-						</div>
-						<div class="ex-item-value">
-							{{marketData.price}}
-						</div>
-					</b-col>
-					<b-col class="ex-item" sm="3" lg="12">
-						<div class="ex-item-title">
-							{{getNameByKey('marketCap')}}
-						</div>
-						<div class="ex-item-value">
-							{{marketData.marketCap}}
-						</div>
-					</b-col>
-					<b-col class="ex-item" sm="3" lg="12">
-						<div class="ex-item-title">
-							{{getNameByKey('totalTransactions')}}
-						</div>
-						<div class="ex-item-value">
-							{{storageInfo.numTransactions}}
-						</div>
-					</b-col>
-					<b-col class="ex-item" sm="3" lg="12">
-						<div class="ex-item-title">
-							{{getNameByKey('blockHeight')}}
-						</div>
-						<div class="ex-item-value">
-							{{currentHeight}}
-						</div>
-					</b-col>
-					<b-col class="ex-item" sm="3" lg="12">
-						<div class="ex-item-title">
-							{{getNameByKey('finalizedHeight')}}
-						</div>
-						<div class="ex-item-value">
-							{{finalizedHeight}}
-						</div>
-					</b-col>
-				</b-row>
-			</b-container>
-		</template>
-	</Card>
+        <template #body>
+            <b-container fluid style="height: 100%">
+                <b-row>
+                    <b-col class="ex-item" sm="3" lg="12">
+                        <div class="ex-item-title">
+                            {{ getNameByKey('price') }}
+                        </div>
+                        <div class="ex-item-value">
+                            {{ marketData.price }}
+                        </div>
+                    </b-col>
+                    <b-col class="ex-item" sm="3" lg="12">
+                        <div class="ex-item-title">
+                            {{ getNameByKey('marketCap') }}
+                        </div>
+                        <div class="ex-item-value">
+                            {{ marketData.marketCap }}
+                        </div>
+                    </b-col>
+                    <b-col class="ex-item" sm="3" lg="12">
+                        <div class="ex-item-title">
+                            {{ getNameByKey('totalTransactions') }}
+                        </div>
+                        <div class="ex-item-value">
+                            {{ storageInfo.numTransactions }}
+                        </div>
+                    </b-col>
+                    <b-col class="ex-item" sm="3" lg="12">
+                        <div class="ex-item-title">
+                            {{ getNameByKey('blockHeight') }}
+                        </div>
+                        <div class="ex-item-value">
+                            {{ currentHeight }}
+                        </div>
+                    </b-col>
+                    <b-col class="ex-item" sm="3" lg="12">
+                        <div class="ex-item-title">
+                            {{ getNameByKey('finalizedHeight') }}
+                        </div>
+                        <div class="ex-item-value">
+                            {{ finalizedHeight }}
+                        </div>
+                    </b-col>
+                </b-row>
+            </b-container>
+        </template>
+    </Card>
 </template>
 
 <script>
@@ -58,35 +58,35 @@ import Card from '@/components/containers/Card.vue';
 import { mapGetters } from 'vuex';
 
 export default {
-	components: {
-		Card
-	},
+    components: {
+        Card,
+    },
 
-	computed: {
-		...mapGetters({
-			chainInfo: 'chain/getChainInfo',
-			storageInfo: 'chain/getStorageInfo',
-			marketData: 'chain/getMarketData'
-		}),
+    computed: {
+        ...mapGetters({
+            chainInfo: 'chain/getChainInfo',
+            storageInfo: 'chain/getStorageInfo',
+            marketData: 'chain/getMarketData',
+        }),
 
-		loading() {
-			return !this.chainInfo;
-		},
+        loading() {
+            return !this.chainInfo;
+        },
 
-		currentHeight() {
-			return this.chainInfo.currentHeight;
-		},
+        currentHeight() {
+            return this.chainInfo.currentHeight;
+        },
 
-		finalizedHeight() {
-			return this.chainInfo.finalizedBlockHeight;
-		}
-	},
+        finalizedHeight() {
+            return this.chainInfo.finalizedBlockHeight;
+        },
+    },
 
-	methods: {
-		getNameByKey(e) {
-			return this.$store.getters['ui/getNameByKey'](e);
-		}
-	}
+    methods: {
+        getNameByKey(e) {
+            return this.$store.getters['ui/getNameByKey'](e);
+        },
+    },
 };
 </script>
 

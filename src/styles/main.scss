@@ -16,7 +16,7 @@ $grid-breakpoints: (
     sm: 667px,
     md: 768px,
     lg: 992px,
-    xl: 1920px
+    xl: 1920px,
 );
 
 $container-max-widths: (
@@ -26,7 +26,7 @@ $container-max-widths: (
     sm: 667px,
     md: 768px,
     lg: 992px,
-    xl: 1920px
+    xl: 1920px,
 );
 
 $theme-colors: () !default;
@@ -37,7 +37,7 @@ $theme-colors: map-merge(
         'success': $green,
         'info': $info,
         'warning': $orange,
-        'title': $pink
+        'title': $pink,
     ),
     $theme-colors
 );

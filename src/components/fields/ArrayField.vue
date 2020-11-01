@@ -1,3 +1,4 @@
+<!-- prettier-ignore -->
 /*
  *
  * Copyright (c) 2019-present for NEM
@@ -17,19 +18,30 @@
  */
 
 <template>
-	<div>
-		<div v-for="(row, rowIndex) in value" :title="row" :key="'af_r'+rowIndex" @click.stop>
-			<router-link v-if="isKeyClickable(itemKey_) && getItemHref(itemKey_, row)" :to="getItemHref(itemKey_, row)">
-				<Truncate v-if="isTruncate(itemKey_)">{{row}}</Truncate>
-				<div v-else>{{ row }}</div>
-			</router-link>
-			<TransactionType v-else-if="isTransactionType(itemKey_)" :value="row" />
-			<div v-else>
-				<Truncate v-if="isTruncate(itemKey_)">{{row}}</Truncate>
-				<div v-else>{{ row }}</div>
-			</div>
-		</div>
-	</div>
+    <div>
+        <div
+            v-for="(row, rowIndex) in value"
+            :key="'af_r' + rowIndex"
+            :title="row"
+            @click.stop
+        >
+            <router-link
+                v-if="isKeyClickable(itemKey_) && getItemHref(itemKey_, row)"
+                :to="getItemHref(itemKey_, row)"
+            >
+                <Truncate v-if="isTruncate(itemKey_)">{{ row }}</Truncate>
+                <div v-else>{{ row }}</div>
+            </router-link>
+            <TransactionType
+                v-else-if="isTransactionType(itemKey_)"
+                :value="row"
+            />
+            <div v-else>
+                <Truncate v-if="isTruncate(itemKey_)">{{ row }}</Truncate>
+                <div v-else>{{ row }}</div>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
@@ -37,29 +49,29 @@ import TableView from '@/components/tables/TableView.vue';
 import TransactionType from '@/components/fields/TransactionType.vue';
 
 export default {
-	name: 'ArrayField',
-	extends: TableView,
+    name: 'ArrayField',
 
-	components: {
-		TransactionType
-	},
+    components: {
+        TransactionType,
+    },
+    extends: TableView,
 
-	props: {
-		itemKey: {
-			type: String,
-			required: true
-		},
+    props: {
+        itemKey: {
+            type: String,
+            required: true,
+        },
 
-		value: {
-			type: Array,
-			required: true
-		}
-	},
+        value: {
+            type: Array,
+            required: true,
+        },
+    },
 
-	computed: {
-		itemKey_() {
-			return this.itemKey + '_';
-		}
-	}
+    computed: {
+        itemKey_() {
+            return this.itemKey + '_';
+        },
+    },
 };
 </script>

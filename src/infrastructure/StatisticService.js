@@ -17,134 +17,137 @@
  */
 
 class StatisticService {
-	/**
-	 * Gets Block Time Difference dataset.
-	 * The dataset in use for Chart.
-	 * @param blocks - streamer blocks []
-	 * @param limit - number of the block.
-	 * @param grouping - grouping block for calculation
-	 * @returns block time difference dataset.
-	 */
-	static getBlockTimeDifferenceData = (blocks, limit, grouping) => {
-		const heights = blocks.map(data => Number(data.height));
+    /**
+     * Gets Block Time Difference dataset.
+     * The dataset in use for Chart.
+     * @param blocks - streamer blocks []
+     * @param limit - number of the block.
+     * @param grouping - grouping block for calculation
+     * @returns block time difference dataset.
+     */
+    static getBlockTimeDifferenceData = (blocks, limit, grouping) => {
+        const heights = blocks.map((data) => Number(data.height));
 
-		let timestamps = blocks.map(data => data.timestampRaw);
+        let timestamps = blocks.map((data) => data.timestampRaw);
 
-		for (let i = 0; i < timestamps.length - 1; ++i)
-			timestamps[i] -= timestamps[i + 1];
+        for (let i = 0; i < timestamps.length - 1; ++i)
+            timestamps[i] -= timestamps[i + 1];
 
-		let averages = [];
+        let averages = [];
 
-		let sum = 0;
+        let sum = 0;
 
-		for (let i = 0; i < grouping; ++i)
-			sum += timestamps[i];
+        for (let i = 0; i < grouping; ++i) sum += timestamps[i];
 
-		for (let i = grouping; i < timestamps.length; ++i) {
-			averages.push(sum / grouping);
-			sum -= timestamps[i - grouping];
-			sum += timestamps[i];
-		}
-		averages.push(0);
+        for (let i = grouping; i < timestamps.length; ++i) {
+            averages.push(sum / grouping);
+            sum -= timestamps[i - grouping];
+            sum += timestamps[i];
+        }
+        averages.push(0);
 
-		let timeDifferenceDataset = [];
+        let timeDifferenceDataset = [];
 
-		let averagesDataset = [];
+        let averagesDataset = [];
 
-		for (let i = 0; i < timestamps.length - 1; ++i) {
-			let height = heights[i];
+        for (let i = 0; i < timestamps.length - 1; ++i) {
+            let height = heights[i];
 
-			let difference = timestamps[i] / 1000;
+            let difference = timestamps[i] / 1000;
 
-			let average = averages[i] / 1000;
+            let average = averages[i] / 1000;
 
-			timeDifferenceDataset.push([height, difference.toFixed(2)]);
-			averagesDataset.push([height, average.toFixed(2) === 'NaN' ? null : average.toFixed(2)]);
-		}
+            timeDifferenceDataset.push([height, difference.toFixed(2)]);
+            averagesDataset.push([
+                height,
+                average.toFixed(2) === 'NaN' ? null : average.toFixed(2),
+            ]);
+        }
 
-		let dataset = [
-			{
-				name: 'Time Difference (in seconds)',
-				data: timeDifferenceDataset
-			},
-			{
-				name: `Average Time Difference (per ${grouping} blocks)`,
-				data: averagesDataset
-			}
-		];
+        let dataset = [
+            {
+                name: 'Time Difference (in seconds)',
+                data: timeDifferenceDataset,
+            },
+            {
+                name: `Average Time Difference (per ${grouping} blocks)`,
+                data: averagesDataset,
+            },
+        ];
 
-		return {
-			limit: limit,
-			grouping: grouping,
-			name: `Block time differences in last ${limit} blocks`,
-			data: dataset
-		};
-	}
+        return {
+            limit: limit,
+            grouping: grouping,
+            name: `Block time differences in last ${limit} blocks`,
+            data: dataset,
+        };
+    };
 
-	/**
-	 * Gets Transaction data per block dataset
-	 * The dataset in use for Chart.
-	 * @param blocks - streamer blocks []
-	 * @param limit - number of the block.
-	 * @param grouping - grouping block for calculation
-	 * @returns transaction data per block dataset.
-	 */
-	static getTransactionPerBlockData = (blocks, limit, grouping) => {
-		const heights = blocks.map(data => Number(data.height));
+    /**
+     * Gets Transaction data per block dataset
+     * The dataset in use for Chart.
+     * @param blocks - streamer blocks []
+     * @param limit - number of the block.
+     * @param grouping - grouping block for calculation
+     * @returns transaction data per block dataset.
+     */
+    static getTransactionPerBlockData = (blocks, limit, grouping) => {
+        const heights = blocks.map((data) => Number(data.height));
 
-		let numTransactions = blocks.map(data => data.transactions);
+        let numTransactions = blocks.map((data) => data.transactions);
 
-		let averages = [];
+        let averages = [];
 
-		let sum = 0;
+        let sum = 0;
 
-		for (let i = 0; i < grouping; ++i)
-			sum += numTransactions[i];
+        for (let i = 0; i < grouping; ++i) sum += numTransactions[i];
 
-		for (let i = grouping; i < numTransactions.length; ++i) {
-			averages.push(sum / grouping);
-			sum -= numTransactions[i - grouping];
-			sum += numTransactions[i];
-		}
-		averages.push(0);
+        for (let i = grouping; i < numTransactions.length; ++i) {
+            averages.push(sum / grouping);
+            sum -= numTransactions[i - grouping];
+            sum += numTransactions[i];
+        }
+        averages.push(0);
 
-		let numTransactionsPerBlockDataset = [];
+        let numTransactionsPerBlockDataset = [];
 
-		let averagesDataset = [];
+        let averagesDataset = [];
 
-		for (let i = 0; i < numTransactions.length - 1; ++i) {
-			numTransactionsPerBlockDataset.push([heights[i], numTransactions[i]]);
-			averagesDataset.push([heights[i], Math.floor(averages[i])]);
-		}
+        for (let i = 0; i < numTransactions.length - 1; ++i) {
+            numTransactionsPerBlockDataset.push([
+                heights[i],
+                numTransactions[i],
+            ]);
+            averagesDataset.push([heights[i], Math.floor(averages[i])]);
+        }
 
-		let dataset = [
-			{
-				name: 'Number of transactions',
-				data: numTransactionsPerBlockDataset
-			},
-			{
-				name: `Average number of transaction (per ${grouping} blocks)`,
-				data: averagesDataset
-			}
-		];
+        let dataset = [
+            {
+                name: 'Number of transactions',
+                data: numTransactionsPerBlockDataset,
+            },
+            {
+                name: `Average number of transaction (per ${grouping} blocks)`,
+                data: averagesDataset,
+            },
+        ];
 
-		return {
-			limit: limit,
-			grouping: grouping,
-			name: `Transaction per block in last ${limit} blocks`,
-			data: dataset
-		};
-	}
+        return {
+            limit: limit,
+            grouping: grouping,
+            name: `Transaction per block in last ${limit} blocks`,
+            data: dataset,
+        };
+    };
 
-	static isUrlProvided() {
-		try {
-			new URL(globalConfig?.endpoints?.statisticsService); // eslint-disable-line no-new
-			return true;
-		}
-		catch (e) {
-			return false;
-		}
-	}
+    static isUrlProvided() {
+        try {
+            new URL(globalConfig?.endpoints?.statisticsService); // eslint-disable-line no-new
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
 }
 
 export default StatisticService;

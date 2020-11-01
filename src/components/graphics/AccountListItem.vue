@@ -1,18 +1,15 @@
 <template>
-	<b-list-group-item
-		class="d-flex justify-content-between align-items-center list-item"
-		:title="title"
-	>
-		<AccountIcon
-			hideCaption
-			:width="32"
-			:height="32"
-			:address="address"
-		/>
-		{{ text }}
-		<b-badge v-if="isValueExist" variant="primary" pill>{{ _value }}</b-badge>
-		<div v-else> &nbsp; </div>
-	</b-list-group-item>
+    <b-list-group-item
+        class="d-flex justify-content-between align-items-center list-item"
+        :title="title"
+    >
+        <AccountIcon hide-caption :width="32" :height="32" :address="address" />
+        {{ text }}
+        <b-badge v-if="isValueExist" variant="primary" pill>{{
+            _value
+        }}</b-badge>
+        <div v-else>&nbsp;</div>
+    </b-list-group-item>
 </template>
 
 <script>
@@ -20,40 +17,42 @@ import AccountIcon from '../graphics/AccountIcon.vue';
 import GraphicComponent from './GraphicComponent.vue';
 
 export default {
-	extends: GraphicComponent,
+    components: {
+        AccountIcon,
+    },
+    extends: GraphicComponent,
 
-	components: {
-		AccountIcon
-	},
+    props: {
+        address: {
+            type: String,
+            default: '',
+        },
 
-	props: {
-		address: {
-			type: String,
-			default: ''
-		},
+        value: {
+            type: [Number, String],
+        },
+    },
 
-		value: {
-			type: [Number, String]
-		}
-	},
+    computed: {
+        text() {
+            return this.truncString(this.address, 5);
+        },
 
-	computed: {
-		text() {
-			return this.truncString(this.address, 5);
-		},
+        title() {
+            return this.address;
+        },
 
-		title() {
-			return this.address;
-		},
+        isValueExist() {
+            return (
+                typeof this._value === 'number' ||
+                typeof this._value === 'string'
+            );
+        },
 
-		isValueExist() {
-			return typeof this._value === 'number' || typeof this._value === 'string';
-		},
-
-		_value() {
-			return this.value || this.amount;
-		}
-	}
+        _value() {
+            return this.value || this.amount;
+        },
+    },
 };
 </script>
 

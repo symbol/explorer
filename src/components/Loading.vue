@@ -1,3 +1,4 @@
+<!-- prettier-ignore -->
 /*
  *
  * Copyright (c) 2019-present for NEM
@@ -15,48 +16,72 @@
  * limitations under the License.
  *
  */
+
 <template>
-	<div class="box_loader">
-		<div class="pos-center" :class="{'small': small, 'big': !small}">
-			<div class="spinner">
-				<svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-					<circle
-						class="length"
-						fill="none"
-						stroke-width="8"
-						stroke-linecap="round"
-						cx="33"
-						cy="33"
-						r="28"
-					/>
-				</svg>
-				<svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-					<circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28" />
-				</svg>
-				<svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-					<circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28" />
-				</svg>
-				<svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
-					<circle fill="none" stroke-width="8" stroke-linecap="round" cx="33" cy="33" r="28" />
-				</svg>
-			</div>
-		</div>
-	</div>
+    <div class="box_loader">
+        <div class="pos-center" :class="{ small: small, big: !small }">
+            <div class="spinner">
+                <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                    <circle
+                        class="length"
+                        fill="none"
+                        stroke-width="8"
+                        stroke-linecap="round"
+                        cx="33"
+                        cy="33"
+                        r="28"
+                    />
+                </svg>
+                <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                    <circle
+                        fill="none"
+                        stroke-width="8"
+                        stroke-linecap="round"
+                        cx="33"
+                        cy="33"
+                        r="28"
+                    />
+                </svg>
+                <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                    <circle
+                        fill="none"
+                        stroke-width="8"
+                        stroke-linecap="round"
+                        cx="33"
+                        cy="33"
+                        r="28"
+                    />
+                </svg>
+                <svg viewBox="0 0 66 66" xmlns="http://www.w3.org/2000/svg">
+                    <circle
+                        fill="none"
+                        stroke-width="8"
+                        stroke-linecap="round"
+                        cx="33"
+                        cy="33"
+                        r="28"
+                    />
+                </svg>
+            </div>
+        </div>
+    </div>
 </template>
 
 <script>
 export default {
-	props: {
-		small: {
-			type: Boolean,
-			default: false
-		}
-	}
+    props: {
+        small: {
+            type: Boolean,
+            default: false,
+        },
+    },
 };
 </script>
 
 <style scoped>
-*, *::before, *::after {
+*,
+*::before,
+*::after {
     box-sizing: border-box;
     position: relative;
 }

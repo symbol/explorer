@@ -1,3 +1,4 @@
+<!-- prettier-ignore -->
 /*
  *
  * Copyright (c) 2019-present for NEM
@@ -17,46 +18,38 @@
  */
 
 <template>
-	<img
-		v-if="isTrue"
-		:title="value"
-		:src="IconTrue"
-		class="icon"
-	/>
-	<img
-		v-else
-		:title="value"
-		:src="IconFalse"
-		class="icon"
-	/>
+    <img v-if="isTrue" :title="value" :src="IconTrue" class="icon" />
+    <img v-else :title="value" :src="IconFalse" class="icon" />
 </template>
 <script>
 import IconTrue from '../../styles/img/true.png';
 import IconFalse from '../../styles/img/false.png';
 export default {
-	props: {
-		value: [Boolean, String, Number]
-	},
+    props: {
+        value: [Boolean, String, Number],
+    },
 
-	data() {
-		return {
-			IconTrue,
-			IconFalse
-		};
-	},
+    data() {
+        return {
+            IconTrue,
+            IconFalse,
+        };
+    },
 
-	computed: {
-		isTrue() {
-			const value = this.value;
+    computed: {
+        isTrue() {
+            const value = this.value;
 
-			return value === true ||
+            return (
+                value === true ||
                 value === 1 ||
                 value === 'true' ||
                 value === '1' ||
                 value === 'up' ||
-                value === 'ok';
-		}
-	}
+                value === 'ok'
+            );
+        },
+    },
 };
 </script>
 

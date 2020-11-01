@@ -1,43 +1,47 @@
 <template>
-	<div class="mobile-menu">
-		<transition name="fade">
-			<div v-if="showDrawer" class="shaded"></div>
-		</transition>
+    <div class="mobile-menu">
+        <transition name="fade">
+            <div v-if="showDrawer" class="shaded"></div>
+        </transition>
 
-		<div class="ex-menu-icon" @click="toggleMenu">
-			<IconMenu />
-		</div>
+        <div class="ex-menu-icon" @click="toggleMenu">
+            <IconMenu />
+        </div>
 
-		<div class="mobile-panel navbar-hide-on-scroll">
-			<router-link to="/" class="title" :class="{'hide': fixed}">
-				<img src="../../styles/img/logo-w.png" class="menu-logo"/>
-			</router-link>
-		</div>
+        <div class="mobile-panel navbar-hide-on-scroll">
+            <router-link to="/" class="title" :class="{ hide: fixed }">
+                <img src="../../styles/img/logo-w.png" class="menu-logo" />
+            </router-link>
+        </div>
 
-		<transition name="slide">
-			<div v-if="showDrawer" class="menu-drawer">
-				<div class="drawer-header blue-gradinet">
-					<router-link to="/" class="logo">
-						<img src="../../styles/img/logo-w.png" />
-					</router-link>
-					<span class="title">{{getNameByKey('blockchainExplorerTitle')}}</span>
-					<LanguageSelector />
-				</div>
-				<div class="drawer-body">
-					<router-link
-						v-for="item in items"
-						:key="'mobl_mn_'+getNameByKey(item.text)"
-						class="ex-menu-item"
-						:to="item.to" exact active-class="active"
-						@click.native="toggleMenu"
-					>
-						<component :is="item.icon" class="ex-menu-item-icon"/>
-						<span>{{getNameByKey(item.text)}}</span>
-					</router-link>
-				</div>
-			</div>
-		</transition>
-	</div>
+        <transition name="slide">
+            <div v-if="showDrawer" class="menu-drawer">
+                <div class="drawer-header blue-gradinet">
+                    <router-link to="/" class="logo">
+                        <img src="../../styles/img/logo-w.png" />
+                    </router-link>
+                    <span class="title">{{
+                        getNameByKey('blockchainExplorerTitle')
+                    }}</span>
+                    <LanguageSelector />
+                </div>
+                <div class="drawer-body">
+                    <router-link
+                        v-for="item in items"
+                        :key="'mobl_mn_' + getNameByKey(item.text)"
+                        class="ex-menu-item"
+                        :to="item.to"
+                        exact
+                        active-class="active"
+                        @click.native="toggleMenu"
+                    >
+                        <component :is="item.icon" class="ex-menu-item-icon" />
+                        <span>{{ getNameByKey(item.text) }}</span>
+                    </router-link>
+                </div>
+            </div>
+        </transition>
+    </div>
 </template>
 
 <script>
@@ -54,43 +58,43 @@ import LanguageSelector from '@/components/controls/LanguageSelector.vue';
 import { pageMenu } from '../../config/';
 
 export default {
-	components: {
-		IconMenu,
-		LanguageSelector,
-		IconHome,
-		IconBlocks,
-		IconTransactions,
-		IconAccounts,
-		IconMosaics,
-		IconNodes,
-		IconNamespaces,
-		IconStatistics
-	},
+    components: {
+        IconMenu,
+        LanguageSelector,
+        IconHome,
+        IconBlocks,
+        IconTransactions,
+        IconAccounts,
+        IconMosaics,
+        IconNodes,
+        IconNamespaces,
+        IconStatistics,
+    },
 
-	props: {
-		fixed: {
-			type: Boolean,
-			default: false
-		}
-	},
+    props: {
+        fixed: {
+            type: Boolean,
+            default: false,
+        },
+    },
 
-	data() {
-		return {
-			items: pageMenu.items,
-			showDrawer: false,
-			scrolled: true
-		};
-	},
+    data() {
+        return {
+            items: pageMenu.items,
+            showDrawer: false,
+            scrolled: true,
+        };
+    },
 
-	methods: {
-		toggleMenu() {
-			this.showDrawer = !this.showDrawer;
-		},
+    methods: {
+        toggleMenu() {
+            this.showDrawer = !this.showDrawer;
+        },
 
-		getNameByKey(e) {
-			return this.$store.getters['ui/getNameByKey'](e);
-		}
-	}
+        getNameByKey(e) {
+            return this.$store.getters['ui/getNameByKey'](e);
+        },
+    },
 };
 </script>
 
@@ -106,7 +110,11 @@ export default {
 }
 
 .blue-gradinet {
-    background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
+    background: linear-gradient(
+        120deg,
+        var(--primary) 0%,
+        var(--secondary) 100%
+    );
     background-size: 100% auto;
     position: relative;
 }
@@ -206,7 +214,11 @@ export default {
     }
 
     .mobile-panel {
-        background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
+        background: linear-gradient(
+            120deg,
+            var(--primary) 0%,
+            var(--secondary) 100%
+        );
         box-shadow: 0 2px 10px 2px rgba(0, 0, 0, 0.2);
         padding: 0 15px;
         display: flex;
@@ -228,7 +240,8 @@ export default {
         }
     }
 
-    .slide-leave-active, .slide-enter-active {
+    .slide-leave-active,
+    .slide-enter-active {
         transition: 0.5s;
     }
 
@@ -240,11 +253,13 @@ export default {
         transform: translate(-100%, 0);
     }
 
-    .fade-enter-active, .fade-leave-active {
+    .fade-enter-active,
+    .fade-leave-active {
         transition: opacity 0.5s;
     }
 
-    .fade-enter, .fade-leave-to {
+    .fade-enter,
+    .fade-leave-to {
         opacity: 0;
     }
 }

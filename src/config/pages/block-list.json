@@ -17,8 +17,8 @@
                 "infoTextGetter": "block/infoText",
                 "pagination": "server",
                 "hasFilter": false,
-				"hasInfoText": true,
-				"onRowClickKey": "height",
+                "hasInfoText": true,
+                "onRowClickKey": "height",
                 "fields": [
                     "height",
                     "age",
@@ -28,12 +28,7 @@
                     "date",
                     "harvester"
                 ],
-                "mobileFields": [
-                    "height",
-                    "age",
-                    "transactions",
-                    "totalFee"
-                ]
+                "mobileFields": ["height", "age", "transactions", "totalFee"]
             }
         ]
     }
