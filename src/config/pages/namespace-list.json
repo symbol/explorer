@@ -21,13 +21,13 @@
                 "fields": [
                     "namespaceName",
                     "namespaceId",
-                    "owneraddress",
+                    "ownerAddress",
                     "expirationDuration",
                     "approximateExpired"
                 ],
                 "mobileFields": [
                     "namespaceName",
-                    "owneraddress",
+                    "ownerAddress",
                     "duration"
                 ]
             }

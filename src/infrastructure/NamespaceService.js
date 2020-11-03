@@ -156,7 +156,7 @@ class NamespaceService {
   		formattedNamespaceInfo.aliasMosaic = namespace.alias;
 
   	// End height disable click before expired.
-	formattedNamespaceInfo.expiredInBlock = helper.isNativeNamespace(namespace.namespaceName) ? Constants.Message.INFINITY : expiredInBlock + ` ≈ ` + formattedNamespaceInfo.duration;
+  	formattedNamespaceInfo.expiredInBlock = helper.isNativeNamespace(namespace.namespaceName) ? Constants.Message.INFINITY : expiredInBlock + ` ≈ ` + formattedNamespaceInfo.duration;
 
   	if (isExpired)
   		delete formattedNamespaceInfo.expiredInBlock;

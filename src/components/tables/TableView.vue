@@ -55,7 +55,7 @@ export default {
 
 				'signer',
 				'recipient',
-				'owneraddress',
+				'ownerAddress',
 				'blockHeight',
 				'endHeight',
 				'startHeight',
@@ -162,7 +162,7 @@ export default {
 		},
 
 		isBlockHeightWithFinalizedStatus(itemKey) {
-			return itemKey === 'height' || itemKey === 'blockHeight' || itemKey === 'startHeight';
+			return itemKey === 'height' || itemKey === 'blockHeight' || itemKey === 'startHeight' || itemKey === 'endHeight';
 		},
 
 		isArrayField(itemKey) {
@@ -176,7 +176,7 @@ export default {
                 key === 'signer' ||
                 key === 'recipient' ||
                 key === 'transactionHash' ||
-                key === 'owneraddress' ||
+                key === 'ownerAddress' ||
                 key === 'host' ||
                 key === 'friendlyName' ||
                 key === 'multisigAddresses_' ||
