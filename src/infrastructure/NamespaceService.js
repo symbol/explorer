@@ -131,12 +131,12 @@ class NamespaceService {
    * @returns customize namespace info Object
    */
   static getNamespaceInfo = async (hexOrNamespace) => {
-  	let namespaceId = await helper.hexOrNamespaceToId(hexOrNamespace, 'namespace');
+  	const namespaceId = await helper.hexOrNamespaceToId(hexOrNamespace, 'namespace');
 
-  	let namespace = await this.getNamespace(namespaceId);
+  	const namespace = await this.getNamespace(namespaceId);
   	const { height: currentHeight } = await ChainService.getChainInfo();
 
-  	let {
+  	const {
   		isExpired,
   		expiredInBlock,
   		expiredInSecond
@@ -144,9 +144,8 @@ class NamespaceService {
 
   	let formattedNamespaceInfo = {
   		...namespace,
-  		owneraddress: namespace.ownerAddress,
   		duration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED,
-  		status: namespace.active
+  		status: isExpired ? Constants.Message.EXPIRED : Constants.Message.ACTIVE
   	};
 
   	// create alias props by alias type.
@@ -157,11 +156,14 @@ class NamespaceService {
   		formattedNamespaceInfo.aliasMosaic = namespace.alias;
 
   	// End height disable click before expired.
-  	formattedNamespaceInfo.expiredInBlock = helper.isNativeNamespace(namespace.namespaceName) ? Constants.Message.INFINITY : expiredInBlock + ` ≈ ` + formattedNamespaceInfo.duration;
+	formattedNamespaceInfo.expiredInBlock = helper.isNativeNamespace(namespace.namespaceName) ? Constants.Message.INFINITY : expiredInBlock + ` ≈ ` + formattedNamespaceInfo.duration;
 
-  	if (!isExpired) {
+  	if (isExpired)
+  		delete formattedNamespaceInfo.expiredInBlock;
+
+  	if (currentHeight < formattedNamespaceInfo.endHeight) {
   		formattedNamespaceInfo.beforeEndHeight = helper.isNativeNamespace(namespace.namespaceName) ? Constants.Message.INFINITY : formattedNamespaceInfo.endHeight + ` ( ${http.networkConfig.NamespaceGraceDuration} blocks of grace period )`;
-  		delete formattedNamespaceInfo.endHeight;
+	  	delete formattedNamespaceInfo.endHeight;
   	}
 
   	return formattedNamespaceInfo;
@@ -205,7 +207,6 @@ class NamespaceService {
 
   			return {
   				...namespace,
-  				owneraddress: namespace.ownerAddress,
   				expirationDuration: helper.isNativeNamespace(namespace.namespaceName) ? Constants.Message.INFINITY : helper.convertTimeFromNowInSec(expiredInSecond),
   				isExpired: isExpired,
   				approximateExpired: helper.isNativeNamespace(namespace.namespaceName) ? Constants.Message.INFINITY : helper.convertSecondToDate(expiredInSecond),
