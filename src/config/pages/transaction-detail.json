@@ -60,22 +60,6 @@
 				]
             },
             {
-                "layoutOptions": "adaptive",
-                "type": "CardTable",
-                "title": "mosaicsTitle",
-                "managerGetter": "transaction/info",
-                "dataGetter": "transaction/transferMosaics",
-                "errorMessage": "transactionMosaicsError",
-                "pagination": "client",
-                "pageSize": 5,
-                "hideEmptyData": true,
-                "fields": [
-                    "mosaicId",
-                    "amount",
-                    "mosaicAliasName"
-                ]
-            },
-            {
                 "layoutOptions": "full-width",
                 "type": "CardTable",
                 "title": "aggregateInnerTransactionsTitle",
@@ -86,6 +70,7 @@
                 "pageSize": 5,
                 "hideEmptyData": true,
                 "fields": [
+                    "index",
                     "transactionType",
                     "signer",
                     "transactionBody"

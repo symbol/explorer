@@ -21,9 +21,8 @@
                     "mosaicId",
                     "mosaicAliasName",
                     "owneraddress",
-                    "supply",
-                    "divisibility",
                     "relativeAmount",
+                    "divisibility",
                     "startHeight"
                 ],
                 "mobileFields": [

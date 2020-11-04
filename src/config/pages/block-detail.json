@@ -93,7 +93,7 @@
                     "size",
   					"receiptType",
   					"senderAddress",
-  					"recipientAddress",
+  					"recipient",
   					"amount",
   					"mosaicId"
                 ]
