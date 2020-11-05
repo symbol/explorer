@@ -3,7 +3,7 @@
 		<div v-if="iconUrl" class="icon">
 			<img :src="iconUrl" />
 		</div>
-		<div class="text">
+		<div v-if="!hideCaption" class="text">
 			{{ transactionText }}
 		</div>
 	</div>
@@ -28,6 +28,11 @@ export default {
 		value: {
 			type: [String, Number],
 			required: true
+		},
+
+		hideCaption: {
+			type: Boolean,
+			default: false
 		}
 	},
 

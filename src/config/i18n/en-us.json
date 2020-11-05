@@ -350,5 +350,6 @@
     "finalizationEpoch": "Finalization Epoch",
     "finalizationPoint": "Finalization Point",
     "finalizedHash": "Finalized Hash",
-    "nodeDetailError": "Failed to fetch node detail."
+    "nodeDetailError": "Failed to fetch node detail.",
+    "extendGraphicValue": "Info"
 }
