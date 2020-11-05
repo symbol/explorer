@@ -195,7 +195,7 @@ class AccountService {
   			return {
   				...namespaces,
   				status: namespaces.active,
-  				duration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED
+  				expirationDuration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED
   			};
   		})
   	};
