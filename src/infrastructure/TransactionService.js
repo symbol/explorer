@@ -57,7 +57,14 @@ class TransactionService {
   				resolve(transactionStatus);
   			})
   			.catch(error => {
-  				reject(error);
+				  // handle REST error https://github.com/nemtech/catapult-rest/pull/499
+				  // Todo: Remove if statement, after REST error is fix.
+				  if (error.message.search('statusCode') === -1) {
+  					transactionStatus.message = error.message;
+  					transactionStatus.detail = error;
+  					resolve(transactionStatus);
+				  }
+  				resolve(transactionStatus);
   			});
   	});
   }
@@ -120,12 +127,27 @@ class TransactionService {
    * @returns Custom Transaction object
    */
   static getTransactionInfo = async (hash, transactionGroup = TransactionGroup.Confirmed) => {
-  	const transaction = await this.getTransaction(hash, transactionGroup);
+	  const [transaction, transactionStatus] = await Promise.all([
+  		this.getTransaction(hash, transactionGroup).catch((error) => {
+  			if (error)
+  				return false;
+  		}),
+  		this.getTransactionStatus(hash)
+	  ]);
 
-  	const [{ date }, effectiveFee, transactionStatus, merklePath] = await Promise.all([
+	  if (!transaction) {
+  		const transactionErrorInfo = {
+  			transactionHash: transactionStatus.detail.hash,
+  			status: transactionStatus.detail.code,
+  			confirm: transactionStatus.message
+  		};
+
+  		return transactionErrorInfo;
+	  }
+
+  	const [{ date }, effectiveFee, merklePath] = await Promise.all([
 		  BlockService.getBlockInfo(UInt64.fromUint(transaction.transactionInfo.height)),
 		  this.getTransactionEffectiveFee(hash),
-		  this.getTransactionStatus(hash),
 		  BlockService.getMerkleTransaction(UInt64.fromUint(transaction.transactionInfo.height), transaction.transactionInfo.merkleComponentHash)
 	  ]);
 
