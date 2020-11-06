@@ -481,9 +481,9 @@ class helper {
 	  if (!http.nativeNamespaces)
 		  return false;
 
-  	const values = http.nativeNamespaces.map(namespace => namespace.namespaceName.toUpperCase());
+  	const values = http.nativeNamespaces.map(namespace => namespace.namespaceName);
 
-  	return values.indexOf(namespaceName.toUpperCase()) !== -1;
+  	return values.indexOf(namespaceName) !== -1;
   }
 
   /**

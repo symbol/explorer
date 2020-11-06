@@ -336,7 +336,7 @@ class NamespaceService {
   		: Number(namespace.endHeight.toString()),
   	active: namespace.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
   	...this.formatAlias(namespace.alias),
-  	parentName: namespace.registrationType !== 0 ? namespace.name.split('.')[0].toUpperCase() : '',
+  	parentName: namespace.registrationType !== 0 ? namespace.name.split('.')[0] : '',
   	levels: namespace.levels
   })
 
