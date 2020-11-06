@@ -179,6 +179,10 @@ class Constants {
   }
 
   static MerkleRootsOrder = ['AccountState', 'Namespace', 'Mosaic', 'Multisig', 'HashLockInfo', 'SecretLockInfo', 'AccountRestriction', 'MosaicRestriction', 'Metadata']
+  static LockStatusType = {
+	  0: 'Unused',
+	  1: 'Used'
+  }
 }
 
 export default Constants;
