@@ -160,7 +160,6 @@ class ReceiptService {
   					height: statement.height
   				});
   				break;
-  			case ReceiptType.Mosaic_Levy:
   			case ReceiptType.Mosaic_Rental_Fee:
   			case ReceiptType.Namespace_Rental_Fee:
   				balanceTransferReceipt.push({

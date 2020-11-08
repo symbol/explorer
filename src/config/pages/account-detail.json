@@ -170,10 +170,9 @@
 				"onRowClickKey": "transactionHash",
 				"fields": [
 					"transactionHash",
-					"amount",
 					"endHeight",
-					"mosaicId",
-					"status"
+					"status",
+					"mosaics"
 				]
 			},
 			{
@@ -188,11 +187,10 @@
 				"fields": [
 					"recipient",
 					"secret",
-					"amount",
 					"endHeight",
-					"mosaicId",
 					"status",
-					"hashAlgorithm"
+					"hashAlgorithm",
+					"mosaics"
 				]
 			},
 			{

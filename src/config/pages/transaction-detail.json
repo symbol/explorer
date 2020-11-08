@@ -52,11 +52,10 @@
                 "errorMessage": "transactionHashLockError",
                 "pagination": "none",
                 "fields": [
-					"amount",
 					"endHeight",
 					"ownerAddress",
-					"mosaicId",
-					"status"
+                    "status",
+                    "mosaics"
 				]
             },
             {

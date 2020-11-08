@@ -184,12 +184,12 @@ class helper {
   static hexOrNamespaceToId = async (hexOrNamespace, toId) => {
   	let Id = MosaicId | NamespaceId;
 
-  	let isHexadecimal = this.isHexadecimal(hexOrNamespace);
+  	const isHexadecimal = this.isHexadecimal(hexOrNamespace);
 
   	if (isHexadecimal)
   		Id = toId === 'mosaic' ? new MosaicId(hexOrNamespace) : NamespaceId.createFromEncoded(hexOrNamespace);
   	else
-  		Id = toId === 'mosaic' ? await http.namespace.getLinkedMosaicId(new NamespaceId(hexOrNamespace)).toPromise() : new NamespaceId(hexOrNamespace);
+  		Id = toId === 'mosaic' ? await NamespaceService.getLinkedMosaicId(new NamespaceId(hexOrNamespace)) : new NamespaceId(hexOrNamespace);
 
   	return Id;
   }
@@ -453,23 +453,53 @@ class helper {
   		return new Mosaic(mosaicId, mosaic.amount);
   	}));
 
-  	const resolvedMosaicIds = resolvedMosaics.map(mosaic => mosaic.id);
+  	const resolvedMosaicIds = resolvedMosaics.map(mosaic => mosaic.id).filter(mosaicId => mosaicId.toHex() !== http.networkCurrency.mosaicId);
 
-  	const [mosaicInfos, mosaicNames] = await Promise.all([
-  		MosaicService.getMosaics(resolvedMosaicIds),
-  		NamespaceService.getMosaicsNames(resolvedMosaicIds)
+  	let mosaicInfos = [];
+
+  	let mosaicNames = [];
+
+  	if (resolvedMosaicIds.length > 0) {
+		 [mosaicInfos, mosaicNames] = await Promise.all([
+  			MosaicService.getMosaics(resolvedMosaicIds),
+  			NamespaceService.getMosaicsNames(resolvedMosaicIds)
 	  ]);
+  	}
 
-  	return resolvedMosaics.map(mosaic => {
-  		let divisibility = mosaicInfos.find(info => info.mosaicId === mosaic.id.toHex()).divisibility;
+  	let mosaicsFieldObject = [];
 
-  		return {
-  			...mosaic,
-  			mosaicId: mosaic.id.toHex(),
-  			amount: helper.formatMosaicAmountWithDivisibility(mosaic.amount, divisibility),
-  			mosaicAliasName: MosaicService.extractMosaicNamespace({ mosaicId: mosaic.id.toHex() }, mosaicNames)
-  		};
-  	});
+  	for (const resolvedMosaic of resolvedMosaics) {
+  		if (resolvedMosaic.id.toHex() === http.networkCurrency.mosaicId)
+  			mosaicsFieldObject.push(this.networkCurrencyMosaicBuilder(resolvedMosaic));
+
+  		else {
+  			if (mosaicInfos.length > 0 && mosaicNames.length > 0) {
+  				let divisibility = mosaicInfos.find(info => info.mosaicId === resolvedMosaic.id.toHex()).divisibility;
+
+  				mosaicsFieldObject.push({
+  					...resolvedMosaic,
+  					mosaicId: resolvedMosaic.id.toHex(),
+  					amount: helper.formatMosaicAmountWithDivisibility(resolvedMosaic.amount, divisibility),
+  					mosaicAliasName: MosaicService.extractMosaicNamespace({ mosaicId: resolvedMosaic.id.toHex() }, mosaicNames)
+  				});
+  			}
+  		}
+  	}
+
+  	return mosaicsFieldObject;
+  }
+
+  static networkCurrencyMosaicBuilder = (mosaic) => {
+	  if (!(mosaic instanceof Mosaic)) throw new Error('It required Mosaic instance.');
+
+	  if (mosaic.id.toHex() !== http.networkCurrency.mosaicId) throw new Error('Mosaic id does not match network Currency.');
+
+	  return {
+  		...mosaic,
+  		mosaicId: mosaic.id.toHex(),
+  		amount: this.formatMosaicAmountWithDivisibility(mosaic.amount, http.networkCurrency.divisibility),
+  		mosaicAliasName: http.networkCurrency.namespaceName
+	  };
   }
 
   /**
@@ -483,7 +513,7 @@ class helper {
 
   	const values = http.nativeNamespaces.map(namespace => namespace.namespaceName);
 
-  	return values.indexOf(namespaceName) !== -1;
+  	return values.indexOf(namespaceName.toUpperCase()) !== -1;
   }
 
   /**

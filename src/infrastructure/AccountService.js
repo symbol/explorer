@@ -16,7 +16,7 @@
  *
  */
 
-import { Address, TransactionType, TransactionGroup, Order, BlockOrderBy, ReceiptType } from 'symbol-sdk';
+import { Address, TransactionType, TransactionGroup, Order, BlockOrderBy, ReceiptType, Mosaic } from 'symbol-sdk';
 import http from './http';
 import { Constants } from '../config';
 import { NamespaceService, TransactionService, ChainService, MetadataService, LockService, ReceiptService } from '../infrastructure';
@@ -322,16 +322,27 @@ class AccountService {
   		order: Order.Desc,
   		address: Address.createFromRawAddress(address)
   	};
-	  const accountHashLocks = await LockService.searchHashLocks(searchCriteria);
+  	const accountHashLocks = await LockService.searchHashLocks(searchCriteria);
 
-	  return {
+  	const mosaics = accountHashLocks.data.map(
+  		hashlock => new Mosaic(hashlock.mosaicId, hashlock.amount)
+  	);
+
+  	const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder(mosaics);
+
+  	let hashLocks = [];
+
+  	for (const hashLock of accountHashLocks.data) {
+  		hashLocks.push({
+  			...hashLock,
+  			transactionHash: hashLock.hash,
+  			mosaics: [mosaicsFieldObject.find(mosaicFieldObject => mosaicFieldObject.mosaicId === hashLock.mosaicId.toHex())]
+  		});
+  	}
+
+  	return {
   		...accountHashLocks,
-  		data: accountHashLocks.data.map(hashLock => {
-  			return {
-  				...hashLock,
-  				transactionHash: hashLock.hash
-  			};
-  		})
+  		data: hashLocks
   	};
   }
 
@@ -343,15 +354,35 @@ class AccountService {
    */
   static getAccountSecretLockList = async (pageInfo, address) => {
   	const { pageNumber, pageSize } = pageInfo;
+
   	const searchCriteria = {
   		pageNumber,
   		pageSize,
   		order: Order.Desc,
   		address: Address.createFromRawAddress(address)
   	};
-	  const accountSecretLocks = await LockService.searchSecretLocks(searchCriteria);
 
-	  return accountSecretLocks;
+  	const accountSecretLocks = await LockService.searchSecretLocks(searchCriteria);
+
+  	const mosaics = accountSecretLocks.data.map(
+  		secretlock => new Mosaic(secretlock.mosaicId, secretlock.amount)
+  	);
+
+  	const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder(mosaics);
+
+  	let secretLocks = [];
+
+  	for (const secretLock of accountSecretLocks.data) {
+  		secretLocks.push({
+  			...secretLock,
+  			mosaics: [mosaicsFieldObject.find(mosaicFieldObject => mosaicFieldObject.mosaicId === secretLock.mosaicId.toHex())]
+  		});
+  	}
+
+  	return {
+  		...accountSecretLocks,
+  		data: secretLocks
+  	};
   }
 
   /**

@@ -23,7 +23,8 @@ import {
 	AggregateTransactionInfo,
 	TransactionGroup,
 	Order,
-	UInt64
+	UInt64,
+	Mosaic
 } from 'symbol-sdk';
 import Constants from '../config/constants';
 import http from './http';
@@ -153,7 +154,14 @@ class TransactionService {
   static getHashLockInfo = async (hash) => {
   	const hashInfo = await LockService.getHashLock(hash);
 
-  	return hashInfo;
+  	const mosaics = [new Mosaic(hashInfo.mosaicId, hashInfo.amount)];
+
+  	const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder(mosaics);
+
+  	return {
+		  ...hashInfo,
+		  mosaics: mosaicsFieldObject
+	  };
   }
 
   /**
