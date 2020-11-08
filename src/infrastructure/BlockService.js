@@ -16,7 +16,7 @@
  *
  */
 
-import { UInt64, TransactionGroup, Order, BlockOrderBy } from 'symbol-sdk';
+import { UInt64, TransactionGroup, Order, BlockOrderBy, ReceiptType } from 'symbol-sdk';
 import { TransactionService, ReceiptService } from '../infrastructure';
 import http from './http';
 import helper from '../helper';
@@ -187,10 +187,9 @@ class BlockService {
   		height: UInt64.fromUint(height)
 	  };
 
-  	const [blockReceipts, address, mosaic] = await Promise.all([ReceiptService.streamerReceipts(searchCriteria), ReceiptService.streamerAddressResolution(searchCriteria), ReceiptService.streamerMosaicResolution(searchCriteria)]);
+  	const [address, mosaic] = await Promise.all([ReceiptService.streamerAddressResolution(searchCriteria), ReceiptService.streamerMosaicResolution(searchCriteria)]);
 
   	return {
-  		transactionReceipt: blockReceipts,
   		resolutionStatements: [...address, ...mosaic]
   	};
   }
@@ -223,6 +222,128 @@ class BlockService {
   			blockReceiptsHash,
   			blockTransactionsHash
   		}
+  	};
+  }
+
+  /**
+   * Gets block balance transfer receipt list into Vue Component.
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param height -  block height
+   * @returns formatted balance transfer receipt data list
+   */
+  static getBlockBalanceTransferReceiptList = async (pageInfo, height) => {
+  	const { pageNumber, pageSize } = pageInfo;
+  	const searchCriteria = {
+  		pageNumber,
+  		pageSize,
+  		order: Order.Desc,
+  		height: UInt64.fromUint(height),
+  		receiptTypes: [
+  			ReceiptType.Mosaic_Rental_Fee,
+  			ReceiptType.Namespace_Rental_Fee
+  		]
+  	};
+
+  	const blockReceipt = await ReceiptService.searchReceipts(searchCriteria);
+
+  	const formattedReceipt = await ReceiptService.createReceiptTransactionStatement(blockReceipt.data.balanceTransferStatement);
+
+  	return {
+  		...blockReceipt,
+  		data: formattedReceipt
+  	};
+  }
+
+  /**
+   * Gets block balance change receipt list into Vue Component.
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param height -  block height
+   * @returns formatted balance change receipt data list
+   */
+  static getBlockBalanceChangeReceiptList = async (pageInfo, height) => {
+  	const { pageNumber, pageSize } = pageInfo;
+  	const searchCriteria = {
+  		pageNumber,
+  		pageSize,
+  		order: Order.Desc,
+  		height: UInt64.fromUint(height),
+  		receiptTypes: [
+  			ReceiptType.Harvest_Fee,
+  			ReceiptType.LockHash_Created,
+  			ReceiptType.LockHash_Completed,
+  			ReceiptType.LockHash_Expired,
+  			ReceiptType.LockSecret_Created,
+  			ReceiptType.LockSecret_Created,
+  			ReceiptType.LockSecret_Completed,
+  			ReceiptType.LockSecret_Expired
+  		]
+  	};
+
+  	const blockReceipt = await ReceiptService.searchReceipts(searchCriteria);
+
+  	const formattedReceipt = await ReceiptService.createReceiptTransactionStatement(blockReceipt.data.balanceChangeStatement);
+
+  	return {
+  		...blockReceipt,
+  		data: formattedReceipt
+  	};
+  }
+
+  /**
+   * Gets block inflation receipt list into Vue Component.
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param height -  block height
+   * @returns formatted inflation receipt data list
+   */
+  static getBlockInflationReceiptList = async (pageInfo, height) => {
+  	const { pageNumber, pageSize } = pageInfo;
+  	const searchCriteria = {
+  		pageNumber,
+  		pageSize,
+  		order: Order.Desc,
+  		height: UInt64.fromUint(height),
+  		receiptTypes: [
+  			ReceiptType.Inflation
+  		]
+  	};
+
+  	const blockReceipt = await ReceiptService.searchReceipts(searchCriteria);
+
+  	const formattedReceipt = await ReceiptService.createReceiptTransactionStatement(blockReceipt.data.inflationStatement);
+
+  	return {
+  		...blockReceipt,
+  		data: formattedReceipt
+  	};
+  }
+
+  /**
+   * Gets block artifact expiry receipt list into Vue Component.
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param height -  block height
+   * @returns formatted artifact expiry data list
+   */
+  static getBlockArtifactExpiryReceiptList = async (pageInfo, height) => {
+  	const { pageNumber, pageSize } = pageInfo;
+  	const searchCriteria = {
+  		pageNumber,
+  		pageSize,
+  		order: Order.Desc,
+  		height: UInt64.fromUint(height),
+  		receiptTypes: [
+  			ReceiptType.Mosaic_Expired,
+  			ReceiptType.Namespace_Expired,
+  			ReceiptType.Namespace_Deleted
+  		]
+  	};
+
+  	const blockReceipt = await ReceiptService.searchReceipts(searchCriteria);
+
+  	const formattedReceipt = await ReceiptService.createReceiptTransactionStatement(blockReceipt.data.artifactExpiryStatement);
+
+  	return {
+  		...blockReceipt,
+  		data: formattedReceipt
   	};
   }
 

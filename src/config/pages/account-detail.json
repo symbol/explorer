@@ -213,22 +213,52 @@
 				]
 			},
 			{
-				"layoutOptions": "full-width",
+				"layoutOptions": "adaptive",
 				"type": "CardTable",
 				"title": "harvestedBlockTitle",
 				"managerGetter": "account/harvestedBlocks",
 				"pagination": "server",
-				"pageSize": 5,
 				"hideEmptyData": true,
 				"hideOnError": true,
 				"hideDependOnGetter": "account/info",
 				"fields": [
+					"version",
 					"height",
-					"age",
-					"transactions",
-					"totalFee",
-					"date",
-					"harvester"
+					"receiptType",
+					"mosaics"
+				]
+			},
+			{
+				"layoutOptions": "adaptive",
+				"type": "CardTable",
+				"title": "balanceChangeReceiptTitle",
+				"managerGetter": "account/balanceChangeReceipt",
+				"pagination": "server",
+				"hideEmptyData": true,
+				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
+				"fields": [
+					"version",
+					"height",
+					"receiptType",
+					"mosaics"
+				]
+			},
+			{
+				"layoutOptions": "adaptive",
+				"type": "CardTable",
+				"title": "balanceTransferReceiptTitle",
+				"managerGetter": "account/balanceTransferReceipt",
+				"pagination": "server",
+				"hideEmptyData": true,
+				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
+				"fields": [
+					"version",
+					"height",
+  					"receiptType",
+  					"recipient",
+  					"mosaics"
 				]
 			}
 		]

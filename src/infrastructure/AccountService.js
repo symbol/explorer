@@ -16,10 +16,10 @@
  *
  */
 
-import { Address, TransactionType, TransactionGroup, Order, BlockOrderBy } from 'symbol-sdk';
+import { Address, TransactionType, TransactionGroup, Order, BlockOrderBy, ReceiptType } from 'symbol-sdk';
 import http from './http';
 import { Constants } from '../config';
-import { NamespaceService, TransactionService, BlockService, ChainService, MetadataService, LockService } from '../infrastructure';
+import { NamespaceService, TransactionService, ChainService, MetadataService, LockService, ReceiptService } from '../infrastructure';
 import helper from '../helper';
 
 class AccountService {
@@ -202,31 +202,88 @@ class AccountService {
   }
 
   /**
-   * Gets custom array of block list dataset into Vue Component
+   * Gets account harvested block receipt list dataset into Vue Component
    * @param pageInfo - object for page info such as pageNumber, pageSize
    * @param address - Account address
+   * @returns formatted harvested blocks data list.
    */
-  static getAccountHarvestedBlockList = async (pageInfo, address) => {
-  	const accountInfo = await this.getAccount(address);
+  static getAccountHarvestedReceiptList = async (pageInfo, address) => {
   	const { pageNumber, pageSize } = pageInfo;
+
   	const searchCriteria = {
   		pageNumber,
   		pageSize,
   		order: Order.Desc,
   		orderBy: BlockOrderBy.Height,
-  		signerPublicKey: accountInfo.publicKey
+  		targetAddress: Address.createFromRawAddress(address),
+  		receiptTypes: [ReceiptType.Harvest_Fee]
   	};
 
-  	const accountHarvestedBlockList = await BlockService.searchBlocks(searchCriteria);
+  	const harvestedBlockReceipt = await ReceiptService.searchReceipts(searchCriteria);
+
+  	const formattedReceipt = await ReceiptService.createReceiptTransactionStatement(harvestedBlockReceipt.data.balanceChangeStatement);
 
   	return {
-  		...accountHarvestedBlockList,
-  		data: accountHarvestedBlockList.data.map(block => ({
-  			...block,
-  			date: helper.convertToUTCDate(block.timestamp),
-  			age: helper.convertToUTCDate(block.timestamp),
-  			harvester: block.signer
-  		}))
+  		...harvestedBlockReceipt,
+  		data: formattedReceipt.filter(receipt =>
+  			receipt.targetAddress === address &&
+			receipt.type === ReceiptType.Harvest_Fee)
+  	};
+  }
+
+  /**
+   * Gets account balance change receipt list dataset into Vue Component
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param address - Account address
+   * @returns formatted balance change receipt data list.
+   */
+  static getAccountBalanceChangeReceiptList = async (pageInfo, address) => {
+  	const { pageNumber, pageSize } = pageInfo;
+
+  	const searchCriteria = {
+  		pageNumber,
+  		pageSize,
+  		order: Order.Desc,
+  		orderBy: BlockOrderBy.Height,
+  		targetAddress: Address.createFromRawAddress(address)
+  	};
+
+  	const balanceChangeReceipt = await ReceiptService.searchReceipts(searchCriteria);
+
+  	const formattedReceipt = await ReceiptService.createReceiptTransactionStatement(balanceChangeReceipt.data.balanceChangeStatement);
+
+  	return {
+  		...balanceChangeReceipt,
+  		data: formattedReceipt.filter(receipt =>
+  			receipt.targetAddress === address &&
+			receipt.type !== ReceiptType.Harvest_Fee)
+  	};
+  }
+
+  /**
+   * Gets account balance transfer receipt list dataset into Vue Component
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param address - Account address
+   * @returns formatted balance transfer receipt data list.
+   */
+  static getAccountBalanceTransferReceiptList = async (pageInfo, address) => {
+  	const { pageNumber, pageSize } = pageInfo;
+
+  	const searchCriteria = {
+  		pageNumber,
+  		pageSize,
+  		order: Order.Desc,
+  		orderBy: BlockOrderBy.Height,
+  		senderAddress: Address.createFromRawAddress(address)
+  	};
+
+  	const balanceTransferReceipt = await ReceiptService.searchReceipts(searchCriteria);
+
+  	const formattedReceipt = await ReceiptService.createReceiptTransactionStatement(balanceTransferReceipt.data.balanceTransferStatement);
+
+  	return {
+		  ...balanceTransferReceipt,
+		  data: formattedReceipt
   	};
   }
 

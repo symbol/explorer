@@ -49,6 +49,34 @@ const managers = [
 		},
 		filter: filters.transaction
 	}),
+	new Pagination({
+		name: 'balanceChangeReceipt',
+		fetchFunction: (pageInfo, filterValue, store) => BlockService.getBlockBalanceChangeReceiptList(pageInfo, store.getters.currentBlockHeight),
+		pageInfo: {
+			pageSize: 10
+		}
+	}),
+	new Pagination({
+		name: 'balanceTransferReceipt',
+		fetchFunction: (pageInfo, filterValue, store) => BlockService.getBlockBalanceTransferReceiptList(pageInfo, store.getters.currentBlockHeight),
+		pageInfo: {
+			pageSize: 10
+		}
+	}),
+	new Pagination({
+		name: 'artifactExpiryReceipt',
+		fetchFunction: (pageInfo, filterValue, store) => BlockService.getBlockArtifactExpiryReceiptList(pageInfo, store.getters.currentBlockHeight),
+		pageInfo: {
+			pageSize: 10
+		}
+	}),
+	new Pagination({
+		name: 'inflationReceipt',
+		fetchFunction: (pageInfo, filterValue, store) => BlockService.getBlockInflationReceiptList(pageInfo, store.getters.currentBlockHeight),
+		pageInfo: {
+			pageSize: 10
+		}
+	}),
 	new DataSet(
 		'blockReceipts',
 		(height) => BlockService.getBlockReceiptsInfo(height)
@@ -78,10 +106,7 @@ export default {
 		getSubscription: state => state.subscription,
 		blockInfo: state => state.info?.data?.blockInfo || {},
 		merkleInfo: state => state.info?.data?.merkleInfo || {},
-		inflationReceipt: state => state.blockReceipts?.data?.transactionReceipt?.inflationReceipt || [],
-		balanceTransferReceipt: state => state.blockReceipts?.data?.transactionReceipt?.balanceTransferReceipt || [],
-		balanceChangeReceipt: state => state.blockReceipts?.data?.transactionReceipt?.balanceChangeReceipt || [],
-		artifactExpiryReceipt: state => state.blockReceipts?.data?.transactionReceipt?.artifactExpiryReceipt || [],
+
 		resolutionStatement: state => state.blockReceipts?.data?.resolutionStatements || [],
 		currentBlockHeight: state => state.currentBlockHeight,
 		infoText: (s, g, rs, rootGetters) => rootGetters['ui/getNameByKey']('chainHeight') + ': ' + (rootGetters['chain/getChainInfo'] && rootGetters['chain/getChainInfo'].currentHeight ? rootGetters['chain/getChainInfo'].currentHeight : 0) },
@@ -165,12 +190,20 @@ export default {
 			context.getters.info.setStore(context).initialFetch(payload.height);
 			context.getters.blockReceipts.setStore(context).initialFetch(payload.height);
 			context.getters.blockTransactions.setStore(context).initialFetch(payload.height);
+			context.getters.balanceChangeReceipt.setStore(context).initialFetch(payload.height);
+			context.getters.balanceTransferReceipt.setStore(context).initialFetch(payload.height);
+			context.getters.artifactExpiryReceipt.setStore(context).initialFetch(payload.height);
+			context.getters.inflationReceipt.setStore(context).initialFetch(payload.height);
 		},
 
 		uninitializeDetail(context) {
 			context.getters.info.setStore(context).uninitialize();
 			context.getters.blockReceipts.setStore(context).uninitialize();
 			context.getters.blockTransactions.setStore(context).uninitialize();
+			context.getters.balanceChangeReceipt.setStore(context).uninitialize();
+			context.getters.balanceTransferReceipt.setStore(context).uninitialize();
+			context.getters.artifactExpiryReceipt.setStore(context).uninitialize();
+			context.getters.inflationReceipt.setStore(context).uninitialize();
 		},
 
 		nextBlock: ({ commit, getters, dispatch, rootGetters }) => {
