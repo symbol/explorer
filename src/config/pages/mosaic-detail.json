@@ -91,7 +91,7 @@
 				"fields": [
 					"version",
                     "receiptType",
-                    "artifactId"
+                    "mosaicArtifactId"
 				]
 			}
         ]

@@ -350,5 +350,7 @@
     "finalizationPoint": "Finalization Point",
     "finalizedHash": "Finalized Hash",
     "nodeDetailError": "Failed to fetch node detail.",
-    "extendGraphicValue": "Info"
+    "extendGraphicValue": "Info",
+    "mosaicArtifactId": "ArtifactId",
+    "namespaceArtifactId": "ArtifactId"
 }

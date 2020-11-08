@@ -1,6 +1,6 @@
 import Constants from '../config/constants';
 import helper from '../helper';
-import { Mosaic } from 'symbol-sdk';
+import { Mosaic, ReceiptType } from 'symbol-sdk';
 
 class CreateReceiptTransaction {
     static balanceChangeReceipt = async (transactionStatement) => {
@@ -73,12 +73,19 @@ class CreateReceiptTransaction {
     	let artifactExpiryReceipt = [];
 
     	for (const statement of transactionStatement) {
-    		artifactExpiryReceipt.push({
+    		let artifactObj = {
     			...statement,
     			height: statement.height.compact(),
     			receiptType: Constants.ReceiptType[statement.type],
     			artifactId: statement.artifactId.toHex()
-    		});
+    		};
+
+    		if (ReceiptType.Mosaic_Expired === statement.type)
+    			Object.assign(artifactObj, { mosaicArtifactId: statement.artifactId.toHex() });
+    		else if (ReceiptType.Namespace_Expired === statement.type || ReceiptType.Namespace_Deleted === statement.type)
+    			Object.assign(artifactObj, { namespaceArtifactId: statement.artifactId.toHex() });
+
+    		artifactExpiryReceipt.push(artifactObj);
     	}
 
     	return artifactExpiryReceipt;

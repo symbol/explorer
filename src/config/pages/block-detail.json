@@ -114,7 +114,8 @@
                 "fields": [
                     "version",
                     "receiptType",
-                    "artifactId"
+                    "namespaceArtifactId",
+                    "mosaicArtifactId"
                 ]
             },
             {
