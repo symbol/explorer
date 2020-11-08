@@ -58,7 +58,14 @@ class TransactionService {
   				resolve(transactionStatus);
   			})
   			.catch(error => {
-  				reject(error);
+				  // handle REST error https://github.com/nemtech/catapult-rest/pull/499
+				  // Todo: Remove if statement, after REST error is fix.
+				  if (error.message.search('statusCode') === -1) {
+  					transactionStatus.message = error.message;
+  					transactionStatus.detail = error;
+  					resolve(transactionStatus);
+				  }
+  				resolve(transactionStatus);
   			});
   	});
   }
@@ -121,12 +128,27 @@ class TransactionService {
    * @returns Custom Transaction object
    */
   static getTransactionInfo = async (hash, transactionGroup = TransactionGroup.Confirmed) => {
-  	const transaction = await this.getTransaction(hash, transactionGroup);
+	  const [transaction, transactionStatus] = await Promise.all([
+  		this.getTransaction(hash, transactionGroup).catch((error) => {
+  			if (error)
+  				return false;
+  		}),
+  		this.getTransactionStatus(hash)
+	  ]);
 
-  	const [{ date }, effectiveFee, transactionStatus, merklePath] = await Promise.all([
+	  if (!transaction) {
+  		const transactionErrorInfo = {
+  			transactionHash: transactionStatus.detail.hash,
+  			status: transactionStatus.detail.code,
+  			confirm: transactionStatus.message
+  		};
+
+  		return transactionErrorInfo;
+	  }
+
+  	const [{ date }, effectiveFee, merklePath] = await Promise.all([
 		  BlockService.getBlockInfo(UInt64.fromUint(transaction.transactionInfo.height)),
 		  this.getTransactionEffectiveFee(hash),
-		  this.getTransactionStatus(hash),
 		  BlockService.getMerkleTransaction(UInt64.fromUint(transaction.transactionInfo.height), transaction.transactionInfo.merkleComponentHash)
 	  ]);
 
@@ -200,7 +222,8 @@ class TransactionService {
   			height: transaction.transactionInfo.height,
   			transactionHash: transaction.transactionInfo.hash,
   			transactionType: transaction.type,
-  			recipient: transaction.transactionBody?.recipient
+  			recipient: transaction.transactionBody?.recipient,
+  			extendGraphicValue: this.extendGraphicValue(transaction)
   		}))
   	};
   }
@@ -304,7 +327,7 @@ class TransactionService {
   	case TransactionType.AGGREGATE_COMPLETE:
   		return {
   			transactionType: transactionBody.type,
-  			innerTransactions: transactionBody.innerTransactions.map(transaction => this.formatTransaction(transaction)),
+  			innerTransactions: transactionBody.innerTransactions,
   			cosignatures: transactionBody.cosignatures.map(cosigner => ({
   				...cosigner,
   				signer: cosigner.signer.address.address
@@ -314,7 +337,7 @@ class TransactionService {
   	case TransactionType.AGGREGATE_BONDED:
   		return {
   			transactionType: transactionBody.type,
-  			innerTransactions: transactionBody.innerTransactions.map(transaction => this.formatTransaction(transaction)),
+  			innerTransactions: transactionBody.innerTransactions,
   			cosignatures: transactionBody.cosignatures.map(cosigner => ({
   				...cosigner,
   				signer: cosigner.signer.address.address
@@ -379,8 +402,8 @@ class TransactionService {
   		return {
   			transactionType: transactionBody.type,
   			restrictionType: Constants.OperationRestrictionFlag[transactionBody.restrictionFlags],
-  			restrictionOperationAdditions: transactionBody.restrictionAdditions.map(operation => operation),
-  			restrictionOperationDeletions: transactionBody.restrictionDeletions.map(operation => operation)
+  			restrictionOperationAdditions: transactionBody.restrictionAdditions,
+  			restrictionOperationDeletions: transactionBody.restrictionDeletions
   		};
 
   	case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
@@ -476,6 +499,101 @@ class TransactionService {
   }
 
   /**
+   * extend graphic value for transaction list.
+   * @param transactionInfo
+   * @returns graphicValue []
+   */
+  static extendGraphicValue = transactionInfo => {
+  	const transactionBody = transactionInfo.transactionBody;
+
+  	switch (transactionInfo.type) {
+  	case TransactionType.TRANSFER:
+  		return [
+  			{ nativeMosaic: helper.getNetworkCurrencyBalance(transactionInfo.mosaics) },
+  			{ message: transactionBody.message },
+  			{ mosaics: transactionBody.mosaics.filter(mosaic => mosaic.id !== http.networkCurrency.mosaicId) }
+		  ];
+  	case TransactionType.NAMESPACE_REGISTRATION:
+  		return [{ namespace: {
+  			namespaceId: transactionBody.namespaceId,
+  			namespaceName: transactionBody.namespaceName
+  		}
+  		}];
+  	case TransactionType.ADDRESS_ALIAS:
+  		return [
+			  { linkAction: transactionBody.aliasAction }
+		  ];
+  	case TransactionType.MOSAIC_ALIAS:
+		  return [
+  			{ linkAction: transactionBody.aliasAction }
+		  ];
+  	case TransactionType.MOSAIC_DEFINITION:
+		  return [
+  			{ mosaicId: transactionBody.mosaicId }
+		  ];
+  	case TransactionType.MOSAIC_SUPPLY_CHANGE:
+		  return [
+  			{ action: transactionBody.action }
+		  ];
+  	case TransactionType.MULTISIG_ACCOUNT_MODIFICATION:
+		  return [
+			  { minApprovalDelta: transactionBody.minApprovalDelta },
+			  { minRemovalDelta: transactionBody.minRemovalDelta }
+		  ];
+  	case TransactionType.HASH_LOCK:
+		  return [
+			  { amount: transactionBody.amount }
+		  ];
+  	case TransactionType.SECRET_LOCK:
+		  return [
+			  { secret: transactionBody.secret }
+		  ];
+  	case TransactionType.SECRET_PROOF:
+		  return [
+			  { proof: transactionBody.proof }
+		  ];
+  	case TransactionType.ACCOUNT_ADDRESS_RESTRICTION:
+		  return [
+			  { restrictionAddressAdditions: transactionBody.restrictionAddressAdditions },
+			  { restrictionAddressDeletions: transactionBody.restrictionAddressDeletions }
+		  ];
+  	case TransactionType.ACCOUNT_MOSAIC_RESTRICTION:
+		  return [
+			  { restrictionMosaicAdditions: transactionBody.restrictionMosaicAdditions },
+			  { restrictionMosaicDeletions: transactionBody.restrictionMosaicDeletions }
+		  ];
+  	case TransactionType.ACCOUNT_OPERATION_RESTRICTION:
+		  return [
+  			{ restrictionOperationAdditions: transactionBody.restrictionOperationAdditions },
+  			{ restrictionOperationDeletions: transactionBody.restrictionOperationDeletions }
+		  ];
+  	case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
+		  return [
+			  { targetAddress: transactionBody.targetAddress }
+		  ];
+  	case TransactionType.MOSAIC_GLOBAL_RESTRICTION:
+		  return [
+			  { referenceMosaicId: transactionBody.referenceMosaicId }
+		  ];
+  	case TransactionType.ACCOUNT_METADATA:
+  	case TransactionType.MOSAIC_METADATA:
+  	case TransactionType.NAMESPACE_METADATA:
+		  return [
+			  { metadataValue: transactionBody.metadataValue }
+		  ];
+  	case TransactionType.VOTING_KEY_LINK:
+  	case TransactionType.VRF_KEY_LINK:
+  	case TransactionType.NODE_KEY_LINK:
+  	case TransactionType.ACCOUNT_KEY_LINK:
+		  return [
+  			{ linkAction: transactionBody.linkAction }
+		  ];
+  	default:
+  		return [];
+  	}
+  }
+
+  /**
    * Build standalone transanction object for Vue components.
    * @param transactionDTO - transaction dto from SDK
    * @returns tranasctionObj
@@ -525,6 +643,8 @@ class TransactionService {
   		return CreateTransaction.accountMetadata(transactionObj);
   	case TransactionType.MOSAIC_METADATA:
   		return CreateTransaction.mosaicMetadata(transactionObj);
+  	case TransactionType.NAMESPACE_METADATA:
+  		return CreateTransaction.namespaceMetadata(transactionObj);
   	case TransactionType.VOTING_KEY_LINK:
   		return CreateTransaction.votingKeyLink(transactionObj);
   	case TransactionType.VRF_KEY_LINK:
