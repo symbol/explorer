@@ -129,6 +129,18 @@ export const transaction = [
 				TransactionType.SECRET_PROOF
 			]
 		}
+	},
+	{
+		label: 'Key Link',
+		icon: 'mdi-link',
+		value: {
+			type: [
+				TransactionType.VOTING_KEY_LINK,
+				TransactionType.VRF_KEY_LINK,
+				TransactionType.NODE_KEY_LINK,
+				TransactionType.ACCOUNT_KEY_LINK
+			]
+		}
 	}
 ];
 

@@ -24,7 +24,8 @@
                     "transactionHash",
                     "transactionType",
                     "signer",
-                    "recipient"
+                    "recipient",
+                    "extendGraphicValue"
                 ],
                 "mobileFields": [
                     "height",

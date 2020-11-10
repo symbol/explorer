@@ -95,7 +95,7 @@
     "feeMultiplier": "Fee Multiplier",
     "blockchainExplorerTitle": "Symbol blockchain explorer",
     "searchBoxTitle": "Search transactions, addresses, namespaces & mosaics on the Symbol network.",
-    "searchBoxPlaceholder": "Search block / tx hash / account / mosaic id / namespace id",
+    "searchBoxPlaceholder": "Search block / tx hash / account address / mosaic id / namespace id",
     "nodes": "Nodes",
     "home": "Home",
     "xemPrice": "XEM Price",
@@ -355,5 +355,6 @@
     "finalizationEpoch": "Finalization Epoch",
     "finalizationPoint": "Finalization Point",
     "finalizedHash": "Finalized Hash",
-    "nodeDetailError": "Failed to fetch node detail."
+    "nodeDetailError": "Failed to fetch node detail.",
+    "extendGraphicValue": "Info"
 }

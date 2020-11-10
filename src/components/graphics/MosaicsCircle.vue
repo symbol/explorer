@@ -19,6 +19,7 @@
 		</defs>
 		<foreignObject x="446" y="318" width="100" height="100">
 			<MosaicListPopover
+				v-if="hasMosaic"
 				:target="id"
 				:mosaics="mosaics"
 			/>
@@ -92,6 +93,12 @@ export default {
 		return {
 			id: this.getId('mosaics-circle')
 		};
+	},
+
+	computed: {
+		hasMosaic() {
+			return this.mosaics.length > 0;
+		}
 	}
 };
 </script>
