@@ -49,7 +49,7 @@ export default {
 		},
 
 		networkCurrency() {
-			return http.networkCurrency.namespace.subNamespace;
+			return http.networkCurrency.namespaceName;
 		}
 
 	}
