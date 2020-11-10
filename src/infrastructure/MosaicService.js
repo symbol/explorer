@@ -92,7 +92,7 @@ class MosaicService {
 
    	return {
    		...mosaicInfo,
-   		mosaicAliasName: this.extractMosaicNamespace(mosaicInfo, mosaicNames)
+   		mosaicAliasNames: this.extractMosaicNamespace(mosaicInfo, mosaicNames)
    	};
    }
 
@@ -120,7 +120,7 @@ class MosaicService {
    		data: mosaicInfos.data.map(mosaic => ({
    			...mosaic,
    			owneraddress: mosaic.address,
-   			mosaicAliasName: this.extractMosaicNamespace(mosaic, mosaicNames)
+   			mosaicAliasNames: this.extractMosaicNamespace(mosaic, mosaicNames)
    		}))
    	};
    }
@@ -138,7 +138,7 @@ class MosaicService {
 
    	return mosaicAmountViewInfos.map(mosaicAmountViewInfo => ({
    		...mosaicAmountViewInfo,
-   		mosaicAliasName: this.extractMosaicNamespace(mosaicAmountViewInfo, mosaicNames)
+   		mosaicAliasNames: this.extractMosaicNamespace(mosaicAmountViewInfo, mosaicNames)
    	}));
    }
 
@@ -196,13 +196,16 @@ class MosaicService {
     * Extract Name for Mosaic
     * @param mosaicInfo - mosaicInfo DTO
     * @param mosaicNames - MosaicNames[]
-    * @returns mosaicName
+    * @returns mosaicNames
     */
    static extractMosaicNamespace = (mosaicInfo, mosaicNames) => {
-   	let mosaicName = mosaicNames.find((name) => name.mosaicId === mosaicInfo.mosaicId);
-   	const name = mosaicName.names.length > 0 ? mosaicName.names[0].name : Constants.Message.UNAVAILABLE;
+   	const mosaicName = mosaicNames.find((name) => name.mosaicId === mosaicInfo.mosaicId);
 
-   	return name;
+   	const aliasNames = mosaicName.names.map(names => names.name);
+
+   	const names = aliasNames.length > 0 ? aliasNames : [Constants.Message.UNAVAILABLE];
+
+   	return names;
    }
 }
 

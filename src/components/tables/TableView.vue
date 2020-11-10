@@ -35,8 +35,8 @@ export default {
 				'namespace',
 				'namespaceName',
 				'linkedNamespace',
-				'mosaicAliasName',
-				'accountAliasName',
+				'mosaicAliasNames_',
+				'accountAliasNames_',
 				'aliasAddress',
 				'aliasMosaic',
 				'transaction',
@@ -111,7 +111,9 @@ export default {
 				'voting',
 				'addressResolutionEntries',
 				'mosaicResolutionEntries',
-				'stateHashSubCacheMerkleRoots'
+				'stateHashSubCacheMerkleRoots',
+				'accountAliasNames',
+				'mosaicAliasNames'
 			],
 			valuesToTranslate: [
 				'newRestrictionType',
