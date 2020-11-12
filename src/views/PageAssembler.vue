@@ -52,6 +52,7 @@ import PriceChartWidget from '@/components/widgets/PriceChartWidget.vue';
 import RecentBlocksWidget from '@/components/widgets/RecentBlocksWidget.vue';
 import RecentTransactionsWidget from '@/components/widgets/RecentTransactionsWidget.vue';
 import TransactionGraphicWidget from '@/components/widgets/TransactionGraphicWidget.vue';
+import AccountBalanceWidget from '@/components/widgets/AccountBalanceWidget.vue';
 import NodesMapWidget from '@/components/widgets/NodesMapWidget.vue';
 
 export default {
@@ -62,6 +63,7 @@ export default {
 		RecentBlocksWidget,
 		RecentTransactionsWidget,
 		TransactionGraphicWidget,
+		AccountBalanceWidget,
 		NodesMapWidget
 	},
 
