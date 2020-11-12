@@ -19,7 +19,7 @@
 import { Address, TransactionType, TransactionGroup, Order, BlockOrderBy, ReceiptType, Mosaic } from 'symbol-sdk';
 import http from './http';
 import { Constants } from '../config';
-import { NamespaceService, TransactionService, ChainService, MetadataService, LockService, ReceiptService } from '../infrastructure';
+import { NamespaceService, TransactionService, ChainService, MetadataService, LockService, ReceiptService, MosaicService } from '../infrastructure';
 import helper from '../helper';
 
 class AccountService {
@@ -427,6 +427,26 @@ class AccountService {
 
   	return name;
   }
+
+	/**
+	 * Get customize MosaicAmountView dataset for Vue component.
+	 * @param address - Account address
+	 * @returns customize MosaicAmountView[]
+	 */
+	static getAccountMosaicList = async address => {
+		const mosaics = await MosaicService.getMosaicAmountViewList(address);
+
+		for (let i = 0; i < mosaics.length; i++) {
+			const mosaic = mosaics[i];
+
+			if (mosaic.mosaicId === http.networkCurrency.mosaicId) {
+				mosaics.splice(i, 1);
+				mosaics.unshift(mosaic);
+				break;
+			}
+		}
+		return mosaics;
+	}
 }
 
 export default AccountService;

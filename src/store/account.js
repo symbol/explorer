@@ -21,7 +21,6 @@ import { Constants, filters } from '../config';
 import helper from '../helper';
 import {
 	AccountService,
-	MosaicService,
 	MultisigService,
 	RestrictionService
 } from '../infrastructure';
@@ -33,6 +32,7 @@ import {
 	getMutationsFromManagers,
 	getActionsFromManagers
 } from './manager';
+import { Address } from 'symbol-sdk';
 
 const managers = [
 	new Pagination({
@@ -49,7 +49,7 @@ const managers = [
 	),
 	new DataSet(
 		'OwnedMosaic',
-		(address) => MosaicService.getMosaicAmountViewList(address)
+		(address) => AccountService.getAccountMosaicList(address)
 	),
 	new Pagination({
 		name: 'OwnedNamespace',
@@ -142,7 +142,12 @@ export default {
 		getInitialized: state => state.initialized,
 		getActivityBucketList: state => state.info?.data.activityBucket || [],
 		getSupplementalPublicKeys: state => state.info?.data.supplementalPublicKeys || {},
-		getCurrentAccountAddress: state => state.currentAccountAddress
+		getCurrentAccountAddress: state => state.currentAccountAddress,
+		balanceWidget: (state, getters) => ({
+			address: new Address(state.currentAccountAddress).pretty(),
+			balance: getters.OwnedMosaic?.data[0]?.amount || 0,
+			alias: getters.info?.data?.accountAliasName /* || Constants.Message.UNAVAILABLE */
+		})
 	},
 	mutations: {
 		...getMutationsFromManagers(managers),

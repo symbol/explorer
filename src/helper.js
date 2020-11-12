@@ -527,6 +527,50 @@ class helper {
 
   	return mosaicAliasName;
   }
+
+  static fallbackCopyTextToClipboard = (text) => {
+  	let textArea = document.createElement('textarea');
+
+  	let success = false;
+
+  	textArea.value = text;
+
+  	// Avoid scrolling to bottom
+  	textArea.style.top = '0';
+  	textArea.style.left = '0';
+  	textArea.style.position = 'fixed';
+
+  	document.body.appendChild(textArea);
+  	textArea.focus();
+  	textArea.select();
+
+  	try {
+  		success = document.execCommand('copy');
+  	}
+  	catch (err) {
+  		console.error('Fallback: Could not copy text', err);
+  	}
+
+  	document.body.removeChild(textArea);
+  	return success;
+  }
+
+	static copyTextToClipboard = (text) => {
+		return new Promise((resolve, reject) => {
+			if (!navigator.clipboard) {
+				if (this.fallbackCopyTextToClipboard(text))
+					resolve();
+				else
+					reject(Error('Could not copy text. document.execCommand() failed'));
+			}
+			navigator.clipboard.writeText(text).then(function () {
+				resolve();
+			}, function (err) {
+				console.error('Async: Could not copy text: ', err);
+				reject(Error('Async: Could not copy text: ', err));
+			});
+		});
+	}
 }
 
 export default helper;
