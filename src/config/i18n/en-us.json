@@ -284,7 +284,6 @@
     "mosaicAddressRestrictionError": "Mosaic address restrictions are not available.",
     "aggregateInnerTransactionsError": "Aggregate inner transactions are not available.",
 	"aggregateCosignaturesError": "Cosignatures are not available.",
-	
 	"accountBalanceTitle": "Account Balance",
 	"noAlias": "No alias",
 	"addressBeenCopied": "The address was copied to the clipboard",
@@ -358,5 +357,6 @@
     "nodeDetailError": "Failed to fetch node detail.",
     "extendGraphicValue": "Info",
     "mosaicArtifactId": "ArtifactId",
-    "namespaceArtifactId": "ArtifactId"
+    "namespaceArtifactId": "ArtifactId",
+    "receiptTitle": "Receipt"
 }

@@ -65,55 +65,17 @@
             {
                 "layoutOptions": "adaptive",
                 "type": "CardTable",
-                "title": "balanceChangeReceiptTitle",
-                "managerGetter": "block/balanceChangeReceipt",
+                "title": "receiptTitle",
+                "hasFilter": true,
+                "managerGetter": "block/receipt",
                 "pagination": "server",
-                "hideEmptyData": true,
-                "fields": [
-                    "version",
-  					"receiptType",
-                    "targetAddress",
-                    "mosaics"
-                ]
-            },
-            {
-                "layoutOptions": "adaptive",
-                "type": "CardTable",
-                "title": "balanceTransferReceiptTitle",
-                "managerGetter": "block/balanceTransferReceipt",
-                "pagination": "server",
-                "hideEmptyData": true,
-                "fields": [
-                    "version",
-  					"receiptType",
-  					"senderAddress",
-  					"recipient",
-                    "mosaics"
-                ]
-            },
-            {
-                "layoutOptions": "adaptive",
-                "type": "CardTable",
-                "title": "inflationReceiptTitle",
-                "managerGetter": "block/inflationReceipt",
-                "pagination": "server",
-                "hideEmptyData": true,
-                "fields": [
-                    "version",
-  					"receiptType",
-  					"mosaics"
-                ]
-            },
-            {
-                "layoutOptions": "adaptive",
-                "type": "CardTable",
-                "title": "artifactExpiryReceiptTitle",
-                "managerGetter": "block/artifactExpiryReceipt",
-                "pagination": "server",
-                "hideEmptyData": true,
                 "fields": [
                     "version",
                     "receiptType",
+                    "targetAddress",
+                    "senderAddress",
+  					"recipient",
+                    "mosaics",
                     "namespaceArtifactId",
                     "mosaicArtifactId"
                 ]

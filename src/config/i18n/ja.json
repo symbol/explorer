@@ -352,5 +352,6 @@
     "nodeDetailError": "Failed to fetch node detail.",
     "extendGraphicValue": "Info",
     "mosaicArtifactId": "ArtifactId",
-    "namespaceArtifactId": "ArtifactId"
+    "namespaceArtifactId": "ArtifactId",
+    "receiptTitle": "Receipt"
 }

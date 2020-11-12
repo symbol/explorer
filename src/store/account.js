@@ -79,18 +79,12 @@ const managers = [
 		}
 	}),
 	new Pagination({
-		name: 'balanceChangeReceipt',
-		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountBalanceChangeReceiptList(pageInfo, store.getters.getCurrentAccountAddress),
+		name: 'receipt',
+		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountReceiptList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
 		pageInfo: {
 			pageSize: 10
-		}
-	}),
-	new Pagination({
-		name: 'balanceTransferReceipt',
-		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountBalanceTransferReceiptList(pageInfo, store.getters.getCurrentAccountAddress),
-		pageInfo: {
-			pageSize: 10
-		}
+		},
+		filter: filters.accountTransactionReceipt
 	}),
 	new Pagination({
 		name: 'mosaicAddressRestrictions',
@@ -203,8 +197,7 @@ export default {
 			context.getters.accountRestrictions.setStore(context).initialFetch(payload.address);
 			context.getters.hashLocks.setStore(context).initialFetch(payload.address);
 			context.getters.secretLocks.setStore(context).initialFetch(payload.address);
-			context.getters.balanceChangeReceipt.setStore(context).initialFetch(payload.address);
-			context.getters.balanceTransferReceipt.setStore(context).initialFetch(payload.address);
+			context.getters.receipt.setStore(context).initialFetch(payload.address);
 		},
 
 		uninitializeDetail(context) {
@@ -219,8 +212,7 @@ export default {
 			context.getters.accountRestrictions.setStore(context).uninitialize();
 			context.getters.hashLocks.setStore(context).uninitialize();
 			context.getters.secretLocks.setStore(context).uninitialize();
-			context.getters.balanceChangeReceipt.setStore(context).uninitialize();
-			context.getters.balanceTransferReceipt.setStore(context).uninitialize();
+			context.getters.receipt.setStore(context).uninitialize();
 		}
 	}
 };

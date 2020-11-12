@@ -245,26 +245,10 @@
 			{
 				"layoutOptions": "adaptive",
 				"type": "CardTable",
-				"title": "balanceChangeReceiptTitle",
-				"managerGetter": "account/balanceChangeReceipt",
+				"title": "receiptTitle",
+				"managerGetter": "account/receipt",
 				"pagination": "server",
-				"hideEmptyData": true,
-				"hideOnError": true,
-				"hideDependOnGetter": "account/info",
-				"fields": [
-					"version",
-					"height",
-					"receiptType",
-					"mosaics"
-				]
-			},
-			{
-				"layoutOptions": "adaptive",
-				"type": "CardTable",
-				"title": "balanceTransferReceiptTitle",
-				"managerGetter": "account/balanceTransferReceipt",
-				"pagination": "server",
-				"hideEmptyData": true,
+				"hasFilter": true,
 				"hideOnError": true,
 				"hideDependOnGetter": "account/info",
 				"fields": [

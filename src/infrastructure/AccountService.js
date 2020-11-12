@@ -232,58 +232,51 @@ class AccountService {
   }
 
   /**
-   * Gets account balance change receipt list dataset into Vue Component
+   * Gets account receipt list dataset into Vue Component
    * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param filterVaule - object for search criteria
    * @param address - Account address
-   * @returns formatted balance change receipt data list.
+   * @returns formatted receipt data list.
    */
-  static getAccountBalanceChangeReceiptList = async (pageInfo, address) => {
+  static getAccountReceiptList = async (pageInfo, filterVaule, address) => {
   	const { pageNumber, pageSize } = pageInfo;
 
-  	const searchCriteria = {
+  	const { BalanceTransferReceipt, BalanceChangeReceipt } = Constants.ReceiptTransactionStatamentType;
+
+  	let searchCriteria = {
   		pageNumber,
   		pageSize,
   		order: Order.Desc,
   		orderBy: BlockOrderBy.Height,
-  		targetAddress: Address.createFromRawAddress(address)
+  		...filterVaule
   	};
 
-  	const balanceChangeReceipt = await ReceiptService.searchReceipts(searchCriteria);
+  	if (filterVaule.receiptTransactionStatementType === BalanceTransferReceipt)
+  		Object.assign(searchCriteria, { senderAddress: Address.createFromRawAddress(address) });
 
-  	const formattedReceipt = await ReceiptService.createReceiptTransactionStatement(balanceChangeReceipt.data.balanceChangeStatement);
+  	if (filterVaule.receiptTransactionStatementType === BalanceChangeReceipt)
+  		Object.assign(searchCriteria, { targetAddress: Address.createFromRawAddress(address) });
 
-  	return {
-  		...balanceChangeReceipt,
-  		data: formattedReceipt.filter(receipt =>
+  	const receipt = await ReceiptService.searchReceipts(searchCriteria);
+
+  	let formattedReceipt = [];
+
+  	if (filterVaule.receiptTransactionStatementType === BalanceTransferReceipt) {
+  		formattedReceipt = await ReceiptService.createReceiptTransactionStatement(receipt.data.balanceTransferStatement);
+  		formattedReceipt = formattedReceipt.filter(receipt =>
+  			receipt.senderAddress === address);
+  	}
+
+  	if (filterVaule.receiptTransactionStatementType === BalanceChangeReceipt) {
+  		formattedReceipt = await ReceiptService.createReceiptTransactionStatement(receipt.data.balanceChangeStatement);
+  		formattedReceipt = formattedReceipt.filter(receipt =>
   			receipt.targetAddress === address &&
-			receipt.type !== ReceiptType.Harvest_Fee)
-  	};
-  }
-
-  /**
-   * Gets account balance transfer receipt list dataset into Vue Component
-   * @param pageInfo - object for page info such as pageNumber, pageSize
-   * @param address - Account address
-   * @returns formatted balance transfer receipt data list.
-   */
-  static getAccountBalanceTransferReceiptList = async (pageInfo, address) => {
-  	const { pageNumber, pageSize } = pageInfo;
-
-  	const searchCriteria = {
-  		pageNumber,
-  		pageSize,
-  		order: Order.Desc,
-  		orderBy: BlockOrderBy.Height,
-  		senderAddress: Address.createFromRawAddress(address)
-  	};
-
-  	const balanceTransferReceipt = await ReceiptService.searchReceipts(searchCriteria);
-
-  	const formattedReceipt = await ReceiptService.createReceiptTransactionStatement(balanceTransferReceipt.data.balanceTransferStatement);
+		  receipt.type !== ReceiptType.Harvest_Fee);
+	  }
 
   	return {
-		  ...balanceTransferReceipt,
-		  data: formattedReceipt
+  		...receipt,
+  		data: formattedReceipt
   	};
   }
 

@@ -50,32 +50,12 @@ const managers = [
 		filter: filters.transaction
 	}),
 	new Pagination({
-		name: 'balanceChangeReceipt',
-		fetchFunction: (pageInfo, filterValue, store) => BlockService.getBlockBalanceChangeReceiptList(pageInfo, store.getters.currentBlockHeight),
+		name: 'receipt',
+		fetchFunction: (pageInfo, filterValue, store) => BlockService.getBlockReceiptList(pageInfo, filterValue, store.getters.currentBlockHeight),
 		pageInfo: {
 			pageSize: 10
-		}
-	}),
-	new Pagination({
-		name: 'balanceTransferReceipt',
-		fetchFunction: (pageInfo, filterValue, store) => BlockService.getBlockBalanceTransferReceiptList(pageInfo, store.getters.currentBlockHeight),
-		pageInfo: {
-			pageSize: 10
-		}
-	}),
-	new Pagination({
-		name: 'artifactExpiryReceipt',
-		fetchFunction: (pageInfo, filterValue, store) => BlockService.getBlockArtifactExpiryReceiptList(pageInfo, store.getters.currentBlockHeight),
-		pageInfo: {
-			pageSize: 10
-		}
-	}),
-	new Pagination({
-		name: 'inflationReceipt',
-		fetchFunction: (pageInfo, filterValue, store) => BlockService.getBlockInflationReceiptList(pageInfo, store.getters.currentBlockHeight),
-		pageInfo: {
-			pageSize: 10
-		}
+		},
+		filter: filters.blockTransactionReceipt
 	}),
 	new DataSet(
 		'blockReceipts',
@@ -190,20 +170,14 @@ export default {
 			context.getters.info.setStore(context).initialFetch(payload.height);
 			context.getters.blockReceipts.setStore(context).initialFetch(payload.height);
 			context.getters.blockTransactions.setStore(context).initialFetch(payload.height);
-			context.getters.balanceChangeReceipt.setStore(context).initialFetch(payload.height);
-			context.getters.balanceTransferReceipt.setStore(context).initialFetch(payload.height);
-			context.getters.artifactExpiryReceipt.setStore(context).initialFetch(payload.height);
-			context.getters.inflationReceipt.setStore(context).initialFetch(payload.height);
+			context.getters.receipt.setStore(context).initialFetch(payload.height);
 		},
 
 		uninitializeDetail(context) {
 			context.getters.info.setStore(context).uninitialize();
 			context.getters.blockReceipts.setStore(context).uninitialize();
 			context.getters.blockTransactions.setStore(context).uninitialize();
-			context.getters.balanceChangeReceipt.setStore(context).uninitialize();
-			context.getters.balanceTransferReceipt.setStore(context).uninitialize();
-			context.getters.artifactExpiryReceipt.setStore(context).uninitialize();
-			context.getters.inflationReceipt.setStore(context).uninitialize();
+			context.getters.receipt.setStore(context).uninitialize();
 		},
 
 		nextBlock: ({ commit, getters, dispatch, rootGetters }) => {
