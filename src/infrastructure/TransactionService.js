@@ -145,10 +145,9 @@ class TransactionService {
   		return transactionErrorInfo;
 	  }
 
-  	const [{ date }, effectiveFee, merklePath] = await Promise.all([
+  	const [{ date }, effectiveFee] = await Promise.all([
 		  BlockService.getBlockInfo(UInt64.fromUint(transaction.transactionInfo.height)),
-		  this.getTransactionEffectiveFee(hash),
-		  BlockService.getMerkleTransaction(UInt64.fromUint(transaction.transactionInfo.height), transaction.transactionInfo.merkleComponentHash)
+		  this.getTransactionEffectiveFee(hash)
 	  ]);
 
   	const formattedTransaction = await this.createTransactionFromSDK(transaction);
@@ -160,8 +159,7 @@ class TransactionService {
 		  effectiveFee,
 		  date,
 		  status: transactionStatus.detail.code,
-		  confirm: transactionStatus.message,
-		  merklePath
+		  confirm: transactionStatus.message
   	};
 
   	return transactionInfo;
