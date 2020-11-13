@@ -26,7 +26,7 @@
 		>
 			<span class="mosaic-name" @click.stop>
 				<router-link :to="getItemHref('mosaicId', item.mosaicId)">
-					<b class="link">{{item.mosaicAliasName || item.mosaicId}}</b>
+					<b class="link">{{item.mosaicAliasName[0] || item.mosaicId}}</b>
 				</router-link>
 			</span>
 			<span class="mosaic-amount">
