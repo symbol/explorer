@@ -46,6 +46,15 @@
 			},
 			{
 				"layoutOptions": "adaptive",
+				"type": "AccountBalanceWidget",
+				"title": "accountBalanceTitle",
+				"managerGetter": "account/OwnedMosaic",
+				"dataGetter": "account/balanceWidget",
+				"hideOnError": true,
+				"hideDependOnGetter": "account/info"
+			},
+			{
+				"layoutOptions": "adaptive",
 				"type": "CardTable",
 				"title": "ownedMosaicsTitle",
 				"managerGetter": "account/OwnedMosaic",
@@ -105,9 +114,16 @@
 				"onRowClickKey": "transactionHash",
 				"fields": [
 					"deadline",
-					"transactionHash",
+					"direction",
 					"transactionType",
-					"direction"
+					"transactionHash",
+					"recipient"
+				],
+				"mobileFields": [
+					"deadline",
+					"direction",
+					"transactionType",
+					"transactionHash"
 				]
 			},
 			{
