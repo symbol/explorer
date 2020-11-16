@@ -39,9 +39,9 @@
 							{{currentHeight}}
 						</div>
 					</b-col>
-					<b-col class="ex-item" sm="3" lg="12">
+					<b-col class="ex-item" sm="3" lg="12" :title="getNameByKey(votingNodeTooltips)">
 						<div class="ex-item-title">
-							{{ getNameByKey('finalizedHeight') }} {{ votingNodeText }}
+							{{ getNameByKey('finalizedHeight') }} ({{ getNameByKey(votingNodeText) }})
 						</div>
 						<div class="ex-item-value">
 							{{finalizedHeight}}
@@ -82,7 +82,11 @@ export default {
 		},
 
 		votingNodeText() {
-			return this.chainInfo.isVotingNode ? this.getNameByKey('voting') : void 0;
+			return this.chainInfo.isVotingNode ? 'votingNode' : 'nonVotingNode';
+		},
+
+		votingNodeTooltips() {
+			return this.chainInfo.isVotingNode ? 'votingNodeTooltips' : 'nonVotingNodeTooltips';
 		}
 	},
 
