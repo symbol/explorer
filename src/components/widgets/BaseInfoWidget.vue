@@ -41,7 +41,7 @@
 					</b-col>
 					<b-col class="ex-item" sm="3" lg="12">
 						<div class="ex-item-title">
-							{{getNameByKey('finalizedHeight')}}
+							{{ getNameByKey('finalizedHeight') }} {{ votingNodeText }}
 						</div>
 						<div class="ex-item-value">
 							{{finalizedHeight}}
@@ -79,6 +79,10 @@ export default {
 
 		finalizedHeight() {
 			return this.chainInfo.finalizedBlockHeight;
+		},
+
+		votingNodeText() {
+			return this.chainInfo.isVotingNode ? this.getNameByKey('voting') : void 0;
 		}
 	},
 
