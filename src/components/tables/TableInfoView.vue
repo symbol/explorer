@@ -18,6 +18,7 @@
 						<BlockHeightWithFinalizedStatusField v-else-if="isBlockHeightWithFinalizedStatus(itemKey)" :value="item" />
 						<Boolean v-else-if="isBoolean(itemKey)" :value="item" />
 						<Age v-else-if="isAge(itemKey)" :date="item" />
+						<MessageField v-else-if="itemKey === 'message'" :value="item" />
 
 						<router-link
 							v-else-if="isKeyClickable(itemKey) && getItemHref(itemKey, item)"
@@ -39,6 +40,7 @@ import MosaicsField from '@/components/fields/MosaicsField.vue';
 import ArrayField from '@/components/fields/ArrayField.vue';
 import TransactionType from '@/components/fields/TransactionType.vue';
 import BlockHeightWithFinalizedStatusField from '@/components/fields/BlockHeightWithFinalizedStatusField.vue';
+import MessageField from '@/components/fields/MessageField.vue';
 
 export default {
 	extends: TableView,
@@ -47,7 +49,8 @@ export default {
 		MosaicsField,
 		ArrayField,
 		TransactionType,
-		BlockHeightWithFinalizedStatusField
+		BlockHeightWithFinalizedStatusField,
+		MessageField
 	},
 
 	props: {

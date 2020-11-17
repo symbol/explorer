@@ -20,7 +20,8 @@
 		<foreignObject x="446" y="318" width="100" height="100">
 			<MessagePopover
 				:target="this.id"
-				:message="message"
+				:message="payload"
+				:title="messageType"
 			/>
 		</foreignObject>
 		<circle
@@ -97,8 +98,17 @@ export default {
 
 	props: {
 		message: {
-			type: String,
-			default: ''
+			type: Object,
+			default: () => {}
+		}
+	},
+
+	computed: {
+		payload() {
+			return this.message.payload;
+		},
+		messageType() {
+			return this.getTranslation(`messageTypeDescriptor_${this.message.type}`);
 		}
 	},
 

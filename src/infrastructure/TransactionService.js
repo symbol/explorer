@@ -250,7 +250,7 @@ class TransactionService {
   				id: mosaic.id.toHex(),
   				amount: mosaic.amount.compact().toString()
   			})),
-  			message: transactionBody.message.payload
+  			message: transactionBody.message
   		};
 
   	case TransactionType.NAMESPACE_REGISTRATION:
@@ -500,6 +500,7 @@ class TransactionService {
 
   	switch (transactionInfo.type) {
   	case TransactionType.TRANSFER:
+		  console.log('transactionBody.message :>> ', transactionBody.message);
   		return [
   			{ nativeMosaic: helper.getNetworkCurrencyBalance(transactionInfo.mosaics) },
   			{ message: transactionBody.message },

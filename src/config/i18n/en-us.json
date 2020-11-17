@@ -284,7 +284,7 @@
     "mosaicAddressRestrictionError": "Mosaic address restrictions are not available.",
     "aggregateInnerTransactionsError": "Aggregate inner transactions are not available.",
 	"aggregateCosignaturesError": "Cosignatures are not available.",
-	
+
 	"accountBalanceTitle": "Account Balance",
 	"noAlias": "No alias",
 	"addressBeenCopied": "The address was copied to the clipboard",
@@ -356,5 +356,8 @@
     "finalizationPoint": "Finalization Point",
     "finalizedHash": "Finalized Hash",
     "nodeDetailError": "Failed to fetch node detail.",
-    "extendGraphicValue": "Info"
+    "extendGraphicValue": "Info",
+    "messageTypeDescriptor_0": "Plain Message",
+    "messageTypeDescriptor_1": "Encrypted Message",
+    "messageTypeDescriptor_254": "Persistent Harvesting Delegation Message"
 }

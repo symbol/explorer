@@ -350,5 +350,8 @@
     "finalizationPoint": "Finalization Point",
     "finalizedHash": "Finalized Hash",
     "nodeDetailError": "Failed to fetch node detail.",
-    "extendGraphicValue": "Info"
+    "extendGraphicValue": "Info",
+    "messageTypeDescriptor_0": "Plain Message",
+    "messageTypeDescriptor_1": "Encrypted Message",
+    "messageTypeDescriptor_254": "Persistent Harvesting Delegation Message"
 }

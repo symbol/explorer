@@ -81,7 +81,7 @@ export default {
 		hasMessage() {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('message'))
-					return typeof item.message === 'string' && item.message.length > 0;
+					return typeof item.message.payload === 'string' && item.message.payload.length > 0;
 			}
 			return false;
 		},

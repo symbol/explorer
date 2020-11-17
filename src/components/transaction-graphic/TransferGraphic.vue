@@ -75,8 +75,8 @@ export default {
 
 	props: {
 		message: {
-			type: String,
-			default: ''
+			type: Object,
+			default: () => {}
 		},
 		signer: {
 			type: String,
@@ -104,7 +104,7 @@ export default {
 		},
 
 		hasMessage() {
-			return typeof this.message === 'string' && this.message.length > 0;
+			return typeof this.message.payload === 'string' && this.message.payload.length > 0;
 		},
 
 		hasNativeMosaic() {
