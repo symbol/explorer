@@ -33,7 +33,7 @@ class CreateTransaction {
     		...transactionObj,
     		transactionBody: {
     			transactionType: transactionObj.type,
-    			message: transactionObj.message.payload,
+    			message: transactionObj.message,
     			recipient: resolvedAddress,
     			mosaics: mosaicsFieldObject
     		}
