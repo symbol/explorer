@@ -351,6 +351,8 @@
     "finalizedHash": "Finalized Hash",
     "nodeDetailError": "Failed to fetch node detail.",
     "extendGraphicValue": "Info",
+    "created": "Created",
+    "ago": "ago",
     "messageTypeDescriptor_0": "Plain Message",
     "messageTypeDescriptor_1": "Encrypted Message",
     "messageTypeDescriptor_254": "Persistent Harvesting Delegation Message"

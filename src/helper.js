@@ -46,13 +46,13 @@ class helper {
 		else if (interval.hours === 1)
 			return interval.hours + ' hour';
 		else if (interval.minutes > 1)
-			return interval.minutes + ' min.';// ' minutes'
+			return interval.minutes + ' min';// ' minutes'
 		else if (interval.minutes === 1)
-			return interval.minutes + ' min.';// ' minute'
+			return interval.minutes + ' min';// ' minute'
 		else if (interval.seconds !== 1)
-			return interval.seconds + ' sec.';// ' seconds'
+			return interval.seconds + ' sec';// ' seconds'
 		else
-			return interval.seconds + ' sec.';// ' second'
+			return interval.seconds + ' sec';// ' second'
 	}
 
 	static formatSeconds = second => {

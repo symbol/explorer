@@ -19,7 +19,7 @@
 <template>
 	<TimeSince :date="date">
 		<template slot-scope="interval">
-			{{timeSince(interval)}}
+			{{ timeSince(interval) }} {{ getNameByKey('ago') }}
 		</template>
 	</TimeSince>
 </template>
@@ -38,6 +38,9 @@ export default {
 	methods: {
 		timeSince(interval) {
 			return helper.timeSince(interval);
+		},
+		getNameByKey(e) {
+			return this.$store.getters['ui/getNameByKey'](e);
 		}
 	}
 };

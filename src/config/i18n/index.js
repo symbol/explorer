@@ -1,11 +1,11 @@
 const languages = {
 	'en-us': require('./en-us.json'),
-	'中文': require('./zh.json'),
-	'日本語': require('./ja.json'),
-	'Português': require('./pt.json'),
-	'Espanhol': require('./es.json'),
-	'Українська': require('./ua.json'),
-	'Русский': require('./ru.json')
+	'日本語': require('./ja.json')
+	// '中文': require('./zh.json'),
+	// 'Português': require('./pt.json'),
+	// 'Espanhol': require('./es.json'),
+	// 'Українська': require('./ua.json'),
+	// 'Русский': require('./ru.json')
 };
 
 const DEFAULT_LANGUAGE = 'en-us';

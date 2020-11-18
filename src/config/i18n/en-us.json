@@ -1,6 +1,6 @@
 {
     "langName": "en-us",
-    "age": "Age",
+    "age": "Created",
     "aliasAction": "Alias Action",
     "linkAction": "Link Action",
     "amount": "Amount",
@@ -56,7 +56,7 @@
     "beforeEndHeight": "End at Height",
     "divisibility": "Divisibility",
     "supply": "Supply",
-    "owneraddress": "Owner Address",
+    "ownerAddress": "Owner Address",
     "revision": "Revision",
     "supplyMutable": "Supply Mutable",
     "transferable": "Transferable",
@@ -320,7 +320,6 @@
     "restrictions": "Restrictions (Allow If)",
     "hashLockTitle": "Hash Lock",
     "secretLockTitle": "Secret Lock",
-    "ownerAddress": "Owner Address",
     "restrictionAdded": "Added",
     "restrictionRemoved": "Removed",
     "statements": "Statements",
@@ -357,6 +356,8 @@
     "finalizedHash": "Finalized Hash",
     "nodeDetailError": "Failed to fetch node detail.",
     "extendGraphicValue": "Info",
+    "created": "Created",
+    "ago": "ago",
     "messageTypeDescriptor_0": "Plain Message",
     "messageTypeDescriptor_1": "Encrypted Message",
     "messageTypeDescriptor_254": "Persistent Harvesting Delegation Message"
