@@ -81,7 +81,7 @@
 				"fields": [
 					"namespaceName",
 					"status",
-					"duration",
+					"expirationDuration",
 					"registrationType"
 				]
 			},

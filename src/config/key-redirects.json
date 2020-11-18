@@ -6,7 +6,7 @@
     "signer": "accounts",
     "recipient": "accounts",
     "senderAddress": "accounts",
-    "owneraddress": "accounts",
+    "ownerAddress": "accounts",
     "aliasAddress": "accounts",
     "sourceAddress": "accounts",
     "targetAddress": "accounts",
@@ -19,7 +19,6 @@
     "addressAdditions_": "accounts",
     "addressDeletions_": "accounts",
     "linkedAccountAddress": "accounts",
-    "ownerAddress": "accounts",
 
     "transaction": "transactions",
     "transactionHash": "transactions",
