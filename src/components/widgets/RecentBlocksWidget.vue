@@ -37,7 +37,7 @@
 							<template #body>
 								<div class="ex-row">
 									<div class="ex-text">
-										{{ item.numTransactions }} {{getNameByKey('transactions')}}
+										{{ getNameByKey('created') }}
 									</div>
 									<div class="ex-text">
 										<Age :date="item.date"/>

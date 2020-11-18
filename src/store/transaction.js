@@ -63,7 +63,6 @@ export default {
 		transactionDetail: state => state.info?.data?.transactionBody || {},
 		aggregateInnerTransactions: state => state.info?.data?.innerTransactions || [],
 		aggregateCosignatures: state => state.info?.data?.cosignatures || [],
-		merklePath: state => state.info?.data?.merklePath || [],
 		getRecentList: state => state.timeline?.data?.filter((item, index) => index < 4) || [],
 		transactionSchema: (state, getters) => ({
 			loading: getters.info.loading,
