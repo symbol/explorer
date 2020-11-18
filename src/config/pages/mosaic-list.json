@@ -20,7 +20,7 @@
                 "fields": [
                     "mosaicId",
                     "mosaicAliasName",
-                    "owneraddress",
+                    "ownerAddress",
                     "relativeAmount",
                     "divisibility",
                     "startHeight"
@@ -28,7 +28,7 @@
                 "mobileFields": [
                     "mosaicId",
                     "mosaicAliasName",
-                    "owneraddress"
+                    "ownerAddress"
                 ]
             }
         ]

@@ -56,7 +56,7 @@
     "beforeEndHeight": "Кінцева висота",
     "divisibility": "Подільність",
     "supply": "Постачання",
-    "owneraddress": "Адреса власника",
+    "ownerAddress": "Адреса власника",
     "revision": "Ревізія",
     "supplyMutable": "Supply Mutable",
     "transferable": "Переносимий",
@@ -315,7 +315,6 @@
     "restrictions": "Restrictions (Allow If)",
     "hashLockTitle": "Hash Lock",
     "secretLockTitle": "Secret Lock",
-    "ownerAddress": "Owner Address",
     "restrictionAdded": "Added",
     "restrictionRemoved": "Removed",
     "statements": "Statements",
@@ -352,7 +351,10 @@
     "finalizedHash": "Finalized Hash",
     "nodeDetailError": "Failed to fetch node detail.",
     "extendGraphicValue": "Info",
+    "created": "Created",
+    "ago": "ago",
     "votingNode": "Voting Node",
+    "nonVotingNode": "Non Voting Node",
     "votingNodeTooltips": "Sync ahead of common node.",
     "nonVotingNodeTooltips": "Sync behind of Voting node."
 }
