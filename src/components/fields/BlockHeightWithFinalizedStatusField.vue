@@ -1,34 +1,46 @@
 <template>
-	<div class="blockHeightWithfinalizedStatus">
-		<div class="text" @click.stop>
-			<router-link :to="getItemHref('blocks', blockHeight)">
-				<b class="link">{{ blockHeight }}</b>
-			</router-link>
+	<div>
+		<div v-if="isClickable" class="blockHeightWithfinalizedStatus">
+			<div class="text" @click.stop>
+				<router-link :to="getItemHref('blocks', blockHeight)">
+					<b class="link">{{ blockHeight }}</b>
+				</router-link>
+			</div>
 
+			<div class="icon">
+				<img
+					v-if="this.isFinalized"
+					:title="isFinalized ? getTranslation('finalized') : getTranslation('pending')"
+					class="icon-finalized"
+					:src="FinalizedIcon"
+				/>
+				<span
+					v-else
+					:title="isFinalized ? getTranslation('finalized') : getTranslation('pending')"
+					class="mdi"
+					:class="{[markerIcon]: true}"
+				/>
+			</div>
 		</div>
-		<div class="icon">
-			<img
-				v-if="this.isFinalized"
-				:title="isFinalized ? getTranslation('finalized') : getTranslation('pending')"
-				class="icon-finalized"
-				:src="FinalizedIcon"
-			/>
-			<span
-				v-else
-				:title="isFinalized ? getTranslation('finalized') : getTranslation('pending')"
-				class="mdi"
-				:class="{[markerIcon]: true}"
-			/>
+
+		<div v-else>
+			<div class="text" @click.stop>
+				<b class="link">{{ blockHeight }}</b>
+			</div>
 		</div>
 	</div>
 </template>
 
 <script>
+import TableView from '../tables/TableView';
 import FinalizedIcon from '../../styles/img/finalized.png';
+
 export default {
+	extends: TableView,
+
 	props: {
 		value: {
-			type: Number,
+			type: [Number, String],
 			required: true
 		}
 	},
@@ -53,6 +65,9 @@ export default {
 		},
 		isFinalized() {
 			return this.getLatestFinalizedHeight >= this.blockHeight;
+		},
+		isClickable() {
+			return this.isValueClickable(this.value);
 		}
 	},
 

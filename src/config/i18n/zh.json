@@ -56,7 +56,7 @@
     "beforeEndHeight": "结束高度",
     "divisibility": "可分割性",
     "supply": "供应量",
-    "owneraddress": "属主地址",
+    "ownerAddress": "属主地址",
     "revision": "调整",
     "supplyMutable": "可变供应量",
     "transferable": "可传输",
@@ -315,7 +315,6 @@
     "restrictions": "Restrictions (Allow If)",
     "hashLockTitle": "Hash Lock",
     "secretLockTitle": "Secret Lock",
-    "ownerAddress": "Owner Address",
     "restrictionAdded": "Added",
     "restrictionRemoved": "Removed",
     "statements": "Statements",
@@ -354,5 +353,7 @@
     "extendGraphicValue": "Info",
     "mosaicArtifactId": "ArtifactId",
     "namespaceArtifactId": "ArtifactId",
-    "receiptTitle": "Receipt"
+    "receiptTitle": "Receipt",
+    "created": "Created",
+    "ago": "ago"
 }

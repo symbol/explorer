@@ -18,7 +18,7 @@
                 "errorMessage": "namespaceDetailError",
                 "pagination": "none",
                 "fields": [
-                    "owneraddress",
+                    "ownerAddress",
                     "namespaceName",
                     "namespaceId",
                     "registrationType",

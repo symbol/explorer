@@ -122,7 +122,7 @@ class MosaicService {
    		...mosaicInfos,
    		data: mosaicInfos.data.map(mosaic => ({
    			...mosaic,
-   			owneraddress: mosaic.address,
+   			ownerAddress: mosaic.address,
    			mosaicAliasName: this.extractMosaicNamespace(mosaic, mosaicNames)
    		}))
    	};

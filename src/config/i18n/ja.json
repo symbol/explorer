@@ -353,5 +353,7 @@
     "extendGraphicValue": "Info",
     "mosaicArtifactId": "ArtifactId",
     "namespaceArtifactId": "ArtifactId",
-    "receiptTitle": "Receipt"
+    "receiptTitle": "Receipt",
+    "created": "Created",
+    "ago": "ago"
 }
