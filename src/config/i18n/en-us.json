@@ -1,6 +1,6 @@
 {
     "langName": "en-us",
-    "age": "Age",
+    "age": "Created",
     "aliasAction": "Alias Action",
     "linkAction": "Link Action",
     "amount": "Amount",
@@ -355,5 +355,7 @@
     "finalizationPoint": "Finalization Point",
     "finalizedHash": "Finalized Hash",
     "nodeDetailError": "Failed to fetch node detail.",
-    "extendGraphicValue": "Info"
+    "extendGraphicValue": "Info",
+    "created": "Created",
+    "ago": "ago"
 }
