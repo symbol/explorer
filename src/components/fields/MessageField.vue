@@ -75,19 +75,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.hideContent{
-	display: none;
+.hideContent {
+    display: none;
 }
 
 .overlay {
     text-align: center;
     position: absolute;
-	color: var(--primary);
-	z-index: 999;
+    color: var(--primary);
+    z-index: 999;
 
-	:hover > & {
-		cursor: pointer;
-		text-decoration: underline;
-	}
+    :hover > & {
+        cursor: pointer;
+        text-decoration: underline;
+    }
 }
 </style>

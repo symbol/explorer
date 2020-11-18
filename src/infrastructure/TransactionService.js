@@ -498,7 +498,6 @@ class TransactionService {
 
   	switch (transactionInfo.type) {
   	case TransactionType.TRANSFER:
-		  console.log('transactionBody.message :>> ', transactionBody.message);
   		return [
   			{ nativeMosaic: helper.getNetworkCurrencyBalance(transactionInfo.mosaics) },
   			{ message: transactionBody.message },
