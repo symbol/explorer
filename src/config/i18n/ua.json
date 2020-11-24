@@ -353,7 +353,7 @@
     "extendGraphicValue": "Info",
     "created": "Created",
     "ago": "ago",
-    "messageTypeDescriptor_0": "Plain Message",
-    "messageTypeDescriptor_1": "Encrypted Message",
-    "messageTypeDescriptor_254": "Persistent Harvesting Delegation Message"
+    "messageTypeDescriptor_0": "Plain message",
+    "messageTypeDescriptor_1": "Encrypted message",
+    "messageTypeDescriptor_254": "Delegated Harvesting Persistent message"
 }
