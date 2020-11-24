@@ -17,7 +17,6 @@
  */
 
 import http from './http';
-import helper from '../helper';
 import { Constants } from '../config';
 
 class LockService {
@@ -73,9 +72,8 @@ class LockService {
      */
     static formatSecretLockInfo = (secretLockInfo) => ({
     	...secretLockInfo,
-    	amount: helper.formatMosaicAmountWithDivisibility(secretLockInfo.amount, http.networkCurrency.divisibility),
+    	status: Constants.LockStatusType[secretLockInfo.status],
     	endHeight: Number(secretLockInfo.endHeight.toString()),
-    	mosaicId: secretLockInfo.mosaicId.toHex(),
     	ownerAddress: secretLockInfo.ownerAddress.plain(),
     	recipient: secretLockInfo.recipientAddress.plain(),
     	hashAlgorithm: Constants.LockHashAlgorithm[secretLockInfo.hashAlgorithm]
@@ -88,9 +86,8 @@ class LockService {
      */
     static formatHashLockInfo = (hashLockInfo) => ({
     	...hashLockInfo,
-    	amount: helper.formatMosaicAmountWithDivisibility(hashLockInfo.amount, http.networkCurrency.divisibility),
+    	status: Constants.LockStatusType[hashLockInfo.status],
     	endHeight: Number(hashLockInfo.endHeight.toString()),
-    	mosaicId: hashLockInfo.mosaicId.toHex(),
     	ownerAddress: hashLockInfo.ownerAddress.plain()
     })
 }

@@ -82,6 +82,8 @@ export default {
 				'ownerAddress',
 				'senderAddress',
 
+				'namespaceArtifactId',
+				'mosaicArtifactId',
 				'nodePublicKey'
 			],
 			disableClickValues: [...Object.values(Constants.Message)],
