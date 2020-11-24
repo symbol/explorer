@@ -15,6 +15,7 @@ import NetworkService from './NetworkService';
 import StatisticService from './StatisticService';
 import LockService from './LockService';
 import CreateTransaction from './CreateTransaction';
+import CreateReceiptTransaction from './CreateReceiptTransaction';
 
 export {
 	NodeService,
@@ -33,5 +34,6 @@ export {
 	NetworkService,
 	StatisticService,
 	LockService,
-	CreateTransaction
+	CreateTransaction,
+	CreateReceiptTransaction
 };

@@ -26,7 +26,7 @@
 		>
 			<span class="mosaic-name" @click.stop>
 				<router-link :to="getItemHref('mosaicId', item.mosaicId)">
-					<b class="link">{{item.mosaicAliasName || item.mosaicId}}</b>
+					<b class="link">{{ getMosaicName(item) }}</b>
 				</router-link>
 			</span>
 			<span class="mosaic-amount">
@@ -61,6 +61,12 @@ export default {
 
 		getItemHref(itemKey, item) {
 			return this.$store.getters[`ui/getPageHref`]({ pageName: itemKey, param: item });
+		},
+
+		getMosaicName(mosaic) {
+			return mosaic.mosaicAliasName !== 'N/A'
+				? mosaic.mosaicAliasName
+				: mosaic.mosaicId;
 		}
 	}
 };
