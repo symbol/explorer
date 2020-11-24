@@ -24,7 +24,7 @@
                     "balance",
                     "lastActivity",
                     "importance",
-                    "accountAliasName"
+                    "accountAliasNames"
                 ],
                 "mobileFields": [
                     "address",
@@ -35,4 +35,4 @@
         ]
     }
 }
-        
+

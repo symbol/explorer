@@ -89,8 +89,8 @@ export default {
 		},
 
 		alias() {
-			return Constants.Message.UNAVAILABLE !== this.data.alias
-				? this.data.alias
+			return Constants.Message.UNAVAILABLE !== this.data.alias[0]
+				? this.data.alias[0]
 				: this.getNameByKey('noAlias');
 		},
 

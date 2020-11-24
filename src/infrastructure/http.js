@@ -51,7 +51,7 @@ export default class http {
   }
 
   static get networkCurrency() {
-  	const networkNamespace = NETWORK_CURRECY?.mosaicAliasName.toLowerCase() || globalConfig.networkConfig.namespaceName.toLowerCase();
+  	const networkNamespace = NETWORK_CURRECY?.mosaicAliasNames[0].toUpperCase() || globalConfig.networkConfig.namespaceName.toUpperCase();
 
   	return {
   		namespaceName: networkNamespace,

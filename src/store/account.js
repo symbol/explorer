@@ -140,7 +140,7 @@ export default {
 		balanceWidget: (state, getters) => ({
 			address: new Address(state.currentAccountAddress).pretty(),
 			balance: getters.OwnedMosaic?.data[0]?.amount || 0,
-			alias: getters.info?.data?.accountAliasName /* || Constants.Message.UNAVAILABLE */
+			alias: getters.info?.data?.accountAliasNames /* || Constants.Message.UNAVAILABLE */
 		})
 	},
 	mutations: {
