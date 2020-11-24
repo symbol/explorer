@@ -94,7 +94,7 @@ class AccountService {
   			...account,
   			balance: helper.getNetworkCurrencyBalance(account.mosaics),
   			lastActivity: helper.getLastActivityHeight(account.activityBucket),
-  			accountAliasName: this.extractAccountNamespace(account, accountNames)
+  			accountAliasNames: this.extractAccountNamespace(account, accountNames)
   		}))
   	};
   }
@@ -120,7 +120,7 @@ class AccountService {
   			...accountInfo.supplementalPublicKeys,
   			voting: Array.isArray(accountInfo.supplementalPublicKeys.voting) ? accountInfo.supplementalPublicKeys.voting.map(voting => voting.publicKey) : accountInfo.supplementalPublicKeys.voting
   		},
-  		accountAliasName: this.extractAccountNamespace(accountInfo, accountNames)
+  		accountAliasNames: this.extractAccountNamespace(accountInfo, accountNames)
   	};
   }
 
@@ -416,9 +416,12 @@ class AccountService {
    */
   static extractAccountNamespace = (accountInfo, accountNames) => {
   	let accountName = accountNames.find((name) => name.address === accountInfo.address);
-  	const name = accountName.names.length > 0 ? accountName.names[0].name : Constants.Message.UNAVAILABLE;
 
-  	return name;
+	  const aliasNames = accountName.names.map(names => names.name);
+
+	const names = aliasNames.length > 0 ? aliasNames : [Constants.Message.UNAVAILABLE];
+
+	return names;
   }
 
 	/**
