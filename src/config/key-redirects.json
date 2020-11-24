@@ -32,6 +32,7 @@
     "referenceMosaicId": "mosaics",
     "restrictionMosaicAdditions_": "mosaics",
     "restrictionMosaicDeletions_": "mosaics",
+    "mosaicArtifactId": "mosaics",
 
     "block": "blocks",
     "height": "blocks",
@@ -53,6 +54,7 @@
     "accountAliasName": "namespaces",
     "targetNamespaceId": "namespaces",
     "unresolved": "namespaces",
+    "namespaceArtifactId": "namespaces",
 
     "node": "nodes",
     "nodePublicKey": "nodes"

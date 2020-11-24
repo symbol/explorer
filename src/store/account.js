@@ -73,10 +73,18 @@ const managers = [
 	}),
 	new Pagination({
 		name: 'harvestedBlocks',
-		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountHarvestedBlockList(pageInfo, store.getters.getCurrentAccountAddress),
+		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountHarvestedReceiptList(pageInfo, store.getters.getCurrentAccountAddress),
 		pageInfo: {
 			pageSize: 10
 		}
+	}),
+	new Pagination({
+		name: 'receipt',
+		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountReceiptList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
+		pageInfo: {
+			pageSize: 10
+		},
+		filter: filters.accountTransactionReceipt
 	}),
 	new Pagination({
 		name: 'mosaicAddressRestrictions',
@@ -189,6 +197,7 @@ export default {
 			context.getters.accountRestrictions.setStore(context).initialFetch(payload.address);
 			context.getters.hashLocks.setStore(context).initialFetch(payload.address);
 			context.getters.secretLocks.setStore(context).initialFetch(payload.address);
+			context.getters.receipt.setStore(context).initialFetch(payload.address);
 		},
 
 		uninitializeDetail(context) {
@@ -203,6 +212,7 @@ export default {
 			context.getters.accountRestrictions.setStore(context).uninitialize();
 			context.getters.hashLocks.setStore(context).uninitialize();
 			context.getters.secretLocks.setStore(context).uninitialize();
+			context.getters.receipt.setStore(context).uninitialize();
 		}
 	}
 };

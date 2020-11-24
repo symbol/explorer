@@ -180,6 +180,18 @@ class Constants {
   }
 
   static MerkleRootsOrder = ['AccountState', 'Namespace', 'Mosaic', 'Multisig', 'HashLockInfo', 'SecretLockInfo', 'AccountRestriction', 'MosaicRestriction', 'Metadata']
+
+  static ReceiptTransactionStatamentType = {
+	  BalanceChangeReceipt: 'Balance Change Receipt',
+	  BalanceTransferReceipt: 'Balance Transfer Receipt',
+	  InflationReceipt: 'Inflation Receipt',
+	  ArtifactExpiryReceipt: 'Artifact Expiry Receipt'
+  }
+
+  static LockStatusType = {
+	  0: 'Unused',
+	  1: 'Used'
+  }
 }
 
 export default Constants;

@@ -18,8 +18,8 @@
 
 import http from './http';
 import helper from '../helper';
-import { Address, MosaicId, Order } from 'symbol-sdk';
-import { NamespaceService, MetadataService } from '../infrastructure';
+import { Address, MosaicId, Order, ReceiptType, UInt64 } from 'symbol-sdk';
+import { NamespaceService, MetadataService, ReceiptService } from '../infrastructure';
 import { Constants } from '../config';
 
 class MosaicService {
@@ -90,9 +90,12 @@ class MosaicService {
 
    	const mosaicNames = await NamespaceService.getMosaicsNames([mosaicId]);
 
+   	const expiredInBlock = mosaicInfo.duration + mosaicInfo.startHeight;
+
    	return {
    		...mosaicInfo,
-   		mosaicAliasName: this.extractMosaicNamespace(mosaicInfo, mosaicNames)
+   		mosaicAliasName: this.extractMosaicNamespace(mosaicInfo, mosaicNames),
+   		expiredInBlock: expiredInBlock === mosaicInfo.startHeight ? Constants.Message.INFINITY : expiredInBlock
    	};
    }
 
@@ -164,6 +167,77 @@ class MosaicService {
    }
 
    /**
+	* Gets mosaic balance transfer receipt list dataset into Vue component
+	* @param pageInfo - object for page info such as pageNumber, pageSize
+	* @param hexOrNamespace - hex value or namespace name
+	* @returns formatted balance transfer receipt list
+	*/
+   static getMosaicBalanceTransferReceipt = async (pageInfo, hexOrNamespace) => {
+   	const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic');
+
+   	const { startHeight, address } = await this.getMosaic(mosaicId);
+
+   	const { pageNumber, pageSize } = pageInfo;
+
+   	const searchCriteria = {
+   		pageNumber,
+   		pageSize,
+   		order: Order.Desc,
+   		height: UInt64.fromUint(startHeight),
+   		receiptTypes: [ReceiptType.Mosaic_Rental_Fee],
+   		senderAddress: Address.createFromRawAddress(address)
+   	};
+
+   	const balanceTransferReceipt = await ReceiptService.searchReceipts(searchCriteria);
+
+   	const formattedReceipt = await ReceiptService.createReceiptTransactionStatement(balanceTransferReceipt.data.balanceTransferStatement);
+
+   	return {
+   		...balanceTransferReceipt,
+   		data: formattedReceipt.filter(receipt =>
+   			receipt.senderAddress === address &&
+         receipt.type === ReceiptType.Mosaic_Rental_Fee)
+   	};
+   }
+
+   /**
+	* Gets mosaic artifact expiry receipt list dataset into Vue component
+	* @param pageInfo - object for page info such as pageNumber, pageSize
+	* @param hexOrNamespace - hex value or namespace name
+	* @returns formatted artifact expiry receipt list
+	*/
+   static getMosaicArtifactExpiryReceipt = async (pageInfo, hexOrNamespace) => {
+   	const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic');
+
+   	const { startHeight, duration } = await this.getMosaic(mosaicId);
+
+   	const { pageNumber, pageSize } = pageInfo;
+
+   	const endHeight = startHeight + duration;
+
+   	if (endHeight === startHeight)
+   		return {};
+
+   	// Todo: Should filter with with ArtifactId rather than height.
+   	// Bug: https://github.com/nemtech/catapult-rest/issues/517
+   	const searchCriteria = {
+   		pageNumber,
+   		pageSize,
+   		order: Order.Desc,
+   		height: UInt64.fromUint(endHeight),
+   		receiptTypes: [ReceiptType.Mosaic_Expired]
+   	};
+
+   	const artifactExpiryReceipt = await ReceiptService.searchReceipts(searchCriteria);
+   	const formattedReceipt = await ReceiptService.createReceiptTransactionStatement(artifactExpiryReceipt.data.artifactExpiryStatement);
+
+   	return {
+   		...artifactExpiryReceipt,
+   		data: formattedReceipt.filter(receipt => receipt.type === ReceiptType.Mosaic_Expired)
+   	};
+   }
+
+   /**
     * Format MosaicInfo to readable mosaicInfo object
     * @param MosaicInfoDTO
     * @returns Object readable MosaicInfoDTO object
@@ -176,7 +250,7 @@ class MosaicService {
    	relativeAmount: helper.formatMosaicAmountWithDivisibility(mosaicInfo.supply, mosaicInfo.divisibility),
    	revision: mosaicInfo.revision,
    	startHeight: Number(mosaicInfo.startHeight.toString()),
-   	duration: mosaicInfo.duration.compact() > 0 ? mosaicInfo.duration.compact() : Constants.Message.UNLIMITED,
+   	duration: Number(mosaicInfo.duration.toString()),
    	supplyMutable: mosaicInfo.flags.supplyMutable,
    	transferable: mosaicInfo.flags.transferable,
    	restrictable: mosaicInfo.flags.restrictable

@@ -284,7 +284,7 @@
     "mosaicAddressRestrictionError": "モザイクアドレス制限は有効ではありません",
     "aggregateInnerTransactionsError": "アグリゲート内部トランザクションが有効ではありません",
 	"aggregateCosignaturesError": "連署者が有効ではありません",
-	
+
 	"accountBalanceTitle": "アカウント残高",
 	"noAlias": "エイリアスなし",
 	"addressBeenCopied": "アドレスはクリップボードへコピーされました",
