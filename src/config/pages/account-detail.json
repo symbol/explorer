@@ -186,10 +186,9 @@
 				"onRowClickKey": "transactionHash",
 				"fields": [
 					"transactionHash",
-					"amount",
 					"endHeight",
-					"mosaicId",
-					"status"
+					"status",
+					"mosaics"
 				]
 			},
 			{
@@ -204,11 +203,10 @@
 				"fields": [
 					"recipient",
 					"secret",
-					"amount",
 					"endHeight",
-					"mosaicId",
 					"status",
-					"hashAlgorithm"
+					"hashAlgorithm",
+					"mosaics"
 				]
 			},
 			{
@@ -229,22 +227,36 @@
 				]
 			},
 			{
-				"layoutOptions": "full-width",
+				"layoutOptions": "adaptive",
 				"type": "CardTable",
 				"title": "harvestedBlockTitle",
 				"managerGetter": "account/harvestedBlocks",
 				"pagination": "server",
-				"pageSize": 5,
 				"hideEmptyData": true,
 				"hideOnError": true,
 				"hideDependOnGetter": "account/info",
 				"fields": [
+					"version",
 					"height",
-					"age",
-					"transactions",
-					"totalFee",
-					"date",
-					"harvester"
+					"receiptType",
+					"mosaics"
+				]
+			},
+			{
+				"layoutOptions": "adaptive",
+				"type": "CardTable",
+				"title": "receiptTitle",
+				"managerGetter": "account/receipt",
+				"pagination": "server",
+				"hasFilter": true,
+				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
+				"fields": [
+					"version",
+					"height",
+  					"receiptType",
+  					"recipient",
+  					"mosaics"
 				]
 			}
 		]
