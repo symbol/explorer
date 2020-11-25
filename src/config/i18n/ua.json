@@ -33,7 +33,7 @@
     "importance": "Важливість",
     "importanceHeight": "Висота важливісті",
     "accountType": "Тип рахунку",
-    "accountAliasName": "Alias Namespace",
+    "accountAliasNames": "Alias Namespace",
     "lastActivity": "Остання активність",
     "accounts": "Рахунки",
     "blocks": "Блоки",
@@ -77,7 +77,7 @@
     "beneficiaryCount": "Кількість бенефіціарів",
     "importanceScore": "Оцінка важливості",
     "recalculationBlock": "Блок перерахунку №",
-    "mosaicAliasName": "Псевдонім пространства імен",
+    "mosaicAliasNames": "Псевдонім пространства імен",
     "aliasMosaic": "Псевдонім",
     "aliasAddress": "Псевдонім",
     "metadataId": "Id метаданих",
@@ -351,6 +351,9 @@
     "finalizedHash": "Finalized Hash",
     "nodeDetailError": "Failed to fetch node detail.",
     "extendGraphicValue": "Info",
+    "mosaicArtifactId": "ArtifactId",
+    "namespaceArtifactId": "ArtifactId",
+    "receiptTitle": "Receipt",
     "created": "Created",
     "ago": "ago"
 }

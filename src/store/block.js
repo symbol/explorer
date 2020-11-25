@@ -49,6 +49,14 @@ const managers = [
 		},
 		filter: filters.transaction
 	}),
+	new Pagination({
+		name: 'receipt',
+		fetchFunction: (pageInfo, filterValue, store) => BlockService.getBlockReceiptList(pageInfo, filterValue, store.getters.currentBlockHeight),
+		pageInfo: {
+			pageSize: 10
+		},
+		filter: filters.blockTransactionReceipt
+	}),
 	new DataSet(
 		'blockReceipts',
 		(height) => BlockService.getBlockReceiptsInfo(height)
@@ -78,10 +86,7 @@ export default {
 		getSubscription: state => state.subscription,
 		blockInfo: state => state.info?.data?.blockInfo || {},
 		merkleInfo: state => state.info?.data?.merkleInfo || {},
-		inflationReceipt: state => state.blockReceipts?.data?.transactionReceipt?.inflationReceipt || [],
-		balanceTransferReceipt: state => state.blockReceipts?.data?.transactionReceipt?.balanceTransferReceipt || [],
-		balanceChangeReceipt: state => state.blockReceipts?.data?.transactionReceipt?.balanceChangeReceipt || [],
-		artifactExpiryReceipt: state => state.blockReceipts?.data?.transactionReceipt?.artifactExpiryReceipt || [],
+
 		resolutionStatement: state => state.blockReceipts?.data?.resolutionStatements || [],
 		currentBlockHeight: state => state.currentBlockHeight,
 		infoText: (s, g, rs, rootGetters) => rootGetters['ui/getNameByKey']('chainHeight') + ': ' + (rootGetters['chain/getChainInfo'] && rootGetters['chain/getChainInfo'].currentHeight ? rootGetters['chain/getChainInfo'].currentHeight : 0) },
@@ -165,12 +170,14 @@ export default {
 			context.getters.info.setStore(context).initialFetch(payload.height);
 			context.getters.blockReceipts.setStore(context).initialFetch(payload.height);
 			context.getters.blockTransactions.setStore(context).initialFetch(payload.height);
+			context.getters.receipt.setStore(context).initialFetch(payload.height);
 		},
 
 		uninitializeDetail(context) {
 			context.getters.info.setStore(context).uninitialize();
 			context.getters.blockReceipts.setStore(context).uninitialize();
 			context.getters.blockTransactions.setStore(context).uninitialize();
+			context.getters.receipt.setStore(context).uninitialize();
 		},
 
 		nextBlock: ({ commit, getters, dispatch, rootGetters }) => {

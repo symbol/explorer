@@ -33,7 +33,7 @@
     "importance": "Importance",
     "importanceHeight": "Importance height",
     "accountType": "Account type",
-    "accountAliasName": "Alias Namespace",
+    "accountAliasNames": "Alias Namespace",
     "lastActivity": "Last Activity",
     "accounts": "Accounts",
     "blocks": "Blocks",
@@ -77,7 +77,7 @@
     "beneficiaryCount": "Beneficiary Count",
     "importanceScore": "Importance Score",
     "recalculationBlock": "Recalculation Block #",
-    "mosaicAliasName": "Alias",
+    "mosaicAliasNames": "Alias",
     "aliasMosaic": "Alias",
     "aliasAddress": "Alias",
     "metadataId": "Metadata Id",
@@ -284,7 +284,6 @@
     "mosaicAddressRestrictionError": "Mosaic address restrictions are not available.",
     "aggregateInnerTransactionsError": "Aggregate inner transactions are not available.",
 	"aggregateCosignaturesError": "Cosignatures are not available.",
-	
 	"accountBalanceTitle": "Account Balance",
 	"noAlias": "No alias",
 	"addressBeenCopied": "The address was copied to the clipboard",
@@ -356,6 +355,9 @@
     "finalizedHash": "Finalized Hash",
     "nodeDetailError": "Failed to fetch node detail.",
     "extendGraphicValue": "Info",
+    "mosaicArtifactId": "ArtifactId",
+    "namespaceArtifactId": "ArtifactId",
+    "receiptTitle": "Receipt",
     "created": "Created",
     "ago": "ago"
 }

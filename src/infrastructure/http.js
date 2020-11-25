@@ -51,14 +51,10 @@ export default class http {
   }
 
   static get networkCurrency() {
-  	const networkNamespace = NETWORK_CURRECY?.mosaicAliasName.toUpperCase() || globalConfig.networkConfig.namespaceName.toUpperCase();
+  	const networkNamespace = NETWORK_CURRECY?.mosaicAliasNames[0].toUpperCase() || globalConfig.networkConfig.namespaceName.toUpperCase();
 
   	return {
-		  namespace: {
-			  rootNamespace: networkNamespace.split('.')[0],
-			  subNamespace: networkNamespace.split('.')[1],
-			  namespaceName: networkNamespace
-		  },
+  		namespaceName: networkNamespace,
   		mosaicId: NETWORK_CURRECY?.mosaicId || globalConfig.networkConfig.mosaicId,
   		divisibility: NETWORK_CURRECY?.divisibility || globalConfig.networkConfig.divisibility
   	};

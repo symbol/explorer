@@ -33,7 +33,7 @@
     "importance": "Важность",
     "importanceHeight": "Высота важности",
     "accountType": "Тип аккаунта",
-    "accountAliasName": "Пространство Имен Псевдонимов",
+    "accountAliasNames": "Пространство Имен Псевдонимов",
     "lastActivity": "Последняя Активность",
     "accounts": "Аккаунты",
     "blocks": "Блоки",
@@ -77,7 +77,7 @@
     "beneficiaryCount": "Количество Бенефициаров",
     "importanceScore": "Оценка важности",
     "recalculationBlock": "Блок Пересчета #",
-    "mosaicAliasName": "Псевдоним пространства имен",
+    "mosaicAliasNames": "Псевдоним пространства имен",
     "aliasMosaic": "Псевдоним",
     "aliasAddress": "Псевдоним",
     "metadataId": "Идентификатор метаданных",
@@ -351,6 +351,9 @@
     "finalizedHash": "Finalized Hash",
     "nodeDetailError": "Failed to fetch node detail.",
     "extendGraphicValue": "Info",
+    "mosaicArtifactId": "ArtifactId",
+    "namespaceArtifactId": "ArtifactId",
+    "receiptTitle": "Receipt",
     "created": "Created",
     "ago": "ago"
 }

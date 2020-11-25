@@ -6,10 +6,47 @@ import {
 	MosaicId,
 	AccountOrderBy,
 	MetadataType,
-	MosaicRestrictionEntryType
+	MosaicRestrictionEntryType,
+	ReceiptType
 } from 'symbol-sdk';
 import http from '../infrastructure/http';
 import Constants from '../config/constants';
+
+const customTransactionReceiptFilter = {
+	balanceTransfer: {
+		receiptTypes: [
+			ReceiptType.Mosaic_Rental_Fee,
+			ReceiptType.Namespace_Rental_Fee
+		],
+		receiptTransactionStatementType: Constants.ReceiptTransactionStatamentType.BalanceTransferReceipt
+	},
+	balanceChange: {
+		receiptTypes: [
+			ReceiptType.Harvest_Fee,
+			ReceiptType.LockHash_Created,
+			ReceiptType.LockHash_Completed,
+			ReceiptType.LockHash_Expired,
+			ReceiptType.LockSecret_Created,
+			ReceiptType.LockSecret_Completed,
+			ReceiptType.LockSecret_Expired
+		],
+		receiptTransactionStatementType: Constants.ReceiptTransactionStatamentType.BalanceChangeReceipt
+	},
+	artifactExpiry: {
+		receiptTypes: [
+			ReceiptType.Mosaic_Expired,
+			ReceiptType.Namespace_Expired,
+			ReceiptType.Namespace_Deleted
+		],
+		receiptTransactionStatementType: Constants.ReceiptTransactionStatamentType.ArtifactExpiryReceipt
+	},
+	inflation: {
+		receiptTypes: [
+			ReceiptType.Inflation
+		],
+		receiptTransactionStatementType: Constants.ReceiptTransactionStatamentType.InflationReceipt
+	}
+};
 
 export const transaction = [
 	{
@@ -297,6 +334,54 @@ export const nodeRoles = [
 		icon: '',
 		value: {
 			rolesRaw: 7
+		}
+	}
+];
+
+export const accountTransactionReceipt = [
+	{
+		label: Constants.ReceiptTransactionStatamentType.BalanceChangeReceipt,
+		icon: 'mdi-alert',
+		value: {
+			...customTransactionReceiptFilter.balanceChange
+		}
+	},
+	{
+		label: Constants.ReceiptTransactionStatamentType.BalanceTransferReceipt,
+		icon: 'mdi-alert',
+		value: {
+			...customTransactionReceiptFilter.balanceTransfer
+		}
+	}
+];
+
+export const blockTransactionReceipt = [
+	{
+		label: Constants.ReceiptTransactionStatamentType.BalanceChangeReceipt,
+		icon: 'mdi-alert',
+		value: {
+			...customTransactionReceiptFilter.balanceChange
+		}
+	},
+	{
+		label: Constants.ReceiptTransactionStatamentType.BalanceTransferReceipt,
+		icon: 'mdi-alert',
+		value: {
+			...customTransactionReceiptFilter.balanceTransfer
+		}
+	},
+	{
+		label: Constants.ReceiptTransactionStatamentType.ArtifactExpiryReceipt,
+		icon: 'mdi-alert',
+		value: {
+			...customTransactionReceiptFilter.artifactExpiry
+		}
+	},
+	{
+		label: Constants.ReceiptTransactionStatamentType.InflationReceipt,
+		icon: 'mdi-alert',
+		value: {
+			...customTransactionReceiptFilter.inflation
 		}
 	}
 ];
