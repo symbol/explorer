@@ -166,6 +166,7 @@
 				"pagination": "client",
 				"pageSize": 5,
 				"hideOnError": true,
+				"hasFilter":true,
 				"hideDependOnGetter": "account/info",
 				"fields": [
 					"scopedMetadataKey",

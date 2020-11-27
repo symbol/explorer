@@ -293,7 +293,7 @@ class AccountService {
   		pageNumber,
   		pageSize,
   		order: Order.Desc,
-  		sourceAddress: Address.createFromRawAddress(address),
+  		targetAddress: Address.createFromRawAddress(address),
   		...filterVaule
   	};
   	const accountMetadatas = await MetadataService.searchMetadatas(searchCriteria);
