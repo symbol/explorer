@@ -18,6 +18,7 @@
 
 import Lock from './lock';
 import { NodeService, ChainService, DataService } from '../infrastructure';
+import { RoleType } from 'symbol-sdk';
 
 const LOCK = Lock.create();
 
@@ -26,10 +27,6 @@ export default {
 	state: {
 		// If the state has been initialized.
 		initialized: false,
-		// The current block height.
-		blockHeight: 0,
-		// The latest transaction hash.
-		transactionHash: '',
 		// The chain info.
 		storageInfo: {
 			// The total transactions.
@@ -45,13 +42,12 @@ export default {
 		},
 		chainInfo: {
 			currentHeight: 0,
-			finalizedBlockHeight: 0
-		},
-		transactionStatus: ''
+			finalizedBlockHeight: 0,
+			isVotingNode: false
+		}
 	},
 	getters: {
 		getInitialized: state => state.initialized,
-		getTransactionHash: state => state.transactionHash,
 		getStorageInfo: state => state.storageInfo,
 		getMarketData: state => state.marketData,
 		getChainInfo: state => state.chainInfo
@@ -59,12 +55,6 @@ export default {
 	mutations: {
 		setInitialized: (state, initialized) => {
 			state.initialized = initialized;
-		},
-		setBlockHeight: (state, blockHeight) => {
-			state.blockHeight = blockHeight;
-		},
-		setTransactionHash: (state, transactionHash) => {
-			state.transactionHash = transactionHash;
 		},
 		setStorageInfo: (state, storageInfo) => {
 			state.storageInfo.numTransactions = storageInfo.numTransactions;
@@ -75,9 +65,10 @@ export default {
 			state.marketData.marketCap = marketData.XEM.USD.MKTCAP;
 			state.marketData.historicalHourlyGraph = graphData;
 		},
-		setChainInfo: (state, { currentHeight, finalizedBlockHeight }) => {
+		setChainInfo: (state, { currentHeight, finalizedBlockHeight, isVotingNode }) => {
 			state.chainInfo.currentHeight = currentHeight;
 			state.chainInfo.finalizedBlockHeight = finalizedBlockHeight;
+			state.chainInfo.isVotingNode = isVotingNode;
 		}
 	},
 	actions: {
@@ -98,19 +89,15 @@ export default {
 		},
 
 		// Fetch data from the SDK / API and initialize the page.
-		async initializePage({ commit }) {
-			const [storageInfo, marketData, xemGraph, chainInfo] = await Promise.all([
+		async initializePage({ commit, dispatch }) {
+			const [storageInfo, marketData, xemGraph] = await Promise.all([
 				NodeService.getStorageInfo(),
 				DataService.getMarketPrice('XEM'),
-				DataService.getHistoricalHourlyGraph('XEM'),
-				ChainService.getChainInfo()
+				DataService.getHistoricalHourlyGraph('XEM')
 			]);
 
 			commit('setStorageInfo', storageInfo);
-			commit('setChainInfo', {
-				currentHeight: chainInfo.height,
-				finalizedBlockHeight: chainInfo.latestFinalizedBlock.height
-			});
+			await dispatch('getChainInfo');
 
 			let graphData = [];
 
@@ -131,11 +118,15 @@ export default {
 		},
 
 		async getChainInfo({ commit }) {
-			const chainInfo = await ChainService.getChainInfo();
+			const [chainInfo, currentNodeInfo] = await Promise.all([
+				ChainService.getChainInfo(),
+				NodeService.getCurrentNodeInfo()
+			]);
 
 			commit('setChainInfo', {
 				currentHeight: chainInfo.height,
-				finalizedBlockHeight: chainInfo.latestFinalizedBlock.height
+				finalizedBlockHeight: chainInfo.latestFinalizedBlock.height,
+				isVotingNode: currentNodeInfo.roles.indexOf(RoleType.VotingNode) !== -1
 			});
 		}
 	}
