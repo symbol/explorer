@@ -256,7 +256,7 @@ class TransactionService {
   				id: mosaic.id.toHex(),
   				amount: mosaic.amount.compact().toString()
   			})),
-  			message: transactionBody.message.payload
+  			message: transactionBody.message
   		};
 
   	case TransactionType.NAMESPACE_REGISTRATION:
