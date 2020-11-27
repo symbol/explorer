@@ -19,7 +19,7 @@
                 "pagination": "none",
                 "fields": [
                     "mosaicId",
-                    "mosaicAliasName",
+                    "mosaicAliasNames",
                     "divisibility",
                     "address",
                     "supply",

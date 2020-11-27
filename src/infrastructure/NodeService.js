@@ -37,7 +37,7 @@ class NodeService {
      * Get Node Info from symbol SDK
      * @returns NodeInfo
      */
-    static getNodeInfo = () => {
+    static getCurrentNodeInfo = () => {
     	return http.createRepositoryFactory.createNodeRepository()
     		.getNodeInfo()
     		.toPromise();
