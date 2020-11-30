@@ -3,11 +3,27 @@ const http = require('http');
 
 const PORT = 4000;
 const CONFIG_ROUTE = '/config';
+const DEFAULT_CONFIG_PATH = '/src/config/default.json';
 const STATIC_FOLDER = '/www';
 const INDEX_HTML = '/index.html';
-const ENV = JSON.stringify(process.env);
+
+let ENV;
 
 
+const readConfig = (callback) => {
+	const ENV = process.env;
+	const isENVObjectNotEmpty = Object.keys(process.env).length > 0;
+	
+	if(isENVObjectNotEmpty) {
+		callback(JSON.stringify(ENV));
+	}
+	else {
+		fs.readFile(__dirname + DEFAULT_CONFIG_PATH, (err, data) => {
+			if (err) throw Error('Failed to read default config. ' + err);
+			else callback(data);
+		});
+	}
+};
 
 const getFile = (url, errCallback, callback) => {
 	fs.readFile(__dirname + STATIC_FOLDER + url, (err, data) => {
@@ -36,6 +52,8 @@ const sendError = (res, err, code) => {
 	res.end(JSON.stringify(err));
 	return;
 };
+
+readConfig(res => ENV = res);
 
 http.createServer((req, res) => {
 	if(req.url === '/')
