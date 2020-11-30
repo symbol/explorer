@@ -12,17 +12,19 @@ let ENV;
 
 const readConfig = (callback) => {
 	const ENV = process.env;
-	const isENVObjectNotEmpty = Object.keys(process.env).length > 0;
-	
-	if(isENVObjectNotEmpty) {
-		callback(JSON.stringify(ENV));
-	}
-	else {
-		fs.readFile(__dirname + DEFAULT_CONFIG_PATH, (err, data) => {
-			if (err) throw Error('Failed to read default config. ' + err);
-			else callback(data);
-		});
-	}
+
+	fs.readFile(__dirname + DEFAULT_CONFIG_PATH, (err, data) => {
+		if (err) throw Error('Failed to read default config. ' + err);
+		else {
+			const defaultConfig = JSON.parse(data);
+			const mergedConfig = {
+				...defaultConfig,
+				...ENV
+			};
+			
+			callback(JSON.stringify(mergedConfig));
+		}
+	});
 };
 
 const getFile = (url, errCallback, callback) => {
