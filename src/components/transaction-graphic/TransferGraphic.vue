@@ -75,8 +75,8 @@ export default {
 
 	props: {
 		message: {
-			type: String,
-			default: ''
+			type: Object,
+			default: () => {}
 		},
 		signer: {
 			type: String,
@@ -88,7 +88,7 @@ export default {
 			required: true,
 			default: ''
 		},
-		transferMosaics: {
+		mosaics: {
 			type: Array,
 			default: () => []
 		}
@@ -104,7 +104,7 @@ export default {
 		},
 
 		hasMessage() {
-			return typeof this.message === 'string' && this.message.length > 0;
+			return typeof this.message.payload === 'string' && this.message.payload.length > 0;
 		},
 
 		hasNativeMosaic() {
@@ -116,13 +116,13 @@ export default {
 		},
 
 		nativeMosaic() {
-			return this.transferMosaics.find(
+			return this.mosaics.find(
 				mosaic => mosaic.mosaicId === this.nativeMosaicId
 			);
 		},
 
 		mosaicList() {
-			return this.transferMosaics.filter(
+			return this.mosaics.filter(
 				mosaic => mosaic.mosaicId !== this.nativeMosaicId
 			);
 		}

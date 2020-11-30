@@ -52,28 +52,11 @@
                 "errorMessage": "transactionHashLockError",
                 "pagination": "none",
                 "fields": [
-					"amount",
 					"endHeight",
 					"ownerAddress",
-					"mosaicId",
-					"status"
+                    "status",
+                    "mosaics"
 				]
-            },
-            {
-                "layoutOptions": "adaptive",
-                "type": "CardTable",
-                "title": "mosaicsTitle",
-                "managerGetter": "transaction/info",
-                "dataGetter": "transaction/transferMosaics",
-                "errorMessage": "transactionMosaicsError",
-                "pagination": "client",
-                "pageSize": 5,
-                "hideEmptyData": true,
-                "fields": [
-                    "mosaicId",
-                    "amount",
-                    "mosaicAliasName"
-                ]
             },
             {
                 "layoutOptions": "full-width",
@@ -86,6 +69,7 @@
                 "pageSize": 5,
                 "hideEmptyData": true,
                 "fields": [
+                    "index",
                     "transactionType",
                     "signer",
                     "transactionBody"
@@ -105,17 +89,6 @@
                     "signature",
                     "signer"
                 ]
-            },
-            {
-                "layoutOptions": "full-width",
-                "type": "CardTable",
-                "title": "Merkle Path",
-                "managerGetter": "transaction/info",
-                "dataGetter": "transaction/merklePath",
-                "pagination": "client",
-                "pageSize": 5,
-                "hideEmptyData": true,
-                "hideOnError": true
             }
         ]
     }

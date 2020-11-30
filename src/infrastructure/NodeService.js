@@ -19,6 +19,8 @@
 import http from './http';
 import Constants from '../config/constants';
 import * as symbol from 'symbol-sdk';
+import Axios from 'axios';
+import moment from 'moment';
 
 class NodeService {
     /**
@@ -35,7 +37,7 @@ class NodeService {
      * Get Node Info from symbol SDK
      * @returns NodeInfo
      */
-    static getNodeInfo = () => {
+    static getCurrentNodeInfo = () => {
     	return http.createRepositoryFactory.createNodeRepository()
     		.getNodeInfo()
     		.toPromise();
@@ -54,9 +56,16 @@ class NodeService {
      * @returns NodeInfo[]
      */
     static getNodePeers = async () => {
-    	const nodePeers = await http.createRepositoryFactory.createNodeRepository()
-    		.getNodePeers()
-    		.toPromise();
+    	let nodePeers = [];
+
+    	try {
+    		nodePeers = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes')).data;
+    	}
+    	catch (e) {
+    		nodePeers = await http.createRepositoryFactory.createNodeRepository()
+    			.getNodePeers()
+    			.toPromise();
+    	}
 
     	const formattedNodePeers = nodePeers.map(nodeInfo => this.formatNodeInfo(nodeInfo));
 
@@ -89,22 +98,112 @@ class NodeService {
      */
     static formatNodeInfo = nodeInfo => ({
     	...nodeInfo,
+    	nodePublicKey: nodeInfo.publicKey,
     	address: symbol.Address.createFromPublicKey(nodeInfo.publicKey, nodeInfo.networkIdentifier).plain(),
-    	roles: nodeInfo.roles.map(role => Constants.RoleType[role]).join(','),
-    	network: Constants.NetworkType[nodeInfo.networkIdentifier]
+    	rolesRaw: nodeInfo.roles,
+    	roles: Constants.RoleType[nodeInfo.roles],
+    	network: Constants.NetworkType[nodeInfo.networkIdentifier],
+    	apiEndpoint:
+            nodeInfo.roles === 2 ||
+            nodeInfo.roles === 3 ||
+            nodeInfo.roles === 6 ||
+            nodeInfo.roles === 7
+            	? 'http://' + nodeInfo.host + ':' + (globalConfig.apiNodePort || 3000)
+            	: Constants.Message.UNAVAILABLE
     })
 
     /**
      * Format Node Peers dataset into Vue Component
      * @returns Node peers object for Vue component
      */
-    static getNodePeerList = async () => {
+    static getNodePeerList = async (filter) => {
     	let nodePeers = await this.getNodePeers();
 
-    	return nodePeers.map((el, index) => ({
-    		index: index + 1,
-    		...el
-    	}));
+    	return {
+    		data:
+                nodePeers
+                	.filter(el => filter.rolesRaw === null || el.rolesRaw === filter.rolesRaw)
+                	.map((el, index) => ({
+                		index: index + 1,
+                		...el
+                	}))
+    	};
+    }
+
+    static getNodeInfo = async (publicKey) => {
+    	let node = {};
+
+    	try {
+    		node = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes/' + publicKey)).data;
+    	}
+    	catch (e) {
+    		const nodes = (await Axios.get(http.nodeUrl + '/node/peers')).data;
+
+    		node = nodes.find(n => n.publicKey === publicKey);
+    	}
+    	const formattedNodePeers = this.formatNodeInfo(node);
+
+    	if (formattedNodePeers.rolesRaw === 2 ||
+            formattedNodePeers.rolesRaw === 3 ||
+            formattedNodePeers.rolesRaw === 6 ||
+            formattedNodePeers.rolesRaw === 7
+    	) {
+    		const status = await this.getApiNodeStatus(formattedNodePeers.apiEndpoint);
+
+    		formattedNodePeers.apiStatus = status;
+
+    		const chainInfo = await this.getNodeChainInfo(formattedNodePeers.apiEndpoint);
+
+    		formattedNodePeers.chainInfo = chainInfo;
+    	}
+    	if (formattedNodePeers?.peerStatus)
+    		formattedNodePeers.peerStatus.lastStatusCheck = moment(formattedNodePeers.peerStatus.lastStatusCheck).format('YYYY-MM-DD HH:mm:ss');
+    	return formattedNodePeers;
+    }
+
+    static getApiNodeStatus = async (nodeUrl) => {
+    	const status = {
+    		connectionStatus: false,
+    		databaseStatus: Constants.Message.UNAVAILABLE,
+    		apiNodeStatus: Constants.Message.UNAVAILABLE,
+    		lastStatusCheck: moment().format('YYYY-MM-DD HH:mm:ss')
+    	};
+
+    	try {
+    		const nodeStatus = (await Axios.get(nodeUrl + '/node/health')).data.status;
+
+    		status.connectionStatus = true;
+    		status.apiNodeStatus = nodeStatus.apiNode === 'up';
+    		status.databaseStatus = nodeStatus.db === 'up';
+    		status.lastStatusCheck = moment().format('YYYY-MM-DD HH:mm:ss');
+    	}
+    	catch (e) {
+    		console.error('Failed to get node status', e);
+    	};
+
+    	return status;
+    }
+
+    static getNodeChainInfo = async (nodeUrl) => {
+    	let chainInfo = {};
+
+    	try {
+    		chainInfo = {};
+    		const nodeChainInfo = (await Axios.get(nodeUrl + '/chain/info')).data;
+
+    		chainInfo.height = nodeChainInfo.height;
+    		chainInfo.scoreHigh = nodeChainInfo.scoreHigh;
+    		chainInfo.scoreLow = nodeChainInfo.scoreLow;
+    		chainInfo.finalizationEpoch = nodeChainInfo.latestFinalizedBlock.finalizationEpoch;
+    		chainInfo.finalizationPoint = nodeChainInfo.latestFinalizedBlock.finalizationPoint;
+    		chainInfo.finalizedHeight = nodeChainInfo.latestFinalizedBlock.height;
+    		chainInfo.finalizedHash = nodeChainInfo.latestFinalizedBlock.hash;
+    	}
+    	catch (e) {
+    		console.error('Failed to get node chain info', e);
+    	};
+
+    	return chainInfo;
     }
 }
 

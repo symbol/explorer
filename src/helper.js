@@ -17,7 +17,7 @@
  */
 
 import { Constants } from './config';
-import { NetworkType, MosaicId, NamespaceId, Address } from 'symbol-sdk';
+import { NetworkType, MosaicId, NamespaceId, Address, Mosaic } from 'symbol-sdk';
 import { NamespaceService, MosaicService } from './infrastructure';
 import http from './infrastructure/http';
 import moment from 'moment';
@@ -46,13 +46,13 @@ class helper {
 		else if (interval.hours === 1)
 			return interval.hours + ' hour';
 		else if (interval.minutes > 1)
-			return interval.minutes + ' min.';// ' minutes'
+			return interval.minutes + ' min';// ' minutes'
 		else if (interval.minutes === 1)
-			return interval.minutes + ' min.';// ' minute'
+			return interval.minutes + ' min';// ' minute'
 		else if (interval.seconds !== 1)
-			return interval.seconds + ' sec.';// ' seconds'
+			return interval.seconds + ' sec';// ' seconds'
 		else
-			return interval.seconds + ' sec.';// ' second'
+			return interval.seconds + ' sec';// ' second'
 	}
 
   static formatSeconds = second => {
@@ -184,12 +184,12 @@ class helper {
   static hexOrNamespaceToId = async (hexOrNamespace, toId) => {
   	let Id = MosaicId | NamespaceId;
 
-  	let isHexadecimal = this.isHexadecimal(hexOrNamespace);
+  	const isHexadecimal = this.isHexadecimal(hexOrNamespace);
 
   	if (isHexadecimal)
   		Id = toId === 'mosaic' ? new MosaicId(hexOrNamespace) : NamespaceId.createFromEncoded(hexOrNamespace);
   	else
-  		Id = toId === 'mosaic' ? await http.namespace.getLinkedMosaicId(new NamespaceId(hexOrNamespace)).toPromise() : new NamespaceId(hexOrNamespace);
+  		Id = toId === 'mosaic' ? await NamespaceService.getLinkedMosaicId(new NamespaceId(hexOrNamespace)) : new NamespaceId(hexOrNamespace);
 
   	return Id;
   }
@@ -426,12 +426,92 @@ class helper {
   }
 
   /**
+   * To resolved unresolvedMosaicId.
+   * @param unresolvedMosaicId - NamespaceId | MosaicId
+   * @returns Id
+   */
+  static resolveMosaicId = async (unresolvedMosaicId) => {
+  	if (!(unresolvedMosaicId instanceof NamespaceId)) return unresolvedMosaicId.id;
+
+  	const mosaicId = await NamespaceService.getLinkedMosaicId(unresolvedMosaicId);
+
+  	return mosaicId.id;
+  }
+
+  /**
+   * Build mosaic field object use in MosaicField components
+   * @param mosaics - Mosaic[]
+   * @returns mosaicsFieldObject - { mosaicId, amount, mosaicAliasName }
+   */
+  static mosaicsFieldObjectBuilder = async (mosaics) => {
+  	if (mosaics.length === 0) return [];
+
+  	const resolvedMosaics = await Promise.all(mosaics.map(async mosaic => {
+  		const resolvedMosaic = await this.resolveMosaicId(mosaic.id);
+  		const mosaicId = new MosaicId(resolvedMosaic.toHex()).id;
+
+  		return new Mosaic(mosaicId, mosaic.amount);
+  	}));
+
+  	const resolvedMosaicIds = resolvedMosaics.map(mosaic => mosaic.id).filter(mosaicId => mosaicId.toHex() !== http.networkCurrency.mosaicId);
+
+  	let mosaicInfos = [];
+
+  	let mosaicNames = [];
+
+  	if (resolvedMosaicIds.length > 0) {
+		 [mosaicInfos, mosaicNames] = await Promise.all([
+  			MosaicService.getMosaics(resolvedMosaicIds),
+  			NamespaceService.getMosaicsNames(resolvedMosaicIds)
+	  ]);
+  	}
+
+  	let mosaicsFieldObject = [];
+
+  	for (const resolvedMosaic of resolvedMosaics) {
+  		if (resolvedMosaic.id.toHex() === http.networkCurrency.mosaicId)
+  			mosaicsFieldObject.push(this.networkCurrencyMosaicBuilder(resolvedMosaic));
+
+  		else {
+  			if (mosaicInfos.length > 0 && mosaicNames.length > 0) {
+  				let divisibility = mosaicInfos.find(info => info.mosaicId === resolvedMosaic.id.toHex()).divisibility;
+
+  				mosaicsFieldObject.push({
+  					...resolvedMosaic,
+  					mosaicId: resolvedMosaic.id.toHex(),
+  					amount: helper.formatMosaicAmountWithDivisibility(resolvedMosaic.amount, divisibility),
+  					mosaicAliasName: MosaicService.extractMosaicNamespace({ mosaicId: resolvedMosaic.id.toHex() }, mosaicNames)
+  				});
+  			}
+  		}
+  	}
+
+  	return mosaicsFieldObject;
+  }
+
+  static networkCurrencyMosaicBuilder = (mosaic) => {
+	  if (!(mosaic instanceof Mosaic)) throw new Error('It required Mosaic instance.');
+
+	  if (mosaic.id.toHex() !== http.networkCurrency.mosaicId) throw new Error('Mosaic id does not match network Currency.');
+
+	  return {
+  		...mosaic,
+  		mosaicId: mosaic.id.toHex(),
+  		amount: this.formatMosaicAmountWithDivisibility(mosaic.amount, http.networkCurrency.divisibility),
+  		mosaicAliasName: http.networkCurrency.namespaceName
+	  };
+  }
+
+  /**
    * Check native namespace.
    * @param namespaceName - namespace name in string format.
    * @returns boolean
    */
   static isNativeNamespace = (namespaceName) => {
-  	const values = Object.values(http.networkCurrency.namespace);
+	  if (!http.nativeNamespaces)
+		  return false;
+
+  	const values = http.nativeNamespaces.map(namespace => namespace.namespaceName);
 
   	return values.indexOf(namespaceName.toUpperCase()) !== -1;
   }
@@ -447,6 +527,50 @@ class helper {
 
   	return mosaicAliasName;
   }
+
+  static fallbackCopyTextToClipboard = (text) => {
+  	let textArea = document.createElement('textarea');
+
+  	let success = false;
+
+  	textArea.value = text;
+
+  	// Avoid scrolling to bottom
+  	textArea.style.top = '0';
+  	textArea.style.left = '0';
+  	textArea.style.position = 'fixed';
+
+  	document.body.appendChild(textArea);
+  	textArea.focus();
+  	textArea.select();
+
+  	try {
+  		success = document.execCommand('copy');
+  	}
+  	catch (err) {
+  		console.error('Fallback: Could not copy text', err);
+  	}
+
+  	document.body.removeChild(textArea);
+  	return success;
+  }
+
+	static copyTextToClipboard = (text) => {
+		return new Promise((resolve, reject) => {
+			if (!navigator.clipboard) {
+				if (this.fallbackCopyTextToClipboard(text))
+					resolve();
+				else
+					reject(Error('Could not copy text. document.execCommand() failed'));
+			}
+			navigator.clipboard.writeText(text).then(function () {
+				resolve();
+			}, function (err) {
+				console.error('Async: Could not copy text: ', err);
+				reject(Error('Async: Could not copy text: ', err));
+			});
+		});
+	}
 }
 
 export default helper;

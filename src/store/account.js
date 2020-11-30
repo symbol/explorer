@@ -21,7 +21,6 @@ import { Constants, filters } from '../config';
 import helper from '../helper';
 import {
 	AccountService,
-	MosaicService,
 	MultisigService,
 	RestrictionService
 } from '../infrastructure';
@@ -33,6 +32,7 @@ import {
 	getMutationsFromManagers,
 	getActionsFromManagers
 } from './manager';
+import { Address } from 'symbol-sdk';
 
 const managers = [
 	new Pagination({
@@ -49,7 +49,7 @@ const managers = [
 	),
 	new DataSet(
 		'OwnedMosaic',
-		(address) => MosaicService.getMosaicAmountViewList(address)
+		(address) => AccountService.getAccountMosaicList(address)
 	),
 	new Pagination({
 		name: 'OwnedNamespace',
@@ -73,10 +73,18 @@ const managers = [
 	}),
 	new Pagination({
 		name: 'harvestedBlocks',
-		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountHarvestedBlockList(pageInfo, store.getters.getCurrentAccountAddress),
+		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountHarvestedReceiptList(pageInfo, store.getters.getCurrentAccountAddress),
 		pageInfo: {
 			pageSize: 10
 		}
+	}),
+	new Pagination({
+		name: 'receipt',
+		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountReceiptList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
+		pageInfo: {
+			pageSize: 10
+		},
+		filter: filters.accountTransactionReceipt
 	}),
 	new Pagination({
 		name: 'mosaicAddressRestrictions',
@@ -128,7 +136,12 @@ export default {
 		getInitialized: state => state.initialized,
 		getActivityBucketList: state => state.info?.data.activityBucket || [],
 		getSupplementalPublicKeys: state => state.info?.data.supplementalPublicKeys || {},
-		getCurrentAccountAddress: state => state.currentAccountAddress
+		getCurrentAccountAddress: state => state.currentAccountAddress,
+		balanceWidget: (state, getters) => ({
+			address: new Address(state.currentAccountAddress).pretty(),
+			balance: getters.OwnedMosaic?.data[0]?.amount || 0,
+			alias: getters.info?.data?.accountAliasNames /* || Constants.Message.UNAVAILABLE */
+		})
 	},
 	mutations: {
 		...getMutationsFromManagers(managers),
@@ -184,6 +197,7 @@ export default {
 			context.getters.accountRestrictions.setStore(context).initialFetch(payload.address);
 			context.getters.hashLocks.setStore(context).initialFetch(payload.address);
 			context.getters.secretLocks.setStore(context).initialFetch(payload.address);
+			context.getters.receipt.setStore(context).initialFetch(payload.address);
 		},
 
 		uninitializeDetail(context) {
@@ -198,6 +212,7 @@ export default {
 			context.getters.accountRestrictions.setStore(context).uninitialize();
 			context.getters.hashLocks.setStore(context).uninitialize();
 			context.getters.secretLocks.setStore(context).uninitialize();
+			context.getters.receipt.setStore(context).uninitialize();
 		}
 	}
 };

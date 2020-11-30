@@ -96,7 +96,9 @@ class BlockService {
   		order: Order.Desc
   	};
 
-  	const transactions = await TransactionService.streamerTransactions(searchCriteria);
+  	const streamerTransactions = await TransactionService.streamerTransactions(searchCriteria);
+  	const transactions = streamerTransactions.map(transaction => TransactionService.formatTransaction(transaction));
+
   	const leaves = transactions.sort((n1, n2) => n1.transactionInfo.index - n2.transactionInfo.index)
   		.map(transaction => transaction.transactionInfo.hash);
 
@@ -155,16 +157,21 @@ class BlockService {
   		group: TransactionGroup.Confirmed,
   		height: UInt64.fromUint(height),
   		...filterVaule
-  	};
+	  };
 
-  	const blockTransactions = await TransactionService.searchTransactions(searchCriteria);
+  	const searchTransactions = await TransactionService.searchTransactions(searchCriteria);
+
+  	const blockTransactions = {
+  		...searchTransactions,
+  		data: searchTransactions.data.map(transaction => TransactionService.formatTransaction(transaction))
+  	};
 
   	return {
   		...blockTransactions,
   		data: blockTransactions.data.map(blockTransaction => ({
   			...blockTransaction,
-  			transactionHash: blockTransaction.hash,
-  			transactionType: blockTransaction.transactionBody.transactionType
+  			transactionHash: blockTransaction.transactionInfo.hash,
+  			transactionType: blockTransaction.type
   		}))
   	};
   }
@@ -180,10 +187,9 @@ class BlockService {
   		height: UInt64.fromUint(height)
 	  };
 
-  	const [blockReceipts, address, mosaic] = await Promise.all([ReceiptService.streamerReceipts(searchCriteria), ReceiptService.streamerAddressResolution(searchCriteria), ReceiptService.streamerMosaicResolution(searchCriteria)]);
+  	const [address, mosaic] = await Promise.all([ReceiptService.streamerAddressResolution(searchCriteria), ReceiptService.streamerMosaicResolution(searchCriteria)]);
 
   	return {
-  		transactionReceipt: blockReceipts,
   		resolutionStatements: [...address, ...mosaic]
   	};
   }
@@ -216,6 +222,53 @@ class BlockService {
   			blockReceiptsHash,
   			blockTransactionsHash
   		}
+  	};
+  }
+
+  /**
+   * Gets block receipt list into Vue Component.
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param filterVaule - object for search criteria
+   * @param height - Block height.
+   * @returns formatted receipt data list
+   */
+  static getBlockReceiptList = async (pageInfo, filterVaule, height) => {
+  	const { pageNumber, pageSize } = pageInfo;
+
+  	const { BalanceTransferReceipt, BalanceChangeReceipt, InflationReceipt, ArtifactExpiryReceipt } = Constants.ReceiptTransactionStatamentType;
+
+  	const searchCriteria = {
+  		pageNumber,
+  		pageSize,
+  		order: Order.Desc,
+  		height: UInt64.fromUint(height),
+  		...filterVaule
+  	};
+
+  	const receipt = await ReceiptService.searchReceipts(searchCriteria);
+
+  	let formattedReceipt = [];
+
+  	switch (filterVaule.receiptTransactionStatementType) {
+  	case BalanceTransferReceipt:
+  		formattedReceipt = await ReceiptService.createReceiptTransactionStatement(receipt.data.balanceTransferStatement);
+  		break;
+  	case BalanceChangeReceipt:
+  		formattedReceipt = await ReceiptService.createReceiptTransactionStatement(receipt.data.balanceChangeStatement);
+  		break;
+  	case InflationReceipt:
+  		formattedReceipt = await ReceiptService.createReceiptTransactionStatement(receipt.data.inflationStatement);
+  		break;
+  	case ArtifactExpiryReceipt:
+  		formattedReceipt = await ReceiptService.createReceiptTransactionStatement(receipt.data.artifactExpiryStatement);
+  		break;
+  	default:
+  		break;
+  	}
+
+  	return {
+  		...receipt,
+  		data: formattedReceipt
   	};
   }
 

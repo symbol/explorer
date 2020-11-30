@@ -46,7 +46,8 @@
                 "title": "blockTransactionsTitle",
                 "managerGetter": "block/blockTransactions",
 				"pagination": "server",
-				"onRowClickKey": "transactionHash",
+                "onRowClickKey": "transactionHash",
+                "hasFilter": true,
                 "fields": [
                     "deadline",
                     "transactionHash",
@@ -64,71 +65,19 @@
             {
                 "layoutOptions": "adaptive",
                 "type": "CardTable",
-                "title": "balanceChangeReceiptTitle",
-                "managerGetter": "block/blockReceipts",
-                "dataGetter": "block/balanceChangeReceipt",
-                "pagination": "client",
-                "pageSize": 5,
-                "hideEmptyData": true,
+                "title": "receiptTitle",
+                "hasFilter": true,
+                "managerGetter": "block/receipt",
+                "pagination": "server",
                 "fields": [
                     "version",
-                    "size",
-  					"receiptType",
-  					"targetAddress",
-  					"amount",
-  					"mosaicId"
-                ]
-            },
-            {
-                "layoutOptions": "adaptive",
-                "type": "CardTable",
-                "title": "balanceTransferReceiptTitle",
-                "managerGetter": "block/blockReceipts",
-                "dataGetter": "block/balanceTransferReceipt",
-                "pagination": "client",
-                "pageSize": 5,
-                "hideEmptyData": true,
-                "fields": [
-                    "version",
-                    "size",
-  					"receiptType",
-  					"senderAddress",
-  					"recipientAddress",
-  					"amount",
-  					"mosaicId"
-                ]
-            },
-            {
-                "layoutOptions": "adaptive",
-                "type": "CardTable",
-                "title": "inflationReceiptTitle",
-                "managerGetter": "block/blockReceipts",
-                "dataGetter": "block/inflationReceipt",
-                "pagination": "client",
-                "pageSize": 5,
-                "hideEmptyData": true,
-                "fields": [
-                    "version",
-                    "size",
-  					"receiptType",
-  					"amount",
-  					"mosaicId"
-                ]
-            },
-            {
-                "layoutOptions": "adaptive",
-                "type": "CardTable",
-                "title": "artifactExpiryReceiptTitle",
-                "managerGetter": "block/blockReceipts",
-                "dataGetter": "block/artifactExpiryReceipt",
-                "pagination": "client",
-                "pageSize": 5,
-                "hideEmptyData": true,
-                "fields": [
-                    "version",
-                    "size",
                     "receiptType",
-                    "artifactId"
+                    "targetAddress",
+                    "senderAddress",
+  					"recipient",
+                    "mosaics",
+                    "namespaceArtifactId",
+                    "mosaicArtifactId"
                 ]
             },
             {

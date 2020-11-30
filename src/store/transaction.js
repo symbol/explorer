@@ -61,20 +61,18 @@ export default {
 		getInitialized: state => state.initialized,
 		transactionInfo: state => state.info?.data?.transactionInfo || {},
 		transactionDetail: state => state.info?.data?.transactionBody || {},
-		transferMosaics: state => state.info?.data?.transferMosaics || [],
-		aggregateInnerTransactions: state => state.info?.data?.aggregateTransaction?.innerTransactions || [],
-		aggregateCosignatures: state => state.info?.data?.aggregateTransaction?.cosignatures || [],
-		merklePath: state => state.info?.data?.merklePath || [],
+		aggregateInnerTransactions: state => state.info?.data?.innerTransactions || [],
+		aggregateCosignatures: state => state.info?.data?.cosignatures || [],
 		getRecentList: state => state.timeline?.data?.filter((item, index) => index < 4) || [],
 		transactionSchema: (state, getters) => ({
 			loading: getters.info.loading,
 			error: getters.info.error,
-			data: getters.info.data?.aggregateTransaction?.innerTransactions
+			data: getters.info.data?.innerTransactions
 				? {
 					...getters.info.data,
 					...getters.transactionDetail,
 					type: getters.info.data?.type,
-					innerTransactions: getters.info.data.aggregateTransaction.innerTransactions.map(transaction => ({
+					innerTransactions: getters.info.data.innerTransactions.map(transaction => ({
 						...transaction,
 						...transaction.transactionInfo,
 						...transaction.transactionBody
@@ -82,8 +80,7 @@ export default {
 				}
 				: {
 					...getters.info.data,
-					...getters.transactionDetail,
-					transferMosaics: getters.transferMosaics
+					...getters.transactionDetail
 				}
 		})
 	},

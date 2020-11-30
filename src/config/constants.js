@@ -11,7 +11,6 @@ import {
 	MetadataType,
 	ReceiptType,
 	ResolutionType,
-	RoleType,
 	AddressRestrictionFlag,
 	MosaicRestrictionFlag,
 	OperationRestrictionFlag,
@@ -31,7 +30,8 @@ class Constants {
   	NO_ALIAS: 'NO ALIAS',
   	ACTIVE: 'ACTIVE',
   	INACTIVE: 'INACTIVE',
-  	UNKNOWN: 'UNKNOWN'
+  	UNKNOWN: 'UNKNOWN',
+  	EXPIRED: 'EXPIRED'
   }
 
   static TransactionType = {
@@ -138,9 +138,13 @@ class Constants {
   }
 
   static RoleType = {
-  	[RoleType.ApiNode]: 'API NODE',
-  	[RoleType.PeerNode]: 'PEER NODE',
-  	[RoleType.VotingNode]: 'VOTING NODE'
+  	1: 'Peer node',
+  	2: 'Api node',
+  	3: 'Peer Api node',
+  	4: 'Voting node',
+  	5: 'Peer Voting node',
+  	6: 'Api Voting node',
+  	7: 'Peer Api Voting node'
   }
 
   static AddressRestrictionFlag = {
@@ -176,6 +180,18 @@ class Constants {
   }
 
   static MerkleRootsOrder = ['AccountState', 'Namespace', 'Mosaic', 'Multisig', 'HashLockInfo', 'SecretLockInfo', 'AccountRestriction', 'MosaicRestriction', 'Metadata']
+
+  static ReceiptTransactionStatamentType = {
+	  BalanceChangeReceipt: 'Balance Change Receipt',
+	  BalanceTransferReceipt: 'Balance Transfer Receipt',
+	  InflationReceipt: 'Inflation Receipt',
+	  ArtifactExpiryReceipt: 'Artifact Expiry Receipt'
+  }
+
+  static LockStatusType = {
+	  0: 'Unused',
+	  1: 'Used'
+  }
 }
 
 export default Constants;

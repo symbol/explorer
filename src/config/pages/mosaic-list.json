@@ -19,17 +19,16 @@
 				"onRowClickKey": "mosaicId",
                 "fields": [
                     "mosaicId",
-                    "mosaicAliasName",
-                    "owneraddress",
-                    "supply",
-                    "divisibility",
+                    "mosaicAliasNames",
+                    "ownerAddress",
                     "relativeAmount",
+                    "divisibility",
                     "startHeight"
                 ],
                 "mobileFields": [
                     "mosaicId",
-                    "mosaicAliasName",
-                    "owneraddress"
+                    "mosaicAliasNames",
+                    "ownerAddress"
                 ]
             }
         ]

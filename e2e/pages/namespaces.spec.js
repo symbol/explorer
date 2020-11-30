@@ -20,7 +20,7 @@ describe('Symbol Explorer Namespaces list page should', () => {
     })
 
     it('redirect to account detail page given click on Owner Address', () => {
-        cy.get('tbody tr .owneraddress a')
+        cy.get('tbody tr .ownerAddress a')
         .then($data => {
             return $data[0]
         }).click({ force:true })

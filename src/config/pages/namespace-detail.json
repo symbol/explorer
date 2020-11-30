@@ -18,7 +18,7 @@
                 "errorMessage": "namespaceDetailError",
                 "pagination": "none",
                 "fields": [
-                    "owneraddress",
+                    "ownerAddress",
                     "namespaceName",
                     "namespaceId",
                     "registrationType",
@@ -60,7 +60,37 @@
                     "targetAddress",
                     "metadataValue"
                 ]
-            }
+            },
+            {
+				"layoutOptions": "adaptive",
+				"type": "CardTable",
+				"title": "balanceTransferReceiptTitle",
+				"managerGetter": "namespace/balanceTransferReceipt",
+				"pagination": "server",
+				"hideEmptyData": true,
+				"hideOnError": true,
+				"fields": [
+					"version",
+					"height",
+  					"receiptType",
+  					"recipient",
+  					"mosaics"
+				]
+			},
+			{
+				"layoutOptions": "adaptive",
+				"type": "CardTable",
+				"title": "artifactExpiryReceiptTitle",
+				"managerGetter": "namespace/artifactExpiryReceipt",
+				"pagination": "server",
+				"hideEmptyData": true,
+				"hideOnError": true,
+				"fields": [
+					"version",
+                    "receiptType",
+                    "namespaceArtifactId"
+				]
+			}
         ]
     }
 }

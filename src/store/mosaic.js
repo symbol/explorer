@@ -55,6 +55,20 @@ const managers = [
 			pageSize: 10
 		},
 		filter: filters.metadata
+	}),
+	new Pagination({
+		name: 'balanceTransferReceipt',
+		fetchFunction: (pageInfo, filterValue, store) => MosaicService.getMosaicBalanceTransferReceipt(pageInfo, store.getters.getCurrentMosaicId),
+		pageInfo: {
+			pageSize: 10
+		}
+	}),
+	new Pagination({
+		name: 'artifactExpiryReceipt',
+		fetchFunction: (pageInfo, filterValue, store) => MosaicService.getMosaicArtifactExpiryReceipt(pageInfo, store.getters.getCurrentMosaicId),
+		pageInfo: {
+			pageSize: 10
+		}
 	})
 ];
 
@@ -115,12 +129,16 @@ export default {
 			context.getters.info.setStore(context).initialFetch(payload.mosaicId);
 			context.getters.restrictions.setStore(context).initialFetch(payload.mosaicId);
 			context.getters.metadatas.setStore(context).initialFetch(payload.mosaicId);
+			context.getters.balanceTransferReceipt.setStore(context).initialFetch(payload.mosaicId);
+			context.getters.artifactExpiryReceipt.setStore(context).initialFetch(payload.mosaicId);
 		},
 
 		uninitializeDetail(context) {
 			context.getters.info.setStore(context).uninitialize();
 			context.getters.restrictions.setStore(context).uninitialize();
 			context.getters.metadatas.setStore(context).uninitialize();
+			context.getters.balanceTransferReceipt.setStore(context).uninitialize();
+			context.getters.artifactExpiryReceipt.setStore(context).uninitialize();
 		}
 	}
 };

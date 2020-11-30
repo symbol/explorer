@@ -21,19 +21,18 @@ import {
 	Address,
 	TransactionInfo,
 	AggregateTransactionInfo,
-	NamespaceId,
 	TransactionGroup,
 	Order,
-	MosaicId
+	UInt64,
+	Mosaic
 } from 'symbol-sdk';
 import Constants from '../config/constants';
 import http from './http';
 import helper from '../helper';
 import {
 	BlockService,
-	NamespaceService,
-	MosaicService,
-	LockService
+	LockService,
+	CreateTransaction
 } from '../infrastructure';
 import { toArray } from 'rxjs/operators';
 
@@ -59,7 +58,14 @@ class TransactionService {
   				resolve(transactionStatus);
   			})
   			.catch(error => {
-  				reject(error);
+				  // handle REST error https://github.com/nemtech/catapult-rest/pull/499
+				  // Todo: Remove if statement, after REST error is fix.
+				  if (error.message.search('statusCode') === -1) {
+  					transactionStatus.message = error.message;
+  					transactionStatus.detail = error;
+  					resolve(transactionStatus);
+				  }
+  				resolve(transactionStatus);
   			});
   	});
   }
@@ -67,43 +73,40 @@ class TransactionService {
   /**
    * Gets a transaction from hash
    * @param hash Transaction hash
-   * @returns formatted Transaction
+   * @returns Transaction
    */
   static getTransaction = async (hash, transactionGroup) => {
   	const transaction = await http.createRepositoryFactory.createTransactionRepository()
   		.getTransaction(hash, transactionGroup)
   		.toPromise();
 
-  	return this.formatTransaction(transaction);
+  	return transaction;
   }
 
   /**
    * Gets a transaction from searchCriteria
    * @param transactionSearchCriteria Object of Search Criteria
-   * @returns formatted transaction data with pagination info
+   * @returns transaction data with pagination info
    */
   static searchTransactions = async (transactionSearchCriteria) => {
   	const searchTransactions = await http.createRepositoryFactory.createTransactionRepository()
   		.search(transactionSearchCriteria)
   		.toPromise();
 
-  	return {
-  		...searchTransactions,
-  		data: searchTransactions.data.map(transaction => this.formatTransaction(transaction))
-  	};
+  	return searchTransactions;
   }
 
   /**
    * Gets a transactions from streamer
    * @param transactionSearchCriteria Object of Search Criteria
-   * @returns formatted Transaction[]
+   * @returns Transaction[]
    */
   static streamerTransactions = async (transactionSearchCriteria) => {
   	const streamerTransactions = await http.transactionPaginationStreamer
   		.search(transactionSearchCriteria).pipe(toArray())
   		.toPromise();
 
-  	return streamerTransactions.map(transaction => this.formatTransaction(transaction));
+  	return streamerTransactions;
   }
 
   /**
@@ -125,107 +128,42 @@ class TransactionService {
    * @returns Custom Transaction object
    */
   static getTransactionInfo = async (hash, transactionGroup = TransactionGroup.Confirmed) => {
-  	let formattedTransaction = await this.getTransaction(hash, transactionGroup);
+	  const [transaction, transactionStatus] = await Promise.all([
+  		this.getTransaction(hash, transactionGroup).catch((error) => {
+  			if (error)
+  				return false;
+  		}),
+  		this.getTransactionStatus(hash)
+	  ]);
 
-  	let { transactionInfo: { height, merkleComponentHash } } = formattedTransaction;
+	  if (!transaction) {
+  		const transactionErrorInfo = {
+  			transactionHash: transactionStatus.detail.hash,
+  			status: transactionStatus.detail.code,
+  			confirm: transactionStatus.message
+  		};
 
-  	const [{ date }, effectiveFee, transactionStatus, merklePath] = await Promise.all([
-		  BlockService.getBlockInfo(height),
-		  this.getTransactionEffectiveFee(hash),
-		  this.getTransactionStatus(hash),
-		  BlockService.getMerkleTransaction(height, merkleComponentHash)
-  	]);
+  		return transactionErrorInfo;
+	  }
 
-  	await this.formatTransaction2(formattedTransaction);
+  	const [{ date }, effectiveFee] = await Promise.all([
+		  BlockService.getBlockInfo(UInt64.fromUint(transaction.transactionInfo.height)),
+		  this.getTransactionEffectiveFee(hash)
+	  ]);
+
+  	const formattedTransaction = await this.createTransactionFromSDK(transaction);
 
   	const transactionInfo = {
-  		...formattedTransaction,
-  		blockHeight: formattedTransaction.height,
-  		transactionHash: formattedTransaction.hash,
-  		effectiveFee,
-  		date,
-  		status: transactionStatus.detail.code,
-  		confirm: transactionStatus.message,
-  		merklePath
+		  ...formattedTransaction,
+		  blockHeight: formattedTransaction.transactionInfo.height,
+		  transactionHash: formattedTransaction.transactionInfo.hash,
+		  effectiveFee,
+		  date,
+		  status: transactionStatus.detail.code,
+		  confirm: transactionStatus.message
   	};
 
   	return transactionInfo;
-  }
-
-  static formatTransaction2 = async formattedTransaction => {
-  	switch (formattedTransaction.type) {
-  	case TransactionType.TRANSFER:
-  		await Promise.all(formattedTransaction.mosaics.map(async mosaic => {
-  			if (mosaic.id instanceof NamespaceId)
-  				return (mosaic.id = await NamespaceService.getLinkedMosaicId(mosaic.id));
-  		}));
-
-  		// UnresolvedAddress
-  		formattedTransaction.transactionBody.recipient = await helper.resolvedAddress(formattedTransaction.recipientAddress);
-
-  		const mosaicIdsList = formattedTransaction.mosaics.map(mosaicInfo => mosaicInfo.id);
-
-  		const [mosaicInfos, mosaicNames] = await Promise.all([
-  			MosaicService.getMosaics(mosaicIdsList),
-  			NamespaceService.getMosaicsNames(mosaicIdsList)
-  		]);
-
-  		const transferMosaics = formattedTransaction.mosaics.map(mosaic => {
-  			let divisibility = mosaicInfos.find(info => info.mosaicId === mosaic.id.toHex()).divisibility;
-
-  			return {
-  				...mosaic,
-  				mosaicId: mosaic.id.toHex(),
-  				amount: helper.formatMosaicAmountWithDivisibility(mosaic.amount, divisibility),
-  				mosaicAliasName: MosaicService.extractMosaicNamespace({ mosaicId: mosaic.id.toHex() }, mosaicNames)
-  			};
-  		});
-
-  		formattedTransaction.transferMosaics = transferMosaics;
-  		formattedTransaction.transactionBody.mosaics = transferMosaics;
-  		// delete formattedTransaction.transactionBody.mosaics;
-  		break;
-  	case TransactionType.AGGREGATE_COMPLETE:
-  	case TransactionType.AGGREGATE_BONDED:
-  		const innerTransactions = formattedTransaction.aggregateTransaction.innerTransactions.map(transaction => ({
-  			...transaction,
-  			transactionType: transaction.type
-  		}));
-
-  		await Promise.all(innerTransactions.map(transaction => this.formatTransaction2(transaction)));
-  		formattedTransaction.aggregateTransaction.innerTransactions = innerTransactions;
-  		delete formattedTransaction.transactionBody.innerTransactions;
-  		delete formattedTransaction.transactionBody.cosignatures;
-  		break;
-  	case TransactionType.ADDRESS_ALIAS:
-  	case TransactionType.MOSAIC_ALIAS:
-  		const namespaceName = await NamespaceService.getNamespacesNames([NamespaceId.createFromEncoded(formattedTransaction.transactionBody.namespaceId)]);
-
-  		formattedTransaction.transactionBody.namespaceName = namespaceName[0].name;
-  		break;
-  	case TransactionType.HASH_LOCK:
-		  const hashLockMosaicAliasName = await helper.getSingleMosaicAliasName(new MosaicId(formattedTransaction.transactionBody.mosaicId));
-
-		  Object.assign(formattedTransaction.transactionBody, {
-			  mosaicAliasName: hashLockMosaicAliasName
-  		});
-  		break;
-  	case TransactionType.SECRET_LOCK:
-		  const secretLockMosaicAliasName = await helper.getSingleMosaicAliasName(new MosaicId(formattedTransaction.transactionBody.mosaicId));
-  		// UnresolvedAddress
-  		const recipient = await helper.resolvedAddress(formattedTransaction.recipientAddress);
-
-  		Object.assign(formattedTransaction.transactionBody, { mosaicAliasName: secretLockMosaicAliasName, recipient });
-  		break;
-  	case TransactionType.SECRET_PROOF:
-  		// UnresolvedAddress
-  		formattedTransaction.transactionBody.recipient = await helper.resolvedAddress(formattedTransaction.recipientAddress);
-  		break;
-  	case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
-  		// UnresolvedAddress
-  		formattedTransaction.transactionBody.targetAddress = await helper.resolvedAddress(formattedTransaction.targetAddress);
-  		break;
-  	}
   }
 
   /**
@@ -236,7 +174,14 @@ class TransactionService {
   static getHashLockInfo = async (hash) => {
   	const hashInfo = await LockService.getHashLock(hash);
 
-  	return hashInfo;
+  	const mosaics = [new Mosaic(hashInfo.mosaicId, hashInfo.amount)];
+
+  	const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder(mosaics);
+
+  	return {
+		  ...hashInfo,
+		  mosaics: mosaicsFieldObject
+	  };
   }
 
   /**
@@ -256,22 +201,27 @@ class TransactionService {
   		...filterVaule
   	};
 
-  	const transactions = await this.searchTransactions(searchCriteria);
+  	const searchTransactions = await this.searchTransactions(searchCriteria);
 
-  	// resolvedAddress
+  	const transactions = {
+  		...searchTransactions,
+  		data: searchTransactions.data.map(transaction => this.formatTransaction(transaction))
+  	};
+
   	await Promise.all(transactions.data.map(async transaction => {
-  		if (transaction.transactionBody?.recipient)
-  			return (transaction.transactionBody.recipient = await helper.resolvedAddress(transaction.transactionBody.recipient));
+  		if (transaction?.recipientAddress)
+  			return (transaction.transactionBody.recipient = await helper.resolvedAddress(transaction.recipientAddress));
   	}));
 
   	return {
   		...transactions,
   		data: transactions.data.map(transaction => ({
   			...transaction,
-  			height: transaction.height,
-  			transactionHash: transaction.hash,
-  			transactionType: transaction.transactionBody.transactionType,
-  			recipient: transaction.transactionBody?.recipient
+  			height: transaction.transactionInfo.height,
+  			transactionHash: transaction.transactionInfo.hash,
+  			transactionType: transaction.type,
+  			recipient: transaction.transactionBody?.recipient,
+  			extendGraphicValue: this.extendGraphicValue(transaction)
   		}))
   	};
   }
@@ -286,11 +236,8 @@ class TransactionService {
   	deadline: helper.convertDeadlinetoDate(transaction.deadline.value),
   	maxFee: helper.toNetworkCurrency(transaction.maxFee),
   	signer: transaction.signer.address.plain(),
-  	...this.formatTransactionInfo(transaction.transactionInfo),
   	transactionBody: this.formatTransactionBody(transaction),
-  	aggregateTransaction: {
-  		...this.formatTransactionBody(transaction)
-  	}
+  	transactionInfo: this.formatTransactionInfo(transaction.transactionInfo)
   })
 
   /**
@@ -309,7 +256,7 @@ class TransactionService {
   				id: mosaic.id.toHex(),
   				amount: mosaic.amount.compact().toString()
   			})),
-  			message: transactionBody.message.payload
+  			message: transactionBody.message
   		};
 
   	case TransactionType.NAMESPACE_REGISTRATION:
@@ -378,7 +325,7 @@ class TransactionService {
   	case TransactionType.AGGREGATE_COMPLETE:
   		return {
   			transactionType: transactionBody.type,
-  			innerTransactions: transactionBody.innerTransactions.map(transaction => this.formatTransaction(transaction)),
+  			innerTransactions: transactionBody.innerTransactions,
   			cosignatures: transactionBody.cosignatures.map(cosigner => ({
   				...cosigner,
   				signer: cosigner.signer.address.address
@@ -388,7 +335,7 @@ class TransactionService {
   	case TransactionType.AGGREGATE_BONDED:
   		return {
   			transactionType: transactionBody.type,
-  			innerTransactions: transactionBody.innerTransactions.map(transaction => this.formatTransaction(transaction)),
+  			innerTransactions: transactionBody.innerTransactions,
   			cosignatures: transactionBody.cosignatures.map(cosigner => ({
   				...cosigner,
   				signer: cosigner.signer.address.address
@@ -408,7 +355,7 @@ class TransactionService {
   		return {
   			transactionType: transactionBody.type,
   			duration: transactionBody.duration.compact(),
-  			mosaicId: transactionBody.mosaic.id.toHex(), // Todo Format Mosaic
+  			mosaicId: transactionBody.mosaic.id.toHex(),
   			amount: helper.toNetworkCurrency(transactionBody.mosaic.amount),
   			secret: transactionBody.secret,
   			recipient: transactionBody.recipientAddress,
@@ -453,14 +400,14 @@ class TransactionService {
   		return {
   			transactionType: transactionBody.type,
   			restrictionType: Constants.OperationRestrictionFlag[transactionBody.restrictionFlags],
-  			restrictionOperationAdditions: transactionBody.restrictionAdditions.map(operation => operation),
-  			restrictionOperationDeletions: transactionBody.restrictionDeletions.map(operation => operation)
+  			restrictionOperationAdditions: transactionBody.restrictionAdditions,
+  			restrictionOperationDeletions: transactionBody.restrictionDeletions
   		};
 
   	case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
   		return {
   			transactionType: transactionBody.type,
-  			mosaicId: transactionBody.mosaicId.toHex(), // Todo format mosaic
+  			mosaicId: transactionBody.mosaicId.toHex(),
   			targetAddress: transactionBody.targetAddress,
   			restrictionKey: transactionBody.restrictionKey.toHex(),
   			previousRestrictionValue: transactionBody.previousRestrictionValue.toString(),
@@ -470,7 +417,7 @@ class TransactionService {
   	case TransactionType.MOSAIC_GLOBAL_RESTRICTION:
   		return {
   			transactionType: transactionBody.type,
-  			referenceMosaicId: transactionBody.referenceMosaicId.toHex() === '0000000000000000' ? transactionBody.mosaicId.toHex() : transactionBody.referenceMosaicId.toHex(), // todo format Mosaic
+  			referenceMosaicId: transactionBody.referenceMosaicId.toHex() === '0000000000000000' ? transactionBody.mosaicId.toHex() : transactionBody.referenceMosaicId.toHex(),
   			restrictionKey: transactionBody.restrictionKey.toHex(),
   			previousRestrictionType: Constants.MosaicRestrictionType[transactionBody.previousRestrictionType],
   			previousRestrictionValue: transactionBody.previousRestrictionValue.compact(),
@@ -547,6 +494,203 @@ class TransactionService {
   	}
 
   	return {};
+  }
+
+  /**
+   * extend graphic value for transaction list.
+   * @param transactionInfo
+   * @returns graphicValue []
+   */
+  static extendGraphicValue = transactionInfo => {
+  	const transactionBody = transactionInfo.transactionBody;
+
+  	switch (transactionInfo.type) {
+  	case TransactionType.TRANSFER:
+  		return [
+  			{ nativeMosaic: helper.getNetworkCurrencyBalance(transactionInfo.mosaics) },
+  			{ message: transactionBody.message },
+  			{ mosaics: transactionBody.mosaics.filter(mosaic => mosaic.id !== http.networkCurrency.mosaicId) }
+		  ];
+  	case TransactionType.NAMESPACE_REGISTRATION:
+  		return [{ namespace: {
+  			namespaceId: transactionBody.namespaceId,
+  			namespaceName: transactionBody.namespaceName
+  		}
+  		}];
+  	case TransactionType.ADDRESS_ALIAS:
+  		return [
+			  { linkAction: transactionBody.aliasAction }
+		  ];
+  	case TransactionType.MOSAIC_ALIAS:
+		  return [
+  			{ linkAction: transactionBody.aliasAction }
+		  ];
+  	case TransactionType.MOSAIC_DEFINITION:
+		  return [
+  			{ mosaicId: transactionBody.mosaicId }
+		  ];
+  	case TransactionType.MOSAIC_SUPPLY_CHANGE:
+		  return [
+  			{ action: transactionBody.action }
+		  ];
+  	case TransactionType.MULTISIG_ACCOUNT_MODIFICATION:
+		  return [
+			  { minApprovalDelta: transactionBody.minApprovalDelta },
+			  { minRemovalDelta: transactionBody.minRemovalDelta }
+		  ];
+  	case TransactionType.HASH_LOCK:
+		  return [
+			  { amount: transactionBody.amount }
+		  ];
+  	case TransactionType.SECRET_LOCK:
+		  return [
+			  { secret: transactionBody.secret }
+		  ];
+  	case TransactionType.SECRET_PROOF:
+		  return [
+			  { proof: transactionBody.proof }
+		  ];
+  	case TransactionType.ACCOUNT_ADDRESS_RESTRICTION:
+		  return [
+			  { restrictionAddressAdditions: transactionBody.restrictionAddressAdditions },
+			  { restrictionAddressDeletions: transactionBody.restrictionAddressDeletions }
+		  ];
+  	case TransactionType.ACCOUNT_MOSAIC_RESTRICTION:
+		  return [
+			  { restrictionMosaicAdditions: transactionBody.restrictionMosaicAdditions },
+			  { restrictionMosaicDeletions: transactionBody.restrictionMosaicDeletions }
+		  ];
+  	case TransactionType.ACCOUNT_OPERATION_RESTRICTION:
+		  return [
+  			{ restrictionOperationAdditions: transactionBody.restrictionOperationAdditions },
+  			{ restrictionOperationDeletions: transactionBody.restrictionOperationDeletions }
+		  ];
+  	case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
+		  return [
+			  { targetAddress: transactionBody.targetAddress }
+		  ];
+  	case TransactionType.MOSAIC_GLOBAL_RESTRICTION:
+		  return [
+			  { referenceMosaicId: transactionBody.referenceMosaicId }
+		  ];
+  	case TransactionType.ACCOUNT_METADATA:
+  	case TransactionType.MOSAIC_METADATA:
+  	case TransactionType.NAMESPACE_METADATA:
+		  return [
+			  { metadataValue: transactionBody.metadataValue }
+		  ];
+  	case TransactionType.VOTING_KEY_LINK:
+  	case TransactionType.VRF_KEY_LINK:
+  	case TransactionType.NODE_KEY_LINK:
+  	case TransactionType.ACCOUNT_KEY_LINK:
+		  return [
+  			{ linkAction: transactionBody.linkAction }
+		  ];
+  	default:
+  		return [];
+  	}
+  }
+
+  /**
+   * Build standalone transanction object for Vue components.
+   * @param transactionDTO - transaction dto from SDK
+   * @returns tranasctionObj
+   */
+  static createStandaloneTransactionFromSDK = async transactionDTO => {
+	  const transactionObj = {
+		  ...transactionDTO,
+		  transactionType: transactionDTO.type,
+		  deadline: helper.convertDeadlinetoDate(transactionDTO.deadline.value),
+		  maxFee: helper.toNetworkCurrency(transactionDTO.maxFee),
+		  signer: transactionDTO.signer.address.plain(),
+		  transactionInfo: this.formatTransactionInfo(transactionDTO.transactionInfo)
+	  };
+
+  	switch (transactionDTO.type) {
+  	case TransactionType.TRANSFER:
+  		return CreateTransaction.transferTransaction(transactionObj);
+  	case TransactionType.NAMESPACE_REGISTRATION:
+  		return CreateTransaction.namespaceRegistration(transactionObj);
+  	case TransactionType.ADDRESS_ALIAS:
+  		return CreateTransaction.addressAlias(transactionObj);
+  	case TransactionType.MOSAIC_ALIAS:
+  		return CreateTransaction.mosaicAlias(transactionObj);
+  	case TransactionType.MOSAIC_DEFINITION:
+  		return CreateTransaction.mosaicDefinition(transactionObj);
+  	case TransactionType.MOSAIC_SUPPLY_CHANGE:
+  		return CreateTransaction.mosaicSupplyChange(transactionObj);
+  	case TransactionType.MULTISIG_ACCOUNT_MODIFICATION:
+  		return CreateTransaction.multisigAccountModification(transactionObj);
+  	case TransactionType.HASH_LOCK:
+  		return CreateTransaction.hashLock(transactionObj);
+  	case TransactionType.SECRET_LOCK:
+  		return CreateTransaction.secretLock(transactionObj);
+  	case TransactionType.SECRET_PROOF:
+  		return CreateTransaction.secretProof(transactionObj);
+  	case TransactionType.ACCOUNT_ADDRESS_RESTRICTION:
+  		return CreateTransaction.accountAddressRestriction(transactionObj);
+  	case TransactionType.ACCOUNT_MOSAIC_RESTRICTION:
+  		return CreateTransaction.accountMosaicRestriction(transactionObj);
+  	case TransactionType.ACCOUNT_OPERATION_RESTRICTION:
+  		return CreateTransaction.accountOperationRestriction(transactionObj);
+  	case TransactionType.MOSAIC_ADDRESS_RESTRICTION:
+  		return CreateTransaction.mosaicAddressRestriction(transactionObj);
+  	case TransactionType.MOSAIC_GLOBAL_RESTRICTION:
+  		return CreateTransaction.mosaicGlobalRestriction(transactionObj);
+  	case TransactionType.ACCOUNT_METADATA:
+  		return CreateTransaction.accountMetadata(transactionObj);
+  	case TransactionType.MOSAIC_METADATA:
+  		return CreateTransaction.mosaicMetadata(transactionObj);
+  	case TransactionType.NAMESPACE_METADATA:
+  		return CreateTransaction.namespaceMetadata(transactionObj);
+  	case TransactionType.VOTING_KEY_LINK:
+  		return CreateTransaction.votingKeyLink(transactionObj);
+  	case TransactionType.VRF_KEY_LINK:
+  		return CreateTransaction.vrfKeyLink(transactionObj);
+  	case TransactionType.NODE_KEY_LINK:
+  		return CreateTransaction.nodeKeyLink(transactionObj);
+  	case TransactionType.ACCOUNT_KEY_LINK:
+  		return CreateTransaction.accountKeyLink(transactionObj);
+  	default:
+  		throw new Error('Unimplemented transaction with type ' + transactionDTO.type);
+	  }
+  }
+
+  /**
+   * Build transanction object for Vue components.
+   * @param transactionDTO - transaction dto from SDK
+   * @returns tranasctionObj
+   */
+  static createTransactionFromSDK = async (transactionDTO) => {
+	  if (transactionDTO.type === TransactionType.AGGREGATE_BONDED || transactionDTO.type === TransactionType.AGGREGATE_COMPLETE) {
+  		const innerTransactions = transactionDTO.innerTransactions ? await Promise.all(transactionDTO.innerTransactions.map(async (transaction, index) => {
+  			return {
+  				index: index + 1,
+  				...await this.createStandaloneTransactionFromSDK(transaction)
+  			};
+  		})) : [];
+
+  		return {
+			  ...transactionDTO,
+			  innerTransactions,
+			  cosignatures: transactionDTO.cosignatures ? transactionDTO.cosignatures.map(cosignature => {
+				  return {
+					  ...cosignature,
+					  signature: cosignature.signature,
+					  signer: cosignature.signer.address.plain()
+				  };
+			  }) : [],
+			  deadline: helper.convertDeadlinetoDate(transactionDTO.deadline.value),
+			  maxFee: helper.toNetworkCurrency(transactionDTO.maxFee),
+			  signer: transactionDTO.signer.address.plain(),
+			  transactionInfo: this.formatTransactionInfo(transactionDTO.transactionInfo),
+			  transactionBody: {
+  				transactionType: transactionDTO.type
+			  }
+		  };
+	  }
+
+	  return this.createStandaloneTransactionFromSDK(transactionDTO);
   }
 }
 

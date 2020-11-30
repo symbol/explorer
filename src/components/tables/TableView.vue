@@ -3,12 +3,14 @@ import Age from '../fields/Age.vue';
 import Constants from '../../config/constants';
 import Decimal from '@/components/fields/Decimal.vue';
 import Truncate from '@/components/fields/Truncate.vue';
+import Boolean from '@/components/fields/Boolean.vue';
 
 export default {
 	components: {
 		Age,
 		Decimal,
-		Truncate
+		Truncate,
+		Boolean
 	},
 	props: {
 		height: {
@@ -33,8 +35,8 @@ export default {
 				'namespace',
 				'namespaceName',
 				'linkedNamespace',
-				'mosaicAliasName',
-				'accountAliasName',
+				'mosaicAliasNames_',
+				'accountAliasNames_',
 				'aliasAddress',
 				'aliasMosaic',
 				'transaction',
@@ -53,7 +55,7 @@ export default {
 
 				'signer',
 				'recipient',
-				'owneraddress',
+				'ownerAddress',
 				'blockHeight',
 				'endHeight',
 				'startHeight',
@@ -70,14 +72,19 @@ export default {
 				'restrictionMosaicValues_',
 				'restrictionAddressValues_',
 				'referenceMosaicId',
-				'restrictionAddressAdditions',
-				'restrictionAddressDeletions',
-				'restrictionMosaicAdditions',
-				'restrictionMosaicDeletions',
+				'restrictionAddressAdditions_',
+				'restrictionAddressDeletions_',
+				'restrictionMosaicAdditions_',
+				'restrictionMosaicDeletions_',
 				'addressAdditions_',
 				'addressDeletions_',
 				'linkedAccountAddress',
-				'ownerAddress'
+				'ownerAddress',
+				'senderAddress',
+
+				'namespaceArtifactId',
+				'mosaicArtifactId',
+				'nodePublicKey'
 			],
 			disableClickValues: [...Object.values(Constants.Message)],
 			changeDecimalColor: [
@@ -106,7 +113,9 @@ export default {
 				'voting',
 				'addressResolutionEntries',
 				'mosaicResolutionEntries',
-				'stateHashSubCacheMerkleRoots'
+				'stateHashSubCacheMerkleRoots',
+				'accountAliasNames',
+				'mosaicAliasNames'
 			],
 			valuesToTranslate: [
 				'newRestrictionType',
@@ -149,7 +158,7 @@ export default {
 		},
 
 		isAge(itemKey) {
-			return itemKey === 'age';
+			return itemKey === 'age' || itemKey === 'lastStatusCheck';
 		},
 
 		isTransactionType(itemKey) {
@@ -157,7 +166,7 @@ export default {
 		},
 
 		isBlockHeightWithFinalizedStatus(itemKey) {
-			return itemKey === 'height' || itemKey === 'blockHeight' || itemKey === 'startHeight';
+			return itemKey === 'height' || itemKey === 'blockHeight' || itemKey === 'startHeight' || itemKey === 'endHeight';
 		},
 
 		isArrayField(itemKey) {
@@ -171,13 +180,22 @@ export default {
                 key === 'signer' ||
                 key === 'recipient' ||
                 key === 'transactionHash' ||
-                key === 'owneraddress' ||
+                key === 'ownerAddress' ||
                 key === 'host' ||
                 key === 'friendlyName' ||
                 key === 'multisigAddresses_' ||
 				key === 'cosignatoryAddresses_' ||
 				key === 'addressAdditions_' ||
 				key === 'addressDeletions_'
+			);
+		},
+
+		isBoolean(key) {
+			return (
+				key === 'connectionStatus' ||
+                key === 'apiNodeStatus' ||
+				key === 'databaseStatus' ||
+				key === 'isAvailable'
 			);
 		},
 

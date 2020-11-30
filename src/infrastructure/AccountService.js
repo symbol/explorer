@@ -16,10 +16,10 @@
  *
  */
 
-import { Address, TransactionType, TransactionGroup, Order, BlockOrderBy } from 'symbol-sdk';
+import { Address, TransactionType, TransactionGroup, Order, BlockOrderBy, ReceiptType, Mosaic } from 'symbol-sdk';
 import http from './http';
 import { Constants } from '../config';
-import { NamespaceService, TransactionService, BlockService, ChainService, MetadataService, LockService } from '../infrastructure';
+import { NamespaceService, TransactionService, ChainService, MetadataService, LockService, ReceiptService, MosaicService } from '../infrastructure';
 import helper from '../helper';
 
 class AccountService {
@@ -94,7 +94,7 @@ class AccountService {
   			...account,
   			balance: helper.getNetworkCurrencyBalance(account.mosaics),
   			lastActivity: helper.getLastActivityHeight(account.activityBucket),
-  			accountAliasName: this.extractAccountNamespace(account, accountNames)
+  			accountAliasNames: this.extractAccountNamespace(account, accountNames)
   		}))
   	};
   }
@@ -120,7 +120,7 @@ class AccountService {
   			...accountInfo.supplementalPublicKeys,
   			voting: Array.isArray(accountInfo.supplementalPublicKeys.voting) ? accountInfo.supplementalPublicKeys.voting.map(voting => voting.publicKey) : accountInfo.supplementalPublicKeys.voting
   		},
-  		accountAliasName: this.extractAccountNamespace(accountInfo, accountNames)
+  		accountAliasNames: this.extractAccountNamespace(accountInfo, accountNames)
   	};
   }
 
@@ -143,15 +143,20 @@ class AccountService {
   		...filterVaule
   	};
 
-	  const accountTransactions = await TransactionService.searchTransactions(searchCriteria);
+  	const searchTransactions = await TransactionService.searchTransactions(searchCriteria);
+
+  	const accountTransactions = {
+  		...searchTransactions,
+  		data: searchTransactions.data.map(transaction => TransactionService.formatTransaction(transaction))
+  	};
 
   	return {
   		...accountTransactions,
   		data: accountTransactions.data.map(accountTransaction => ({
   			...accountTransaction,
-  			transactionHash: accountTransaction.hash,
+  			transactionHash: accountTransaction.transactionInfo.hash,
   			transactionType:
-          accountTransaction.transactionBody.transactionType === TransactionType.TRANSFER
+          accountTransaction.type === TransactionType.TRANSFER
           	? (accountTransaction.signer === address
           		? 'outgoing_' + accountTransaction.transactionBody.transactionType
           		: 'incoming_' + accountTransaction.transactionBody.transactionType
@@ -190,38 +195,88 @@ class AccountService {
   			return {
   				...namespaces,
   				status: namespaces.active,
-  				duration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED
+  				expirationDuration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED
   			};
   		})
   	};
   }
 
   /**
-   * Gets custom array of block list dataset into Vue Component
+   * Gets account harvested block receipt list dataset into Vue Component
    * @param pageInfo - object for page info such as pageNumber, pageSize
    * @param address - Account address
+   * @returns formatted harvested blocks data list.
    */
-  static getAccountHarvestedBlockList = async (pageInfo, address) => {
-  	const accountInfo = await this.getAccount(address);
+  static getAccountHarvestedReceiptList = async (pageInfo, address) => {
   	const { pageNumber, pageSize } = pageInfo;
+
   	const searchCriteria = {
   		pageNumber,
   		pageSize,
   		order: Order.Desc,
   		orderBy: BlockOrderBy.Height,
-  		signerPublicKey: accountInfo.publicKey
+  		targetAddress: Address.createFromRawAddress(address),
+  		receiptTypes: [ReceiptType.Harvest_Fee]
   	};
 
-  	const accountHarvestedBlockList = await BlockService.searchBlocks(searchCriteria);
+  	const harvestedBlockReceipt = await ReceiptService.searchReceipts(searchCriteria);
+
+  	const formattedReceipt = await ReceiptService.createReceiptTransactionStatement(harvestedBlockReceipt.data.balanceChangeStatement);
 
   	return {
-  		...accountHarvestedBlockList,
-  		data: accountHarvestedBlockList.data.map(block => ({
-  			...block,
-  			date: helper.convertToUTCDate(block.timestamp),
-  			age: helper.convertToUTCDate(block.timestamp),
-  			harvester: block.signer
-  		}))
+  		...harvestedBlockReceipt,
+  		data: formattedReceipt.filter(receipt =>
+  			receipt.targetAddress === address &&
+			receipt.type === ReceiptType.Harvest_Fee)
+  	};
+  }
+
+  /**
+   * Gets account receipt list dataset into Vue Component
+   * @param pageInfo - object for page info such as pageNumber, pageSize
+   * @param filterVaule - object for search criteria
+   * @param address - Account address
+   * @returns formatted receipt data list.
+   */
+  static getAccountReceiptList = async (pageInfo, filterVaule, address) => {
+  	const { pageNumber, pageSize } = pageInfo;
+
+  	const { BalanceTransferReceipt, BalanceChangeReceipt } = Constants.ReceiptTransactionStatamentType;
+
+  	let searchCriteria = {
+  		pageNumber,
+  		pageSize,
+  		order: Order.Desc,
+  		orderBy: BlockOrderBy.Height,
+  		...filterVaule
+  	};
+
+  	if (filterVaule.receiptTransactionStatementType === BalanceTransferReceipt)
+  		Object.assign(searchCriteria, { senderAddress: Address.createFromRawAddress(address) });
+
+  	if (filterVaule.receiptTransactionStatementType === BalanceChangeReceipt)
+  		Object.assign(searchCriteria, { targetAddress: Address.createFromRawAddress(address) });
+
+  	const receipt = await ReceiptService.searchReceipts(searchCriteria);
+
+  	let formattedReceipt = [];
+
+  	if (filterVaule.receiptTransactionStatementType === BalanceTransferReceipt) {
+  		formattedReceipt = await ReceiptService.createReceiptTransactionStatement(receipt.data.balanceTransferStatement);
+  		formattedReceipt = formattedReceipt.filter(receipt =>
+  			receipt.senderAddress === address);
+  	}
+
+  	if (filterVaule.receiptTransactionStatementType === BalanceChangeReceipt) {
+  		formattedReceipt = await ReceiptService.createReceiptTransactionStatement(receipt.data.balanceChangeStatement);
+  		formattedReceipt = formattedReceipt.filter(receipt =>
+  			receipt.targetAddress === address &&
+		  receipt.type !== ReceiptType.Harvest_Fee);
+	  }
+
+  	return {
+  		...receipt,
+  		data: formattedReceipt
   	};
   }
 
@@ -238,7 +293,7 @@ class AccountService {
   		pageNumber,
   		pageSize,
   		order: Order.Desc,
-  		sourceAddress: Address.createFromRawAddress(address),
+  		targetAddress: Address.createFromRawAddress(address),
   		...filterVaule
   	};
   	const accountMetadatas = await MetadataService.searchMetadatas(searchCriteria);
@@ -260,16 +315,27 @@ class AccountService {
   		order: Order.Desc,
   		address: Address.createFromRawAddress(address)
   	};
-	  const accountHashLocks = await LockService.searchHashLocks(searchCriteria);
+  	const accountHashLocks = await LockService.searchHashLocks(searchCriteria);
 
-	  return {
+  	const mosaics = accountHashLocks.data.map(
+  		hashlock => new Mosaic(hashlock.mosaicId, hashlock.amount)
+  	);
+
+  	const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder(mosaics);
+
+  	let hashLocks = [];
+
+  	for (const hashLock of accountHashLocks.data) {
+  		hashLocks.push({
+  			...hashLock,
+  			transactionHash: hashLock.hash,
+  			mosaics: [mosaicsFieldObject.find(mosaicFieldObject => mosaicFieldObject.mosaicId === hashLock.mosaicId.toHex())]
+  		});
+  	}
+
+  	return {
   		...accountHashLocks,
-  		data: accountHashLocks.data.map(hashLock => {
-  			return {
-  				...hashLock,
-  				transactionHash: hashLock.hash
-  			};
-  		})
+  		data: hashLocks
   	};
   }
 
@@ -281,15 +347,35 @@ class AccountService {
    */
   static getAccountSecretLockList = async (pageInfo, address) => {
   	const { pageNumber, pageSize } = pageInfo;
+
   	const searchCriteria = {
   		pageNumber,
   		pageSize,
   		order: Order.Desc,
   		address: Address.createFromRawAddress(address)
   	};
-	  const accountSecretLocks = await LockService.searchSecretLocks(searchCriteria);
 
-	  return accountSecretLocks;
+  	const accountSecretLocks = await LockService.searchSecretLocks(searchCriteria);
+
+  	const mosaics = accountSecretLocks.data.map(
+  		secretlock => new Mosaic(secretlock.mosaicId, secretlock.amount)
+  	);
+
+  	const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder(mosaics);
+
+  	let secretLocks = [];
+
+  	for (const secretLock of accountSecretLocks.data) {
+  		secretLocks.push({
+  			...secretLock,
+  			mosaics: [mosaicsFieldObject.find(mosaicFieldObject => mosaicFieldObject.mosaicId === secretLock.mosaicId.toHex())]
+  		});
+  	}
+
+  	return {
+  		...accountSecretLocks,
+  		data: secretLocks
+  	};
   }
 
   /**
@@ -330,10 +416,33 @@ class AccountService {
    */
   static extractAccountNamespace = (accountInfo, accountNames) => {
   	let accountName = accountNames.find((name) => name.address === accountInfo.address);
-  	const name = accountName.names.length > 0 ? accountName.names[0].name : Constants.Message.UNAVAILABLE;
 
-  	return name;
+	  const aliasNames = accountName.names.map(names => names.name);
+
+	const names = aliasNames.length > 0 ? aliasNames : [Constants.Message.UNAVAILABLE];
+
+	return names;
   }
+
+	/**
+	 * Get customize MosaicAmountView dataset for Vue component.
+	 * @param address - Account address
+	 * @returns customize MosaicAmountView[]
+	 */
+	static getAccountMosaicList = async address => {
+		const mosaics = await MosaicService.getMosaicAmountViewList(address);
+
+		for (let i = 0; i < mosaics.length; i++) {
+			const mosaic = mosaics[i];
+
+			if (mosaic.mosaicId === http.networkCurrency.mosaicId) {
+				mosaics.splice(i, 1);
+				mosaics.unshift(mosaic);
+				break;
+			}
+		}
+		return mosaics;
+	}
 }
 
 export default AccountService;

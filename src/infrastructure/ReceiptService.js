@@ -19,8 +19,10 @@
 import http from './http';
 import { ReceiptType, ResolutionType } from 'symbol-sdk';
 import Constants from '../config/constants';
-import helper from '../helper';
 import { take, toArray } from 'rxjs/operators';
+import {
+	CreateReceiptTransaction
+} from '../infrastructure';
 
 class ReceiptService {
 	/**
@@ -31,11 +33,11 @@ class ReceiptService {
   static searchReceipts = async (transactionStatementSearchCriteria) => {
   	const searchReceipts = await http.createRepositoryFactory.createReceiptRepository()
   		.searchReceipts(transactionStatementSearchCriteria)
-		  .toPromise();
+  		.toPromise();
 
   	return {
   		...searchReceipts,
-  		data: this.formatTransactionStatement(searchReceipts.data)
+  		data: this.transactionStatementBuilder(searchReceipts.data)
   	};
   }
 
@@ -82,7 +84,7 @@ class ReceiptService {
   		.pipe(take(10), toArray())
   		.toPromise();
 
-  	return this.formatTransactionStatement(streamerReceipts);
+  	return this.transactionStatementBuilder(streamerReceipts);
   }
 
   /**
@@ -113,20 +115,35 @@ class ReceiptService {
 		return this.formatResolutionStatement(streamerMosaicResolution);
 	}
 
+	static createReceiptTransactionStatement = async (transactionStatement) => {
+		switch (transactionStatement.receiptTransactionStatementType) {
+		case Constants.ReceiptTransactionStatamentType.BalanceChangeReceipt:
+			return CreateReceiptTransaction.balanceChangeReceipt(transactionStatement.data);
+		case Constants.ReceiptTransactionStatamentType.BalanceTransferReceipt:
+			return CreateReceiptTransaction.balanceTransferReceipt(transactionStatement.data);
+		case Constants.ReceiptTransactionStatamentType.ArtifactExpiryReceipt:
+			return CreateReceiptTransaction.artifactExpiryReceipt(transactionStatement.data);
+		case Constants.ReceiptTransactionStatamentType.InflationReceipt:
+			return CreateReceiptTransaction.inflationReceipt(transactionStatement.data);
+		default:
+			throw new Error('Unimplemented receipt transaction statement with type ' + transactionStatement.receiptTransactionStatementType);
+		}
+	}
+
   /**
    * Format Receipt Statements
    * @param TransactionStatementDTO[]
    * @returns collection of receipts
    *
    */
-  static formatTransactionStatement = transactionStatement => {
+  static groupTransactionStatement = transactionStatement => {
   	let balanceChangeReceipt = [];
 
   	let balanceTransferReceipt = [];
 
   	let inflationReceipt = [];
 
-	  let artifactExpiryReceipt = [];
+  	let artifactExpiryReceipt = [];
 
   	transactionStatement.forEach(statement => {
   		statement.receipts.forEach(receipt => {
@@ -140,24 +157,14 @@ class ReceiptService {
   			case ReceiptType.LockSecret_Expired:
   				balanceChangeReceipt.push({
   					...receipt,
-  					size: receipt.size || Constants.Message.UNAVAILABLE,
-  					receiptType: Constants.ReceiptType[receipt.type],
-  					targetAddress: receipt.targetAddress.plain(),
-  					amount: helper.formatMosaicAmountWithDivisibility(receipt.amount, http.networkCurrency.divisibility),
-  					mosaicId: receipt.mosaicId.toHex()
+  					height: statement.height
   				});
   				break;
-  			case ReceiptType.Mosaic_Levy:
   			case ReceiptType.Mosaic_Rental_Fee:
   			case ReceiptType.Namespace_Rental_Fee:
   				balanceTransferReceipt.push({
   					...receipt,
-  					size: receipt.size || Constants.Message.UNAVAILABLE,
-  					receiptType: Constants.ReceiptType[receipt.type],
-  					senderAddress: receipt.senderAddress.address,
-  					recipientAddress: receipt.recipientAddress.address,
-  					amount: helper.formatMosaicAmountWithDivisibility(receipt.amount, http.networkCurrency.divisibility),
-  					mosaicId: receipt.mosaicId.toHex()
+  					height: statement.height
   				});
   				break;
   			case ReceiptType.Mosaic_Expired:
@@ -165,29 +172,52 @@ class ReceiptService {
   			case ReceiptType.Namespace_Deleted:
   				artifactExpiryReceipt.push({
   					...receipt,
-  					size: receipt.size || Constants.Message.UNAVAILABLE,
-  					receiptType: Constants.ReceiptType[receipt.type],
-  					artifactId: receipt.artifactId.toHex()
+  					height: statement.height
   				});
   				break;
   			case ReceiptType.Inflation:
   				inflationReceipt.push({
   					...receipt,
-  					size: receipt.size || Constants.Message.UNAVAILABLE,
-  					receiptType: Constants.ReceiptType[receipt.type],
-  					amount: helper.formatMosaicAmountWithDivisibility(receipt.amount, http.networkCurrency.divisibility),
-  					mosaicId: receipt.mosaicId.toHex()
+  					height: statement.height
   				});
   				break;
   			}
   		});
-  	});
+	  });
 
   	return {
   		balanceChangeReceipt,
   		balanceTransferReceipt,
   		inflationReceipt,
   		artifactExpiryReceipt
+  	};
+  }
+
+  static transactionStatementBuilder(transactionStatement) {
+	  const {
+		  balanceChangeReceipt,
+		  balanceTransferReceipt,
+		  inflationReceipt,
+		  artifactExpiryReceipt
+  	} = this.groupTransactionStatement(transactionStatement);
+
+  	return {
+  		balanceChangeStatement: {
+  			receiptTransactionStatementType: Constants.ReceiptTransactionStatamentType.BalanceChangeReceipt,
+  			data: balanceChangeReceipt
+  		},
+  		balanceTransferStatement: {
+  			receiptTransactionStatementType: Constants.ReceiptTransactionStatamentType.BalanceTransferReceipt,
+  			data: balanceTransferReceipt
+  		},
+  		inflationStatement: {
+  			receiptTransactionStatementType: Constants.ReceiptTransactionStatamentType.InflationReceipt,
+  			data: inflationReceipt
+  		},
+  		artifactExpiryStatement: {
+  			receiptTransactionStatementType: Constants.ReceiptTransactionStatamentType.ArtifactExpiryReceipt,
+  			data: artifactExpiryReceipt
+  		}
   	};
   }
 

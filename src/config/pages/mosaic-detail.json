@@ -19,14 +19,15 @@
                 "pagination": "none",
                 "fields": [
                     "mosaicId",
-                    "mosaicAliasName",
+                    "mosaicAliasNames",
                     "divisibility",
                     "address",
                     "supply",
                     "relativeAmount",
                     "revision",
                     "startHeight",
-                    "duration",
+                    "expiredInBlock",
+                    "expirationDuration",
                     "supplyMutable",
                     "transferable",
                     "restrictable"
@@ -62,7 +63,37 @@
                     "targetAddress",
                     "metadataValue"
                 ]
-            }
+            },
+            {
+				"layoutOptions": "adaptive",
+				"type": "CardTable",
+				"title": "balanceTransferReceiptTitle",
+				"managerGetter": "mosaic/balanceTransferReceipt",
+				"pagination": "server",
+				"hideEmptyData": true,
+				"hideOnError": true,
+				"fields": [
+					"version",
+					"height",
+  					"receiptType",
+  					"recipient",
+  					"mosaics"
+				]
+			},
+			{
+				"layoutOptions": "adaptive",
+				"type": "CardTable",
+				"title": "artifactExpiryReceiptTitle",
+				"managerGetter": "mosaic/artifactExpiryReceipt",
+				"pagination": "server",
+				"hideEmptyData": true,
+				"hideOnError": true,
+				"fields": [
+					"version",
+                    "receiptType",
+                    "mosaicArtifactId"
+				]
+			}
         ]
     }
 }

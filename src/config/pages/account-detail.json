@@ -21,7 +21,7 @@
 				"pagination": "none",
 				"fields": [
 					"address",
-					"accountAliasName",
+					"accountAliasNames",
 					"addressHeight",
 					"publicKey",
 					"importance",
@@ -46,6 +46,15 @@
 			},
 			{
 				"layoutOptions": "adaptive",
+				"type": "AccountBalanceWidget",
+				"title": "accountBalanceTitle",
+				"managerGetter": "account/OwnedMosaic",
+				"dataGetter": "account/balanceWidget",
+				"hideOnError": true,
+				"hideDependOnGetter": "account/info"
+			},
+			{
+				"layoutOptions": "adaptive",
 				"type": "CardTable",
 				"title": "ownedMosaicsTitle",
 				"managerGetter": "account/OwnedMosaic",
@@ -57,7 +66,7 @@
 				"fields": [
 					"mosaicId",
 					"amount",
-					"mosaicAliasName"
+					"mosaicAliasNames"
 				]
 			},
 			{
@@ -72,7 +81,7 @@
 				"fields": [
 					"namespaceName",
 					"status",
-					"duration",
+					"expirationDuration",
 					"registrationType"
 				]
 			},
@@ -105,9 +114,16 @@
 				"onRowClickKey": "transactionHash",
 				"fields": [
 					"deadline",
-					"transactionHash",
+					"direction",
 					"transactionType",
-					"direction"
+					"transactionHash",
+					"recipient"
+				],
+				"mobileFields": [
+					"deadline",
+					"direction",
+					"transactionType",
+					"transactionHash"
 				]
 			},
 			{
@@ -150,6 +166,7 @@
 				"pagination": "client",
 				"pageSize": 5,
 				"hideOnError": true,
+				"hasFilter":true,
 				"hideDependOnGetter": "account/info",
 				"fields": [
 					"scopedMetadataKey",
@@ -170,10 +187,9 @@
 				"onRowClickKey": "transactionHash",
 				"fields": [
 					"transactionHash",
-					"amount",
 					"endHeight",
-					"mosaicId",
-					"status"
+					"status",
+					"mosaics"
 				]
 			},
 			{
@@ -188,11 +204,10 @@
 				"fields": [
 					"recipient",
 					"secret",
-					"amount",
 					"endHeight",
-					"mosaicId",
 					"status",
-					"hashAlgorithm"
+					"hashAlgorithm",
+					"mosaics"
 				]
 			},
 			{
@@ -213,22 +228,36 @@
 				]
 			},
 			{
-				"layoutOptions": "full-width",
+				"layoutOptions": "adaptive",
 				"type": "CardTable",
 				"title": "harvestedBlockTitle",
 				"managerGetter": "account/harvestedBlocks",
 				"pagination": "server",
-				"pageSize": 5,
 				"hideEmptyData": true,
 				"hideOnError": true,
 				"hideDependOnGetter": "account/info",
 				"fields": [
+					"version",
 					"height",
-					"age",
-					"transactions",
-					"totalFee",
-					"date",
-					"harvester"
+					"receiptType",
+					"mosaics"
+				]
+			},
+			{
+				"layoutOptions": "adaptive",
+				"type": "CardTable",
+				"title": "receiptTitle",
+				"managerGetter": "account/receipt",
+				"pagination": "server",
+				"hasFilter": true,
+				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
+				"fields": [
+					"version",
+					"height",
+  					"receiptType",
+  					"recipient",
+  					"mosaics"
 				]
 			}
 		]
