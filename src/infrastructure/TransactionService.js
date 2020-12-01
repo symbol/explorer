@@ -233,8 +233,8 @@ class TransactionService {
    */
   static formatTransaction = transaction => ({
   	...transaction,
-  	deadline: helper.convertDeadlinetoDate(transaction.deadline.value),
-  	maxFee: helper.toNetworkCurrency(transaction.maxFee),
+  	deadline: helper.convertDeadlinetoDate(transaction.deadline.adjustedValue),
+  	maxFee: helper.toNetworkCurrency(Number(transaction.maxFee.toString())),
   	signer: transaction.signer.address.plain(),
   	transactionBody: this.formatTransactionBody(transaction),
   	transactionInfo: this.formatTransactionInfo(transaction.transactionInfo)
@@ -600,7 +600,7 @@ class TransactionService {
 	  const transactionObj = {
 		  ...transactionDTO,
 		  transactionType: transactionDTO.type,
-		  deadline: helper.convertDeadlinetoDate(transactionDTO.deadline.value),
+		  deadline: helper.convertDeadlinetoDate(transactionDTO.deadline.adjustedValue),
 		  maxFee: helper.toNetworkCurrency(transactionDTO.maxFee),
 		  signer: transactionDTO.signer.address.plain(),
 		  transactionInfo: this.formatTransactionInfo(transactionDTO.transactionInfo)
@@ -680,7 +680,7 @@ class TransactionService {
 					  signer: cosignature.signer.address.plain()
 				  };
 			  }) : [],
-			  deadline: helper.convertDeadlinetoDate(transactionDTO.deadline.value),
+			  deadline: helper.convertDeadlinetoDate(transactionDTO.deadline.adjustedValue),
 			  maxFee: helper.toNetworkCurrency(transactionDTO.maxFee),
 			  signer: transactionDTO.signer.address.plain(),
 			  transactionInfo: this.formatTransactionInfo(transactionDTO.transactionInfo),
