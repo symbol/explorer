@@ -43,7 +43,7 @@ class RestrictionService {
    */
   static searchMosaicRestrictions = async restrictionMosaicSearchCriteria => {
   	const searchMosaicRestrictions = await http.createRepositoryFactory.createRestrictionMosaicRepository()
-  		.searchMosaicRestrictions(restrictionMosaicSearchCriteria)
+  		.search(restrictionMosaicSearchCriteria)
   		.toPromise();
 
   	return {

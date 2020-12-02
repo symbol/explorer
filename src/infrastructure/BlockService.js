@@ -279,14 +279,16 @@ class BlockService {
    */
   static formatBlock = block => ({
   	...block,
+  	blockType: Constants.BlockType[block.type],
   	height: block.height.compact(),
   	timestampRaw: Number(block.timestamp.toString()),
   	timestamp: helper.networkTimestamp(Number(block.timestamp.toString())),
   	totalFee: helper.toNetworkCurrency(block.totalFee),
   	difficulty: helper.convertBlockDifficultyToReadable(block.difficulty),
   	feeMultiplier: block.feeMultiplier.toString(),
-  	transactions: block.totalTransactionsCount,
+  	totalTransactions: block.totalTransactionsCount,
   	statements: block.statementsCount,
+  	transactions: block.transactionsCount,
   	signer: helper.publicKeyToAddress(block.signer.publicKey),
   	beneficiaryAddress: block?.beneficiaryAddress.plain() || Constants.Message.UNAVAILABLE
   })
