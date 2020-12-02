@@ -55,8 +55,8 @@ export default class http {
 
   static get networkCurrency() {
   	return {
-  		namespaceName: NETWORK_CURRECY?.currency.namespaceId.fullName || globalConfig.networkConfig.namespaceName,
-  		mosaicId: NETWORK_CURRECY?.currency.namespaceId.toHex() || globalConfig.networkConfig.mosaicId,
+  		namespaceName: NETWORK_CURRECY?.currency.namespaceId?.fullName || globalConfig.networkConfig.namespaceName,
+  		mosaicId: NETWORK_CURRECY?.currency.namespaceId?.toHex() || globalConfig.networkConfig.mosaicId,
   		divisibility: NETWORK_CURRECY?.currency.divisibility || globalConfig.networkConfig.divisibility
   	};
   }
