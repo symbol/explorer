@@ -28,7 +28,7 @@
     "leaflet.markercluster": "^1.4.1",
     "merkletreejs": "^0.2.9",
     "moment-timezone": "^0.5.28",
-    "symbol-sdk": "^0.21.1-alpha-202011262256",
+    "symbol-sdk": "^0.22.0-alpha-202012081346",
     "url-parse": "^1.4.7",
     "utf8": "^3.0.0",
     "vue": "^2.6.11",
