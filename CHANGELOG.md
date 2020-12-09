@@ -18,7 +18,7 @@ SDK Core| v0.22.0 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 - Display node type on base info widget (Voting node / non voting node) [#723](https://github.com/nemgrouplimited/symbol-explorer/pull/723)
 - View receipt info in detail page such as Account, Block, Mosaic and Namespace [#716](https://github.com/nemgrouplimited/symbol-explorer/pull/716)
 - Display more than 1 alias name in listing or detail page. [#716](https://github.com/nemgrouplimited/symbol-explorer/pull/717)
-- new message component [#724](https://github.com/nemgrouplimited/symbol-explorer/pull/724)
+- New message component [#724](https://github.com/nemgrouplimited/symbol-explorer/pull/724)
 
 ### Fixed
 - Finalized Blocks are not up to date [#675](https://github.com/nemgrouplimited/symbol-explorer/issues/675)
