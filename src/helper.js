@@ -344,8 +344,7 @@ class helper {
    * @param deadlineValue - deadline from block
    * @returns YYYY-MM-DD HH:mm:ss
    */
-  static convertDeadlinetoDate = deadline => moment.utc(new Date(deadline)).local()
-  	.format('YYYY-MM-DD HH:mm:ss')
+  static convertDeadlinetoDate = deadline => this.convertToUTCDate(this.networkTimestamp(deadline))
 
   /**
    * Get RGB color from hash
@@ -513,7 +512,7 @@ class helper {
 
   	const values = http.nativeNamespaces.map(namespace => namespace.namespaceName);
 
-  	return values.indexOf(namespaceName.toUpperCase()) !== -1;
+  	return values.indexOf(namespaceName) !== -1;
   }
 
   /**

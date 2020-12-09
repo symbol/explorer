@@ -17,7 +17,7 @@
  */
 
 import * as symbol from 'symbol-sdk';
-import { MosaicService, NamespaceService } from '../infrastructure';
+import { NamespaceService } from '../infrastructure';
 import globalConfig from '../config/globalConfig';
 
 let NODE_URL;
@@ -34,29 +34,30 @@ let NETWORK_CURRECY;
 
 let NATIVE_NAMESPACES;
 
+let EPOCH_ADJUSTMENT;
+
 export default class http {
   static init = async (nodeUrl, marketDataUrl) => {
   	NODE_URL = nodeUrl;
   	MARKET_DATA_URL = marketDataUrl;
-  	NETWORK_TYPE = await http.createRepositoryFactory.getNetworkType().toPromise();
-  	GENERATION_HASH = await http.createRepositoryFactory.getGenerationHash().toPromise();
-  	NETWORK_PROPERTIES = await http.createRepositoryFactory.createNetworkRepository().getNetworkProperties()
-  		.toPromise();
 
-  	const mosaicId = NETWORK_PROPERTIES.chain.currencyMosaicId.replace(/0x|'/g, '');
-
-	  NETWORK_CURRECY = await MosaicService.getMosaicInfo(mosaicId);
+  	[NETWORK_TYPE, GENERATION_HASH, NETWORK_PROPERTIES, EPOCH_ADJUSTMENT, NETWORK_CURRECY] = await Promise.all([
+  		http.createRepositoryFactory.getNetworkType().toPromise(),
+  		http.createRepositoryFactory.getGenerationHash().toPromise(),
+  		http.createRepositoryFactory.createNetworkRepository().getNetworkProperties()
+  			.toPromise(),
+  		http.createRepositoryFactory.getEpochAdjustment().toPromise(),
+  		http.createRepositoryFactory.getCurrencies().toPromise()
+  	]);
 
 	  NATIVE_NAMESPACES = await NamespaceService.getNativeNamespaces() || [];
   }
 
   static get networkCurrency() {
-  	const networkNamespace = NETWORK_CURRECY?.mosaicAliasNames[0].toUpperCase() || globalConfig.networkConfig.namespaceName.toUpperCase();
-
   	return {
-  		namespaceName: networkNamespace,
-  		mosaicId: NETWORK_CURRECY?.mosaicId || globalConfig.networkConfig.mosaicId,
-  		divisibility: NETWORK_CURRECY?.divisibility || globalConfig.networkConfig.divisibility
+  		namespaceName: NETWORK_CURRECY?.currency.namespaceId?.fullName || globalConfig.networkConfig.namespaceName,
+  		mosaicId: NETWORK_CURRECY?.currency.namespaceId?.toHex() || globalConfig.networkConfig.mosaicId,
+  		divisibility: NETWORK_CURRECY?.currency.divisibility || globalConfig.networkConfig.divisibility
   	};
   }
 
@@ -78,7 +79,7 @@ export default class http {
   		MosaicRentalSinkAddress: symbol.Address.createFromRawAddress(this.networkProperties.plugins.mosaic.mosaicRentalFeeSinkAddress),
   		NamespaceRentalFeeSinkAddress: symbol.Address.createFromRawAddress(this.networkProperties.plugins.namespace.namespaceRentalFeeSinkAddress),
   		NetworkType: this.networkType,
-  		NemsisTimestamp: symbol.Deadline.timestampNemesisBlock,
+  		NemsisTimestamp: this.epochAdjustment,
   		TargetBlockTime: convertedBlockGenerationTargetTime,
   		NamespaceGraceDuration: convertedNamespaceGracePeriodDuration * blockPerday,
   		TotalChainImportance: convertedTotalChainImportance
@@ -99,6 +100,10 @@ export default class http {
 
   static get networkType() {
   	return NETWORK_TYPE;
+  }
+
+  static get epochAdjustment() {
+	  return EPOCH_ADJUSTMENT;
   }
 
   static get createRepositoryFactory() {

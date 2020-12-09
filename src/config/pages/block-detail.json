@@ -24,6 +24,7 @@
                     "canFetchNext": true
                 },
                 "fields": [
+                    "blockType",
                     "confirmations",
                     "height",
                     "payloadSize",
@@ -31,7 +32,8 @@
                     "totalFee",
                     "difficulty",
                     "feeMultiplier",
-                    "transactions",
+                    "totalTransactions",
+                    "statements",
                     "harvester",
                     "beneficiaryAddress",
                     "blockHash",
