@@ -23,7 +23,7 @@ SDK Core| v0.22.0 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 ### Fixed
 - Finalized Blocks are not up to date [#675](https://github.com/nemgrouplimited/symbol-explorer/issues/675)
 - Replace hardcoded XYM text from i18n properties [#684](https://github.com/nemgrouplimited/symbol-explorer/issues/684)
-- Address are not displayed correctly [#701](https://github.com/nemgrouplimited/symbol-explorer/issues/701)
+- Addresses are not displayed correctly [#701](https://github.com/nemgrouplimited/symbol-explorer/issues/701)
 - Transaction Detail. Doesn't display info for some transactions [#703](https://github.com/nemgrouplimited/symbol-explorer/issues/703)
 - Display all transactions at one page for an account [#704](https://github.com/nemgrouplimited/symbol-explorer/issues/704)
 - Namespace Detail. Handle expired namespace. [#705](https://github.com/nemgrouplimited/symbol-explorer/issues/705)
