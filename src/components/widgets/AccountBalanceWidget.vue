@@ -81,7 +81,7 @@ export default {
 		},
 
 		balance() {
-			return this.data.balance || 0;
+			return this.data.balance || '0';
 		},
 
 		address() {
