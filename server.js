@@ -22,7 +22,7 @@ const readConfig = (callback) => {
 				...ENV
 			};
 			
-			callback(JSON.stringify(mergedConfig));
+			callback(mergedConfig);
 		}
 	});
 };
@@ -46,7 +46,7 @@ const send = (res, data) => {
 
 const sendJSON = (res, data) => {
 	res.setHeader('Content-Type', 'application/json');
-	send(res, data);
+	send(res, JSON.stringify(data));
 }
 
 const sendError = (res, err, code) => {
@@ -55,26 +55,28 @@ const sendError = (res, err, code) => {
 	return;
 };
 
-readConfig(res => ENV = res);
+readConfig(res => {
+	ENV = res;
 
-http.createServer((req, res) => {
-	if(req.url === '/')
-		req.url = INDEX_HTML;
+	http.createServer((req, res) => {
+		if(req.url === '/')
+			req.url = INDEX_HTML;
 
-	if(req.url === CONFIG_ROUTE) { 
-		sendJSON(res, ENV);
-	}
-	else {
-		getFile(req.url, 
-			() => {
-				getFile(INDEX_HTML, 
-					err => sendError(res, err, 404),
-					data => send(res, data)
-				);
-			},
-			data => send(res, data)
-		);
-	}
-}).listen(PORT);
+		if(req.url === CONFIG_ROUTE) { 
+			sendJSON(res, ENV);
+		}
+		else {
+			getFile(req.url, 
+				() => {
+					getFile(INDEX_HTML, 
+						err => sendError(res, err, 404),
+						data => send(res, data)
+					);
+				},
+				data => send(res, data)
+			);
+		}
+	}).listen(ENV.PORT || PORT);
 
-console.log('Server is running on port: ' + PORT);
+	console.log('Server is running on port: ' + PORT);
+});
