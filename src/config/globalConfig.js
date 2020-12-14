@@ -16,7 +16,7 @@ const defaultGlobalConfig = {
 		'statisticsService': ''
 	},
 	'networkConfig': {
-		'namespaceName': 'SYMBOL.XEM',
+		'namespaceName': 'symbol.xym',
 		'mosaicId': '5B66E76BECAD0860',
 		'divisibility': '6'
 	},

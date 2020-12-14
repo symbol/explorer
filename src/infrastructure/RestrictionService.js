@@ -7,9 +7,9 @@ import {
 	MosaicAddressRestriction,
 	MosaicGlobalRestriction,
 	MosaicRestrictionEntryType,
-	Order,
-	MosaicId
+	Order
 } from 'symbol-sdk';
+import helper from '../helper';
 import Constants from '../config/constants';
 
 class RestrictionService {
@@ -43,7 +43,7 @@ class RestrictionService {
    */
   static searchMosaicRestrictions = async restrictionMosaicSearchCriteria => {
   	const searchMosaicRestrictions = await http.createRepositoryFactory.createRestrictionMosaicRepository()
-  		.searchMosaicRestrictions(restrictionMosaicSearchCriteria)
+  		.search(restrictionMosaicSearchCriteria)
   		.toPromise();
 
   	return {
@@ -155,17 +155,19 @@ class RestrictionService {
    * Gets Mosaic Restriction list dataset into Vue component
    * @param pageInfo - object for page info such as pageNumber, pageSize
    * @param filterVaule - object for search criteria eg. mosaic global or mosaic address
-   * @param mosaicId - mosaicId
+   * @param hexOrNamespace - hex value or namespace name
    * @returns formatted mosaic restriction list
    */
-  static getMosaicRestrictionList = async (pageInfo, filterVaule, mosaicId) => {
+  static getMosaicRestrictionList = async (pageInfo, filterVaule, hexOrNamespace) => {
+  	const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic');
+
   	const { pageNumber, pageSize } = pageInfo;
 
   	const searchCriteria = {
   		pageNumber,
   		pageSize,
   		order: Order.Desc,
-  		mosaicId: new MosaicId(mosaicId),
+  		mosaicId: mosaicId,
   		...filterVaule
 	  };
 
