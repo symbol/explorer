@@ -65,7 +65,7 @@ export default {
 
 		getMosaicName(mosaic) {
 			return mosaic.mosaicAliasName !== 'N/A'
-				? mosaic.mosaicAliasName
+				? mosaic.mosaicAliasName[0]
 				: mosaic.mosaicId;
 		}
 	}

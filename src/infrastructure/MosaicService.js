@@ -149,16 +149,19 @@ class MosaicService {
    * Gets mosaic Metadata list dataset into Vue component
    * @param pageInfo - object for page info such as pageNumber, pageSize
    * @param filterVaule - object for search criteria
-   * @param mosaicId - mosaicid
+   * @param hexOrNamespace - hex value or namespace name
    * @returns formatted mosaic Metadata list
    */
-   static getMosaicMetadataList = async (pageInfo, filterVaule, mosaicId) => {
+   static getMosaicMetadataList = async (pageInfo, filterVaule, hexOrNamespace) => {
+   	const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic');
+
    	const { pageNumber, pageSize } = pageInfo;
+
    	const searchCriteria = {
    		pageNumber,
    		pageSize,
    		order: Order.Desc,
-   		targetId: new MosaicId(mosaicId),
+   		targetId: mosaicId,
    		...filterVaule
    	};
    	const mosaicMetadatas = await MetadataService.searchMetadatas(searchCriteria);

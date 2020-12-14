@@ -417,11 +417,11 @@ class AccountService {
   static extractAccountNamespace = (accountInfo, accountNames) => {
   	let accountName = accountNames.find((name) => name.address === accountInfo.address);
 
-	  const aliasNames = accountName.names.map(names => names.name);
+  	const aliasNames = accountName.names.map(names => names.name);
 
-	const names = aliasNames.length > 0 ? aliasNames : [Constants.Message.UNAVAILABLE];
+  	const names = aliasNames.length > 0 ? aliasNames : [Constants.Message.UNAVAILABLE];
 
-	return names;
+  	return names;
   }
 
 	/**
