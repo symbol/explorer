@@ -10,7 +10,7 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 Package  | Version  | Link
 ---|---|---
 REST Core| v2.2.0 | [catapult-rest](https://github.com/nemtech/catapult-rest/releases/tag/v2.2.0)
-SDK Core| v0.22.0 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
+SDK Core| v0.22.2 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 
 ### Added
 - Added compatibility for 0.10.0.4 server.
