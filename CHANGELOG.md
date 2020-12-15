@@ -12,9 +12,11 @@ Package  | Version  | Link
 REST Core| v2.2.0 | [catapult-rest](https://github.com/nemtech/catapult-rest/releases/tag/v2.2.0)
 SDK Core| v0.22.2 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 
+### Added
+- Added server. Read config from environment variables [#728](https://github.com/nemgrouplimited/symbol-explorer/issues/728)
+
 ### Fixed
 - Add important block info in block detail. [#736](https://github.com/nemgrouplimited/symbol-explorer/issues/736)
-- Read config from environment variables [#728](https://github.com/nemgrouplimited/symbol-explorer/issues/728)
 
 ## [v0.7.0][v0.7.0] - 9-Dec-2020
 
