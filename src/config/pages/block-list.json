@@ -21,8 +21,9 @@
 				"onRowClickKey": "height",
                 "fields": [
                     "height",
+                    "blockType",
                     "age",
-                    "transactions",
+                    "totalTransactions",
                     "statements",
                     "totalFee",
                     "date",

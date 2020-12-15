@@ -15,7 +15,9 @@ import {
 	MosaicRestrictionFlag,
 	OperationRestrictionFlag,
 	MosaicRestrictionEntryType,
-	MosaicRestrictionType
+	MosaicRestrictionType,
+	LockStatus,
+	BlockType
 } from 'symbol-sdk';
 
 class Constants {
@@ -189,8 +191,14 @@ class Constants {
   }
 
   static LockStatusType = {
-	  0: 'Unused',
-	  1: 'Used'
+	  [LockStatus.UNUSED]: 'Unused',
+	  [LockStatus.USED]: 'Used'
+  }
+
+  static BlockType = {
+	  [BlockType.ImportanceBlock]: 'Importance Block',
+	  [BlockType.NemesisBlock]: 'Nemesis Block',
+	  [BlockType.NormalBlock]: 'Normal Block'
   }
 }
 

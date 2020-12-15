@@ -220,16 +220,19 @@ class NamespaceService {
    * Gets namespace metadata list dataset into Vue component
    * @param pageInfo - object for page info such as pageNumber, pageSize
    * @param filterVaule - object for search criteria
-   * @param namespaceId - namespaceId
+   * @param hexOrNamespace - hex value or namespace name
    * @returns formatted mamespace Metadata list
    */
-  static getNamespaceMetadataList = async (pageInfo, filterVaule, namespaceId) => {
+  static getNamespaceMetadataList = async (pageInfo, filterVaule, hexOrNamespace) => {
+  	const namespaceId = await helper.hexOrNamespaceToId(hexOrNamespace, 'namespace');
+
   	const { pageNumber, pageSize } = pageInfo;
+
   	const searchCriteria = {
 	   pageNumber,
 	   pageSize,
 	   order: Order.Desc,
-	   targetId: new NamespaceId(namespaceId),
+	   targetId: namespaceId,
 	   ...filterVaule
   	};
   	const namespaceMetadatas = await MetadataService.searchMetadatas(searchCriteria);

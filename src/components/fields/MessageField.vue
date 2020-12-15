@@ -60,7 +60,7 @@ export default {
 			return this.value.type;
 		},
 		isPlainMessage() {
-			return this.value.type === MessageType.PlainMessage;
+			return this.value.type === MessageType.PlainMessage || this.value.type === MessageType.RawMessage;
 		},
 		title() {
 			return `Click to view ${this.getKeyName(`messageTypeDescriptor_${this.messageType}`)}`;
