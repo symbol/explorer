@@ -17,12 +17,13 @@ const readConfig = (callback) => {
 		if (err) throw Error('Failed to read default config. ' + err);
 		else {
 			const defaultConfig = JSON.parse(data);
-			const parsedENV = Object.keys(ENV).map(key => {
+			const parsedENV = {};
+			Object.keys(ENV).forEach(key => {
 				try {
-					return JSON.parse(ENV[key]);
+					parsedENV[key] = JSON.parse(ENV[key]);
 				}
 				catch(e) {
-					return ENV[key];
+					parsedENV[key] = ENV[key];
 				}
 			});
 			const mergedConfig = {
