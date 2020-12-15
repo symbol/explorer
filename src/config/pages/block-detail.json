@@ -24,6 +24,7 @@
                     "canFetchNext": true
                 },
                 "fields": [
+                    "version",
                     "blockType",
                     "confirmations",
                     "height",
@@ -34,9 +35,13 @@
                     "feeMultiplier",
                     "totalTransactions",
                     "statements",
+                    "votingEligibleAccountsCount",
+                    "harvestingEligibleAccountsCount",
+                    "totalVotingBalance",
                     "harvester",
                     "beneficiaryAddress",
                     "blockHash",
+                    "previousImportanceBlockHash",
                     "proofGamma",
                     "proofScalar",
                     "proofVerificationHash"

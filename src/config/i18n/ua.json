@@ -364,5 +364,9 @@
     "nonVotingNode": "Non Voting Node",
     "votingNodeTooltips": "Sync ahead of common node.",
     "nonVotingNodeTooltips": "Sync behind of Voting node.",
-    "blockType": "Type"
+    "blockType": "Type",
+    "totalVotingBalance": "Total Voting Balance",
+    "harvestingEligibleAccountsCount": "Total Harvesting Eligible Accounts",
+    "votingEligibleAccountsCount": "Total Voting Eligible Accounts",
+    "previousImportanceBlockHash": "Previous Importance Block Hash"
 }
