@@ -16,7 +16,7 @@
  *
  */
 
-import { UInt64, TransactionGroup, Order, BlockOrderBy } from 'symbol-sdk';
+import { UInt64, TransactionGroup, Order, BlockOrderBy, BlockType } from 'symbol-sdk';
 import { TransactionService, ReceiptService } from '../infrastructure';
 import http from './http';
 import helper from '../helper';
@@ -210,8 +210,18 @@ class BlockService {
   		return `${Constants.MerkleRootsOrder[index]} - ${root}`;
   	});
 
+  	let importanceBlockInfo = {};
+
+  	if (block.type === BlockType.ImportanceBlock) {
+  		Object.assign(importanceBlockInfo, {
+  			totalVotingBalance: Number(block.totalVotingBalance),
+  			harvestingEligibleAccountsCount: Number(block.harvestingEligibleAccountsCount)
+  		});
+  	}
+
   	return {
   		...block,
+  		...importanceBlockInfo,
   		payloadSize: block.size,
   		blockHash: block.hash,
   		harvester: block.signer,
@@ -279,14 +289,16 @@ class BlockService {
    */
   static formatBlock = block => ({
   	...block,
+  	blockType: Constants.BlockType[block.type],
   	height: block.height.compact(),
-  	timestampRaw: block.timestamp,
-  	timestamp: helper.networkTimestamp(block.timestamp),
+  	timestampRaw: Number(block.timestamp.toString()),
+  	timestamp: helper.networkTimestamp(Number(block.timestamp.toString())),
   	totalFee: helper.toNetworkCurrency(block.totalFee),
   	difficulty: helper.convertBlockDifficultyToReadable(block.difficulty),
   	feeMultiplier: block.feeMultiplier.toString(),
-  	transactions: block.totalTransactionsCount,
+  	totalTransactions: block.totalTransactionsCount,
   	statements: block.statementsCount,
+  	transactions: block.transactionsCount,
   	signer: helper.publicKeyToAddress(block.signer.publicKey),
   	beneficiaryAddress: block?.beneficiaryAddress.plain() || Constants.Message.UNAVAILABLE
   })

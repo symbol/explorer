@@ -357,5 +357,18 @@
     "nodeDetailError": "ノード詳細の取得に失敗",
     "extendGraphicValue": "情報",
     "created": "作成",
-    "ago": "前"
+    "ago": "前",
+    "messageTypeDescriptor_-1": "Raw message",
+    "messageTypeDescriptor_0": "Plain message",
+    "messageTypeDescriptor_1": "Encrypted message",
+    "messageTypeDescriptor_254": "Delegated Harvesting Persistent message",
+    "votingNode": "Voting Node",
+    "nonVotingNode": "Non Voting Node",
+    "votingNodeTooltips": "Sync ahead of common node.",
+    "nonVotingNodeTooltips": "Sync behind of Voting node.",
+    "blockType": "Type",
+    "totalVotingBalance": "Total Voting Balance",
+    "harvestingEligibleAccountsCount": "Total Harvesting Eligible Accounts",
+    "votingEligibleAccountsCount": "Total Voting Eligible Accounts",
+    "previousImportanceBlockHash": "Previous Importance Block Hash"
 }

@@ -23,6 +23,7 @@
                 "errorMessage": "transactionInfoError",
                 "pagination": "none",
                 "fields": [
+                    "version",
                     "blockHeight",
                     "payloadSize",
                     "transactionHash",
