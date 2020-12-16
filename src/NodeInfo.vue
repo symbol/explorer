@@ -6,7 +6,7 @@
 		<div class="content">
 			<h4>Node Chain Info</h4>
 		</div>
-		
+		<p><strong>{key}</strong>: {} </p>
 	</div>
 </template>
 
