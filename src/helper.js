@@ -477,6 +477,7 @@ class helper {
 
   				mosaicsFieldObject.push({
   					...resolvedMosaic,
+  					rawAmount: resolvedMosaic.amount,
   					mosaicId: resolvedMosaic.id.toHex(),
   					amount: helper.formatMosaicAmountWithDivisibility(resolvedMosaic.amount, divisibility),
   					mosaicAliasName: MosaicService.extractMosaicNamespace({ mosaicId: resolvedMosaic.id.toHex() }, mosaicNames)
