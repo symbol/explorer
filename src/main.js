@@ -38,4 +38,3 @@ loadConfig().then(async () => {
 		render: h => h(App)
 	}).$mount('#app');
 });
-
