@@ -204,10 +204,15 @@ class helper {
   		return Address.createFromPublicKey(address, http.networkType).plain();
 
   	if (!this.isAccountAddress(address)) {
-  		const namespaceId = new NamespaceId(address);
+  		try {
+  			const namespaceId = new NamespaceId(address);
 
-  		address = await NamespaceService.getLinkedAddress(namespaceId);
-  		return address;
+  			address = await NamespaceService.getLinkedAddress(namespaceId);
+  			return address.plain();
+		  }
+  		catch (e) {
+  			console.error(e);
+  		}
   	}
 
   	return address;
