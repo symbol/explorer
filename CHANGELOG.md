@@ -3,6 +3,21 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v0.7.1[v0.7.1] - 16-Dec-2020
+
+### Milestone: [catapult-server@v0.10.0.4](https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.4)
+
+Package  | Version  | Link
+---|---|---
+REST Core| v2.2.0 | [catapult-rest](https://github.com/nemtech/catapult-rest/releases/tag/v2.2.0)
+SDK Core| v0.22.2 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
+
+### Added
+- Added server. Read config from environment variables [#728](https://github.com/nemgrouplimited/symbol-explorer/issues/728)
+
+### Fixed
+- Add important block info in block detail. [#736](https://github.com/nemgrouplimited/symbol-explorer/issues/736)
+
 ## [v0.7.0][v0.7.0] - 9-Dec-2020
 
 ### Milestone: [catapult-server@v0.10.0.4](https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.4)
@@ -206,3 +221,4 @@ SDK Core| v0.20.7 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 [v0.6.1]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.6.1
 [v0.6.2]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.6.2
 [v0.7.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.7.0
+[v0.7.1]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.7.1
