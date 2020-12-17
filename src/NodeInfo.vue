@@ -1,20 +1,25 @@
 <template>
-	<div class="root" v-loading="isLoading">
-		<div class="title">
-			<h3>Node Rewards Client</h3>
-		</div>
+	<div class="root">
+		<img :src="BackgroundImage" class="background-image"/>
+		<h3 class="title">Node Rewards Client</h3>
 		<div class="content">
 			<h4>Node Chain Info</h4>
 		</div>
-		<p><strong>{key}</strong>: {} </p>
+		<p>
+			<TestTable :data="chainInfo" />
+		</p>
 	</div>
 </template>
 
 <script>
 import defaultConfig from './config.json';
+import TestTable from './components/TestTable.vue';
+import BackgroundImage from './styles/mesh.png';
 
 export default {
 	name: 'NodeInfo',
+
+	components: { TestTable },
 
 	props: {
 		accessor: {
@@ -33,11 +38,12 @@ export default {
 	},
 
 	async mounted() {
-		
+		this.load();
 	},
 
 	data() {
 		return {
+			BackgroundImage,
 			isError: false,
 			errorMessage: '',
 
@@ -78,18 +84,18 @@ export default {
 			if(
 				this.accessor === null 
 				|| typeof this.accessor !== 'object' 
-				|| typeof this.accessor.get !== 'function'
+				///|| typeof this.accessor.get !== 'function'
 			) {
 				throw Error('No "accessor" provided');
 			}
 			else
-				return this.accessor.get();
+				return this.accessor;
 		},
 
-		async getAccontInfo() {
+		async getAccountInfo() {
 			const accessor = this.getAccessor();
 			if(accessor) {
-				const nodeAccountInfo = await accessor.getAccountInfo();
+				const nodeAccountInfo = await getAccountInfo();
 				this.publicKey = nodeAccountInfo.publicKey;
 				this.balance = nodeAccountInfo.publicKey;
 			}
@@ -97,8 +103,10 @@ export default {
 
 		async getNodeInfo() {
 			const accessor = this.getAccessor();
+			
 			if(accessor) {
-				const nodeInfo = await accessor.http.get(this.nodeMonitorEndpoint + '/' + this.publicKey);
+				const nodeInfo = await getNodeInfo(this.nodeMonitorEndpoint + '/' + this.publicKey);
+				console.log(nodeInfo)
 				this.detail = nodeInfo.detail;
 				this.performance = nodeInfo.performance;
 				this.chainInfo = nodeInfo.chainInfo;
@@ -106,6 +114,61 @@ export default {
 		}
 	}
 }
+
+const getAccountInfo = async () => {
+	return {
+		publicKey: 'pppppppppppppppppppppppppppppppppppppppp',
+		balance: '3,000,100.929128'
+	}
+} 
+
+const getNodeInfo = async (url) => ({
+	detail: {
+		role: 'Peer API Voting Node',
+		ip: 'peer-01.ap-southeast-1.0.10.0.x.symboldev.network',
+		friendlyName: 'peer-01.ap-southeast-1',
+		bondedDeposit: {
+			passed: true,
+			value: '3,000,100.929128',
+		}
+	},
+	performance: {
+		bandwidth: {
+			passed: true,
+			value: 5,
+		},
+		computingPower: {
+			passed: true,
+			value: 2000,
+		},
+		ping: {
+			passed: true,
+			value: 200,
+		},
+		responsiveness: {
+			passed: true,
+			value: 10,
+		}
+	},
+	chainInfo: {
+		chainHeight: {
+			passed: true,
+			value: 2000,
+		},
+		chainPart: {
+			passed: false,
+			value: 50,
+		},
+		finalizationHeight: {
+			passed: false,
+			value: 49,
+		},
+		NISVersion: {
+			passed: true,
+			value: '2',
+		}
+	}
+});
 </script>
 
 <style lang="scss" scoped>
@@ -155,20 +218,26 @@ strong {
 }
 
 .root {
+	position: relative;
 	padding: 40px;
 	color: $white-color;
 	border-radius: 6px;
-	background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+	background: linear-gradient(135deg, rgb(5, 12, 32) 0%, rgb(67, 0, 78) 100%);
 
 	.title {
-		color: var(--white-color);
-		font-weight: 700;
-		font-size: 2rem;
-		line-height: 2.5rem;
+		margin-bottom: 40px;
 	}
 
 	.content {
 		
+	}
+
+	.background-image {
+		position: absolute;
+		bottom: 0;
+		left: 0;
+		width: 100%;
+		opacity: 0.5;
 	}
 }
 
