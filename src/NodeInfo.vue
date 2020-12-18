@@ -19,25 +19,16 @@
 			</tr>
 		</table>
 		
-		<div v-if="!isError" class="tab">
-			<table>
-				<tr>
-					
-					<td>
-						<!-- <h4 class="tab-title">{{tabs[activeTab].title}}</h4> -->
-						<transition name="component-fade" mode="out-in">
-							<component 
-								class="tab-content"
-								:is="tabs[activeTab].component"
-								:data="data"
-								:language="language" 
-							/>
-						</transition>
-					</td>
-				</tr>
-			</table>
-			
-			
+		<div v-if="!isError" class="tab custom-scrollbar">
+			<!-- <h4 class="tab-title">{{tabs[activeTab].title}}</h4> -->
+			<!-- <transition name="component-fade" mode="out-in"> -->
+				<component 
+					class="tab-content"
+					:is="tabs[activeTab].component"
+					:data="data"
+					:language="language" 
+				/>
+			<!-- </transition> -->
 		</div>
 		<div v-else>
 			<h4>Error</h4>
@@ -50,8 +41,9 @@
 <script>
 import defaultConfig from './config.json';
 import Table from './components/Table.vue';
+import PayoutList from './components/PayoutList.vue';
 import TabSelector from './components/TabSelector.vue';
-import BackgroundImage from './styles/mesh.png';
+import BackgroundImage from './assets/mesh.png';
 import BlockchainImage from './assets/blockchain.png';
 import PayoutsImage from './assets/payouts.png';
 import PerformanceImage from './assets/performance.png';
@@ -60,7 +52,7 @@ import translate from './i18n';
 export default {
 	name: 'NodeInfo',
 
-	components: { Table, TabSelector },
+	components: { Table, TabSelector, PayoutList },
 
 	props: {
 		accessor: {
@@ -101,7 +93,7 @@ export default {
 				payout: {
 					title: translate(this.language, 'payoutTitle'),
 					image: PayoutsImage,
-					component: 'Table'
+					component: 'PayoutList'
 				}
 			},
 			nodeInfo: {
@@ -165,17 +157,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$primary-color: #5200c6;
-$secondary-color: #44004e;
-$red-color: red;
-$pink-color: #f0f;
-$accent-color: #f0f;
-$blue-color: #00c8ff;
-$green-color: #33dd50;
-$orange-color: #ff9600;
-$white-color: #ffffff;
-$darkwhite-color: #f3f4f8;
-
 h2 {
 	font-size: 2.5rem;
 	line-height: 3.25rem;
@@ -211,11 +192,13 @@ strong {
 }
 
 .root {
-	height: 368px;
+	height: 380px;
 	width: 600px;
+	display: flex;
+	flex-direction: column;
 	position: relative;
 	padding: 40px;
-	color: $white-color;
+	color: #fff;
 	border-radius: 6px;
 	background: linear-gradient(135deg, rgb(5, 12, 32) 0%, rgb(67, 0, 78) 100%);
 
@@ -229,10 +212,14 @@ strong {
 
 	.tab {
 		position: relative;	
+		flex: 1;
+		flex-shrink: 1;
+		align-items: stretch;
 	}
 
 	.tab-content {
-		animation: fadein 1s;
+		overflow-y: scroll;
+		height: 100%;
 	}
 
 	.tab-image {
@@ -247,6 +234,26 @@ strong {
 		left: 0;
 		width: 100%;
 		opacity: 0.5;
+	}
+
+		/* custom scrollbar */
+	::-webkit-scrollbar {
+		width: 20px;
+	}
+
+	::-webkit-scrollbar-track {
+		background-color: transparent;
+	}
+
+	::-webkit-scrollbar-thumb {
+		background-color: #660075;
+		border-radius: 20px;
+		border: 6px solid transparent;
+		background-clip: content-box;
+	}
+
+	::-webkit-scrollbar-thumb:hover {
+		background-color: #5200c6;
 	}
 }
 </style>

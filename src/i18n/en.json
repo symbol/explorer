@@ -15,5 +15,7 @@
 	"bandwidth": "Bandwidth",
 	"computingPower": "Computing Power",
 	"ping": "Ping",
-	"responsiveness": "Responsiveness"
+	"responsiveness": "Responsiveness",
+
+	"ping_suf": "ms"
 }
