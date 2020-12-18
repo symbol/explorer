@@ -1,40 +1,40 @@
 <template>
-	<div class="table-root">
-		<div class="vert-line" />
-		<TestItem 
-			v-for="(item, index) in data" 
-			:name="index"
-			:passed="item.passed"
-			:value="item.value"
-			:enoughValue="'228'"
-			:key="'' + index + 'test-item'"
-		/>
+	<div class="tab-selector">
+		<div 
+			v-for="(item, index) in tabs"
+			class="tab-item" 
+			:key="'' + index + 'tab-sel'"
+			@click="()=> $emit('onSelect', index)"
+		>
+			{{ translate(language, index) }}
+		</div>
 	</div>
 </template>
 
 <script>
+import translate from '../i18n';
 import TestItem from './TestItem.vue';
 
 export default {
-	name: 'TestTable',
+	name: 'Table',
 
 	components: { TestItem },
 
 	props: {
-		data: {
+		tabs: {
 			type: Object,
 			required: true
-		}
+		},
+		language: {
+			type: String,
+		},
 	},
 
 	data() {
 		return {
+			translate
 		}
-	},
-
-	computed: {
-	},
-
+	}
 }
 </script>
 
@@ -42,6 +42,11 @@ export default {
 .table-root {
 	background: transparent;
 	position: relative;
+}
+
+.table-component {
+	table-layout: fixed;
+	width: 100%;
 }
 
 .vert-line {

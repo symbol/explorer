@@ -1,25 +1,48 @@
 <template>
 	<div class="root">
 		<img :src="BackgroundImage" class="background-image"/>
-		<h3 class="title">Node Rewards Client</h3>
-		<div class="content">
-			<h4>Node Chain Info</h4>
+		<h3 class="title">{{translate(language, 'appTitle')}}</h3>
+		<div v-if="!isError" class="tab">
+			<table>
+				<tr>
+					<td>
+						<img :src="tabs[activeTab].image" class="tab-image"/>
+					</td>
+					<td>
+						<!-- <h4 class="tab-title">{{tabs[activeTab].title}}</h4> -->
+						<component 
+							class="tab-content"
+							:is="tabs[activeTab].component"
+							:data="chainInfo"
+							:language="language" 
+						/>
+					</td>
+				</tr>
+			</table>
+			
+			
 		</div>
-		<p>
-			<TestTable :data="chainInfo" />
-		</p>
+		<div v-else>
+			<h4>Error</h4>
+			<p>{{errorMessage}}</p>
+		</div>
+
 	</div>
 </template>
 
 <script>
 import defaultConfig from './config.json';
-import TestTable from './components/TestTable.vue';
+import Table from './components/Table.vue';
 import BackgroundImage from './styles/mesh.png';
+import BlockchainImage from './assets/blockchain.png';
+import PayoutsImage from './assets/payouts.png';
+import PerformanceImage from './assets/performance.png';
+import translate from './i18n';
 
 export default {
 	name: 'NodeInfo',
 
-	components: { TestTable },
+	components: { Table },
 
 	props: {
 		accessor: {
@@ -28,12 +51,12 @@ export default {
 		dataManager: {
 			type: Object
 		},
-		translate: {
-			type: Function,
-			default: e => e
-		},
 		config: {
 			type: Object
+		},
+		language: {
+			type: String,
+			default: 'en'
 		}
 	},
 
@@ -43,24 +66,51 @@ export default {
 
 	data() {
 		return {
+			translate,
 			BackgroundImage,
-			isError: false,
-			errorMessage: '',
-
-			publicKey: '',
-			balance: 0,
-
-			detail: {},
-			hostInfo: {},
-			status: {},
-			performance: {},
+			activeTab: 'chainInfo',
+			tabs: {
+				chainInfo: {
+					title: translate(this.language, 'chainInfoTitle'),
+					image: BlockchainImage,
+					component: 'Table'
+				},
+				performance: {
+					title: translate(this.language, 'performanceTestTitle'),
+					image: BlockchainImage,
+					component: 'Table'
+				},
+				payout: {
+					title: translate(this.language, 'payoutTitle'),
+					image: PayoutsImage,
+					component: 'Table'
+				}
+			},
+			nodeInfo: {
+				isError: false,
+				errorMessage: ''
+			},
 			chainInfo: {},
+			performance: {},
+			payout: {}
 		}
 	},
 
 	computed: {
-		canWrite() {
-			return getAccessor().canWrite;
+		isLoading() {
+			return this.accessor.accountInfo.isLoading || this.nodeInfo.isLoading;
+		},
+
+		isError() {
+			return this.accessor.accountInfo.isError || this.nodeInfo.isError;
+		},
+
+		errorMessage() {
+			return this.accessor.accountInfo.errorMessage || this.nodeInfo.errorMessage;
+		},
+
+		publicKey() {
+			this.accessor.accountInfo.data
 		},
 
 		nodeMonitorEndpoint() {
@@ -72,103 +122,24 @@ export default {
 
 	methods: {
 		async load() {
-			this.isError = false;
-			this.errorMessage = '';
-
-			await this.getAccessor();
-			await this.getAccountInfo();
+			console.log(this.accessor)
 			await this.getNodeInfo();
 		},
 
-		getAccessor() {
-			if(
-				this.accessor === null 
-				|| typeof this.accessor !== 'object' 
-				///|| typeof this.accessor.get !== 'function'
-			) {
-				throw Error('No "accessor" provided');
-			}
-			else
-				return this.accessor;
-		},
-
-		async getAccountInfo() {
-			const accessor = this.getAccessor();
-			if(accessor) {
-				const nodeAccountInfo = await getAccountInfo();
-				this.publicKey = nodeAccountInfo.publicKey;
-				this.balance = nodeAccountInfo.publicKey;
-			}
-		},
-
 		async getNodeInfo() {
-			const accessor = this.getAccessor();
-			
-			if(accessor) {
-				const nodeInfo = await getNodeInfo(this.nodeMonitorEndpoint + '/' + this.publicKey);
+			try {
+				const nodeInfo = await this.accessor.http.get(this.nodeMonitorEndpoint + '/' + this.publicKey);
 				console.log(nodeInfo)
-				this.detail = nodeInfo.detail;
 				this.performance = nodeInfo.performance;
 				this.chainInfo = nodeInfo.chainInfo;
 			}
+			catch(e) {
+				this.nodeInfo.isError = true;
+				this.nodeInfo.errorMessage = e.message;
+			}	
 		}
 	}
-}
-
-const getAccountInfo = async () => {
-	return {
-		publicKey: 'pppppppppppppppppppppppppppppppppppppppp',
-		balance: '3,000,100.929128'
-	}
-} 
-
-const getNodeInfo = async (url) => ({
-	detail: {
-		role: 'Peer API Voting Node',
-		ip: 'peer-01.ap-southeast-1.0.10.0.x.symboldev.network',
-		friendlyName: 'peer-01.ap-southeast-1',
-		bondedDeposit: {
-			passed: true,
-			value: '3,000,100.929128',
-		}
-	},
-	performance: {
-		bandwidth: {
-			passed: true,
-			value: 5,
-		},
-		computingPower: {
-			passed: true,
-			value: 2000,
-		},
-		ping: {
-			passed: true,
-			value: 200,
-		},
-		responsiveness: {
-			passed: true,
-			value: 10,
-		}
-	},
-	chainInfo: {
-		chainHeight: {
-			passed: true,
-			value: 2000,
-		},
-		chainPart: {
-			passed: false,
-			value: 50,
-		},
-		finalizationHeight: {
-			passed: false,
-			value: 49,
-		},
-		NISVersion: {
-			passed: true,
-			value: '2',
-		}
-	}
-});
+};
 </script>
 
 <style lang="scss" scoped>
@@ -218,6 +189,7 @@ strong {
 }
 
 .root {
+	min-height: 300px;
 	position: relative;
 	padding: 40px;
 	color: $white-color;
@@ -228,10 +200,22 @@ strong {
 		margin-bottom: 40px;
 	}
 
-	.content {
-		
-	}
+	.tab {
+		position: relative;
 
+		.tab-title {
+			
+		}
+
+		.tab-content {
+
+		}
+
+		.tab-image {
+			height: 20%;
+			margin-right: 40px;
+		}
+	}
 	.background-image {
 		position: absolute;
 		bottom: 0;

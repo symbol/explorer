@@ -1,21 +1,24 @@
 <template>
-		<div class="test-item">
-			<div class="name">
-				{{ name }}
-			</div>
-			<div class="test-item-wrapper">
+		<tr class="test-item" valign="top">
+			<td class="name-td" valign="top">
+				{{ translate(language, name) }}
+			</td>
+
+			<td class="value-td">
 				<div class="value">
-					<div class="progress">
+					<div class="progress-outer">
 						<div class="progress-value" :style="progressValue"/>
 						<div class="value-text">{{ value }}</div>
 					</div>
-					<div class="enough-value-text">{{ enoughValue }}</div>
+					<div class="expected-value-text">{{ _expectedValue }}</div>
 				</div>
-			</div>
-		</div>
+			</td>
+		</tr>
 </template>
 
 <script>
+import translate from '../i18n';
+
 export default {
 	name: 'TestItem',
 
@@ -28,7 +31,7 @@ export default {
 			type: [String, Number],
 			required: true
 		},
-		enoughValue: {
+		expectedValue: {
 			type: [String, Number],
 			required: true
 		},
@@ -36,16 +39,15 @@ export default {
 			type: Boolean,
 			required: true
 		},
-		translate: {
-			type: Function,
-			default: e => e
-		}
+		language: {
+			type: String,
+		},
 	},
 
 	mounted() {
 		setTimeout(() => {
 			if(this.passed)
-				this.progressValue = { width: '80%', backgroundColor: '#33dd50' };
+				this.progressValue = { width: '100%', backgroundColor: '#33dd50' };
 			else
 				this.progressValue = { width: '25%' };
 		}, 1000)
@@ -53,32 +55,36 @@ export default {
 	},
 	data() {
 		return {
-			progressValue: { width: '0%' }
+			translate,
+			progressValue: { width: '0%' },
 		}
 	},
 
 	computed: {
+		_expectedValue() {
+			if(this.passed)
+				return ' ';
+			else
+				return this.expectedValue;
+		}
 	},
 
 }
 </script>
 
 <style lang="scss" scoped>
-.test-item-wrapper {
-	display: block;
-	width: 100px;
-	flex-shrink: 0;
+td {
+	padding: 5px 0;
 }
 
-.test-item {
+.name-td {
+	vertical-align: top;
+	//font-size: 12px;
+}
+
+.value-td {
 	display: flex;
-	flex: 1;
-	justify-content: space-between;
-	flex-direction: row;
-}
-
-.name {
-
+	justify-content: flex-end;
 }
 
 .value {
@@ -86,14 +92,20 @@ export default {
 	flex-direction: column;
 	align-items: center;
 	flex-shrink: 0;
+	width: 100px;
 }
 
-.progress {
+.progress-outer {
 	display: flex;
 	width: 100%;
 	flex-grow: 1;
 	flex-direction: row;
 	position: relative;
+	height: 1rem;
+    overflow: hidden;
+    font-size: 0.75rem;
+    background: linear-gradient(120deg, #ffffff 0%, #f3f4f8 100%);
+    border-radius: 0.25rem;
 }
 
 .progress-value {
@@ -108,17 +120,20 @@ export default {
 .value-text {
 	position: absolute;
 	height: 100%;
-	left: 10px;
+	left: 5px;
 	line-height: 17px;
 	font-size: 10px;
 	color: $secondary-color;
+	font-weight: bold;
 }
 
-.enough-value-text {
-	z-index: 1;
+.expected-value-text {
 	font-size: 10px;
-	// text-align: right;
-	// align-self: flex-end;
+	width: 45px;
+	margin-top: 2px;
+	text-align: center;
+	align-self: flex-end;
+	opacity: 0.5;
 }
 
 </style>

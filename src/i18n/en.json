@@ -1,0 +1,13 @@
+{
+	"appTitle": "Node Rewards Client",
+	"chainInfoTitle": "Node Chain Test",
+	"performanceTestTitle": "Node Performance Test",
+	"chainHeight": "Chain Height",
+	"chainPart": "Chain Part",
+	"finalizationHeight": "Finalization Height",
+	"NISVersion": "NIS Version",
+	"bandwidth": "Bandwidth",
+	"computingPower": "Computing Power",
+	"ping": "Ping",
+	"responsiveness": "Responsiveness"
+}
