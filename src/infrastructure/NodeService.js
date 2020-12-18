@@ -60,10 +60,10 @@ class NodeService {
     	let nodePeers = [];
 
     	try {
-			if(globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length)
-			nodePeers = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes')).data;
-			else
-				throw Error('Statistics service endpoint is not provided');	
+    		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length)
+    			nodePeers = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes')).data;
+    		else
+    			throw Error('Statistics service endpoint is not provided');
     	}
     	catch (e) {
     		nodePeers = await http.createRepositoryFactory.createNodeRepository()
@@ -138,11 +138,11 @@ class NodeService {
     	let node = {};
 
     	try {
-			if(globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length)
+    		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length)
     			node = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes/' + publicKey)).data;
-			else
-				throw Error('Statistics service endpoint is not provided');
-		}
+    		else
+    			throw Error('Statistics service endpoint is not provided');
+    	}
     	catch (e) {
     		const nodes = (await Axios.get(http.nodeUrl + '/node/peers')).data;
 
