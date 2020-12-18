@@ -2,9 +2,10 @@
 	<div class="tab-selector">
 		<div 
 			v-for="(item, index) in tabs"
-			class="tab-item" 
+			class="tab-item tab-item--hover1"
+			:class="{'tab-item-active': index === activeTab}"
 			:key="'' + index + 'tab-sel'"
-			@click="()=> $emit('onSelect', index)"
+			@click="()=> $emit('select', index)"
 		>
 			{{ translate(language, index) }}
 		</div>
@@ -13,17 +14,17 @@
 
 <script>
 import translate from '../i18n';
-import TestItem from './TestItem.vue';
 
 export default {
-	name: 'Table',
-
-	components: { TestItem },
+	name: 'TabSelector',
 
 	props: {
 		tabs: {
 			type: Object,
 			required: true
+		},
+		activeTab: {
+			type: String,
 		},
 		language: {
 			type: String,
@@ -39,23 +40,41 @@ export default {
 </script>
 
 <style lang="scss">
-.table-root {
-	background: transparent;
+.tab-selector {
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+}
+
+.tab-item {
+	color: #fffa;
+	margin-right: 40px;
+	cursor: pointer;
 	position: relative;
+    overflow: visible!important;
 }
 
-.table-component {
-	table-layout: fixed;
-	width: 100%;
+.tab-item--hover:after {
+	display: block;
+    content: "";
+    position: relative;
+    left: .0625rem;
+    height: .0625rem;
+    width: 50%;
+    background-color: #f0f;
+    transform: scaleX(0);
+    transform-origin: 100% 50%;
+    transition: transform .3s;
+    transition-timing-function: cubic-bezier(.2,1,.3,1);
 }
 
-.vert-line {
-	z-index: 0;
-	top: -20%;
-	right: 50px;
-	position: absolute;
-    width: 1px;
-	height: 130%;
-    background-image: linear-gradient(to bottom, rgba(255, 0, 255, 0), $pink-color, rgba(0, 0, 0, 0));
+.tab-item--hover:hover:after{
+	transform: scaleX(1);
+	transform-origin: 0 50%;
+	transition-timing-function: ease;
+}
+
+.tab-item-active {
+	color: #f0f
 }
 </style>

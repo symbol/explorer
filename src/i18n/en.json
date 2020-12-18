@@ -1,7 +1,13 @@
 {
-	"appTitle": "Node Rewards Client",
+	"appTitle": "Node Rewards Program",
+
 	"chainInfoTitle": "Node Chain Test",
 	"performanceTestTitle": "Node Performance Test",
+
+	"chainInfo": "Chain",
+	"performance": "Performance",
+	"payout": "Payout",
+
 	"chainHeight": "Chain Height",
 	"chainPart": "Chain Part",
 	"finalizationHeight": "Finalization Height",

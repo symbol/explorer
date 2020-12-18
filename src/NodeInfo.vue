@@ -1,21 +1,38 @@
 <template>
 	<div class="root">
 		<img :src="BackgroundImage" class="background-image"/>
-		<h3 class="title">{{translate(language, 'appTitle')}}</h3>
+		<table class="top-bar">
+			<tr>
+				<td>
+					<h3>{{translate(language, 'appTitle')}}</h3>
+						<TabSelector 
+							class="title"
+							:tabs="tabs" 
+							:activeTab="activeTab"
+							:language="language"
+							@select="index => activeTab = index" 
+						/>
+				</td>
+				<td valign="top">
+					<img :src="tabs[activeTab].image" class="tab-image"/>
+				</td>
+			</tr>
+		</table>
+		
 		<div v-if="!isError" class="tab">
 			<table>
 				<tr>
-					<td>
-						<img :src="tabs[activeTab].image" class="tab-image"/>
-					</td>
+					
 					<td>
 						<!-- <h4 class="tab-title">{{tabs[activeTab].title}}</h4> -->
-						<component 
-							class="tab-content"
-							:is="tabs[activeTab].component"
-							:data="chainInfo"
-							:language="language" 
-						/>
+						<transition name="component-fade" mode="out-in">
+							<component 
+								class="tab-content"
+								:is="tabs[activeTab].component"
+								:data="data"
+								:language="language" 
+							/>
+						</transition>
 					</td>
 				</tr>
 			</table>
@@ -33,6 +50,7 @@
 <script>
 import defaultConfig from './config.json';
 import Table from './components/Table.vue';
+import TabSelector from './components/TabSelector.vue';
 import BackgroundImage from './styles/mesh.png';
 import BlockchainImage from './assets/blockchain.png';
 import PayoutsImage from './assets/payouts.png';
@@ -42,7 +60,7 @@ import translate from './i18n';
 export default {
 	name: 'NodeInfo',
 
-	components: { Table },
+	components: { Table, TabSelector },
 
 	props: {
 		accessor: {
@@ -77,7 +95,7 @@ export default {
 				},
 				performance: {
 					title: translate(this.language, 'performanceTestTitle'),
-					image: BlockchainImage,
+					image: PerformanceImage,
 					component: 'Table'
 				},
 				payout: {
@@ -111,6 +129,10 @@ export default {
 
 		publicKey() {
 			this.accessor.accountInfo.data
+		},
+
+		data() {
+			return this[this.activeTab];
 		},
 
 		nodeMonitorEndpoint() {
@@ -189,33 +211,36 @@ strong {
 }
 
 .root {
-	min-height: 300px;
+	height: 368px;
+	width: 600px;
 	position: relative;
 	padding: 40px;
 	color: $white-color;
 	border-radius: 6px;
 	background: linear-gradient(135deg, rgb(5, 12, 32) 0%, rgb(67, 0, 78) 100%);
 
+	.top-bar {
+		width: 100%;
+	}
+
 	.title {
 		margin-bottom: 40px;
 	}
 
 	.tab {
-		position: relative;
-
-		.tab-title {
-			
-		}
-
-		.tab-content {
-
-		}
-
-		.tab-image {
-			height: 20%;
-			margin-right: 40px;
-		}
+		position: relative;	
 	}
+
+	.tab-content {
+		animation: fadein 1s;
+	}
+
+	.tab-image {
+		height: 60px;
+		float: right;
+		margin-top: 10px;
+	}
+
 	.background-image {
 		position: absolute;
 		bottom: 0;
@@ -224,6 +249,4 @@ strong {
 		opacity: 0.5;
 	}
 }
-
-
 </style>

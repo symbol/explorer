@@ -6,6 +6,7 @@
 
 			<td class="value-td">
 				<div class="value">
+					<div class="vert-line" />
 					<div class="progress-outer">
 						<div class="progress-value" :style="progressValue"/>
 						<div class="value-text">{{ value }}</div>
@@ -50,7 +51,7 @@ export default {
 				this.progressValue = { width: '100%', backgroundColor: '#33dd50' };
 			else
 				this.progressValue = { width: '25%' };
-		}, 1000)
+		}, 100)
 		
 	},
 	data() {
@@ -79,7 +80,8 @@ td {
 
 .name-td {
 	vertical-align: top;
-	//font-size: 12px;
+	font-size: 12px;
+	// width: 200px;
 }
 
 .value-td {
@@ -88,6 +90,7 @@ td {
 }
 
 .value {
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -134,6 +137,16 @@ td {
 	text-align: center;
 	align-self: flex-end;
 	opacity: 0.5;
+}
+
+.vert-line {
+	z-index: 0;
+	top: -95%;
+	right: 50%;
+	position: absolute;
+    width: 1px;
+	height: 250%;
+    background-image: linear-gradient(to bottom, rgba(255, 0, 255, 0), $pink-color, rgba(0, 0, 0, 0));
 }
 
 </style>
