@@ -21,6 +21,7 @@ import Constants from '../config/constants';
 import * as symbol from 'symbol-sdk';
 import Axios from 'axios';
 import moment from 'moment';
+import globalConfig from '../config/globalConfig';
 
 class NodeService {
     /**
@@ -59,7 +60,10 @@ class NodeService {
     	let nodePeers = [];
 
     	try {
-    		nodePeers = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes')).data;
+    		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length)
+    			nodePeers = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes')).data;
+    		else
+    			throw Error('Statistics service endpoint is not provided');
     	}
     	catch (e) {
     		nodePeers = await http.createRepositoryFactory.createNodeRepository()
@@ -134,7 +138,10 @@ class NodeService {
     	let node = {};
 
     	try {
-    		node = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes/' + publicKey)).data;
+    		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length)
+    			node = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes/' + publicKey)).data;
+    		else
+    			throw Error('Statistics service endpoint is not provided');
     	}
     	catch (e) {
     		const nodes = (await Axios.get(http.nodeUrl + '/node/peers')).data;

@@ -16,21 +16,25 @@
  *
  */
 
-import Vue from 'vue';
-import App from './App.vue';
-import router from './router';
-import store from './store';
+import { loadConfig } from './config/loader';
 import BootstrapVue from 'bootstrap-vue';
 import 'vue-material-design-icons/styles.css';
 import '@mdi/font/css/materialdesignicons.css';
 import './styles/main.scss';
 
-window.Vue = Vue;
-Vue.config.productionTip = false;
-Vue.use(BootstrapVue);
+loadConfig().then(async () => {
+	const Vue = (await import('vue')).default;
+	const App = (await import('./App.vue')).default;
+	const router = (await import('./router')).default;
+	const store = (await import('./store')).default;
 
-new Vue({
-	router,
-	store,
-	render: h => h(App)
-}).$mount('#app');
+	window.Vue = Vue;
+	Vue.config.productionTip = false;
+	Vue.use(BootstrapVue);
+
+	new Vue({
+		router,
+		store,
+		render: h => h(App)
+	}).$mount('#app');
+});

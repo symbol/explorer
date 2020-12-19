@@ -31,7 +31,7 @@ describe('Symbol Explorer Transaction detail page for Voting Key Link.', () => {
         })
 
         it('render correct transaction detail titles', () => {
-            const items = ['Transaction Type', 'Link Action', 'linked Public Key', 'linked Account Address', 'Start Finalization Epoch', 'End Finalization Epoch']
+            const items = ['Transaction Type', 'Link Action', 'Linked Public Key', 'Linked Account Address', 'Start Finalization Epoch', 'End Finalization Epoch']
             cy.renderFieldInTable("transactionDetailTitle", items)
         })
 

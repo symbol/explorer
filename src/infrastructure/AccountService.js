@@ -432,16 +432,7 @@ class AccountService {
 	static getAccountMosaicList = async address => {
 		const mosaics = await MosaicService.getMosaicAmountViewList(address);
 
-		for (let i = 0; i < mosaics.length; i++) {
-			const mosaic = mosaics[i];
-
-			if (mosaic.mosaicId === http.networkCurrency.mosaicId) {
-				mosaics.splice(i, 1);
-				mosaics.unshift(mosaic);
-				break;
-			}
-		}
-		return mosaics;
+		return helper.sortMosaics(mosaics);
 	}
 }
 

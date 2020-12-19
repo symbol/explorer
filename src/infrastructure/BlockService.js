@@ -16,7 +16,7 @@
  *
  */
 
-import { UInt64, TransactionGroup, Order, BlockOrderBy } from 'symbol-sdk';
+import { UInt64, TransactionGroup, Order, BlockOrderBy, BlockType } from 'symbol-sdk';
 import { TransactionService, ReceiptService } from '../infrastructure';
 import http from './http';
 import helper from '../helper';
@@ -210,8 +210,18 @@ class BlockService {
   		return `${Constants.MerkleRootsOrder[index]} - ${root}`;
   	});
 
+  	let importanceBlockInfo = {};
+
+  	if (block.type === BlockType.ImportanceBlock) {
+  		Object.assign(importanceBlockInfo, {
+  			totalVotingBalance: Number(block.totalVotingBalance),
+  			harvestingEligibleAccountsCount: Number(block.harvestingEligibleAccountsCount)
+  		});
+  	}
+
   	return {
   		...block,
+  		...importanceBlockInfo,
   		payloadSize: block.size,
   		blockHash: block.hash,
   		harvester: block.signer,
