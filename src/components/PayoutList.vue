@@ -3,7 +3,7 @@
 		<div class="transactions-container">
 			<div class="transactions-wrapper">
 				<div
-					v-for="(transaction, index) in data"
+					v-for="(transaction, index) in transactions"
 					:key="'' + index + 'payout'"
 					class="transaction-item"
 				>
@@ -14,8 +14,7 @@
 						</div>
 					</div>
 					<div class="amount">
-						{{formatMosaic(transaction.mosaics).amountInt}}
-						<div class="decimal">{{formatMosaic(transaction.mosaics).amountDec}}</div>
+						{{formatMosaic(transaction.mosaics).amountInt}}<div class="decimal">{{formatMosaic(transaction.mosaics).amountDec}}</div>
 						{{formatMosaic(transaction.mosaics).mosaicName}}
 					</div>
 					<div class="date">
@@ -45,12 +44,19 @@ export default {
 	},
 
 	mounted() {
-		console.log(this.data)
+		this.transactions = [];
+		let animationArray = [... this.data];
+		const timer = setInterval(() => {
+			if(!animationArray.length)
+				clearInterval(timer);
+			this.transactions.push(animationArray.shift());
+		}, 100)
 	},
 
 	data() {
 		return {
-			IncomingIcon
+			IncomingIcon,
+			transactions: []
 		}
 	},
 
@@ -82,6 +88,7 @@ export default {
 .transactions-container {
 	width: 100%;
 	max-width: 400px;
+	box-shadow: inset 0px 0px 40px rgba(67, 0, 78, 0.5);
 }
 
 .transaction-item {
@@ -95,6 +102,7 @@ export default {
 	justify-content: space-between;
 	align-items: center;
 	padding: 5px 15px;
+	animation: fadein 1s;
 }
 
 .child-left {
@@ -121,12 +129,18 @@ export default {
 
 .decimal {
 	display: inline;
-	opacity: 0.5;
+	opacity: 0.65;
+	font-size: 75%;
 }
 
 .date {
 	color: #999;
 	font-size: 10px;
+}
+
+@keyframes fadein {
+    from { opacity: 0; }
+    to   { opacity: 1; }
 }
 
 </style>

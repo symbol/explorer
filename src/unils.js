@@ -51,7 +51,7 @@ export const getNativeMosaicPreview = (mosaics, nativeMosaic) => {
 
 		const amountD = mosaic.amount.split('.');
 		if(amountD.length === 2)
-			mosaicPreviw.amountDec = ',' + amountD[1];
+			mosaicPreviw.amountDec = '.' + amountD[1];
 		mosaicPreviw.amountInt = amountD[0];
 	}
 
