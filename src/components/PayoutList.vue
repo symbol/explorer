@@ -2,13 +2,20 @@
 	<div class="payout-root">
 		<div class="transactions-container">
 			<div class="transactions-wrapper">
-				<div class="transaction-item">
+				<div
+					v-for="(transaction, index) in data"
+					:key="'' + index + 'payout'"
+					class="transaction-item"
+				>
 					<img :src="IncomingIcon" class="icon" />
 					<div class="address">
-						TBFJVJ-VCW2VU-L5MT6X-XXU7EI-YTOKC5-NV2FRK-NVA
+						{{formatAddress(transaction.recipientAddress)}}
+					</div>
+					<div class="amount">
+						{{formatMosaic(transaction.mosaics)}}
 					</div>
 					<div class="date">
-						Dec 18, 2020
+						{{formatDate(transaction.date)}}
 					</div>
 				</div>
 			</div>
@@ -18,6 +25,7 @@
 
 <script>
 import IncomingIcon from '../assets/incoming.png';
+import utils from '../unils';
 
 export default {
 	name: 'PayoutList',
@@ -38,8 +46,19 @@ export default {
 		}
 	},
 
-	computed: {
-	},
+	methods: {
+		formatAddress(address) {
+			return utils.trunc(address, 'middle', 7, 4);
+		},
+
+		formatMosaic(mosaics) {
+			return mosaics[0]
+		},
+
+		formatDate(date) {
+			return utils.formatDate(date, language)
+		},
+	}
 
 }
 </script>
@@ -73,9 +92,14 @@ export default {
 .icon {
 	height: 20px;
 }
-
 .address {
 	color: #333;
+	font-size: 10px;
+}
+
+.amount {
+	color: #33dd50;
+	font-weight: 700;
 	font-size: 10px;
 }
 
