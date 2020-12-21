@@ -1,13 +1,65 @@
 <template>
 	<div class="payout-root">
 		<div class="transactions-container">
-			<div class="transaction-item">
-				<img :src="IncomingIcon" class="icon" />
-				<div class="address">
-					TBFJVJ-VCW2VU-L5MT6X-XXU7EI-YTOKC5-NV2FRK-NVA
+			<div class="transactions-wrapper">
+				<div class="transaction-item">
+					<img :src="IncomingIcon" class="icon" />
+					<div class="address">
+						TBFJVJ-VCW2VU-L5MT6X-XXU7EI-YTOKC5-NV2FRK-NVA
+					</div>
+					<div class="date">
+						Dec 18, 2020
+					</div>
 				</div>
-				<div class="date">
-					Dec 18, 2020
+
+				<div class="transaction-item">
+					<img :src="IncomingIcon" class="icon" />
+					<div class="address">
+						TBFJVJ-VCW2VU-L5MT6X-XXU7EI-YTOKC5-NV2FRK-NVA
+					</div>
+					<div class="date">
+						Dec 18, 2020
+					</div>
+				</div>
+
+				<div class="transaction-item">
+					<img :src="IncomingIcon" class="icon" />
+					<div class="address">
+						TBFJVJ-VCW2VU-L5MT6X-XXU7EI-YTOKC5-NV2FRK-NVA
+					</div>
+					<div class="date">
+						Dec 18, 2020
+					</div>
+				</div>
+
+				<div class="transaction-item">
+					<img :src="IncomingIcon" class="icon" />
+					<div class="address">
+						TBFJVJ-VCW2VU-L5MT6X-XXU7EI-YTOKC5-NV2FRK-NVA
+					</div>
+					<div class="date">
+						Dec 18, 2020
+					</div>
+				</div>
+
+				<div class="transaction-item">
+					<img :src="IncomingIcon" class="icon" />
+					<div class="address">
+						TBFJVJ-VCW2VU-L5MT6X-XXU7EI-YTOKC5-NV2FRK-NVA
+					</div>
+					<div class="date">
+						Dec 18, 2020
+					</div>
+				</div>
+
+				<div class="transaction-item">
+					<img :src="IncomingIcon" class="icon" />
+					<div class="address">
+						TBFJVJ-VCW2VU-L5MT6X-XXU7EI-YTOKC5-NV2FRK-NVA
+					</div>
+					<div class="date">
+						Dec 18, 2020
+					</div>
 				</div>
 			</div>
 		</div>
@@ -51,10 +103,8 @@ export default {
 }
 
 .transactions-container {
-	// height: 100%;
 	width: 100%;
 	max-width: 400px;
-	// overflow: visible;
 }
 
 .transaction-item {

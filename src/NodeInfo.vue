@@ -194,6 +194,7 @@ strong {
 .root {
 	height: 380px;
 	width: 600px;
+	overflow: hidden;
 	display: flex;
 	flex-direction: column;
 	position: relative;
@@ -204,6 +205,7 @@ strong {
 
 	.top-bar {
 		width: 100%;
+		flex: 0 1 auto;
 	}
 
 	.title {
@@ -213,12 +215,11 @@ strong {
 	.tab {
 		position: relative;	
 		flex: 1;
-		flex-shrink: 1;
-		align-items: stretch;
+  		overflow: auto;
 	}
 
 	.tab-content {
-		overflow-y: scroll;
+		// overflow-y: scroll;
 		height: 100%;
 	}
 
