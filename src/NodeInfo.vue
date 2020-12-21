@@ -40,19 +40,23 @@
 
 <script>
 import defaultConfig from './config.json';
+import translate from './i18n';
+
+import TabSelector from './components/TabSelector.vue';
+import Main from './components/Main.vue';
 import Table from './components/Table.vue';
 import PayoutList from './components/PayoutList.vue';
-import TabSelector from './components/TabSelector.vue';
+
 import BackgroundImage from './assets/mesh.png';
 import BlockchainImage from './assets/blockchain.png';
 import PayoutsImage from './assets/payouts.png';
 import PerformanceImage from './assets/performance.png';
-import translate from './i18n';
+
 
 export default {
 	name: 'NodeInfo',
 
-	components: { Table, TabSelector, PayoutList },
+	components: { TabSelector, Main, Table, PayoutList },
 
 	props: {
 		accessor: {
@@ -78,7 +82,7 @@ export default {
 		return {
 			translate,
 			BackgroundImage,
-			activeTab: 'chainInfo',
+			activeTab: 'main',
 			tabs: {
 				main: {
 					title: translate(this.language, 'mainTitle'),

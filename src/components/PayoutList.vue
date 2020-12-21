@@ -73,7 +73,6 @@ export default {
 			return utils.formatDate(date, this.language)
 		},
 	}
-
 }
 </script>
 
