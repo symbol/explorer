@@ -1,6 +1,6 @@
 <template>
 	<div class="main-root">
-		<History :data="history" />
+		<History :data="history" :language="language />
 	</div>
 </template>
 
