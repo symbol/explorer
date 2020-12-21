@@ -4,6 +4,7 @@
 	"chainInfoTitle": "Node Chain Test",
 	"performanceTestTitle": "Node Performance Test",
 
+	"main": "Main",
 	"chainInfo": "Chain",
 	"performance": "Performance",
 	"payout": "Payout",

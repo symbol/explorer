@@ -80,6 +80,11 @@ export default {
 			BackgroundImage,
 			activeTab: 'chainInfo',
 			tabs: {
+				main: {
+					title: translate(this.language, 'mainTitle'),
+					image: BlockchainImage,
+					component: 'Main'
+				},
 				chainInfo: {
 					title: translate(this.language, 'chainInfoTitle'),
 					image: BlockchainImage,
@@ -216,7 +221,7 @@ strong {
 	.tab {
 		position: relative;	
 		flex: 1;
-  		overflow: auto;
+  		overflow-y: overlay;
 	}
 
 	.tab-content {
