@@ -6,6 +6,9 @@
 				:key="'' + index + 'nm-hist'"
 				class="history-step"
 			>
+				<div class="history-icon-wrapper">
+					<img class="history-icon" :src="getIconSrc(test.passed)" />
+				</div>
 				<div class="history-circle hoverable"></div>
 				<div class="history-title">#{{test.round}}</div>
 				<div class="history-date" :title="test.date">{{formatDate(test.date)}}</div>
@@ -18,6 +21,8 @@
 
 <script>
 import * as utils from '../unils';
+import TrueIcon from '../assets/true.png';
+import FalseIcon from '../assets/false.png';
 
 export default {
     name: "History",
@@ -62,6 +67,12 @@ export default {
 		formatDate(date) {
 			return utils.formatDate(date, this.language)
 		},
+
+		getIconSrc(value) {
+			return value === true
+				? TrueIcon
+				: FalseIcon;
+		}
 	}
 };
 </script>
@@ -90,6 +101,20 @@ export default {
 }
 
 
+//icon
+.history-icon-wrapper {
+	width: 100%;
+	margin-bottom: 10px;
+	display: flex;
+	justify-content: center;
+}
+
+.history-icon {
+	height: 16px;
+	align-self: center;
+}
+
+
 // circle
 .history-circle {
     width: 10px;
@@ -108,7 +133,7 @@ export default {
 // text
 .history-title {
 	text-align: center;
-    margin-top: 16px;
+    margin-top: 10px;
     font-size: 14px;
     font-weight: normal;
 }
@@ -123,7 +148,7 @@ export default {
 // line
 .history-line {
     position: absolute;
-    top: 36px;
+    top: 54px;
     border-top: 2px solid #fff;
 }
 
