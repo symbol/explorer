@@ -30,16 +30,7 @@ export default {
 		language: {
 			type: String,
 		},
-	},
-
-	data() {
-		return {
-		}
-	},
-
-	computed: {
-	},
-
+	}
 }
 </script>
 

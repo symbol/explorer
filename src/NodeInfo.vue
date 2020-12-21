@@ -5,13 +5,13 @@
 			<tr>
 				<td>
 					<h3>{{translate(language, 'appTitle')}}</h3>
-						<TabSelector 
-							class="title"
-							:tabs="tabs" 
-							:activeTab="activeTab"
-							:language="language"
-							@select="index => activeTab = index" 
-						/>
+					<TabSelector 
+						class="title"
+						:tabs="tabs" 
+						:activeTab="activeTab"
+						:language="language"
+						@select="index => activeTab = index" 
+					/>
 				</td>
 				<td valign="top">
 					<img :src="tabs[activeTab].image" class="tab-image"/>
