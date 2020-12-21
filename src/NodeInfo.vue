@@ -102,7 +102,7 @@ export default {
 			},
 			chainInfo: {},
 			performance: {},
-			payout: {}
+			payout: []
 		}
 	},
 
@@ -146,6 +146,7 @@ export default {
 				console.log(nodeInfo)
 				this.performance = nodeInfo.performance;
 				this.chainInfo = nodeInfo.chainInfo;
+				this.payout = nodeInfo.payout;
 			}
 			catch(e) {
 				this.nodeInfo.isError = true;

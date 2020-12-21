@@ -7,12 +7,16 @@
 					:key="'' + index + 'payout'"
 					class="transaction-item"
 				>
-					<img :src="IncomingIcon" class="icon" />
-					<div class="address">
-						{{formatAddress(transaction.recipientAddress)}}
+					<div class="child-left">
+						<img :src="IncomingIcon" class="icon" />
+						<div class="address">
+							{{formatAddress(transaction.recipientAddress)}}
+						</div>
 					</div>
 					<div class="amount">
-						{{formatMosaic(transaction.mosaics)}}
+						{{formatMosaic(transaction.mosaics).amountInt}}
+						<div class="decimal">{{formatMosaic(transaction.mosaics).amountDec}}</div>
+						{{formatMosaic(transaction.mosaics).mosaicName}}
 					</div>
 					<div class="date">
 						{{formatDate(transaction.date)}}
@@ -25,19 +29,23 @@
 
 <script>
 import IncomingIcon from '../assets/incoming.png';
-import utils from '../unils';
+import * as utils from '../unils';
 
 export default {
 	name: 'PayoutList',
 
 	props: {
 		data: {
-			type: Object,
+			type: Array,
 			required: true
 		},
 		language: {
 			type: String,
 		},
+	},
+
+	mounted() {
+		console.log(this.data)
 	},
 
 	data() {
@@ -52,11 +60,11 @@ export default {
 		},
 
 		formatMosaic(mosaics) {
-			return mosaics[0]
+			return utils.getNativeMosaicPreview(mosaics)
 		},
 
 		formatDate(date) {
-			return utils.formatDate(date, language)
+			return utils.formatDate(date, this.language)
 		},
 	}
 
@@ -89,9 +97,17 @@ export default {
 	padding: 5px 15px;
 }
 
+.child-left {
+	display: flex;
+	justify-content: space-between;
+	width: 30%;
+	align-items: center;
+}
+
 .icon {
 	height: 20px;
 }
+
 .address {
 	color: #333;
 	font-size: 10px;
@@ -101,6 +117,11 @@ export default {
 	color: #33dd50;
 	font-weight: 700;
 	font-size: 10px;
+}
+
+.decimal {
+	display: inline;
+	opacity: 0.5;
 }
 
 .date {

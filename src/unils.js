@@ -34,3 +34,26 @@ export const formatDate = (dateStr, language) => {
 	
 	return `${month} ${day}, ${year}`;
 }
+
+export const getNativeMosaicPreview = (mosaics, nativeMosaic) => {
+	const mosaic = nativeMosaic
+		? mosaics.find(el => el.mosaicName === nativeMosaic.mosaicName)
+		: mosaics[0];
+	let mosaicPreviw = {
+		mosaicName: '',
+		amountInt: '',
+		amountDec: ''
+	};
+
+	if(mosaic) {
+		mosaicPreviw.mosaicName = mosaic.mosaicName
+			.substring(mosaic.mosaicName.indexOf('.') + 1);
+
+		const amountD = mosaic.amount.split('.');
+		if(amountD.length === 2)
+			mosaicPreviw.amountDec = ',' + amountD[1];
+		mosaicPreviw.amountInt = amountD[0];
+	}
+
+	return mosaicPreviw;
+}	
