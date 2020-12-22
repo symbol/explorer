@@ -18,6 +18,7 @@
 			v-if="isModalShown" 
 			:title="selectedItem"
 			:data="selectedItemData"
+			:passed="selectedItemPassed"
 			@close="closeModal"
 		/>
 	</div>
@@ -59,7 +60,13 @@ export default {
 			return this.selectedItem && this.data && this.data[this.selectedItem] && this.data[this.selectedItem].details
 				? this.data[this.selectedItem].details
 				: {};
-		}
+		},
+
+		selectedItemPassed() {
+			return this.selectedItem && this.data && this.data[this.selectedItem]
+				? this.data[this.selectedItem].passed
+				: null;
+		},
 	},
 
 	methods: {

@@ -21,6 +21,14 @@
 									</tr>
 								</thead> -->
 								<tbody>
+									<tr v-if="showPassed">
+										<td class="table-header">
+											{{translate(language, 'testPassed')}}
+										</td>
+										<td class="table-value">
+											<img :src="passedImageSrc" class="passed-icon" />
+										</td>
+									</tr>
 									<tr 
 										v-for="(row, key) in data"
 										:key="'' + key + 'nm-mtb'"
@@ -41,6 +49,8 @@
 <script>
 import translate from '../i18n';
 import CloseIcon from '../assets/close.png';
+import TrueIcon from '../assets/true.png';
+import FalseIcon from '../assets/false.png';
 
 export default {
     name: "Modal",
@@ -52,7 +62,11 @@ export default {
         data: {
             type: Object,
             required: true,
-        },
+		},
+		passed: {
+			type: Boolean,
+			required: true
+		},
         language: {
             type: String,
         },
@@ -79,6 +93,16 @@ export default {
 				return Object.keys(this.data[0]);
 			else
 				return ['parameter', 'value'];
+		},
+
+		showPassed() {
+			return typeof this.passed === 'boolean';
+		},
+
+		passedImageSrc() {
+			return this.passed === true
+				? TrueIcon
+				: FalseIcon;
 		}
 	}
 };
@@ -177,6 +201,10 @@ td {
 
 .table-header {
 	font-weight: 700;
+}
+
+.passed-icon {
+	height: 16px;
 }
 
 .table-value {
