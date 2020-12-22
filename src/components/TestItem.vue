@@ -1,5 +1,5 @@
 <template>
-		<tr class="test-item" valign="top">
+		<tr class="test-item" valign="top" @click="$emit('click', name)">
 			<td class="name-td" valign="top">
 				{{ translate(language, name) }}
 			</td>
@@ -57,7 +57,7 @@ export default {
 	data() {
 		return {
 			translate,
-			progressValue: { width: '0%' },
+			progressValue: { width: '0%' }
 		}
 	},
 
@@ -74,6 +74,11 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+tr:hover {
+	background: #fff1;
+	cursor: pointer;
+}
+
 td {
 	padding: 5px 0;
 }

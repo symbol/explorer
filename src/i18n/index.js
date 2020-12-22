@@ -4,7 +4,8 @@ const locales = {
 };
 
 export default (language, key) => {
-	return (locales[language] && locales[language][key])
+	return ((locales[language] && locales[language][key])
 		? locales[language][key]
-		: locales[DEFAULT_LANGUAGE][key];
+		: locales[DEFAULT_LANGUAGE][key])
+			|| key;
 };

@@ -1,40 +1,41 @@
 <template>
 	<div class="root">
 		<img :src="BackgroundImage" class="background-image"/>
-		<table class="top-bar">
-			<tr>
-				<td>
-					<h3>{{translate(language, 'appTitle')}}</h3>
-					<TabSelector 
-						class="title"
-						:tabs="tabs" 
-						:activeTab="activeTab"
-						:language="language"
-						@select="index => activeTab = index" 
+		<div class="content">
+			<table class="top-bar">
+				<tr>
+					<td>
+						<h3>{{translate(language, 'appTitle')}}</h3>
+						<TabSelector 
+							class="title"
+							:tabs="tabs" 
+							:activeTab="activeTab"
+							:language="language"
+							@select="index => activeTab = index" 
+						/>
+					</td>
+					<td valign="top">
+						<img :src="tabs[activeTab].image" class="tab-image"/>
+					</td>
+				</tr>
+			</table>
+			
+			<div v-if="!isError" class="tab custom-scrollbar">
+				<!-- <h4 class="tab-title">{{tabs[activeTab].title}}</h4> -->
+				<!-- <transition name="component-fade" mode="out-in"> -->
+					<component 
+						class="tab-content"
+						:is="tabs[activeTab].component"
+						:data="data"
+						:language="language" 
 					/>
-				</td>
-				<td valign="top">
-					<img :src="tabs[activeTab].image" class="tab-image"/>
-				</td>
-			</tr>
-		</table>
-		
-		<div v-if="!isError" class="tab custom-scrollbar">
-			<!-- <h4 class="tab-title">{{tabs[activeTab].title}}</h4> -->
-			<!-- <transition name="component-fade" mode="out-in"> -->
-				<component 
-					class="tab-content"
-					:is="tabs[activeTab].component"
-					:data="data"
-					:language="language" 
-				/>
-			<!-- </transition> -->
+				<!-- </transition> -->
+			</div>
+			<div v-else>
+				<h4>Error</h4>
+				<p>{{errorMessage}}</p>
+			</div>
 		</div>
-		<div v-else>
-			<h4>Error</h4>
-			<p>{{errorMessage}}</p>
-		</div>
-
 	</div>
 </template>
 
@@ -48,6 +49,7 @@ import Table from './components/Table.vue';
 import PayoutList from './components/PayoutList.vue';
 
 import BackgroundImage from './assets/mesh.png';
+import NodesImage from './assets/nodes.png';
 import BlockchainImage from './assets/blockchain.png';
 import PayoutsImage from './assets/payouts.png';
 import PerformanceImage from './assets/performance.png';
@@ -86,7 +88,7 @@ export default {
 			tabs: {
 				main: {
 					title: translate(this.language, 'mainTitle'),
-					image: BlockchainImage,
+					image: NodesImage,
 					component: 'Main'
 				},
 				chainInfo: {
@@ -202,16 +204,24 @@ strong {
 }
 
 .root {
+	overflow: hidden;
+	position: relative;
 	height: 380px;
 	width: 600px;
-	overflow: hidden;
-	display: flex;
-	flex-direction: column;
-	position: relative;
-	padding: 40px;
-	color: #fff;
 	border-radius: 6px;
 	background: linear-gradient(135deg, rgb(5, 12, 32) 0%, rgb(67, 0, 78) 100%);
+
+	.content {
+		overflow: hidden;
+		height: 100%;
+		width: 100%;
+		display: flex;
+		flex-direction: column;
+		position: relative;
+		padding: 40px;
+		color: #fff;
+		z-index: 2;
+	}
 
 	.top-bar {
 		width: 100%;
@@ -223,7 +233,6 @@ strong {
 	}
 
 	.tab {
-		position: relative;	
 		flex: 1;
   		overflow-y: overlay;
 	}
@@ -245,6 +254,7 @@ strong {
 		left: 0;
 		width: 100%;
 		opacity: 0.5;
+		z-index: 1;
 	}
 
 		/* custom scrollbar */

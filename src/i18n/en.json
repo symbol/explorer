@@ -31,5 +31,19 @@
 	"sep": "Sep",
 	"oct": "Oct",
 	"nov": "Nov",
-	"dec": "Dec"
+	"dec": "Dec",
+
+
+	"dateAndTime": "Date",
+	"downloadTime": "Download Time",
+	"entityHash": "Entity Hash",
+	"entitySeed": "Entity Seed",
+	"entityValid": "Entity Valid",
+	"fromNodeId": "From NodeId",
+	"id": "Id",
+	"iterations": "Iterations",
+	"reportedHash": "Reported Hash",
+	"round": "Round",
+	"speed": "Speed",
+	"toNodeId": "To Node Id"
 }
