@@ -4,7 +4,8 @@
             <div class="modal-wrapper">
                 <div class="modal-container" @click.stop>
                     <div class="modal-title">
-                        {{translate(language, title)}}
+                        {{translate(language, title)}} 
+						<img :src="CloseIcon" class="close-icon" @click="$emit('close')"/>
                     </div>
 					<div class="modal-body-wrapper">
 						<div class="modal-body-scrollable">
@@ -39,6 +40,7 @@
 
 <script>
 import translate from '../i18n';
+import CloseIcon from '../assets/close.png';
 
 export default {
     name: "Modal",
@@ -62,7 +64,8 @@ export default {
 
 	data() {
 		return {
-			translate
+			translate,
+			CloseIcon
 		}
 	},
 	
@@ -109,7 +112,7 @@ export default {
 	flex-direction: column;
     width: 80%;
 	height: 80%;
-    padding: 20px 0 0 20px;
+    
 	color: #44004e;
     background-color: #f3f4f8;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
@@ -118,12 +121,30 @@ export default {
 }
 
 .modal-title {
-	color: #f0f
+	padding: 11px 20px 9px;
+	font-weight: 700;
+	text-align: center;
+	border-bottom: 1px solid #bbb;
+	position: relative;
+	width: 100%;
+}
+
+.close-icon {
+	height: 32px;
+	padding: 8px;
+	position: absolute;
+	right: 8px;
+	top: 8px;
+	cursor: pointer;
+}
+
+.close-icon:hover {
+	opacity: 0.8;
 }
 
 .modal-body-wrapper {
 	flex: 1;
-    padding: 20px 0;
+    padding: 20px 0 20px 20px;
 	height: 100%;
 	width: 100%;
 	overflow-y: auto;

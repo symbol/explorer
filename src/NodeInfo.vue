@@ -21,7 +21,6 @@
 			</table>
 			
 			<div v-if="!isError" class="tab custom-scrollbar">
-				<!-- <h4 class="tab-title">{{tabs[activeTab].title}}</h4> -->
 				<!-- <transition name="component-fade" mode="out-in"> -->
 					<component 
 						class="tab-content"
@@ -169,12 +168,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-h2 {
-	font-size: 2.5rem;
-	line-height: 3.25rem;
-	font-weight: 700;
-}
-
 h3 {
 	margin: 0 0 .75rem;
 	font-size: 2rem;
@@ -195,12 +188,6 @@ p {
     line-height: 1.75rem;
     margin: 16px 0;
 	white-space: pre-line;
-}
-
-strong {
-	font-weight: 700;
-	font-size: 1rem;
-    line-height: 1.75rem;
 }
 
 .root {
@@ -238,7 +225,6 @@ strong {
 	}
 
 	.tab-content {
-		// overflow-y: scroll;
 		height: 100%;
 	}
 
