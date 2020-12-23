@@ -3,9 +3,23 @@ const locales = {
 	en: require('./en.json')
 };
 
-export default (language, key) => {
+const insertOptions = (text, options) => {
+	if(!options)
+		return text;
+
+	let result = '' + text;
+	
+	Object.keys(options)
+		.forEach(key => {
+			result = result.replace(`{${key}}`, options[key]);
+		});
+		
+	return result;
+}
+
+export default (language, key, options) => {
 	return ((locales[language] && locales[language][key])
-		? locales[language][key]
-		: locales[DEFAULT_LANGUAGE][key])
-			|| key;
+		? insertOptions(locales[language][key], options)
+		: insertOptions(locales[DEFAULT_LANGUAGE][key], options))
+			|| insertOptions(key, options);
 };

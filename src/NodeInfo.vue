@@ -111,7 +111,7 @@ export default {
 				errorMessage: ''
 			},
 			main: {
-				histoty: [],
+				history: [],
 				nodeName: '',
 				roundNumber: 0,
 				testDate: ''
@@ -163,7 +163,7 @@ export default {
 				this.performance = nodeInfo.performance;
 				this.chainInfo = nodeInfo.chainInfo;
 				this.payout = nodeInfo.payout;
-				this.main.history = nodeInfo.history;
+				this.$set(this.main, 'history', nodeInfo.history);
 			}
 			catch(e) {
 				this.nodeInfo.isError = true;

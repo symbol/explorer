@@ -22,22 +22,6 @@ export default {
 			type: Object,
 			required: true
 		},
-		nodeName: {
-			type: String,
-			required: true
-		},
-		roundNumber: {
-			type: Number,
-			required: true
-		},
-		testDate: {
-			type: String,
-			required: true
-		},
-		history: {
-			type: Array,
-			required: true
-		},
 		language: {
 			type: String,
 		}

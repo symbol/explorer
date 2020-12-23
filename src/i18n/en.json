@@ -19,7 +19,9 @@
 	"responsiveness": "Responsiveness",
 
 	"testPassed": "Test Passed",
-	
+
+	"roundNumber": "Round #{number}",
+
 	"ping_suf": "ms",
 
 	"jan": "Jan",
