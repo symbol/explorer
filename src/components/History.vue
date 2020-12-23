@@ -1,22 +1,20 @@
 <template>
-    <div class="history-root">
-		<div class="history">
-			<div 
-				v-for="(test, index) in tmp"
-				:key="'' + index + 'nm-hist'"
-				class="history-step"
-			>
-				<div class="history-icon-wrapper">
-					<img class="history-icon" :src="getIconSrc(test.passed)" />
-				</div>
-				<div class="history-circle hoverable"></div>
-				<div class="history-title">#{{test.round}}</div>
-				<div class="history-date" :title="test.date">{{formatDate(test.date)}}</div>
-				<div class="history-line history-line-left"></div>
-				<div class="history-line history-line-right"></div>
+	<div class="history">
+		<div 
+			v-for="(test, index) in data"
+			:key="'' + index + 'nm-hist'"
+			class="history-step"
+		>
+			<div class="history-icon-wrapper">
+				<img class="history-icon" :src="getIconSrc(test.passed)" />
 			</div>
+			<div class="history-circle hoverable"></div>
+			<div class="history-title">#{{test.round}}</div>
+			<div class="history-date" :title="test.date">{{formatDate(test.date)}}</div>
+			<div class="history-line history-line-left"></div>
+			<div class="history-line history-line-right"></div>
 		</div>
-    </div>
+	</div>
 </template>
 
 <script>
@@ -36,33 +34,7 @@ export default {
             type: String,
         },
 	},
-	data() {
-		return {
-			tmp: [
-				{
-					round: 12,
-					passed: true,
-					date: '2020-09-02 14:46:08',
-				},
-				{
-					round: 13,
-					passed: true,
-					date: '2020-10-05 14:46:08',
-				},
-				{
-					round: 14,
-					passed: false,
-					date: '2020-11-21 14:46:08',
-				},
-				{
-					round: 15,
-					passed: true,
-					date: '2020-12-17 14:46:08',
-				}
-			]
-		}
-	},
-
+	
 	methods: {
 		formatDate(date) {
 			return utils.formatDate(date, this.language)
@@ -78,10 +50,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.history-root {
-
-}
-
 .history {
     display: table;
     width: 100%;
@@ -92,7 +60,7 @@ export default {
 	width: 25%;
     display: table-cell;
     position: relative;
-    padding: 24px;
+    padding: 24px 6px;
 }
 
 .hoverable:hover {

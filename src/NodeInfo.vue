@@ -110,6 +110,12 @@ export default {
 				isError: false,
 				errorMessage: ''
 			},
+			main: {
+				histoty: [],
+				nodeName: '',
+				roundNumber: 0,
+				testDate: ''
+			},
 			chainInfo: {},
 			performance: {},
 			payout: []
@@ -157,6 +163,7 @@ export default {
 				this.performance = nodeInfo.performance;
 				this.chainInfo = nodeInfo.chainInfo;
 				this.payout = nodeInfo.payout;
+				this.main.history = nodeInfo.history;
 			}
 			catch(e) {
 				this.nodeInfo.isError = true;
