@@ -51,21 +51,21 @@ export default {
 	margin-right: 40px;
 	cursor: pointer;
 	position: relative;
-    overflow: visible!important;
+	overflow: visible!important;
 }
 
 .tab-item--hover:after {
 	display: block;
-    content: "";
-    position: relative;
-    left: .0625rem;
-    height: .0625rem;
-    width: 50%;
-    background-color: #f0f;
-    transform: scaleX(0);
-    transform-origin: 100% 50%;
-    transition: transform .3s;
-    transition-timing-function: cubic-bezier(.2,1,.3,1);
+	content: "";
+	position: relative;
+	left: .0625rem;
+	height: .0625rem;
+	width: 50%;
+	background-color: #f0f;
+	transform: scaleX(0);
+	transform-origin: 100% 50%;
+	transition: transform .3s;
+	transition-timing-function: cubic-bezier(.2,1,.3,1);
 }
 
 .tab-item--hover:hover:after{

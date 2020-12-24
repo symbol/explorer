@@ -1,12 +1,12 @@
 <template>
-    <transition name="modal">
-        <div class="modal-mask" @click="$emit('close')">
-            <div class="modal-wrapper">
-                <div class="modal-container" @click.stop>
-                    <div class="modal-title">
-                        {{translate(language, title)}} 
+	<transition name="modal">
+		<div class="modal-mask" @click="$emit('close')">
+			<div class="modal-wrapper">
+				<div class="modal-container" @click.stop>
+					<div class="modal-title">
+						{{translate(language, title)}} 
 						<img :src="CloseIcon" class="close-icon" @click="$emit('close')"/>
-                    </div>
+					</div>
 					<div class="modal-body-wrapper">
 						<div class="modal-body-scrollable">
 							<table class="modal-table">
@@ -34,10 +34,10 @@
 							</table>
 						</div>
 					</div>
-                </div>
-            </div>
-        </div>
-    </transition>
+				</div>
+			</div>
+		</div>
+	</transition>
 </template>
 
 <script>
@@ -48,24 +48,24 @@ import TextField from './table-components/Text.vue';
 import CloseIcon from '../assets/close.png';
 
 export default {
-    name: "Modal",
+	name: "Modal",
 
 	components: { BooleanField, DateField, TextField },
 
-    props: {
+	props: {
 		title: {
 			type: String
 		},
-        data: {
-            type: Object,
-            required: true,
+		data: {
+			type: Object,
+			required: true,
 		},
 		passed: {
 			type: Boolean
 		},
-        language: {
-            type: String,
-        }
+		language: {
+			type: String,
+		}
 	},
 
 	mounted() {
@@ -110,14 +110,14 @@ export default {
 
 <style lang="scss" scoped>
 .modal-mask {
-    position: absolute;
-    z-index: 9998;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    transition: opacity 0.3s ease;
+	position: absolute;
+	z-index: 9998;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background-color: rgba(0, 0, 0, 0.5);
+	transition: opacity 0.3s ease;
 	backdrop-filter: blur(5px);
 	border-radius: 6px;
 	animation: fadein 0.2s;
@@ -125,7 +125,7 @@ export default {
 
 .modal-wrapper {
 	width: 100%;
-    height: 100%;
+	height: 100%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -134,13 +134,13 @@ export default {
 .modal-container {
 	display: flex;
 	flex-direction: column;
-    width: 80%;
+	width: 80%;
 	height: 80%;
-    
+	
 	color: #44004e;
-    background-color: #f3f4f8;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
-    transition: all 0.3s ease;
+	background-color: #f3f4f8;
+	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
+	transition: all 0.3s ease;
 	border-radius: 6px;
 }
 
@@ -168,7 +168,7 @@ export default {
 
 .modal-body-wrapper {
 	flex: 1;
-    padding: 20px 0 20px 20px;
+	padding: 20px 0 20px 20px;
 	height: 100%;
 	width: 100%;
 	overflow-y: auto;
@@ -208,20 +208,20 @@ td {
 }
 
 .modal-enter {
-    opacity: 0;
+	opacity: 0;
 }
 
 .modal-leave-active {
-    opacity: 0;
+	opacity: 0;
 }
 
 .modal-enter .modal-container,
 .modal-leave-active .modal-container {
-    opacity: 0;
+	opacity: 0;
 }
 
 @keyframes fadein {
-    from { opacity: 0; }
-    to   { opacity: 1; }
+	from { opacity: 0; }
+	to   { opacity: 1; }
 }
 </style>

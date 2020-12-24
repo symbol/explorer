@@ -110,10 +110,10 @@ td {
 	flex-direction: row;
 	position: relative;
 	height: 1rem;
-    overflow: hidden;
-    font-size: 0.75rem;
-    background: linear-gradient(120deg, #ffffff 0%, #f3f4f8 100%);
-    border-radius: 0.25rem;
+	overflow: hidden;
+	font-size: 0.75rem;
+	background: linear-gradient(120deg, #ffffff 0%, #f3f4f8 100%);
+	border-radius: 0.25rem;
 }
 
 .progress-value {
@@ -149,9 +149,9 @@ td {
 	top: -95%;
 	right: 50%;
 	position: absolute;
-    width: 1px;
+	width: 1px;
 	height: 250%;
-    background-image: linear-gradient(to bottom, rgba(255, 0, 255, 0), $pink-color, rgba(0, 0, 0, 0));
+	background-image: linear-gradient(to bottom, rgba(255, 0, 255, 0), $pink-color, rgba(0, 0, 0, 0));
 }
 
 </style>

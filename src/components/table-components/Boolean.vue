@@ -7,9 +7,9 @@ import TrueIcon from '../../assets/true.png';
 import FalseIcon from '../../assets/false.png';
 
 export default {
-    name: 'Boolean',
+	name: 'Boolean',
 
-    props: {
+	props: {
 		value: {
 			type: Boolean,
 			required: true

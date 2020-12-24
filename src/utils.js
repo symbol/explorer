@@ -13,7 +13,7 @@ export const trunc = (text, cut, lengthFirst, lengthSecond) => {
 
 export const formatDate = (dateStr, language, showTime = false) => {
 	const months = [
-        'jan',
+		'jan',
 		'feb',
 		'mar',
 		'apr',

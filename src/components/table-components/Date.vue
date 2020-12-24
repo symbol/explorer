@@ -8,9 +8,9 @@
 import * as utils from '../../utils';
 
 export default {
-    name: 'Date',
+	name: 'Date',
 
-    props: {
+	props: {
 		value: {
 			type: String,
 			required: true
@@ -19,9 +19,9 @@ export default {
 			type: String,
 			default: ''
 		},
-        language: {
-            type: String,
-        }
+		language: {
+			type: String,
+		}
 	},
 
 	computed: {

@@ -210,8 +210,8 @@ p {
 	font-style: normal;
 	font-weight: 400;
 	font-size: 1rem;
-    line-height: 1.75rem;
-    margin: 16px 0;
+	line-height: 1.75rem;
+	margin: 16px 0;
 	white-space: pre-line;
 }
 

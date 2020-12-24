@@ -8,16 +8,16 @@
 import translate from '../../i18n';
 
 export default {
-    name: 'TextField',
+	name: 'TextField',
 
-    props: {
+	props: {
 		value: {
 			type: [String, Number],
 			required: true
 		},
-        language: {
-            type: String,
-        }
+		language: {
+			type: String,
+		}
 	},
 
 	data() {

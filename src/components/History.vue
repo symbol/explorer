@@ -31,18 +31,18 @@ import TrueIcon from '../assets/true.png';
 import FalseIcon from '../assets/false.png';
 
 export default {
-    name: "History",
+	name: "History",
 
 	components: { Modal },
 
-    props: {
-        data: {
-            type: Array,
-            required: true,
-        },
-        language: {
-            type: String,
-        },
+	props: {
+		data: {
+			type: Array,
+			required: true,
+		},
+		language: {
+			type: String,
+		},
 	},
 
 	mounted() {
@@ -97,20 +97,20 @@ export default {
 
 <style lang="scss" scoped>
 .history {
-    display: table;
-    width: 100%;
-    margin: 0 auto;
+	display: table;
+	width: 100%;
+	margin: 0 auto;
 }
 
 .history-step {
 	width: 25%;
-    display: table-cell;
-    position: relative;
-    padding: 24px 6px 0px;
+	display: table-cell;
+	position: relative;
+	padding: 24px 6px 0px;
 }
 
 .hoverable:hover {
-    opacity: 0.8;
+	opacity: 0.8;
 	cursor: pointer;
 }
 
@@ -131,29 +131,29 @@ export default {
 
 // circle
 .history-circle {
-    width: 10px;
-    height: 10px;
-    margin: 7px auto 0;
-    background-color: #ffffff;
-    border-radius: 50%;
-    color: #ffffff;
+	width: 10px;
+	height: 10px;
+	margin: 7px auto 0;
+	background-color: #ffffff;
+	border-radius: 50%;
+	color: #ffffff;
 }
 
 .history-step:last-child .history-circle {
-    // background-color: #f0f;
+	// background-color: #f0f;
 }
 
 
 // text
 .history-title {
 	text-align: center;
-    margin-top: 10px;
-    font-size: 14px;
-    font-weight: normal;
+	margin-top: 10px;
+	font-size: 14px;
+	font-weight: normal;
 }
 
 .history-date {
-    font-size: 10px;
+	font-size: 10px;
 	text-align: center;
 	//color: #999;
 }
@@ -161,25 +161,25 @@ export default {
 
 // line
 .history-line {
-    position: absolute;
-    top: 54px;
-    border-top: 2px solid #fff;
+	position: absolute;
+	top: 54px;
+	border-top: 2px solid #fff;
 }
 
 .history-line-right {
-    right: 0;
-    left: 50%;
-    margin-left: 10px;
+	right: 0;
+	left: 50%;
+	margin-left: 10px;
 }
 
 .history-line-left {
-    left: 0;
-    right: 50%;
-    margin-right: 10px;
+	left: 0;
+	right: 50%;
+	margin-right: 10px;
 }
 
 .history-step:first-child .history-line-left,
 .history-step:last-child .history-line-right {
-    display: none;
+	display: none;
 }
 </style>
