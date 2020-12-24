@@ -8,22 +8,32 @@
 			<div class="history-icon-wrapper">
 				<img class="history-icon" :src="getIconSrc(test.passed)" />
 			</div>
-			<div class="history-circle hoverable"></div>
+			<div class="history-circle hoverable" @click="onItemClick(index)"></div>
 			<div class="history-title">#{{test.round}}</div>
 			<div class="history-date" :title="test.date">{{formatDate(test.date)}}</div>
 			<div class="history-line history-line-left"></div>
 			<div class="history-line history-line-right"></div>
 		</div>
+		<Modal 
+			v-if="isModalShown" 
+			:title="translate(language, 'roundNumber', {number: selectedItemData.round})"
+			:data="selectedItemData"
+			@close="closeModal"
+		/>
 	</div>
 </template>
 
 <script>
 import * as utils from '../unils';
+import translate from '../i18n';
+import Modal from './Modal.vue';
 import TrueIcon from '../assets/true.png';
 import FalseIcon from '../assets/false.png';
 
 export default {
     name: "History",
+
+	components: { Modal },
 
     props: {
         data: {
@@ -35,6 +45,33 @@ export default {
         },
 	},
 
+	mounted() {
+		this.selectedItem = '';
+		this.isModalShown = false;
+	},
+
+	data() {
+		return {
+			translate,
+			isModalShown: false,
+			selectedItem: ''
+		}
+	},
+
+	computed: {
+		selectedItemData() {
+			return this.selectedItem && this.data && this.data[this.selectedItem] && this.data[this.selectedItem].details
+				? this.data[this.selectedItem].details
+				: {};
+		},
+
+		selectedItemPassed() {
+			return this.selectedItem && this.data && this.data[this.selectedItem]
+				? this.data[this.selectedItem].passed
+				: null;
+		},
+	},
+
 	methods: {
 		formatDate(date) {
 			return utils.formatDate(date, this.language)
@@ -44,6 +81,15 @@ export default {
 			return value === true
 				? TrueIcon
 				: FalseIcon;
+		},
+
+		onItemClick(itemName) {
+			this.selectedItem = itemName;
+			this.isModalShown = true;
+		},
+
+		closeModal() {
+			this.isModalShown = false;
 		}
 	}
 };

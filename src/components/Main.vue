@@ -44,7 +44,6 @@ export default {
 <style lang="scss" scoped>
 .main-root {
 	background: transparent;
-	position: relative;
 
 	.name {
 		font-weight: 700;
