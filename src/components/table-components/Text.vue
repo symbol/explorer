@@ -8,11 +8,11 @@
 import translate from '../../i18n';
 
 export default {
-    name: 'Text',
+    name: 'TextField',
 
     props: {
 		value: {
-			type: String,
+			type: [String, Number],
 			required: true
 		},
         language: {
@@ -28,7 +28,7 @@ export default {
 
 	computed: {
 		formattedText() {
-			return this.translate(this.languag, this.value);
+			return this.translate(this.language, this.value);
 		}
 	}
 };

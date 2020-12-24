@@ -10,16 +10,6 @@
 					<div class="modal-body-wrapper">
 						<div class="modal-body-scrollable">
 							<table class="modal-table">
-								<!-- <thead>
-									<tr class="table-header">
-										<th 
-											v-for="(name, index) in tableHeader"
-											:key="'' + index + 'nm-mth'"
-										>
-											{{translate(language, name)}}
-										</th>
-									</tr>
-								</thead> -->
 								<tbody>
 									<tr v-if="showPassed">
 										<td class="table-header">
@@ -30,11 +20,15 @@
 										</td>
 									</tr>
 									<tr 
-										v-for="(row, key) in data"
+										v-for="(item, key) in data"
 										:key="'' + key + 'nm-mtb'"
 									>
 										<td class="table-header">{{translate(language, key)}}</td>
-										<td class="table-value">{{row}}</td>
+										<td class="table-value" :title="item">
+											<BooleanField v-if="isBoolean(item, key)" :value="item" />
+											<DateField v-else-if="isDate(item, key)" :value="item" :keyName="key" />
+											<TextField v-else :value="item" />
+										</td>
 									</tr>
 								</tbody>
 							</table>
@@ -48,12 +42,17 @@
 
 <script>
 import translate from '../i18n';
+import BooleanField from './table-components/Boolean.vue';
+import DateField from './table-components/Date.vue';
+import TextField from './table-components/Text.vue';
 import CloseIcon from '../assets/close.png';
 import TrueIcon from '../assets/true.png';
 import FalseIcon from '../assets/false.png';
 
 export default {
     name: "Modal",
+
+	components: { BooleanField, DateField, TextField },
 
     props: {
 		title: {
@@ -64,8 +63,7 @@ export default {
             required: true,
 		},
 		passed: {
-			type: Boolean,
-			required: true
+			type: Boolean
 		},
         language: {
             type: String,
@@ -103,6 +101,16 @@ export default {
 			return this.passed === true
 				? TrueIcon
 				: FalseIcon;
+		}
+	},
+
+	methods: {
+		isBoolean(item, key) {
+			return typeof item === 'boolean';
+		},
+
+		isDate(item, key) {
+			return key.toUpperCase().includes('DATE');
 		}
 	}
 };

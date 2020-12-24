@@ -11,7 +11,7 @@ export const trunc = (text, cut, lengthFirst, lengthSecond) => {
 	return text;
 };
 
-export const formatDate = (dateStr, language) => {
+export const formatDate = (dateStr, language, showTime = false) => {
 	const months = [
         'jan',
 		'feb',
@@ -28,11 +28,16 @@ export const formatDate = (dateStr, language) => {
 	];
 
 	const dateObj = new Date(dateStr);
+	const seconds = dateObj.getSeconds();
+	const minutes = dateObj.getMinutes();
+	const hour = dateObj.getHours();
 	const month = translate(language, months[dateObj.getMonth()]);
 	const day = dateObj.getDate();
 	const year = dateObj.getFullYear();
 	
-	return `${month} ${day}, ${year}`;
+	const formattedDate = `${month} ${day}, ${year}` + (showTime ? ` ${hour}:${minutes}:${seconds}` : '');
+
+	return formattedDate;
 }
 
 export const getNativeMosaicPreview = (mosaics, nativeMosaic) => {

@@ -15,15 +15,24 @@ export default {
 			type: String,
 			required: true
 		},
+		keyName: {
+			type: String,
+			default: ''
+		},
         language: {
             type: String,
         }
 	},
 
 	computed: {
+		containsTime() {
+			console.log(this.keyName)
+			return this.keyName.toUpperCase().includes('TIME');
+		},
+
 		formattedDate() {
-			return utils.formatDate(this.value, this.language);
+			return utils.formatDate(this.value, this.language, this.containsTime);
 		}
-	}
+	},
 };
 </script>

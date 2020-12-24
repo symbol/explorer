@@ -17,7 +17,7 @@ export default {
 	},
 
 	computed: {
-		passedImageSrc() {
+		imageSrc() {
 			return this.value === true
 				? TrueIcon
 				: FalseIcon;
