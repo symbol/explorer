@@ -28,7 +28,7 @@
 
 <script>
 import IncomingIcon from '../assets/incoming.png';
-import * as utils from '../unils';
+import * as utils from '../utils';
 
 export default {
 	name: 'PayoutList',

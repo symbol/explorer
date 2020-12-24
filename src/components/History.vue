@@ -24,7 +24,7 @@
 </template>
 
 <script>
-import * as utils from '../unils';
+import * as utils from '../utils';
 import translate from '../i18n';
 import Modal from './Modal.vue';
 import TrueIcon from '../assets/true.png';

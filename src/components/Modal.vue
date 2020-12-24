@@ -16,7 +16,7 @@
 											{{translate(language, 'testPassed')}}
 										</td>
 										<td class="table-value">
-											<img :src="passedImageSrc" class="passed-icon" />
+											<BooleanField :value="passed" />
 										</td>
 									</tr>
 									<tr 
@@ -46,8 +46,6 @@ import BooleanField from './table-components/Boolean.vue';
 import DateField from './table-components/Date.vue';
 import TextField from './table-components/Text.vue';
 import CloseIcon from '../assets/close.png';
-import TrueIcon from '../assets/true.png';
-import FalseIcon from '../assets/false.png';
 
 export default {
     name: "Modal",
@@ -95,12 +93,6 @@ export default {
 
 		showPassed() {
 			return typeof this.passed === 'boolean';
-		},
-
-		passedImageSrc() {
-			return this.passed === true
-				? TrueIcon
-				: FalseIcon;
 		}
 	},
 
@@ -209,10 +201,6 @@ td {
 
 .table-header {
 	font-weight: 700;
-}
-
-.passed-icon {
-	height: 16px;
 }
 
 .table-value {

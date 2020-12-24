@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import * as utils from '../../unils';
+import * as utils from '../../utils';
 
 export default {
     name: 'Date',

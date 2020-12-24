@@ -8,7 +8,7 @@
 </template>
 
 <script>
-import * as utils from '../unils';
+import * as utils from '../utils';
 import translate from '../i18n';
 import History from './History.vue';
 
