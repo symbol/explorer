@@ -3,12 +3,11 @@
 </template>
 
 <script>
-import translate from '../../i18n';
 import TrueIcon from '../../assets/true.png';
 import FalseIcon from '../../assets/false.png';
 
 export default {
-    name: "Modal",
+    name: 'Boolean',
 
     props: {
 		value: {

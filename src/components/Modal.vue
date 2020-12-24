@@ -69,7 +69,7 @@ export default {
 		},
         language: {
             type: String,
-        },
+        }
 	},
 
 	mounted() {

@@ -1,14 +1,14 @@
 <template>
 	<div>
-		{{formattedDate}}
+		{{formattedText}}
 	</div>
 </template>
 
 <script>
-import * as utils from '../../unils';
+import translate from '../../i18n';
 
 export default {
-    name: 'Date',
+    name: 'Text',
 
     props: {
 		value: {
@@ -20,9 +20,15 @@ export default {
         }
 	},
 
+	data() {
+		return {
+			translate
+		}
+	},
+
 	computed: {
-		formattedDate() {
-			return utils.formatDate(this.value, this.language);
+		formattedText() {
+			return this.translate(this.languag, this.value);
 		}
 	}
 };
