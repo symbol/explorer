@@ -20,7 +20,10 @@
 				</tr>
 			</table>
 			
-			<div v-if="!isError" class="tab custom-scrollbar">
+			<div v-if="!isError && !isSupernode">
+				<p>{{translate(language, 'notASupernode')}}</p>
+			</div>
+			<div v-else-if="!isError" class="tab custom-scrollbar">
 				<!-- <transition name="component-fade" mode="out-in"> -->
 					<component 
 						class="tab-content"
@@ -31,7 +34,7 @@
 				<!-- </transition> -->
 			</div>
 			<div v-else>
-				<h4>Error</h4>
+				<h4>{{translate(language, 'error')}}</h4>
 				<p>{{errorMessage}}</p>
 			</div>
 		</div>
@@ -83,6 +86,7 @@ export default {
 		return {
 			translate,
 			BackgroundImage,
+			isSupernode: false,
 			activeTab: 'main',
 			tabs: {
 				main: {
@@ -152,22 +156,36 @@ export default {
 
 	methods: {
 		async load() {
-			console.log(this.accessor)
+			this.isSupernode = false;
+			this.nodeInfo.isError = false;
+			this.nodeInfo.errorMessage = '';
+			this.performance = {};
+			this.chainInfo = {};
+			this.payout = [];
 			await this.getNodeInfo();
 		},
 
 		async getNodeInfo() {
 			try {
 				const nodeInfo = await this.accessor.http.get(this.nodeMonitorEndpoint + '/' + this.publicKey);
-				console.log(nodeInfo)
+				console.log(nodeInfo);
+				this.isSupernode = true;
 				this.performance = nodeInfo.performance;
 				this.chainInfo = nodeInfo.chainInfo;
 				this.payout = nodeInfo.payout;
 				this.$set(this.main, 'history', nodeInfo.history);
+				this.$set(this.main, 'nodeName', 'api-01-us-west-2');
+				this.$set(this.main, 'roundNumber', 15);
+				this.$set(this.main, 'testDate', '2020-12-17 14:46:08');
 			}
 			catch(e) {
-				this.nodeInfo.isError = true;
-				this.nodeInfo.errorMessage = e.message;
+				if(e.statusCode === 404) {
+					this.isSupernode = false;
+				}
+				else {
+					this.nodeInfo.isError = true;
+					this.nodeInfo.errorMessage = e.message;
+				}	
 			}	
 		}
 	}

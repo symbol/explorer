@@ -1,8 +1,8 @@
 <template>
 	<div class="main-root">
-		<div>{{data.nodeName}}</div>
-		<div>{{translate(language, 'roundNumber', {number: data.roundNumber})}}</div>
-		<div>{{formatDate(data.testDate)}}</div>
+		<div class="name">{{data.nodeName}}</div>
+		<div class="round">{{translate(language, 'roundNumber', {number: data.roundNumber})}}</div>
+		<div class="date">{{formatDate(data.testDate)}}</div>
 		<History :data="data.history" :language="language" class="history" />
 	</div>
 </template>
@@ -46,8 +46,24 @@ export default {
 	background: transparent;
 	position: relative;
 
+	.name {
+		font-weight: 700;
+		font-size: 18px;
+		margin-bottom: 5px;
+	}
+	
+	.round {
+		
+	}
+
+	.date {
+		font-size: 12px;
+	}
+
 	.history {
 		max-width: 500px;
+		//margin: 0;
+		//float: right;
 	}
 }
 </style>

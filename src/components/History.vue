@@ -34,7 +34,7 @@ export default {
             type: String,
         },
 	},
-	
+
 	methods: {
 		formatDate(date) {
 			return utils.formatDate(date, this.language)
@@ -60,7 +60,7 @@ export default {
 	width: 25%;
     display: table-cell;
     position: relative;
-    padding: 24px 6px;
+    padding: 24px 6px 0px;
 }
 
 .hoverable:hover {

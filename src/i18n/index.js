@@ -1,4 +1,5 @@
-const DEFAULT_LANGUAGE = 'en';
+import { DEFAULT_LANGUAGE } from '../config.json';
+
 const locales = {
 	en: require('./en.json')
 };

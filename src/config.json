@@ -1,3 +1,4 @@
 {
-	"NODE_MONITOR_ENDPOINT": "http://localhost:2020/getNode"
+	"NODE_MONITOR_ENDPOINT": "http://localhost:2020/getNode",
+	"DEFAULT_LANGUAGE": "en"
 }

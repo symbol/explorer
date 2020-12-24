@@ -1,6 +1,9 @@
 {
 	"appTitle": "Node Rewards Program",
 
+	"error": "Error",
+	"notASupernode": "This node doesn't participate in the Node Rewards Program",
+
 	"chainInfoTitle": "Node Chain Test",
 	"performanceTestTitle": "Node Performance Test",
 
