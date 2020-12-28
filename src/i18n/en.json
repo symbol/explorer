@@ -25,7 +25,12 @@
 
 	"roundNumber": "Round #{number}",
 
-	"ping_suf": "ms",
+	"value_ping": "{value} ms",
+	"value_downloadTime": "{value} ms",
+	"value_timeNeeded": "{value} ms",
+	"value_averageTime": "{value} ms",
+	"value_totalTime": "{value} ms",
+	"value_speed": "{value} Kbit/s",
 
 	"jan": "Jan",
 	"feb": "Feb",
