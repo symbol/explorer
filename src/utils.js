@@ -1,3 +1,4 @@
+import { DEFAULT_NATIVE_MOSAIC_NAME } from './config.json';
 import translate from './i18n';
 
 export const trunc = (text, cut, lengthFirst, lengthSecond) => {
@@ -44,20 +45,30 @@ export const getNativeMosaicPreview = (mosaics, nativeMosaic) => {
 	const mosaic = nativeMosaic
 		? mosaics.find(el => el.mosaicName === nativeMosaic.mosaicName)
 		: mosaics[0];
+	const rawMosaicName = mosaic.mosaicName || DEFAULT_NATIVE_MOSAIC_NAME;
 	let mosaicPreview = {
 		mosaicName: '',
 		amountInt: '',
 		amountDec: ''
 	};
 
-	if(mosaic) {
-		mosaicPreview.mosaicName = mosaic.mosaicName
-			.substring(mosaic.mosaicName.indexOf('.') + 1);
+	if(typeof mosaic === 'object') {
+		mosaicPreview.mosaicName = rawMosaicName
+			.substring(rawMosaicName.indexOf('.') + 1);
 
 		const amountD = mosaic.amount.split('.');
 		if(amountD.length === 2)
 			mosaicPreview.amountDec = '.' + amountD[1];
 		mosaicPreview.amountInt = amountD[0];
+	}
+	else if(typeof mosaic === 'string') {
+		mosaicPreview.mosaicName = rawMosaicName
+			.substring(rawMosaicName.indexOf('.') + 1);
+
+		const amountD = mosaic.split('.');
+		if(amountD.length === 2)
+			mosaicPreview.amountDec = '.' + amountD[1];
+		mosaicPreview.amountInt = amountD[0]
 	}
 
 	return mosaicPreview;

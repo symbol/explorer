@@ -176,19 +176,9 @@ export default {
 				this.payout = nodeInfo.payout;
 				this.$set(this.main, 'history', nodeInfo.history);
 				this.$set(this.main, 'nodeName', nodeInfo.nodeName);
-				this.$set(this.main, 'roundNumber', nodeInfo.roundNumber);
+				this.$set(this.main, 'roundNumber', nodeInfo.round);
 				this.$set(this.main, 'testDate', nodeInfo.testDate);
-				this.$set(this.main, 'balance', {
-					passed: false,
-					value: {
-						amount: '637,738.990200',
-						mosaicName: 'symnol.xym'
-					},
-					expectedValue: {
-						amount: '3,000,000',
-						mosaicName: 'symnol.xym'
-					}
-				});
+				this.$set(this.main, 'balance', nodeInfo.balance);
 			}
 			catch(e) {
 				if(e.statusCode === 404) {

@@ -11,10 +11,10 @@ export class NodeInfo {
 	constructor(res) {
 		this.nodeName = res.nodeAlias;
 		this.balance = new Balance(res);
-		this.history = new History.fromRes(res);
+		this.history = History.fromRes(res);
 		this.chainInfo = new ChainInfo(res);
 		this.performance = new Performance(res);
-		this.payout = new Payout(res);
+		this.payout = res.payout;
 	}
 };
 
@@ -62,9 +62,9 @@ export class ChainInfo {
 			res.chainPartResults[0]
 		);
 		this.finalizationHeight = new TestResult(
-			2000,
-			false,
 			1900,
+			false,
+			2000,
 			{}
 		);
 		this.NISVersion = new TestResult(

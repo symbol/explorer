@@ -1,11 +1,11 @@
 import response from './response.json';
 
-export class GetNodeData {
+export default class GetNodeData {
 	static fetch = () => {
 		return new Promise(resolve => {
 			setTimeout(() => {
 				resolve({
-					data: JSON.parse(response)
+					data: response
 				})
 			}, 1000);
 		})
