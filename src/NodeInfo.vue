@@ -1,5 +1,5 @@
 <template>
-	<div class="root">
+	<div class="root" :style="{padding: 0, paddingTop: 0}">
 		<img :src="BackgroundImage" class="background-image"/>
 		<div class="content">
 			<table class="top-bar">
@@ -118,7 +118,8 @@ export default {
 				history: [],
 				nodeName: '',
 				roundNumber: 0,
-				testDate: ''
+				testDate: '',
+				balance: {}
 			},
 			chainInfo: {},
 			performance: {},
@@ -174,9 +175,20 @@ export default {
 				this.chainInfo = nodeInfo.chainInfo;
 				this.payout = nodeInfo.payout;
 				this.$set(this.main, 'history', nodeInfo.history);
-				this.$set(this.main, 'nodeName', 'api-01-us-west-2');
-				this.$set(this.main, 'roundNumber', 15);
-				this.$set(this.main, 'testDate', '2020-12-17 14:46:08');
+				this.$set(this.main, 'nodeName', nodeInfo.nodeName);
+				this.$set(this.main, 'roundNumber', nodeInfo.roundNumber);
+				this.$set(this.main, 'testDate', nodeInfo.testDate);
+				this.$set(this.main, 'balance', {
+					passed: false,
+					value: {
+						amount: '637,738.990200',
+						mosaicName: 'symnol.xym'
+					},
+					expectedValue: {
+						amount: '3,000,000',
+						mosaicName: 'symnol.xym'
+					}
+				});
 			}
 			catch(e) {
 				if(e.statusCode === 404) {
@@ -218,7 +230,7 @@ p {
 .root {
 	overflow: hidden;
 	position: relative;
-	height: 380px;
+	height: 390px;
 	width: 600px;
 	border-radius: 6px;
 	background: linear-gradient(135deg, rgb(5, 12, 32) 0%, rgb(67, 0, 78) 100%);
@@ -241,7 +253,7 @@ p {
 	}
 
 	.title {
-		margin-bottom: 40px;
+		margin-bottom: 20px;
 	}
 
 	.tab {

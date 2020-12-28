@@ -44,21 +44,26 @@ export const getNativeMosaicPreview = (mosaics, nativeMosaic) => {
 	const mosaic = nativeMosaic
 		? mosaics.find(el => el.mosaicName === nativeMosaic.mosaicName)
 		: mosaics[0];
-	let mosaicPreviw = {
+	let mosaicPreview = {
 		mosaicName: '',
 		amountInt: '',
 		amountDec: ''
 	};
 
 	if(mosaic) {
-		mosaicPreviw.mosaicName = mosaic.mosaicName
+		mosaicPreview.mosaicName = mosaic.mosaicName
 			.substring(mosaic.mosaicName.indexOf('.') + 1);
 
 		const amountD = mosaic.amount.split('.');
 		if(amountD.length === 2)
-			mosaicPreviw.amountDec = '.' + amountD[1];
-		mosaicPreviw.amountInt = amountD[0];
+			mosaicPreview.amountDec = '.' + amountD[1];
+		mosaicPreview.amountInt = amountD[0];
 	}
 
-	return mosaicPreviw;
-}	
+	return mosaicPreview;
+}
+
+export const omit = (key, obj) => {
+	const { [key]: omitted, ...rest } = obj;
+	return rest;
+}

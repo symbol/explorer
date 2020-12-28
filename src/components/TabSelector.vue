@@ -41,6 +41,8 @@ export default {
 
 <style lang="scss" scoped>
 .tab-selector {
+	overflow: auto;
+	width: 100%;
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-start;

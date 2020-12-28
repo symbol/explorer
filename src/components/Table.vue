@@ -1,19 +1,21 @@
 <template>
 	<div class="table-root">
-		<table class="table-component">
-			<tbody>
-				<TestItem 
-					v-for="(item, index) in data" 
-					:name="index"
-					:passed="item.passed"
-					:value="item.value"
-					:expectedValue="item.expectedValue"
-					:language="language" 
-					:key="'' + index + 'test-item'"
-					@click="onItemClick"
-				/>
-			</tbody>
-		</table>
+		<div class="table-wrapper">
+			<table class="table-component">
+				<tbody>
+					<TestItem 
+						v-for="(item, index) in data" 
+						:name="index"
+						:passed="item.passed"
+						:value="item.value"
+						:expectedValue="item.expectedValue"
+						:language="language" 
+						:key="'' + index + 'test-item'"
+						@click="onItemClick"
+					/>
+				</tbody>
+			</table>
+		</div>
 		<Modal 
 			v-if="isModalShown" 
 			:title="selectedItem"
@@ -84,11 +86,15 @@ export default {
 
 <style lang="scss" scoped>
 .table-root {
-	background: transparent;
+	background: transparent;	
+}
+
+.table-wrapper {
+	padding-top: 20px;
+	position: relative;
 }
 
 .table-component {
-	position: relative;
 	table-layout: fixed;
 	width: 100%;
 }

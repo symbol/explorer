@@ -8,7 +8,7 @@
 			<div class="history-icon-wrapper">
 				<img class="history-icon" :src="getIconSrc(test.passed)" />
 			</div>
-			<div class="history-circle hoverable" @click="onItemClick(index)"></div>
+			<div class="history-circle hoverable" @click="onItemClick(test)"></div>
 			<div class="history-title">#{{test.round}}</div>
 			<div class="history-date" :title="test.date">{{formatDate(test.date)}}</div>
 			<div class="history-line history-line-left"></div>
@@ -16,8 +16,9 @@
 		</div>
 		<Modal 
 			v-if="isModalShown" 
+			:passed="selectedItemData.passed"
 			:title="translate(language, 'roundNumber', {number: selectedItemData.round})"
-			:data="selectedItemData"
+			:data="selectedItemData.details"
 			@close="closeModal"
 		/>
 	</div>
@@ -46,30 +47,17 @@ export default {
 	},
 
 	mounted() {
-		this.selectedItem = '';
+		this.selectedItemData = {};
 		this.isModalShown = false;
 	},
 
 	data() {
 		return {
+			utils,
 			translate,
 			isModalShown: false,
-			selectedItem: ''
+			selectedItemData: {}
 		}
-	},
-
-	computed: {
-		selectedItemData() {
-			return this.selectedItem && this.data && this.data[this.selectedItem] && this.data[this.selectedItem].details
-				? this.data[this.selectedItem].details
-				: {};
-		},
-
-		selectedItemPassed() {
-			return this.selectedItem && this.data && this.data[this.selectedItem]
-				? this.data[this.selectedItem].passed
-				: null;
-		},
 	},
 
 	methods: {
@@ -83,8 +71,8 @@ export default {
 				: FalseIcon;
 		},
 
-		onItemClick(itemName) {
-			this.selectedItem = itemName;
+		onItemClick(item) {
+			this.selectedItemData = item;
 			this.isModalShown = true;
 		},
 
