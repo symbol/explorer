@@ -108,4 +108,3 @@ export class Performance {
 export class Payout {
 
 };
-
