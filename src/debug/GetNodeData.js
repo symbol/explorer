@@ -7,7 +7,7 @@ export default class GetNodeData {
 				resolve({
 					data: response
 				})
-			}, 1000);
+			}, 3000);
 		})
 	}
 }

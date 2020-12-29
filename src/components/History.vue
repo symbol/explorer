@@ -91,7 +91,6 @@ export default {
 }
 
 .history-step {
-	width: 25%;
 	display: table-cell;
 	position: relative;
 	padding: 24px 6px 0px;

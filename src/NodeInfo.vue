@@ -19,24 +19,26 @@
 					</td>
 				</tr>
 			</table>
-			
-			<div v-if="!isError && !isSupernode">
-				<p>{{translate(language, 'notASupernode')}}</p>
-			</div>
-			<div v-else-if="!isError" class="tab custom-scrollbar">
-				<!-- <transition name="component-fade" mode="out-in"> -->
-					<component 
-						class="tab-content"
-						:is="tabs[activeTab].component"
-						:data="data"
-						:language="language" 
-					/>
-				<!-- </transition> -->
-			</div>
-			<div v-else>
-				<h4>{{translate(language, 'error')}}</h4>
-				<p>{{errorMessage}}</p>
-			</div>
+			<transition name="fade">
+				<LoadingAnimation v-if="isLoading" transition="fade"/>
+				<div v-else-if="!isError && !isSupernode">
+					<p>{{translate(language, 'notASupernode')}}</p>
+				</div>
+				<div v-else-if="!isError && !isLoading" class="tab custom-scrollbar">
+					<!-- <transition name="component-fade" mode="out-in"> -->
+						<component 
+							class="tab-content"
+							:is="tabs[activeTab].component"
+							:data="data"
+							:language="language" 
+						/>
+					<!-- </transition> -->
+				</div>
+				<div v-else>
+					<h4>{{translate(language, 'error')}}</h4>
+					<p>{{errorMessage}}</p>
+				</div>
+			</transition>
 		</div>
 	</div>
 </template>
@@ -45,6 +47,7 @@
 import defaultConfig from './config.json';
 import translate from './i18n';
 
+import LoadingAnimation from './components/LoadingAnimation.vue';
 import TabSelector from './components/TabSelector.vue';
 import Main from './components/Main.vue';
 import Table from './components/Table.vue';
@@ -60,7 +63,7 @@ import PerformanceImage from './assets/performance.png';
 export default {
 	name: 'NodeInfo',
 
-	components: { TabSelector, Main, Table, PayoutList },
+	components: { LoadingAnimation, TabSelector, Main, Table, PayoutList },
 
 	props: {
 		accessor: {
@@ -111,6 +114,7 @@ export default {
 				}
 			},
 			nodeInfo: {
+				isLoading: true,
 				isError: false,
 				errorMessage: ''
 			},
@@ -168,8 +172,10 @@ export default {
 
 		async getNodeInfo() {
 			try {
+				this.$set(this.nodeInfo, 'isLoading', true);
+				this.$set(this.nodeInfo, 'isError', false);
+				this.$set(this.nodeInfo, 'errorMessage', '');
 				const nodeInfo = await this.accessor.http.get(this.nodeMonitorEndpoint + '/' + this.publicKey);
-				console.log(nodeInfo);
 				this.isSupernode = true;
 				this.performance = nodeInfo.performance;
 				this.chainInfo = nodeInfo.chainInfo;
@@ -185,16 +191,27 @@ export default {
 					this.isSupernode = false;
 				}
 				else {
-					this.nodeInfo.isError = true;
-					this.nodeInfo.errorMessage = e.message;
+					this.$set(this.nodeInfo, 'isError', true);
+					this.$set(this.nodeInfo, 'errorMessage', e.message);
 				}	
 			}	
+			this.$set(this.nodeInfo, 'isLoading', false);
 		}
 	}
 };
 </script>
 
 <style lang="scss" scoped>
+.fade-enter-active,
+.fade-leave-active {
+	transition: opacity 0.5s;
+}
+
+.fade-enter,
+.fade-leave-to {
+	opacity: 0;
+}
+
 h3 {
 	margin: 0 0 .75rem;
 	font-size: 2rem;
