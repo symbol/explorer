@@ -11,6 +11,9 @@ export default {
 	name: 'TextField',
 
 	props: {
+		keyName: {
+			type: String
+		},
 		value: {
 			type: [String, Number],
 			required: true
@@ -28,6 +31,8 @@ export default {
 
 	computed: {
 		formattedText() {
+			if(this.keyName && this.keyName.length)
+				return this.translate(this.language, `value_${this.keyName}`, { value: this.value });
 			return this.translate(this.language, this.value);
 		}
 	}

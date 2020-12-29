@@ -27,7 +27,7 @@
 										<td class="table-value" :title="item">
 											<BooleanField v-if="isBoolean(item, key)" :value="item" />
 											<DateField v-else-if="isDate(item, key)" :value="item" :keyName="key" />
-											<TextField v-else :value="item" />
+											<TextField v-else :value="item" :keyName="key"/>
 										</td>
 									</tr>
 								</tbody>

@@ -5,7 +5,7 @@ const locales = {
 };
 
 const insertOptions = (text, options) => {
-	if(!options)
+	if(!text || !options)
 		return text;
 
 	let result = '' + text;
@@ -22,5 +22,7 @@ export default (language, key, options) => {
 	return ((locales[language] && locales[language][key])
 		? insertOptions(locales[language][key], options)
 		: insertOptions(locales[DEFAULT_LANGUAGE][key], options))
-			|| insertOptions(key, options);
+			|| (options 
+				? Object.values(options)[0]
+				: key);
 };
