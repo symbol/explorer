@@ -37,6 +37,10 @@ const managers = [
 	new DataSet(
 		'info',
 		(nodePublicKey) => NodeService.getNodeInfo(nodePublicKey)
+	),
+	new DataSet(
+		'accountInfo',
+		(nodePublicKey) => nodePublicKey
 	)
 ];
 
@@ -99,6 +103,7 @@ export default {
 		fetchNodeInfo(context, payload) {
 			context.dispatch('uninitializeDetail');
 			context.getters.info.setStore(context).initialFetch(Object.values(payload)[0]);
+			context.getters.accountInfo.setStore(context).initialFetch(Object.values(payload)[0]);
 		},
 
 		uninitializeDetail(context) {

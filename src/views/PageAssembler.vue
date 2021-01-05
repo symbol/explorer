@@ -10,6 +10,7 @@
 						:class="{'card-full-width': item.layoutOptions === 'full-width', 'card-adaptive': item.layoutOptions === 'adaptive'}"
 						:data-cy="item.title"
 						v-bind="item"
+						:accessor="getAccessor()"
 						:key="'col' + item.title + index"
 					/>
 				</template>
@@ -23,6 +24,7 @@
 							:is="item.type"
 							v-if="isItemShown(item)"
 							v-bind="item"
+							:accessor="getAccessor()"
 							style="width: 100%"
 							:key="item.title + index"
 						/>
@@ -38,6 +40,7 @@
 					style="margin-bottom: 0"
 					:style="item.layoutOptions"
 					v-bind="item"
+					:accessor="getAccessor()"
 					:key="'col' + item.title + index"
 				/>
 			</template>
@@ -55,6 +58,9 @@ import TransactionGraphicWidget from '@/components/widgets/TransactionGraphicWid
 import AccountBalanceWidget from '@/components/widgets/AccountBalanceWidget.vue';
 import NodesMapWidget from '@/components/widgets/NodesMapWidget.vue';
 import NodeRewardsClient from '../../node-monitor/src/NodeInfo.vue';
+import GetNodeData from '../../node-monitor/src/debug/GetNodeData.js';
+import { NodeInfo } from '../../node-monitor/src/model';
+import Axios from 'axios';
 
 export default {
 	components: {
@@ -148,6 +154,18 @@ export default {
 				return this.getter(item.dataGetter);
 			else
 				return this.getter(item.managerGetter)?.data;
+		},
+
+		getAccessor() {
+			class Accessor {
+				constructor(store) {
+					this.accountInfo = store.getters['node/accountInfo'];
+					this.http = {};
+					this.http.get = async () => new NodeInfo((await GetNodeData.fetch()).data);
+				}
+			};
+
+			return new Accessor(this.$store);
 		}
 	}
 };

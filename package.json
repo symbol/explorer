@@ -5,8 +5,8 @@
   "version": "0.7.1",
   "scripts": {
     "dev": "vue-cli-service serve",
-	"build": "vue-cli-service build",
-	"start": "node server.js",
+    "build": "vue-cli-service build",
+    "start": "node server.js",
     "lint": "vue-cli-service lint",
     "lint:css": "stylelint '**/*.vue' src/styles/main.scss --syntax scss",
     "test:e2e": "vue-cli-service test:e2e --headless",

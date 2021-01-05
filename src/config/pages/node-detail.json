@@ -62,9 +62,13 @@
                     "district",
                     "zip"
                 ]
+			},
+			{
+                "layoutOptions": "adaptive",
+                "type": "NodeRewardsClient"
             },
             {
-                "layoutOptions": "full-width",
+                "layoutOptions": "adaptive",
                 "type": "CardTable",
                 "title": "nodePeerStatusTitle",
                 "managerGetter": "node/info",
@@ -74,7 +78,7 @@
                 "hideEmptyData": true
             },
             {
-                "layoutOptions": "full-width",
+                "layoutOptions": "adaptive",
                 "type": "CardTable",
                 "title": "nodeApiStatusTitle",
                 "managerGetter": "node/info",
