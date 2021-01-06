@@ -122,17 +122,34 @@ class NodeService {
      */
     static getNodePeerList = async (filter) => {
     	let nodePeers = await this.getNodePeers();
-
     	return {
     		data:
                 nodePeers
-                	.filter(el => filter.rolesRaw === null || el.rolesRaw === filter.rolesRaw)
-                	.map((el, index) => ({
-                		index: index + 1,
-                		...el
-                	}))
+					.filter(el => !filter.rolesRaw || el.rolesRaw === filter.rolesRaw)
+					.filter(el => !filter.rewardProgram || (el.rewardPrograms && el.rewardPrograms[0]?.name === filter.rewardProgram))
+                	.map((el, index) => {
+						let node = {
+							index: index + 1,
+							...el
+						};
+
+						if(el.apiStatus)
+							node['chainInfo'] = {
+								chainHeight: el.apiStatus.chainHeight,
+								finalizationHeight: el.apiStatus.finalizationHeight
+							};
+
+						return node;
+                	})
     	};
-    }
+	}
+	
+	static getNodeStats = async () => {
+		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length)
+			return (await Axios.get(globalConfig.endpoints.statisticsService + '/nodestats/')).data;
+		else
+			throw Error('Statistics service endpoint is not provided');
+	}
 
     static getNodeInfo = async (publicKey) => {
     	let node = {};

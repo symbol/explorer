@@ -37,7 +37,8 @@
                     "host",
                     "friendlyName",
                     "roles",
-                    "nodePublicKey",
+					"nodePublicKey",
+					"chainInfo",
 					"version",
 					"rewardPrograms"
                 ],
