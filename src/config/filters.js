@@ -288,6 +288,14 @@ export const nodeRoles = [
 		}
 	},
 	{
+		label: 'Supernodes',
+		icon: '',
+		value: {
+			rolesRaw: null,
+			rewardProgram: 'supernode'
+		}
+	},
+	{
 		label: Constants.RoleType[1],
 		icon: '',
 		value: {

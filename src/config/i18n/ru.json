@@ -137,7 +137,7 @@
     "unresolved": "Неразрешенный",
     "roles": "Роли",
     "network": "Сеть",
-    "host": "IP/ DNS",
+    "host": "IP / Hostname",
     "port": "Порт",
     "friendlyName": "Дружественное имя",
     "approximateExpired": "Приблизительный Срок Окончания",

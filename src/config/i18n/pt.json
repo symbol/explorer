@@ -137,7 +137,7 @@
     "unresolved": "Unresolved",
     "roles": "Roles",
     "network": "Network",
-    "host": "IP/ DNS",
+    "host": "IP / Hostname",
     "port": "Port",
     "friendlyName": "Friendly Name",
     "approximateExpired": "Expiration Date",
