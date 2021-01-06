@@ -372,5 +372,8 @@
     "totalVotingBalance": "Total Voting Balance",
     "harvestingEligibleAccountsCount": "Total Harvesting Eligible Accounts",
     "votingEligibleAccountsCount": "Total Voting Eligible Accounts",
-    "previousImportanceBlockHash": "Previous Importance Block Hash"
+	"previousImportanceBlockHash": "Previous Importance Block Hash",
+	"rewardPrograms": "Reward Programs",
+	"rewardProgram": "Reward Program",
+	"lastTestPassed": "Last test passed"
 }

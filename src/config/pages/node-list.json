@@ -38,8 +38,8 @@
                     "friendlyName",
                     "roles",
                     "nodePublicKey",
-                    "version",
-                    "network"
+					"version",
+					"rewardPrograms"
                 ],
                 "mobileFields": [
                     "host",
