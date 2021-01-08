@@ -138,6 +138,8 @@ class NodeService {
 								chainHeight: el.apiStatus.chainHeight,
 								finalizationHeight: el.apiStatus.finalizationHeight
 							};
+						else
+							node['chainInfo'] = {};
 
 						return node;
                 	})

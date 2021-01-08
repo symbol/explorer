@@ -36,6 +36,7 @@
 							<BlockHeightWithFinalizedStatusField v-else-if="isBlockHeightWithFinalizedStatus(itemKey)" :value="item" />
 							<RestrictionField v-else-if="itemKey === 'restrictions'" :value="item" />
 							<RewardPrograms v-else-if="itemKey === 'rewardPrograms'" :value="item" />
+							<ChainInfo v-else-if="itemKey === 'chainInfo'" :value="item" />
 							<ExtendGraphicValueField v-else-if="itemKey === 'extendGraphicValue'" :value="item" :transactionType="row['transactionType']"/>
 
 							<div v-else-if="isAggregateInnerTransaction(itemKey)">
@@ -103,6 +104,7 @@ import Loading from '@/components/Loading.vue';
 import BlockHeightWithFinalizedStatusField from '@/components/fields/BlockHeightWithFinalizedStatusField.vue';
 import ExtendGraphicValueField from '@/components/fields/ExtendGraphicValueField.vue';
 import RewardPrograms from '@/components/fields/RewardPrograms';
+import ChainInfo from '@/components/fields/ChainInfo';
 
 export default {
 	extends: TableView,
@@ -118,6 +120,7 @@ export default {
 		RestrictionField,
 		ExtendGraphicValueField,
 		RewardPrograms,
+		ChainInfo,
 		Loading
 	},
 
