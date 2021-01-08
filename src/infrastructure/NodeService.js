@@ -126,7 +126,11 @@ class NodeService {
     		data:
                 nodePeers
 					.filter(el => !filter.rolesRaw || el.rolesRaw === filter.rolesRaw)
-					.filter(el => !filter.rewardProgram || (el.rewardPrograms && el.rewardPrograms[0]?.name === filter.rewardProgram))
+					.filter(
+						el => !filter.rewardProgram 
+						|| (el.rewardPrograms?.length && filter.rewardProgram === 'all')
+						|| (el.rewardPrograms && el.rewardPrograms[0]?.name === filter.rewardProgram)
+					)
                 	.map((el, index) => {
 						let node = {
 							index: index + 1,

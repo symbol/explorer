@@ -63,10 +63,6 @@
                     "zip"
                 ]
 			},
-			{
-                "layoutOptions": "adaptive",
-                "type": "NodeRewardsClient"
-            },
             {
                 "layoutOptions": "adaptive",
                 "type": "CardTable",
@@ -76,6 +72,10 @@
                 "errorMessage": "nodeDetailError",
                 "pagination": "none",
                 "hideEmptyData": true
+			},
+			{
+                "layoutOptions": "adaptive",
+                "type": "NodeRewardsClient"
             },
             {
                 "layoutOptions": "adaptive",
@@ -86,7 +86,7 @@
                 "errorMessage": "nodeDetailError",
                 "pagination": "none",
                 "hideEmptyData": true
-            },
+			},
             {
                 "layoutOptions": "full-width",
                 "type": "CardTable",

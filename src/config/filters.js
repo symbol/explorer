@@ -292,7 +292,15 @@ export const nodeRoles = [
 		icon: '',
 		value: {
 			rolesRaw: null,
-			rewardProgram: 'supernode'
+			rewardProgram: 'all'
+		}
+	},
+	{
+		label: 'EarlyAdoption',
+		icon: '',
+		value: {
+			rolesRaw: null,
+			rewardProgram: 'EarlyAdoption'
 		}
 	},
 	{
