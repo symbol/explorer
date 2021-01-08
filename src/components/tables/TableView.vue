@@ -313,7 +313,7 @@ export default {
         font-weight: none;
         padding: 10px 5px;
         min-height: 50px;
-        word-break: break-all;
+        word-break: normal;
         min-width: 50px;
         max-width: 300px;
     }
