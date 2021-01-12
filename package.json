@@ -19,7 +19,7 @@
     "@mdi/font": "^5.2.45",
     "apexcharts": "^3.17.0",
     "await-lock": "^2.0.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "bootstrap": "^4.4.1",
     "bootstrap-vue": "^2.7.0",
     "chart.js": "^2.9.3",
