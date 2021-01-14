@@ -16,7 +16,7 @@
 						<Decimal v-else-if="isDecimal(itemKey)" :value="item" />
 						<TransactionType v-else-if="isTransactionType(itemKey)" :value="item" />
 						<BlockHeightWithFinalizedStatusField v-else-if="isBlockHeightWithFinalizedStatus(itemKey)" :value="item" />
-						<Boolean v-else-if="isBoolean(itemKey)" :value="item" />
+						<Boolean v-else-if="isBoolean(itemKey)" :value="item" style="transform: scale(0.7, 0.7);"/>
 						<Age v-else-if="isAge(itemKey)" :date="item" />
 						<MessageField v-else-if="itemKey === 'message'" :value="item" />
 

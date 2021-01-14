@@ -19,7 +19,7 @@
 <template>
 	<div 
 		class="chain-info-container"
-		:title="translate('chainHeight') + ': ' + value.chainHeight + '\n' + translate('finalizedHeight') + ': ' + value.finalizationHeight"
+		:title="title"
 	>
 		<div v-if="value && value.chainHeight" class="chain-height">
 			<div class="icon icon-height">
@@ -59,6 +59,17 @@ export default {
 	data() {
 		return {
 			FinalizedIcon
+		}
+	},
+
+	computed: {
+		title() {
+			return this.translate('chainHeight') 
+			+ ': ' + this.value.chainHeight 
+			+ '\n' + this.translate('finalizedHeight') 
+			+ ': ' + this.value.finalizationHeight
+			+ '\n' + this.translate('lastStatusCheck') 
+			+ ': ' + new Date(this.value.lastStatusCheck)
 		}
 	},
 

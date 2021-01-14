@@ -375,5 +375,8 @@
 	"previousImportanceBlockHash": "Previous Importance Block Hash",
 	"rewardPrograms": "Reward Programs",
 	"rewardProgram": "Reward Program",
-	"lastTestPassed": "Last test passed"
+	"lastTestPassed": "Last test passed",
+	"nodeStatsTitle": "Node Statistics",
+	"allNodes": "Total count",
+	"nodeCountByRoles": "Count By Roles"
 }
