@@ -288,22 +288,6 @@ export const nodeRoles = [
 		}
 	},
 	{
-		label: 'Supernodes',
-		icon: '',
-		value: {
-			rolesRaw: null,
-			rewardProgram: 'all'
-		}
-	},
-	{
-		label: 'EarlyAdoption',
-		icon: '',
-		value: {
-			rolesRaw: null,
-			rewardProgram: 'EarlyAdoption'
-		}
-	},
-	{
 		label: Constants.RoleType[1],
 		icon: '',
 		value: {
@@ -350,6 +334,30 @@ export const nodeRoles = [
 		icon: '',
 		value: {
 			rolesRaw: 7
+		}
+	},
+	{
+		label: 'RP - SuperNode',
+		icon: '',
+		value: {
+			rolesRaw: null,
+			rewardProgram: 'SuperNode'
+		}
+	},
+	{
+		label: 'RP - EarlyAdoption',
+		icon: '',
+		value: {
+			rolesRaw: null,
+			rewardProgram: 'EarlyAdoption'
+		}
+	},
+	{
+		label: 'RP - Ecosystem',
+		icon: '',
+		value: {
+			rolesRaw: null,
+			rewardProgram: 'Ecosystem'
 		}
 	}
 ];

@@ -178,7 +178,10 @@ export default {
 				key === 'harvester' ||
                 key === 'address' ||
                 key === 'signer' ||
-                key === 'recipient' ||
+				key === 'recipient' ||
+				key === 'publicKey' ||
+				key === 'nodePublicKey' ||
+				key === 'mainPublicKey' ||
                 key === 'transactionHash' ||
                 key === 'ownerAddress' ||
                 key === 'host' ||

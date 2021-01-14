@@ -171,24 +171,24 @@ class NodeService {
 
     		node = nodes.find(n => n.publicKey === publicKey);
     	}
-    	const formattedNodePeers = this.formatNodeInfo(node);
+    	const formattedNode = this.formatNodeInfo(node);
 
-    	if (formattedNodePeers.rolesRaw === 2 ||
-            formattedNodePeers.rolesRaw === 3 ||
-            formattedNodePeers.rolesRaw === 6 ||
-            formattedNodePeers.rolesRaw === 7
+    	if (formattedNode.rolesRaw === 2 ||
+            formattedNode.rolesRaw === 3 ||
+            formattedNode.rolesRaw === 6 ||
+            formattedNode.rolesRaw === 7
     	) {
-    		const status = await this.getApiNodeStatus(formattedNodePeers.apiEndpoint);
+    		const status = await this.getApiNodeStatus(formattedNode.apiEndpoint);
 
-    		formattedNodePeers.apiStatus = status;
+    		formattedNode.apiStatus = status;
 
-    		const chainInfo = await this.getNodeChainInfo(formattedNodePeers.apiEndpoint);
+    		const chainInfo = await this.getNodeChainInfo(formattedNode.apiEndpoint);
 
-    		formattedNodePeers.chainInfo = chainInfo;
+    		formattedNode.chainInfo = chainInfo;
     	}
-    	if (formattedNodePeers?.peerStatus)
-    		formattedNodePeers.peerStatus.lastStatusCheck = moment(formattedNodePeers.peerStatus.lastStatusCheck).format('YYYY-MM-DD HH:mm:ss');
-    	return formattedNodePeers;
+    	if (formattedNode?.peerStatus)
+    		formattedNode.peerStatus.lastStatusCheck = moment(formattedNode.peerStatus.lastStatusCheck).format('YYYY-MM-DD HH:mm:ss');
+    	return formattedNode;
     }
 
     static getApiNodeStatus = async (nodeUrl) => {
@@ -234,7 +234,27 @@ class NodeService {
     	};
 
     	return chainInfo;
-    }
+	}
+	
+	static getNodeRewardsInfo = async (publicKey) => {
+		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
+			const node = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes/' + publicKey)).data;
+			if(node?.apiNodeStatus?.nodePublicKey) {
+				const nodePublicKey = node?.apiNodeStatus?.nodePublicKey;
+				return (await Axios.get(globalConfig.endpoints.statisticsService + '/nodeRewards/nodes/nodePublicKey/' + nodePublicKey)).data;
+			}
+			throw Error(`Node doesn't take part in any rewards program`);
+		}
+		else
+			throw Error('Statistics service endpoint is not provided');
+	}
+
+	static getNodeStats = async () => {
+		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length)
+			return (await Axios.get(globalConfig.endpoints.statisticsService + '/nodeStats')).data;
+		else
+			throw Error('Statistics service endpoint is not provided');
+	}
 }
 
 export default NodeService;

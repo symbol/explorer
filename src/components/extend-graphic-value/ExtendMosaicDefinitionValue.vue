@@ -1,7 +1,9 @@
 <template>
 	<span
 		v-if="hasMosaicId"
-		:title="getTranslation('mosaicId') + ': ' + mosaicId">
+		:title="getTranslation('mosaicId') + ': ' + mosaicId"
+		style="word-break: keep-all; display: flex"
+	>
 
 		<MosaicIcon
 			hideCaption

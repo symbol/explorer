@@ -35,12 +35,16 @@ const managers = [
 		filter: filters.nodeRoles
 	}),
 	new DataSet(
-		'info',
-		(nodePublicKey) => NodeService.getNodeInfo(nodePublicKey)
+		'nodeStats',
+		() => NodeService.getNodeStats()
 	),
 	new DataSet(
-		'accountInfo',
-		(nodePublicKey) => nodePublicKey
+		'info',
+		(publicKey) => NodeService.getNodeInfo(publicKey)
+	),
+	new DataSet(
+		'nodeRewards',
+		(publicKey) => NodeService.getNodeRewardsInfo(publicKey)
 	)
 ];
 
@@ -97,17 +101,19 @@ export default {
 		// Fetch data from the SDK and initialize the page.
 		async initializePage(context) {
 			await context.getters.timeline.setStore(context).initialFetch();
+			context.getters.nodeStats.setStore(context).initialFetch();
 		},
 
 		// Fetch data from the SDK.
 		fetchNodeInfo(context, payload) {
 			context.dispatch('uninitializeDetail');
 			context.getters.info.setStore(context).initialFetch(Object.values(payload)[0]);
-			context.getters.accountInfo.setStore(context).initialFetch(Object.values(payload)[0]);
+			context.getters.nodeRewards.setStore(context).initialFetch(Object.values(payload)[0]);
 		},
 
 		uninitializeDetail(context) {
 			context.getters.info.setStore(context).uninitialize();
+			context.getters.nodeRewards.setStore(context).uninitialize();
 		}
 	}
 };
