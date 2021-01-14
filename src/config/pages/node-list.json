@@ -9,6 +9,11 @@
         "layout": "flex",
         "storeNamespaces": ["node"],
         "schema": [
+			{
+                "type": "NodeStatsWidget",
+				"managerGetter": "node/nodeStats",
+				"hideDependOnGetter": "node/nodeStats"
+            },
             {
                 "layoutOptions": "full-width",
                 "type": "NodesMapWidget",
