@@ -418,8 +418,8 @@
 			"id": "2789573",
 			"nodeId": "1",
 			"dateAndTime": "2020-12-27T05:22:56.719Z",
-			"expectedMinBalance": "3000000",
-			"reportedBalance": "3436885",
+			"expectedMinBalance": "3,000,000",
+			"reportedBalance": "3,436,885",
 			"round": 7274
 		}
 	],

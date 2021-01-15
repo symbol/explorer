@@ -133,6 +133,10 @@ td {
 	font-size: 10px;
 	color: $secondary-color;
 	font-weight: bold;
+	text-overflow: ellipsis;
+	overflow: hidden; 
+	white-space: nowrap;
+	width: 60%;
 }
 
 .expected-value-text {
@@ -142,6 +146,9 @@ td {
 	text-align: center;
 	align-self: flex-end;
 	opacity: 0.5;
+	text-overflow: ellipsis;
+	overflow: hidden; 
+	white-space: nowrap;
 }
 
 .vert-line {

@@ -21,15 +21,15 @@
 			</table>
 			<transition name="fade">
 				<LoadingAnimation v-if="isLoading" transition="fade"/>
-				<div v-else-if="!isError && !isSupernode">
+				<!-- <div v-else-if="!isError && !isSupernode">
 					<p>{{translate(language, 'notASupernode')}}</p>
-				</div>
+				</div> -->
 				<div v-else-if="!isError && !isLoading" class="tab custom-scrollbar">
 					<!-- <transition name="component-fade" mode="out-in"> -->
 						<component 
 							class="tab-content"
 							:is="tabs[activeTab].component"
-							:data="data"
+							:data="formattedData[activeTab]"
 							:language="language" 
 						/>
 					<!-- </transition> -->
@@ -46,6 +46,7 @@
 <script>
 import defaultConfig from './config.json';
 import translate from './i18n';
+import { NodeRewardInfo } from './model';
 
 import LoadingAnimation from './components/LoadingAnimation.vue';
 import TabSelector from './components/TabSelector.vue';
@@ -66,10 +67,13 @@ export default {
 	components: { LoadingAnimation, TabSelector, Main, Table, PayoutList },
 
 	props: {
-		accessor: {
-			type: Object
+		managerGetter: {
+			type: String
 		},
-		dataManager: {
+		dataGetter: {
+			type: String
+		},
+		accessor: {
 			type: Object
 		},
 		config: {
@@ -82,14 +86,13 @@ export default {
 	},
 
 	async mounted() {
-		this.load();
+		//this.load();
 	},
 
 	data() {
 		return {
 			translate,
 			BackgroundImage,
-			isSupernode: false,
 			activeTab: 'main',
 			tabs: {
 				main: {
@@ -113,44 +116,88 @@ export default {
 					component: 'PayoutList'
 				}
 			},
-			nodeInfo: {
-				isLoading: true,
-				isError: false,
-				errorMessage: ''
-			},
-			main: {
-				history: [],
-				nodeName: '',
-				roundNumber: 0,
-				testDate: '',
-				balance: {}
-			},
-			chainInfo: {},
-			performance: {},
-			payout: []
+			// nodeInfo: {
+			// 	isLoading: true,
+			// 	isError: false,
+			// 	errorMessage: ''
+			// },
+			// main: {
+			// 	history: [],
+			// 	nodeName: '',
+			// 	roundNumber: 0,
+			// 	testDate: '',
+			// 	balance: {}
+			// },
+			// chainInfo: {},
+			// performance: {},
+			// payout: []
 		}
 	},
 
 	computed: {
-		isLoading() {
-			return this.accessor.accountInfo.isLoading || this.nodeInfo.isLoading;
-		},
-
-		isError() {
-			return this.accessor.accountInfo.isError || this.nodeInfo.isError;
-		},
-
-		errorMessage() {
-			return this.accessor.accountInfo.errorMessage || this.nodeInfo.errorMessage;
-		},
-
-		publicKey() {
-			this.accessor.accountInfo.data
+		manager() {
+			return this.getter(this.managerGetter) || {};
 		},
 
 		data() {
-			return this[this.activeTab];
+			return this.dataGetter
+				? this.getter(this.dataGetter)
+				: this.manager.data;
 		},
+
+		formattedData() {
+			console.log(this.data)
+			if(this.data)
+				return new NodeRewardInfo(this.data);
+			else
+				return {};
+		},
+
+		isLoading() {
+			return this.manager.loading;
+			//return this.accessor.accountInfo.isLoading || this.nodeInfo.isLoading;
+		},
+
+		isError() {
+			return this.manager.error;
+			//return this.accessor.accountInfo.isError || this.nodeInfo.isError;
+		},
+
+		errorMessage() {
+			return '';
+			//return this.accessor.accountInfo.errorMessage || this.nodeInfo.errorMessage;
+		},
+
+		// main() {
+		// 	return {
+		// 		history: [],
+		// 		nodeName: '',
+		// 		roundNumber: 0,
+		// 		testDate: '',
+		// 		balance: {}
+		// 	}
+		// },
+
+		// chainInfo() {
+
+		// },
+
+		// performance() {
+
+		// },
+
+		// payout() {
+
+		// },
+
+
+		// publicKey() {
+		// 	this.accessor.accountInfo.data
+		// },
+
+		// data() {
+		// 	return this[this.activeTab];
+		// },
 
 		nodeMonitorEndpoint() {
 			return (this.config !== null && typeof this.config === 'object')
@@ -160,43 +207,46 @@ export default {
 	},
 
 	methods: {
-		async load() {
-			this.isSupernode = false;
-			this.nodeInfo.isError = false;
-			this.nodeInfo.errorMessage = '';
-			this.performance = {};
-			this.chainInfo = {};
-			this.payout = [];
-			await this.getNodeInfo();
-		},
-
-		async getNodeInfo() {
-			try {
-				this.$set(this.nodeInfo, 'isLoading', true);
-				this.$set(this.nodeInfo, 'isError', false);
-				this.$set(this.nodeInfo, 'errorMessage', '');
-				const nodeInfo = await this.accessor.http.get(this.nodeMonitorEndpoint + '/' + this.publicKey);
-				this.isSupernode = true;
-				this.performance = nodeInfo.performance;
-				this.chainInfo = nodeInfo.chainInfo;
-				this.payout = nodeInfo.payout;
-				this.$set(this.main, 'history', nodeInfo.history);
-				this.$set(this.main, 'nodeName', nodeInfo.nodeName);
-				this.$set(this.main, 'roundNumber', nodeInfo.round);
-				this.$set(this.main, 'testDate', nodeInfo.testDate);
-				this.$set(this.main, 'balance', nodeInfo.balance);
-			}
-			catch(e) {
-				if(e.statusCode === 404) {
-					this.isSupernode = false;
-				}
-				else {
-					this.$set(this.nodeInfo, 'isError', true);
-					this.$set(this.nodeInfo, 'errorMessage', e.message);
-				}	
-			}	
-			this.$set(this.nodeInfo, 'isLoading', false);
+		getter(name) {
+			return this.$store.getters[name];
 		}
+		// async load() {
+		// 	this.isSupernode = false;
+		// 	this.nodeInfo.isError = false;
+		// 	this.nodeInfo.errorMessage = '';
+		// 	this.performance = {};
+		// 	this.chainInfo = {};
+		// 	this.payout = [];
+		// 	await this.getNodeInfo();
+		// },
+
+		// async getNodeInfo() {
+		// 	try {
+		// 		this.$set(this.nodeInfo, 'isLoading', true);
+		// 		this.$set(this.nodeInfo, 'isError', false);
+		// 		this.$set(this.nodeInfo, 'errorMessage', '');
+		// 		const nodeInfo = await this.accessor.http.get(this.nodeMonitorEndpoint + '/' + this.publicKey);
+		// 		this.isSupernode = true;
+		// 		this.performance = nodeInfo.performance;
+		// 		this.chainInfo = nodeInfo.chainInfo;
+		// 		this.payout = nodeInfo.payout;
+		// 		this.$set(this.main, 'history', nodeInfo.history);
+		// 		this.$set(this.main, 'nodeName', nodeInfo.nodeName);
+		// 		this.$set(this.main, 'roundNumber', nodeInfo.round);
+		// 		this.$set(this.main, 'testDate', nodeInfo.testDate);
+		// 		this.$set(this.main, 'balance', nodeInfo.balance);
+		// 	}
+		// 	catch(e) {
+		// 		if(e.statusCode === 404) {
+		// 			this.isSupernode = false;
+		// 		}
+		// 		else {
+		// 			this.$set(this.nodeInfo, 'isError', true);
+		// 			this.$set(this.nodeInfo, 'errorMessage', e.message);
+		// 		}	
+		// 	}	
+		// 	this.$set(this.nodeInfo, 'isLoading', false);
+		// }
 	}
 };
 </script>

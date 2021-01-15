@@ -201,6 +201,7 @@ td {
 
 .table-header {
 	font-weight: 700;
+	width: 25%;
 }
 
 .table-value {
