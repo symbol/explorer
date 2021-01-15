@@ -20,7 +20,9 @@ const readConfig = (callback) => {
 			const parsedENV = {};
 			Object.keys(ENV).forEach(key => {
 				try {
-					parsedENV[key] = JSON.parse(ENV[key]);
+					if (defaultConfig[key]) {
+						parsedENV[key] = JSON.parse(ENV[key]);
+					}
 				}
 				catch(e) {
 					parsedENV[key] = ENV[key];
@@ -71,13 +73,13 @@ readConfig(res => {
 		if(req.url === '/')
 			req.url = INDEX_HTML;
 
-		if(req.url === CONFIG_ROUTE) { 
+		if(req.url === CONFIG_ROUTE) {
 			sendJSON(res, ENV);
 		}
 		else {
-			getFile(req.url, 
+			getFile(req.url,
 				() => {
-					getFile(INDEX_HTML, 
+					getFile(INDEX_HTML,
 						err => sendError(res, err, 404),
 						data => send(res, data)
 					);
