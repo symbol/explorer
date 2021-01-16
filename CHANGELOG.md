@@ -3,7 +3,25 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [v0.7.1[v0.7.1] - 19-Dec-2020
+## [v0.8.0][v0.8.0] - 16-Jan-2021
+
+### Milestone: [catapult-server@v0.10.0.5][catapult-server@v0.10.0.5]
+
+Package  | Version  | Link
+---|---|---
+REST Core| v2.3.0 | [catapult-rest][catapult-rest@v2.3.0]
+SDK Core| v0.23.0 | [symbol-sdk][symbol-sdk@v0.23.0]
+
+### Added
+- Added compatibility for 0.10.0.5 server.
+- Update SDK. [#753](https://github.com/nemgrouplimited/symbol-explorer/issues/753)
+
+### Fixed
+- Removed NEM Foundation in Explorer [#748](https://github.com/nemgrouplimited/symbol-explorer/issues/748)
+- Do not expose whole ENV in /config [#754](https://github.com/nemgrouplimited/symbol-explorer/issues/754)
+- Minor bug in explorer
+
+## [v0.7.1][v0.7.1] - 19-Dec-2020
 
 ### Milestone: [catapult-server@v0.10.0.4](https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.4)
 
@@ -227,3 +245,8 @@ SDK Core| v0.20.7 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 [v0.6.2]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.6.2
 [v0.7.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.7.0
 [v0.7.1]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.7.1
+[v0.8.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.8.0
+
+[catapult-server@v0.10.0.5]: https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.5
+[symbol-sdk@v0.23.0]: https://www.npmjs.com/package/symbol-sdk/v/0.23.0
+[catapult-rest@v2.3.0]: https://github.com/nemtech/catapult-rest/releases/tag/v2.3.0
