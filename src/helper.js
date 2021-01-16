@@ -501,6 +501,7 @@ class helper {
 
 	  return {
   		...mosaic,
+  		rawAmount: mosaic.amount,
   		mosaicId: mosaic.id.toHex(),
   		amount: this.formatMosaicAmountWithDivisibility(mosaic.amount, http.networkCurrency.divisibility),
   		mosaicAliasName: http.networkCurrency.namespaceName
