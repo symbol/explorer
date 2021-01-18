@@ -1,5 +1,5 @@
 <template>
-	<div class="root" :style="{padding: 0, paddingTop: 0}">
+	<div v-if="!isError && data" class="root" :style="{padding: 0, paddingTop: 0}">
 		<img :src="BackgroundImage" class="background-image"/>
 		<div class="content">
 			<table class="top-bar">

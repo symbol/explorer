@@ -1,9 +1,12 @@
 <template>
 	<div class="main-root">
-		<div class="name">{{data.nodeName}}</div>
+		<div>
+			<div class="program">{{data.rewardProgram}}</div>
+			<div class="node">{{data.friendlyName}} | {{data.host}}</div>
+		</div>
 		<!-- <div class="round">{{translate(language, 'roundNumber', {number: data.roundNumber})}}</div>
 		<div class="date">{{formatDate(data.testDate)}}</div> -->
-		<div class="balance">
+		<!-- <div class="balance">
 			<img :src="ConnectorIcon" class="connector-icon" />
 			{{_balance.amountInt}}<div class="decimal">{{_balance.amountDec}}</div>
 			<div v-if="data.balance.passed === false" class="inline">
@@ -11,7 +14,7 @@
 			</div>
 			{{_mosaicName}}
 			<Boolean v-if="data.balance" :value="data.balance.passed" />
-		</div>
+		</div> -->
 		<History v-if="data.history" :data="data.history" :language="language" class="history" />
 	</div>
 </template>
@@ -97,15 +100,18 @@ export default {
 .main-root {
 	padding-top: 20px;
 	background: transparent;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
 
-	.name {
+	.program {
 		font-weight: 700;
 		font-size: 18px;
 		margin-bottom: 5px;
 	}
 
 
-	.date {
+	.node {
 		font-size: 12px;
 	}
 

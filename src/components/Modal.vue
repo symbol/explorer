@@ -102,7 +102,8 @@ export default {
 		},
 
 		isDate(item, key) {
-			return key.toUpperCase().includes('DATE');
+			return key.toUpperCase().includes('DATE') 
+				|| key === 'createdAt';
 		}
 	}
 };

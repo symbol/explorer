@@ -12,6 +12,16 @@ export const trunc = (text, cut, lengthFirst, lengthSecond) => {
 	return text;
 };
 
+export const formatNumberOutput = (value) => {
+	if(typeof value === 'string')
+		parseFloat(value).toLocaleString('en');
+	
+	if(typeof value === 'number')
+		(value).toLocaleString('en');
+	
+	return value.toLocaleString('en')
+}
+
 export const formatDate = (dateStr, language, showTime = false) => {
 	const months = [
 		'jan',

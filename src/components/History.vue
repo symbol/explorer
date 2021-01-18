@@ -127,7 +127,9 @@ export default {
 }
 
 .history-step:last-child .history-circle {
-	// background-color: #f0f;
+	width: 12px;
+	height: 12px;
+	margin-top: -1px;
 }
 
 
@@ -139,10 +141,18 @@ export default {
 	font-weight: normal;
 }
 
+.history-step:last-child .history-title {
+	font-weight: bold;
+}
+
 .history-date {
 	font-size: 10px;
 	text-align: center;
 	//color: #999;
+}
+
+.history-step:last-child .history-date {
+	font-weight: bold;
 }
 
 
