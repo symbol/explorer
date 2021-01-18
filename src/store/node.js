@@ -60,10 +60,11 @@ export default {
 	getters: {
 		getInitialized: state => state.initialized,
 		...getGettersFromManagers(managers),
-		mapInfo: state => [ state.info?.data ],
+		mapInfo: state => [ state.info?.data?.hostDetail ],
 		peerStatus: state => state.info?.data?.peerStatus,
 		apiStatus: state => state.info?.data?.apiStatus,
 		chainInfo: state => state.info?.data?.chainInfo,
+		hostDetail: state => state.info?.data?.hostDetail,
 		hostInfoManager: (state, getters) => ({
 			loading: getters.timeline?.loading ||
 				getters.info?.loading,
@@ -93,6 +94,7 @@ export default {
 		async uninitialize({ commit, dispatch, getters }) {
 			const callback = async () => {
 				getters.timeline?.uninitialize();
+				getters.nodeStats?.uninitialize();
 			};
 
 			await LOCK.uninitialize(callback, commit, dispatch, getters);

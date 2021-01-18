@@ -378,5 +378,6 @@
 	"lastTestPassed": "Last test passed",
 	"nodeStatsTitle": "Node Statistics",
 	"allNodes": "Total count",
-	"nodeCountByRoles": "Count By Roles"
+	"nodeCountByRoles": "Count By Roles",
+	"chainInfo": "Chain Info"
 }

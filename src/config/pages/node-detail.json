@@ -47,7 +47,7 @@
                 "layoutOptions": "adaptive",
                 "type": "CardTable",
                 "title": "nodeHostDetailTitle",
-				"managerGetter": "node/info",
+				"managerGetter": "node/hostDetail",
 				"hideDependOnGetter": "node/hostInfoManager",
                 "errorMessage": "nodeDetailError",
                 "pagination": "none",
@@ -75,7 +75,8 @@
 			},
 			{
                 "layoutOptions": "adaptive",
-                "type": "NodeRewardsClient"
+				"type": "NodeRewardsClient",
+				"managerGetter": "node/nodeRewards"
             },
             {
                 "layoutOptions": "adaptive",

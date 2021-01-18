@@ -145,6 +145,11 @@ class NodeService {
 							};
 						else
 							node['chainInfo'] = {};
+						
+						if(node.hostDetail) {
+							node = {...node, ...node.hostDetail};
+							delete node.hostDetail;
+						}
 
 						return node;
                 	})
@@ -240,8 +245,8 @@ class NodeService {
 	static getNodeRewardsInfo = async (publicKey) => {
 		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
 			const node = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes/' + publicKey)).data;
-			if(node?.apiNodeStatus?.nodePublicKey) {
-				const nodePublicKey = node?.apiNodeStatus?.nodePublicKey;
+			if(node?.apiStatus?.nodePublicKey) {
+				const nodePublicKey = node?.apiStatus?.nodePublicKey;
 				return (await Axios.get(globalConfig.endpoints.statisticsService + '/nodeRewards/nodes/nodePublicKey/' + nodePublicKey)).data;
 			}
 			throw Error(`Node doesn't take part in any rewards program`);
@@ -253,6 +258,13 @@ class NodeService {
 	static getNodeStats = async () => {
 		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length)
 			return (await Axios.get(globalConfig.endpoints.statisticsService + '/nodeStats')).data;
+		else
+			throw Error('Statistics service endpoint is not provided');
+	}
+
+	static getNodeHeightStats = async () => {
+		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length)
+			return (await Axios.get(globalConfig.endpoints.statisticsService + '/nodeHeightStats')).data;
 		else
 			throw Error('Statistics service endpoint is not provided');
 	}

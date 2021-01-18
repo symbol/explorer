@@ -17,7 +17,7 @@
 
 		<template #body>
 			<b-row class="map-container">
-				<b-col class="map" :style="{'max-width': maxWidth+'px'}">
+				<b-col class="map map-width-limit" :style="{'max-width': maxWidth+'px'}">
 					<NodesMap
 						:nodes="nodeList"
 						:height="height"
@@ -133,11 +133,20 @@ export default {
 </script>
 
 <style scoped>
+@media (max-width: 764px) {
+	.map-width-limit {
+		min-width: 300px;
+	}
+}
+
+.map-width-limit {
+	min-width: 500px;
+}
+
 .map-container {
     display: flex;
     justify-content: center;
     align-items: center;
-	min-width: 300px;
 }
 
 .map {
