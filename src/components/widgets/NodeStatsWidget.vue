@@ -1,5 +1,5 @@
 <template>
-	<Card v-if="!error" :loading="loading" style="width: 100%">
+	<Card v-if="!error && this.data" :loading="loading" style="width: 100%">
 		<template #title>
 			{{getNameByKey('nodeStatsTitle')}}
 		</template>
