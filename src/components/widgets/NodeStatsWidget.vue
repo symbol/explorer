@@ -4,6 +4,12 @@
 			{{getNameByKey('nodeStatsTitle')}}
 		</template>
 
+		<template #control>
+			<router-link to="/statistics">
+				<ButtonMore> {{getNameByKey('viewMoreStatistics')}} </ButtonMore>
+			</router-link>
+		</template>
+
 		<template #body>
 			<b-container fluid style="height: 100%">
 				<b-row class="ex-ns-group">
@@ -57,6 +63,7 @@
 
 <script>
 import Card from '@/components/containers/Card.vue';
+import ButtonMore from '@/components/controls/ButtonMore.vue';
 import Constants from '../../config/constants';
 import IconOrange from '../../styles/img/connector_orange.png';
 import IconBlue from '../../styles/img/connector_blue.png';
@@ -66,7 +73,8 @@ import IconSupernode from '../../styles/img/node_reputation.png';
 
 export default {
 	components: {
-		Card
+		Card,
+		ButtonMore
 	},
 
 	props: {
@@ -91,7 +99,6 @@ export default {
 
 		nodeRoles() {
 			const data = this.data?.nodeTypes;
-			console.log(this.dataGetter)
 			if(!data)
 				return [];
 			
@@ -148,7 +155,6 @@ export default {
 
 		nodePrograms() {
 			const data = this.data?.nodeTypes;
-			console.log(this.dataGetter)
 			if(!data)
 				return [];
 			
