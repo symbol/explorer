@@ -263,8 +263,19 @@ class NodeService {
 	}
 
 	static getNodeHeightStats = async () => {
-		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length)
-			return (await Axios.get(globalConfig.endpoints.statisticsService + '/nodeHeightStats')).data;
+		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
+			const data = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodeHeightStats')).data;
+			return [
+				{
+					name: 'Height',
+					data: data.height.map(el => ({x: '' + el.value, y: parseInt(el.count)}))
+				},
+				{
+					name: `Finalized Height`,
+					data: data.finalizedHeight.map(el => ({x: '' + el.value, y: parseInt(el.count)}))
+				}
+			];
+		}
 		else
 			throw Error('Statistics service endpoint is not provided');
 	}

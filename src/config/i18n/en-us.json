@@ -379,5 +379,6 @@
 	"nodeStatsTitle": "Node Statistics",
 	"allNodes": "Total count",
 	"nodeCountByRoles": "Count By Roles",
-	"chainInfo": "Chain Info"
+	"chainInfo": "Chain Info",
+	"nodeHeightStatsTitle": "Count of nodes by chain height"
 }

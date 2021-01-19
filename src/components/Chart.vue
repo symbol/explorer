@@ -44,7 +44,15 @@ export default {
 		colors: {
 			type: Array,
 
-			default: () => ['#904d9c', '#f2e013', '#f29913']
+			default: () => [
+				'#904d9c', 
+				'#00c8ff',
+				'#33dd50',
+				'#ff9600',
+				'#ff00ff',
+				'#f2e013', 
+				'#f29913'
+			]
 
 		},
 
@@ -110,6 +118,12 @@ export default {
 						wick: {
 							useFillColor: true
 						}
+					},
+					bar: {
+							horizontal: true,
+							dataLabels: {
+								position: 'top',
+							},
 					}
 				},
 				title: {

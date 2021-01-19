@@ -124,7 +124,7 @@ export default {
 			context.commit('setLoadingTransactionPerBlock', true);
 			context.getters.nodeHeightStats.setStore(context).initialFetch();
 
-			commit('setError', false);
+			context.commit('setError', false);
 			try {
 				let transactionFeesInfo = await NetworkService.getTransactionFeesInfo();
 
