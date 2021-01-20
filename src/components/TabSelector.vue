@@ -56,6 +56,16 @@ export default {
 	overflow: visible!important;
 }
 
+@media (max-width: 500px) {
+	.tab-item {
+		color: #fffa;
+		margin-right: 20px;
+		cursor: pointer;
+		position: relative;
+		overflow: visible!important;
+	}
+}
+
 .tab-item--hover:after {
 	display: block;
 	content: "";

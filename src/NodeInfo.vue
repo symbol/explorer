@@ -1,7 +1,7 @@
 <template>
 	<div v-if="!isError && data" class="root" :style="{padding: 0, paddingTop: 0}">
 		<img :src="BackgroundImage" class="background-image"/>
-		<div class="content">
+		<div class="content content-padding">
 			<table class="top-bar">
 				<tr>
 					<td>
@@ -21,18 +21,13 @@
 			</table>
 			<transition name="fade">
 				<LoadingAnimation v-if="isLoading" transition="fade"/>
-				<!-- <div v-else-if="!isError && !isSupernode">
-					<p>{{translate(language, 'notASupernode')}}</p>
-				</div> -->
-				<div v-else-if="!isError && !isLoading" class="tab custom-scrollbar">
-					<!-- <transition name="component-fade" mode="out-in"> -->
-						<component 
-							class="tab-content"
-							:is="tabs[activeTab].component"
-							:data="formattedData[activeTab]"
-							:language="language" 
-						/>
-					<!-- </transition> -->
+				<div v-else-if="!isError && !isLoading" class="tab custom-scrollbar" :class="{scrollable: isScrollableTab}">
+					<component 
+						class="tab-content"
+						:is="tabs[activeTab].component"
+						:data="formattedData[activeTab]"
+						:language="language" 
+					/>
 				</div>
 				<div v-else>
 					<h4>{{translate(language, 'error')}}</h4>
@@ -115,22 +110,7 @@ export default {
 					image: PayoutsImage,
 					component: 'PayoutList'
 				}
-			},
-			// nodeInfo: {
-			// 	isLoading: true,
-			// 	isError: false,
-			// 	errorMessage: ''
-			// },
-			// main: {
-			// 	history: [],
-			// 	nodeName: '',
-			// 	roundNumber: 0,
-			// 	testDate: '',
-			// 	balance: {}
-			// },
-			// chainInfo: {},
-			// performance: {},
-			// payout: []
+			}
 		}
 	},
 
@@ -146,7 +126,6 @@ export default {
 		},
 
 		formattedData() {
-			console.log(this.data)
 			if(this.data)
 				return new NodeRewardInfo(this.data);
 			else
@@ -155,54 +134,24 @@ export default {
 
 		isLoading() {
 			return this.manager.loading;
-			//return this.accessor.accountInfo.isLoading || this.nodeInfo.isLoading;
 		},
 
 		isError() {
 			return this.manager.error;
-			//return this.accessor.accountInfo.isError || this.nodeInfo.isError;
 		},
 
 		errorMessage() {
 			return '';
-			//return this.accessor.accountInfo.errorMessage || this.nodeInfo.errorMessage;
 		},
-
-		// main() {
-		// 	return {
-		// 		history: [],
-		// 		nodeName: '',
-		// 		roundNumber: 0,
-		// 		testDate: '',
-		// 		balance: {}
-		// 	}
-		// },
-
-		// chainInfo() {
-
-		// },
-
-		// performance() {
-
-		// },
-
-		// payout() {
-
-		// },
-
-
-		// publicKey() {
-		// 	this.accessor.accountInfo.data
-		// },
-
-		// data() {
-		// 	return this[this.activeTab];
-		// },
 
 		nodeMonitorEndpoint() {
 			return (this.config !== null && typeof this.config === 'object')
 				? this.config.NODE_MONITOR_ENDPOINT
 				: defaultConfig.NODE_MONITOR_ENDPOINT;
+		},
+
+		isScrollableTab() {
+			return this.activeTab === 'payout'
 		}
 	},
 
@@ -210,43 +159,6 @@ export default {
 		getter(name) {
 			return this.$store.getters[name];
 		}
-		// async load() {
-		// 	this.isSupernode = false;
-		// 	this.nodeInfo.isError = false;
-		// 	this.nodeInfo.errorMessage = '';
-		// 	this.performance = {};
-		// 	this.chainInfo = {};
-		// 	this.payout = [];
-		// 	await this.getNodeInfo();
-		// },
-
-		// async getNodeInfo() {
-		// 	try {
-		// 		this.$set(this.nodeInfo, 'isLoading', true);
-		// 		this.$set(this.nodeInfo, 'isError', false);
-		// 		this.$set(this.nodeInfo, 'errorMessage', '');
-		// 		const nodeInfo = await this.accessor.http.get(this.nodeMonitorEndpoint + '/' + this.publicKey);
-		// 		this.isSupernode = true;
-		// 		this.performance = nodeInfo.performance;
-		// 		this.chainInfo = nodeInfo.chainInfo;
-		// 		this.payout = nodeInfo.payout;
-		// 		this.$set(this.main, 'history', nodeInfo.history);
-		// 		this.$set(this.main, 'nodeName', nodeInfo.nodeName);
-		// 		this.$set(this.main, 'roundNumber', nodeInfo.round);
-		// 		this.$set(this.main, 'testDate', nodeInfo.testDate);
-		// 		this.$set(this.main, 'balance', nodeInfo.balance);
-		// 	}
-		// 	catch(e) {
-		// 		if(e.statusCode === 404) {
-		// 			this.isSupernode = false;
-		// 		}
-		// 		else {
-		// 			this.$set(this.nodeInfo, 'isError', true);
-		// 			this.$set(this.nodeInfo, 'errorMessage', e.message);
-		// 		}	
-		// 	}	
-		// 	this.$set(this.nodeInfo, 'isLoading', false);
-		// }
 	}
 };
 </script>
@@ -267,6 +179,15 @@ h3 {
 	font-size: 2rem;
 	line-height: 2.5rem;
 	font-weight: 700;
+}
+
+@media (max-width: 500px) {
+	h3 {
+		margin: 0 0 .75rem;
+		font-size: 1.75rem;
+		line-height: 2.5rem;
+		font-weight: 700;
+	}
 }
 
 h4 {
@@ -299,9 +220,18 @@ p {
 		display: flex;
 		flex-direction: column;
 		position: relative;
-		padding: 40px;
 		color: #fff;
 		z-index: 2;
+	}
+
+	.content-padding {
+		padding: 40px;
+	}
+
+	@media (max-width: 500px) {
+		.content-padding {
+			padding: 40px 30px;
+		}
 	}
 
 	.top-bar {
@@ -315,7 +245,10 @@ p {
 
 	.tab {
 		flex: 1;
-  		overflow-y: overlay;
+	}
+
+	.scrollable {
+		overflow-y: overlay;
 	}
 
 	.tab-content {
@@ -326,6 +259,12 @@ p {
 		height: 60px;
 		float: right;
 		margin-top: 10px;
+	}
+
+	@media (max-width: 500px) {
+		.tab-image {
+			display: none;
+		}
 	}
 
 	.background-image {

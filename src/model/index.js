@@ -2,7 +2,7 @@ import { formatNumberOutput } from '../utils';
 
 export class TestResult {
 	constructor(value, passed, expectedValue, details) {
-		const { createdAt, ...rest } = details;
+		const { createdAt, resultValid, ...rest } = details;
 
 		this.value = value;
 		this.passed = passed;
