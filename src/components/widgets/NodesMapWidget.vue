@@ -133,14 +133,14 @@ export default {
 </script>
 
 <style scoped>
-@media (max-width: 764px) {
-	.map-width-limit {
-		min-width: 300px;
-	}
-}
-
 .map-width-limit {
 	min-width: 500px;
+}
+
+@media (max-width: 764px) {
+	.map-width-limit {
+		min-width: 250px;
+	}
 }
 
 .map-container {

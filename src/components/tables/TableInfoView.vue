@@ -7,7 +7,7 @@
 						{{getKeyName(itemKey)}}
 					</td>
 					<td
-						class="max-item-width table-cell"
+						class="'max-item-width table-cell break-all"
 						:title="getKeyName(itemKey) + ': ' + item"
 						@click="onItemClick(itemKey, item)"
 					>
