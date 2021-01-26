@@ -19,8 +19,9 @@
 import http from './http';
 import helper from '../helper';
 import Constants from '../config/constants';
-import { ChainService, MetadataService, TransactionService, ReceiptService } from '../infrastructure';
-import { Order, NamespaceId, UInt64, TransactionType, TransactionGroup, ReceiptType, Address } from 'symbol-sdk';
+import { ChainService, MetadataService, ReceiptService } from '../infrastructure';
+import { Order, NamespaceId, UInt64, ReceiptType, Address } from 'symbol-sdk';
+import globalConfig from '../config/globalConfig';
 
 class NamespaceService {
   /**
@@ -327,28 +328,15 @@ class NamespaceService {
    * @returns Namespace[]
    */
   static getNativeNamespaces = async () => {
-  	const searchCriteria = {
-  		pageSize: 100,
-  		height: UInt64.fromUint(1),
-  		type: [TransactionType.NAMESPACE_REGISTRATION],
-  		group: TransactionGroup.Confirmed
-  	};
-
-  	const streamerTransactions = await TransactionService.streamerTransactions(searchCriteria);
-  	const searchNamespaces = streamerTransactions.map(transaction => TransactionService.formatTransaction(transaction));
-
-  	const namespaceids = searchNamespaces.map(namespace => namespace.namespaceId);
+  	const namespace = globalConfig.networkConfig.namespaceName;
+  	const rootNamespace = namespace.split('.')[0];
+  	const namespaceids = [rootNamespace, namespace].map(namespace => new NamespaceId(namespace));
 
   	const namespaceInfos = await Promise.all(namespaceids.map(async namespaceid => {
   		return (NamespaceService.getNamespace(namespaceid));
-  	}));
+	  }));
 
-  	const nativeNamespaces = await NamespaceService.toNamespaces(namespaceInfos.map(namespaceInfo => ({
-  		...namespaceInfo,
-  		id: NamespaceId.createFromEncoded(namespaceInfo.namespaceId)
-  	})));
-
-  	return nativeNamespaces;
+  	return namespaceInfos;
   }
 
   /**
