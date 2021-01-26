@@ -120,14 +120,14 @@ export default {
 					order: Order.Desc
 				};
 
-				const blocks = await BlockService.streamerBlocks(searchCriteria, 240);
+				const blocks = await BlockService.streamerBlocks(searchCriteria, 300);
 
-				let blockTimeDifferenceDataset = StatisticService.getBlockTimeDifferenceData(blocks, 240, 60);
+				let blockTimeDifferenceDataset = StatisticService.getBlockTimeDifferenceData(blocks, 60);
 
 				commit('setBlockTimeDifferenceData', blockTimeDifferenceDataset);
 				commit('setLoadingBlockTimeDifference', false);
 
-				let transactionPerBlockDataset = StatisticService.getTransactionPerBlockData(blocks, 240, 60);
+				let transactionPerBlockDataset = StatisticService.getTransactionPerBlockData(blocks, 60);
 
 				commit('setTransactionPerBlockData', transactionPerBlockDataset);
 				commit('setLoadingTransactionPerBlock', false);
