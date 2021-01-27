@@ -22,16 +22,22 @@
 					</div>
 				</div>
 			</div>
+			<Pagination />
 		</div>
 	</div>
 </template>
 
 <script>
+import Pagination from './Pagination.vue';
 import IncomingIcon from '../assets/incoming.png';
 import * as utils from '../utils';
 
 export default {
 	name: 'PayoutList',
+
+	components: {
+		Pagination
+	},
 
 	props: {
 		data: {
