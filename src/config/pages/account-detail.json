@@ -113,14 +113,15 @@
 				"hideDependOnGetter": "account/info",
 				"onRowClickKey": "transactionHash",
 				"fields": [
-					"deadline",
+					"date",
+					"blockHeight",
 					"direction",
 					"transactionType",
 					"transactionHash",
 					"recipient"
 				],
 				"mobileFields": [
-					"deadline",
+					"date",
 					"direction",
 					"transactionType",
 					"transactionHash"
