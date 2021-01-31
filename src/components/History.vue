@@ -1,18 +1,20 @@
 <template>
 	<div class="history">
-		<div 
-			v-for="(test, index) in data"
-			:key="'' + index + 'nm-hist'"
-			class="history-step"
-		>
-			<div class="history-icon-wrapper">
-				<img class="history-icon" :src="getIconSrc(test.passed)" />
+		<div class="history-steps-wrapper">
+			<div 
+				v-for="(test, index) in data"
+				:key="'' + index + 'nm-hist'"
+				class="history-step"
+			>
+				<div class="history-icon-wrapper">
+					<img class="history-icon" :src="getIconSrc(test.passed)" />
+				</div>
+				<div class="history-circle hoverable" @click="onItemClick(test)"></div>
+				<div class="history-title">#{{test.round}}</div>
+				<div class="history-date" :title="test.date">{{formatDate(test.date)}}</div>
+				<div class="history-line history-line-left"></div>
+				<div class="history-line history-line-right"></div>
 			</div>
-			<div class="history-circle hoverable" @click="onItemClick(test)"></div>
-			<div class="history-title">#{{test.round}}</div>
-			<div class="history-date" :title="test.date">{{formatDate(test.date)}}</div>
-			<div class="history-line history-line-left"></div>
-			<div class="history-line history-line-right"></div>
 		</div>
 		<Modal 
 			v-if="isModalShown" 
@@ -66,9 +68,11 @@ export default {
 		},
 
 		getIconSrc(value) {
-			return value === true
-				? TrueIcon
-				: FalseIcon;
+			if(value === true)
+				return TrueIcon;
+
+			if(value === false)
+				return FalseIcon;
 		},
 
 		onItemClick(item) {
@@ -85,6 +89,11 @@ export default {
 
 <style lang="scss" scoped>
 .history {
+	width: 100%;
+}
+
+.history-steps-wrapper {
+	max-width: 500px;
 	display: table;
 	width: 100%;
 	margin: 0 auto;

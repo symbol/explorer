@@ -23,7 +23,7 @@
 	"ping": "Ping",
 	"responsiveness": "Responsiveness",
 
-	"testPassed": "Test Passed",
+	"testPassed": "Passed",
 
 	"roundNumber": "Round #{number}",
 
@@ -63,13 +63,24 @@
 	"nodeId": "Node ID",
 	"nodeVersionTestOk": "Node Version Test",
 	"chainHeightTestOk": "Chain Height Test",	
-	"chainPartTestOk": "Chain Part Test",	
+	"chainPartTestOk": "Chain Part Test",
 	"responsivenessTestOk": "Responsiveness Test",
 	"bandwidthTestOk": "Bandwidth Test",
 	"computingPowerTestOk": "ComputingPower Test",
 	"pingTestOk": "Ping Test",
-	"nodeBalanceTestOk": "NodeBalance Test",
+	"nodeBalanceTestOk": "Node Balance Test",
+
+	"chainHeightTestStatus": "Chain Height Test",
+	"chainPartTestStatus": "Chain Part Test",
+	"computingPowerTestStatus": "ComputingPower Test",
+	"nodeBalanceTestStatus": "Node Balance Test",
+	"nodeBandwidthTestStatus": "Bandwidth Test",
+	"nodePingTestStatus": "Ping Test",
+	"nodeVersionTestStatus": "Node Version Test",
+	"responsivenessTestStatus": "Responsiveness Test",
+
 	"createdAt": "Date",
+	"finishedAt": "Finished",
 
 	"expectedMinBalance": "Expected Min. Balance",
 	"reportedBalance": "Reported Balance",

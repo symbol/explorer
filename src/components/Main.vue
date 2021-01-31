@@ -132,13 +132,5 @@ export default {
 	.inline {
 		display: inline;
 	}
-
-
-	.history {
-		max-width: 500px;
-		//float: right;
-		//margin: 0;
-		margin-top: 20px;
-	}
 }
 </style>

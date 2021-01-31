@@ -1,4 +1,4 @@
-import { formatNumberOutput } from '../utils';
+import { formatNumberOutput, omit } from '../utils';
 
 export class TestResult {
 	constructor(value, passed, expectedValue, details) {
@@ -9,7 +9,7 @@ export class TestResult {
 		this.expectedValue = expectedValue;
 		this.details = {
 			dateAndTime: createdAt, 
-			...rest 
+			...omit(['round','roundOk', 'id', 'nodeId'], { ...rest }),
 		};
 	}
 };
@@ -29,7 +29,6 @@ export class Main {
 		this.host = res.nodeInfo.restGatewayUrl;
 		this.rewardProgram = res.nodeInfo.rewardProgram;
 		this.round = res.testResults[0] && res.testResults[0].round;
-		this.balance = new Balance(res.testResultInfo);
 		this.history = History.fromRes(res);
 	}
 }
@@ -44,16 +43,9 @@ export class History {
 			formattedHistoty = rawHistoty
 				.map(el => ({
 					date: el.createdAt,
-					passed: el.nodeVersionTestOk
-						&& el.chainHeightTestOk
-						&& el.chainPartTestOk
-						&& el.responsivenessTestOk
-						&& el.bandwidthTestOk
-						&& el.computingPowerTestOk
-						&& el.pingTestOk
-						&& el.nodeBalanceTestOk,
-					round: el.round,
-					details: el
+					passed: el.roundOk,
+					details: omit(['round','roundOk', 'id', 'nodeId'], el),
+					round: el.round
 				}))
 				.reverse();
 
@@ -61,25 +53,18 @@ export class History {
 	}
 };
 
-export class Balance {
-	constructor(res) {
-		const testResult = new TestResult(
-			formatNumberOutput(res.nodeBalanceResult.reportedBalance),
-			res.nodeBalanceResult.resultValid,
-			formatNumberOutput(res.nodeBalanceResult.expectedMinBalance),
-			res.nodeBalanceResult
-		);
-		Object.assign(this, testResult);
-	}
-};
 
 export class ChainInfo {
 	constructor(res) {
 		this.nodeBalance = new TestResult(
-			res.nodeBalanceResult.reportedBalance,
+			formatNumberOutput(res.nodeBalanceResult.reportedBalance),
 			res.nodeBalanceResult.resultValid,
-			res.nodeBalanceResult.expectedMinBalance,
-			res.nodeBalanceResult
+			formatNumberOutput(res.nodeBalanceResult.expectedMinBalance),
+			{
+				...res.nodeBalanceResult,
+				reportedBalance: formatNumberOutput(res.nodeBalanceResult.reportedBalance),
+				expectedMinBalance: formatNumberOutput(res.nodeBalanceResult.expectedMinBalance),
+			}
 		);
 		this.chainHeight = new TestResult(
 			res.chainHeightResult.reportedHeight,
@@ -110,24 +95,24 @@ export class ChainInfo {
 
 export class Performance {
 	constructor(res) {
-		this.bandwidth = new TestResult(
-			res.bandwidthResult.speed,
-			res.bandwidthResult.resultValid,
-			'not provided',//res.bandwidthResult,
-			res.bandwidthResult
-		);
+		// this.bandwidth = new TestResult(
+		// 	res.bandwidthResult.speed,
+		// 	res.bandwidthResult.resultValid,
+		// 	'not provided',//res.bandwidthResult,
+		// 	res.bandwidthResult
+		// );
 		this.computingPower = new TestResult(
 			res.computingPowerResult.timeNeeded,
 			res.computingPowerResult.resultValid,
 			'not provided',//res.computingPowerResult.,
 			res.computingPowerResult
 		);
-		this.ping = new TestResult(
-			res.pingResult.averageTime,
-			res.pingResult.resultValid,
-			'not provided',//res.pingResult.averageTime,
-			res.pingResult
-		);
+		// this.ping = new TestResult(
+		// 	res.pingResult.pingResults.reduce( ( p, c ) => p + c.averageTime, 0 ) / arr.length,
+		// 	res.pingResult.resultValid,
+		// 	'not provided',//res.pingResult.averageTime,
+		// 	res.pingResult
+		// );
 		this.responsiveness = new TestResult(
 			`${res.responsivenessResult.numResponses} (${res.responsivenessResult.totalTime}ms)`,
 			res.responsivenessResult.resultValid,

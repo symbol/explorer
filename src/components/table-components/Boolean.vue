@@ -1,5 +1,8 @@
 <template>
-	<img :src="imageSrc" class="boolean-image" />
+	<img v-if="isIcon" :src="imageSrc" class="boolean-image" />
+	<div v-else>
+		{{value}}
+	</div>
 </template>
 
 <script>
@@ -11,7 +14,7 @@ export default {
 
 	props: {
 		value: {
-			type: Boolean,
+			type: [Boolean, String],
 			required: true
 		}
 	},
@@ -19,8 +22,15 @@ export default {
 	computed: {
 		imageSrc() {
 			return this.value === true
+				|| this.value === 'SUCCEEDED'
 				? TrueIcon
 				: FalseIcon;
+		},
+
+		isIcon() {
+			return typeof this.value === 'boolean'
+				|| this.value === 'SUCCEEDED'
+				|| this.value === 'FAILED';
 		}
 	}
 };
@@ -28,6 +38,6 @@ export default {
 
 <style lang="scss" scoped>
 .boolean-image {
-	height: 16px;
+	width: 14px;
 }
 </style>

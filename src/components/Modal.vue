@@ -16,7 +16,7 @@
 											{{translate(language, 'testPassed')}}
 										</td>
 										<td class="table-value">
-											<BooleanField :value="passed" />
+											<BooleanField :value="passed" class="value-boolean" />
 										</td>
 									</tr>
 									<tr 
@@ -25,7 +25,7 @@
 									>
 										<td class="table-header">{{translate(language, key)}}</td>
 										<td class="table-value" :title="item">
-											<BooleanField v-if="isBoolean(item, key)" :value="item" />
+											<BooleanField v-if="isBoolean(item, key)" :value="item" class="value-boolean" />
 											<DateField v-else-if="isDate(item, key)" :value="item" :keyName="key" />
 											<TextField v-else :value="item" :keyName="key"/>
 										</td>
@@ -97,12 +97,25 @@ export default {
 
 	methods: {
 		isBoolean(item, key) {
-			return typeof item === 'boolean';
+			const booleanKeys = [
+				'chainHeightTestStatus',
+				'chainPartTestStatus',
+				'computingPowerTestStatus',
+				'nodeBalanceTestStatus',
+				'nodeBandwidthTestStatus',
+				'nodePingTestStatus',
+				'nodeVersionTestStatus',
+				'responsivenessTestStatus'
+			];
+
+			return typeof item === 'boolean'
+				|| booleanKeys.includes(key);
 		},
 
 		isDate(item, key) {
 			return key.toUpperCase().includes('DATE') 
-				|| key === 'createdAt';
+				|| key === 'createdAt'
+				|| key === 'finishedAt';
 		}
 	}
 };
@@ -201,7 +214,7 @@ td {
 
 .table-header {
 	font-weight: 700;
-	width: 25%;
+	width: 30%;
 }
 
 .table-value {

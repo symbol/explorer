@@ -85,6 +85,11 @@ export const getNativeMosaicPreview = (mosaics, nativeMosaic) => {
 }
 
 export const omit = (key, obj) => {
+	if(Array.isArray(key))
+		return Object.keys(obj)
+			.filter(k => !key.includes(k))
+			.reduce((acc, key) => ((acc[key] = obj[key]), acc), {});
+
 	const { [key]: omitted, ...rest } = obj;
 	return rest;
 }

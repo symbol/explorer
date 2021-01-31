@@ -26,8 +26,8 @@ export default {
 
 	computed: {
 		containsTime() {
-			console.log(this.keyName)
-			return this.keyName.toUpperCase().includes('TIME');
+			return this.keyName.toUpperCase().includes('TIME')
+			|| this.keyName.toUpperCase().includes('AT');
 		},
 
 		formattedDate() {
