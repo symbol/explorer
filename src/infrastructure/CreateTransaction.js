@@ -299,7 +299,7 @@ class CreateTransaction {
     static mosaicMetadata = async (transactionObj) => {
     	const [resolvedMosaic, resolvedAddress] = await Promise.all([
     		helper.resolveMosaicId(transactionObj.targetMosaicId),
-    		helper.resolvedAddress(transactionObj.targetAddress.address)
+    		helper.resolvedAddress(transactionObj.targetAddress)
     	]);
     	const mosaicAliasName = await helper.getSingleMosaicAliasName(resolvedMosaic);
 
@@ -318,10 +318,10 @@ class CreateTransaction {
     };
 
     static namespaceMetadata = async (transactionObj) => {
-    	const [namespaceName, resolvedAddress] = await Promise.all(
+    	const [namespaceName, resolvedAddress] = await Promise.all([
     		NamespaceService.getNamespacesNames([transactionObj.targetNamespaceId]),
-    		helper.resolvedAddress(transactionObj.targetAddress.address)
-    	);
+    		helper.resolvedAddress(transactionObj.targetAddress)
+    	]);
 
     	return {
     		...transactionObj,

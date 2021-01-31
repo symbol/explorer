@@ -529,7 +529,7 @@ class helper {
    */
   static getSingleMosaicAliasName = async (mosaicId) => {
   	const getMosaicNames = await NamespaceService.getMosaicsNames([mosaicId]);
-  	const mosaicAliasName = MosaicService.extractMosaicNamespace({ mosaicId: mosaicId.id.toHex() }, getMosaicNames);
+  	const mosaicAliasName = MosaicService.extractMosaicNamespace({ mosaicId: mosaicId.toHex() }, getMosaicNames);
 
   	return mosaicAliasName;
   }
