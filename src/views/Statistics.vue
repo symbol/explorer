@@ -20,23 +20,19 @@
 	<b-container fluid class="px-0 py-0">
 		<b-row class="my-4 mx-0 mx-xs-0 mx-md-4 mx-lg-8">
 			<b-col xs="12" md="12" lg="9">
-				<ChartBlockTimeDifference style="height: 100%" />
+				<ChartBlockTimeDifference />
 			</b-col>
 			<b-col xs="12" md="12" lg="3" style="display: flex">
-				<NetworkFeesWidget style="height: 100%; width: 100%" />
+				<NetworkFeesWidget style="width: 100%" />
 			</b-col>
-		</b-row>
 
-		<b-row class="my-4 mx-0 mx-xs-0 mx-md-4 mx-lg-8">
 			<b-col xs="12" md="12" lg="9">
-				<ChartTransactionPerBlock style="height: 100%" />
+				<ChartTransactionPerBlock />
 			</b-col>
 			<b-col xs="12" md="12" lg="3" style="display: flex">
-				<NetworkRentalFeesWidget style="height: 100%; width: 100%" />
+				<NetworkRentalFeesWidget style="width: 100%" />
 			</b-col>
-		</b-row>
 
-		<b-row class="my-4 mx-0 mx-xs-0 mx-md-4 mx-lg-8">
 			<b-col xs="12">
 				<NodeHeightStatsWidget />
 			</b-col>

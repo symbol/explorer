@@ -46,9 +46,9 @@ export default {
 
 			default: () => [
 				'#904d9c', 
+				'#ff9600',
 				'#00c8ff',
 				'#33dd50',
-				'#ff9600',
 				'#ff00ff',
 				'#f2e013', 
 				'#f29913'
@@ -69,6 +69,16 @@ export default {
 		strokeCurve: {
 			type: String,
 			default: 'smooth'
+		},
+
+		intXaxis: {
+			type: Boolean,
+			default: false
+		},
+
+		intYaxis: {
+			type: Boolean,
+			default: false
 		}
 	},
 
@@ -120,10 +130,10 @@ export default {
 						}
 					},
 					bar: {
-							horizontal: true,
-							dataLabels: {
-								position: 'top',
-							},
+						horizontal: true,
+						dataLabels: {
+							position: 'top',
+						},
 					}
 				},
 				title: {
@@ -134,7 +144,14 @@ export default {
 					axisBorder: {
 						show: false,
 						color: '#0998a6'
-					}
+					},
+					labels: this.intXaxis 
+						? {
+							formatter: function(val) {
+								return val.toFixed(0);
+							}
+						}
+						: {}
 				},
 				yaxis: {
 					tooltip: {
@@ -143,7 +160,14 @@ export default {
 					axisBorder: {
 						show: false,
 						color: '#0998a6'
-					}
+					},
+					labels: this.intYaxis 
+						? {
+							formatter: function(val) {
+								return val.toFixed(0);
+							}
+						}
+						: {}
 				},
 				tooltip: {
 					enabled: true

@@ -45,7 +45,11 @@ const managers = [
 	new DataSet(
 		'nodeRewards',
 		(publicKey) => NodeService.getNodeRewardsInfo(publicKey)
-	)
+	),
+	new Pagination({
+		name: 'payouts',
+		fetchFunction: (pageInfo, filter, store) => NodeService.getNodePeerList(pageInfo, store.getters['nodeRewards'].nodeInfo.Id),
+	}),
 ];
 
 const LOCK = Lock.create();

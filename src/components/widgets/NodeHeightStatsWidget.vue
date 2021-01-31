@@ -9,9 +9,11 @@
 				<b-col>
 					<Chart
 						type="bar"
-						:height="600"
+						:height="chartHeight"
 						:data="chartData"
-						xaxisType="categories"
+						:intXaxis="true"
+						:intYaxis="true"
+						xaxisType="category"
 					/>
 				</b-col>
 			</b-row>
@@ -58,6 +60,25 @@ export default {
 		error() {
 			return this.manager.error;
 		},
+
+		chartHeight() {
+			const data = this.data || [];
+			const heightCount = data[0]?.data?.length || 0;
+			const finalizedHeightCount = data[1]?.data.length || 0;
+			const count = Math.max(heightCount, finalizedHeightCount);
+
+			if(count === 0)
+				return 40;
+			
+			const heightDelta = data[0].data[heightCount - 1][0] - data[0].data[0][0];
+			const finalizedHeightDelta = data[1].data[heightCount - 1][0] - data[1].data[0][0];
+			const delta = Math.max(heightDelta, finalizedHeightDelta);
+
+			console.log('count', count)
+			console.log('data', JSON.stringify(data))
+			return 200 + delta / 1000;
+			//return (count * 60) / (count * 0.3);
+		}
 	},
 
 	methods: {
