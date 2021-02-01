@@ -90,6 +90,8 @@
     "targetId": "Target Id",
     "targetMosaicId": "Target Mosaic Id",
     "targetNamespaceId": "Target Namespace Id",
+    "targetMosaicAliasNames": "Target Mosaic Alias",
+
     "type": "Type",
     "valueSizeDelta": "Value Size Delta",
     "feeMultiplier": "Fee Multiplier",
