@@ -90,6 +90,7 @@
     "targetId": "Идентификатор Цели",
     "targetMosaicId": "Идентификатор Целевой Мозаики",
     "targetNamespaceId": "Идентификатор Целевого Пространства Имен",
+    "targetMosaicAliasNames": "Target Mosaic Alias",
     "type": "Тип",
     "valueSizeDelta": "Важность Размер Дельта",
     "feeMultiplier": "Мультипликатор Комиссии",

@@ -90,6 +90,7 @@
     "targetId": "目标Id",
     "targetMosaicId": "目标马赛克",
     "targetNamespaceId": "目标命名空间",
+    "targetMosaicAliasNames": "Target Mosaic Alias",
     "type": "类型",
     "valueSizeDelta": "值大小增量",
     "feeMultiplier": "费用乘数",

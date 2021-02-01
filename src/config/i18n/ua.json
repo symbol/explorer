@@ -90,6 +90,7 @@
     "targetId": "Цільовий Id",
     "targetMosaicId": "Цільовий Id мозаїки",
     "targetNamespaceId": "Цільовий Id простору імен",
+    "targetMosaicAliasNames": "Target Mosaic Alias",
     "type": "Тип",
     "valueSizeDelta": "Розмір величини дельти",
     "feeMultiplier": "Множник комісійного збіру",

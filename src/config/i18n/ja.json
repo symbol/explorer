@@ -90,6 +90,7 @@
     "targetId": "対象ID",
     "targetMosaicId": "対象モザイクID",
     "targetNamespaceId": "対象ネームスペースID",
+    "targetMosaicAliasNames": "対象エイリアスネームスペース",
     "type": "タイプ",
     "valueSizeDelta": "値サイズ増減値",
     "feeMultiplier": "手数料乗数",
