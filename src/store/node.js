@@ -48,7 +48,7 @@ const managers = [
 	),
 	new Pagination({
 		name: 'payouts',
-		fetchFunction: (pageInfo, filter, store) => NodeService.getNodePeerList(pageInfo, store.getters['nodeRewards'].nodeInfo.Id),
+		fetchFunction: (pageInfo, filter, store) => NodeService.getNodePayouts(pageInfo, store.getters['nodeRewards'].nodeInfo?.nodeId),
 	}),
 ];
 
@@ -111,10 +111,11 @@ export default {
 		},
 
 		// Fetch data from the SDK.
-		fetchNodeInfo(context, payload) {
+		async fetchNodeInfo(context, payload) {
 			context.dispatch('uninitializeDetail');
 			context.getters.info.setStore(context).initialFetch(Object.values(payload)[0]);
-			context.getters.nodeRewards.setStore(context).initialFetch(Object.values(payload)[0]);
+			await context.getters.nodeRewards.setStore(context).initialFetch(Object.values(payload)[0]);
+			await context.getters.payouts.setStore(context).initialFetch();
 		},
 
 		uninitializeDetail(context) {

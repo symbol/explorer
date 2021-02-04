@@ -77,7 +77,8 @@
 			{
                 "layoutOptions": "adaptive",
 				"type": "NodeRewardsClient",
-				"managerGetter": "node/nodeRewards"
+                "managerGetter": "node/nodeRewards",
+                "payoutsManagerGetter": "node/payouts"
             },
             {
                 "layoutOptions": "adaptive",
