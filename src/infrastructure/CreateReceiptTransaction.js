@@ -18,7 +18,8 @@ class CreateReceiptTransaction {
     			height: statement.height.compact(),
   				receiptType: Constants.ReceiptType[statement.type],
   				targetAddress: statement.targetAddress.plain(),
-    			mosaics: [mosaicsFieldObject.find(mosaicFieldObject => mosaicFieldObject.mosaicId === statement.mosaicId.toHex())]
+    			mosaics: [mosaicsFieldObject.find(mosaicFieldObject => mosaicFieldObject.mosaicId === statement.mosaicId.toHex() &&
+					statement.amount.equals(mosaicFieldObject.rawAmount))]
     		});
     	}
 
@@ -41,7 +42,8 @@ class CreateReceiptTransaction {
     			receiptType: Constants.ReceiptType[statement.type],
   				senderAddress: statement.senderAddress.address,
   				recipient: statement.recipientAddress.address,
-    			mosaics: [mosaicsFieldObject.find(mosaicFieldObject => mosaicFieldObject.mosaicId === statement.mosaicId.toHex())]
+    			mosaics: [mosaicsFieldObject.find(mosaicFieldObject => mosaicFieldObject.mosaicId === statement.mosaicId.toHex() &&
+					statement.amount.equals(mosaicFieldObject.rawAmount))]
     		});
     	}
 
@@ -62,7 +64,8 @@ class CreateReceiptTransaction {
     			...statement,
     			height: statement.height.compact(),
     			receiptType: Constants.ReceiptType[statement.type],
-    			mosaics: [mosaicsFieldObject.find(mosaicFieldObject => mosaicFieldObject.mosaicId === statement.mosaicId.toHex())]
+    			mosaics: [mosaicsFieldObject.find(mosaicFieldObject => mosaicFieldObject.mosaicId === statement.mosaicId.toHex() &&
+					statement.amount.equals(mosaicFieldObject.rawAmount))]
     		});
     	}
 

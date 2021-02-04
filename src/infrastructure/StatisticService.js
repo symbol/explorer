@@ -26,7 +26,7 @@ class StatisticService {
 	 * @param grouping - grouping block for calculation
 	 * @returns block time difference dataset.
 	 */
-	static getBlockTimeDifferenceData = (blocks, limit, grouping) => {
+	static getBlockTimeDifferenceData = (blocks, grouping) => {
 		const heights = blocks.map(data => Number(data.height));
 
 		let timestamps = blocks.map(data => data.timestampRaw);
@@ -63,21 +63,24 @@ class StatisticService {
 			averagesDataset.push([height, average.toFixed(2) === 'NaN' ? null : average.toFixed(2)]);
 		}
 
+		const sliceTimeDifferenceDataset = timeDifferenceDataset.slice(0, timeDifferenceDataset.length - grouping);
+		const sliceAveragesDataset = averagesDataset.slice(0, averagesDataset.length - grouping);
+
 		let dataset = [
 			{
 				name: 'Time Difference (in seconds)',
-				data: timeDifferenceDataset
+				data: sliceTimeDifferenceDataset
 			},
 			{
 				name: `Average Time Difference (per ${grouping} blocks)`,
-				data: averagesDataset
+				data: sliceAveragesDataset
 			}
 		];
 
 		return {
-			limit: limit,
+			limit: sliceTimeDifferenceDataset.length + 1,
 			grouping: grouping,
-			name: `Block time differences in last ${limit} blocks`,
+			name: `Block time differences in last ${sliceTimeDifferenceDataset.length + 1} blocks`,
 			data: dataset
 		};
 	}
@@ -90,7 +93,7 @@ class StatisticService {
 	 * @param grouping - grouping block for calculation
 	 * @returns transaction data per block dataset.
 	 */
-	static getTransactionPerBlockData = (blocks, limit, grouping) => {
+	static getTransactionPerBlockData = (blocks, grouping) => {
 		const heights = blocks.map(data => Number(data.height));
 
 		let numTransactions = blocks.map(data => data.transactions);
@@ -118,21 +121,24 @@ class StatisticService {
 			averagesDataset.push([heights[i], Math.floor(averages[i])]);
 		}
 
+		const sliceNumTransactionsPerBlockDataset = numTransactionsPerBlockDataset.slice(0, numTransactionsPerBlockDataset.length - grouping);
+		const sliceAveragesDataset = averagesDataset.slice(0, averagesDataset.length - grouping);
+
 		let dataset = [
 			{
 				name: 'Number of transactions',
-				data: numTransactionsPerBlockDataset
+				data: sliceNumTransactionsPerBlockDataset
 			},
 			{
 				name: `Average number of transaction (per ${grouping} blocks)`,
-				data: averagesDataset
+				data: sliceAveragesDataset
 			}
 		];
 
 		return {
-			limit: limit,
+			limit: sliceNumTransactionsPerBlockDataset.length + 1,
 			grouping: grouping,
-			name: `Transaction per block in last ${limit} blocks`,
+			name: `Transaction per block in last ${sliceNumTransactionsPerBlockDataset.length + 1} blocks`,
 			data: dataset
 		};
 	}

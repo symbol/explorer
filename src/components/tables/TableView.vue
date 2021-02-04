@@ -65,6 +65,7 @@ export default {
 				'sourceAddress',
 				'targetAddress',
 				'targetMosaicId',
+				'targetMosaicAliasNames_',
 				'targetNamespaceId',
 				'unresolved',
 				'addressResolutionEntries_',
@@ -115,7 +116,8 @@ export default {
 				'mosaicResolutionEntries',
 				'stateHashSubCacheMerkleRoots',
 				'accountAliasNames',
-				'mosaicAliasNames'
+				'mosaicAliasNames',
+				'targetMosaicAliasNames'
 			],
 			valuesToTranslate: [
 				'newRestrictionType',

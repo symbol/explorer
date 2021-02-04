@@ -22,10 +22,10 @@
 							If after you opt-in, you change your mind, you may withdraw your consent for us to contact you, for the continued collection,
 							use or disclosure of your information, at anytime, by contacting us at
 							<a
-								href="mailto:contact@nemn.io"
+								href="mailto:privacy@nem.io"
 							>
-								<b>contact@nemn.io</b>
-							</a> or mailing us at: NEM.io Foundation Limited. 57 Mohamed Sultan Rd., #01-05, Sultan-Link, Singapore 238997.
+								<b>privacy@nem.io</b>
+							</a> or mailing us at: NEM Group LIMITED, Suite 7, Hadfield House, Library Street, Gibraltar.
 						</p>
 						<h2>Section 3 - Disclosure</h2>
 						<p>We may disclose your personal information if we are required by law to do so or if you violate our Terms of Service.</p>
@@ -59,11 +59,11 @@
 							If you would like to: access, correct, amend or delete any personal information we have about you, register a complaint,
 							or simply want more information contact our Privacy Compliance Officer at
 							<a
-								href="mailto:contact@nemn.io"
+								href="mailto:privacy@nem.io"
 							>
-								<b>contact@nemn.io</b>
+								<b>privacy@nem.io</b>
 							</a>
-							or by mail at NEM.io Foundation Limited. 57 Mohamed Sultan Rd., #01-05, Sultan-Link, Singapore 238997.
+							or by mail at NEM Group LIMITED, Suite 7, Hadfield House, Library Street, Gibraltar.
 						</p>
 					</div>
 				</div>

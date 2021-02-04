@@ -51,6 +51,7 @@
     "parentId": "namespaces",
     "linkedNamespace": "namespaces",
     "mosaicAliasNames_": "namespaces",
+    "targetMosaicAliasNames_": "namespaces",
     "accountAliasNames_": "namespaces",
     "targetNamespaceId": "namespaces",
     "unresolved": "namespaces",
