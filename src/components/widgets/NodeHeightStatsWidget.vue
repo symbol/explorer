@@ -88,8 +88,8 @@ export default {
 
 		colorIndex() {
 			const colorMap = {
-				0: 1,
-				1: 3
+				0: 0,
+				1: 1
 			};
 
 			return colorMap[this.typeIndex];
