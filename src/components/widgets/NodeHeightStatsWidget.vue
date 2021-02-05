@@ -13,7 +13,7 @@
 						:data="chartData"
 						:intXaxis="false"
 						:intYaxis="true"
-						:colorIndex="typeIndex"
+						:colorIndex="colorIndex"
 						xaxisType="category"
 					/>
 				</b-col>
@@ -84,6 +84,15 @@ export default {
 			};
 
 			return typeMap[this.type];
+		},
+
+		colorIndex() {
+			const colorMap = {
+				0: 1,
+				1: 3
+			};
+
+			return colorMap[this.typeIndex];
 		},
 
 		chartHeight() {

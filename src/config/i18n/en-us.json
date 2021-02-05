@@ -382,5 +382,6 @@
 	"nodeCountByRoles": "Count By Roles",
 	"chainInfo": "Chain Info",
 	"nodeHeightStatsTitle": "Count of nodes by chain height",
+    "nodeFinalizedHeightStatsTitle": "Count of nodes by finalized chain height",
 	"viewMoreStatistics": "View More Statistics"
 }
