@@ -74,12 +74,6 @@
                 "pagination": "none",
                 "hideEmptyData": true
 			},
-			{
-                "layoutOptions": "adaptive",
-				"type": "NodeRewardsClient",
-                "managerGetter": "node/nodeRewards",
-                "payoutsManagerGetter": "node/payouts"
-            },
             {
                 "layoutOptions": "adaptive",
                 "type": "CardTable",

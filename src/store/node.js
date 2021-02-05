@@ -41,15 +41,7 @@ const managers = [
 	new DataSet(
 		'info',
 		(publicKey) => NodeService.getNodeInfo(publicKey)
-	),
-	new DataSet(
-		'nodeRewards',
-		(publicKey) => NodeService.getNodeRewardsInfo(publicKey)
-	),
-	new Pagination({
-		name: 'payouts',
-		fetchFunction: (pageInfo, filter, store) => NodeService.getNodePayouts(pageInfo, store.getters['nodeRewards'].nodeInfo?.nodeId),
-	}),
+	)
 ];
 
 const LOCK = Lock.create();
@@ -114,13 +106,10 @@ export default {
 		async fetchNodeInfo(context, payload) {
 			context.dispatch('uninitializeDetail');
 			context.getters.info.setStore(context).initialFetch(Object.values(payload)[0]);
-			await context.getters.nodeRewards.setStore(context).initialFetch(Object.values(payload)[0]);
-			await context.getters.payouts.setStore(context).initialFetch();
 		},
 
 		uninitializeDetail(context) {
 			context.getters.info.setStore(context).uninitialize();
-			context.getters.nodeRewards.setStore(context).uninitialize();
 		}
 	}
 };

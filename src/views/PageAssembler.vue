@@ -54,9 +54,7 @@ import RecentTransactionsWidget from '@/components/widgets/RecentTransactionsWid
 import TransactionGraphicWidget from '@/components/widgets/TransactionGraphicWidget.vue';
 import AccountBalanceWidget from '@/components/widgets/AccountBalanceWidget.vue';
 import NodesMapWidget from '@/components/widgets/NodesMapWidget.vue';
-import NodeRewardsClient from '../../node-monitor/src/NodeInfo.vue';
 import NodeStatsWidget from '@/components/widgets/NodeStatsWidget.vue';
-import Axios from 'axios';
 
 export default {
 	components: {
@@ -68,7 +66,6 @@ export default {
 		TransactionGraphicWidget,
 		AccountBalanceWidget,
 		NodesMapWidget,
-		NodeRewardsClient,
 		NodeStatsWidget
 	},
 

@@ -56,6 +56,11 @@ export default {
 
 		},
 
+		colorIndex: {
+			type: Number,
+			default: -1,
+		},
+
 		toolbar: {
 			type: Boolean,
 			default: false
@@ -84,7 +89,13 @@ export default {
 
 	data() {
 		return {
-			options: {
+			
+		};
+	},
+
+	computed: {
+		options() {
+			return {
 				chart: {
 					foreColor: '#999',
 					toolbar: {
@@ -111,7 +122,7 @@ export default {
 				dataLabels: {
 					enabled: false
 				},
-				colors: this.colors,
+				colors: this.extractedColors,
 				fill: {
 					gradient: {
 						enabled: true,
@@ -148,7 +159,9 @@ export default {
 					labels: this.intXaxis 
 						? {
 							formatter: function(val) {
-								return val.toFixed(0);
+								return typeof val.toFixed === 'function'
+									? val.toFixed(0)
+									: val;
 							}
 						}
 						: {}
@@ -164,7 +177,9 @@ export default {
 					labels: this.intYaxis 
 						? {
 							formatter: function(val) {
-								return val.toFixed(0);
+								return typeof val.toFixed === 'function'
+									? val.toFixed(0)
+									: val;
 							}
 						}
 						: {}
@@ -183,12 +198,16 @@ export default {
 					offsetY: 8
 				}
 			}
-		};
-	},
+		},
 
-	computed: {
 		series() {
 			return this.data;
+		},
+
+		extractedColors() {
+			return this.colorIndex !== -1
+				? [this.colors[this.colorIndex]]
+				: this.colors;
 		}
 	}
 

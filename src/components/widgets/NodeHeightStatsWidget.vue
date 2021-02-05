@@ -1,7 +1,7 @@
 <template>
-	<Card v-if="!error" :loading="loading" style="width: 100%">
+	<Card v-if="!error" :loading="loading">
 		<template #title>
-			{{getNameByKey('nodeHeightStatsTitle')}}
+			{{ title }}
 		</template>
 
 		<template #body>
@@ -11,8 +11,9 @@
 						type="bar"
 						:height="chartHeight"
 						:data="chartData"
-						:intXaxis="true"
+						:intXaxis="false"
 						:intYaxis="true"
+						:colorIndex="typeIndex"
 						xaxisType="category"
 					/>
 				</b-col>
@@ -29,6 +30,13 @@ export default {
 	components: {
 		Card,
 		Chart
+	},
+
+	props: {
+		type: {
+			type: String,
+			default: 'height'
+		}
 	},
 
 	data() {
@@ -48,10 +56,18 @@ export default {
 				: this.manager.data;
 		},
 
-		chartData() {
-			return this.data || [];
+		title() {
+			const titleMap = {
+				0: this.getNameByKey('nodeHeightStatsTitle'),
+				1: this.getNameByKey('nodeFinalizedHeightStatsTitle')
+			};
+			
+			return titleMap[this.typeIndex];
 		},
 
+		chartData() {
+			return (this.data && [this.data[this.typeIndex]]) || [];
+		},
 
 		loading() {
 			return this.manager.loading;
@@ -61,23 +77,39 @@ export default {
 			return this.manager.error;
 		},
 
+		typeIndex() {
+			const typeMap = {
+				height: 0,
+				finalizedHeight: 1
+			};
+
+			return typeMap[this.type];
+		},
+
 		chartHeight() {
-			const data = this.data || [];
-			const heightCount = data[0]?.data?.length || 0;
-			const finalizedHeightCount = data[1]?.data.length || 0;
-			const count = Math.max(heightCount, finalizedHeightCount);
+			// const data = this.data || [];
+			// const heightCount = data[0]?.data?.length || 0;
+			// const finalizedHeightCount = data[1]?.data.length || 0;
+			// const count = Math.max(heightCount, finalizedHeightCount);
+
+			// if(count === 0)
+			// 	return 40;
+			
+			// const heightDelta = data[0].data[heightCount - 1][0] - data[0].data[0][0];
+			// const finalizedHeightDelta = data[1].data[heightCount - 1][0] - data[1].data[0][0];
+			// const delta = Math.max(heightDelta, finalizedHeightDelta);
+
+			// console.log('count', count)
+			// console.log('data', JSON.stringify(data))
+			// return 200 + delta / 1000;
+
+			const data = this.chartData[0]?.data || [];
+			const count = data?.length || 0;
 
 			if(count === 0)
-				return 40;
-			
-			const heightDelta = data[0].data[heightCount - 1][0] - data[0].data[0][0];
-			const finalizedHeightDelta = data[1].data[heightCount - 1][0] - data[1].data[0][0];
-			const delta = Math.max(heightDelta, finalizedHeightDelta);
-
-			console.log('count', count)
-			console.log('data', JSON.stringify(data))
-			return 200 + delta / 1000;
-			//return (count * 60) / (count * 0.3);
+				return 200;
+		
+			return 200 + count * 12;
 		}
 	},
 
@@ -92,71 +124,3 @@ export default {
 	}
 };
 </script>
-
-<style lang="scss" scoped>
-.ex-ns-group {
-	font-weight: bold;
-	font-size: 12px;
-	color: $secondary-color;
-	padding: 10px 0 5px;
-}
-
-@media (max-width: 760px) { 
-	.ex-item {
-		border-left: 4px solid #904d9c;
-		padding: 1px 10px;
-		margin-bottom: 15px;
-		max-width: 150px;
-	}
-}
-
-.ex-item {
-    border-left: 4px solid #904d9c;
-    padding: 1px 10px;
-    margin-bottom: 15px;
-}
-
-.item-noborder {
-	border-left: none;
-	padding-left: 0;
-}
-
-.ex-text-break {
-	word-break: break-all;
-}
-
-.ex-item-title {
-	color: rgb(187, 187, 187);
-	font-size: 12px;
-}
-
-.ex-item-value {
-	color: rgb(85, 85, 85);
-	text-align: left;
-	font-size: 14px;
-	margin: 4px 0 0;
-}
-
-.node-program-icon {
-	height: 32px;
-	margin: auto 0;
-}
-
-.blue {
-	border-color: $blue-color;
-}
-
-.pink {
-	border-color: $pink-color;
-}
-
-
-.green {
-	border-color: $green-color;
-}
-
-.orange {
-	border-color: $orange-color;
-}
-
-</style>

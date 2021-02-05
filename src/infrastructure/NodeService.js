@@ -241,19 +241,6 @@ class NodeService {
 
     	return chainInfo;
 	}
-	
-	static getNodeRewardsInfo = async (publicKey) => {
-		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
-			const node = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes/' + publicKey)).data;
-			if(node?.apiStatus?.nodePublicKey) {
-				const nodePublicKey = node?.apiStatus?.nodePublicKey;
-				return (await Axios.get(globalConfig.endpoints.statisticsService + '/nodeRewards/nodes/nodePublicKey/' + nodePublicKey)).data;
-			}
-			throw Error(`Node doesn't take part in any rewards program`);
-		}
-		else
-			throw Error('Statistics service endpoint is not provided');
-	}
 
 	static getNodeStats = async () => {
 		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length)
@@ -267,27 +254,16 @@ class NodeService {
 			const data = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodeHeightStats')).data;
 			return [
 				{
-					name: 'Finalized Height',
-					data: data.finalizedHeight.map(el => ([parseInt(el.value), parseInt(el.count)]))
+					name: 'Height',
+					data: data.height.map(el => ({x: '' + parseInt(el.value), y: parseInt(el.count)}))
 				},
 				{
-					name: 'Height',
-					data: data.height.map(el => ([parseInt(el.value), parseInt(el.count)]))
+					name: 'Finalized Height',
+					data: data.finalizedHeight.map(el => ({x: '' + parseInt(el.value), y: parseInt(el.count)}))
 				},
 			];
 		}
 		else
-			throw Error('Statistics service endpoint is not provided');
-	}
-
-	static getNodePayouts = async (pageInfo, nodeId) => {
-		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
-			const payoutsPage = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodeRewards/payouts', { params: { pageNumber: pageInfo.pageNumber, nodeId }})).data;
-			return {
-				data: payoutsPage.data,
-				...payoutsPage.pagination
-			}
-		} else
 			throw Error('Statistics service endpoint is not provided');
 	}
 }
