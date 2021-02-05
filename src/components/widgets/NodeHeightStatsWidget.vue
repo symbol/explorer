@@ -42,7 +42,7 @@ export default {
 	data() {
 		return {
 			managerGetter: 'statistic/nodeHeightStats'
-		}
+		};
 	},
 
 	computed: {
@@ -61,7 +61,7 @@ export default {
 				0: this.getNameByKey('nodeHeightStatsTitle'),
 				1: this.getNameByKey('nodeFinalizedHeightStatsTitle')
 			};
-			
+
 			return titleMap[this.typeIndex];
 		},
 
@@ -103,7 +103,7 @@ export default {
 
 			// if(count === 0)
 			// 	return 40;
-			
+
 			// const heightDelta = data[0].data[heightCount - 1][0] - data[0].data[0][0];
 			// const finalizedHeightDelta = data[1].data[heightCount - 1][0] - data[1].data[0][0];
 			// const delta = Math.max(heightDelta, finalizedHeightDelta);
@@ -115,9 +115,9 @@ export default {
 			const data = this.chartData[0]?.data || [];
 			const count = data?.length || 0;
 
-			if(count === 0)
+			if (count === 0)
 				return 200;
-		
+
 			return 200 + count * 12;
 		}
 	},

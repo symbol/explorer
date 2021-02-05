@@ -32,7 +32,6 @@
 
 <script>
 import Boolean from '@/components/fields/Boolean.vue';
-import helper from '../../helper';
 
 export default {
 	name: 'RewardPrograms',
@@ -49,11 +48,6 @@ export default {
 	},
 
 	methods: {
-		getIconSrc(value) {
-			if(value === true)
-				return IconTrue;
-			return IconFalse;
-		},
 		translate(value) {
 			return this.$store.getters['ui/getNameByKey'](value);
 		}

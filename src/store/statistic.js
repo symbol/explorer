@@ -112,6 +112,7 @@ export default {
 		// Uninitialize the statistics model.
 		async uninitialize({ commit, dispatch, getters }) {
 			const callback = async () => {};
+
 			getters.nodeHeightStats?.uninitialize();
 			await LOCK.uninitialize(callback, commit, dispatch, getters);
 		},

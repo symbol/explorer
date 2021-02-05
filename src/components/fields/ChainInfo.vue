@@ -17,7 +17,7 @@
  */
 
 <template>
-	<div 
+	<div
 		class="chain-info-container"
 		:title="title"
 	>
@@ -45,10 +45,6 @@ import FinalizedIcon from '../../styles/img/finalized.png';
 export default {
 	name: 'ChainInfo',
 
-	components: {
-		Boolean
-	},
-
 	props: {
 		value: {
 			type: Object,
@@ -59,17 +55,17 @@ export default {
 	data() {
 		return {
 			FinalizedIcon
-		}
+		};
 	},
 
 	computed: {
 		title() {
-			return this.translate('chainHeight') 
-			+ ': ' + this.value.chainHeight 
-			+ '\n' + this.translate('finalizedHeight') 
-			+ ': ' + this.value.finalizationHeight
-			+ '\n' + this.translate('lastStatusCheck') 
-			+ ': ' + new Date(this.value.lastStatusCheck)
+			return this.translate('chainHeight') +
+			': ' + this.value.chainHeight +
+			'\n' + this.translate('finalizedHeight') +
+			': ' + this.value.finalizationHeight +
+			'\n' + this.translate('lastStatusCheck') +
+			': ' + new Date(this.value.lastStatusCheck);
 		}
 	},
 

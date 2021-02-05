@@ -122,40 +122,42 @@ class NodeService {
      */
     static getNodePeerList = async (filter) => {
     	let nodePeers = await this.getNodePeers();
+
     	return {
     		data:
                 nodePeers
-					.filter(el => !filter.rolesRaw || el.rolesRaw === filter.rolesRaw)
-					.filter(
-						el => !filter.rewardProgram 
-						|| (el.rewardPrograms?.length && filter.rewardProgram === 'all')
-						|| (el.rewardPrograms && el.rewardPrograms[0]?.name === filter.rewardProgram)
-					)
+                	.filter(el => !filter.rolesRaw || el.rolesRaw === filter.rolesRaw)
+                	.filter(
+                		el => !filter.rewardProgram ||
+						(el.rewardPrograms?.length && filter.rewardProgram === 'all') ||
+						(el.rewardPrograms && el.rewardPrograms[0]?.name === filter.rewardProgram)
+                	)
                 	.map((el, index) => {
-						let node = {
-							index: index + 1,
-							...el
-						};
+                		let node = {
+                			index: index + 1,
+                			...el
+                		};
 
-						if(el.apiStatus)
-							node['chainInfo'] = {
-								chainHeight: el.apiStatus.chainHeight,
-								finalizationHeight: el.apiStatus.finalizationHeight,
-								lastStatusCheck: el.apiStatus.lastStatusCheck
-							};
-						else
-							node['chainInfo'] = {};
-						
-						if(node.hostDetail) {
-							node = {...node, ...node.hostDetail};
-							delete node.hostDetail;
-						}
+                		if (el.apiStatus) {
+                			node['chainInfo'] = {
+                				chainHeight: el.apiStatus.chainHeight,
+                				finalizationHeight: el.apiStatus.finalizationHeight,
+                				lastStatusCheck: el.apiStatus.lastStatusCheck
+                			};
+                		}
+                		else
+                			node['chainInfo'] = {};
 
-						return node;
+                		if (node.hostDetail) {
+                			node = { ...node, ...node.hostDetail };
+                			delete node.hostDetail;
+                		}
+
+                		return node;
                 	})
     	};
-	}
-	
+    }
+
 	static getNodeStats = async () => {
 		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length)
 			return (await Axios.get(globalConfig.endpoints.statisticsService + '/nodestats/')).data;
@@ -240,7 +242,7 @@ class NodeService {
     	};
 
     	return chainInfo;
-	}
+    }
 
 	static getNodeStats = async () => {
 		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length)
@@ -252,15 +254,16 @@ class NodeService {
 	static getNodeHeightStats = async () => {
 		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
 			const data = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodeHeightStats')).data;
+
 			return [
 				{
 					name: 'Height',
-					data: data.height.map(el => ({x: '' + parseInt(el.value), y: parseInt(el.count)}))
+					data: data.height.map(el => ({ x: '' + parseInt(el.value), y: parseInt(el.count) }))
 				},
 				{
 					name: 'Finalized Height',
-					data: data.finalizedHeight.map(el => ({x: '' + parseInt(el.value), y: parseInt(el.count)}))
-				},
+					data: data.finalizedHeight.map(el => ({ x: '' + parseInt(el.value), y: parseInt(el.count) }))
+				}
 			];
 		}
 		else

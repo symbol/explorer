@@ -196,14 +196,13 @@ export default {
 		},
 
 		isWordBreakable(key) {
-			return 
-				this.isTruncate(key)
-				|| (typeof key === 'string'
+			return this.isTruncate(key) ||
+				(typeof key === 'string'
 					? (
-						key.toLowerCase().includes('key')
-						|| key.toLowerCase().includes('hash')
-						|| key.toLowerCase().includes('id')
-						|| key.toLowerCase().includes('hex')
+						key.toLowerCase().includes('key') ||
+						key.toLowerCase().includes('hash') ||
+						key.toLowerCase().includes('id') ||
+						key.toLowerCase().includes('hex')
 					)
 					: false
 				);

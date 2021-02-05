@@ -133,10 +133,11 @@ export default {
 		},
 
 		networkCurrencySub() {
-			return typeof (http.networkCurrency.namespaceName === 'string'
-				&& http.networkCurrency.namespaceName.length > 0)
-			? http.networkCurrency.namespaceName.split('.')[http.networkCurrency.namespaceName.length - 1]
-			: '';
+			// eslint-disable-next-line no-constant-condition
+			return typeof (http.networkCurrency.namespaceName === 'string' &&
+				http.networkCurrency.namespaceName.length > 0)
+				? http.networkCurrency.namespaceName.split('.')[http.networkCurrency.namespaceName.length - 1]
+				: '';
 		}
 	}
 

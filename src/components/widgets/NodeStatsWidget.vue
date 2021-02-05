@@ -16,12 +16,12 @@
 					{{getNameByKey('nodeCountByRoles')}}
 				</b-row>
 				<b-row>
-					<b-col 
+					<b-col
 						v-for="(item, index) in nodeRoles"
 						:key="'' + index + 'nodestats_roles'"
-						class="ex-item" 
+						class="ex-item"
 						xs="2"
-						sm="3" 
+						sm="3"
 						lg="3"
 					>
 						<div class="ex-item-title">
@@ -36,11 +36,11 @@
 					{{getNameByKey('rewardPrograms')}}
 				</b-row>
 				<b-row>
-					<b-col 
+					<b-col
 						v-for="(item, index) in nodePrograms"
-						:key="'' + index + 'nodestats_programs'" 
+						:key="'' + index + 'nodestats_programs'"
 						xs="2"
-						sm="3" 
+						sm="3"
 						lg="3"
 					>
 						<b-row class="ex-item item-noborder">
@@ -99,9 +99,10 @@ export default {
 
 		nodeRoles() {
 			const data = this.data?.nodeTypes;
-			if(!data)
+
+			if (!data)
 				return [];
-			
+
 			return [
 				{
 					name: this.getNameByKey('allNodes'),
@@ -155,9 +156,10 @@ export default {
 
 		nodePrograms() {
 			const data = this.data?.nodeTypes;
-			if(!data)
+
+			if (!data)
 				return [];
-			
+
 			return Object
 				.keys(data)
 				.filter((key) => !Number(key))
@@ -165,7 +167,7 @@ export default {
 					name: key,
 					count: data[key],
 					icon: IconSupernode
-				}))
+				}));
 		},
 
 		loading() {
@@ -174,7 +176,7 @@ export default {
 
 		error() {
 			return this.manager.error;
-		},
+		}
 	},
 
 	methods: {
@@ -197,7 +199,7 @@ export default {
 	padding: 10px 0 5px;
 }
 
-@media (max-width: 760px) { 
+@media (max-width: 760px) {
 	.ex-item {
 		border-left: 4px solid #904d9c;
 		padding: 1px 10px;
@@ -245,7 +247,6 @@ export default {
 .pink {
 	border-color: $pink-color;
 }
-
 
 .green {
 	border-color: $green-color;

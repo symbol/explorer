@@ -145,7 +145,7 @@ export default {
 			const iconApiVoting = getIcon(IconOrange);
 
 			const markerClusters = leaflet.markerClusterGroup({
-				//iconCreateFunction: this.createClusterGroup,
+				// iconCreateFunction: this.createClusterGroup,
 				maxClusterRadius: 30
 			});
 
@@ -192,33 +192,30 @@ export default {
 
 		createClusterGroup(cluster) {
 			const count = cluster.getChildCount();
+
 			let size = 'medium';
 
-			if (count < 5) {
+			if (count < 5)
 				size = 'xs';
-			}
-			else if (count < 10) {
-				size = 's';
-			}
-			else if (count < 20) {
-				size = 'm';
-			}
-			else if (count < 40) {
-				size = 'l';
-			}
-			else if (count < 80) {
-				size = 'xl';
-			}
-			else if (count >= 80) {
-				size = 'xxl';
-			}
 
-			return L.divIcon({
+			else if (count < 10)
+				size = 's';
+
+			else if (count < 20)
+				size = 'm';
+
+			else if (count < 40)
+				size = 'l';
+
+			else if (count < 80)
+				size = 'xl';
+
+			else if (count >= 80)
+				size = 'xxl';
+
+			return leaflet.divIcon({
 				html: count,
-				// `<div class="marker-cluster-${size}">
-				// 	<span>${count}</span>
-				// </div>`,
-				className: `marker-cluster-${size}`//'marker-cluster-base'
+				className: `marker-cluster-${size}`// 'marker-cluster-base'
 			});
 		},
 
