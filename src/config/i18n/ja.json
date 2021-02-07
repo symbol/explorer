@@ -373,5 +373,15 @@
     "totalVotingBalance": "総投票残高",
     "harvestingEligibleAccountsCount": "総ハーベスト適格アカウント",
     "votingEligibleAccountsCount": "総投票適格アカウント",
-    "previousImportanceBlockHash": "前インポータンスブロックハッシュ"
+    "previousImportanceBlockHash": "前インポータンスブロックハッシュ",
+	"rewardPrograms": "Reward Programs",
+	"rewardProgram": "Reward Program",
+	"lastTestPassed": "Last test passed",
+	"nodeStatsTitle": "Node Statistics",
+	"allNodes": "Total count",
+	"nodeCountByRoles": "Count By Roles",
+	"chainInfo": "Chain Info",
+	"nodeHeightStatsTitle": "Count of nodes by chain height",
+    "nodeFinalizedHeightStatsTitle": "Count of nodes by finalized height",
+	"viewMoreStatistics": "View More Statistics"
 }
