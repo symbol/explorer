@@ -64,10 +64,10 @@ export default {
         word-break: normal;
 
         .boolean-icon {
-           position: absolute;
-           height: 8px;
-           width: 8px;
-       }
+            position: absolute;
+            height: 8px;
+            width: 8px;
+        }
     }
 }
 </style>
