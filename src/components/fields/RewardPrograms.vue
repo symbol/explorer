@@ -61,13 +61,13 @@ export default {
 
     .program {
         position: relative;
-		word-break: normal;
+        word-break: normal;
 
-       .boolean-icon {
-		   position: absolute;
-		   height: 8px;
-		   width: 8px;
-	   }
+        .boolean-icon {
+           position: absolute;
+           height: 8px;
+           width: 8px;
+       }
     }
 }
 </style>

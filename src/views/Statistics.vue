@@ -67,10 +67,10 @@ export default {
 
 <style lang="scss" scoped>
 .widget-outer {
-	display: flex;
+    display: flex;
 }
 
 .widget-inner {
-	width: 100%
+    width: 100%;
 }
 </style>

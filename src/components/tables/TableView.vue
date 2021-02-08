@@ -361,8 +361,8 @@ export default {
         background-color: rgba(52, 40, 104, 0.05);
     }
 
-	.break-all {
-		word-break: break-all;
-	}
+    .break-all {
+        word-break: break-all;
+    }
 }
 </style>

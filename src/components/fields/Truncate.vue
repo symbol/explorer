@@ -11,7 +11,7 @@
 
 <style lang="scss" scoped>
 .truncate {
-	word-break: break-all;
+    word-break: break-all;
 }
 
 .truncate-mobile {
