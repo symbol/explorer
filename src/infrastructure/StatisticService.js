@@ -15,6 +15,7 @@
  * limitations under the License.
  *
  */
+import globalConfig from '../config/globalConfig';
 
 class StatisticService {
 	/**

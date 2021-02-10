@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="truncate">
 		<div class="d-none d-md-block">
 			<slot />
 		</div>
@@ -10,6 +10,10 @@
 </template>
 
 <style lang="scss" scoped>
+.truncate {
+    word-break: break-all;
+}
+
 .truncate-mobile {
     span {
         white-space: nowrap;

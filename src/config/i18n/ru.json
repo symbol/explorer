@@ -138,7 +138,7 @@
     "unresolved": "Неразрешенный",
     "roles": "Роли",
     "network": "Сеть",
-    "host": "IP/ DNS",
+    "host": "IP / Hostname",
     "port": "Порт",
     "friendlyName": "Дружественное имя",
     "approximateExpired": "Приблизительный Срок Окончания",
@@ -369,5 +369,15 @@
     "totalVotingBalance": "Total Voting Balance",
     "harvestingEligibleAccountsCount": "Total Harvesting Eligible Accounts",
     "votingEligibleAccountsCount": "Total Voting Eligible Accounts",
-    "previousImportanceBlockHash": "Previous Importance Block Hash"
+    "previousImportanceBlockHash": "Previous Importance Block Hash",
+	"rewardPrograms": "Reward Programs",
+	"rewardProgram": "Reward Program",
+	"lastTestPassed": "Last test passed",
+	"nodeStatsTitle": "Node Statistics",
+	"allNodes": "Total count",
+	"nodeCountByRoles": "Count By Roles",
+	"chainInfo": "Chain Info",
+	"nodeHeightStatsTitle": "Count of nodes by chain height",
+    "nodeFinalizedHeightStatsTitle": "Count of nodes by finalized height",
+	"viewMoreStatistics": "View More Statistics"
 }

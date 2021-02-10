@@ -54,6 +54,7 @@ import RecentTransactionsWidget from '@/components/widgets/RecentTransactionsWid
 import TransactionGraphicWidget from '@/components/widgets/TransactionGraphicWidget.vue';
 import AccountBalanceWidget from '@/components/widgets/AccountBalanceWidget.vue';
 import NodesMapWidget from '@/components/widgets/NodesMapWidget.vue';
+import NodeStatsWidget from '@/components/widgets/NodeStatsWidget.vue';
 
 export default {
 	components: {
@@ -64,7 +65,8 @@ export default {
 		RecentTransactionsWidget,
 		TransactionGraphicWidget,
 		AccountBalanceWidget,
-		NodesMapWidget
+		NodesMapWidget,
+		NodeStatsWidget
 	},
 
 	props: {
