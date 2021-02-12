@@ -17,7 +17,7 @@
     "@babel/plugin-proposal-optional-chaining": "^7.8.3",
     "@babel/plugin-proposal-pipeline-operator": "^7.8.3",
     "@mdi/font": "^5.2.45",
-    "apexcharts": "^3.23.1",
+    "apexcharts": "^3.24.0",
     "await-lock": "^2.0.1",
     "axios": "^0.21.1",
     "bootstrap": "^4.4.1",
