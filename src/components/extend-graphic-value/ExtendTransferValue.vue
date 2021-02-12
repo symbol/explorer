@@ -23,13 +23,14 @@
 			v-if="hasNativeMosaic"
 			:title="nativeMosaic + ' ' + networkCurrency"
 		>
-			<Decimal :value="nativeMosaic" class="decimal"/> {{ networkCurrency }}
+			<Decimal :value="nativeMosaic" class="decimal"/> {{ networkCurrencySub }}
 		</span>
 
 		<span
 			v-if="hasMessage"
 			:title="getTranslation('message') + ': ' + message">
 			<MessageCircle
+				style="width: 16px; height: 16px"
 				:message="message"
 			/>
 		</span>
@@ -38,6 +39,7 @@
 			v-if="hasMosaics"
 			:title="getTranslation('mosaics')">
 			<MosaicsCircle
+				style="width: 16px; height: 16px"
 				id="target"
 				:mosaics="[]"
 			/>
@@ -128,6 +130,14 @@ export default {
 
 		networkCurrency() {
 			return http.networkCurrency.namespaceName;
+		},
+
+		networkCurrencySub() {
+			// eslint-disable-next-line no-constant-condition
+			return typeof (http.networkCurrency.namespaceName === 'string' &&
+				http.networkCurrency.namespaceName.length > 0)
+				? http.networkCurrency.namespaceName.split('.')[http.networkCurrency.namespaceName.length - 1]
+				: '';
 		}
 	}
 

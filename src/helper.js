@@ -527,11 +527,11 @@ class helper {
    * @param mosaicId
    * @return mosaic alias name
    */
-  static getSingleMosaicAliasName = async (mosaicId) => {
+  static getMosaicAliasNames = async (mosaicId) => {
   	const getMosaicNames = await NamespaceService.getMosaicsNames([mosaicId]);
-  	const mosaicAliasName = MosaicService.extractMosaicNamespace({ mosaicId: mosaicId.id.toHex() }, getMosaicNames);
+  	const mosaicAliasNames = MosaicService.extractMosaicNamespace({ mosaicId: mosaicId.toHex() }, getMosaicNames);
 
-  	return mosaicAliasName;
+  	return mosaicAliasNames;
   }
 
   static fallbackCopyTextToClipboard = (text) => {

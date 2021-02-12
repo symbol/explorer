@@ -246,14 +246,14 @@ class CreateTransaction {
     		helper.resolvedAddress(transactionObj.targetAddress)
     	]);
 
-    	const mosaicAliasName = await helper.getSingleMosaicAliasName(resolvedMosaic);
+    	const mosaicAliasNames = await helper.getMosaicAliasNames(resolvedMosaic);
 
     	return {
     		...transactionObj,
     		transactionBody: {
     			transactionType: transactionObj.type,
     			mosaicId: resolvedMosaic.toHex(),
-    			mosaicAliasName: mosaicAliasName,
+    			mosaicAliasNames,
     			targetAddress: targetAddress,
     			restrictionKey: transactionObj.restrictionKey.toHex(),
     			previousRestrictionValue: transactionObj.previousRestrictionValue.toString(),
@@ -264,14 +264,14 @@ class CreateTransaction {
 
     static mosaicGlobalRestriction = async (transactionObj) => {
     	const referenceMosaicId = transactionObj.referenceMosaicId.toHex() === '0000000000000000' ? transactionObj.mosaicId : transactionObj.referenceMosaicId;
-    	const mosaicAliasName = await helper.getSingleMosaicAliasName(referenceMosaicId);
+    	const mosaicAliasNames = await helper.getMosaicAliasNames(referenceMosaicId);
 
     	return {
     		...transactionObj,
     		transactionBody: {
     			transactionType: transactionObj.type,
     			referenceMosaicId: referenceMosaicId.toHex(),
-    			mosaicAliasName: mosaicAliasName,
+    			mosaicAliasNames,
     			restrictionKey: transactionObj.restrictionKey.toHex(),
     			previousRestrictionType: Constants.MosaicRestrictionType[transactionObj.previousRestrictionType],
     			previousRestrictionValue: transactionObj.previousRestrictionValue.compact(),
@@ -299,9 +299,10 @@ class CreateTransaction {
     static mosaicMetadata = async (transactionObj) => {
     	const [resolvedMosaic, resolvedAddress] = await Promise.all([
     		helper.resolveMosaicId(transactionObj.targetMosaicId),
-    		helper.resolvedAddress(transactionObj.targetAddress.address)
+    		helper.resolvedAddress(transactionObj.targetAddress)
     	]);
-    	const mosaicAliasName = await helper.getSingleMosaicAliasName(resolvedMosaic);
+
+    	const mosaicAliasNames = await helper.getMosaicAliasNames(resolvedMosaic);
 
     	return {
     		...transactionObj,
@@ -309,7 +310,7 @@ class CreateTransaction {
     			transactionType: transactionObj.type,
     			scopedMetadataKey: transactionObj.scopedMetadataKey.toHex(),
     			targetMosaicId: resolvedMosaic.toHex(),
-    			targetMosaicAliasName: mosaicAliasName,
+    			targetMosaicAliasNames: mosaicAliasNames,
     			targetAddress: resolvedAddress,
     			metadataValue: transactionObj.value,
     			valueSizeDelta: transactionObj.valueSizeDelta
@@ -318,10 +319,10 @@ class CreateTransaction {
     };
 
     static namespaceMetadata = async (transactionObj) => {
-    	const [namespaceName, resolvedAddress] = await Promise.all(
+    	const [namespaceName, resolvedAddress] = await Promise.all([
     		NamespaceService.getNamespacesNames([transactionObj.targetNamespaceId]),
-    		helper.resolvedAddress(transactionObj.targetAddress.address)
-    	);
+    		helper.resolvedAddress(transactionObj.targetAddress)
+    	]);
 
     	return {
     		...transactionObj,

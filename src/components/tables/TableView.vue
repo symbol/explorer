@@ -65,6 +65,7 @@ export default {
 				'sourceAddress',
 				'targetAddress',
 				'targetMosaicId',
+				'targetMosaicAliasNames_',
 				'targetNamespaceId',
 				'unresolved',
 				'addressResolutionEntries_',
@@ -115,7 +116,8 @@ export default {
 				'mosaicResolutionEntries',
 				'stateHashSubCacheMerkleRoots',
 				'accountAliasNames',
-				'mosaicAliasNames'
+				'mosaicAliasNames',
+				'targetMosaicAliasNames'
 			],
 			valuesToTranslate: [
 				'newRestrictionType',
@@ -178,7 +180,10 @@ export default {
 				key === 'harvester' ||
                 key === 'address' ||
                 key === 'signer' ||
-                key === 'recipient' ||
+				key === 'recipient' ||
+				key === 'publicKey' ||
+				key === 'nodePublicKey' ||
+				key === 'mainPublicKey' ||
                 key === 'transactionHash' ||
                 key === 'ownerAddress' ||
                 key === 'host' ||
@@ -188,6 +193,19 @@ export default {
 				key === 'addressAdditions_' ||
 				key === 'addressDeletions_'
 			);
+		},
+
+		isWordBreakable(key) {
+			return this.isTruncate(key) ||
+				(typeof key === 'string'
+					? (
+						key.toLowerCase().includes('key') ||
+						key.toLowerCase().includes('hash') ||
+						key.toLowerCase().includes('id') ||
+						key.toLowerCase().includes('hex')
+					)
+					: false
+				);
 		},
 
 		isBoolean(key) {
@@ -313,7 +331,7 @@ export default {
         font-weight: none;
         padding: 10px 5px;
         min-height: 50px;
-        word-break: break-all;
+        word-break: normal;
         min-width: 50px;
         max-width: 300px;
     }
@@ -341,6 +359,10 @@ export default {
 
     .table-titles {
         background-color: rgba(52, 40, 104, 0.05);
+    }
+
+    .break-all {
+        word-break: break-all;
     }
 }
 </style>
