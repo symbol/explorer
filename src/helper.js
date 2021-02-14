@@ -89,12 +89,8 @@ class helper {
   	return result;
   }
 
-  static isHexadecimal(str) {
-  	return /^[0-9a-fA-F]+$/.test(str);
-  }
-
   static isMosaicOrNamespaceId = (str) =>
-  	str.length === 16
+  	str.length === 16 && /^[0-9a-fA-F]+$/.test(str);
 
   static isAccountPublicKey = (str) =>
   	str.length === 64 &&
@@ -184,7 +180,7 @@ class helper {
   static hexOrNamespaceToId = async (hexOrNamespace, toId) => {
   	let Id = MosaicId | NamespaceId;
 
-  	const isHexadecimal = this.isHexadecimal(hexOrNamespace);
+  	const isHexadecimal = this.isMosaicOrNamespaceId(hexOrNamespace);
 
   	if (isHexadecimal)
   		Id = toId === 'mosaic' ? new MosaicId(hexOrNamespace) : NamespaceId.createFromEncoded(hexOrNamespace);
