@@ -335,30 +335,6 @@ export const nodeRoles = [
 		value: {
 			rolesRaw: 7
 		}
-	},
-	{
-		label: 'RP - SuperNode',
-		icon: '',
-		value: {
-			rolesRaw: null,
-			rewardProgram: 'SuperNode'
-		}
-	},
-	{
-		label: 'RP - EarlyAdoption',
-		icon: '',
-		value: {
-			rolesRaw: null,
-			rewardProgram: 'EarlyAdoption'
-		}
-	},
-	{
-		label: 'RP - Ecosystem',
-		icon: '',
-		value: {
-			rolesRaw: null,
-			rewardProgram: 'Ecosystem'
-		}
 	}
 ];
 
