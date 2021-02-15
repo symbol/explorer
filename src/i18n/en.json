@@ -37,6 +37,7 @@
 	"value_speed": "{value} Kbit/s",
 	"value_passed": "Passed",
 	"value_failed": "Failed",
+	"value_samples_item": "{value} ms",
 
 	"jan": "Jan",
 	"feb": "Feb",

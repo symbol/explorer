@@ -117,7 +117,7 @@ export class Performance {
 		this.ping = new TestResult(
 			`${res.nodePingResult.averageTime}ms`,
 			res.nodePingResult.resultValid,
-			'',//res.pingResult.averageTime,
+			null,//res.pingResult.averageTime,
 			{
 				...omit('pingResults', res.nodePingResult),
 				...getSubResultMap(res.nodePingResult.pingResults)
@@ -126,7 +126,7 @@ export class Performance {
 		this.bandwidth = new TestResult(
 			'',
 			res.nodeBandwidthResult.resultValid,
-			'',//res.nodeBandwidthResult,
+			null,//res.nodeBandwidthResult,
 			{
 				...omit('bandwidthResults', res.nodeBandwidthResult),
 				...getSubResultMap(res.nodeBandwidthResult.bandwidthResults)
@@ -135,7 +135,7 @@ export class Performance {
 		this.computingPower = new TestResult(
 			'',
 			res.computingPowerResult.resultValid,
-			'',//res.computingPowerResult.,
+			null,//res.computingPowerResult.,
 			res.computingPowerResult
 		);
 	}

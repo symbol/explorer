@@ -66,7 +66,7 @@ export default {
 			if(this.passed)
 				return ' ';
 			else
-				return this.expectedValue;
+				return this.expectedValue === null ? ' ' : this.expectedValue;
 		}
 	},
 
@@ -74,7 +74,7 @@ export default {
 		getValue(value) {
 			if(value === -1)
 				return this.translate(this.language, 'na');
-				
+
 			return value === ''
 				? this.getPassedDescription(this.passed)
 				: value;
