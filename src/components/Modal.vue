@@ -27,6 +27,21 @@
 										<td class="table-value" :title="item">
 											<BooleanField v-if="isBoolean(item, key)" :value="item" class="value-boolean" />
 											<DateField v-else-if="isDate(item, key)" :value="item" :keyName="key" />
+											<div v-else-if="isObject(item, key)" class="value-object" :title="getPassedDescription(item.resultValid)">
+												<div class="brace-container">
+													<div class="brace brace-part1"></div>
+													<div class="brace brace-part2"></div>
+													<div class="brace brace-part3"></div>
+													<div class="brace brace-part4"></div>
+												</div>
+
+												<div v-for="(subItem, subKey) in item" :key="key + subKey" class="subitem">
+													<div class="subitem-header">{{translate(language, subKey)}}</div>
+													<BooleanField v-if="isBoolean(subItem, subKey)" :value="subItem" class="value-boolean" />
+													<DateField v-else-if="isDate(subItem, subKey)" :value="subItem" :keyName="subKey" />
+													<TextField v-else :value="subItem" :keyName="subKey"/>
+												</div>
+											</div>
 											<TextField v-else :value="item" :keyName="key"/>
 										</td>
 									</tr>
@@ -116,6 +131,18 @@ export default {
 			return key.toUpperCase().includes('DATE') 
 				|| key === 'createdAt'
 				|| key === 'finishedAt';
+		},
+
+		isObject(item, key) {
+			return item !== null && typeof item === 'object';
+		},
+
+		getPassedDescription(passed) {
+			const descriptor = passed === true
+				? 'value_passed'
+				: 'value_failed';
+
+			return this.translate(this.language, descriptor);
 		}
 	}
 };
@@ -149,7 +176,6 @@ export default {
 	flex-direction: column;
 	width: 80%;
 	height: 80%;
-	
 	color: #44004e;
 	background-color: #f3f4f8;
 	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.33);
@@ -220,6 +246,50 @@ td {
 .table-value {
 	word-break: break-all;
 }
+
+.value-object {
+	position: relative;
+}
+
+.subitem {
+	margin-bottom: 10px;
+}
+
+.subitem-header {
+	font-weight: 700;
+}
+
+.brace-container {
+	position: absolute;
+	top: 5px;
+	left: -40px;
+	height: 100%;
+
+	.brace {
+		height: 25%;
+		border-color: #44004e;
+	}
+	
+	.brace-part1 {
+		border-left: 2px solid;
+		border-top-left-radius: 12px;
+		margin-left: 2em;
+	}
+	.brace-part2 {
+		border-right: 2px solid;
+		border-bottom-right-radius: 12px;
+	}
+	.brace-part3 {
+		border-right: 2px solid;
+		border-top-right-radius: 12px;
+	}
+	.brace-part4 {
+		border-left: 2px solid;
+		border-bottom-left-radius: 12px;
+		margin-left: 2em;
+	}
+}
+
 
 .modal-enter {
 	opacity: 0;

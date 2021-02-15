@@ -3,6 +3,7 @@
 
 	"error": "Error",
 	"notASupernode": "This node doesn't participate in the Node Rewards Program",
+	"na": "n/a",
 
 	"chainInfoTitle": "Node Chain Test",
 	"performanceTestTitle": "Node Performance Test",
@@ -24,6 +25,7 @@
 	"responsiveness": "Responsiveness",
 
 	"testPassed": "Passed",
+	"resultValid": "Result Valid",
 
 	"roundNumber": "Round #{number}",
 
@@ -33,6 +35,8 @@
 	"value_averageTime": "{value} ms",
 	"value_totalTime": "{value} ms",
 	"value_speed": "{value} Kbit/s",
+	"value_passed": "Passed",
+	"value_failed": "Failed",
 
 	"jan": "Jan",
 	"feb": "Feb",
@@ -100,6 +104,11 @@
 	"sample3": "Sample 3",
 	"sample4": "Sample 4",
 	"sample5": "Sample 5",
+	"result1": "Result 1",
+	"result2": "Result 2",
+	"result3": "Result 3",
+	"result4": "Result 4",
+	"result5": "Result 5",
 	"averageTime": "Average Time",
 	"numRequests": "Number of Requests",
 	"numResponses": "Number of Responses",

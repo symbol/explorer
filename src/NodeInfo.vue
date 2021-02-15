@@ -21,7 +21,11 @@
 			</table>
 			<transition name="fade">
 				<LoadingAnimation v-if="isLoading" transition="fade"/>
-				<div v-else-if="!isError && !isLoading" class="tab custom-scrollbar" :class="{scrollable: isScrollableTab}">
+				<div 
+					v-else-if="!isError && !isLoading" 
+					class="tab custom-scrollbar" 
+					:class="{scrollable: isScrollableTab}"
+				>
 					<component 
 						class="tab-content"
 						:is="tabs[activeTab].component"
@@ -261,7 +265,7 @@ p {
 	}
 
 	.scrollable {
-		overflow-y: overlay;
+		overflow-y: scroll;
 	}
 
 	.tab-content {

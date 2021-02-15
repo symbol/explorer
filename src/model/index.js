@@ -1,15 +1,27 @@
 import { formatNumberOutput, omit } from '../utils';
 
+const formatDetails = details => {
+	return omit(['roundOk', 'id', 'nodeId'], details);
+};
+
+const getSubResultMap = results => {
+	return results.reduce((map, obj, index) => {
+		map['result' + (index + 1)] = formatDetails(obj);
+		return map;
+	}, {})
+};
+
 export class TestResult {
 	constructor(value, passed, expectedValue, details) {
-		const { createdAt, resultValid, ...rest } = details;
+		const { createdAt, resultValid, round, ...rest } = details;
 
 		this.value = value;
 		this.passed = passed;
 		this.expectedValue = expectedValue;
 		this.details = {
+			round,
 			dateAndTime: createdAt, 
-			...omit(['round','roundOk', 'id', 'nodeId'], { ...rest }),
+			...formatDetails({ ...rest }),
 		};
 	}
 };
@@ -45,7 +57,7 @@ export class History {
 				.map(el => ({
 					date: el.createdAt,
 					passed: el.roundOk,
-					details: omit(['round','roundOk', 'id', 'nodeId'], el),
+					details: formatDetails(el),
 					round: el.round
 				}))
 				.reverse();
@@ -99,20 +111,26 @@ export class Performance {
 		this.bandwidth = new TestResult(
 			res.nodeBandwidthResult.speed,
 			res.nodeBandwidthResult.resultValid,
-			'not provided',//res.nodeBandwidthResult,
-			res.nodeBandwidthResult
+			'',//res.nodeBandwidthResult,
+			{
+				...omit('bandwidthResults', res.nodeBandwidthResult),
+				...getSubResultMap(res.nodeBandwidthResult.bandwidthResults)
+			}
 		);
 		this.computingPower = new TestResult(
-			res.computingPowerResult.timeNeeded,
+			`${res.computingPowerResult.timeNeeded}ms`,
 			res.computingPowerResult.resultValid,
-			'not provided',//res.computingPowerResult.,
+			'',//res.computingPowerResult.,
 			res.computingPowerResult
 		);
 		this.ping = new TestResult(
 			res.nodePingResult.averageTime,
 			res.nodePingResult.resultValid,
-			'not provided',//res.pingResult.averageTime,
-			res.nodePingResult
+			'',//res.pingResult.averageTime,
+			{
+				...omit('pingResults', res.nodePingResult),
+				...getSubResultMap(res.nodePingResult.pingResults)
+			}
 		);
 		this.responsiveness = new TestResult(
 			`${res.responsivenessResult.numResponses} (${res.responsivenessResult.totalTime}ms)`,
