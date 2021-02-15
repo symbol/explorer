@@ -70,17 +70,15 @@ export default {
 		nextPage() {
 			if (this.nextPageAction)
 				this.$store.dispatch(this.nextPageAction);
-			this.$emit('next');
-			if (this.goUp)
-				this.goToTop();
+			if(this.canFetchNext)
+				this.$emit('next');
 		},
 
 		previousPage() {
 			if (this.previousPageAction)
 				this.$store.dispatch(this.previousPageAction);
-			this.$emit('previous');
-			if (this.goUp)
-				this.goToTop();
+			if(this.canFetchPrevious)
+				this.$emit('previous');
 		}
 	}
 };

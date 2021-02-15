@@ -14,15 +14,15 @@ export const trunc = (text, cut, lengthFirst, lengthSecond) => {
 
 export const formatNumberOutput = (value) => {
 	if(typeof value === 'string')
-		parseFloat(value).toLocaleString('en');
+		return parseFloat(value).toLocaleString('en');
 	
 	if(typeof value === 'number')
-		(value).toLocaleString('en');
+		return (value).toLocaleString('en');
 	
 	return value.toLocaleString('en')
 }
 
-export const formatDate = (dateStr, language, showTime = false) => {
+export const formatDate = (dateStr, language, showTime = false, showSeconds = true) => {
 	const months = [
 		'jan',
 		'feb',
@@ -38,15 +38,21 @@ export const formatDate = (dateStr, language, showTime = false) => {
 		'dec'
 	];
 
+	const addZero = num => {
+		return (num >= 0 && num < 10) ? '0' + num : num + '';
+	};
+
 	const dateObj = new Date(dateStr);
-	const seconds = dateObj.getSeconds();
-	const minutes = dateObj.getMinutes();
-	const hour = dateObj.getHours();
+	const seconds = addZero(dateObj.getSeconds());
+	const minutes = addZero(dateObj.getMinutes());
+	const hour = addZero(dateObj.getHours());
 	const month = translate(language, months[dateObj.getMonth()]);
 	const day = dateObj.getDate();
 	const year = dateObj.getFullYear();
 	
-	const formattedDate = `${month} ${day}, ${year}` + (showTime ? ` ${hour}:${minutes}:${seconds}` : '');
+	let formattedDate = `${month} ${day}, ${year}`;
+	formattedDate += showTime ? ` ${hour}:${minutes}` : '';
+	formattedDate += showTime && showSeconds ? `:${seconds}` : '';
 
 	return formattedDate;
 }
@@ -55,12 +61,17 @@ export const getNativeMosaicPreview = (mosaics, nativeMosaic) => {
 	const mosaic = nativeMosaic
 		? mosaics.find(el => el.mosaicName === nativeMosaic.mosaicName)
 		: mosaics[0];
-	const rawMosaicName = mosaic.mosaicName || DEFAULT_NATIVE_MOSAIC_NAME;
 	let mosaicPreview = {
 		mosaicName: '',
 		amountInt: '',
 		amountDec: ''
 	};
+
+	if(!mosaic)
+		return mosaicPreview;
+		
+	const rawMosaicName = mosaic.mosaicName || DEFAULT_NATIVE_MOSAIC_NAME;
+	
 
 	if(typeof mosaic === 'object') {
 		mosaicPreview.mosaicName = rawMosaicName
@@ -69,7 +80,7 @@ export const getNativeMosaicPreview = (mosaics, nativeMosaic) => {
 		const amountD = mosaic.amount.split('.');
 		if(amountD.length === 2)
 			mosaicPreview.amountDec = '.' + amountD[1];
-		mosaicPreview.amountInt = amountD[0];
+		mosaicPreview.amountInt = formatNumberOutput(amountD[0]);
 	}
 	else if(typeof mosaic === 'string') {
 		mosaicPreview.mosaicName = rawMosaicName
@@ -78,7 +89,7 @@ export const getNativeMosaicPreview = (mosaics, nativeMosaic) => {
 		const amountD = mosaic.split('.');
 		if(amountD.length === 2)
 			mosaicPreview.amountDec = '.' + amountD[1];
-		mosaicPreview.amountInt = amountD[0]
+		mosaicPreview.amountInt = formatNumberOutput(amountD[0]);
 	}
 
 	return mosaicPreview;

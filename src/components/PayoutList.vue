@@ -1,83 +1,173 @@
 <template>
 	<div class="payout-root">
-		<div class="transactions-container">
-			<div class="transactions-wrapper">
+		<div class="payouts-container">
+			<div class="payouts-wrapper">
+				<LoadingAnimation v-if="isLoading" transition="fade" />
 				<div
-					v-for="(transaction, index) in transactions"
+					v-else
+					v-for="(transaction, index) in payouts"
 					:key="'' + index + 'payout'"
 					class="transaction-item"
 				>
 					<div class="child-left">
 						<img :src="IncomingIcon" class="icon" />
-						<div class="address">
-							{{formatAddress(transaction.recipientAddress)}}
+						<div 
+							class="rounds"
+							:title="getRoundsDescription(transaction)"
+						>
+							<!-- {{formatAddress(transaction.recipientAddress)}} -->
+							{{transaction.fromRound}}
+							-
+							{{transaction.toRound}}
 						</div>
 					</div>
-					<div class="amount">
-						{{formatMosaic(transaction.mosaics).amountInt}}<div class="decimal">{{formatMosaic(transaction.mosaics).amountDec}}</div>
-						{{formatMosaic(transaction.mosaics).mosaicName}}
+					<div 
+						class="status"
+						:class="getStatusClass(transaction.status)"
+						:title="getStatusDescription(transaction.status)"
+					>
+						<!-- {{formatMosaic(transaction.mosaics).amountInt}}<div class="decimal">{{formatMosaic(transaction.mosaics).amountDec}}</div>
+						{{formatMosaic(transaction.mosaics).mosaicName}} -->
+						{{formatStatus(transaction.status)}}
 					</div>
 					<div class="date">
-						{{formatDate(transaction.date)}}
+						{{formatDate(transaction.createdAt)}}
 					</div>
 				</div>
 			</div>
-			<Pagination />
 		</div>
+		<Pagination 
+			class="payout-pagination"
+			:pageNumber="payoutsManager.pageNumber"
+			:canFetchNext="payoutsManager.canFetchNext"
+			:canFetchPrevious="payoutsManager.canFetchPrevious"
+			@next="payoutsManager.fetchNext()" 
+			@previous="payoutsManager.fetchPrevious()" 
+		/>
 	</div>
 </template>
 
 <script>
+import LoadingAnimation from './LoadingAnimation.vue';
 import Pagination from './Pagination.vue';
 import IncomingIcon from '../assets/incoming.png';
+import translate from '../i18n';
 import * as utils from '../utils';
 
 export default {
 	name: 'PayoutList',
 
 	components: {
-		Pagination
+		Pagination,
+		LoadingAnimation
 	},
 
 	props: {
-		data: {
-			type: Array,
+		payoutsManager: {
+			type: Object,
 			required: true
 		},
+		// data: {
+		// 	type: Array,
+		// 	required: true
+		// },
 		language: {
 			type: String,
 		},
 	},
 
 	mounted() {
-		this.transactions = [];
-		let animationArray = [... this.data];
-		const timer = setInterval(() => {
-			if(!animationArray.length)
-				clearInterval(timer);
-			this.transactions.push(animationArray.shift());
-		}, 100)
+		this.payouts = [];
+		this.payoutsManager?.reset();
 	},
 
 	data() {
 		return {
 			IncomingIcon,
-			transactions: []
+			pageNumber: 1,
+			payouts: []
+		}
+	},
+
+	computed: {
+		isLoading() {
+			return this.payoutsManager?.loading;
+		},
+
+		data() {
+			return this.payoutsManager?.data || [];
 		}
 	},
 
 	methods: {
+		updateList(data) {
+			this.payouts = [];
+			let animationArray = [... data];
+			const timer = setInterval(() => {
+				if(!animationArray.length)
+					clearInterval(timer);
+				const payout = animationArray.shift();
+				if(payout)
+					this.payouts.push(payout);
+			}, 25)
+		},
+
 		formatAddress(address) {
 			return utils.trunc(address, 'middle', 7, 4);
 		},
 
+		getRoundsDescription(range) {
+			return translate(this.language, 'roundRange', range);
+		},
+
 		formatMosaic(mosaics) {
-			return utils.getNativeMosaicPreview(mosaics)
+			return utils.getNativeMosaicPreview(mosaics) || {}
 		},
 
 		formatDate(date) {
-			return utils.formatDate(date, this.language)
+			return utils.formatDate(date, this.language, true, false)
 		},
+
+		formatStatus(status) {
+			return translate(this.language, status);
+		},
+
+		getStatusDescription(status) {
+			return translate(this.language, status + '_desc');
+		},
+
+		getStatusClass(status) {
+			switch(status) {
+				case 'Completed':
+					return 'color-await';
+				case 'ToBeProcess':
+				case 'Processing':
+				case 'ManualReview':
+					return 'color-await';
+				case 'Fail':
+					return 'color-fail';
+			}
+		},
+
+		infiniteHandler($state) {
+			this.payoutsManager.getPayouts('', this.pageNumber)
+				.then(payouts => {
+					if (payouts.length) {
+						this.pageNumber += 1;
+						this.updateList(payouts);
+						$state.loaded();
+					} else {
+						$state.complete();
+					}
+				});
+		}
+	},
+
+	watch: {
+		data(e) {
+			console.log(e)
+			this.updateList(e);
+		}
 	}
 }
 </script>
@@ -91,7 +181,8 @@ export default {
 	justify-content: center;
 }
 
-.transactions-container {
+.payouts-container {
+	position: relative;
 	width: 100%;
 	max-width: 400px;
 	box-shadow: inset 0px 0px 40px rgba(67, 0, 78, 0.5);
@@ -122,9 +213,28 @@ export default {
 	height: 20px;
 }
 
-.address {
+.rounds {
 	color: #333;
 	font-size: 10px;
+	cursor: help;
+}
+
+.status {
+	font-weight: 700;
+	font-size: 10px;
+	cursor: help;
+}
+
+.color-ok {
+	color: #33dd50;
+}
+
+.color-await {
+	color: #ff9600;
+}
+
+.color-fail {
+	color: red;
 }
 
 .amount {
@@ -142,6 +252,12 @@ export default {
 .date {
 	color: #999;
 	font-size: 10px;
+}
+
+.payout-pagination {
+	position: absolute;
+	bottom: 0;
+	right: 0;
 }
 
 @keyframes fadein {

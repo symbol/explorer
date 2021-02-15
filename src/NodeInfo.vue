@@ -26,6 +26,8 @@
 						class="tab-content"
 						:is="tabs[activeTab].component"
 						:data="formattedData[activeTab]"
+						:payoutsManager="payoutsManager"
+						:nodeId="nodeId"
 						:language="language" 
 					/>
 				</div>
@@ -63,6 +65,9 @@ export default {
 
 	props: {
 		managerGetter: {
+			type: String
+		},
+		payoutsManagerGetter: {
 			type: String
 		},
 		dataGetter: {
@@ -119,6 +124,10 @@ export default {
 			return this.getter(this.managerGetter) || {};
 		},
 
+		payoutsManager() {
+			return this.getter(this.payoutsManagerGetter) || {};
+		},
+
 		data() {
 			return this.dataGetter
 				? this.getter(this.dataGetter)
@@ -130,6 +139,10 @@ export default {
 				return new NodeRewardInfo(this.data);
 			else
 				return {};
+		},
+
+		nodeId() {
+			return this.formattedData.nodeId;
 		},
 
 		isLoading() {

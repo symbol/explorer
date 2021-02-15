@@ -85,7 +85,7 @@
 	"expectedMinBalance": "Expected Min. Balance",
 	"reportedBalance": "Reported Balance",
 	"expectedHeight": "Expected Height",
-	"reportedHeight": "Eeported Height",
+	"reportedHeight": "Reported Height",
 	"fromHeight": "From Height",
 	"numBlocks": "Num Blocks",
 	"expectedHash": "Expected Hash",
@@ -103,5 +103,19 @@
 	"averageTime": "Average Time",
 	"numRequests": "Number of Requests",
 	"numResponses": "Number of Responses",
-	"totalTime": "Total Time"
+	"totalTime": "Total Time",
+
+	"ToBeProcess": "To Be Process",
+	"Processing": "Processing",
+	"Completed": "Completed",
+	"ManualReview": "Manual Review",
+	"Fail": "Fail",
+
+	"ToBeProcess_desc": "Waiting for process the transaction",
+	"Processing_desc": "Waiting the transaction get into block",
+	"Completed_desc": "Transaction comfrimed into the block",
+	"ManualReview_desc": "Transaction need manual review by admin",
+	"Fail_desc": "No qualify payout process",
+
+	"roundRange": "From round #{fromRound} to round #{toRound}"
 }

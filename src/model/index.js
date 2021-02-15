@@ -16,6 +16,7 @@ export class TestResult {
 
 export class NodeRewardInfo {
 	constructor(res) {
+		this.nodeId = res.nodeInfo.id;
 		this.main = new Main(res);
 		this.chainInfo = new ChainInfo(res.testResultInfo);
 		this.performance = new Performance(res.testResultInfo);
@@ -95,24 +96,24 @@ export class ChainInfo {
 
 export class Performance {
 	constructor(res) {
-		// this.bandwidth = new TestResult(
-		// 	res.bandwidthResult.speed,
-		// 	res.bandwidthResult.resultValid,
-		// 	'not provided',//res.bandwidthResult,
-		// 	res.bandwidthResult
-		// );
+		this.bandwidth = new TestResult(
+			res.nodeBandwidthResult.speed,
+			res.nodeBandwidthResult.resultValid,
+			'not provided',//res.nodeBandwidthResult,
+			res.nodeBandwidthResult
+		);
 		this.computingPower = new TestResult(
 			res.computingPowerResult.timeNeeded,
 			res.computingPowerResult.resultValid,
 			'not provided',//res.computingPowerResult.,
 			res.computingPowerResult
 		);
-		// this.ping = new TestResult(
-		// 	res.pingResult.pingResults.reduce( ( p, c ) => p + c.averageTime, 0 ) / arr.length,
-		// 	res.pingResult.resultValid,
-		// 	'not provided',//res.pingResult.averageTime,
-		// 	res.pingResult
-		// );
+		this.ping = new TestResult(
+			res.nodePingResult.averageTime,
+			res.nodePingResult.resultValid,
+			'not provided',//res.pingResult.averageTime,
+			res.nodePingResult
+		);
 		this.responsiveness = new TestResult(
 			`${res.responsivenessResult.numResponses} (${res.responsivenessResult.totalTime}ms)`,
 			res.responsivenessResult.resultValid,
