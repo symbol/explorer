@@ -9,7 +9,7 @@
 					<div class="vert-line" />
 					<div class="progress-outer">
 						<div class="progress-value" :style="progressValue"/>
-						<div class="value-text">{{ value }}</div>
+						<div class="value-text">{{ getValue(value) }}</div>
 					</div>
 					<div class="expected-value-text">{{ _expectedValue }}</div>
 				</div>
@@ -70,6 +70,24 @@ export default {
 		}
 	},
 
+	methods: {
+		getValue(value) {
+			if(value === -1)
+				return this.translate(this.language, 'na');
+				
+			return value === ''
+				? this.getPassedDescription(this.passed)
+				: value;
+		},
+
+		getPassedDescription(passed) {
+			const descriptor = passed === true
+				? 'value_passed'
+				: 'value_failed';
+
+			return this.translate(this.language, descriptor);
+		}
+	}
 }
 </script>
 

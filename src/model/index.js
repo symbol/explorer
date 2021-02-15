@@ -108,8 +108,23 @@ export class ChainInfo {
 
 export class Performance {
 	constructor(res) {
+		this.responsiveness = new TestResult(
+			`${res.responsivenessResult.numResponses} (${res.responsivenessResult.totalTime}ms)`,
+			res.responsivenessResult.resultValid,
+			res.responsivenessResult.numRequests,
+			res.responsivenessResult
+		);
+		this.ping = new TestResult(
+			`${res.nodePingResult.averageTime}ms`,
+			res.nodePingResult.resultValid,
+			'',//res.pingResult.averageTime,
+			{
+				...omit('pingResults', res.nodePingResult),
+				...getSubResultMap(res.nodePingResult.pingResults)
+			}
+		);
 		this.bandwidth = new TestResult(
-			res.nodeBandwidthResult.speed,
+			'',
 			res.nodeBandwidthResult.resultValid,
 			'',//res.nodeBandwidthResult,
 			{
@@ -118,25 +133,10 @@ export class Performance {
 			}
 		);
 		this.computingPower = new TestResult(
-			`${res.computingPowerResult.timeNeeded}ms`,
+			'',
 			res.computingPowerResult.resultValid,
 			'',//res.computingPowerResult.,
 			res.computingPowerResult
-		);
-		this.ping = new TestResult(
-			res.nodePingResult.averageTime,
-			res.nodePingResult.resultValid,
-			'',//res.pingResult.averageTime,
-			{
-				...omit('pingResults', res.nodePingResult),
-				...getSubResultMap(res.nodePingResult.pingResults)
-			}
-		);
-		this.responsiveness = new TestResult(
-			`${res.responsivenessResult.numResponses} (${res.responsivenessResult.totalTime}ms)`,
-			res.responsivenessResult.resultValid,
-			res.responsivenessResult.numRequests,
-			res.responsivenessResult
 		);
 	}
 };
