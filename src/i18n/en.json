@@ -126,5 +126,7 @@
 	"ManualReview_desc": "Transaction need manual review by admin",
 	"Fail_desc": "No qualify payout process",
 
-	"roundRange": "From round #{fromRound} to round #{toRound}"
+	"roundRange": "From round #{fromRound} to round #{toRound}",
+
+	"buttonMore": "Load More"
 }

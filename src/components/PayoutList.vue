@@ -2,9 +2,8 @@
 	<div class="payout-root">
 		<div class="payouts-container">
 			<div class="payouts-wrapper">
-				<LoadingAnimation v-if="isLoading" transition="fade" />
+				<!-- <LoadingAnimation v-if="isLoading" transition="fade" /> -->
 				<div
-					v-else
 					v-for="(transaction, index) in payouts"
 					:key="'' + index + 'payout'"
 					class="transaction-item"
@@ -34,22 +33,30 @@
 						{{formatDate(transaction.createdAt)}}
 					</div>
 				</div>
+				<ButtonMore
+					class="payout-more"
+					:canFetchNext="payoutsManager.canFetchNext"
+					:isLoading="isLoading"
+					:language="language"
+					@next="payoutsManager.fetchNext()" 
+				/>
 			</div>
 		</div>
-		<Pagination 
+		<!-- <Pagination 
 			class="payout-pagination"
 			:pageNumber="payoutsManager.pageNumber"
 			:canFetchNext="payoutsManager.canFetchNext"
 			:canFetchPrevious="payoutsManager.canFetchPrevious"
 			@next="payoutsManager.fetchNext()" 
 			@previous="payoutsManager.fetchPrevious()" 
-		/>
+		/> -->
 	</div>
 </template>
 
 <script>
 import LoadingAnimation from './LoadingAnimation.vue';
 import Pagination from './Pagination.vue';
+import ButtonMore from './ButtonMore.vue';
 import IncomingIcon from '../assets/incoming.png';
 import translate from '../i18n';
 import * as utils from '../utils';
@@ -59,7 +66,8 @@ export default {
 
 	components: {
 		Pagination,
-		LoadingAnimation
+		LoadingAnimation,
+		ButtonMore
 	},
 
 	props: {
@@ -101,7 +109,7 @@ export default {
 
 	methods: {
 		updateList(data) {
-			this.payouts = [];
+			//this.payouts = [];
 			let animationArray = [... data];
 			const timer = setInterval(() => {
 				if(!animationArray.length)
@@ -185,7 +193,7 @@ export default {
 	position: relative;
 	width: 100%;
 	max-width: 400px;
-	box-shadow: inset 0px 0px 40px rgba(67, 0, 78, 0.5);
+	// box-shadow: inset 0px 0px 40px rgba(67, 0, 78, 0.5);
 }
 
 .transaction-item {
@@ -205,7 +213,6 @@ export default {
 .child-left {
 	display: flex;
 	justify-content: space-between;
-	width: 30%;
 	align-items: center;
 }
 
@@ -216,6 +223,7 @@ export default {
 .rounds {
 	color: #333;
 	font-size: 10px;
+	margin-left: 15px;
 	cursor: help;
 }
 
