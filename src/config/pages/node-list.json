@@ -44,7 +44,8 @@
                     "roles",
 					"nodePublicKey",
 					"chainInfo",
-					"version"
+					"version",
+					"rewardPrograms"
                 ],
                 "mobileFields": [
                     "host",
