@@ -69,78 +69,84 @@ export class History {
 
 export class ChainInfo {
 	constructor(res) {
-		this.nodeBalance = new TestResult(
-			formatNumberOutput(res.nodeBalanceResult.reportedBalance),
-			res.nodeBalanceResult.resultValid,
-			formatNumberOutput(res.nodeBalanceResult.expectedMinBalance),
-			{
-				...res.nodeBalanceResult,
-				reportedBalance: formatNumberOutput(res.nodeBalanceResult.reportedBalance),
-				expectedMinBalance: formatNumberOutput(res.nodeBalanceResult.expectedMinBalance),
-			}
-		);
-		this.chainHeight = new TestResult(
-			res.chainHeightResult.reportedHeight,
-			res.chainHeightResult.resultValid,
-			res.chainHeightResult.expectedHeight,
-			res.chainHeightResult
-		);
-		this.chainPart = new TestResult(
-			res.chainPartResult.reportedHash,
-			res.chainPartResult.resultValid,
-			res.chainPartResult.expectedHash,
-			res.chainPartResult
-		);
-		// this.finalizationHeight = new TestResult(
-		// 	'not provided',
-		// 	false,
-		// 	'not provided',
-		// 	{}
-		// );
-		this.nodeVersion = new TestResult(
-			res.nodeVersionResult.reportedNodeVersion ,
-			res.nodeVersionResult.resultValid,
-			res.nodeVersionResult.expectedNodeVersion ,
-			res.nodeVersionResult
-		);
+		if(res.nodeBalanceResult) {
+			this.nodeBalance = new TestResult(
+				formatNumberOutput(res.nodeBalanceResult.reportedBalance),
+				res.nodeBalanceResult.resultValid,
+				formatNumberOutput(res.nodeBalanceResult.expectedMinBalance),
+				{
+					...res.nodeBalanceResult,
+					reportedBalance: formatNumberOutput(res.nodeBalanceResult.reportedBalance),
+					expectedMinBalance: formatNumberOutput(res.nodeBalanceResult.expectedMinBalance),
+				}
+			);
+		}
+		if(res.chainHeightResult) {
+			this.chainHeight = new TestResult(
+				res.chainHeightResult.reportedHeight,
+				res.chainHeightResult.resultValid,
+				res.chainHeightResult.expectedHeight,
+				res.chainHeightResult
+			);
+		}
+		if(res.chainPartResult) {
+			this.chainPart = new TestResult(
+				res.chainPartResult.reportedHash,
+				res.chainPartResult.resultValid,
+				res.chainPartResult.expectedHash,
+				res.chainPartResult
+			);
+		}
+		if(res.nodeVersionResult) {
+			this.nodeVersion = new TestResult(
+				res.nodeVersionResult.reportedNodeVersion ,
+				res.nodeVersionResult.resultValid,
+				res.nodeVersionResult.expectedNodeVersion ,
+				res.nodeVersionResult
+			);
+		}
 	}
 };
 
 export class Performance {
 	constructor(res) {
-		this.responsiveness = new TestResult(
-			`${res.responsivenessResult.numResponses} (${res.responsivenessResult.totalTime}ms)`,
-			res.responsivenessResult.resultValid,
-			res.responsivenessResult.numRequests,
-			res.responsivenessResult
-		);
-		this.ping = new TestResult(
-			`${res.nodePingResult.averageTime}ms`,
-			res.nodePingResult.resultValid,
-			null,//res.pingResult.averageTime,
-			{
-				...omit('pingResults', res.nodePingResult),
-				...getSubResultMap(res.nodePingResult.pingResults)
-			}
-		);
-		this.bandwidth = new TestResult(
-			'',
-			res.nodeBandwidthResult.resultValid,
-			null,//res.nodeBandwidthResult,
-			{
-				...omit('bandwidthResults', res.nodeBandwidthResult),
-				...getSubResultMap(res.nodeBandwidthResult.bandwidthResults)
-			}
-		);
-		this.computingPower = new TestResult(
-			'',
-			res.computingPowerResult.resultValid,
-			null,//res.computingPowerResult.,
-			res.computingPowerResult
-		);
+		if(res.responsivenessResult) {
+			this.responsiveness = new TestResult(
+				`${res.responsivenessResult.numResponses} (${res.responsivenessResult.totalTime}ms)`,
+				res.responsivenessResult.resultValid,
+				res.responsivenessResult.numRequests,
+				res.responsivenessResult
+			);
+		}
+		if(res.nodePingResult) {
+			this.ping = new TestResult(
+				`${res.nodePingResult.averageTime}ms`,
+				res.nodePingResult.resultValid,
+				null,
+				{
+					...omit('pingResults', res.nodePingResult),
+					...getSubResultMap(res.nodePingResult.pingResults)
+				}
+			);
+		}
+		if(res.nodeBandwidthResult) {
+			this.bandwidth = new TestResult(
+				'',
+				res.nodeBandwidthResult.resultValid,
+				null,
+				{
+					...omit('bandwidthResults', res.nodeBandwidthResult),
+					...getSubResultMap(res.nodeBandwidthResult.bandwidthResults)
+				}
+			);
+		}
+		if(res.computingPowerResult) {
+			this.computingPower = new TestResult(
+				'',
+				res.computingPowerResult.resultValid,
+				null,
+				res.computingPowerResult
+			);
+		}
 	}
-};
-
-export class Payout {
-
 };

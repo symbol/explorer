@@ -1,5 +1,5 @@
 <template>
-	<div v-if="!isError && data" class="root" :style="{padding: 0, paddingTop: 0}">
+	<div v-if="!manager.error" class="root" :style="{padding: 0, paddingTop: 0}">
 		<img :src="BackgroundImage" class="background-image"/>
 		<div class="content content-padding">
 			<table class="top-bar">
@@ -119,7 +119,8 @@ export default {
 					image: PayoutsImage,
 					component: 'PayoutList'
 				}
-			}
+			},
+			isModelError: false
 		}
 	},
 
@@ -139,8 +140,17 @@ export default {
 		},
 
 		formattedData() {
-			if(this.data)
-				return new NodeRewardInfo(this.data);
+			if(this.data) {
+				try {
+					return new NodeRewardInfo(this.data);
+				}
+				catch(e) {
+					this.isModelError = true;
+					console.error('Node Rewards Widget. Failed to parse data');
+
+					return {};
+				}
+			}
 			else
 				return {};
 		},
@@ -154,11 +164,13 @@ export default {
 		},
 
 		isError() {
-			return this.manager.error;
+			return this.manager.error || this.isModelError;
 		},
 
 		errorMessage() {
-			return '';
+			return this.manager.error
+				? translate(this.language, 'errorFailedToFetch')
+				: translate(this.language, 'errorFailedToParseData');
 		},
 
 		nodeMonitorEndpoint() {

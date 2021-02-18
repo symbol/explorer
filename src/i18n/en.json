@@ -2,6 +2,8 @@
 	"appTitle": "Node Rewards Program",
 
 	"error": "Error",
+	"errorFailedToFetch": "Failed to fetch data",
+	"errorFailedToParseData": "Failed to parse data",
 	"notASupernode": "This node doesn't participate in the Node Rewards Program",
 	"na": "n/a",
 
@@ -66,6 +68,7 @@
 	"speed": "Speed",
 	"toNodeId": "To Node ID",
 	"nodeId": "Node ID",
+	"samples": "Samples",
 	"nodeVersionTestOk": "Node Version Test",
 	"chainHeightTestOk": "Chain Height Test",	
 	"chainPartTestOk": "Chain Part Test",

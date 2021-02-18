@@ -32,14 +32,10 @@ export default {
 	computed: {
 		formattedText() {
 			if(Array.isArray(this.value))
-				return (
-					'[ '
-					+ this.value
-						.map(el => this.translate(this.language, `value_${this.keyName}_item`, { value: el }))
-						.join(', ')
-					+ ' ]'
-				)
-				.replace(/['"]+/g, '');
+				return this.translate(this.language, `value_${this.keyName}_item`, { 
+					value: ('[ ' + this.value.join(', ') + ' ]')
+						.replace(/['"]+/g, '') 
+				});
 
 			if(this.value === -1)
 				return this.translate(this.language, 'na');
