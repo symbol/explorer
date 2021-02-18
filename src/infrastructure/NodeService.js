@@ -247,10 +247,14 @@ class NodeService {
 	static getNodeRewardsInfo = async (publicKey) => {
 		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
 			const node = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes/' + publicKey)).data;
+			const formattedNodeInfo = this.formatNodeInfo(node);
+			let nodePublicKey;
+			try {
+				nodePublicKey = (await Axios.get(formattedNodeInfo.apiEndpoint + '/node/info')).data.nodePublicKey;
+			}
+			catch(e) {}
 
-			if (node?.apiStatus?.nodePublicKey) {
-				const nodePublicKey = node?.apiStatus?.nodePublicKey;
-
+			if (nodePublicKey) {
 				return (await Axios.get(globalConfig.endpoints.statisticsService + '/nodeRewards/nodes/nodePublicKey/' + nodePublicKey)).data;
 			}
 			throw Error(`Node doesn't take part in any rewards program`);
