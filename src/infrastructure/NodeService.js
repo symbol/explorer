@@ -21,6 +21,7 @@ import Constants from '../config/constants';
 import * as symbol from 'symbol-sdk';
 import Axios from 'axios';
 import moment from 'moment';
+import helper from '../helper';
 import globalConfig from '../config/globalConfig';
 
 class NodeService {
@@ -107,6 +108,7 @@ class NodeService {
     	rolesRaw: nodeInfo.roles,
     	roles: Constants.RoleType[nodeInfo.roles],
     	network: Constants.NetworkType[nodeInfo.networkIdentifier],
+		version: helper.formatNodeVersion(nodeInfo.version),
     	apiEndpoint:
             nodeInfo.roles === 2 ||
             nodeInfo.roles === 3 ||

@@ -13,7 +13,7 @@
 	"apiNodePort": 3000,
 	"endpoints": {
 		"marketData": "https://min-api.cryptocompare.com/",
-		"statisticsService": "http://localhost:4001s"
+		"statisticsService": "http://localhost:4001"
 	},
 	"networkConfig": {
 		"namespaceName": "symbol.xym",

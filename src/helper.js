@@ -582,7 +582,12 @@ class helper {
 	}
 
 	static formatNodeVersion = (rawNodeVersion) => {
-		return NodeVersion.createFromRawNodeVersion(rawNodeVersion).raw();
+		try {
+			return NodeVersion.createFromRawNodeVersion(rawNodeVersion).formatted();
+		}
+		catch(e) {
+			return Constants.Message.UNAVAILABLE;
+		}
 	}
 }
 
