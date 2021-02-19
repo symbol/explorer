@@ -1,3 +1,4 @@
-import NodeInfo from './NodeInfo.vue';
+import NodeRewardsWidget from './NodeRewardsWidget.vue';
 
-export default NodeInfo;
+
+export default NodeRewardsWidget;

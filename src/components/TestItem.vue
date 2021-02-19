@@ -34,7 +34,7 @@ export default {
 		},
 		expectedValue: {
 			type: [String, Number],
-			required: true
+			required: false
 		},
 		passed: {
 			type: Boolean,
