@@ -5,6 +5,11 @@ module.exports = {
 		port: 8080
 	},
 	css: {
-		extract: false
+		extract: false,
+		loaderOptions: {
+			sass: {
+				prependData: `@import "~@/styles/variables.scss";`
+			}
+		}
 	}
 };
