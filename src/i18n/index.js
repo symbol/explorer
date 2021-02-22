@@ -1,7 +1,8 @@
 import { DEFAULT_LANGUAGE } from '../config.json';
+import en from './en.json';
 
 const locales = {
-	en: require('./en.json')
+	en
 };
 
 const insertOptions = (text, options) => {

@@ -1,4 +1,3 @@
-import NodeRewardsWidget from './NodeRewardsWidget.vue';
+import NodeRewardsClient from './NodeRewardsClient.vue';
 
-
-export default NodeRewardsWidget;
+export default NodeRewardsClient;

@@ -1,36 +1,64 @@
 {
     "name": "symbol-node-rewards-client",
     "version": "0.1.0",
-    "scripts": {
-        "serve": "vue-cli-service serve",
-        "build": "vue-cli-service build --target lib --name nrw ./src/index.js",
-        "lint": "vue-cli-service lint",
-        "lint:fix": "vue-cli-service lint --fix"
-    },
-    "dependencies": {
-        "core-js": "^2.6.5",
-        "vue": "^2.6.10",
-        "symbol-sdk": "^0.23.3-alpha-202102181227"
-    },
+    "main": "dist/js/symbol-node-rewards-client.js",
+    "jsnext:main": "src/index.js",
+    "unpkg": "dist/js/symbol-node-rewards-client.min.js",
     "files": [
-        "dist/*",
-        "src/*",
-        "public/*",
-        "*.json",
-        "*.js"
+        "dist/js/symbol-node-rewards-client.min.js",
+        "dist/js/symbol-node-rewards-client.js"
     ],
-    "main": "./dist/nrw.common.js",
+    "scripts": {
+        "prepare": "npm run build",
+        "lint": "eslint --ext .js,.vue src",
+        "build": "cross-env NODE_ENV=production node_modules/.bin/rollup -c ./rollup.config.js && cross-env NODE_ENV=production BUILD_MODE=minify node_modules/.bin/rollup -c ./rollup.config.js",
+        "patch": "npm version patch",
+        "minor": "npm version minor",
+        "major": "npm version major",
+        "release": "./build/publish.sh"
+    },
     "devDependencies": {
+        "@babel/core": "^7.6.4",
         "@babel/plugin-proposal-optional-chaining": "^7.8.3",
-        "@vue/cli-plugin-babel": "^3.12.1",
-        "@vue/cli-plugin-eslint": "^3.11.0",
-        "@vue/cli-service": "^3.12.1",
-        "@vue/eslint-config-airbnb": "^4.0.0",
-        "babel-eslint": "^10.0.1",
-        "eslint": "^5.16.0",
-        "eslint-plugin-vue": "^5.0.0",
-        "node-sass": "^4.14.1",
-        "sass-loader": "^8.0.2",
-        "vue-template-compiler": "^2.6.10"
+        "@babel/plugin-transform-object-assign": "^7.10.4",
+        "@babel/preset-env": "^7.6.3",
+        "chromedriver": "^75.1.0",
+        "cross-env": "^7.0.3",
+        "cross-spawn": "^6.0.5",
+        "eslint": "^6.6.0",
+        "eslint-plugin-vue": "^5.2.3",
+        "http-server": "^0.11.1",
+        "nightwatch": "^0.9.21",
+        "nightwatch-helpers": "^1.2.0",
+        "node-sass": "^5.0.0",
+        "path": "^0.12.7",
+        "phantomjs-prebuilt": "^2.1.16",
+        "rollup": "^1.26.0",
+        "rollup-plugin-babel": "^4.4.0",
+        "rollup-plugin-commonjs": "^10.1.0",
+        "rollup-plugin-terser": "^5.1.2",
+        "rollup-plugin-vue": "^5.1.2",
+        "sass-loader": "^11.0.1",
+        "selenium-server": "^3.141.59",
+        "vue-template-compiler": "^2.6.12",
+        "webdriver-manager": "^12.1.7"
+    },
+    "browserslist": [
+        "> 1%",
+        "Chrome >= 14",
+        "Safari >= 4",
+        "Firefox >= 4",
+        "Opera >= 10",
+        "Edge >= 41",
+        "not ie <= 7",
+        "iOS >= 6",
+        "ChromeAndroid >= 4",
+        "OperaMobile >= 12"
+    ],
+    "dependencies": {
+        "@rollup/plugin-image": "^2.0.6",
+        "@rollup/plugin-json": "^4.1.0",
+        "vue": "^2.6.12",
+        "vue-runtime-helpers": "^1.1.2"
     }
 }
