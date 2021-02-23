@@ -29,7 +29,6 @@
     "leaflet.markercluster": "^1.4.1",
     "merkletreejs": "^0.2.9",
     "moment-timezone": "^0.5.28",
-    "symbol-node-rewards-client": "file:node-monitor",
     "symbol-sdk": "^0.23.3-alpha-202102181227",
     "url-parse": "^1.4.7",
     "utf8": "^3.0.0",
