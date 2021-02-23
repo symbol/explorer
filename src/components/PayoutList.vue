@@ -3,6 +3,7 @@
 		<div class="payouts-container">
 			<div class="payouts-wrapper">
 				<!-- <LoadingAnimation v-if="isLoading" transition="fade" /> -->
+				
 				<div
 					v-for="(transaction, index) in payouts"
 					:key="'' + index + 'payout'"
@@ -10,7 +11,15 @@
 				>
 					<div class="child-left">
 						<img :src="IncomingIcon" class="icon" />
+						<div
+							v-if="isVotingPayout"
+							class="rounds"
+							:title="getEpochDescription(transaction)"
+						>
+							{{transaction.epoch}}
+						</div>
 						<div 
+							v-else
 							class="rounds"
 							:title="getRoundsDescription(transaction)"
 						>
@@ -42,11 +51,20 @@
 				/>
 			</div>
 		</div>
+		<Dropdown
+			v-if="isFilterShown"
+			class="filter"
+			:index="filterIndex"
+			:options="filterOptions"
+			:language="language"
+			@change="onChangeFilter"
+		/>
 	</div>
 </template>
 
 <script>
 import LoadingAnimation from './LoadingAnimation.vue';
+import Dropdown from './Dropdown.vue';
 import Pagination from './Pagination.vue';
 import ButtonMore from './ButtonMore.vue';
 import IncomingIcon from '../assets/incoming.png';
@@ -57,6 +75,7 @@ export default {
 	name: 'PayoutList',
 
 	components: {
+		Dropdown,
 		Pagination,
 		LoadingAnimation,
 		ButtonMore
@@ -94,6 +113,22 @@ export default {
 
 		data() {
 			return (this.payoutsManager && this.payoutsManager.data) || [];
+		},
+
+		isFilterShown() {
+			return true;
+		},
+
+		filterIndex() {
+			return (this.payoutsManager && this.payoutsManager.filterIndex) || 0;
+		},
+
+		filterOptions() {
+			return (this.payoutsManager && this.payoutsManager.filterOptions) || [];
+		},
+
+		isVotingPayout() {
+			return this.filterIndex === 1;
 		}
 	},
 
@@ -116,6 +151,10 @@ export default {
 
 		getRoundsDescription(range) {
 			return translate(this.language, 'roundRange', range);
+		},
+
+		getEpochDescription(epoch) {
+			return translate(this.language, 'epochValue', epoch);
 		},
 
 		formatMosaic(mosaics) {
@@ -147,17 +186,9 @@ export default {
 			}
 		},
 
-		infiniteHandler($state) {
-			this.payoutsManager.getPayouts('', this.pageNumber)
-				.then(payouts => {
-					if (payouts.length) {
-						this.pageNumber += 1;
-						this.updateList(payouts);
-						$state.loaded();
-					} else {
-						$state.complete();
-					}
-				});
+		onChangeFilter(index) {
+			this.payouts = [];
+			this.payoutsManager && this.payoutsManager.changeFilterValue(index);
 		}
 	},
 
@@ -184,6 +215,14 @@ export default {
 	width: 100%;
 	max-width: 400px;
 	// box-shadow: inset 0px 0px 40px rgba(67, 0, 78, 0.5);
+}
+
+.filter {
+	//float: right;
+	margin-bottom: 5px;
+	position: absolute;
+	bottom: 0;
+	right: 0;
 }
 
 .transaction-item {

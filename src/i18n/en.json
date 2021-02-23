@@ -14,6 +14,8 @@
 	"chainInfo": "Chain",
 	"performance": "Performance",
 	"payout": "Payout",
+	"voting": "Voting",
+	"rounds": "Rounds",
 
 	"nodeBalance": "Node Balance",
 	"chainHeight": "Chain Height",
@@ -131,6 +133,7 @@
 	"Fail_desc": "No qualify payout process",
 
 	"roundRange": "From round #{fromRound} to round #{toRound}",
+	"epochValue": "Epoch '#{epoch}'",
 
 	"buttonMore": "Load More"
 }
