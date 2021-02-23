@@ -13,6 +13,9 @@
 						:key="'' + index + 'test-item'"
 						@click="onItemClick"
 					/>
+					<div v-if="caption" class="caption">
+						{{ caption }}
+					</div>
 				</tbody>
 			</table>
 		</div>
@@ -27,6 +30,7 @@
 </template>
 
 <script>
+import translate from '../i18n';
 import TestItem from './TestItem.vue';
 import Modal from './Modal.vue';
 
@@ -69,6 +73,11 @@ export default {
 				? this.data[this.selectedItem].passed
 				: null;
 		},
+
+		caption() {
+			if(!this.data || this.data.length < 1)
+				return translate(this.language, 'nothingToShow'); 
+		}
 	},
 
 	methods: {
@@ -97,5 +106,12 @@ export default {
 .table-component {
 	table-layout: fixed;
 	width: 100%;
+}
+
+.caption {
+	text-align: center;
+	width: 100%;
+	font-size: 10px;
+	opacity: 0.5;
 }
 </style>
