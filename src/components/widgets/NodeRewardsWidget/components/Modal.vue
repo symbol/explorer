@@ -1,58 +1,58 @@
 <template>
-    <transition name="modal">
-        <div class="modal-mask" @click="$emit('close')">
-            <div class="modal-wrapper">
-                <div class="modal-container" @click.stop>
-                    <div class="modal-title">
-                        {{translate(language, title)}}
-                        <img :src="CloseIcon" class="close-icon" @click="$emit('close')"/>
-                    </div>
-                    <div class="modal-body-wrapper">
-                        <div class="modal-body-scrollable">
-                            <table class="modal-table">
-                                <tbody>
-                                    <tr v-if="showPassed">
-                                        <td class="table-header">
-                                            {{translate(language, 'testPassed')}}
-                                        </td>
-                                        <td class="table-value">
-                                            <BooleanField :value="passed" class="value-boolean" />
-                                        </td>
-                                    </tr>
-                                    <tr
-                                        v-for="(item, key) in data"
-                                        :key="'' + key + 'nm-mtb'"
-                                    >
-                                        <td class="table-header">{{translate(language, key)}}</td>
-                                        <td class="table-value" :title="item">
-                                            <BooleanField v-if="isBoolean(item, key)" :value="item" class="value-boolean" />
-                                            <DateField v-else-if="isDate(item, key)" :value="item" :keyName="key" />
-                                            <div v-else-if="isObject(item, key)" class="value-object" :title="getPassedDescription(item.resultValid)">
-                                                <div class="brace-container">
-                                                    <div class="brace brace-part1"></div>
-                                                    <div class="brace brace-part2"></div>
-                                                    <div class="brace brace-part3"></div>
-                                                    <div class="brace brace-part4"></div>
-                                                </div>
+	<transition name="modal">
+		<div class="modal-mask" @click="$emit('close')">
+			<div class="modal-wrapper">
+				<div class="modal-container" @click.stop>
+					<div class="modal-title">
+						{{translate(language, title)}}
+						<img :src="CloseIcon" class="close-icon" @click="$emit('close')"/>
+					</div>
+					<div class="modal-body-wrapper">
+						<div class="modal-body-scrollable">
+							<table class="modal-table">
+								<tbody>
+									<tr v-if="showPassed">
+										<td class="table-header">
+											{{translate(language, 'testPassed')}}
+										</td>
+										<td class="table-value">
+											<BooleanField :value="passed" class="value-boolean" />
+										</td>
+									</tr>
+									<tr
+										v-for="(item, key) in data"
+										:key="'' + key + 'nm-mtb'"
+									>
+										<td class="table-header">{{translate(language, key)}}</td>
+										<td class="table-value" :title="item">
+											<BooleanField v-if="isBoolean(item, key)" :value="item" class="value-boolean" />
+											<DateField v-else-if="isDate(item, key)" :value="item" :keyName="key" />
+											<div v-else-if="isObject(item, key)" class="value-object" :title="getPassedDescription(item.resultValid)">
+												<div class="brace-container">
+													<div class="brace brace-part1"></div>
+													<div class="brace brace-part2"></div>
+													<div class="brace brace-part3"></div>
+													<div class="brace brace-part4"></div>
+												</div>
 
-                                                <div v-for="(subItem, subKey) in item" :key="key + subKey" class="subitem">
-                                                    <div class="subitem-header">{{translate(language, subKey)}}</div>
-                                                    <BooleanField v-if="isBoolean(subItem, subKey)" :value="subItem" class="value-boolean" />
-                                                    <DateField v-else-if="isDate(subItem, subKey)" :value="subItem" :keyName="subKey" />
-                                                    <TextField v-else :value="subItem" :keyName="subKey"/>
-                                                </div>
-                                            </div>
-                                            <TextField v-else :value="item" :keyName="key"/>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </transition>
+												<div v-for="(subItem, subKey) in item" :key="key + subKey" class="subitem">
+													<div class="subitem-header">{{translate(language, subKey)}}</div>
+													<BooleanField v-if="isBoolean(subItem, subKey)" :value="subItem" class="value-boolean" />
+													<DateField v-else-if="isDate(subItem, subKey)" :value="subItem" :keyName="subKey" />
+													<TextField v-else :value="subItem" :keyName="subKey"/>
+												</div>
+											</div>
+											<TextField v-else :value="item" :keyName="key"/>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</transition>
 </template>
 
 <script>
@@ -63,84 +63,84 @@ import TextField from './table-components/Text.vue';
 import CloseIcon from '../assets/close.png';
 
 export default {
-    name: 'Modal',
+	name: 'Modal',
 
-    components: { BooleanField, DateField, TextField },
+	components: { BooleanField, DateField, TextField },
 
-    props: {
-        title: {
-            type: String
-        },
-        data: {
-            type: Object,
-            required: true
-        },
-        passed: {
-            type: Boolean
-        },
-        language: {
-            type: String
-        }
-    },
+	props: {
+		title: {
+			type: String
+		},
+		data: {
+			type: Object,
+			required: true
+		},
+		passed: {
+			type: Boolean
+		},
+		language: {
+			type: String
+		}
+	},
 
-    mounted() {
-    },
+	mounted() {
+	},
 
-    data() {
-        return {
-            translate,
-            CloseIcon
-        };
-    },
+	data() {
+		return {
+			translate,
+			CloseIcon
+		};
+	},
 
-    computed: {
-        tableHeader() {
-            if (Array.isArray(this.data))
-                return Object.keys(this.data[0]);
-            else
-                return ['parameter', 'value'];
-        },
+	computed: {
+		tableHeader() {
+			if (Array.isArray(this.data))
+				return Object.keys(this.data[0]);
+			else
+				return ['parameter', 'value'];
+		},
 
-        showPassed() {
-            return typeof this.passed === 'boolean';
-        }
-    },
+		showPassed() {
+			return typeof this.passed === 'boolean';
+		}
+	},
 
-    methods: {
-        isBoolean(item, key) {
-            const booleanKeys = [
-                'chainHeightTestStatus',
-                'chainPartTestStatus',
-                'computingPowerTestStatus',
-                'nodeBalanceTestStatus',
-                'nodeBandwidthTestStatus',
-                'nodePingTestStatus',
-                'nodeVersionTestStatus',
-                'responsivenessTestStatus'
-            ];
+	methods: {
+		isBoolean(item, key) {
+			const booleanKeys = [
+				'chainHeightTestStatus',
+				'chainPartTestStatus',
+				'computingPowerTestStatus',
+				'nodeBalanceTestStatus',
+				'nodeBandwidthTestStatus',
+				'nodePingTestStatus',
+				'nodeVersionTestStatus',
+				'responsivenessTestStatus'
+			];
 
-            return typeof item === 'boolean' ||
+			return typeof item === 'boolean' ||
                 booleanKeys.includes(key);
-        },
+		},
 
-        isDate(item, key) {
-            return key.toUpperCase().includes('DATE') ||
+		isDate(item, key) {
+			return key.toUpperCase().includes('DATE') ||
                 key === 'createdAt' ||
                 key === 'finishedAt';
-        },
+		},
 
-        isObject(item, key) {
-            return item !== null && typeof item === 'object';
-        },
+		isObject(item, key) {
+			return item !== null && typeof item === 'object';
+		},
 
-        getPassedDescription(passed) {
-            const descriptor = passed === true
-                ? 'value_passed'
-                : 'value_failed';
+		getPassedDescription(passed) {
+			const descriptor = passed === true
+				? 'value_passed'
+				: 'value_failed';
 
-            return this.translate(this.language, descriptor);
-        }
-    }
+			return this.translate(this.language, descriptor);
+		}
+	}
 };
 </script>
 

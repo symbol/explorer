@@ -1,29 +1,29 @@
 <template>
-    <div class="history">
-        <div class="history-steps-wrapper">
-            <div
-                v-for="(test, index) in data"
-                :key="'' + index + 'nm-hist'"
-                class="history-step"
-            >
-                <div class="history-icon-wrapper">
-                    <img class="history-icon" :src="getIconSrc(test.passed)" />
-                </div>
-                <div class="history-circle hoverable" @click="onItemClick(test)"></div>
-                <div class="history-title">#{{test.round}}</div>
-                <div class="history-date" :title="test.date">{{formatDate(test.date)}}</div>
-                <div class="history-line history-line-left"></div>
-                <div class="history-line history-line-right"></div>
-            </div>
-        </div>
-        <Modal
-            v-if="isModalShown"
-            :passed="selectedItemData.passed"
-            :title="translate(language, 'roundNumber', {number: selectedItemData.round})"
-            :data="selectedItemData.details"
-            @close="closeModal"
-        />
-    </div>
+	<div class="history">
+		<div class="history-steps-wrapper">
+			<div
+				v-for="(test, index) in data"
+				:key="'' + index + 'nm-hist'"
+				class="history-step"
+			>
+				<div class="history-icon-wrapper">
+					<img class="history-icon" :src="getIconSrc(test.passed)" />
+				</div>
+				<div class="history-circle hoverable" @click="onItemClick(test)"></div>
+				<div class="history-title">#{{test.round}}</div>
+				<div class="history-date" :title="test.date">{{formatDate(test.date)}}</div>
+				<div class="history-line history-line-left"></div>
+				<div class="history-line history-line-right"></div>
+			</div>
+		</div>
+		<Modal
+			v-if="isModalShown"
+			:passed="selectedItemData.passed"
+			:title="translate(language, 'roundNumber', {number: selectedItemData.round})"
+			:data="selectedItemData.details"
+			@close="closeModal"
+		/>
+	</div>
 </template>
 
 <script>
@@ -34,56 +34,56 @@ import TrueIcon from '../assets/true.png';
 import FalseIcon from '../assets/false.png';
 
 export default {
-    name: 'History',
+	name: 'History',
 
-    components: { Modal },
+	components: { Modal },
 
-    props: {
-        data: {
-            type: Array,
-            required: true
-        },
-        language: {
-            type: String
-        }
-    },
+	props: {
+		data: {
+			type: Array,
+			required: true
+		},
+		language: {
+			type: String
+		}
+	},
 
-    mounted() {
-        this.selectedItemData = {};
-        this.isModalShown = false;
-    },
+	mounted() {
+		this.selectedItemData = {};
+		this.isModalShown = false;
+	},
 
-    data() {
-        return {
-            utils,
-            translate,
-            isModalShown: false,
-            selectedItemData: {}
-        };
-    },
+	data() {
+		return {
+			utils,
+			translate,
+			isModalShown: false,
+			selectedItemData: {}
+		};
+	},
 
-    methods: {
-        formatDate(date) {
-            return utils.formatDate(date, this.language);
-        },
+	methods: {
+		formatDate(date) {
+			return utils.formatDate(date, this.language);
+		},
 
-        getIconSrc(value) {
-            if (value === true)
-                return TrueIcon;
+		getIconSrc(value) {
+			if (value === true)
+				return TrueIcon;
 
-            if (value === false)
-                return FalseIcon;
-        },
+			if (value === false)
+				return FalseIcon;
+		},
 
-        onItemClick(item) {
-            this.selectedItemData = item;
-            this.isModalShown = true;
-        },
+		onItemClick(item) {
+			this.selectedItemData = item;
+			this.isModalShown = true;
+		},
 
-        closeModal() {
-            this.isModalShown = false;
-        }
-    }
+		closeModal() {
+			this.isModalShown = false;
+		}
+	}
 };
 </script>
 

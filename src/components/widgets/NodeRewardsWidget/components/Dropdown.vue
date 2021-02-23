@@ -1,82 +1,82 @@
 <template>
-    <div class="dropdown-wrapper">
-        <div
-            class="dropdown-button"
-            @click="onExpand"
-        >
-            <i
-                class="arrow"
-                :class="dropdownIcon"
-            />
-            {{translate(language, selectedOptionLabel)}}
-        </div>
-        <transition name="slide">
-            <ul class="dropdown-list" v-if="isExpanded">
-                <li
-                    v-for="(item, index) in options"
-                    class="dropdown-item"
-                    @click="onSelect(index)"
-                    :key="'' + index + 'nr_dd'"
-                >
-                    {{translate(language, item.label)}}
-                </li>
-            </ul>
-        </transition>
-    </div>
+	<div class="dropdown-wrapper">
+		<div
+			class="dropdown-button"
+			@click="onExpand"
+		>
+			<i
+				class="arrow"
+				:class="dropdownIcon"
+			/>
+			{{translate(language, selectedOptionLabel)}}
+		</div>
+		<transition name="slide">
+			<ul class="dropdown-list" v-if="isExpanded">
+				<li
+					v-for="(item, index) in options"
+					class="dropdown-item"
+					@click="onSelect(index)"
+					:key="'' + index + 'nr_dd'"
+				>
+					{{translate(language, item.label)}}
+				</li>
+			</ul>
+		</transition>
+	</div>
 </template>
 
 <script>
 import translate from '../i18n';
 
 export default {
-    props: {
-        options: {
-            type: Array,
-            required: true
-        },
+	props: {
+		options: {
+			type: Array,
+			required: true
+		},
 
-        index: {
-            type: Number,
-            default: 0
-        },
+		index: {
+			type: Number,
+			default: 0
+		},
 
-        language: {
-            type: String,
-            required: true
-        }
-    },
+		language: {
+			type: String,
+			required: true
+		}
+	},
 
-    data() {
-        return {
-            translate,
-            isExpanded: false
-        };
-    },
+	data() {
+		return {
+			translate,
+			isExpanded: false
+		};
+	},
 
-    computed: {
-        selectedOptionLabel() {
-            if (this.options && this.options[this.index] !== void 0)
-                return this.options[this.index].label;
-            return this.index;
-        },
+	computed: {
+		selectedOptionLabel() {
+			if (this.options && this.options[this.index] !== void 0)
+				return this.options[this.index].label;
+			return this.index;
+		},
 
-        dropdownIcon() {
-            return this.isExpanded
-                ? 'up'
-                : 'down';
-        }
-    },
+		dropdownIcon() {
+			return this.isExpanded
+				? 'up'
+				: 'down';
+		}
+	},
 
-    methods: {
-        onExpand() {
-            this.isExpanded = !this.isExpanded;
-        },
+	methods: {
+		onExpand() {
+			this.isExpanded = !this.isExpanded;
+		},
 
-        onSelect(index) {
-            this.$emit('change', index);
-            this.onExpand();
-        }
-    }
+		onSelect(index) {
+			this.$emit('change', index);
+			this.onExpand();
+		}
+	}
 };
 </script>
 

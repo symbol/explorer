@@ -1,47 +1,47 @@
 <template>
-    <div v-if="!manager.error" class="root" :style="{padding: 0, paddingTop: 0}">
-        <img :src="BackgroundImage" class="background-image"/>
-        <div class="content content-padding">
-            <table class="top-bar">
-                <tr>
-                    <td>
-                        <h3>{{translate(language, 'appTitle')}}</h3>
-                        <TabSelector
-                            class="title"
-                            :tabs="tabs"
-                            :activeTab="activeTab"
-                            :language="language"
-                            @select="index => activeTab = index"
-                        />
-                    </td>
-                    <td valign="top">
-                        <img :src="tabs[activeTab].image" class="tab-image"/>
-                    </td>
-                </tr>
-            </table>
-            <transition name="fade">
-                <LoadingAnimation v-if="isLoading" transition="fade"/>
-                <div
-                    v-else-if="!isError && !isLoading"
-                    class="tab custom-scrollbar"
-                    :class="{scrollable: isScrollableTab}"
-                >
-                    <component
-                        class="tab-content"
-                        :is="tabs[activeTab].component"
-                        :data="formattedData[activeTab]"
-                        :payoutsManager="payoutsManager"
-                        :nodeId="nodeId"
-                        :language="language"
-                    />
-                </div>
-                <div v-else>
-                    <h4>{{translate(language, 'error')}}</h4>
-                    <p>{{errorMessage}}</p>
-                </div>
-            </transition>
-        </div>
-    </div>
+	<div v-if="!manager.error" class="root" :style="{padding: 0, paddingTop: 0}">
+		<img :src="BackgroundImage" class="background-image"/>
+		<div class="content content-padding">
+			<table class="top-bar">
+				<tr>
+					<td>
+						<h3>{{translate(language, 'appTitle')}}</h3>
+						<TabSelector
+							class="title"
+							:tabs="tabs"
+							:activeTab="activeTab"
+							:language="language"
+							@select="index => activeTab = index"
+						/>
+					</td>
+					<td valign="top">
+						<img :src="tabs[activeTab].image" class="tab-image"/>
+					</td>
+				</tr>
+			</table>
+			<transition name="fade">
+				<LoadingAnimation v-if="isLoading" transition="fade"/>
+				<div
+					v-else-if="!isError && !isLoading"
+					class="tab custom-scrollbar"
+					:class="{scrollable: isScrollableTab}"
+				>
+					<component
+						class="tab-content"
+						:is="tabs[activeTab].component"
+						:data="formattedData[activeTab]"
+						:payoutsManager="payoutsManager"
+						:nodeId="nodeId"
+						:language="language"
+					/>
+				</div>
+				<div v-else>
+					<h4>{{translate(language, 'error')}}</h4>
+					<p>{{errorMessage}}</p>
+				</div>
+			</transition>
+		</div>
+	</div>
 </template>
 
 <script>
@@ -62,133 +62,133 @@ import PayoutsImage from './assets/payouts.png';
 import PerformanceImage from './assets/performance.png';
 
 export default {
-    name: 'NodeInfo',
+	name: 'NodeInfo',
 
-    components: { LoadingAnimation, TabSelector, Main, Table, PayoutList },
+	components: { LoadingAnimation, TabSelector, Main, Table, PayoutList },
 
-    props: {
-        managerGetter: {
-            type: String
-        },
-        payoutsManagerGetter: {
-            type: String
-        },
-        dataGetter: {
-            type: String
-        },
-        accessor: {
-            type: Object
-        },
-        config: {
-            type: Object
-        },
-        language: {
-            type: String,
-            default: 'en'
-        }
-    },
+	props: {
+		managerGetter: {
+			type: String
+		},
+		payoutsManagerGetter: {
+			type: String
+		},
+		dataGetter: {
+			type: String
+		},
+		accessor: {
+			type: Object
+		},
+		config: {
+			type: Object
+		},
+		language: {
+			type: String,
+			default: 'en'
+		}
+	},
 
-    async mounted() {
-        // this.load();
-    },
+	async mounted() {
+		// this.load();
+	},
 
-    data() {
-        return {
-            translate,
-            BackgroundImage,
-            activeTab: 'main',
-            tabs: {
-                main: {
-                    title: translate(this.language, 'mainTitle'),
-                    image: NodesImage,
-                    component: 'Main'
-                },
-                chainInfo: {
-                    title: translate(this.language, 'chainInfoTitle'),
-                    image: BlockchainImage,
-                    component: 'Table'
-                },
-                performance: {
-                    title: translate(this.language, 'performanceTestTitle'),
-                    image: PerformanceImage,
-                    component: 'Table'
-                },
-                payout: {
-                    title: translate(this.language, 'payoutTitle'),
-                    image: PayoutsImage,
-                    component: 'PayoutList'
-                }
-            },
-            isModelError: false
-        };
-    },
+	data() {
+		return {
+			translate,
+			BackgroundImage,
+			activeTab: 'main',
+			tabs: {
+				main: {
+					title: translate(this.language, 'mainTitle'),
+					image: NodesImage,
+					component: 'Main'
+				},
+				chainInfo: {
+					title: translate(this.language, 'chainInfoTitle'),
+					image: BlockchainImage,
+					component: 'Table'
+				},
+				performance: {
+					title: translate(this.language, 'performanceTestTitle'),
+					image: PerformanceImage,
+					component: 'Table'
+				},
+				payout: {
+					title: translate(this.language, 'payoutTitle'),
+					image: PayoutsImage,
+					component: 'PayoutList'
+				}
+			},
+			isModelError: false
+		};
+	},
 
-    computed: {
-        manager() {
-            return this.getter(this.managerGetter) || {};
-        },
+	computed: {
+		manager() {
+			return this.getter(this.managerGetter) || {};
+		},
 
-        payoutsManager() {
-            return this.getter(this.payoutsManagerGetter) || {};
-        },
+		payoutsManager() {
+			return this.getter(this.payoutsManagerGetter) || {};
+		},
 
-        data() {
-            return this.dataGetter
-                ? this.getter(this.dataGetter)
-                : this.manager.data;
-        },
+		data() {
+			return this.dataGetter
+				? this.getter(this.dataGetter)
+				: this.manager.data;
+		},
 
-        formattedData() {
-            if (this.data) {
-                try {
-                    return new NodeRewardInfo(this.data);
-                }
-                catch (e) {
-                    // eslint-disable-next-line
+		formattedData() {
+			if (this.data) {
+				try {
+					return new NodeRewardInfo(this.data);
+				}
+				catch (e) {
+					// eslint-disable-next-line
                     this.isModelError = true;
-                    console.error('Node Rewards Widget. Failed to parse data');
+					console.error('Node Rewards Widget. Failed to parse data');
 
-                    return {};
-                }
-            }
-            else
-                return {};
-        },
+					return {};
+				}
+			}
+			else
+				return {};
+		},
 
-        nodeId() {
-            return this.formattedData.nodeId;
-        },
+		nodeId() {
+			return this.formattedData.nodeId;
+		},
 
-        isLoading() {
-            return this.manager.loading;
-        },
+		isLoading() {
+			return this.manager.loading;
+		},
 
-        isError() {
-            return this.manager.error || this.isModelError;
-        },
+		isError() {
+			return this.manager.error || this.isModelError;
+		},
 
-        errorMessage() {
-            return this.manager.error
-                ? translate(this.language, 'errorFailedToFetch')
-                : translate(this.language, 'errorFailedToParseData');
-        },
+		errorMessage() {
+			return this.manager.error
+				? translate(this.language, 'errorFailedToFetch')
+				: translate(this.language, 'errorFailedToParseData');
+		},
 
-        nodeMonitorEndpoint() {
-            return (this.config !== null && typeof this.config === 'object')
-                ? this.config.NODE_MONITOR_ENDPOINT
-                : defaultConfig.NODE_MONITOR_ENDPOINT;
-        },
+		nodeMonitorEndpoint() {
+			return (this.config !== null && typeof this.config === 'object')
+				? this.config.NODE_MONITOR_ENDPOINT
+				: defaultConfig.NODE_MONITOR_ENDPOINT;
+		},
 
-        isScrollableTab() {
-            return this.activeTab === 'payout';
-        }
-    },
+		isScrollableTab() {
+			return this.activeTab === 'payout';
+		}
+	},
 
-    methods: {
-        getter(name) {
-            return this.$store.getters[name];
-        }
-    }
+	methods: {
+		getter(name) {
+			return this.$store.getters[name];
+		}
+	}
 };
 </script>
 

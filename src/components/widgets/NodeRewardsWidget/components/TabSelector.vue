@@ -1,41 +1,41 @@
 <template>
-    <div class="tab-selector">
-        <div
-            v-for="(item, index) in tabs"
-            class="tab-item tab-item--hover1"
-            :class="{'tab-item-active': index === activeTab}"
-            :key="'' + index + 'tab-sel'"
-            @click="()=> $emit('select', index)"
-        >
-            {{ translate(language, index) }}
-        </div>
-    </div>
+	<div class="tab-selector">
+		<div
+			v-for="(item, index) in tabs"
+			class="tab-item tab-item--hover1"
+			:class="{'tab-item-active': index === activeTab}"
+			:key="'' + index + 'tab-sel'"
+			@click="()=> $emit('select', index)"
+		>
+			{{ translate(language, index) }}
+		</div>
+	</div>
 </template>
 
 <script>
 import translate from '../i18n';
 
 export default {
-    name: 'TabSelector',
+	name: 'TabSelector',
 
-    props: {
-        tabs: {
-            type: Object,
-            required: true
-        },
-        activeTab: {
-            type: String
-        },
-        language: {
-            type: String
-        }
-    },
+	props: {
+		tabs: {
+			type: Object,
+			required: true
+		},
+		activeTab: {
+			type: String
+		},
+		language: {
+			type: String
+		}
+	},
 
-    data() {
-        return {
-            translate
-        };
-    }
+	data() {
+		return {
+			translate
+		};
+	}
 };
 </script>
 

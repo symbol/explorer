@@ -1,92 +1,92 @@
 <template>
-    <tr class="test-item" valign="top" @click="$emit('click', name)">
-        <td class="name-td" valign="top">
-            {{ translate(language, name) }}
-        </td>
+	<tr class="test-item" valign="top" @click="$emit('click', name)">
+		<td class="name-td" valign="top">
+			{{ translate(language, name) }}
+		</td>
 
-        <td class="value-td">
-            <div class="value">
-                <div class="vert-line" />
-                <div class="progress-outer">
-                    <div class="progress-value" :style="progressValue"/>
-                    <div class="value-text">{{ getValue(value) }}</div>
-                </div>
-                <div class="expected-value-text">{{ _expectedValue }}</div>
-            </div>
-        </td>
-    </tr>
+		<td class="value-td">
+			<div class="value">
+				<div class="vert-line" />
+				<div class="progress-outer">
+					<div class="progress-value" :style="progressValue"/>
+					<div class="value-text">{{ getValue(value) }}</div>
+				</div>
+				<div class="expected-value-text">{{ _expectedValue }}</div>
+			</div>
+		</td>
+	</tr>
 </template>
 
 <script>
 import translate from '../i18n';
 
 export default {
-    name: 'TestItem',
+	name: 'TestItem',
 
-    props: {
-        name: {
-            type: String,
-            required: true
-        },
-        value: {
-            type: [String, Number],
-            required: true
-        },
-        expectedValue: {
-            type: [String, Number],
-            required: false
-        },
-        passed: {
-            type: Boolean,
-            required: true
-        },
-        language: {
-            type: String
-        }
-    },
+	props: {
+		name: {
+			type: String,
+			required: true
+		},
+		value: {
+			type: [String, Number],
+			required: true
+		},
+		expectedValue: {
+			type: [String, Number],
+			required: false
+		},
+		passed: {
+			type: Boolean,
+			required: true
+		},
+		language: {
+			type: String
+		}
+	},
 
-    mounted() {
-        setTimeout(() => {
-            if (this.passed)
-                this.progressValue = { width: '100%', backgroundColor: '#33dd50' };
-            else
-                this.progressValue = { width: '25%' };
-        }, 100);
-    },
-    data() {
-        return {
-            translate,
-            progressValue: { width: '0%' }
-        };
-    },
+	mounted() {
+		setTimeout(() => {
+			if (this.passed)
+				this.progressValue = { width: '100%', backgroundColor: '#33dd50' };
+			else
+				this.progressValue = { width: '25%' };
+		}, 100);
+	},
+	data() {
+		return {
+			translate,
+			progressValue: { width: '0%' }
+		};
+	},
 
-    computed: {
-        _expectedValue() {
-            if (this.passed)
-                return ' ';
-            else
-                return this.expectedValue === null ? ' ' : this.expectedValue;
-        }
-    },
+	computed: {
+		_expectedValue() {
+			if (this.passed)
+				return ' ';
+			else
+				return this.expectedValue === null ? ' ' : this.expectedValue;
+		}
+	},
 
-    methods: {
-        getValue(value) {
-            if (value === -1)
-                return this.translate(this.language, 'na');
+	methods: {
+		getValue(value) {
+			if (value === -1)
+				return this.translate(this.language, 'na');
 
-            return value === ''
-                ? this.getPassedDescription(this.passed)
-                : value;
-        },
+			return value === ''
+				? this.getPassedDescription(this.passed)
+				: value;
+		},
 
-        getPassedDescription(passed) {
-            const descriptor = passed === true
-                ? 'value_passed'
-                : 'value_failed';
+		getPassedDescription(passed) {
+			const descriptor = passed === true
+				? 'value_passed'
+				: 'value_failed';
 
-            return this.translate(this.language, descriptor);
-        }
-    }
+			return this.translate(this.language, descriptor);
+		}
+	}
 };
 </script>
 
