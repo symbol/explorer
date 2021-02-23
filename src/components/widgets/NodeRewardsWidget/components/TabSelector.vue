@@ -1,6 +1,6 @@
 <template>
 	<div class="tab-selector">
-		<div 
+		<div
 			v-for="(item, index) in tabs"
 			class="tab-item tab-item--hover1"
 			:class="{'tab-item-active': index === activeTab}"
@@ -24,19 +24,19 @@ export default {
 			required: true
 		},
 		activeTab: {
-			type: String,
+			type: String
 		},
 		language: {
-			type: String,
-		},
+			type: String
+		}
 	},
 
 	data() {
 		return {
 			translate
-		}
+		};
 	}
-}
+};
 </script>
 
 <style lang="scss" scoped>

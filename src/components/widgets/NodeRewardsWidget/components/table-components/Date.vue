@@ -20,19 +20,19 @@ export default {
 			default: ''
 		},
 		language: {
-			type: String,
+			type: String
 		}
 	},
 
 	computed: {
 		containsTime() {
-			return this.keyName.toUpperCase().includes('TIME')
-			|| this.keyName.toUpperCase().includes('AT');
+			return this.keyName.toUpperCase().includes('TIME') ||
+			this.keyName.toUpperCase().includes('AT');
 		},
 
 		formattedDate() {
 			return utils.formatDate(this.value, this.language, this.containsTime);
 		}
-	},
+	}
 };
 </script>

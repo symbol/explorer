@@ -12,13 +12,12 @@
 import * as utils from '../utils';
 import translate from '../i18n';
 import History from './History.vue';
-import Boolean from './table-components/Boolean.vue';
 import ConnectorIcon from '../assets/connector.png';
 
 export default {
 	name: 'Main',
 
-	components: { History, Boolean },
+	components: { History },
 
 	props: {
 		data: {
@@ -26,7 +25,7 @@ export default {
 			required: true
 		},
 		language: {
-			type: String,
+			type: String
 		}
 	},
 
@@ -34,53 +33,55 @@ export default {
 		return {
 			translate,
 			ConnectorIcon
-		}
+		};
 	},
 
 	computed: {
 		balanceTitle() {
-			if(this.data.balance && this.data.balance.passed) 
+			if (this.data.balance && this.data.balance.passed)
 				return this.translate(this.language, 'balanceTitle');
 			return this.translate(this.language, 'balanceFailedTitle');
 		},
 
 		_balance() {
-			if(this.data.balance && this.data.balance.value) {
-
+			if (this.data.balance && this.data.balance.value) {
 				const mosaic = this.formatMosaic(this.data.balance.value);
+
 				return mosaic;
 			}
 
 			return {};
 		},
 		_expectedBlance() {
-			if(this.data.balance && this.data.balance.expectedValue) {
+			if (this.data.balance && this.data.balance.expectedValue) {
 				const mosaic = this.formatMosaic(this.data.balance.expectedValue);
+
 				return mosaic;
 			}
 
 			return {};
 		},
 		_mosaicName() {
-			if(this.data.balance && this.data.balance.value) {
+			if (this.data.balance && this.data.balance.value) {
 				const mosaic = this.formatMosaic(this.data.balance.value);
+
 				return mosaic.mosaicName.toUpperCase();
 			}
 
 			return '';
-		},
+		}
 	},
 
 	methods: {
 		formatDate(date) {
-			return utils.formatDate(date, this.language)
+			return utils.formatDate(date, this.language);
 		},
 
 		formatMosaic(mosaic) {
-			return utils.getNativeMosaicPreview([mosaic])
+			return utils.getNativeMosaicPreview([mosaic]);
 		}
 	}
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -96,7 +97,6 @@ export default {
 		font-size: 18px;
 		margin-bottom: 5px;
 	}
-
 
 	.node {
 		font-size: 12px;

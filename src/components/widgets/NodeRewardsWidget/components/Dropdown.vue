@@ -1,27 +1,27 @@
 <template>
 	<div class="dropdown-wrapper">
-        <div 
-            class="dropdown-button"
-            @click="onExpand"
-        >
-            <i 
-                class="arrow"
-                :class="dropdownIcon"
-            />
-            {{translate(language, selectedOptionLabel)}}
-        </div>
-        <transition name="slide">
-            <ul class="dropdown-list" v-if="isExpanded">
-                <li 
-                    v-for="(item, index) in options"
-                    class="dropdown-item"
-                    @click="onSelect(index)"
-                    :key="'' + index + 'nr_dd'"
-                >
-                    {{translate(language, item.label)}}
-                </li>
-            </ul>
-        </transition>
+		<div
+			class="dropdown-button"
+			@click="onExpand"
+		>
+			<i
+				class="arrow"
+				:class="dropdownIcon"
+			/>
+			{{translate(language, selectedOptionLabel)}}
+		</div>
+		<transition name="slide">
+			<ul class="dropdown-list" v-if="isExpanded">
+				<li
+					v-for="(item, index) in options"
+					class="dropdown-item"
+					@click="onSelect(index)"
+					:key="'' + index + 'nr_dd'"
+				>
+					{{translate(language, item.label)}}
+				</li>
+			</ul>
+		</transition>
 	</div>
 </template>
 
@@ -32,50 +32,50 @@ export default {
 	props: {
 		options: {
 			type: Array,
-            required: true
+			required: true
 		},
 
-        index: {
+		index: {
 			type: Number,
 			default: 0
 		},
 
-        language: {
-            type: String,
-            required: true
-        }
+		language: {
+			type: String,
+			required: true
+		}
 	},
 
-    data() {
-        return {
-            translate,
-            isExpanded: false
-        }
-    },
+	data() {
+		return {
+			translate,
+			isExpanded: false
+		};
+	},
 
-    computed: {
-        selectedOptionLabel() {
+	computed: {
+		selectedOptionLabel() {
 			if (this.options && this.options[this.index] !== void 0)
 				return this.options[this.index].label;
 			return this.index;
 		},
 
-        dropdownIcon() {
-            return this.isExpanded
-                ? 'up'
-                : 'down';
-        }
-    },
+		dropdownIcon() {
+			return this.isExpanded
+				? 'up'
+				: 'down';
+		}
+	},
 
 	methods: {
 		onExpand() {
-            this.isExpanded = !this.isExpanded;
-        },
+			this.isExpanded = !this.isExpanded;
+		},
 
-        onSelect(index) {
-            this.$emit('change', index);
-            this.onExpand();
-        },
+		onSelect(index) {
+			this.$emit('change', index);
+			this.onExpand();
+		}
 	}
 };
 </script>
@@ -142,7 +142,7 @@ export default {
     }
 }
 
-.slide-enter, 
+.slide-enter,
 .slide-leave-to {
     transform: translateY(100%) scaleY(0);
 }

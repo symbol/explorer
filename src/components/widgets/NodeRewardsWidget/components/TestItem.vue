@@ -1,20 +1,20 @@
 <template>
-		<tr class="test-item" valign="top" @click="$emit('click', name)">
-			<td class="name-td" valign="top">
-				{{ translate(language, name) }}
-			</td>
+	<tr class="test-item" valign="top" @click="$emit('click', name)">
+		<td class="name-td" valign="top">
+			{{ translate(language, name) }}
+		</td>
 
-			<td class="value-td">
-				<div class="value">
-					<div class="vert-line" />
-					<div class="progress-outer">
-						<div class="progress-value" :style="progressValue"/>
-						<div class="value-text">{{ getValue(value) }}</div>
-					</div>
-					<div class="expected-value-text">{{ _expectedValue }}</div>
+		<td class="value-td">
+			<div class="value">
+				<div class="vert-line" />
+				<div class="progress-outer">
+					<div class="progress-value" :style="progressValue"/>
+					<div class="value-text">{{ getValue(value) }}</div>
 				</div>
-			</td>
-		</tr>
+				<div class="expected-value-text">{{ _expectedValue }}</div>
+			</div>
+		</td>
+	</tr>
 </template>
 
 <script>
@@ -41,29 +41,28 @@ export default {
 			required: true
 		},
 		language: {
-			type: String,
-		},
+			type: String
+		}
 	},
 
 	mounted() {
 		setTimeout(() => {
-			if(this.passed)
+			if (this.passed)
 				this.progressValue = { width: '100%', backgroundColor: '#33dd50' };
 			else
 				this.progressValue = { width: '25%' };
-		}, 100)
-		
+		}, 100);
 	},
 	data() {
 		return {
 			translate,
 			progressValue: { width: '0%' }
-		}
+		};
 	},
 
 	computed: {
 		_expectedValue() {
-			if(this.passed)
+			if (this.passed)
 				return ' ';
 			else
 				return this.expectedValue === null ? ' ' : this.expectedValue;
@@ -72,7 +71,7 @@ export default {
 
 	methods: {
 		getValue(value) {
-			if(value === -1)
+			if (value === -1)
 				return this.translate(this.language, 'na');
 
 			return value === ''
@@ -88,7 +87,7 @@ export default {
 			return this.translate(this.language, descriptor);
 		}
 	}
-}
+};
 </script>
 
 <style lang="scss" scoped>
@@ -140,7 +139,7 @@ td {
 	height: 100%;
 	width: 0%;
 	transition: 1s all 0s;
-  	-webkit-transition: width 1s; 
+  	-webkit-transition: width 1s;
 }
 
 .value-text {
@@ -152,7 +151,7 @@ td {
 	color: $secondary-color;
 	font-weight: bold;
 	text-overflow: ellipsis;
-	overflow: hidden; 
+	overflow: hidden;
 	white-space: nowrap;
 	width: 60%;
 }
@@ -165,7 +164,7 @@ td {
 	align-self: flex-end;
 	opacity: 0.5;
 	text-overflow: ellipsis;
-	overflow: hidden; 
+	overflow: hidden;
 	white-space: nowrap;
 }
 

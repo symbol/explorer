@@ -16,7 +16,7 @@
 						>
 							{{transaction.epoch}}
 						</div>
-						<div 
+						<div
 							v-else
 							class="rounds"
 							:title="getRoundsDescription(transaction)"
@@ -27,7 +27,7 @@
 							{{transaction.toRound}}
 						</div>
 					</div>
-					<div 
+					<div
 						class="status"
 						:class="getStatusClass(transaction.status)"
 						:title="getStatusDescription(transaction.status)"
@@ -47,7 +47,7 @@
 					:isEmpty="!payouts.length"
 					:isError="payoutsManager.error"
 					:language="language"
-					@next="payoutsManager.fetchNext()" 
+					@next="payoutsManager.fetchNext()"
 				/>
 			</div>
 		</div>
@@ -63,9 +63,7 @@
 </template>
 
 <script>
-import LoadingAnimation from './LoadingAnimation.vue';
 import Dropdown from './Dropdown.vue';
-import Pagination from './Pagination.vue';
 import ButtonMore from './ButtonMore.vue';
 import IncomingIcon from '../assets/incoming.png';
 import translate from '../i18n';
@@ -76,8 +74,6 @@ export default {
 
 	components: {
 		Dropdown,
-		Pagination,
-		LoadingAnimation,
 		ButtonMore
 	},
 
@@ -87,15 +83,14 @@ export default {
 			required: true
 		},
 		language: {
-			type: String,
-		},
+			type: String
+		}
 	},
 
 	mounted() {
 		this.payouts = [];
-		if(this.payoutsManager) {
+		if (this.payoutsManager)
 			this.payoutsManager.reset();
-		}
 	},
 
 	data() {
@@ -103,7 +98,7 @@ export default {
 			IncomingIcon,
 			pageNumber: 1,
 			payouts: []
-		}
+		};
 	},
 
 	computed: {
@@ -134,15 +129,16 @@ export default {
 
 	methods: {
 		updateList(data) {
-			//this.payouts = [];
-			let animationArray = [... data];
+			// this.payouts = [];
+			let animationArray = [...data];
 			const timer = setInterval(() => {
-				if(!animationArray.length)
+				if (!animationArray.length)
 					clearInterval(timer);
 				const payout = animationArray.shift();
-				if(payout)
+
+				if (payout)
 					this.payouts.push(payout);
-			}, 25)
+			}, 25);
 		},
 
 		formatAddress(address) {
@@ -158,11 +154,11 @@ export default {
 		},
 
 		formatMosaic(mosaics) {
-			return utils.getNativeMosaicPreview(mosaics) || {}
+			return utils.getNativeMosaicPreview(mosaics) || {};
 		},
 
 		formatDate(date) {
-			return utils.formatDate(date, this.language, true, false)
+			return utils.formatDate(date, this.language, true, false);
 		},
 
 		formatStatus(status) {
@@ -174,15 +170,15 @@ export default {
 		},
 
 		getStatusClass(status) {
-			switch(status) {
-				case 'Completed':
-					return 'color-ok';
-				case 'ToBeProcess':
-				case 'Processing':
-				case 'ManualReview':
-					return 'color-await';
-				case 'Fail':
-					return 'color-fail';
+			switch (status) {
+			case 'Completed':
+				return 'color-ok';
+			case 'ToBeProcess':
+			case 'Processing':
+			case 'ManualReview':
+				return 'color-await';
+			case 'Fail':
+				return 'color-fail';
 			}
 		},
 
@@ -197,7 +193,7 @@ export default {
 			this.updateList(e);
 		}
 	}
-}
+};
 </script>
 
 <style lang="scss" scoped>

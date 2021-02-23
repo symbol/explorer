@@ -63,21 +63,21 @@ export default {
 		return {
 			IconBack,
 			IconNext
-		}
+		};
 	},
 
 	methods: {
 		nextPage() {
 			if (this.nextPageAction)
 				this.$store.dispatch(this.nextPageAction);
-			if(this.canFetchNext)
+			if (this.canFetchNext)
 				this.$emit('next');
 		},
 
 		previousPage() {
 			if (this.previousPageAction)
 				this.$store.dispatch(this.previousPageAction);
-			if(this.canFetchPrevious)
+			if (this.canFetchPrevious)
 				this.$emit('previous');
 		}
 	}

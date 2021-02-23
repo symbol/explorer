@@ -46,22 +46,26 @@ export default {
 	},
 
 	computed: {
-		buttonText() {	
-			if(this.isError) 
+		buttonText() {
+			if (this.isError)
 				return translate(this.language, 'buttonTryAgain');
-			else if(this.canFetchNext && !this.isEmpty)
+			else if (this.canFetchNext && !this.isEmpty)
 				return translate(this.language, 'buttonMore');
+
+			return null;
 		},
 
 		text() {
-			if(!this.isLoading && this.isEmpty && !this.isError)
-				return translate(this.language, 'nothingToShow'); 
+			if (!this.isLoading && this.isEmpty && !this.isError)
+				return translate(this.language, 'nothingToShow');
+
+			return null;
 		}
 	},
 
 	methods: {
 		nextPage() {
-			if(this.canFetchNext)
+			if (this.canFetchNext)
 				this.$emit('next');
 		}
 	}

@@ -1,7 +1,7 @@
 <template>
 	<div class="history">
 		<div class="history-steps-wrapper">
-			<div 
+			<div
 				v-for="(test, index) in data"
 				:key="'' + index + 'nm-hist'"
 				class="history-step"
@@ -16,8 +16,8 @@
 				<div class="history-line history-line-right"></div>
 			</div>
 		</div>
-		<Modal 
-			v-if="isModalShown" 
+		<Modal
+			v-if="isModalShown"
 			:passed="selectedItemData.passed"
 			:title="translate(language, 'roundNumber', {number: selectedItemData.round})"
 			:data="selectedItemData.details"
@@ -34,18 +34,18 @@ import TrueIcon from '../assets/true.png';
 import FalseIcon from '../assets/false.png';
 
 export default {
-	name: "History",
+	name: 'History',
 
 	components: { Modal },
 
 	props: {
 		data: {
 			type: Array,
-			required: true,
+			required: true
 		},
 		language: {
-			type: String,
-		},
+			type: String
+		}
 	},
 
 	mounted() {
@@ -59,19 +59,19 @@ export default {
 			translate,
 			isModalShown: false,
 			selectedItemData: {}
-		}
+		};
 	},
 
 	methods: {
 		formatDate(date) {
-			return utils.formatDate(date, this.language)
+			return utils.formatDate(date, this.language);
 		},
 
 		getIconSrc(value) {
-			if(value === true)
+			if (value === true)
 				return TrueIcon;
 
-			if(value === false)
+			if (value === false)
 				return FalseIcon;
 		},
 
@@ -110,7 +110,6 @@ export default {
 	cursor: pointer;
 }
 
-
 //icon
 .history-icon-wrapper {
 	width: 100%;
@@ -123,7 +122,6 @@ export default {
 	height: 16px;
 	align-self: center;
 }
-
 
 // circle
 .history-circle {
@@ -140,7 +138,6 @@ export default {
 	height: 12px;
 	margin-top: -1px;
 }
-
 
 // text
 .history-title {
@@ -163,7 +160,6 @@ export default {
 .history-step:last-child .history-date {
 	font-weight: bold;
 }
-
 
 // line
 .history-line {

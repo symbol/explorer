@@ -19,28 +19,29 @@ export default {
 			required: true
 		},
 		language: {
-			type: String,
+			type: String
 		}
 	},
 
 	data() {
 		return {
 			translate
-		}
+		};
 	},
 
 	computed: {
 		formattedText() {
-			if(Array.isArray(this.value))
-				return this.translate(this.language, `value_${this.keyName}_item`, { 
+			if (Array.isArray(this.value)) {
+				return this.translate(this.language, `value_${this.keyName}_item`, {
 					value: ('[ ' + this.value.join(', ') + ' ]')
-						.replace(/['"]+/g, '') 
+						.replace(/['"]+/g, '')
 				});
+			}
 
-			if(this.value === -1)
+			if (this.value === -1)
 				return this.translate(this.language, 'na');
 
-			if(this.keyName && this.keyName.length)
+			if (this.keyName && this.keyName.length)
 				return this.translate(this.language, `value_${this.keyName}`, { value: this.value });
 
 			return this.translate(this.language, this.value);

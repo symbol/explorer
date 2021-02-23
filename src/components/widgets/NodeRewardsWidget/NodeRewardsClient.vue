@@ -6,12 +6,12 @@
 				<tr>
 					<td>
 						<h3>{{translate(language, 'appTitle')}}</h3>
-						<TabSelector 
+						<TabSelector
 							class="title"
-							:tabs="tabs" 
+							:tabs="tabs"
 							:activeTab="activeTab"
 							:language="language"
-							@select="index => activeTab = index" 
+							@select="index => activeTab = index"
 						/>
 					</td>
 					<td valign="top">
@@ -21,18 +21,18 @@
 			</table>
 			<transition name="fade">
 				<LoadingAnimation v-if="isLoading" transition="fade"/>
-				<div 
-					v-else-if="!isError && !isLoading" 
-					class="tab custom-scrollbar" 
+				<div
+					v-else-if="!isError && !isLoading"
+					class="tab custom-scrollbar"
 					:class="{scrollable: isScrollableTab}"
 				>
-					<component 
+					<component
 						class="tab-content"
 						:is="tabs[activeTab].component"
 						:data="formattedData[activeTab]"
 						:payoutsManager="payoutsManager"
 						:nodeId="nodeId"
-						:language="language" 
+						:language="language"
 					/>
 				</div>
 				<div v-else>
@@ -60,7 +60,6 @@ import NodesImage from './assets/nodes.png';
 import BlockchainImage from './assets/blockchain.png';
 import PayoutsImage from './assets/payouts.png';
 import PerformanceImage from './assets/performance.png';
-
 
 export default {
 	name: 'NodeInfo',
@@ -90,7 +89,7 @@ export default {
 	},
 
 	async mounted() {
-		//this.load();
+		// this.load();
 	},
 
 	data() {
@@ -121,7 +120,7 @@ export default {
 				}
 			},
 			isModelError: false
-		}
+		};
 	},
 
 	computed: {
@@ -140,11 +139,12 @@ export default {
 		},
 
 		formattedData() {
-			if(this.data) {
+			if (this.data) {
 				try {
 					return new NodeRewardInfo(this.data);
 				}
-				catch(e) {
+				catch (e) {
+					// eslint-disable-next-line
 					this.isModelError = true;
 					console.error('Node Rewards Widget. Failed to parse data');
 
@@ -180,7 +180,7 @@ export default {
 		},
 
 		isScrollableTab() {
-			return this.activeTab === 'payout'
+			return this.activeTab === 'payout';
 		}
 	},
 

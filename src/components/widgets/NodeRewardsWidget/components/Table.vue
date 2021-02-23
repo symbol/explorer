@@ -3,13 +3,13 @@
 		<div class="table-wrapper">
 			<table class="table-component">
 				<tbody>
-					<TestItem 
-						v-for="(item, index) in data" 
+					<TestItem
+						v-for="(item, index) in data"
 						:name="index"
 						:passed="item.passed"
 						:value="item.value"
 						:expectedValue="item.expectedValue"
-						:language="language" 
+						:language="language"
 						:key="'' + index + 'test-item'"
 						@click="onItemClick"
 					/>
@@ -19,8 +19,8 @@
 				</tbody>
 			</table>
 		</div>
-		<Modal 
-			v-if="isModalShown" 
+		<Modal
+			v-if="isModalShown"
 			:title="selectedItem"
 			:data="selectedItemData"
 			:passed="selectedItemPassed"
@@ -45,8 +45,8 @@ export default {
 			required: true
 		},
 		language: {
-			type: String,
-		},
+			type: String
+		}
 	},
 
 	mounted() {
@@ -58,7 +58,7 @@ export default {
 		return {
 			isModalShown: false,
 			selectedItem: ''
-		}
+		};
 	},
 
 	computed: {
@@ -75,14 +75,16 @@ export default {
 		},
 
 		caption() {
-			if(!this.data || this.data.length < 1)
-				return translate(this.language, 'nothingToShow'); 
+			if (!this.data || this.data.length < 1)
+				return translate(this.language, 'nothingToShow');
+
+			return null;
 		}
 	},
 
 	methods: {
 		onItemClick(itemName) {
-			console.log(itemName)
+			console.log(itemName);
 			this.selectedItem = itemName;
 			this.isModalShown = true;
 		},
@@ -90,12 +92,12 @@ export default {
 			this.isModalShown = false;
 		}
 	}
-}
+};
 </script>
 
 <style lang="scss" scoped>
 .table-root {
-	background: transparent;	
+	background: transparent;
 }
 
 .table-wrapper {

@@ -21,16 +21,16 @@ export default {
 
 	computed: {
 		imageSrc() {
-			return this.value === true
-				|| this.value === 'SUCCEEDED'
+			return this.value === true ||
+				this.value === 'SUCCEEDED'
 				? TrueIcon
 				: FalseIcon;
 		},
 
 		isIcon() {
-			return typeof this.value === 'boolean'
-				|| this.value === 'SUCCEEDED'
-				|| this.value === 'FAILED';
+			return typeof this.value === 'boolean' ||
+				this.value === 'SUCCEEDED' ||
+				this.value === 'FAILED';
 		}
 	}
 };

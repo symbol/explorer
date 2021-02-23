@@ -4,7 +4,7 @@
 			<div class="modal-wrapper">
 				<div class="modal-container" @click.stop>
 					<div class="modal-title">
-						{{translate(language, title)}} 
+						{{translate(language, title)}}
 						<img :src="CloseIcon" class="close-icon" @click="$emit('close')"/>
 					</div>
 					<div class="modal-body-wrapper">
@@ -19,7 +19,7 @@
 											<BooleanField :value="passed" class="value-boolean" />
 										</td>
 									</tr>
-									<tr 
+									<tr
 										v-for="(item, key) in data"
 										:key="'' + key + 'nm-mtb'"
 									>
@@ -63,7 +63,7 @@ import TextField from './table-components/Text.vue';
 import CloseIcon from '../assets/close.png';
 
 export default {
-	name: "Modal",
+	name: 'Modal',
 
 	components: { BooleanField, DateField, TextField },
 
@@ -73,13 +73,13 @@ export default {
 		},
 		data: {
 			type: Object,
-			required: true,
+			required: true
 		},
 		passed: {
 			type: Boolean
 		},
 		language: {
-			type: String,
+			type: String
 		}
 	},
 
@@ -90,16 +90,12 @@ export default {
 		return {
 			translate,
 			CloseIcon
-		}
+		};
 	},
-	
-	computed: {
-		defaultTitle() {
-			return;
-		},
 
+	computed: {
 		tableHeader() {
-			if(Array.isArray(this.data)) 
+			if (Array.isArray(this.data))
 				return Object.keys(this.data[0]);
 			else
 				return ['parameter', 'value'];
@@ -123,14 +119,14 @@ export default {
 				'responsivenessTestStatus'
 			];
 
-			return typeof item === 'boolean'
-				|| booleanKeys.includes(key);
+			return typeof item === 'boolean' ||
+				booleanKeys.includes(key);
 		},
 
 		isDate(item, key) {
-			return key.toUpperCase().includes('DATE') 
-				|| key === 'createdAt'
-				|| key === 'finishedAt';
+			return key.toUpperCase().includes('DATE') ||
+				key === 'createdAt' ||
+				key === 'finishedAt';
 		},
 
 		isObject(item, key) {
@@ -269,7 +265,7 @@ td {
 		height: 25%;
 		border-color: #44004e;
 	}
-	
+
 	.brace-part1 {
 		border-left: 2px solid;
 		border-top-left-radius: 12px;
@@ -289,7 +285,6 @@ td {
 		margin-left: 2em;
 	}
 }
-
 
 .modal-enter {
 	opacity: 0;

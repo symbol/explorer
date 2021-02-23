@@ -9,7 +9,7 @@ const getSubResultMap = results => {
 	return results.reduce((map, obj, index) => {
 		map['result' + (index + 1)] = formatDetails(obj);
 		return map;
-	}, {})
+	}, {});
 };
 
 export class TestResult {
@@ -21,8 +21,8 @@ export class TestResult {
 		this.expectedValue = expectedValue;
 		this.details = {
 			round,
-			dateAndTime: createdAt, 
-			...formatDetails({ ...rest }),
+			dateAndTime: createdAt,
+			...formatDetails({ ...rest })
 		};
 	}
 };
@@ -50,10 +50,10 @@ export class Main {
 export class History {
 	static fromRes(res) {
 		const rawHistoty = res.testResults;
+
 		let formattedHistoty = [];
 
-		
-		if(rawHistoty && rawHistoty.length)
+		if (rawHistoty && rawHistoty.length) {
 			formattedHistoty = rawHistoty
 				.map(el => ({
 					date: el.createdAt,
@@ -62,15 +62,15 @@ export class History {
 					round: el.round
 				}))
 				.reverse();
+		}
 
 		return formattedHistoty;
 	}
 };
 
-
 export class ChainInfo {
 	constructor(res) {
-		if(res.nodeBalanceResult) {
+		if (res.nodeBalanceResult) {
 			this.nodeBalance = new TestResult(
 				formatNumberOutput(res.nodeBalanceResult.reportedBalance),
 				res.nodeBalanceResult.resultValid,
@@ -78,11 +78,11 @@ export class ChainInfo {
 				{
 					...res.nodeBalanceResult,
 					reportedBalance: formatNumberOutput(res.nodeBalanceResult.reportedBalance),
-					expectedMinBalance: formatNumberOutput(res.nodeBalanceResult.expectedMinBalance),
+					expectedMinBalance: formatNumberOutput(res.nodeBalanceResult.expectedMinBalance)
 				}
 			);
 		}
-		if(res.chainHeightResult) {
+		if (res.chainHeightResult) {
 			this.chainHeight = new TestResult(
 				res.chainHeightResult.reportedHeight,
 				res.chainHeightResult.resultValid,
@@ -90,7 +90,7 @@ export class ChainInfo {
 				res.chainHeightResult
 			);
 		}
-		if(res.chainPartResult) {
+		if (res.chainPartResult) {
 			this.chainPart = new TestResult(
 				res.chainPartResult.reportedHash,
 				res.chainPartResult.resultValid,
@@ -98,14 +98,14 @@ export class ChainInfo {
 				res.chainPartResult
 			);
 		}
-		if(res.nodeVersionResult) {
+		if (res.nodeVersionResult) {
 			const reportedNodeVersion = NodeVersion
 				.createFromRawNodeVersion(res.nodeVersionResult.reportedNodeVersion)
 				.formatted();
 			const expectedNodeVersion = NodeVersion
 				.createFromRawNodeVersion(res.nodeVersionResult.expectedNodeVersion)
 				.formatted();
-				
+
 			this.nodeVersion = new TestResult(
 				reportedNodeVersion,
 				res.nodeVersionResult.resultValid,
@@ -122,7 +122,7 @@ export class ChainInfo {
 
 export class Performance {
 	constructor(res) {
-		if(res.responsivenessResult) {
+		if (res.responsivenessResult) {
 			this.responsiveness = new TestResult(
 				`${res.responsivenessResult.numResponses} (${res.responsivenessResult.totalTime}ms)`,
 				res.responsivenessResult.resultValid,
@@ -130,7 +130,7 @@ export class Performance {
 				res.responsivenessResult
 			);
 		}
-		if(res.nodePingResult) {
+		if (res.nodePingResult) {
 			this.ping = new TestResult(
 				`${res.nodePingResult.averageTime}ms`,
 				res.nodePingResult.resultValid,
@@ -141,7 +141,7 @@ export class Performance {
 				}
 			);
 		}
-		if(res.nodeBandwidthResult) {
+		if (res.nodeBandwidthResult) {
 			this.bandwidth = new TestResult(
 				'',
 				res.nodeBandwidthResult.resultValid,
@@ -152,7 +152,7 @@ export class Performance {
 				}
 			);
 		}
-		if(res.computingPowerResult) {
+		if (res.computingPowerResult) {
 			this.computingPower = new TestResult(
 				'',
 				res.computingPowerResult.resultValid,
