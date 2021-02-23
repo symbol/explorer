@@ -1,82 +1,82 @@
 <template>
-	<div class="dropdown-wrapper">
-		<div
-			class="dropdown-button"
-			@click="onExpand"
-		>
-			<i
-				class="arrow"
-				:class="dropdownIcon"
-			/>
-			{{translate(language, selectedOptionLabel)}}
-		</div>
-		<transition name="slide">
-			<ul class="dropdown-list" v-if="isExpanded">
-				<li
-					v-for="(item, index) in options"
-					class="dropdown-item"
-					@click="onSelect(index)"
-					:key="'' + index + 'nr_dd'"
-				>
-					{{translate(language, item.label)}}
-				</li>
-			</ul>
-		</transition>
-	</div>
+    <div class="dropdown-wrapper">
+        <div
+            class="dropdown-button"
+            @click="onExpand"
+        >
+            <i
+                class="arrow"
+                :class="dropdownIcon"
+            />
+            {{translate(language, selectedOptionLabel)}}
+        </div>
+        <transition name="slide">
+            <ul class="dropdown-list" v-if="isExpanded">
+                <li
+                    v-for="(item, index) in options"
+                    class="dropdown-item"
+                    @click="onSelect(index)"
+                    :key="'' + index + 'nr_dd'"
+                >
+                    {{translate(language, item.label)}}
+                </li>
+            </ul>
+        </transition>
+    </div>
 </template>
 
 <script>
 import translate from '../i18n';
 
 export default {
-	props: {
-		options: {
-			type: Array,
-			required: true
-		},
+    props: {
+        options: {
+            type: Array,
+            required: true
+        },
 
-		index: {
-			type: Number,
-			default: 0
-		},
+        index: {
+            type: Number,
+            default: 0
+        },
 
-		language: {
-			type: String,
-			required: true
-		}
-	},
+        language: {
+            type: String,
+            required: true
+        }
+    },
 
-	data() {
-		return {
-			translate,
-			isExpanded: false
-		};
-	},
+    data() {
+        return {
+            translate,
+            isExpanded: false
+        };
+    },
 
-	computed: {
-		selectedOptionLabel() {
-			if (this.options && this.options[this.index] !== void 0)
-				return this.options[this.index].label;
-			return this.index;
-		},
+    computed: {
+        selectedOptionLabel() {
+            if (this.options && this.options[this.index] !== void 0)
+                return this.options[this.index].label;
+            return this.index;
+        },
 
-		dropdownIcon() {
-			return this.isExpanded
-				? 'up'
-				: 'down';
-		}
-	},
+        dropdownIcon() {
+            return this.isExpanded
+                ? 'up'
+                : 'down';
+        }
+    },
 
-	methods: {
-		onExpand() {
-			this.isExpanded = !this.isExpanded;
-		},
+    methods: {
+        onExpand() {
+            this.isExpanded = !this.isExpanded;
+        },
 
-		onSelect(index) {
-			this.$emit('change', index);
-			this.onExpand();
-		}
-	}
+        onSelect(index) {
+            this.$emit('change', index);
+            this.onExpand();
+        }
+    }
 };
 </script>
 
@@ -104,8 +104,8 @@ export default {
 .dropdown-button {
     cursor: pointer;
     color: #00c8ff;
-	font-weight: 700;
-	font-size: 10px;
+    font-weight: 700;
+    font-size: 10px;
     min-width: 60px;
 }
 
@@ -116,12 +116,12 @@ export default {
     padding: 0;
     list-style-type: none;
     transform-origin: top;
-    transition: transform .1s ease-in-out;
+    transition: transform 0.1s ease-in-out;
     overflow: hidden;
     border-radius: 5px;
     background: #f3f4f8;
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
-    bottom:100%;
+    bottom: 100%;
 
     .dropdown-item {
         cursor: pointer;
@@ -142,9 +142,7 @@ export default {
     }
 }
 
-.slide-enter,
-.slide-leave-to {
+.slide-enter, .slide-leave-to {
     transform: translateY(100%) scaleY(0);
 }
-
 </style>
