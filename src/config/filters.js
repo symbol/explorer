@@ -362,6 +362,17 @@ export const nodeRoles = [
 	}
 ];
 
+export const payouts = [
+	{
+		label: 'rounds',
+		value: 'rounds'
+	},
+	{
+		label: 'voting',
+		value: 'voting'
+	}
+];
+
 export const accountTransactionReceipt = [
 	{
 		label: Constants.ReceiptTransactionStatamentType.BalanceChangeReceipt,

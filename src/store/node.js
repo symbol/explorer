@@ -48,7 +48,8 @@ const managers = [
 	),
 	new Pagination({
 		name: 'payouts',
-		fetchFunction: (pageInfo, filter, store) => NodeService.getNodePayouts(pageInfo, store.getters.nodeRewards.data?.nodeInfo?.id)
+		fetchFunction: (pageInfo, filter, store) => NodeService.getNodePayouts(pageInfo, store.getters.nodeRewards.data?.nodeInfo?.id, filter),
+		filter: filters.payouts
 	})
 ];
 

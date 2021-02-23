@@ -291,13 +291,27 @@ class NodeService {
 			throw Error('Statistics service endpoint is not provided');
 	}
 
-	static getNodePayouts = async (pageInfo, nodeId) => {
+	static getNodePayouts = async (pageInfo, nodeId, filter) => {
 		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
-			const payoutsPage = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodeRewards/payouts', { params: { pageNumber: pageInfo.pageNumber, nodeId } })).data;
+			const params = { pageNumber: pageInfo.pageNumber, nodeId };
+			let route = filter === 'voting' ? '/nodeRewards/votingPayouts' : '/nodeRewards/payouts';
+			let isLastPage = true;
+
+			const payoutsPage = (
+				await Axios.get(globalConfig.endpoints.statisticsService + route, { params })
+			).data;
+
+			try {
+				isLastPage = !(
+					await Axios.get(globalConfig.endpoints.statisticsService + route, { params })
+				).data.data.length;
+			}
+			catch(e) {}
 
 			return {
 				data: payoutsPage.data,
-				...payoutsPage.pagination
+				...payoutsPage.pagination,
+				isLastPage
 			};
 		}
 		else
