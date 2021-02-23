@@ -4,6 +4,9 @@
 		<div v-else-if="canFetchNext" class="pagination-button" @click="nextPage">
 			{{ buttonText }}
 		</div>
+		<div v-if="text" class="caption">
+			{{ text }}
+		</div>
 	</div>
 </template>
 
@@ -27,12 +30,32 @@ export default {
 			type: Boolean,
 			required: true,
 			default: true
+		},
+
+		isError: {
+			type: Boolean,
+			required: true,
+			default: true
+		},
+
+		isEmpty: {
+			type: Boolean,
+			required: true,
+			default: true
 		}
 	},
 
 	computed: {
-		buttonText() {
-			return translate(this.language, 'buttonMore');
+		buttonText() {	
+			if(this.isError) 
+				return translate(this.language, 'buttonTryAgain');
+			else if(this.canFetchNext && !this.isEmpty)
+				return translate(this.language, 'buttonMore');
+		},
+
+		text() {
+			if(!this.isLoading && this.isEmpty && !this.isError)
+				return translate(this.language, 'nothingToShow'); 
 		}
 	},
 
@@ -62,5 +85,12 @@ export default {
 	color: #f0f;
 	font-size: 10px;
 	cursor: pointer;
+}
+
+.caption {
+	text-align: center;
+	width: 100%;
+	font-size: 10px;
+	opacity: 0.5;
 }
 </style>

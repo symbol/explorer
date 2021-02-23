@@ -2,8 +2,6 @@
 	<div class="payout-root">
 		<div class="payouts-container">
 			<div class="payouts-wrapper">
-				<!-- <LoadingAnimation v-if="isLoading" transition="fade" /> -->
-				
 				<div
 					v-for="(transaction, index) in payouts"
 					:key="'' + index + 'payout'"
@@ -46,6 +44,8 @@
 					class="payout-more"
 					:canFetchNext="payoutsManager.canFetchNext"
 					:isLoading="isLoading"
+					:isEmpty="!payouts.length"
+					:isError="payoutsManager.error"
 					:language="language"
 					@next="payoutsManager.fetchNext()" 
 				/>
@@ -194,7 +194,6 @@ export default {
 
 	watch: {
 		data(e) {
-			console.log(e)
 			this.updateList(e);
 		}
 	}
