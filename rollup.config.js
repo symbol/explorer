@@ -3,7 +3,8 @@ import babel from 'rollup-plugin-babel';
 import json from '@rollup/plugin-json';
 import image from '@rollup/plugin-image';
 import { terser } from 'rollup-plugin-terser';
-import commonjs from 'rollup-plugin-commonjs';
+import commonjs from '@rollup/plugin-commonjs';
+import resolve from '@rollup/plugin-node-resolve';
 const path = require('path');
 
 const PATH_SRC = path.resolve(__dirname, "src").replace(/\\/gi, "/");
@@ -14,6 +15,9 @@ const PATH_NODE_MODULES = path
 export default {
     input: 'src/index.js',
     plugins: [
+        resolve({
+            browser: true
+        }),
         commonjs(),
         vue({
             css: true,

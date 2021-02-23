@@ -1,1 +1,1 @@
-export const GetNodeData = require('./GetNodeData');
+export const {}

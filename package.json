@@ -1,13 +1,7 @@
 {
     "name": "symbol-node-rewards-client",
     "version": "0.1.0",
-    "main": "dist/js/symbol-node-rewards-client.js",
-    "jsnext:main": "src/index.js",
-    "unpkg": "dist/js/symbol-node-rewards-client.min.js",
-    "files": [
-        "dist/js/symbol-node-rewards-client.min.js",
-        "dist/js/symbol-node-rewards-client.js"
-    ],
+    "main": "src/index.js",
     "scripts": {
         "prepare": "npm run build",
         "lint": "eslint --ext .js,.vue src",
@@ -22,6 +16,7 @@
         "@babel/plugin-proposal-optional-chaining": "^7.8.3",
         "@babel/plugin-transform-object-assign": "^7.10.4",
         "@babel/preset-env": "^7.6.3",
+        "@rollup/plugin-node-resolve": "^11.2.0",
         "chromedriver": "^75.1.0",
         "cross-env": "^7.0.3",
         "cross-spawn": "^6.0.5",
@@ -33,9 +28,10 @@
         "node-sass": "^5.0.0",
         "path": "^0.12.7",
         "phantomjs-prebuilt": "^2.1.16",
-        "rollup": "^1.26.0",
+        "rollup": "^2.30.0",
         "rollup-plugin-babel": "^4.4.0",
         "rollup-plugin-commonjs": "^10.1.0",
+        "rollup-plugin-node-resolve": "^5.2.0",
         "rollup-plugin-terser": "^5.1.2",
         "rollup-plugin-vue": "^5.1.2",
         "sass-loader": "^11.0.1",
@@ -56,6 +52,7 @@
         "OperaMobile >= 12"
     ],
     "dependencies": {
+        "@rollup/plugin-commonjs": "^17.1.0",
         "@rollup/plugin-image": "^2.0.6",
         "@rollup/plugin-json": "^4.1.0",
         "vue": "^2.6.12",
