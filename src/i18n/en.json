@@ -118,11 +118,11 @@
 	"numResponses": "Number of Responses",
 	"totalTime": "Total Time",
 
-	"ToBeProcess": "To Be Process",
+	"ToBeProcess": "To Be Processed",
 	"Processing": "Processing",
 	"Completed": "Completed",
 	"ManualReview": "Manual Review",
-	"Fail": "Fail",
+	"Fail": "Failed",
 
 	"ToBeProcess_desc": "Waiting for process the transaction",
 	"Processing_desc": "Waiting the transaction get into block",

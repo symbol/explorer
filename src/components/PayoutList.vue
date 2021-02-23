@@ -42,14 +42,6 @@
 				/>
 			</div>
 		</div>
-		<!-- <Pagination 
-			class="payout-pagination"
-			:pageNumber="payoutsManager.pageNumber"
-			:canFetchNext="payoutsManager.canFetchNext"
-			:canFetchPrevious="payoutsManager.canFetchPrevious"
-			@next="payoutsManager.fetchNext()" 
-			@previous="payoutsManager.fetchPrevious()" 
-		/> -->
 	</div>
 </template>
 
@@ -75,10 +67,6 @@ export default {
 			type: Object,
 			required: true
 		},
-		// data: {
-		// 	type: Array,
-		// 	required: true
-		// },
 		language: {
 			type: String,
 		},
@@ -86,7 +74,9 @@ export default {
 
 	mounted() {
 		this.payouts = [];
-		this.payoutsManager?.reset();
+		if(this.payoutsManager) {
+			this.payoutsManager.reset();
+		}
 	},
 
 	data() {
@@ -99,11 +89,11 @@ export default {
 
 	computed: {
 		isLoading() {
-			return this.payoutsManager?.loading;
+			return this.payoutsManager && this.payoutsManager.loading;
 		},
 
 		data() {
-			return this.payoutsManager?.data || [];
+			return (this.payoutsManager && this.payoutsManager.data) || [];
 		}
 	},
 
@@ -147,7 +137,7 @@ export default {
 		getStatusClass(status) {
 			switch(status) {
 				case 'Completed':
-					return 'color-await';
+					return 'color-ok';
 				case 'ToBeProcess':
 				case 'Processing':
 				case 'ManualReview':

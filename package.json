@@ -36,6 +36,7 @@
         "rollup-plugin-vue": "^5.1.2",
         "sass-loader": "^11.0.1",
         "selenium-server": "^3.141.59",
+        "symbol-sdk": "^0.23.3-alpha-202102181227",
         "vue-template-compiler": "^2.6.12",
         "webdriver-manager": "^12.1.7"
     },
