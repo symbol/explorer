@@ -1,0 +1,5 @@
+{
+	"NODE_MONITOR_ENDPOINT": "http://localhost:2020/getNode",
+	"DEFAULT_LANGUAGE": "en",
+	"DEFAULT_NATIVE_MOSAIC_NAME": "symbol.xym"
+}
