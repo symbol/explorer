@@ -1,4 +1,5 @@
 import { formatNumberOutput, omit } from '../utils';
+import { NodeVersion } from 'symbol-sdk';
 
 const formatDetails = details => {
 	return omit(['roundOk', 'id', 'nodeId'], details);
@@ -98,11 +99,22 @@ export class ChainInfo {
 			);
 		}
 		if(res.nodeVersionResult) {
+			const reportedNodeVersion = NodeVersion
+				.createFromRawNodeVersion(res.nodeVersionResult.reportedNodeVersion)
+				.formatted();
+			const expectedNodeVersion = NodeVersion
+				.createFromRawNodeVersion(res.nodeVersionResult.expectedNodeVersion)
+				.formatted();
+				
 			this.nodeVersion = new TestResult(
-				res.nodeVersionResult.reportedNodeVersion ,
+				reportedNodeVersion,
 				res.nodeVersionResult.resultValid,
-				res.nodeVersionResult.expectedNodeVersion ,
-				res.nodeVersionResult
+				expectedNodeVersion,
+				{
+					...res.nodeVersionResult,
+					reportedNodeVersion,
+					expectedNodeVersion
+				}
 			);
 		}
 	}

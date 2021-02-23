@@ -21,7 +21,7 @@ export default {
         commonjs(),
         vue({
             css: true,
-            data: { // This helps to inject variables in each <style> tag of every Vue SFC
+            data: {
                 scss: () => `@import "@/styles/variables.scss";`, 
                 sass: () => `@import "@/styles/variables.scss"`,
             },
@@ -33,7 +33,7 @@ export default {
                         return {
                           file: url
                             .replace(/^~/, `${PATH_NODE_MODULES}/`)
-                            .replace(/^@/, PATH_SRC), // ain't pretty, it can be easily improved
+                            .replace(/^@/, PATH_SRC),
                         };
                       },
                     ],
