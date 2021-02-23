@@ -585,7 +585,7 @@ class helper {
 		try {
 			return NodeVersion.createFromRawNodeVersion(rawNodeVersion).formatted();
 		}
-		catch(e) {
+		catch (e) {
 			return Constants.Message.UNAVAILABLE;
 		}
 	}

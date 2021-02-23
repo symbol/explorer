@@ -108,7 +108,7 @@ class NodeService {
     	rolesRaw: nodeInfo.roles,
     	roles: Constants.RoleType[nodeInfo.roles],
     	network: Constants.NetworkType[nodeInfo.networkIdentifier],
-		version: helper.formatNodeVersion(nodeInfo.version),
+    	version: helper.formatNodeVersion(nodeInfo.version),
     	apiEndpoint:
             nodeInfo.roles === 2 ||
             nodeInfo.roles === 3 ||
@@ -250,15 +250,17 @@ class NodeService {
 		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
 			const node = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes/' + publicKey)).data;
 			const formattedNodeInfo = this.formatNodeInfo(node);
+
 			let nodePublicKey;
+
 			try {
 				nodePublicKey = (await Axios.get(formattedNodeInfo.apiEndpoint + '/node/info')).data.nodePublicKey;
 			}
-			catch(e) {}
+			catch (e) {}
 
-			if (nodePublicKey) {
+			if (nodePublicKey)
 				return (await Axios.get(globalConfig.endpoints.statisticsService + '/nodeRewards/nodes/nodePublicKey/' + nodePublicKey)).data;
-			}
+
 			throw Error(`Node doesn't take part in any rewards program`);
 		}
 		else
@@ -294,7 +296,9 @@ class NodeService {
 	static getNodePayouts = async (pageInfo, nodeId, filter) => {
 		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
 			const params = { pageNumber: pageInfo.pageNumber, nodeId };
+
 			let route = filter === 'voting' ? '/nodeRewards/votingPayouts' : '/nodeRewards/payouts';
+
 			let isLastPage = true;
 
 			const payoutsPage = (
@@ -306,7 +310,7 @@ class NodeService {
 					await Axios.get(globalConfig.endpoints.statisticsService + route, { params })
 				).data.data.length;
 			}
-			catch(e) {}
+			catch (e) {}
 
 			return {
 				data: payoutsPage.data,
