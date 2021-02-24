@@ -438,9 +438,22 @@ class AccountService {
 	 * @returns customize MosaicAmountView[]
 	 */
 	static getAccountMosaicList = async address => {
-		const mosaics = await MosaicService.getMosaicAmountViewList(address);
+		const [mosaics, chainInfo] = await Promise.all([
+			MosaicService.getMosaicAmountViewList(address),
+			ChainService.getChainInfo()
+		]);
 
-		return helper.sortMosaics(mosaics);
+		let nonExpiredMosaics = [];
+
+		for (const mosaic of mosaics) {
+			if (mosaic.duration === 0)
+				nonExpiredMosaics.push(mosaic);
+
+			if (chainInfo.height < (mosaic.startHeight + mosaic.duration))
+				nonExpiredMosaics.push(mosaic);
+		}
+
+		return helper.sortMosaics(nonExpiredMosaics);
 	}
 }
 
