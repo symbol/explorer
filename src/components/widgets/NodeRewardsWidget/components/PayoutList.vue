@@ -218,7 +218,7 @@ export default {
 }
 
 .transaction-item {
-	position: relative;
+    position: relative;
     background: #fff;
     border-radius: 6px;
     height: 40px;
