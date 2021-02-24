@@ -21,6 +21,7 @@ import Constants from '../config/constants';
 import * as symbol from 'symbol-sdk';
 import Axios from 'axios';
 import moment from 'moment';
+import helper from '../helper';
 import globalConfig from '../config/globalConfig';
 
 class NodeService {
@@ -107,6 +108,7 @@ class NodeService {
     	rolesRaw: nodeInfo.roles,
     	roles: Constants.RoleType[nodeInfo.roles],
     	network: Constants.NetworkType[nodeInfo.networkIdentifier],
+    	version: helper.formatNodeVersion(nodeInfo.version),
     	apiEndpoint:
             nodeInfo.roles === 2 ||
             nodeInfo.roles === 3 ||
@@ -244,6 +246,27 @@ class NodeService {
     	return chainInfo;
     }
 
+	static getNodeRewardsInfo = async (publicKey) => {
+		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
+			const node = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes/' + publicKey)).data;
+			const formattedNodeInfo = this.formatNodeInfo(node);
+
+			let nodePublicKey;
+
+			try {
+				nodePublicKey = (await Axios.get(formattedNodeInfo.apiEndpoint + '/node/info')).data.nodePublicKey;
+			}
+			catch (e) {}
+
+			if (nodePublicKey)
+				return (await Axios.get(globalConfig.endpoints.statisticsService + '/nodeRewards/nodes/nodePublicKey/' + nodePublicKey)).data;
+
+			throw Error(`Node doesn't take part in any rewards program`);
+		}
+		else
+			throw Error('Statistics service endpoint is not provided');
+	}
+
 	static getNodeStats = async () => {
 		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length)
 			return (await Axios.get(globalConfig.endpoints.statisticsService + '/nodeStats')).data;
@@ -265,6 +288,35 @@ class NodeService {
 					data: data.finalizedHeight.map(el => ({ x: '' + parseInt(el.value), y: parseInt(el.count) }))
 				}
 			];
+		}
+		else
+			throw Error('Statistics service endpoint is not provided');
+	}
+
+	static getNodePayouts = async (pageInfo, nodeId, filter) => {
+		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
+			const params = { pageNumber: pageInfo.pageNumber, nodeId };
+
+			let route = filter === 'voting' ? '/nodeRewards/votingPayouts' : '/nodeRewards/payouts';
+
+			let isLastPage = true;
+
+			const payoutsPage = (
+				await Axios.get(globalConfig.endpoints.statisticsService + route, { params })
+			).data;
+
+			try {
+				isLastPage = !(
+					await Axios.get(globalConfig.endpoints.statisticsService + route, { params })
+				).data.data.length;
+			}
+			catch (e) {}
+
+			return {
+				data: payoutsPage.data,
+				...payoutsPage.pagination,
+				isLastPage
+			};
 		}
 		else
 			throw Error('Statistics service endpoint is not provided');
