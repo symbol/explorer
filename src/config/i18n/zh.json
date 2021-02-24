@@ -90,6 +90,7 @@
     "targetId": "目标Id",
     "targetMosaicId": "目标马赛克",
     "targetNamespaceId": "目标命名空间",
+    "targetMosaicAliasNames": "Target Mosaic Alias",
     "type": "类型",
     "valueSizeDelta": "值大小增量",
     "feeMultiplier": "费用乘数",
@@ -137,7 +138,7 @@
     "unresolved": "Unresolved",
     "roles": "Roles",
     "network": "Network",
-    "host": "IP/ DNS",
+    "host": "IP / Hostname",
     "port": "Port",
     "friendlyName": "Friendly Name",
     "approximateExpired": "Expiration Date",
@@ -368,5 +369,15 @@
     "totalVotingBalance": "Total Voting Balance",
     "harvestingEligibleAccountsCount": "Total Harvesting Eligible Accounts",
     "votingEligibleAccountsCount": "Total Voting Eligible Accounts",
-    "previousImportanceBlockHash": "Previous Importance Block Hash"
+    "previousImportanceBlockHash": "Previous Importance Block Hash",
+	"rewardPrograms": "Reward Programs",
+	"rewardProgram": "Reward Program",
+	"lastTestPassed": "Last test passed",
+	"nodeStatsTitle": "Node Statistics",
+	"allNodes": "Total count",
+	"nodeCountByRoles": "Count By Roles",
+	"chainInfo": "Chain Info",
+	"nodeHeightStatsTitle": "Count of nodes by chain height",
+    "nodeFinalizedHeightStatsTitle": "Count of nodes by finalized height",
+	"viewMoreStatistics": "View More Statistics"
 }

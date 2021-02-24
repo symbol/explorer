@@ -19,7 +19,7 @@
 import { Address, TransactionType, TransactionGroup, Order, BlockOrderBy, ReceiptType, Mosaic } from 'symbol-sdk';
 import http from './http';
 import { Constants } from '../config';
-import { NamespaceService, TransactionService, ChainService, MetadataService, LockService, ReceiptService, MosaicService } from '../infrastructure';
+import { NamespaceService, TransactionService, ChainService, MetadataService, LockService, ReceiptService, MosaicService, BlockService } from '../infrastructure';
 import helper from '../helper';
 
 class AccountService {
@@ -148,12 +148,20 @@ class AccountService {
   	const accountTransactions = {
   		...searchTransactions,
   		data: searchTransactions.data.map(transaction => TransactionService.formatTransaction(transaction))
-  	};
+	  };
+
+	  const blockHeight = [...new Set(accountTransactions.data.map(data => data.transactionInfo.height))];
+
+	  const blockInfos = await Promise.all(
+  		blockHeight.map(height => BlockService.getBlockInfo(height))
+	  );
 
   	return {
   		...accountTransactions,
   		data: accountTransactions.data.map(accountTransaction => ({
   			...accountTransaction,
+  			date: blockInfos.find(block => block.height === accountTransaction.transactionInfo.height).date,
+  			blockHeight: accountTransaction.transactionInfo.height,
   			transactionHash: accountTransaction.transactionInfo.hash,
   			transactionType:
           accountTransaction.type === TransactionType.TRANSFER
@@ -430,9 +438,22 @@ class AccountService {
 	 * @returns customize MosaicAmountView[]
 	 */
 	static getAccountMosaicList = async address => {
-		const mosaics = await MosaicService.getMosaicAmountViewList(address);
+		const [mosaics, chainInfo] = await Promise.all([
+			MosaicService.getMosaicAmountViewList(address),
+			ChainService.getChainInfo()
+		]);
 
-		return helper.sortMosaics(mosaics);
+		let nonExpiredMosaics = [];
+
+		for (const mosaic of mosaics) {
+			if (mosaic.duration === 0)
+				nonExpiredMosaics.push(mosaic);
+
+			if (chainInfo.height < (mosaic.startHeight + mosaic.duration))
+				nonExpiredMosaics.push(mosaic);
+		}
+
+		return helper.sortMosaics(nonExpiredMosaics);
 	}
 }
 

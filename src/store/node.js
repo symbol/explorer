@@ -35,9 +35,22 @@ const managers = [
 		filter: filters.nodeRoles
 	}),
 	new DataSet(
+		'nodeStats',
+		() => NodeService.getNodeStats()
+	),
+	new DataSet(
 		'info',
-		(nodePublicKey) => NodeService.getNodeInfo(nodePublicKey)
-	)
+		(publicKey) => NodeService.getNodeInfo(publicKey)
+	),
+	new DataSet(
+		'nodeRewards',
+		(publicKey) => NodeService.getNodeRewardsInfo(publicKey)
+	),
+	new Pagination({
+		name: 'payouts',
+		fetchFunction: (pageInfo, filter, store) => NodeService.getNodePayouts(pageInfo, store.getters.nodeRewards.data?.nodeInfo?.id, filter),
+		filter: filters.payouts
+	})
 ];
 
 const LOCK = Lock.create();
@@ -52,10 +65,11 @@ export default {
 	getters: {
 		getInitialized: state => state.initialized,
 		...getGettersFromManagers(managers),
-		mapInfo: state => [ state.info?.data ],
+		mapInfo: state => [ state.info?.data?.hostDetail ],
 		peerStatus: state => state.info?.data?.peerStatus,
 		apiStatus: state => state.info?.data?.apiStatus,
 		chainInfo: state => state.info?.data?.chainInfo,
+		hostDetail: state => state.info?.data?.hostDetail,
 		hostInfoManager: (state, getters) => ({
 			loading: getters.timeline?.loading ||
 				getters.info?.loading,
@@ -85,6 +99,7 @@ export default {
 		async uninitialize({ commit, dispatch, getters }) {
 			const callback = async () => {
 				getters.timeline?.uninitialize();
+				getters.nodeStats?.uninitialize();
 			};
 
 			await LOCK.uninitialize(callback, commit, dispatch, getters);
@@ -93,16 +108,21 @@ export default {
 		// Fetch data from the SDK and initialize the page.
 		async initializePage(context) {
 			await context.getters.timeline.setStore(context).initialFetch();
+			context.getters.nodeStats.setStore(context).initialFetch();
 		},
 
 		// Fetch data from the SDK.
-		fetchNodeInfo(context, payload) {
+		async fetchNodeInfo(context, payload) {
 			context.dispatch('uninitializeDetail');
 			context.getters.info.setStore(context).initialFetch(Object.values(payload)[0]);
+			await context.getters.nodeRewards.setStore(context).initialFetch(Object.values(payload)[0]);
+			await context.getters.payouts.setStore(context).initialFetch();
 		},
 
 		uninitializeDetail(context) {
 			context.getters.info.setStore(context).uninitialize();
+			context.getters.nodeRewards.setStore(context).uninitialize();
+			context.getters.payouts.setStore(context).uninitialize();
 		}
 	}
 };

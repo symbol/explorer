@@ -48,6 +48,7 @@
                 "type": "CardTable",
                 "title": "nodeHostDetailTitle",
 				"managerGetter": "node/info",
+				"dataGetter": "node/hostDetail",
 				"hideDependOnGetter": "node/hostInfoManager",
                 "errorMessage": "nodeDetailError",
                 "pagination": "none",
@@ -62,9 +63,9 @@
                     "district",
                     "zip"
                 ]
-            },
+			},
             {
-                "layoutOptions": "full-width",
+                "layoutOptions": "adaptive",
                 "type": "CardTable",
                 "title": "nodePeerStatusTitle",
                 "managerGetter": "node/info",
@@ -72,9 +73,15 @@
                 "errorMessage": "nodeDetailError",
                 "pagination": "none",
                 "hideEmptyData": true
+			},
+            {
+                "layoutOptions": "adaptive",
+				"type": "NodeRewardsClient",
+                "managerGetter": "node/nodeRewards",
+                "payoutsManagerGetter": "node/payouts"
             },
             {
-                "layoutOptions": "full-width",
+                "layoutOptions": "adaptive",
                 "type": "CardTable",
                 "title": "nodeApiStatusTitle",
                 "managerGetter": "node/info",
@@ -82,7 +89,7 @@
                 "errorMessage": "nodeDetailError",
                 "pagination": "none",
                 "hideEmptyData": true
-            },
+			},
             {
                 "layoutOptions": "full-width",
                 "type": "CardTable",

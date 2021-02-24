@@ -21,6 +21,7 @@ import Constants from '../config/constants';
 import * as symbol from 'symbol-sdk';
 import Axios from 'axios';
 import moment from 'moment';
+import helper from '../helper';
 import globalConfig from '../config/globalConfig';
 
 class NodeService {
@@ -107,6 +108,7 @@ class NodeService {
     	rolesRaw: nodeInfo.roles,
     	roles: Constants.RoleType[nodeInfo.roles],
     	network: Constants.NetworkType[nodeInfo.networkIdentifier],
+    	version: helper.formatNodeVersion(nodeInfo.version),
     	apiEndpoint:
             nodeInfo.roles === 2 ||
             nodeInfo.roles === 3 ||
@@ -126,13 +128,44 @@ class NodeService {
     	return {
     		data:
                 nodePeers
-                	.filter(el => filter.rolesRaw === null || el.rolesRaw === filter.rolesRaw)
-                	.map((el, index) => ({
-                		index: index + 1,
-                		...el
-                	}))
+                	.filter(el => !filter.rolesRaw || el.rolesRaw === filter.rolesRaw)
+                	.filter(
+                		el => !filter.rewardProgram ||
+						(el.rewardPrograms?.length && filter.rewardProgram === 'all') ||
+						(el.rewardPrograms && el.rewardPrograms[0]?.name === filter.rewardProgram)
+                	)
+                	.map((el, index) => {
+                		let node = {
+                			index: index + 1,
+                			...el
+                		};
+
+                		if (el.apiStatus) {
+                			node['chainInfo'] = {
+                				chainHeight: el.apiStatus.chainHeight,
+                				finalizationHeight: el.apiStatus.finalizationHeight,
+                				lastStatusCheck: el.apiStatus.lastStatusCheck
+                			};
+                		}
+                		else
+                			node['chainInfo'] = {};
+
+                		if (node.hostDetail) {
+                			node = { ...node, ...node.hostDetail };
+                			delete node.hostDetail;
+                		}
+
+                		return node;
+                	})
     	};
     }
+
+	static getNodeStats = async () => {
+		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length)
+			return (await Axios.get(globalConfig.endpoints.statisticsService + '/nodestats/')).data;
+		else
+			throw Error('Statistics service endpoint is not provided');
+	}
 
     static getNodeInfo = async (publicKey) => {
     	let node = {};
@@ -148,24 +181,24 @@ class NodeService {
 
     		node = nodes.find(n => n.publicKey === publicKey);
     	}
-    	const formattedNodePeers = this.formatNodeInfo(node);
+    	const formattedNode = this.formatNodeInfo(node);
 
-    	if (formattedNodePeers.rolesRaw === 2 ||
-            formattedNodePeers.rolesRaw === 3 ||
-            formattedNodePeers.rolesRaw === 6 ||
-            formattedNodePeers.rolesRaw === 7
+    	if (formattedNode.rolesRaw === 2 ||
+            formattedNode.rolesRaw === 3 ||
+            formattedNode.rolesRaw === 6 ||
+            formattedNode.rolesRaw === 7
     	) {
-    		const status = await this.getApiNodeStatus(formattedNodePeers.apiEndpoint);
+    		const status = await this.getApiNodeStatus(formattedNode.apiEndpoint);
 
-    		formattedNodePeers.apiStatus = status;
+    		formattedNode.apiStatus = status;
 
-    		const chainInfo = await this.getNodeChainInfo(formattedNodePeers.apiEndpoint);
+    		const chainInfo = await this.getNodeChainInfo(formattedNode.apiEndpoint);
 
-    		formattedNodePeers.chainInfo = chainInfo;
+    		formattedNode.chainInfo = chainInfo;
     	}
-    	if (formattedNodePeers?.peerStatus)
-    		formattedNodePeers.peerStatus.lastStatusCheck = moment(formattedNodePeers.peerStatus.lastStatusCheck).format('YYYY-MM-DD HH:mm:ss');
-    	return formattedNodePeers;
+    	if (formattedNode?.peerStatus)
+    		formattedNode.peerStatus.lastStatusCheck = moment(formattedNode.peerStatus.lastStatusCheck).format('YYYY-MM-DD HH:mm:ss');
+    	return formattedNode;
     }
 
     static getApiNodeStatus = async (nodeUrl) => {
@@ -212,6 +245,82 @@ class NodeService {
 
     	return chainInfo;
     }
+
+	static getNodeRewardsInfo = async (publicKey) => {
+		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
+			const node = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes/' + publicKey)).data;
+			const formattedNodeInfo = this.formatNodeInfo(node);
+
+			let nodePublicKey;
+
+			try {
+				nodePublicKey = (await Axios.get(formattedNodeInfo.apiEndpoint + '/node/info')).data.nodePublicKey;
+			}
+			catch (e) {}
+
+			if (nodePublicKey)
+				return (await Axios.get(globalConfig.endpoints.statisticsService + '/nodeRewards/nodes/nodePublicKey/' + nodePublicKey)).data;
+
+			throw Error(`Node doesn't take part in any rewards program`);
+		}
+		else
+			throw Error('Statistics service endpoint is not provided');
+	}
+
+	static getNodeStats = async () => {
+		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length)
+			return (await Axios.get(globalConfig.endpoints.statisticsService + '/nodeStats')).data;
+		else
+			throw Error('Statistics service endpoint is not provided');
+	}
+
+	static getNodeHeightStats = async () => {
+		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
+			const data = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodeHeightStats')).data;
+
+			return [
+				{
+					name: 'Height',
+					data: data.height.map(el => ({ x: '' + parseInt(el.value), y: parseInt(el.count) }))
+				},
+				{
+					name: 'Finalized Height',
+					data: data.finalizedHeight.map(el => ({ x: '' + parseInt(el.value), y: parseInt(el.count) }))
+				}
+			];
+		}
+		else
+			throw Error('Statistics service endpoint is not provided');
+	}
+
+	static getNodePayouts = async (pageInfo, nodeId, filter) => {
+		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
+			const params = { pageNumber: pageInfo.pageNumber, nodeId };
+
+			let route = filter === 'voting' ? '/nodeRewards/votingPayouts' : '/nodeRewards/payouts';
+
+			let isLastPage = true;
+
+			const payoutsPage = (
+				await Axios.get(globalConfig.endpoints.statisticsService + route, { params })
+			).data;
+
+			try {
+				isLastPage = !(
+					await Axios.get(globalConfig.endpoints.statisticsService + route, { params })
+				).data.data.length;
+			}
+			catch (e) {}
+
+			return {
+				data: payoutsPage.data,
+				...payoutsPage.pagination,
+				isLastPage
+			};
+		}
+		else
+			throw Error('Statistics service endpoint is not provided');
+	}
 }
 
 export default NodeService;

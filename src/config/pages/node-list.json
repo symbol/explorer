@@ -9,6 +9,11 @@
         "layout": "flex",
         "storeNamespaces": ["node"],
         "schema": [
+			{
+                "type": "NodeStatsWidget",
+				"managerGetter": "node/nodeStats",
+				"hideDependOnGetter": "node/nodeStats"
+            },
             {
                 "layoutOptions": "full-width",
                 "type": "NodesMapWidget",
@@ -37,9 +42,10 @@
                     "host",
                     "friendlyName",
                     "roles",
-                    "nodePublicKey",
-                    "version",
-                    "network"
+					"nodePublicKey",
+					"chainInfo",
+					"version",
+					"rewardPrograms"
                 ],
                 "mobileFields": [
                     "host",

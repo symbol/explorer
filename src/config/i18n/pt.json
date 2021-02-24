@@ -90,6 +90,8 @@
     "targetId": "Target Id",
     "targetMosaicId": "Target Mosaic Id",
     "targetNamespaceId": "Target Namespace Id",
+    "targetMosaicAliasNames": "Target Mosaic Alias",
+
     "type": "Type",
     "valueSizeDelta": "Value Size Delta",
     "feeMultiplier": "Fee Multiplier",
@@ -137,7 +139,7 @@
     "unresolved": "Unresolved",
     "roles": "Roles",
     "network": "Network",
-    "host": "IP/ DNS",
+    "host": "IP / Hostname",
     "port": "Port",
     "friendlyName": "Friendly Name",
     "approximateExpired": "Expiration Date",
@@ -368,5 +370,15 @@
     "totalVotingBalance": "Total Voting Balance",
     "harvestingEligibleAccountsCount": "Total Harvesting Eligible Accounts",
     "votingEligibleAccountsCount": "Total Voting Eligible Accounts",
-    "previousImportanceBlockHash": "Previous Importance Block Hash"
+    "previousImportanceBlockHash": "Previous Importance Block Hash",
+	"rewardPrograms": "Reward Programs",
+	"rewardProgram": "Reward Program",
+	"lastTestPassed": "Last test passed",
+	"nodeStatsTitle": "Node Statistics",
+	"allNodes": "Total count",
+	"nodeCountByRoles": "Count By Roles",
+	"chainInfo": "Chain Info",
+	"nodeHeightStatsTitle": "Count of nodes by chain height",
+    "nodeFinalizedHeightStatsTitle": "Count of nodes by finalized height",
+	"viewMoreStatistics": "View More Statistics"
 }
