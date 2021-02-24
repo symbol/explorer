@@ -1,5 +1,5 @@
 <template>
-	<div class="payout-root">
+	<div class="payout-root noselect">
 		<div class="payouts-container">
 			<div class="payouts-wrapper">
 				<div
@@ -37,7 +37,7 @@
 						{{formatStatus(transaction.status)}}
 					</div>
 					<div class="date">
-						{{formatDate(transaction.createdAt)}}
+						{{formatDate(transaction.updatedAt)}}
 					</div>
 				</div>
 				<ButtonMore
@@ -158,7 +158,7 @@ export default {
 		},
 
 		formatDate(date) {
-			return utils.formatDate(date, this.language, true, false);
+			return date ? utils.formatDate(date, this.language, true, false) : '';
 		},
 
 		formatStatus(status) {
@@ -218,6 +218,7 @@ export default {
 }
 
 .transaction-item {
+	position: relative;
     background: #fff;
     border-radius: 6px;
     height: 40px;
@@ -235,6 +236,7 @@ export default {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    max-width: 33%;
 }
 
 .icon {
@@ -249,6 +251,13 @@ export default {
 }
 
 .status {
+    position: absolute;
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    max-width: 30%;
+    text-align: center;
     font-weight: 700;
     font-size: 10px;
     cursor: help;
@@ -281,6 +290,7 @@ export default {
 .date {
     color: #999;
     font-size: 10px;
+    max-width: 30%;
 }
 
 .payout-pagination {

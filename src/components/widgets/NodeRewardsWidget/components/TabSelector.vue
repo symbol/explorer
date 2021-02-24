@@ -1,5 +1,5 @@
 <template>
-	<div class="tab-selector">
+	<div class="tab-selector noselect">
 		<div
 			v-for="(item, index) in tabs"
 			class="tab-item tab-item--hover1"
