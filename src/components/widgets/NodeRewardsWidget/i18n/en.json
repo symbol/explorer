@@ -4,6 +4,7 @@
     "error": "Error",
     "errorFailedToFetch": "Failed to fetch data",
     "errorFailedToParseData": "Failed to parse data",
+    "errorNoHistory": "Node has not been included to the round yet",
     "notASupernode": "This node doesn't participate in the Node Rewards Program",
     "na": "n/a",
 
