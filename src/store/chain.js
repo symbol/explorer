@@ -81,8 +81,8 @@ export default {
 			state.nodeStats = {
 				...nodeStats,
 				total: Array.from(Array(8).keys()).reduce((acc, val) => acc + (nodeStats[val] || 0))
-			}
-		},
+			};
+		}
 	},
 	actions: {
 		// Initialize the chain model.
@@ -110,6 +110,7 @@ export default {
 				DataService.getHistoricalHourlyGraph('XEM'),
 				NodeService.getNodeStats()
 			]);
+
 			commit('setLoading', false);
 
 			commit('setStorageInfo', storageInfo);

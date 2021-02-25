@@ -136,7 +136,7 @@ export default {
 		display: flex;
 		justify-content: center;
 		align-items: center;
-		
+
 		.icon-small {
             height: 12px;
             width: 12px;
