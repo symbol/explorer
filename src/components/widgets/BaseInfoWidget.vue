@@ -4,6 +4,12 @@
 			{{getNameByKey('baseInfo')}}
 		</template>
 
+		<template #control>
+			<router-link to="/statistics">
+				<ButtonMore> {{getNameByKey('viewMoreStatistics')}} </ButtonMore>
+			</router-link>
+		</template>
+
 		<template #body>
 			<b-container fluid style="height: 100%">
 				<b-row>
@@ -63,11 +69,13 @@
 
 <script>
 import Card from '@/components/containers/Card.vue';
+import ButtonMore from '@/components/controls/ButtonMore.vue';
 import { mapGetters } from 'vuex';
 
 export default {
 	components: {
-		Card
+		Card,
+		ButtonMore
 	},
 
 	computed: {
