@@ -140,9 +140,9 @@ export default {
 		},
 
 		formattedData() {
-			if (this.data) {
+			if (this.data)
 				return this.formatData(this.data);
-			}
+
 			else
 				return {};
 		},

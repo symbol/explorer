@@ -48,7 +48,7 @@ export class Main {
 
 export class Round {
 	static fromRes(res) {
-		if(res?.testResults?.length)
+		if (res?.testResults?.length)
 			return res.testResults[0] && res.testResults[0].round;
 		else throw Error('empty_histoty');
 	}
