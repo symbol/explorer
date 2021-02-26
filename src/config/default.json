@@ -18,6 +18,7 @@
 	"networkConfig": {
 		"namespaceName": "symbol.xym",
 		"mosaicId": "2CF403E85507F39E",
+		"namespaceId": "E74B99BA41F4AFEE",
 		"divisibility": "6"
 	},
 	"footer": {
