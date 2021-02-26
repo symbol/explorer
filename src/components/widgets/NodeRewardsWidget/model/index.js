@@ -33,7 +33,6 @@ export class NodeRewardInfo {
 		this.main = new Main(res);
 		this.chainInfo = new ChainInfo(res.testResultInfo);
 		this.performance = new Performance(res.testResultInfo);
-		this.payout = res.payout;
 	}
 };
 
@@ -42,10 +41,18 @@ export class Main {
 		this.friendlyName = res.nodeInfo.name;
 		this.host = res.nodeInfo.restGatewayUrl;
 		this.rewardProgram = res.nodeInfo.rewardProgram;
-		this.round = res.testResults[0] && res.testResults[0].round;
 		this.history = History.fromRes(res);
+		this.round = Round.fromRes(res);
 	}
 }
+
+export class Round {
+	static fromRes(res) {
+		if (res?.testResults?.length)
+			return res.testResults[0] && res.testResults[0].round;
+		else throw Error('empty_histoty');
+	}
+};
 
 export class History {
 	static fromRes(res) {
@@ -63,6 +70,7 @@ export class History {
 				}))
 				.reverse();
 		}
+		else throw Error('empty_histoty');
 
 		return formattedHistoty;
 	}

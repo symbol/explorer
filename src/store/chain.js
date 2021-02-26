@@ -44,17 +44,24 @@ export default {
 			currentHeight: 0,
 			finalizedBlockHeight: 0,
 			isVotingNode: false
-		}
+		},
+		nodeStats: {},
+		loading: true
 	},
 	getters: {
 		getInitialized: state => state.initialized,
+		getLoading: state => state.loading,
 		getStorageInfo: state => state.storageInfo,
 		getMarketData: state => state.marketData,
-		getChainInfo: state => state.chainInfo
+		getChainInfo: state => state.chainInfo,
+		getNodeStats: state => state.nodeStats
 	},
 	mutations: {
 		setInitialized: (state, initialized) => {
 			state.initialized = initialized;
+		},
+		setLoading: (state, v) => {
+			state.loading = v;
 		},
 		setStorageInfo: (state, storageInfo) => {
 			state.storageInfo.numTransactions = storageInfo.numTransactions;
@@ -69,6 +76,12 @@ export default {
 			state.chainInfo.currentHeight = currentHeight;
 			state.chainInfo.finalizedBlockHeight = finalizedBlockHeight;
 			state.chainInfo.isVotingNode = isVotingNode;
+		},
+		setNodeStats: (state, nodeStats) => {
+			state.nodeStats = {
+				...nodeStats,
+				total: Array.from(Array(8).keys()).reduce((acc, val) => acc + (nodeStats[val] || 0))
+			};
 		}
 	},
 	actions: {
@@ -90,11 +103,15 @@ export default {
 
 		// Fetch data from the SDK / API and initialize the page.
 		async initializePage({ commit, dispatch }) {
-			const [storageInfo, marketData, xemGraph] = await Promise.all([
+			commit('setLoading', true);
+			const [storageInfo, marketData, xemGraph, nodeStats] = await Promise.all([
 				NodeService.getStorageInfo(),
 				DataService.getMarketPrice('XEM'),
-				DataService.getHistoricalHourlyGraph('XEM')
+				DataService.getHistoricalHourlyGraph('XEM'),
+				NodeService.getNodeStats()
 			]);
+
+			commit('setLoading', false);
 
 			commit('setStorageInfo', storageInfo);
 			await dispatch('getChainInfo');
@@ -115,6 +132,7 @@ export default {
 				});
 			}
 			commit('setMarketData', { marketData, graphData });
+			commit('setNodeStats', nodeStats.nodeTypes);
 		},
 
 		async getChainInfo({ commit }) {

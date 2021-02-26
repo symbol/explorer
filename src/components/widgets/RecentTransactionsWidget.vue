@@ -40,7 +40,7 @@
 										{{getNameByKey('block')}}: {{ item.height }}
 									</div>
 									<div class="ex-long-text ex-text" :title="'Type: ' + item.type" style="margin-left: 20px">
-										<TransactionType :value="item.type" />
+										<TransactionType :value="item.type" size="small" />
 									</div>
 								</div>
 								<div class="ex-row no-wrap">
@@ -136,7 +136,7 @@ export default {
             .ex-account-text {
                 color: #84accb;
                 font-weight: 600;
-                font-size: 12px;
+                font-size: 10px;
                 margin-left: 20px;
             }
         }
