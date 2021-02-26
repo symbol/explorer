@@ -133,20 +133,20 @@ export default {
     display: flex;
 
     .icon {
-		display: flex;
-		justify-content: center;
-		align-items: center;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-		.icon-small {
+        .icon-small {
             height: 12px;
             width: 12px;
-			margin-right: 4px;
+            margin-right: 4px;
         }
 
         .icon-medium {
             height: 32px;
             width: 32px;
-			margin-right: 10px;
+            margin-right: 10px;
         }
     }
 
