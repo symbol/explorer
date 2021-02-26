@@ -64,16 +64,7 @@ export default {
 		},
 
 		getMosaicName(mosaic) {
-			let mosaicAliasName;
-
-			if (Array.isArray(mosaic.mosaicAliasName))
-				mosaicAliasName = mosaic.mosaicAliasName.length ? mosaic.mosaicAliasName[0] : 'N/A';
-			else
-				mosaicAliasName = mosaic.mosaicAliasName ? mosaic.mosaicAliasName : 'N/A';
-
-			return mosaicAliasName !== 'N/A'
-				? mosaicAliasName
-				: mosaic.mosaicId;
+			return helper.getMosaicName(mosaic);
 		}
 	}
 };

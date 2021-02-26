@@ -22,6 +22,7 @@
 		<span
 			v-if="hasNativeMosaic"
 			:title="nativeMosaic + ' ' + networkCurrency"
+			style="display: flex"
 		>
 			<Decimal :value="nativeMosaic" class="decimal"/> {{ networkCurrencySub }}
 		</span>
@@ -54,6 +55,7 @@ import GraphicComponent from '@/components/graphics/GraphicComponent.vue';
 
 import Decimal from '@/components/fields/Decimal.vue';
 import http from '../../infrastructure/http';
+import helper from '../../helper';
 
 export default {
 	extends: GraphicComponent,
@@ -66,66 +68,51 @@ export default {
 
 	props: {
 		value: {
-			type: Array,
+			type: Object,
 			required: true,
-			default: () => []
+			default: () => ({})
 		}
 	},
 
 	computed: {
 		hasNativeMosaic() {
-			for (const item of this.value) {
-				if (Object.keys(item).includes('nativeMosaic'))
-					return item.nativeMosaic !== 'N/A';
-			}
+			if (this.value.nativeMosaic)
+				return this.value.nativeMosaic !== 'N/A';
+
 			return false;
 		},
 		hasMessage() {
-			for (const item of this.value) {
-				if (Object.keys(item).includes('message'))
-					return typeof item.message.payload === 'string' && item.message.payload.length > 0;
-			}
+			if (this.value.message)
+				return typeof this.value.message.payload === 'string' && this.value.message.payload.length > 0;
+			
 			return false;
 		},
 
 		hasMosaics() {
-			for (const item of this.value) {
-				if (Object.keys(item).includes('mosaics'))
-					return Array.isArray(item.mosaics) && item.mosaics.length > 0;
-			}
+			if (this.value.mosaics)
+				return Array.isArray(this.value.mosaics) && this.value.mosaics.length > 0;
+			
 			return false;
 		},
 
 		nativeMosaic() {
-			for (const item of this.value) {
-				if (Object.keys(item).includes('nativeMosaic')) {
-					const amount = item.nativeMosaic.replace(/,/g, '');
+			if (this.value.nativeMosaic) {
+				const amount = this.value.nativeMosaic.replace(/,/g, '');
 
-					if (Number.isInteger(Number(amount)))
-						return Number(amount).toLocaleString('en-US');
-					return item.nativeMosaic;
-				}
+				if (Number.isInteger(Number(amount)))
+					return Number(amount).toLocaleString('en-US');
+				return this.value.nativeMosaic;
 			}
 
 			return '';
 		},
 
 		message() {
-			for (const item of this.value) {
-				if (Object.keys(item).includes('message'))
-					return item.message;
-			}
-
-			return '';
+			return this.value.message || '';
 		},
 
-		mosaic() {
-			for (const item of this.value) {
-				if (Object.keys(item).includes('mosaics'))
-					return item.mosaics;
-			}
-
-			return [];
+		mosaics() {
+			return this.value.mosaics || [];
 		},
 
 		networkCurrency() {
@@ -134,10 +121,13 @@ export default {
 
 		networkCurrencySub() {
 			// eslint-disable-next-line no-constant-condition
-			return typeof (http.networkCurrency.namespaceName === 'string' &&
-				http.networkCurrency.namespaceName.length > 0)
-				? http.networkCurrency.namespaceName.split('.')[http.networkCurrency.namespaceName.length - 1]
-				: '';
+			if (
+				typeof http.networkCurrency.namespaceName === 'string' &&
+				http.networkCurrency.namespaceName.length > 0
+			) {
+				const namespaceLevels = http.networkCurrency.namespaceName.split('.');
+				return namespaceLevels.pop();
+			}
 		}
 	}
 

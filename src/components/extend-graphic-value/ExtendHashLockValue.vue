@@ -1,7 +1,9 @@
 <template>
 	<span
 		v-if="hasAmount"
-		:title="getTranslation('amount') + ': ' + amount">
+		:title="getTranslation('amount') + ': ' + amount"
+		style="display: flex"
+	>
 		<Decimal :value="amount" class="decimal"/> {{ networkCurrency }}
 	</span>
 </template>
@@ -49,7 +51,14 @@ export default {
 		},
 
 		networkCurrency() {
-			return http.networkCurrency.namespaceName;
+			// eslint-disable-next-line no-constant-condition
+			if (
+				typeof http.networkCurrency.namespaceName === 'string' &&
+				http.networkCurrency.namespaceName.length > 0
+			) {
+				const namespaceLevels = http.networkCurrency.namespaceName.split('.');
+				return namespaceLevels.pop();
+			}
 		}
 
 	}

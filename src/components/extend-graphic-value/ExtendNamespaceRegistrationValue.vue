@@ -1,7 +1,9 @@
 <template>
 	<span
 		v-if="hasNamespace"
-		:title="getTranslation('namespaceName')">
+		:title="getTranslation('namespaceName')"
+		style="display: flex"
+	>
 
 		<NamespaceIcon
 			hideCaption
