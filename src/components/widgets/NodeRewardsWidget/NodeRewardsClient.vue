@@ -36,7 +36,7 @@
 					/>
 				</div>
 				<div v-else>
-					<h4>{{translate(language, 'error')}}</h4>
+					<h4 v-if="!noHistory">{{translate(language, 'error')}}</h4>
 					<p>{{errorMessage}}</p>
 				</div>
 			</transition>
@@ -119,7 +119,8 @@ export default {
 					component: 'PayoutList'
 				}
 			},
-			isModelError: false
+			isModelError: false,
+			noHistory: false
 		};
 	},
 
@@ -139,18 +140,9 @@ export default {
 		},
 
 		formattedData() {
-			if (this.data) {
-				try {
-					return new NodeRewardInfo(this.data);
-				}
-				catch (e) {
-					// eslint-disable-next-line
-                    this.isModelError = true;
-					console.error('Node Rewards Widget. Failed to parse data');
+			if (this.data)
+				return this.formatData(this.data);
 
-					return {};
-				}
-			}
 			else
 				return {};
 		},
@@ -164,13 +156,17 @@ export default {
 		},
 
 		isError() {
-			return this.manager.error || this.isModelError;
+			return this.manager.error || this.isModelError || this.noHistory;
 		},
 
 		errorMessage() {
-			return this.manager.error
-				? translate(this.language, 'errorFailedToFetch')
-				: translate(this.language, 'errorFailedToParseData');
+			if (this.manager.error)
+				return translate(this.language, 'errorFailedToFetch');
+
+			if (this.noHistory)
+				return translate(this.language, 'errorNoHistory');
+
+			return translate(this.language, 'errorFailedToParseData');
 		},
 
 		nodeMonitorEndpoint() {
@@ -187,6 +183,19 @@ export default {
 	methods: {
 		getter(name) {
 			return this.$store.getters[name];
+		},
+
+		formatData(data) {
+			try {
+				return new NodeRewardInfo(data);
+			}
+			catch (e) {
+				if (e.message === 'empty_histoty')
+					this.noHistory = true;
+				else
+					this.isModelError = true;
+				return {};
+			}
 		}
 	}
 };
