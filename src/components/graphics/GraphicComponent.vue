@@ -213,6 +213,7 @@ export default {
 
 		getMosaicName(mosaic) {
 			let mosaicAliasName;
+
 			if (Array.isArray(mosaic.mosaicAliasName))
 				mosaicAliasName = mosaic.mosaicAliasName.length ? mosaic.mosaicAliasName[0] : 'N/A';
 			else
