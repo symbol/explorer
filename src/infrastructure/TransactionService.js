@@ -506,14 +506,14 @@ class TransactionService {
 
   	switch (transactionInfo.type) {
   	case TransactionType.TRANSFER:
-  		return { 
-			nativeMosaic: helper.getNetworkCurrencyBalance(transactionInfo.mosaics),
+  		return {
+  			nativeMosaic: helper.getNetworkCurrencyBalance(transactionInfo.mosaics),
   			message: transactionBody.message,
-  			mosaics: transactionBody.mosaics.filter(mosaic => 
-				mosaic.id !== http.networkCurrency.mosaicId &&
+  			mosaics: transactionBody.mosaics.filter(mosaic =>
+  				mosaic.id !== http.networkCurrency.mosaicId &&
 				mosaic.id !== http.networkCurrency.namespaceId
-			) 
-		};
+  			)
+  		};
   	case TransactionType.NAMESPACE_REGISTRATION:
   		return [{ namespace: {
   			namespaceId: transactionBody.namespaceId,

@@ -55,7 +55,6 @@ import GraphicComponent from '@/components/graphics/GraphicComponent.vue';
 
 import Decimal from '@/components/fields/Decimal.vue';
 import http from '../../infrastructure/http';
-import helper from '../../helper';
 
 export default {
 	extends: GraphicComponent,
@@ -84,14 +83,14 @@ export default {
 		hasMessage() {
 			if (this.value.message)
 				return typeof this.value.message.payload === 'string' && this.value.message.payload.length > 0;
-			
+
 			return false;
 		},
 
 		hasMosaics() {
 			if (this.value.mosaics)
 				return Array.isArray(this.value.mosaics) && this.value.mosaics.length > 0;
-			
+
 			return false;
 		},
 
@@ -126,8 +125,11 @@ export default {
 				http.networkCurrency.namespaceName.length > 0
 			) {
 				const namespaceLevels = http.networkCurrency.namespaceName.split('.');
+
 				return namespaceLevels.pop();
 			}
+
+			return '';
 		}
 	}
 

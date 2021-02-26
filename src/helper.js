@@ -239,7 +239,7 @@ class helper {
 	 * @returns balance - formatted mosaic amount
 	 */
 	static getNetworkCurrencyBalance = mosaics => {
-		let mosaic = mosaics.find(mosaic => 
+		let mosaic = mosaics.find(mosaic =>
 			mosaic.id.toHex() === http.networkCurrency.mosaicId ||
 			(mosaic.id instanceof NamespaceId &&
 			mosaic.id.toHex() === http.networkCurrency.namespaceId)

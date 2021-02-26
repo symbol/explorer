@@ -57,8 +57,11 @@ export default {
 				http.networkCurrency.namespaceName.length > 0
 			) {
 				const namespaceLevels = http.networkCurrency.namespaceName.split('.');
+
 				return namespaceLevels.pop();
 			}
+
+			return '';
 		}
 
 	}

@@ -24,12 +24,13 @@ import { Address, Mosaic, MosaicId } from 'symbol-sdk';
 
 class CreateTransaction {
     static transferTransaction = async (transactionObj) => {
-		console.log('raw', transactionObj.mosaics)
+    	console.log('raw', transactionObj.mosaics);
     	const [resolvedAddress, mosaicsFieldObject] = await Promise.all([
     		helper.resolvedAddress(transactionObj.recipientAddress),
     		helper.mosaicsFieldObjectBuilder(transactionObj.mosaics)
     	]);
-		console.log('formatted',mosaicsFieldObject)
+
+    	console.log('formatted', mosaicsFieldObject);
 
     	return {
     		...transactionObj,
