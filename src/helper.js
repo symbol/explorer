@@ -239,7 +239,11 @@ class helper {
 	 * @returns balance - formatted mosaic amount
 	 */
 	static getNetworkCurrencyBalance = mosaics => {
-		let mosaic = mosaics.find(mosaic => mosaic.id.toHex() === http.networkCurrency.mosaicId);
+		let mosaic = mosaics.find(mosaic =>
+			mosaic.id.toHex() === http.networkCurrency.mosaicId ||
+			(mosaic.id instanceof NamespaceId &&
+			mosaic.id.toHex() === http.networkCurrency.namespaceId)
+		);
 
 		let balance = mosaic !== undefined ? this.toNetworkCurrency(mosaic.amount) : Constants.Message.UNAVAILABLE;
 
@@ -588,6 +592,19 @@ class helper {
 		catch (e) {
 			return Constants.Message.UNAVAILABLE;
 		}
+	}
+
+	static getMosaicName(mosaic) {
+		let mosaicAliasName;
+
+		if (Array.isArray(mosaic.mosaicAliasName))
+			mosaicAliasName = mosaic.mosaicAliasName.length ? mosaic.mosaicAliasName[0] : 'N/A';
+		else
+			mosaicAliasName = mosaic.mosaicAliasName ? mosaic.mosaicAliasName : 'N/A';
+
+		return mosaicAliasName !== 'N/A'
+			? mosaicAliasName
+			: mosaic.mosaicId;
 	}
 }
 

@@ -47,7 +47,7 @@ export default {
 
 	props: {
 		value: {
-			type: Array,
+			type: [Array, Object],
 			required: true,
 			default: () => []
 		},

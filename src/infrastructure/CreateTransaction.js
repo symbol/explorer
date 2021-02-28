@@ -29,6 +29,7 @@ class CreateTransaction {
     		helper.mosaicsFieldObjectBuilder(transactionObj.mosaics)
     	]);
 
+
     	return {
     		...transactionObj,
     		transactionBody: {
