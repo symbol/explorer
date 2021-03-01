@@ -9,7 +9,7 @@
 				<div class="vert-line" />
 				<div class="progress-outer">
 					<div class="progress-value" :style="progressValue"/>
-					<Decimal 
+					<Decimal
 						v-if="isBalance(value, name)"
 						class="value-text"
 						:value="value"

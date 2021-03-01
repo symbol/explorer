@@ -1,4 +1,4 @@
-import { formatNumberOutput, omit } from '../utils';
+import { omit } from '../utils';
 import helper from '../../../../helper';
 import { NodeVersion } from 'symbol-sdk';
 
