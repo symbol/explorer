@@ -223,7 +223,7 @@ export default {
 			return typeof value === 'string'
 				? (
 					value.length > 30
-						? (value.slice(0, 15) + '...' + value.slice(value.length - 14, value.length - 1))
+						? (value.slice(0, 15) + '...' + value.slice(value.length - 14, value.length))
 						: value
 				)
 				: 'n/a';
