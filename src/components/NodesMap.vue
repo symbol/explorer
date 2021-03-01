@@ -185,7 +185,7 @@ export default {
 					}
 
 					const m = leaflet.marker([node.coordinates.latitude, node.coordinates.longitude], { icon });
-					
+
 					if (this.showPopup === true)
 						m.bindPopup(popup);
 
