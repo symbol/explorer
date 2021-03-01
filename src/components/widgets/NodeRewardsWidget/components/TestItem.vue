@@ -9,7 +9,12 @@
 				<div class="vert-line" />
 				<div class="progress-outer">
 					<div class="progress-value" :style="progressValue"/>
-					<div class="value-text">{{ getValue(value) }}</div>
+					<Decimal 
+						v-if="isBalance(value, name)"
+						class="value-text"
+						:value="value"
+					/>
+					<div v-else class="value-text">{{ getValue(value) }}</div>
 				</div>
 				<div class="expected-value-text">{{ _expectedValue }}</div>
 			</div>
@@ -19,9 +24,12 @@
 
 <script>
 import translate from '../i18n';
+import Decimal from '../../../fields/Decimal.vue';
 
 export default {
 	name: 'TestItem',
+
+	components: { Decimal },
 
 	props: {
 		name: {
@@ -85,6 +93,10 @@ export default {
 				: 'value_failed';
 
 			return this.translate(this.language, descriptor);
+		},
+
+		isBalance(item, key) {
+			return key?.toUpperCase().includes('BALANCE') === true;
 		}
 	}
 };
