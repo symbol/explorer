@@ -23,6 +23,7 @@
 						:height="height"
 						:zoom="zoom"
 						:minZoom="minZoom"
+						:showPopup="showPopup"
 					/>
 				</b-col>
 			</b-row>
@@ -60,6 +61,10 @@ export default {
 		title: {
 			type: String,
 			default: 'nodes'
+		},
+		showPopup: {
+			type: Boolean,
+			default: true
 		},
 		// Data Manager getter (DataSet, Timeline, Filter)
 		managerGetter: {

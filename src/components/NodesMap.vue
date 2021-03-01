@@ -33,6 +33,10 @@ export default {
 		minZoom: {
 			type: Number,
 			default: 1
+		},
+
+		showPopup: {
+			type: Boolean
 		}
 	},
 
@@ -180,8 +184,10 @@ export default {
 						break;
 					}
 
-					const m = leaflet.marker([node.coordinates.latitude, node.coordinates.longitude], { icon })
-						.bindPopup(popup);
+					const m = leaflet.marker([node.coordinates.latitude, node.coordinates.longitude], { icon });
+					
+					if (this.showPopup === true)
+						m.bindPopup(popup);
 
 					markerClusters.addLayer(m);
 				}
