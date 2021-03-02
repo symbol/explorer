@@ -70,7 +70,7 @@
 				]
 			},
 			{
-				"layoutOptions": "adaptive",
+				"layoutOptions": "full-width",
 				"type": "CardTable",
 				"title": "ownedNamespacesTitle",
 				"managerGetter": "account/OwnedNamespace",
@@ -83,23 +83,6 @@
 					"status",
 					"expirationDuration",
 					"registrationType"
-				]
-			},
-			{
-				"layoutOptions": "adaptive",
-				"type": "CardTable",
-				"title": "supplementalKeysTitle",
-				"managerGetter": "account/info",
-				"dataGetter": "account/getSupplementalPublicKeys",
-				"pagination": "client",
-				"pageSize": 5,
-				"hideOnError": true,
-				"hideDependOnGetter": "account/info",
-				"fields": [
-					"linked",
-					"node",
-					"vrf",
-					"voting"
 				]
 			},
 			{
@@ -125,6 +108,23 @@
 					"direction",
 					"transactionType",
 					"transactionHash"
+				]
+			},
+			{
+				"layoutOptions": "full-width",
+				"type": "CardTable",
+				"title": "supplementalKeysTitle",
+				"managerGetter": "account/info",
+				"dataGetter": "account/getSupplementalPublicKeys",
+				"pagination": "client",
+				"pageSize": 5,
+				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
+				"fields": [
+					"linked",
+					"node",
+					"vrf",
+					"voting"
 				]
 			},
 			{
