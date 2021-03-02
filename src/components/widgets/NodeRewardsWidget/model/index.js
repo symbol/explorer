@@ -1,4 +1,5 @@
-import { formatNumberOutput, omit } from '../utils';
+import { omit } from '../utils';
+import helper from '../../../../helper';
 import { NodeVersion } from 'symbol-sdk';
 
 const formatDetails = details => {
@@ -80,13 +81,13 @@ export class ChainInfo {
 	constructor(res) {
 		if (res.nodeBalanceResult) {
 			this.nodeBalance = new TestResult(
-				formatNumberOutput(res.nodeBalanceResult.reportedBalance),
+				helper.toNetworkCurrency(res.nodeBalanceResult.reportedBalance),
 				res.nodeBalanceResult.resultValid,
-				formatNumberOutput(res.nodeBalanceResult.expectedMinBalance),
+				helper.toNetworkCurrency(res.nodeBalanceResult.expectedMinBalance),
 				{
 					...res.nodeBalanceResult,
-					reportedBalance: formatNumberOutput(res.nodeBalanceResult.reportedBalance),
-					expectedMinBalance: formatNumberOutput(res.nodeBalanceResult.expectedMinBalance)
+					reportedBalance: helper.toNetworkCurrency(res.nodeBalanceResult.reportedBalance),
+					expectedMinBalance: helper.toNetworkCurrency(res.nodeBalanceResult.expectedMinBalance)
 				}
 			);
 		}

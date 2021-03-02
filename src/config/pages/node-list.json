@@ -1,58 +1,59 @@
 {
-    "path": "/nodes",
-    "name": "nodes",
-    "meta": {
-        "group": "list-page",
-        "keepAliveGoTo": ["detail-page"]
-    },
-    "props": {
-        "layout": "flex",
-        "storeNamespaces": ["node"],
-        "schema": [
+	"path": "/nodes",
+	"name": "nodes",
+	"meta": {
+		"group": "list-page",
+		"keepAliveGoTo": ["detail-page"]
+	},
+	"props": {
+		"layout": "flex",
+		"storeNamespaces": ["node"],
+		"schema": [
 			{
-                "type": "NodeStatsWidget",
+				"type": "NodeStatsWidget",
 				"managerGetter": "node/nodeStats",
 				"hideDependOnGetter": "node/nodeStats"
-            },
-            {
-                "layoutOptions": "full-width",
-                "type": "NodesMapWidget",
-                "title": "nodesTitle",
-                "height": 500,
-                "maxWidth": 1500,
-                "zoom": 2,
-                "minZoom": 2,
+			},
+			{
+				"layoutOptions": "full-width",
+				"type": "NodesMapWidget",
+				"title": "nodesTitle",
+				"height": 500,
+				"maxWidth": 1500,
+				"zoom": 2,
+				"minZoom": 2,
+				"showPopup": true,
 				"managerGetter": "node/timeline",
 				"hideDependOnGetter": "node/hostInfoManager",
-                "errorMessage": "Failed to fetch node list",
+				"errorMessage": "Failed to fetch node list",
 				"hasFilter": true
-            },
-            {
-                "layoutOptions": "full-width",
-                "type": "CardTable",
-                "title": "nodesTitle",
-                "managerGetter": "node/timeline",
-                "errorMessage": "Failed to fetch node list",
-                "pagination": "client",
-                "pageSize": 1000,
+			},
+			{
+				"layoutOptions": "full-width",
+				"type": "CardTable",
+				"title": "nodesTitle",
+				"managerGetter": "node/timeline",
+				"errorMessage": "Failed to fetch node list",
+				"pagination": "client",
+				"pageSize": 1000,
 				"hasFilter": true,
 				"onRowClickKey": "nodePublicKey",
-                "fields": [
-                    "index",
-                    "host",
-                    "friendlyName",
-                    "roles",
+				"fields": [
+					"index",
+					"host",
+					"friendlyName",
+					"roles",
 					"nodePublicKey",
 					"chainInfo",
 					"version",
 					"rewardPrograms"
-                ],
-                "mobileFields": [
-                    "host",
-                    "friendlyName",
-                    "nodePublicKey"
-                ]
-            }
-        ]
-    }
+				],
+				"mobileFields": [
+					"host",
+					"friendlyName",
+					"nodePublicKey"
+				]
+			}
+		]
+	}
 }
