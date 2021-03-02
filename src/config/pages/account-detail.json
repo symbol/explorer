@@ -74,8 +74,8 @@
 				"type": "CardTable",
 				"title": "ownedNamespacesTitle",
 				"managerGetter": "account/OwnedNamespace",
-				"pagination": "client",
-				"pageSize": 5,
+				"pagination": "server",
+				"pageSize": 10,
 				"hideOnError": true,
 				"hideDependOnGetter": "account/info",
 				"fields": [
