@@ -250,9 +250,9 @@ class NodeService {
 		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
 			const node = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes/' + publicKey)).data;
 			const formattedNodeInfo = this.formatNodeInfo(node);
+			let nodePublicKey = node.apiStatus?.nodePublicKey;
 
-			let nodePublicKey;
-
+			if (!nodePublicKey)
 			try {
 				nodePublicKey = (await Axios.get(formattedNodeInfo.apiEndpoint + '/node/info')).data.nodePublicKey;
 			}
