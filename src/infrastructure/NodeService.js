@@ -250,13 +250,15 @@ class NodeService {
 		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
 			const node = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes/' + publicKey)).data;
 			const formattedNodeInfo = this.formatNodeInfo(node);
+
 			let nodePublicKey = node.apiStatus?.nodePublicKey;
 
-			if (!nodePublicKey)
-			try {
-				nodePublicKey = (await Axios.get(formattedNodeInfo.apiEndpoint + '/node/info')).data.nodePublicKey;
+			if (!nodePublicKey) {
+				try {
+					nodePublicKey = (await Axios.get(formattedNodeInfo.apiEndpoint + '/node/info')).data.nodePublicKey;
+				}
+				catch (e) {}
 			}
-			catch (e) {}
 
 			if (nodePublicKey)
 				return (await Axios.get(globalConfig.endpoints.statisticsService + '/nodeRewards/nodes/nodePublicKey/' + nodePublicKey)).data;
