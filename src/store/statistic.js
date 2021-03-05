@@ -50,7 +50,8 @@ export default {
 		networkTransactionFees: [],
 		networkRentalFees: [],
 		blockTimeDifferenceData: [],
-		transactionPerBlockData: []
+		transactionPerBlockData: [],
+		nodeCountSeries: []
 	},
 	getters: {
 		...getGettersFromManagers(managers),
@@ -63,7 +64,8 @@ export default {
 		getNetworkTransactionFees: state => state.networkTransactionFees,
 		getNetworkRentalFees: state => state.networkRentalFees,
 		getBlockTimeDifferenceData: state => state.blockTimeDifferenceData,
-		getTransactionPerBlockData: state => state.transactionPerBlockData
+		getTransactionPerBlockData: state => state.transactionPerBlockData,
+		getNodeCountSeries: state => state.nodeCountSeries
 	},
 	mutations: {
 		...getMutationsFromManagers(managers),
@@ -96,6 +98,9 @@ export default {
 		},
 		setTransactionPerBlockData: (state, transactionPerBlockData) => {
 			state.transactionPerBlockData = transactionPerBlockData;
+		},
+		setNodeCountSeries: (state, v) => {
+			state.nodeCountSeries = v;
 		}
 	},
 	actions: {
@@ -123,6 +128,7 @@ export default {
 			context.commit('setLoadingInfo', true);
 			context.commit('setLoadingBlockTimeDifference', true);
 			context.commit('setLoadingTransactionPerBlock', true);
+			context.commit('setLoadingNodeCountSeries', true);
 			context.getters.nodeHeightStats.setStore(context).initialFetch();
 
 			context.commit('setError', false);
@@ -151,6 +157,11 @@ export default {
 
 				context.commit('setTransactionPerBlockData', transactionPerBlockDataset);
 				context.commit('setLoadingTransactionPerBlock', false);
+
+				const nodeCountSeries = await StatisticService.getNodeCountSeries();
+
+				context.commit('setNodeCountSeries', nodeCountSeries);
+				context.commit('setLoadingNodeCountSeries', false);
 			}
 			catch (e) {
 				console.error(e);

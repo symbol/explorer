@@ -16,6 +16,7 @@
  *
  */
 import globalConfig from '../config/globalConfig';
+import Axios from 'axios';
 
 class StatisticService {
 	/**
@@ -141,6 +142,32 @@ class StatisticService {
 			name: `Transaction per block in last ${sliceNumTransactionsPerBlockDataset.length + 1} blocks`,
 			data: dataset
 		};
+	}
+
+	static getNodeCountSeries = async () => {
+		if (this.isUrlProvided()) {
+			const data = (await Axios.get(globalConfig.endpoints.statisticsService + '/timeSeries/nodeCount')).data;
+			let chartData = [];
+
+			for (let i in data) {
+				const item = chartData.find(el => el.name === )
+					if (!chartData[j])
+						chartData[j] = {
+							name: data[i].values[j].name,
+							data
+						};
+					
+					chartData[j].data.push({
+						x: data[i].date,
+						y: data[i].values[j]
+					});
+				}
+			}
+			console.log('======================>2', chartData);
+			return chartData;
+		}
+		else
+			throw Error('Statistics service endpoint is not provided');
 	}
 
 	static isUrlProvided() {
