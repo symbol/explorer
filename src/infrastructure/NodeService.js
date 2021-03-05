@@ -247,24 +247,35 @@ class NodeService {
     }
 
 	static getNodeRewardsInfo = async (publicKey) => {
-		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
-			const node = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes/' + publicKey)).data;
-			const formattedNodeInfo = this.formatNodeInfo(node);
+		const endpoint = globalConfig.endpoints.nodeRewardsController;
 
-			let nodePublicKey;
+		if (endpoint && endpoint.length) {
+			
+			const nodeInfo = (await Axios.get(`${endpoint}/nodes/mainPublicKey/${publicKey}`)).data;
+			
+			if (!nodeInfo)
+				throw Error(`Node doesn't take part in any rewards program`);
 
-			try {
-				nodePublicKey = (await Axios.get(formattedNodeInfo.apiEndpoint + '/node/info')).data.nodePublicKey;
+			const nodeId = nodeInfo.id;
+			const testResults = (await Axios.get(`${endpoint}/testResults/nodeId/${nodeId}`)).data;
+			let testResultInfo;
+
+			if (testResults.length) {
+				const latestRound = testResults[0].round;
+
+				testResultInfo = (await Axios.get(`${endpoint}/testResultInfo/nodeId/${nodeId}/round/${latestRound}`)).data;
 			}
-			catch (e) {}
 
-			if (nodePublicKey)
-				return (await Axios.get(globalConfig.endpoints.statisticsService + '/nodeRewards/nodes/nodePublicKey/' + nodePublicKey)).data;
+			const nodeRewardsInfo = {
+				nodeInfo,
+				testResults,
+				testResultInfo,
+			};
 
-			throw Error(`Node doesn't take part in any rewards program`);
+			return nodeRewardsInfo;
 		}
 		else
-			throw Error('Statistics service endpoint is not provided');
+			throw Error('nodeRewardsController endpoint is not provided');
 	}
 
 	static getNodeStats = async () => {
@@ -294,20 +305,22 @@ class NodeService {
 	}
 
 	static getNodePayouts = async (pageInfo, nodeId, filter) => {
-		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
+		const endpoint = globalConfig.endpoints.nodeRewardsController;
+
+		if (endpoint && endpoint.length) {
 			const params = { pageNumber: pageInfo.pageNumber, nodeId };
 
-			let route = filter === 'voting' ? '/nodeRewards/votingPayouts' : '/nodeRewards/payouts';
+			let route = filter === 'voting' ? '/votingPayouts' : '/payouts';
 
 			let isLastPage = true;
 
 			const payoutsPage = (
-				await Axios.get(globalConfig.endpoints.statisticsService + route, { params })
+				await Axios.get(endpoint + route, { params })
 			).data;
 
 			try {
 				isLastPage = !(
-					await Axios.get(globalConfig.endpoints.statisticsService + route, { params })
+					await Axios.get(endpoint + route, { params })
 				).data.data.length;
 			}
 			catch (e) {}
@@ -319,7 +332,7 @@ class NodeService {
 			};
 		}
 		else
-			throw Error('Statistics service endpoint is not provided');
+			throw Error('nodeRewardsController endpoint is not provided');
 	}
 }
 
