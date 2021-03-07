@@ -147,9 +147,7 @@ class StatisticService {
 	static getNodeCountSeries = async () => {
 		if (this.isUrlProvided()) {
 			const data = (await Axios.get(globalConfig.endpoints.statisticsService + '/timeSeries/nodeCount')).data;
-			//const data = data1.slice(0, 3);
 			let chartData = [];
-			console.log('======================>1', data);
 
 			const aggreagatedData = {};
 			data.forEach((doc) => {
@@ -166,14 +164,12 @@ class StatisticService {
 					})
 				})
 			})
-			console.log('======================>2', aggreagatedData);
 
 			chartData = Object.keys(aggreagatedData).map(name => ({
 				name,
 				data: aggreagatedData[name].data
 			}));
 
-			console.log('======================>3', chartData);
 			return chartData;
 		}
 		else

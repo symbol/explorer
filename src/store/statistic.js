@@ -46,6 +46,7 @@ export default {
 		loadingInfo: true,
 		loadingBlockTimeDifference: true,
 		loadingTransactionPerBlock: true,
+		loadingNodeCountSeries: true,
 		error: false,
 		networkTransactionFees: [],
 		networkRentalFees: [],
@@ -60,6 +61,7 @@ export default {
 		getLoadingInfo: state => state.loadingInfo,
 		getLoadingBlockTimeDifference: state => state.loadingBlockTimeDifference,
 		getLoadingTransactionPerBlock: state => state.loadingTransactionPerBlock,
+		getLoadingNodeCountSeries: state => state.loadingNodeCountSeries,
 		getError: state => state.error,
 		getNetworkTransactionFees: state => state.networkTransactionFees,
 		getNetworkRentalFees: state => state.networkRentalFees,
@@ -83,6 +85,9 @@ export default {
 		},
 		setLoadingTransactionPerBlock: (state, loadingTransactionPerBlock) => {
 			state.loadingTransactionPerBlock = loadingTransactionPerBlock;
+		},
+		setLoadingNodeCountSeries: (state, loadingNodeCountSeries) => {
+			state.loadingNodeCountSeries = loadingNodeCountSeries;
 		},
 		setError: (state, error) => {
 			state.error = error;
