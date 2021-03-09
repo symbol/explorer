@@ -250,14 +250,14 @@ class NodeService {
 		const endpoint = globalConfig.endpoints.nodeRewardsController;
 
 		if (endpoint && endpoint.length) {
-			
 			const nodeInfo = (await Axios.get(`${endpoint}/nodes/mainPublicKey/${publicKey}`)).data;
-			
+
 			if (!nodeInfo)
 				throw Error(`Node doesn't take part in any rewards program`);
 
 			const nodeId = nodeInfo.id;
 			const testResults = (await Axios.get(`${endpoint}/testResults/nodeId/${nodeId}`)).data;
+
 			let testResultInfo;
 
 			if (testResults.length) {
@@ -269,7 +269,7 @@ class NodeService {
 			const nodeRewardsInfo = {
 				nodeInfo,
 				testResults,
-				testResultInfo,
+				testResultInfo
 			};
 
 			return nodeRewardsInfo;
