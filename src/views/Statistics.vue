@@ -51,7 +51,7 @@ import NetworkRentalFeesWidget from '@/components/widgets/NetworkRentalFeesWidge
 import ChartBlockTimeDifference from '@/components/widgets/ChartBlockTimeDifference.vue';
 import ChartTransactionPerBlock from '@/components/widgets/ChartTransactionPerBlock.vue';
 import NodeHeightStatsWidget from '@/components/widgets/NodeHeightStatsWidget.vue';
-import ChartNodeCount from '@/components/widgets/ChartNodeCount.vue'
+import ChartNodeCount from '@/components/widgets/ChartNodeCount.vue';
 
 export default {
 	name: 'Statistics',

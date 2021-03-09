@@ -155,21 +155,24 @@ export default {
 
 				const btdPromise = async () => {
 					let blockTimeDifferenceDataset = StatisticService.getBlockTimeDifferenceData(blocks, 60);
+
 					context.commit('setBlockTimeDifferenceData', blockTimeDifferenceDataset);
 					context.commit('setLoadingBlockTimeDifference', false);
-				}
+				};
 
 				const tpbPromise = async () => {
 					let transactionPerBlockDataset = StatisticService.getTransactionPerBlockData(blocks, 60);
+
 					context.commit('setTransactionPerBlockData', transactionPerBlockDataset);
 					context.commit('setLoadingTransactionPerBlock', false);
-				}
+				};
 
 				const ncsPromise = async () => {
 					const nodeCountSeries = await StatisticService.getNodeCountSeries();
+
 					context.commit('setNodeCountSeries', nodeCountSeries);
 					context.commit('setLoadingNodeCountSeries', false);
-				}
+				};
 
 				await Promise.all([
 					btdPromise(),

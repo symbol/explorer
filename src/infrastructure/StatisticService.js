@@ -148,13 +148,14 @@ class StatisticService {
 	static getNodeCountSeries = async () => {
 		const data = await StatisticService.fetchFromStatisticsService('/timeSeries/nodeCount');
 		const chartData = StatisticService.formatChartData(data, ['1', '2', '3', '4', '5', '6', '7', 'total']);
-		return chartData.map(el => ({...el, name: Constants.RoleType[el.name] || el.name}));
+
+		return chartData.map(el => ({ ...el, name: Constants.RoleType[el.name] || el.name }));
 	}
 
 	static fetchFromStatisticsService = async (route) => {
-		if(this.isUrlProvided()) {
+		if (this.isUrlProvided())
 			return (await Axios.get(globalConfig.endpoints.statisticsService + route)).data;
-		}
+
 		else
 			throw Error('Statistics service endpoint is not provided');
 	}
@@ -162,8 +163,9 @@ class StatisticService {
 	static formatChartData = (data, includeKeys) => {
 		const aggreagatedData = {};
 		const isKeyIncluded = key => !includeKeys || includeKeys.includes(key);
+
 		let chartData = [];
-		
+
 		data.forEach((doc) => {
 			Object.keys(doc.values).forEach((name) => {
 				if (!aggreagatedData[name] && isKeyIncluded(name)) {
@@ -172,13 +174,14 @@ class StatisticService {
 					};
 				}
 
-				if (isKeyIncluded(name))
+				if (isKeyIncluded(name)) {
 					aggreagatedData[name].data.push({
 						x: doc.date,
 						y: doc.values[name]
-					})
-			})
-		})
+					});
+				}
+			});
+		});
 
 		chartData = Object.keys(aggreagatedData).map(name => ({
 			name,
