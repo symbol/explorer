@@ -138,7 +138,9 @@ export default {
 		getSupplementalPublicKeys: state => state.info?.data.supplementalPublicKeys || {},
 		getCurrentAccountAddress: state => state.currentAccountAddress,
 		balanceWidget: (state, getters) => ({
-			address: new Address(state.currentAccountAddress).pretty(),
+			address: Address
+				.createFromRawAddress(state.currentAccountAddress)
+				.pretty(),
 			balance: getters.OwnedMosaic?.data[0]?.amount || 0,
 			alias: getters.info?.data?.accountAliasNames /* || Constants.Message.UNAVAILABLE */
 		})
