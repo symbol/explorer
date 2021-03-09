@@ -16,6 +16,7 @@
  *
  */
 import globalConfig from '../config/globalConfig';
+import Constants from '../config/constants';
 import Axios from 'axios';
 
 class StatisticService {
@@ -145,35 +146,47 @@ class StatisticService {
 	}
 
 	static getNodeCountSeries = async () => {
-		if (this.isUrlProvided()) {
-			const data = (await Axios.get(globalConfig.endpoints.statisticsService + '/timeSeries/nodeCount')).data;
-			let chartData = [];
+		Axios.get(globalConfig.endpoints.statisticsService, {params: {boolean: true}});
+		const data = await StatisticService.fetchFromStatisticsService('/timeSeries/nodeCount');
+		const chartData = StatisticService.formatChartData(data, ['1', '2', '3', '4', '5', '6', '7', 'total']);
+		return chartData.map(el => ({...el, name: Constants.RoleType[el.name] || el.name}));
+	}
 
-			const aggreagatedData = {};
-			data.forEach((doc) => {
-				Object.keys(doc.values).forEach((name) => {
-					if (!aggreagatedData[name]) {
-						aggreagatedData[name] = {
-							data: []
-						};
-					}
+	static fetchFromStatisticsService = async (route) => {
+		if(this.isUrlProvided()) {
+			return (await Axios.get(globalConfig.endpoints.statisticsService + route)).data;
+		}
+		else
+			throw Error('Statistics service endpoint is not provided');
+	}
 
+	static formatChartData = (data, includeKeys) => {
+		const aggreagatedData = {};
+		const isKeyIncluded = key => !includeKeys || includeKeys.includes(key);
+		let chartData = [];
+		
+		data.forEach((doc) => {
+			Object.keys(doc.values).forEach((name) => {
+				if (!aggreagatedData[name] && isKeyIncluded(name)) {
+					aggreagatedData[name] = {
+						data: []
+					};
+				}
+
+				if (isKeyIncluded(name))
 					aggreagatedData[name].data.push({
 						x: doc.date,
 						y: doc.values[name]
 					})
-				})
 			})
+		})
 
-			chartData = Object.keys(aggreagatedData).map(name => ({
-				name,
-				data: aggreagatedData[name].data
-			}));
+		chartData = Object.keys(aggreagatedData).map(name => ({
+			name,
+			data: aggreagatedData[name].data
+		}));
 
-			return chartData;
-		}
-		else
-			throw Error('Statistics service endpoint is not provided');
+		return chartData;
 	}
 
 	static isUrlProvided() {

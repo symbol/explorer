@@ -1,7 +1,7 @@
 <template>
 	<Card :loading="loading">
 		<template #title>
-			{{getNameByKey('codeCountOverTime')}}
+			{{getNameByKey('nodeCountChartTitle')}}
 		</template>
 
 		<template #body>

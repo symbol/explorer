@@ -50,8 +50,12 @@ export default {
 				'#00c8ff',
 				'#33dd50',
 				'#ff00ff',
-				'#f2e013',
-				'#f29913'
+
+				'#5200c6',
+				'#bf360c',
+				'#5d4037',
+				'#616161',
+				'#78909c'
 			]
 
 		},
@@ -194,7 +198,6 @@ export default {
 					showForZeroSeries: true,
 					position: 'bottom',
 					horizontalAlign: 'center',
-					height: 30,
 					offsetY: 8
 				}
 			};
