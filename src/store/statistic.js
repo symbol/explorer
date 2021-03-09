@@ -153,20 +153,29 @@ export default {
 
 				const blocks = await BlockService.streamerBlocks(searchCriteria, 300);
 
-				let blockTimeDifferenceDataset = StatisticService.getBlockTimeDifferenceData(blocks, 60);
+				const btdPromise = async () => {
+					let blockTimeDifferenceDataset = StatisticService.getBlockTimeDifferenceData(blocks, 60);
+					context.commit('setBlockTimeDifferenceData', blockTimeDifferenceDataset);
+					context.commit('setLoadingBlockTimeDifference', false);
+				}
 
-				context.commit('setBlockTimeDifferenceData', blockTimeDifferenceDataset);
-				context.commit('setLoadingBlockTimeDifference', false);
+				const tpbPromise = async () => {
+					let transactionPerBlockDataset = StatisticService.getTransactionPerBlockData(blocks, 60);
+					context.commit('setTransactionPerBlockData', transactionPerBlockDataset);
+					context.commit('setLoadingTransactionPerBlock', false);
+				}
 
-				let transactionPerBlockDataset = StatisticService.getTransactionPerBlockData(blocks, 60);
+				const ncsPromise = async () => {
+					const nodeCountSeries = await StatisticService.getNodeCountSeries();
+					context.commit('setNodeCountSeries', nodeCountSeries);
+					context.commit('setLoadingNodeCountSeries', false);
+				}
 
-				context.commit('setTransactionPerBlockData', transactionPerBlockDataset);
-				context.commit('setLoadingTransactionPerBlock', false);
-
-				const nodeCountSeries = await StatisticService.getNodeCountSeries();
-
-				context.commit('setNodeCountSeries', nodeCountSeries);
-				context.commit('setLoadingNodeCountSeries', false);
+				await Promise.all([
+					btdPromise(),
+					tpbPromise(),
+					ncsPromise()
+				]);
 			}
 			catch (e) {
 				console.error(e);

@@ -146,7 +146,6 @@ class StatisticService {
 	}
 
 	static getNodeCountSeries = async () => {
-		Axios.get(globalConfig.endpoints.statisticsService, {params: {boolean: true}});
 		const data = await StatisticService.fetchFromStatisticsService('/timeSeries/nodeCount');
 		const chartData = StatisticService.formatChartData(data, ['1', '2', '3', '4', '5', '6', '7', 'total']);
 		return chartData.map(el => ({...el, name: Constants.RoleType[el.name] || el.name}));
