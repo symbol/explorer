@@ -131,6 +131,7 @@ export default {
     .ex-menu-item.active {
         color: var(--light);
     }
+
     .ex-menu-item.active::before {
         content: '';
         position: absolute;
