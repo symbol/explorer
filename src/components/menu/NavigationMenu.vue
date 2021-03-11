@@ -82,7 +82,7 @@ export default {
 
 <style lang="scss" scoped>
 .testnet-gradient {
-    background: var(--secondary);
+    background: linear-gradient(-135deg, rgb(43, 1, 102) 0%, rgb(67, 0, 78) 80%);
 }
 
 .mainnet-gradient {
@@ -113,7 +113,7 @@ export default {
 
     .ex-menu-item {
         padding: 0 20px;
-        color: var(--light);
+        color: $clickable-item;
         text-decoration: none;
         letter-spacing: 1px;
         position: relative;
@@ -128,6 +128,9 @@ export default {
         }
     }
 
+    .ex-menu-item.active {
+        color: var(--light);
+    }
     .ex-menu-item.active::before {
         content: '';
         position: absolute;

@@ -74,8 +74,7 @@ export default {
 }
 
 .testnet-gradient {
-    background: var(--secondary) !important;
-    //transition: background 0.5s linear;
+    background: linear-gradient(-135deg, rgb(43, 1, 102) 0%, rgb(67, 0, 78) 80%);
 }
 
 .header-gradinet {
