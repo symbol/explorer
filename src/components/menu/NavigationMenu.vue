@@ -1,7 +1,7 @@
 <template>
-	<header 
-		class="ex-menu header-gradinet" 
-		:class="{'ex-menu-fixed': fixed, 'testnet-gradient': isTestnet, 'mainnet-gradient': !isTestnet}" 
+	<header
+		class="ex-menu header-gradinet"
+		:class="{'ex-menu-fixed': fixed, 'testnet-gradient': isTestnet, 'mainnet-gradient': !isTestnet}"
 		ref="DesktopMenu"
 	>
 		<div class="width-limiter">
@@ -59,10 +59,10 @@ export default {
 	},
 
 	computed: {
-        isTestnet() {
-            return this.$store.getters['api/isTestnet']
-        }
-    },
+		isTestnet() {
+			return this.$store.getters['api/isTestnet'];
+		}
+	},
 
 	data() {
 		return {

@@ -49,7 +49,7 @@ export default {
 		currentNodeHostname: state => state.currentNode.hostname,
 		wsEndpoint: state => state.wsEndpoint.toString(),
 		marketData: state => state.marketData.toString(),
-		isTestnet: state => state.networkType === sdk.NetworkType.TEST_NET,
+		isTestnet: state => state.networkType === sdk.NetworkType.TEST_NET
 	},
 
 	mutations: {
@@ -85,7 +85,7 @@ export default {
 				const marketDataUrl = getters['marketData'];
 
 				await http.init(nodeUrl, marketDataUrl);
-				
+
 				commit('networkType', http.networkType);
 				dispatch('chain/getChainInfo', null, { root: true });
 			};

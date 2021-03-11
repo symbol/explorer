@@ -12,11 +12,11 @@
 
 						<div class="header-title">
 							{{getNameByKey('blockchainExplorerTitle')}}
-                            <span v-if="isTestnet" class="testnet-badge-container">
-                                <span class="testnet-badge"> 
-                                    Testnet
-                                </span>
-                            </span>
+							<span v-if="isTestnet" class="testnet-badge-container">
+								<span class="testnet-badge">
+									Testnet
+								</span>
+							</span>
 						</div>
 						<div class="header-sub-title">
 							{{getNameByKey('searchBoxTitle')}}
@@ -43,22 +43,22 @@ export default {
 		LanguageSelector
 	},
 
-    data() {
-        return {
-            //gradientClass: 'mainnet-gradient'
-        }
-    },
+	data() {
+		return {
+			// gradientClass: 'mainnet-gradient'
+		};
+	},
 
-    computed: {
-        isTestnet() {
-            return this.$store.getters['api/isTestnet']
-        },
-        gradientClass() {
-            return this.isTestnet
-                ? 'testnet-gradient'
-                : 'mainnet-gradient'
-        }
-    },
+	computed: {
+		isTestnet() {
+			return this.$store.getters['api/isTestnet'];
+		},
+		gradientClass() {
+			return this.isTestnet
+				? 'testnet-gradient'
+				: 'mainnet-gradient';
+		}
+	},
 
 	methods: {
 		getNameByKey(e) {
