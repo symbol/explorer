@@ -1,5 +1,5 @@
 <template>
-	<div class="blue-gradinet ex-header">
+	<div class="header-gradinet ex-header" :class="gradientClass">
 		<div class="width-limiter">
 			<b-container fluid>
 				<b-row>
@@ -12,6 +12,11 @@
 
 						<div class="header-title">
 							{{getNameByKey('blockchainExplorerTitle')}}
+                            <span v-if="isTestnet" class="testnet-badge-container">
+                                <span class="testnet-badge"> 
+                                    Testnet
+                                </span>
+                            </span>
 						</div>
 						<div class="header-sub-title">
 							{{getNameByKey('searchBoxTitle')}}
@@ -38,6 +43,23 @@ export default {
 		LanguageSelector
 	},
 
+    data() {
+        return {
+            //gradientClass: 'mainnet-gradient'
+        }
+    },
+
+    computed: {
+        isTestnet() {
+            return this.$store.getters['api/isTestnet']
+        },
+        gradientClass() {
+            return this.isTestnet
+                ? 'testnet-gradient'
+                : 'mainnet-gradient'
+        }
+    },
+
 	methods: {
 		getNameByKey(e) {
 			return this.$store.getters['ui/getNameByKey'](e);
@@ -47,13 +69,21 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.blue-gradinet {
+.mainnet-gradient {
     background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
+}
+
+.testnet-gradient {
+    background: var(--secondary) !important;
+    //transition: background 0.5s linear;
+}
+
+.header-gradinet {
     background-size: 100% auto;
     position: relative;
 }
 
-.blue-gradinet::before {
+.header-gradinet::before {
     content: '';
     background-image: url(../../styles/img/logo_bkg.png);
     position: absolute;
@@ -87,6 +117,21 @@ export default {
     }
 }
 
+.testnet-badge-container {
+    position: relative;
+}
+
+.testnet-badge {
+    position: absolute;
+    border-radius: 5px;
+    padding: 4px 8px;
+    font-weight: bold;
+    font-size: 8px;
+    color: $accent-color;
+    top: -4px;
+    left: -8px;
+}
+
 .ex-header {
     .header-left {
         display: flex;
@@ -111,6 +156,7 @@ export default {
             margin-top: 14px;
             margin-bottom: 0.5rem;
             letter-spacing: 1px;
+            position: relative;
         }
 
         .header-sub-title {

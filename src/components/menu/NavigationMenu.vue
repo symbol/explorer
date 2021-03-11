@@ -1,5 +1,9 @@
 <template>
-	<header class="ex-menu" :class="{'ex-menu-fixed': fixed}" ref="DesktopMenu">
+	<header 
+		class="ex-menu header-gradinet" 
+		:class="{'ex-menu-fixed': fixed, 'testnet-gradient': isTestnet, 'mainnet-gradient': !isTestnet}" 
+		ref="DesktopMenu"
+	>
 		<div class="width-limiter">
 			<router-link to="/" :class="{'hide': !fixed}">
 				<img src="../../styles/img/logo-w.png" class="menu-logo"/>
@@ -54,6 +58,12 @@ export default {
 		};
 	},
 
+	computed: {
+        isTestnet() {
+            return this.$store.getters['api/isTestnet']
+        }
+    },
+
 	data() {
 		return {
 			items: pageMenu.items,
@@ -71,8 +81,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.ex-menu {
+.testnet-gradient {
+    background: var(--secondary);
+}
+
+.mainnet-gradient {
     background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
+}
+
+.header-gradinet {
+    transition: background 0.5s linear;
+}
+
+.ex-menu {
     border-top: 1px solid rgba(255, 255, 255, 0.5);
     padding: 0 60px;
     position: relative;
