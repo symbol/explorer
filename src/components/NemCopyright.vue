@@ -26,7 +26,7 @@
 				<span>|</span>
 				<span>
 					<a href="/terms">Terms</a> &
-					<a href="/privacy">Privacy</a>
+					<a href="https://symbolplatform.com/privacy/">Privacy</a>
 				</span>
 			</div>
 		</div>

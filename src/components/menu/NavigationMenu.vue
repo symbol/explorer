@@ -1,5 +1,9 @@
 <template>
-	<header class="ex-menu" :class="{'ex-menu-fixed': fixed}" ref="DesktopMenu">
+	<header
+		class="ex-menu header-gradinet"
+		:class="{'ex-menu-fixed': fixed, 'testnet-gradient': isTestnet, 'mainnet-gradient': !isTestnet}"
+		ref="DesktopMenu"
+	>
 		<div class="width-limiter">
 			<router-link to="/" :class="{'hide': !fixed}">
 				<img src="../../styles/img/logo-w.png" class="menu-logo"/>
@@ -54,6 +58,12 @@ export default {
 		};
 	},
 
+	computed: {
+		isTestnet() {
+			return this.$store.getters['api/isTestnet'];
+		}
+	},
+
 	data() {
 		return {
 			items: pageMenu.items,
@@ -71,8 +81,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.ex-menu {
+.testnet-gradient {
+    background: linear-gradient(120deg, rgb(43, 1, 102) 0%, rgb(67, 0, 78) 80%);
+}
+
+.mainnet-gradient {
     background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
+}
+
+.header-gradinet {
+    transition: background 0.5s linear;
+}
+
+.ex-menu {
     border-top: 1px solid rgba(255, 255, 255, 0.5);
     padding: 0 60px;
     position: relative;
@@ -96,18 +117,27 @@ export default {
         text-decoration: none;
         letter-spacing: 1px;
         position: relative;
-        transition: all 0.2s ease-in-out;
+        transition: all 0.1s ease-in-out;
         width: auto;
         display: inline-block;
         font-size: 13px;
         line-height: 40px;
+        font-weight: 600;
+        opacity: 0.8;
 
         .menu-icon {
             margin-right: 10px;
         }
     }
 
-    .ex-menu-item.active::before {
+    .ex-menu-item.active {
+        color: var(--light);
+        font-weight: 600;
+        opacity: 1;
+    }
+
+    .ex-menu-item::before {
+        opacity: 0;
         content: '';
         position: absolute;
         left: 0;
@@ -115,6 +145,10 @@ export default {
         height: 3px;
         background: var(--light);
         transition: all 0.2s ease-in-out;
+    }
+
+    .ex-menu-item.active::before {
+        opacity: 1;
     }
 }
 
