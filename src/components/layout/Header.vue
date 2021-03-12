@@ -5,7 +5,8 @@
 				<b-row>
 					<b-col md="3" class="header-left">
 						<router-link to="/" class="d-none d-md-block">
-							<img src="../../styles/img/symbol_logo_white_aw.png" class="header-logo"/>
+                            <img v-if="isTestnet" src="../../styles/img/symbol_logo_white_testnet.png" class="header-logo"/>
+							<img v-else src="../../styles/img/symbol_logo_white_aw.png" class="header-logo"/>
 						</router-link>
 					</b-col>
 					<b-col md="6" class="header-center">
@@ -74,7 +75,7 @@ export default {
 }
 
 .testnet-gradient {
-    background: linear-gradient(-135deg, rgb(43, 1, 102) 0%, rgb(67, 0, 78) 80%);
+    background: linear-gradient(120deg, rgb(43, 1, 102) 0%, rgb(67, 0, 78) 80%);
 }
 
 .header-gradinet {
@@ -139,7 +140,7 @@ export default {
 
         .header-logo {
             width: 100%;
-            max-width: 200px;
+            max-width: 193px;
         }
     }
 

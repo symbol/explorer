@@ -82,7 +82,7 @@ export default {
 
 <style lang="scss" scoped>
 .testnet-gradient {
-    background: linear-gradient(-135deg, rgb(43, 1, 102) 0%, rgb(67, 0, 78) 80%);
+    background: linear-gradient(120deg, rgb(43, 1, 102) 0%, rgb(67, 0, 78) 80%);
 }
 
 .mainnet-gradient {
@@ -113,15 +113,17 @@ export default {
 
     .ex-menu-item {
         padding: 0 20px;
-        color: $clickable-item;
+        color: var(--light);
         text-decoration: none;
         letter-spacing: 1px;
         position: relative;
-        transition: all 0.2s ease-in-out;
+        transition: all 0.1s ease-in-out;
         width: auto;
         display: inline-block;
         font-size: 13px;
         line-height: 40px;
+        font-weight: 600;
+        opacity: 0.8;
 
         .menu-icon {
             margin-right: 10px;
@@ -130,9 +132,12 @@ export default {
 
     .ex-menu-item.active {
         color: var(--light);
+        font-weight: 600;
+        opacity: 1;
     }
 
-    .ex-menu-item.active::before {
+    .ex-menu-item::before {
+		opacity: 0;
         content: '';
         position: absolute;
         left: 0;
@@ -140,6 +145,10 @@ export default {
         height: 3px;
         background: var(--light);
         transition: all 0.2s ease-in-out;
+    }
+
+	.ex-menu-item.active::before {
+        opacity: 1;
     }
 }
 

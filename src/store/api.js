@@ -36,7 +36,7 @@ export default {
 		currentNode: localStorage.getItem('currentNode') ? helper.parseUrl(localStorage.getItem('currentNode')) : helper.parseUrl(globalConfig.peersApi.defaultNode),
 		wsEndpoint: localStorage.getItem('currentNode') || globalConfig.peersApi.defaultNode |> helper.httpToWsUrl,
 		marketData: helper.parseUrl(globalConfig.endpoints.marketData),
-		networkType: null
+		networkType: globalConfig.networkConfig.networkIdentifier
 	},
 
 	getters: {
