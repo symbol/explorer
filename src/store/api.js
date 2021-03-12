@@ -21,6 +21,7 @@ import helper from '../helper';
 import http from '../infrastructure/http';
 import { NodeService } from '../infrastructure';
 import globalConfig from '../config/globalConfig';
+import * as sdk from 'symbol-sdk';
 
 const LOCK = Lock.create();
 
@@ -34,7 +35,8 @@ export default {
 		defaultNode: helper.parseUrl(globalConfig.peersApi.defaultNode),
 		currentNode: localStorage.getItem('currentNode') ? helper.parseUrl(localStorage.getItem('currentNode')) : helper.parseUrl(globalConfig.peersApi.defaultNode),
 		wsEndpoint: localStorage.getItem('currentNode') || globalConfig.peersApi.defaultNode |> helper.httpToWsUrl,
-		marketData: helper.parseUrl(globalConfig.endpoints.marketData)
+		marketData: helper.parseUrl(globalConfig.endpoints.marketData),
+		networkType: globalConfig.networkConfig.networkIdentifier
 	},
 
 	getters: {
@@ -46,7 +48,8 @@ export default {
 		currentNode: state => state.currentNode.toString(),
 		currentNodeHostname: state => state.currentNode.hostname,
 		wsEndpoint: state => state.wsEndpoint.toString(),
-		marketData: state => state.marketData.toString()
+		marketData: state => state.marketData.toString(),
+		isTestnet: state => state.networkType === sdk.NetworkType.TEST_NET
 	},
 
 	mutations: {
@@ -67,6 +70,9 @@ export default {
 		},
 		setNodes: (state, nodes) => {
 			state.nodes = nodes;
+		},
+		networkType: (state, v) => {
+			state.networkType = v;
 		}
 	},
 
@@ -80,6 +86,7 @@ export default {
 
 				await http.init(nodeUrl, marketDataUrl);
 
+				commit('networkType', http.networkType);
 				dispatch('chain/getChainInfo', null, { root: true });
 			};
 
