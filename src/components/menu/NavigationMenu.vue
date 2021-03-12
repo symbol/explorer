@@ -137,7 +137,7 @@ export default {
     }
 
     .ex-menu-item::before {
-		opacity: 0;
+        opacity: 0;
         content: '';
         position: absolute;
         left: 0;
@@ -147,7 +147,7 @@ export default {
         transition: all 0.2s ease-in-out;
     }
 
-	.ex-menu-item.active::before {
+    .ex-menu-item.active::before {
         opacity: 1;
     }
 }
