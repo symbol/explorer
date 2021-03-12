@@ -3,6 +3,33 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v0.10.0][v0.10.0] - 12-Mar-2021
+
+### Milestone: [catapult-server@v0.10.0.8][catapult-server@v0.10.0.8]
+
+Package  | Version  | Link
+---|---|---
+REST Core| v2.3.3 | [catapult-rest][catapult-rest@v2.3.3]
+SDK Core| v0.23.3 | [symbol-sdk][symbol-sdk@v0.23.3]
+
+### Added
+- Added compatibility for 0.10.0.8 server.
+- Added Testnet theme [#819](https://github.com/nemgrouplimited/symbol-explorer/pull/819)
+- Added the Privacy Policy link [#819](https://github.com/nemgrouplimited/symbol-explorer/pull/819)
+
+### Fixed
+- UI home page issues [#795](https://github.com/nemgrouplimited/symbol-explorer/issues/795)
+- Node Rewards Widget. Handle the no rounds state [#796](https://github.com/nemgrouplimited/symbol-explorer/issues/796)
+- Transaction Graphic and Transaction Detail. The mosaic preview bug [#798](https://github.com/nemgrouplimited/symbol-explorer/issues/798)
+- Transaction List. Native mosaic shown as custom mosaic [#800](https://github.com/nemgrouplimited/symbol-explorer/issues/800)
+- No different separators under Reported Balance (Node Rewards Program Range display)  [#802](https://github.com/nemgrouplimited/symbol-explorer/issues/802)
+- Detail display "Host Location" is not displayed correctly. The last character of the address is also missing.  [#803](https://github.com/nemgrouplimited/symbol-explorer/issues/803)
+- In explorer, not all valid namespaces are displayed in the details view. [#804](https://github.com/nemgrouplimited/symbol-explorer/issues/804)
+- Account Details. Invalid address display [#807](https://github.com/nemgrouplimited/symbol-explorer/issues/807)
+- Transaction icons are different from those used in wallets [#810](https://github.com/nemgrouplimited/symbol-explorer/issues/810)
+- Fetch node rewards data directly from the controller. Use main public key [#815](https://github.com/nemgrouplimited/symbol-explorer/issues/815)
+
+
 ## [v0.9.0][v0.9.0] - 25-Feb-2021
 
 ### Milestone: [catapult-server@v0.10.0.7][catapult-server@v0.10.0.7]
@@ -283,4 +310,7 @@ SDK Core| v0.20.7 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 [catapult-rest@v2.3.0]: https://github.com/nemtech/catapult-rest/releases/tag/v2.3.0
 [catapult-server@v0.10.0.7]: https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.7
 [symbol-sdk@v0.23.3-alpha]: https://www.npmjs.com/package/symbol-sdk/v/0.23.3-alpha-202102181227
+[catapult-rest@v2.3.3]: https://github.com/nemtech/catapult-rest/releases/tag/v2.3.3
+[catapult-server@v0.10.0.8]: https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.8
+[symbol-sdk@v0.23.3]: https://www.npmjs.com/package/symbol-sdk/v/0.23.3
 [catapult-rest@v2.3.3]: https://github.com/nemtech/catapult-rest/releases/tag/v2.3.3
