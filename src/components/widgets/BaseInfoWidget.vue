@@ -4,10 +4,16 @@
 			{{getNameByKey('baseInfo')}}
 		</template>
 
+		<template #control>
+			<router-link to="/statistics">
+				<ButtonMore> {{getNameByKey('viewMoreStatistics')}} </ButtonMore>
+			</router-link>
+		</template>
+
 		<template #body>
 			<b-container fluid style="height: 100%">
 				<b-row>
-					<b-col class="ex-item" sm="3" lg="12">
+					<!-- <b-col class="ex-item" sm="3" lg="12">
 						<div class="ex-item-title">
 							{{getNameByKey('price')}}
 						</div>
@@ -22,8 +28,8 @@
 						<div class="ex-item-value">
 							{{marketData.marketCap}}
 						</div>
-					</b-col>
-					<b-col class="ex-item" sm="3" lg="12">
+					</b-col> -->
+					<b-col class="ex-item" sm="3" lg="3">
 						<div class="ex-item-title">
 							{{getNameByKey('totalTransactions')}}
 						</div>
@@ -31,20 +37,28 @@
 							{{storageInfo.numTransactions}}
 						</div>
 					</b-col>
-					<b-col class="ex-item" sm="3" lg="12">
+					<b-col class="ex-item" sm="3" lg="3">
 						<div class="ex-item-title">
-							{{getNameByKey('blockHeight')}}
+							{{getNameByKey('chainHeight')}}
 						</div>
 						<div class="ex-item-value">
 							{{currentHeight}}
 						</div>
 					</b-col>
-					<b-col class="ex-item" sm="3" lg="12" :title="getNameByKey(votingNodeTooltips)">
+					<b-col class="ex-item" sm="3" lg="3" :title="getNameByKey(votingNodeTooltips)">
 						<div class="ex-item-title">
 							{{ getNameByKey('finalizedHeight') }} ({{ getNameByKey(votingNodeText) }})
 						</div>
 						<div class="ex-item-value">
 							{{finalizedHeight}}
+						</div>
+					</b-col>
+					<b-col class="ex-item" sm="3" lg="3">
+						<div class="ex-item-title">
+							{{ getNameByKey('nodes') }}
+						</div>
+						<div class="ex-item-value">
+							{{nodeCount}}
 						</div>
 					</b-col>
 				</b-row>
@@ -55,23 +69,23 @@
 
 <script>
 import Card from '@/components/containers/Card.vue';
+import ButtonMore from '@/components/controls/ButtonMore.vue';
 import { mapGetters } from 'vuex';
 
 export default {
 	components: {
-		Card
+		Card,
+		ButtonMore
 	},
 
 	computed: {
 		...mapGetters({
 			chainInfo: 'chain/getChainInfo',
 			storageInfo: 'chain/getStorageInfo',
-			marketData: 'chain/getMarketData'
+			marketData: 'chain/getMarketData',
+			nodeStats: 'chain/getNodeStats',
+			loading: 'chain/getLoading'
 		}),
-
-		loading() {
-			return !this.chainInfo;
-		},
 
 		currentHeight() {
 			return this.chainInfo.currentHeight;
@@ -87,6 +101,10 @@ export default {
 
 		votingNodeTooltips() {
 			return this.chainInfo.isVotingNode ? 'votingNodeTooltips' : 'nonVotingNodeTooltips';
+		},
+
+		nodeCount() {
+			return this.nodeStats?.total || 0;
 		}
 	},
 

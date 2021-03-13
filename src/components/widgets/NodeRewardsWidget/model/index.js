@@ -1,4 +1,5 @@
-import { formatNumberOutput, omit } from '../utils';
+import { omit } from '../utils';
+import helper from '../../../../helper';
 import { NodeVersion } from 'symbol-sdk';
 
 const formatDetails = details => {
@@ -33,7 +34,6 @@ export class NodeRewardInfo {
 		this.main = new Main(res);
 		this.chainInfo = new ChainInfo(res.testResultInfo);
 		this.performance = new Performance(res.testResultInfo);
-		this.payout = res.payout;
 	}
 };
 
@@ -42,10 +42,18 @@ export class Main {
 		this.friendlyName = res.nodeInfo.name;
 		this.host = res.nodeInfo.restGatewayUrl;
 		this.rewardProgram = res.nodeInfo.rewardProgram;
-		this.round = res.testResults[0] && res.testResults[0].round;
 		this.history = History.fromRes(res);
+		this.round = Round.fromRes(res);
 	}
 }
+
+export class Round {
+	static fromRes(res) {
+		if (res?.testResults?.length)
+			return res.testResults[0] && res.testResults[0].round;
+		else throw Error('empty_histoty');
+	}
+};
 
 export class History {
 	static fromRes(res) {
@@ -63,6 +71,7 @@ export class History {
 				}))
 				.reverse();
 		}
+		else throw Error('empty_histoty');
 
 		return formattedHistoty;
 	}
@@ -72,13 +81,13 @@ export class ChainInfo {
 	constructor(res) {
 		if (res.nodeBalanceResult) {
 			this.nodeBalance = new TestResult(
-				formatNumberOutput(res.nodeBalanceResult.reportedBalance),
+				helper.toNetworkCurrency(res.nodeBalanceResult.reportedBalance),
 				res.nodeBalanceResult.resultValid,
-				formatNumberOutput(res.nodeBalanceResult.expectedMinBalance),
+				helper.toNetworkCurrency(res.nodeBalanceResult.expectedMinBalance),
 				{
 					...res.nodeBalanceResult,
-					reportedBalance: formatNumberOutput(res.nodeBalanceResult.reportedBalance),
-					expectedMinBalance: formatNumberOutput(res.nodeBalanceResult.expectedMinBalance)
+					reportedBalance: helper.toNetworkCurrency(res.nodeBalanceResult.reportedBalance),
+					expectedMinBalance: helper.toNetworkCurrency(res.nodeBalanceResult.expectedMinBalance)
 				}
 			);
 		}

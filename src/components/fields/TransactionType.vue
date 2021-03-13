@@ -1,7 +1,7 @@
 <template>
 	<div class="transaction-type">
 		<div v-if="iconUrl" class="icon">
-			<img :src="iconUrl" />
+			<img :src="iconUrl" :class="iconSizeClass" />
 		</div>
 		<div v-if="!hideCaption" class="text">
 			{{ transactionText }}
@@ -33,6 +33,11 @@ export default {
 		hideCaption: {
 			type: Boolean,
 			default: false
+		},
+
+		size: {
+			type: String,
+			default: 'medium'
 		}
 	},
 
@@ -105,6 +110,10 @@ export default {
 			const transactionDescriptor = `transactionDescriptor_${transactionType}`;
 
 			return this.$store.getters['ui/getNameByKey'](transactionDescriptor);
+		},
+
+		iconSizeClass() {
+			return 'icon-' + this.size;
 		}
 	},
 
@@ -124,11 +133,20 @@ export default {
     display: flex;
 
     .icon {
-        margin-right: 10px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
 
-        img {
+        .icon-small {
+            height: 12px;
+            width: 12px;
+            margin-right: 4px;
+        }
+
+        .icon-medium {
             height: 32px;
             width: 32px;
+            margin-right: 10px;
         }
     }
 

@@ -13,12 +13,15 @@
 	"apiNodePort": 3000,
 	"endpoints": {
 		"marketData": "https://min-api.cryptocompare.com/",
-		"statisticsService": "http://localhost:4001"
+		"statisticsService": "http://localhost:4001",
+		"nodeRewardsController": "http://34.252.126.146:7890"
 	},
 	"networkConfig": {
 		"namespaceName": "symbol.xym",
 		"mosaicId": "2CF403E85507F39E",
-		"divisibility": "6"
+		"namespaceId": "E74B99BA41F4AFEE",
+		"divisibility": "6",
+		"networkIdentifier": 0
 	},
 	"footer": {
 		"link": [

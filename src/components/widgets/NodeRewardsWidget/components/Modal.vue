@@ -27,6 +27,7 @@
 										<td class="table-value" :title="item">
 											<BooleanField v-if="isBoolean(item, key)" :value="item" class="value-boolean" />
 											<DateField v-else-if="isDate(item, key)" :value="item" :keyName="key" />
+											<Decimal v-else-if="isBalance(item, key)" :value="item" />
 											<div v-else-if="isObject(item, key)" class="value-object" :title="getPassedDescription(item.resultValid)">
 												<div class="brace-container">
 													<div class="brace brace-part1"></div>
@@ -39,6 +40,7 @@
 													<div class="subitem-header">{{translate(language, subKey)}}</div>
 													<BooleanField v-if="isBoolean(subItem, subKey)" :value="subItem" class="value-boolean" />
 													<DateField v-else-if="isDate(subItem, subKey)" :value="subItem" :keyName="subKey" />
+													<Decimal v-else-if="isBalance(subItem, subKey)" :value="subItem" />
 													<TextField v-else :value="subItem" :keyName="subKey"/>
 												</div>
 											</div>
@@ -60,12 +62,13 @@ import translate from '../i18n';
 import BooleanField from './table-components/Boolean.vue';
 import DateField from './table-components/Date.vue';
 import TextField from './table-components/Text.vue';
+import Decimal from '../../../fields/Decimal.vue';
 import CloseIcon from '../assets/close.png';
 
 export default {
 	name: 'Modal',
 
-	components: { BooleanField, DateField, TextField },
+	components: { BooleanField, DateField, TextField, Decimal },
 
 	props: {
 		title: {
@@ -131,6 +134,10 @@ export default {
 
 		isObject(item, key) {
 			return item !== null && typeof item === 'object';
+		},
+
+		isBalance(item, key) {
+			return key?.toUpperCase().includes('BALANCE') === true;
 		},
 
 		getPassedDescription(passed) {
