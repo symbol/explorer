@@ -25,7 +25,8 @@
 				<span>All Rights Reserved</span>
 				<span>|</span>
 				<span>
-					<a href="https://symbolplatform.com/privacy/">Privacy Policy</a>
+					<a href="/terms">Terms</a> &
+					<a href="/privacy">Privacy</a>
 				</span>
 			</div>
 		</div>
