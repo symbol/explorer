@@ -17,24 +17,26 @@ const loadingTask = pdf.createLoadingTask(data);
 
 export default {
 	components: {
-        pdf,
-    },
-    mounted() {
-        this.src = pdf.createLoadingTask(data);
-        this.src.promise.then((pdf) => {
-            this.numPages = pdf.numPages;
-        });
-		this.$nextTick(() => this.show = true);
-    },
-    data() {
-        return {
+		pdf
+	},
+	mounted() {
+		this.src = pdf.createLoadingTask(data);
+		this.src.promise.then((pdf) => {
+			this.numPages = pdf.numPages;
+		});
+		this.$nextTick(() => {
+			this.show = true;
+		});
+	},
+	data() {
+		return {
 			ConnectorIcon,
-            data,
-            src: loadingTask,
-            numPages: undefined,
+			data,
+			src: loadingTask,
+			numPages: undefined,
 			show: false
-        };
-    },
+		};
+	}
 };
 </script>
 
