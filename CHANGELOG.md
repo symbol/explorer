@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [v1.0.0][v1.0.0] - 14-Mar-2021
+## [v1.0.0][v1.0.0] - 15-Mar-2021
 
 ### Milestone: [catapult-server@v1.0.0.0][catapult-server@v1.0.0.0]
 
@@ -12,7 +12,7 @@ Package  | Version  | Link
 REST Core| v2.3.4 | [catapult-rest][catapult-rest@v2.3.4]
 SDK Core| v1.0.0 | [symbol-sdk][symbol-sdk@v1.0.0]
 
-- Release for Symbol mainnet.
+- Symbol mainnet launch release
 - Updated T&C and Privacy Policy
 
 ## [v0.10.0][v0.10.0] - 12-Mar-2021
