@@ -20,6 +20,7 @@
 	<component
 		:is="extendGraphicComponent"
 		:value="value"
+		:transactionType="transactionType"
 	/>
 </template>
 

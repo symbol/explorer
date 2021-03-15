@@ -108,8 +108,7 @@
 					"date",
 					"direction",
 					"transactionType",
-					"transactionHash",
-					"extendGraphicValue"
+					"transactionHash"
 				]
 			},
 			{
