@@ -153,10 +153,10 @@ export default {
 }
 
 .incoming {
-   color: $green-color;
+    color: $green-color;
 }
 
 .outgoing {
-   color: $red-color;
+    color: $red-color;
 }
 </style>
