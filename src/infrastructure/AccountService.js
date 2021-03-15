@@ -146,20 +146,20 @@ class AccountService {
   	const searchTransactions = await TransactionService.searchTransactions(searchCriteria);
 
   	const accountTransactions = {
-		...searchTransactions,
-		data: searchTransactions.data.map(transaction => TransactionService.formatTransaction(transaction))
-	};
+  		...searchTransactions,
+  		data: searchTransactions.data.map(transaction => TransactionService.formatTransaction(transaction))
+  	};
 
-	const blockHeight = [...new Set(accountTransactions.data.map(data => data.transactionInfo.height))];
+  	const blockHeight = [...new Set(accountTransactions.data.map(data => data.transactionInfo.height))];
 
-	const blockInfos = await Promise.all(
-		blockHeight.map(height => BlockService.getBlockInfo(height))
-	);
+  	const blockInfos = await Promise.all(
+  		blockHeight.map(height => BlockService.getBlockInfo(height))
+  	);
 
-	await Promise.all(accountTransactions.data.map(async transaction => {
-		if (transaction?.recipientAddress)
-			return (transaction.transactionBody.recipient = await helper.resolvedAddress(transaction.recipientAddress));
-	}));
+  	await Promise.all(accountTransactions.data.map(async transaction => {
+  		if (transaction?.recipientAddress)
+  			return (transaction.transactionBody.recipient = await helper.resolvedAddress(transaction.recipientAddress));
+  	}));
 
   	return {
   		...accountTransactions,
@@ -169,16 +169,16 @@ class AccountService {
   			blockHeight: accountTransaction.transactionInfo.height,
   			transactionHash: accountTransaction.transactionInfo.hash,
   			transactionType: accountTransaction.type === TransactionType.TRANSFER
-				? (accountTransaction.signer === address
-					? 'outgoing_' + accountTransaction.transactionBody.transactionType
-					: 'incoming_' + accountTransaction.transactionBody.transactionType
-				)
-				: accountTransaction.transactionBody.transactionType,
-			extendGraphicValue: TransactionService.extendGraphicValue(accountTransaction),
-			recipient: accountTransaction.signer === address 
-				? accountTransaction.transactionBody?.recipient
-				: ''
-		}))
+  				? (accountTransaction.signer === address
+  					? 'outgoing_' + accountTransaction.transactionBody.transactionType
+  					: 'incoming_' + accountTransaction.transactionBody.transactionType
+  				)
+  				: accountTransaction.transactionBody.transactionType,
+  			extendGraphicValue: TransactionService.extendGraphicValue(accountTransaction),
+  			recipient: accountTransaction.signer === address
+  				? accountTransaction.transactionBody?.recipient
+  				: ''
+  		}))
   	};
   }
 

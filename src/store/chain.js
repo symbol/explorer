@@ -17,7 +17,7 @@
  */
 
 import Lock from './lock';
-import { NodeService, ChainService, DataService } from '../infrastructure';
+import { NodeService, ChainService } from '../infrastructure';
 import { RoleType } from 'symbol-sdk';
 
 const LOCK = Lock.create();
@@ -104,11 +104,11 @@ export default {
 		// Fetch data from the SDK / API and initialize the page.
 		async initializePage({ commit, dispatch }) {
 			commit('setLoading', true);
-			const [storageInfo, /*marketData, xemGraph,*/ nodeStats] = await Promise.all([
+			const [storageInfo, /* marketData, xemGraph, */ nodeStats] = await Promise.all([
 				NodeService.getStorageInfo(),
 				// DataService.getMarketPrice('XEM'),
 				// DataService.getHistoricalHourlyGraph('XEM'),
-				NodeService.getNodeStats().catch(()=>{})
+				NodeService.getNodeStats().catch(() => {})
 			]);
 
 			commit('setLoading', false);
@@ -132,7 +132,7 @@ export default {
 			// 	});
 			// }
 			// commit('setMarketData', { marketData, graphData });
-			
+
 			if (nodeStats)
 				commit('setNodeStats', nodeStats.nodeTypes);
 		},

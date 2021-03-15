@@ -36,7 +36,7 @@
 				:mosaics="[]"
 			/>
 		</span>
-		
+
 		<span
 			v-if="hasNativeMosaic"
 			:title="nativeMosaic + ' ' + networkCurrency"
