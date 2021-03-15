@@ -188,8 +188,8 @@ export default {
 			context.dispatch('uninitializeDetail');
 			context.commit('setCurrentAccountAddress', payload.address);
 
-			await context.getters.info.setStore(context).initialFetch(payload.address);
-			await context.getters.transactions.setStore(context).initialFetch(payload.address);
+			context.getters.info.setStore(context).initialFetch(payload.address);
+			context.getters.transactions.setStore(context).initialFetch(payload.address);
 			context.getters.OwnedMosaic.setStore(context).initialFetch(payload.address);
 			context.getters.OwnedNamespace.setStore(context).initialFetch(payload.address);
 			context.getters.multisig.setStore(context).initialFetch(payload.address);
