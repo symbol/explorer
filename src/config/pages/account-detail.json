@@ -101,13 +101,15 @@
 					"direction",
 					"transactionType",
 					"transactionHash",
-					"recipient"
+					"recipient",
+					"extendGraphicValue"
 				],
 				"mobileFields": [
 					"date",
 					"direction",
 					"transactionType",
-					"transactionHash"
+					"transactionHash",
+					"extendGraphicValue"
 				]
 			},
 			{

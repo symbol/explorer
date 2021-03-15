@@ -84,6 +84,8 @@ export default {
 		extendGraphicComponent() {
 			switch (this.transactionType) {
 			case TransactionType.TRANSFER: return 'ExtendTransferValue';
+			case 'outgoing_' + TransactionType.TRANSFER: return 'ExtendTransferValue';
+			case 'incoming_' + TransactionType.TRANSFER: return 'ExtendTransferValue';
 			case TransactionType.NAMESPACE_REGISTRATION: return 'ExtendNamespaceRegistrationValue';
 			case TransactionType.ADDRESS_ALIAS:
 			case TransactionType.MOSAIC_ALIAS: return 'ExtendAliasValue';
