@@ -189,10 +189,10 @@ export default {
 			context.commit('setCurrentAccountAddress', payload.address);
 
 			context.getters.info.setStore(context).initialFetch(payload.address);
+			context.getters.transactions.setStore(context).initialFetch(payload.address);
 			context.getters.OwnedMosaic.setStore(context).initialFetch(payload.address);
 			context.getters.OwnedNamespace.setStore(context).initialFetch(payload.address);
 			context.getters.multisig.setStore(context).initialFetch(payload.address);
-			context.getters.transactions.setStore(context).initialFetch(payload.address);
 			context.getters.metadatas.setStore(context).initialFetch(payload.address);
 			context.getters.mosaicAddressRestrictions.setStore(context).initialFetch(payload.address);
 			context.getters.harvestedBlocks.setStore(context).initialFetch(payload.address);

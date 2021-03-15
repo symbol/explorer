@@ -23,7 +23,9 @@
 			<Header />
 			<NavigationMenu class="d-none d-md-block"/>
 			<div class="width-limiter">
-				<router-view :key="$route.fullPath"/>
+				<transition name="view">
+					<router-view :key="$route.fullPath"/>
+				</transition>
 			</div>
 		</div>
 		<Footer />
@@ -107,5 +109,22 @@ html, body, #fullheight {
 
 .pointer {
     cursor: pointer;
+}
+
+.view-leave-active {
+    transition: opacity 0.15s ease-in-out, transform 0.15s ease;
+}
+
+.view-enter-active {
+    transition: opacity 0.15s ease-in-out, transform 0.15s ease;
+    transition-delay: 0.15s;
+}
+
+.view-enter, .view-leave-to {
+    opacity: 0;
+}
+
+.view-enter-to, .view-leave {
+    opacity: 1;
 }
 </style>

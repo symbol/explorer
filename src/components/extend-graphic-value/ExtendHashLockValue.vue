@@ -58,7 +58,7 @@ export default {
 			) {
 				const namespaceLevels = http.networkCurrency.namespaceName.split('.');
 
-				return namespaceLevels.pop();
+				return ' ' + namespaceLevels.pop()?.toUpperCase();
 			}
 
 			return '';

@@ -104,7 +104,7 @@ export default {
 		},
 
 		nodeCount() {
-			return this.nodeStats?.total || 0;
+			return this.nodeStats?.total || '-';
 		}
 	},
 

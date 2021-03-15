@@ -18,15 +18,6 @@
 
 <template>
 	<div class="extendGraphicValueContainer">
-
-		<span
-			v-if="hasNativeMosaic"
-			:title="nativeMosaic + ' ' + networkCurrency"
-			style="display: flex"
-		>
-			<Decimal :value="nativeMosaic" class="decimal"/> {{ networkCurrencySub }}
-		</span>
-
 		<span
 			v-if="hasMessage"
 			:title="getTranslation('message') + ': ' + message">
@@ -44,6 +35,15 @@
 				id="target"
 				:mosaics="[]"
 			/>
+		</span>
+
+		<span
+			v-if="hasNativeMosaic"
+			:title="nativeMosaic + ' ' + networkCurrency"
+			:class="amountClass"
+			style="display: flex"
+		>
+			<Decimal :value="nativeMosaic" class="decimal"/> {{ networkCurrencySub }}
 		</span>
 	</div>
 </template>
@@ -70,6 +70,9 @@ export default {
 			type: Object,
 			required: true,
 			default: () => ({})
+		},
+		transactionType: {
+			type: String
 		}
 	},
 
@@ -126,9 +129,17 @@ export default {
 			) {
 				const namespaceLevels = http.networkCurrency.namespaceName.split('.');
 
-				return namespaceLevels.pop();
+				return ' ' + namespaceLevels.pop()?.toUpperCase();
 			}
 
+			return '';
+		},
+
+		amountClass() {
+			if (typeof this.transactionType === 'string' && this.transactionType.includes('incoming'))
+				return 'incoming';
+			if (typeof this.transactionType === 'string' && this.transactionType.includes('outgoing'))
+				return 'outgoing';
 			return '';
 		}
 	}
@@ -139,5 +150,13 @@ export default {
 <style lang="scss" scoped>
 .extendGraphicValueContainer {
     display: inline-flex;
+}
+
+.incoming {
+    color: $green-color;
+}
+
+.outgoing {
+    color: $red-color;
 }
 </style>
