@@ -14,6 +14,7 @@ SDK Core| v1.0.0 | [symbol-sdk][symbol-sdk@v1.0.0]
 
 - Symbol mainnet launch release
 - Updated T&C and Privacy Policy
+- Added recipient and amount columns to the account transaction list [#826](https://github.com/nemgrouplimited/symbol-explorer/issues/826)
 
 ## [v0.10.0][v0.10.0] - 12-Mar-2021
 

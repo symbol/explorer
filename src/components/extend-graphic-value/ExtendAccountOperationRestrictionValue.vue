@@ -9,7 +9,7 @@
 				:key="'restriction_' + index"
 				:title="getTranslation('restrictionAdded') + ': ' + getTranslation('transactionDescriptor_' + restriction)"
 			>
-				<TransactionType hideCaption :value="restriction" />
+				<TransactionType hideCaption size="small" :value="restriction" />
 			</span>
 
 		</span>
@@ -23,7 +23,7 @@
 				:key="'restriction_' + index"
 				:title="getTranslation('restrictionRemoved') + ': ' + getTranslation('transactionDescriptor_' + restriction)"
 			>
-				<TransactionType hideCaption :value="restriction" />
+				<TransactionType hideCaption size="small" :value="restriction" />
 			</span>
 		</span>
 	</div>
