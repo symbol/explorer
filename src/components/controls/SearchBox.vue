@@ -36,7 +36,10 @@ export default {
 		},
 
 		fail(e) {
-			this.searchString = e;
+			if (e.message === 'errorNisAddressNotAllowed')
+				alert(this.getNameByKey(e.message));
+
+			this.searchString = this.getNameByKey(e);
 			this.isError = true;
 			setTimeout(() => {
 				this.isError = false;

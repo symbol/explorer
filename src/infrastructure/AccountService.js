@@ -22,6 +22,7 @@ import { Constants } from '../config';
 import { NamespaceService, TransactionService, ChainService, MetadataService, LockService, ReceiptService, MosaicService, BlockService } from '../infrastructure';
 import helper from '../helper';
 import globalConfig from '../config/globalConfig';
+import Axios from 'axios';
 
 class AccountService {
 	/**
@@ -463,6 +464,25 @@ class AccountService {
 		}
 
 		return helper.sortMosaics(nonExpiredMosaics);
+	}
+
+	static checkNis1Account = async address => {
+		if (!Array.isArray(globalConfig.nis1Nodes))
+			throw Error('Failed to check NIS address. Config error. "nis1Nodes" is not an array');
+
+		return new Promise((resolve) => {
+			let counter = 0;
+
+			globalConfig.nis1Nodes.forEach(url => 
+				Axios.get(url + '/account/get', { params: { address }})
+					.then(() => resolve(true))
+					.catch(() => {
+						counter ++;
+							if (globalConfig.nis1Nodes.length)
+								resolve(false)
+					})
+			);
+		});
 	}
 }
 

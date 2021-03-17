@@ -18,7 +18,7 @@
 import router from '../router';
 import { Address, AccountHttp } from 'symbol-sdk';
 import { i18n, keyRedirects } from '../config';
-import { NamespaceService, MosaicService } from '../infrastructure';
+import { NamespaceService, MosaicService, AccountService } from '../infrastructure';
 import Vue from 'vue';
 import helper from '../helper';
 
@@ -173,12 +173,16 @@ export default {
 							}
 						}
 						catch (e) {
-							reject(new Error('Nothing found..'));
+							const isNisAddress = await AccountService.checkNis1Account(searchString);
+							if (isNisAddress)
+								reject(new Error('errorNisAddressNotAllowed'));
+
+							reject(new Error('errorNothingFound'));
 						}
 					}
 				}
 				else
-					reject(new Error('Nothing found..'));
+					reject(new Error('errorNothingFound'));
 			});
 		},
 
