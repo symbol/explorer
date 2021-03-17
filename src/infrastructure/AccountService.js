@@ -473,13 +473,16 @@ class AccountService {
 		return new Promise((resolve) => {
 			let counter = 0;
 
-			globalConfig.nis1Nodes.forEach(url => 
-				Axios.get(url + '/account/get', { params: { address }})
+			globalConfig.nis1Nodes.forEach(url =>
+				Axios.get(url + '/account/get', { params: { address } })
 					.then(() => resolve(true))
-					.catch(() => {
-						counter ++;
-							if (globalConfig.nis1Nodes.length)
-								resolve(false)
+					.catch((e) => {
+						counter++;
+						if (counter === globalConfig.nis1Nodes.length 
+							|| e?.response?.status === 400 
+							|| e?.response?.status === 404
+						)
+							resolve(false);
 					})
 			);
 		});

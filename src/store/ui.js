@@ -174,6 +174,7 @@ export default {
 						}
 						catch (e) {
 							const isNisAddress = await AccountService.checkNis1Account(searchString);
+
 							if (isNisAddress)
 								reject(new Error('errorNisAddressNotAllowed'));
 
