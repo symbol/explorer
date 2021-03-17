@@ -1,5 +1,7 @@
 {
     "langName": "Ukrainian",
+    "errorNisAddressNotAllowed": "You are trying to search the NEM NIS1 address in the Symbol Explorer. Please use NEM Explorer instead",
+    "errorNothingFound": "Nothing found..",
     "age": "Вік",
     "aliasAction": "Дія псевдоніму",
     "linkAction": "Дія зв’язку",

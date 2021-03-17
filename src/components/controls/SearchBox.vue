@@ -39,7 +39,7 @@ export default {
 			if (e.message === 'errorNisAddressNotAllowed')
 				alert(this.getNameByKey(e.message));
 
-			this.searchString = this.getNameByKey(e);
+			this.searchString = this.getNameByKey('errorNothingFound');
 			this.isError = true;
 			setTimeout(() => {
 				this.isError = false;
