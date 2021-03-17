@@ -478,9 +478,9 @@ class AccountService {
 					.then(() => resolve(true))
 					.catch((e) => {
 						counter++;
-						if (counter === globalConfig.nis1Nodes.length 
-							|| e?.response?.status === 400 
-							|| e?.response?.status === 404
+						if (counter === globalConfig.nis1Nodes.length ||
+							e?.response?.status === 400 ||
+							e?.response?.status === 404
 						)
 							resolve(false);
 					})
