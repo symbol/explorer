@@ -1,6 +1,6 @@
 {
     "langName": "pt",
-    "errorNisAddressNotAllowed": "You are trying to search the NEM NIS1 address in the Symbol Explorer. Please use NEM Explorer instead",
+    "errorNisAddressNotAllowed": "You entered a NEM NIS1 address in the Symbol Explorer. Please use NEM Explorer instead.",
     "errorNothingFound": "Nothing found..",
     "age": "Age",
     "aliasAction": "Alias Action",
