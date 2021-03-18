@@ -22,8 +22,6 @@ import http from './http';
 import { Constants } from '../config';
 import { NamespaceService, TransactionService, ChainService, MetadataService, LockService, ReceiptService, MosaicService, BlockService } from '../infrastructure';
 import helper from '../helper';
-import globalConfig from '../config/globalConfig';
-import Axios from 'axios';
 
 class AccountService {
 	/**
