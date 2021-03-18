@@ -17,6 +17,7 @@
  */
 
 import { Address, TransactionType, TransactionGroup, Order, BlockOrderBy, ReceiptType, Mosaic } from 'symbol-sdk';
+import nem from 'nem-sdk';
 import http from './http';
 import { Constants } from '../config';
 import { NamespaceService, TransactionService, ChainService, MetadataService, LockService, ReceiptService, MosaicService, BlockService } from '../infrastructure';
@@ -467,25 +468,7 @@ class AccountService {
 	}
 
 	static checkNis1Account = async address => {
-		if (!Array.isArray(globalConfig.nis1Nodes))
-			throw Error('Failed to check NIS address. Config error. "nis1Nodes" is not an array');
-
-		return new Promise((resolve) => {
-			let counter = 0;
-
-			globalConfig.nis1Nodes.forEach(url =>
-				Axios.get(url + '/account/get', { params: { address } })
-					.then(() => resolve(true))
-					.catch((e) => {
-						counter++;
-						if (counter === globalConfig.nis1Nodes.length ||
-							e?.response?.status === 400 ||
-							e?.response?.status === 404
-						)
-							resolve(false);
-					})
-			);
-		});
+		return nem.model.address.isValid(address);
 	}
 }
 

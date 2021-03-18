@@ -10,13 +10,6 @@
 			"http://api-01.us-west-1.testnet.symboldev.network:3000"
 		]
 	},
-	"nis1Nodes": [
-		"http://176.9.68.110:7890",
-		"http://176.9.20.180:7890",
-		"http://99.217.118.114:7890",
-		"http://144.91.125.240:7890",
-		"http://45.76.120.189:7890"
-	],
 	"apiNodePort": 3000,
 	"endpoints": {
 		"marketData": "https://min-api.cryptocompare.com/",
