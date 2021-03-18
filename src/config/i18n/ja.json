@@ -1,7 +1,7 @@
 {
     "langName": "ja",
     "errorNisAddressNotAllowed": "You entered a NEM NIS1 address in the Symbol Explorer. Please use NEM Explorer instead.",
-    "errorNothingFound": "Nothing found..",
+    "errorNothingFound": "Nothing found.",
     "age": "作成",
     "aliasAction": "エイリアスアクション",
     "linkAction": "リンクアクション",
