@@ -1,5 +1,7 @@
 {
     "langName": "zh",
+    "errorNisAddressNotAllowed": "You entered a NEM NIS1 address in the Symbol Explorer. Please use NEM Explorer instead.",
+    "errorNothingFound": "Nothing found.",
     "age": "时间",
     "aliasAction": "别名行动",
     "linkAction": "绑定行动",
@@ -204,7 +206,7 @@
     "linkedAccountAddress": "Linked Account Address",
     "proofGamma": "Proof Gamma",
     "proofScalar": "Proof Scalar",
-    "proofVerificationHash": "Proof Varification Hash",
+    "proofVerificationHash": "Proof Verification Hash",
     "accountKeyType": "Type",
     "key": "Key",
     "supplementalKeys": "Supplemental Keys",

@@ -72,7 +72,7 @@ class NodeService {
     			.toPromise();
     	}
 
-    	const formattedNodePeers = nodePeers.map(nodeInfo => this.formatNodeInfo(nodeInfo));
+    	const formattedNodePeers = nodePeers.map(nodeInfo => this.formatNodeInfo(nodeInfo)).sort((a, b) => a.friendlyName.localeCompare(b.friendlyName));
 
     	return formattedNodePeers;
     }
