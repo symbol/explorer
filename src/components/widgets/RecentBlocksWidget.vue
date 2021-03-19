@@ -40,7 +40,7 @@
 										{{ getNameByKey('created') }}
 									</div>
 									<div class="ex-text">
-										<Age :date="item.date"/>
+										<Age :date="item.age"/>
 									</div>
 								</div>
 								<div class="ex-row no-wrap">
