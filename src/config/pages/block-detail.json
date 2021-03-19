@@ -56,7 +56,7 @@
                 "onRowClickKey": "transactionHash",
                 "hasFilter": true,
                 "fields": [
-                    "deadline",
+                    "timestamp",
                     "transactionHash",
                     "transactionType"
                 ]

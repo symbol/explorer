@@ -20,7 +20,7 @@
 				"onRowClickKey": "transactionHash",
                 "fields": [
                     "height",
-                    "deadline",
+                    "timestamp",
                     "transactionHash",
                     "transactionType",
                     "signer",
