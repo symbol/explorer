@@ -29,7 +29,7 @@
                     "confirmations",
                     "height",
                     "payloadSize",
-                    "date",
+                    "timestamp",
                     "totalFee",
                     "difficulty",
                     "feeMultiplier",

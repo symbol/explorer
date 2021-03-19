@@ -133,7 +133,6 @@ class BlockService {
   		...blocks,
   		data: blocks.data.map(block => ({
   			...block,
-  			date: helper.convertToUTCDate(block.timestamp),
   			age: helper.convertToUTCDate(block.timestamp),
   			harvester: block.signer
   		}))
@@ -225,7 +224,6 @@ class BlockService {
   		payloadSize: block.size,
   		blockHash: block.hash,
   		harvester: block.signer,
-  		date: helper.convertToUTCDate(block.timestamp),
   		merkleInfo: {
   			stateHash,
   			stateHashSubCacheMerkleRoots,
