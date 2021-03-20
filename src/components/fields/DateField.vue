@@ -48,10 +48,9 @@ export default {
 
 <style lang="scss" scoped>
 .date-container {
-	.timestamp {
-		padding-left: 5px;
-		opacity: 0.5;
-	}
+    .timestamp {
+        padding-left: 5px;
+        opacity: 0.5;
+    }
 }
-
 </style>
