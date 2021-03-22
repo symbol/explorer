@@ -32,7 +32,7 @@ export default {
 		timestamp: Number,
 		isShowTimestamp: {
 			type: Boolean,
-			default: true
+			default: false
 		}
 	},
 	methods: {

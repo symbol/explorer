@@ -38,7 +38,7 @@
 							<RewardPrograms v-else-if="itemKey === 'rewardPrograms'" :value="item" />
 							<ChainInfo v-else-if="itemKey === 'chainInfo'" :value="item" />
 							<ExtendGraphicValueField v-else-if="itemKey === 'extendGraphicValue'" :value="item" :transactionType="row['transactionType']"/>
-							<DateField v-else-if="itemKey === 'timestamp'" :timestamp="item" :isShowTimestamp="false" />
+							<DateField v-else-if="itemKey === 'timestamp'" :timestamp="item" />
 
 							<div v-else-if="isAggregateInnerTransaction(itemKey)">
 								<b-link v-b-modal="'tlv_r'+rowIndex">Show Detail</b-link>

@@ -225,6 +225,7 @@ class BlockService {
   	return {
   		...block,
   		...importanceBlockInfo,
+  		symbolTime: block.timestamp,
   		payloadSize: block.size,
   		blockHash: block.hash,
   		harvester: block.signer,

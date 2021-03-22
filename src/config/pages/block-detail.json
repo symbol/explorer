@@ -30,6 +30,7 @@
                     "height",
                     "payloadSize",
                     "timestamp",
+                    "symbolTime",
                     "totalFee",
                     "difficulty",
                     "feeMultiplier",
