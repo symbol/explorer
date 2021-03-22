@@ -1,13 +1,8 @@
 {
 	"peersApi": {
-		"defaultNode": "http://api-01.ap-northeast-1.testnet.symboldev.network:3000",
+		"defaultNode": "http://localhost:3000/connect/http://api-01.ap-northeast-1.testnet.symboldev.network:3000",
 		"nodes": [
-			"http://api-01.ap-northeast-1.testnet.symboldev.network:3000",
-			"http://api-01.ap-southeast-1.testnet.symboldev.network:3000",
-			"http://api-01.eu-central-1.testnet.symboldev.network:3000",
-			"http://api-01.eu-west-1.testnet.symboldev.network:3000",
-			"http://api-01.us-east-1.testnet.symboldev.network:3000",
-			"http://api-01.us-west-1.testnet.symboldev.network:3000"
+			"http://localhost:3000/connect/http://api-01.ap-northeast-1.testnet.symboldev.network:3000"
 		]
 	},
 	"apiNodePort": 3000,

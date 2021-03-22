@@ -1,5 +1,65 @@
 const fs = require('fs');
 const http = require('http');
+const express = require('express');
+const expressWs = require('express-ws')
+const Axios = require('axios')
+const app = express()
+const port = 3000
+
+expressWs(app)
+
+app.use(express.json());
+
+app.get('/', (req, res) => {
+  res.send('Hello World!')
+})
+
+app.all('*', function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
+    res.header('Access-Control-Allow-Headers', 'Content-Type');
+    next();
+});
+
+app.all('/connect/*', async (req, res, next) => {
+	if (req.method === 'WS')
+		next();
+
+	try {
+		// console.log(req.params);
+		const options = {
+			method: req.method.toLowerCase(),
+			data: req.method === 'POST' && req.body,
+			params: req.method === 'GET' && req.query,
+			url: req.params[0]
+		};
+
+		// console.log('options', options) 
+		const response = await Axios(options)
+
+		// console.log(response.data)
+		res.send(response.data)
+	}
+	catch(e) {
+		res.status(e.response.statusCode ? e.response.statusCode : 500).send(e.response.message)
+	}
+})
+
+app.ws('/connect/*', (ws, req) => {
+	console.log('WS connected', req.params)
+	ws.send(req.params)
+    ws.on('message', msg => {
+        ws.send(msg)
+    })
+
+    ws.on('close', () => {
+        console.log('WebSocket was closed')
+    })
+});
+
+app.listen(port, () => {
+  console.log(`Example app listening at http://localhost:${port}`)
+})
 
 const PORT = 4000;
 const CONFIG_ROUTE = '/config';
@@ -72,6 +132,7 @@ readConfig(res => {
 	http.createServer((req, res) => {
 		if(req.url === '/')
 			req.url = INDEX_HTML;
+			
 
 		if(req.url === CONFIG_ROUTE) {
 			sendJSON(res, ENV);

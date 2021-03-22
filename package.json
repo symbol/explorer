@@ -24,6 +24,8 @@
     "bootstrap-vue": "^2.7.0",
     "chart.js": "^2.9.3",
     "core-js": "^2.6.11",
+    "express": "^4.17.1",
+    "express-ws": "^4.0.0",
     "js-sha3": "^0.8.0",
     "leaflet": "^1.6.0",
     "leaflet.markercluster": "^1.4.1",
