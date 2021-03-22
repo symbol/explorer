@@ -20,7 +20,7 @@ describe('Symbol Explorer Blocks detail page', () => {
         })
 
         it('render correct table fields.', () => {
-            const items = ['Height', 'Size (bytes)', 'Date', 'Total Fee', 'Difficulty', 'Fee Multiplier', 'Transactions', 'Harvester', 'Block Hash', 'Proof Gamma', 'Proof Scalar', 'Beneficiary Address', 'Proof Varification Hash']
+            const items = ['Height', 'Size (bytes)', 'Date', 'Total Fee', 'Difficulty', 'Fee Multiplier', 'Transactions', 'Harvester', 'Block Hash', 'Proof Gamma', 'Proof Scalar', 'Beneficiary Address', 'Proof Verification Hash']
             cy.renderFieldInTable("blockDetailTitle", items)
         })
     })

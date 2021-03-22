@@ -1,5 +1,7 @@
 {
     "langName": "en-us",
+    "errorNisAddressNotAllowed": "You entered a NEM NIS1 address in the Symbol Explorer. Please use NEM Explorer instead.",
+    "errorNothingFound": "Nothing found.",
     "age": "Created",
     "aliasAction": "Alias Action",
     "linkAction": "Link Action",
@@ -187,7 +189,7 @@
     "addressAdditions": "Added Cosigner",
     "addressDeletions": "Deleted Cosigner",
     "transactionAwaitingCosignatureTitle": "Transaction awaiting co-signature(s)",
-    "transactionAwaitingRemarkTitle": "This transaction needs multiple parties to approve by sending co-signature.",
+    "transactionAwaitingRemarkTitle": "This transaction needs multiple parties to approve by sending co-signatures.",
     "cosignaturesReceivedTitle": "Co-signatures received",
     "innerTransactionTitle": "Inner Transaction",
     "accountPartialTitle": "Account Partial Transactions",
@@ -204,7 +206,7 @@
     "linkedAccountAddress": "Linked Account Address",
     "proofGamma": "Proof Gamma",
     "proofScalar": "Proof Scalar",
-    "proofVerificationHash": "Proof Varification Hash",
+    "proofVerificationHash": "Proof Verification Hash",
     "accountKeyType": "Type",
     "key": "Key",
     "supplementalKeys": "Supplemental Keys",
@@ -315,7 +317,7 @@
     "payloadSize": "Size (bytes)",
     "chainHeight": "Chain Height",
     "finalized": "Block Finalized",
-    "pending": "Block Pending to Finalized",
+    "pending": "Block Pending Finalization",
     "finalizedHeight": "Finalized Height",
     "restrictions": "Restrictions (Allow If)",
     "hashLockTitle": "Hash Lock",
@@ -354,7 +356,7 @@
     "finalizationEpoch": "Finalization Epoch",
     "finalizationPoint": "Finalization Point",
     "finalizedHash": "Finalized Hash",
-    "nodeDetailError": "Failed to fetch node detail.",
+    "nodeDetailError": "Failed to fetch node details.",
     "extendGraphicValue": "Info",
     "mosaicArtifactId": "ArtifactId",
     "namespaceArtifactId": "ArtifactId",
@@ -384,5 +386,7 @@
 	"nodeHeightStatsTitle": "Count of nodes by chain height",
     "nodeFinalizedHeightStatsTitle": "Count of nodes by finalized height",
 	"viewMoreStatistics": "View More Statistics",
-    "nodeCountChartTitle": "Node count over time"
+    "nodeCountChartTitle": "Node count over time",
+    "timestamp": "Timestamp",
+    "symbolTime": "Symbol Time"
 }

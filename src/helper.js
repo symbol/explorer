@@ -268,8 +268,7 @@ class helper {
 	 * @param networkTimestamp
 	 * @returns UTC date with format YYYY-MM-DD HH:mm:ss
 	 */
-	static convertToUTCDate = networkTimestamp => moment.utc(networkTimestamp * 1000).local()
-		.format('YYYY-MM-DD HH:mm:ss')
+	static convertToUTCDate = networkTimestamp => moment.utc(networkTimestamp * 1000).format('YYYY-MM-DD HH:mm:ss')
 
 	/**
 	 * convert difficulty raw score to readable
@@ -348,7 +347,6 @@ class helper {
 	 * @returns YYYY-MM-DD HH:mm:ss
 	 */
 	static convertSecondToDate = second => moment.utc().add(second, 's')
-		.local()
 		.format('YYYY-MM-DD HH:mm:ss')
 
 	/**

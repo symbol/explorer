@@ -53,7 +53,7 @@ export default {
 	},
 	methods: {
 		updateDateAge() {
-			let now = moment.utc();
+			let now = moment(moment.utc(Date.now()).format(), 'YYYY-MM-DD HH:mm:ss').utc();
 
 			let date = moment(this.date, 'YYYY-MM-DD HH:mm:ss').utc();
 

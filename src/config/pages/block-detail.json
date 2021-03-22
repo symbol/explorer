@@ -29,7 +29,8 @@
                     "confirmations",
                     "height",
                     "payloadSize",
-                    "date",
+                    "timestamp",
+                    "symbolTime",
                     "totalFee",
                     "difficulty",
                     "feeMultiplier",
@@ -56,7 +57,7 @@
                 "onRowClickKey": "transactionHash",
                 "hasFilter": true,
                 "fields": [
-                    "deadline",
+                    "timestamp",
                     "transactionHash",
                     "transactionType"
                 ]

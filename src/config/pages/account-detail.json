@@ -96,7 +96,7 @@
 				"hideDependOnGetter": "account/info",
 				"onRowClickKey": "transactionHash",
 				"fields": [
-					"date",
+					"timestamp",
 					"blockHeight",
 					"direction",
 					"transactionType",
@@ -105,7 +105,7 @@
 					"extendGraphicValue"
 				],
 				"mobileFields": [
-					"date",
+					"timestamp",
 					"direction",
 					"transactionType",
 					"transactionHash"

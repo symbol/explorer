@@ -133,7 +133,6 @@ export default {
 
 						getters.timeline.addLatestItem({
 							...latestBlock,
-							date: helper.convertToUTCDate(latestBlock.timestamp),
 							age: helper.convertToUTCDate(latestBlock.timestamp),
 							harvester: latestBlock.signer
 						}, 'height');

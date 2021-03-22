@@ -146,7 +146,7 @@ class TransactionService {
   		return transactionErrorInfo;
 	  }
 
-  	const [{ date }, effectiveFee] = await Promise.all([
+  	const [{ timestamp }, effectiveFee] = await Promise.all([
 		  BlockService.getBlockInfo(UInt64.fromUint(transaction.transactionInfo.height)),
 		  this.getTransactionEffectiveFee(hash)
 	  ]);
@@ -158,7 +158,7 @@ class TransactionService {
 		  blockHeight: formattedTransaction.transactionInfo.height,
 		  transactionHash: formattedTransaction.transactionInfo.hash,
 		  effectiveFee,
-		  date,
+		  timestamp,
 		  status: transactionStatus.detail.code,
 		  confirm: transactionStatus.message
   	};
@@ -213,10 +213,17 @@ class TransactionService {
   			return (transaction.transactionBody.recipient = await helper.resolvedAddress(transaction.recipientAddress));
   	}));
 
+  	const blocksHeight = [...new Set(transactions.data.map(data => data.transactionInfo.height))];
+
+  	const blockInfos = await Promise.all(
+  		blocksHeight.map(height => BlockService.getBlockInfo(height))
+  	);
+
   	return {
   		...transactions,
   		data: transactions.data.map(transaction => ({
   			...transaction,
+  			timestamp: blockInfos.find(block => block.height === transaction.transactionInfo.height).timestamp,
   			height: transaction.transactionInfo.height,
   			transactionHash: transaction.transactionInfo.hash,
   			transactionType: transaction.type,
