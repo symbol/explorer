@@ -18,6 +18,7 @@
 						<BlockHeightWithFinalizedStatusField v-else-if="isBlockHeightWithFinalizedStatus(itemKey)" :value="item" />
 						<Boolean v-else-if="isBoolean(itemKey)" :value="item" style="transform: scale(0.7, 0.7);"/>
 						<Age v-else-if="isAge(itemKey)" :date="item" />
+						<DateField v-else-if="itemKey === 'timestamp'" :timestamp="item" />
 						<MessageField v-else-if="itemKey === 'message'" :value="item" />
 
 						<router-link
@@ -41,6 +42,7 @@ import ArrayField from '@/components/fields/ArrayField.vue';
 import TransactionType from '@/components/fields/TransactionType.vue';
 import BlockHeightWithFinalizedStatusField from '@/components/fields/BlockHeightWithFinalizedStatusField.vue';
 import MessageField from '@/components/fields/MessageField.vue';
+import DateField from '@/components/fields/DateField.vue';
 
 export default {
 	extends: TableView,
@@ -50,7 +52,8 @@ export default {
 		ArrayField,
 		TransactionType,
 		BlockHeightWithFinalizedStatusField,
-		MessageField
+		MessageField,
+		DateField
 	},
 
 	props: {

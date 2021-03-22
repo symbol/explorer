@@ -133,7 +133,6 @@ class BlockService {
   		...blocks,
   		data: blocks.data.map(block => ({
   			...block,
-  			date: helper.convertToUTCDate(block.timestamp),
   			age: helper.convertToUTCDate(block.timestamp),
   			harvester: block.signer
   		}))
@@ -159,7 +158,10 @@ class BlockService {
   		...filterVaule
 	  };
 
-  	const searchTransactions = await TransactionService.searchTransactions(searchCriteria);
+  	const [blockInfo, searchTransactions] = await Promise.all([
+  		BlockService.getBlockInfo(height),
+  		TransactionService.searchTransactions(searchCriteria)
+  	]);
 
   	const blockTransactions = {
   		...searchTransactions,
@@ -170,6 +172,7 @@ class BlockService {
   		...blockTransactions,
   		data: blockTransactions.data.map(blockTransaction => ({
   			...blockTransaction,
+  			timestamp: blockInfo.timestamp,
   			transactionHash: blockTransaction.transactionInfo.hash,
   			transactionType: blockTransaction.type
   		}))
@@ -222,10 +225,10 @@ class BlockService {
   	return {
   		...block,
   		...importanceBlockInfo,
+  		symbolTime: block.timestamp,
   		payloadSize: block.size,
   		blockHash: block.hash,
   		harvester: block.signer,
-  		date: helper.convertToUTCDate(block.timestamp),
   		merkleInfo: {
   			stateHash,
   			stateHashSubCacheMerkleRoots,

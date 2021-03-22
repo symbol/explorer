@@ -27,7 +27,7 @@
                     "blockHeight",
                     "payloadSize",
                     "transactionHash",
-                    "date",
+                    "timestamp",
                     "deadline",
                     "effectiveFee",
                     "signature",
