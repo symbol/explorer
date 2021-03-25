@@ -34,9 +34,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@media screen and (max-width: 420px){
-	.mobile-model-content {
-		max-height: 75vh;
-	}
+@media screen and (max-width: 420px) {
+    .mobile-model-content {
+        max-height: 75vh;
+    }
 }
 </style>
