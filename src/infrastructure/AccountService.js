@@ -166,7 +166,7 @@ class AccountService {
 			...accountTransactions,
 			data: accountTransactions.data.map(accountTransaction => ({
 				...accountTransaction,
-				date: blockInfos.find(block => block.height === accountTransaction.transactionInfo.height).date,
+				timestamp: blockInfos.find(block => block.height === accountTransaction.transactionInfo.height).timestamp,
 				blockHeight: accountTransaction.transactionInfo.height,
 				transactionHash: accountTransaction.transactionInfo.hash,
 				transactionType: accountTransaction.type === TransactionType.TRANSFER
