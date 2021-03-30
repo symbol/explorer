@@ -35,7 +35,7 @@ class DataService {
   				return resolve(res.data.DISPLAY);
   			})
   			.catch(error => {
-  				// reject(new Error('Fail to request XEM price.'))
+  				// reject(new Error(`Fail to request ${cryptocurrency} price.`))
   				reject(new Error(error));
   			});
   	});
@@ -48,7 +48,8 @@ class DataService {
    */
   static getHistoricalHourlyGraph = (cryptocurrency) => {
   	return new Promise((resolve, reject) => {
-  		let url = http.marketDataUrl + `data/histohour?fsym=${cryptocurrency}&tsym=USD&limit=168`;
+  		// Request price from exchange 'Gateio' default 'cccagg'
+  		let url = http.marketDataUrl + `data/histohour?fsym=${cryptocurrency}&tsym=USDT&limit=168&e=Gateio`;
 
   		axios
   			.get(url)
@@ -56,7 +57,7 @@ class DataService {
   				return resolve(res.data);
   			})
   			.catch(error => {
-  				// reject(new Error('Fail to request Xem historical hourly graph.'))
+  				// reject(new Error(`Fail to request ${cryptocurrency} historical hourly graph.`))
   				reject(new Error(error));
   			});
   	});

@@ -17,7 +17,7 @@
  */
 
 import Lock from './lock';
-import { NodeService, ChainService } from '../infrastructure';
+import { NodeService, ChainService, DataService } from '../infrastructure';
 import { RoleType } from 'symbol-sdk';
 
 const LOCK = Lock.create();
@@ -68,8 +68,8 @@ export default {
 			state.storageInfo.numAccounts = storageInfo.numAccounts;
 		},
 		setMarketData: (state, { marketData, graphData }) => {
-			state.marketData.price = marketData.XEM.USD.PRICE;
-			state.marketData.marketCap = marketData.XEM.USD.MKTCAP;
+			state.marketData.price = marketData.XYM.USD.PRICE;
+			state.marketData.marketCap = marketData.XYM.USD.MKTCAP;
 			state.marketData.historicalHourlyGraph = graphData;
 		},
 		setChainInfo: (state, { currentHeight, finalizedBlockHeight, isVotingNode }) => {
@@ -104,10 +104,10 @@ export default {
 		// Fetch data from the SDK / API and initialize the page.
 		async initializePage({ commit, dispatch }) {
 			commit('setLoading', true);
-			const [storageInfo, /* marketData, xemGraph, */ nodeStats] = await Promise.all([
+			const [storageInfo, marketData, xemGraph, nodeStats] = await Promise.all([
 				NodeService.getStorageInfo(),
-				// DataService.getMarketPrice('XEM'),
-				// DataService.getHistoricalHourlyGraph('XEM'),
+				DataService.getMarketPrice('XYM'),
+				DataService.getHistoricalHourlyGraph('XYM'),
 				NodeService.getNodeStats().catch(() => {})
 			]);
 
@@ -116,22 +116,22 @@ export default {
 			commit('setStorageInfo', storageInfo);
 			await dispatch('getChainInfo');
 
-			// let graphData = [];
+			let graphData = [];
 
-			// if (xemGraph) {
-			// 	xemGraph.Data.map((item, index) => {
-			// 		let graphDataItem = {};
+			if (xemGraph) {
+				xemGraph.Data.map((item, index) => {
+					let graphDataItem = {};
 
-			// 		graphDataItem.y = [];
-			// 		graphDataItem.x = new Date(item['time'] * 1000);
-			// 		graphDataItem.y[0] = item['open']; // parseFloat(item['open']).toFixed(4)
-			// 		graphDataItem.y[1] = item['high']; // parseFloat(item['high']).toFixed(4)
-			// 		graphDataItem.y[2] = item['low']; // parseFloat(item['low']).toFixed(4)
-			// 		graphDataItem.y[3] = item['close']; // parseFloat(item['close']).toFixed(4)
-			// 		graphData.push(graphDataItem);
-			// 	});
-			// }
-			// commit('setMarketData', { marketData, graphData });
+					graphDataItem.y = [];
+					graphDataItem.x = new Date(item['time'] * 1000);
+					graphDataItem.y[0] = item['open']; // parseFloat(item['open']).toFixed(4)
+					graphDataItem.y[1] = item['high']; // parseFloat(item['high']).toFixed(4)
+					graphDataItem.y[2] = item['low']; // parseFloat(item['low']).toFixed(4)
+					graphDataItem.y[3] = item['close']; // parseFloat(item['close']).toFixed(4)
+					graphData.push(graphDataItem);
+				});
+			}
+			commit('setMarketData', { marketData, graphData });
 
 			if (nodeStats)
 				commit('setNodeStats', nodeStats.nodeTypes);
