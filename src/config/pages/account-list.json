@@ -20,6 +20,7 @@
 				"hasFilter": true,
 				"onRowClickKey": "address",
                 "fields": [
+                    "index",
                     "address",
                     "balance",
                     "lastActivity",
@@ -27,6 +28,7 @@
                     "accountAliasNames"
                 ],
                 "mobileFields": [
+                    "index",
                     "address",
                     "importance",
                     "info"

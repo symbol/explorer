@@ -19,6 +19,7 @@
 				"hasFilter": true,
 				"onRowClickKey": "namespaceName",
                 "fields": [
+                    "index",
                     "namespaceName",
                     "namespaceId",
                     "ownerAddress",
@@ -26,6 +27,7 @@
                     "approximateExpired"
                 ],
                 "mobileFields": [
+                    "index",
                     "namespaceName",
                     "ownerAddress",
                     "duration"
