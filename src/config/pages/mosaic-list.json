@@ -16,7 +16,6 @@
                 "managerGetter": "mosaic/timeline",
                 "errorMessage": "Failed to fetch mosaic list",
 				"pagination": "server",
-				"onRowClickKey": "mosaicId",
                 "fields": [
                     "index",
                     "mosaicId",

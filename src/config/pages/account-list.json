@@ -18,7 +18,6 @@
                 "errorMessage": "Failed to fetch account list",
                 "pagination": "server",
 				"hasFilter": true,
-				"onRowClickKey": "address",
                 "fields": [
                     "index",
                     "address",
