@@ -97,6 +97,7 @@
 				"onRowClickKey": "transactionHash",
 				"fields": [
 					"timestamp",
+					"deadline",
 					"blockHeight",
 					"direction",
 					"transactionType",
