@@ -45,7 +45,7 @@
 					"roles",
 					"nodePublicKey",
 					"chainInfo",
-					"version",
+					"softwareVersion",
 					"rewardPrograms"
 				],
 				"mobileFields": [
