@@ -384,5 +384,8 @@
     "nodeFinalizedHeightStatsTitle": "Count of nodes by finalized height",
 	"viewMoreStatistics": "View More Statistics",
     "nodeCountChartTitle": "Node count over time",
-    "timestamp": "Timestamp"
+    "timestamp": "Timestamp",
+    "symbolTime": "Symbol Time",
+    "restVersion": "Rest Version",
+    "softwareVersion": "Version"
 }
