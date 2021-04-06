@@ -180,26 +180,32 @@ export default {
 			context.getters.timeline.setStore(context).initialFetch();
 		},
 
-		// Fetch data from the SDK By Address.
+		// Fetch data from the SDK By plain Address.
 		async fetchAccountDetail(context, payload) {
-			if (!helper.isAccountAddress(payload.address))
-				payload.address = await helper.decodeToAddress(payload.address);
+			let address = payload.address;
+
+			try {
+				address = Address.createFromRawAddress(address).plain();
+			}
+			catch (e) {
+				address = await helper.decodeToAddress(address);
+			}
 
 			context.dispatch('uninitializeDetail');
-			context.commit('setCurrentAccountAddress', payload.address);
+			context.commit('setCurrentAccountAddress', address);
 
-			context.getters.info.setStore(context).initialFetch(payload.address);
-			context.getters.transactions.setStore(context).initialFetch(payload.address);
-			context.getters.OwnedMosaic.setStore(context).initialFetch(payload.address);
-			context.getters.OwnedNamespace.setStore(context).initialFetch(payload.address);
-			context.getters.multisig.setStore(context).initialFetch(payload.address);
-			context.getters.metadatas.setStore(context).initialFetch(payload.address);
-			context.getters.mosaicAddressRestrictions.setStore(context).initialFetch(payload.address);
-			context.getters.harvestedBlocks.setStore(context).initialFetch(payload.address);
-			context.getters.accountRestrictions.setStore(context).initialFetch(payload.address);
-			context.getters.hashLocks.setStore(context).initialFetch(payload.address);
-			context.getters.secretLocks.setStore(context).initialFetch(payload.address);
-			context.getters.receipt.setStore(context).initialFetch(payload.address);
+			context.getters.info.setStore(context).initialFetch(address);
+			context.getters.transactions.setStore(context).initialFetch(address);
+			context.getters.OwnedMosaic.setStore(context).initialFetch(address);
+			context.getters.OwnedNamespace.setStore(context).initialFetch(address);
+			context.getters.multisig.setStore(context).initialFetch(address);
+			context.getters.metadatas.setStore(context).initialFetch(address);
+			context.getters.mosaicAddressRestrictions.setStore(context).initialFetch(address);
+			context.getters.harvestedBlocks.setStore(context).initialFetch(address);
+			context.getters.accountRestrictions.setStore(context).initialFetch(address);
+			context.getters.hashLocks.setStore(context).initialFetch(address);
+			context.getters.secretLocks.setStore(context).initialFetch(address);
+			context.getters.receipt.setStore(context).initialFetch(address);
 		},
 
 		uninitializeDetail(context) {
