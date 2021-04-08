@@ -140,11 +140,18 @@ class NodeService {
                 			...el
                 		};
 
+                		node['softwareVersion'] = { version: el.version };
+
                 		if (el.apiStatus) {
                 			node['chainInfo'] = {
                 				chainHeight: el.apiStatus.chainHeight,
                 				finalizationHeight: el.apiStatus.finalizationHeight,
                 				lastStatusCheck: el.apiStatus.lastStatusCheck
+                			};
+
+                			node['softwareVersion'] = {
+                				...node.softwareVersion,
+                				restVersion: el.apiStatus.restVersion
                 			};
                 		}
                 		else

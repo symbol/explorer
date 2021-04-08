@@ -388,5 +388,7 @@
 	"viewMoreStatistics": "View More Statistics",
     "nodeCountChartTitle": "Node count over time",
     "timestamp": "Timestamp",
-    "symbolTime": "Symbol Time"
+    "symbolTime": "Symbol Time",
+    "restVersion": "REST Version",
+    "softwareVersion": "Version"
 }
