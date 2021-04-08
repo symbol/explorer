@@ -2,8 +2,9 @@ language: node_js
 services:
   - docker
 node_js:
-  - "10"
   - "12"
+  - "lts/*"
+  - "node"
 env:
   global:
     - DEV_BRANCH=dev

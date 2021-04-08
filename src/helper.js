@@ -627,6 +627,16 @@ class helper {
 
 		return csvContent;
 	}
+
+	/**
+	 * Gets first index from the list.
+	 * @param pageNumber
+	 * @param pageSize
+	 * @returns first index from the list
+	 */
+	static getStartListIndex = (pageNumber, pageSize) => {
+		return pageNumber === 1 ? 0 : (pageNumber - 1) * pageSize;
+	}
 }
 
 export default helper;
