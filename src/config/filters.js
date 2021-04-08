@@ -285,6 +285,10 @@ export const nodeRoles = [
 		icon: '',
 		value: {
 			rolesRaw: null
+		},
+		exportCSV: {
+			isActive: true,
+			name: 'nodeListCSV'
 		}
 	},
 	{
@@ -292,6 +296,10 @@ export const nodeRoles = [
 		icon: '',
 		value: {
 			rolesRaw: 1
+		},
+		exportCSV: {
+			isActive: true,
+			name: 'nodeListCSV'
 		}
 	},
 	{
@@ -299,6 +307,10 @@ export const nodeRoles = [
 		icon: '',
 		value: {
 			rolesRaw: 2
+		},
+		exportCSV: {
+			isActive: true,
+			name: 'nodeListCSV'
 		}
 	},
 	{
@@ -306,6 +318,10 @@ export const nodeRoles = [
 		icon: '',
 		value: {
 			rolesRaw: 3
+		},
+		exportCSV: {
+			isActive: true,
+			name: 'nodeListCSV'
 		}
 	},
 	{
@@ -313,6 +329,10 @@ export const nodeRoles = [
 		icon: '',
 		value: {
 			rolesRaw: 4
+		},
+		exportCSV: {
+			isActive: true,
+			name: 'nodeListCSV'
 		}
 	},
 	{
@@ -320,6 +340,10 @@ export const nodeRoles = [
 		icon: '',
 		value: {
 			rolesRaw: 5
+		},
+		exportCSV: {
+			isActive: true,
+			name: 'nodeListCSV'
 		}
 	},
 	{
@@ -327,6 +351,10 @@ export const nodeRoles = [
 		icon: '',
 		value: {
 			rolesRaw: 6
+		},
+		exportCSV: {
+			isActive: true,
+			name: 'nodeListCSV'
 		}
 	},
 	{
@@ -334,6 +362,10 @@ export const nodeRoles = [
 		icon: '',
 		value: {
 			rolesRaw: 7
+		},
+		exportCSV: {
+			isActive: true,
+			name: 'nodeListCSV'
 		}
 	},
 	{
@@ -342,6 +374,10 @@ export const nodeRoles = [
 		value: {
 			rolesRaw: null,
 			rewardProgram: 'SuperNode'
+		},
+		exportCSV: {
+			isActive: true,
+			name: 'nodeListCSV'
 		}
 	},
 	{
@@ -350,6 +386,10 @@ export const nodeRoles = [
 		value: {
 			rolesRaw: null,
 			rewardProgram: 'EarlyAdoption'
+		},
+		exportCSV: {
+			isActive: true,
+			name: 'nodeListCSV'
 		}
 	},
 	{
@@ -358,6 +398,10 @@ export const nodeRoles = [
 		value: {
 			rolesRaw: null,
 			rewardProgram: 'Ecosystem'
+		},
+		exportCSV: {
+			isActive: true,
+			name: 'nodeListCSV'
 		}
 	}
 ];
