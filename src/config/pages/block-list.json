@@ -18,7 +18,6 @@
                 "pagination": "server",
                 "hasFilter": false,
 				"hasInfoText": true,
-				"onRowClickKey": "height",
                 "fields": [
                     "height",
                     "blockType",

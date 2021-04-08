@@ -120,8 +120,9 @@ class MosaicService {
 
    	return {
    		...mosaicInfos,
-   		data: mosaicInfos.data.map(mosaic => ({
+   		data: mosaicInfos.data.map((mosaic, index) => ({
    			...mosaic,
+   			index: index + 1 + helper.getStartListIndex(pageNumber, pageSize),
    			ownerAddress: mosaic.address,
    			mosaicAliasNames: this.extractMosaicNamespace(mosaic, mosaicNames)
    		}))

@@ -54,7 +54,6 @@
                 "title": "blockTransactionsTitle",
                 "managerGetter": "block/blockTransactions",
 				"pagination": "server",
-                "onRowClickKey": "transactionHash",
                 "hasFilter": true,
                 "fields": [
                     "timestamp",
