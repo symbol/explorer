@@ -605,21 +605,28 @@ class helper {
 			: mosaic.mosaicId;
 	}
 
+	/**
+	 * Convert dataset into CSV format
+	 * @param dataset - Array
+	 * @returns csv data in string format.
+	 */
 	static convertArrayToCSV(dataset) {
-		if (!Array.isArray(dataset) || dataset.length === 0)
-			return [];
+		if (!Array.isArray(dataset))
+			throw Error('Convert dataset to CSV fail.');
+
+		if (dataset.length === 0) return 'Nothing to show';
 
 		let csvContent = '';
 
 		csvContent += Object.keys(dataset[0]).join(',') + '\n';
 
-		for (let i = 0; i < dataset.length; i++) {
+		for (const value of dataset) {
 			let row = '';
 
-			for (let index in dataset[i]) {
+			for (let prop in value) {
 				if (row !== '') row += ',';
 
-				row += dataset[i][index];
+				row += value[prop];
 			}
 
 			csvContent += row + '\r\n';
