@@ -20,6 +20,7 @@
                 "fields": [
                     "height",
                     "timestamp",
+                    "deadline",
                     "transactionHash",
                     "transactionType",
                     "signer",

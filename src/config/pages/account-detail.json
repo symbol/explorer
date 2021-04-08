@@ -95,6 +95,7 @@
 				"hideDependOnGetter": "account/info",
 				"fields": [
 					"timestamp",
+					"deadline",
 					"blockHeight",
 					"direction",
 					"transactionType",

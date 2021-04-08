@@ -152,20 +152,33 @@ class AccountService {
 			data: searchTransactions.data.map(transaction => TransactionService.formatTransaction(transaction))
 		};
 
+		await Promise.all(accountTransactions.data.map(async transaction => {
+			if (transaction?.recipientAddress)
+				return (transaction.transactionBody.recipient = await helper.resolvedAddress(transaction.recipientAddress));
+		}));
+
+		if (searchCriteria.group === TransactionGroup.Partial || searchCriteria.group === TransactionGroup.Unconfirmed) {
+			return {
+			  	...accountTransactions,
+				data: accountTransactions.data.map(accountTransaction => ({
+					...accountTransaction,
+					transactionHash: accountTransaction.transactionInfo.hash,
+					transactionType: accountTransaction.type,
+					recipient: accountTransaction.transactionBody?.recipient,
+					extendGraphicValue: TransactionService.extendGraphicValue(accountTransaction)
+				}))
+			};
+		}
+
 		const blockHeight = [...new Set(accountTransactions.data.map(data => data.transactionInfo.height))];
 
 		const blockInfos = await Promise.all(
 			blockHeight.map(height => BlockService.getBlockInfo(height))
 		);
 
-		await Promise.all(accountTransactions.data.map(async transaction => {
-			if (transaction?.recipientAddress)
-				return (transaction.transactionBody.recipient = await helper.resolvedAddress(transaction.recipientAddress));
-		}));
-
 		return {
 			...accountTransactions,
-			data: accountTransactions.data.map(accountTransaction => ({
+			data: accountTransactions.data.map(({ deadline, ...accountTransaction }) => ({
 				...accountTransaction,
 				timestamp: blockInfos.find(block => block.height === accountTransaction.transactionInfo.height).timestamp,
 				blockHeight: accountTransaction.transactionInfo.height,
