@@ -91,8 +91,9 @@ class AccountService {
 
 		return {
 			...accountInfos,
-			data: accountInfos.data.map(account => ({
+			data: accountInfos.data.map((account, index) => ({
 				...account,
+				index: index + 1 + helper.getStartListIndex(pageNumber, pageSize),
 				balance: helper.getNetworkCurrencyBalance(account.mosaics),
 				lastActivity: helper.getLastActivityHeight(account.activityBucket),
 				accountAliasNames: this.extractAccountNamespace(account, accountNames)

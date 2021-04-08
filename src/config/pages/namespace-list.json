@@ -17,8 +17,8 @@
                 "errorMessage": "Failed to fetch namespace list",
                 "pagination": "server",
 				"hasFilter": true,
-				"onRowClickKey": "namespaceName",
                 "fields": [
+                    "index",
                     "namespaceName",
                     "namespaceId",
                     "ownerAddress",
@@ -26,6 +26,7 @@
                     "approximateExpired"
                 ],
                 "mobileFields": [
+                    "index",
                     "namespaceName",
                     "ownerAddress",
                     "duration"
