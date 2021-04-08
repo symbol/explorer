@@ -189,7 +189,7 @@ export const account = [
 	},
 	{
 		label: 'Rich List',
-		icon: 'mdi-circle',
+		icon: 'mdi-cash',
 		value: {
 			orderBy: AccountOrderBy.Balance,
 			mosaicId: new MosaicId(http.networkCurrency.mosaicId)
@@ -376,14 +376,15 @@ export const payouts = [
 export const accountTransactionReceipt = [
 	{
 		label: Constants.ReceiptTransactionStatamentType.BalanceChangeReceipt,
-		icon: 'mdi-alert',
+		icon: 'mdi-receipt',
 		value: {
-			...customTransactionReceiptFilter.balanceChange
+			...customTransactionReceiptFilter.balanceChange,
+			receiptTypes: customTransactionReceiptFilter.balanceChange.receiptTypes.filter(type => type !== ReceiptType.Harvest_Fee)
 		}
 	},
 	{
 		label: Constants.ReceiptTransactionStatamentType.BalanceTransferReceipt,
-		icon: 'mdi-alert',
+		icon: 'mdi-receipt',
 		value: {
 			...customTransactionReceiptFilter.balanceTransfer
 		}

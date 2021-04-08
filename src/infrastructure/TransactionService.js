@@ -213,6 +213,19 @@ class TransactionService {
   			return (transaction.transactionBody.recipient = await helper.resolvedAddress(transaction.recipientAddress));
   	}));
 
+  	if (searchCriteria.group === TransactionGroup.Partial || searchCriteria.group === TransactionGroup.Unconfirmed) {
+  		return {
+  			...transactions,
+  			data: transactions.data.map(transaction => ({
+  				...transaction,
+  				transactionHash: transaction.transactionInfo.hash,
+  				transactionType: transaction.type,
+  				recipient: transaction.transactionBody?.recipient,
+  				extendGraphicValue: this.extendGraphicValue(transaction)
+  			}))
+  		};
+  	}
+
   	const blocksHeight = [...new Set(transactions.data.map(data => data.transactionInfo.height))];
 
   	const blockInfos = await Promise.all(
@@ -221,7 +234,7 @@ class TransactionService {
 
   	return {
   		...transactions,
-  		data: transactions.data.map(transaction => ({
+  		data: transactions.data.map(({ deadline, ...transaction }) => ({
   			...transaction,
   			timestamp: blockInfos.find(block => block.height === transaction.transactionInfo.height).timestamp,
   			height: transaction.transactionInfo.height,

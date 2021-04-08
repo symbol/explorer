@@ -203,11 +203,12 @@ class NamespaceService {
 
   	return {
   		...namespaceInfos,
-  		data: namespaceInfos.data.map(namespace => {
+  		data: namespaceInfos.data.map((namespace, index) => {
 			  const { isExpired, expiredInSecond, expiredInBlock } = helper.calculateNamespaceExpiration(currentHeight, namespace.endHeight);
 
   			return {
   				...namespace,
+  				index: index + 1 + helper.getStartListIndex(pageNumber, pageSize),
   				expirationDuration: helper.isNativeNamespace(namespace.namespaceName) ? Constants.Message.INFINITY : helper.convertTimeFromNowInSec(expiredInSecond),
   				isExpired: isExpired,
   				approximateExpired: helper.isNativeNamespace(namespace.namespaceName) ? Constants.Message.INFINITY : helper.convertSecondToDate(expiredInSecond),
