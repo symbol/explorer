@@ -334,6 +334,27 @@ class NodeService {
 		else
 			throw Error('nodeRewardsController endpoint is not provided');
 	}
+
+	static getNodeListCSV = async (filter) => {
+		const nodes = await this.getNodePeerList(filter);
+
+		const formattedData = nodes.data.map(node => ({
+			no: node.index,
+			host: node.host,
+			country: node.country,
+			friendlyName: node.friendlyName.replace(/,/g, '_'), // prevent friendly name break in CSV
+			roles: node.roles,
+			network: node.network,
+			networkGenerationHashSeed: node.networkGenerationHashSeed,
+			nodePublicKey: node.nodePublicKey,
+			chainHeight: node.chainInfo.chainHeight,
+			finalizationHeight: node.chainInfo.finalizationHeight,
+			version: node.version,
+			rewardPrograms: node.rewardPrograms
+		}));
+
+		return helper.convertArrayToCSV(formattedData);
+	}
 }
 
 export default NodeService;
