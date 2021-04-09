@@ -124,10 +124,9 @@ class helper {
 	}
 
 	static httpToWsUrl(str) {
-		let url = new Url(str);
+		let url = new Url(str.replace('http', 'ws'));
 
 		if (this.validURL(url)) {
-			url.set('protocol', 'ws:');
 			return url;
 		}
 	}

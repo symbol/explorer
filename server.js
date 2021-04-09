@@ -1,74 +1,36 @@
 const fs = require('fs');
 const http = require('http');
 const express = require('express');
-const expressWs = require('express-ws')
+const expressWs = require('express-ws');
+const WebSocket = require('websocket').w3cwebsocket;
 const Axios = require('axios')
-const app = express()
-const port = 3000
+const app = express();
 
-expressWs(app)
-
-app.use(express.json());
-
-app.get('/', (req, res) => {
-  res.send('Hello World!')
-})
-
-app.all('*', function (req, res, next) {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Methods', 'PUT, GET, POST, DELETE, OPTIONS');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    next();
-});
-
-app.all('/connect/*', async (req, res, next) => {
-	if (req.method === 'WS')
-		next();
-
-	try {
-		// console.log(req.params);
-		const options = {
-			method: req.method.toLowerCase(),
-			data: req.method === 'POST' && req.body,
-			params: req.method === 'GET' && req.query,
-			url: req.params[0]
-		};
-
-		// console.log('options', options) 
-		const response = await Axios(options)
-
-		// console.log(response.data)
-		res.send(response.data)
-	}
-	catch(e) {
-		res.status(e.response.statusCode ? e.response.statusCode : 500).send(e.response.message)
-	}
-})
-
-app.ws('/connect/*', (ws, req) => {
-	console.log('WS connected', req.params)
-	ws.send(req.params)
-    ws.on('message', msg => {
-        ws.send(msg)
-    })
-
-    ws.on('close', () => {
-        console.log('WebSocket was closed')
-    })
-});
-
-app.listen(port, () => {
-  console.log(`Example app listening at http://localhost:${port}`)
-})
-
+const port = 3000;
 const PORT = 4000;
 const CONFIG_ROUTE = '/config';
 const DEFAULT_CONFIG_PATH = '/src/config/default.json';
 const STATIC_FOLDER = '/www';
 const INDEX_HTML = '/index.html';
 
-let ENV;
+let CONFIG;
 
+
+expressWs(app)
+app.use(express.json());
+
+
+const getFile = (url, errCallback, callback) => {
+	fs.readFile(__dirname + STATIC_FOLDER + url, (err, data) => {
+		if (err) {
+			if(typeof errCallback === 'function')
+				errCallback(err);
+		}
+		else
+			if(typeof callback === 'function')
+				callback(data);
+	});
+};
 
 const readConfig = (callback) => {
 	const ENV = process.env;
@@ -98,57 +60,105 @@ const readConfig = (callback) => {
 	});
 };
 
-const getFile = (url, errCallback, callback) => {
-	fs.readFile(__dirname + STATIC_FOLDER + url, (err, data) => {
-		if (err) {
-			if(typeof errCallback === 'function')
-				errCallback(err);
-		}
-		else
-			if(typeof callback === 'function')
-				callback(data);
+
+const startServer = config => {
+	app.get('/', (req, res, next) => {
+		req.params[0] = INDEX_HTML;
+		next();
+	})
+
+	app.get(CONFIG_ROUTE, (req, res) => {
+		res.send(config)
+	})
+	
+	app.ws('/connect/*/ws', (ws, req) => {
+		const url = req.params[0].replace('http', 'ws') + '/ws';
+		console.log('WS connected');
+
+		let nodeListener = new WebSocket(url);
+		nodeListener.onopen = () => {
+			console.log('Listener connected to ' + url);
+		};
+		nodeListener.onmessage = (event) => {
+			console.log('Listener message: ')
+			ws.send(event.data);
+		};
+		nodeListener.onclose = (event) => {
+			if (event.wasClean)
+				console.log('Listener closed clean');
+			else 
+				console.log('Listener connection lost');	
+			console.log('Listener closed. [' + event.code + ']: ' + event.reason);
+			ws.close();
+		};
+		nodeListener.onerror = (error) => {
+			console.log('Listener error: ' + error.message);
+		};
+
+		ws.on('error', err => console.log('WS error', err));
+		ws.on('message', msg => {
+			console.log('WS message: ', msg);
+			nodeListener.send(msg);
+		});
+		ws.on('close', (e) => {
+			console.log('WS closed', e);
+			nodeListener.close();
+			nodeListener = undefined;
+		});
 	});
-};
-
-const send = (res, data) => {
-	res.writeHead(200);
-	res.end(data);
-};
-
-const sendJSON = (res, data) => {
-	res.setHeader('Content-Type', 'application/json');
-	send(res, JSON.stringify(data));
-}
-
-const sendError = (res, err, code) => {
-	res.writeHead(code);
-	res.end(JSON.stringify(err));
-	return;
-};
-
-readConfig(res => {
-	ENV = res;
-
-	http.createServer((req, res) => {
-		if(req.url === '/')
-			req.url = INDEX_HTML;
-			
-
-		if(req.url === CONFIG_ROUTE) {
-			sendJSON(res, ENV);
+	
+	app.all('/connect/*', async (req, res, next) => {
+		const url = req.params[0];
+		let origin;
+		try {
+			origin = new URL(url).origin;
 		}
-		else {
-			getFile(req.url,
-				() => {
-					getFile(INDEX_HTML,
-						err => sendError(res, err, 404),
-						data => send(res, data)
-					);
-				},
-				data => send(res, data)
-			);
-		}
-	}).listen(ENV.PORT || PORT);
+		catch(e){}
 
-	console.log('Server is running on port: ' + PORT);
-});
+		if (!config.peersApi.nodes.find(nodeUrl => nodeUrl === origin))
+			return res.status(403).send(`"${origin}" is not in the peerApi node list`);
+	
+		try {
+			// console.log(req.params);
+			const options = {
+				method: req.method.toLowerCase(),
+				data: req.method === 'POST' && req.body,
+				params: req.method === 'GET' && req.query,
+				url: req.params[0]
+			};
+	
+			// console.log('options', options) 
+			const response = await Axios(options)
+	
+			// console.log(response.data)
+			res.send(response.data)
+		}
+		catch(e) {
+			res.status(e.response.statusCode ? e.response.statusCode : 500).send(e.response.message)
+		}
+	})
+
+	app.all('/*', async (req, res, next) => {
+		const url = '/' + req.params[0];
+		if (url.length > 256)
+			return res.status(400).send('Request too long');
+
+		
+		getFile(url,
+			() => {
+				getFile(INDEX_HTML,
+					err => res.status(404).send(err),
+					data => res.end(data)
+				);
+			},
+			data => res.end(data)
+		);
+	})
+
+	
+	app.listen(PORT, () => {
+		console.log('Server is running on port: ' + PORT)
+	})
+};
+
+readConfig(startServer);
