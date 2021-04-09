@@ -1,6 +1,6 @@
 <template>
 	<span
-		:title="'Export CSV'"
+		:title="getNameByKey('exportCSV')"
 		class="mdi mdi-file-export-outline export-csv"
 		@click="exportCSVFile"
 	/>
@@ -33,6 +33,10 @@ export default {
 			link.setAttribute('href', encodeURI('data:text/csv;charset=utf-8,' + csv));
 			link.setAttribute('download', option.label);
 			link.click();
+		},
+
+        getNameByKey(e) {
+			return this.$store.getters['ui/getNameByKey'](e);
 		}
 	}
 };
