@@ -386,5 +386,7 @@
     "timestamp": "Timestamp",
     "symbolTime": "Symbol Time",
     "restVersion": "Rest Version",
-    "softwareVersion": "Version"
+    "softwareVersion": "Version",
+    "remote": "Remote",
+    "main": "Main"
 }
