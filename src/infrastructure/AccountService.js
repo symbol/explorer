@@ -41,7 +41,7 @@ class AccountService {
 
 	/**
 	 * Gets an AccountInfo for an account.
-	 * @param address
+	 * @param addresses Array
 	 * @returns Formatted AccountInfo
 	 */
 	static getAccounts = async addresses => {
@@ -107,7 +107,7 @@ class AccountService {
 	 * @returns Custom AccountInfo
 	 */
 	static getAccountInfo = async address => {
-		const accountInfo = await this.getAccount(address);
+		const { supplementalPublicKeys, ...accountInfo } = await this.getAccount(address);
 		const accountNames = await NamespaceService.getAccountsNames([Address.createFromRawAddress(address)]);
 
 		return {
@@ -119,8 +119,11 @@ class AccountService {
 				importanceScore: activity.rawScore
 			})),
 			supplementalPublicKeys: {
-				...accountInfo.supplementalPublicKeys,
-				voting: Array.isArray(accountInfo.supplementalPublicKeys.voting) ? accountInfo.supplementalPublicKeys.voting.map(voting => voting.publicKey) : accountInfo.supplementalPublicKeys.voting
+				...supplementalPublicKeys,
+				linkedAddress: supplementalPublicKeys.linked === Constants.Message.UNAVAILABLE ? supplementalPublicKeys.linked : helper.publicKeyToAddress(supplementalPublicKeys.linked),
+				nodeAddress: supplementalPublicKeys.node === Constants.Message.UNAVAILABLE ? supplementalPublicKeys.node : helper.publicKeyToAddress(supplementalPublicKeys.node),
+				vrfAddress: supplementalPublicKeys.vrf === Constants.Message.UNAVAILABLE ? supplementalPublicKeys.vrf : helper.publicKeyToAddress(supplementalPublicKeys.vrf),
+				voting: supplementalPublicKeys.voting.length > 0 ? supplementalPublicKeys.voting.map(voting => helper.publicKeyToAddress(voting.publicKey)) : []
 			},
 			accountAliasNames: this.extractAccountNamespace(accountInfo, accountNames)
 		};

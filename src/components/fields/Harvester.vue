@@ -19,7 +19,7 @@
 <template>
 	<div class="harvester-container">
 		<span :title="title" >
-			<router-link :to="getItemHref('accounts', value.linked)">
+			<router-link :to="getItemHref('accounts', value.linkedAddress)">
 				<b class="link">{{ value.signer }}</b>
 			</router-link>
 		</span>
@@ -40,7 +40,7 @@ export default {
 			return this.getKeyName('remote') +
 			': ' + this.value.signer +
 			'\n' + this.getKeyName('main') +
-			': ' + this.value.linked;
+			': ' + this.value.linkedAddress;
 		}
 	}
 };
