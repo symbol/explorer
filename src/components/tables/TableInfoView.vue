@@ -8,8 +8,7 @@
 					</td>
 					<td
 						class="'max-item-width table-cell break-all"
-						:title="getKeyName(itemKey) + ': ' + item"
-						@click="onItemClick(itemKey, item)"
+						:title="getKeyName(itemKey) + (typeof item !== 'string' ? '' : ': ' +  item)"
 					>
 						<ArrayField v-if="isArrayField(itemKey)" :itemKey="itemKey" :value="item" />
 						<MosaicsField v-else-if="itemKey === 'mosaics'" :value="item" />
