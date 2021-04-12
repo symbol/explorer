@@ -389,5 +389,8 @@
     "restVersion": "Rest Version",
     "softwareVersion": "Version",
     "remote": "Remote",
-    "main": "Main"
+    "main": "Main",
+    "linkedAddress": "Linked",
+    "nodeAddress": "Node",
+    "vrfAddress": "VRF"
 }
