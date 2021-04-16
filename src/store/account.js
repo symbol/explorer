@@ -180,7 +180,7 @@ export default {
 			context.getters.timeline.setStore(context).initialFetch();
 		},
 
-		// Fetch data from the SDK By plain Address.
+		// Fetch account data by address, publicKey or alias namespaceName
 		async fetchAccountDetail(context, payload) {
 			let address = payload.address;
 
