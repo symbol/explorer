@@ -387,5 +387,6 @@
     "timestamp": "Timestamp",
     "symbolTime": "Symbol Time",
     "restVersion": "Rest Version",
-    "softwareVersion": "Version"
+    "softwareVersion": "Version",
+    "exportCSV": "Export CSV"
 }
