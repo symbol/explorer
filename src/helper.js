@@ -242,7 +242,7 @@ class helper {
 		let mosaic = mosaics.find(mosaic =>
 			mosaic.id.toHex() === http.networkCurrency.mosaicId ||
 			(mosaic.id instanceof NamespaceId &&
-			mosaic.id.toHex() === http.networkCurrency.namespaceId)
+				mosaic.id.toHex() === http.networkCurrency.namespaceId)
 		);
 
 		let balance = mosaic !== undefined ? this.toNetworkCurrency(mosaic.amount) : Constants.Message.UNAVAILABLE;
@@ -603,6 +603,36 @@ class helper {
 		return mosaicAliasName !== 'N/A'
 			? mosaicAliasName
 			: mosaic.mosaicId;
+	}
+
+	/**
+	 * Convert dataset into CSV format
+	 * @param dataset - Array
+	 * @returns csv data in string format.
+	 */
+	static convertArrayToCSV(dataset) {
+		if (!Array.isArray(dataset))
+			throw Error('Convert dataset to CSV fail.');
+
+		if (dataset.length === 0) return 'Nothing to show';
+
+		let csvContent = '';
+
+		csvContent += Object.keys(dataset[0]).join(',') + '\n';
+
+		for (const value of dataset) {
+			let row = '';
+
+			for (let prop in value) {
+				if (row !== '') row += ',';
+
+				row += value[prop];
+			}
+
+			csvContent += row + '\r\n';
+		}
+
+		return csvContent;
 	}
 
 	/**

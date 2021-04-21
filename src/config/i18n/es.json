@@ -391,5 +391,6 @@
     "main": "Main",
     "linkedAddress": "Linked",
     "nodeAddress": "Node",
-    "vrfAddress": "VRF"
+    "vrfAddress": "VRF",
+    "exportCSV": "Export CSV"
 }
