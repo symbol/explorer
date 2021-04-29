@@ -1,27 +1,132 @@
 const fs = require('fs');
-const http = require('http');
 const express = require('express');
 const expressWs = require('express-ws');
 const WebSocket = require('websocket').w3cwebsocket;
 const Axios = require('axios')
 const app = express();
 
-const port = 3000;
 const PORT = 4000;
 const CONFIG_ROUTE = '/config';
 const DEFAULT_CONFIG_PATH = '/src/config/default.json';
 const STATIC_FOLDER = '/www';
 const INDEX_HTML = '/index.html';
 
-let CONFIG;
-
-
-expressWs(app)
+expressWs(app);
 app.use(express.json());
 
 
-const getFile = (url, errCallback, callback) => {
-	fs.readFile(__dirname + STATIC_FOLDER + url, (err, data) => {
+
+// Set server routes
+
+const setRootRoute = (server) => {
+	server.get('/', (req, res, next) => {
+		req.params[0] = INDEX_HTML;
+		next();
+	})
+}
+
+const setConfigRoute = (server, config) => {
+	server.get(CONFIG_ROUTE, (req, res) => {
+		res.send(config);
+	})
+}
+
+const setNodeHttpRoutes = (server, nodeUrl) => {
+	server.all(`/connect/${nodeUrl}/*`, async (req, res, next) => {
+		const url = `${nodeUrl}/${req.params[0]}`;
+		console.log(url)
+		let origin;
+		try {
+			origin = new URL(req.originalUrl.replace('/connect/', '')).origin;
+		}
+		catch(e){}
+
+		if (nodeUrl !== origin)
+			return res.status(400).send(`Invalid URL "${origin}"`);
+
+		try {
+			const options = {
+				method: req.method.toLowerCase(),
+				data: req.method === 'POST' ? req.body : void 0,
+				params: req.method === 'GET' ? req.query : void 0,
+				url
+			};
+
+			const response = await Axios(options);
+			res.send(response.data);
+		}
+		catch(e) {
+			if (e.response)
+				res.status(e.response.status ? e.response.status : 500).send(e.response.message);
+			else
+				res.status(500).send(e.message);
+		}
+	})
+}
+
+const setNodeWsRoutes = (server, nodeUrl) => {
+	server.ws(`/connect/${nodeUrl}/ws`, (wsServer) => {
+		const url = nodeUrl.replace('http', 'ws') + '/ws';
+		console.log('WS connected');
+
+		let nodeListener = new WebSocket(url);
+		nodeListener.onopen = () => {
+			console.log('Listener connected to ' + url);
+		};
+		nodeListener.onmessage = (event) => {
+			console.log('Listener message: ')
+			wsServer.send(event.data);
+		};
+		nodeListener.onclose = (event) => {
+			if (event.wasClean)
+				console.log('Listener closed clean');
+			else 
+				console.log('Listener connection lost');	
+			console.log('Listener closed. [' + event.code + ']: ' + event.reason);
+			wsServer.close();
+		};
+		nodeListener.onerror = (error) => {
+			console.log('Listener error: ' + error.message);
+		};
+
+		wsServer.on('error', err => console.log('WS error', err));
+		wsServer.on('message', msg => {
+			console.log('WS message: ', msg);
+			nodeListener.send(msg);
+		});
+		wsServer.on('close', (e) => {
+			console.log('WS closed', e);
+			nodeListener.close();
+			nodeListener = undefined;
+		});
+	});
+}
+
+const setStaticHttpRoutes = (server) => {
+	server.all('/*', async (req, res, next) => {
+		const route = '/' + req.params[0];
+		if (route.length > 256)
+			return res.status(400).send('Request too long');
+
+		
+		readFileByRoute(route,
+			data => res.end(data),
+			() => {
+				readFileByRoute(INDEX_HTML,
+					data => res.end(data),
+					err => res.status(404).send(err),
+				);
+			},
+		);
+	})
+}
+
+
+
+// Read static files
+
+const readFileByRoute = (route, callback, errCallback) => {
+	fs.readFile(__dirname + STATIC_FOLDER + route, (err, data) => {
 		if (err) {
 			if(typeof errCallback === 'function')
 				errCallback(err);
@@ -31,6 +136,10 @@ const getFile = (url, errCallback, callback) => {
 				callback(data);
 	});
 };
+
+
+
+// Get config from ENV and merge with default config json file
 
 const readConfig = (callback) => {
 	const ENV = process.env;
@@ -61,101 +170,16 @@ const readConfig = (callback) => {
 };
 
 
+
+
+
 const startServer = config => {
-	app.get('/', (req, res, next) => {
-		req.params[0] = INDEX_HTML;
-		next();
-	})
+	setRootRoute(app);
+	setConfigRoute(app, config);
+	config.peersApi.nodes.forEach(nodeUrl => { setNodeWsRoutes(app, nodeUrl); });
+	config.peersApi.nodes.forEach(nodeUrl => { setNodeHttpRoutes(app, nodeUrl); });
+	setStaticHttpRoutes(app);
 
-	app.get(CONFIG_ROUTE, (req, res) => {
-		res.send(config)
-	})
-	
-	app.ws('/connect/*/ws', (ws, req) => {
-		const url = req.params[0].replace('http', 'ws') + '/ws';
-		console.log('WS connected');
-
-		let nodeListener = new WebSocket(url);
-		nodeListener.onopen = () => {
-			console.log('Listener connected to ' + url);
-		};
-		nodeListener.onmessage = (event) => {
-			console.log('Listener message: ')
-			ws.send(event.data);
-		};
-		nodeListener.onclose = (event) => {
-			if (event.wasClean)
-				console.log('Listener closed clean');
-			else 
-				console.log('Listener connection lost');	
-			console.log('Listener closed. [' + event.code + ']: ' + event.reason);
-			ws.close();
-		};
-		nodeListener.onerror = (error) => {
-			console.log('Listener error: ' + error.message);
-		};
-
-		ws.on('error', err => console.log('WS error', err));
-		ws.on('message', msg => {
-			console.log('WS message: ', msg);
-			nodeListener.send(msg);
-		});
-		ws.on('close', (e) => {
-			console.log('WS closed', e);
-			nodeListener.close();
-			nodeListener = undefined;
-		});
-	});
-	
-	app.all('/connect/*', async (req, res, next) => {
-		const url = req.params[0];
-		let origin;
-		try {
-			origin = new URL(url).origin;
-		}
-		catch(e){}
-
-		if (!config.peersApi.nodes.find(nodeUrl => nodeUrl === origin))
-			return res.status(403).send(`"${origin}" is not in the peerApi node list`);
-	
-		try {
-			// console.log(req.params);
-			const options = {
-				method: req.method.toLowerCase(),
-				data: req.method === 'POST' && req.body,
-				params: req.method === 'GET' && req.query,
-				url: req.params[0]
-			};
-	
-			// console.log('options', options) 
-			const response = await Axios(options)
-	
-			// console.log(response.data)
-			res.send(response.data)
-		}
-		catch(e) {
-			res.status(e.response.statusCode ? e.response.statusCode : 500).send(e.response.message)
-		}
-	})
-
-	app.all('/*', async (req, res, next) => {
-		const url = '/' + req.params[0];
-		if (url.length > 256)
-			return res.status(400).send('Request too long');
-
-		
-		getFile(url,
-			() => {
-				getFile(INDEX_HTML,
-					err => res.status(404).send(err),
-					data => res.end(data)
-				);
-			},
-			data => res.end(data)
-		);
-	})
-
-	
 	app.listen(PORT, () => {
 		console.log('Server is running on port: ' + PORT)
 	})
