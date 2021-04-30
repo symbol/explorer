@@ -2,7 +2,8 @@ const fs = require('fs');
 const express = require('express');
 const expressWs = require('express-ws');
 const WebSocket = require('websocket').w3cwebsocket;
-const Axios = require('axios')
+const Axios = require('axios');
+const Logger = require('./logger');
 const app = express();
 
 const PORT = 4000;
@@ -11,9 +12,15 @@ const DEFAULT_CONFIG_PATH = '/src/config/default.json';
 const STATIC_FOLDER = '/www';
 const INDEX_HTML = '/index.html';
 
+const logger = {
+	http: Logger.getLogger('HTTP'),
+	ws: Logger.getLogger('WebSocket'),
+	listener: Logger.getLogger('Listener'),
+	server: Logger.getLogger('Server'),
+};
+
 expressWs(app);
 app.use(express.json());
-
 
 
 // Set server routes
@@ -34,12 +41,16 @@ const setConfigRoute = (server, config) => {
 const setNodeHttpRoutes = (server, nodeUrl) => {
 	server.all(`/connect/${nodeUrl}/*`, async (req, res, next) => {
 		const url = `${nodeUrl}/${req.params[0]}`;
-		console.log(url)
 		let origin;
+		
+		logger.http.info(req.method + 'reqest: ' + req.originalUrl);
+
 		try {
 			origin = new URL(req.originalUrl.replace('/connect/', '')).origin;
 		}
-		catch(e){}
+		catch(e) {
+			logger.http.error(`Invalid url "${req.originalUrl}": ${e.message}`);
+		}
 
 		if (nodeUrl !== origin)
 			return res.status(400).send(`Invalid URL "${origin}"`);
@@ -58,8 +69,10 @@ const setNodeHttpRoutes = (server, nodeUrl) => {
 		catch(e) {
 			if (e.response)
 				res.status(e.response.status ? e.response.status : 500).send(e.response.message);
-			else
+			else {
+				logger.http.error(`Request failed: ${e.message}`);
 				res.status(500).send(e.message);
+			}
 		}
 	})
 }
@@ -67,35 +80,43 @@ const setNodeHttpRoutes = (server, nodeUrl) => {
 const setNodeWsRoutes = (server, nodeUrl) => {
 	server.ws(`/connect/${nodeUrl}/ws`, (wsServer) => {
 		const url = nodeUrl.replace('http', 'ws') + '/ws';
-		console.log('WS connected');
-
 		let nodeListener = new WebSocket(url);
+
+		logger.ws.info('New connection');
+
 		nodeListener.onopen = () => {
-			console.log('Listener connected to ' + url);
+			logger.listener.info('Connected to: ' + url);
 		};
+
 		nodeListener.onmessage = (event) => {
-			console.log('Listener message: ')
+			logger.listener.info('Message received: ' + ('' + event.data).slice(0, 128) + '...')
 			wsServer.send(event.data);
 		};
+
 		nodeListener.onclose = (event) => {
-			if (event.wasClean)
-				console.log('Listener closed clean');
-			else 
-				console.log('Listener connection lost');	
-			console.log('Listener closed. [' + event.code + ']: ' + event.reason);
+			if (event.wasClean) 
+				logger.listener.info(`Connection closed clean. [${event.code}]:  ${event.reason}`);
+			else
+				logger.listener.error(`Connection lost. [${event.code}]:  ${event.reason}`);
+		
 			wsServer.close();
 		};
+
 		nodeListener.onerror = (error) => {
-			console.log('Listener error: ' + error.message);
+			logger.listener.error('Error occured: ' + error.message);
 		};
 
-		wsServer.on('error', err => console.log('WS error', err));
+		wsServer.on('error', err => {
+			logger.ws.error('Error occured: ' + err)
+		});
+
 		wsServer.on('message', msg => {
-			console.log('WS message: ', msg);
+			logger.ws.info('Message received: ' + ('' + msg).slice(0, 128) + '...');
 			nodeListener.send(msg);
 		});
+
 		wsServer.on('close', (e) => {
-			console.log('WS closed', e);
+			logger.ws.info('Connection closed: ' + e);
 			nodeListener.close();
 			nodeListener = undefined;
 		});
@@ -107,7 +128,6 @@ const setStaticHttpRoutes = (server) => {
 		const route = '/' + req.params[0];
 		if (route.length > 256)
 			return res.status(400).send('Request too long');
-
 		
 		readFileByRoute(route,
 			data => res.end(data),
@@ -120,7 +140,6 @@ const setStaticHttpRoutes = (server) => {
 		);
 	})
 }
-
 
 
 // Read static files
@@ -138,7 +157,6 @@ const readFileByRoute = (route, callback, errCallback) => {
 };
 
 
-
 // Get config from ENV and merge with default config json file
 
 const readConfig = (callback) => {
@@ -149,6 +167,7 @@ const readConfig = (callback) => {
 		else {
 			const defaultConfig = JSON.parse(data);
 			const parsedENV = {};
+
 			Object.keys(ENV).forEach(key => {
 				try {
 					if (defaultConfig[key]) {
@@ -159,6 +178,7 @@ const readConfig = (callback) => {
 					parsedENV[key] = ENV[key];
 				}
 			});
+
 			const mergedConfig = {
 				...defaultConfig,
 				...parsedENV
@@ -170,8 +190,7 @@ const readConfig = (callback) => {
 };
 
 
-
-
+// Set all routes and start server
 
 const startServer = config => {
 	setRootRoute(app);
@@ -181,8 +200,9 @@ const startServer = config => {
 	setStaticHttpRoutes(app);
 
 	app.listen(PORT, () => {
-		console.log('Server is running on port: ' + PORT)
+		logger.server.info('Server is running on port: ' + PORT)
 	})
 };
+
 
 readConfig(startServer);
