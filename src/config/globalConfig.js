@@ -5,11 +5,10 @@ const addNodeProxyUrl = nodes => nodes.map(url => window.location.origin + '/con
 let globalConfig;
 
 if (window.globalConfig) {
-    globalConfig = {...window.globalConfig};
-    globalConfig.peersApi.nodes = addNodeProxyUrl(globalConfig.peersApi.nodes);
+	globalConfig = { ...window.globalConfig };
+	globalConfig.peersApi.nodes = addNodeProxyUrl(globalConfig.peersApi.nodes);
 }
-else {
-    globalConfig = defaultConfig;
-}
+else
+	globalConfig = defaultConfig;
 
 export default globalConfig;

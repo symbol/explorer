@@ -49,7 +49,7 @@ export default {
 
 		getHostname(node) {
 			const nodeURL = node.href.replace(window.location.origin + '/connect/', '');
-			
+
 			return new URL(nodeURL).hostname;
 		}
 	}
