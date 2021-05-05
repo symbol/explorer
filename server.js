@@ -43,7 +43,7 @@ const setNodeHttpRoutes = (server, nodeUrl) => {
 		const url = `${nodeUrl}/${req.params[0]}`;
 		let origin;
 		
-		logger.http.info(req.method + 'reqest: ' + req.originalUrl);
+		logger.http.info(req.method + ' reqest: ' + req.originalUrl);
 
 		try {
 			origin = new URL(req.originalUrl.replace('/connect/', '')).origin;
@@ -163,7 +163,10 @@ const readConfig = (callback) => {
 	const ENV = process.env;
 
 	fs.readFile(__dirname + DEFAULT_CONFIG_PATH, (err, data) => {
-		if (err) throw Error('Failed to read default config. ' + err);
+		if (err)  {
+			logger.server.error('Failed to read default config. ' + err);
+			throw Error('Failed to read default config. ' + err);
+		}
 		else {
 			const defaultConfig = JSON.parse(data);
 			const parsedENV = {};
@@ -200,7 +203,7 @@ const startServer = config => {
 	setStaticHttpRoutes(app);
 
 	app.listen(PORT, () => {
-		logger.server.info('Server is running on port: ' + PORT)
+		logger.server.info('Server is running on port: ' + PORT);
 	})
 };
 
