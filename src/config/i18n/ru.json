@@ -23,7 +23,7 @@
     "namespace": "Пространство имен",
     "namespaceName": "Имя",
     "transaction": "транзакция",
-    "transactionHash": "Транзакционный Хэш",
+    "transactionHash": "Хэш транзакции",
     "transactionId": "Идентификатор транзакции",
     "totalTransactions": "Всего Транзакций",
     "transactionType": "Тип транзакции",
