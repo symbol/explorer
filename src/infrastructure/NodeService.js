@@ -23,6 +23,8 @@ import Axios from 'axios';
 import moment from 'moment';
 import helper from '../helper';
 import globalConfig from '../config/globalConfig';
+import { response } from 'express';
+import axios from 'axios';
 
 class NodeService {
     /**
@@ -340,6 +342,31 @@ class NodeService {
 		}
 		else
 			throw Error('nodeRewardsController endpoint is not provided');
+	}
+
+	static getEnrollmentList = async (pageInfo, filterVaule, signerPublicKey) => {
+		const endpoint = globalConfig.endpoints.nodeRewardsController;
+		const { pageNumber, pageSize } = pageInfo;
+		const searchCriteria = {
+			pageNumber,
+			pageSize,
+			order: Order.Desc,
+			...filterVaule
+		};
+
+		let url = `${endpoint}/enrollments`;
+		if (signerPublicKey) 
+			url += `/signerPublicKey/${signerPublicKey}`;
+		
+		const response = (await Axios.get(url, { params: searchCriteria })).data;
+		
+		return response;
+	}
+
+	static getEnrollmentInfo = async (id) => {
+		const response = (await Axios.get(`${endpoint}/enrollments/${id}`)).data;
+
+		return response;
 	}
 }
 
