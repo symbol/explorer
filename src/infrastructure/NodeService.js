@@ -358,7 +358,11 @@ class NodeService {
 		
 		const response = (await Axios.get(url, { params: searchCriteria })).data;
 		
-		return response;
+		return {
+			...response,
+			...response.pagination,
+			isLastPage: response.data.length < pageSize
+		};
 	}
 
 	static getEnrollmentInfo = async (id) => {
