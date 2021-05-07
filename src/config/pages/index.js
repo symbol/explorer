@@ -1,6 +1,7 @@
 export default [
 	require('./account-list'),
 	require('./block-list'),
+	require('./enrollment-list'),
 	require('./mosaic-list'),
 	require('./namespace-list'),
 	require('./node-list'),

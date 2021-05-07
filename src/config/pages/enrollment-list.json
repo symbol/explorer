@@ -1,37 +1,33 @@
 {
-    "path": "/transactions",
-    "name": "transactions",
+    "path": "/enrollments",
+    "name": "enrollments",
     "meta": {
         "group": "list-page",
         "keepAliveGoTo": ["detail-page"]
     },
     "props": {
         "layout": "flex",
-        "storeNamespaces": ["transaction"],
+        "storeNamespaces": ["enrollment"],
         "schema": [
             {
                 "layoutOptions": "full-width",
                 "type": "CardTable",
-                "title": "transactions",
-                "managerGetter": "transaction/timeline",
-                "errorMessage": "Failed to fetch transaction list",
+                "title": "nodeRewardsEnrollments",
+                "managerGetter": "enrollment/timeline",
+                "errorMessage": "Failed to fetch enrollment list",
                 "pagination": "server",
 				"hasFilter": true,
                 "fields": [
                     "height",
-                    "timestamp",
-                    "deadline",
                     "transactionHash",
-                    "transactionType",
-                    "signer",
-                    "recipient",
-                    "extendGraphicValue"
+                    "signerPublicKey",
+                    "status"
                 ],
                 "mobileFields": [
                     "height",
-                    "transactionType",
                     "transactionHash",
-                    "signer"
+                    "signerPublicKey",
+                    "status"
                 ]
             }
         ]
