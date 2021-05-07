@@ -259,6 +259,28 @@
   					"recipient",
   					"mosaics"
 				]
+			},
+			{
+				"layoutOptions": "full-width",
+				"type": "CardTable",
+				"title": "nodeRewardsEnrollments",
+				"managerGetter": "account/nodeRewardsEnrollments",
+				"pagination": "server",
+				"pageSize": 10,
+				"hideEmptyData": true,
+				"hideDependOnGetter": "account/info",
+                "fields": [
+                    "height",
+                    "transactionHash",
+					"agentUrl",
+					"retriesLeft",
+                    "status"
+                ],
+                "mobileFields": [
+                    "height",
+                    "transactionHash",
+                    "status"
+                ]
 			}
 		]
 	}
