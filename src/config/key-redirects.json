@@ -4,6 +4,7 @@
     "beneficiaryAddress": "accounts",
     "address": "accounts",
     "signer": "accounts",
+    "signerPublicKey": "accounts",
     "recipient": "accounts",
     "senderAddress": "accounts",
     "ownerAddress": "accounts",

@@ -54,6 +54,7 @@ export default {
 				'cosignatoryAddresses_',
 
 				'signer',
+				'signerPublicKey',
 				'recipient',
 				'ownerAddress',
 				'blockHeight',
@@ -182,6 +183,7 @@ export default {
                 key === 'signer' ||
 				key === 'recipient' ||
 				key === 'publicKey' ||
+				key === 'signerPublicKey' ||
 				key === 'nodePublicKey' ||
 				key === 'mainPublicKey' ||
                 key === 'transactionHash' ||

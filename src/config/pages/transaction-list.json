@@ -18,7 +18,6 @@
                 "pagination": "server",
 				"hasFilter": true,
                 "fields": [
-                    "id",
                     "height",
                     "transactionHash",
                     "signerPublicKey",

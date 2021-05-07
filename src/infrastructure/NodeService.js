@@ -23,8 +23,6 @@ import Axios from 'axios';
 import moment from 'moment';
 import helper from '../helper';
 import globalConfig from '../config/globalConfig';
-import { response } from 'express';
-import axios from 'axios';
 
 class NodeService {
     /**
@@ -350,7 +348,7 @@ class NodeService {
 		const searchCriteria = {
 			pageNumber,
 			pageSize,
-			order: Order.Desc,
+			order: symbol.Order.Desc,
 			...filterVaule
 		};
 
