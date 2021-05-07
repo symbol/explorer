@@ -424,6 +424,11 @@ export const blockTransactionReceipt = [
 
 export const enrollmentStatus = [
 	{
+		label: 'All',
+		icon: 'mdi-note-text-outline',
+		value: {}
+	},
+	{
 		label: 'Invalid',
 		icon: 'mdi-alert-outline',
 		value: {

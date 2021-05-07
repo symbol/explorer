@@ -18,7 +18,7 @@
 
 import Lock from './lock';
 import { NodeService } from '../infrastructure';
-import { filters } from '../config';
+import { filters, Constants } from '../config';
 import {
 	Pagination,
 	DataSet,
@@ -32,7 +32,10 @@ const managers = [
 	new Pagination({
 		name: 'timeline',
 		fetchFunction: (pageInfo, filterValue) => NodeService.getEnrollmentList(pageInfo, filterValue),
-		filter: filters.enrollmentStatus
+		filter: filters.enrollmentStatus,
+		pageInfo: {
+			pageSize: Constants.PageSize
+		},
 	}),
 	new DataSet(
 		'info',
