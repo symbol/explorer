@@ -358,14 +358,22 @@ class NodeService {
 		
 		const response = (await Axios.get(url, { params: searchCriteria })).data;
 		
-		return {
+		const data = {
 			...response,
 			...response.pagination,
 			isLastPage: response.data.length < pageSize
 		};
+
+		data.data = data.data.map(el => ({
+			...el,
+			enrollmentId: el.id
+		}))
+
+		return data;
 	}
 
 	static getEnrollmentInfo = async (id) => {
+		const endpoint = globalConfig.endpoints.nodeRewardsController;
 		const response = (await Axios.get(`${endpoint}/enrollments/${id}`)).data;
 
 		return response;

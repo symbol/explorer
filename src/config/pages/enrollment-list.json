@@ -18,14 +18,14 @@
                 "pagination": "server",
 				"hasFilter": true,
                 "fields": [
-                    "height",
+                    "enrollmentId",
                     "transactionHash",
                     "signerPublicKey",
                     "agentUrl",
                     "status"
                 ],
                 "mobileFields": [
-                    "height",
+                    "enrollmentId",
                     "transactionHash",
                     "signerPublicKey",
                     "status"

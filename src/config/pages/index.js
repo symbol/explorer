@@ -9,6 +9,7 @@ export default [
 
 	require('./account-detail'),
 	require('./block-detail'),
+	require('./enrollment-detail'),
 	require('./mosaic-detail'),
 	require('./namespace-detail'),
 	require('./node-detail'),

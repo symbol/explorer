@@ -59,5 +59,7 @@
     "namespaceArtifactId": "namespaces",
 
     "node": "nodes",
-    "nodePublicKey": "nodes"
+    "nodePublicKey": "nodes",
+
+    "enrollmentId": "enrollments"
 }

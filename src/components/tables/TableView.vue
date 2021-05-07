@@ -86,7 +86,8 @@ export default {
 
 				'namespaceArtifactId',
 				'mosaicArtifactId',
-				'nodePublicKey'
+				'nodePublicKey',
+				'enrollmentId'
 			],
 			disableClickValues: [...Object.values(Constants.Message)],
 			changeDecimalColor: [
@@ -193,7 +194,8 @@ export default {
                 key === 'multisigAddresses_' ||
 				key === 'cosignatoryAddresses_' ||
 				key === 'addressAdditions_' ||
-				key === 'addressDeletions_'
+				key === 'addressDeletions_' ||
+				key === 'enrollmentId'
 			);
 		},
 
