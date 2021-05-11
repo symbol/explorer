@@ -17,9 +17,9 @@
                 "errorMessage": "Failed to fetch transaction list",
                 "pagination": "server",
 				"hasFilter": true,
-				"onRowClickKey": "transactionHash",
                 "fields": [
                     "height",
+                    "timestamp",
                     "deadline",
                     "transactionHash",
                     "transactionType",

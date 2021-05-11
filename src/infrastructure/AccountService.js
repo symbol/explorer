@@ -17,428 +17,443 @@
  */
 
 import { Address, TransactionType, TransactionGroup, Order, BlockOrderBy, ReceiptType, Mosaic } from 'symbol-sdk';
+import nem from 'nem-sdk';
 import http from './http';
 import { Constants } from '../config';
 import { NamespaceService, TransactionService, ChainService, MetadataService, LockService, ReceiptService, MosaicService, BlockService } from '../infrastructure';
 import helper from '../helper';
 
 class AccountService {
-  /**
-   * Gets an AccountInfo for an account.
-   * @param address
-   * @returns Formatted AccountInfo
-   */
-  static getAccount = async address => {
-  	const account = await http.createRepositoryFactory.createAccountRepository()
-  		.getAccountInfo(Address.createFromRawAddress(address))
-  		.toPromise();
+	/**
+	 * Gets an AccountInfo for an account.
+	 * @param address
+	 * @returns Formatted AccountInfo
+	 */
+	static getAccount = async address => {
+		const account = await http.createRepositoryFactory.createAccountRepository()
+			.getAccountInfo(Address.createFromRawAddress(address))
+			.toPromise();
 
-  	const formattedAccount = this.formatAccountInfo(account);
+		const formattedAccount = this.formatAccountInfo(account);
 
-  	return formattedAccount;
-  }
+		return formattedAccount;
+	}
 
-  /**
-   * Gets an AccountInfo for an account.
-   * @param address
-   * @returns Formatted AccountInfo
-   */
-  static getAccounts = async addresses => {
-  	const accounts = await http.createRepositoryFactory.createAccountRepository()
-  		.getAccountsInfo(addresses.map(a => Address.createFromRawAddress(a)))
-  		.toPromise();
+	/**
+	 * Gets an AccountInfo for an account.
+	 * @param address
+	 * @returns Formatted AccountInfo
+	 */
+	static getAccounts = async addresses => {
+		const accounts = await http.createRepositoryFactory.createAccountRepository()
+			.getAccountsInfo(addresses.map(a => Address.createFromRawAddress(a)))
+			.toPromise();
 
-  	return accounts.map(a => this.formatAccountInfo(a));
-  }
+		return accounts.map(a => this.formatAccountInfo(a));
+	}
 
-  /**
-   * Gets a accounts list from searchCriteria
-   * @param accountSearchCriteria Object of Search Criteria
-   * @returns formatted account data with pagination info
-   */
-  static searchAccounts = async (accountSearchCriteria) => {
-  	const searchAccounts = await http.createRepositoryFactory.createAccountRepository()
-  		.search(accountSearchCriteria)
-  		.toPromise();
+	/**
+	 * Gets a accounts list from searchCriteria
+	 * @param accountSearchCriteria Object of Search Criteria
+	 * @returns formatted account data with pagination info
+	 */
+	static searchAccounts = async (accountSearchCriteria) => {
+		const searchAccounts = await http.createRepositoryFactory.createAccountRepository()
+			.search(accountSearchCriteria)
+			.toPromise();
 
-  	return {
-  		...searchAccounts,
-  		data: searchAccounts.data.map(account => this.formatAccountInfo(account))
-  	};
-  }
+		return {
+			...searchAccounts,
+			data: searchAccounts.data.map(account => this.formatAccountInfo(account))
+		};
+	}
 
-  /**
-   * Get custom Account list dataset into Vue Component
-   * @param pageInfo - pagination info
-   * @param filterVaule - object for search criteria
-   * @returns Custom AccountInfo[]
-   */
-  static getAccountList = async (pageInfo, filterVaule) => {
-  	const { pageNumber, pageSize } = pageInfo;
-  	const searchCriteria = {
-  		pageNumber,
-  		pageSize,
-  		order: Order.Desc,
-  		...filterVaule
-  	};
+	/**
+	 * Get custom Account list dataset into Vue Component
+	 * @param pageInfo - pagination info
+	 * @param filterVaule - object for search criteria
+	 * @returns Custom AccountInfo[]
+	 */
+	static getAccountList = async (pageInfo, filterVaule) => {
+		const { pageNumber, pageSize } = pageInfo;
+		const searchCriteria = {
+			pageNumber,
+			pageSize,
+			order: Order.Desc,
+			...filterVaule
+		};
 
-  	const accountInfos = await this.searchAccounts(searchCriteria);
+		const accountInfos = await this.searchAccounts(searchCriteria);
 
-  	const addresses = accountInfos.data.map(accountInfo => Address.createFromRawAddress(accountInfo.address));
+		const addresses = accountInfos.data.map(accountInfo => Address.createFromRawAddress(accountInfo.address));
 
-  	const accountNames = await NamespaceService.getAccountsNames(addresses);
+		const accountNames = await NamespaceService.getAccountsNames(addresses);
 
-  	return {
-  		...accountInfos,
-  		data: accountInfos.data.map(account => ({
-  			...account,
-  			balance: helper.getNetworkCurrencyBalance(account.mosaics),
-  			lastActivity: helper.getLastActivityHeight(account.activityBucket),
-  			accountAliasNames: this.extractAccountNamespace(account, accountNames)
-  		}))
-  	};
-  }
+		return {
+			...accountInfos,
+			data: accountInfos.data.map((account, index) => ({
+				...account,
+				index: index + 1 + helper.getStartListIndex(pageNumber, pageSize),
+				balance: helper.getNetworkCurrencyBalance(account.mosaics),
+				lastActivity: helper.getLastActivityHeight(account.activityBucket),
+				accountAliasNames: this.extractAccountNamespace(account, accountNames)
+			}))
+		};
+	}
 
-  /**
-   * Get custom Account info dataset into Vue Component
-   * @param address - Account address
-   * @returns Custom AccountInfo
-   */
-  static getAccountInfo = async address => {
-  	const accountInfo = await this.getAccount(address);
-  	const accountNames = await NamespaceService.getAccountsNames([Address.createFromRawAddress(address)]);
+	/**
+	 * Get custom Account info dataset into Vue Component
+	 * @param address - Account address
+	 * @returns Custom AccountInfo
+	 */
+	static getAccountInfo = async address => {
+		const accountInfo = await this.getAccount(address);
+		const accountNames = await NamespaceService.getAccountsNames([Address.createFromRawAddress(address)]);
 
-  	return {
-  		...accountInfo,
-  		activityBucket: accountInfo.activityBucket.map(activity => ({
-  			...activity,
-  			recalculationBlock: activity.startHeight,
-  			totalFeesPaid: helper.toNetworkCurrency(activity.totalFeesPaid),
-  			importanceScore: activity.rawScore
-  		})),
-  		supplementalPublicKeys: {
-  			...accountInfo.supplementalPublicKeys,
-  			voting: Array.isArray(accountInfo.supplementalPublicKeys.voting) ? accountInfo.supplementalPublicKeys.voting.map(voting => voting.publicKey) : accountInfo.supplementalPublicKeys.voting
-  		},
-  		accountAliasNames: this.extractAccountNamespace(accountInfo, accountNames)
-  	};
-  }
+		return {
+			...accountInfo,
+			activityBucket: accountInfo.activityBucket.map(activity => ({
+				...activity,
+				recalculationBlock: activity.startHeight,
+				totalFeesPaid: helper.toNetworkCurrency(activity.totalFeesPaid),
+				importanceScore: activity.rawScore
+			})),
+			supplementalPublicKeys: {
+				...accountInfo.supplementalPublicKeys,
+				voting: Array.isArray(accountInfo.supplementalPublicKeys.voting) ? accountInfo.supplementalPublicKeys.voting.map(voting => voting.publicKey) : accountInfo.supplementalPublicKeys.voting
+			},
+			accountAliasNames: this.extractAccountNamespace(accountInfo, accountNames)
+		};
+	}
 
-  /**
-   * Gets custom array of confirmed transactions dataset into Vue Component
-   * @param pageInfo - object for page info such as pageNumber, pageSize
-   * @param filterVaule - object for search criteria
-   * @param address - Account address
-   * @returns Custom AggregateTransaction[]
-   */
-  static getAccountTransactionList = async (pageInfo, filterVaule, address) => {
-  	const { pageNumber, pageSize } = pageInfo;
-  	const searchCriteria = {
-  		pageNumber,
-  		pageSize,
-  		order: Order.Desc,
-  		type: [],
-  		group: TransactionGroup.Confirmed,
-  		address: Address.createFromRawAddress(address),
-  		...filterVaule
-  	};
+	/**
+	 * Gets custom array of confirmed transactions dataset into Vue Component
+	 * @param pageInfo - object for page info such as pageNumber, pageSize
+	 * @param filterVaule - object for search criteria
+	 * @param address - Account address
+	 * @returns Custom AggregateTransaction[]
+	 */
+	static getAccountTransactionList = async (pageInfo, filterVaule, address) => {
+		const { pageNumber, pageSize } = pageInfo;
+		const searchCriteria = {
+			pageNumber,
+			pageSize,
+			order: Order.Desc,
+			type: [],
+			group: TransactionGroup.Confirmed,
+			address: Address.createFromRawAddress(address),
+			...filterVaule
+		};
 
-  	const searchTransactions = await TransactionService.searchTransactions(searchCriteria);
+		const searchTransactions = await TransactionService.searchTransactions(searchCriteria);
 
-  	const accountTransactions = {
-  		...searchTransactions,
-  		data: searchTransactions.data.map(transaction => TransactionService.formatTransaction(transaction))
-  	};
+		const accountTransactions = {
+			...searchTransactions,
+			data: searchTransactions.data.map(transaction => TransactionService.formatTransaction(transaction))
+		};
 
-  	const blockHeight = [...new Set(accountTransactions.data.map(data => data.transactionInfo.height))];
+		await Promise.all(accountTransactions.data.map(async transaction => {
+			if (transaction?.recipientAddress)
+				return (transaction.transactionBody.recipient = await helper.resolvedAddress(transaction.recipientAddress));
+		}));
 
-  	const blockInfos = await Promise.all(
-  		blockHeight.map(height => BlockService.getBlockInfo(height))
-  	);
+		if (searchCriteria.group === TransactionGroup.Partial || searchCriteria.group === TransactionGroup.Unconfirmed) {
+			return {
+			  	...accountTransactions,
+				data: accountTransactions.data.map(accountTransaction => ({
+					...accountTransaction,
+					transactionHash: accountTransaction.transactionInfo.hash,
+					transactionType: accountTransaction.type,
+					recipient: accountTransaction.transactionBody?.recipient,
+					extendGraphicValue: TransactionService.extendGraphicValue(accountTransaction)
+				}))
+			};
+		}
 
-  	await Promise.all(accountTransactions.data.map(async transaction => {
-  		if (transaction?.recipientAddress)
-  			return (transaction.transactionBody.recipient = await helper.resolvedAddress(transaction.recipientAddress));
-  	}));
+		const blockHeight = [...new Set(accountTransactions.data.map(data => data.transactionInfo.height))];
 
-  	return {
-  		...accountTransactions,
-  		data: accountTransactions.data.map(accountTransaction => ({
-  			...accountTransaction,
-  			date: blockInfos.find(block => block.height === accountTransaction.transactionInfo.height).date,
-  			blockHeight: accountTransaction.transactionInfo.height,
-  			transactionHash: accountTransaction.transactionInfo.hash,
-  			transactionType: accountTransaction.type === TransactionType.TRANSFER
-  				? (accountTransaction.signer === address
-  					? 'outgoing_' + accountTransaction.transactionBody.transactionType
-  					: 'incoming_' + accountTransaction.transactionBody.transactionType
-  				)
-  				: accountTransaction.transactionBody.transactionType,
-  			extendGraphicValue: TransactionService.extendGraphicValue(accountTransaction),
-  			recipient: accountTransaction.signer === address
-  				? accountTransaction.transactionBody?.recipient
-  				: ''
-  		}))
-  	};
-  }
+		const blockInfos = await Promise.all(
+			blockHeight.map(height => BlockService.getBlockInfo(height))
+		);
 
-  /**
-   * Gets custom array of confirmed transactions dataset into Vue Component
-   * @param pageInfo - object for page info such as pageNumber, pageSize
-   * @param filterVaule - object for search criteria
-   * @param address - Account address
-   * @returns Custom AggregateTransaction[]
-   */
-  static getAccountNamespaceList = async (pageInfo, filterVaule, address) => {
-  	const { pageNumber, pageSize } = pageInfo;
-  	const searchCriteria = {
-  		pageNumber,
-  		pageSize,
-  		order: Order.Desc,
-  		ownerAddress: Address.createFromRawAddress(address),
-  		...filterVaule
-	  };
+		return {
+			...accountTransactions,
+			data: accountTransactions.data.map(({ deadline, ...accountTransaction }) => ({
+				...accountTransaction,
+				timestamp: blockInfos.find(block => block.height === accountTransaction.transactionInfo.height).timestamp,
+				blockHeight: accountTransaction.transactionInfo.height,
+				transactionHash: accountTransaction.transactionInfo.hash,
+				transactionType: accountTransaction.type === TransactionType.TRANSFER
+					? (accountTransaction.signer === address
+						? 'outgoing_' + accountTransaction.transactionBody.transactionType
+						: 'incoming_' + accountTransaction.transactionBody.transactionType
+					)
+					: accountTransaction.transactionBody.transactionType,
+				extendGraphicValue: TransactionService.extendGraphicValue(accountTransaction),
+				recipient: accountTransaction.signer === address
+					? accountTransaction.transactionBody?.recipient
+					: ''
+			}))
+		};
+	}
 
-	  const accountNamespaces = await NamespaceService.searchNamespaces(searchCriteria);
+	/**
+	 * Gets custom array of confirmed transactions dataset into Vue Component
+	 * @param pageInfo - object for page info such as pageNumber, pageSize
+	 * @param filterVaule - object for search criteria
+	 * @param address - Account address
+	 * @returns Custom AggregateTransaction[]
+	 */
+	static getAccountNamespaceList = async (pageInfo, filterVaule, address) => {
+		const { pageNumber, pageSize } = pageInfo;
+		const searchCriteria = {
+			pageNumber,
+			pageSize,
+			order: Order.Desc,
+			ownerAddress: Address.createFromRawAddress(address),
+			...filterVaule
+		};
 
-	  const { height: currentHeight } = await ChainService.getChainInfo();
+		const accountNamespaces = await NamespaceService.searchNamespaces(searchCriteria);
 
-  	return {
-  		...accountNamespaces,
-  		data: accountNamespaces.data.map(namespaces => {
-  			const { expiredInSecond } = helper.calculateNamespaceExpiration(currentHeight, namespaces.endHeight);
+		const { height: currentHeight } = await ChainService.getChainInfo();
 
-  			return {
-  				...namespaces,
-  				status: namespaces.active,
-  				expirationDuration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED
-  			};
-  		})
-  	};
-  }
+		return {
+			...accountNamespaces,
+			data: accountNamespaces.data.map(namespaces => {
+				const { expiredInSecond } = helper.calculateNamespaceExpiration(currentHeight, namespaces.endHeight);
 
-  /**
-   * Gets account harvested block receipt list dataset into Vue Component
-   * @param pageInfo - object for page info such as pageNumber, pageSize
-   * @param address - Account address
-   * @returns formatted harvested blocks data list.
-   */
-  static getAccountHarvestedReceiptList = async (pageInfo, address) => {
-  	const { pageNumber, pageSize } = pageInfo;
+				return {
+					...namespaces,
+					status: namespaces.active,
+					expirationDuration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED
+				};
+			})
+		};
+	}
 
-  	const searchCriteria = {
-  		pageNumber,
-  		pageSize,
-  		order: Order.Desc,
-  		orderBy: BlockOrderBy.Height,
-  		targetAddress: Address.createFromRawAddress(address),
-  		receiptTypes: [ReceiptType.Harvest_Fee]
-  	};
+	/**
+	 * Gets account harvested block receipt list dataset into Vue Component
+	 * @param pageInfo - object for page info such as pageNumber, pageSize
+	 * @param address - Account address
+	 * @returns formatted harvested blocks data list.
+	 */
+	static getAccountHarvestedReceiptList = async (pageInfo, address) => {
+		const { pageNumber, pageSize } = pageInfo;
 
-  	const harvestedBlockReceipt = await ReceiptService.searchReceipts(searchCriteria);
+		const searchCriteria = {
+			pageNumber,
+			pageSize,
+			order: Order.Desc,
+			orderBy: BlockOrderBy.Height,
+			targetAddress: Address.createFromRawAddress(address),
+			receiptTypes: [ReceiptType.Harvest_Fee]
+		};
 
-  	const formattedReceipt = await ReceiptService.createReceiptTransactionStatement(harvestedBlockReceipt.data.balanceChangeStatement);
+		const harvestedBlockReceipt = await ReceiptService.searchReceipts(searchCriteria);
 
-  	return {
-  		...harvestedBlockReceipt,
-  		data: formattedReceipt.filter(receipt =>
-  			receipt.targetAddress === address &&
-			receipt.type === ReceiptType.Harvest_Fee)
-  	};
-  }
+		const formattedReceipt = await ReceiptService.createReceiptTransactionStatement(harvestedBlockReceipt.data.balanceChangeStatement);
 
-  /**
-   * Gets account receipt list dataset into Vue Component
-   * @param pageInfo - object for page info such as pageNumber, pageSize
-   * @param filterVaule - object for search criteria
-   * @param address - Account address
-   * @returns formatted receipt data list.
-   */
-  static getAccountReceiptList = async (pageInfo, filterVaule, address) => {
-  	const { pageNumber, pageSize } = pageInfo;
+		return {
+			...harvestedBlockReceipt,
+			data: formattedReceipt.filter(receipt =>
+				receipt.targetAddress === address &&
+				receipt.type === ReceiptType.Harvest_Fee)
+		};
+	}
 
-  	const { BalanceTransferReceipt, BalanceChangeReceipt } = Constants.ReceiptTransactionStatamentType;
+	/**
+	 * Gets account receipt list dataset into Vue Component
+	 * @param pageInfo - object for page info such as pageNumber, pageSize
+	 * @param filterVaule - object for search criteria
+	 * @param address - Account address
+	 * @returns formatted receipt data list.
+	 */
+	static getAccountReceiptList = async (pageInfo, filterVaule, address) => {
+		const { pageNumber, pageSize } = pageInfo;
 
-  	let searchCriteria = {
-  		pageNumber,
-  		pageSize,
-  		order: Order.Desc,
-  		orderBy: BlockOrderBy.Height,
-  		...filterVaule
-  	};
+		const { BalanceTransferReceipt, BalanceChangeReceipt } = Constants.ReceiptTransactionStatamentType;
 
-  	if (filterVaule.receiptTransactionStatementType === BalanceTransferReceipt)
-  		Object.assign(searchCriteria, { senderAddress: Address.createFromRawAddress(address) });
+		let searchCriteria = {
+			pageNumber,
+			pageSize,
+			order: Order.Desc,
+			orderBy: BlockOrderBy.Height,
+			...filterVaule
+		};
 
-  	if (filterVaule.receiptTransactionStatementType === BalanceChangeReceipt)
-  		Object.assign(searchCriteria, { targetAddress: Address.createFromRawAddress(address) });
+		if (filterVaule.receiptTransactionStatementType === BalanceTransferReceipt)
+			Object.assign(searchCriteria, { senderAddress: Address.createFromRawAddress(address) });
 
-  	const receipt = await ReceiptService.searchReceipts(searchCriteria);
+		if (filterVaule.receiptTransactionStatementType === BalanceChangeReceipt)
+			Object.assign(searchCriteria, { targetAddress: Address.createFromRawAddress(address) });
 
-  	let formattedReceipt = [];
+		const receipt = await ReceiptService.searchReceipts(searchCriteria);
 
-  	if (filterVaule.receiptTransactionStatementType === BalanceTransferReceipt) {
-  		formattedReceipt = await ReceiptService.createReceiptTransactionStatement(receipt.data.balanceTransferStatement);
-  		formattedReceipt = formattedReceipt.filter(receipt =>
-  			receipt.senderAddress === address);
-  	}
+		let formattedReceipt = [];
 
-  	if (filterVaule.receiptTransactionStatementType === BalanceChangeReceipt) {
-  		formattedReceipt = await ReceiptService.createReceiptTransactionStatement(receipt.data.balanceChangeStatement);
-  		formattedReceipt = formattedReceipt.filter(receipt =>
-  			receipt.targetAddress === address &&
-		  receipt.type !== ReceiptType.Harvest_Fee);
-	  }
+		if (filterVaule.receiptTransactionStatementType === BalanceTransferReceipt) {
+			formattedReceipt = await ReceiptService.createReceiptTransactionStatement(receipt.data.balanceTransferStatement);
+			formattedReceipt = formattedReceipt.filter(receipt =>
+				receipt.senderAddress === address);
+		}
 
-  	return {
-  		...receipt,
-  		data: formattedReceipt
-  	};
-  }
+		if (filterVaule.receiptTransactionStatementType === BalanceChangeReceipt) {
+			formattedReceipt = await ReceiptService.createReceiptTransactionStatement(receipt.data.balanceChangeStatement);
+			formattedReceipt = formattedReceipt.filter(receipt =>
+				receipt.targetAddress === address &&
+				receipt.type !== ReceiptType.Harvest_Fee);
+		}
 
-  /**
-   * Gets Account Metadata list dataset into Vue component
-   * @param pageInfo - object for page info such as pageNumber, pageSize
-   * @param filterVaule - object for search criteria
-   * @param address - Account address
-   * @returns formatted account metadata list
-   */
-  static getAccountMetadataList = async (pageInfo, filterVaule, address) => {
-  	const { pageNumber, pageSize } = pageInfo;
-  	const searchCriteria = {
-  		pageNumber,
-  		pageSize,
-  		order: Order.Desc,
-  		targetAddress: Address.createFromRawAddress(address),
-  		...filterVaule
-  	};
-  	const accountMetadatas = await MetadataService.searchMetadatas(searchCriteria);
+		return {
+			...receipt,
+			data: formattedReceipt
+		};
+	}
 
-  	return accountMetadatas;
-  }
+	/**
+	 * Gets Account Metadata list dataset into Vue component
+	 * @param pageInfo - object for page info such as pageNumber, pageSize
+	 * @param filterVaule - object for search criteria
+	 * @param address - Account address
+	 * @returns formatted account metadata list
+	 */
+	static getAccountMetadataList = async (pageInfo, filterVaule, address) => {
+		const { pageNumber, pageSize } = pageInfo;
+		const searchCriteria = {
+			pageNumber,
+			pageSize,
+			order: Order.Desc,
+			targetAddress: Address.createFromRawAddress(address),
+			...filterVaule
+		};
+		const accountMetadatas = await MetadataService.searchMetadatas(searchCriteria);
 
-  /**
-   * Gets Account Hash Lock list dataset into Vue component
-   * @param pageInfo - object for page info such as pageNumber, pageSize
-   * @param address - Account address
-   * @returns formatted account hash lock list
-   */
-  static getAccountHashLockList = async (pageInfo, address) => {
-  	const { pageNumber, pageSize } = pageInfo;
-  	const searchCriteria = {
-  		pageNumber,
-  		pageSize,
-  		order: Order.Desc,
-  		address: Address.createFromRawAddress(address)
-  	};
-  	const accountHashLocks = await LockService.searchHashLocks(searchCriteria);
+		return accountMetadatas;
+	}
 
-  	const mosaics = accountHashLocks.data.map(
-  		hashlock => new Mosaic(hashlock.mosaicId, hashlock.amount)
-  	);
+	/**
+	 * Gets Account Hash Lock list dataset into Vue component
+	 * @param pageInfo - object for page info such as pageNumber, pageSize
+	 * @param address - Account address
+	 * @returns formatted account hash lock list
+	 */
+	static getAccountHashLockList = async (pageInfo, address) => {
+		const { pageNumber, pageSize } = pageInfo;
+		const searchCriteria = {
+			pageNumber,
+			pageSize,
+			order: Order.Desc,
+			address: Address.createFromRawAddress(address)
+		};
+		const accountHashLocks = await LockService.searchHashLocks(searchCriteria);
 
-  	const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder(mosaics);
+		const mosaics = accountHashLocks.data.map(
+			hashlock => new Mosaic(hashlock.mosaicId, hashlock.amount)
+		);
 
-  	let hashLocks = [];
+		const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder(mosaics);
 
-  	for (const hashLock of accountHashLocks.data) {
-  		hashLocks.push({
-  			...hashLock,
-  			transactionHash: hashLock.hash,
-  			mosaics: [mosaicsFieldObject.find(mosaicFieldObject => mosaicFieldObject.mosaicId === hashLock.mosaicId.toHex())]
-  		});
-  	}
+		let hashLocks = [];
 
-  	return {
-  		...accountHashLocks,
-  		data: hashLocks
-  	};
-  }
+		for (const hashLock of accountHashLocks.data) {
+			hashLocks.push({
+				...hashLock,
+				transactionHash: hashLock.hash,
+				mosaics: [mosaicsFieldObject.find(mosaicFieldObject => mosaicFieldObject.mosaicId === hashLock.mosaicId.toHex())]
+			});
+		}
 
-  /**
-   * Gets Account Secret Lock list dataset into Vue component
-   * @param pageInfo - object for page info such as pageNumber, pageSize
-   * @param address - Account address
-   * @returns formatted account secret lock list
-   */
-  static getAccountSecretLockList = async (pageInfo, address) => {
-  	const { pageNumber, pageSize } = pageInfo;
+		return {
+			...accountHashLocks,
+			data: hashLocks
+		};
+	}
 
-  	const searchCriteria = {
-  		pageNumber,
-  		pageSize,
-  		order: Order.Desc,
-  		address: Address.createFromRawAddress(address)
-  	};
+	/**
+	 * Gets Account Secret Lock list dataset into Vue component
+	 * @param pageInfo - object for page info such as pageNumber, pageSize
+	 * @param address - Account address
+	 * @returns formatted account secret lock list
+	 */
+	static getAccountSecretLockList = async (pageInfo, address) => {
+		const { pageNumber, pageSize } = pageInfo;
 
-  	const accountSecretLocks = await LockService.searchSecretLocks(searchCriteria);
+		const searchCriteria = {
+			pageNumber,
+			pageSize,
+			order: Order.Desc,
+			address: Address.createFromRawAddress(address)
+		};
 
-  	const mosaics = accountSecretLocks.data.map(
-  		secretlock => new Mosaic(secretlock.mosaicId, secretlock.amount)
-  	);
+		const accountSecretLocks = await LockService.searchSecretLocks(searchCriteria);
 
-  	const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder(mosaics);
+		const mosaics = accountSecretLocks.data.map(
+			secretlock => new Mosaic(secretlock.mosaicId, secretlock.amount)
+		);
 
-  	let secretLocks = [];
+		const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder(mosaics);
 
-  	for (const secretLock of accountSecretLocks.data) {
-  		secretLocks.push({
-  			...secretLock,
-  			mosaics: [mosaicsFieldObject.find(mosaicFieldObject => mosaicFieldObject.mosaicId === secretLock.mosaicId.toHex())]
-  		});
-  	}
+		let secretLocks = [];
 
-  	return {
-  		...accountSecretLocks,
-  		data: secretLocks
-  	};
-  }
+		for (const secretLock of accountSecretLocks.data) {
+			secretLocks.push({
+				...secretLock,
+				mosaics: [mosaicsFieldObject.find(mosaicFieldObject => mosaicFieldObject.mosaicId === secretLock.mosaicId.toHex())]
+			});
+		}
 
-  /**
-   * Format AccountInfo to readable accountInfo objecy
-   * @param accountInfo - AccountInfo DTO
-   * @returns Readable AccountInfo DTO object
-   */
-  static formatAccountInfo = (accountInfo) => ({
-  	...accountInfo,
-  	address: accountInfo.address.address,
-  	addressHeight: accountInfo.addressHeight.compact(),
-  	publicKey: accountInfo.publicKeyHeight.compact() > 0 ? accountInfo.publicKey : Constants.Message.UNKNOWN,
-  	publicKeyHeight: accountInfo.publicKeyHeight.compact(),
-  	accountType: Constants.AccountType[accountInfo.accountType],
-  	supplementalPublicKeys: this.formatSupplementalPublicKeys(accountInfo.supplementalPublicKeys),
-  	importance: helper.ImportanceScoreToPercent(accountInfo.importance.compact()),
-  	importanceHeight: accountInfo.importanceHeight.compact()
-  })
+		return {
+			...accountSecretLocks,
+			data: secretLocks
+		};
+	}
 
-  /**
-   * Format SupplementalPublicKeys to readable SupplementalPublicKeys objecy
-   * @param supplementalPublicKeys - supplementalPublicKeys DTO
-   * @returns Readable supplementalPublicKeys DTO object
-   */
-  static formatSupplementalPublicKeys = (supplementalPublicKeys) => ({
-  	...supplementalPublicKeys,
-  	linked: supplementalPublicKeys.linked?.publicKey || Constants.Message.UNAVAILABLE,
-  	node: supplementalPublicKeys.node?.publicKey || Constants.Message.UNAVAILABLE,
-  	vrf: supplementalPublicKeys.vrf?.publicKey || Constants.Message.UNAVAILABLE,
-  	voting: supplementalPublicKeys.voting || []
-  })
+	/**
+	 * Format AccountInfo to readable accountInfo objecy
+	 * @param accountInfo - AccountInfo DTO
+	 * @returns Readable AccountInfo DTO object
+	 */
+	static formatAccountInfo = (accountInfo) => ({
+		...accountInfo,
+		address: accountInfo.address.address,
+		addressHeight: accountInfo.addressHeight.compact(),
+		publicKey: accountInfo.publicKeyHeight.compact() > 0 ? accountInfo.publicKey : Constants.Message.UNKNOWN,
+		publicKeyHeight: accountInfo.publicKeyHeight.compact(),
+		accountType: Constants.AccountType[accountInfo.accountType],
+		supplementalPublicKeys: this.formatSupplementalPublicKeys(accountInfo.supplementalPublicKeys),
+		importance: helper.ImportanceScoreToPercent(accountInfo.importance.compact()),
+		importanceHeight: accountInfo.importanceHeight.compact()
+	})
 
-  /**
-   * Extract Name for Account
-   * @param accountInfo - accountInfo DTO
-   * @param accountNames - accountNames[]
-   * @returns accountName
-   */
-  static extractAccountNamespace = (accountInfo, accountNames) => {
-  	let accountName = accountNames.find((name) => name.address === accountInfo.address);
+	/**
+	 * Format SupplementalPublicKeys to readable SupplementalPublicKeys objecy
+	 * @param supplementalPublicKeys - supplementalPublicKeys DTO
+	 * @returns Readable supplementalPublicKeys DTO object
+	 */
+	static formatSupplementalPublicKeys = (supplementalPublicKeys) => ({
+		...supplementalPublicKeys,
+		linked: supplementalPublicKeys.linked?.publicKey || Constants.Message.UNAVAILABLE,
+		node: supplementalPublicKeys.node?.publicKey || Constants.Message.UNAVAILABLE,
+		vrf: supplementalPublicKeys.vrf?.publicKey || Constants.Message.UNAVAILABLE,
+		voting: supplementalPublicKeys.voting || []
+	})
 
-  	const aliasNames = accountName.names.map(names => names.name);
+	/**
+	 * Extract Name for Account
+	 * @param accountInfo - accountInfo DTO
+	 * @param accountNames - accountNames[]
+	 * @returns accountName
+	 */
+	static extractAccountNamespace = (accountInfo, accountNames) => {
+		let accountName = accountNames.find((name) => name.address === accountInfo.address);
 
-  	const names = aliasNames.length > 0 ? aliasNames : [Constants.Message.UNAVAILABLE];
+		const aliasNames = accountName.names.map(names => names.name);
 
-  	return names;
-  }
+		const names = aliasNames.length > 0 ? aliasNames : [Constants.Message.UNAVAILABLE];
+
+		return names;
+	}
 
 	/**
 	 * Get customize MosaicAmountView dataset for Vue component.
@@ -462,6 +477,10 @@ class AccountService {
 		}
 
 		return helper.sortMosaics(nonExpiredMosaics);
+	}
+
+	static checkNis1Account = async address => {
+		return nem.model.address.isValid(address);
 	}
 }
 

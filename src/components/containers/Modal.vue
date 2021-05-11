@@ -11,7 +11,9 @@
 		header-text-variant="title"
 	>
 		<template v-slot:default>
-			<slot name="body" />
+			<div class="mobile-model-content">
+				<slot name="body" />
+			</div>
 		</template>
 	</b-modal>
 </template>
@@ -30,3 +32,11 @@ export default {
 	}
 };
 </script>
+
+<style lang="scss" scoped>
+@media screen and (max-width: 420px) {
+    .mobile-model-content {
+        max-height: 75vh;
+    }
+}
+</style>

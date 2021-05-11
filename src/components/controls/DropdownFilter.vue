@@ -5,19 +5,31 @@
 		:size="_size"
 		:right="right"
 	>
-		<b-dropdown-item
-			v-for="(el, index) in options"
-			class="ex-dropdown"
+		<div v-for="(el, index) in options"
+			class="ex-dropdown dropdown-filter"
 			:key="'dropdown ' + index"
-			@click="onChange(index)"
 		>
-			<span class="mdi" :class="{[el.icon]: true}"/> {{el.label}}
-		</b-dropdown-item>
+			<b-dropdown-item
+				@click="onChange(index)"
+			>
+				<span class="mdi" :class="{[el.icon]: true}"/> {{el.label}}
+			</b-dropdown-item>
+
+			<ExportCSVButton
+				v-if="el.exportCSV && el.exportCSV.isActive"
+				:filterOptions="el"
+			/>
+		</div>
 	</b-dropdown>
 </template>
 
 <script>
+import ExportCSVButton from './ExportCSVButton.vue';
+
 export default {
+	components: {
+		ExportCSVButton
+	},
 	props: {
 		options: {
 			type: Array,
@@ -96,3 +108,9 @@ export default {
 	}
 };
 </script>
+
+<style lang="scss" scoped>
+.dropdown-filter {
+    display: flex;
+}
+</style>

@@ -5,6 +5,7 @@
 		class="bg-transparent"
 		size="sm"
 		:placeholder="getNameByKey(placeholder)"
+		:disabled="isLoading"
 		@change="onSearch"
 	>
 	</b-form-input>
@@ -12,13 +13,16 @@
 
 <script>
 export default {
-	mounted() {},
+	mounted() {
+		this.isLoading = false;
+	},
 
 	data() {
 		return {
 			searchString: '',
 			searchValidate: '',
 			isError: false,
+			isLoading: false,
 			placeholder: 'searchBoxPlaceholder'
 		};
 	},
@@ -27,16 +31,24 @@ export default {
 
 	methods: {
 		onSearch() {
+			this.isLoading = true;
 			this.$store
 				.dispatch('ui/search', this.searchString)
 				.then(() => {
+					this.isLoading = false;
 					return (this.searchString = '');
 				})
-				.catch(e => this.fail(e));
+				.catch(e => {
+					this.isLoading = false;
+					this.fail(e);
+				});
 		},
 
 		fail(e) {
-			this.searchString = e;
+			if (e.message === 'errorNisAddressNotAllowed')
+				alert(this.getNameByKey(e.message));
+
+			this.searchString = this.getNameByKey('errorNothingFound');
 			this.isError = true;
 			setTimeout(() => {
 				this.isError = false;

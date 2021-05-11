@@ -120,7 +120,7 @@ class StatisticService {
 
 		for (let i = 0; i < numTransactions.length - 1; ++i) {
 			numTransactionsPerBlockDataset.push([heights[i], numTransactions[i]]);
-			averagesDataset.push([heights[i], Math.floor(averages[i])]);
+			averagesDataset.push([heights[i], averages[i] === undefined ? 0 : averages[i].toFixed(2)]);
 		}
 
 		const sliceNumTransactionsPerBlockDataset = numTransactionsPerBlockDataset.slice(0, numTransactionsPerBlockDataset.length - grouping);

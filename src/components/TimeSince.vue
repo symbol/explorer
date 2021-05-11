@@ -53,11 +53,11 @@ export default {
 	},
 	methods: {
 		updateDateAge() {
-			let now = moment.utc();
+			const now = moment(moment.utc(Date.now()).format(), 'YYYY-MM-DD HH:mm:ss').utc();
 
-			let date = moment(this.date, 'YYYY-MM-DD HH:mm:ss').utc();
+			const date = moment(this.date, 'YYYY-MM-DD HH:mm:ss').utc();
 
-			let diff = now.diff(date);
+			let diff = Math.max(0, now.diff(date)) || 0;
 
 			this.years = Math.floor(diff / this.intervals.year);
 			diff -= this.years * this.intervals.year;

@@ -62,7 +62,6 @@
 				"pageSize": 5,
 				"hideOnError": true,
 				"hideDependOnGetter": "account/info",
-				"onRowClickKey": "mosaicId",
 				"fields": [
 					"mosaicId",
 					"amount",
@@ -94,9 +93,9 @@
 				"hasFilter": true,
 				"hideOnError": true,
 				"hideDependOnGetter": "account/info",
-				"onRowClickKey": "transactionHash",
 				"fields": [
-					"date",
+					"timestamp",
+					"deadline",
 					"blockHeight",
 					"direction",
 					"transactionType",
@@ -105,7 +104,7 @@
 					"extendGraphicValue"
 				],
 				"mobileFields": [
-					"date",
+					"timestamp",
 					"direction",
 					"transactionType",
 					"transactionHash"
@@ -186,7 +185,6 @@
 				"hideOnError": true,
 				"hideDependOnGetter": "account/info",
 				"errorMessage": "hashLockError",
-				"onRowClickKey": "transactionHash",
 				"fields": [
 					"transactionHash",
 					"endHeight",

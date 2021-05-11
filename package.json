@@ -2,7 +2,7 @@
   "name": "symbol-explorer",
   "description": "Symbol Block and Network Explorer",
   "homepage": "https://github.com/nemgrouplimited/symbol-explorer",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "scripts": {
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
@@ -31,6 +31,7 @@
     "leaflet.markercluster": "^1.4.1",
     "merkletreejs": "^0.2.9",
     "moment-timezone": "^0.5.28",
+    "nem-sdk": "^1.6.8",
     "symbol-sdk": "^1.0.0",
     "url-parse": "^1.4.7",
     "utf8": "^3.0.0",

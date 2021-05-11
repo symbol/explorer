@@ -72,7 +72,7 @@ class NodeService {
     			.toPromise();
     	}
 
-    	const formattedNodePeers = nodePeers.map(nodeInfo => this.formatNodeInfo(nodeInfo));
+    	const formattedNodePeers = nodePeers.map(nodeInfo => this.formatNodeInfo(nodeInfo)).sort((a, b) => a.friendlyName.localeCompare(b.friendlyName));
 
     	return formattedNodePeers;
     }
@@ -140,11 +140,18 @@ class NodeService {
                 			...el
                 		};
 
+                		node['softwareVersion'] = { version: el.version };
+
                 		if (el.apiStatus) {
                 			node['chainInfo'] = {
                 				chainHeight: el.apiStatus.chainHeight,
                 				finalizationHeight: el.apiStatus.finalizationHeight,
                 				lastStatusCheck: el.apiStatus.lastStatusCheck
+                			};
+
+                			node['softwareVersion'] = {
+                				...node.softwareVersion,
+                				restVersion: el.apiStatus.restVersion
                 			};
                 		}
                 		else
@@ -333,6 +340,27 @@ class NodeService {
 		}
 		else
 			throw Error('nodeRewardsController endpoint is not provided');
+	}
+
+	static getNodeListCSV = async (filter) => {
+		const nodes = await this.getNodePeerList(filter);
+
+		const formattedData = nodes.data.map(node => ({
+			no: node.index,
+			host: node.host,
+			country: node.country,
+			friendlyName: node.friendlyName.replace(/,/g, '_'), // prevent friendly name break in CSV
+			roles: node.roles,
+			network: node.network,
+			networkGenerationHashSeed: node.networkGenerationHashSeed,
+			nodePublicKey: node.nodePublicKey,
+			chainHeight: node.chainInfo.chainHeight,
+			finalizationHeight: node.chainInfo.finalizationHeight,
+			version: node.version,
+			rewardPrograms: node.rewardPrograms
+		}));
+
+		return helper.convertArrayToCSV(formattedData);
 	}
 }
 

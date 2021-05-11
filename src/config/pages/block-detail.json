@@ -29,7 +29,8 @@
                     "confirmations",
                     "height",
                     "payloadSize",
-                    "date",
+                    "timestamp",
+                    "symbolTime",
                     "totalFee",
                     "difficulty",
                     "feeMultiplier",
@@ -53,10 +54,9 @@
                 "title": "blockTransactionsTitle",
                 "managerGetter": "block/blockTransactions",
 				"pagination": "server",
-                "onRowClickKey": "transactionHash",
                 "hasFilter": true,
                 "fields": [
-                    "deadline",
+                    "timestamp",
                     "transactionHash",
                     "transactionType"
                 ]
