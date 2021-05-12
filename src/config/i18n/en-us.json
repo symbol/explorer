@@ -400,5 +400,7 @@
     "enrollmentId": "ID",
     "id": "ID",
     "retriesLeft": "Retries Left",
-    "signerPublicKey": "Signer Public Key"
+    "signerPublicKey": "Signer Public Key",
+    
+    "exportCSV": "Export CSV"
 }
