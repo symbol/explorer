@@ -4,7 +4,7 @@ services:
 node_js:
   - "12"
   - "lts/*"
-  - "node"
+# - "node" node-js v16 is not support node-sass yet https://github.com/sass/node-sass/issues/3077
 env:
   global:
     - DEV_BRANCH=dev
