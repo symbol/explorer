@@ -122,7 +122,10 @@ const managers = [
 	),
 	new Pagination({
 		name: 'nodeRewardsEnrollments',
-		fetchFunction: (pageInfo, filterValue, store) => NodeService.getEnrollmentList(pageInfo, filterValue, store.getters.info.data.publicKey)
+		fetchFunction: (pageInfo, filterValue, store) => NodeService.getEnrollmentList(pageInfo, filterValue, store.getters.info.data.publicKey),
+		pageInfo: {
+			pageSize: 10
+		}
 	}),
 ];
 

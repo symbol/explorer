@@ -270,14 +270,14 @@
 				"hideEmptyData": true,
 				"hideDependOnGetter": "account/info",
                 "fields": [
-                    "height",
+					"enrollmentId",
                     "transactionHash",
 					"agentUrl",
 					"retriesLeft",
                     "status"
                 ],
                 "mobileFields": [
-                    "height",
+                    "enrollmentId",
                     "transactionHash",
                     "status"
                 ]
