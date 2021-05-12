@@ -366,7 +366,8 @@ class NodeService {
 
 		data.data = data.data.map(el => ({
 			...el,
-			enrollmentId: el.id
+			enrollmentId: el.id,
+			agentUrl: el.agentUrl || Constants.Message.UNAVAILABLE
 		}))
 
 		return data;
