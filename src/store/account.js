@@ -126,7 +126,7 @@ const managers = [
 		pageInfo: {
 			pageSize: 10
 		}
-	}),
+	})
 ];
 
 const LOCK = Lock.create();
@@ -195,7 +195,6 @@ export default {
 
 			context.dispatch('uninitializeDetail');
 			context.commit('setCurrentAccountAddress', payload.address);
-
 
 			context.getters.info.setStore(context).initialFetch(payload.address)
 				.then(() => context.getters.nodeRewardsEnrollments.setStore(context).initialFetch(payload.address));

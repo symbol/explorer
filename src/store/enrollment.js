@@ -35,12 +35,12 @@ const managers = [
 		filter: filters.enrollmentStatus,
 		pageInfo: {
 			pageSize: Constants.PageSize
-		},
+		}
 	}),
 	new DataSet(
 		'info',
-		(id) => NodeService.getEnrollmentInfo(id),
-	),
+		(id) => NodeService.getEnrollmentInfo(id)
+	)
 ];
 
 const LOCK = Lock.create();
@@ -53,7 +53,7 @@ export default {
 	},
 	getters: {
 		getInitialized: state => state.initialized,
-		...getGettersFromManagers(managers),
+		...getGettersFromManagers(managers)
 	},
 	mutations: {
 		setInitialized: (state, initialized) => {
@@ -66,13 +66,15 @@ export default {
 
 		// Initialize the enrollment model.
 		async initialize({ commit, dispatch, getters }) {
-			const callback = async () => await dispatch('initializePage');
+			const callback = async () => dispatch('initializePage');
+
 			await LOCK.initialize(callback, commit, dispatch, getters);
 		},
 
 		// Uninitialize the enrollment model.
 		async uninitialize({ commit, dispatch, getters }) {
 			const callback = async () => getters.timeline?.uninitialize();
+
 			await LOCK.uninitialize(callback, commit, dispatch, getters);
 		},
 

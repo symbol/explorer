@@ -16,12 +16,12 @@ export default {
 	components: {
 		IconArrowRight
 	},
-    props: {
-        noIcon: {
-            type: Boolean,
-            default: false
-        }
-    }
+	props: {
+		noIcon: {
+			type: Boolean,
+			default: false
+		}
+	}
 };
 </script>
 

@@ -353,11 +353,12 @@ class NodeService {
 		};
 
 		let url = `${endpoint}/enrollments`;
-		if (signerPublicKey) 
+
+		if (signerPublicKey)
 			url += `/signerPublicKey/${signerPublicKey}`;
-		
+
 		const response = (await Axios.get(url, { params: searchCriteria })).data;
-		
+
 		const data = {
 			...response,
 			...response.pagination,
@@ -368,7 +369,7 @@ class NodeService {
 			...el,
 			enrollmentId: el.id,
 			agentUrl: el.agentUrl || Constants.Message.UNAVAILABLE
-		}))
+		}));
 
 		return data;
 	}

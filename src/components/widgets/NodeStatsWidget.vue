@@ -39,7 +39,7 @@
 					</router-link>
 				</b-row>
 				<!-- <b-row v-if="nodePrograms.length" align-h="end">
-					
+
 				</b-row> -->
 				<b-row>
 					<b-col

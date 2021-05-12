@@ -139,7 +139,7 @@ export default class Pagination {
 		try {
 			const newPageInfo = await this.fetchFunction(this.pageInfo, this.filterValue, this.store);
 
-			this.pageInfo = !!newPageInfo?.data.length
+			this.pageInfo = newPageInfo?.data.length
 				? newPageInfo
 				: {
 					...this.capturedPageInfo,
@@ -162,11 +162,9 @@ export default class Pagination {
 	async fetchNext() {
 		if (this.canFetchNext) {
 			this.store.dispatch(this.name, this);
-			console.log('before: ', JSON.stringify({...this.pageInfo, data: []}))
 			this.capturePageInfo();
 			this.pageInfo.pageNumber++;
 			await this.fetch();
-			console.log('after: ', JSON.stringify({...this.pageInfo, data: []}))
 		}
 		else
 			console.error('[Pagination]: cannot fetch next');
