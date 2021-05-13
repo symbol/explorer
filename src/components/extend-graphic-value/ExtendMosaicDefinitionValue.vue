@@ -4,9 +4,9 @@
 		:title="getTranslation('mosaicId') + ': ' + mosaicId"
 		style="word-break: keep-all; display: flex"
 	>
-
 		<MosaicIcon
 			hideCaption
+			style="margin-right: 5px"
 			:width="16"
 			:height="16"
 			:mosaicId="mosaicId"
