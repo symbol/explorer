@@ -121,9 +121,9 @@
 				"hideOnError": true,
 				"hideDependOnGetter": "account/info",
 				"fields": [
-					"linked",
-					"node",
-					"vrf",
+					"linkedAddress",
+					"nodeAddress",
+					"vrfAddress",
 					"voting"
 				]
 			},

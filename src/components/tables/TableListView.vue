@@ -40,6 +40,7 @@
 							<ExtendGraphicValueField v-else-if="itemKey === 'extendGraphicValue'" :value="item" :transactionType="row['transactionType']"/>
 							<DateField v-else-if="itemKey === 'timestamp'" :timestamp="item" />
 							<SoftwareVersion v-else-if="itemKey === 'softwareVersion'" :value="item" />
+							<Harvester v-else-if="itemKey === 'harvester'" :value="item" />
 
 							<div v-else-if="isAggregateInnerTransaction(itemKey)">
 								<b-link v-b-modal="'tlv_r'+rowIndex">Show Detail</b-link>
@@ -109,6 +110,7 @@ import RewardPrograms from '@/components/fields/RewardPrograms';
 import ChainInfo from '@/components/fields/ChainInfo';
 import DateField from '@/components/fields/DateField.vue';
 import SoftwareVersion from '@/components/fields/SoftwareVersion.vue';
+import Harvester from '@/components/fields/Harvester.vue';
 
 export default {
 	extends: TableView,
@@ -127,7 +129,8 @@ export default {
 		ChainInfo,
 		Loading,
 		DateField,
-		SoftwareVersion
+		SoftwareVersion,
+		Harvester
 	},
 
 	props: {

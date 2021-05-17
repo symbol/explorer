@@ -4,7 +4,7 @@ services:
 node_js:
   - "12"
   - "lts/*"
-# - "node" node-js v16 is not support node-sass yet https://github.com/sass/node-sass/issues/3077
+  # - "node" node-js v16 is not support node-sass yet https://github.com/sass/node-sass/issues/3077
 env:
   global:
     - DEV_BRANCH=dev
@@ -34,19 +34,19 @@ jobs:
     - stage: test
       name: docker test build
       script: /bin/bash travis/docker-functions.sh docker_build $VERSION
-      node_js: 10
+      node_js: 12
     - stage: publish
       name: docker publish alpha
       script: /bin/bash travis/docker-functions.sh docker_build $VERSION publish
       if: branch = env(DEV_BRANCH) AND type = push
-      node_js: 10
+      node_js: 12
     - stage: release
       name: docker publish release
       script: /bin/bash travis/docker-functions.sh docker_build $VERSION release
       if: branch = env(RELEASE_BRANCH) AND type = api AND commit_message = env(RELEASE_MESSAGE)
-      node_js: 10
+      node_js: 12
     - stage: post release
       name: tag and version upgrade
       script: /bin/bash travis/node-functions.sh node_post_release
       if: branch = env(RELEASE_BRANCH) AND type = api AND commit_message = env(RELEASE_MESSAGE)
-      node_js: 10
+      node_js: 12

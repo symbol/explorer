@@ -83,6 +83,10 @@ export default {
 				'linkedAccountAddress',
 				'ownerAddress',
 				'senderAddress',
+				'linkedAddress',
+				'nodeAddress',
+				'vrfAddress',
+				'voting_',
 
 				'namespaceArtifactId',
 				'mosaicArtifactId',

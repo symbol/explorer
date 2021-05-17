@@ -17,7 +17,7 @@
  */
 
 import { UInt64, TransactionGroup, Order, BlockOrderBy, BlockType } from 'symbol-sdk';
-import { TransactionService, ReceiptService } from '../infrastructure';
+import { TransactionService, ReceiptService, AccountService } from '../infrastructure';
 import http from './http';
 import helper from '../helper';
 import { Constants } from '../config';
@@ -129,13 +129,24 @@ class BlockService {
 
   	const blocks = await this.searchBlocks(blockSearchCriteria);
 
+  	const signerAddress = blocks.data.map(block => block.signer);
+
+  	const accountInfos = await AccountService.getAccounts(signerAddress);
+
   	return {
   		...blocks,
-  		data: blocks.data.map(block => ({
-  			...block,
-  			age: helper.convertToUTCDate(block.timestamp),
-  			harvester: block.signer
-  		}))
+  		data: blocks.data.map(block => {
+  			const { supplementalPublicKeys } = accountInfos.find(account => account.address === block.signer);
+
+  			return {
+  				...block,
+  				age: helper.convertToUTCDate(block.timestamp),
+  				harvester: {
+  					signer: block.signer,
+  					linkedAddress: supplementalPublicKeys.linked === Constants.Message.UNAVAILABLE ? block.signer : helper.publicKeyToAddress(supplementalPublicKeys.linked)
+				  }
+  			};
+  		})
   	};
   }
 
@@ -205,6 +216,8 @@ class BlockService {
   static getBlockInfo = async height => {
   	const block = await this.getBlockByHeight(height);
 
+  	const { supplementalPublicKeys } = await AccountService.getAccount(block.signer);
+
   	// Get merkle info
   	let { stateHash, stateHashSubCacheMerkleRoots, blockReceiptsHash, blockTransactionsHash } = block;
 
@@ -228,7 +241,10 @@ class BlockService {
   		symbolTime: block.timestamp,
   		payloadSize: block.size,
   		blockHash: block.hash,
-  		harvester: block.signer,
+  		harvester: {
+  			signer: block.signer,
+  			linkedAddress: supplementalPublicKeys.linked === Constants.Message.UNAVAILABLE ? block.signer : helper.publicKeyToAddress(supplementalPublicKeys.linked)
+  		},
   		merkleInfo: {
   			stateHash,
   			stateHashSubCacheMerkleRoots,

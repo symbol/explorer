@@ -399,5 +399,10 @@
     "retriesLeft": "Retries Left",
     "signerPublicKey": "Signer Public Key",
 
+    "remote": "Remote",
+    "main": "Main",
+    "linkedAddress": "Linked",
+    "nodeAddress": "Node",
+    "vrfAddress": "VRF",
     "exportCSV": "Export CSV"
 }
