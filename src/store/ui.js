@@ -105,7 +105,7 @@ export default {
 					if (helper.isAccountPublicKey(searchString)) {
 						// check the string is a public key of an account
 
-						const api = rootGetters['api/currentNode'].url;
+						const api = rootGetters['api/currentNode'];
 
 						let accountHttp = new AccountHttp(api);
 
