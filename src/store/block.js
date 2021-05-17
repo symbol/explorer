@@ -22,7 +22,8 @@ import { filters, Constants } from '../config';
 import helper from '../helper';
 import {
 	ListenerService,
-	BlockService
+	BlockService,
+	AccountService
 } from '../infrastructure';
 import {
 	DataSet,
@@ -131,10 +132,15 @@ export default {
 					async (item) => {
 						const latestBlock = await BlockService.getBlockByHeight(item.height.compact());
 
+						const { supplementalPublicKeys } = await AccountService.getAccount(latestBlock.signer);
+
 						getters.timeline.addLatestItem({
 							...latestBlock,
 							age: helper.convertToUTCDate(latestBlock.timestamp),
-							harvester: latestBlock.signer
+							harvester: {
+								signer: latestBlock.signer,
+								linkedAddress: supplementalPublicKeys.linked === Constants.Message.UNAVAILABLE ? latestBlock.signer : helper.publicKeyToAddress(supplementalPublicKeys.linked)
+							}
 						}, 'height');
 
 						dispatch('chain/getChainInfo', null, { root: true });

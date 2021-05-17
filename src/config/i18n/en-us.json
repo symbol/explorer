@@ -391,5 +391,10 @@
     "symbolTime": "Symbol Time",
     "restVersion": "REST Version",
     "softwareVersion": "Version",
+    "remote": "Remote",
+    "main": "Main",
+    "linkedAddress": "Linked",
+    "nodeAddress": "Node",
+    "vrfAddress": "VRF",
     "exportCSV": "Export CSV"
 }
