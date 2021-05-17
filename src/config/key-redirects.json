@@ -19,6 +19,10 @@
     "addressAdditions_": "accounts",
     "addressDeletions_": "accounts",
     "linkedAccountAddress": "accounts",
+    "linkedAddress": "accounts",
+    "nodeAddress": "accounts",
+    "vrfAddress": "accounts",
+    "voting_": "accounts",
 
     "transaction": "transactions",
     "transactionHash": "transactions",
