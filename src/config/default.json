@@ -1,20 +1,21 @@
 {
 	"peersApi": {
-		"defaultNode": "http://api-01.ap-northeast-1.testnet.symboldev.network:3000",
+		"defaultNode": "http://ngl-dual-001.testnet.symboldev.network:3000",
 		"nodes": [
-			"http://api-01.ap-northeast-1.testnet.symboldev.network:3000",
-			"http://api-01.ap-southeast-1.testnet.symboldev.network:3000",
-			"http://api-01.eu-central-1.testnet.symboldev.network:3000",
-			"http://api-01.eu-west-1.testnet.symboldev.network:3000",
-			"http://api-01.us-east-1.testnet.symboldev.network:3000",
-			"http://api-01.us-west-1.testnet.symboldev.network:3000"
+			"http://ngl-dual-001.testnet.symboldev.network:3000",
+			"http://ngl-dual-101.testnet.symboldev.network:3000",
+			"http://ngl-dual-201.testnet.symboldev.network:3000",
+			"http://ngl-dual-301.testnet.symboldev.network:3000",
+			"http://ngl-dual-401.testnet.symboldev.network:3000",
+			"http://ngl-dual-501.testnet.symboldev.network:3000",
+			"http://ngl-dual-601.testnet.symboldev.network:3000"
 		]
 	},
 	"apiNodePort": 3000,
 	"endpoints": {
 		"marketData": "https://min-api.cryptocompare.com/",
 		"statisticsService": "http://localhost:4001",
-		"nodeRewardsController": "http://34.252.126.146:7890"
+		"nodeRewardsController": "http://node-monitoring.testnet.symboldev.network:7890"
 	},
 	"networkConfig": {
 		"namespaceName": "symbol.xym",

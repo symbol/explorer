@@ -6,7 +6,7 @@
 		@click="$emit('click')"
 	>
 		<span><slot/></span>
-		<IconArrowRight class="more-icon" />
+		<IconArrowRight v-if="!noIcon" class="more-icon" />
 	</b-button>
 </template>
 
@@ -15,6 +15,12 @@ import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue';
 export default {
 	components: {
 		IconArrowRight
+	},
+	props: {
+		noIcon: {
+			type: Boolean,
+			default: false
+		}
 	}
 };
 </script>

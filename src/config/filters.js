@@ -465,3 +465,39 @@ export const blockTransactionReceipt = [
 		}
 	}
 ];
+
+export const enrollmentStatus = [
+	{
+		label: 'All',
+		icon: 'mdi-note-text-outline',
+		value: {}
+	},
+	{
+		label: 'Invalid',
+		icon: 'mdi-alert-outline',
+		value: {
+			status: 'Invalid'
+		}
+	},
+	{
+		label: 'To Process',
+		icon: 'mdi-update',
+		value: {
+			status: 'ToProcess'
+		}
+	},
+	{
+		label: 'Processing',
+		icon: 'mdi-autorenew',
+		value: {
+			status: 'Processing'
+		}
+	},
+	{
+		label: 'Completed',
+		icon: 'mdi-check',
+		value: {
+			status: 'Completed'
+		}
+	}
+];

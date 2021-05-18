@@ -342,6 +342,45 @@ class NodeService {
 			throw Error('nodeRewardsController endpoint is not provided');
 	}
 
+	static getEnrollmentList = async (pageInfo, filterVaule, signerPublicKey) => {
+		const endpoint = globalConfig.endpoints.nodeRewardsController;
+		const { pageNumber, pageSize } = pageInfo;
+		const searchCriteria = {
+			pageNumber,
+			pageSize,
+			order: symbol.Order.Desc,
+			...filterVaule
+		};
+
+		let url = `${endpoint}/enrollments`;
+
+		if (signerPublicKey)
+			url += `/signerPublicKey/${signerPublicKey}`;
+
+		const response = (await Axios.get(url, { params: searchCriteria })).data;
+
+		const data = {
+			...response,
+			...response.pagination,
+			isLastPage: response.data.length < pageSize
+		};
+
+		data.data = data.data.map(el => ({
+			...el,
+			enrollmentId: el.id,
+			agentUrl: el.agentUrl || Constants.Message.UNAVAILABLE
+		}));
+
+		return data;
+	}
+
+	static getEnrollmentInfo = async (id) => {
+		const endpoint = globalConfig.endpoints.nodeRewardsController;
+		const response = (await Axios.get(`${endpoint}/enrollments/${id}`)).data;
+
+		return response;
+	}
+
 	static getNodeListCSV = async (filter) => {
 		const nodes = await this.getNodePeerList(filter);
 
