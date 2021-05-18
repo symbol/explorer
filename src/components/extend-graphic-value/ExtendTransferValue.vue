@@ -20,7 +20,7 @@
 	<div class="extendGraphicValueContainer">
 		<span
 			v-if="hasMessage"
-			:title="getTranslation('message') + ': ' + message">
+			title="">
 			<MessageCircle
 				style="width: 16px; height: 16px"
 				:message="message"
@@ -39,7 +39,7 @@
 
 		<span
 			v-if="hasNativeMosaic"
-			:title="nativeMosaic + ' ' + networkCurrency"
+			:title="getTranslation('amount') + ': ' + nativeMosaic + ' ' + networkCurrency"
 			:class="amountClass"
 			style="display: flex"
 		>
