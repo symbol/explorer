@@ -130,9 +130,6 @@ class TransactionService {
   static getTransactionInfo = async (hash) => {
   	const transactionStatus = await this.getTransactionStatus(hash);
   	const transactionGroup = transactionStatus.message;
-
-  	console.log({ transactionStatus, transactionGroup });
-
   	const transaction = await this.getTransaction(hash, transactionGroup)
   		.catch((error) => {
   			if (error)
