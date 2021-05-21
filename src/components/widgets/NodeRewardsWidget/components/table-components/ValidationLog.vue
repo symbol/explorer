@@ -40,12 +40,12 @@ export default {
 				.replaceAll(']', ']</span>')
 				.replaceAll('&&', '<span class="validation-log-and no-wrap">&&</span>')
 				.replaceAll('||', '<span class="validation-log-or no-wrap">||</span>')
-				.replaceAll(' < ', ' <span class="ls no-wrap"><</span> ')
-				.replaceAll(' <= ', ' <span class="ls no-wrap"><=</span> ')
-				.replaceAll(' >= ', ' <span class="mr no-wrap">>=</span> ')
-				.replaceAll(' === ', ' <span class="eq no-wrap">===</span> ')
-				.replaceAll(' > ', ' <span class="mr no-wrap">></span> ')
-				.replaceAll(' !== ', ' <span class="ne no-wrap">!==</span> ');
+				.replaceAll(' < ', ' <span class="validation-log-comp no-wrap"><</span> ')
+				.replaceAll(' <= ', ' <span class="validation-log-comp no-wrap"><=</span> ')
+				.replaceAll(' >= ', ' <span class="validation-log-comp no-wrap">>=</span> ')
+				.replaceAll(' === ', ' <span class="validation-log-comp no-wrap">===</span> ')
+				.replaceAll(' > ', ' <span class="validation-log-comp no-wrap">></span> ')
+				.replaceAll(' !== ', ' <span class="validation-log-comp no-wrap">!==</span> ');
 		}
 	},
 
@@ -87,19 +87,7 @@ export default {
     white-space: nowrap;
 }
 
-.ls {
-    color: $orange-color;
-}
-
-.eq {
-    color: $orange-color;
-}
-
-.mr {
-    color: $orange-color;
-}
-
-.ne {
+.validation-log-comp {
     color: $orange-color;
 }
 </style>
