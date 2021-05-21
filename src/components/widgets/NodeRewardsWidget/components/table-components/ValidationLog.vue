@@ -102,5 +102,4 @@ export default {
 .ne {
     color: $orange-color;
 }
-
 </style>
