@@ -1,8 +1,8 @@
 <template>
 	<code v-if="isShown" class="validation-log-text" v-html="formattedText" />
-    <div v-else class="validation-log-button" @click="isShown = true">
-        {{translate(language, 'reveal')}}
-    </div>
+	<div v-else class="validation-log-button" @click="isShown = true">
+		{{translate(language, 'reveal')}}
+	</div>
 </template>
 
 <script>
@@ -26,7 +26,7 @@ export default {
 
 	data() {
 		return {
-            isShown: false,
+			isShown: false,
 			translate
 		};
 	},
@@ -34,24 +34,24 @@ export default {
 	computed: {
 		formattedText() {
 			return this.value
-                .replaceAll('(', '<span class="validation-log-brace">(')
-                .replaceAll(')', ')</span>')
-                .replaceAll('[', '<span class="validation-log-brace">[')
-                .replaceAll(']', ']</span>')
-                .replaceAll('&&', '<span class="validation-log-and no-wrap">&&</span>')
-                .replaceAll('||', '<span class="validation-log-or no-wrap">||</span>')
-                .replaceAll(' < ', ' <span class="ls no-wrap"><</span> ' )
-                .replaceAll(' <= ', ' <span class="ls no-wrap"><=</span> ')
-                .replaceAll(' >= ', ' <span class="mr no-wrap">>=</span> ')
-                .replaceAll(' === ', ' <span class="eq no-wrap">===</span> ')
-                .replaceAll(' > ', ' <span class="mr no-wrap">></span> ')
-                .replaceAll(' !== ', ' <span class="ne no-wrap">!==</span> ');
+				.replaceAll('(', '<span class="validation-log-brace">(')
+				.replaceAll(')', ')</span>')
+				.replaceAll('[', '<span class="validation-log-brace">[')
+				.replaceAll(']', ']</span>')
+				.replaceAll('&&', '<span class="validation-log-and no-wrap">&&</span>')
+				.replaceAll('||', '<span class="validation-log-or no-wrap">||</span>')
+				.replaceAll(' < ', ' <span class="ls no-wrap"><</span> ')
+				.replaceAll(' <= ', ' <span class="ls no-wrap"><=</span> ')
+				.replaceAll(' >= ', ' <span class="mr no-wrap">>=</span> ')
+				.replaceAll(' === ', ' <span class="eq no-wrap">===</span> ')
+				.replaceAll(' > ', ' <span class="mr no-wrap">></span> ')
+				.replaceAll(' !== ', ' <span class="ne no-wrap">!==</span> ');
 		}
 	},
 
-    mounted() {
-        this.isShown = false;
-    }
+	mounted() {
+		this.isShown = false;
+	}
 };
 </script>
 

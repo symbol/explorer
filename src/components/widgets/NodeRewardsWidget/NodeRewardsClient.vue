@@ -137,6 +137,7 @@ export default {
 		_tabs() {
 			if (this.rewardProgram === 'MonitorOnly') {
 				const tabs = { ...this.tabs };
+
 				delete tabs.payout;
 				return tabs;
 			}
@@ -203,11 +204,11 @@ export default {
 			try {
 				this.noHistory = false;
 				this.isModelError = false;
-				if(data && Object.keys(data).length)
+				if (data && Object.keys(data).length)
 					return new NodeRewardInfo(data);
 			}
 			catch (e) {
-				console.error(e)
+				console.error(e);
 				if (e.message === 'empty_histoty')
 					this.noHistory = true;
 				else
