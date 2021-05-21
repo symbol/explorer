@@ -1,0 +1,98 @@
+<template>
+	<code v-if="isShown" class="validation-log-text" v-html="formattedText" />
+    <div v-else class="validation-log-button" @click="isShown = true">
+        {{translate(language, 'reveal')}}
+    </div>
+</template>
+
+<script>
+import translate from '../../i18n';
+
+export default {
+	name: 'ValidationLog',
+
+	props: {
+		keyName: {
+			type: String
+		},
+		value: {
+			type: String,
+			required: true
+		},
+		language: {
+			type: String
+		}
+	},
+
+	data() {
+		return {
+            isShown: false,
+			translate
+		};
+	},
+
+	computed: {
+		formattedText() {
+			return this.value
+                .replaceAll('(', '<span class="validation-log-brace">(')
+                .replaceAll(')', ')</span>')
+                .replaceAll('&&', '<span class="validation-log-and">&&</span>')
+                .replaceAll('||', '<span class="validation-log-or">||</span>')
+                .replaceAll(' < ', '<span class="ls"><</span>')
+                .replaceAll(' <= ', '<span class="ls"> <= </span>')
+                .replaceAll(' >= ', '<span class="mr"> >= </span>')
+                .replaceAll(' === ', '<span class="eq"> === </span>')
+                .replaceAll(' > ', '<span class="mr"> > </span>')
+                .replaceAll(' !== ', '<span class="ne"> !== </span>');
+		}
+	},
+
+    mounted() {
+        this.isShown = false;
+    }
+};
+</script>
+
+<style lang="scss">
+.validation-log-button {
+    font-weight: bold;
+    color: $primary-color;
+    cursor: pointer;
+}
+
+.validation-log-text {
+    font-size: 75%;
+    color: $primary-color;
+    overflow-x: auto;
+}
+
+.validation-log-brace {
+    opacity: 0.8;
+    filter: saturate(50%);
+}
+
+.validation-log-and {
+    color: $pink-color;
+}
+
+.validation-log-or {
+    color: $pink-color;
+}
+
+.ls {
+    color: $orange-color;
+}
+
+.eq {
+    color: $orange-color;
+}
+
+.mr {
+    color: $orange-color;
+}
+
+.ne {
+    color: $orange-color;
+}
+
+</style>
