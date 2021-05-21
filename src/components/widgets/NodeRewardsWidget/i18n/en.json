@@ -136,7 +136,11 @@
     "roundRange": "From round #{fromRound} to round #{toRound}",
     "epochValue": "Epoch '#{epoch}'",
 
+    "validationLog": "Validation Log",
+    "reveal": "Reveal",
+
     "buttonMore": "Load More",
     "buttonTryAgain": "Try Again",
-    "nothingToShow": "Nothing to show"
+    "nothingToShow": "Nothing to show",
+    "__noPayout": "This program doesn't make payouts"
 }

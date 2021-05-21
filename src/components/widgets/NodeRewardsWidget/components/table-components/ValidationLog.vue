@@ -36,14 +36,16 @@ export default {
 			return this.value
                 .replaceAll('(', '<span class="validation-log-brace">(')
                 .replaceAll(')', ')</span>')
-                .replaceAll('&&', '<span class="validation-log-and">&&</span>')
-                .replaceAll('||', '<span class="validation-log-or">||</span>')
-                .replaceAll(' < ', '<span class="ls"><</span>')
-                .replaceAll(' <= ', '<span class="ls"> <= </span>')
-                .replaceAll(' >= ', '<span class="mr"> >= </span>')
-                .replaceAll(' === ', '<span class="eq"> === </span>')
-                .replaceAll(' > ', '<span class="mr"> > </span>')
-                .replaceAll(' !== ', '<span class="ne"> !== </span>');
+                .replaceAll('[', '<span class="validation-log-brace">[')
+                .replaceAll(']', ']</span>')
+                .replaceAll('&&', '<span class="validation-log-and no-wrap">&&</span>')
+                .replaceAll('||', '<span class="validation-log-or no-wrap">||</span>')
+                .replaceAll(' < ', ' <span class="ls no-wrap"><</span> ' )
+                .replaceAll(' <= ', ' <span class="ls no-wrap"><=</span> ')
+                .replaceAll(' >= ', ' <span class="mr no-wrap">>=</span> ')
+                .replaceAll(' === ', ' <span class="eq no-wrap">===</span> ')
+                .replaceAll(' > ', ' <span class="mr no-wrap">></span> ')
+                .replaceAll(' !== ', ' <span class="ne no-wrap">!==</span> ');
 		}
 	},
 
@@ -63,7 +65,9 @@ export default {
 .validation-log-text {
     font-size: 75%;
     color: $primary-color;
-    overflow-x: auto;
+    white-space: normal;
+    word-wrap: normal;
+    word-break: normal;
 }
 
 .validation-log-brace {
@@ -77,6 +81,10 @@ export default {
 
 .validation-log-or {
     color: $pink-color;
+}
+
+.no-wrap {
+    white-space: nowrap;
 }
 
 .ls {
