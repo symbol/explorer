@@ -403,6 +403,18 @@ export const nodeRoles = [
 			isActive: true,
 			name: 'nodeListCSV'
 		}
+	},
+	{
+		label: 'RP - MonitorOnly',
+		icon: '',
+		value: {
+			rolesRaw: null,
+			rewardProgram: 'MonitorOnly'
+		},
+		exportCSV: {
+			isActive: true,
+			name: 'nodeListCSV'
+		}
 	}
 ];
 

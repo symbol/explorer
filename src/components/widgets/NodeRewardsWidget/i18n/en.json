@@ -136,6 +136,9 @@
     "roundRange": "From round #{fromRound} to round #{toRound}",
     "epochValue": "Epoch '#{epoch}'",
 
+    "validationLog": "Validation Log",
+    "reveal": "Reveal",
+
     "buttonMore": "Load More",
     "buttonTryAgain": "Try Again",
     "nothingToShow": "Nothing to show"
