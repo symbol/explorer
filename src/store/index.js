@@ -19,6 +19,7 @@ import account from './account';
 import api from './api';
 import block from './block';
 import chain from './chain';
+import enrollment from './enrollment';
 import mosaic from './mosaic';
 import namespace from './namespace';
 import node from './node';
@@ -39,6 +40,7 @@ export default new Vuex.Store({
 		api,
 		block,
 		chain,
+		enrollment,
 		transaction,
 		ui,
 		account,
@@ -86,6 +88,7 @@ export default new Vuex.Store({
 				dispatch('account/uninitialize'),
 				dispatch('block/uninitialize'),
 				dispatch('chain/uninitialize'),
+				dispatch('enrollment/uninitialize'),
 				dispatch('mosaic/uninitialize'),
 				dispatch('namespace/uninitialize'),
 				dispatch('transaction/uninitialize'),

@@ -4,6 +4,7 @@
     "beneficiaryAddress": "accounts",
     "address": "accounts",
     "signer": "accounts",
+    "signerPublicKey": "accounts",
     "recipient": "accounts",
     "senderAddress": "accounts",
     "ownerAddress": "accounts",
@@ -62,5 +63,7 @@
     "namespaceArtifactId": "namespaces",
 
     "node": "nodes",
-    "nodePublicKey": "nodes"
+    "nodePublicKey": "nodes",
+
+    "enrollmentId": "enrollments"
 }

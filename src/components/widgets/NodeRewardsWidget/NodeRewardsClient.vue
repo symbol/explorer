@@ -7,8 +7,9 @@
 					<td>
 						<h3>{{translate(language, 'appTitle')}}</h3>
 						<TabSelector
+							v-if="!isLoading"
 							class="title"
-							:tabs="tabs"
+							:tabs="_tabs"
 							:activeTab="activeTab"
 							:language="language"
 							@select="index => activeTab = index"
@@ -133,6 +134,16 @@ export default {
 			return this.getter(this.payoutsManagerGetter) || {};
 		},
 
+		_tabs() {
+			if (this.rewardProgram === 'MonitorOnly') {
+				const tabs = { ...this.tabs };
+
+				delete tabs.payout;
+				return tabs;
+			}
+			return this.tabs;
+		},
+
 		data() {
 			return this.dataGetter
 				? this.getter(this.dataGetter)
@@ -145,6 +156,10 @@ export default {
 
 			else
 				return {};
+		},
+
+		rewardProgram() {
+			return this.formattedData?.main?.rewardProgram;
 		},
 
 		nodeId() {
@@ -187,9 +202,13 @@ export default {
 
 		formatData(data) {
 			try {
-				return new NodeRewardInfo(data);
+				this.noHistory = false;
+				this.isModelError = false;
+				if (data && Object.keys(data).length)
+					return new NodeRewardInfo(data);
 			}
 			catch (e) {
+				console.error(e);
 				if (e.message === 'empty_histoty')
 					this.noHistory = true;
 				else

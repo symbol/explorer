@@ -41,9 +41,11 @@
 													<BooleanField v-if="isBoolean(subItem, subKey)" :value="subItem" class="value-boolean" />
 													<DateField v-else-if="isDate(subItem, subKey)" :value="subItem" :keyName="subKey" />
 													<Decimal v-else-if="isBalance(subItem, subKey)" :value="subItem" />
+													<ValidationLog v-else-if="isValidationLog(subItem, subKey)" :value="subItem" :language="language"/>
 													<TextField v-else :value="subItem" :keyName="subKey"/>
 												</div>
 											</div>
+											<ValidationLog v-else-if="isValidationLog(item, key)" :value="item" :language="language"/>
 											<TextField v-else :value="item" :keyName="key"/>
 										</td>
 									</tr>
@@ -63,12 +65,13 @@ import BooleanField from './table-components/Boolean.vue';
 import DateField from './table-components/Date.vue';
 import TextField from './table-components/Text.vue';
 import Decimal from '../../../fields/Decimal.vue';
+import ValidationLog from './table-components/ValidationLog.vue';
 import CloseIcon from '../assets/close.png';
 
 export default {
 	name: 'Modal',
 
-	components: { BooleanField, DateField, TextField, Decimal },
+	components: { BooleanField, DateField, TextField, Decimal, ValidationLog },
 
 	props: {
 		title: {
@@ -138,6 +141,10 @@ export default {
 
 		isBalance(item, key) {
 			return key?.toUpperCase().includes('BALANCE') === true;
+		},
+
+		isValidationLog(item, key) {
+			return key === 'validationLog';
 		},
 
 		getPassedDescription(passed) {
