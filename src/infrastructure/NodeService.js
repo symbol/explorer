@@ -316,57 +316,14 @@ class NodeService {
 
 		if (endpoint && endpoint.length) {
 			const params = { pageNumber: pageInfo.pageNumber, nodeId };
-
 			let route = '/payouts';
-			console.log({rewardProgram})
+
 			switch(rewardProgram) {
 				case 'EarlyAdoption':
 					route = '/payouts/earlyadoption';
 					break;
 				case 'Ecosystem':
 					route = '/payouts/ecosystem';
-					console.log({route})
-					/// ----
-					return {
-						pagination: {
-							pageNumber: 1,
-							pageSize: 10,
-							isLastPage: true
-						},
-						data: [
-						{
-							id: "60ae0e1592619420e46761f1",
-							nodeId: "60ab93c646aeac0ccd72c9e1",
-							
-							nis1FromRound: 6298,
-							nis1ToRound: 7041,
-							nis1IsPassed: true,
-
-							symbolFromRound: 34,
-							symbolToRound: 43,
-							symbolIsPassed: false,
-
-							createdAt: "2021-05-26T09:00:05.762Z",
-							updatedAt: "2021-05-26T10:00:06.299Z",
-						},
-						{
-							id: "60ae0e1592619420e46761f1",
-							nodeId: "60ab93c646aeac0ccd72c9e1",
-							
-							nis1FromRound: 6298,
-							nis1ToRound: 7041,
-							nis1IsPassed: true,
-
-							symbolFromRound: 34,
-							symbolToRound: 43,
-							symbolIsPassed: false,
-
-							createdAt: "2021-05-26T09:00:05.762Z",
-							updatedAt: "2021-05-26T10:00:06.299Z",
-						}
-					
-					]}
-					/// ----
 					break;
 				case 'SuperNode':
 				default:
