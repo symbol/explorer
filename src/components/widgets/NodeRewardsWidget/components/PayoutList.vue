@@ -10,7 +10,18 @@
 					<div class="child-left">
 						<img :src="IncomingIcon" class="icon" />
 						<div
-							v-if="isVotingPayout"
+							v-if="rewardProgram === 'Ecosystem'"
+							class="rounds tag"
+							:title="getSymbolRoundsDescription(transaction)"
+						>
+						<img src="../assets/symbol_logo.png" style="height: 14px" title="Symbol" />
+							{{transaction.symbolFromRound}}
+							-
+							{{transaction.symbolToRound}}
+							<Boolean :value="transaction.symbolIsPassed" small/>
+						</div>
+						<div
+							v-else-if="isVotingPayout"
 							class="rounds"
 							:title="getEpochDescription(transaction)"
 						>
@@ -21,19 +32,28 @@
 							class="rounds"
 							:title="getRoundsDescription(transaction)"
 						>
-							<!-- {{formatAddress(transaction.recipientAddress)}} -->
 							{{transaction.fromRound}}
 							-
 							{{transaction.toRound}}
 						</div>
 					</div>
 					<div
+						v-if="rewardProgram === 'Ecosystem'"
+						class="rounds tag"
+						:title="getNIS1RoundsDescription(transaction)"
+					>
+						<img src="../assets/nem_logo.png" style="height: 14px" title="NEM NIS1"/>
+						{{transaction.nis1FromRound}}
+						-
+						{{transaction.nis1ToRound}}
+						<Boolean :value="transaction.nis1IsPassed" small/>
+					</div>
+					<div
+						v-else
 						class="status"
 						:class="getStatusClass(transaction.status)"
 						:title="getStatusDescription(transaction.status)"
 					>
-						<!-- {{formatMosaic(transaction.mosaics).amountInt}}<div class="decimal">{{formatMosaic(transaction.mosaics).amountDec}}</div>
-                        {{formatMosaic(transaction.mosaics).mosaicName}} -->
 						{{formatStatus(transaction.status)}}
 					</div>
 					<div class="date">
@@ -65,6 +85,7 @@
 <script>
 import Dropdown from './Dropdown.vue';
 import ButtonMore from './ButtonMore.vue';
+import Boolean from './table-components/Boolean.vue';
 import IncomingIcon from '../assets/incoming.png';
 import translate from '../i18n';
 import * as utils from '../utils';
@@ -74,7 +95,8 @@ export default {
 
 	components: {
 		Dropdown,
-		ButtonMore
+		ButtonMore,
+		Boolean
 	},
 
 	props: {
@@ -151,6 +173,20 @@ export default {
 
 		getRoundsDescription(range) {
 			return translate(this.language, 'roundRange', range);
+		},
+
+		getSymbolRoundsDescription(range) {
+			return this.getRoundsDescription({
+				fromRound: range.symbolFromRound,
+				toRound: range.symbolToRound,
+			});
+		},
+
+		getNIS1RoundsDescription(range) {
+			return this.getRoundsDescription({
+				fromRound: range.nis1FromRound,
+				toRound: range.nis1ToRound,
+			});
 		},
 
 		getEpochDescription(epoch) {
@@ -252,6 +288,12 @@ export default {
     font-size: 10px;
     margin-left: 15px;
     cursor: help;
+}
+
+.tag {
+	background: #f2f3f8;
+	border-radius: 10px;
+	padding: 2px 5px;
 }
 
 .status {

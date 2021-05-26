@@ -112,7 +112,9 @@ export default class Pagination {
    */
 	uninitialize() {
 		this.initialized = false;
+		this.pageInfo.data = [];
 		this.pageInfo.pageNumber = 1;
+		this.capturePageInfo();
 		this.filterIndex = 0;
 		this.loading = false;
 		this.error = false;
