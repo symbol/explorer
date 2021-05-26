@@ -82,6 +82,10 @@ export default {
 			type: Object,
 			required: true
 		},
+		rewardProgram: {
+			type: String,
+			required: true
+		},
 		language: {
 			type: String
 		}
@@ -111,7 +115,7 @@ export default {
 		},
 
 		isFilterShown() {
-			return true;
+			return this.rewardProgram !== 'Ecosystem' && this.rewardProgram !== 'EarlyAdoption';
 		},
 
 		filterIndex() {

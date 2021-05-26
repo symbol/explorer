@@ -33,6 +33,7 @@
 						:data="formattedData[activeTab]"
 						:payoutsManager="payoutsManager"
 						:nodeId="nodeId"
+						:rewardProgram="rewardProgram"
 						:language="language"
 					/>
 				</div>

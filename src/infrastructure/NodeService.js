@@ -311,14 +311,27 @@ class NodeService {
 			throw Error('Statistics service endpoint is not provided');
 	}
 
-	static getNodePayouts = async (pageInfo, nodeId, filter) => {
+	static getNodePayouts = async (pageInfo, nodeId, filter, rewardProgram) => {
 		const endpoint = globalConfig.endpoints.nodeRewardsController;
 
 		if (endpoint && endpoint.length) {
 			const params = { pageNumber: pageInfo.pageNumber, nodeId };
 
-			let route = filter === 'voting' ? '/votingPayouts' : '/payouts';
-
+			let route = '/payouts';
+			
+			switch(rewardProgram) {
+				case 'EarlyAdoption':
+					route = '/payouts/earlyadoption';
+					break;
+				case 'Ecosystem':
+					route = '/payouts/ecosystem';
+					break;
+				case 'SuperNode':
+				default:
+					route = filter === 'voting' ? '/votingPayouts' : '/payouts';
+					break;
+			}
+			
 			let isLastPage = true;
 
 			const payoutsPage = (
