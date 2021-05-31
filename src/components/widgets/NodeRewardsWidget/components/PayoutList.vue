@@ -18,7 +18,7 @@
 							{{transaction.symbolFromRound}}
 							-
 							{{transaction.symbolToRound}}
-							<Boolean :value="transaction.symbolIsPassed" small/>
+							<Boolean :value="transaction.symbolStatus === 'Success'" small/>
 						</div>
 						<div
 							v-else-if="isVotingPayout"
@@ -46,7 +46,7 @@
 						{{transaction.nis1FromRound}}
 						-
 						{{transaction.nis1ToRound}}
-						<Boolean :value="transaction.nis1IsPassed" small/>
+						<Boolean :value="transaction.nis1Status === 'Success'" small/>
 					</div>
 					<div
 						v-else
