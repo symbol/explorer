@@ -127,14 +127,14 @@ class TransactionService {
    * @param hash Transaction hash
    * @returns Custom Transaction object
    */
-  static getTransactionInfo = async (hash, transactionGroup = TransactionGroup.Confirmed) => {
-	  const [transaction, transactionStatus] = await Promise.all([
-  		this.getTransaction(hash, transactionGroup).catch((error) => {
+  static getTransactionInfo = async (hash) => {
+  	const transactionStatus = await this.getTransactionStatus(hash);
+  	const transactionGroup = transactionStatus.message;
+  	const transaction = await this.getTransaction(hash, transactionGroup)
+  		.catch((error) => {
   			if (error)
   				return false;
-  		}),
-  		this.getTransactionStatus(hash)
-	  ]);
+  		});
 
 	  if (!transaction) {
   		const transactionErrorInfo = {
@@ -147,15 +147,17 @@ class TransactionService {
 	  }
 
   	const [{ timestamp }, effectiveFee] = await Promise.all([
-		  BlockService.getBlockInfo(UInt64.fromUint(transaction.transactionInfo.height)),
+		  BlockService.getBlockInfo(UInt64.fromUint(transaction.transactionInfo.height))
+		  	.catch(() => ({ timestamp: null })),
 		  this.getTransactionEffectiveFee(hash)
+		  	.catch(() => null)
 	  ]);
 
   	const formattedTransaction = await this.createTransactionFromSDK(transaction);
 
   	const transactionInfo = {
 		  ...formattedTransaction,
-		  blockHeight: formattedTransaction.transactionInfo.height,
+		  blockHeight: formattedTransaction.transactionInfo.height || undefined,
 		  transactionHash: formattedTransaction.transactionInfo.hash,
 		  effectiveFee,
 		  timestamp,

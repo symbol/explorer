@@ -45,10 +45,10 @@ export default {
 			Array.isArray(state.nodes)
 				? state.nodes.map(node => helper.parseUrl(node))
 				: [],
-		currentNode: state => state.currentNode.toString(),
+		currentNode: state => state.currentNode.origin,
 		currentNodeHostname: state => state.currentNode.hostname,
-		wsEndpoint: state => state.wsEndpoint.toString(),
-		marketData: state => state.marketData.toString(),
+		wsEndpoint: state => state.wsEndpoint.origin,
+		marketData: state => state.marketData.origin,
 		isTestnet: state => state.networkType === sdk.NetworkType.TEST_NET
 	},
 
@@ -60,7 +60,7 @@ export default {
 		currentNode: (state, payload) => {
 			if (undefined !== payload) {
 				const currentNode = helper.parseUrl(payload);
-				const wsEndpoint = currentNode.toString() |> helper.httpToWsUrl;
+				const wsEndpoint = currentNode.origin |> helper.httpToWsUrl;
 
 				localStorage.setItem('currentNode', currentNode);
 
@@ -111,7 +111,7 @@ export default {
 			let healthyNodes = [];
 
 			await Promise.all(nodes.map(async (url) => {
-				let endpoint = helper.parseUrl(url).toString();
+				let endpoint = helper.parseUrl(url).origin;
 
 				if (await NodeService.isNodeActive(endpoint))
 					healthyNodes.push(url);
@@ -120,7 +120,7 @@ export default {
 			commit('setNodes', healthyNodes);
 
 			const currentNode = getters['currentNode'];
-			const activeNodes = healthyNodes.map(nodes => nodes.href);
+			const activeNodes = healthyNodes.map(nodes => nodes.origin);
 
 			// Reset the currentNode, if currentNode not longer in healthy status.
 			activeNodes.indexOf(currentNode) === -1 ? commit('currentNode', healthyNodes[0]) : void 0;
