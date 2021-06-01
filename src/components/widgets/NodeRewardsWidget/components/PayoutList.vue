@@ -211,6 +211,7 @@ export default {
 
 		getStatusClass(status) {
 			switch (status) {
+			case 'Success':	
 			case 'Completed':
 				return 'color-ok';
 			case 'ToBeProcess':
