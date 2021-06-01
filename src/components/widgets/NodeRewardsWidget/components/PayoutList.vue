@@ -292,9 +292,9 @@ export default {
 }
 
 .tag {
-	background: #f2f3f8;
-	border-radius: 10px;
-	padding: 2px 5px;
+    background: #f2f3f8;
+    border-radius: 10px;
+    padding: 2px 5px;
 }
 
 .status {
