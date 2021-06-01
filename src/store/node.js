@@ -48,7 +48,7 @@ const managers = [
 	),
 	new Pagination({
 		name: 'payouts',
-		fetchFunction: (pageInfo, filter, store) => NodeService.getNodePayouts(pageInfo, store.getters.nodeRewards.data?.nodeInfo?.id, filter),
+		fetchFunction: (pageInfo, filter, store) => NodeService.getNodePayouts(pageInfo, store.getters.nodeRewards.data?.nodeInfo?.id, filter, store.getters.currentNodeRewardProgram),
 		filter: filters.payouts
 	})
 ];
@@ -76,7 +76,8 @@ export default {
 			error: !StatisticService.isUrlProvided() ||
 				getters.timeline?.error ||
 				getters.info?.error
-		})
+		}),
+		currentNodeRewardProgram: state => state.nodeRewards?.data?.nodeInfo?.rewardProgram
 	},
 	mutations: {
 		setInitialized: (state, initialized) => {
