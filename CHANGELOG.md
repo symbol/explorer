@@ -21,6 +21,7 @@ SDK Core| v1.0.1 | [symbol-sdk][symbol-sdk@v1.0.1]
 - Validation Log fields to the Node Rewards widget [#893](https://github.com/nemgrouplimited/symbol-explorer/issues/893)
 - Support of the MonitorOnly program [#892](https://github.com/nemgrouplimited/symbol-explorer/issues/892)
 - Search accounts by public key [#854](https://github.com/nemgrouplimited/symbol-explorer/issues/854)
+- Support of the EarlyAdoption and Ecosystem reward programs [#899](https://github.com/nemgrouplimited/symbol-explorer/pull/899)
 
 ### Fixed
 - When viewing tx “show details” on mobile no way to exit details. [#829](https://github.com/nemgrouplimited/symbol-explorer/issues/829)
@@ -32,6 +33,7 @@ SDK Core| v1.0.1 | [symbol-sdk][symbol-sdk@v1.0.1]
 - Pagination. The last page issue [#882](https://github.com/nemgrouplimited/symbol-explorer/issues/882)
 - Broken titles for custom table field components [#885](https://github.com/nemgrouplimited/symbol-explorer/issues/885)
 - Transaction details for the partial group is not shown [#828](https://github.com/nemgrouplimited/symbol-explorer/issues/828)
+- Fix: security vulnerabilities in your dependencies. [#898](https://github.com/nemgrouplimited/symbol-explorer/pull/898)
 
 ## [v1.0.1][v1.0.1] - 21-Mar-2021
 
