@@ -316,19 +316,20 @@ class NodeService {
 
 		if (endpoint && endpoint.length) {
 			const params = { pageNumber: pageInfo.pageNumber, nodeId };
+
 			let route = '/payouts';
 
-			switch(rewardProgram) {
-				case 'EarlyAdoption':
-					route = '/payouts/earlyadoption';
-					break;
-				case 'Ecosystem':
-					route = '/payouts/ecosystem';
-					break;
-				case 'SuperNode':
-				default:
-					route = filter === 'voting' ? '/votingPayouts' : '/payouts';
-					break;
+			switch (rewardProgram) {
+			case 'EarlyAdoption':
+				route = '/payouts/earlyadoption';
+				break;
+			case 'Ecosystem':
+				route = '/payouts/ecosystem';
+				break;
+			case 'SuperNode':
+			default:
+				route = filter === 'voting' ? '/votingPayouts' : '/payouts';
+				break;
 			}
 
 			let isLastPage = true;

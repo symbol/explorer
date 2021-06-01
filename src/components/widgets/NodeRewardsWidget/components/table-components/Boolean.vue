@@ -39,7 +39,7 @@ export default {
 		},
 
 		styleClass() {
-			return this.small ? 'boolean-image-small' : 'boolean-image'
+			return this.small ? 'boolean-image-small' : 'boolean-image';
 		}
 	}
 };

@@ -14,7 +14,7 @@
 							class="rounds tag"
 							:title="getSymbolRoundsDescription(transaction)"
 						>
-						<img src="../assets/symbol_logo.png" style="height: 14px" title="Symbol" />
+							<img src="../assets/symbol_logo.png" style="height: 14px" title="Symbol" />
 							{{transaction.symbolFromRound}}
 							-
 							{{transaction.symbolToRound}}
@@ -178,14 +178,14 @@ export default {
 		getSymbolRoundsDescription(range) {
 			return this.getRoundsDescription({
 				fromRound: range.symbolFromRound,
-				toRound: range.symbolToRound,
+				toRound: range.symbolToRound
 			});
 		},
 
 		getNIS1RoundsDescription(range) {
 			return this.getRoundsDescription({
 				fromRound: range.nis1FromRound,
-				toRound: range.nis1ToRound,
+				toRound: range.nis1ToRound
 			});
 		},
 
@@ -211,7 +211,7 @@ export default {
 
 		getStatusClass(status) {
 			switch (status) {
-			case 'Success':	
+			case 'Success':
 			case 'Completed':
 				return 'color-ok';
 			case 'ToBeProcess':
