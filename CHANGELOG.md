@@ -3,6 +3,38 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v1.1.0][v1.1.0] - 2-June-2021
+
+### Milestone: [catapult-server@v1.0.0.0][catapult-server@v1.0.0.0]
+
+Package  | Version  | Link
+---|---|---
+REST Core| v2.3.6 | [catapult-rest][catapult-rest@v2.3.6]
+SDK Core| v1.0.1 | [symbol-sdk][symbol-sdk@v1.0.1]
+
+### Added
+- Showing all receipts associated with an account [#857](https://github.com/nemgrouplimited/symbol-explorer/issues/857)
+- Numbering of the addresses (Rich List) [#851](https://github.com/nemgrouplimited/symbol-explorer/issues/851)
+- Showing rest server version on node list [#856](https://github.com/nemgrouplimited/symbol-explorer/issues/856)
+- Export CSV feature in Explorer nodes list [#846](https://github.com/nemgrouplimited/symbol-explorer/issues/846)
+- Node Rewards Enrollment views [#884](https://github.com/nemgrouplimited/symbol-explorer/pull/884)
+- Validation Log fields to the Node Rewards widget [#893](https://github.com/nemgrouplimited/symbol-explorer/issues/893)
+- Support of the MonitorOnly program [#892](https://github.com/nemgrouplimited/symbol-explorer/issues/892)
+- Search accounts by public key [#854](https://github.com/nemgrouplimited/symbol-explorer/issues/854)
+- Support of the EarlyAdoption and Ecosystem reward programs [#899](https://github.com/nemgrouplimited/symbol-explorer/pull/899)
+
+### Fixed
+- When viewing tx “show details” on mobile no way to exit details. [#829](https://github.com/nemgrouplimited/symbol-explorer/issues/829)
+- Disable onRowClickKey on table list view [#862](https://github.com/nemgrouplimited/symbol-explorer/issues/862)
+- Failed to fetch transaction list in Partial filter [#864](https://github.com/nemgrouplimited/symbol-explorer/issues/864)
+- Harvesting fees not presented for pretty address in url [#867](https://github.com/nemgrouplimited/symbol-explorer/issues/867)
+- Minior issue of Account Detail page [#871](https://github.com/nemgrouplimited/symbol-explorer/issues/871)
+- Block creation time is displayed incorrectly for a short time [#873](https://github.com/nemgrouplimited/symbol-explorer/issues/873)
+- Pagination. The last page issue [#882](https://github.com/nemgrouplimited/symbol-explorer/issues/882)
+- Broken titles for custom table field components [#885](https://github.com/nemgrouplimited/symbol-explorer/issues/885)
+- Transaction details for the partial group is not shown [#828](https://github.com/nemgrouplimited/symbol-explorer/issues/828)
+- Fix: security vulnerabilities in your dependencies. [#898](https://github.com/nemgrouplimited/symbol-explorer/pull/898)
+
 ## [v1.0.1][v1.0.1] - 21-Mar-2021
 
 ### Milestone: [catapult-server@v1.0.0.0][catapult-server@v1.0.0.0]
@@ -344,7 +376,9 @@ SDK Core| v0.20.7 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 [symbol-sdk@v0.23.3-alpha]: https://www.npmjs.com/package/symbol-sdk/v/0.23.3-alpha-202102181227
 [symbol-sdk@v0.23.3]: https://www.npmjs.com/package/symbol-sdk/v/0.23.3
 [symbol-sdk@v1.0.0]: https://www.npmjs.com/package/symbol-sdk/v/1.0.0
+[symbol-sdk@v1.0.1]: https://www.npmjs.com/package/symbol-sdk/v/1.0.1
 
 [catapult-rest@v2.3.0]: https://github.com/nemtech/catapult-rest/releases/tag/v2.3.0
 [catapult-rest@v2.3.3]: https://github.com/nemtech/catapult-rest/releases/tag/v2.3.3
 [catapult-rest@v2.3.4]: https://github.com/nemtech/catapult-rest/releases/tag/v2.3.4
+[catapult-rest@v2.3.6]: https://github.com/nemtech/catapult-rest/releases/tag/v2.3.6

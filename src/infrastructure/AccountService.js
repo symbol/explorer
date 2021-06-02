@@ -41,7 +41,7 @@ class AccountService {
 
 	/**
 	 * Gets an AccountInfo for an account.
-	 * @param address
+	 * @param addresses Array
 	 * @returns Formatted AccountInfo
 	 */
 	static getAccounts = async addresses => {
@@ -91,8 +91,9 @@ class AccountService {
 
 		return {
 			...accountInfos,
-			data: accountInfos.data.map(account => ({
+			data: accountInfos.data.map((account, index) => ({
 				...account,
+				index: index + 1 + helper.getStartListIndex(pageNumber, pageSize),
 				balance: helper.getNetworkCurrencyBalance(account.mosaics),
 				lastActivity: helper.getLastActivityHeight(account.activityBucket),
 				accountAliasNames: this.extractAccountNamespace(account, accountNames)
@@ -106,7 +107,7 @@ class AccountService {
 	 * @returns Custom AccountInfo
 	 */
 	static getAccountInfo = async address => {
-		const accountInfo = await this.getAccount(address);
+		const { supplementalPublicKeys, ...accountInfo } = await this.getAccount(address);
 		const accountNames = await NamespaceService.getAccountsNames([Address.createFromRawAddress(address)]);
 
 		return {
@@ -118,8 +119,11 @@ class AccountService {
 				importanceScore: activity.rawScore
 			})),
 			supplementalPublicKeys: {
-				...accountInfo.supplementalPublicKeys,
-				voting: Array.isArray(accountInfo.supplementalPublicKeys.voting) ? accountInfo.supplementalPublicKeys.voting.map(voting => voting.publicKey) : accountInfo.supplementalPublicKeys.voting
+				...supplementalPublicKeys,
+				linkedAddress: supplementalPublicKeys.linked === Constants.Message.UNAVAILABLE ? supplementalPublicKeys.linked : helper.publicKeyToAddress(supplementalPublicKeys.linked),
+				nodeAddress: supplementalPublicKeys.node === Constants.Message.UNAVAILABLE ? supplementalPublicKeys.node : helper.publicKeyToAddress(supplementalPublicKeys.node),
+				vrfAddress: supplementalPublicKeys.vrf === Constants.Message.UNAVAILABLE ? supplementalPublicKeys.vrf : helper.publicKeyToAddress(supplementalPublicKeys.vrf),
+				voting: supplementalPublicKeys.voting.length > 0 ? supplementalPublicKeys.voting.map(voting => helper.publicKeyToAddress(voting.publicKey)) : []
 			},
 			accountAliasNames: this.extractAccountNamespace(accountInfo, accountNames)
 		};
@@ -151,20 +155,33 @@ class AccountService {
 			data: searchTransactions.data.map(transaction => TransactionService.formatTransaction(transaction))
 		};
 
+		await Promise.all(accountTransactions.data.map(async transaction => {
+			if (transaction?.recipientAddress)
+				return (transaction.transactionBody.recipient = await helper.resolvedAddress(transaction.recipientAddress));
+		}));
+
+		if (searchCriteria.group === TransactionGroup.Partial || searchCriteria.group === TransactionGroup.Unconfirmed) {
+			return {
+			  	...accountTransactions,
+				data: accountTransactions.data.map(accountTransaction => ({
+					...accountTransaction,
+					transactionHash: accountTransaction.transactionInfo.hash,
+					transactionType: accountTransaction.type,
+					recipient: accountTransaction.transactionBody?.recipient,
+					extendGraphicValue: TransactionService.extendGraphicValue(accountTransaction)
+				}))
+			};
+		}
+
 		const blockHeight = [...new Set(accountTransactions.data.map(data => data.transactionInfo.height))];
 
 		const blockInfos = await Promise.all(
 			blockHeight.map(height => BlockService.getBlockInfo(height))
 		);
 
-		await Promise.all(accountTransactions.data.map(async transaction => {
-			if (transaction?.recipientAddress)
-				return (transaction.transactionBody.recipient = await helper.resolvedAddress(transaction.recipientAddress));
-		}));
-
 		return {
 			...accountTransactions,
-			data: accountTransactions.data.map(accountTransaction => ({
+			data: accountTransactions.data.map(({ deadline, ...accountTransaction }) => ({
 				...accountTransaction,
 				timestamp: blockInfos.find(block => block.height === accountTransaction.transactionInfo.height).timestamp,
 				blockHeight: accountTransaction.transactionInfo.height,

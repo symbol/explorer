@@ -4,6 +4,7 @@
     "beneficiaryAddress": "accounts",
     "address": "accounts",
     "signer": "accounts",
+    "signerPublicKey": "accounts",
     "recipient": "accounts",
     "senderAddress": "accounts",
     "ownerAddress": "accounts",
@@ -19,6 +20,10 @@
     "addressAdditions_": "accounts",
     "addressDeletions_": "accounts",
     "linkedAccountAddress": "accounts",
+    "linkedAddress": "accounts",
+    "nodeAddress": "accounts",
+    "vrfAddress": "accounts",
+    "voting_": "accounts",
 
     "transaction": "transactions",
     "transactionHash": "transactions",
@@ -58,5 +63,7 @@
     "namespaceArtifactId": "namespaces",
 
     "node": "nodes",
-    "nodePublicKey": "nodes"
+    "nodePublicKey": "nodes",
+
+    "enrollmentId": "enrollments"
 }

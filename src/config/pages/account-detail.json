@@ -62,7 +62,6 @@
 				"pageSize": 5,
 				"hideOnError": true,
 				"hideDependOnGetter": "account/info",
-				"onRowClickKey": "mosaicId",
 				"fields": [
 					"mosaicId",
 					"amount",
@@ -94,9 +93,9 @@
 				"hasFilter": true,
 				"hideOnError": true,
 				"hideDependOnGetter": "account/info",
-				"onRowClickKey": "transactionHash",
 				"fields": [
 					"timestamp",
+					"deadline",
 					"blockHeight",
 					"direction",
 					"transactionType",
@@ -122,9 +121,9 @@
 				"hideOnError": true,
 				"hideDependOnGetter": "account/info",
 				"fields": [
-					"linked",
-					"node",
-					"vrf",
+					"linkedAddress",
+					"nodeAddress",
+					"vrfAddress",
 					"voting"
 				]
 			},
@@ -186,7 +185,6 @@
 				"hideOnError": true,
 				"hideDependOnGetter": "account/info",
 				"errorMessage": "hashLockError",
-				"onRowClickKey": "transactionHash",
 				"fields": [
 					"transactionHash",
 					"endHeight",
@@ -261,6 +259,28 @@
   					"recipient",
   					"mosaics"
 				]
+			},
+			{
+				"layoutOptions": "full-width",
+				"type": "CardTable",
+				"title": "nodeRewardsEnrollments",
+				"managerGetter": "account/nodeRewardsEnrollments",
+				"pagination": "server",
+				"pageSize": 10,
+				"hideEmptyData": true,
+				"hideDependOnGetter": "account/info",
+                "fields": [
+					"enrollmentId",
+                    "transactionHash",
+					"agentUrl",
+					"retriesLeft",
+                    "status"
+                ],
+                "mobileFields": [
+                    "enrollmentId",
+                    "transactionHash",
+                    "status"
+                ]
 			}
 		]
 	}

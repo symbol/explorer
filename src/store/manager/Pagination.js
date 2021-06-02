@@ -30,8 +30,10 @@ export default class Pagination {
 		this.fetchFunction = fetchFunction;
 		this.pageInfo = {
 			pageNumber: pageInfo.pageNumber || 1,
-			pageSize: pageInfo.pageSize || Constants.pageSize
+			pageSize: pageInfo.pageSize || Constants.pageSize,
+			data: []
 		};
+		this.capturePageInfo();
 		this.options = filter;
 		this.store = {};
 
@@ -110,7 +112,9 @@ export default class Pagination {
    */
 	uninitialize() {
 		this.initialized = false;
+		this.pageInfo.data = [];
 		this.pageInfo.pageNumber = 1;
+		this.capturePageInfo();
 		this.filterIndex = 0;
 		this.loading = false;
 		this.error = false;
@@ -135,7 +139,14 @@ export default class Pagination {
 		this.store.dispatch(this.name, this);
 
 		try {
-			this.pageInfo = await this.fetchFunction(this.pageInfo, this.filterValue, this.store);
+			const newPageInfo = await this.fetchFunction(this.pageInfo, this.filterValue, this.store);
+
+			this.pageInfo = newPageInfo?.data.length
+				? newPageInfo
+				: {
+					...this.capturedPageInfo,
+					isLastPage: true
+				};
 		}
 		catch (e) {
 			console.error(e);
@@ -153,6 +164,7 @@ export default class Pagination {
 	async fetchNext() {
 		if (this.canFetchNext) {
 			this.store.dispatch(this.name, this);
+			this.capturePageInfo();
 			this.pageInfo.pageNumber++;
 			await this.fetch();
 		}
@@ -220,6 +232,10 @@ export default class Pagination {
 		this.pageInfo.pageNumber = pageNumber;
 		this.filterIndex = 0;
 		return this.fetch();
+	}
+
+	async capturePageInfo() {
+		this.capturedPageInfo = { ...this.pageInfo };
 	}
 
 	// Add latest item to current.

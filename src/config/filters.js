@@ -189,7 +189,7 @@ export const account = [
 	},
 	{
 		label: 'Rich List',
-		icon: 'mdi-circle',
+		icon: 'mdi-cash',
 		value: {
 			orderBy: AccountOrderBy.Balance,
 			mosaicId: new MosaicId(http.networkCurrency.mosaicId)
@@ -285,6 +285,10 @@ export const nodeRoles = [
 		icon: '',
 		value: {
 			rolesRaw: null
+		},
+		exportCSV: {
+			isActive: true,
+			name: 'nodeListCSV'
 		}
 	},
 	{
@@ -292,6 +296,10 @@ export const nodeRoles = [
 		icon: '',
 		value: {
 			rolesRaw: 1
+		},
+		exportCSV: {
+			isActive: true,
+			name: 'nodeListCSV'
 		}
 	},
 	{
@@ -299,6 +307,10 @@ export const nodeRoles = [
 		icon: '',
 		value: {
 			rolesRaw: 2
+		},
+		exportCSV: {
+			isActive: true,
+			name: 'nodeListCSV'
 		}
 	},
 	{
@@ -306,6 +318,10 @@ export const nodeRoles = [
 		icon: '',
 		value: {
 			rolesRaw: 3
+		},
+		exportCSV: {
+			isActive: true,
+			name: 'nodeListCSV'
 		}
 	},
 	{
@@ -313,6 +329,10 @@ export const nodeRoles = [
 		icon: '',
 		value: {
 			rolesRaw: 4
+		},
+		exportCSV: {
+			isActive: true,
+			name: 'nodeListCSV'
 		}
 	},
 	{
@@ -320,6 +340,10 @@ export const nodeRoles = [
 		icon: '',
 		value: {
 			rolesRaw: 5
+		},
+		exportCSV: {
+			isActive: true,
+			name: 'nodeListCSV'
 		}
 	},
 	{
@@ -327,6 +351,10 @@ export const nodeRoles = [
 		icon: '',
 		value: {
 			rolesRaw: 6
+		},
+		exportCSV: {
+			isActive: true,
+			name: 'nodeListCSV'
 		}
 	},
 	{
@@ -334,6 +362,10 @@ export const nodeRoles = [
 		icon: '',
 		value: {
 			rolesRaw: 7
+		},
+		exportCSV: {
+			isActive: true,
+			name: 'nodeListCSV'
 		}
 	},
 	{
@@ -342,6 +374,10 @@ export const nodeRoles = [
 		value: {
 			rolesRaw: null,
 			rewardProgram: 'SuperNode'
+		},
+		exportCSV: {
+			isActive: true,
+			name: 'nodeListCSV'
 		}
 	},
 	{
@@ -350,6 +386,10 @@ export const nodeRoles = [
 		value: {
 			rolesRaw: null,
 			rewardProgram: 'EarlyAdoption'
+		},
+		exportCSV: {
+			isActive: true,
+			name: 'nodeListCSV'
 		}
 	},
 	{
@@ -358,6 +398,22 @@ export const nodeRoles = [
 		value: {
 			rolesRaw: null,
 			rewardProgram: 'Ecosystem'
+		},
+		exportCSV: {
+			isActive: true,
+			name: 'nodeListCSV'
+		}
+	},
+	{
+		label: 'RP - MonitorOnly',
+		icon: '',
+		value: {
+			rolesRaw: null,
+			rewardProgram: 'MonitorOnly'
+		},
+		exportCSV: {
+			isActive: true,
+			name: 'nodeListCSV'
 		}
 	}
 ];
@@ -376,14 +432,15 @@ export const payouts = [
 export const accountTransactionReceipt = [
 	{
 		label: Constants.ReceiptTransactionStatamentType.BalanceChangeReceipt,
-		icon: 'mdi-alert',
+		icon: 'mdi-receipt',
 		value: {
-			...customTransactionReceiptFilter.balanceChange
+			...customTransactionReceiptFilter.balanceChange,
+			receiptTypes: customTransactionReceiptFilter.balanceChange.receiptTypes.filter(type => type !== ReceiptType.Harvest_Fee)
 		}
 	},
 	{
 		label: Constants.ReceiptTransactionStatamentType.BalanceTransferReceipt,
-		icon: 'mdi-alert',
+		icon: 'mdi-receipt',
 		value: {
 			...customTransactionReceiptFilter.balanceTransfer
 		}
@@ -417,6 +474,42 @@ export const blockTransactionReceipt = [
 		icon: 'mdi-alert',
 		value: {
 			...customTransactionReceiptFilter.inflation
+		}
+	}
+];
+
+export const enrollmentStatus = [
+	{
+		label: 'All',
+		icon: 'mdi-note-text-outline',
+		value: {}
+	},
+	{
+		label: 'Invalid',
+		icon: 'mdi-alert-outline',
+		value: {
+			status: 'Invalid'
+		}
+	},
+	{
+		label: 'To Process',
+		icon: 'mdi-update',
+		value: {
+			status: 'ToProcess'
+		}
+	},
+	{
+		label: 'Processing',
+		icon: 'mdi-autorenew',
+		value: {
+			status: 'Processing'
+		}
+	},
+	{
+		label: 'Completed',
+		icon: 'mdi-check',
+		value: {
+			status: 'Completed'
 		}
 	}
 ];

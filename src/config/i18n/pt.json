@@ -384,5 +384,25 @@
     "nodeFinalizedHeightStatsTitle": "Count of nodes by finalized height",
 	"viewMoreStatistics": "View More Statistics",
     "nodeCountChartTitle": "Node count over time",
-    "timestamp": "Timestamp"
+    "timestamp": "Timestamp",
+    "symbolTime": "Symbol Time",
+    "restVersion": "Rest Version",
+    "softwareVersion": "Version",
+
+    "viewEnrollments": "View Node Rewards Enrollments",
+    "nodeRewardsEnrollments": "Node Rewards Enrollments",
+    "nodeRewardsEnrollmentDetail": "Node Rewards Enrollment Details",
+    "agentCaCsrBase64": "Agent CA CSR Base64",
+    "agentUrl": "Agent URL",
+    "enrollmentId": "ID",
+    "id": "ID",
+    "retriesLeft": "Retries Left",
+    "signerPublicKey": "Signer Public Key",
+
+    "remote": "Remote",
+    "main": "Main",
+    "linkedAddress": "Linked",
+    "nodeAddress": "Node",
+    "vrfAddress": "VRF",
+    "exportCSV": "Export CSV"
 }

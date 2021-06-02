@@ -140,11 +140,18 @@ class NodeService {
                 			...el
                 		};
 
+                		node['softwareVersion'] = { version: el.version };
+
                 		if (el.apiStatus) {
                 			node['chainInfo'] = {
                 				chainHeight: el.apiStatus.chainHeight,
                 				finalizationHeight: el.apiStatus.finalizationHeight,
                 				lastStatusCheck: el.apiStatus.lastStatusCheck
+                			};
+
+                			node['softwareVersion'] = {
+                				...node.softwareVersion,
+                				restVersion: el.apiStatus.restVersion
                 			};
                 		}
                 		else
@@ -304,13 +311,26 @@ class NodeService {
 			throw Error('Statistics service endpoint is not provided');
 	}
 
-	static getNodePayouts = async (pageInfo, nodeId, filter) => {
+	static getNodePayouts = async (pageInfo, nodeId, filter, rewardProgram) => {
 		const endpoint = globalConfig.endpoints.nodeRewardsController;
 
 		if (endpoint && endpoint.length) {
 			const params = { pageNumber: pageInfo.pageNumber, nodeId };
 
-			let route = filter === 'voting' ? '/votingPayouts' : '/payouts';
+			let route = '/payouts';
+
+			switch (rewardProgram) {
+			case 'EarlyAdoption':
+				route = '/payouts/earlyadoption';
+				break;
+			case 'Ecosystem':
+				route = '/payouts/ecosystem';
+				break;
+			case 'SuperNode':
+			default:
+				route = filter === 'voting' ? '/votingPayouts' : '/payouts';
+				break;
+			}
 
 			let isLastPage = true;
 
@@ -333,6 +353,66 @@ class NodeService {
 		}
 		else
 			throw Error('nodeRewardsController endpoint is not provided');
+	}
+
+	static getEnrollmentList = async (pageInfo, filterVaule, signerPublicKey) => {
+		const endpoint = globalConfig.endpoints.nodeRewardsController;
+		const { pageNumber, pageSize } = pageInfo;
+		const searchCriteria = {
+			pageNumber,
+			pageSize,
+			order: symbol.Order.Desc,
+			...filterVaule
+		};
+
+		let url = `${endpoint}/enrollments`;
+
+		if (signerPublicKey)
+			url += `/signerPublicKey/${signerPublicKey}`;
+
+		const response = (await Axios.get(url, { params: searchCriteria })).data;
+
+		const data = {
+			...response,
+			...response.pagination,
+			isLastPage: response.data.length < pageSize
+		};
+
+		data.data = data.data.map(el => ({
+			...el,
+			enrollmentId: el.id,
+			agentUrl: el.agentUrl || Constants.Message.UNAVAILABLE
+		}));
+
+		return data;
+	}
+
+	static getEnrollmentInfo = async (id) => {
+		const endpoint = globalConfig.endpoints.nodeRewardsController;
+		const response = (await Axios.get(`${endpoint}/enrollments/${id}`)).data;
+
+		return response;
+	}
+
+	static getNodeListCSV = async (filter) => {
+		const nodes = await this.getNodePeerList(filter);
+
+		const formattedData = nodes.data.map(node => ({
+			no: node.index,
+			host: node.host,
+			country: node.country,
+			friendlyName: node.friendlyName.replace(/,/g, '_'), // prevent friendly name break in CSV
+			roles: node.roles,
+			network: node.network,
+			networkGenerationHashSeed: node.networkGenerationHashSeed,
+			nodePublicKey: node.nodePublicKey,
+			chainHeight: node.chainInfo.chainHeight,
+			finalizationHeight: node.chainInfo.finalizationHeight,
+			version: node.version,
+			rewardPrograms: node.rewardPrograms
+		}));
+
+		return helper.convertArrayToCSV(formattedData);
 	}
 }
 

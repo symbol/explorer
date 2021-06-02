@@ -1,5 +1,5 @@
 <template>
-	<img v-if="isIcon" :src="imageSrc" class="boolean-image" />
+	<img v-if="isIcon" :src="imageSrc" :class="styleClass" />
 	<div v-else>
 		{{value}}
 	</div>
@@ -16,6 +16,11 @@ export default {
 		value: {
 			type: [Boolean, String],
 			required: true
+		},
+
+		small: {
+			type: Boolean,
+			default: false
 		}
 	},
 
@@ -31,6 +36,10 @@ export default {
 			return typeof this.value === 'boolean' ||
                 this.value === 'SUCCEEDED' ||
                 this.value === 'FAILED';
+		},
+
+		styleClass() {
+			return this.small ? 'boolean-image-small' : 'boolean-image';
 		}
 	}
 };
@@ -39,5 +48,9 @@ export default {
 <style lang="scss" scoped>
 .boolean-image {
     width: 14px;
+}
+
+.boolean-image-small {
+    width: 7px;
 }
 </style>

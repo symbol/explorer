@@ -37,7 +37,6 @@
 				"pagination": "client",
 				"pageSize": 1000,
 				"hasFilter": true,
-				"onRowClickKey": "nodePublicKey",
 				"fields": [
 					"index",
 					"host",
@@ -45,7 +44,7 @@
 					"roles",
 					"nodePublicKey",
 					"chainInfo",
-					"version",
+					"softwareVersion",
 					"rewardPrograms"
 				],
 				"mobileFields": [

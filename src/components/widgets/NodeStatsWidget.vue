@@ -32,9 +32,15 @@
 						</div>
 					</b-col>
 				</b-row>
-				<b-row v-if="!!nodePrograms.length" class="ex-ns-group">
+				<b-row v-if="!!nodePrograms.length" align-h="between" align-v="end" class="ex-ns-group">
 					{{getNameByKey('rewardPrograms')}}
+					<router-link to="/enrollments">
+						<ButtonMore> {{getNameByKey('viewEnrollments')}} </ButtonMore>
+					</router-link>
 				</b-row>
+				<!-- <b-row v-if="nodePrograms.length" align-h="end">
+
+				</b-row> -->
 				<b-row>
 					<b-col
 						v-for="(item, index) in nodePrograms"
