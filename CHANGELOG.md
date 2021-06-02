@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [v1.0.2][v1.0.2] - 25-May-2021
+## [v1.1.0][v1.1.0] - 2-June-2021
 
 ### Milestone: [catapult-server@v1.0.0.0][catapult-server@v1.0.0.0]
 
