@@ -13,7 +13,7 @@
 		<template #body>
 			<b-container fluid style="height: 100%">
 				<b-row>
-					<!-- <b-col class="ex-item" sm="3" lg="12">
+					<b-col class="ex-item" sm="3" lg="3">
 						<div class="ex-item-title">
 							{{getNameByKey('price')}}
 						</div>
@@ -21,7 +21,7 @@
 							{{marketData.price}}
 						</div>
 					</b-col>
-					<b-col class="ex-item" sm="3" lg="12">
+					<!-- <b-col class="ex-item" sm="3" lg="3">
 						<div class="ex-item-title">
 							{{getNameByKey('marketCap')}}
 						</div>

@@ -101,7 +101,7 @@
     "searchBoxPlaceholder": "Search block / tx hash / account address / mosaic id / namespace id",
     "nodes": "Nodes",
     "home": "Home",
-    "xemPrice": "XEM Price",
+    "xymPrice": "XYM Price",
     "baseInfo": "Base Info",
     "price": "Price",
     "marketCap": "Market Cap",
