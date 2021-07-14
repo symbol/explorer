@@ -96,7 +96,7 @@ export default {
 
 		mosaicName() {
 			const mosaicAlias = this.data.mosaic?.mosaicAliasNames[0];
-			
+
 			if (mosaicAlias) {
 				const mosaicNamespaces = mosaicAlias.split('.');
 				const mosaicLastSubnamespace = mosaicNamespaces.pop();
