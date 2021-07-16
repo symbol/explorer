@@ -16,44 +16,119 @@
  *
  */
 
-import http from './http'
-import { ReceiptType, ResolutionType, UInt64 } from 'symbol-sdk'
-import Constants from '../config/constants'
-import helper from '../helper'
+import http from './http';
+import { ReceiptType, ResolutionType } from 'symbol-sdk';
+import Constants from '../config/constants';
+import { take, toArray } from 'rxjs/operators';
+import {
+	CreateReceiptTransaction
+} from '../infrastructure';
 
 class ReceiptService {
-  /**
-   * Gets an array receipts for a block heigh
-   * @param height - Block height
-   * @returns Statement
-   */
-  static getBlockReceipts = async (height) => {
-    const blockReceipts = await http.createRepositoryFactory.createReceiptRepository()
-      .getBlockReceipts(UInt64.fromUint(height))
-      .toPromise()
+	/**
+	 * Gets a Receipts from searchCriteria
+	 * @param transactionStatementSearchCriteria Object of Block Search Criteria
+	 * @returns formatted Receipts data with pagination info
+	 */
+  static searchReceipts = async (transactionStatementSearchCriteria) => {
+  	const searchReceipts = await http.createRepositoryFactory.createReceiptRepository()
+  		.searchReceipts(transactionStatementSearchCriteria)
+  		.toPromise();
 
-    let transactionReceipt = blockReceipts.transactionStatements.reduce((receipt, item) => {
-      receipt.push(...item.receipts)
-      return receipt
-    }, []) || []
+  	return {
+  		...searchReceipts,
+  		data: this.transactionStatementBuilder(searchReceipts.data)
+  	};
+  }
 
-    let resolutionStatements = [...blockReceipts.addressResolutionStatements, ...blockReceipts.mosaicResolutionStatements]
+  	/**
+	 * Gets a Address Resolution from searchCriteria
+	 * @param resolutionStatementSearchCriteria Object of Block Search Criteria
+	 * @returns formatted address resolution data with pagination info
+	 */
+  static searchAddressResolutionStatements = async (resolutionStatementSearchCriteria) => {
+  	const searchAddressResolutionStatements = await http.createRepositoryFactory.createReceiptRepository()
+  		.searchAddressResolutionStatements(resolutionStatementSearchCriteria)
+  		.toPromise();
 
-    return {
-      transactionReceipt: this.formatTransactionStatement(transactionReceipt),
-      resolutionStatements: resolutionStatements.map(statement => this.formatResolutionStatement(statement))
-    }
+  	return {
+  		...searchAddressResolutionStatements,
+  		data: this.formatResolutionStatement(searchAddressResolutionStatements.data)
+  	};
+  }
+
+    	/**
+	 * Gets a Mosaic Resolution from searchCriteria
+	 * @param resolutionStatementSearchCriteria Object of Block Search Criteria
+	 * @returns formatted mosaic resolution data with pagination info
+	 */
+  static searchMosaicResolutionStatements = async (resolutionStatementSearchCriteria) => {
+  	const searchMosaicResolutionStatements = await http.createRepositoryFactory.createReceiptRepository()
+  		.searchMosaicResolutionStatements(resolutionStatementSearchCriteria)
+  		.toPromise();
+
+  	return {
+  		...searchMosaicResolutionStatements,
+  		data: this.formatResolutionStatement(searchMosaicResolutionStatements.data)
+  	};
   }
 
   /**
-   * Get formatted Block Receipts dataset into Vue Component
-   * @param height - Block height
-   * @returns Formatted TransactionStatements and ResolutionStatements
+   * Gets a receipts from streamer
+   * @param searchCriteria - Object Search Criteria:
+   * @returns formatted statementReceipt[]
    */
-  static getBlockReceiptsInfo = async (height) => {
-    let blockReceipts = await this.getBlockReceipts(height)
-    return blockReceipts
+  static streamerReceipts = async (searchCriteria) => {
+  	const streamerReceipts = await http.transactionStatementPaginationStreamer()
+  		.search(searchCriteria)
+  		.pipe(take(10), toArray())
+  		.toPromise();
+
+  	return this.transactionStatementBuilder(streamerReceipts);
   }
+
+  /**
+   * Gets a Address Resolution statement from streamer
+   * @param searchCriteria - Object Search Criteria:
+   * @returns formatted statementAddressResolution[]
+   */
+	static streamerAddressResolution = async (searchCriteria) => {
+		const streamerAddressResolution = await http.addressResolutionStatementPaginationStreamer()
+			.search(searchCriteria)
+			.pipe(take(10), toArray())
+			.toPromise();
+
+		return this.formatResolutionStatement(streamerAddressResolution);
+	}
+
+	 /**
+   * Gets a Mosaic Resolution statement from streamer
+   * @param searchCriteria - Object Search Criteria:
+   * @returns formatted statementMosaicResolution[]
+   */
+	static streamerMosaicResolution = async (searchCriteria) => {
+		const streamerMosaicResolution = await http.mosaicResolutionStatementPaginationStreamer()
+			.search(searchCriteria)
+			.pipe(take(10), toArray())
+			.toPromise();
+
+		return this.formatResolutionStatement(streamerMosaicResolution);
+	}
+
+	static createReceiptTransactionStatement = async (transactionStatement) => {
+		switch (transactionStatement.receiptTransactionStatementType) {
+		case Constants.ReceiptTransactionStatamentType.BalanceChangeReceipt:
+			return CreateReceiptTransaction.balanceChangeReceipt(transactionStatement.data);
+		case Constants.ReceiptTransactionStatamentType.BalanceTransferReceipt:
+			return CreateReceiptTransaction.balanceTransferReceipt(transactionStatement.data);
+		case Constants.ReceiptTransactionStatamentType.ArtifactExpiryReceipt:
+			return CreateReceiptTransaction.artifactExpiryReceipt(transactionStatement.data);
+		case Constants.ReceiptTransactionStatamentType.InflationReceipt:
+			return CreateReceiptTransaction.inflationReceipt(transactionStatement.data);
+		default:
+			throw new Error('Unimplemented receipt transaction statement with type ' + transactionStatement.receiptTransactionStatementType);
+		}
+	}
 
   /**
    * Format Receipt Statements
@@ -61,71 +136,89 @@ class ReceiptService {
    * @returns collection of receipts
    *
    */
-  static formatTransactionStatement = transactionStatement => {
-    let balanceChangeReceipt = []
-    let balanceTransferReceipt = []
-    let inflationReceipt = []
-    let artifactExpiryReceipt = []
+  static groupTransactionStatement = transactionStatement => {
+  	let balanceChangeReceipt = [];
 
-    transactionStatement.forEach(receipt => {
-      switch (receipt.type) {
-      case ReceiptType.Harvest_Fee:
-      case ReceiptType.LockHash_Created:
-      case ReceiptType.LockHash_Completed:
-      case ReceiptType.LockHash_Expired:
-      case ReceiptType.LockSecret_Created:
-      case ReceiptType.LockSecret_Completed:
-      case ReceiptType.LockSecret_Expired:
-        balanceChangeReceipt.push({
-          ...receipt,
-          size: receipt.size || Constants.Message.UNAVAILABLE,
-          type: Constants.ReceiptType[receipt.type],
-          targetPublicAccount: receipt.targetPublicAccount.address.plain(),
-          amount: helper.formatMosaicAmountWithDivisibility(receipt.amount, Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY),
-          mosaicId: receipt.mosaicId.toHex()
-        })
-        break
-      case ReceiptType.Mosaic_Levy:
-      case ReceiptType.Mosaic_Rental_Fee:
-      case ReceiptType.Namespace_Rental_Fee:
-        balanceTransferReceipt.push({
-          ...receipt,
-          size: receipt.size || Constants.Message.UNAVAILABLE,
-          type: Constants.ReceiptType[receipt.type],
-          sender: receipt.sender.address.plain(),
-          recipientAddress: receipt.recipientAddress.address,
-          amount: helper.formatMosaicAmountWithDivisibility(receipt.amount, Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY),
-          mosaicId: receipt.mosaicId.toHex()
-        })
-        break
-      case ReceiptType.Mosaic_Expired:
-      case ReceiptType.Namespace_Expired:
-      case ReceiptType.Namespace_Deleted:
-        artifactExpiryReceipt.push({
-          ...receipt,
-          size: receipt.size || Constants.Message.UNAVAILABLE,
-          type: Constants.ReceiptType[receipt.type],
-          artifactId: receipt.artifactId.toHex()
-        })
-        break
-      case ReceiptType.Inflation:
-        inflationReceipt.push({
-          ...receipt,
-          size: receipt.size || Constants.Message.UNAVAILABLE,
-          type: Constants.ReceiptType[receipt.type],
-          amount: helper.formatMosaicAmountWithDivisibility(receipt.amount, Constants.NetworkConfig.NATIVE_MOSAIC_DIVISIBILITY),
-          mosaicId: receipt.mosaicId.toHex()
-        })
-        break
-      }
-    })
+  	let balanceTransferReceipt = [];
 
-    return {
-      balanceChangeReceipt,
-      balanceTransferReceipt,
-      inflationReceipt,
-      artifactExpiryReceipt
-    }
+  	let inflationReceipt = [];
+
+  	let artifactExpiryReceipt = [];
+
+  	transactionStatement.forEach(statement => {
+  		statement.receipts.forEach(receipt => {
+  			switch (receipt.type) {
+  			case ReceiptType.Harvest_Fee:
+  			case ReceiptType.LockHash_Created:
+  			case ReceiptType.LockHash_Completed:
+  			case ReceiptType.LockHash_Expired:
+  			case ReceiptType.LockSecret_Created:
+  			case ReceiptType.LockSecret_Completed:
+  			case ReceiptType.LockSecret_Expired:
+  				balanceChangeReceipt.push({
+  					...receipt,
+  					height: statement.height
+  				});
+  				break;
+  			case ReceiptType.Mosaic_Rental_Fee:
+  			case ReceiptType.Namespace_Rental_Fee:
+  				balanceTransferReceipt.push({
+  					...receipt,
+  					height: statement.height
+  				});
+  				break;
+  			case ReceiptType.Mosaic_Expired:
+  			case ReceiptType.Namespace_Expired:
+  			case ReceiptType.Namespace_Deleted:
+  				artifactExpiryReceipt.push({
+  					...receipt,
+  					height: statement.height
+  				});
+  				break;
+  			case ReceiptType.Inflation:
+  				inflationReceipt.push({
+  					...receipt,
+  					height: statement.height
+  				});
+  				break;
+  			}
+  		});
+	  });
+
+  	return {
+  		balanceChangeReceipt,
+  		balanceTransferReceipt,
+  		inflationReceipt,
+  		artifactExpiryReceipt
+  	};
+  }
+
+  static transactionStatementBuilder(transactionStatement) {
+	  const {
+		  balanceChangeReceipt,
+		  balanceTransferReceipt,
+		  inflationReceipt,
+		  artifactExpiryReceipt
+  	} = this.groupTransactionStatement(transactionStatement);
+
+  	return {
+  		balanceChangeStatement: {
+  			receiptTransactionStatementType: Constants.ReceiptTransactionStatamentType.BalanceChangeReceipt,
+  			data: balanceChangeReceipt
+  		},
+  		balanceTransferStatement: {
+  			receiptTransactionStatementType: Constants.ReceiptTransactionStatamentType.BalanceTransferReceipt,
+  			data: balanceTransferReceipt
+  		},
+  		inflationStatement: {
+  			receiptTransactionStatementType: Constants.ReceiptTransactionStatamentType.InflationReceipt,
+  			data: inflationReceipt
+  		},
+  		artifactExpiryStatement: {
+  			receiptTransactionStatementType: Constants.ReceiptTransactionStatamentType.ArtifactExpiryReceipt,
+  			data: artifactExpiryReceipt
+  		}
+  	};
   }
 
   /**
@@ -134,20 +227,27 @@ class ReceiptService {
    * @returns Address Resolution | Mosaic Resolution
    */
   static formatResolutionStatement = resolutionStatement => {
-    if (resolutionStatement.resolutionType === ResolutionType.Address) {
-      return {
-        type: Constants.ResolutionType[resolutionStatement.resolutionType],
-        unresolved: resolutionStatement.unresolved.toHex(),
-        addressResolutionEntries: resolutionStatement.resolutionEntries[0].resolved.toHex()
-      }
-    } else if (resolutionStatement.resolutionType === ResolutionType.Mosaic) {
-      return {
-        type: Constants.ResolutionType[resolutionStatement.resolutionType],
-        unresolved: resolutionStatement.unresolved.toHex(),
-        mosaicResolutionEntries: resolutionStatement.resolutionEntries[0].resolved.toHex()
-      }
-    }
+	  return resolutionStatement.map(statement => {
+  		if (statement.resolutionType === ResolutionType.Address) {
+  			return {
+  				...statement,
+  				height: statement.height.compact(),
+  				resolutionType: Constants.ResolutionType[statement.resolutionType],
+  				unresolved: statement.unresolved.toHex(),
+  				addressResolutionEntries: statement.resolutionEntries.map(resolutionEntry => resolutionEntry.resolved.address)
+  			};
+  		}
+
+  		if (statement.resolutionType === ResolutionType.Mosaic) {
+  			return {
+  				...statement,
+  				resolutionType: Constants.ResolutionType[statement.resolutionType],
+  				unresolved: statement.unresolved.toHex(),
+  				mosaicResolutionEntries: statement.resolutionEntries.map(resolutionEntry => resolutionEntry.resolved.toHex())
+  			};
+  		}
+	  });
   }
 }
 
-export default ReceiptService
+export default ReceiptService;

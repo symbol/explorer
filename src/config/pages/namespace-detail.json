@@ -1,0 +1,96 @@
+{
+    "path": "/namespaces/:namespaceId",
+    "name": "namespace-detail",
+    "meta": {
+        "group": "detail-page",
+        "keepAliveGoTo": []
+    },
+    "props": {
+        "layout": "flex",
+        "storeNamespaces": [],
+        "initActions": ["namespace/fetchNamespaceInfo"],
+        "schema": [
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "namespaceDetailTitle",
+                "managerGetter": "namespace/info",
+                "errorMessage": "namespaceDetailError",
+                "pagination": "none",
+                "fields": [
+                    "ownerAddress",
+                    "namespaceName",
+                    "namespaceId",
+                    "registrationType",
+                    "status",
+                    "aliasType",
+                    "aliasAddress",
+                    "aliasMosaic",
+                    "startHeight",
+                    "expiredInBlock",
+                    "beforeEndHeight",
+                    "endHeight"
+                ]
+            },
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "namespaceLevelTitle",
+                "managerGetter": "namespace/namespaceLevel",
+                "errorMessage": "namespaceLevelError",
+                "pagination": "none",
+                "fields": [
+                    "name",
+                    "namespaceId",
+                    "parentId"
+                ]
+            },
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "metadataEntriesTitle",
+                "managerGetter": "namespace/metadatas",
+                "errorMessage": "metadataEntriesError",
+                "pagination": "server",
+                "hasFilter": true,
+                "fields": [
+                    "scopedMetadataKey",
+                    "targetId",
+                    "senderAddress",
+                    "targetAddress",
+                    "metadataValue"
+                ]
+            },
+            {
+				"layoutOptions": "adaptive",
+				"type": "CardTable",
+				"title": "balanceTransferReceiptTitle",
+				"managerGetter": "namespace/balanceTransferReceipt",
+				"pagination": "server",
+				"hideEmptyData": true,
+				"hideOnError": true,
+				"fields": [
+					"version",
+					"height",
+  					"receiptType",
+  					"recipient",
+  					"mosaics"
+				]
+			},
+			{
+				"layoutOptions": "adaptive",
+				"type": "CardTable",
+				"title": "artifactExpiryReceiptTitle",
+				"managerGetter": "namespace/artifactExpiryReceipt",
+				"pagination": "server",
+				"hideEmptyData": true,
+				"hideOnError": true,
+				"fields": [
+					"version",
+                    "receiptType",
+                    "namespaceArtifactId"
+				]
+			}
+        ]
+    }
+}

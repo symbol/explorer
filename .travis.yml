@@ -1,18 +1,52 @@
 language: node_js
+services:
+  - docker
 node_js:
-  - "8"
-  - "9"
-  - "10"
+  - "12"
+  - "lts/*"
+  # - "node" node-js v16 is not support node-sass yet https://github.com/sass/node-sass/issues/3077
+env:
+  global:
+    - DEV_BRANCH=dev
+    - RELEASE_BRANCH=main
+    - POST_RELEASE_BRANCH=main
+    - RELEASE_MESSAGE=release
 cache:
   npm: true
   directories:
-    - ./node_modules
+    - "node_modules"
   override:
     - npx cypress verify
-before_install:
-  - npm i -g npm@6.13.4
 before_script:
-  - npm run build
+    - . ./travis/node-functions.sh
+    - VERSION="$(node_load_version)"
+    - log_env_variables
 script:
-  - npm run lint
-  - npm run lint:css
+  - npm run build
+jobs:
+  include:
+    - stage: test
+      name: lint
+      script: npm run lint
+    - stage: test
+      name: lint css
+      script: npm run lint:css
+    - stage: test
+      name: docker test build
+      script: /bin/bash travis/docker-functions.sh docker_build $VERSION
+      node_js: 12
+    - stage: publish
+      name: docker publish alpha
+      script: /bin/bash travis/docker-functions.sh docker_build $VERSION publish
+      if: branch = env(DEV_BRANCH) AND type = push
+      node_js: 12
+    - stage: release
+      name: docker publish release
+      script: /bin/bash travis/docker-functions.sh docker_build $VERSION release
+      if: branch = env(RELEASE_BRANCH) AND type = api AND commit_message = env(RELEASE_MESSAGE)
+      node_js: 12
+    - stage: post release
+      name: tag and version upgrade
+      script: /bin/bash travis/node-functions.sh node_post_release
+      if: branch = env(RELEASE_BRANCH) AND type = api AND commit_message = env(RELEASE_MESSAGE)
+      node_js: 12

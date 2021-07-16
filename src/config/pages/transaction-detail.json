@@ -1,0 +1,96 @@
+{
+    "path": "/transactions/:transactionHash",
+    "name": "transaction-detail",
+    "meta": {
+        "group": "detail-page",
+        "keepAliveGoTo": []
+    },
+    "props": {
+        "layout": "flex",
+        "storeNamespaces": [],
+        "initActions": ["transaction/getTransactionInfoByHash"],
+        "schema": [
+            {
+                "layoutOptions": "full-width",
+                "type": "TransactionGraphicWidget",
+                "managerGetter": "transaction/transactionSchema"
+            },
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "transactionInfoTitle",
+                "managerGetter": "transaction/info",
+                "errorMessage": "transactionInfoError",
+                "pagination": "none",
+                "fields": [
+                    "version",
+                    "blockHeight",
+                    "payloadSize",
+                    "transactionHash",
+                    "timestamp",
+                    "deadline",
+                    "effectiveFee",
+                    "signature",
+                    "signer",
+                    "status",
+                    "confirm"
+                ]
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
+                "title": "transactionDetailTitle",
+                "managerGetter": "transaction/info",
+                "dataGetter": "transaction/transactionDetail",
+                "errorMessage": "transactionDetailError",
+                "pagination": "none"
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
+                "title": "hashLockTitle",
+                "managerGetter": "transaction/hashLock",
+                "errorMessage": "transactionHashLockError",
+                "pagination": "none",
+                "fields": [
+					"endHeight",
+					"ownerAddress",
+                    "status",
+                    "mosaics"
+				]
+            },
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "aggregateInnerTransactionsTitle",
+                "managerGetter": "transaction/info",
+                "dataGetter": "transaction/aggregateInnerTransactions",
+                "errorMessage": "aggregateInnerTransactionsError",
+                "pagination": "client",
+                "pageSize": 5,
+                "hideEmptyData": true,
+                "fields": [
+                    "index",
+                    "transactionType",
+                    "signer",
+                    "transactionBody"
+                ]
+            },
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "aggregateCosignaturesTitle",
+                "managerGetter": "transaction/info",
+                "dataGetter": "transaction/aggregateCosignatures",
+                "errorMessage": "aggregateCosignaturesError",
+                "pagination": "client",
+                "pageSize": 5,
+                "hideEmptyData": true,
+                "fields": [
+                    "signature",
+                    "signer"
+                ]
+            }
+        ]
+    }
+}

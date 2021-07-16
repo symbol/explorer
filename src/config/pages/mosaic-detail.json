@@ -1,0 +1,99 @@
+{
+    "path": "/mosaics/:mosaicId",
+    "name": "mosaic-detail",
+    "meta": {
+        "group": "detail-page",
+        "keepAliveGoTo": []
+    },
+    "props": {
+        "layout": "flex",
+        "storeNamespaces": [],
+        "initActions": ["mosaic/fetchMosaicInfo"],
+        "schema": [
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "mosaicDetailTitle",
+                "managerGetter": "mosaic/info",
+                "errorMessage": "mosaicDetailError",
+                "pagination": "none",
+                "fields": [
+                    "mosaicId",
+                    "mosaicAliasNames",
+                    "divisibility",
+                    "address",
+                    "supply",
+                    "relativeAmount",
+                    "revision",
+                    "startHeight",
+                    "expiredInBlock",
+                    "expirationDuration",
+                    "supplyMutable",
+                    "transferable",
+                    "restrictable"
+                ]
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
+                "title": "mosaicRestrictionListTitle",
+                "managerGetter": "mosaic/restrictions",
+                "errorMessage": "mosaicRestrictionListError",
+                "pagination": "server",
+                "hasFilter": true,
+                "fields": [
+                    "compositeHash",
+                    "entryType",
+                    "targetAddress",
+                    "restrictions"
+                ]
+            },
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "metadataEntriesTitle",
+                "managerGetter": "mosaic/metadatas",
+                "errorMessage": "metadataEntriesError",
+                "pagination": "server",
+                "hasFilter": true,
+                "fields": [
+                    "scopedMetadataKey",
+                    "targetId",
+                    "senderAddress",
+                    "targetAddress",
+                    "metadataValue"
+                ]
+            },
+            {
+				"layoutOptions": "adaptive",
+				"type": "CardTable",
+				"title": "balanceTransferReceiptTitle",
+				"managerGetter": "mosaic/balanceTransferReceipt",
+				"pagination": "server",
+				"hideEmptyData": true,
+				"hideOnError": true,
+				"fields": [
+					"version",
+					"height",
+  					"receiptType",
+  					"recipient",
+  					"mosaics"
+				]
+			},
+			{
+				"layoutOptions": "adaptive",
+				"type": "CardTable",
+				"title": "artifactExpiryReceiptTitle",
+				"managerGetter": "mosaic/artifactExpiryReceipt",
+				"pagination": "server",
+				"hideEmptyData": true,
+				"hideOnError": true,
+				"fields": [
+					"version",
+                    "receiptType",
+                    "mosaicArtifactId"
+				]
+			}
+        ]
+    }
+}

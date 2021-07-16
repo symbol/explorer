@@ -16,41 +16,27 @@
  *
  */
 
-import http from './http'
+import http from './http';
 
 class ChainService {
   /**
-   * Gets current blockchain height
-   * @returns block height
+   * Gets chain info such as current block height, finalized block and etc
+   * @returns formatted chain info
    */
-  static getBlockchainHeight = async () => {
-    const blockHeight = await http.createRepositoryFactory.createChainRepository()
-      .getBlockchainHeight().toPromise()
-    return blockHeight.compact()
+  static getChainInfo = async () => {
+  	const chainInfo = await http.createRepositoryFactory.createChainRepository()
+  		.getChainInfo()
+  		.toPromise();
+
+  	return {
+  		...chainInfo,
+  		height: chainInfo.height.compact(),
+  		latestFinalizedBlock: {
+  			...chainInfo.latestFinalizedBlock,
+  			height: chainInfo.latestFinalizedBlock.height.compact()
+  		}
+  	};
   }
-
-  /**
-   * Gets current blockchain score
-   * @returns
-   */
-  static getChainScore = async () => {
-    const chainScore = await http.createRepositoryFactory.createChainRepository()
-      .getChainScore().toPromise()
-
-    const formattedChainScore = this.formatBlockchainScore(chainScore)
-
-    return formattedChainScore
-  }
-
-  /**
-   * Format BlockchainScoreDTO to readable BlockchainScore object
-   * @param BlockchainScoreDTO
-   */
-  static formatBlockchainScore = blockchainScore => ({
-    ...blockchainScore,
-    scoreLow: blockchainScore.scoreLow.compact(),
-    scoreHigh: blockchainScore.scoreHigh.compact()
-  })
 }
 
-export default ChainService
+export default ChainService;

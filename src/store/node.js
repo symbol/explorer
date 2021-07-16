@@ -16,63 +16,114 @@
  *
  */
 
-import Lock from './lock'
-import { NodeService } from '../infrastructure'
+import Lock from './lock';
+import { NodeService, StatisticService } from '../infrastructure';
+import { filters } from '../config';
 import {
-  Timeline,
-  getStateFromManagers,
-  getGettersFromManagers,
-  getMutationsFromManagers,
-  getActionsFromManagers
-} from './manager'
+	Pagination,
+	DataSet,
+	getStateFromManagers,
+	getGettersFromManagers,
+	getMutationsFromManagers,
+	getActionsFromManagers
+} from './manager';
 
 const managers = [
-  new Timeline(
-    'timeline',
-    () => NodeService.getNodePeerList(),
-    () => [],
-    ''// node id
-  )
-]
+	new Pagination({
+		name: 'timeline',
+		fetchFunction: (pageInfo, filterValue) => NodeService.getNodePeerList(filterValue),
+		filter: filters.nodeRoles
+	}),
+	new DataSet(
+		'nodeStats',
+		() => NodeService.getNodeStats()
+	),
+	new DataSet(
+		'info',
+		(publicKey) => NodeService.getNodeInfo(publicKey)
+	),
+	new DataSet(
+		'nodeRewards',
+		(publicKey) => NodeService.getNodeRewardsInfo(publicKey)
+	),
+	new Pagination({
+		name: 'payouts',
+		fetchFunction: (pageInfo, filter, store) => NodeService.getNodePayouts(pageInfo, store.getters.nodeRewards.data?.nodeInfo?.id, filter, store.getters.currentNodeRewardProgram),
+		filter: filters.payouts
+	})
+];
 
-const LOCK = Lock.create()
+const LOCK = Lock.create();
 
 export default {
-  namespaced: true,
-  state: {
-    // If the state has been initialized.
-    initialized: false,
-    ...getStateFromManagers(managers)
-  },
-  getters: {
-    getInitialized: state => state.initialized,
-    ...getGettersFromManagers(managers)
-  },
-  mutations: {
-    setInitialized: (state, initialized) => { state.initialized = initialized },
-    ...getMutationsFromManagers(managers)
-  },
-  actions: {
-    ...getActionsFromManagers(managers),
-    // Initialize the node model.
-    async initialize({ commit, dispatch, getters }) {
-      const callback = async () => {
-        await dispatch('initializePage')
-      }
-      await LOCK.initialize(callback, commit, dispatch, getters)
-    },
+	namespaced: true,
+	state: {
+		// If the state has been initialized.
+		initialized: false,
+		...getStateFromManagers(managers)
+	},
+	getters: {
+		getInitialized: state => state.initialized,
+		...getGettersFromManagers(managers),
+		mapInfo: state => [ state.info?.data?.hostDetail ],
+		peerStatus: state => state.info?.data?.peerStatus,
+		apiStatus: state => state.info?.data?.apiStatus,
+		chainInfo: state => state.info?.data?.chainInfo,
+		hostDetail: state => state.info?.data?.hostDetail,
+		hostInfoManager: (state, getters) => ({
+			loading: getters.timeline?.loading ||
+				getters.info?.loading,
+			error: !StatisticService.isUrlProvided() ||
+				getters.timeline?.error ||
+				getters.info?.error
+		}),
+		currentNodeRewardProgram: state => state.nodeRewards?.data?.nodeInfo?.rewardProgram
+	},
+	mutations: {
+		setInitialized: (state, initialized) => {
+			state.initialized = initialized;
+		},
+		...getMutationsFromManagers(managers)
+	},
+	actions: {
+		...getActionsFromManagers(managers),
+		// Initialize the node model.
+		async initialize({ commit, dispatch, getters }) {
+			const callback = async () => {
+				await dispatch('initializePage');
+			};
 
-    // Uninitialize the node model.
-    async uninitialize({ commit, dispatch, getters }) {
-      const callback = async () => {
-        getters.timeline?.uninitialize()
-      }
-      await LOCK.uninitialize(callback, commit, dispatch, getters)
-    },
+			await LOCK.initialize(callback, commit, dispatch, getters);
+		},
 
-    // Fetch data from the SDK and initialize the page.
-    async initializePage(context) {
-      await context.getters.timeline.setStore(context).initialFetch()
-    }
-  }
-}
+		// Uninitialize the node model.
+		async uninitialize({ commit, dispatch, getters }) {
+			const callback = async () => {
+				getters.timeline?.uninitialize();
+				getters.nodeStats?.uninitialize();
+			};
+
+			await LOCK.uninitialize(callback, commit, dispatch, getters);
+		},
+
+		// Fetch data from the SDK and initialize the page.
+		async initializePage(context) {
+			await context.getters.timeline.setStore(context).initialFetch();
+			context.getters.nodeStats.setStore(context).initialFetch();
+		},
+
+		// Fetch data from the SDK.
+		async fetchNodeInfo(context, payload) {
+			context.dispatch('uninitializeDetail');
+			context.getters.info.setStore(context).initialFetch(Object.values(payload)[0]);
+			await context.getters.nodeRewards.setStore(context).initialFetch(Object.values(payload)[0]);
+			await context.getters.payouts.setStore(context).initialFetch();
+		},
+
+		uninitializeDetail(context) {
+			context.getters.info.setStore(context).uninitialize();
+			context.getters.nodeRewards.setStore(context).uninitialize();
+			context.getters.payouts.setStore(context).uninitialize();
+		}
+	}
+};

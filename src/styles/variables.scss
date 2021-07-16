@@ -4,14 +4,18 @@ $primary-color: #5200c6;
 $secondary-color: #44004e;
 $red-color: red;
 $pink-color: #f0f;
+$accent-color: #f0f;
 $blue-color: #00c8ff;
 $green-color: #33dd50;
 $orange-color: #ff9600;
+$dark-white-color: #f3f4f8;
 
 // --- General colors --- 
 
 $title-text-color: $pink-color;
 $link-text-color: $primary-color;
+$card-error-text-color: #98a8b4;
+$clickable-item: #fffc;
 
 
 // --- TableView colors
@@ -28,5 +32,5 @@ $table-hover-color: #44004e1a;
 
 $header-max-width: 2400px;
 $navmenu-max-width: 2400px;
-$page-max-width: 1920px;
+$page-max-width: 1500px;
 $footer-max-width: 2400px;

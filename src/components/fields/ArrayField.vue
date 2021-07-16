@@ -17,43 +17,49 @@
  */
 
 <template>
-    <div>
-        <div v-for="(row, rowIndex) in value" :title="row" :key="'af_r'+rowIndex">
-            <router-link v-if="isKeyClickable(itemKey_) && getItemHref(itemKey_, row)" :to="getItemHref(itemKey_, row)">
-                <Truncate v-if="isTruncate(itemKey_)">{{row}}</Truncate>
-                <div v-else>{{ row }}</div>
-            </router-link>
-            <div v-else>
-                <Truncate v-if="isTruncate(itemKey_)">{{row}}</Truncate>
-                <div v-else>{{ row }}</div>
-            </div>
-        </div>
-    </div>
+	<div>
+		<div v-for="(row, rowIndex) in value" :title="row" :key="'af_r'+rowIndex" @click.stop>
+			<router-link v-if="isKeyClickable(itemKey_) && getItemHref(itemKey_, row)" :to="getItemHref(itemKey_, row)">
+				<Truncate v-if="isTruncate(itemKey_)">{{row}}</Truncate>
+				<div v-else>{{ row }}</div>
+			</router-link>
+			<TransactionType v-else-if="isTransactionType(itemKey_)" :value="row" />
+			<div v-else>
+				<Truncate v-if="isTruncate(itemKey_)">{{row}}</Truncate>
+				<div v-else>{{ row }}</div>
+			</div>
+		</div>
+	</div>
 </template>
 
 <script>
-import TableView from '@/components/tables/TableView.vue'
+import TableView from '@/components/tables/TableView.vue';
+import TransactionType from '@/components/fields/TransactionType.vue';
 
 export default {
-  name: 'ArrayField',
-  extends: TableView,
+	name: 'ArrayField',
+	extends: TableView,
 
-  props: {
-    itemKey: {
-      type: String,
-      required: true
-    },
+	components: {
+		TransactionType
+	},
 
-    value: {
-      type: Array,
-      required: true
-    }
-  },
+	props: {
+		itemKey: {
+			type: String,
+			required: true
+		},
 
-  computed: {
-    itemKey_() {
-      return this.itemKey + '_'
-    }
-  }
-}
+		value: {
+			type: Array,
+			required: true
+		}
+	},
+
+	computed: {
+		itemKey_() {
+			return this.itemKey + '_';
+		}
+	}
+};
 </script>

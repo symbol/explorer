@@ -1,0 +1,62 @@
+{
+	"peersApi": {
+		"defaultNode": "http://ngl-dual-001.testnet.symboldev.network:3000",
+		"nodes": [
+			"http://ngl-dual-001.testnet.symboldev.network:3000",
+			"http://ngl-dual-101.testnet.symboldev.network:3000",
+			"http://ngl-dual-201.testnet.symboldev.network:3000",
+			"http://ngl-dual-301.testnet.symboldev.network:3000",
+			"http://ngl-dual-401.testnet.symboldev.network:3000",
+			"http://ngl-dual-501.testnet.symboldev.network:3000",
+			"http://ngl-dual-601.testnet.symboldev.network:3000"
+		]
+	},
+	"apiNodePort": 3000,
+	"endpoints": {
+		"marketData": "https://min-api.cryptocompare.com/",
+		"statisticsService": "http://ngl-beacon-001.testnet.symboldev.network:4001",
+		"nodeRewardsController": "http://node-monitoring.testnet.symboldev.network:7890"
+	},
+	"networkConfig": {
+		"namespaceName": "symbol.xym",
+		"mosaicId": "2CF403E85507F39E",
+		"namespaceId": "E74B99BA41F4AFEE",
+		"divisibility": "6",
+		"networkIdentifier": 0
+	},
+	"footer": {
+		"link": [
+			{
+				"href": "https://nemflash.io/",
+				"text": "NEM News",
+				"icon": "IconNewspaper"
+			},
+			{
+				"href": "https://forum.nem.io/",
+				"text": "Forum",
+				"icon": "IconForum"
+			},
+			{
+				"href": "https://t.me/nemred",
+				"text": "Telegram",
+				"icon": "IconTelegram"
+			},
+			{
+				"href": "https://www.reddit.com/r/nem/",
+				"text": "Reddit",
+				"icon": "IconReddit"
+			},
+			{
+				"href": "https://github.com/nemtech",
+				"text": "Github",
+				"icon": "IconGithub"
+			},
+			{
+				"href": "http://faucet.testnet.symboldev.network/",
+				"text": "Faucet",
+				"icon": "IconHomeCurrencyUsd"
+			}
+		]
+	}
+}
+

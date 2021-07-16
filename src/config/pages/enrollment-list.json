@@ -1,0 +1,36 @@
+{
+    "path": "/enrollments",
+    "name": "enrollments",
+    "meta": {
+        "group": "list-page",
+        "keepAliveGoTo": ["detail-page"]
+    },
+    "props": {
+        "layout": "flex",
+        "storeNamespaces": ["enrollment"],
+        "schema": [
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "nodeRewardsEnrollments",
+                "managerGetter": "enrollment/timeline",
+                "errorMessage": "Failed to fetch enrollment list",
+                "pagination": "server",
+				"hasFilter": true,
+                "fields": [
+                    "enrollmentId",
+                    "transactionHash",
+                    "signerPublicKey",
+                    "agentUrl",
+                    "status"
+                ],
+                "mobileFields": [
+                    "enrollmentId",
+                    "transactionHash",
+                    "signerPublicKey",
+                    "status"
+                ]
+            }
+        ]
+    }
+}

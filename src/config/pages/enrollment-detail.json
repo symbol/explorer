@@ -1,0 +1,33 @@
+{
+    "path": "/enrollments/:id",
+    "name": "enrollment-detail",
+    "meta": {
+        "group": "detail-page",
+        "keepAliveGoTo": []
+    },
+    "props": {
+        "layout": "flex",
+        "storeNamespaces": ["enrollment"],
+        "initActions": ["enrollment/fetchInfo"],
+        "schema": [
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "nodeRewardsEnrollmentDetail",
+                "managerGetter": "enrollment/info",
+                "errorMessage": "enrollmentDetailError",
+                "fields": [
+                    "agentCaCsrBase64",
+                    "agentUrl",
+                    "errorMessage",
+                    "height",
+                    "id",
+                    "retriesLeft",
+                    "signerPublicKey",
+                    "status",
+                    "transactionHash"
+                ]
+            }
+        ]
+    }
+}

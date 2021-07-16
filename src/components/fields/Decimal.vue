@@ -16,28 +16,28 @@
  *
  */
 
- <template>
-  <div :value="value">
-    <span>{{decimalSplit(value)[0]}}</span>
-    <span v-if="decimalSplit(value).length > 1" class="decimalLight">.{{decimalSplit(value)[1]}}</span>
-  </div>
+<template>
+	<div :value="value">
+		<span>{{decimalSplit(value)[0]}}</span>
+		<span v-if="decimalSplit(value).length > 1" class="decimalLight">.{{decimalSplit(value)[1]}}</span>
+	</div>
 </template>
 <script>
 export default {
-  name: 'Decimal',
-  props: {
-    value: String
-  },
-  methods: {
-    decimalSplit(value) {
-      return value.split('.', 2)
-    }
-  }
-}
+	name: 'Decimal',
+	props: {
+		value: String
+	},
+	methods: {
+		decimalSplit(value) {
+			return value.split('.', 2);
+		}
+	}
+};
 </script>
 
 <style lang="scss" scoped>
 .decimalLight {
-    color: $table-text-color-light;//#98a8b48c;
+    opacity: 0.5;//#98a8b48c;
 }
 </style>

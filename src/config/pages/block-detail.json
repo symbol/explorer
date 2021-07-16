@@ -1,0 +1,108 @@
+{
+    "path": "/blocks/:height",
+    "name": "block-detail",
+    "meta": {
+        "group": "detail-page",
+        "keepAliveGoTo": []
+    },
+    "props": {
+        "layout": "flex",
+        "storeNamespaces": ["block"],
+        "initActions": ["block/fetchBlockInfo"],
+        "schema": [
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "blockDetailTitle",
+                "managerGetter": "block/info",
+                "errorMessage": "blockDetailError",
+                "pagination": "custom",
+                "paginationOptions": {
+                    "nextPageAction": "block/nextBlock",
+                    "previousPageAction": "block/previousBlock",
+                    "canFetchPrevious": true,
+                    "canFetchNext": true
+                },
+                "fields": [
+                    "version",
+                    "blockType",
+                    "confirmations",
+                    "height",
+                    "payloadSize",
+                    "timestamp",
+                    "symbolTime",
+                    "totalFee",
+                    "difficulty",
+                    "feeMultiplier",
+                    "totalTransactions",
+                    "statements",
+                    "votingEligibleAccountsCount",
+                    "harvestingEligibleAccountsCount",
+                    "totalVotingBalance",
+                    "harvester",
+                    "beneficiaryAddress",
+                    "blockHash",
+                    "previousImportanceBlockHash",
+                    "proofGamma",
+                    "proofScalar",
+                    "proofVerificationHash"
+                ]
+            },
+            {
+                "layoutOptions": "full-width",
+                "type": "CardTable",
+                "title": "blockTransactionsTitle",
+                "managerGetter": "block/blockTransactions",
+				"pagination": "server",
+                "hasFilter": true,
+                "fields": [
+                    "timestamp",
+                    "transactionHash",
+                    "transactionType"
+                ]
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
+                "title": "merkleInfoTitle",
+                "managerGetter": "block/info",
+                "dataGetter": "block/merkleInfo",
+                "pagination": "none"
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
+                "title": "receiptTitle",
+                "hasFilter": true,
+                "managerGetter": "block/receipt",
+                "pagination": "server",
+                "fields": [
+                    "version",
+                    "receiptType",
+                    "targetAddress",
+                    "senderAddress",
+  					"recipient",
+                    "mosaics",
+                    "namespaceArtifactId",
+                    "mosaicArtifactId"
+                ]
+            },
+            {
+                "layoutOptions": "adaptive",
+                "type": "CardTable",
+                "title": "resolutionStatementTitle",
+                "managerGetter": "block/blockReceipts",
+                "dataGetter": "block/resolutionStatement",
+                "pagination": "client",
+                "pageSize": 5,
+                "hideEmptyData": true,
+                "fields": [
+                    "resolutionType",
+                    "unresolved",
+                    "addressResolutionEntries",
+                    "mosaicResolutionEntries"
+                ]
+            }
+        ]
+    }
+}

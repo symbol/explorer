@@ -1,194 +1,263 @@
 <script>
-import Age from '../fields/Age.vue'
-import Constants from '../../config/constants'
-import Decimal from '@/components/fields/Decimal.vue'
-import Truncate from '@/components/fields/Truncate.vue'
+import Age from '../fields/Age.vue';
+import Constants from '../../config/constants';
+import Decimal from '@/components/fields/Decimal.vue';
+import Truncate from '@/components/fields/Truncate.vue';
+import Boolean from '@/components/fields/Boolean.vue';
 
 export default {
-  components: {
-    Age,
-    Decimal,
-    Truncate
-  },
-  props: {
-    height: {
-      type: Number
-    },
+	components: {
+		Age,
+		Decimal,
+		Truncate,
+		Boolean
+	},
+	props: {
+		height: {
+			type: Number
+		},
 
-    emptyDataMessage: {
-      type: String,
-      default: 'nothingToShow'
-    }
-  },
+		emptyDataMessage: {
+			type: String,
+			default: 'nothingToShow'
+		}
+	},
 
-  data() {
-    return {
-      componentType: 'list',
-      clickableKeys: [
-        'account',
-        'block',
-        'address',
-        'height',
-        'mosaic',
-        'namespace',
-        'namespaceName',
-        'linkedNamespace',
-        'mosaicAliasName',
-        'accountAliasName',
-        'aliasAddress',
-        'aliasMosaic',
-        'linkedAccountKey',
-        'transaction',
-        'harvester',
-        'mosaicId',
-        'namespaceId',
-        'parentId',
-        'transactionHash',
+	data() {
+		return {
+			componentType: 'list',
+			clickableKeys: [
+				'account',
+				'block',
+				'address',
+				'height',
+				'mosaic',
+				'namespace',
+				'namespaceName',
+				'linkedNamespace',
+				'mosaicAliasNames_',
+				'accountAliasNames_',
+				'aliasAddress',
+				'aliasMosaic',
+				'transaction',
+				'harvester',
+				'beneficiaryAddress',
+				'mosaicId',
+				'namespaceId',
+				'parentId',
+				'transactionHash',
 
-        'addressHeight',
-        'publicKeyHeight',
-        'importanceHeight',
-        'multisigAccounts_',
+				'addressHeight',
+				'publicKeyHeight',
+				'importanceHeight',
+				'multisigAddresses_',
+				'cosignatoryAddresses_',
 
-        'signer',
-        'recipient',
-        'owneraddress',
-        'blockHeight',
-        'endHeight',
-        'startHeight',
-        'remoteAccountAddress',
+				'signer',
+				'signerPublicKey',
+				'recipient',
+				'ownerAddress',
+				'blockHeight',
+				'endHeight',
+				'startHeight',
 
-        'lastActivity',
-        'recalculationBlock',
-        'senderAddress',
-        'targetAddress',
-        'targetMosaicId',
-        'targetNamespaceId',
-        'unresolved',
-        'addressResolutionEntries',
-        'mosaicResolutionEntries',
-        'restrictionMosaicValues',
-        'restrictionAddressValues',
-        'referenceMosaicId',
-        'restrictionAddressAdditions',
-        'restrictionAddressDeletions',
-        'restrictionMosaicAdditions',
-        'restrictionMosaicDeletions',
-        'publicKeyAdditions',
-        'publicKeyDeletions'
-      ],
-      disableClickValues: [...Object.values(Constants.Message)],
-      changeDecimalColor: [
-        'amount',
-        'fee',
-        'relativeAmount',
-        'feeMultiplier',
-        'difficulty',
-        'balance'
-      ],
-      allowArrayToView: [
-        'linkedNamespace',
-        'cosignatories',
-        'multisigAccounts',
-        'restrictionAddressValues',
-        'restrictionMosaicValues',
-        'restrictionTransactionValues',
-        'restrictionAddressAdditions',
-        'restrictionAddressDeletions',
-        'restrictionMosaicAdditions',
-        'restrictionMosaicDeletions',
-        'restrictionOperationAdditions',
-        'restrictionOperationDeletions',
-        'publicKeyAdditions',
-        'publicKeyDeletions'
-      ]
-    }
-  },
+				'lastActivity',
+				'recalculationBlock',
+				'sourceAddress',
+				'targetAddress',
+				'targetMosaicId',
+				'targetMosaicAliasNames_',
+				'targetNamespaceId',
+				'unresolved',
+				'addressResolutionEntries_',
+				'mosaicResolutionEntries_',
+				'restrictionMosaicValues_',
+				'restrictionAddressValues_',
+				'referenceMosaicId',
+				'restrictionAddressAdditions_',
+				'restrictionAddressDeletions_',
+				'restrictionMosaicAdditions_',
+				'restrictionMosaicDeletions_',
+				'addressAdditions_',
+				'addressDeletions_',
+				'linkedAccountAddress',
+				'ownerAddress',
+				'senderAddress',
+				'linkedAddress',
+				'nodeAddress',
+				'vrfAddress',
+				'voting_',
 
-  computed: {
-    emptyDataMessageFormatted() {
-      return this.$store.getters['ui/getNameByKey'](
-        this.emptyDataMessage
-      )
-    }
-  },
+				'namespaceArtifactId',
+				'mosaicArtifactId',
+				'nodePublicKey',
+				'enrollmentId'
+			],
+			disableClickValues: [...Object.values(Constants.Message)],
+			changeDecimalColor: [
+				'amount',
+				'fee',
+				'relativeAmount',
+				'feeMultiplier',
+				'difficulty',
+				'balance'
+			],
+			allowArrayToView: [
+				'linkedNamespace',
+				'cosignatoryAddresses',
+				'multisigAddresses',
+				'restrictionAddressValues',
+				'restrictionMosaicValues',
+				'restrictionTransactionValues',
+				'restrictionAddressAdditions',
+				'restrictionAddressDeletions',
+				'restrictionMosaicAdditions',
+				'restrictionMosaicDeletions',
+				'restrictionOperationAdditions',
+				'restrictionOperationDeletions',
+				'addressAdditions',
+				'addressDeletions',
+				'voting',
+				'addressResolutionEntries',
+				'mosaicResolutionEntries',
+				'stateHashSubCacheMerkleRoots',
+				'accountAliasNames',
+				'mosaicAliasNames',
+				'targetMosaicAliasNames'
+			],
+			valuesToTranslate: [
+				'newRestrictionType',
+				'previousRestrictionType',
+				'restrictionType',
+				'mosaicRestrictionType'
+			]
+		};
+	},
 
-  methods: {
-    isKeyClickable(itemKey) {
-      return this.clickableKeys.indexOf(itemKey) !== -1
-    },
+	computed: {
+		emptyDataMessageFormatted() {
+			return this.$store.getters['ui/getNameByKey'](
+				this.emptyDataMessage
+			);
+		}
+	},
 
-    isValueClickable(item) {
-      return this.disableClickValues.indexOf(item) === -1
-    },
+	methods: {
+		translateValue(key, value) {
+			if (this.valuesToTranslate.includes(key))
+				return this.$store.getters['ui/getNameByKey'](value);
+			return value;
+		},
 
-    isDecimal(itemKey) {
-      return this.changeDecimalColor.indexOf(itemKey) !== -1
-    },
+		isKeyClickable(itemKey) {
+			return this.clickableKeys.indexOf(itemKey) !== -1;
+		},
 
-    isMosaics(itemKey) {
-      return itemKey === 'mosaics'
-    },
+		isValueClickable(item) {
+			return this.disableClickValues.indexOf(item) === -1;
+		},
 
-    isAge(itemKey) {
-      return itemKey === 'age'
-    },
+		isDecimal(itemKey) {
+			return this.changeDecimalColor.indexOf(itemKey) !== -1;
+		},
 
-    isTransactionType(itemKey) {
-      return itemKey === 'transactionType' || itemKey === 'type'
-    },
+		isMosaics(itemKey) {
+			return itemKey === 'mosaics';
+		},
 
-    isArrayField(itemKey) {
-      return this.allowArrayToView.indexOf(itemKey) !== -1
-    },
+		isAge(itemKey) {
+			return itemKey === 'age' || itemKey === 'lastStatusCheck';
+		},
 
-    isTruncate(key) {
-      return (
-        key === 'harvester' ||
+		isTransactionType(itemKey) {
+			return itemKey === 'transactionType' || itemKey === 'restrictionOperationAdditions_' || itemKey === 'restrictionOperationDeletions_';
+		},
+
+		isBlockHeightWithFinalizedStatus(itemKey) {
+			return itemKey === 'height' || itemKey === 'blockHeight' || itemKey === 'startHeight' || itemKey === 'endHeight';
+		},
+
+		isArrayField(itemKey) {
+			return this.allowArrayToView.indexOf(itemKey) !== -1;
+		},
+
+		isTruncate(key) {
+			return (
+				key === 'harvester' ||
                 key === 'address' ||
                 key === 'signer' ||
-                key === 'recipient' ||
+				key === 'recipient' ||
+				key === 'publicKey' ||
+				key === 'signerPublicKey' ||
+				key === 'nodePublicKey' ||
+				key === 'mainPublicKey' ||
                 key === 'transactionHash' ||
-                key === 'owneraddress' ||
+                key === 'ownerAddress' ||
                 key === 'host' ||
                 key === 'friendlyName' ||
-                key === 'multisigAccounts_'
-      )
-    },
+                key === 'multisigAddresses_' ||
+				key === 'cosignatoryAddresses_' ||
+				key === 'addressAdditions_' ||
+				key === 'addressDeletions_' ||
+				key === 'enrollmentId'
+			);
+		},
 
-    isAggregateInnerTransaction(itemKey) {
-      return itemKey === 'transactionBody'
-    },
+		isWordBreakable(key) {
+			return this.isTruncate(key) ||
+				(typeof key === 'string'
+					? (
+						key.toLowerCase().includes('key') ||
+						key.toLowerCase().includes('hash') ||
+						key.toLowerCase().includes('id') ||
+						key.toLowerCase().includes('hex')
+					)
+					: false
+				);
+		},
 
-    isItemShown(itemKey, item) {
-      if (this.isArrayField(itemKey)) return item.length !== 0
+		isBoolean(key) {
+			return (
+				key === 'connectionStatus' ||
+                key === 'apiNodeStatus' ||
+				key === 'databaseStatus' ||
+				key === 'isAvailable'
+			);
+		},
 
-      return item != null
-    },
+		isAggregateInnerTransaction(itemKey) {
+			return itemKey === 'transactionBody';
+		},
 
-    onItemClick(itemKey, item) {
-      if (this.isKeyClickable(itemKey) && this.isValueClickable(item)) {
-        this.$store.dispatch(`ui/openPage`, {
-          pageName: itemKey,
-          param: item
-        })
-      }
-    },
+		isItemShown(itemKey, item) {
+			if (this.isArrayField(itemKey)) return item?.length !== 0;
 
-    getItemHref(itemKey, item) {
-      if (this.isValueClickable(item)) {
-        return this.$store.getters[`ui/getPageHref`]({
-          pageName: itemKey,
-          param: item
-        })
-      }
-    },
+			return item != null;
+		},
 
-    getKeyName(key) {
-      return this.$store.getters['ui/getNameByKey'](key)
-    }
-  }
-}
+		onItemClick(itemKey, item) {
+			if (this.isKeyClickable(itemKey) && this.isValueClickable(item)) {
+				this.$store.dispatch(`ui/openPage`, {
+					pageName: itemKey,
+					param: item
+				});
+			}
+		},
+
+		getItemHref(itemKey, item) {
+			if (this.isValueClickable(item)) {
+				return this.$store.getters[`ui/getPageHref`]({
+					pageName: itemKey,
+					param: item
+				});
+			}
+		},
+
+		getKeyName(key) {
+			return this.$store.getters['ui/getNameByKey'](key);
+		}
+	}
+};
 </script>
 
 <style lang="scss">
@@ -215,7 +284,7 @@ export default {
 
     .empty-data {
         font-size: 14px;
-        color: $table-text-color-light;
+        color: $card-error-text-color;
         display: flex;
         justify-content: center;
     }
@@ -270,7 +339,7 @@ export default {
         font-weight: none;
         padding: 10px 5px;
         min-height: 50px;
-        word-break: break-all;
+        word-break: normal;
         min-width: 50px;
         max-width: 300px;
     }
@@ -298,6 +367,10 @@ export default {
 
     .table-titles {
         background-color: rgba(52, 40, 104, 0.05);
+    }
+
+    .break-all {
+        word-break: break-all;
     }
 }
 </style>

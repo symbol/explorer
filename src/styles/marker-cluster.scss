@@ -1,0 +1,225 @@
+.marker-cluster-small {
+	background-color: #5200c6bb;
+}
+
+.marker-cluster-small div {
+	background-color: #5200c6;
+}
+
+.marker-cluster-medium {
+	background-color: #a502bebb;
+}
+
+.marker-cluster-medium div {
+	background-color: #a502be;
+}
+
+.marker-cluster-large {
+	background-color: #f0fb;
+}
+
+.marker-cluster-large div {
+	background-color: #f0f;
+}
+
+	/* IE 6-8 fallback colors */
+.leaflet-oldie .marker-cluster-small {
+	background-color: #5200c6;
+}
+
+.leaflet-oldie .marker-cluster-small div {
+	background-color: #5200c6;
+}
+
+.leaflet-oldie .marker-cluster-medium {
+	background-color: #a502be;
+}
+
+.leaflet-oldie .marker-cluster-medium div {
+	background-color: #a502be;
+}
+
+.leaflet-oldie .marker-cluster-large {
+	background-color: #f0f;
+}
+
+.leaflet-oldie .marker-cluster-large div {
+	background-color: #f0f;
+}
+
+.marker-cluster {
+	background-clip: padding-box;
+	border-radius: 20px;
+}
+
+.marker-cluster div {
+	width: 30px;
+	height: 30px;
+	margin-left: 5px;
+	margin-top: 5px;
+
+	text-align: center;
+	border-radius: 15px;
+	color: #fff;
+	font-family: 'Noto Sans', sans-serif;
+	font-weight: bold;
+}
+
+.marker-cluster span {
+	line-height: 30px;
+}
+
+
+// .marker-cluster-xs {
+// 	border-radius: 10px;
+// 	width: 20px;
+// 	height: 20px;
+
+// 	border-color: #ff00ff;
+// 	border-width: 3px;
+// 	border-style: solid;
+// 	background-color: #44004e;
+// 	text-align: center;
+// 	font-size: 12px;
+// 	color: #fff;
+// 	font-family: 'Noto Sans', sans-serif;
+// 	font-weight: bold;
+// 	padding-top: 10px;
+// 	box-sizing: border-box;
+// }
+
+// .marker-cluster-s {
+// 	border-radius: 12px;
+// 	width: 24px;
+// 	height: 24px;
+
+// 	border-color: #ff00ff;
+// 	border-width: 3px;
+// 	border-style: solid;
+// 	background-color: #44004e;
+// 	text-align: center;
+// 	font-size: 12px;
+// 	color: #fff;
+// 	font-family: 'Noto Sans', sans-serif;
+// 	font-weight: bold;
+// 	padding-top: 10px;
+// 	box-sizing: border-box;
+// }
+
+// .marker-cluster-m {
+// 	border-radius: 15px;
+// 	width: 30px;
+// 	height: 30px;
+
+// 	border-color: #ff00ff;
+// 	border-width: 3px;
+// 	border-style: solid;
+// 	background-color: #44004e;
+// 	text-align: center;
+// 	font-size: 12px;
+// 	color: #fff;
+// 	font-family: 'Noto Sans', sans-serif;
+// 	font-weight: bold;
+// 	padding-top: 10px;
+// 	box-sizing: border-box;
+// }
+
+// .marker-cluster-l {
+// 	border-radius: 20px;
+// 	width: 40px;
+// 	height: 40px;
+
+// 	border-color: #ff00ff;
+// 	border-width: 3px;
+// 	border-style: solid;
+// 	background-color: #44004e;
+// 	text-align: center;
+// 	font-size: 12px;
+// 	color: #fff;
+// 	font-family: 'Noto Sans', sans-serif;
+// 	font-weight: bold;
+// 	padding-top: 10px;
+// 	box-sizing: border-box;
+// }
+
+// .marker-cluster-xl {
+// 	//background: radial-gradient(#d600d6 40%, transparent 75%);
+// 	border-radius: 25px;
+// 	width: 50px;
+// 	height: 50px;
+
+// 	border-color: #ff00ff;
+// 	border-width: 3px;
+// 	border-style: solid;
+// 	background-color: #44004e;
+// 	text-align: center;
+// 	font-size: 12px;
+// 	color: #fff;
+// 	font-family: 'Noto Sans', sans-serif;
+// 	font-weight: bold;
+// 	padding-top: 10px;
+// 	box-sizing: border-box;
+// }
+
+// .marker-cluster-xxl {
+// 	background: radial-gradient(#ff00ff 40%, transparent 75%);
+// 	border-radius: 60px;
+// }
+
+// .marker-cluster-base {
+// 	border-color: #ff00ff;
+// 	border-width: 3px;
+// 	border-style: solid;
+// 	background-color: #44004e;
+
+// 	text-align: center;
+// 	font-size: 12px;
+// 	color: #fff;
+// 	font-family: 'Noto Sans', sans-serif;
+// 	font-weight: bold;
+// }
+
+// .marker-cluster {
+// 	background-clip: padding-box;
+// 	border-radius: 20px;
+// }
+
+// .marker-cluster-base {
+// 	background-clip: padding-box;
+// 	margin-left: 5px;
+// 	margin-top: 5px;
+
+// 	text-align: center;
+// 	border-radius: 15px;
+// 	color: #fff;
+// 	font-weight: bold;
+// }
+
+// .marker-cluster-base span {
+// 	line-height: 30px;
+// 	margin: auto auto;
+// 	font-family: 'Noto Sans', sans-serif;
+// }
+
+
+// .marker-cluster {
+// 	background-clip: padding-box;
+// 	border-radius: 20px;
+// }
+
+// .marker-cluster div {
+// 	width: 30px;
+// 	height: 30px;
+// 	margin-left: 5px;
+// 	margin-top: 5px;
+
+// 	text-align: center;
+// 	border-radius: 15px;
+// 	color: #fff;
+// }
+
+// .marker-cluster span {
+// 	display: flex;
+//    justify-content: center;
+//    align-items: center;
+// }

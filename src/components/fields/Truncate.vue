@@ -1,15 +1,19 @@
 <template>
-    <div>
-        <div class="d-none d-md-block">
-            <slot />
-        </div>
-        <div class="truncate-mobile d-block d-md-none">
-            <span><slot /></span>
-        </div>
-    </div>
+	<div class="truncate">
+		<div class="d-none d-md-block">
+			<slot />
+		</div>
+		<div class="truncate-mobile d-block d-md-none">
+			<span><slot /></span>
+		</div>
+	</div>
 </template>
 
 <style lang="scss" scoped>
+.truncate {
+    word-break: break-all;
+}
+
 .truncate-mobile {
     span {
         white-space: nowrap;

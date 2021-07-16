@@ -15,132 +15,191 @@
  * limitations under the License.
  *
  */
-
-import { BlockService, ChainService } from './index'
+import globalConfig from '../config/globalConfig';
+import Constants from '../config/constants';
+import Axios from 'axios';
 
 class StatisticService {
-  /**
-   * Gets Block Time Difference dataset.
-   * The dataset in use for Chart.
-   * @param limit - number of the block.
-   * @param grouping - grouping block for calculation
-   * @returns block time difference dataset.
-   */
-  static getBlockTimeDifferenceData = async (limit, grouping) => {
-    const latestHeight = await ChainService.getBlockchainHeight()
-    let fromBlock = latestHeight - limit
-    let blockList = []
+	/**
+	 * Gets Block Time Difference dataset.
+	 * The dataset in use for Chart.
+	 * @param blocks - streamer blocks []
+	 * @param limit - number of the block.
+	 * @param grouping - grouping block for calculation
+	 * @returns block time difference dataset.
+	 */
+	static getBlockTimeDifferenceData = (blocks, grouping) => {
+		const heights = blocks.map(data => Number(data.height));
 
-    while (blockList.length < limit) {
-      let startFromBlock = fromBlock + blockList.length
-      let numberOfBlock = limit - blockList.length
-      let blocks = await BlockService.getBlocksByHeightWithLimit(startFromBlock, numberOfBlock)
-      blockList.unshift(...blocks)
-    }
+		let timestamps = blocks.map(data => data.timestampRaw);
 
-    const heights = blockList.map(data => Number(data.height))
-    let timestamps = blockList.map(data => data.timestampRaw)
+		for (let i = 0; i < timestamps.length - 1; ++i)
+			timestamps[i] -= timestamps[i + 1];
 
-    for (let i = 0; i < timestamps.length - 1; ++i)
-      timestamps[i] -= timestamps[i + 1]
+		let averages = [];
 
-    let averages = []
-    let sum = 0
-    for (let i = 0; i < grouping; ++i)
-      sum += timestamps[i]
+		let sum = 0;
 
-    for (let i = grouping; i < timestamps.length; ++i) {
-      averages.push(sum / grouping)
-      sum -= timestamps[i - grouping]
-      sum += timestamps[i]
-    }
-    averages.push(0)
+		for (let i = 0; i < grouping; ++i)
+			sum += timestamps[i];
 
-    let timeDifferenceDataset = []
-    let averagesDataset = []
-    for (let i = 0; i < timestamps.length - 1; ++i) {
-      timeDifferenceDataset.push([heights[i], timestamps[i] / 1000])
-      averagesDataset.push([heights[i], (averages[i] / 1000).toFixed(3)])
-    }
+		for (let i = grouping; i < timestamps.length; ++i) {
+			averages.push(sum / grouping);
+			sum -= timestamps[i - grouping];
+			sum += timestamps[i];
+		}
+		averages.push(0);
 
-    let dataset = [
-      {
-        name: 'Time Difference (in seconds)',
-        data: timeDifferenceDataset
-      },
-      {
-        name: `Average Time Difference (per ${grouping} blocks)`,
-        data: averagesDataset
-      }
-    ]
+		let timeDifferenceDataset = [];
 
-    return {
-      limit: limit,
-      grouping: grouping,
-      name: `Block time differences in last ${limit} blocks`,
-      data: dataset
-    }
-  }
+		let averagesDataset = [];
 
-  /**
-   * Gets Transaction data per block dataset
-   * The dataset in use for Chart.
-   * @param limit - number of the block.
-   * @param grouping - grouping block for calculation
-   * @returns transaction data per block dataset.
-   */
-  static getTransactionPerBlockData = async (limit, grouping) => {
-    const latestHeight = await ChainService.getBlockchainHeight()
-    let fromBlock = latestHeight - limit
-    let blockList = []
+		for (let i = 0; i < timestamps.length - 1; ++i) {
+			let height = heights[i];
 
-    while (blockList.length < limit) {
-      let startFromBlock = fromBlock + blockList.length
-      let numberOfBlock = limit - blockList.length
-      let blocks = await BlockService.getBlocksByHeightWithLimit(startFromBlock, numberOfBlock)
-      blockList.unshift(...blocks)
-    }
+			let difference = timestamps[i] / 1000;
 
-    const heights = blockList.map(data => Number(data.height))
-    let numTransactions = blockList.map(data => data.transactions)
+			let average = averages[i] / 1000;
 
-    let averages = []
-    let sum = 0
-    for (let i = 0; i < grouping; ++i)
-      sum += numTransactions[i]
+			timeDifferenceDataset.push([height, difference.toFixed(2)]);
+			averagesDataset.push([height, average.toFixed(2) === 'NaN' ? null : average.toFixed(2)]);
+		}
 
-    for (let i = grouping; i < numTransactions.length; ++i) {
-      averages.push(sum / grouping)
-      sum -= numTransactions[i - grouping]
-      sum += numTransactions[i]
-    }
-    averages.push(0)
+		const sliceTimeDifferenceDataset = timeDifferenceDataset.slice(0, timeDifferenceDataset.length - grouping);
+		const sliceAveragesDataset = averagesDataset.slice(0, averagesDataset.length - grouping);
 
-    let numTransactionsPerBlockDataset = []
-    let averagesDataset = []
-    for (let i = 0; i < numTransactions.length - 1; ++i) {
-      numTransactionsPerBlockDataset.push([heights[i], numTransactions[i]])
-      averagesDataset.push([heights[i], Math.floor(averages[i])])
-    }
+		let dataset = [
+			{
+				name: 'Time Difference (in seconds)',
+				data: sliceTimeDifferenceDataset
+			},
+			{
+				name: `Average Time Difference (per ${grouping} blocks)`,
+				data: sliceAveragesDataset
+			}
+		];
 
-    let dataset = [
-      {
-        name: 'Number of transactions',
-        data: numTransactionsPerBlockDataset
-      },
-      {
-        name: `Average number of transaction (per ${grouping} blocks)`,
-        data: averagesDataset
-      }
-    ]
+		return {
+			limit: sliceTimeDifferenceDataset.length + 1,
+			grouping: grouping,
+			name: `Block time differences in last ${sliceTimeDifferenceDataset.length + 1} blocks`,
+			data: dataset
+		};
+	}
 
-    return {
-      limit: limit,
-      grouping: grouping,
-      name: `Transaction per block in last ${limit} blocks`,
-      data: dataset
-    }
-  }
+	/**
+	 * Gets Transaction data per block dataset
+	 * The dataset in use for Chart.
+	 * @param blocks - streamer blocks []
+	 * @param limit - number of the block.
+	 * @param grouping - grouping block for calculation
+	 * @returns transaction data per block dataset.
+	 */
+	static getTransactionPerBlockData = (blocks, grouping) => {
+		const heights = blocks.map(data => Number(data.height));
+
+		let numTransactions = blocks.map(data => data.transactions);
+
+		let averages = [];
+
+		let sum = 0;
+
+		for (let i = 0; i < grouping; ++i)
+			sum += numTransactions[i];
+
+		for (let i = grouping; i < numTransactions.length; ++i) {
+			averages.push(sum / grouping);
+			sum -= numTransactions[i - grouping];
+			sum += numTransactions[i];
+		}
+		averages.push(0);
+
+		let numTransactionsPerBlockDataset = [];
+
+		let averagesDataset = [];
+
+		for (let i = 0; i < numTransactions.length - 1; ++i) {
+			numTransactionsPerBlockDataset.push([heights[i], numTransactions[i]]);
+			averagesDataset.push([heights[i], averages[i] === undefined ? 0 : averages[i].toFixed(2)]);
+		}
+
+		const sliceNumTransactionsPerBlockDataset = numTransactionsPerBlockDataset.slice(0, numTransactionsPerBlockDataset.length - grouping);
+		const sliceAveragesDataset = averagesDataset.slice(0, averagesDataset.length - grouping);
+
+		let dataset = [
+			{
+				name: 'Number of transactions',
+				data: sliceNumTransactionsPerBlockDataset
+			},
+			{
+				name: `Average number of transaction (per ${grouping} blocks)`,
+				data: sliceAveragesDataset
+			}
+		];
+
+		return {
+			limit: sliceNumTransactionsPerBlockDataset.length + 1,
+			grouping: grouping,
+			name: `Transaction per block in last ${sliceNumTransactionsPerBlockDataset.length + 1} blocks`,
+			data: dataset
+		};
+	}
+
+	static getNodeCountSeries = async () => {
+		const data = await StatisticService.fetchFromStatisticsService('/timeSeries/nodeCount');
+		const chartData = StatisticService.formatChartData(data, ['1', '2', '3', '4', '5', '6', '7', 'total']);
+
+		return chartData.map(el => ({ ...el, name: Constants.RoleType[el.name] || el.name }));
+	}
+
+	static fetchFromStatisticsService = async (route) => {
+		if (this.isUrlProvided())
+			return (await Axios.get(globalConfig.endpoints.statisticsService + route)).data;
+
+		else
+			throw Error('Statistics service endpoint is not provided');
+	}
+
+	static formatChartData = (data, includeKeys) => {
+		const aggreagatedData = {};
+		const isKeyIncluded = key => !includeKeys || includeKeys.includes(key);
+
+		let chartData = [];
+
+		data.forEach((doc) => {
+			Object.keys(doc.values).forEach((name) => {
+				if (!aggreagatedData[name] && isKeyIncluded(name)) {
+					aggreagatedData[name] = {
+						data: []
+					};
+				}
+
+				if (isKeyIncluded(name)) {
+					aggreagatedData[name].data.push({
+						x: doc.date,
+						y: doc.values[name]
+					});
+				}
+			});
+		});
+
+		chartData = Object.keys(aggreagatedData).map(name => ({
+			name,
+			data: aggreagatedData[name].data
+		}));
+
+		return chartData;
+	}
+
+	static isUrlProvided() {
+		try {
+			new URL(globalConfig?.endpoints?.statisticsService); // eslint-disable-line no-new
+			return true;
+		}
+		catch (e) {
+			return false;
+		}
+	}
 }
 
-export default StatisticService
+export default StatisticService;

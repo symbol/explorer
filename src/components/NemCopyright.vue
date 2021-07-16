@@ -17,21 +17,31 @@
  */
 
 <template>
-  <div class="row">
-    <div class="col-md-12 d-flex justify-content-center">
-        <div class="ftr_btm">
-        <span>NEM.io Foundation 2019</span>
-        <span>|</span>
-        <span>All Rights Reserved</span>
-        <span>|</span>
-        <span>
-          <a href="/terms">Terms</a> &
-          <a href="/privacy">Privacy</a>
-        </span>
-      </div>
-    </div>
-  </div>
+	<div class="row">
+		<div class="col-md-12 d-flex justify-content-center">
+			<div class="ftr_btm">
+				<span> © NSL {{ currentYear }}</span>
+				<span>|</span>
+				<span>All Rights Reserved</span>
+				<span>|</span>
+				<span>
+					<a href="/terms">Terms</a> &
+					<a href="/privacy">Privacy</a>
+				</span>
+			</div>
+		</div>
+	</div>
 </template>
+
+<script>
+export default {
+	computed: {
+		currentYear() {
+			return new Date().getFullYear();
+		}
+	}
+};
+</script>
 
 <style lang="scss" scoped>
 span {

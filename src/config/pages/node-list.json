@@ -1,0 +1,58 @@
+{
+	"path": "/nodes",
+	"name": "nodes",
+	"meta": {
+		"group": "list-page",
+		"keepAliveGoTo": ["detail-page"]
+	},
+	"props": {
+		"layout": "flex",
+		"storeNamespaces": ["node"],
+		"schema": [
+			{
+				"type": "NodeStatsWidget",
+				"managerGetter": "node/nodeStats",
+				"hideDependOnGetter": "node/nodeStats"
+			},
+			{
+				"layoutOptions": "full-width",
+				"type": "NodesMapWidget",
+				"title": "nodesTitle",
+				"height": 500,
+				"maxWidth": 1500,
+				"zoom": 2,
+				"minZoom": 2,
+				"showPopup": true,
+				"managerGetter": "node/timeline",
+				"hideDependOnGetter": "node/hostInfoManager",
+				"errorMessage": "Failed to fetch node list",
+				"hasFilter": true
+			},
+			{
+				"layoutOptions": "full-width",
+				"type": "CardTable",
+				"title": "nodesTitle",
+				"managerGetter": "node/timeline",
+				"errorMessage": "Failed to fetch node list",
+				"pagination": "client",
+				"pageSize": 1000,
+				"hasFilter": true,
+				"fields": [
+					"index",
+					"host",
+					"friendlyName",
+					"roles",
+					"nodePublicKey",
+					"chainInfo",
+					"softwareVersion",
+					"rewardPrograms"
+				],
+				"mobileFields": [
+					"host",
+					"friendlyName",
+					"nodePublicKey"
+				]
+			}
+		]
+	}
+}
