@@ -118,7 +118,7 @@ export default {
 
 <style lang="scss" scoped>
 .ex-item {
-    border-left: 4px solid #904d9c;
+    border-left: 4px solid $grit-color;
     padding: 1px 10px;
     margin-bottom: 15px;
 

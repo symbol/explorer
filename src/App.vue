@@ -83,6 +83,9 @@ html, body, #fullheight {
     display: flex;
     justify-content: space-between;
     flex-direction: column;
+    background-image: url('styles/grit-images/background.png');
+    background-size: cover;
+    overflow: auto;
 }
 
 .app-content {

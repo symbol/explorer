@@ -4,8 +4,8 @@ $primary: $primary-color;
 $secondary: $secondary-color;
 $info: $secondary-color;
 $danger: $red-color;
-$pink: $pink-color;
-$blue: $blue-color;
+$pink: $grit-color;
+$blue: $grit-color;
 $green: $green-color;
 $orange: $orange-color;
 $dark-white: $dark-white-color;
@@ -38,7 +38,7 @@ $theme-colors: map-merge(
         'success': $green,
         'info': $info,
         'warning': $orange,
-        'title': $pink
+        'title': $blue
     ),
     $theme-colors
 );
@@ -62,6 +62,8 @@ body {
 a {
     font-weight: 600;
 }
+//
+
 
 // a {
 //     color: var(--secondary);

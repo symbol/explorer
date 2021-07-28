@@ -1,6 +1,6 @@
 {
     "langName": "ja",
-    "errorNisAddressNotAllowed": "You entered a NEM NIS1 address in the Symbol Explorer. Please use NEM Explorer instead.",
+    "errorNisAddressNotAllowed": "You entered a NEM NIS1 address in the GRIT Explorer. Please use NEM Explorer instead.",
     "errorNothingFound": "Nothing found.",
     "age": "作成",
     "aliasAction": "エイリアスアクション",
@@ -96,7 +96,7 @@
     "type": "タイプ",
     "valueSizeDelta": "値サイズ増減値",
     "feeMultiplier": "手数料乗数",
-    "blockchainExplorerTitle": "Symbol ブロックチェーンエクスプローラ",
+    "blockchainExplorerTitle": "GRIT ブロックチェーンエクスプローラ",
     "searchBoxTitle": "ネットワーク上のトランザクション/アドレス/ネームスペース/モザイクを検索",
     "searchBoxPlaceholder": "ブロック / TXハッシュ / アドレス / モザイクID / ネームスペースID を検索",
     "nodes": "ノード",
@@ -388,7 +388,7 @@
 	"viewMoreStatistics": "View More Statistics",
     "nodeCountChartTitle": "Node count over time",
     "timestamp": "Timestamp",
-    "symbolTime": "Symbol Time",
+    "symbolTime": "GRIT Time",
     "restVersion": "Rest Version",
     "softwareVersion": "Version",
 
@@ -401,7 +401,7 @@
     "id": "ID",
     "retriesLeft": "Retries Left",
     "signerPublicKey": "Signer Public Key",
-    
+
     "remote": "Remote",
     "main": "Main",
     "linkedAddress": "Linked",

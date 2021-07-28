@@ -1,6 +1,6 @@
 {
     "langName": "Russian",
-    "errorNisAddressNotAllowed": "You entered a NEM NIS1 address in the Symbol Explorer. Please use NEM Explorer instead.",
+    "errorNisAddressNotAllowed": "You entered a NEM NIS1 address in the GRIT Explorer. Please use NEM Explorer instead.",
     "errorNothingFound": "Nothing found.",
     "age": "Возраст",
     "aliasAction": "Действие Псевдонима",
@@ -96,8 +96,8 @@
     "type": "Тип",
     "valueSizeDelta": "Важность Размер Дельта",
     "feeMultiplier": "Мультипликатор Комиссии",
-    "blockchainExplorerTitle": "Блокчейн Эксплорер Symbol",
-    "searchBoxTitle": "Поиск транзакций, адресов, пространств имен и мозаик в сети Symbol.",
+    "blockchainExplorerTitle": "Блокчейн Эксплорер GRIT",
+    "searchBoxTitle": "Поиск транзакций, адресов, пространств имен и мозаик в сети GRIT.",
     "searchBoxPlaceholder": "Поиск Блока / транзакционный хэш / аккаунт / идентификатор мозаики / идентификатор пространства имен",
     "nodes": "Узлы",
     "home": "Домашняя",
@@ -384,7 +384,7 @@
 	"viewMoreStatistics": "View More Statistics",
     "nodeCountChartTitle": "Node count over time",
     "timestamp": "Timestamp",
-    "symbolTime": "Symbol Time",
+    "symbolTime": "GRIT Time",
     "restVersion": "Rest Version",
     "softwareVersion": "Version",
 
@@ -397,7 +397,7 @@
     "id": "ID",
     "retriesLeft": "Retries Left",
     "signerPublicKey": "Signer Public Key",
-    
+
     "remote": "Remote",
     "main": "Main",
     "linkedAddress": "Linked",

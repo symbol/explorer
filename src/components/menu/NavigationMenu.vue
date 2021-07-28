@@ -81,13 +81,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.testnet-gradient {
-    background: linear-gradient(120deg, rgb(43, 1, 102) 0%, rgb(67, 0, 78) 80%);
-}
+//.testnet-gradient {
+//    background: linear-gradient(120deg, rgb(43, 1, 102) 0%, rgb(67, 0, 78) 80%);
+//}
 
-.mainnet-gradient {
+/*.mainnet-gradient {
     background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
-}
+}*/
 
 .header-gradinet {
     transition: background 0.5s linear;

@@ -14,7 +14,7 @@
 							class="rounds tag"
 							:title="getSymbolRoundsDescription(transaction)"
 						>
-							<img src="../assets/symbol_logo.png" style="height: 14px" title="Symbol" />
+							<img src="../assets/symbol_logo.png" style="height: 14px" title="GRIT" />
 							{{transaction.symbolFromRound}}
 							-
 							{{transaction.symbolToRound}}

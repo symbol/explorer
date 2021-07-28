@@ -1,6 +1,6 @@
 {
     "langName": "es",
-    "errorNisAddressNotAllowed": "You entered a NEM NIS1 address in the Symbol Explorer. Please use NEM Explorer instead.",
+    "errorNisAddressNotAllowed": "You entered a NEM NIS1 address in the GRIT Explorer. Please use NEM Explorer instead.",
     "errorNothingFound": "Nothing found.",
     "age": "Años",
     "aliasAction": "Alias Action",
@@ -96,8 +96,8 @@
     "type": "Type",
     "valueSizeDelta": "Value Size Delta",
     "feeMultiplier": "Fee Multiplier",
-    "blockchainExplorerTitle": "Symbol blockchain explorer",
-    "searchBoxTitle": "Search transactions, addresses, namespaces & mosaics on the Symbol network.",
+    "blockchainExplorerTitle": "GRIT blockchain explorer",
+    "searchBoxTitle": "Search transactions, addresses, namespaces & mosaics on the GRIT network.",
     "searchBoxPlaceholder": "Search block / tx hash / account address / mosaic id / namespace id",
     "nodes": "Nodes",
     "home": "Home",
@@ -384,7 +384,7 @@
 	"viewMoreStatistics": "View More Statistics",
     "nodeCountChartTitle": "Node count over time",
     "timestamp": "Timestamp",
-    "symbolTime": "Symbol Time",
+    "symbolTime": "GRIT Time",
     "restVersion": "Rest Version",
     "softwareVersion": "Version",
 
@@ -397,7 +397,7 @@
     "id": "ID",
     "retriesLeft": "Retries Left",
     "signerPublicKey": "Signer Public Key",
-    
+
     "remote": "Remote",
     "main": "Main",
     "linkedAddress": "Linked",

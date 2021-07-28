@@ -76,11 +76,11 @@ export default {
 }
 
 .validation-log-and {
-    color: $pink-color;
+    color: $grit-color;
 }
 
 .validation-log-or {
-    color: $pink-color;
+    color: $grit-color;
 }
 
 .no-wrap {

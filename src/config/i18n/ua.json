@@ -1,6 +1,6 @@
 {
     "langName": "Ukrainian",
-    "errorNisAddressNotAllowed": "You entered a NEM NIS1 address in the Symbol Explorer. Please use NEM Explorer instead.",
+    "errorNisAddressNotAllowed": "You entered a NEM NIS1 address in the GRIT Explorer. Please use NEM Explorer instead.",
     "errorNothingFound": "Nothing found.",
     "age": "Вік",
     "aliasAction": "Дія псевдоніму",
@@ -384,7 +384,7 @@
 	"viewMoreStatistics": "View More Statistics",
     "nodeCountChartTitle": "Node count over time",
     "timestamp": "Timestamp",
-    "symbolTime": "Symbol Time",
+    "symbolTime": "GRIT Time",
     "restVersion": "Rest Version",
     "softwareVersion": "Version",
 
@@ -397,7 +397,7 @@
     "id": "ID",
     "retriesLeft": "Retries Left",
     "signerPublicKey": "Signer Public Key",
-    
+
     "remote": "Remote",
     "main": "Main",
     "linkedAddress": "Linked",

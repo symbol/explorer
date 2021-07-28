@@ -113,7 +113,7 @@ export default {
 
 .blue-gradinet::before {
     content: '';
-    background-image: url(../../styles/img/logo_bkg.png);
+    // background-image: url(../../styles/img/logo_bkg.png);
     position: absolute;
     z-index: 0;
     top: 0;

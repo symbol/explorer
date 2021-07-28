@@ -5,8 +5,8 @@
 				<b-row>
 					<b-col md="3" class="header-left">
 						<router-link to="/" class="d-none d-md-block">
-							<img v-if="isTestnet" src="../../styles/img/symbol_logo_white_testnet.png" class="header-logo"/>
-							<img v-else src="../../styles/img/symbol_logo_white_aw.png" class="header-logo"/>
+							<img v-if="isTestnet" src="../../styles/grit-images/grit-network-white-text.svg" class="header-logo"/>
+							<img v-else src="../../styles/grit-images/grit-network-white-text.svg" class="header-logo"/>
 						</router-link>
 					</b-col>
 					<b-col md="6" class="header-center">
@@ -70,13 +70,13 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.mainnet-gradient {
-    background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
-}
+//.mainnet-gradient {
+//    background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
+//}
 
-.testnet-gradient {
-    background: linear-gradient(120deg, rgb(43, 1, 102) 0%, rgb(67, 0, 78) 80%);
-}
+//.testnet-gradient {
+//    background: linear-gradient(120deg, rgb(43, 1, 102) 0%, rgb(67, 0, 78) 80%);
+//}
 
 .header-gradinet {
     background-size: 100% auto;
@@ -85,7 +85,7 @@ export default {
 
 .header-gradinet::before {
     content: '';
-    background-image: url(../../styles/img/logo_bkg.png);
+    //background-image: url(../../styles/img/logo_bkg.png);
     position: absolute;
     z-index: 0;
     top: 0;

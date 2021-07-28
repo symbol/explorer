@@ -22,26 +22,10 @@
 			<div class="width-limiter">
 				<b-container fluid>
 					<b-row class="footer-row mx-0 mx-md-4 mx-lg-4 px-lg-4">
-						<NemDescription class="footer-description"/>
-						<b-col sm="12" lg="4">
-							<ul class="social-icon">
-								<li
-									v-for="item in items"
-									:key="item.text"
-									class="social-icon-item"
-								>
-									<a target="_blank" :href="item.href">
-										<component :is="item.icon" />
-										<span>{{item.text}}</span>
-									</a>
-								</li>
-							</ul>
-						</b-col>
-						<b-col lg="4" class="vertical-center">
-							<NodeSelector class="horisontal-center"/>
+						<b-col lg="12" class="vertical-center">
+							<NodeSelector class="horisontal-center mb-3 mt-3"/>
 						</b-col>
 					</b-row>
-					<NemCopyright />
 				</b-container>
 			</div>
 		</footer>
@@ -49,30 +33,30 @@
 </template>
 
 <script>
-import NemDescription from '@/components/NemDescription.vue';
-import NemCopyright from '@/components/NemCopyright.vue';
+// import NemDescription from '@/components/NemDescription.vue';
+// import NemCopyright from '@/components/NemCopyright.vue';
 import NodeSelector from '@/components/controls/NodeSelector.vue';
 
-import IconGithub from 'vue-material-design-icons/GithubCircle.vue';
-import IconNewspaper from 'vue-material-design-icons/Newspaper.vue';
-import IconReddit from 'vue-material-design-icons/Reddit.vue';
-import IconForum from 'vue-material-design-icons/Forum.vue';
-import IconTelegram from 'vue-material-design-icons/Telegram.vue';
-import IconHomeCurrencyUsd from 'vue-material-design-icons/HomeCurrencyUsd.vue';
+// import IconGithub from 'vue-material-design-icons/GithubCircle.vue';
+// import IconNewspaper from 'vue-material-design-icons/Newspaper.vue';
+// import IconReddit from 'vue-material-design-icons/Reddit.vue';
+// import IconForum from 'vue-material-design-icons/Forum.vue';
+// import IconTelegram from 'vue-material-design-icons/Telegram.vue';
+// import IconHomeCurrencyUsd from 'vue-material-design-icons/HomeCurrencyUsd.vue';
 import globalConfig from '../../config/globalConfig';
 
 export default {
 	components: {
-		NemDescription,
-		NemCopyright,
-		NodeSelector,
+		// NemDescription,
+		// NemCopyright,
+		NodeSelector
 
-		IconGithub,
-		IconNewspaper,
-		IconReddit,
-		IconForum,
-		IconTelegram,
-		IconHomeCurrencyUsd
+		// IconGithub,
+		// IconNewspaper,
+		// IconReddit,
+		// IconForum,
+		// IconTelegram,
+		// IconHomeCurrencyUsd
 	},
 
 	data() {
@@ -90,13 +74,11 @@ export default {
 }
 
 .footer {
-    background: #410078;
-    padding: 50px 0 0;
     width: 100%;
     position: relative;
 
     .footer-row {
-        padding-top: 40px;
+      padding-bottom: 30px;
         // width: 100%;
         // max-width: 1920px;
 
@@ -108,7 +90,6 @@ export default {
 
 .footer::before {
     content: '';
-    background-image: url(../../styles/img/symbol_connector_crop2.jpg);
     position: absolute;
     z-index: 0;
     bottom: 0;
