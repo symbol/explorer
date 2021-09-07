@@ -23,9 +23,10 @@ import {
 	NamespaceId,
 	Address,
 	Mosaic,
-	NodeVersion
+	NodeVersion,
+	UInt64
 } from 'symbol-sdk';
-import { NamespaceService, MosaicService } from './infrastructure';
+import { NamespaceService, MosaicService, ReceiptService } from './infrastructure';
 import http from './infrastructure/http';
 import moment from 'moment';
 
@@ -426,14 +427,26 @@ class helper {
 	/**
 	 * Get plain address from unResolvedAddress Object
 	 * @param unResolvedAddress - NamespaceId | Address
+	 * @param blockHeight - Block height
 	 * @returns plain address - example : SB3KUBHATFCPV7UZQLWAQ2EUR6SIHBSBEOEDDDF3
 	 */
-	static resolvedAddress = async (unResolvedAddress) => {
+	static resolvedAddress = async (unResolvedAddress, blockHeight) => {
+		if (!blockHeight) throw new Error('It required Block height.');
 		if (!(unResolvedAddress instanceof NamespaceId)) return unResolvedAddress.address;
 
-		const address = await NamespaceService.getLinkedAddress(unResolvedAddress);
+		const searchCriteria = {
+			height: UInt64.fromUint(blockHeight)
+		};
 
-		return address.plain();
+		const namespaceHex = unResolvedAddress.id.toHex();
+
+		const addressResolutionStatements = await ReceiptService.searchAddressResolutionStatements(searchCriteria);
+
+		const address = addressResolutionStatements.data.find(item => item.unresolved === namespaceHex && item.resolutionType === 'Address')?.addressResolutionEntries[0];
+
+		if (!address) throw new Error('Failed to resolved address');
+
+		return address;
 	}
 
 	/**
