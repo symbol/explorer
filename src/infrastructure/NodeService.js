@@ -114,7 +114,7 @@ class NodeService {
             nodeInfo.roles === 3 ||
             nodeInfo.roles === 6 ||
             nodeInfo.roles === 7
-            	? 'http://' + nodeInfo.host + ':' + (globalConfig.apiNodePort || 3000)
+            	? 'https://' + nodeInfo.host + ':' + (globalConfig.apiNodePort || 3001)
             	: Constants.Message.UNAVAILABLE
     })
 
@@ -195,6 +195,10 @@ class NodeService {
             formattedNode.rolesRaw === 6 ||
             formattedNode.rolesRaw === 7
     	) {
+    		// If https not working, it will replace to http with port 3000
+    		if (!(await this.isHttpsEnabled(formattedNode.apiEndpoint)))
+    			formattedNode.apiEndpoint = formattedNode.apiEndpoint.replace('https', 'http').replace(':3001', ':3000');
+
     		const status = await this.getApiNodeStatus(formattedNode.apiEndpoint);
 
     		formattedNode.apiStatus = status;
@@ -413,6 +417,16 @@ class NodeService {
 		}));
 
 		return helper.convertArrayToCSV(formattedData);
+	}
+
+	static isHttpsEnabled = async (apiEndpoint) => {
+		try {
+			await Axios.get(apiEndpoint + '/node/info', { timeout: 3000 });
+			return true;
+		}
+		catch (e) {
+			return false;
+		}
 	}
 }
 
