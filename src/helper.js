@@ -125,11 +125,11 @@ class helper {
 			return url;
 	}
 
-	static httpToWsUrl(str) {
+	static httpToWssUrl(str) {
 		let url = new Url(str);
 
 		if (this.validURL(url)) {
-			url.set('protocol', 'ws:');
+			url.set('protocol', 'wss:');
 			return url;
 		}
 	}

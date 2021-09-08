@@ -34,7 +34,7 @@ export default {
 		nodes: [...globalConfig.peersApi.nodes],
 		defaultNode: helper.parseUrl(globalConfig.peersApi.defaultNode),
 		currentNode: localStorage.getItem('currentNode') ? helper.parseUrl(localStorage.getItem('currentNode')) : helper.parseUrl(globalConfig.peersApi.defaultNode),
-		wsEndpoint: localStorage.getItem('currentNode') || globalConfig.peersApi.defaultNode |> helper.httpToWsUrl,
+		wssEndpoint: localStorage.getItem('currentNode') || globalConfig.peersApi.defaultNode |> helper.httpToWssUrl,
 		marketData: helper.parseUrl(globalConfig.endpoints.marketData),
 		networkType: globalConfig.networkConfig.networkIdentifier
 	},
@@ -47,7 +47,7 @@ export default {
 				: [],
 		currentNode: state => state.currentNode.origin,
 		currentNodeHostname: state => state.currentNode.hostname,
-		wsEndpoint: state => state.wsEndpoint.origin,
+		wssEndpoint: state => state.wssEndpoint.origin,
 		marketData: state => state.marketData.origin,
 		isTestnet: state => state.networkType === sdk.NetworkType.TEST_NET
 	},
@@ -60,12 +60,12 @@ export default {
 		currentNode: (state, payload) => {
 			if (undefined !== payload) {
 				const currentNode = helper.parseUrl(payload);
-				const wsEndpoint = currentNode.origin |> helper.httpToWsUrl;
+				const wssEndpoint = currentNode.origin |> helper.httpToWssUrl;
 
 				localStorage.setItem('currentNode', currentNode);
 
 				Vue.set(state, 'currentNode', currentNode);
-				Vue.set(state, 'wsEndpoint', wsEndpoint);
+				Vue.set(state, 'wssEndpoint', wssEndpoint);
 			}
 		},
 		setNodes: (state, nodes) => {
