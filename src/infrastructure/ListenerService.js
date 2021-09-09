@@ -27,7 +27,7 @@ class ListenerService {
    */
   static subscribeNewBlock = async (onAdd, wssEndpoint) => {
   	const namespaceRepository = http.createRepositoryFactory.createNamespaceRepository();
-  	const customWssEndpoint = `${wssEndpoint}/wss`;
+  	const customWssEndpoint = `${wssEndpoint}/ws`;
 
   	const listener = new Listener(customWssEndpoint, namespaceRepository, WebSocket);
 
