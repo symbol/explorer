@@ -1,21 +1,21 @@
 {
 	"peersApi": {
-		"defaultNode": "https://ngl-dual-001.testnet.symboldev.network:3000",
+		"defaultNode": "https://ngl-dual-001.testnet.symboldev.network:3001",
 		"nodes": [
-			"https://ngl-dual-001.testnet.symboldev.network:3000",
-			"https://ngl-dual-101.testnet.symboldev.network:3000",
-			"https://ngl-dual-201.testnet.symboldev.network:3000",
-			"https://ngl-dual-301.testnet.symboldev.network:3000",
-			"https://ngl-dual-401.testnet.symboldev.network:3000",
-			"https://ngl-dual-501.testnet.symboldev.network:3000",
-			"https://ngl-dual-601.testnet.symboldev.network:3000"
+			"https://ngl-dual-001.testnet.symboldev.network:3001",
+			"https://ngl-dual-101.testnet.symboldev.network:3001",
+			"https://ngl-dual-201.testnet.symboldev.network:3001",
+			"https://ngl-dual-301.testnet.symboldev.network:3001",
+			"https://ngl-dual-401.testnet.symboldev.network:3001",
+			"https://ngl-dual-501.testnet.symboldev.network:3001",
+			"https://ngl-dual-601.testnet.symboldev.network:3001"
 		]
 	},
 	"apiNodePort": 3001,
 	"endpoints": {
 		"marketData": "https://min-api.cryptocompare.com/",
 		"statisticsService": "https://ngl-beacon-001.testnet.symboldev.network:4001",
-		"nodeRewardsController": "http://node-monitoring.testnet.symboldev.network:7890"
+		"nodeRewardsController": "https://node-monitoring.testnet.symboldev.network:7890"
 	},
 	"networkConfig": {
 		"namespaceName": "symbol.xym",
