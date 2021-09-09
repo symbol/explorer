@@ -195,17 +195,20 @@ class NodeService {
             formattedNode.rolesRaw === 6 ||
             formattedNode.rolesRaw === 7
     	) {
-    		// If https not working, it will replace to http with port 3000
-    		if (!(await this.isHttpsEnabled(formattedNode.apiEndpoint)))
-    			formattedNode.apiEndpoint = formattedNode.apiEndpoint.replace('https', 'http').replace(':3001', ':3000');
-
-    		const status = await this.getApiNodeStatus(formattedNode.apiEndpoint);
+    		const [status, chainInfo] = await Promise.all([
+    			this.getApiNodeStatus(formattedNode.apiEndpoint),
+    			this.getNodeChainInfo(formattedNode.apiEndpoint)
+    		]);
 
     		formattedNode.apiStatus = status;
-
-    		const chainInfo = await this.getNodeChainInfo(formattedNode.apiEndpoint);
-
     		formattedNode.chainInfo = chainInfo;
+
+    		// If https not working, it will replace to http with port 3000
+    		if (Object.keys(chainInfo).length === 0) {
+    			formattedNode.apiStatus = {};
+    			formattedNode.chainInfo = {};
+    			formattedNode.apiEndpoint = formattedNode.apiEndpoint.replace('https', 'http').replace(':3001', ':3000');
+    		}
     	}
     	if (formattedNode?.peerStatus)
     		formattedNode.peerStatus.lastStatusCheck = moment(formattedNode.peerStatus.lastStatusCheck).format('YYYY-MM-DD HH:mm:ss');
@@ -221,7 +224,7 @@ class NodeService {
     	};
 
     	try {
-    		const nodeStatus = (await Axios.get(nodeUrl + '/node/health')).data.status;
+    		const nodeStatus = (await Axios.get(nodeUrl + '/node/health', { timeout: 3000 })).data.status;
 
     		status.connectionStatus = true;
     		status.apiNodeStatus = nodeStatus.apiNode === 'up';
@@ -240,7 +243,7 @@ class NodeService {
 
     	try {
     		chainInfo = {};
-    		const nodeChainInfo = (await Axios.get(nodeUrl + '/chain/info')).data;
+    		const nodeChainInfo = (await Axios.get(nodeUrl + '/chain/info', { timeout: 3000 })).data;
 
     		chainInfo.height = nodeChainInfo.height;
     		chainInfo.scoreHigh = nodeChainInfo.scoreHigh;
@@ -417,16 +420,6 @@ class NodeService {
 		}));
 
 		return helper.convertArrayToCSV(formattedData);
-	}
-
-	static isHttpsEnabled = async (apiEndpoint) => {
-		try {
-			await Axios.get(apiEndpoint + '/node/info', { timeout: 3000 });
-			return true;
-		}
-		catch (e) {
-			return false;
-		}
 	}
 }
 
