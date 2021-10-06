@@ -31,7 +31,7 @@
     "moment-timezone": "^0.5.28",
     "nem-sdk": "^1.6.8",
     "symbol-sdk": "^1.0.1",
-    "url-parse": "^1.5.1",
+    "url-parse": "^1.5.2",
     "utf8": "^3.0.0",
     "vue": "^2.6.11",
     "vue-apexcharts": "^1.6.0",
