@@ -404,5 +404,6 @@
     "linkedAddress": "Linked",
     "nodeAddress": "Node",
     "vrfAddress": "VRF",
-    "exportCSV": "Export CSV"
+    "exportCSV": "Export CSV",
+    "isHttpsEnabled": "Https"
 }
