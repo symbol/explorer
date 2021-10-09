@@ -28,6 +28,8 @@ import {
 import { NamespaceService, MosaicService } from './infrastructure';
 import http from './infrastructure/http';
 import moment from 'moment';
+import globalConfig from './config/globalConfig';
+
 
 const Url = require('url-parse');
 
@@ -645,6 +647,10 @@ class helper {
 	 */
 	static getStartListIndex = (pageNumber, pageSize) => {
 		return pageNumber === 1 ? 0 : (pageNumber - 1) * pageSize;
+	}
+
+	static formatURLProcotol = (isHttpsEnabled, host) => {
+		return `http${isHttpsEnabled ? 's' : ''}://${host}:${isHttpsEnabled ? globalConfig.apiNodePort : '3000'}`
 	}
 }
 
