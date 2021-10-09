@@ -137,21 +137,24 @@ class NodeService {
                 	.map((el, index) => {
                 		let node = {
                 			index: index + 1,
-                			...el
+							...el,
+							host: `${el.host} ${(el?.apiStatus?.isHttpsEnabled ? '(https)' : '(http)')}`,
                 		};
 
                 		node['softwareVersion'] = { version: el.version };
 
                 		if (el.apiStatus) {
+							const {chainHeight, finalization, lastStatusCheck, restVersion} = el.apiStatus;
+
                 			node['chainInfo'] = {
-                				chainHeight: el.apiStatus.chainHeight,
-                				finalizationHeight: el.apiStatus.finalizationHeight,
-                				lastStatusCheck: el.apiStatus.lastStatusCheck
+                				chainHeight,
+                				finalizationHeight: finalization.height,
+                				lastStatusCheck
                 			};
 
                 			node['softwareVersion'] = {
                 				...node.softwareVersion,
-                				restVersion: el.apiStatus.restVersion
+                				restVersion
                 			};
                 		}
                 		else
