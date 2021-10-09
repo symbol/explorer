@@ -114,7 +114,7 @@ class NodeService {
             nodeInfo.roles === 3 ||
             nodeInfo.roles === 6 ||
             nodeInfo.roles === 7
-            	? 'https://' + nodeInfo.host + ':' + (globalConfig.apiNodePort || 3001)
+            	? helper.formatURLProcotol(nodeInfo.apiStatus.isHttpsEnabled, nodeInfo.host)
             	: Constants.Message.UNAVAILABLE
     })
 
@@ -137,30 +137,30 @@ class NodeService {
                 	.map((el, index) => {
                 		let node = {
                 			index: index + 1,
-							...el,
-							host: `${el.host} ${(el?.apiStatus?.isHttpsEnabled ? '(https)' : '(http)')}`,
+                			...el
                 		};
 
                 		node['softwareVersion'] = { version: el.version };
 
                 		if (el.apiStatus) {
-							const {chainHeight, finalization, lastStatusCheck, restVersion} = el.apiStatus;
+                			const { chainHeight, finalization, lastStatusCheck, restVersion, isHttpsEnabled } = el.apiStatus;
 
                 			node['chainInfo'] = {
                 				chainHeight,
-                				finalizationHeight: finalization.height,
+                				finalizationHeight: finalization?.height,
                 				lastStatusCheck
                 			};
 
                 			node['softwareVersion'] = {
                 				...node.softwareVersion,
-                				restVersion
+                				restVersion,
+                				isHttpsEnabled
                 			};
                 		}
                 		else
                 			node['chainInfo'] = {};
 
-                		if (node.hostDetail) {
+                		if (node?.hostDetail) {
                 			node = { ...node, ...node.hostDetail };
                 			delete node.hostDetail;
                 		}
@@ -198,20 +198,31 @@ class NodeService {
             formattedNode.rolesRaw === 6 ||
             formattedNode.rolesRaw === 7
     	) {
-    		const [status, chainInfo] = await Promise.all([
-    			this.getApiNodeStatus(formattedNode.apiEndpoint),
-    			this.getNodeChainInfo(formattedNode.apiEndpoint)
-    		]);
+    		const { finalization, chainHeight, lastStatusCheck, nodeStatus, isAvailable, isHttpsEnabled, restVersion } = formattedNode.apiStatus;
 
-    		formattedNode.apiStatus = status;
-    		formattedNode.chainInfo = chainInfo;
+    		// // Api status
+    		formattedNode.apiStatus = {
+    			connectionStatus: isAvailable,
+    			databaseStatus: nodeStatus?.db === 'up' || Constants.Message.UNAVAILABLE,
+    			apiNodeStatus: nodeStatus?.apiNode === 'up' || Constants.Message.UNAVAILABLE,
+    			isHttpsEnabled,
+    			restVersion,
+    			lastStatusCheck: moment(moment.utc(lastStatusCheck).format(), 'YYYY-MM-DD HH:mm:ss')
+    		};
 
-    		// If https not working, it will replace to http with port 3000
-    		if (Object.keys(chainInfo).length === 0) {
-    			formattedNode.apiStatus = {};
-    			formattedNode.chainInfo = {};
-    			formattedNode.apiEndpoint = formattedNode.apiEndpoint.replace('https', 'http').replace(':3001', ':3000');
+    		if (finalization && chainHeight) {
+    			// Chain info
+    			formattedNode.chainInfo = {
+    				height: chainHeight,
+    				finalizedHeight: finalization?.height,
+    				finalizationEpoch: finalization?.epoch,
+    				finalizationPoint: finalization?.point,
+    				finalizedHash: finalization?.hash,
+    				lastStatusCheck: moment(moment.utc(lastStatusCheck).format(), 'YYYY-MM-DD HH:mm:ss')
+    			};
     		}
+    		else
+    			formattedNode.chainInfo = {};
     	}
     	if (formattedNode?.peerStatus)
     		formattedNode.peerStatus.lastStatusCheck = moment(formattedNode.peerStatus.lastStatusCheck).format('YYYY-MM-DD HH:mm:ss');
