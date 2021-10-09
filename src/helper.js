@@ -30,7 +30,6 @@ import http from './infrastructure/http';
 import moment from 'moment';
 import globalConfig from './config/globalConfig';
 
-
 const Url = require('url-parse');
 
 const getNetworkTypeAddressFormat = {
@@ -650,7 +649,7 @@ class helper {
 	}
 
 	static formatURLProcotol = (isHttpsEnabled, host) => {
-		return `http${isHttpsEnabled ? 's' : ''}://${host}:${isHttpsEnabled ? globalConfig.apiNodePort : '3000'}`
+		return `http${isHttpsEnabled ? 's' : ''}://${host}:${isHttpsEnabled ? globalConfig.apiNodePort : '3000'}`;
 	}
 }
 
