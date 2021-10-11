@@ -184,8 +184,8 @@
 	"mosaicRestrictionType.NE": "Not Equal",
 	"mosaicRestrictionType.NONE": "No Restriction",
     "proof": "Proof",
-    "minApprovalDelta": "Min. Approval",
-    "minRemovalDelta": "Min Removal",
+    "minApprovalDelta": "Min. Approval Delta",
+    "minRemovalDelta": "Min. Removal Delta",
     "addressAdditions": "Added Cosigner",
     "addressDeletions": "Deleted Cosigner",
     "transactionAwaitingCosignatureTitle": "Transaction awaiting co-signature(s)",
@@ -397,7 +397,7 @@
     "id": "ID",
     "retriesLeft": "Retries Left",
     "signerPublicKey": "Signer Public Key",
-    
+
     "remote": "Remote",
     "main": "Main",
     "linkedAddress": "Linked",
