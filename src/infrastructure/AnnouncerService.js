@@ -43,7 +43,7 @@ class AnnounceService {
     		// const listener = repositoryFactory.createListener()
     		const receiptHttp = repositoryFactory.createReceiptRepository();
     		const transactionHttp = repositoryFactory.createTransactionRepository();
-    		const customWsEndpoint = `${localStorage.getItem('currentNode') || globalConfig.peersApi.defaultNode |> helper.httpToWssUrl}/ws`;
+    		const customWsEndpoint = `${localStorage.getItem('currentNode') |> helper.httpToWsUrl}/ws`;
     		const listener = new Listener(customWsEndpoint, transactionHttp, WebSocket);
     		const transactionService = new TransactionService(transactionHttp, receiptHttp);
 
