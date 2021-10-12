@@ -314,6 +314,23 @@ class NodeService {
 
 		return helper.convertArrayToCSV(formattedData);
 	}
+
+	/**
+     * Get API node list dataset into Vue Component
+     * @returns API Node list object for Vue component
+     */
+	 static getAPINodeList = async () => {
+		const nodeHeightStats = await this.getNodeHeightStats();
+    	let nodePeers = await this.getNodePeers();
+
+		// Get the chain height and finalized height from HeightStats
+		const suggestedChainHeight = nodeHeightStats[0].data.sort((a, b) => b.y - a.y)[0].x;
+		const suggestedFinalizedHeight = nodeHeightStats[1].data.sort((a, b) => b.y - a.y)[0].x;
+
+		const healthyNodes = nodePeers.filter(node => node.apiStatus?.isAvailable && node.apiStatus.chainHeight >= suggestedChainHeight && node.apiStatus.finalizationHeight >= suggestedFinalizedHeight);
+
+    	return healthyNodes
+    }
 }
 
 export default NodeService;
