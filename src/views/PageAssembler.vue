@@ -53,7 +53,6 @@ import RecentBlocksWidget from '@/components/widgets/RecentBlocksWidget.vue';
 import RecentTransactionsWidget from '@/components/widgets/RecentTransactionsWidget.vue';
 import TransactionGraphicWidget from '@/components/widgets/TransactionGraphicWidget.vue';
 import AccountBalanceWidget from '@/components/widgets/AccountBalanceWidget.vue';
-import NodeRewardsClient from '@/components/widgets/NodeRewardsWidget';
 import NodesMapWidget from '@/components/widgets/NodesMapWidget.vue';
 import NodeStatsWidget from '@/components/widgets/NodeStatsWidget.vue';
 
@@ -67,7 +66,6 @@ export default {
 		TransactionGraphicWidget,
 		AccountBalanceWidget,
 		NodesMapWidget,
-		NodeRewardsClient,
 		NodeStatsWidget
 	},
 

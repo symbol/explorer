@@ -67,12 +67,6 @@
 			},
 			{
 				"layoutOptions": "adaptive",
-				"type": "NodeRewardsClient",
-				"managerGetter": "node/nodeRewards",
-				"payoutsManagerGetter": "node/payouts"
-			},
-			{
-				"layoutOptions": "adaptive",
 				"type": "CardTable",
 				"title": "nodeApiStatusTitle",
 				"managerGetter": "node/info",
