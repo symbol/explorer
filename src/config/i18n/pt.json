@@ -252,7 +252,7 @@
     "mosaicRestrictionListTitle": "Mosaic Restriction List",
     "harvestedBlockTitle": "Harvested Blocks",
 
-    "accountDetailError": "This account does not have a public key yet",
+    "accountDetailError": "This address is not yet known to the network.",
     "multisigCosignatoriesError": "Address is not a multisig account.",
     "ownedMosaicsError": "Account owned mosaics are not available.",
     "ownedNamespacesError": "Account owned namespaces are not available.",

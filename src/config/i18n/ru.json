@@ -249,7 +249,7 @@
     "mosaicRestrictionTitle": "Mosaic Restriction",
     "mosaicRestrictionListTitle": "Mosaic Restriction List",
     "harvestedBlockTitle": "Harvested Blocks",
-    "accountDetailError": "У этого аккаунта еще нет публичного ключа",
+    "accountDetailError": "Этот адрес еще не известен сети Symbol.",
     "multisigCosignatoriesError": "Адрес не является мультисиг аккаунтом.",
     "ownedMosaicsError": "Мозаики, принадлежащие аккаунту, недоступны.",
     "ownedNamespacesError": "Принадлежащие аккаунты пространства имен недоступны.",

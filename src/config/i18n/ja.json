@@ -251,7 +251,7 @@
     "mosaicRestrictionListTitle": "モザイク制限リスト",
     "harvestedBlockTitle": "ハーベスト済みブロック",
 
-    "accountDetailError": "アカウントはネットワークに対して不明です。",
+    "accountDetailError": "このアドレスはまだネットワークに認識されていません。",
     "multisigCosignatoriesError": "アドレスはマルチシグアカウントではありません",
     "ownedMosaicsError": "アカウントの保有モザイクは有効ではありません.",
     "ownedNamespacesError": "アカウント保有ネームスペースは有効ではありません。",
@@ -401,7 +401,7 @@
     "id": "ID",
     "retriesLeft": "Retries Left",
     "signerPublicKey": "Signer Public Key",
-    
+
     "remote": "Remote",
     "main": "Main",
     "linkedAddress": "Linked",
