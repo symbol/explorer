@@ -244,6 +244,7 @@
     "mosaicsTitle": "Мозаики",
     "nodesTitle": "Ноды",
     "supplementalKeysTitle": "Дополнительные ключи",
+    "votingKeysTitle": "Ключи Голосования",
     "accountTransactionsTitle": "Транзакции",
     "resolutionStatementTitle": "Отчет Резолюции",
     "mosaicRestrictionTitle": "Mosaic Restriction",
@@ -397,5 +398,7 @@
     "linkedAddress": "Связанные",
     "nodeAddress": "Нода",
     "vrfAddress": "VRF",
-    "exportCSV": "Экспорт CSV"
+    "exportCSV": "Экспорт CSV",
+    "future": "Будущие",
+    "expired": "Просроченные"
 }

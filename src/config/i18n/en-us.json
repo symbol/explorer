@@ -245,6 +245,7 @@
     "nodesTitle": "Nodes",
 
     "supplementalKeysTitle": "Supplemental Keys",
+    "votingKeysTitle": "Voting Keys",
     "accountTransactionsTitle": "Transactions",
     "resolutionStatementTitle": "Resolution Statement",
     "mosaicRestrictionTitle": "Mosaic Restriction",
@@ -407,5 +408,8 @@
     "linkedAddress": "Linked",
     "nodeAddress": "Node",
     "vrfAddress": "VRF",
-    "exportCSV": "Export CSV"
+    "exportCSV": "Export CSV",
+
+    "future": "Future",
+    "expired": "Expired"
 }

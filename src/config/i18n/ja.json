@@ -245,6 +245,7 @@
     "nodesTitle": "ノード",
 
     "supplementalKeysTitle": "Supplementalキー",
+    "votingKeysTitle": "投票キー",
     "accountTransactionsTitle": "トランザクション",
     "resolutionStatementTitle": "解決ステートメント",
     "mosaicRestrictionTitle": "モザイク制限",
@@ -401,11 +402,14 @@
     "id": "ID",
     "retriesLeft": "Retries Left",
     "signerPublicKey": "Signer Public Key",
-    
+
     "remote": "Remote",
     "main": "Main",
     "linkedAddress": "Linked",
     "nodeAddress": "Node",
     "vrfAddress": "VRF",
-    "exportCSV": "Export CSV"
+    "exportCSV": "Export CSV",
+
+    "future": "次回投票キー",
+    "expired": "期限切れ"
 }
