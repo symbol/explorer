@@ -129,11 +129,6 @@ class NodeService {
     		data:
                 nodePeers
                 	.filter(el => !filter.rolesRaw || el.rolesRaw === filter.rolesRaw)
-                	.filter(
-                		el => !filter.rewardProgram ||
-						(el.rewardPrograms?.length && filter.rewardProgram === 'all') ||
-						(el.rewardPrograms && el.rewardPrograms[0]?.name === filter.rewardProgram)
-                	)
                 	.map((el, index) => {
                 		let node = {
                 			index: index + 1,
@@ -274,38 +269,6 @@ class NodeService {
     	return chainInfo;
     }
 
-	static getNodeRewardsInfo = async (publicKey) => {
-		const endpoint = globalConfig.endpoints.nodeRewardsController;
-
-		if (endpoint && endpoint.length) {
-			const nodeInfo = (await Axios.get(`${endpoint}/nodes/mainPublicKey/${publicKey}`)).data;
-
-			if (!nodeInfo)
-				throw Error(`Node doesn't take part in any rewards program`);
-
-			const nodeId = nodeInfo.id;
-			const testResults = (await Axios.get(`${endpoint}/testResults/nodeId/${nodeId}`)).data;
-
-			let testResultInfo;
-
-			if (testResults.length) {
-				const latestRound = testResults[0].round;
-
-				testResultInfo = (await Axios.get(`${endpoint}/testResultInfo/nodeId/${nodeId}/round/${latestRound}`)).data;
-			}
-
-			const nodeRewardsInfo = {
-				nodeInfo,
-				testResults,
-				testResultInfo
-			};
-
-			return nodeRewardsInfo;
-		}
-		else
-			throw Error('nodeRewardsController endpoint is not provided');
-	}
-
 	static getNodeStats = async () => {
 		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length)
 			return (await Axios.get(globalConfig.endpoints.statisticsService + '/nodeStats')).data;
@@ -332,89 +295,6 @@ class NodeService {
 			throw Error('Statistics service endpoint is not provided');
 	}
 
-	static getNodePayouts = async (pageInfo, nodeId, filter, rewardProgram) => {
-		const endpoint = globalConfig.endpoints.nodeRewardsController;
-
-		if (endpoint && endpoint.length) {
-			const params = { pageNumber: pageInfo.pageNumber, nodeId };
-
-			let route = '/payouts';
-
-			switch (rewardProgram) {
-			case 'EarlyAdoption':
-				route = '/payouts/earlyadoption';
-				break;
-			case 'Ecosystem':
-				route = '/payouts/ecosystem';
-				break;
-			case 'SuperNode':
-			default:
-				route = filter === 'voting' ? '/votingPayouts' : '/payouts';
-				break;
-			}
-
-			let isLastPage = true;
-
-			const payoutsPage = (
-				await Axios.get(endpoint + route, { params })
-			).data;
-
-			try {
-				isLastPage = !(
-					await Axios.get(endpoint + route, { params })
-				).data.data.length;
-			}
-			catch (e) {}
-
-			return {
-				data: payoutsPage.data,
-				...payoutsPage.pagination,
-				isLastPage
-			};
-		}
-		else
-			throw Error('nodeRewardsController endpoint is not provided');
-	}
-
-	static getEnrollmentList = async (pageInfo, filterVaule, signerPublicKey) => {
-		const endpoint = globalConfig.endpoints.nodeRewardsController;
-		const { pageNumber, pageSize } = pageInfo;
-		const searchCriteria = {
-			pageNumber,
-			pageSize,
-			order: symbol.Order.Desc,
-			...filterVaule
-		};
-
-		let url = `${endpoint}/enrollments`;
-
-		if (signerPublicKey)
-			url += `/signerPublicKey/${signerPublicKey}`;
-
-		const response = (await Axios.get(url, { params: searchCriteria })).data;
-
-		const data = {
-			...response,
-			...response.pagination,
-			isLastPage: response.data.length < pageSize
-		};
-
-		data.data = data.data.map(el => ({
-			...el,
-			enrollmentId: el.id,
-			agentUrl: el.agentUrl || Constants.Message.UNAVAILABLE
-		}));
-
-		return data;
-	}
-
-	static getEnrollmentInfo = async (id) => {
-		const endpoint = globalConfig.endpoints.nodeRewardsController;
-		const response = (await Axios.get(`${endpoint}/enrollments/${id}`)).data;
-
-		return response;
-	}
-
 	static getNodeListCSV = async (filter) => {
 		const nodes = await this.getNodePeerList(filter);
 
@@ -430,7 +310,6 @@ class NodeService {
 			chainHeight: node.chainInfo.chainHeight,
 			finalizationHeight: node.chainInfo.finalizationHeight,
 			version: node.version,
-			rewardPrograms: node.rewardPrograms.map(program => `${program.name}: ${program.passed ? 'Passed' : 'Fail'}`)
 		}));
 
 		return helper.convertArrayToCSV(formattedData);

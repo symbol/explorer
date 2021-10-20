@@ -14,8 +14,7 @@
 	"apiNodePort": 3001,
 	"endpoints": {
 		"marketData": "https://min-api.cryptocompare.com/",
-		"statisticsService": "https://ngl-beacon-001.testnet.symboldev.network:4001",
-		"nodeRewardsController": "https://node-monitoring.testnet.symboldev.network:7890"
+		"statisticsService": "http://ngl-beacon-001.testnet.symboldev.network:4001"
 	},
 	"networkConfig": {
 		"namespaceName": "symbol.xym",

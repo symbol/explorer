@@ -28,6 +28,8 @@
 					<a href="/terms">Terms</a> &
 					<a href="/privacy">Privacy</a>
 				</span>
+				<span>|</span>
+				<span>v {{ appVersion }}</span>
 			</div>
 		</div>
 	</div>
@@ -38,6 +40,9 @@ export default {
 	computed: {
 		currentYear() {
 			return new Date().getFullYear();
+		},
+		appVersion() {
+			return this.$store.getters['api/appVersion'];
 		}
 	}
 };

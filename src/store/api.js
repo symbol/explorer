@@ -21,6 +21,7 @@ import helper from '../helper';
 import http from '../infrastructure/http';
 import { NodeService } from '../infrastructure';
 import globalConfig from '../config/globalConfig';
+import { version } from '../../package.json';
 import * as sdk from 'symbol-sdk';
 
 const LOCK = Lock.create();
@@ -36,7 +37,8 @@ export default {
 		currentNode: localStorage.getItem('currentNode') ? helper.parseUrl(localStorage.getItem('currentNode')) : helper.parseUrl(globalConfig.peersApi.defaultNode),
 		wssEndpoint: localStorage.getItem('currentNode') || globalConfig.peersApi.defaultNode |> helper.httpToWssUrl,
 		marketData: helper.parseUrl(globalConfig.endpoints.marketData),
-		networkType: globalConfig.networkConfig.networkIdentifier
+		networkType: globalConfig.networkConfig.networkIdentifier,
+		appVersion:  version || '0'
 	},
 
 	getters: {
@@ -49,7 +51,8 @@ export default {
 		currentNodeHostname: state => state.currentNode.hostname,
 		wssEndpoint: state => state.wssEndpoint.origin,
 		marketData: state => state.marketData.origin,
-		isTestnet: state => state.networkType === sdk.NetworkType.TEST_NET
+		isTestnet: state => state.networkType === sdk.NetworkType.TEST_NET,
+		appVersion: state => state.appVersion
 	},
 
 	mutations: {
