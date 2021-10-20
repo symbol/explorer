@@ -32,36 +32,6 @@
 						</div>
 					</b-col>
 				</b-row>
-				<b-row v-if="!!nodePrograms.length" align-h="between" align-v="end" class="ex-ns-group">
-					{{getNameByKey('rewardPrograms')}}
-					<router-link to="/enrollments">
-						<ButtonMore> {{getNameByKey('viewEnrollments')}} </ButtonMore>
-					</router-link>
-				</b-row>
-				<!-- <b-row v-if="nodePrograms.length" align-h="end">
-
-				</b-row> -->
-				<b-row>
-					<b-col
-						v-for="(item, index) in nodePrograms"
-						:key="'' + index + 'nodestats_programs'"
-						xs="2"
-						sm="3"
-						lg="3"
-					>
-						<b-row class="ex-item item-noborder">
-							<img :src="item.icon" class="node-program-icon"/>
-							<b-col>
-								<div class="ex-item-title ex-text-break">
-									{{item.name}}
-								</div>
-								<div class="ex-item-value">
-									{{item.count}}
-								</div>
-							</b-col>
-						</b-row>
-					</b-col>
-				</b-row>
 			</b-container>
 		</template>
 	</Card>
@@ -75,7 +45,6 @@ import IconOrange from '../../styles/img/connector_orange.png';
 import IconBlue from '../../styles/img/connector_blue.png';
 import IconGreen from '../../styles/img/connector_green.png';
 import IconPink from '../../styles/img/connector_pink.png';
-import IconSupernode from '../../styles/img/node_reputation.png';
 
 export default {
 	components: {
@@ -158,22 +127,6 @@ export default {
 					color: 'orange'
 				}
 			];
-		},
-
-		nodePrograms() {
-			const data = this.data?.nodeTypes;
-
-			if (!data)
-				return [];
-
-			return Object
-				.keys(data)
-				.filter((key) => !Number(key))
-				.map(key => ({
-					name: key,
-					count: data[key],
-					icon: IconSupernode
-				}));
 		},
 
 		loading() {
