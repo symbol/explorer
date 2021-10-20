@@ -22,14 +22,14 @@ class ListenerService {
   /**
    * Subscribe to new blocks announced to the chain.
    * @param onAdd - Getters function
-   * @param wsEndpoint - WS endpoint in string format.
+   * @param wssEndpoint - WSS endpoint in string format.
    * @returns Array object [Listener, Subscription]
    */
-  static subscribeNewBlock = async (onAdd, wsEndpoint) => {
+  static subscribeNewBlock = async (onAdd, wssEndpoint) => {
   	const namespaceRepository = http.createRepositoryFactory.createNamespaceRepository();
-  	const customWsEndpoint = `${wsEndpoint}/ws`;
+  	const customWssEndpoint = `${wssEndpoint}/ws`;
 
-  	const listener = new Listener(customWsEndpoint, namespaceRepository, WebSocket);
+  	const listener = new Listener(customWssEndpoint, namespaceRepository, WebSocket);
 
   	await listener.open();
   	let subscription = listener

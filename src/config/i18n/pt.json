@@ -395,7 +395,7 @@
     "nodeAddress": "Node",
     "vrfAddress": "VRF",
     "exportCSV": "Export CSV",
-
     "future": "Future",
-    "expired": "Expired"
+    "expired": "Expired",
+    "isHttpsEnabled": "Https"
 }

@@ -31,7 +31,7 @@
 			<div class="icon">
 				<span class="mdi mdi-api"/>
 			</div>
-			{{value.restVersion}}
+			{{value.restVersion}} {{value.isHttpsEnabled ? '(https)' : ''}}
 		</div>
 	</div>
 </template>

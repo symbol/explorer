@@ -390,5 +390,6 @@
     "vrfAddress": "VRF",
     "exportCSV": "Экспорт CSV",
     "future": "Будущие",
-    "expired": "Просроченные"
+    "expired": "Просроченные",
+    "isHttpsEnabled": "Https"
 }
