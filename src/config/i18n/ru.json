@@ -387,5 +387,6 @@
     "linkedAddress": "Связанные",
     "nodeAddress": "Нода",
     "vrfAddress": "VRF",
-    "exportCSV": "Экспорт CSV"
+    "exportCSV": "Экспорт CSV",
+    "isHttpsEnabled": "Https"
 }

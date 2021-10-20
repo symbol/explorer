@@ -114,7 +114,7 @@ class NodeService {
             nodeInfo.roles === 3 ||
             nodeInfo.roles === 6 ||
             nodeInfo.roles === 7
-            	? 'http://' + nodeInfo.host + ':' + (globalConfig.apiNodePort || 3000)
+            	? helper.formatURLProcotol(nodeInfo.apiStatus.isHttpsEnabled, nodeInfo.host)
             	: Constants.Message.UNAVAILABLE
     })
 
@@ -138,21 +138,24 @@ class NodeService {
                 		node['softwareVersion'] = { version: el.version };
 
                 		if (el.apiStatus) {
+                			const { chainHeight, finalization, lastStatusCheck, restVersion, isHttpsEnabled } = el.apiStatus;
+
                 			node['chainInfo'] = {
-                				chainHeight: el.apiStatus.chainHeight,
-                				finalizationHeight: el.apiStatus.finalizationHeight,
-                				lastStatusCheck: el.apiStatus.lastStatusCheck
+                				chainHeight,
+                				finalizationHeight: finalization?.height,
+                				lastStatusCheck
                 			};
 
                 			node['softwareVersion'] = {
                 				...node.softwareVersion,
-                				restVersion: el.apiStatus.restVersion
+                				restVersion,
+                				isHttpsEnabled
                 			};
                 		}
                 		else
                 			node['chainInfo'] = {};
 
-                		if (node.hostDetail) {
+                		if (node?.hostDetail) {
                 			node = { ...node, ...node.hostDetail };
                 			delete node.hostDetail;
                 		}
@@ -190,13 +193,31 @@ class NodeService {
             formattedNode.rolesRaw === 6 ||
             formattedNode.rolesRaw === 7
     	) {
-    		const status = await this.getApiNodeStatus(formattedNode.apiEndpoint);
+    		const { finalization, chainHeight, lastStatusCheck, nodeStatus, isAvailable, isHttpsEnabled, restVersion } = formattedNode.apiStatus;
 
-    		formattedNode.apiStatus = status;
+    		// // Api status
+    		formattedNode.apiStatus = {
+    			connectionStatus: isAvailable,
+    			databaseStatus: nodeStatus?.db === 'up' || Constants.Message.UNAVAILABLE,
+    			apiNodeStatus: nodeStatus?.apiNode === 'up' || Constants.Message.UNAVAILABLE,
+    			isHttpsEnabled,
+    			restVersion,
+    			lastStatusCheck: moment(moment.utc(lastStatusCheck).format(), 'YYYY-MM-DD HH:mm:ss')
+    		};
 
-    		const chainInfo = await this.getNodeChainInfo(formattedNode.apiEndpoint);
-
-    		formattedNode.chainInfo = chainInfo;
+    		if (finalization && chainHeight) {
+    			// Chain info
+    			formattedNode.chainInfo = {
+    				height: chainHeight,
+    				finalizedHeight: finalization?.height,
+    				finalizationEpoch: finalization?.epoch,
+    				finalizationPoint: finalization?.point,
+    				finalizedHash: finalization?.hash,
+    				lastStatusCheck: moment(moment.utc(lastStatusCheck).format(), 'YYYY-MM-DD HH:mm:ss')
+    			};
+    		}
+    		else
+    			formattedNode.chainInfo = {};
     	}
     	if (formattedNode?.peerStatus)
     		formattedNode.peerStatus.lastStatusCheck = moment(formattedNode.peerStatus.lastStatusCheck).format('YYYY-MM-DD HH:mm:ss');
@@ -212,7 +233,7 @@ class NodeService {
     	};
 
     	try {
-    		const nodeStatus = (await Axios.get(nodeUrl + '/node/health')).data.status;
+    		const nodeStatus = (await Axios.get(nodeUrl + '/node/health', { timeout: 3000 })).data.status;
 
     		status.connectionStatus = true;
     		status.apiNodeStatus = nodeStatus.apiNode === 'up';
@@ -231,7 +252,7 @@ class NodeService {
 
     	try {
     		chainInfo = {};
-    		const nodeChainInfo = (await Axios.get(nodeUrl + '/chain/info')).data;
+    		const nodeChainInfo = (await Axios.get(nodeUrl + '/chain/info', { timeout: 3000 })).data;
 
     		chainInfo.height = nodeChainInfo.height;
     		chainInfo.scoreHigh = nodeChainInfo.scoreHigh;

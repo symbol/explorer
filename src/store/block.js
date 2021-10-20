@@ -145,7 +145,7 @@ export default {
 
 						dispatch('chain/getChainInfo', null, { root: true });
 					},
-					rootGetters['api/wsEndpoint']
+					rootGetters['api/wssEndpoint']
 				);
 
 				commit('setSubscription', subscription);
