@@ -38,7 +38,7 @@ export default {
 		wsEndpoint: localStorage.getItem('currentNode') || globalConfig.peersApi.defaultNode |> helper.httpToWsUrl,
 		marketData: helper.parseUrl(globalConfig.endpoints.marketData),
 		networkType: globalConfig.networkConfig.networkIdentifier,
-		appVersion:  version || '0'
+		appVersion: version || '0'
 	},
 
 	getters: {

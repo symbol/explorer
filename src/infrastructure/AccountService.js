@@ -19,7 +19,7 @@
 import { Address, TransactionType, TransactionGroup, Order, BlockOrderBy, ReceiptType, Mosaic } from 'symbol-sdk';
 import nem from 'nem-sdk';
 import http from './http';
-import { Constants } from '../config';
+import { Constants, i18n } from '../config';
 import { NamespaceService, TransactionService, ChainService, MetadataService, LockService, ReceiptService, MosaicService, BlockService } from '../infrastructure';
 import helper from '../helper';
 
@@ -107,8 +107,11 @@ class AccountService {
 	 * @returns Custom AccountInfo
 	 */
 	static getAccountInfo = async address => {
-		const { supplementalPublicKeys, ...accountInfo } = await this.getAccount(address);
-		const accountNames = await NamespaceService.getAccountsNames([Address.createFromRawAddress(address)]);
+		const [ { supplementalPublicKeys, ...accountInfo }, accountNames, { latestFinalizedBlock } ] = await Promise.all([
+			this.getAccount(address),
+			NamespaceService.getAccountsNames([Address.createFromRawAddress(address)]),
+			ChainService.getChainInfo()
+		]);
 
 		return {
 			...accountInfo,
@@ -122,9 +125,28 @@ class AccountService {
 				...supplementalPublicKeys,
 				linkedAddress: supplementalPublicKeys.linked === Constants.Message.UNAVAILABLE ? supplementalPublicKeys.linked : helper.publicKeyToAddress(supplementalPublicKeys.linked),
 				nodeAddress: supplementalPublicKeys.node === Constants.Message.UNAVAILABLE ? supplementalPublicKeys.node : helper.publicKeyToAddress(supplementalPublicKeys.node),
-				vrfAddress: supplementalPublicKeys.vrf === Constants.Message.UNAVAILABLE ? supplementalPublicKeys.vrf : helper.publicKeyToAddress(supplementalPublicKeys.vrf),
-				voting: supplementalPublicKeys.voting.length > 0 ? supplementalPublicKeys.voting.map(voting => helper.publicKeyToAddress(voting.publicKey)) : []
+				vrfAddress: supplementalPublicKeys.vrf === Constants.Message.UNAVAILABLE ? supplementalPublicKeys.vrf : helper.publicKeyToAddress(supplementalPublicKeys.vrf)
 			},
+			votingList:
+				supplementalPublicKeys.voting.length > 0 ? supplementalPublicKeys.voting.map(voting => {
+					let votingStatus = '';
+
+					if (latestFinalizedBlock.finalizationEpoch >= voting.startEpoch && latestFinalizedBlock.finalizationEpoch <= voting.endEpoch)
+						votingStatus = i18n.getName('active');
+
+					else if (latestFinalizedBlock.finalizationEpoch < voting.startEpoch)
+						votingStatus = i18n.getName('future');
+
+					else if (latestFinalizedBlock.finalizationEpoch > voting.endEpoch)
+						votingStatus = i18n.getName('expired');
+
+					return {
+						...voting,
+						address: helper.publicKeyToAddress(voting.publicKey),
+						publicKey: voting.publicKey,
+						status: votingStatus
+					};
+				}) : [],
 			accountAliasNames: this.extractAccountNamespace(accountInfo, accountNames)
 		};
 	}

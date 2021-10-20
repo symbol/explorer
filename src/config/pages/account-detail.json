@@ -123,8 +123,26 @@
 				"fields": [
 					"linkedAddress",
 					"nodeAddress",
-					"vrfAddress",
-					"voting"
+					"vrfAddress"
+				]
+			},
+			{
+				"layoutOptions": "full-width",
+				"type": "CardTable",
+				"title": "votingKeysTitle",
+				"managerGetter": "account/info",
+				"dataGetter": "account/getVotingKeyList",
+				"pagination": "client",
+				"pageSize": 5,
+				"hideEmptyData": true,
+				"hideOnError": true,
+				"hideDependOnGetter": "account/info",
+				"fields": [
+					"address",
+					"publicKey",
+					"startEpoch",
+					"endEpoch",
+					"status"
 				]
 			},
 			{
