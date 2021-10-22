@@ -309,7 +309,7 @@ class NodeService {
 			nodePublicKey: node.nodePublicKey,
 			chainHeight: node.chainInfo.chainHeight,
 			finalizationHeight: node.chainInfo.finalizationHeight,
-			version: node.version,
+			version: node.version
 		}));
 
 		return helper.convertArrayToCSV(formattedData);

@@ -140,9 +140,7 @@
 				"fields": [
 					"address",
 					"publicKey",
-					"startEpoch",
-					"endEpoch",
-					"status"
+					"epochInfo"
 				]
 			},
 			{

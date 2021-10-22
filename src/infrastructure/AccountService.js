@@ -19,7 +19,7 @@
 import { Address, TransactionType, TransactionGroup, Order, BlockOrderBy, ReceiptType, Mosaic } from 'symbol-sdk';
 import nem from 'nem-sdk';
 import http from './http';
-import { Constants, i18n } from '../config';
+import { Constants } from '../config';
 import { NamespaceService, TransactionService, ChainService, MetadataService, LockService, ReceiptService, MosaicService, BlockService } from '../infrastructure';
 import helper from '../helper';
 
@@ -113,6 +113,21 @@ class AccountService {
 			ChainService.getChainInfo()
 		]);
 
+		const getVotingEpochStatus = (startEpoch, endEpoch) => {
+			let votingStatus = '';
+
+			if (latestFinalizedBlock.finalizationEpoch >= startEpoch && latestFinalizedBlock.finalizationEpoch <= endEpoch)
+				votingStatus = Constants.EpochStatus.CURRENT;
+
+			else if (latestFinalizedBlock.finalizationEpoch < startEpoch)
+				votingStatus = Constants.EpochStatus.FUTURE;
+
+			else if (latestFinalizedBlock.finalizationEpoch > endEpoch)
+				votingStatus = Constants.EpochStatus.EXPIRED;
+
+			return votingStatus;
+		};
+
 		return {
 			...accountInfo,
 			activityBucket: accountInfo.activityBucket.map(activity => ({
@@ -128,24 +143,24 @@ class AccountService {
 				vrfAddress: supplementalPublicKeys.vrf === Constants.Message.UNAVAILABLE ? supplementalPublicKeys.vrf : helper.publicKeyToAddress(supplementalPublicKeys.vrf)
 			},
 			votingList:
-				supplementalPublicKeys.voting.length > 0 ? supplementalPublicKeys.voting.map(voting => {
-					let votingStatus = '';
+				supplementalPublicKeys.voting.length > 0 ? supplementalPublicKeys.voting.map(voting => ({
+					...voting,
+					epochInfo: {
+						epochStart: voting.startEpoch,
+						epochEnd: voting.endEpoch,
+						epochStatus: getVotingEpochStatus(voting.startEpoch, voting.endEpoch)
+					},
+					address: helper.publicKeyToAddress(voting.publicKey),
+					publicKey: voting.publicKey
 
-					if (latestFinalizedBlock.finalizationEpoch >= voting.startEpoch && latestFinalizedBlock.finalizationEpoch <= voting.endEpoch)
-						votingStatus = i18n.getName('active');
-
-					else if (latestFinalizedBlock.finalizationEpoch < voting.startEpoch)
-						votingStatus = i18n.getName('future');
-
-					else if (latestFinalizedBlock.finalizationEpoch > voting.endEpoch)
-						votingStatus = i18n.getName('expired');
-
-					return {
-						...voting,
-						address: helper.publicKeyToAddress(voting.publicKey),
-						publicKey: voting.publicKey,
-						status: votingStatus
+				})).sort((a, b) => {
+					const orderStatus = {
+						[Constants.EpochStatus.CURRENT]: 1,
+						[Constants.EpochStatus.FUTURE]: 2,
+						[Constants.EpochStatus.EXPIRED]: 3
 					};
+
+					return orderStatus[a.epochInfo.epochStatus] - orderStatus[b.epochInfo.epochStatus];
 				}) : [],
 			accountAliasNames: this.extractAccountNamespace(accountInfo, accountNames)
 		};
