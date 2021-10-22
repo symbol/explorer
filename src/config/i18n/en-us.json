@@ -401,5 +401,8 @@
     "exportCSV": "Export CSV",
     "future": "Future",
     "expired": "Expired",
-    "isHttpsEnabled": "Https"
+    "isHttpsEnabled": "Https",
+    "epoch": "Epoch",
+    "epochInfo": "Epoch Info",
+    "current": "Current"
 }

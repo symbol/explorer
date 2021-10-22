@@ -391,5 +391,8 @@
     "exportCSV": "Экспорт CSV",
     "future": "Будущие",
     "expired": "Просроченные",
-    "isHttpsEnabled": "Https"
+    "isHttpsEnabled": "Https",
+    "epoch": "Эпоха",
+    "epochInfo": "Эпоха Информация",
+    "current": "Текущий"
 }
