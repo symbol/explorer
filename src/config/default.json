@@ -26,29 +26,19 @@
 	"footer": {
 		"link": [
 			{
-				"href": "https://nemflash.io/",
-				"text": "NEM News",
+				"href": "https://nem.io",
+				"text": "NEM",
 				"icon": "IconNewspaper"
 			},
 			{
-				"href": "https://forum.nem.io/",
-				"text": "Forum",
-				"icon": "IconForum"
-			},
-			{
-				"href": "https://t.me/nemred",
-				"text": "Telegram",
-				"icon": "IconTelegram"
-			},
-			{
-				"href": "https://www.reddit.com/r/nem/",
-				"text": "Reddit",
-				"icon": "IconReddit"
-			},
-			{
-				"href": "https://github.com/nemtech",
+				"href": "https://github.com/symbol",
 				"text": "Github",
 				"icon": "IconGithub"
+			},
+			{
+				"href": "https://discord.com/invite/xymcity",
+				"text": "Join Discord",
+				"icon": "IconDiscord"
 			},
 			{
 				"href": "http://faucet.testnet.symboldev.network/",
