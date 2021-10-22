@@ -73,7 +73,15 @@
 				"dataGetter": "node/apiStatus",
 				"errorMessage": "nodeDetailError",
 				"pagination": "none",
-				"hideEmptyData": true
+				"hideEmptyData": true,
+				"fields": [
+					"connectionStatus",
+					"databaseStatus",
+					"apiNodeStatus",
+					"isHttpsEnabled",
+					"restVersion",
+					"lastStatusCheck"
+				]
 			},
 			{
 				"layoutOptions": "full-width",

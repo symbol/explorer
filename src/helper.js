@@ -29,6 +29,7 @@ import {
 import { NamespaceService, MosaicService, ReceiptService } from './infrastructure';
 import http from './infrastructure/http';
 import moment from 'moment';
+import globalConfig from './config/globalConfig';
 
 const Url = require('url-parse');
 
@@ -126,11 +127,11 @@ class helper {
 			return url;
 	}
 
-	static httpToWsUrl(str) {
+	static httpToWssUrl(str) {
 		let url = new Url(str);
 
 		if (this.validURL(url)) {
-			url.set('protocol', 'ws:');
+			url.set('protocol', url.port === '3000' ? 'ws:' : 'wss:');
 			return url;
 		}
 	}
@@ -658,6 +659,10 @@ class helper {
 	 */
 	static getStartListIndex = (pageNumber, pageSize) => {
 		return pageNumber === 1 ? 0 : (pageNumber - 1) * pageSize;
+	}
+
+	static formatURLProcotol = (isHttpsEnabled, host) => {
+		return `http${isHttpsEnabled ? 's' : ''}://${host}:${isHttpsEnabled ? globalConfig.apiNodePort : '3000'}`;
 	}
 }
 

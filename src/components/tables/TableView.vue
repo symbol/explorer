@@ -221,6 +221,7 @@ export default {
 				key === 'connectionStatus' ||
                 key === 'apiNodeStatus' ||
 				key === 'databaseStatus' ||
+				key === 'isHttpsEnabled' ||
 				key === 'isAvailable'
 			);
 		},

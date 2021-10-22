@@ -1,17 +1,17 @@
 {
 	"peersApi": {
-		"defaultNode": "http://ngl-dual-001.testnet.symboldev.network:3000",
+		"defaultNode": "https://ngl-dual-001.testnet.symboldev.network:3001",
 		"nodes": [
-			"http://ngl-dual-001.testnet.symboldev.network:3000",
-			"http://ngl-dual-101.testnet.symboldev.network:3000",
-			"http://ngl-dual-201.testnet.symboldev.network:3000",
-			"http://ngl-dual-301.testnet.symboldev.network:3000",
-			"http://ngl-dual-401.testnet.symboldev.network:3000",
-			"http://ngl-dual-501.testnet.symboldev.network:3000",
-			"http://ngl-dual-601.testnet.symboldev.network:3000"
+			"https://ngl-dual-001.testnet.symboldev.network:3001",
+			"https://ngl-dual-101.testnet.symboldev.network:3001",
+			"https://ngl-dual-201.testnet.symboldev.network:3001",
+			"https://ngl-dual-301.testnet.symboldev.network:3001",
+			"https://ngl-dual-401.testnet.symboldev.network:3001",
+			"https://ngl-dual-501.testnet.symboldev.network:3001",
+			"https://ngl-dual-601.testnet.symboldev.network:3001"
 		]
 	},
-	"apiNodePort": 3000,
+	"apiNodePort": 3001,
 	"endpoints": {
 		"marketData": "https://min-api.cryptocompare.com/",
 		"statisticsService": "http://ngl-beacon-001.testnet.symboldev.network:4001"
