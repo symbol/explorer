@@ -34,10 +34,10 @@ export default {
 		initialized: false,
 		nodes: [],
 		currentNode: localStorage.getItem('currentNode') ? helper.parseUrl(localStorage.getItem('currentNode')) : '',
-		wsEndpoint: localStorage.getItem('currentNode') |> helper.httpToWsUrl,
+		wssEndpoint: localStorage.getItem('currentNode') |> helper.httpToWssUrl,
 		marketData: helper.parseUrl(globalConfig.endpoints.marketData),
 		networkType: globalConfig.networkConfig.networkIdentifier,
-		appVersion:  version || '0'
+		appVersion: version || '0'
 	},
 
 	getters: {

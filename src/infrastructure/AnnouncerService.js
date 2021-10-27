@@ -33,7 +33,6 @@ import {
 } from 'symbol-sdk';
 import http from './http';
 import helper from '../helper';
-import globalConfig from '../config/globalConfig';
 
 class AnnounceService {
     static announceHashLock = (signedHashLockTransaction, signedTransaction) => {
