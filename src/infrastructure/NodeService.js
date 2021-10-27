@@ -309,28 +309,47 @@ class NodeService {
 			nodePublicKey: node.nodePublicKey,
 			chainHeight: node.chainInfo.chainHeight,
 			finalizationHeight: node.chainInfo.finalizationHeight,
-			version: node.version,
+			version: node.version
 		}));
 
 		return helper.convertArrayToCSV(formattedData);
 	}
 
 	/**
+     * Gets node list from statistics service
+	 * @param filter (optional) 'preferred | suggested'
+     * @returns nodes[]
+     */
+	 static getNodeList = async (filter) => {
+    	let nodes = [];
+
+    	try {
+    		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
+	 			nodes = (await Axios.get(globalConfig.endpoints.statisticsService + `/nodes`, {
+	 				params: {
+	 					filter
+	 				}
+	 			})).data;
+	 		}
+    		else
+    			throw Error('Statistics service endpoint is not provided');
+    	}
+    	catch (e) {
+    		throw Error('Statistics service endpoint is not provided', e);
+    	}
+
+    	return nodes;
+	 }
+
+	 /**
      * Get API node list dataset into Vue Component
      * @returns API Node list object for Vue component
      */
 	 static getAPINodeList = async () => {
-		const nodeHeightStats = await this.getNodeHeightStats();
-    	let nodePeers = await this.getNodePeers();
+    	const nodes = await this.getNodeList('preferred');
 
-		// Get the chain height and finalized height from HeightStats
-		const suggestedChainHeight = nodeHeightStats[0].data.sort((a, b) => b.y - a.y)[0].x;
-		const suggestedFinalizedHeight = nodeHeightStats[1].data.sort((a, b) => b.y - a.y)[0].x;
-
-		const healthyNodes = nodePeers.filter(node => node.apiStatus?.isAvailable && node.apiStatus.chainHeight >= suggestedChainHeight && node.apiStatus.finalizationHeight >= suggestedFinalizedHeight);
-
-    	return healthyNodes
-    }
+	 	return nodes.map(nodeInfo => this.formatNodeInfo(nodeInfo)).sort((a, b) => a.friendlyName.localeCompare(b.friendlyName));
+	 }
 }
 
 export default NodeService;
