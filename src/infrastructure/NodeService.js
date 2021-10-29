@@ -309,11 +309,49 @@ class NodeService {
 			nodePublicKey: node.nodePublicKey,
 			chainHeight: node.chainInfo.chainHeight,
 			finalizationHeight: node.chainInfo.finalizationHeight,
-			version: node.version,
+			version: node.version
 		}));
 
 		return helper.convertArrayToCSV(formattedData);
 	}
+
+	/**
+     * Gets node list from statistics service
+	 * @param filter (optional) 'preferred | suggested'
+     * @returns nodes[]
+     */
+	 static getNodeList = async (filter, limit = 0) => {
+    	let nodes = [];
+
+    	try {
+    		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
+	 			nodes = (await Axios.get(globalConfig.endpoints.statisticsService + `/nodes`, {
+	 				params: {
+	 					filter,
+						 limit
+	 				}
+	 			})).data;
+	 		}
+    		else
+    			throw Error('Statistics service endpoint is not provided');
+    	}
+    	catch (e) {
+    		throw Error('Statistics service endpoint is not provided', e);
+    	}
+
+    	return nodes;
+	 }
+
+	 /**
+     * Get API node list dataset into Vue Component
+     * @returns API Node list object for Vue component
+     */
+	 static getAPINodeList = async () => {
+		// get 30 nodes from statistics service the list
+    	const nodes = await this.getNodeList('suggested', 30);
+
+	 	return nodes.map(nodeInfo => this.formatNodeInfo(nodeInfo)).sort((a, b) => a.friendlyName.localeCompare(b.friendlyName));
+	 }
 }
 
 export default NodeService;
