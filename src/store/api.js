@@ -123,8 +123,10 @@ export default {
 
 			const currentNode = getters['currentNode'];
 
+			const randomIndex = Math.floor(Math.random() * nodeUrls.length);
+
 			// Reset the currentNode, if currentNode not longer in list.
-			nodeUrls.indexOf(currentNode) === -1 ? commit('currentNode', helper.parseUrl(nodeUrls[0])) : void 0;
+			nodeUrls.indexOf(currentNode) === -1 ? commit('currentNode', helper.parseUrl(nodeUrls[randomIndex])) : void 0;
 		}
 	}
 };
