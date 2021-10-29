@@ -320,14 +320,15 @@ class NodeService {
 	 * @param filter (optional) 'preferred | suggested'
      * @returns nodes[]
      */
-	 static getNodeList = async (filter) => {
+	 static getNodeList = async (filter, limit = 0) => {
     	let nodes = [];
 
     	try {
     		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
 	 			nodes = (await Axios.get(globalConfig.endpoints.statisticsService + `/nodes`, {
 	 				params: {
-	 					filter
+	 					filter,
+						 limit
 	 				}
 	 			})).data;
 	 		}
@@ -346,7 +347,8 @@ class NodeService {
      * @returns API Node list object for Vue component
      */
 	 static getAPINodeList = async () => {
-    	const nodes = await this.getNodeList('preferred');
+		// get 30 nodes from statistics service the list
+    	const nodes = await this.getNodeList('suggested', 30);
 
 	 	return nodes.map(nodeInfo => this.formatNodeInfo(nodeInfo)).sort((a, b) => a.friendlyName.localeCompare(b.friendlyName));
 	 }
