@@ -81,7 +81,7 @@ export default {
 	actions: {
 		async initialize({ commit, dispatch, getters }) {
 			const callback = async () => {
-				await dispatch('nodeSelector');
+				await dispatch('loadNodeList');
 
 				const nodeUrl = getters['currentNode'];
 				const marketDataUrl = getters['marketData'];
@@ -110,7 +110,7 @@ export default {
 		/**
 		 * get Nodes list for node selector
 		 */
-		async nodeSelector({ commit, getters }) {
+		async loadNodeList({ commit, getters }) {
 			let nodeUrls = [];
 			const nodes = await NodeService.getAPINodeList();
 
