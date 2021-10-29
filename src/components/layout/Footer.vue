@@ -55,9 +55,7 @@ import NodeSelector from '@/components/controls/NodeSelector.vue';
 
 import IconGithub from 'vue-material-design-icons/GithubCircle.vue';
 import IconNewspaper from 'vue-material-design-icons/Newspaper.vue';
-import IconReddit from 'vue-material-design-icons/Reddit.vue';
-import IconForum from 'vue-material-design-icons/Forum.vue';
-import IconTelegram from 'vue-material-design-icons/Telegram.vue';
+import IconDiscord from 'vue-material-design-icons/Discord.vue';
 import IconHomeCurrencyUsd from 'vue-material-design-icons/HomeCurrencyUsd.vue';
 import globalConfig from '../../config/globalConfig';
 
@@ -69,9 +67,7 @@ export default {
 
 		IconGithub,
 		IconNewspaper,
-		IconReddit,
-		IconForum,
-		IconTelegram,
+		IconDiscord,
 		IconHomeCurrencyUsd
 	},
 
