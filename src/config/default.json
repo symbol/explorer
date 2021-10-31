@@ -2,7 +2,7 @@
 	"apiNodePort": 3001,
 	"endpoints": {
 		"marketData": "https://min-api.cryptocompare.com/",
-		"statisticsService": "http://sym-testnet-services-alb-1057885927.us-east-1.elb.amazonaws.com"
+		"statisticsService": "https://testnet.symbol.services"
 	},
 	"networkConfig": {
 		"namespaceName": "symbol.xym",
@@ -29,7 +29,7 @@
 				"icon": "IconDiscord"
 			},
 			{
-				"href": "http://faucet.testnet.symboldev.network/",
+				"href": "https://testnet.symbol.tools/",
 				"text": "Faucet",
 				"icon": "IconHomeCurrencyUsd"
 			}
