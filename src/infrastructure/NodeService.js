@@ -318,9 +318,11 @@ class NodeService {
 	/**
      * Gets node list from statistics service
 	 * @param filter (optional) 'preferred | suggested'
-     * @returns nodes[]
+	 * @param limit (optional) number of records
+	 * @param ssl (optional) return ssl ready node.
+     * @returns nodes
      */
-	 static getNodeList = async (filter, limit = 0) => {
+	 static getNodeList = async (filter, limit = 0, ssl) => {
     	let nodes = [];
 
     	try {
@@ -328,7 +330,8 @@ class NodeService {
 	 			nodes = (await Axios.get(globalConfig.endpoints.statisticsService + `/nodes`, {
 	 				params: {
 	 					filter,
-						 limit
+						 limit,
+						 ssl
 	 				}
 	 			})).data;
 	 		}
@@ -347,8 +350,8 @@ class NodeService {
      * @returns API Node list object for Vue component
      */
 	 static getAPINodeList = async () => {
-		// get 30 nodes from statistics service the list
-    	const nodes = await this.getNodeList('suggested', 30);
+		// get 30 ssl ready nodes from statistics service the list
+    	const nodes = await this.getNodeList('suggested', 30, true);
 
 	 	return nodes.map(nodeInfo => this.formatNodeInfo(nodeInfo)).sort((a, b) => a.friendlyName.localeCompare(b.friendlyName));
 	 }
