@@ -322,7 +322,7 @@ class NodeService {
 	 * @param ssl (optional) return ssl ready node.
      * @returns nodes
      */
-	 static getNodeList = async (filter, limit = 0, ssl) => {
+	 static getNodeList = async (filter, limit, ssl) => {
     	let nodes = [];
 
     	try {
@@ -350,7 +350,7 @@ class NodeService {
      * @returns API Node list object for Vue component
      */
 	 static getAPINodeList = async () => {
-		// get 30 ssl ready nodes from statistics service the list
+	 	// get 30 ssl ready nodes from statistics service the list
     	const nodes = await this.getNodeList('suggested', 30, true);
 
 	 	return nodes.map(nodeInfo => this.formatNodeInfo(nodeInfo)).sort((a, b) => a.friendlyName.localeCompare(b.friendlyName));

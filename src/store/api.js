@@ -116,8 +116,9 @@ export default {
 
 			nodes.map((url) => {
 				let endpoint = helper.parseUrl(url.apiEndpoint).origin;
+
 				nodeUrls.push(endpoint);
-			})
+			});
 
 			commit('setNodes', nodeUrls);
 

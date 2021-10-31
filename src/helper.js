@@ -29,7 +29,6 @@ import {
 import { NamespaceService, MosaicService, ReceiptService } from './infrastructure';
 import http from './infrastructure/http';
 import moment from 'moment';
-import globalConfig from './config/globalConfig';
 
 const Url = require('url-parse');
 
