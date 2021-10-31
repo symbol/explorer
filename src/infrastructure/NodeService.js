@@ -114,7 +114,7 @@ class NodeService {
             nodeInfo.roles === 3 ||
             nodeInfo.roles === 6 ||
             nodeInfo.roles === 7
-            	? helper.formatURLProcotol(nodeInfo.apiStatus.isHttpsEnabled, nodeInfo.host)
+            	? nodeInfo.apiStatus.restGatewayUrl
             	: Constants.Message.UNAVAILABLE
     })
 

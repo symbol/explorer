@@ -660,10 +660,6 @@ class helper {
 	static getStartListIndex = (pageNumber, pageSize) => {
 		return pageNumber === 1 ? 0 : (pageNumber - 1) * pageSize;
 	}
-
-	static formatURLProcotol = (isHttpsEnabled, host) => {
-		return `http${isHttpsEnabled ? 's' : ''}://${host}:${isHttpsEnabled ? globalConfig.apiNodePort : '3000'}`;
-	}
 }
 
 export default helper;
