@@ -5,8 +5,6 @@ The changelog format is based on [Keep a Changelog](https://keepachangelog.com/e
 
 ## [v1.1.1][v1.1.1] - 31-Oct-2021
 
-### Milestone: [catapult-server@v1.0.2.0][catapult-server@v1.0.2.0]
-
 Package  | Version  | Link
 ---|---|---
 REST Core| v2.3.7 | [catapult-rest][catapult-rest@v2.3.7]
@@ -18,18 +16,17 @@ SDK Core| v1.0.2 | [symbol-sdk][symbol-sdk@v1.0.2]
 - Enable Russian language [#949](https://github.com/symbol/symbol-explorer/pull/949)
 - Symbol SDK v1.0.2 [#953](https://github.com/symbol/symbol-explorer/pull/953)
 
-
 ### Fixed
 - Mosaic preview popover [#915](https://github.com/symbol/symbol-explorer/pull/915)
 - Add server response Cache-Control header [#917](https://github.com/symbol/symbol-explorer/pull/917)
 - Added missing network types [#919](https://github.com/symbol/symbol-explorer/pull/919)
 - Transaction sent to expired alias is not loading [#928](https://github.com/symbol/symbol-explorer/issues/928)
 - Update RU translation.
-- Minor translatio fix [#940](https://github.com/symbol/symbol-explorer/pull/940)
+- Minor translation fix [#940](https://github.com/symbol/symbol-explorer/pull/940)
 
 ### Removed
 - Node reward program [#945](https://github.com/symbol/symbol-explorer/issues/945)
-- Hardcored node list [#942](https://github.com/symbol/symbol-explorer/issues/942)
+- Hardcoded node list [#942](https://github.com/symbol/symbol-explorer/issues/942)
 
 ## [v1.1.0][v1.1.0] - 2-June-2021
 
