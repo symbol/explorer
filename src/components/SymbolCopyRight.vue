@@ -20,7 +20,7 @@
 	<div class="row">
 		<div class="col-md-12 d-flex justify-content-center">
 			<div class="ftr_btm">
-				<span> © NSL {{ currentYear }}</span>
+				<span> © Symbol Contributors {{ currentYear }}</span>
 				<span>|</span>
 				<span>All Rights Reserved</span>
 				<span>|</span>
@@ -65,7 +65,6 @@ span > a {
     color: #fff;
     position: relative;
     padding: 10px 0;
-    border-top: 1px solid #fff;
     margin-top: 22px;
 }
 </style>

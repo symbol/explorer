@@ -40,7 +40,7 @@
 							<NodeSelector class="horisontal-center"/>
 						</b-col>
 					</b-row>
-					<NemCopyright />
+					<SymbolCopyRight />
 				</b-container>
 			</div>
 		</footer>
@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import NemCopyright from '@/components/NemCopyright.vue';
+import SymbolCopyRight from '@/components/SymbolCopyRight.vue';
 import NodeSelector from '@/components/controls/NodeSelector.vue';
 
 import IconGithub from 'vue-material-design-icons/GithubCircle.vue';
@@ -59,7 +59,7 @@ import globalConfig from '../../config/globalConfig';
 
 export default {
 	components: {
-		NemCopyright,
+		SymbolCopyRight,
 		NodeSelector,
 
 		IconGithub,
