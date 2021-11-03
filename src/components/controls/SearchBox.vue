@@ -65,16 +65,19 @@ export default {
 
 <style lang="scss" scoped>
 .form-control {
-    color: #fff !important;
+	border-color: $dark-mode-button-text-color !important;
+    color: $dark-mode-button-text-color !important;
     font-size: 12px;
+	text-transform: uppercase !important;
 }
 
 .form-control:focus {
-    color: #fff !important;
+	border-color: $dark-mode-button-text-color;
+    color: $dark-mode-button-text-color !important;
 }
 
 .form-control::-webkit-input-placeholder {
-    color: var(--light);
+    color: $dark-mode-button-text-color;
     font-size: 12px;
 }
 
