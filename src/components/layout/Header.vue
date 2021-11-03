@@ -5,8 +5,7 @@
 				<b-row>
 					<b-col md="3" class="header-left">
 						<router-link to="/" class="d-none d-md-block">
-							<img v-if="isTestnet" src="../../styles/img/symbol_logo_white_testnet.png" class="header-logo"/>
-							<img v-else src="../../styles/img/symbol_logo_white_aw.png" class="header-logo"/>
+                        <img src="../../styles/img/symbol-logo-wordmark-03.svg" class="header-logo"/>
 						</router-link>
 					</b-col>
 					<b-col md="6" class="header-center">
@@ -18,9 +17,6 @@
 									Testnet
 								</span>
 							</span>
-						</div>
-						<div class="header-sub-title">
-							{{getNameByKey('searchBoxTitle')}}
 						</div>
 
 					</b-col>
@@ -54,11 +50,6 @@ export default {
 		isTestnet() {
 			return this.$store.getters['api/isTestnet'];
 		},
-		gradientClass() {
-			return this.isTestnet
-				? 'testnet-gradient'
-				: 'mainnet-gradient';
-		}
 	},
 
 	methods: {
@@ -70,22 +61,15 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.mainnet-gradient {
-    background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
-}
-
-.testnet-gradient {
-    background: linear-gradient(120deg, rgb(43, 1, 102) 0%, rgb(67, 0, 78) 80%);
-}
-
 .header-gradinet {
     background-size: 100% auto;
     position: relative;
+    background: #000000;
 }
 
 .header-gradinet::before {
     content: '';
-    background-image: url(../../styles/img/logo_bkg.png);
+    background-image: url(../../styles/img/header.png);
     position: absolute;
     z-index: 0;
     top: 0;
@@ -93,7 +77,9 @@ export default {
     width: 100%;
     height: 100%;
     background-repeat: no-repeat;
-    background-size: 100%;
+    background-size: cover;
+    background-position: center;
+    filter: opacity(0.5);
 }
 
 .width-limiter {
@@ -124,12 +110,12 @@ export default {
 .testnet-badge {
     position: absolute;
     border-radius: 5px;
-    padding: 4px 8px;
     font-weight: bold;
-    font-size: 8px;
-    color: $accent-color;
-    top: -4px;
-    left: -8px;
+    font-size: 13px;
+    color: $dark-mode-text-title-color;
+    top: -10px;
+    left: -165px;
+    text-transform: uppercase;
 }
 
 .ex-header {
@@ -152,7 +138,7 @@ export default {
             color: #fff;
             font-weight: 500;
             text-transform: capitalize;
-            font-size: 18px;
+            font-size: 35px;
             margin-top: 14px;
             margin-bottom: 0.5rem;
             letter-spacing: 1px;
