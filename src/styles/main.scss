@@ -12,6 +12,7 @@ $blue: $blue-color;
 $green: $green-color;
 $orange: $orange-color;
 $dark-white: $dark-white-color;
+$dark-mode-blue: $dark-mode-button-text-color;
 
 $grid-breakpoints: (
     xxxs: 0,
@@ -41,7 +42,8 @@ $theme-colors: map-merge(
         'success': $green,
         'info': $info,
         'warning': $orange,
-        'title': $pink
+        'title': $pink,
+        'dark-mode-blue': $dark-mode-blue
     ),
     $theme-colors
 );
