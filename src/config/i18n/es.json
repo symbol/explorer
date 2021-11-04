@@ -184,8 +184,8 @@
 	"mosaicRestrictionType.NE": "Not Equal",
 	"mosaicRestrictionType.NONE": "No Restriction",
     "proof": "Proof",
-    "minApprovalDelta": "Min. Approval",
-    "minRemovalDelta": "Min Removal",
+    "minApprovalDelta": "Min. Approval Delta",
+    "minRemovalDelta": "Min. Removal Delta",
     "addressAdditions": "Added Cosigner",
     "addressDeletions": "Deleted Cosigner",
     "transactionAwaitingCosignatureTitle": "Transaction awaiting co-signature(s)",
@@ -251,7 +251,7 @@
     "mosaicRestrictionListTitle": "Mosaic Restriction List",
     "harvestedBlockTitle": "Harvested Blocks",
 
-    "accountDetailError": "This account does not have a public key yet",
+    "accountDetailError": "Esta dirección aún es desconocida en la red.",
     "multisigCosignatoriesError": "Address is not a multisig account.",
     "ownedMosaicsError": "Account owned mosaics are not available.",
     "ownedNamespacesError": "Account owned namespaces are not available.",
@@ -372,9 +372,6 @@
     "harvestingEligibleAccountsCount": "Total Harvesting Eligible Accounts",
     "votingEligibleAccountsCount": "Total Voting Eligible Accounts",
     "previousImportanceBlockHash": "Previous Importance Block Hash",
-	"rewardPrograms": "Reward Programs",
-	"rewardProgram": "Reward Program",
-	"lastTestPassed": "Last test passed",
 	"nodeStatsTitle": "Node Statistics",
 	"allNodes": "Total count",
 	"nodeCountByRoles": "Count By Roles",
@@ -388,20 +385,14 @@
     "restVersion": "Rest Version",
     "softwareVersion": "Version",
 
-    "viewEnrollments": "View Node Rewards Enrollments",
-    "nodeRewardsEnrollments": "Node Rewards Enrollments",
-    "nodeRewardsEnrollmentDetail": "Node Rewards Enrollment Details",
-    "agentCaCsrBase64": "Agent CA CSR Base64",
-    "agentUrl": "Agent URL",
-    "enrollmentId": "ID",
     "id": "ID",
-    "retriesLeft": "Retries Left",
     "signerPublicKey": "Signer Public Key",
-    
+
     "remote": "Remote",
     "main": "Main",
     "linkedAddress": "Linked",
     "nodeAddress": "Node",
     "vrfAddress": "VRF",
-    "exportCSV": "Export CSV"
+    "exportCSV": "Export CSV",
+    "isHttpsEnabled": "Https"
 }

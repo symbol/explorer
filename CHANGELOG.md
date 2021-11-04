@@ -3,6 +3,31 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v1.1.1][v1.1.1] - 31-Oct-2021
+
+Package  | Version  | Link
+---|---|---
+REST Core| v2.3.7 | [catapult-rest][catapult-rest@v2.3.7]
+SDK Core| v1.0.2 | [symbol-sdk][symbol-sdk@v1.0.2]
+
+### Added
+- Add app verison on footer [#931](https://github.com/symbol/symbol-explorer/pull/931)
+- Enable https [#927](https://github.com/symbol/symbol-explorer/issues/927)
+- Enable Russian language [#949](https://github.com/symbol/symbol-explorer/pull/949)
+- Symbol SDK v1.0.2 [#953](https://github.com/symbol/symbol-explorer/pull/953)
+
+### Fixed
+- Mosaic preview popover [#915](https://github.com/symbol/symbol-explorer/pull/915)
+- Add server response Cache-Control header [#917](https://github.com/symbol/symbol-explorer/pull/917)
+- Added missing network types [#919](https://github.com/symbol/symbol-explorer/pull/919)
+- Transaction sent to expired alias is not loading [#928](https://github.com/symbol/symbol-explorer/issues/928)
+- Update RU translation.
+- Minor translation fix [#940](https://github.com/symbol/symbol-explorer/pull/940)
+
+### Removed
+- Node reward program [#945](https://github.com/symbol/symbol-explorer/issues/945)
+- Hardcoded node list [#942](https://github.com/symbol/symbol-explorer/issues/942)
+
 ## [v1.1.0][v1.1.0] - 2-June-2021
 
 ### Milestone: [catapult-server@v1.0.0.0][catapult-server@v1.0.0.0]
@@ -366,19 +391,23 @@ SDK Core| v0.20.7 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 [v0.10.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.10.0
 [v1.0.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v1.0.0
 [v1.0.1]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v1.0.1
+[v1.1.1]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v1.1.1
 
 [catapult-server@v0.10.0.5]: https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.5
 [catapult-server@v0.10.0.7]: https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.7
 [catapult-server@v0.10.0.8]: https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.8
 [catapult-server@v1.0.0.0]: https://github.com/nemtech/catapult-server/releases/tag/v1.0.0.0
+[catapult-server@v1.0.2.0]: https://github.com/symbol/catapult-client/releases/tag/v1.0.2.0
 
 [symbol-sdk@v0.23.0]: https://www.npmjs.com/package/symbol-sdk/v/0.23.0
 [symbol-sdk@v0.23.3-alpha]: https://www.npmjs.com/package/symbol-sdk/v/0.23.3-alpha-202102181227
 [symbol-sdk@v0.23.3]: https://www.npmjs.com/package/symbol-sdk/v/0.23.3
 [symbol-sdk@v1.0.0]: https://www.npmjs.com/package/symbol-sdk/v/1.0.0
 [symbol-sdk@v1.0.1]: https://www.npmjs.com/package/symbol-sdk/v/1.0.1
+[symbol-sdk@v1.0.2]: https://www.npmjs.com/package/symbol-sdk/v/1.0.2
 
 [catapult-rest@v2.3.0]: https://github.com/nemtech/catapult-rest/releases/tag/v2.3.0
 [catapult-rest@v2.3.3]: https://github.com/nemtech/catapult-rest/releases/tag/v2.3.3
 [catapult-rest@v2.3.4]: https://github.com/nemtech/catapult-rest/releases/tag/v2.3.4
 [catapult-rest@v2.3.6]: https://github.com/nemtech/catapult-rest/releases/tag/v2.3.6
+[catapult-rest@v2.3.7]: https://github.com/symbol/catapult-rest/releases/tag/v2.3.7

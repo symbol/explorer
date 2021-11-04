@@ -21,6 +21,7 @@ import helper from '../helper';
 import http from '../infrastructure/http';
 import { NodeService } from '../infrastructure';
 import globalConfig from '../config/globalConfig';
+import { version } from '../../package.json';
 import * as sdk from 'symbol-sdk';
 
 const LOCK = Lock.create();
@@ -31,12 +32,12 @@ export default {
 	state: {
 		// If the global state has been initialized.
 		initialized: false,
-		nodes: [...globalConfig.peersApi.nodes],
-		defaultNode: helper.parseUrl(globalConfig.peersApi.defaultNode),
-		currentNode: localStorage.getItem('currentNode') ? helper.parseUrl(localStorage.getItem('currentNode')) : helper.parseUrl(globalConfig.peersApi.defaultNode),
-		wsEndpoint: localStorage.getItem('currentNode') || globalConfig.peersApi.defaultNode |> helper.httpToWsUrl,
+		nodes: [],
+		currentNode: localStorage.getItem('currentNode') ? helper.parseUrl(localStorage.getItem('currentNode')) : '',
+		wssEndpoint: localStorage.getItem('currentNode') |> helper.httpToWssUrl,
 		marketData: helper.parseUrl(globalConfig.endpoints.marketData),
-		networkType: globalConfig.networkConfig.networkIdentifier
+		networkType: globalConfig.networkConfig.networkIdentifier,
+		appVersion: version || '0'
 	},
 
 	getters: {
@@ -47,9 +48,10 @@ export default {
 				: [],
 		currentNode: state => state.currentNode.origin,
 		currentNodeHostname: state => state.currentNode.hostname,
-		wsEndpoint: state => state.wsEndpoint.origin,
+		wssEndpoint: state => state.wssEndpoint.origin,
 		marketData: state => state.marketData.origin,
-		isTestnet: state => state.networkType === sdk.NetworkType.TEST_NET
+		isTestnet: state => state.networkType === sdk.NetworkType.TEST_NET,
+		appVersion: state => state.appVersion
 	},
 
 	mutations: {
@@ -60,12 +62,12 @@ export default {
 		currentNode: (state, payload) => {
 			if (undefined !== payload) {
 				const currentNode = helper.parseUrl(payload);
-				const wsEndpoint = currentNode.origin |> helper.httpToWsUrl;
+				const wssEndpoint = currentNode.origin |> helper.httpToWssUrl;
 
 				localStorage.setItem('currentNode', currentNode);
 
 				Vue.set(state, 'currentNode', currentNode);
-				Vue.set(state, 'wsEndpoint', wsEndpoint);
+				Vue.set(state, 'wssEndpoint', wssEndpoint);
 			}
 		},
 		setNodes: (state, nodes) => {
@@ -79,7 +81,7 @@ export default {
 	actions: {
 		async initialize({ commit, dispatch, getters }) {
 			const callback = async () => {
-				dispatch('filterHealthyNodes');
+				await dispatch('loadNodeList');
 
 				const nodeUrl = getters['currentNode'];
 				const marketDataUrl = getters['marketData'];
@@ -105,25 +107,27 @@ export default {
 				throw Error('Cannot change node. URL is not valid: ' + currentNodeUrl);
 		},
 
-		async filterHealthyNodes({ commit, getters }) {
-			const nodes = getters['nodes'];
+		/**
+		 * get Nodes list for node selector
+		 */
+		async loadNodeList({ commit, getters }) {
+			let nodeUrls = [];
+			const nodes = await NodeService.getAPINodeList();
 
-			let healthyNodes = [];
+			nodes.map((url) => {
+				let endpoint = helper.parseUrl(url.apiEndpoint).origin;
 
-			await Promise.all(nodes.map(async (url) => {
-				let endpoint = helper.parseUrl(url).origin;
+				nodeUrls.push(endpoint);
+			});
 
-				if (await NodeService.isNodeActive(endpoint))
-					healthyNodes.push(url);
-			}));
-
-			commit('setNodes', healthyNodes);
+			commit('setNodes', nodeUrls);
 
 			const currentNode = getters['currentNode'];
-			const activeNodes = healthyNodes.map(nodes => nodes.origin);
 
-			// Reset the currentNode, if currentNode not longer in healthy status.
-			activeNodes.indexOf(currentNode) === -1 ? commit('currentNode', healthyNodes[0]) : void 0;
+			const randomIndex = Math.floor(Math.random() * nodeUrls.length);
+
+			// Reset the currentNode, if currentNode not longer in list.
+			nodeUrls.indexOf(currentNode) === -1 ? commit('currentNode', helper.parseUrl(nodeUrls[randomIndex])) : void 0;
 		}
 	}
 };

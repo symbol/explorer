@@ -1,21 +1,8 @@
 {
-	"peersApi": {
-		"defaultNode": "http://ngl-dual-001.testnet.symboldev.network:3000",
-		"nodes": [
-			"http://ngl-dual-001.testnet.symboldev.network:3000",
-			"http://ngl-dual-101.testnet.symboldev.network:3000",
-			"http://ngl-dual-201.testnet.symboldev.network:3000",
-			"http://ngl-dual-301.testnet.symboldev.network:3000",
-			"http://ngl-dual-401.testnet.symboldev.network:3000",
-			"http://ngl-dual-501.testnet.symboldev.network:3000",
-			"http://ngl-dual-601.testnet.symboldev.network:3000"
-		]
-	},
-	"apiNodePort": 3000,
+	"apiNodePort": 3001,
 	"endpoints": {
 		"marketData": "https://min-api.cryptocompare.com/",
-		"statisticsService": "http://ngl-beacon-001.testnet.symboldev.network:4001",
-		"nodeRewardsController": "http://node-monitoring.testnet.symboldev.network:7890"
+		"statisticsService": "https://testnet.symbol.services"
 	},
 	"networkConfig": {
 		"namespaceName": "symbol.xym",
@@ -27,32 +14,22 @@
 	"footer": {
 		"link": [
 			{
-				"href": "https://nemflash.io/",
-				"text": "NEM News",
+				"href": "https://nem.io",
+				"text": "NEM",
 				"icon": "IconNewspaper"
 			},
 			{
-				"href": "https://forum.nem.io/",
-				"text": "Forum",
-				"icon": "IconForum"
-			},
-			{
-				"href": "https://t.me/nemred",
-				"text": "Telegram",
-				"icon": "IconTelegram"
-			},
-			{
-				"href": "https://www.reddit.com/r/nem/",
-				"text": "Reddit",
-				"icon": "IconReddit"
-			},
-			{
-				"href": "https://github.com/nemtech",
+				"href": "https://github.com/symbol",
 				"text": "Github",
 				"icon": "IconGithub"
 			},
 			{
-				"href": "http://faucet.testnet.symboldev.network/",
+				"href": "https://discord.com/invite/xymcity",
+				"text": "Join Discord",
+				"icon": "IconDiscord"
+			},
+			{
+				"href": "https://testnet.symbol.tools/",
 				"text": "Faucet",
 				"icon": "IconHomeCurrencyUsd"
 			}

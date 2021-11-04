@@ -17,6 +17,8 @@ cache:
     - "node_modules"
   override:
     - npx cypress verify
+before_install:
+    - npm i -g npm@7
 before_script:
     - . ./travis/node-functions.sh
     - VERSION="$(node_load_version)"
