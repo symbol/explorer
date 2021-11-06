@@ -81,12 +81,12 @@ export default {
 
     .mosaic {
         display: inline-block;
-        background: $primary-color;
+        background: $violet-color;
         color: #fff;
         border-radius: 5px;
         border-width: 1px;
         border-style: solid;
-        border-color: $primary-color;
+        border-color: $violet-color;
         padding: 5px 10px;
         margin-right: 10px;
         white-space: nowrap;
