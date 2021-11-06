@@ -96,17 +96,9 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.card-item::before {
-    width: 4px;
-    content: '';
-    height: 100%;
-    position: absolute;
-    padding: 0;
-    left: 0;
-    top: 0;
-    background: #ab5cb9;
-    border-top-left-radius: 3px;
-    border-bottom-left-radius: 3px;
+.ex-card .card-item {
+	border: 1px solid $dark-mode-card-border-color;
+	background-color: #000;
 }
 
 .card-item {
@@ -114,7 +106,7 @@ export default {
         padding: 0;
 
         .ex-title-text {
-            color: black;
+            color: #FFF;
         }
 
         .ex-long-text {
@@ -134,7 +126,7 @@ export default {
             }
 
             .ex-account-text {
-                color: #84accb;
+                color: $dark-mode-button-text-color;
                 font-weight: 600;
                 font-size: 10px;
                 margin-left: 20px;
