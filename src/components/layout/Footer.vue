@@ -88,7 +88,6 @@ export default {
     width: 100%;
     position: relative;
 
-
     .footer-row {
         .footer-description {
             margin-top: -40px;
@@ -108,7 +107,6 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    filter: opacity(0.5);
 }
 
 .social-icon {

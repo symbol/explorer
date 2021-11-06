@@ -1,11 +1,11 @@
 <template>
-	<div class="header-gradinet ex-header" :class="gradientClass">
+	<div class="header-gradinet ex-header">
 		<div class="width-limiter">
 			<b-container fluid>
 				<b-row>
 					<b-col md="3" class="header-left">
 						<router-link to="/" class="d-none d-md-block">
-                        <img src="../../styles/img/symbol-logo-wordmark-03.svg" class="header-logo"/>
+							<img src="../../styles/img/symbol-logo-wordmark-03.svg" class="header-logo"/>
 						</router-link>
 					</b-col>
 					<b-col md="6" class="header-center">
@@ -42,14 +42,14 @@ export default {
 
 	data() {
 		return {
-			// gradientClass: 'mainnet-gradient'
+
 		};
 	},
 
 	computed: {
 		isTestnet() {
 			return this.$store.getters['api/isTestnet'];
-		},
+		}
 	},
 
 	methods: {
@@ -79,7 +79,6 @@ export default {
     background-repeat: no-repeat;
     background-size: cover;
     background-position: center;
-    filter: opacity(0.5);
 }
 
 .width-limiter {
