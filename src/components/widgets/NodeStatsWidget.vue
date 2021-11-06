@@ -12,9 +12,9 @@
 
 		<template #body>
 			<b-container fluid style="height: 100%">
-				<b-row class="ex-ns-group">
+				<!-- <b-row class="ex-ns-group">
 					{{getNameByKey('nodeCountByRoles')}}
-				</b-row>
+				</b-row> -->
 				<b-row>
 					<b-col
 						v-for="(item, index) in nodeRoles"
@@ -160,7 +160,6 @@ export default {
 
 @media (max-width: 760px) {
     .ex-item {
-        border-left: 4px solid #904d9c;
         padding: 1px 10px;
         margin-bottom: 15px;
         max-width: 150px;
@@ -168,7 +167,6 @@ export default {
 }
 
 .ex-item {
-    border-left: 4px solid #904d9c;
     padding: 1px 10px;
     margin-bottom: 15px;
 }
@@ -192,11 +190,6 @@ export default {
     text-align: left;
     font-size: 14px;
     margin: 4px 0 0;
-}
-
-.node-program-icon {
-    height: 32px;
-    margin: auto 0;
 }
 
 .blue {
