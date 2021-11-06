@@ -20,7 +20,6 @@
 							/>
 						</svg>
 						<div>
-							<img :src="ConnectorIcon" class="icon noselect" />
 							<div class="address">
 								<div>
 									{{address}}
@@ -151,9 +150,10 @@ export default {
     align-items: center;
 
     .body {
-        background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
+        background: #000;
+		border: 1px solid $dark-mode-card-border-color;
         color: #fff;
-        border-radius: 5px;
+        border-radius: 12px;
         position: relative;
         display: inline-block;
         padding: 40px;
@@ -164,9 +164,10 @@ export default {
             justify-content: space-between;
 
             .account-icon {
+				border: 1px solid $dark-mode-button-text-color;
                 margin-right: 20px;
-                background: #fff;
-                border-radius: 20px;
+                background: $dark-mode-card-bg-color;
+                border-radius: 50%;
                 padding: 10px;
             }
 
@@ -177,13 +178,6 @@ export default {
                 max-width: 100%;
             }
 
-            .icon {
-                position: absolute;
-                bottom: 0;
-                right: 0;
-                height: 100%;
-                pointer-events: none;
-            }
         }
 
         .mosaic {
