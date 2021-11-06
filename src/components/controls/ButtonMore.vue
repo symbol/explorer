@@ -30,12 +30,13 @@ export default {
     font-size: 15px;
     margin-left: 5px;
     margin-top: 1px;
+    transform: rotate(-45deg);
 }
 
 .btn-green {
-    border: 1px solid var(--info);
+    border: transparent;
     border-radius: 4px;
-    color: var(--info);
+    color: $dark-mode-button-text-color;
     font-size: 12px;
     padding: 5px 12px 5px 12px;
     line-height: 1.6;
@@ -54,14 +55,14 @@ export default {
 
 .btn-green * {
     display: inline-block;
-    float: left;
     position: relative;
     z-index: 1;
+    text-transform: uppercase;
 }
 
 .btn-green::before {
     content: '';
-    background: var(--primary);
+    background: $dark-mode-card-border-color;
     width: 0;
     height: 100%;
     position: absolute;
@@ -69,6 +70,7 @@ export default {
     top: 0;
     z-index: 0;
     transition: all 0.4s cubic-bezier(0, 0, 0.23, 1);
+    border-radius: 12px;
 }
 
 .btn-green:hover {
