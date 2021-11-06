@@ -153,7 +153,7 @@ export default {
 }
 
 .incoming {
-    color: $green-color;
+    color: $dark-mode-green-color;
 }
 
 .outgoing {

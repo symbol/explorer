@@ -201,7 +201,7 @@ export default {
 }
 
 .green {
-    border-color: $green-color;
+    border-color: $dark-mode-green-color;
 }
 
 .orange {

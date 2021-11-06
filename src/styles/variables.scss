@@ -12,23 +12,29 @@ $violet-color: #9875ff;
 $dark-white-color: #f3f4f8;
 $dark-mode-button-text-color: #26C3F2;
 $dark-mode-text-title-color: #B429FA;
+$dark-mode-card-bg-color: #0B0118;
+$dark-mode-display-text-color: #FFFFFF;
+$dark-mode-green-color: #B3E6B3;
 
+$dark-mode-body-bg: #221c31;
+$dark-mode-grid-bg: #2b263a;
+$dark-mode-card-border-color: #503d86;
 // --- General colors ---
 
-$title-text-color: $pink-color;
-$link-text-color: $primary-color;
+$title-text-color: $dark-mode-text-title-color;
+$link-text-color: $dark-mode-button-text-color;
 $card-error-text-color: #98a8b4;
 $clickable-item: #fffc;
 
 
 // --- TableView colors
 
-$table-text-color: $secondary-color;
-$table-text-color-light: #44004e91;
-$table-header-text-color: $secondary-color;
-$table-title-text-color: $secondary-color;
-$table-striped-color-first: #f2f2f244;
-$table-striped-color-second: #fff4;
+$table-text-color: $violet-color;
+$table-text-color-light: #FFFFFF;
+$table-header-text-color: $violet-color;
+$table-title-text-color: $dark-mode-display-text-color;
+$table-striped-color-first: transparent;
+$table-striped-color-second: transparent;
 $table-hover-color: #44004e1a;
 
 // --- Body width-limiter
