@@ -25,7 +25,9 @@ export default {
 
     mounted() {
         // get theme from localstorage
-		const theme = localStorage.getItem('theme');
+        // set default to darkMode if not theme specify
+		const theme = localStorage.getItem('theme') === null ? 'darkMode' : '';
+
 		document.documentElement.setAttribute('data-theme', theme);
 
 		this.isDarkMode = theme === 'darkMode';
