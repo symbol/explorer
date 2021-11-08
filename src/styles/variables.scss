@@ -9,16 +9,23 @@ $blue-color: #00c8ff;
 $green-color: #33dd50;
 $orange-color: #ff9600;
 $violet-color: #9875ff;
+$black-color: #000000;
+$white-color: #ffffff;
+$grey-color: #555;
+$dark-grey-color: #000000de;
+$transparent: #00000000;
+
+$light-mode-card-bg-color: #fcfcfc;
+
 $dark-white-color: #f3f4f8;
 $dark-mode-button-text-color: #26C3F2;
-$dark-mode-text-title-color: #B429FA;
+$dark-mode-text-title-color: #b429fa;
+$dark-mode-text-color: #FFFFFF;
+$dark-mode-green-text-color: #B3E6B3;
 $dark-mode-card-bg-color: #0B0118;
-$dark-mode-display-text-color: #FFFFFF;
-$dark-mode-green-color: #B3E6B3;
-
-$dark-mode-body-bg: #221c31;
 $dark-mode-grid-bg: #2b263a;
 $dark-mode-card-border-color: #503d86;
+
 // --- General colors ---
 
 $title-text-color: $dark-mode-text-title-color;
@@ -26,13 +33,8 @@ $link-text-color: $dark-mode-button-text-color;
 $card-error-text-color: #98a8b4;
 $clickable-item: #fffc;
 
-
 // --- TableView colors
 
-$table-text-color: $violet-color;
-$table-text-color-light: #FFFFFF;
-$table-header-text-color: $violet-color;
-$table-title-text-color: $dark-mode-display-text-color;
 $table-striped-color-first: transparent;
 $table-striped-color-second: transparent;
 $table-hover-color: #44004e1a;
