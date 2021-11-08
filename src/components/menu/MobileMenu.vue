@@ -10,7 +10,7 @@
 
 		<div class="mobile-panel navbar-hide-on-scroll">
 			<router-link to="/" class="title" :class="{'hide': fixed}">
-				<img src="../../styles/img/logo-w.png" class="menu-logo"/>
+				<img src="../../styles/img/symbol_logo_200px.png" class="menu-logo"/>
 			</router-link>
 		</div>
 
@@ -18,7 +18,7 @@
 			<div v-if="showDrawer" class="menu-drawer">
 				<div class="drawer-header blue-gradinet">
 					<router-link to="/" class="logo">
-						<img src="../../styles/img/logo-w.png" />
+						<img src="../../styles/img/symbol_logo_200px.png" />
 					</router-link>
 					<span class="title">{{getNameByKey('blockchainExplorerTitle')}}</span>
 					<LanguageSelector />
@@ -34,6 +34,7 @@
 						<component :is="item.icon" class="ex-menu-item-icon"/>
 						<span>{{getNameByKey(item.text)}}</span>
 					</router-link>
+                    <ThemeToggle />
 				</div>
 			</div>
 		</transition>
@@ -52,6 +53,7 @@ import IconNamespaces from 'vue-material-design-icons/Tag.vue';
 import IconStatistics from 'vue-material-design-icons/ChartBar.vue';
 import LanguageSelector from '@/components/controls/LanguageSelector.vue';
 import { pageMenu } from '../../config/';
+import ThemeToggle from '../ThemeToggle.vue';
 
 export default {
 	components: {
@@ -64,7 +66,8 @@ export default {
 		IconMosaics,
 		IconNodes,
 		IconNamespaces,
-		IconStatistics
+		IconStatistics,
+        ThemeToggle
 	},
 
 	props: {
@@ -106,14 +109,13 @@ export default {
 }
 
 .blue-gradinet {
-    background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
+    background: linear-gradient(120deg, var(--main-bg-color) 0%, var(--main-bg-color) 100%);
     background-size: 100% auto;
     position: relative;
 }
 
 .blue-gradinet::before {
     content: '';
-    background-image: url(../../styles/img/logo_bkg.png);
     position: absolute;
     z-index: 0;
     top: 0;
@@ -122,6 +124,7 @@ export default {
     height: 100%;
     background-repeat: no-repeat;
     background-size: 100%;
+
 }
 
 .mobile-menu {
@@ -136,7 +139,7 @@ export default {
         top: 0;
         left: 0;
         height: 100vh;
-        background: white;
+        background: var(--navigation-bg);
         width: 80%;
         min-width: 300px;
         box-shadow: 0 2px 10px 2px rgba(0, 0, 0, 0.2);
@@ -163,7 +166,7 @@ export default {
 
             .title {
                 font-size: 18px;
-                color: #fff;
+                color: var(--text-color);
                 width: 100%;
                 text-align: center;
                 display: block;
@@ -181,7 +184,7 @@ export default {
 
             .ex-menu-item {
                 margin-bottom: 20px;
-                color: #343a40;
+                color: var(--text-color);
 
                 .ex-menu-item-icon {
                     margin-right: 20px;
@@ -206,7 +209,7 @@ export default {
     }
 
     .mobile-panel {
-        background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
+        // background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
         box-shadow: 0 2px 10px 2px rgba(0, 0, 0, 0.2);
         padding: 0 15px;
         display: flex;

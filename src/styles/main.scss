@@ -56,7 +56,6 @@ $theme-colors: map-merge(
     --theme-switch-bg: #{$dark-mode-card-bg-color};
     --text-color: #{$grey-color};
     --clickable-text: #{$dark-mode-button-text-color};
-    --navigation-bg: #{$black-color};
     --card-bg: #{$white-color};
     --card-border: #{$primary-color};
     --sub-card-border: #{$primary-color};
@@ -77,7 +76,6 @@ $theme-colors: map-merge(
     --theme-switch-bg: #{$dark-mode-card-bg-color};
     --text-color: #{$dark-mode-text-color};
     --clickable-text: #{$dark-mode-button-text-color};
-    --navigation-bg: #{$black-color};
     --card-bg: #{$dark-mode-card-bg-color};
     --card-border: #{$transparent};
     --sub-card-border: #{$dark-mode-card-border-color};

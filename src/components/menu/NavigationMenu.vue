@@ -1,12 +1,12 @@
 <template>
 	<header
 		class="ex-menu header-gradinet"
-		:class="{'ex-menu-fixed': fixed, 'testnet-gradient': isTestnet, 'mainnet-gradient': !isTestnet}"
+		:class="{'ex-menu-fixed': fixed }"
 		ref="DesktopMenu"
 	>
 		<div class="width-limiter">
 			<router-link to="/" :class="{'hide': !fixed}">
-				<img src="../../styles/img/logo-w.png" class="menu-logo"/>
+				<img src="../../styles/img/symbol_logo_200px.png" class="menu-logo"/>
 			</router-link>
 			<router-link
 				v-for="item in items"
@@ -18,6 +18,7 @@
 				<i :class="item.classname"></i>
 				<span>{{getNameByKey(item.text)}}</span>
 			</router-link>
+			<ThemeToggle />
 		</div>
 	</header>
 </template>
@@ -32,6 +33,7 @@ import IconMosaics from 'vue-material-design-icons/CheckboxMultipleBlankCircle.v
 import IconNodes from 'vue-material-design-icons/VectorTriangle.vue';
 import IconNamespaces from 'vue-material-design-icons/Tag.vue';
 import IconStatistics from 'vue-material-design-icons/ChartBar.vue';
+import ThemeToggle from '../ThemeToggle.vue';
 
 export default {
 	components: {
@@ -42,7 +44,8 @@ export default {
 		IconMosaics,
 		IconNodes,
 		IconNamespaces,
-		IconStatistics
+		IconStatistics,
+		ThemeToggle
 	},
 
 	mounted() {
@@ -81,20 +84,12 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.testnet-gradient {
-    background: linear-gradient(120deg, rgb(43, 1, 102) 0%, rgb(67, 0, 78) 80%);
-}
-
-.mainnet-gradient {
-    background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
-}
 
 .header-gradinet {
-    transition: background 0.5s linear;
+    background: var(--navigation-bg);
 }
 
 .ex-menu {
-    border-top: 1px solid rgba(255, 255, 255, 0.5);
     padding: 0 60px;
     position: relative;
 
@@ -124,6 +119,7 @@ export default {
         line-height: 40px;
         font-weight: 600;
         opacity: 0.8;
+        text-transform: uppercase;
 
         .menu-icon {
             margin-right: 10px;
@@ -131,9 +127,10 @@ export default {
     }
 
     .ex-menu-item.active {
-        color: var(--light);
+        color: var(--text-color);
         font-weight: 600;
         opacity: 1;
+        background-color: #250832;
     }
 
     .ex-menu-item::before {
@@ -142,12 +139,14 @@ export default {
         position: absolute;
         left: 0;
         width: 100%;
-        height: 3px;
+        height: 4px;
         background: var(--light);
         transition: all 0.2s ease-in-out;
+		bottom: 0px;
     }
 
-    .ex-menu-item.active::before {
+	.ex-menu-item.active::before {
+		background-color: #7413a4;
         opacity: 1;
     }
 }
