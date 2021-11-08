@@ -83,7 +83,6 @@ export default {
 }
 
 .footer {
-    background: #000000;
     padding: 50px 0 0;
     width: 100%;
     position: relative;
@@ -122,7 +121,7 @@ export default {
         text-transform: uppercase;
 
         a {
-            color: $dark-mode-button-text-color;
+            color: var(--clickable-text);
             text-decoration: none;
 
             span {

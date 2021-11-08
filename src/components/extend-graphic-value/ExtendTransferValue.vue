@@ -153,7 +153,7 @@ export default {
 }
 
 .incoming {
-    color: $dark-mode-green-color;
+    color: var(--balance-green-text);
 }
 
 .outgoing {

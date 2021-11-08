@@ -99,7 +99,7 @@ export default {
 <style lang="scss" scoped>
 .disabled {
     cursor: not-allowed;
-    color: gray;
+    color: var(--clickable-text);
 }
 
 .page-item {

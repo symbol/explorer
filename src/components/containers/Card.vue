@@ -44,9 +44,9 @@ export default {
 
 <style lang="scss" scoped>
 .ex-card {
-    background: $dark-mode-card-bg-color;
+    background: var(--card-bg);
     border-radius: 12px;
-    border: none;
+    border: 1px solid var(--card-border);
     margin-bottom: 20px;
     transition: all 0.5s ease-in-out;
 
@@ -60,7 +60,7 @@ export default {
         margin-bottom: 10px;
         font-size: 16px;
         font-weight: 500;
-        color: $title-text-color;
+        color: var(--card-title-text);
         text-transform: uppercase;
     }
 

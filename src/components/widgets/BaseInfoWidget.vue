@@ -135,12 +135,12 @@ export default {
     text-transform: uppercase;
 
     .ex-item-title {
-        color: $dark-mode-display-text-color;
+        color: var(--text-color);
         font-size: 12px;
     }
 
     .ex-item-value {
-        color: $dark-mode-display-text-color;
+        color: var(--text-color);
         text-align: left;
         font-size: 14px;
         margin: 4px 0 0;

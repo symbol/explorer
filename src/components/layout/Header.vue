@@ -111,7 +111,7 @@ export default {
     border-radius: 5px;
     font-weight: bold;
     font-size: 13px;
-    color: $dark-mode-text-title-color;
+    color: var(--card-title-text);
     top: -10px;
     left: -165px;
     text-transform: uppercase;

@@ -97,8 +97,8 @@ export default {
 
 <style lang="scss" scoped>
 .ex-card .card-item {
-	border: 1px solid $dark-mode-card-border-color;
-	background-color: #000;
+	border: 1px solid var(--sub-card-border);
+	background-color: var(--sub-card-bg);
 }
 
 .card-item {
@@ -106,7 +106,7 @@ export default {
         padding: 0;
 
         .ex-title-text {
-            color: #FFF;
+            color: var(--text-color);;
         }
 
         .ex-row {
@@ -126,7 +126,7 @@ export default {
             }
 
             .ex-account-text {
-                color: $dark-mode-button-text-color;
+                color: var(--clickable-text);
                 font-weight: 600;
                 font-size: 10px;
                 margin-left: 20px;

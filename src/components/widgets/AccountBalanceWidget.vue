@@ -150,9 +150,9 @@ export default {
     align-items: center;
 
     .body {
-        background: #000;
-		border: 1px solid $dark-mode-card-border-color;
-        color: #fff;
+        background: var(--balance-widget-bg);
+		border: 1px solid var(--sub-card-border);
+        color: var(--text-color);
         border-radius: 12px;
         position: relative;
         display: inline-block;
@@ -164,9 +164,9 @@ export default {
             justify-content: space-between;
 
             .account-icon {
-				border: 1px solid $dark-mode-button-text-color;
+				border: 1px solid var(--clickable-text);
                 margin-right: 20px;
-                background: $dark-mode-card-bg-color;
+                background: var(--sub-card-bg);
                 border-radius: 50%;
                 padding: 10px;
             }
@@ -177,7 +177,6 @@ export default {
                 margin: 0 0 33.2px;
                 max-width: 100%;
             }
-
         }
 
         .mosaic {

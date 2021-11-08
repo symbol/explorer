@@ -269,7 +269,7 @@ export default {
         margin-bottom: 1rem;
         background-color: transparent;
         font-size: 12px;
-        color: $table-text-color;
+        color: var(--table-content-text);
     }
 
     thead {
@@ -293,7 +293,7 @@ export default {
     .table-title-item {
         vertical-align: middle;
         padding: 12px 6px 12px 6px;
-        color: $table-title-text-color;
+        color: var(--text-color);
         font-weight: bolder;
         outline: none;
         font-size: 12px;

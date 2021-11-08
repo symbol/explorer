@@ -36,7 +36,7 @@ export default {
 .btn-green {
     border: transparent;
     border-radius: 4px;
-    color: $dark-mode-button-text-color;
+    color: var(--clickable-text);
     font-size: 12px;
     padding: 5px 12px 5px 12px;
     line-height: 1.6;
@@ -62,7 +62,7 @@ export default {
 
 .btn-green::before {
     content: '';
-    background: $dark-mode-card-border-color;
+    background: var(--sub-card-border);
     width: 0;
     height: 100%;
     position: absolute;
