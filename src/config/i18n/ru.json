@@ -388,5 +388,6 @@
     "nodeAddress": "Нода",
     "vrfAddress": "VRF",
     "exportCSV": "Экспорт CSV",
-    "isHttpsEnabled": "Https"
+    "isHttpsEnabled": "Https",
+    "epoch": "Epoch"
 }
