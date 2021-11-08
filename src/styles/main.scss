@@ -49,6 +49,47 @@ $theme-colors: map-merge(
     $theme-colors
 );
 
+:root {
+    --main-bg-color: #{$white-color};
+    --main-grid-bg: #{$white-color};
+    --navigation-bg: #{$black-color};
+    --theme-switch-bg: #{$dark-mode-card-bg-color};
+    --text-color: #{$grey-color};
+    --clickable-text: #{$dark-mode-button-text-color};
+    --navigation-bg: #{$black-color};
+    --card-bg: #{$white-color};
+    --card-border: #{$primary-color};
+    --sub-card-border: #{$primary-color};
+    --sub-card-bg: #{$transparent};
+    --card-title-text: #{$accent-color};
+    --table-content-text: #{$black-color};
+    --balance-green-text: #{$green-color};
+    --balance-widget-bg: #{$transparent};
+    --mosaic-filed-bg: #{$primary-color};
+    --loading-bg: #{$transparent};
+}
+
+// Variables for dark mode
+[data-theme="darkMode"] {
+    --main-bg-color: #{$dark-mode-card-bg-color};
+    --main-grid-bg: #{$dark-mode-grid-bg};
+    --navigation-bg: #{$black-color};
+    --theme-switch-bg: #{$dark-mode-card-bg-color};
+    --text-color: #{$dark-mode-text-color};
+    --clickable-text: #{$dark-mode-button-text-color};
+    --navigation-bg: #{$black-color};
+    --card-bg: #{$dark-mode-card-bg-color};
+    --card-border: #{$transparent};
+    --sub-card-border: #{$dark-mode-card-border-color};
+    --sub-card-bg: #{$black-color};
+    --card-title-text: #{$dark-mode-text-title-color};
+    --table-content-text: #{$violet-color};
+    --balance-green-text: #{$dark-mode-green-text-color};
+    --balance-widget-bg: #{$black-color};
+    --mosaic-filed-bg: #{$violet-color};
+    --loading-bg: #{$dark-grey-color};
+}
+
 @import '../../node_modules/bootstrap/scss/bootstrap';
 @import '../../node_modules/bootstrap-vue/src/index.scss';
 @import './marker-cluster.scss';
@@ -63,18 +104,12 @@ $theme-colors: map-merge(
 
 body {
     font-family: 'protipo', sans-serif;
+    background-color: var(--main-bg-color);
+    background-image: linear-gradient(var(--main-grid-bg) .1rem, transparent .1rem), linear-gradient(90deg, var(--main-grid-bg) .1rem, transparent .1rem);
+    background-size: 20px 20px;
 }
 
 a {
+    color: var(--clickable-text);
     font-weight: 600;
 }
-
-// a {
-//     color: var(--secondary);
-//     text-decoration: none;
-
-//     :hover {
-//         color: var(--pink);
-//         text-decoration: none;
-//     }
-// }
