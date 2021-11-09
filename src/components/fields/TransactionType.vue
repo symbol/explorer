@@ -21,6 +21,8 @@ import IconRestriction from '../../styles/img/restriction.png';
 import IconMultisig from '../../styles/img/multisig.png';
 import IconMetadata from '../../styles/img/metadata.png';
 import IconLink from '../../styles/img/account-link.png';
+import IconAggregateBond from '../../styles/img/aggregate-bond.png';
+import IconAggregateCompleted from '../../styles/img/aggregate-completed.png';
 import { TransactionType } from 'symbol-sdk';
 
 export default {
@@ -53,7 +55,9 @@ export default {
 			IconRestriction,
 			IconMultisig,
 			IconMetadata,
-			IconLink
+			IconLink,
+			IconAggregateBond,
+			IconAggregateCompleted
 		};
 	},
 
@@ -76,8 +80,9 @@ export default {
 			case TransactionType.MULTISIG_ACCOUNT_MODIFICATION:
 				return this.IconMultisig;
 			case TransactionType.AGGREGATE_COMPLETE:
+				return this.IconAggregateCompleted;
 			case TransactionType.AGGREGATE_BONDED:
-				return this.IconAggregate;
+				return this.IconAggregateBond;
 			case TransactionType.HASH_LOCK:
 			case TransactionType.SECRET_LOCK:
 			case TransactionType.SECRET_PROOF:
