@@ -109,6 +109,16 @@ export default {
 .pagination-wrapper {
     float: right;
 
+	.btn-outline-info {
+		color: var(--clickable-text);
+		border-color: var(--clickable-text);
+	}
+
+	.btn-outline-info:hover {
+		color: var(--text-color);
+		background-color: var(--clickable-text);
+	}
+
     .pagination-arrow {
         justify-content: center;
         flex-direction: column;
