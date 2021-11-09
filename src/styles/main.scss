@@ -71,7 +71,7 @@ $theme-colors: map-merge(
 
 // Variables for dark mode
 [data-theme="darkMode"] {
-    --main-bg-color: #{$dark-mode-card-bg-color};
+    --main-bg-color: #{$dark-mode-main-bg};
     --main-grid-bg: #{$dark-mode-grid-bg};
     --navigation-bg: #{$black-color};
     --theme-switch-bg: #{$dark-mode-card-bg-color};
@@ -105,8 +105,8 @@ $theme-colors: map-merge(
 body {
     font-family: 'protipo', sans-serif;
     background-color: var(--main-bg-color);
-    background-image: linear-gradient(var(--main-grid-bg) 1px, transparent 1px), linear-gradient(90deg, var(--main-grid-bg) 1px, transparent 1px);
-    background-size: 20px 20px;
+    background-image: linear-gradient(var(--main-grid-bg) 0.1rem, transparent 0.1rem), linear-gradient(90deg, var(--main-grid-bg) 0.1rem, transparent 0.1rem);
+    background-size: 25px 25px;
 }
 
 a {
