@@ -356,7 +356,7 @@ export default {
     }
 
     .table-item-clickable {
-        color: var(--primary);
+        color: var(--clickable-text);
         font-weight: 600;
         text-decoration: none;
         cursor: pointer;

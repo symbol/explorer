@@ -82,7 +82,7 @@ export default {
 .overlay {
     text-align: center;
     position: absolute;
-    color: var(--primary);
+    color: var(--clickable-text);
     z-index: 999;
 
     :hover > & {
