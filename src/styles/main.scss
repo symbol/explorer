@@ -66,6 +66,7 @@ $theme-colors: map-merge(
     --balance-widget-bg: #{$transparent};
     --mosaic-filed-bg: #{$primary-color};
     --loading-bg: #{$transparent};
+    --icon-invert: invert(1);
 }
 
 // Variables for dark mode
@@ -86,6 +87,7 @@ $theme-colors: map-merge(
     --balance-widget-bg: #{$black-color};
     --mosaic-filed-bg: #{$violet-color};
     --loading-bg: #{$dark-grey-color};
+    --icon-invert: invert(0);
 }
 
 @import '../../node_modules/bootstrap/scss/bootstrap';
