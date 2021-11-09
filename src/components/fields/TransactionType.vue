@@ -10,17 +10,17 @@
 </template>
 
 <script>
-import IconTransfer from '../../styles/img/tx-transfer.png';
+import IconTransfer from '../../styles/img/transfer.png';
 import IconTransferIncoming from '../../styles/img/tx-incoming.png';
-import IconTransferOutgoing from '../../styles/img/tx-outgoing-2.png';
-import IconAggregate from '../../styles/img/tx-aggregate.png';
-import IconLock from '../../styles/img/tx-lock.png';
-import IconNamespace from '../../styles/img/tx-namespace.png';
-import IconMosaic from '../../styles/img/tx-mosaic.png';
-import IconRestriction from '../../styles/img/tx-restriction.png';
-import IconMultisig from '../../styles/img/tx-multisig.png';
-import IconMetadata from '../../styles/img/tx-metadata.png';
-import IconLink from '../../styles/img/tx-account-link.png';
+import IconTransferOutgoing from '../../styles/img/tx-outgoing.png';
+import IconAggregate from '../../styles/img/tx-aggregate.png'; // Todo
+import IconLock from '../../styles/img/lock.png';
+import IconNamespace from '../../styles/img/namespace.png';
+import IconMosaic from '../../styles/img/mosaic.png';
+import IconRestriction from '../../styles/img/restriction.png';
+import IconMultisig from '../../styles/img/multisig.png';
+import IconMetadata from '../../styles/img/metadata.png';
+import IconLink from '../../styles/img/account-link.png';
 import { TransactionType } from 'symbol-sdk';
 
 export default {
@@ -136,6 +136,7 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+		filter: var(--icon-invert);
 
         .icon-small {
             height: 12px;
