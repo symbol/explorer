@@ -105,7 +105,7 @@ $theme-colors: map-merge(
 body {
     font-family: 'protipo', sans-serif;
     background-color: var(--main-bg-color);
-    background-image: linear-gradient(var(--main-grid-bg) .1rem, transparent .1rem), linear-gradient(90deg, var(--main-grid-bg) .1rem, transparent .1rem);
+    background-image: linear-gradient(var(--main-grid-bg) 1px, transparent 1px), linear-gradient(90deg, var(--main-grid-bg) 1px, transparent 1px);
     background-size: 20px 20px;
 }
 
