@@ -34,7 +34,7 @@
 						<component :is="item.icon" class="ex-menu-item-icon"/>
 						<span>{{getNameByKey(item.text)}}</span>
 					</router-link>
-                    <ThemeToggle />
+					<ThemeToggle />
 				</div>
 			</div>
 		</transition>
@@ -67,7 +67,7 @@ export default {
 		IconNodes,
 		IconNamespaces,
 		IconStatistics,
-        ThemeToggle
+		ThemeToggle
 	},
 
 	props: {
