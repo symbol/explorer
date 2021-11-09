@@ -40,7 +40,7 @@
 </template>
 
 <script>
-import FinalizedIcon from '../../styles/img/finalized.png';
+import LockIcon from '../../styles/img/lock.png';
 
 export default {
 	name: 'ChainInfo',
@@ -54,7 +54,7 @@ export default {
 
 	data() {
 		return {
-			FinalizedIcon
+			LockIcon
 		};
 	},
 
@@ -101,6 +101,7 @@ export default {
         margin-left: 1.5px;
         height: 12px;
         margin-bottom: 2px;
+		filter: var(--icon-invert);
     }
 
     .icon-height {
