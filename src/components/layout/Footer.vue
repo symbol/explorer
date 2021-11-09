@@ -154,4 +154,10 @@ export default {
     margin-left: auto;
     margin-right: auto;
 }
+
+@media (max-width: 764px) {
+    .social-icon {
+        justify-content: center;
+    }
+}
 </style>
