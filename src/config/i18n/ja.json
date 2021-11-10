@@ -97,7 +97,6 @@
     "valueSizeDelta": "値サイズ増減値",
     "feeMultiplier": "手数料乗数",
     "blockchainExplorerTitle": "Symbol ブロックチェーンエクスプローラ",
-    "searchBoxTitle": "ネットワーク上のトランザクション/アドレス/ネームスペース/モザイクを検索",
     "searchBoxPlaceholder": "ブロック / TXハッシュ / アドレス / モザイクID / ネームスペースID を検索",
     "nodes": "ノード",
     "home": "ホーム",
