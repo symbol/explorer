@@ -13,7 +13,6 @@
 import IconTransfer from '../../styles/img/transfer.png';
 import IconTransferIncoming from '../../styles/img/tx-incoming.png';
 import IconTransferOutgoing from '../../styles/img/tx-outgoing.png';
-import IconAggregate from '../../styles/img/tx-aggregate.png'; // Todo
 import IconLock from '../../styles/img/lock.png';
 import IconNamespace from '../../styles/img/namespace.png';
 import IconMosaic from '../../styles/img/mosaic.png';
@@ -48,7 +47,6 @@ export default {
 			IconTransfer,
 			IconTransferIncoming,
 			IconTransferOutgoing,
-			IconAggregate,
 			IconLock,
 			IconNamespace,
 			IconMosaic,

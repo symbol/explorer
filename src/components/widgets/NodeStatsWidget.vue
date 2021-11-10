@@ -12,9 +12,6 @@
 
 		<template #body>
 			<b-container fluid style="height: 100%;">
-				<!-- <b-row class="ex-ns-group">
-					{{getNameByKey('nodeCountByRoles')}}
-				</b-row> -->
 				<b-row>
 					<b-col
 						v-for="(item, index) in nodeRoles"
