@@ -20,6 +20,8 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import PageAssembler from './views/PageAssembler.vue';
 import pages from './config/pages';
+import { publicPath } from '../vue.config';
+
 Vue.use(Router);
 
 const pagesRoutes = pages.map(page => ({
@@ -33,6 +35,7 @@ const pagesRoutes = pages.map(page => ({
 
 const routerConfig = {
 	mode: 'history',
+	base: publicPath,
 	scrollBehavior() {
 		return { x: 0, y: 0 };
 	},
