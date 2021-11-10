@@ -101,7 +101,7 @@ export default {
         margin-left: 1.5px;
         height: 12px;
         margin-bottom: 2px;
-		filter: var(--icon-invert);
+        filter: var(--icon-invert);
     }
 
     .icon-height {

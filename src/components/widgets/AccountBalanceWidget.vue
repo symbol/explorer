@@ -151,7 +151,7 @@ export default {
 
     .body {
         background: var(--balance-widget-bg);
-		border: 1px solid var(--sub-card-border);
+        border: 1px solid var(--sub-card-border);
         color: var(--text-color);
         border-radius: 12px;
         position: relative;
@@ -164,7 +164,7 @@ export default {
             justify-content: space-between;
 
             .account-icon {
-				border: 1px solid var(--clickable-text);
+                border: 1px solid var(--clickable-text);
                 margin-right: 20px;
                 background: var(--sub-card-bg);
                 border-radius: 50%;

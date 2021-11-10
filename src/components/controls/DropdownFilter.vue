@@ -110,8 +110,8 @@ export default {
 </script>
 
 <style lang="scss">
-.dropdown-toggle::after{
-	vertical-align:middle
+.dropdown-toggle::after {
+    vertical-align: middle;
 }
 
 .dropdown-filter {

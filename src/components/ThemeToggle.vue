@@ -68,7 +68,7 @@ export default {
 
 <style lang="scss" scoped>
 .toogleTheme {
-    right: 0px;
+    right: 0;
     top: 5px;
 
     .toggle {
@@ -86,7 +86,7 @@ export default {
             width: 30px;
             height: 30px;
             border-radius: 50%;
-            background:var(--clickable-text);
+            background: var(--clickable-text);
         }
     }
 

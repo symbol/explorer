@@ -2,7 +2,7 @@
 	<span
 		v-if="hasAmount"
 		:title="getTranslation('amount') + ': ' + amount"
-		style="display: flex"
+		style="display: flex;"
 	>
 		<Decimal :value="amount" class="decimal"/> {{ networkCurrency }}
 	</span>

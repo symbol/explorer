@@ -196,7 +196,7 @@ export default {
                 background: var(--sub-card-bg);
                 padding: 10px 20px;
                 border-radius: 40px;
-				border: 1px solid var(--sub-card-border);
+                border: 1px solid var(--sub-card-border);
 
                 .signature-icon {
                     position: absolute;

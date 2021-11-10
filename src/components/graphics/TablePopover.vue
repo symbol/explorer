@@ -48,8 +48,8 @@ export default {
 <style lang="scss" scoped>
 .table-list {
     min-width: 250px;
-	background-color: var(--sub-card-bg);
-	border: 1px solid var(--sub-card-border);
+    background-color: var(--sub-card-bg);
+    border: 1px solid var(--sub-card-border);
 
     .key {
         color: var(--text-color);

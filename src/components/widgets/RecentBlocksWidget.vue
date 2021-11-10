@@ -97,8 +97,8 @@ export default {
 
 <style lang="scss" scoped>
 .ex-card .card-item {
-	border: 1px solid var(--sub-card-border);
-	background-color: var(--sub-card-bg);
+    border: 1px solid var(--sub-card-border);
+    background-color: var(--sub-card-bg);
 }
 
 .card-item {
@@ -106,7 +106,7 @@ export default {
         padding: 0;
 
         .ex-title-text {
-            color: var(--text-color);;
+            color: var(--text-color);
         }
 
         .ex-row {

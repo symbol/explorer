@@ -95,7 +95,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-
 .header-gradinet {
     background: var(--navigation-bg);
 }
@@ -153,11 +152,11 @@ export default {
         height: 4px;
         background: var(--light);
         transition: all 0.2s ease-in-out;
-		bottom: 0px;
+        bottom: 0;
     }
 
-	.ex-menu-item.active::before {
-		background-color: #7413a4;
+    .ex-menu-item.active::before {
+        background-color: #7413a4;
         opacity: 1;
     }
 }

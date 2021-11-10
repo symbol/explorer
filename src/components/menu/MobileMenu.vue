@@ -136,7 +136,6 @@ export default {
     height: 100%;
     background-repeat: no-repeat;
     background-size: 100%;
-
 }
 
 .mobile-menu {

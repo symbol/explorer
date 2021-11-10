@@ -141,7 +141,7 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
-		filter: var(--icon-invert);
+        filter: var(--icon-invert);
 
         .icon-small {
             height: 12px;

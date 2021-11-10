@@ -43,6 +43,6 @@ export default {
 
 <style lang="scss">
 .modal-header, .modal-body {
-	background-color: var(--card-bg);
+    background-color: var(--card-bg);
 }
 </style>

@@ -75,8 +75,8 @@ export default {
 <style lang="scss" scoped>
 .list-item {
     min-width: 250px;
-	background-color: var(--sub-card-bg);
-	border: 1px solid var(--sub-card-border);
-	color: var(--text-color);
+    background-color: var(--sub-card-bg);
+    border: 1px solid var(--sub-card-border);
+    color: var(--text-color);
 }
 </style>

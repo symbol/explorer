@@ -98,10 +98,11 @@ export default {
 </script>
 
 <style lang="scss">
-.dropdown-toggle::after{
-	vertical-align:middle
+.dropdown-toggle::after {
+    vertical-align: middle;
 }
+
 .ex-dropdown-item {
-	text-transform: uppercase;
+    text-transform: uppercase;
 }
 </style>

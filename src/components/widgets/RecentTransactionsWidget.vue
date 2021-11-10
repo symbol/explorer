@@ -39,7 +39,7 @@
 									<div class="ex-text">
 										{{getNameByKey('block')}}: {{ item.height }}
 									</div>
-									<div class="ex-long-text ex-text" :title="'Type: ' + item.type" style="margin-left: 20px">
+									<div class="ex-long-text ex-text" :title="'Type: ' + item.type" style="margin-left: 20px;">
 										<TransactionType :value="item.type" size="small" />
 									</div>
 								</div>
@@ -97,8 +97,8 @@ export default {
 
 <style lang="scss" scoped>
 .ex-card .card-item {
-	border: 1px solid var(--sub-card-border);
-	background-color: var(--sub-card-bg);
+    border: 1px solid var(--sub-card-border);
+    background-color: var(--sub-card-bg);
 }
 
 .card-item {

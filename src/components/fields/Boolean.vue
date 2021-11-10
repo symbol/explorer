@@ -64,6 +64,6 @@ export default {
 .icon {
     height: 32px;
     width: 32px;
-	filter: var(--icon-invert);
+    filter: var(--icon-invert);
 }
 </style>

@@ -92,7 +92,7 @@ export default {
         .icon-finalized {
             height: 15px;
             margin-bottom: 2px;
-			filter: var(--icon-invert);
+            filter: var(--icon-invert);
         }
     }
 
