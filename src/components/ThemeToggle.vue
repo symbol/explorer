@@ -8,6 +8,7 @@
 					:src="IconSun"
 					width="25px"
 					height="25px"
+					alt="light mode"
 				/>
 			</span>
 
@@ -17,6 +18,7 @@
 					:src="IconMoon"
 					width="25px"
 					height="25px"
+					alt="dark mode"
 				/>
 			</span>
 		</label>

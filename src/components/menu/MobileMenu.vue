@@ -18,7 +18,7 @@
 			<div v-if="showDrawer" class="menu-drawer">
 				<div class="drawer-header blue-gradinet">
 					<router-link to="/" class="logo">
-						<img src="../../styles/img/symbol_logo_200px.png" />
+						<img src="../../styles/img/symbol_logo_200px.png" alt="symbol logo" />
 					</router-link>
 					<span class="title">{{getNameByKey('blockchainExplorerTitle')}}</span>
 					<LanguageSelector />

@@ -64,7 +64,7 @@ export default {
 .header-gradinet {
     background-size: 100% auto;
     position: relative;
-    background: #000000;
+    background-color: #000000;
 }
 
 .header-gradinet::before {
