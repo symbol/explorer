@@ -11,7 +11,7 @@ REST Core| v2.3.7 | [catapult-rest][catapult-rest@v2.3.7]
 SDK Core| v1.0.2 | [symbol-sdk][symbol-sdk@v1.0.2]
 
 ### Added
-- Add app verison on footer [#931](https://github.com/symbol/symbol-explorer/pull/931)
+- Add app version on footer [#931](https://github.com/symbol/symbol-explorer/pull/931)
 - Enable https [#927](https://github.com/symbol/symbol-explorer/issues/927)
 - Enable Russian language [#949](https://github.com/symbol/symbol-explorer/pull/949)
 - Symbol SDK v1.0.2 [#953](https://github.com/symbol/symbol-explorer/pull/953)
