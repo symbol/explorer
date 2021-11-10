@@ -31,8 +31,8 @@
 	/>
 </template>
 <script>
-import IconTrue from '../../styles/img/true.png';
-import IconFalse from '../../styles/img/false.png';
+import IconTrue from '../../styles/img/checked_true.png';
+import IconFalse from '../../styles/img/close_false.png';
 export default {
 	props: {
 		value: [Boolean, String, Number]
@@ -64,5 +64,6 @@ export default {
 .icon {
     height: 32px;
     width: 32px;
+	filter: var(--icon-invert);
 }
 </style>
