@@ -31,6 +31,7 @@
 						:to="item.to" exact active-class="active"
 						@click.native="toggleMenu"
 					>
+                        <img v-if="iconUrl(item.icon)" width="15px" height="15px" :src="iconUrl(item.icon)" class="menu-icon"/>
 						<component :is="item.icon" class="ex-menu-item-icon"/>
 						<span>{{getNameByKey(item.text)}}</span>
 					</router-link>
@@ -47,13 +48,13 @@ import IconHome from 'vue-material-design-icons/Home.vue';
 import IconBlocks from 'vue-material-design-icons/Widgets.vue';
 import IconTransactions from 'vue-material-design-icons/Send.vue';
 import IconAccounts from 'vue-material-design-icons/Account.vue';
-import IconMosaics from 'vue-material-design-icons/CheckboxMultipleBlankCircle.vue';
 import IconNodes from 'vue-material-design-icons/VectorTriangle.vue';
 import IconNamespaces from 'vue-material-design-icons/Tag.vue';
-import IconStatistics from 'vue-material-design-icons/ChartBar.vue';
 import LanguageSelector from '@/components/controls/LanguageSelector.vue';
 import { pageMenu } from '../../config/';
 import ThemeToggle from '../ThemeToggle.vue';
+import IconStatistics from '../../styles/img/statistics.png';
+import IconMosaics from '../../styles/img/mosaic.png';
 
 export default {
 	components: {
@@ -63,10 +64,8 @@ export default {
 		IconBlocks,
 		IconTransactions,
 		IconAccounts,
-		IconMosaics,
 		IconNodes,
 		IconNamespaces,
-		IconStatistics,
 		ThemeToggle
 	},
 
@@ -81,7 +80,9 @@ export default {
 		return {
 			items: pageMenu.items,
 			showDrawer: false,
-			scrolled: true
+			scrolled: true,
+            IconStatistics,
+			IconMosaics
 		};
 	},
 
@@ -92,6 +93,17 @@ export default {
 
 		getNameByKey(e) {
 			return this.$store.getters['ui/getNameByKey'](e);
+		},
+
+        iconUrl(icon) {
+			switch(icon) {
+			case 'IconStatistics':
+				return this.IconStatistics;
+			case 'IconMosaics':
+				return this.IconMosaics
+			default:
+				return null;
+			}
 		}
 	}
 };
@@ -99,7 +111,7 @@ export default {
 
 <style lang="scss" scoped>
 .shaded {
-    background: black;
+    background: var(--main-bg-color);
     opacity: 0.5;
     width: 100vw;
     height: 100vh;
@@ -202,7 +214,7 @@ export default {
 
         .menu-icon {
             font-size: 32px;
-            color: white;
+            color: var(--text-color);
             cursor: pointer;
             width: 32px;
         }

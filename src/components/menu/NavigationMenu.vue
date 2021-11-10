@@ -6,7 +6,7 @@
 	>
 		<div class="width-limiter">
 			<router-link to="/" :class="{'hide': !fixed}">
-				<img src="../../styles/img/symbol_logo_200px.png" class="menu-logo"/>
+				<img src="../../styles/img/symbol_logo_200px.png" class="menu-logo" width="200px" height="50px"/>
 			</router-link>
 			<router-link
 				v-for="item in items"
@@ -14,6 +14,7 @@
 				class="ex-menu-item"
 				:to="item.to" exact active-class="active"
 			>
+				<img v-if="iconUrl(item.icon)" width="15px" height="15px" :src="iconUrl(item.icon)" class="menu-icon"/>
 				<component :is="item.icon" class="menu-icon"/>
 				<i :class="item.classname"></i>
 				<span>{{getNameByKey(item.text)}}</span>
@@ -29,11 +30,11 @@ import IconHome from 'vue-material-design-icons/Home.vue';
 import IconBlocks from 'vue-material-design-icons/Widgets.vue';
 import IconTransactions from 'vue-material-design-icons/Send.vue';
 import IconAccounts from 'vue-material-design-icons/Account.vue';
-import IconMosaics from 'vue-material-design-icons/CheckboxMultipleBlankCircle.vue';
 import IconNodes from 'vue-material-design-icons/VectorTriangle.vue';
 import IconNamespaces from 'vue-material-design-icons/Tag.vue';
-import IconStatistics from 'vue-material-design-icons/ChartBar.vue';
 import ThemeToggle from '../ThemeToggle.vue';
+import IconStatistics from '../../styles/img/statistics.png';
+import IconMosaics from '../../styles/img/mosaic.png';
 
 export default {
 	components: {
@@ -41,10 +42,8 @@ export default {
 		IconBlocks,
 		IconTransactions,
 		IconAccounts,
-		IconMosaics,
 		IconNodes,
 		IconNamespaces,
-		IconStatistics,
 		ThemeToggle
 	},
 
@@ -71,13 +70,25 @@ export default {
 		return {
 			items: pageMenu.items,
 			fixed: false,
-			scrollListener: {}
+			scrollListener: {},
+			IconStatistics,
+			IconMosaics
 		};
 	},
 
 	methods: {
 		getNameByKey(e) {
 			return this.$store.getters['ui/getNameByKey'](e);
+		},
+		iconUrl(icon) {
+			switch(icon) {
+			case 'IconStatistics':
+				return this.IconStatistics;
+			case 'IconMosaics':
+				return this.IconMosaics
+			default:
+				return null;
+			}
 		}
 	}
 };
