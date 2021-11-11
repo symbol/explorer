@@ -97,7 +97,6 @@
     "valueSizeDelta": "Розмір величини дельти",
     "feeMultiplier": "Множник комісійного збіру",
     "blockchainExplorerTitle": "Переглядач блокчейну Symbol",
-    "searchBoxTitle": "Шукайте транзакції, адреси, простори імен та мозаїки у мережі NEM.",
     "searchBoxPlaceholder": "Шукати блок / хеш транзакції / адреса",
     "nodes": "Вузли",
     "home": "Домашня",
@@ -378,7 +377,7 @@
 	"chainInfo": "Chain Info",
 	"nodeHeightStatsTitle": "Count of nodes by chain height",
     "nodeFinalizedHeightStatsTitle": "Count of nodes by finalized height",
-	"viewMoreStatistics": "View More Statistics",
+	"viewMoreStatistics": "View More Stats",
     "nodeCountChartTitle": "Node count over time",
     "timestamp": "Timestamp",
     "symbolTime": "Symbol Time",
@@ -394,5 +393,6 @@
     "nodeAddress": "Node",
     "vrfAddress": "VRF",
     "exportCSV": "Export CSV",
-    "isHttpsEnabled": "Https"
+    "isHttpsEnabled": "Https",
+    "epoch": "Epoch"
 }

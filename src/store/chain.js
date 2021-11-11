@@ -43,7 +43,8 @@ export default {
 		chainInfo: {
 			currentHeight: 0,
 			finalizedBlockHeight: 0,
-			isVotingNode: false
+			isVotingNode: false,
+			epoch: 0
 		},
 		nodeStats: {},
 		loading: true
@@ -72,8 +73,9 @@ export default {
 			state.marketData.marketCap = marketData.XEM.USD.MKTCAP;
 			state.marketData.historicalHourlyGraph = graphData;
 		},
-		setChainInfo: (state, { currentHeight, finalizedBlockHeight, isVotingNode }) => {
+		setChainInfo: (state, { currentHeight, epoch, finalizedBlockHeight, isVotingNode }) => {
 			state.chainInfo.currentHeight = currentHeight;
+			state.chainInfo.epoch = epoch;
 			state.chainInfo.finalizedBlockHeight = finalizedBlockHeight;
 			state.chainInfo.isVotingNode = isVotingNode;
 		},
@@ -145,6 +147,7 @@ export default {
 
 			commit('setChainInfo', {
 				currentHeight: chainInfo.height,
+				epoch: chainInfo.latestFinalizedBlock.finalizationEpoch,
 				finalizedBlockHeight: chainInfo.latestFinalizedBlock.height,
 				isVotingNode: currentNodeInfo.roles.indexOf(RoleType.VotingNode) !== -1
 			});

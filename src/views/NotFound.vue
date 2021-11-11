@@ -35,7 +35,7 @@ blockquote {
 }
 
 a {
-    color: #84accb;
+    color: var(--clickable-text);
     font-weight: bold;
     letter-spacing: 1px;
     text-decoration: none;

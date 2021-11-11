@@ -193,9 +193,10 @@ export default {
                 display: inline-block;
                 width: auto;
                 max-width: 700px;
-                background: #f2f4f8;
+                background: var(--sub-card-bg);
                 padding: 10px 20px;
                 border-radius: 40px;
+                border: 1px solid var(--sub-card-border);
 
                 .signature-icon {
                     position: absolute;

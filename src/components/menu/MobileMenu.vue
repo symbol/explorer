@@ -10,7 +10,7 @@
 
 		<div class="mobile-panel navbar-hide-on-scroll">
 			<router-link to="/" class="title" :class="{'hide': fixed}">
-				<img src="../../styles/img/logo-w.png" class="menu-logo"/>
+				<img src="../../styles/img/symbol_logo_200px.png" class="menu-logo"/>
 			</router-link>
 		</div>
 
@@ -18,7 +18,7 @@
 			<div v-if="showDrawer" class="menu-drawer">
 				<div class="drawer-header blue-gradinet">
 					<router-link to="/" class="logo">
-						<img src="../../styles/img/logo-w.png" />
+						<img src="../../styles/img/symbol_logo_200px.png" alt="symbol logo" />
 					</router-link>
 					<span class="title">{{getNameByKey('blockchainExplorerTitle')}}</span>
 					<LanguageSelector />
@@ -31,9 +31,11 @@
 						:to="item.to" exact active-class="active"
 						@click.native="toggleMenu"
 					>
+						<img v-if="iconUrl(item.icon)" width="15px" height="15px" :src="iconUrl(item.icon)" class="menu-icon" alt="menu icon"/>
 						<component :is="item.icon" class="ex-menu-item-icon"/>
 						<span>{{getNameByKey(item.text)}}</span>
 					</router-link>
+					<ThemeToggle />
 				</div>
 			</div>
 		</transition>
@@ -46,12 +48,13 @@ import IconHome from 'vue-material-design-icons/Home.vue';
 import IconBlocks from 'vue-material-design-icons/Widgets.vue';
 import IconTransactions from 'vue-material-design-icons/Send.vue';
 import IconAccounts from 'vue-material-design-icons/Account.vue';
-import IconMosaics from 'vue-material-design-icons/CheckboxMultipleBlankCircle.vue';
 import IconNodes from 'vue-material-design-icons/VectorTriangle.vue';
 import IconNamespaces from 'vue-material-design-icons/Tag.vue';
-import IconStatistics from 'vue-material-design-icons/ChartBar.vue';
 import LanguageSelector from '@/components/controls/LanguageSelector.vue';
 import { pageMenu } from '../../config/';
+import ThemeToggle from '../ThemeToggle.vue';
+import IconStatistics from '../../styles/img/statistics.png';
+import IconMosaics from '../../styles/img/mosaic.png';
 
 export default {
 	components: {
@@ -61,10 +64,9 @@ export default {
 		IconBlocks,
 		IconTransactions,
 		IconAccounts,
-		IconMosaics,
 		IconNodes,
 		IconNamespaces,
-		IconStatistics
+		ThemeToggle
 	},
 
 	props: {
@@ -78,7 +80,9 @@ export default {
 		return {
 			items: pageMenu.items,
 			showDrawer: false,
-			scrolled: true
+			scrolled: true,
+			IconStatistics,
+			IconMosaics
 		};
 	},
 
@@ -89,6 +93,17 @@ export default {
 
 		getNameByKey(e) {
 			return this.$store.getters['ui/getNameByKey'](e);
+		},
+
+		iconUrl(icon) {
+			switch (icon) {
+			case 'IconStatistics':
+				return this.IconStatistics;
+			case 'IconMosaics':
+				return this.IconMosaics;
+			default:
+				return null;
+			}
 		}
 	}
 };
@@ -96,7 +111,7 @@ export default {
 
 <style lang="scss" scoped>
 .shaded {
-    background: black;
+    background: var(--main-bg-color);
     opacity: 0.5;
     width: 100vw;
     height: 100vh;
@@ -106,14 +121,13 @@ export default {
 }
 
 .blue-gradinet {
-    background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
+    background: linear-gradient(120deg, var(--main-bg-color) 0%, var(--main-bg-color) 100%);
     background-size: 100% auto;
     position: relative;
 }
 
 .blue-gradinet::before {
     content: '';
-    background-image: url(../../styles/img/logo_bkg.png);
     position: absolute;
     z-index: 0;
     top: 0;
@@ -136,7 +150,7 @@ export default {
         top: 0;
         left: 0;
         height: 100vh;
-        background: white;
+        background: var(--navigation-bg);
         width: 80%;
         min-width: 300px;
         box-shadow: 0 2px 10px 2px rgba(0, 0, 0, 0.2);
@@ -163,7 +177,7 @@ export default {
 
             .title {
                 font-size: 18px;
-                color: #fff;
+                color: var(--text-color);
                 width: 100%;
                 text-align: center;
                 display: block;
@@ -181,7 +195,7 @@ export default {
 
             .ex-menu-item {
                 margin-bottom: 20px;
-                color: #343a40;
+                color: var(--text-color);
 
                 .ex-menu-item-icon {
                     margin-right: 20px;
@@ -199,14 +213,14 @@ export default {
 
         .menu-icon {
             font-size: 32px;
-            color: white;
+            color: var(--text-color);
             cursor: pointer;
             width: 32px;
         }
     }
 
     .mobile-panel {
-        background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
+        // background: linear-gradient(120deg, var(--primary) 0%, var(--secondary) 100%);
         box-shadow: 0 2px 10px 2px rgba(0, 0, 0, 0.2);
         padding: 0 15px;
         display: flex;

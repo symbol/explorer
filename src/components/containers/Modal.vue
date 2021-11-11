@@ -40,3 +40,9 @@ export default {
     }
 }
 </style>
+
+<style lang="scss">
+.modal-header, .modal-body {
+    background-color: var(--card-bg);
+}
+</style>

@@ -22,8 +22,7 @@
 			<div class="width-limiter">
 				<b-container fluid>
 					<b-row class="footer-row mx-0 mx-md-4 mx-lg-4 px-lg-4">
-						<NemDescription class="footer-description"/>
-						<b-col sm="12" lg="4">
+						<b-col sm="12" lg="4" offset-lg="4" class="vertical-center">
 							<ul class="social-icon">
 								<li
 									v-for="item in items"
@@ -41,7 +40,7 @@
 							<NodeSelector class="horisontal-center"/>
 						</b-col>
 					</b-row>
-					<NemCopyright />
+					<SymbolCopyRight />
 				</b-container>
 			</div>
 		</footer>
@@ -49,8 +48,7 @@
 </template>
 
 <script>
-import NemDescription from '@/components/NemDescription.vue';
-import NemCopyright from '@/components/NemCopyright.vue';
+import SymbolCopyRight from '@/components/SymbolCopyRight.vue';
 import NodeSelector from '@/components/controls/NodeSelector.vue';
 
 import IconGithub from 'vue-material-design-icons/GithubCircle.vue';
@@ -61,8 +59,7 @@ import globalConfig from '../../config/globalConfig';
 
 export default {
 	components: {
-		NemDescription,
-		NemCopyright,
+		SymbolCopyRight,
 		NodeSelector,
 
 		IconGithub,
@@ -86,16 +83,11 @@ export default {
 }
 
 .footer {
-    background: #410078;
     padding: 50px 0 0;
     width: 100%;
     position: relative;
 
     .footer-row {
-        padding-top: 40px;
-        // width: 100%;
-        // max-width: 1920px;
-
         .footer-description {
             margin-top: -40px;
         }
@@ -104,7 +96,7 @@ export default {
 
 .footer::before {
     content: '';
-    background-image: url(../../styles/img/symbol_connector_crop2.jpg);
+    background-image: url(../../styles/img/footer.png);
     position: absolute;
     z-index: 0;
     bottom: 0;
@@ -112,8 +104,8 @@ export default {
     width: 100%;
     height: 100%;
     background-repeat: no-repeat;
-    background-size: auto 130%;
-    background-position-x: left;
+    background-size: cover;
+    background-position: center;
 }
 
 .social-icon {
@@ -126,9 +118,10 @@ export default {
 
     .social-icon-item {
         margin: 5px 10px;
+        text-transform: uppercase;
 
         a {
-            color: #fff;
+            color: var(--clickable-text);
             text-decoration: none;
 
             span {
@@ -160,5 +153,11 @@ export default {
     max-width: $footer-max-width;
     margin-left: auto;
     margin-right: auto;
+}
+
+@media (max-width: 764px) {
+    .social-icon {
+        justify-content: center;
+    }
 }
 </style>

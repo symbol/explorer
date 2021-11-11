@@ -7,7 +7,7 @@
 	>
 		<b-dropdown-item
 			v-for="(label, value) in options"
-			class="ex-dropdown"
+			class="ex-dropdown-item"
 			:key="'dropdown ' + value"
 			@click="onChange(value)"
 		>
@@ -61,7 +61,7 @@ export default {
 			variant = 'outline-';
 
 			if (this.dark === true)
-				variant += 'light';
+				variant += 'dark-mode-blue';
 			else
 				variant += 'info';
 
@@ -96,3 +96,13 @@ export default {
 	}
 };
 </script>
+
+<style lang="scss">
+.dropdown-toggle::after {
+    vertical-align: middle;
+}
+
+.ex-dropdown-item {
+    text-transform: uppercase;
+}
+</style>
