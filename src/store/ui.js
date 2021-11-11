@@ -28,7 +28,7 @@ export default {
 		languages: i18n.languages,
 		currentLanguage: localStorage.getItem('userLanguage'),
 		keyPages: keyRedirects,
-		theme: localStorage.getItem('theme'),
+		theme: localStorage.getItem('theme')
 	},
 
 	getters: {
@@ -73,7 +73,10 @@ export default {
 	},
 
 	mutations: {
-
+		setTheme: (state, theme) => {
+			state.theme = theme;
+			localStorage.setItem('theme', theme);
+		}
 	},
 	actions: {
 		openPage: ({ state }, payload) => {
@@ -196,8 +199,8 @@ export default {
 			else throw Error('Cannot change language. language is not supported: ' + language);
 		},
 
-		changeTheme: ({}, theme) => {
-			localStorage.setItem('theme', theme);
+		changeTheme: ({ commit }, theme) => {
+			commit('setTheme', theme);
 		}
 	}
 };
