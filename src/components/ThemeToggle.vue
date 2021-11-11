@@ -1,5 +1,5 @@
 <template>
-	<div class="custom-control custom-switch toogleTheme">
+	<div class="custom-control custom-switch toogle-theme">
 		<input type="checkbox" class="custom-control-input" id="goDark" v-model="isDarkMode" @change="toggleTheme">
 		<label class="custom-control-label toggle" for="goDark">
 			<span class="sun" :class="{'toggle-button': !this.isDarkMode}">
@@ -32,7 +32,7 @@ import IconSun from '../styles/img/sun.png';
 export default {
 	mounted() {
 		// get theme from localstorage
-		let theme = localStorage.getItem('theme');
+		let theme = this.$store.getters['ui/theme'];
 
 		// set default to darkMode if not theme specify
 		if (theme === null) {
@@ -55,19 +55,19 @@ export default {
 
 	methods: {
 		toggleTheme() {
-			const darkMode = this.isDarkMode ? 'darkMode' : '';
+			const theme = this.isDarkMode ? 'darkMode' : '';
 
-			document.documentElement.setAttribute('data-theme', darkMode);
+			document.documentElement.setAttribute('data-theme', theme);
 
 			// Save theme in local storage
-			localStorage.setItem('theme', darkMode);
+			this.$store.dispatch('ui/changeTheme', theme);
 		}
 	}
 };
 </script>
 
 <style lang="scss" scoped>
-.toogleTheme {
+.toogle-theme {
     right: 0;
     top: 5px;
 
