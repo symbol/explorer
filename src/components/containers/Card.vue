@@ -58,10 +58,11 @@ export default {
         display: flex;
         justify-content: space-between;
         margin-bottom: 10px;
-        font-size: 16px;
+        font-size: 20px;
         font-weight: 500;
         color: var(--card-title-text);
         text-transform: uppercase;
+        font-family: "Carbon", sans-serif;
     }
 
     .ex-card-body {

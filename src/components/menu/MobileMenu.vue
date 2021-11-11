@@ -31,7 +31,7 @@
 						:to="item.to" exact active-class="active"
 						@click.native="toggleMenu"
 					>
-                        <img v-if="iconUrl(item.icon)" width="15px" height="15px" :src="iconUrl(item.icon)" class="menu-icon" alt="menu icon"/>
+						<img v-if="iconUrl(item.icon)" width="15px" height="15px" :src="iconUrl(item.icon)" class="menu-icon" alt="menu icon"/>
 						<component :is="item.icon" class="ex-menu-item-icon"/>
 						<span>{{getNameByKey(item.text)}}</span>
 					</router-link>
@@ -81,7 +81,7 @@ export default {
 			items: pageMenu.items,
 			showDrawer: false,
 			scrolled: true,
-            IconStatistics,
+			IconStatistics,
 			IconMosaics
 		};
 	},
@@ -95,12 +95,12 @@ export default {
 			return this.$store.getters['ui/getNameByKey'](e);
 		},
 
-        iconUrl(icon) {
-			switch(icon) {
+		iconUrl(icon) {
+			switch (icon) {
 			case 'IconStatistics':
 				return this.IconStatistics;
 			case 'IconMosaics':
-				return this.IconMosaics
+				return this.IconMosaics;
 			default:
 				return null;
 			}

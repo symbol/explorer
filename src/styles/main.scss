@@ -6,6 +6,11 @@
     font-weight: 400;
 }
 
+@font-face {
+    font-family: Carbon;
+    src: url("./fonts/Carbon-Bold.otf") format("opentype");
+}
+
 $primary: $primary-color;
 $secondary: $secondary-color;
 $info: $secondary-color;
@@ -114,4 +119,8 @@ body {
 a {
     color: var(--clickable-text);
     font-weight: 600;
+
+    &:hover {
+        color: var(--clickable-text);
+    }
 }

@@ -148,9 +148,9 @@ export default {
         }
 
         .icon-medium {
-            height: 32px;
-            width: 32px;
-            margin-right: 10px;
+            height: 25px;
+            width: 25px;
+            margin: 5px;
         }
     }
 

@@ -81,11 +81,11 @@ export default {
 			return this.$store.getters['ui/getNameByKey'](e);
 		},
 		iconUrl(icon) {
-			switch(icon) {
+			switch (icon) {
 			case 'IconStatistics':
 				return this.IconStatistics;
 			case 'IconMosaics':
-				return this.IconMosaics
+				return this.IconMosaics;
 			default:
 				return null;
 			}
@@ -137,7 +137,7 @@ export default {
     }
 
     .ex-menu-item.active {
-        color: var(--text-color);
+        color: var(--white);
         font-weight: 600;
         opacity: 1;
         background-color: #250832;
