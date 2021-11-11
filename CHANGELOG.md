@@ -3,6 +3,19 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v1.1.2][v1.1.2] - 11-Nov-2021
+
+Package  | Version  | Link
+---|---|---
+REST Core| v2.3.8 | [catapult-rest][catapult-rest@v2.3.8]
+SDK Core| v1.0.2 | [symbol-sdk][symbol-sdk@v1.0.2]
+
+### Added
+- Introduce dark mode [#958](https://github.com/symbol/symbol-explorer/pull/958)
+
+### Fixed
+- Minor typos in CHANGELOG.md [#957](https://github.com/symbol/symbol-explorer/pull/957)
+
 ## [v1.1.1][v1.1.1] - 31-Oct-2021
 
 Package  | Version  | Link
@@ -392,6 +405,7 @@ SDK Core| v0.20.7 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 [v1.0.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v1.0.0
 [v1.0.1]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v1.0.1
 [v1.1.1]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v1.1.1
+[v1.1.2]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v1.1.2
 
 [catapult-server@v0.10.0.5]: https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.5
 [catapult-server@v0.10.0.7]: https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.7
@@ -411,3 +425,4 @@ SDK Core| v0.20.7 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 [catapult-rest@v2.3.4]: https://github.com/nemtech/catapult-rest/releases/tag/v2.3.4
 [catapult-rest@v2.3.6]: https://github.com/nemtech/catapult-rest/releases/tag/v2.3.6
 [catapult-rest@v2.3.7]: https://github.com/symbol/catapult-rest/releases/tag/v2.3.7
+[catapult-rest@v2.3.8]: https://github.com/symbol/catapult-rest/releases/tag/v2.3.8
