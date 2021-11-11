@@ -96,8 +96,7 @@
     "type": "类型",
     "valueSizeDelta": "值大小增量",
     "feeMultiplier": "费用乘数",
-    "blockchainExplorerTitle": "Symbol blockchain explorer",
-    "searchBoxTitle": "Search transactions, addresses, namespaces & mosaics on the Symbol network.",
+    "blockchainExplorerTitle": "EXPLORER",
     "searchBoxPlaceholder": "Search block / tx hash / account address / mosaic id / namespace id",
     "nodes": "Nodes",
     "home": "Home",
@@ -107,8 +106,8 @@
     "marketCap": "Market Cap",
     "recentBlocks": "Recent Blocks",
     "recentTransactions": "Recent Transactions",
-    "viewAllBlocks": "View all blocks",
-    "viewAllTransactions": "View all transactions",
+    "viewAllBlocks": "View all",
+    "viewAllTransactions": "View all",
     "sender": "Sender",
     "more": "More",
     "less": "Less",
@@ -378,7 +377,7 @@
 	"chainInfo": "Chain Info",
 	"nodeHeightStatsTitle": "Count of nodes by chain height",
     "nodeFinalizedHeightStatsTitle": "Count of nodes by finalized height",
-	"viewMoreStatistics": "View More Statistics",
+	"viewMoreStatistics": "View More Stats",
     "nodeCountChartTitle": "Node count over time",
     "timestamp": "Timestamp",
     "symbolTime": "Symbol Time",
@@ -394,5 +393,6 @@
     "nodeAddress": "Node",
     "vrfAddress": "VRF",
     "exportCSV": "Export CSV",
-    "isHttpsEnabled": "Https"
+    "isHttpsEnabled": "Https",
+    "epoch": "Epoch"
 }

@@ -10,17 +10,18 @@
 </template>
 
 <script>
-import IconTransfer from '../../styles/img/tx-transfer.png';
+import IconTransfer from '../../styles/img/transfer.png';
 import IconTransferIncoming from '../../styles/img/tx-incoming.png';
-import IconTransferOutgoing from '../../styles/img/tx-outgoing-2.png';
-import IconAggregate from '../../styles/img/tx-aggregate.png';
-import IconLock from '../../styles/img/tx-lock.png';
-import IconNamespace from '../../styles/img/tx-namespace.png';
-import IconMosaic from '../../styles/img/tx-mosaic.png';
-import IconRestriction from '../../styles/img/tx-restriction.png';
-import IconMultisig from '../../styles/img/tx-multisig.png';
-import IconMetadata from '../../styles/img/tx-metadata.png';
-import IconLink from '../../styles/img/tx-account-link.png';
+import IconTransferOutgoing from '../../styles/img/tx-outgoing.png';
+import IconLock from '../../styles/img/lock.png';
+import IconNamespace from '../../styles/img/namespace.png';
+import IconMosaic from '../../styles/img/mosaic.png';
+import IconRestriction from '../../styles/img/restriction.png';
+import IconMultisig from '../../styles/img/multisig.png';
+import IconMetadata from '../../styles/img/metadata.png';
+import IconLink from '../../styles/img/account-link.png';
+import IconAggregateBond from '../../styles/img/aggregate-bond.png';
+import IconAggregateCompleted from '../../styles/img/aggregate-completed.png';
 import { TransactionType } from 'symbol-sdk';
 
 export default {
@@ -46,14 +47,15 @@ export default {
 			IconTransfer,
 			IconTransferIncoming,
 			IconTransferOutgoing,
-			IconAggregate,
 			IconLock,
 			IconNamespace,
 			IconMosaic,
 			IconRestriction,
 			IconMultisig,
 			IconMetadata,
-			IconLink
+			IconLink,
+			IconAggregateBond,
+			IconAggregateCompleted
 		};
 	},
 
@@ -76,8 +78,9 @@ export default {
 			case TransactionType.MULTISIG_ACCOUNT_MODIFICATION:
 				return this.IconMultisig;
 			case TransactionType.AGGREGATE_COMPLETE:
+				return this.IconAggregateCompleted;
 			case TransactionType.AGGREGATE_BONDED:
-				return this.IconAggregate;
+				return this.IconAggregateBond;
 			case TransactionType.HASH_LOCK:
 			case TransactionType.SECRET_LOCK:
 			case TransactionType.SECRET_PROOF:
@@ -136,6 +139,7 @@ export default {
         display: flex;
         justify-content: center;
         align-items: center;
+        filter: var(--icon-invert);
 
         .icon-small {
             height: 12px;
@@ -144,9 +148,9 @@ export default {
         }
 
         .icon-medium {
-            height: 32px;
-            width: 32px;
-            margin-right: 10px;
+            height: 25px;
+            width: 25px;
+            margin: 5px;
         }
     }
 

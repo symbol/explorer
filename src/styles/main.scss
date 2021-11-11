@@ -1,4 +1,15 @@
-@import url('https://fonts.googleapis.com/css?family=Noto+Sans&display=swap');
+@font-face {
+    font-family: "protipo";
+    src: url("https://use.typekit.net/af/f928b5/00000000000000007735b722/30/l?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3") format("woff2"), url("https://use.typekit.net/af/f928b5/00000000000000007735b722/30/d?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3") format("woff"), url("https://use.typekit.net/af/f928b5/00000000000000007735b722/30/a?primer=7cdcb44be4a7db8877ffa5c0007b8dd865b3bbc383831fe2ea177f62257a9191&fvd=n4&v=3") format("opentype");
+    font-display: auto;
+    font-style: normal;
+    font-weight: 400;
+}
+
+@font-face {
+    font-family: Carbon;
+    src: url("./fonts/Carbon-Bold.otf") format("opentype");
+}
 
 $primary: $primary-color;
 $secondary: $secondary-color;
@@ -9,6 +20,7 @@ $blue: $blue-color;
 $green: $green-color;
 $orange: $orange-color;
 $dark-white: $dark-white-color;
+$dark-mode-blue: $dark-mode-button-text-color;
 
 $grid-breakpoints: (
     xxxs: 0,
@@ -38,10 +50,52 @@ $theme-colors: map-merge(
         'success': $green,
         'info': $info,
         'warning': $orange,
-        'title': $pink
+        'title': $pink,
+        'dark-mode-blue': $dark-mode-blue
     ),
     $theme-colors
 );
+
+:root {
+    --main-bg-color: #{$white-color};
+    --main-grid-bg: #{$white-color};
+    --navigation-bg: #{$black-color};
+    --theme-switch-bg: #{$dark-mode-card-bg-color};
+    --text-color: #{$grey-color};
+    --clickable-text: #{$dark-mode-button-text-color};
+    --card-bg: #{$white-color};
+    --card-border: #{$primary-color};
+    --sub-card-border: #{$primary-color};
+    --sub-card-bg: #{$transparent};
+    --card-title-text: #{$accent-color};
+    --table-content-text: #{$black-color};
+    --balance-green-text: #{$green-color};
+    --balance-widget-bg: #{$transparent};
+    --mosaic-filed-bg: #{$primary-color};
+    --loading-bg: #{$transparent};
+    --icon-invert: invert(1);
+}
+
+// Variables for dark mode
+[data-theme="darkMode"] {
+    --main-bg-color: #{$dark-mode-main-bg};
+    --main-grid-bg: #{$dark-mode-grid-bg};
+    --navigation-bg: #{$black-color};
+    --theme-switch-bg: #{$dark-mode-card-bg-color};
+    --text-color: #{$dark-mode-text-color};
+    --clickable-text: #{$dark-mode-button-text-color};
+    --card-bg: #{$dark-mode-card-bg-color};
+    --card-border: #{$transparent};
+    --sub-card-border: #{$dark-mode-card-border-color};
+    --sub-card-bg: #{$black-color};
+    --card-title-text: #{$dark-mode-text-title-color};
+    --table-content-text: #{$violet-color};
+    --balance-green-text: #{$dark-mode-green-text-color};
+    --balance-widget-bg: #{$black-color};
+    --mosaic-filed-bg: #{$violet-color};
+    --loading-bg: #{$dark-grey-color};
+    --icon-invert: invert(0);
+}
 
 @import '../../node_modules/bootstrap/scss/bootstrap';
 @import '../../node_modules/bootstrap-vue/src/index.scss';
@@ -56,19 +110,17 @@ $theme-colors: map-merge(
 }
 
 body {
-    font-family: 'Noto Sans', sans-serif;
+    font-family: 'protipo', sans-serif;
+    background-color: var(--main-bg-color);
+    background-image: linear-gradient(var(--main-grid-bg) 0.1rem, transparent 0.1rem), linear-gradient(90deg, var(--main-grid-bg) 0.1rem, transparent 0.1rem);
+    background-size: 25px 25px;
 }
 
 a {
+    color: var(--clickable-text);
     font-weight: 600;
+
+    &:hover {
+        color: var(--clickable-text);
+    }
 }
-
-// a {
-//     color: var(--secondary);
-//     text-decoration: none;
-
-//     :hover {
-//         color: var(--pink);
-//         text-decoration: none;
-//     }
-// }

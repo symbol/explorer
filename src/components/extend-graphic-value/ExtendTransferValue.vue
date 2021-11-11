@@ -22,7 +22,7 @@
 			v-if="hasMessage"
 			title="">
 			<MessageCircle
-				style="width: 16px; height: 16px"
+				style="width: 16px; height: 16px;"
 				:message="message"
 			/>
 		</span>
@@ -31,7 +31,7 @@
 			v-if="hasMosaics"
 			:title="getTranslation('mosaics')">
 			<MosaicsCircle
-				style="width: 16px; height: 16px"
+				style="width: 16px; height: 16px;"
 				id="target"
 				:mosaics="[]"
 			/>
@@ -41,7 +41,7 @@
 			v-if="hasNativeMosaic"
 			:title="getTranslation('amount') + ': ' + nativeMosaic + ' ' + networkCurrency"
 			:class="amountClass"
-			style="display: flex"
+			style="display: flex;"
 		>
 			<Decimal :value="nativeMosaic" class="decimal"/> {{ networkCurrencySub }}
 		</span>
@@ -153,7 +153,7 @@ export default {
 }
 
 .incoming {
-    color: $green-color;
+    color: var(--balance-green-text);
 }
 
 .outgoing {

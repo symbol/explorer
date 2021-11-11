@@ -73,11 +73,12 @@ export default {
     width: 100%;
     position: absolute;
     z-index: 999;
-    background: rgba(255, 255, 255, 0.87);
+    background: var(--loading-bg);
     top: 0;
     left: 0;
     bottom: 0;
     text-align: center;
+    border-radius: 12px;
 }
 
 .pos-center {

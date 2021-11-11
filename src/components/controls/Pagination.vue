@@ -99,7 +99,7 @@ export default {
 <style lang="scss" scoped>
 .disabled {
     cursor: not-allowed;
-    color: gray;
+    color: var(--clickable-text);
 }
 
 .page-item {
@@ -108,6 +108,16 @@ export default {
 
 .pagination-wrapper {
     float: right;
+
+    .btn-outline-info {
+        color: var(--clickable-text);
+        border-color: var(--clickable-text);
+    }
+
+    .btn-outline-info:hover {
+        color: var(--text-color);
+        background-color: var(--clickable-text);
+    }
 
     .pagination-arrow {
         justify-content: center;

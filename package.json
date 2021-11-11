@@ -2,7 +2,7 @@
   "name": "symbol-explorer",
   "description": "Symbol Block and Network Explorer",
   "homepage": "https://github.com/nemgrouplimited/symbol-explorer",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "engines": {
     "node": ">=12.0",
     "npm": ">=7"

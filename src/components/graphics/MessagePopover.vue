@@ -108,7 +108,7 @@ export default {
 }
 
 .json-value {
-    color: var(--primary);
+    color: var(--clickable-text);
 }
 
 .json-boolean {

@@ -97,7 +97,6 @@
     "valueSizeDelta": "値サイズ増減値",
     "feeMultiplier": "手数料乗数",
     "blockchainExplorerTitle": "Symbol ブロックチェーンエクスプローラ",
-    "searchBoxTitle": "ネットワーク上のトランザクション/アドレス/ネームスペース/モザイクを検索",
     "searchBoxPlaceholder": "ブロック / TXハッシュ / アドレス / モザイクID / ネームスペースID を検索",
     "nodes": "ノード",
     "home": "ホーム",
@@ -382,7 +381,7 @@
 	"chainInfo": "Chain Info",
 	"nodeHeightStatsTitle": "Count of nodes by chain height",
     "nodeFinalizedHeightStatsTitle": "Count of nodes by finalized height",
-	"viewMoreStatistics": "View More Statistics",
+	"viewMoreStatistics": "View More Stats",
     "nodeCountChartTitle": "Node count over time",
     "timestamp": "Timestamp",
     "symbolTime": "Symbol Time",
@@ -398,5 +397,6 @@
     "nodeAddress": "Node",
     "vrfAddress": "VRF",
     "exportCSV": "Export CSV",
-    "isHttpsEnabled": "Https"
+    "isHttpsEnabled": "Https",
+    "epoch": "Epoch"
 }

@@ -1,5 +1,5 @@
 <template>
-	<Card v-if="!error && this.data" :loading="loading" style="width: 100%">
+	<Card v-if="!error && this.data" :loading="loading" style="width: 100%;">
 		<template #title>
 			{{getNameByKey('nodeStatsTitle')}}
 		</template>
@@ -11,10 +11,7 @@
 		</template>
 
 		<template #body>
-			<b-container fluid style="height: 100%">
-				<b-row class="ex-ns-group">
-					{{getNameByKey('nodeCountByRoles')}}
-				</b-row>
+			<b-container fluid style="height: 100%;">
 				<b-row>
 					<b-col
 						v-for="(item, index) in nodeRoles"
@@ -160,7 +157,6 @@ export default {
 
 @media (max-width: 760px) {
     .ex-item {
-        border-left: 4px solid #904d9c;
         padding: 1px 10px;
         margin-bottom: 15px;
         max-width: 150px;
@@ -168,7 +164,6 @@ export default {
 }
 
 .ex-item {
-    border-left: 4px solid #904d9c;
     padding: 1px 10px;
     margin-bottom: 15px;
 }
@@ -194,11 +189,6 @@ export default {
     margin: 4px 0 0;
 }
 
-.node-program-icon {
-    height: 32px;
-    margin: auto 0;
-}
-
 .blue {
     border-color: $blue-color;
 }
@@ -208,7 +198,7 @@ export default {
 }
 
 .green {
-    border-color: $green-color;
+    border-color: var(--balance-green-text);
 }
 
 .orange {
