@@ -113,7 +113,7 @@ export default {
     font-size: 13px;
     color: var(--card-title-text);
     top: -10px;
-    left: -165px;
+    left: -173px;
     text-transform: uppercase;
 }
 
