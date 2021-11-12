@@ -69,7 +69,7 @@ export default {
 
 .header-gradinet::before {
     content: '';
-    background-image: url(../../styles/img/header.png);
+    background-image: var(--header-bg-img);
     position: absolute;
     z-index: 0;
     top: 0;
