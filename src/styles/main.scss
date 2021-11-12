@@ -57,6 +57,7 @@ $theme-colors: map-merge(
 );
 
 :root {
+    --testnet-badge-title: #{$dark-mode-text-title-color};
     --main-bg-color: #{$white-color};
     --main-grid-bg: #{$white-color};
     --navigation-bg: #{$black-color};

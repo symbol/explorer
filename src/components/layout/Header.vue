@@ -111,7 +111,7 @@ export default {
     border-radius: 5px;
     font-weight: bold;
     font-size: 13px;
-    color: var(--card-title-text);
+    color: var(--testnet-badge-title);
     top: -10px;
     left: -173px;
     text-transform: uppercase;
