@@ -199,8 +199,12 @@ export default {
 			else throw Error('Cannot change language. language is not supported: ' + language);
 		},
 
-		changeTheme: ({ commit }, theme) => {
+		changeTheme: ({ commit, rootGetters }, theme) => {
 			commit('setTheme', theme);
+
+			const selectedTheme = rootGetters['api/isTestnet'] ? `${theme} testnet` : theme;
+
+			document.documentElement.setAttribute('data-theme', selectedTheme);
 		}
 	}
 };
