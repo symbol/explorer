@@ -18,7 +18,7 @@
 
 <template>
 	<div>
-		<span :class="{'colorLight': isExpired}">
+		<span :class="{'color-light': isExpired}">
 			{{ epochStatus }} : {{ epochStart }} - {{ epochEnd }}
 		</span>
 	</div>
