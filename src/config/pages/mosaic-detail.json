@@ -29,7 +29,8 @@
                     "expirationDuration",
                     "supplyMutable",
                     "transferable",
-                    "restrictable"
+                    "restrictable",
+                    "revokable"
                 ]
             },
             {

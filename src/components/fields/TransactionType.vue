@@ -74,6 +74,7 @@ export default {
 				return this.IconNamespace;
 			case TransactionType.MOSAIC_DEFINITION:
 			case TransactionType.MOSAIC_SUPPLY_CHANGE:
+			case TransactionType.MOSAIC_SUPPLY_REVOCATION:
 				return this.IconMosaic;
 			case TransactionType.MULTISIG_ACCOUNT_MODIFICATION:
 				return this.IconMultisig;

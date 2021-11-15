@@ -26,7 +26,13 @@
 				:mosaic="mosaic"
 			/>
 			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
-			<AddCircle
+			<MosaicsCircle
+				id="target"
+				:x="getCircleIconPositionX(0)"
+				:y="circleIconPositionY"
+				:mosaics="mosaics"
+			/>
+			<EditCircle
 				:x="getCircleIconPositionX(0)"
 				:y="circleIconPositionY"
 				:data="data"
@@ -43,7 +49,7 @@
 <script>
 import GraphicComponent from '../graphics/GraphicComponent.vue';
 import AccountIcon from '../graphics/AccountIcon.vue';
-import AddCircle from '../graphics/AddCircle.vue';
+import EditCircle from '../graphics/EditCircle.vue';
 import MosaicIcon from '../graphics/MosaicIcon.vue';
 import Arrow from '../graphics/Arrow.vue';
 
@@ -52,7 +58,7 @@ export default {
 
 	components: {
 		AccountIcon,
-		AddCircle,
+		EditCircle,
 		Arrow,
 		MosaicIcon
 	},
@@ -67,33 +73,14 @@ export default {
 			required: true,
 			default: ''
 		},
-		mosaicId: {
+		sourceAddress: {
 			type: String,
-			required: true
+			required: true,
+			default: ''
 		},
-		divisibility: {
-			type: Number,
-			required: true
-		},
-		duration: {
-			type: Number,
-			required: true
-		},
-		supplyMutable: {
-			type: Boolean,
-			required: true
-		},
-		transferable: {
-			type: Boolean,
-			required: true
-		},
-		restrictable: {
-			type: Boolean,
-			required: true
-		},
-		revokable: {
-			type: Boolean,
-			required: true
+		mosaics: {
+			type: Array,
+			default: () => []
 		}
 	},
 
@@ -106,7 +93,7 @@ export default {
 
 	computed: {
 		transactionType() {
-			return this.getTransactionTypeCaption(this.type);
+			return this.getTransactionTypeCaption(this.type); // Mosaic alias
 		},
 
 		circleIconsToDisplay() {
@@ -119,12 +106,9 @@ export default {
 
 		data() {
 			return {
-				divisibility: this.divisibility,
-				duration: this.duration,
-				supplyMutable: this.supplyMutable,
-				transferable: this.transferable,
-				restrictable: this.restrictable,
-				revokable: this.revokable
+				sourceAddress: this.sourceAddress,
+				mosaicId: this.mosaic.id,
+				amount: this.mosaic.amount
 			};
 		}
 	}

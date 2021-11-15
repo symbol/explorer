@@ -256,7 +256,8 @@ class MosaicService {
    	duration: Number(mosaicInfo.duration.toString()),
    	supplyMutable: mosaicInfo.flags.supplyMutable,
    	transferable: mosaicInfo.flags.transferable,
-   	restrictable: mosaicInfo.flags.restrictable
+   	restrictable: mosaicInfo.flags.restrictable,
+   	revokable: mosaicInfo.flags.revokable
    })
 
    /**

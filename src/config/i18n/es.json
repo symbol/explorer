@@ -63,6 +63,7 @@
     "supplyMutable": "Supply Mutable",
     "transferable": "Transferible",
     "restrictable": "Restringible",
+    "revokable": "Revocable",
     "active": "Activo",
     "alias": "Alias",
     "aliasType": "Alias Type",

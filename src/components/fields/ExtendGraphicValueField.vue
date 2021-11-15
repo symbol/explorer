@@ -30,6 +30,7 @@ import ExtendTransferValue from '@/components/extend-graphic-value/ExtendTransfe
 import ExtendNamespaceRegistrationValue from '@/components/extend-graphic-value/ExtendNamespaceRegistrationValue.vue';
 import ExtendAliasValue from '@/components/extend-graphic-value/ExtendAliasValue.vue';
 import ExtendMosaicSupplyChangeValue from '@/components/extend-graphic-value/ExtendMosaicSupplyChangeValue.vue';
+import ExtendMosaicSupplyRevocationValue from '@/components/extend-graphic-value/ExtendMosaicSupplyRevocationValue.vue';
 import ExtendMosaicDefinitionValue from '@/components/extend-graphic-value/ExtendMosaicDefinitionValue.vue';
 import ExtendKeyLinkValue from '@/components/extend-graphic-value/ExtendKeyLinkValue.vue';
 import ExtendSecretLockValue from '@/components/extend-graphic-value/ExtendSecretLockValue.vue';
@@ -63,6 +64,7 @@ export default {
 		ExtendNamespaceRegistrationValue,
 		ExtendAliasValue,
 		ExtendMosaicSupplyChangeValue,
+		ExtendMosaicSupplyRevocationValue,
 		ExtendMosaicDefinitionValue,
 		ExtendKeyLinkValue,
 		ExtendSecretLockValue,
@@ -91,6 +93,7 @@ export default {
 			case TransactionType.ADDRESS_ALIAS:
 			case TransactionType.MOSAIC_ALIAS: return 'ExtendAliasValue';
 			case TransactionType.MOSAIC_SUPPLY_CHANGE: return 'ExtendMosaicSupplyChangeValue';
+			case TransactionType.MOSAIC_SUPPLY_REVOCATION: return 'ExtendMosaicRevocationChangeValue';
 			case TransactionType.MOSAIC_DEFINITION: return 'ExtendMosaicDefinitionValue';
 			case TransactionType.VOTING_KEY_LINK:
 			case TransactionType.VRF_KEY_LINK:
