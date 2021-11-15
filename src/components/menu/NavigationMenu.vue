@@ -15,7 +15,7 @@
 				:to="item.to" exact active-class="active"
 			>
 				<img v-if="iconUrl(item.icon)" width="15px" height="15px" :src="iconUrl(item.icon)" class="menu-icon" alt="menu icon"/>
-				<component :is="item.icon" class="menu-icon"/>
+				<component v-else :is="item.icon" class="menu-icon"/>
 				<i :class="item.classname"></i>
 				<span>{{getNameByKey(item.text)}}</span>
 			</router-link>
