@@ -6,6 +6,7 @@
 
 		<template #control>
 			<DropdownFilter
+				:dark="true"
 				v-if="hasFilter"
 				:options="filterOptions"
 				:value="filterValue"

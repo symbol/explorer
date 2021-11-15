@@ -61,26 +61,3 @@ export default {
 	}
 };
 </script>
-
-<style lang="scss" scoped>
-.test {
-    border: none;
-}
-
-.table-list {
-    min-width: 250px;
-
-    .key {
-        color: $table-title-text-color;
-        font-weight: bolder;
-        font-size: 12px;
-        letter-spacing: 1px;
-    }
-
-    .value {
-        display: flex;
-        font-size: 12px;
-        color: $table-text-color;
-    }
-}
-</style>

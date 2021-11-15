@@ -284,7 +284,7 @@ export default {
         display: flex;
         justify-content: flex-end;
         align-items: center;
-        color: #393939;
+        color: var(--text-color);
 
         .pagination-wrapper {
             position: relative;

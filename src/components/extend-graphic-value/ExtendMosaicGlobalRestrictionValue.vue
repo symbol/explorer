@@ -2,7 +2,7 @@
 	<span
 		v-if="hasReferenceMosaicId"
 		:title="getTranslation('referenceMosaicId') + ': ' + referenceMosaicId"
-		style="display: flex"
+		style="display: flex;"
 	>
 		<MosaicIcon
 			hideCaption

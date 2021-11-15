@@ -23,7 +23,7 @@
 							:is="item.type"
 							v-if="isItemShown(item)"
 							v-bind="item"
-							style="width: 100%"
+							style="width: 100%;"
 							:key="item.title + index"
 						/>
 					</b-col>
@@ -35,7 +35,7 @@
 				<component
 					:is="item.type"
 					v-if="isItemShown(item)"
-					style="margin-bottom: 0"
+					style="margin-bottom: 0;"
 					:style="item.layoutOptions"
 					v-bind="item"
 					:key="'col' + item.title + index"

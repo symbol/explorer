@@ -268,8 +268,8 @@ export default {
         max-width: 100%;
         margin-bottom: 1rem;
         background-color: transparent;
-        font-size: 12px;
-        color: $table-text-color;
+        font-size: 13px;
+        color: var(--table-content-text);
     }
 
     thead {
@@ -293,11 +293,11 @@ export default {
     .table-title-item {
         vertical-align: middle;
         padding: 12px 6px 12px 6px;
-        color: $table-title-text-color;
+        color: var(--text-color);
         font-weight: bolder;
         outline: none;
-        font-size: 12px;
-        letter-spacing: 1px;
+        font-size: 16px;
+        letter-spacing: unset;
     }
 
     .table-titles-ver {
@@ -336,7 +336,7 @@ export default {
     }
 
     .table-cell {
-        border-bottom: 1px solid #dadee6;
+        border-bottom: 1px solid var(--sub-card-border);
         font-weight: none;
         padding: 10px 5px;
         min-height: 50px;
@@ -356,7 +356,7 @@ export default {
     }
 
     .table-item-clickable {
-        color: var(--primary);
+        color: var(--clickable-text);
         font-weight: 600;
         text-decoration: none;
         cursor: pointer;

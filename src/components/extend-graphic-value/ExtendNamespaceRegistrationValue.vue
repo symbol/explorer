@@ -2,11 +2,11 @@
 	<span
 		v-if="hasNamespace"
 		:title="getTranslation('namespaceName') + ': ' + namespace.namespaceName"
-		style="display: flex"
+		style="display: flex;"
 	>
 		<NamespaceIcon
 			hideCaption
-			style="margin-right: 5px"
+			style="margin-right: 5px;"
 			:width="16"
 			:height="16"
 			:namespace="namespace"
