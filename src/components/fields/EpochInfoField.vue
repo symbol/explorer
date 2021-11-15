@@ -54,7 +54,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-.colorLight {
+.color-light {
     opacity: 0.5;
 }
 </style>
