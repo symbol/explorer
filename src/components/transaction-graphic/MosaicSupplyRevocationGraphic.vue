@@ -18,25 +18,27 @@
 				:height="subjectHeight"
 				:address="signer"
 			/>
-			<MosaicIcon
+			<AccountIcon
 				:x="objectPositionX"
 				:y="objectPositionY"
 				:width="subjectWidth"
 				:height="subjectHeight"
-				:mosaic="mosaic"
+				:address="sourceAddress"
 			/>
 			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
 			<MosaicsCircle
+				v-if="hasMosaic"
 				id="target"
 				:x="getCircleIconPositionX(0)"
 				:y="circleIconPositionY"
-				:mosaics="mosaics"
+				:mosaics="mosaicList"
 			/>
-			<EditCircle
-				:x="getCircleIconPositionX(0)"
+			<NativeMosaicCircle
+				v-if="hasNativeMosaic"
+				id="target"
+				:x="getCircleIconPositionX(1)"
 				:y="circleIconPositionY"
-				:data="data"
-				:title="transactionType"
+				:mosaics="[nativeMosaic]"
 			/>
 			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
 				{{ transactionType }}
@@ -49,25 +51,21 @@
 <script>
 import GraphicComponent from '../graphics/GraphicComponent.vue';
 import AccountIcon from '../graphics/AccountIcon.vue';
-import EditCircle from '../graphics/EditCircle.vue';
-import MosaicIcon from '../graphics/MosaicIcon.vue';
 import Arrow from '../graphics/Arrow.vue';
+import MosaicsCircle from '../graphics/MosaicsCircle.vue';
+import NativeMosaicCircle from '../graphics/NativeMosaicCircle.vue';
 
 export default {
 	extends: GraphicComponent,
 
 	components: {
 		AccountIcon,
-		EditCircle,
 		Arrow,
-		MosaicIcon
+		MosaicsCircle,
+		NativeMosaicCircle
 	},
 
 	props: {
-		message: {
-			type: String,
-			default: ''
-		},
 		signer: {
 			type: String,
 			required: true,
@@ -93,23 +91,35 @@ export default {
 
 	computed: {
 		transactionType() {
-			return this.getTransactionTypeCaption(this.type); // Mosaic alias
+			return this.getTransactionTypeCaption(this.type);
 		},
 
 		circleIconsToDisplay() {
-			return [true];
+			return [this.hasMosaic, this.hasNativeMosaic];
+		},
+
+		hasNativeMosaic() {
+			return typeof this.nativeMosaic !== 'undefined';
+		},
+
+		hasMosaic() {
+			return this.mosaicList.length > 0;
 		},
 
 		mosaic() {
 			return { mosaicId: this.mosaicId };
 		},
 
-		data() {
-			return {
-				sourceAddress: this.sourceAddress,
-				mosaicId: this.mosaic.id,
-				amount: this.mosaic.amount
-			};
+		nativeMosaic() {
+			return this.mosaics.find(
+				mosaic => mosaic.mosaicId === this.nativeMosaicId
+			);
+		},
+
+		mosaicList() {
+			return this.mosaics.filter(
+				mosaic => mosaic.mosaicId !== this.nativeMosaicId
+			);
 		}
 	}
 };
