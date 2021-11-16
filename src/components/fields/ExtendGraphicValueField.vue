@@ -93,7 +93,7 @@ export default {
 			case TransactionType.ADDRESS_ALIAS:
 			case TransactionType.MOSAIC_ALIAS: return 'ExtendAliasValue';
 			case TransactionType.MOSAIC_SUPPLY_CHANGE: return 'ExtendMosaicSupplyChangeValue';
-			case TransactionType.MOSAIC_SUPPLY_REVOCATION: return 'ExtendMosaicRevocationChangeValue';
+			case TransactionType.MOSAIC_SUPPLY_REVOCATION: return 'ExtendMosaicSupplyRevocationValue';
 			case TransactionType.MOSAIC_DEFINITION: return 'ExtendMosaicDefinitionValue';
 			case TransactionType.VOTING_KEY_LINK:
 			case TransactionType.VRF_KEY_LINK:
