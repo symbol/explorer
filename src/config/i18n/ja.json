@@ -244,6 +244,7 @@
     "nodesTitle": "ノード",
 
     "supplementalKeysTitle": "Supplementalキー",
+    "votingKeysTitle": "投票キー",
     "accountTransactionsTitle": "トランザクション",
     "resolutionStatementTitle": "解決ステートメント",
     "mosaicRestrictionTitle": "モザイク制限",
@@ -397,6 +398,10 @@
     "nodeAddress": "Node",
     "vrfAddress": "VRF",
     "exportCSV": "Export CSV",
+    "future": "次回投票キー",
+    "expired": "期限切れ",
     "isHttpsEnabled": "Https",
-    "epoch": "Epoch"
+    "epoch": "Epoch",
+    "epochInfo": "Epoch 情報",
+    "current": "現在"
 }

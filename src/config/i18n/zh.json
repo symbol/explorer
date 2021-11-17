@@ -244,6 +244,7 @@
     "nodesTitle": "Nodes",
 
     "supplementalKeysTitle": "Supplemental Keys",
+    "votingKeysTitle": "Voting Keys",
     "accountTransactionsTitle": "Transactions",
     "resolutionStatementTitle": "Resolution Statement",
     "mosaicRestrictionTitle": "Mosaic Restriction",
@@ -393,6 +394,10 @@
     "nodeAddress": "Node",
     "vrfAddress": "VRF",
     "exportCSV": "Export CSV",
+    "future": "Future",
+    "expired": "Expired",
     "isHttpsEnabled": "Https",
-    "epoch": "Epoch"
+    "epoch": "Epoch",
+    "epochInfo": "Epoch Info",
+    "current": "Current"
 }
