@@ -1,5 +1,5 @@
 <template>
-	<Card v-if="!error && this.data" :loading="loading" style="width: 100%">
+	<Card v-if="!error && this.data" :loading="loading" style="width: 100%;">
 		<template #title>
 			{{getNameByKey('nodeStatsTitle')}}
 		</template>
@@ -11,10 +11,7 @@
 		</template>
 
 		<template #body>
-			<b-container fluid style="height: 100%">
-				<b-row class="ex-ns-group">
-					{{getNameByKey('nodeCountByRoles')}}
-				</b-row>
+			<b-container fluid style="height: 100%;">
 				<b-row>
 					<b-col
 						v-for="(item, index) in nodeRoles"
@@ -32,36 +29,6 @@
 						</div>
 					</b-col>
 				</b-row>
-				<b-row v-if="!!nodePrograms.length" align-h="between" align-v="end" class="ex-ns-group">
-					{{getNameByKey('rewardPrograms')}}
-					<router-link to="/enrollments">
-						<ButtonMore> {{getNameByKey('viewEnrollments')}} </ButtonMore>
-					</router-link>
-				</b-row>
-				<!-- <b-row v-if="nodePrograms.length" align-h="end">
-
-				</b-row> -->
-				<b-row>
-					<b-col
-						v-for="(item, index) in nodePrograms"
-						:key="'' + index + 'nodestats_programs'"
-						xs="2"
-						sm="3"
-						lg="3"
-					>
-						<b-row class="ex-item item-noborder">
-							<img :src="item.icon" class="node-program-icon"/>
-							<b-col>
-								<div class="ex-item-title ex-text-break">
-									{{item.name}}
-								</div>
-								<div class="ex-item-value">
-									{{item.count}}
-								</div>
-							</b-col>
-						</b-row>
-					</b-col>
-				</b-row>
 			</b-container>
 		</template>
 	</Card>
@@ -75,7 +42,6 @@ import IconOrange from '../../styles/img/connector_orange.png';
 import IconBlue from '../../styles/img/connector_blue.png';
 import IconGreen from '../../styles/img/connector_green.png';
 import IconPink from '../../styles/img/connector_pink.png';
-import IconSupernode from '../../styles/img/node_reputation.png';
 
 export default {
 	components: {
@@ -160,22 +126,6 @@ export default {
 			];
 		},
 
-		nodePrograms() {
-			const data = this.data?.nodeTypes;
-
-			if (!data)
-				return [];
-
-			return Object
-				.keys(data)
-				.filter((key) => !Number(key))
-				.map(key => ({
-					name: key,
-					count: data[key],
-					icon: IconSupernode
-				}));
-		},
-
 		loading() {
 			return this.manager.loading;
 		},
@@ -207,7 +157,6 @@ export default {
 
 @media (max-width: 760px) {
     .ex-item {
-        border-left: 4px solid #904d9c;
         padding: 1px 10px;
         margin-bottom: 15px;
         max-width: 150px;
@@ -215,7 +164,6 @@ export default {
 }
 
 .ex-item {
-    border-left: 4px solid #904d9c;
     padding: 1px 10px;
     margin-bottom: 15px;
 }
@@ -241,11 +189,6 @@ export default {
     margin: 4px 0 0;
 }
 
-.node-program-icon {
-    height: 32px;
-    margin: auto 0;
-}
-
 .blue {
     border-color: $blue-color;
 }
@@ -255,7 +198,7 @@ export default {
 }
 
 .green {
-    border-color: $green-color;
+    border-color: var(--balance-green-text);
 }
 
 .orange {

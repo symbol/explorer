@@ -24,8 +24,9 @@ import { Address, Mosaic, MosaicId } from 'symbol-sdk';
 
 class CreateTransaction {
     static transferTransaction = async (transactionObj) => {
+    	const { transactionInfo } = transactionObj;
     	const [resolvedAddress, mosaicsFieldObject] = await Promise.all([
-    		helper.resolvedAddress(transactionObj.recipientAddress),
+    		helper.resolvedAddress(transactionObj.recipientAddress, transactionInfo.height),
     		helper.mosaicsFieldObjectBuilder(transactionObj.mosaics)
     	]);
 
@@ -121,12 +122,13 @@ class CreateTransaction {
     };
 
     static multisigAccountModification = async (transactionObj) => {
+    	const { transactionInfo } = transactionObj;
     	const [addressAdditions, addressDeletions] = await Promise.all([
     		Promise.all(transactionObj.addressAdditions.map(address => {
-    			return helper.resolvedAddress(address);
+    			return helper.resolvedAddress(address, transactionInfo.height);
     		})),
     		Promise.all(transactionObj.addressDeletions.map(address => {
-    			return helper.resolvedAddress(address);
+    			return helper.resolvedAddress(address, transactionInfo.height);
     		}))
     	]);
 
@@ -161,9 +163,10 @@ class CreateTransaction {
     }
 
     static secretLock = async (transactionObj) => {
+    	const { transactionInfo } = transactionObj;
     	const [mosaicsFieldObject, resolvedAddress] = await Promise.all([
     		helper.mosaicsFieldObjectBuilder([transactionObj.mosaic]),
-    		helper.resolvedAddress(transactionObj.recipientAddress)
+    		helper.resolvedAddress(transactionObj.recipientAddress, transactionInfo.height)
     	]);
 
     	return {
@@ -180,7 +183,8 @@ class CreateTransaction {
     };
 
     static secretProof = async (transactionObj) => {
-    	const resolvedAddress = await helper.resolvedAddress(transactionObj.recipientAddress);
+    	const { transactionInfo } = transactionObj;
+    	const resolvedAddress = await helper.resolvedAddress(transactionObj.recipientAddress, transactionInfo.height);
 
     	return {
     		...transactionObj,
@@ -195,12 +199,13 @@ class CreateTransaction {
     };
 
     static accountAddressRestriction = async (transactionObj) => {
+    	const { transactionInfo } = transactionObj;
     	const [addressAdditions, addressDeletions] = await Promise.all([
     		Promise.all(transactionObj.restrictionAdditions.map(address => {
-    			return helper.resolvedAddress(address);
+    			return helper.resolvedAddress(address, transactionInfo.height);
     		})),
     		Promise.all(transactionObj.restrictionDeletions.map(address => {
-    			return helper.resolvedAddress(address);
+    			return helper.resolvedAddress(address, transactionInfo.height);
     		}))
     	]);
 
@@ -241,9 +246,10 @@ class CreateTransaction {
     };
 
     static mosaicAddressRestriction = async (transactionObj) => {
+    	const { transactionInfo } = transactionObj;
     	const [resolvedMosaic, targetAddress] = await Promise.all([
     		helper.resolveMosaicId(transactionObj.mosaicId),
-    		helper.resolvedAddress(transactionObj.targetAddress)
+    		helper.resolvedAddress(transactionObj.targetAddress, transactionInfo.height)
     	]);
 
     	const mosaicAliasNames = await helper.getMosaicAliasNames(resolvedMosaic);
@@ -282,7 +288,9 @@ class CreateTransaction {
     };
 
     static accountMetadata = async (transactionObj) => {
-    	const resolvedAddress = await helper.resolvedAddress(transactionObj.targetAddress);
+    	console.log('CreateTransaction accountMetadata :>> ', transactionObj);
+    	const { transactionInfo } = transactionObj;
+    	const resolvedAddress = await helper.resolvedAddress(transactionObj.targetAddress, transactionInfo.height);
 
     	return {
     		...transactionObj,
@@ -297,9 +305,10 @@ class CreateTransaction {
     };
 
     static mosaicMetadata = async (transactionObj) => {
+    	const { transactionInfo } = transactionObj;
     	const [resolvedMosaic, resolvedAddress] = await Promise.all([
     		helper.resolveMosaicId(transactionObj.targetMosaicId),
-    		helper.resolvedAddress(transactionObj.targetAddress)
+    		helper.resolvedAddress(transactionObj.targetAddress, transactionInfo.height)
     	]);
 
     	const mosaicAliasNames = await helper.getMosaicAliasNames(resolvedMosaic);
@@ -319,9 +328,10 @@ class CreateTransaction {
     };
 
     static namespaceMetadata = async (transactionObj) => {
+    	const { transactionInfo } = transactionObj;
     	const [namespaceName, resolvedAddress] = await Promise.all([
     		NamespaceService.getNamespacesNames([transactionObj.targetNamespaceId]),
-    		helper.resolvedAddress(transactionObj.targetAddress)
+    		helper.resolvedAddress(transactionObj.targetAddress, transactionInfo.height)
     	]);
 
     	return {

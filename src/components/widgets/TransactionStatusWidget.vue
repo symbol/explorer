@@ -16,7 +16,7 @@
 							@change="getStatus"
 						/>
 					</b-col>
-					<b-col style="flex-grow: 0">
+					<b-col style="flex-grow: 0;">
 						<b-button @click="getStatus" variant="primary" size="sm">
 							{{getNameByKey('check')}}
 						</b-button>

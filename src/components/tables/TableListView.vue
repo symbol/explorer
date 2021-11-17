@@ -35,7 +35,6 @@
 							<TransactionType v-else-if="isTransactionType(itemKey)" :value="item" />
 							<BlockHeightWithFinalizedStatusField v-else-if="isBlockHeightWithFinalizedStatus(itemKey)" :value="item" />
 							<RestrictionField v-else-if="itemKey === 'restrictions'" :value="item" />
-							<RewardPrograms v-else-if="itemKey === 'rewardPrograms'" :value="item" />
 							<ChainInfo v-else-if="itemKey === 'chainInfo'" :value="item" />
 							<ExtendGraphicValueField v-else-if="itemKey === 'extendGraphicValue'" :value="item" :transactionType="row['transactionType']"/>
 							<DateField v-else-if="itemKey === 'timestamp'" :timestamp="item" />
@@ -106,7 +105,6 @@ import RestrictionField from '@/components/fields/RestrictionField.vue';
 import Loading from '@/components/Loading.vue';
 import BlockHeightWithFinalizedStatusField from '@/components/fields/BlockHeightWithFinalizedStatusField.vue';
 import ExtendGraphicValueField from '@/components/fields/ExtendGraphicValueField.vue';
-import RewardPrograms from '@/components/fields/RewardPrograms';
 import ChainInfo from '@/components/fields/ChainInfo';
 import DateField from '@/components/fields/DateField.vue';
 import SoftwareVersion from '@/components/fields/SoftwareVersion.vue';
@@ -125,7 +123,6 @@ export default {
 		BlockHeightWithFinalizedStatusField,
 		RestrictionField,
 		ExtendGraphicValueField,
-		RewardPrograms,
 		ChainInfo,
 		Loading,
 		DateField,
@@ -284,7 +281,7 @@ export default {
         display: flex;
         justify-content: flex-end;
         align-items: center;
-        color: #393939;
+        color: var(--text-color);
 
         .pagination-wrapper {
             position: relative;

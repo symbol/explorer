@@ -23,9 +23,10 @@ import {
 	NamespaceId,
 	Address,
 	Mosaic,
-	NodeVersion
+	NodeVersion,
+	UInt64
 } from 'symbol-sdk';
-import { NamespaceService, MosaicService } from './infrastructure';
+import { NamespaceService, MosaicService, ReceiptService } from './infrastructure';
 import http from './infrastructure/http';
 import moment from 'moment';
 
@@ -125,11 +126,11 @@ class helper {
 			return url;
 	}
 
-	static httpToWsUrl(str) {
+	static httpToWssUrl(str) {
 		let url = new Url(str);
 
 		if (this.validURL(url)) {
-			url.set('protocol', 'ws:');
+			url.set('protocol', url.port === '3000' ? 'ws:' : 'wss:');
 			return url;
 		}
 	}
@@ -415,7 +416,7 @@ class helper {
 
 	static truncString(str, strLen = 4) {
 		if (typeof str === 'string') {
-			if (str.length > strLen * 2)
+			if (str.length > strLen * 2 + 1)
 				return `${str.substring(0, strLen)}...${str.substring(str.length - strLen, str.length)}`;
 			return str;
 		}
@@ -426,14 +427,26 @@ class helper {
 	/**
 	 * Get plain address from unResolvedAddress Object
 	 * @param unResolvedAddress - NamespaceId | Address
+	 * @param blockHeight - Block height
 	 * @returns plain address - example : SB3KUBHATFCPV7UZQLWAQ2EUR6SIHBSBEOEDDDF3
 	 */
-	static resolvedAddress = async (unResolvedAddress) => {
+	static resolvedAddress = async (unResolvedAddress, blockHeight) => {
+		if (!blockHeight) throw new Error('It required Block height.');
 		if (!(unResolvedAddress instanceof NamespaceId)) return unResolvedAddress.address;
 
-		const address = await NamespaceService.getLinkedAddress(unResolvedAddress);
+		const searchCriteria = {
+			height: UInt64.fromUint(blockHeight)
+		};
 
-		return address.plain();
+		const namespaceHex = unResolvedAddress.id.toHex();
+
+		const addressResolutionStatements = await ReceiptService.searchAddressResolutionStatements(searchCriteria);
+
+		const address = addressResolutionStatements.data.find(item => item.unresolved === namespaceHex && item.resolutionType === 'Address')?.addressResolutionEntries[0];
+
+		if (!address) throw new Error('Failed to resolved address');
+
+		return address;
 	}
 
 	/**

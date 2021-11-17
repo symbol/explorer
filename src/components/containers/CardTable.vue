@@ -5,6 +5,7 @@
 			<div class="ex-infotext" v-if="hasInfoText">{{infoText}}</div>
 			<component
 				v-if="hasFilter"
+				:dark="isDarkMode"
 				:is="filterDropdownComponentName"
 				:options="filterOptions"
 				:value="filterValue"
@@ -72,6 +73,11 @@ export default {
 		hasFilter: {
 			type: Boolean,
 			default: false
+		},
+		// dark mode
+		isDarkMode: {
+			type: Boolean,
+			default: true
 		},
 		// Data Manager getter (DataSet, Timeline, Filter)
 		managerGetter: {

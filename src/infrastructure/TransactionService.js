@@ -211,8 +211,11 @@ class TransactionService {
   	};
 
   	await Promise.all(transactions.data.map(async transaction => {
-  		if (transaction?.recipientAddress)
-  			return (transaction.transactionBody.recipient = await helper.resolvedAddress(transaction.recipientAddress));
+		  if (transaction?.recipientAddress) {
+			  const { recipientAddress, transactionBody, transactionInfo } = transaction;
+
+  			return (transactionBody.recipient = await helper.resolvedAddress(recipientAddress, transactionInfo.height));
+  		}
   	}));
 
   	if (searchCriteria.group === TransactionGroup.Partial || searchCriteria.group === TransactionGroup.Unconfirmed) {

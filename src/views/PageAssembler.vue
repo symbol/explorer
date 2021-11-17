@@ -23,7 +23,7 @@
 							:is="item.type"
 							v-if="isItemShown(item)"
 							v-bind="item"
-							style="width: 100%"
+							style="width: 100%;"
 							:key="item.title + index"
 						/>
 					</b-col>
@@ -35,7 +35,7 @@
 				<component
 					:is="item.type"
 					v-if="isItemShown(item)"
-					style="margin-bottom: 0"
+					style="margin-bottom: 0;"
 					:style="item.layoutOptions"
 					v-bind="item"
 					:key="'col' + item.title + index"
@@ -53,7 +53,6 @@ import RecentBlocksWidget from '@/components/widgets/RecentBlocksWidget.vue';
 import RecentTransactionsWidget from '@/components/widgets/RecentTransactionsWidget.vue';
 import TransactionGraphicWidget from '@/components/widgets/TransactionGraphicWidget.vue';
 import AccountBalanceWidget from '@/components/widgets/AccountBalanceWidget.vue';
-import NodeRewardsClient from '@/components/widgets/NodeRewardsWidget';
 import NodesMapWidget from '@/components/widgets/NodesMapWidget.vue';
 import NodeStatsWidget from '@/components/widgets/NodeStatsWidget.vue';
 
@@ -67,7 +66,6 @@ export default {
 		TransactionGraphicWidget,
 		AccountBalanceWidget,
 		NodesMapWidget,
-		NodeRewardsClient,
 		NodeStatsWidget
 	},
 

@@ -114,7 +114,7 @@ class NodeService {
             nodeInfo.roles === 3 ||
             nodeInfo.roles === 6 ||
             nodeInfo.roles === 7
-            	? 'http://' + nodeInfo.host + ':' + (globalConfig.apiNodePort || 3000)
+            	? nodeInfo.apiStatus.restGatewayUrl
             	: Constants.Message.UNAVAILABLE
     })
 
@@ -129,11 +129,6 @@ class NodeService {
     		data:
                 nodePeers
                 	.filter(el => !filter.rolesRaw || el.rolesRaw === filter.rolesRaw)
-                	.filter(
-                		el => !filter.rewardProgram ||
-						(el.rewardPrograms?.length && filter.rewardProgram === 'all') ||
-						(el.rewardPrograms && el.rewardPrograms[0]?.name === filter.rewardProgram)
-                	)
                 	.map((el, index) => {
                 		let node = {
                 			index: index + 1,
@@ -143,21 +138,24 @@ class NodeService {
                 		node['softwareVersion'] = { version: el.version };
 
                 		if (el.apiStatus) {
+                			const { chainHeight, finalization, lastStatusCheck, restVersion, isHttpsEnabled } = el.apiStatus;
+
                 			node['chainInfo'] = {
-                				chainHeight: el.apiStatus.chainHeight,
-                				finalizationHeight: el.apiStatus.finalizationHeight,
-                				lastStatusCheck: el.apiStatus.lastStatusCheck
+                				chainHeight,
+                				finalizationHeight: finalization?.height,
+                				lastStatusCheck
                 			};
 
                 			node['softwareVersion'] = {
                 				...node.softwareVersion,
-                				restVersion: el.apiStatus.restVersion
+                				restVersion,
+                				isHttpsEnabled
                 			};
                 		}
                 		else
                 			node['chainInfo'] = {};
 
-                		if (node.hostDetail) {
+                		if (node?.hostDetail) {
                 			node = { ...node, ...node.hostDetail };
                 			delete node.hostDetail;
                 		}
@@ -195,13 +193,31 @@ class NodeService {
             formattedNode.rolesRaw === 6 ||
             formattedNode.rolesRaw === 7
     	) {
-    		const status = await this.getApiNodeStatus(formattedNode.apiEndpoint);
+    		const { finalization, chainHeight, lastStatusCheck, nodeStatus, isAvailable, isHttpsEnabled, restVersion } = formattedNode.apiStatus;
 
-    		formattedNode.apiStatus = status;
+    		// // Api status
+    		formattedNode.apiStatus = {
+    			connectionStatus: isAvailable,
+    			databaseStatus: nodeStatus?.db === 'up' || Constants.Message.UNAVAILABLE,
+    			apiNodeStatus: nodeStatus?.apiNode === 'up' || Constants.Message.UNAVAILABLE,
+    			isHttpsEnabled,
+    			restVersion,
+    			lastStatusCheck: moment(moment.utc(lastStatusCheck).format(), 'YYYY-MM-DD HH:mm:ss')
+    		};
 
-    		const chainInfo = await this.getNodeChainInfo(formattedNode.apiEndpoint);
-
-    		formattedNode.chainInfo = chainInfo;
+    		if (finalization && chainHeight) {
+    			// Chain info
+    			formattedNode.chainInfo = {
+    				height: chainHeight,
+    				finalizedHeight: finalization?.height,
+    				finalizationEpoch: finalization?.epoch,
+    				finalizationPoint: finalization?.point,
+    				finalizedHash: finalization?.hash,
+    				lastStatusCheck: moment(moment.utc(lastStatusCheck).format(), 'YYYY-MM-DD HH:mm:ss')
+    			};
+    		}
+    		else
+    			formattedNode.chainInfo = {};
     	}
     	if (formattedNode?.peerStatus)
     		formattedNode.peerStatus.lastStatusCheck = moment(formattedNode.peerStatus.lastStatusCheck).format('YYYY-MM-DD HH:mm:ss');
@@ -217,7 +233,7 @@ class NodeService {
     	};
 
     	try {
-    		const nodeStatus = (await Axios.get(nodeUrl + '/node/health')).data.status;
+    		const nodeStatus = (await Axios.get(nodeUrl + '/node/health', { timeout: 3000 })).data.status;
 
     		status.connectionStatus = true;
     		status.apiNodeStatus = nodeStatus.apiNode === 'up';
@@ -236,7 +252,7 @@ class NodeService {
 
     	try {
     		chainInfo = {};
-    		const nodeChainInfo = (await Axios.get(nodeUrl + '/chain/info')).data;
+    		const nodeChainInfo = (await Axios.get(nodeUrl + '/chain/info', { timeout: 3000 })).data;
 
     		chainInfo.height = nodeChainInfo.height;
     		chainInfo.scoreHigh = nodeChainInfo.scoreHigh;
@@ -252,38 +268,6 @@ class NodeService {
 
     	return chainInfo;
     }
-
-	static getNodeRewardsInfo = async (publicKey) => {
-		const endpoint = globalConfig.endpoints.nodeRewardsController;
-
-		if (endpoint && endpoint.length) {
-			const nodeInfo = (await Axios.get(`${endpoint}/nodes/mainPublicKey/${publicKey}`)).data;
-
-			if (!nodeInfo)
-				throw Error(`Node doesn't take part in any rewards program`);
-
-			const nodeId = nodeInfo.id;
-			const testResults = (await Axios.get(`${endpoint}/testResults/nodeId/${nodeId}`)).data;
-
-			let testResultInfo;
-
-			if (testResults.length) {
-				const latestRound = testResults[0].round;
-
-				testResultInfo = (await Axios.get(`${endpoint}/testResultInfo/nodeId/${nodeId}/round/${latestRound}`)).data;
-			}
-
-			const nodeRewardsInfo = {
-				nodeInfo,
-				testResults,
-				testResultInfo
-			};
-
-			return nodeRewardsInfo;
-		}
-		else
-			throw Error('nodeRewardsController endpoint is not provided');
-	}
 
 	static getNodeStats = async () => {
 		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length)
@@ -311,89 +295,6 @@ class NodeService {
 			throw Error('Statistics service endpoint is not provided');
 	}
 
-	static getNodePayouts = async (pageInfo, nodeId, filter, rewardProgram) => {
-		const endpoint = globalConfig.endpoints.nodeRewardsController;
-
-		if (endpoint && endpoint.length) {
-			const params = { pageNumber: pageInfo.pageNumber, nodeId };
-
-			let route = '/payouts';
-
-			switch (rewardProgram) {
-			case 'EarlyAdoption':
-				route = '/payouts/earlyadoption';
-				break;
-			case 'Ecosystem':
-				route = '/payouts/ecosystem';
-				break;
-			case 'SuperNode':
-			default:
-				route = filter === 'voting' ? '/votingPayouts' : '/payouts';
-				break;
-			}
-
-			let isLastPage = true;
-
-			const payoutsPage = (
-				await Axios.get(endpoint + route, { params })
-			).data;
-
-			try {
-				isLastPage = !(
-					await Axios.get(endpoint + route, { params })
-				).data.data.length;
-			}
-			catch (e) {}
-
-			return {
-				data: payoutsPage.data,
-				...payoutsPage.pagination,
-				isLastPage
-			};
-		}
-		else
-			throw Error('nodeRewardsController endpoint is not provided');
-	}
-
-	static getEnrollmentList = async (pageInfo, filterVaule, signerPublicKey) => {
-		const endpoint = globalConfig.endpoints.nodeRewardsController;
-		const { pageNumber, pageSize } = pageInfo;
-		const searchCriteria = {
-			pageNumber,
-			pageSize,
-			order: symbol.Order.Desc,
-			...filterVaule
-		};
-
-		let url = `${endpoint}/enrollments`;
-
-		if (signerPublicKey)
-			url += `/signerPublicKey/${signerPublicKey}`;
-
-		const response = (await Axios.get(url, { params: searchCriteria })).data;
-
-		const data = {
-			...response,
-			...response.pagination,
-			isLastPage: response.data.length < pageSize
-		};
-
-		data.data = data.data.map(el => ({
-			...el,
-			enrollmentId: el.id,
-			agentUrl: el.agentUrl || Constants.Message.UNAVAILABLE
-		}));
-
-		return data;
-	}
-
-	static getEnrollmentInfo = async (id) => {
-		const endpoint = globalConfig.endpoints.nodeRewardsController;
-		const response = (await Axios.get(`${endpoint}/enrollments/${id}`)).data;
-
-		return response;
-	}
-
 	static getNodeListCSV = async (filter) => {
 		const nodes = await this.getNodePeerList(filter);
 
@@ -408,12 +309,52 @@ class NodeService {
 			nodePublicKey: node.nodePublicKey,
 			chainHeight: node.chainInfo.chainHeight,
 			finalizationHeight: node.chainInfo.finalizationHeight,
-			version: node.version,
-			rewardPrograms: node.rewardPrograms.map(program => `${program.name}: ${program.passed ? 'Passed' : 'Fail'}`)
+			version: node.version
 		}));
 
 		return helper.convertArrayToCSV(formattedData);
 	}
+
+	/**
+     * Gets node list from statistics service
+	 * @param filter (optional) 'preferred | suggested'
+	 * @param limit (optional) number of records
+	 * @param ssl (optional) return ssl ready node.
+     * @returns nodes
+     */
+	 static getNodeList = async (filter, limit, ssl) => {
+    	let nodes = [];
+
+    	try {
+    		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
+	 			nodes = (await Axios.get(globalConfig.endpoints.statisticsService + `/nodes`, {
+	 				params: {
+	 					filter,
+						 limit,
+						 ssl
+	 				}
+	 			})).data;
+	 		}
+    		else
+    			throw Error('Statistics service endpoint is not provided');
+    	}
+    	catch (e) {
+    		throw Error('Statistics service endpoint is not provided', e);
+    	}
+
+    	return nodes;
+	 }
+
+	 /**
+     * Get API node list dataset into Vue Component
+     * @returns API Node list object for Vue component
+     */
+	 static getAPINodeList = async () => {
+	 	// get 30 ssl ready nodes from statistics service the list
+    	const nodes = await this.getNodeList('suggested', 30, true);
+
+	 	return nodes.map(nodeInfo => this.formatNodeInfo(nodeInfo)).sort((a, b) => a.friendlyName.localeCompare(b.friendlyName));
+	 }
 }
 
 export default NodeService;

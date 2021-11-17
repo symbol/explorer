@@ -22,14 +22,14 @@
 			<!-- <b-col xs="12" md="12" lg="9" style="display: flex">
 				<PriceChartWidget style="width: 100%"/>
 			</b-col> -->
-			<b-col xs="12" md="12" lg="12" style="display: flex">
-				<BaseInfoWidget style="width: 100%"/>
+			<b-col xs="12" md="12" lg="12" style="display: flex;">
+				<BaseInfoWidget style="width: 100%;"/>
 			</b-col>
-			<b-col xs="12" md="12" lg="6" style="display: flex">
-				<RecentBlocksWidget style="width: 100%"/>
+			<b-col xs="12" md="12" lg="6" style="display: flex;">
+				<RecentBlocksWidget style="width: 100%;"/>
 			</b-col>
-			<b-col xs="12" md="12" lg="6" style="display: flex">
-				<RecentTransactionsWidget style="width: 100%"/>
+			<b-col xs="12" md="12" lg="6" style="display: flex;">
+				<RecentTransactionsWidget style="width: 100%;"/>
 			</b-col>
 		</b-row>
 	</b-container>

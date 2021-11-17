@@ -367,54 +367,6 @@ export const nodeRoles = [
 			isActive: true,
 			name: 'nodeListCSV'
 		}
-	},
-	{
-		label: 'RP - SuperNode',
-		icon: '',
-		value: {
-			rolesRaw: null,
-			rewardProgram: 'SuperNode'
-		},
-		exportCSV: {
-			isActive: true,
-			name: 'nodeListCSV'
-		}
-	},
-	{
-		label: 'RP - EarlyAdoption',
-		icon: '',
-		value: {
-			rolesRaw: null,
-			rewardProgram: 'EarlyAdoption'
-		},
-		exportCSV: {
-			isActive: true,
-			name: 'nodeListCSV'
-		}
-	},
-	{
-		label: 'RP - Ecosystem',
-		icon: '',
-		value: {
-			rolesRaw: null,
-			rewardProgram: 'Ecosystem'
-		},
-		exportCSV: {
-			isActive: true,
-			name: 'nodeListCSV'
-		}
-	},
-	{
-		label: 'RP - MonitorOnly',
-		icon: '',
-		value: {
-			rolesRaw: null,
-			rewardProgram: 'MonitorOnly'
-		},
-		exportCSV: {
-			isActive: true,
-			name: 'nodeListCSV'
-		}
 	}
 ];
 
@@ -474,42 +426,6 @@ export const blockTransactionReceipt = [
 		icon: 'mdi-alert',
 		value: {
 			...customTransactionReceiptFilter.inflation
-		}
-	}
-];
-
-export const enrollmentStatus = [
-	{
-		label: 'All',
-		icon: 'mdi-note-text-outline',
-		value: {}
-	},
-	{
-		label: 'Invalid',
-		icon: 'mdi-alert-outline',
-		value: {
-			status: 'Invalid'
-		}
-	},
-	{
-		label: 'To Process',
-		icon: 'mdi-update',
-		value: {
-			status: 'ToProcess'
-		}
-	},
-	{
-		label: 'Processing',
-		icon: 'mdi-autorenew',
-		value: {
-			status: 'Processing'
-		}
-	},
-	{
-		label: 'Completed',
-		icon: 'mdi-check',
-		value: {
-			status: 'Completed'
 		}
 	}
 ];

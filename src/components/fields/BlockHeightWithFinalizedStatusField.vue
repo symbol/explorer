@@ -12,7 +12,7 @@
 					v-if="this.isFinalized"
 					:title="isFinalized ? getTranslation('finalized') : getTranslation('pending')"
 					class="icon-finalized"
-					:src="FinalizedIcon"
+					:src="LockIcon"
 				/>
 				<span
 					v-else
@@ -33,7 +33,7 @@
 
 <script>
 import TableView from '../tables/TableView';
-import FinalizedIcon from '../../styles/img/finalized.png';
+import LockIcon from '../../styles/img/lock.png';
 
 export default {
 	extends: TableView,
@@ -47,7 +47,7 @@ export default {
 
 	data() {
 		return {
-			FinalizedIcon
+			LockIcon
 		};
 	},
 
@@ -90,8 +90,9 @@ export default {
         margin-left: 10px;
 
         .icon-finalized {
-            height: 12px;
+            height: 15px;
             margin-bottom: 2px;
+            filter: var(--icon-invert);
         }
     }
 

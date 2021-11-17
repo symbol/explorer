@@ -48,9 +48,11 @@ export default {
 <style lang="scss" scoped>
 .table-list {
     min-width: 250px;
+    background-color: var(--sub-card-bg);
+    border: 1px solid var(--sub-card-border);
 
     .key {
-        color: $table-title-text-color;
+        color: var(--text-color);
         font-weight: bolder;
         font-size: 12px;
         letter-spacing: 1px;
@@ -58,7 +60,7 @@ export default {
 
     .value {
         font-size: 12px;
-        color: $table-text-color;
+        color: var(--table-content-text);
     }
 }
 </style>

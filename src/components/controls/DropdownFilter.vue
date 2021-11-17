@@ -73,7 +73,7 @@ export default {
 			variant = 'outline-';
 
 			if (this.dark === true)
-				variant += 'light';
+				variant += 'dark-mode-blue';
 			else
 				variant += 'info';
 
@@ -109,7 +109,11 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
+.dropdown-toggle::after {
+    vertical-align: middle;
+}
+
 .dropdown-filter {
     display: flex;
 }

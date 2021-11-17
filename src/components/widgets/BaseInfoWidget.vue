@@ -11,7 +11,7 @@
 		</template>
 
 		<template #body>
-			<b-container fluid style="height: 100%">
+			<b-container fluid style="height: 100%;">
 				<b-row>
 					<!-- <b-col class="ex-item" sm="3" lg="12">
 						<div class="ex-item-title">
@@ -29,7 +29,7 @@
 							{{marketData.marketCap}}
 						</div>
 					</b-col> -->
-					<b-col class="ex-item" sm="3" lg="3">
+					<b-col class="ex-item" sm="3" lg="2">
 						<div class="ex-item-title">
 							{{getNameByKey('totalTransactions')}}
 						</div>
@@ -37,7 +37,7 @@
 							{{storageInfo.numTransactions}}
 						</div>
 					</b-col>
-					<b-col class="ex-item" sm="3" lg="3">
+					<b-col class="ex-item" sm="3" lg="2">
 						<div class="ex-item-title">
 							{{getNameByKey('chainHeight')}}
 						</div>
@@ -45,7 +45,7 @@
 							{{currentHeight}}
 						</div>
 					</b-col>
-					<b-col class="ex-item" sm="3" lg="3" :title="getNameByKey(votingNodeTooltips)">
+					<b-col class="ex-item" sm="3" lg="4" :title="getNameByKey(votingNodeTooltips)">
 						<div class="ex-item-title">
 							{{ getNameByKey('finalizedHeight') }} ({{ getNameByKey(votingNodeText) }})
 						</div>
@@ -53,7 +53,15 @@
 							{{finalizedHeight}}
 						</div>
 					</b-col>
-					<b-col class="ex-item" sm="3" lg="3">
+					<b-col class="ex-item" sm="3" lg="2" :title="getNameByKey(votingNodeTooltips)">
+						<div class="ex-item-title">
+							{{ getNameByKey('epoch') }}
+						</div>
+						<div class="ex-item-value">
+							{{epoch}}
+						</div>
+					</b-col>
+					<b-col class="ex-item" sm="3" lg="2">
 						<div class="ex-item-title">
 							{{ getNameByKey('nodes') }}
 						</div>
@@ -91,6 +99,10 @@ export default {
 			return this.chainInfo.currentHeight;
 		},
 
+		epoch() {
+			return this.chainInfo.epoch;
+		},
+
 		finalizedHeight() {
 			return this.chainInfo.finalizedBlockHeight;
 		},
@@ -118,17 +130,17 @@ export default {
 
 <style lang="scss" scoped>
 .ex-item {
-    border-left: 4px solid #904d9c;
     padding: 1px 10px;
     margin-bottom: 15px;
+    text-transform: uppercase;
 
     .ex-item-title {
-        color: rgb(187, 187, 187);
+        color: var(--text-color);
         font-size: 12px;
     }
 
     .ex-item-value {
-        color: rgb(85, 85, 85);
+        color: var(--text-color);
         text-align: left;
         font-size: 14px;
         margin: 4px 0 0;

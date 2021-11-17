@@ -22,8 +22,7 @@ import helper from '../helper';
 import {
 	AccountService,
 	MultisigService,
-	RestrictionService,
-	NodeService
+	RestrictionService
 } from '../infrastructure';
 import {
 	DataSet,
@@ -119,14 +118,7 @@ const managers = [
 	new DataSet(
 		'accountRestrictions',
 		(address) => RestrictionService.getAccountRestrictionList(address)
-	),
-	new Pagination({
-		name: 'nodeRewardsEnrollments',
-		fetchFunction: (pageInfo, filterValue, store) => NodeService.getEnrollmentList(pageInfo, filterValue, store.getters.info.data.publicKey),
-		pageInfo: {
-			pageSize: 10
-		}
-	})
+	)
 ];
 
 const LOCK = Lock.create();
@@ -202,8 +194,7 @@ export default {
 			context.dispatch('uninitializeDetail');
 			context.commit('setCurrentAccountAddress', address);
 
-			context.getters.info.setStore(context).initialFetch(address)
-				.then(() => context.getters.nodeRewardsEnrollments.setStore(context).initialFetch(address));
+			context.getters.info.setStore(context).initialFetch(address);
 			context.getters.transactions.setStore(context).initialFetch(address);
 			context.getters.OwnedMosaic.setStore(context).initialFetch(address);
 			context.getters.OwnedNamespace.setStore(context).initialFetch(address);
@@ -230,7 +221,6 @@ export default {
 			context.getters.hashLocks.setStore(context).uninitialize();
 			context.getters.secretLocks.setStore(context).uninitialize();
 			context.getters.receipt.setStore(context).uninitialize();
-			context.getters.nodeRewardsEnrollments.setStore(context).uninitialize();
 		}
 	}
 };
