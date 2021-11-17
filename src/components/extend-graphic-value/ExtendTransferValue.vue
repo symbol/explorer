@@ -72,7 +72,7 @@ export default {
 			default: () => ({})
 		},
 		transactionType: {
-			type: String
+			type: [String, Number]
 		}
 	},
 
