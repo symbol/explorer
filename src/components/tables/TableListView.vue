@@ -40,6 +40,7 @@
 							<DateField v-else-if="itemKey === 'timestamp'" :timestamp="item" />
 							<SoftwareVersion v-else-if="itemKey === 'softwareVersion'" :value="item" />
 							<Harvester v-else-if="itemKey === 'harvester'" :value="item" />
+							<EpochInfoField v-else-if="itemKey === 'epochInfo'" :value="item" />
 
 							<div v-else-if="isAggregateInnerTransaction(itemKey)">
 								<b-link v-b-modal="'tlv_r'+rowIndex">Show Detail</b-link>
@@ -109,6 +110,7 @@ import ChainInfo from '@/components/fields/ChainInfo';
 import DateField from '@/components/fields/DateField.vue';
 import SoftwareVersion from '@/components/fields/SoftwareVersion.vue';
 import Harvester from '@/components/fields/Harvester.vue';
+import EpochInfoField from '@/components/fields/EpochInfoField.vue';
 
 export default {
 	extends: TableView,
@@ -127,7 +129,8 @@ export default {
 		Loading,
 		DateField,
 		SoftwareVersion,
-		Harvester
+		Harvester,
+		EpochInfoField
 	},
 
 	props: {

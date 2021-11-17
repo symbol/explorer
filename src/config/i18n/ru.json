@@ -243,6 +243,7 @@
     "mosaicsTitle": "Мозаики",
     "nodesTitle": "Ноды",
     "supplementalKeysTitle": "Дополнительные ключи",
+    "votingKeysTitle": "Ключи Голосования",
     "accountTransactionsTitle": "Транзакции",
     "resolutionStatementTitle": "Отчет Резолюции",
     "mosaicRestrictionTitle": "Mosaic Restriction",
@@ -387,6 +388,10 @@
     "nodeAddress": "Нода",
     "vrfAddress": "VRF",
     "exportCSV": "Экспорт CSV",
+    "future": "Будущие",
+    "expired": "Просроченные",
     "isHttpsEnabled": "Https",
-    "epoch": "Epoch"
+    "epoch": "Эпоха",
+    "epochInfo": "Эпоха Информация",
+    "current": "Текущий"
 }

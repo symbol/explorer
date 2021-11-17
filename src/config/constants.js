@@ -202,6 +202,12 @@ class Constants {
 		[BlockType.NemesisBlock]: 'Nemesis Block',
 		[BlockType.NormalBlock]: 'Normal Block'
 	}
+
+	static EpochStatus = {
+		CURRENT: 'Current',
+		FUTURE: 'Future',
+		EXPIRED: 'Expired'
+	}
 }
 
 export default Constants;
