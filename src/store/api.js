@@ -89,6 +89,11 @@ export default {
 				await http.init(nodeUrl, marketDataUrl);
 
 				commit('networkType', http.networkType);
+
+				// Add data attribute for testnet
+				if (http.networkType === sdk.NetworkType.TEST_NET)
+					document.documentElement.setAttribute('data-network', 'testnet');
+
 				dispatch('chain/getChainInfo', null, { root: true });
 			};
 

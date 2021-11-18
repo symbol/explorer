@@ -201,10 +201,7 @@ export default {
 
 		changeTheme: ({ commit, rootGetters }, theme) => {
 			commit('setTheme', theme);
-
-			const selectedTheme = rootGetters['api/isTestnet'] ? `${theme} testnet` : theme;
-
-			document.documentElement.setAttribute('data-theme', selectedTheme);
+			document.documentElement.setAttribute('data-theme', theme);
 		}
 	}
 };

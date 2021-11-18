@@ -100,10 +100,14 @@ $theme-colors: map-merge(
     --icon-invert: invert(0);
 }
 
-// Variables for dark mode Testnet
-[data-theme="darkMode testnet"] {
+// Variables for light mode Testnet
+[data-network="testnet"] {
     --header-bg-img: url(../styles/img/testnet-header.png);
     --footer-bg-img: url(../styles/img/testnet-footer.png);
+}
+
+// Variables for dark mode Testnet
+[data-theme="darkMode"][data-network="testnet"] {
     --main-bg-color: #{$testnet-dark-mode-main-bg};
     --main-grid-bg: #{$testnet-dark-mode-grid-bg};
     --text-color: #{$dark-mode-text-color};
