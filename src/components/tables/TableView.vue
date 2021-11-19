@@ -64,6 +64,7 @@ export default {
 				'lastActivity',
 				'recalculationBlock',
 				'sourceAddress',
+				'revokedSourceAddress',
 				'targetAddress',
 				'targetMosaicId',
 				'targetMosaicAliasNames_',

@@ -327,7 +327,7 @@ class TransactionService {
   	case TransactionType.MOSAIC_SUPPLY_REVOCATION:
   		return {
   			transactionType: transactionBody.type,
-  			sourceAddress: transactionBody.sourceAddress,
+  			revokedSourceAddress: transactionBody.revokedSourceAddress,
   			mosaicId: transactionBody.mosaic.id.toHex(),
   			amount: helper.toNetworkCurrency(transactionBody.mosaic.amount)
   		};

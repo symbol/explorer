@@ -16,14 +16,14 @@
 				:y="subjectPositionY"
 				:width="subjectWidth"
 				:height="subjectHeight"
-				:address="signer"
+				:address="revokedSourceAddress"
 			/>
 			<AccountIcon
 				:x="objectPositionX"
 				:y="objectPositionY"
 				:width="subjectWidth"
 				:height="subjectHeight"
-				:address="sourceAddress"
+				:address="signer"
 			/>
 			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
 			<MosaicsCircle
@@ -71,7 +71,7 @@ export default {
 			required: true,
 			default: ''
 		},
-		sourceAddress: {
+		revokedSourceAddress: {
 			type: String,
 			required: true,
 			default: ''

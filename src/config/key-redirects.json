@@ -10,6 +10,7 @@
     "ownerAddress": "accounts",
     "aliasAddress": "accounts",
     "sourceAddress": "accounts",
+    "revokedSourceAddress": "accounts",
     "targetAddress": "accounts",
     "addressResolutionEntries_": "accounts",
     "restrictionAddressValues_": "accounts",
