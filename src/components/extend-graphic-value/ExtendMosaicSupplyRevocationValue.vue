@@ -1,41 +1,42 @@
 <template>
-	<span
-		v-if="hasAction"
-		:title="getTranslation('actionType') + ': ' + getTranslation(action)">
-		{{ getTranslation(action) }}
-	</span>
+	<div>
+		<span
+			v-if="hasMosaics"
+			:title="getTranslation('mosaics')">
+			<MosaicsCircle
+				style="width: 16px; height: 16px;"
+				id="target"
+				:mosaics="[]"
+			/>
+		</span>
+	</div>
 </template>
 
 <script>
 import GraphicComponent from '@/components/graphics/GraphicComponent.vue';
+import MosaicsCircle from '@/components/graphics/MosaicsCircle.vue';
 
 export default {
 	extends: GraphicComponent,
 
+	components: {
+		MosaicsCircle
+	},
+
 	props: {
 		value: {
-			type: Array,
+			type: Object,
 			required: true,
-			default: () => []
+			default: () => ({})
 		}
 	},
 
 	computed: {
-		hasAction() {
-			for (const item of this.value) {
-				if (Object.keys(item).includes('action'))
-					return typeof item.action === 'string';
-			}
+		hasMosaics() {
+			if (this.value.mosaics)
+				return Array.isArray(this.value.mosaics) && this.value.mosaics.length > 0;
+
 			return false;
-		},
-
-		action() {
-			for (const item of this.value) {
-				if (Object.keys(item).includes('action'))
-					return item.action;
-			}
-
-			return '';
 		}
 	}
 };

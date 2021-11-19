@@ -327,9 +327,11 @@ class TransactionService {
   	case TransactionType.MOSAIC_SUPPLY_REVOCATION:
   		return {
   			transactionType: transactionBody.type,
-  			revokedSourceAddress: transactionBody.revokedSourceAddress,
-  			mosaicId: transactionBody.mosaic.id.toHex(),
-  			amount: helper.toNetworkCurrency(transactionBody.mosaic.amount)
+  			revokedSourceAddress: transactionBody.sourceAddress.address,
+  			mosaics: [{
+  				id: transactionBody.mosaic.id.toHex(),
+  				amount: transactionBody.mosaic.amount.compact().toString()
+  			}]
   		};
 
   	case TransactionType.MULTISIG_ACCOUNT_MODIFICATION:
@@ -556,11 +558,11 @@ class TransactionService {
   			{ action: transactionBody.action }
 		  ];
   	case TransactionType.MOSAIC_SUPPLY_REVOCATION:
-  		return [
-  			{ sourceAddress: transactionBody.sourceAddress,
-  				mosaicId: transactionBody.mosaic.id,
-  				amount: transactionBody.mosaic.amount }
-  		];
+  		return {
+  			mosaics: transactionBody.mosaics.filter(mosaic =>
+  				mosaic.id !== http.networkCurrency.mosaicId && mosaic.id !== http.networkCurrency.namespaceId
+  			)
+		  };
   	case TransactionType.MULTISIG_ACCOUNT_MODIFICATION:
 		  return [
 			  { minApprovalDelta: transactionBody.minApprovalDelta },
