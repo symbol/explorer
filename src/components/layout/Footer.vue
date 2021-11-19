@@ -96,7 +96,7 @@ export default {
 
 .footer::before {
     content: '';
-    background-image: url(../../styles/img/footer.png);
+    background-image: var(--footer-bg-img);
     position: absolute;
     z-index: 0;
     bottom: 0;

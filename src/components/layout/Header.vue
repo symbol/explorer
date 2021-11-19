@@ -69,7 +69,7 @@ export default {
 
 .header-gradinet::before {
     content: '';
-    background-image: url(../../styles/img/header.png);
+    background-image: var(--header-bg-img);
     position: absolute;
     z-index: 0;
     top: 0;
@@ -111,9 +111,9 @@ export default {
     border-radius: 5px;
     font-weight: bold;
     font-size: 13px;
-    color: var(--card-title-text);
+    color: var(--testnet-badge-title);
     top: -10px;
-    left: -165px;
+    left: -173px;
     text-transform: uppercase;
 }
 
