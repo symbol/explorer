@@ -32,7 +32,6 @@
 						@click.native="toggleMenu"
 					>
 						<img v-if="iconUrl(item.icon)" width="15px" height="15px" :src="iconUrl(item.icon)" class="menu-icon" alt="menu icon"/>
-						<component v-else :is="item.icon" class="ex-menu-item-icon"/>
 						<span>{{getNameByKey(item.text)}}</span>
 					</router-link>
 					<ThemeToggle />
@@ -44,28 +43,22 @@
 
 <script>
 import IconMenu from 'vue-material-design-icons/Menu.vue';
-import IconHome from 'vue-material-design-icons/Home.vue';
-import IconBlocks from 'vue-material-design-icons/Widgets.vue';
-import IconTransactions from 'vue-material-design-icons/Send.vue';
-import IconAccounts from 'vue-material-design-icons/Account.vue';
-import IconNodes from 'vue-material-design-icons/VectorTriangle.vue';
-import IconNamespaces from 'vue-material-design-icons/Tag.vue';
 import LanguageSelector from '@/components/controls/LanguageSelector.vue';
 import { pageMenu } from '../../config/';
 import ThemeToggle from '../ThemeToggle.vue';
 import IconStatistics from '../../styles/img/statistics.png';
 import IconMosaics from '../../styles/img/mosaic.png';
+import IconHome from '../../styles/img/home.png';
+import IconBlocks from '../../styles/img/block.png';
+import IconTransactions from '../../styles/img/transaction.png';
+import IconAccounts from '../../styles/img/account.png';
+import IconNodes from '../../styles/img/nodes.png';
+import IconNamespaces from '../../styles/img/namespace.png';
 
 export default {
 	components: {
 		IconMenu,
 		LanguageSelector,
-		IconHome,
-		IconBlocks,
-		IconTransactions,
-		IconAccounts,
-		IconNodes,
-		IconNamespaces,
 		ThemeToggle
 	},
 
@@ -82,7 +75,13 @@ export default {
 			showDrawer: false,
 			scrolled: true,
 			IconStatistics,
-			IconMosaics
+			IconMosaics,
+			IconHome,
+			IconBlocks,
+			IconTransactions,
+			IconAccounts,
+			IconNodes,
+			IconNamespaces
 		};
 	},
 
@@ -97,6 +96,18 @@ export default {
 
 		iconUrl(icon) {
 			switch (icon) {
+			case 'IconHome':
+				return this.IconHome;
+			case 'IconBlocks':
+				return this.IconBlocks;
+			case 'IconTransactions':
+				return this.IconTransactions;
+			case 'IconAccounts':
+				return this.IconAccounts;
+			case 'IconNodes':
+				return this.IconNodes;
+			case 'IconNamespaces':
+				return this.IconNamespaces;
 			case 'IconStatistics':
 				return this.IconStatistics;
 			case 'IconMosaics':
@@ -199,6 +210,10 @@ export default {
 
                 .ex-menu-item-icon {
                     margin-right: 20px;
+                }
+
+                img {
+                    margin: 10px 5px;
                 }
             }
         }
