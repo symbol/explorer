@@ -91,7 +91,7 @@ export default {
 
 	computed: {
 		transactionType() {
-			return this.getTransactionTypeCaption(this.type);
+			return 'Reclaim'; // Prevent confusion if using transaction type
 		},
 
 		circleIconsToDisplay() {
