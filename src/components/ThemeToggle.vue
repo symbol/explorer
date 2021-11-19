@@ -35,12 +35,10 @@ export default {
 		let theme = this.$store.getters['ui/theme'];
 
 		// set default to darkMode if not theme specify
-		if (theme === null) {
+		if (theme === null)
 			theme = 'darkMode';
-			localStorage.setItem('theme', theme);
-		}
 
-		document.documentElement.setAttribute('data-theme', theme);
+		this.$store.dispatch('ui/changeTheme', theme);
 
 		this.isDarkMode = theme === 'darkMode';
 	},
@@ -56,8 +54,6 @@ export default {
 	methods: {
 		toggleTheme() {
 			const theme = this.isDarkMode ? 'darkMode' : '';
-
-			document.documentElement.setAttribute('data-theme', theme);
 
 			// Save theme in local storage
 			this.$store.dispatch('ui/changeTheme', theme);
