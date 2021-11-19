@@ -16,7 +16,7 @@
 				:y="subjectPositionY"
 				:width="subjectWidth"
 				:height="subjectHeight"
-				:address="revokedSourceAddress"
+				:address="address"
 			/>
 			<AccountIcon
 				:x="objectPositionX"
@@ -71,7 +71,7 @@ export default {
 			required: true,
 			default: ''
 		},
-		revokedSourceAddress: {
+		address: {
 			type: String,
 			required: true,
 			default: ''

@@ -132,7 +132,7 @@ class CreateTransaction {
   		...transactionObj,
   		transactionBody: {
   			transactionType: transactionObj.type,
-  			revokedSourceAddress: transactionObj.sourceAddress.address,
+  			address: transactionObj.sourceAddress.address,
   			mosaics: mosaicsFieldObject
   		}
   	};
