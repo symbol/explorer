@@ -31,7 +31,7 @@
 			<div class="icon">
 				<img
 					class="icon-finalized"
-					:src="FinalizedIcon"
+					:src="LockIcon"
 				/>
 			</div>
 			{{value.finalizationHeight}}
