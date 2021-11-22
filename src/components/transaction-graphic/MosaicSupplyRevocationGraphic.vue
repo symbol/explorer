@@ -41,8 +41,7 @@
 				:mosaics="[nativeMosaic]"
 			/>
 			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
-				{{ transactionType }}
-				<title>{{ transactionType }}</title>
+				{{ getTranslation(transactionType) }}
 			</text>
 		</svg>
 	</div>
@@ -91,7 +90,7 @@ export default {
 
 	computed: {
 		transactionType() {
-			return 'Reclaim'; // Prevent confusion if using transaction type
+			return 'reclaimed'; // Prevent confusion if using transaction type
 		},
 
 		circleIconsToDisplay() {
