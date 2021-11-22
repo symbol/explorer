@@ -431,7 +431,14 @@ class helper {
 	 * @returns plain address - example : SB3KUBHATFCPV7UZQLWAQ2EUR6SIHBSBEOEDDDF3
 	 */
 	static resolvedAddress = async (unResolvedAddress, blockHeight) => {
-		if (!blockHeight) throw new Error('It required Block height.');
+		// Handle partial txs without block height
+		if (!blockHeight) {
+			if (unResolvedAddress instanceof NamespaceId)
+				return unResolvedAddress.id.toHex();
+
+			return unResolvedAddress.address;
+		}
+
 		if (!(unResolvedAddress instanceof NamespaceId)) return unResolvedAddress.address;
 
 		const searchCriteria = {
