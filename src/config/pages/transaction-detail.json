@@ -23,17 +23,17 @@
                 "errorMessage": "transactionInfoError",
                 "pagination": "none",
                 "fields": [
-                    "version",
-                    "blockHeight",
-                    "payloadSize",
                     "transactionHash",
+                    "status",
+                    "confirm",
+                    "blockHeight",
                     "timestamp",
                     "deadline",
+                    "signer",
+                    "payloadSize",
                     "effectiveFee",
                     "signature",
-                    "signer",
-                    "status",
-                    "confirm"
+                    "version"
                 ]
             },
             {
