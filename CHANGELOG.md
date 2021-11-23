@@ -17,7 +17,7 @@ SDK Core| v1.0.3 | [symbol-sdk][symbol-sdk@v1.0.3]
 ### Fixed
 - Invalid prop: type check failed for prop "transactionType" [#963](https://github.com/symbol/symbol-explorer/issues/963)
 - Unknown custom element [#964](https://github.com/symbol/symbol-explorer/issues/964)
-- Partial transaction can not view in Explorer [#972](https://github.com/symbol/symbol-explorer/issues/972)
+- Partial transactions cannot be viewed in Explorer [#972](https://github.com/symbol/symbol-explorer/issues/972)
 
 ## [v1.1.2][v1.1.2] - 11-Nov-2021
 
