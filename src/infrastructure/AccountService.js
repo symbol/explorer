@@ -93,7 +93,7 @@ class AccountService {
 			...accountInfos,
 			data: accountInfos.data.map((account) => ({
 				...account,
-				balance: helper.getNetworkCurrencyBalance(account.mosaics),
+				balance: helper.getNetworkCurrencyBalance(account.mosaics) !== Constants.Message.UNAVAILABLE ? helper.getNetworkCurrencyBalance(account.mosaics) : helper.toNetworkCurrency(0),
 				accountAliasNames: this.extractAccountNamespace(account, accountNames)
 			}))
 		};
