@@ -134,7 +134,7 @@ export default {
 <style lang="scss" scoped>
 .transaction-type {
     display: flex;
-	text-transform: capitalize;
+    text-transform: capitalize;
 
     .icon {
         display: flex;

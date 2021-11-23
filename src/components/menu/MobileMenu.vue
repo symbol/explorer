@@ -56,14 +56,13 @@ export default {
 		ThemeToggle
 	},
 
-    mounted() {
-         document.addEventListener('scroll', (e) => {
-             if (window.pageYOffset > 50) {
-                 this.isHide = true;
-             } else {
-                 this.isHide= false;
-             }
-         })
+	mounted() {
+		document.addEventListener('scroll', (e) => {
+			if (window.pageYOffset > 50)
+				this.isHide = true;
+			else
+				this.isHide = false;
+		});
 	},
 
 	data() {
@@ -71,7 +70,7 @@ export default {
 			items: pageMenu.items,
 			showDrawer: false,
 			scrolled: true,
-            isHide: false
+			isHide: false
 		};
 	},
 
