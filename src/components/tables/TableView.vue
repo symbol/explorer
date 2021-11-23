@@ -330,7 +330,6 @@ export default {
         right: 0;
         white-space: nowrap;
         overflow: hidden;
-        text-overflow: ellipsis;
     }
 
     .table-cell {
