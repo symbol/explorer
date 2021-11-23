@@ -63,7 +63,7 @@
     "supplyMutable": "Изменчивая Поставка",
     "transferable": "Переносимый",
     "restrictable": "Ограничение",
-    "revokable": "Revokable",
+    "revokable": "Подлежит отмене",
     "active": "Активный",
     "alias": "Псевдоним",
     "aliasType": "Тип псевдонима",
@@ -217,7 +217,7 @@
     "transactionDescriptor_17230": "Мозаика псевдоним",
     "transactionDescriptor_16717": "Определение мозаики",
     "transactionDescriptor_16973": "Изменение поставки мозаики",
-    "transactionDescriptor_17229": "Mosaic supply revocation",
+    "transactionDescriptor_17229": "Возвращаемая",
     "transactionDescriptor_16725": "Модификация мультисиг аккаунта",
     "transactionDescriptor_16705": "Агрегат завершен",
     "transactionDescriptor_16961": "Агрегат в сборе",
@@ -395,5 +395,6 @@
     "isHttpsEnabled": "Https",
     "epoch": "Эпоха",
     "epochInfo": "Эпоха Информация",
-    "current": "Текущий"
+    "current": "Текущий",
+    "reclaimed": "Возвращенная"
 }

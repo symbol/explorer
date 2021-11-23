@@ -217,7 +217,7 @@
     "transactionDescriptor_17230": "Mosaic alias",
     "transactionDescriptor_16717": "Mosaic definition",
     "transactionDescriptor_16973": "Mosaic supply change",
-    "transactionDescriptor_17229": "Mosaic supply revocation",
+    "transactionDescriptor_17229": "Reclaim",
     "transactionDescriptor_16725": "Multisig account modification",
     "transactionDescriptor_16705": "Aggregate complete",
     "transactionDescriptor_16961": "Aggregate bonded",
@@ -401,5 +401,6 @@
     "isHttpsEnabled": "Https",
     "epoch": "Epoch",
     "epochInfo": "Epoch Info",
-    "current": "actualidad"
+    "current": "actualidad",
+    "reclaimed": "Reclaimed"
 }
