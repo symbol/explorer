@@ -114,12 +114,12 @@ export default {
 }
 
 .lock-color {
-	fill: var(--mosaic-filed-bg);
-	stroke: var(--mosaic-filed-bg);
+    fill: var(--mosaic-filed-bg);
+    stroke: var(--mosaic-filed-bg);
 }
 
 .lock-kh-color {
-	fill: (--card-bg);
+    fill: (--card-bg);
 }
 
 .lock-text {

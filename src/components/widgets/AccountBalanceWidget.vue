@@ -181,7 +181,7 @@ export default {
         .mosaic {
             font-size: 1.5rem;
             line-height: 2.25rem;
-			text-transform: uppercase;
+            text-transform: uppercase;
         }
 
         .balance {
