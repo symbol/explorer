@@ -36,10 +36,10 @@
 			class="namespace-text"
 			text-anchor="middle"
 		>{{ truncatedNamespaceName }}</text>
-		<path 
-			fill-rule="evenodd" 
-			clip-rule="evenodd" 
-			:fill="iconColor" 
+		<path
+			fill-rule="evenodd"
+			clip-rule="evenodd"
+			:fill="iconColor"
 			d="M112.358,13.08c4.963,0,9.925,0.041,14.889-0.018
 				c2.416-0.028,4.408,0.836,6.074,2.501c13.303,13.271,26.615,26.535,39.869,39.853c3.283,3.299,3.326,8.558,0.037,11.887
 				c-10.336,10.465-20.721,20.887-31.195,31.215c-3.641,3.59-8.674,3.32-12.311-0.285c-12.516-12.404-24.98-24.863-37.578-37.181

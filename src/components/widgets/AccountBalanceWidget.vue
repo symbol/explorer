@@ -6,13 +6,13 @@
 			<div class="body-wrapper">
 				<div class="body">
 					<div class="section">
-							<AccountIcon
-								:width="55"
-								:height="55"
-								:address="address"
-								class="account-icon"
-								hideCaption
-							/>
+						<AccountIcon
+							:width="55"
+							:height="55"
+							:address="address"
+							class="account-icon"
+							hideCaption
+						/>
 						<div>
 							<div class="address">
 								<div>
