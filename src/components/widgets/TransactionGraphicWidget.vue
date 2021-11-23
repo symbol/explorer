@@ -171,8 +171,6 @@ export default {
         border-radius: 10px;
         border-color: var(--orange);
         border-width: 2px;
-		max-height: 60vh;
-		overflow-y: auto;
 
         .aggregate-title {
             font-size: 1rem;

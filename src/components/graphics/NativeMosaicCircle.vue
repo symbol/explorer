@@ -13,8 +13,8 @@
 	>
 		<defs>
 			<linearGradient id="native-mosaic-circle-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-				<stop offset="0%" stop-color="RGB(242, 114, 255)" />
-				<stop offset="100%" stop-color="RGB(233, 42, 255)" />
+				<stop offset="0%" stop-color="#8D33E5" />
+				<stop offset="100%" stop-color="#8D33E5" />
 			</linearGradient>
 		</defs>
 		<foreignObject x="446" y="318" width="100" height="100">

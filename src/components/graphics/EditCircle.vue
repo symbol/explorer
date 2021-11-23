@@ -12,9 +12,9 @@
 		class="circle-icon"
 	>
 		<defs>
-			<linearGradient id="message-circle-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-				<stop offset="0%" stop-color="RGB(255, 197, 255)" />
-				<stop offset="100%" stop-color="RGB(255, 0, 255)" />
+			<linearGradient id="edit-circle-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+				<stop offset="0%" stop-color="#FF9999" />
+				<stop offset="100%" stop-color="#FF9999" />
 			</linearGradient>
 		</defs>
 		<foreignObject x="446" y="318" width="100" height="100">
@@ -27,7 +27,7 @@
 		<circle
 			fill-rule="evenodd"
 			clip-rule="evenodd"
-			fill="url(#message-circle-gradient)"
+			fill="url(#edit-circle-gradient)"
 			cx="19.115"
 			cy="19.094"
 			r="17.26"
