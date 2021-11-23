@@ -18,9 +18,8 @@
                 "pagination": "server",
 				"hasFilter": true,
                 "fields": [
-                    "index",
-                    "namespaceName",
                     "namespaceId",
+                    "namespaceName",
                     "ownerAddress",
                     "expirationDuration",
                     "approximateExpired"
