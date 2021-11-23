@@ -9,7 +9,7 @@
     "relativeAmount": "Відносна сума",
     "height": "Висота",
     "fee": "Плата",
-    "maxFee": "Max Fee",
+    "maxFee": "Txn Fee",
     "totalFee": "Total Fee",
     "date": "Дата",
     "deadline": "Кінцевий термін",

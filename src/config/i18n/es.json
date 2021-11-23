@@ -48,7 +48,7 @@
     "mosaicId": "Mosaicos ID",
     "blockHeight": "Bloques Altura",
     "blockHash": "Bloques Hash",
-    "signer": "Signer",
+    "signer": "From",
     "recipient": "recipiente",
     "registrationType": "Tipo de registro",
     "parentId": "Parent ID",

@@ -9,7 +9,7 @@
     "relativeAmount": "相对金额",
     "height": "高度",
     "fee": "费用",
-    "maxFee": "Max Fee",
+    "maxFee": "Txn Fee",
     "totalFee": "Total Fee",
     "date": "日期",
     "deadline": "截止时间",
