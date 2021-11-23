@@ -107,8 +107,26 @@ class AccountService {
 	 * @returns Custom AccountInfo
 	 */
 	static getAccountInfo = async address => {
-		const { supplementalPublicKeys, ...accountInfo } = await this.getAccount(address);
-		const accountNames = await NamespaceService.getAccountsNames([Address.createFromRawAddress(address)]);
+		const [ { supplementalPublicKeys, ...accountInfo }, accountNames, { latestFinalizedBlock } ] = await Promise.all([
+			this.getAccount(address),
+			NamespaceService.getAccountsNames([Address.createFromRawAddress(address)]),
+			ChainService.getChainInfo()
+		]);
+
+		const getVotingEpochStatus = (startEpoch, endEpoch) => {
+			let votingStatus = '';
+
+			if (latestFinalizedBlock.finalizationEpoch >= startEpoch && latestFinalizedBlock.finalizationEpoch <= endEpoch)
+				votingStatus = Constants.EpochStatus.CURRENT;
+
+			else if (latestFinalizedBlock.finalizationEpoch < startEpoch)
+				votingStatus = Constants.EpochStatus.FUTURE;
+
+			else if (latestFinalizedBlock.finalizationEpoch > endEpoch)
+				votingStatus = Constants.EpochStatus.EXPIRED;
+
+			return votingStatus;
+		};
 
 		return {
 			...accountInfo,
@@ -122,9 +140,28 @@ class AccountService {
 				...supplementalPublicKeys,
 				linkedAddress: supplementalPublicKeys.linked === Constants.Message.UNAVAILABLE ? supplementalPublicKeys.linked : helper.publicKeyToAddress(supplementalPublicKeys.linked),
 				nodeAddress: supplementalPublicKeys.node === Constants.Message.UNAVAILABLE ? supplementalPublicKeys.node : helper.publicKeyToAddress(supplementalPublicKeys.node),
-				vrfAddress: supplementalPublicKeys.vrf === Constants.Message.UNAVAILABLE ? supplementalPublicKeys.vrf : helper.publicKeyToAddress(supplementalPublicKeys.vrf),
-				voting: supplementalPublicKeys.voting.length > 0 ? supplementalPublicKeys.voting.map(voting => helper.publicKeyToAddress(voting.publicKey)) : []
+				vrfAddress: supplementalPublicKeys.vrf === Constants.Message.UNAVAILABLE ? supplementalPublicKeys.vrf : helper.publicKeyToAddress(supplementalPublicKeys.vrf)
 			},
+			votingList:
+				supplementalPublicKeys.voting.length > 0 ? supplementalPublicKeys.voting.map(voting => ({
+					...voting,
+					epochInfo: {
+						epochStart: voting.startEpoch,
+						epochEnd: voting.endEpoch,
+						epochStatus: getVotingEpochStatus(voting.startEpoch, voting.endEpoch)
+					},
+					address: helper.publicKeyToAddress(voting.publicKey),
+					publicKey: voting.publicKey
+
+				})).sort((a, b) => {
+					const orderStatus = {
+						[Constants.EpochStatus.CURRENT]: 1,
+						[Constants.EpochStatus.FUTURE]: 2,
+						[Constants.EpochStatus.EXPIRED]: 3
+					};
+
+					return orderStatus[a.epochInfo.epochStatus] - orderStatus[b.epochInfo.epochStatus];
+				}) : [],
 			accountAliasNames: this.extractAccountNamespace(accountInfo, accountNames)
 		};
 	}

@@ -136,6 +136,7 @@ export default {
 		getInitialized: state => state.initialized,
 		getActivityBucketList: state => state.info?.data.activityBucket || [],
 		getSupplementalPublicKeys: state => state.info?.data.supplementalPublicKeys || {},
+		getVotingKeyList: state => state.info?.data.votingList || [],
 		getCurrentAccountAddress: state => state.currentAccountAddress,
 		balanceWidget: (state, getters) => ({
 			address: Address

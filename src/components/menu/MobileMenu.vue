@@ -32,7 +32,6 @@
 						@click.native="toggleMenu"
 					>
 						<img v-if="iconUrl(item.icon)" width="15px" height="15px" :src="iconUrl(item.icon)" class="menu-icon" alt="menu icon"/>
-						<component :is="item.icon" class="ex-menu-item-icon"/>
 						<span>{{getNameByKey(item.text)}}</span>
 					</router-link>
 					<ThemeToggle />
@@ -44,28 +43,16 @@
 
 <script>
 import IconMenu from 'vue-material-design-icons/Menu.vue';
-import IconHome from 'vue-material-design-icons/Home.vue';
-import IconBlocks from 'vue-material-design-icons/Widgets.vue';
-import IconTransactions from 'vue-material-design-icons/Send.vue';
-import IconAccounts from 'vue-material-design-icons/Account.vue';
-import IconNodes from 'vue-material-design-icons/VectorTriangle.vue';
-import IconNamespaces from 'vue-material-design-icons/Tag.vue';
 import LanguageSelector from '@/components/controls/LanguageSelector.vue';
 import { pageMenu } from '../../config/';
 import ThemeToggle from '../ThemeToggle.vue';
-import IconStatistics from '../../styles/img/statistics.png';
-import IconMosaics from '../../styles/img/mosaic.png';
+import MenuComponent from './MenuComponent.vue';
 
 export default {
+	extends: MenuComponent,
 	components: {
 		IconMenu,
 		LanguageSelector,
-		IconHome,
-		IconBlocks,
-		IconTransactions,
-		IconAccounts,
-		IconNodes,
-		IconNamespaces,
 		ThemeToggle
 	},
 
@@ -80,30 +67,13 @@ export default {
 		return {
 			items: pageMenu.items,
 			showDrawer: false,
-			scrolled: true,
-			IconStatistics,
-			IconMosaics
+			scrolled: true
 		};
 	},
 
 	methods: {
 		toggleMenu() {
 			this.showDrawer = !this.showDrawer;
-		},
-
-		getNameByKey(e) {
-			return this.$store.getters['ui/getNameByKey'](e);
-		},
-
-		iconUrl(icon) {
-			switch (icon) {
-			case 'IconStatistics':
-				return this.IconStatistics;
-			case 'IconMosaics':
-				return this.IconMosaics;
-			default:
-				return null;
-			}
 		}
 	}
 };
@@ -199,6 +169,10 @@ export default {
 
                 .ex-menu-item-icon {
                     margin-right: 20px;
+                }
+
+                img {
+                    margin: 10px 5px;
                 }
             }
         }

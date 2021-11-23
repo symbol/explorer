@@ -15,8 +15,6 @@
 				:to="item.to" exact active-class="active"
 			>
 				<img v-if="iconUrl(item.icon)" width="15px" height="15px" :src="iconUrl(item.icon)" class="menu-icon" alt="menu icon"/>
-				<component :is="item.icon" class="menu-icon"/>
-				<i :class="item.classname"></i>
 				<span>{{getNameByKey(item.text)}}</span>
 			</router-link>
 			<ThemeToggle />
@@ -26,24 +24,13 @@
 
 <script>
 import { pageMenu } from '../../config/';
-import IconHome from 'vue-material-design-icons/Home.vue';
-import IconBlocks from 'vue-material-design-icons/Widgets.vue';
-import IconTransactions from 'vue-material-design-icons/Send.vue';
-import IconAccounts from 'vue-material-design-icons/Account.vue';
-import IconNodes from 'vue-material-design-icons/VectorTriangle.vue';
-import IconNamespaces from 'vue-material-design-icons/Tag.vue';
 import ThemeToggle from '../ThemeToggle.vue';
-import IconStatistics from '../../styles/img/statistics.png';
-import IconMosaics from '../../styles/img/mosaic.png';
+import MenuComponent from './MenuComponent.vue';
 
 export default {
+	extends: MenuComponent,
+
 	components: {
-		IconHome,
-		IconBlocks,
-		IconTransactions,
-		IconAccounts,
-		IconNodes,
-		IconNamespaces,
 		ThemeToggle
 	},
 
@@ -70,26 +57,8 @@ export default {
 		return {
 			items: pageMenu.items,
 			fixed: false,
-			scrollListener: {},
-			IconStatistics,
-			IconMosaics
+			scrollListener: {}
 		};
-	},
-
-	methods: {
-		getNameByKey(e) {
-			return this.$store.getters['ui/getNameByKey'](e);
-		},
-		iconUrl(icon) {
-			switch (icon) {
-			case 'IconStatistics':
-				return this.IconStatistics;
-			case 'IconMosaics':
-				return this.IconMosaics;
-			default:
-				return null;
-			}
-		}
 	}
 };
 </script>
