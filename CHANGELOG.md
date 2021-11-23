@@ -3,6 +3,22 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v1.1.3][v1.1.3] - 23-Nov-2021
+
+Package  | Version  | Link
+---|---|---
+REST Core| v2.4.0 | [catapult-rest][catapult-rest@v2.4.0]
+SDK Core| v1.0.3 | [symbol-sdk][symbol-sdk@v1.0.3]
+
+### Added
+- Support new transaction type (revokable) [#959](https://github.com/symbol/symbol-explorer/issues/959)
+- Testnet theme [#971](https://github.com/symbol/symbol-explorer/pull/971)
+
+### Fixed
+- Invalid prop: type check failed for prop "transactionType" [#963](https://github.com/symbol/symbol-explorer/issues/963)
+- Unknown custom element [#964](https://github.com/symbol/symbol-explorer/issues/964)
+- Partial transaction can not view in Explorer [#972](https://github.com/symbol/symbol-explorer/issues/972)
+
 ## [v1.1.2][v1.1.2] - 11-Nov-2021
 
 Package  | Version  | Link
@@ -406,12 +422,14 @@ SDK Core| v0.20.7 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 [v1.0.1]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v1.0.1
 [v1.1.1]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v1.1.1
 [v1.1.2]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v1.1.2
+[v1.1.3]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v1.1.3
 
 [catapult-server@v0.10.0.5]: https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.5
 [catapult-server@v0.10.0.7]: https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.7
 [catapult-server@v0.10.0.8]: https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.8
 [catapult-server@v1.0.0.0]: https://github.com/nemtech/catapult-server/releases/tag/v1.0.0.0
 [catapult-server@v1.0.2.0]: https://github.com/symbol/catapult-client/releases/tag/v1.0.2.0
+[catapult-server@v1.0.3.0]: https://github.com/symbol/catapult-client/releases/tag/v1.0.3.1
 
 [symbol-sdk@v0.23.0]: https://www.npmjs.com/package/symbol-sdk/v/0.23.0
 [symbol-sdk@v0.23.3-alpha]: https://www.npmjs.com/package/symbol-sdk/v/0.23.3-alpha-202102181227
@@ -419,6 +437,7 @@ SDK Core| v0.20.7 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 [symbol-sdk@v1.0.0]: https://www.npmjs.com/package/symbol-sdk/v/1.0.0
 [symbol-sdk@v1.0.1]: https://www.npmjs.com/package/symbol-sdk/v/1.0.1
 [symbol-sdk@v1.0.2]: https://www.npmjs.com/package/symbol-sdk/v/1.0.2
+[symbol-sdk@v1.0.3]: https://www.npmjs.com/package/symbol-sdk/v/1.0.3
 
 [catapult-rest@v2.3.0]: https://github.com/nemtech/catapult-rest/releases/tag/v2.3.0
 [catapult-rest@v2.3.3]: https://github.com/nemtech/catapult-rest/releases/tag/v2.3.3
@@ -426,3 +445,4 @@ SDK Core| v0.20.7 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 [catapult-rest@v2.3.6]: https://github.com/nemtech/catapult-rest/releases/tag/v2.3.6
 [catapult-rest@v2.3.7]: https://github.com/symbol/catapult-rest/releases/tag/v2.3.7
 [catapult-rest@v2.3.8]: https://github.com/symbol/catapult-rest/releases/tag/v2.3.8
+[catapult-rest@v2.4.0]: https://github.com/symbol/catapult-rest/releases/tag/v2.4.0

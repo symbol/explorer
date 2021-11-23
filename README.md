@@ -1,6 +1,6 @@
 # Symbol Explorer
 
-[![Build Status](https://travis-ci.com/nemgrouplimited/symbol-explorer.svg?branch=main)](https://travis-ci.com/nemgrouplimited/symbol-explorer)
+[![Build Status](https://travis-ci.com/nemgrouplimited/symbol-explorer.svg?branch=main)](https://travis-ci.com/symbol/symbol-explorer)
 [![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)
 
 Symbol Explorer is a read-only web application to browse the content of the blockchain.
@@ -8,14 +8,14 @@ The explorer supports searching for transactions, accounts, namespaces, mosaics,
 
 ## Requirements
 
-- Node.js 8, 9 or 10
+- Node.js 12 or above
 
 ## Installation
 
 1. Clone the project.
 
 ```
-git clone https://github.com/nemgrouplimited/symbol-explorer.git
+git clone https://github.com/symbol/symbol-explorer.git
 ```
 
 2. Install the required dependencies.
@@ -47,7 +47,7 @@ npm run dev
 Use the following available resources to get help:
 
 - [Symbol Documentation][docs]
-- Join the community [slack group (#sig-client)][slack]
+- Join the community [Discord][discord]
 - If you found a bug, [open a new issue][issues]
 
 ## Contributing
@@ -61,7 +61,7 @@ Copyright 2019-present NEM
 
 Licensed under the [Apache License 2.0](LICENSE)
 
-[self]: https://github.com/nemgrouplimited/symbol-explorer
-[docs]: https://nemtech.github.io
-[issues]: https://github.com/nemgrouplimited/symbol-explorer/issues
-[slack]: https://join.slack.com/t/nem2/shared_invite/enQtMzY4MDc2NTg0ODgyLWZmZWRiMjViYTVhZjEzOTA0MzUyMTA1NTA5OWQ0MWUzNTA4NjM5OTJhOGViOTBhNjkxYWVhMWRiZDRkOTE0YmU
+[self]: https://github.com/symbol/symbol-explorer
+[docs]: https://docs.symbolplatform.com
+[issues]: https://github.com/symbol/symbol-explorer/issues
+[discord]: https://discord.com/invite/
