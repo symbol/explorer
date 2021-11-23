@@ -9,7 +9,7 @@
 		</div>
 
 		<div class="mobile-panel navbar-hide-on-scroll">
-			<router-link to="/" class="title" :class="{'hide': fixed}">
+			<router-link to="/" class="title" :class="{'hide': isHide}">
 				<img src="../../styles/img/symbol_logo_200px.png" class="menu-logo"/>
 			</router-link>
 		</div>
@@ -56,18 +56,22 @@ export default {
 		ThemeToggle
 	},
 
-	props: {
-		fixed: {
-			type: Boolean,
-			default: false
-		}
+    mounted() {
+         document.addEventListener('scroll', (e) => {
+             if (window.pageYOffset > 50) {
+                 this.isHide = true;
+             } else {
+                 this.isHide= false;
+             }
+         })
 	},
 
 	data() {
 		return {
 			items: pageMenu.items,
 			showDrawer: false,
-			scrolled: true
+			scrolled: true,
+            isHide: false
 		};
 	},
 
@@ -213,6 +217,10 @@ export default {
                 width: 30px;
                 margin: 0 15px;
             }
+        }
+
+        .hide {
+            display: none;
         }
     }
 
