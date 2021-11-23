@@ -100,7 +100,7 @@ export default {
 
 		viewBox() {
 			return this.hideCaption
-				? '115 0 16 105'
+				? '95 30 70 65'
 				: '0 0 261.333 131.313';
 		}
 	}

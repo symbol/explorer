@@ -107,6 +107,6 @@ export default {
 .lock-text {
     font-size: 18px;
     font-weight: bold;
-    fill: var(--secondary);
+    fill: var(--clickable-text);
 }
 </style>

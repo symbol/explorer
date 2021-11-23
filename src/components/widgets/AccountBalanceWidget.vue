@@ -6,19 +6,13 @@
 			<div class="body-wrapper">
 				<div class="body">
 					<div class="section">
-						<svg
-							class="account-icon"
-							viewBox="15 15 115 115"
-							:width="55"
-							:height="55"
-						>
 							<AccountIcon
-								:width="128"
-								:height="128"
+								:width="55"
+								:height="55"
 								:address="address"
+								class="account-icon"
 								hideCaption
 							/>
-						</svg>
 						<div>
 							<div class="address">
 								<div>
@@ -173,11 +167,7 @@ export default {
             justify-content: space-between;
 
             .account-icon {
-                border: 1px solid var(--clickable-text);
                 margin-right: 20px;
-                background: var(--sub-card-bg);
-                border-radius: 50%;
-                padding: 10px;
             }
 
             .address {
