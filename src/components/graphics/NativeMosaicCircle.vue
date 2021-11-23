@@ -49,21 +49,21 @@
 			<path
 				fill-rule="evenodd"
 				clip-rule="evenodd"
-				class="connector-shadow"
+				fill="#F4A900"
 				d="M25.359,11.553c-0.402,1.6-1.294,2.838-2.761,3.611
 		            c-1.202,0.632-2.475,0.51-3.223-0.245C21.369,13.798,23.364,12.675,25.359,11.553z"
 			/>
 			<path
 				fill-rule="evenodd"
 				clip-rule="evenodd"
-				class="connector-shadow"
+				fill="#78B6E4"
 				d="M10.814,15.818c1.76-0.604,4.08-0.123,5.137,1.152
 		            c0.531,0.64,1.076,1.348,0.681,2.295C14.693,18.116,12.754,16.967,10.814,15.818z"
 			/>
 			<path
 				fill-rule="evenodd"
 				clip-rule="evenodd"
-				class="connector-shadow"
+				fill="#20B5AC"
 				d="M21.74,26.177c-1.88-1.435-2.362-4.559-0.933-6.142
 		            c0.249-0.275,0.479-0.626,0.929-0.624C21.737,21.667,21.739,23.922,21.74,26.177z"
 			/>
@@ -105,9 +105,3 @@ export default {
 	}
 };
 </script>
-
-<style lang="scss" scoped>
-.connector-shadow {
-    fill: #ebebeb;
-}
-</style>
