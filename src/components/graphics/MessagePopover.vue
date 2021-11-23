@@ -101,6 +101,10 @@ export default {
 .message-popover {
     max-height: 600px;
     overflow: auto;
+
+    pre {
+        color: var(--text-color);
+    }
 }
 
 .json-key {
