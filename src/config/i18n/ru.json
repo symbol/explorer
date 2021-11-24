@@ -396,5 +396,5 @@
     "epoch": "Эпоха",
     "epochInfo": "Эпоха Информация",
     "current": "Текущий",
-    "reclaimed": "Возвращенная"
+    "mosaicFlags": "Flags"
 }

@@ -406,5 +406,5 @@
     "epoch": "Epoch",
     "epochInfo": "Epoch Info",
     "current": "Current",
-    "reclaimed": "Reclaimed"
+    "mosaicFlags": "Flags"
 }
