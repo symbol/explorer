@@ -170,14 +170,14 @@ export default {
         border-style: dashed;
         border-radius: 10px;
         border-color: var(--orange);
-        border-width: 4px;
+        border-width: 2px;
 
         .aggregate-title {
-            font-size: 1.5rem;
+            font-size: 1rem;
             line-height: 150%;
             color: var(--orange);
             font-weight: 700;
-            margin: 20px 40px 0;
+            margin: 10px 15px 0;
         }
 
         .signers-section-wrapper {
@@ -188,13 +188,13 @@ export default {
             flex: 1;
 
             .signers-section {
-                margin: 20px 40px 0;
+                margin: 10px 40px 0;
                 position: relative;
                 display: inline-block;
                 width: auto;
                 max-width: 700px;
                 background: var(--sub-card-bg);
-                padding: 10px 20px;
+                padding: 0 20px 10px;
                 border-radius: 40px;
                 border: 1px solid var(--sub-card-border);
 
@@ -202,7 +202,7 @@ export default {
                     position: absolute;
                     height: 40px;
                     top: -10px;
-                    right: 0;
+                    right: -5px;
                 }
             }
         }
@@ -213,9 +213,9 @@ export default {
 
             .aggregate-inner-index {
                 position: absolute;
-                top: 43%;
+                top: 35%;
                 left: 40px;
-                font-size: 1.25rem;
+                font-size: 1rem;
                 font-weight: 700;
                 color: var(--orange);
             }

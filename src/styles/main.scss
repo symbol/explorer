@@ -152,3 +152,14 @@ a {
         color: var(--clickable-text);
     }
 }
+
+.popover {
+    background-color: var(--main-bg-color);
+    border-color: var(--sub-card-border);
+}
+
+.popover-header {
+    background-color: var(--sub-card-bg);
+    color: var(--text-color);
+    border-color: var(--sub-card-border);
+}

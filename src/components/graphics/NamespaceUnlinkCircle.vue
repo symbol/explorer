@@ -13,8 +13,8 @@
 	>
 		<defs>
 			<linearGradient id="namespace-circle-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-				<stop offset="0%" stop-color="RGB(177, 241, 255)" />
-				<stop offset="100%" stop-color="RGB(5, 201, 255)" />
+				<stop offset="0%" stop-color="#4086BF" />
+				<stop offset="100%" stop-color="#4086BF" />
 			</linearGradient>
 		</defs>
 		<foreignObject x="446" y="318" width="100" height="100">
