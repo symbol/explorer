@@ -6,7 +6,7 @@
     "aliasAction": "Alias Action",
     "linkAction": "Link Action",
     "amount": "Amount",
-    "relativeAmount": "Supply",
+    "relativeAmount": "Value",
     "height": "Height",
     "fee": "Fee",
     "maxFee": "Fee",
