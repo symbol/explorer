@@ -123,7 +123,13 @@ class MosaicService {
    		data: mosaicInfos.data.map((mosaic) => ({
    			...mosaic,
    			ownerAddress: mosaic.address,
-   			mosaicAliasNames: this.extractMosaicNamespace(mosaic, mosaicNames)
+   			mosaicAliasNames: this.extractMosaicNamespace(mosaic, mosaicNames),
+   			mosaicFlags: {
+   				mutable: mosaic.supplyMutable,
+   				transferable: mosaic.transferable,
+   				restrictable: mosaic.restrictable,
+   				revokable: mosaic.revokable
+   			}
    		}))
    	};
    }
