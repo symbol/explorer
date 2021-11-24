@@ -21,7 +21,6 @@
                     "namespaceId",
                     "namespaceName",
                     "ownerAddress",
-                    "expirationDuration",
                     "approximateExpired"
                 ],
                 "mobileFields": [

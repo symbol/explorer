@@ -208,7 +208,6 @@ class NamespaceService {
 
   			return {
   				...namespace,
-  				expirationDuration: helper.isNativeNamespace(namespace.namespaceName) ? Constants.Message.INFINITY : helper.convertTimeFromNowInSec(expiredInSecond),
   				isExpired: isExpired,
   				approximateExpired: helper.isNativeNamespace(namespace.namespaceName) ? Constants.Message.INFINITY : helper.convertSecondToDate(expiredInSecond),
   				expiredInBlock: expiredInBlock
