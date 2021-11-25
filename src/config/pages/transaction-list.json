@@ -21,7 +21,7 @@
                     "transactionHash",
                     "transactionType",
                     "height",
-                    "timestamp",
+                    "age",
                     "signer",
                     "recipient",
                     "extendGraphicValue",
