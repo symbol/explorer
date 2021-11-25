@@ -1,6 +1,6 @@
 <template>
 	<div class="truncate">
-		<div class="d-none d-md-block">
+		<div class="text-truncate d-none d-md-block">
 			<slot />
 		</div>
 		<div class="d-block d-md-none">
@@ -14,5 +14,11 @@
     .truncate {
         word-break: break-all;
     }
+}
+
+.text-truncate {
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
 }
 </style>
