@@ -17,13 +17,10 @@
                 "errorMessage": "Failed to fetch mosaic list",
 				"pagination": "server",
                 "fields": [
-                    "index",
                     "mosaicId",
                     "mosaicAliasNames",
                     "ownerAddress",
-                    "relativeAmount",
-                    "divisibility",
-                    "startHeight"
+                    "relativeAmount"
                 ],
                 "mobileFields": [
                     "index",

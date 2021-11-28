@@ -330,7 +330,6 @@ export default {
         right: 0;
         white-space: nowrap;
         overflow: hidden;
-        text-overflow: ellipsis;
     }
 
     .table-cell {
@@ -340,7 +339,7 @@ export default {
         min-height: 50px;
         word-break: normal;
         min-width: 50px;
-        max-width: 300px;
+        max-width: 200px;
     }
 
     .date, .deadline, .age, .height {

@@ -116,7 +116,7 @@ $theme-colors: map-merge(
     --card-border: #{$transparent};
     --sub-card-border: #{$light-white-grey};
     --sub-card-bg: #{$black-color};
-    --card-title-text: #{$white-color};
+    --card-title-text: #{$dark-mode-text-title-color};
     --table-content-text: #{$violet-color};
     --balance-green-text: #{$dark-mode-green-text-color};
     --balance-widget-bg: #{$black-color};
