@@ -347,10 +347,10 @@ class helper {
 	/**
 	 * convert second to Date
 	 * @param second
-	 * @returns YYYY-MM-DD HH:mm:ss
+	 * @returns YYYY.MM.DD HH:mm UTC
 	 */
 	static convertSecondToDate = second => moment.utc().add(second, 's')
-		.format('YYYY-MM-DD HH:mm:ss')
+		.format('YYYY.MM.DD @ HH:mm UTC')
 
 	/**
 	 * Convert block deadline to date

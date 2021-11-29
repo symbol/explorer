@@ -91,11 +91,9 @@ class AccountService {
 
 		return {
 			...accountInfos,
-			data: accountInfos.data.map((account, index) => ({
+			data: accountInfos.data.map((account) => ({
 				...account,
-				index: index + 1 + helper.getStartListIndex(pageNumber, pageSize),
-				balance: helper.getNetworkCurrencyBalance(account.mosaics),
-				lastActivity: helper.getLastActivityHeight(account.activityBucket),
+				balance: helper.getNetworkCurrencyBalance(account.mosaics) !== Constants.Message.UNAVAILABLE ? helper.getNetworkCurrencyBalance(account.mosaics) : helper.toNetworkCurrency(0),
 				accountAliasNames: this.extractAccountNamespace(account, accountNames)
 			}))
 		};

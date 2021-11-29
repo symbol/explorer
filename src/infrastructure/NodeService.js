@@ -129,9 +129,8 @@ class NodeService {
     		data:
                 nodePeers
                 	.filter(el => !filter.rolesRaw || el.rolesRaw === filter.rolesRaw)
-                	.map((el, index) => {
+                	.map((el) => {
                 		let node = {
-                			index: index + 1,
                 			...el
                 		};
 

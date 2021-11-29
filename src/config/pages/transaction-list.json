@@ -18,14 +18,14 @@
                 "pagination": "server",
 				"hasFilter": true,
                 "fields": [
-                    "height",
-                    "timestamp",
-                    "deadline",
                     "transactionHash",
                     "transactionType",
+                    "height",
+                    "age",
                     "signer",
                     "recipient",
-                    "extendGraphicValue"
+                    "extendGraphicValue",
+                    "maxFee"
                 ],
                 "mobileFields": [
                     "height",

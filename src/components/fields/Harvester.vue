@@ -20,7 +20,7 @@
 	<div class="harvester-container">
 		<span :title="title" >
 			<router-link :to="getItemHref('accounts', value.linkedAddress)">
-				<b class="link">{{ value.signer }}</b>
+				<b class="link text-truncate">{{ value.signer }}</b>
 			</router-link>
 		</span>
 	</div>
