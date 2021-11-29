@@ -35,7 +35,7 @@
 import IconRestrictable from '../../styles/img/restrictable.png';
 import IconMutable from '../../styles/img/supply-mutable.png';
 import IconTransfer from '../../styles/img/transfer.png';
-// import IconRevoke from '../../styles/img/revoke.png'; // Todo: pending Revoke Tx merge
+import IconRevoke from '../../styles/img/revoke.png';
 
 export default {
 	name: 'MosaicFlags',
@@ -51,7 +51,8 @@ export default {
 		return {
 			IconRestrictable,
 			IconMutable,
-			IconTransfer
+			IconTransfer,
+			IconRevoke
 		};
 	},
 
