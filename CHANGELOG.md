@@ -13,6 +13,12 @@ SDK Core| v1.0.3 | [symbol-sdk][symbol-sdk@v1.0.3]
 ### Added
 - Support new transaction type (revokable) [#959](https://github.com/symbol/symbol-explorer/issues/959)
 - Testnet theme [#971](https://github.com/symbol/symbol-explorer/pull/971)
+- Add mosaic flag on the mosics list [#980](https://github.com/symbol/symbol-explorer/pull/980)
+
+### Update
+- Update transaction graphic [#976](https://github.com/symbol/symbol-explorer/pull/976)
+- Update interface enhancement [#981](https://github.com/symbol/symbol-explorer/pull/981)
+- Update RU translation
 
 ### Fixed
 - Invalid prop: type check failed for prop "transactionType" [#963](https://github.com/symbol/symbol-explorer/issues/963)
