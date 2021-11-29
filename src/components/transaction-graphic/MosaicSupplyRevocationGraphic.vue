@@ -90,7 +90,7 @@ export default {
 
 	computed: {
 		transactionType() {
-			return 'reclaimed'; // Prevent confusion if using transaction type
+			return this.getTransactionTypeCaption(this.type); // Mosaic alias
 		},
 
 		circleIconsToDisplay() {

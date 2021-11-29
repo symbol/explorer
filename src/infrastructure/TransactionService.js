@@ -559,9 +559,7 @@ class TransactionService {
 		  ];
   	case TransactionType.MOSAIC_SUPPLY_REVOCATION:
   		return {
-  			mosaics: transactionBody.mosaics.filter(mosaic =>
-  				mosaic.id !== http.networkCurrency.mosaicId && mosaic.id !== http.networkCurrency.namespaceId
-  			)
+  			mosaics: transactionBody.mosaics
 		  };
   	case TransactionType.MULTISIG_ACCOUNT_MODIFICATION:
 		  return [
