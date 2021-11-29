@@ -77,6 +77,7 @@ export default {
 				TransactionType.SECRET_LOCK,
 				TransactionType.MOSAIC_DEFINITION,
 				TransactionType.MOSAIC_SUPPLY_CHANGE,
+				TransactionType.MOSAIC_SUPPLY_REVOCATION,
 				TransactionType.AGGREGATE_COMPLETE,
 				TransactionType.AGGREGATE_BONDED,
 				TransactionType.HASH_LOCK,

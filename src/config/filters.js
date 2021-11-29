@@ -127,6 +127,7 @@ export const transaction = [
 				TransactionType.MOSAIC_ALIAS,
 				TransactionType.MOSAIC_DEFINITION,
 				TransactionType.MOSAIC_SUPPLY_CHANGE,
+				TransactionType.MOSAIC_SUPPLY_REVOCATION,
 				TransactionType.ACCOUNT_MOSAIC_RESTRICTION,
 				TransactionType.MOSAIC_ADDRESS_RESTRICTION,
 				TransactionType.MOSAIC_GLOBAL_RESTRICTION,

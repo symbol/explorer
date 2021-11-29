@@ -12,6 +12,7 @@ import MosaicAliasGraphic from '@/components/transaction-graphic/MosaicAliasGrap
 import NamespaceRegistrationGraphic from '@/components/transaction-graphic/NamespaceRegistrationGraphic.vue';
 import MosaicDefinitionGraphic from '@/components/transaction-graphic/MosaicDefinitionGraphic.vue';
 import MosaicSupplyChangeGraphic from '@/components/transaction-graphic/MosaicSupplyChangeGraphic.vue';
+import MosaicSupplyRevocationGraphic from '@/components/transaction-graphic/MosaicSupplyRevocationGraphic.vue';
 import SecretLockGraphic from '@/components/transaction-graphic/SecretLockGraphic.vue';
 import HashLockGraphic from '@/components/transaction-graphic/HashLockGraphic.vue';
 import VrfKeyGraphic from '@/components/transaction-graphic/VrfKeyGraphic.vue';
@@ -46,6 +47,7 @@ export default {
 		NamespaceRegistrationGraphic,
 		MosaicDefinitionGraphic,
 		MosaicSupplyChangeGraphic,
+		MosaicSupplyRevocationGraphic,
 		SecretLockGraphic,
 		HashLockGraphic,
 		SecretProofGraphic,
@@ -79,6 +81,7 @@ export default {
 			case TransactionType.NAMESPACE_REGISTRATION: return 'NamespaceRegistrationGraphic';
 			case TransactionType.MOSAIC_DEFINITION: return 'MosaicDefinitionGraphic';
 			case TransactionType.MOSAIC_SUPPLY_CHANGE: return 'MosaicSupplyChangeGraphic';
+			case TransactionType.MOSAIC_SUPPLY_REVOCATION: return 'MosaicSupplyRevocationGraphic';
 			case TransactionType.SECRET_LOCK: return 'SecretLockGraphic';
 			case TransactionType.HASH_LOCK: return 'HashLockGraphic';
 			case TransactionType.SECRET_PROOF: return 'SecretProofGraphic';
