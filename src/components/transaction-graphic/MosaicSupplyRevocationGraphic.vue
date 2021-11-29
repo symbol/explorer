@@ -90,7 +90,7 @@ export default {
 
 	computed: {
 		transactionType() {
-			return this.getTransactionTypeCaption(this.type); // Mosaic alias
+			return this.getTransactionTypeCaption(this.type);
 		},
 
 		circleIconsToDisplay() {
