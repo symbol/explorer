@@ -142,7 +142,7 @@
     "network": "Сеть",
     "host": "IP / Имя хоста",
     "port": "Порт",
-    "friendlyName": "Никнейм",
+    "friendlyName": "Имя",
     "approximateExpired": "Приблизительный Срок Окончания",
     "expiredInBlock": "Истечение Срока в Блоке",
     "index": "Нет.",
