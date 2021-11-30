@@ -73,10 +73,12 @@ export default {
 			switch (icon) {
 			case 'restrictable':
 				return this.IconRestrictable;
-			case 'mutable':
+			case 'supplyMutable':
 				return this.IconMutable;
 			case 'transferable':
 				return this.IconTransfer;
+			case 'revokable':
+				return this.IconRevoke;
 			default:
 			}
 		}
