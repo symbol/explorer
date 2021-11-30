@@ -2,11 +2,11 @@
 	"apiNodePort": 3001,
 	"endpoints": {
 		"marketData": "https://min-api.cryptocompare.com/",
-		"statisticsService": "https://testnet.symbol.services"
+		"statisticsService": "https://symbol.services"
 	},
 	"networkConfig": {
 		"namespaceName": "symbol.xym",
-		"mosaicId": "2CF403E85507F39E",
+		"mosaicId": "6BED913FA20223F8",
 		"namespaceId": "E74B99BA41F4AFEE",
 		"divisibility": "6",
 		"networkIdentifier": 0

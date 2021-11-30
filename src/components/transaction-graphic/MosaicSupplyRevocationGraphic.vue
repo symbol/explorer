@@ -16,25 +16,32 @@
 				:y="subjectPositionY"
 				:width="subjectWidth"
 				:height="subjectHeight"
-				:address="signer"
+				:address="address"
 			/>
-			<MosaicIcon
+			<AccountIcon
 				:x="objectPositionX"
 				:y="objectPositionY"
 				:width="subjectWidth"
 				:height="subjectHeight"
-				:mosaic="mosaic"
+				:address="signer"
 			/>
 			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
-			<AddCircle
+			<MosaicsCircle
+				v-if="hasMosaic"
+				id="target"
 				:x="getCircleIconPositionX(0)"
 				:y="circleIconPositionY"
-				:data="data"
-				:title="transactionType"
+				:mosaics="mosaicList"
+			/>
+			<NativeMosaicCircle
+				v-if="hasNativeMosaic"
+				id="target"
+				:x="getCircleIconPositionX(1)"
+				:y="circleIconPositionY"
+				:mosaics="[nativeMosaic]"
 			/>
 			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
-				{{ transactionType }}
-				<title>{{ transactionType }}</title>
+				{{ getTranslation(transactionType) }}
 			</text>
 		</svg>
 	</div>
@@ -43,57 +50,34 @@
 <script>
 import GraphicComponent from '../graphics/GraphicComponent.vue';
 import AccountIcon from '../graphics/AccountIcon.vue';
-import AddCircle from '../graphics/AddCircle.vue';
-import MosaicIcon from '../graphics/MosaicIcon.vue';
 import Arrow from '../graphics/Arrow.vue';
+import MosaicsCircle from '../graphics/MosaicsCircle.vue';
+import NativeMosaicCircle from '../graphics/NativeMosaicCircle.vue';
 
 export default {
 	extends: GraphicComponent,
 
 	components: {
 		AccountIcon,
-		AddCircle,
 		Arrow,
-		MosaicIcon
+		MosaicsCircle,
+		NativeMosaicCircle
 	},
 
 	props: {
-		message: {
-			type: String,
-			default: ''
-		},
 		signer: {
 			type: String,
 			required: true,
 			default: ''
 		},
-		mosaicId: {
+		address: {
 			type: String,
-			required: true
+			required: true,
+			default: ''
 		},
-		divisibility: {
-			type: Number,
-			required: true
-		},
-		duration: {
-			type: Number,
-			required: true
-		},
-		supplyMutable: {
-			type: Boolean,
-			required: true
-		},
-		transferable: {
-			type: Boolean,
-			required: true
-		},
-		restrictable: {
-			type: Boolean,
-			required: true
-		},
-		revokable: {
-			type: Boolean,
-			required: true
+		mosaics: {
+			type: Array,
+			default: () => []
 		}
 	},
 
@@ -110,22 +94,31 @@ export default {
 		},
 
 		circleIconsToDisplay() {
-			return [true];
+			return [this.hasMosaic, this.hasNativeMosaic];
+		},
+
+		hasNativeMosaic() {
+			return typeof this.nativeMosaic !== 'undefined';
+		},
+
+		hasMosaic() {
+			return this.mosaicList.length > 0;
 		},
 
 		mosaic() {
 			return { mosaicId: this.mosaicId };
 		},
 
-		data() {
-			return {
-				divisibility: this.divisibility,
-				duration: this.duration,
-				supplyMutable: this.supplyMutable,
-				transferable: this.transferable,
-				restrictable: this.restrictable,
-				revokable: this.revokable
-			};
+		nativeMosaic() {
+			return this.mosaics.find(
+				mosaic => mosaic.mosaicId === this.nativeMosaicId
+			);
+		},
+
+		mosaicList() {
+			return this.mosaics.filter(
+				mosaic => mosaic.mosaicId !== this.nativeMosaicId
+			);
 		}
 	}
 };

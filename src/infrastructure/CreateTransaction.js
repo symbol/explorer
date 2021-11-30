@@ -102,7 +102,8 @@ class CreateTransaction {
     			nonce: transactionObj.nonce.toHex(),
     			supplyMutable: transactionObj.flags.supplyMutable,
     			transferable: transactionObj.flags.transferable,
-    			restrictable: transactionObj.flags.restrictable
+    			restrictable: transactionObj.flags.restrictable,
+    			revokable: transactionObj.flags.revokable
     		}
     	};
     };
@@ -120,6 +121,22 @@ class CreateTransaction {
     		}
     	};
     };
+
+  static mosaicSupplyRevocation = async (transactionObj) => {
+  	const resolvedMosaic = await helper.resolveMosaicId(transactionObj.mosaic);
+  	const mosaic = new Mosaic(new MosaicId(resolvedMosaic.toHex()), transactionObj.mosaic.amount);
+
+  	const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder([mosaic]);
+
+  	return {
+  		...transactionObj,
+  		transactionBody: {
+  			transactionType: transactionObj.type,
+  			address: transactionObj.sourceAddress.address,
+  			mosaics: mosaicsFieldObject
+  		}
+  	};
+  };
 
     static multisigAccountModification = async (transactionObj) => {
     	const { transactionInfo } = transactionObj;
