@@ -405,6 +405,6 @@
     "isHttpsEnabled": "Https",
     "epoch": "Эпоха",
     "epochInfo": "Информация об эпохе",
-    "current": "В данный момент"
+    "current": "В данный момент",
     "reclaimed": "Возвращенная"
 }
