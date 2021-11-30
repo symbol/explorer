@@ -125,7 +125,7 @@ class MosaicService {
    			ownerAddress: mosaic.address,
    			mosaicAliasNames: this.extractMosaicNamespace(mosaic, mosaicNames),
    			mosaicFlags: {
-   				mutable: mosaic.supplyMutable,
+   				supplyMutable: mosaic.supplyMutable,
    				transferable: mosaic.transferable,
    				restrictable: mosaic.restrictable,
    				revokable: mosaic.revokable
