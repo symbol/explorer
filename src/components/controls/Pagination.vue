@@ -1,24 +1,24 @@
 <template>
 	<div class="pagination-wrapper">
-		<div v-if="!canFetchPrevious && !canFetchNext">
+		<div>
 			<b-button-group>
-				<b-button variant="outline-info" size="sm" disabled>
+				<b-button variant="outline-info" size="sm" @click="goFirstPage" :class="{'disabled': isFirstPageDisable}" >
+					{{ getNameByKey('First') }}
+				</b-button>
+				<b-button variant="outline-info" size="sm" @click="previousPage" :class="{'disabled': !canFetchPrevious}">
 					<IconArrowLeft />
 				</b-button>
-				<b-button variant="outline-info" size="sm" disabled>
+
+				<div class="pageNumberHolder">
+					<input v-model="pageNumber" @keyup.enter="fetchPage"> of {{ lastPageNumber }}
+				</div>
+
+				<b-button variant="outline-info" size="sm" @click="nextPage" :class="{'disabled': !canFetchNext}">
 					<IconArrowRight />
 				</b-button>
-			</b-button-group>
-		</div>
-		<ButtonMore v-else-if="!canFetchPrevious" @click="nextPage">{{getNameByKey('more')}}</ButtonMore>
-		<ButtonLess v-else-if="!canFetchNext" @click="previousPage">{{getNameByKey('less')}}</ButtonLess>
-		<div v-else :nextPageAction="nextPageAction" :previousPageAction="previousPageAction">
-			<b-button-group>
-				<b-button variant="outline-info" size="sm" @click="previousPage">
-					<IconArrowLeft />
-				</b-button>
-				<b-button variant="outline-info" size="sm" @click="nextPage">
-					<IconArrowRight />
+
+				<b-button variant="outline-info" size="sm" @click="goLastPage" :class="{'disabled': isLastPageDisable}">
+					{{ getNameByKey('Last') }}
 				</b-button>
 			</b-button-group>
 		</div>
@@ -64,13 +64,41 @@ export default {
 			type: Boolean,
 			required: false,
 			default: true
+		},
+
+		lastPageNumber: {
+			type: [Number, String],
+			required: true,
+			default: '..'
+		},
+
+		currentPageNumber: {
+			type: Number,
+			required: true,
+			default: 1
+		}
+	},
+
+	data() {
+		return {
+			pageNumber: this.currentPageNumber
+		};
+	},
+
+	computed: {
+		isFirstPageDisable() {
+			return this.currentPageNumber === 1;
+		},
+		isLastPageDisable() {
+			return this.currentPageNumber === this.lastPageNumber || this.lastPageNumber === '..';
 		}
 	},
 
 	methods: {
 		nextPage() {
-			if (this.nextPageAction)
+			if (this.nextPageAction){
 				this.$store.dispatch(this.nextPageAction);
+			}
 			this.$emit('next');
 			if (this.goUp)
 				this.goToTop();
@@ -80,6 +108,25 @@ export default {
 			if (this.previousPageAction)
 				this.$store.dispatch(this.previousPageAction);
 			this.$emit('previous');
+			if (this.goUp)
+				this.goToTop();
+		},
+
+		goFirstPage() {
+			this.$emit('firstPage');
+			if (this.goUp)
+				this.goToTop();
+		},
+
+		goLastPage() {
+			this.$emit('lastPage');
+			if (this.goUp)
+				this.goToTop();
+		},
+
+		fetchPage() {
+			this.$emit('fetchPage', this.pageNumber);
+
 			if (this.goUp)
 				this.goToTop();
 		},
@@ -97,6 +144,19 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+.pageNumberHolder {
+	padding: 1px 5px;
+
+	input {
+		border: solid 1px var(--clickable-text);
+		color: var(--clickable-text);
+		background-color: transparent;
+		width: 80px;
+		text-align: center;
+	}
+
+}
+
 .disabled {
     cursor: not-allowed;
     color: var(--clickable-text);
@@ -110,6 +170,7 @@ export default {
     float: right;
 
     .btn-outline-info {
+		margin: 0px 3px;
         color: var(--clickable-text);
         border-color: var(--clickable-text);
     }
