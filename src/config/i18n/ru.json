@@ -142,7 +142,7 @@
     "network": "Сеть",
     "host": "IP / Имя хоста",
     "port": "Порт",
-    "friendlyName": "Дружественное имя",
+    "friendlyName": "Имя",
     "approximateExpired": "Приблизительный Срок Окончания",
     "expiredInBlock": "Истечение Срока в Блоке",
     "index": "Нет.",
@@ -244,6 +244,7 @@
     "namespacesTitle": "Пространства имён",
     "mosaicsTitle": "Мозаики",
     "nodesTitle": "Ноды",
+
     "supplementalKeysTitle": "Дополнительные ключи",
     "votingKeysTitle": "Ключи Голосования",
     "accountTransactionsTitle": "Транзакции",
@@ -251,6 +252,7 @@
     "mosaicRestrictionTitle": "Mosaic Restriction",
     "mosaicRestrictionListTitle": "Mosaic Restriction List",
     "harvestedBlockTitle": "Harvested Blocks",
+
     "accountDetailError": "Этот адрес еще не известен сети Symbol.",
     "multisigCosignatoriesError": "Адрес не является мультисиг аккаунтом.",
     "ownedMosaicsError": "Мозаики, принадлежащие аккаунту, недоступны.",
@@ -261,6 +263,7 @@
     "metadataEntriesError": "Метаданные недоступны.",
     "importanceHistoryError": "История важности аккаунта недоступна.",
     "accountRestrictionError": "Ограничения по аккаунту недоступны.",
+
     "blockDetailError": "Блок не существует.",
     "blockTransactionsError": "Блок транзакции недоступны.",
     "balanceChangeReceiptError": "Баланс блока о внесении изменений квитанций отсутствует",
@@ -268,15 +271,19 @@
     "inflationReceiptError": "Инфляционные квитанции блока недоступны.",
     "artifactExpiryReceiptError": "Истечение срока действия артефакта блока недоступно.",
     "resolutionStatementError": "Отчет о разрешении блока недоступен.",
+
     "mosaicDetailError": "Мозаика не существует.",
     "mosaicRestrictionError": "Глобальные ограничения мозаики недоступны.",
     "mosaicRestrictionListError": "Глобальные ограничения мозаики недоступны.",
+
     "namespaceDetailError": "Пространство имен не существует.",
     "namespaceLevelError": "Уровни пространства имен недоступны.",
+
     "transactionInfoError": "Транзакция не существует.",
     "transactionDetailError": "Детали транзакции не существуют.",
     "transactionMosaicsError": "Мозаика транзакции не существует.",
     "transactionHashLockError": "Хеш-блокировка транзакции не существует.",
+
     "secretLockError": "Секретные замки (Secret locks) недоступны.",
     "hashLockError": "Хеш-блокировки недоступен.",
     "mosaicAddressRestrictionError": "Ограничения по адресам мозаики недоступны.",
@@ -286,6 +293,7 @@
     "noAlias": "No alias",
     "addressBeenCopied": "The address was copied to the clipboard",
     "failedToCopy": "Failed to copy",
+
     "beneficiaryAddress": "Адрес Получателя",
     "linked": "СВЯЗАННЫЕ",
     "node": "НОДА",
@@ -355,7 +363,7 @@
     "mosaicArtifactId": "Идентификатор артефакта",
     "namespaceArtifactId": "Идентификатор артефакта",
     "receiptTitle": "Квитанция",
-    "created": "Созданный",
+    "created": "Созданный блок",
     "ago": "тому назад",
     "messageTypeDescriptor_-1": "RAW сообщение",
     "messageTypeDescriptor_0": "Обычное сообщение",
@@ -382,8 +390,10 @@
     "symbolTime": "Время  Symbol",
     "restVersion": "Версия Rest",
     "softwareVersion": "Версия",
+
     "id": "ID",
     "signerPublicKey": "Публичный ключ подписывающей стороны",
+
     "remote": "Удаленный",
     "main": "Главная Страница",
     "linkedAddress": "Связанные",
@@ -394,7 +404,8 @@
     "expired": "Просроченные",
     "isHttpsEnabled": "Https",
     "epoch": "Эпоха",
-    "epochInfo": "Эпоха Информация",
-    "current": "Текущий",
+    "epochInfo": "Информация об эпохе",
+    "current": "В данный момент",
+    "reclaimed": "Возвращенная",
     "mosaicFlags": "Flags"
 }
