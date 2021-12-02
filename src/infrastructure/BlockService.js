@@ -24,6 +24,7 @@ import { Constants } from '../config';
 import { take, toArray } from 'rxjs/operators';
 import { MerkleTree } from 'merkletreejs';
 import { sha3_256 as sha3256 } from 'js-sha3';
+import NodeService from './NodeService';
 
 class BlockService {
   /**
@@ -133,8 +134,11 @@ class BlockService {
 
   	const accountInfos = await AccountService.getAccounts(signerAddress);
 
+  	const { numBlocks } = await NodeService.getStorageInfo();
+
   	return {
   		...blocks,
+  		totalRecords: numBlocks,
   		data: blocks.data.map(block => {
   			const { supplementalPublicKeys } = accountInfos.find(account => account.address === block.signer);
 
