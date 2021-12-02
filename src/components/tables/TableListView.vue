@@ -213,7 +213,9 @@ export default {
 
 		lastPage() {
 			if (this.timelinePagination) {
-				if (!this.timeline?.totalRecords) return '..';
+				if (!this.timeline?.totalRecords)
+					return '..';
+
 				return Math.ceil(this.timeline.totalRecords / this.timeline.pageSize);
 			}
 
@@ -245,8 +247,13 @@ export default {
 			this.$store.dispatch(this.nextPageAction);
 		},
 
-		fetchPage(pageNumber) {
-			this.timeline.fetchPage({ pageNumber: pageNumber });
+		fetchPage(number) {
+			const pageNumber = parseInt(number) || 1;
+
+			if (this.timelinePagination)
+				return this.timeline.fetchPage({ pageNumber });
+
+			else this.pageIndex = pageNumber;
 		},
 
 		nextPage() {
@@ -271,7 +278,7 @@ export default {
 			if (this.timelinePagination)
 				this.fetchPage(1);
 
-			else this.pageIndex = 1;
+			else this.pageIndex = 0;
 		},
 
 		goLastPage() {

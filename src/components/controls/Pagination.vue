@@ -10,7 +10,7 @@
 				</b-button>
 
 				<div v-if="advance" class="pageNumberHolder">
-					<input v-model="pageNumber" @keyup.enter="fetchPage"> of {{ lastPageNumber }}
+					<input v-model="pageNumber" @keyup.enter="fetchPage" type="number" min="1"> of {{ lastPageNumber }}
 				</div>
 
 				<b-button variant="outline-info" size="sm" @click="nextPage" :class="{'disabled': !canFetchNext}">
@@ -144,6 +144,12 @@ export default {
 
 		getNameByKey(e) {
 			return this.$store.getters['ui/getNameByKey'](e);
+		}
+	},
+
+	watch: {
+		currentPageNumber(value) {
+			this.pageNumber = value;
 		}
 	}
 };
