@@ -21,7 +21,8 @@
                     "nextPageAction": "block/nextBlock",
                     "previousPageAction": "block/previousBlock",
                     "canFetchPrevious": true,
-                    "canFetchNext": true
+                    "canFetchNext": true,
+                    "advance": false
                 },
                 "fields": [
                     "version",
