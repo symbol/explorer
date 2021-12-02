@@ -31,6 +31,7 @@ export default class Pagination {
 		this.pageInfo = {
 			pageNumber: pageInfo.pageNumber || 1,
 			pageSize: pageInfo.pageSize || Constants.pageSize,
+			totalRecords: undefined,
 			data: []
 		};
 		this.capturePageInfo();
@@ -77,6 +78,10 @@ export default class Pagination {
 
 	get pageSize() {
 		return this.pageInfo.pageSize;
+	}
+
+	get totalRecords() {
+		return this.pageInfo.totalRecords || undefined;
 	}
 
 	get filterOptions() {
