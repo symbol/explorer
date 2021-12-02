@@ -146,6 +146,14 @@ export default class Pagination {
 		try {
 			const newPageInfo = await this.fetchFunction(this.pageInfo, this.filterValue, this.store);
 
+			// set isLastPage to true
+			// if pageNumber is match with custom data length
+			if (newPageInfo.totalRecords) {
+				const lastPageNumber = Math.ceil(newPageInfo.totalRecords / newPageInfo.pageSize);
+
+				newPageInfo.isLastPage = newPageInfo.pageNumber === lastPageNumber;
+			}
+
 			this.pageInfo = newPageInfo?.data.length
 				? newPageInfo
 				: {

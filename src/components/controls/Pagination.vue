@@ -120,7 +120,6 @@ export default {
 				if (this.goUp)
 					this.goToTop();
 			}
-
 		},
 
 		goLastPage() {
