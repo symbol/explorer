@@ -2,14 +2,14 @@
 	<div class="pagination-wrapper">
 		<div>
 			<b-button-group>
-				<b-button variant="outline-info" size="sm" @click="goFirstPage" :class="{'disabled': isFirstPageDisable}" >
+				<b-button v-if="advance" variant="outline-info" size="sm" @click="goFirstPage" :class="{'disabled': isFirstPageDisable}" >
 					{{ getNameByKey('First') }}
 				</b-button>
 				<b-button variant="outline-info" size="sm" @click="previousPage" :class="{'disabled': !canFetchPrevious}">
 					<IconArrowLeft />
 				</b-button>
 
-				<div class="pageNumberHolder">
+				<div v-if="advance" class="pageNumberHolder">
 					<input v-model="pageNumber" @keyup.enter="fetchPage"> of {{ lastPageNumber }}
 				</div>
 
@@ -17,7 +17,7 @@
 					<IconArrowRight />
 				</b-button>
 
-				<b-button variant="outline-info" size="sm" @click="goLastPage" :class="{'disabled': isLastPageDisable}">
+				<b-button v-if="advance" variant="outline-info" size="sm" @click="goLastPage" :class="{'disabled': isLastPageDisable}">
 					{{ getNameByKey('Last') }}
 				</b-button>
 			</b-button-group>
@@ -26,20 +26,22 @@
 </template>
 
 <script>
-import ButtonLess from './ButtonLess.vue';
-import ButtonMore from './ButtonMore.vue';
 import IconArrowLeft from 'vue-material-design-icons/ArrowLeft.vue';
 import IconArrowRight from 'vue-material-design-icons/ArrowRight.vue';
 
 export default {
 	components: {
 		IconArrowLeft,
-		IconArrowRight,
-		ButtonLess,
-		ButtonMore
+		IconArrowRight
 	},
 
 	props: {
+		advance: {
+			type: Boolean,
+			required: false,
+			default: true
+		},
+
 		canFetchPrevious: {
 			type: Boolean,
 			required: true
@@ -68,13 +70,13 @@ export default {
 
 		lastPageNumber: {
 			type: [Number, String],
-			required: true,
+			required: false,
 			default: '..'
 		},
 
 		currentPageNumber: {
 			type: Number,
-			required: true,
+			required: false,
 			default: 1
 		}
 	},
@@ -96,9 +98,9 @@ export default {
 
 	methods: {
 		nextPage() {
-			if (this.nextPageAction){
+			if (this.nextPageAction)
 				this.$store.dispatch(this.nextPageAction);
-			}
+
 			this.$emit('next');
 			if (this.goUp)
 				this.goToTop();
