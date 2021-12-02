@@ -115,15 +115,20 @@ export default {
 		},
 
 		goFirstPage() {
-			this.$emit('firstPage');
-			if (this.goUp)
-				this.goToTop();
+			if (!this.isFirstPageDisable) {
+				this.$emit('firstPage');
+				if (this.goUp)
+					this.goToTop();
+			}
+
 		},
 
 		goLastPage() {
-			this.$emit('lastPage');
-			if (this.goUp)
-				this.goToTop();
+			if (!this.isLastPageDisable) {
+				this.$emit('lastPage');
+				if (this.goUp)
+					this.goToTop();
+			}
 		},
 
 		fetchPage() {
