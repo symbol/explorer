@@ -206,10 +206,11 @@ export default class Pagination {
             typeof pageInfo !== 'undefined'
 		) {
 			this.store.dispatch(this.name, this);
-			if (this.pageInfo === null || typeof this.pageInfo !== 'object') {
+			if (this.pageInfo === null || typeof this.pageInfo === 'object') {
 				for (const key in pageInfo)
 					this.pageInfo[key] = pageInfo[key];
 			}
+
 			await this.fetch();
 		}
 		else
