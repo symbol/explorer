@@ -29,6 +29,7 @@
                 ],
                 "mobileFields": [
                     "height",
+                    "age",
                     "transactionType",
                     "transactionHash",
                     "signer"
