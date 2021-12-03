@@ -402,5 +402,7 @@
     "epoch": "Epoch",
     "epochInfo": "Epoch Info",
     "current": "actualidad",
-    "reclaimed": "Reclaimed"
+    "reclaimed": "Reclaimed",
+    "first": "First",
+    "last": "Last"
 }

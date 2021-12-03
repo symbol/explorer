@@ -3,7 +3,7 @@
 		<div>
 			<b-button-group>
 				<b-button v-if="advance" variant="outline-info" size="sm" @click="goFirstPage" :class="{'disabled': isFirstPageDisable}" >
-					{{ getNameByKey('First') }}
+					{{ getNameByKey('first') }}
 				</b-button>
 				<b-button variant="outline-info" size="sm" @click="previousPage" :class="{'disabled': !canFetchPrevious}">
 					<IconArrowLeft />
@@ -18,7 +18,7 @@
 				</b-button>
 
 				<b-button v-if="advance" variant="outline-info" size="sm" @click="goLastPage" :class="{'disabled': isLastPageDisable}">
-					{{ getNameByKey('Last') }}
+					{{ getNameByKey('last') }}
 				</b-button>
 			</b-button-group>
 		</div>

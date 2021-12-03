@@ -406,5 +406,7 @@
     "epoch": "Epoch",
     "epochInfo": "Epoch Info",
     "current": "Current",
-    "reclaimed": "Reclaimed"
+    "reclaimed": "Reclaimed",
+    "first": "First",
+    "last": "Last"
 }
