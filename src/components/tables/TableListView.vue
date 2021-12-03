@@ -250,6 +250,14 @@ export default {
 		fetchPage(number) {
 			const pageNumber = parseInt(number) || 1;
 
+			// handle input number over range
+			if (this.lastPage !== '..') {
+				if (pageNumber > this.lastPage || pageNumber <= 0) {
+					console.error('number out of range');
+					return;
+				}
+			}
+
 			if (this.timelinePagination)
 				return this.timeline.fetchPage({ pageNumber });
 
