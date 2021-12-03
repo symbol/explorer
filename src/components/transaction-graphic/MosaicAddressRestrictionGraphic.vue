@@ -18,12 +18,12 @@
 				:height="subjectHeight"
 				:address="signer"
 			/>
-			<MosaicIcon
+			<AccountIcon
 				:x="objectPositionX"
 				:y="objectPositionY"
 				:width="subjectWidth"
 				:height="subjectHeight"
-				:mosaic="mosaic"
+				:address="targetAddress"
 			/>
 			<Arrow :x="arrowPositionX" :y="arrowPositionY" />
 			<MosaicRestrictionCircle
@@ -31,6 +31,11 @@
 				:y="circleIconPositionY"
 				:data="data"
 				:title="transactionType"
+			/>
+			<MosaicsCircle
+				:x="getCircleIconPositionX(1)"
+				:y="circleIconPositionY"
+				:mosaics="[mosaic]"
 			/>
 			<text :x="transactionTypeTextPositionX" :y="transactionTypeTextPositionY" text-anchor="middle" class="message">
 				{{ transactionType }}
@@ -43,8 +48,8 @@
 <script>
 import GraphicComponent from '../graphics/GraphicComponent.vue';
 import AccountIcon from '../graphics/AccountIcon.vue';
+import MosaicsCircle from '../graphics/MosaicsCircle.vue';
 import MosaicRestrictionCircle from '../graphics/MosaicRestrictionCircle.vue';
-import MosaicIcon from '../graphics/MosaicIcon.vue';
 import Arrow from '../graphics/Arrow.vue';
 
 export default {
@@ -52,9 +57,9 @@ export default {
 
 	components: {
 		AccountIcon,
+		MosaicsCircle,
 		MosaicRestrictionCircle,
-		Arrow,
-		MosaicIcon
+		Arrow
 	},
 
 	props: {
@@ -63,7 +68,11 @@ export default {
 			required: true,
 			default: ''
 		},
-		referenceMosaicId: {
+		targetAddress: {
+			type: String,
+			required: true
+		},
+		mosaicId: {
 			type: String,
 			required: true
 		},
@@ -94,17 +103,17 @@ export default {
 		},
 
 		circleIconsToDisplay() {
-			return [true];
+			return [true, true];
 		},
 
 		mosaic() {
-			return { mosaicId: this.referenceMosaicId };
+			return { mosaicId: this.mosaicId };
 		},
 
 		data() {
 			return {
 				type: 'mosaic.address',
-				mosaicId: this.referenceMosaicId,
+				mosaicId: this.mosaicId,
 				restrictionKey: this.restrictionKey,
 				previousRestrictionValue: this.previousRestrictionValue,
 				newRestrictionValue: this.newRestrictionValue
