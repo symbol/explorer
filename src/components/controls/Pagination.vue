@@ -157,16 +157,15 @@ export default {
 
 <style lang="scss" scoped>
 .pageNumberHolder {
-	padding: 1px 5px;
+    padding: 1px 5px;
 
-	input {
-		border: solid 1px var(--clickable-text);
-		color: var(--clickable-text);
-		background-color: transparent;
-		width: 80px;
-		text-align: center;
-	}
-
+    input {
+        border: solid 1px var(--clickable-text);
+        color: var(--clickable-text);
+        background-color: transparent;
+        width: 80px;
+        text-align: center;
+    }
 }
 
 .disabled {
@@ -182,7 +181,7 @@ export default {
     float: right;
 
     .btn-outline-info {
-		margin: 0px 3px;
+        margin: 0 3px;
         color: var(--clickable-text);
         border-color: var(--clickable-text);
     }
