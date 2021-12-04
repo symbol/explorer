@@ -164,13 +164,6 @@ class NodeService {
     	};
     }
 
-	static getNodeStats = async () => {
-		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length)
-			return (await Axios.get(globalConfig.endpoints.statisticsService + '/nodestats/')).data;
-		else
-			throw Error('Statistics service endpoint is not provided');
-	}
-
     static getNodeInfo = async (publicKey) => {
     	let node = {};
 
