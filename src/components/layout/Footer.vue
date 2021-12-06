@@ -25,7 +25,7 @@
 						<b-col sm="12" lg="4" offset-lg="4" class="vertical-center">
 							<ul class="social-icon">
 								<li
-									v-for="item in items"
+									v-for="item in footerItems"
 									:key="item.text"
 									class="social-icon-item"
 								>
@@ -70,11 +70,13 @@ export default {
 		IconTwitter
 	},
 
-	data() {
-		return {
-			loading: 1,
-			items: globalConfig.footer.link
-		};
+	computed: {
+		footerItems() {
+			if (this.$store.getters['api/isTestnet'])
+				return globalConfig.footer.link;
+
+			return globalConfig.footer.link.filter(item => item.text !== 'Faucet');
+		}
 	}
 };
 </script>
