@@ -19,6 +19,7 @@
 import * as symbol from 'symbol-sdk';
 import { NamespaceService } from '../infrastructure';
 import globalConfig from '../config/globalConfig';
+import { Configuration, NodeApi } from 'symbol-statistics-service-typescript-fetch-client';
 
 let NODE_URL;
 
@@ -145,5 +146,25 @@ export default class http {
 
   static get transactionPaginationStreamer() {
   	return new symbol.TransactionPaginationStreamer(this.createRepositoryFactory.createTransactionRepository());
+  }
+
+  static statisticServiceRestClient() {
+	  try {
+  		const statisticsServiceUrl = globalConfig.endpoints.statisticsService;
+
+  		if (statisticsServiceUrl && statisticsServiceUrl.length) {
+  			return new NodeApi(
+  				new Configuration({
+  					fetchApi: fetch,
+  					basePath: statisticsServiceUrl
+  				})
+  			);
+  		}
+  		else
+  			throw Error('Statistics service endpoint is not provided');
+	  }
+  	catch (error) {
+		  console.error(error);
+	  }
   }
 }

@@ -227,7 +227,7 @@ class TransactionService {
   		...transactions,
   		data: transactions.data.map(({ deadline, ...transaction }) => ({
   			...transaction,
-			age: helper.convertToUTCDate(blockInfos.find(block => block.height === transaction.transactionInfo.height).timestamp),
+  			age: helper.convertToUTCDate(blockInfos.find(block => block.height === transaction.transactionInfo.height).timestamp),
   			height: transaction.transactionInfo.height,
   			transactionHash: transaction.transactionInfo.hash,
   			transactionType: transaction.type,
