@@ -54,26 +54,26 @@ const routerConfig = {
 			component: () =>
 				import('./views/Statistics.vue')
 		},
-		{
-			path: '/terms',
-			name: 'terms',
-			meta: {
-				group: 'page',
-				keepAliveGoTo: []
-			},
-			component: () =>
-				import('./views/Terms.vue')
-		},
-		{
-			path: '/privacy',
-			name: 'privacy',
-			meta: {
-				group: 'page',
-				keepAliveGoTo: []
-			},
-			component: () =>
-				import('./views/Privacy.vue')
-		},
+		// {
+		// 	path: '/terms',
+		// 	name: 'terms',
+		// 	meta: {
+		// 		group: 'page',
+		// 		keepAliveGoTo: []
+		// 	},
+		// 	component: () =>
+		// 		import('./views/Terms.vue')
+		// },
+		// {
+		// 	path: '/privacy',
+		// 	name: 'privacy',
+		// 	meta: {
+		// 		group: 'page',
+		// 		keepAliveGoTo: []
+		// 	},
+		// 	component: () =>
+		// 		import('./views/Privacy.vue')
+		// },
 		{
 			path: '*',
 			name: '404',
