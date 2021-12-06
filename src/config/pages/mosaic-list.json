@@ -24,7 +24,6 @@
                     "mosaicFlags"
                 ],
                 "mobileFields": [
-                    "index",
                     "mosaicId",
                     "mosaicAliasNames",
                     "ownerAddress",

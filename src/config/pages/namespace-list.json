@@ -24,7 +24,6 @@
                     "approximateExpired"
                 ],
                 "mobileFields": [
-                    "index",
                     "namespaceName",
                     "ownerAddress",
                     "duration"
