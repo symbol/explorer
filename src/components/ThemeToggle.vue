@@ -1,7 +1,8 @@
 <template>
 	<div class="custom-control custom-switch toogle-theme">
 		<input type="checkbox" class="custom-control-input" id="goDark" v-model="isDarkMode" @change="toggleTheme">
-		<label class="custom-control-label toggle" for="goDark">
+		<!-- Disable toggle theme -->
+		<!-- <label class="custom-control-label toggle" for="goDark">
 			<span class="sun" :class="{'toggle-button': !this.isDarkMode}">
 				<img
 					class="switch-icon"
@@ -21,7 +22,7 @@
 					alt="dark mode"
 				/>
 			</span>
-		</label>
+		</label> -->
 	</div>
 </template>
 
