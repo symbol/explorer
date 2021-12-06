@@ -10,7 +10,7 @@
 				</b-button>
 
 				<div v-if="advance" class="pageNumberHolder">
-					<input v-model="pageNumber" @keyup.enter="fetchPage" type="number" min="1"> of {{ lastPageNumber }}
+					<input v-model="pageNumber" @keyup.enter="fetchPage" type="number" min="1" :disabled="isDisableInputPage"> {{ displayLastPageNumber }}
 				</div>
 
 				<b-button variant="outline-info" size="sm" @click="nextPage" :class="{'disabled': !canFetchNext}">
@@ -97,6 +97,11 @@ export default {
 		isDisableInputPage() {
 			return this.lastPageNumber === undefined;
 		},
+		displayLastPageNumber() {
+			if (this.lastPageNumber !== undefined)
+				return `of ${this.lastPageNumber}`;
+
+			return '';
 		}
 	},
 
