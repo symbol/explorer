@@ -23,6 +23,7 @@ SDK Core| v1.0.3 | symbol-sdk
 - Footer enhancement [#990](https://github.com/symbol/symbol-explorer/pull/990)
 - Disable toggle theme [#991](https://github.com/symbol/symbol-explorer/pull/991])
 - Update RU translation
+- Update JA translation
 
 ### Fixed
 - Invalid prop: type check failed for prop "transactionType" [#963](https://github.com/symbol/symbol-explorer/issues/963)
