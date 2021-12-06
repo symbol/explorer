@@ -54,6 +54,7 @@ import NodeSelector from '@/components/controls/NodeSelector.vue';
 import IconGithub from 'vue-material-design-icons/GithubCircle.vue';
 import IconNewspaper from 'vue-material-design-icons/Newspaper.vue';
 import IconDiscord from 'vue-material-design-icons/Discord.vue';
+import IconTwitter from 'vue-material-design-icons/Twitter.vue';
 import IconHomeCurrencyUsd from 'vue-material-design-icons/HomeCurrencyUsd.vue';
 import globalConfig from '../../config/globalConfig';
 
@@ -65,7 +66,8 @@ export default {
 		IconGithub,
 		IconNewspaper,
 		IconDiscord,
-		IconHomeCurrencyUsd
+		IconHomeCurrencyUsd,
+		IconTwitter
 	},
 
 	data() {
