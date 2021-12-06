@@ -19,10 +19,8 @@
 import http from './http';
 import Constants from '../config/constants';
 import * as symbol from 'symbol-sdk';
-import Axios from 'axios';
 import moment from 'moment';
 import helper from '../helper';
-import globalConfig from '../config/globalConfig';
 
 class NodeService {
     /**
@@ -61,15 +59,10 @@ class NodeService {
     	let nodePeers = [];
 
     	try {
-    		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length)
-    			nodePeers = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes')).data;
-    		else
-    			throw Error('Statistics service endpoint is not provided');
+    		nodePeers = await http.statisticServiceRestClient().getNodes();
     	}
     	catch (e) {
-    		nodePeers = await http.createRepositoryFactory.createNodeRepository()
-    			.getNodePeers()
-    			.toPromise();
+    		console.error('Statistics service getNodes error: ', e);
     	}
 
     	const formattedNodePeers = nodePeers.map(nodeInfo => this.formatNodeInfo(nodeInfo)).sort((a, b) => a.friendlyName.localeCompare(b.friendlyName));
@@ -168,15 +161,10 @@ class NodeService {
     	let node = {};
 
     	try {
-    		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length)
-    			node = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodes/' + publicKey)).data;
-    		else
-    			throw Error('Statistics service endpoint is not provided');
+    		node = await http.statisticServiceRestClient().getNode(publicKey);
     	}
     	catch (e) {
-    		const nodes = (await Axios.get(http.nodeUrl + '/node/peers')).data;
-
-    		node = nodes.find(n => n.publicKey === publicKey);
+    		throw Error('Statistics service getNode error: ', e);
     	}
     	const formattedNode = this.formatNodeInfo(node);
 
@@ -216,61 +204,18 @@ class NodeService {
     	return formattedNode;
     }
 
-    static getApiNodeStatus = async (nodeUrl) => {
-    	const status = {
-    		connectionStatus: false,
-    		databaseStatus: Constants.Message.UNAVAILABLE,
-    		apiNodeStatus: Constants.Message.UNAVAILABLE,
-    		lastStatusCheck: moment().format('YYYY-MM-DD HH:mm:ss')
-    	};
-
-    	try {
-    		const nodeStatus = (await Axios.get(nodeUrl + '/node/health', { timeout: 3000 })).data.status;
-
-    		status.connectionStatus = true;
-    		status.apiNodeStatus = nodeStatus.apiNode === 'up';
-    		status.databaseStatus = nodeStatus.db === 'up';
-    		status.lastStatusCheck = moment().format('YYYY-MM-DD HH:mm:ss');
-    	}
-    	catch (e) {
-    		console.error('Failed to get node status', e);
-    	};
-
-    	return status;
-    }
-
-    static getNodeChainInfo = async (nodeUrl) => {
-    	let chainInfo = {};
-
-    	try {
-    		chainInfo = {};
-    		const nodeChainInfo = (await Axios.get(nodeUrl + '/chain/info', { timeout: 3000 })).data;
-
-    		chainInfo.height = nodeChainInfo.height;
-    		chainInfo.scoreHigh = nodeChainInfo.scoreHigh;
-    		chainInfo.scoreLow = nodeChainInfo.scoreLow;
-    		chainInfo.finalizationEpoch = nodeChainInfo.latestFinalizedBlock.finalizationEpoch;
-    		chainInfo.finalizationPoint = nodeChainInfo.latestFinalizedBlock.finalizationPoint;
-    		chainInfo.finalizedHeight = nodeChainInfo.latestFinalizedBlock.height;
-    		chainInfo.finalizedHash = nodeChainInfo.latestFinalizedBlock.hash;
-    	}
-    	catch (e) {
-    		console.error('Failed to get node chain info', e);
-    	};
-
-    	return chainInfo;
-    }
-
 	static getNodeStats = async () => {
-		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length)
-			return (await Axios.get(globalConfig.endpoints.statisticsService + '/nodeStats')).data;
-		else
-			throw Error('Statistics service endpoint is not provided');
+		try {
+			return await http.statisticServiceRestClient().getNodeStats();
+		}
+		catch (e) {
+			throw Error('Statistics service getNodeStats error: ', e);
+		}
 	}
 
 	static getNodeHeightStats = async () => {
-		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
-			const data = (await Axios.get(globalConfig.endpoints.statisticsService + '/nodeHeightStats')).data;
+		try {
+			const data = await http.statisticServiceRestClient().getNodeHeightStats();
 
 			return [
 				{
@@ -283,8 +228,9 @@ class NodeService {
 				}
 			];
 		}
-		else
-			throw Error('Statistics service endpoint is not provided');
+		catch (e) {
+			throw Error('Statistics service getNodeHeightStats error: ', e);
+		}
 	}
 
 	static getNodeListCSV = async (filter) => {
@@ -315,26 +261,12 @@ class NodeService {
      * @returns nodes
      */
 	 static getNodeList = async (filter, limit, ssl) => {
-    	let nodes = [];
-
     	try {
-    		if (globalConfig.endpoints.statisticsService && globalConfig.endpoints.statisticsService.length) {
-	 			nodes = (await Axios.get(globalConfig.endpoints.statisticsService + `/nodes`, {
-	 				params: {
-	 					filter,
-						 limit,
-						 ssl
-	 				}
-	 			})).data;
-	 		}
-    		else
-    			throw Error('Statistics service endpoint is not provided');
+	 		return await http.statisticServiceRestClient().getNodes(filter, limit, ssl);
     	}
     	catch (e) {
-    		throw Error('Statistics service endpoint is not provided', e);
-    	}
-
-    	return nodes;
+	 		throw Error('Statistics service getNodeHeightStats error: ', e);
+	 	}
 	 }
 
 	 /**
