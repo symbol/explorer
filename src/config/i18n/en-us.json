@@ -28,7 +28,7 @@
     "transaction": "Transaction",
     "transactionHash": "Hash",
     "totalTransactions": "Total Txn",
-    "transactionType": "Txn Type",
+    "transactionType": "Type",
     "addressHeight": "Address height",
     "publicKey": "Public key",
     "publicKeyHeight": "PublicKey height",
