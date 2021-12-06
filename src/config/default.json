@@ -20,8 +20,13 @@
 			},
 			{
 				"href": "https://discord.com/invite/xymcity",
-				"text": "Join Discord",
+				"text": "Discord",
 				"icon": "IconDiscord"
+			},
+			{
+				"href": "https://twitter.com/NEMofficial",
+				"text": "Twitter",
+				"icon": "IconTwitter"
 			},
 			{
 				"href": "https://testnet.symbol.tools/",
