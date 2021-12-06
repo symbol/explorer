@@ -69,9 +69,9 @@ export default {
 		},
 
 		lastPageNumber: {
-			type: [Number, String],
+			type: [Number],
 			required: false,
-			default: '..'
+			default: undefined
 		},
 
 		currentPageNumber: {
@@ -92,7 +92,11 @@ export default {
 			return this.currentPageNumber === 1;
 		},
 		isLastPageDisable() {
-			return this.currentPageNumber === this.lastPageNumber || this.lastPageNumber === '..';
+			return this.currentPageNumber === this.lastPageNumber || this.lastPageNumber === undefined;
+		},
+		isDisableInputPage() {
+			return this.lastPageNumber === undefined;
+		},
 		}
 	},
 
