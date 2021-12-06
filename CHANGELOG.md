@@ -14,16 +14,21 @@ SDK Core| v1.0.3 | [symbol-sdk][symbol-sdk@v1.0.3]
 - Support new transaction type (revokable) [#959](https://github.com/symbol/symbol-explorer/issues/959)
 - Testnet theme [#971](https://github.com/symbol/symbol-explorer/pull/971)
 - Add mosaic flag on the mosics list [#980](https://github.com/symbol/symbol-explorer/pull/980)
+- Openapi client integrated for statistics-service [#987](https://github.com/symbol/symbol-explorer/issues/987)
 
 ### Update
 - Update transaction graphic [#976](https://github.com/symbol/symbol-explorer/pull/976)
 - Update interface enhancement [#981](https://github.com/symbol/symbol-explorer/pull/981)
+- Update mobile view table fields [#986](https://github.com/symbol/symbol-explorer/pull/986)
+- Footer enhancement [#990](https://github.com/symbol/symbol-explorer/pull/990)
+- Disable toggle theme [#991](https://github.com/symbol/symbol-explorer/pull/991])
 - Update RU translation
 
 ### Fixed
 - Invalid prop: type check failed for prop "transactionType" [#963](https://github.com/symbol/symbol-explorer/issues/963)
 - Unknown custom element [#964](https://github.com/symbol/symbol-explorer/issues/964)
 - Partial transactions cannot be viewed in Explorer [#972](https://github.com/symbol/symbol-explorer/issues/972)
+- Mosaic Address Restriction transaction graphic [#978](https://github.com/symbol/symbol-explorer/issues/978)
 
 ## [v1.1.2][v1.1.2] - 11-Nov-2021
 
