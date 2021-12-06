@@ -163,9 +163,17 @@ export default {
         border: solid 1px var(--clickable-text);
         color: var(--clickable-text);
         background-color: transparent;
-        width: 80px;
+        width: 50px;
         text-align: center;
     }
+
+	input[type=number]::-webkit-inner-spin-button,
+	input[type=number]::-webkit-outer-spin-button {
+		-webkit-appearance: none;
+		-moz-appearance: none;
+		appearance: none;
+		margin: 0;
+	}
 }
 
 .disabled {
