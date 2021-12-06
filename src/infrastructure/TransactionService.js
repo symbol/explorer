@@ -130,21 +130,7 @@ class TransactionService {
   static getTransactionInfo = async (hash) => {
   	const transactionStatus = await this.getTransactionStatus(hash);
   	const transactionGroup = transactionStatus.message;
-  	const transaction = await this.getTransaction(hash, transactionGroup)
-  		.catch((error) => {
-  			if (error)
-  				return false;
-  		});
-
-	  if (!transaction) {
-  		const transactionErrorInfo = {
-  			transactionHash: transactionStatus.detail.hash,
-  			status: transactionStatus.detail.code,
-  			confirm: transactionStatus.message
-  		};
-
-  		return transactionErrorInfo;
-	  }
+  	const transaction = await this.getTransaction(hash, transactionGroup);
 
   	const [{ timestamp }, effectiveFee] = await Promise.all([
 		  BlockService.getBlockInfo(UInt64.fromUint(transaction.transactionInfo.height))
@@ -241,7 +227,7 @@ class TransactionService {
   		...transactions,
   		data: transactions.data.map(({ deadline, ...transaction }) => ({
   			...transaction,
-			age: helper.convertToUTCDate(blockInfos.find(block => block.height === transaction.transactionInfo.height).timestamp),
+  			age: helper.convertToUTCDate(blockInfos.find(block => block.height === transaction.transactionInfo.height).timestamp),
   			height: transaction.transactionInfo.height,
   			transactionHash: transaction.transactionInfo.hash,
   			transactionType: transaction.type,
@@ -327,7 +313,8 @@ class TransactionService {
   			nonce: transactionBody.nonce.toHex(),
   			supplyMutable: transactionBody.flags.supplyMutable,
   			transferable: transactionBody.flags.transferable,
-  			restrictable: transactionBody.flags.restrictable
+  			restrictable: transactionBody.flags.restrictable,
+  			revokable: transactionBody.flags.revokable
   		};
 
   	case TransactionType.MOSAIC_SUPPLY_CHANGE:
@@ -336,6 +323,15 @@ class TransactionService {
   			mosaicId: transactionBody.mosaicId.id.toHex(),
   			action: Constants.MosaicSupplyChangeAction[transactionBody.action],
   			delta: transactionBody.delta.compact()
+  		};
+  	case TransactionType.MOSAIC_SUPPLY_REVOCATION:
+  		return {
+  			transactionType: transactionBody.type,
+  			address: transactionBody.sourceAddress.address,
+  			mosaics: [{
+  				id: transactionBody.mosaic.id.toHex(),
+  				amount: transactionBody.mosaic.amount.compact().toString()
+  			}]
   		};
 
   	case TransactionType.MULTISIG_ACCOUNT_MODIFICATION:
@@ -561,6 +557,10 @@ class TransactionService {
 		  return [
   			{ action: transactionBody.action }
 		  ];
+  	case TransactionType.MOSAIC_SUPPLY_REVOCATION:
+  		return {
+  			mosaics: transactionBody.mosaics
+		  };
   	case TransactionType.MULTISIG_ACCOUNT_MODIFICATION:
 		  return [
 			  { minApprovalDelta: transactionBody.minApprovalDelta },
@@ -647,6 +647,8 @@ class TransactionService {
   		return CreateTransaction.mosaicDefinition(transactionObj);
   	case TransactionType.MOSAIC_SUPPLY_CHANGE:
   		return CreateTransaction.mosaicSupplyChange(transactionObj);
+  	case TransactionType.MOSAIC_SUPPLY_REVOCATION:
+  		return CreateTransaction.mosaicSupplyRevocation(transactionObj);
   	case TransactionType.MULTISIG_ACCOUNT_MODIFICATION:
   		return CreateTransaction.multisigAccountModification(transactionObj);
   	case TransactionType.HASH_LOCK:

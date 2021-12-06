@@ -63,6 +63,7 @@
     "supplyMutable": "供給可変",
     "transferable": "転送可能",
     "restrictable": "制限可能",
+    "revokable": "取消可能",
     "active": "アクティブ",
     "alias": "エイリアス",
     "aliasType": "エイリアスの種類",
@@ -216,6 +217,7 @@
     "transactionDescriptor_17230": "モザイクエイリアス",
     "transactionDescriptor_16717": "モザイク定義",
     "transactionDescriptor_16973": "モザイク供給変更",
+    "transactionDescriptor_17229": "回収",
     "transactionDescriptor_16725": "マルチシグアカウント変更",
     "transactionDescriptor_16705": "アグリゲートコンプリート",
     "transactionDescriptor_16961": "アグリゲートボンデッド",
@@ -403,5 +405,6 @@
     "isHttpsEnabled": "Https",
     "epoch": "Epoch",
     "epochInfo": "Epoch 情報",
-    "current": "現在"
+    "current": "現在",
+    "mosaicFlags": "フラグ"
 }

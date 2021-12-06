@@ -22,13 +22,6 @@
 			<div class="ftr_btm">
 				<span> © Symbol Contributors {{ currentYear }}</span>
 				<span>|</span>
-				<span>All Rights Reserved</span>
-				<span>|</span>
-				<span>
-					<a href="/terms">Terms</a> &
-					<a href="/privacy">Privacy</a>
-				</span>
-				<span>|</span>
 				<span>v {{ appVersion }}</span>
 			</div>
 		</div>
