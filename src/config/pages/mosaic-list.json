@@ -20,13 +20,15 @@
                     "mosaicId",
                     "mosaicAliasNames",
                     "ownerAddress",
-                    "relativeAmount"
+                    "relativeAmount",
+                    "mosaicFlags"
                 ],
                 "mobileFields": [
                     "index",
                     "mosaicId",
                     "mosaicAliasNames",
-                    "ownerAddress"
+                    "ownerAddress",
+                    "mosaicFlags"
                 ]
             }
         ]
