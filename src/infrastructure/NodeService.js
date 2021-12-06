@@ -182,7 +182,7 @@ class NodeService {
     			apiNodeStatus: nodeStatus?.apiNode === 'up' || Constants.Message.UNAVAILABLE,
     			isHttpsEnabled,
     			restVersion,
-    			lastStatusCheck: moment(moment.utc(lastStatusCheck).format(), 'YYYY-MM-DD HH:mm:ss')
+    			lastStatusCheck: moment.utc(lastStatusCheck).format('YYYY-MM-DD HH:mm:ss')
     		};
 
     		if (finalization && chainHeight) {
@@ -193,7 +193,7 @@ class NodeService {
     				finalizationEpoch: finalization?.epoch,
     				finalizationPoint: finalization?.point,
     				finalizedHash: finalization?.hash,
-    				lastStatusCheck: moment(moment.utc(lastStatusCheck).format(), 'YYYY-MM-DD HH:mm:ss')
+    				lastStatusCheck: moment.utc(lastStatusCheck).format('YYYY-MM-DD HH:mm:ss')
     			};
     		}
     		else
