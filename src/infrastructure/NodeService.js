@@ -236,8 +236,8 @@ class NodeService {
 	static getNodeListCSV = async (filter) => {
 		const nodes = await this.getNodePeerList(filter);
 
-		const formattedData = nodes.data.map(node => ({
-			no: node.index,
+		const formattedData = nodes.data.map((node, index) => ({
+			no: index + 1,
 			host: node.host,
 			country: node.country,
 			friendlyName: node.friendlyName.replace(/,/g, '_'), // prevent friendly name break in CSV
