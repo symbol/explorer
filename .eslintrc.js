@@ -23,7 +23,10 @@ module.exports = {
             'named': 'never',
             'asyncArrow': 'always'
         }],
-        'indent': ['error', 'tab'],
+        'template-curly-spacing' : 'off',
+        'indent': ['error', 'tab', {
+            'ignoredNodes': ['TemplateLiteral']
+        }],
         'no-unused-expressions': 'off',
         'no-tabs': 0,
         'no-mixed-spaces-and-tabs': 0,
