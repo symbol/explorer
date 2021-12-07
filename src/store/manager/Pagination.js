@@ -31,6 +31,7 @@ export default class Pagination {
 		this.pageInfo = {
 			pageNumber: pageInfo.pageNumber || 1,
 			pageSize: pageInfo.pageSize || Constants.pageSize,
+			totalRecords: undefined,
 			data: []
 		};
 		this.capturePageInfo();
@@ -77,6 +78,10 @@ export default class Pagination {
 
 	get pageSize() {
 		return this.pageInfo.pageSize;
+	}
+
+	get totalRecords() {
+		return this.pageInfo.totalRecords || undefined;
 	}
 
 	get filterOptions() {
@@ -141,6 +146,14 @@ export default class Pagination {
 		try {
 			const newPageInfo = await this.fetchFunction(this.pageInfo, this.filterValue, this.store);
 
+			// set isLastPage to true
+			// if pageNumber is match with custom data length
+			if (newPageInfo.totalRecords) {
+				const lastPageNumber = Math.ceil(newPageInfo.totalRecords / newPageInfo.pageSize);
+
+				newPageInfo.isLastPage = newPageInfo.pageNumber === lastPageNumber;
+			}
+
 			this.pageInfo = newPageInfo?.data.length
 				? newPageInfo
 				: {
@@ -201,10 +214,11 @@ export default class Pagination {
             typeof pageInfo !== 'undefined'
 		) {
 			this.store.dispatch(this.name, this);
-			if (this.pageInfo === null || typeof this.pageInfo !== 'object') {
+			if (this.pageInfo === null || typeof this.pageInfo === 'object') {
 				for (const key in pageInfo)
 					this.pageInfo[key] = pageInfo[key];
 			}
+
 			await this.fetch();
 		}
 		else

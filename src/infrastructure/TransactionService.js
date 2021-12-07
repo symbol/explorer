@@ -223,8 +223,12 @@ class TransactionService {
   		blocksHeight.map(height => BlockService.getBlockInfo(height))
   	);
 
+  	// Cap data in 50 pages
+  	const totalRecords = 50 * pageSize;
+
   	return {
   		...transactions,
+  		totalRecords,
   		data: transactions.data.map(({ deadline, ...transaction }) => ({
   			...transaction,
   			age: helper.convertToUTCDate(blockInfos.find(block => block.height === transaction.transactionInfo.height).timestamp),

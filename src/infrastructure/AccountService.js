@@ -22,6 +22,7 @@ import http from './http';
 import { Constants } from '../config';
 import { NamespaceService, TransactionService, ChainService, MetadataService, LockService, ReceiptService, MosaicService, BlockService } from '../infrastructure';
 import helper from '../helper';
+import NodeService from './NodeService';
 
 class AccountService {
 	/**
@@ -89,8 +90,11 @@ class AccountService {
 
 		const accountNames = await NamespaceService.getAccountsNames(addresses);
 
+		const { numAccounts } = await NodeService.getStorageInfo();
+
 		return {
 			...accountInfos,
+			totalRecords: numAccounts,
 			data: accountInfos.data.map((account) => ({
 				...account,
 				balance: helper.getNetworkCurrencyBalance(account.mosaics) !== Constants.Message.UNAVAILABLE ? helper.getNetworkCurrencyBalance(account.mosaics) : helper.toNetworkCurrency(0),
