@@ -404,5 +404,6 @@
     "current": "actualidad",
     "reclaimed": "Reclaimed",
     "first": "First",
-    "last": "Last"
+    "last": "Last",
+    "mosaicFlags": "Flags"
 }

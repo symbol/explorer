@@ -28,7 +28,7 @@
     "transaction": "Transaction",
     "transactionHash": "Hash",
     "totalTransactions": "Total Txn",
-    "transactionType": "Txn Type",
+    "transactionType": "Type",
     "addressHeight": "Address height",
     "publicKey": "Public key",
     "publicKeyHeight": "PublicKey height",
@@ -408,5 +408,6 @@
     "current": "Current",
     "reclaimed": "Reclaimed",
     "first": "First",
-    "last": "Last"
+    "last": "Last",
+    "mosaicFlags": "Flags"
 }
