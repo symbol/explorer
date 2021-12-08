@@ -136,12 +136,13 @@ export default {
 		getInitialized: state => state.initialized,
 		getActivityBucketList: state => state.info?.data.activityBucket || [],
 		getSupplementalPublicKeys: state => state.info?.data.supplementalPublicKeys || {},
+		getVotingKeyList: state => state.info?.data.votingList || [],
 		getCurrentAccountAddress: state => state.currentAccountAddress,
 		balanceWidget: (state, getters) => ({
 			address: Address
 				.createFromRawAddress(state.currentAccountAddress)
 				.pretty(),
-			balance: getters.OwnedMosaic?.data[0]?.amount || 0,
+			mosaic: getters.OwnedMosaic?.data[0],
 			alias: getters.info?.data?.accountAliasNames /* || Constants.Message.UNAVAILABLE */
 		})
 	},

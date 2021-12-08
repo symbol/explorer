@@ -25,7 +25,7 @@
 						<b-col sm="12" lg="4" offset-lg="4" class="vertical-center">
 							<ul class="social-icon">
 								<li
-									v-for="item in items"
+									v-for="item in footerItems"
 									:key="item.text"
 									class="social-icon-item"
 								>
@@ -54,6 +54,7 @@ import NodeSelector from '@/components/controls/NodeSelector.vue';
 import IconGithub from 'vue-material-design-icons/GithubCircle.vue';
 import IconNewspaper from 'vue-material-design-icons/Newspaper.vue';
 import IconDiscord from 'vue-material-design-icons/Discord.vue';
+import IconTwitter from 'vue-material-design-icons/Twitter.vue';
 import IconHomeCurrencyUsd from 'vue-material-design-icons/HomeCurrencyUsd.vue';
 import globalConfig from '../../config/globalConfig';
 
@@ -65,14 +66,17 @@ export default {
 		IconGithub,
 		IconNewspaper,
 		IconDiscord,
-		IconHomeCurrencyUsd
+		IconHomeCurrencyUsd,
+		IconTwitter
 	},
 
-	data() {
-		return {
-			loading: 1,
-			items: globalConfig.footer.link
-		};
+	computed: {
+		footerItems() {
+			if (this.$store.getters['api/isTestnet'])
+				return globalConfig.footer.link;
+
+			return globalConfig.footer.link.filter(item => item.text !== 'Faucet');
+		}
 	}
 };
 </script>
@@ -96,7 +100,7 @@ export default {
 
 .footer::before {
     content: '';
-    background-image: url(../../styles/img/footer.png);
+    background-image: var(--footer-bg-img);
     position: absolute;
     z-index: 0;
     bottom: 0;

@@ -31,7 +31,7 @@ export default {
     border: transparent;
     border-radius: 4px;
     color: var(--clickable-text);
-    font-size: 12px;
+    font-size: 16px;
     padding: 5px 12px 5px 12px;
     line-height: 1.6;
     position: relative;

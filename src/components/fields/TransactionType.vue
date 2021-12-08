@@ -22,6 +22,7 @@ import IconMetadata from '../../styles/img/metadata.png';
 import IconLink from '../../styles/img/account-link.png';
 import IconAggregateBond from '../../styles/img/aggregate-bond.png';
 import IconAggregateCompleted from '../../styles/img/aggregate-completed.png';
+import IconRevoke from '../../styles/img/revoke.png';
 import { TransactionType } from 'symbol-sdk';
 
 export default {
@@ -55,7 +56,8 @@ export default {
 			IconMetadata,
 			IconLink,
 			IconAggregateBond,
-			IconAggregateCompleted
+			IconAggregateCompleted,
+			IconRevoke
 		};
 	},
 
@@ -75,6 +77,8 @@ export default {
 			case TransactionType.MOSAIC_DEFINITION:
 			case TransactionType.MOSAIC_SUPPLY_CHANGE:
 				return this.IconMosaic;
+			case TransactionType.MOSAIC_SUPPLY_REVOCATION:
+				return this.IconRevoke;
 			case TransactionType.MULTISIG_ACCOUNT_MODIFICATION:
 				return this.IconMultisig;
 			case TransactionType.AGGREGATE_COMPLETE:
@@ -134,6 +138,7 @@ export default {
 <style lang="scss" scoped>
 .transaction-type {
     display: flex;
+    text-transform: capitalize;
 
     .icon {
         display: flex;

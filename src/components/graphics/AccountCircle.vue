@@ -13,8 +13,8 @@
 	>
 		<defs>
 			<linearGradient id="account-circle-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-				<stop offset="0%" stop-color="#a5fab3" />
-				<stop offset="100%" stop-color="#33dd50" />
+				<stop offset="0%" stop-color="#287326" />
+				<stop offset="100%" stop-color="#287326" />
 			</linearGradient>
 		</defs>
 		<foreignObject x="446" y="318" width="100" height="100">

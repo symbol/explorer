@@ -11,12 +11,6 @@
 		xml:space="preserve"
 		class="circle-icon"
 	>
-		<defs>
-			<linearGradient id="mosaics-circle-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
-				<stop offset="0%" stop-color="RGB(114, 171, 255)" />
-				<stop offset="100%" stop-color="RGB(40, 127, 255)" />
-			</linearGradient>
-		</defs>
 		<foreignObject x="446" y="318" width="100" height="100">
 			<MosaicListPopover
 				v-if="hasMosaic"
@@ -27,7 +21,7 @@
 		<circle
 			fill-rule="evenodd"
 			clip-rule="evenodd"
-			fill="url(#mosaics-circle-gradient)"
+			fill="rgb(88, 116, 255)"
 			cx="19.115"
 			cy="19.094"
 			r="17.26"

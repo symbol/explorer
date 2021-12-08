@@ -40,6 +40,8 @@
 							<DateField v-else-if="itemKey === 'timestamp'" :timestamp="item" />
 							<SoftwareVersion v-else-if="itemKey === 'softwareVersion'" :value="item" />
 							<Harvester v-else-if="itemKey === 'harvester'" :value="item" />
+							<EpochInfoField v-else-if="itemKey === 'epochInfo'" :value="item" />
+							<MosaicFlagsField v-else-if="itemKey === 'mosaicFlags'" :value="item" />
 
 							<div v-else-if="isAggregateInnerTransaction(itemKey)">
 								<b-link v-b-modal="'tlv_r'+rowIndex">Show Detail</b-link>
@@ -74,16 +76,19 @@
 				</tbody>
 			</table>
 			<div v-if="pagination || timelinePagination" class="bottom">
-				<div v-if="pagination">{{ pageIndex + 1 }}/{{ getPageNumber(lastPage) }}</div>
-				<div v-else>{{ getPageNumber(timeline.index, timeline.pageNumber) }}/ {{ getPageNumber() }}</div>
 				<div class="pagination-wrapper">
 					<Pagination
 						:canFetchPrevious="prevPageExist"
 						:canFetchNext="nextPageExist"
 						:goUp="false"
+						:currentPageNumber="pageNumber"
+						:lastPageNumber="lastPage"
 						class="pagination"
 						@next="nextPage"
 						@previous="prevPage"
+						@firstPage="goFirstPage"
+						@lastPage="goLastPage"
+						@fetchPage="fetchPage($event)"
 					/>
 					<Loading small v-if="paginationLoading" />
 				</div>
@@ -109,6 +114,8 @@ import ChainInfo from '@/components/fields/ChainInfo';
 import DateField from '@/components/fields/DateField.vue';
 import SoftwareVersion from '@/components/fields/SoftwareVersion.vue';
 import Harvester from '@/components/fields/Harvester.vue';
+import EpochInfoField from '@/components/fields/EpochInfoField.vue';
+import MosaicFlagsField from '@/components/fields/MosaicFlagsField.vue';
 
 export default {
 	extends: TableView,
@@ -127,7 +134,9 @@ export default {
 		Loading,
 		DateField,
 		SoftwareVersion,
-		Harvester
+		Harvester,
+		EpochInfoField,
+		MosaicFlagsField
 	},
 
 	props: {
@@ -198,7 +207,21 @@ export default {
 			else return this.pageIndex > 0;
 		},
 
+		pageNumber() {
+			if (this.timelinePagination)
+				return this.timeline.pageNumber;
+
+			return this.pageIndex + 1;
+		},
+
 		lastPage() {
+			if (this.timelinePagination) {
+				if (!this.timeline?.totalRecords)
+					return undefined;
+
+				return Math.ceil(this.timeline.totalRecords / this.timeline.pageSize);
+			}
+
 			return Math.ceil(this.data.length / this.pageSize);
 		},
 
@@ -227,11 +250,28 @@ export default {
 			this.$store.dispatch(this.nextPageAction);
 		},
 
+		fetchPage(number) {
+			const pageNumber = parseInt(number) || 1;
+
+			// handle input number over range
+			if (this.lastPage !== undefined) {
+				if (pageNumber > this.lastPage || pageNumber <= 0) {
+					console.error('number out of range');
+					return;
+				}
+			}
+
+			if (this.timelinePagination)
+				return this.timeline.fetchPage({ pageNumber });
+
+			else this.pageIndex = pageNumber;
+		},
+
 		nextPage() {
 			if (this.nextPageExist) {
 				if (this.timelinePagination)
-				// this.$store.dispatch(this.timelineNextAction)
 					this.timeline.fetchNext();
+
 				else this.pageIndex++;
 			}
 		},
@@ -239,19 +279,24 @@ export default {
 		prevPage() {
 			if (this.prevPageExist) {
 				if (this.timelinePagination)
-				// this.$store.dispatch(this.timelinePreviousAction)
 					this.timeline.fetchPrevious();
+
 				else this.pageIndex--;
 			}
 		},
 
-		getPageNumber() {
-			const args = [...arguments];
-			const number = args.find(arg => typeof arg === 'number');
+		goFirstPage() {
+			if (this.timelinePagination)
+				this.fetchPage(1);
 
-			return typeof number === 'number'
-				? number
-				: '..';
+			else this.pageIndex = 0;
+		},
+
+		goLastPage() {
+			if (this.timelinePagination)
+				this.fetchPage(this.lastPage);
+
+			else this.pageIndex = this.lastPage;
 		},
 
 		onRowClick(row) {

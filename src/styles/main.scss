@@ -57,6 +57,9 @@ $theme-colors: map-merge(
 );
 
 :root {
+    --testnet-badge-title: #{$dark-mode-text-title-color};
+    --header-bg-img: url(../styles/img/mainnet-header.png);
+    --footer-bg-img: url(../styles/img/mainnet-footer.png);
     --main-bg-color: #{$white-color};
     --main-grid-bg: #{$white-color};
     --navigation-bg: #{$black-color};
@@ -78,15 +81,40 @@ $theme-colors: map-merge(
 
 // Variables for dark mode
 [data-theme="darkMode"] {
+    --header-bg-img: url(../styles/img/mainnet-header.png);
+    --footer-bg-img: url(../styles/img/mainnet-footer.png);
     --main-bg-color: #{$dark-mode-main-bg};
     --main-grid-bg: #{$dark-mode-grid-bg};
-    --navigation-bg: #{$black-color};
-    --theme-switch-bg: #{$dark-mode-card-bg-color};
     --text-color: #{$dark-mode-text-color};
     --clickable-text: #{$dark-mode-button-text-color};
     --card-bg: #{$dark-mode-card-bg-color};
     --card-border: #{$transparent};
     --sub-card-border: #{$dark-mode-card-border-color};
+    --sub-card-bg: #{$black-color};
+    --card-title-text: #{$dark-mode-text-title-color};
+    --table-content-text: #{$violet-color};
+    --balance-green-text: #{$dark-mode-green-text-color};
+    --balance-widget-bg: #{$black-color};
+    --mosaic-filed-bg: #{$violet-color};
+    --loading-bg: #{$dark-grey-color};
+    --icon-invert: invert(0);
+}
+
+// Variables for light mode Testnet
+[data-network="testnet"] {
+    --header-bg-img: url(../styles/img/testnet-header.png);
+    --footer-bg-img: url(../styles/img/testnet-footer.png);
+}
+
+// Variables for dark mode Testnet
+[data-theme="darkMode"][data-network="testnet"] {
+    --main-bg-color: #{$testnet-dark-mode-main-bg};
+    --main-grid-bg: #{$testnet-dark-mode-grid-bg};
+    --text-color: #{$dark-mode-text-color};
+    --clickable-text: #{$dark-mode-button-text-color};
+    --card-bg: #{$black-color};
+    --card-border: #{$transparent};
+    --sub-card-border: #{$light-white-grey};
     --sub-card-bg: #{$black-color};
     --card-title-text: #{$dark-mode-text-title-color};
     --table-content-text: #{$violet-color};
@@ -123,4 +151,15 @@ a {
     &:hover {
         color: var(--clickable-text);
     }
+}
+
+.popover {
+    background-color: var(--main-bg-color);
+    border-color: var(--sub-card-border);
+}
+
+.popover-header {
+    background-color: var(--sub-card-bg);
+    color: var(--text-color);
+    border-color: var(--sub-card-border);
 }

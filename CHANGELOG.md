@@ -3,12 +3,41 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v1.1.3][v1.1.3] - 8-Dec-2021
+
+Package  | Version  | Link
+---|---|---
+REST Core| v2.4.0 | catapult-rest
+SDK Core| v1.0.3 | symbol-sdk
+
+### Added
+- Support new transaction type (revokable) [#959](https://github.com/symbol/symbol-explorer/issues/959)
+- Testnet theme [#971](https://github.com/symbol/symbol-explorer/pull/971)
+- Add mosaic flag on the mosics list [#980](https://github.com/symbol/symbol-explorer/pull/980)
+- Openapi client integrated for statistics-service [#987](https://github.com/symbol/symbol-explorer/issues/987)
+
+### Update
+- Update transaction graphic [#976](https://github.com/symbol/symbol-explorer/pull/976)
+- Update interface enhancement [#981](https://github.com/symbol/symbol-explorer/pull/981)
+- Pagination enhancement [#985](https://github.com/symbol/symbol-explorer/pull/985)
+- Update mobile view table fields [#986](https://github.com/symbol/symbol-explorer/pull/986)
+- Footer enhancement [#990](https://github.com/symbol/symbol-explorer/pull/990)
+- Disable toggle theme [#991](https://github.com/symbol/symbol-explorer/pull/991])
+- Update RU translation
+- Update JA translation
+
+### Fixed
+- Invalid prop: type check failed for prop "transactionType" [#963](https://github.com/symbol/symbol-explorer/issues/963)
+- Unknown custom element [#964](https://github.com/symbol/symbol-explorer/issues/964)
+- Partial transactions cannot be viewed in Explorer [#972](https://github.com/symbol/symbol-explorer/issues/972)
+- Mosaic Address Restriction transaction graphic [#978](https://github.com/symbol/symbol-explorer/issues/978)
+
 ## [v1.1.2][v1.1.2] - 11-Nov-2021
 
 Package  | Version  | Link
 ---|---|---
-REST Core| v2.3.8 | [catapult-rest][catapult-rest@v2.3.8]
-SDK Core| v1.0.2 | [symbol-sdk][symbol-sdk@v1.0.2]
+REST Core| v2.3.8 | catapult-rest
+SDK Core| v1.0.2 | symbol-sdk
 
 ### Added
 - Introduce dark mode [#958](https://github.com/symbol/symbol-explorer/pull/958)
@@ -20,8 +49,8 @@ SDK Core| v1.0.2 | [symbol-sdk][symbol-sdk@v1.0.2]
 
 Package  | Version  | Link
 ---|---|---
-REST Core| v2.3.7 | [catapult-rest][catapult-rest@v2.3.7]
-SDK Core| v1.0.2 | [symbol-sdk][symbol-sdk@v1.0.2]
+REST Core| v2.3.7 | catapult-rest
+SDK Core| v1.0.2 | symbol-sdk
 
 ### Added
 - Add app version on footer [#931](https://github.com/symbol/symbol-explorer/pull/931)
@@ -43,12 +72,12 @@ SDK Core| v1.0.2 | [symbol-sdk][symbol-sdk@v1.0.2]
 
 ## [v1.1.0][v1.1.0] - 2-June-2021
 
-### Milestone: [catapult-server@v1.0.0.0][catapult-server@v1.0.0.0]
+### Milestone: catapult-server@v1.0.0.0
 
 Package  | Version  | Link
 ---|---|---
-REST Core| v2.3.6 | [catapult-rest][catapult-rest@v2.3.6]
-SDK Core| v1.0.1 | [symbol-sdk][symbol-sdk@v1.0.1]
+REST Core| v2.3.6 | catapult-rest
+SDK Core| v1.0.1 | symbol-sdk
 
 ### Added
 - Showing all receipts associated with an account [#857](https://github.com/nemgrouplimited/symbol-explorer/issues/857)
@@ -75,12 +104,12 @@ SDK Core| v1.0.1 | [symbol-sdk][symbol-sdk@v1.0.1]
 
 ## [v1.0.1][v1.0.1] - 21-Mar-2021
 
-### Milestone: [catapult-server@v1.0.0.0][catapult-server@v1.0.0.0]
+### Milestone: catapult-server@v1.0.0.0
 
 Package  | Version  | Link
 ---|---|---
-REST Core| v2.3.4 | [catapult-rest][catapult-rest@v2.3.4]
-SDK Core| v1.0.0 | [symbol-sdk][symbol-sdk@v1.0.0]
+REST Core| v2.3.4 | catapult-rest
+SDK Core| v1.0.0 | symbol-sdk
 
 - Remove the node peer status
 - Add message for the NIS1 address search attempt [#830](https://github.com/nemgrouplimited/symbol-explorer/issues/830)
@@ -89,12 +118,12 @@ SDK Core| v1.0.0 | [symbol-sdk][symbol-sdk@v1.0.0]
 
 ## [v1.0.0][v1.0.0] - 15-Mar-2021
 
-### Milestone: [catapult-server@v1.0.0.0][catapult-server@v1.0.0.0]
+### Milestone: catapult-server@v1.0.0.0
 
 Package  | Version  | Link
 ---|---|---
-REST Core| v2.3.4 | [catapult-rest][catapult-rest@v2.3.4]
-SDK Core| v1.0.0 | [symbol-sdk][symbol-sdk@v1.0.0]
+REST Core| v2.3.4 | catapult-rest
+SDK Core| v1.0.0 | symbol-sdk
 
 - Symbol mainnet launch release
 - Updated T&C and Privacy Policy
@@ -102,12 +131,12 @@ SDK Core| v1.0.0 | [symbol-sdk][symbol-sdk@v1.0.0]
 
 ## [v0.10.0][v0.10.0] - 12-Mar-2021
 
-### Milestone: [catapult-server@v0.10.0.8][catapult-server@v0.10.0.8]
+### Milestone: catapult-server@v0.10.0.8
 
 Package  | Version  | Link
 ---|---|---
-REST Core| v2.3.3 | [catapult-rest][catapult-rest@v2.3.3]
-SDK Core| v0.23.3 | [symbol-sdk][symbol-sdk@v0.23.3]
+REST Core| v2.3.3 | catapult-rest
+SDK Core| v0.23.3 | symbol-sdk
 
 ### Added
 - Added compatibility for 0.10.0.8 server.
@@ -129,12 +158,12 @@ SDK Core| v0.23.3 | [symbol-sdk][symbol-sdk@v0.23.3]
 
 ## [v0.9.0][v0.9.0] - 25-Feb-2021
 
-### Milestone: [catapult-server@v0.10.0.7][catapult-server@v0.10.0.7]
+### Milestone: catapult-server@v0.10.0.7
 
 Package  | Version  | Link
 ---|---|---
-REST Core| v2.3.3 | [catapult-rest][catapult-rest@v2.3.3]
-SDK Core| v0.23.3-alpha| [symbol-sdk][symbol-sdk@v0.23.3-alpha]
+REST Core| v2.3.3 | catapult-rest
+SDK Core| v0.23.3-alpha| symbol-sdk
 
 ### Added
 - Added compatibility for 0.10.0.7 server.
@@ -159,12 +188,12 @@ SDK Core| v0.23.3-alpha| [symbol-sdk][symbol-sdk@v0.23.3-alpha]
 
 ## [v0.8.0][v0.8.0] - 16-Jan-2021
 
-### Milestone: [catapult-server@v0.10.0.5][catapult-server@v0.10.0.5]
+### Milestone: catapult-server@v0.10.0.5
 
 Package  | Version  | Link
 ---|---|---
-REST Core| v2.3.0 | [catapult-rest][catapult-rest@v2.3.0]
-SDK Core| v0.23.0 | [symbol-sdk][symbol-sdk@v0.23.0]
+REST Core| v2.3.0 | catapult-rest
+SDK Core| v0.23.0 | symbol-sdk
 
 ### Added
 - Added compatibility for 0.10.0.5 server.
@@ -177,12 +206,12 @@ SDK Core| v0.23.0 | [symbol-sdk][symbol-sdk@v0.23.0]
 
 ## [v0.7.1][v0.7.1] - 19-Dec-2020
 
-### Milestone: [catapult-server@v0.10.0.4](https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.4)
+### Milestone: catapult-server@v0.10.0.4
 
 Package  | Version  | Link
 ---|---|---
-REST Core| v2.2.0 | [catapult-rest](https://github.com/nemtech/catapult-rest/releases/tag/v2.2.0)
-SDK Core| v0.22.2 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
+REST Core| v2.2.0 | catapult-rest
+SDK Core| v0.22.2 | symbol-sdk
 
 ### Added
 - Added server. Read config from environment variables [#728](https://github.com/nemgrouplimited/symbol-explorer/issues/728)
@@ -197,12 +226,12 @@ SDK Core| v0.22.2 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 
 ## [v0.7.0][v0.7.0] - 9-Dec-2020
 
-### Milestone: [catapult-server@v0.10.0.4](https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.4)
+### Milestone: catapult-server@v0.10.0.4
 
 Package  | Version  | Link
 ---|---|---
-REST Core| v2.2.0 | [catapult-rest](https://github.com/nemtech/catapult-rest/releases/tag/v2.2.0)
-SDK Core| v0.22.2 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
+REST Core| v2.2.0 | catapult-rest
+SDK Core| v0.22.2 | symbol-sdk
 
 ### Added
 - Added compatibility for 0.10.0.4 server.
@@ -227,12 +256,12 @@ SDK Core| v0.22.2 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 
 ## [v0.6.2][v0.6.2] - 19-Oct-2020
 
-### Milestone: [catapult-server@v0.10.0.3](https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.3)
+### Milestone: catapult-server@v0.10.0.3
 
 Package  | Version  | Link
 ---|---|---
-REST Core| v2.1.0 | [catapult-rest](https://github.com/nemtech/catapult-rest/releases/tag/v2.1.0)
-SDK Core| v0.21.0 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
+REST Core| v2.1.0 | catapult-rest
+SDK Core| v0.21.0 | symbol-sdk
 
 ### Added
 - Completed Transaction Graphic widget [#547](https://github.com/nemgrouplimited/symbol-explorer/issues/547)
@@ -253,12 +282,12 @@ SDK Core| v0.21.0 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 
 ## [v0.6.1][v0.6.1] - 2-Oct-2020
 
-### Milestone: [catapult-server@v0.10.0.3](https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.3)
+### Milestone: catapult-server@v0.10.0.3
 
 Package  | Version  | Link
 ---|---|---
-REST Core| v2.1.0 | [catapult-rest](https://github.com/nemtech/catapult-rest/releases/tag/v2.1.0)
-SDK Core| v0.21.0 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
+REST Core| v2.1.0 | catapult-rest
+SDK Core| v0.21.0 | symbol-sdk
 
 ### Added
 - Added reusable component for Transaction Graphic.
@@ -279,12 +308,12 @@ SDK Core| v0.21.0 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 
 ## [v0.6.0][v0.6.0] - 26-Sep-2020
 
-### Milestone: [catapult-server@v0.10.0.3](https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.3)
+### Milestone: catapult-server@v0.10.0.3
 
 Package  | Version  | Link
 ---|---|---
-REST Core| v2.1.0 | [catapult-rest](https://github.com/nemtech/catapult-rest/releases/tag/v2.1.0)
-SDK Core| v0.21.0 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
+REST Core| v2.1.0 | catapult-rest
+SDK Core| v0.21.0 | symbol-sdk
 
 ### Added
 - Added compatibility for 0.10.0.3 server.
@@ -319,12 +348,12 @@ SDK Core| v0.21.0 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 
 ## [v0.5.0][v0.5.0] - 15-Aug-2020
 
-### Milestone: [catapult-server@v0.9.6.4](https://github.com/nemtech/catapult-server/releases/tag/v0.9.6.4)
+### Milestone: catapult-server@v0.9.6.4
 
 Package  | Version  | Link
 ---|---|---
-REST Core| v1.2.0 | [catapult-rest](https://github.com/nemtech/catapult-rest/releases/tag/v1.2.0)
-SDK Core| v0.20.7 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
+REST Core| v1.2.0 | catapult-rest
+SDK Core| v0.20.7 | symbol-sdk
 
 ### Added
 - Added compatibility for 0.9.6.4 server.
@@ -361,7 +390,7 @@ SDK Core| v0.20.7 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 
 ## [v0.4.0][v0.4.0]
 
-### Milestone: [catapult-server@v0.9.5.1](https://github.com/nemtech/catapult-server/releases/tag/v0.9.5.1)
+### Milestone: catapult-server@v0.9.5.1
 
 ### Added
 - Adding Russian translation [#448](https://github.com/nemfoundation/symbol-explorer/issues/448)
@@ -376,7 +405,7 @@ SDK Core| v0.20.7 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 
 ## [v0.3.0][v0.3.0]
 
-### Milestone: [catapult-server@v0.9.4.1](https://github.com/nemtech/catapult-server/releases/tag/v0.9.4.1)
+### Milestone: catapult-server@v0.9.4.1
 
 #### Added
 
@@ -406,23 +435,4 @@ SDK Core| v0.20.7 | [symbol-sdk](https://www.npmjs.com/package/symbol-sdk)
 [v1.0.1]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v1.0.1
 [v1.1.1]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v1.1.1
 [v1.1.2]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v1.1.2
-
-[catapult-server@v0.10.0.5]: https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.5
-[catapult-server@v0.10.0.7]: https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.7
-[catapult-server@v0.10.0.8]: https://github.com/nemtech/catapult-server/releases/tag/v0.10.0.8
-[catapult-server@v1.0.0.0]: https://github.com/nemtech/catapult-server/releases/tag/v1.0.0.0
-[catapult-server@v1.0.2.0]: https://github.com/symbol/catapult-client/releases/tag/v1.0.2.0
-
-[symbol-sdk@v0.23.0]: https://www.npmjs.com/package/symbol-sdk/v/0.23.0
-[symbol-sdk@v0.23.3-alpha]: https://www.npmjs.com/package/symbol-sdk/v/0.23.3-alpha-202102181227
-[symbol-sdk@v0.23.3]: https://www.npmjs.com/package/symbol-sdk/v/0.23.3
-[symbol-sdk@v1.0.0]: https://www.npmjs.com/package/symbol-sdk/v/1.0.0
-[symbol-sdk@v1.0.1]: https://www.npmjs.com/package/symbol-sdk/v/1.0.1
-[symbol-sdk@v1.0.2]: https://www.npmjs.com/package/symbol-sdk/v/1.0.2
-
-[catapult-rest@v2.3.0]: https://github.com/nemtech/catapult-rest/releases/tag/v2.3.0
-[catapult-rest@v2.3.3]: https://github.com/nemtech/catapult-rest/releases/tag/v2.3.3
-[catapult-rest@v2.3.4]: https://github.com/nemtech/catapult-rest/releases/tag/v2.3.4
-[catapult-rest@v2.3.6]: https://github.com/nemtech/catapult-rest/releases/tag/v2.3.6
-[catapult-rest@v2.3.7]: https://github.com/symbol/catapult-rest/releases/tag/v2.3.7
-[catapult-rest@v2.3.8]: https://github.com/symbol/catapult-rest/releases/tag/v2.3.8
+[v1.1.3]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v1.1.3

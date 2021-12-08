@@ -1,7 +1,8 @@
 <template>
 	<div class="custom-control custom-switch toogle-theme">
 		<input type="checkbox" class="custom-control-input" id="goDark" v-model="isDarkMode" @change="toggleTheme">
-		<label class="custom-control-label toggle" for="goDark">
+		<!-- Disable toggle theme -->
+		<!-- <label class="custom-control-label toggle" for="goDark">
 			<span class="sun" :class="{'toggle-button': !this.isDarkMode}">
 				<img
 					class="switch-icon"
@@ -21,7 +22,7 @@
 					alt="dark mode"
 				/>
 			</span>
-		</label>
+		</label> -->
 	</div>
 </template>
 
@@ -35,12 +36,10 @@ export default {
 		let theme = this.$store.getters['ui/theme'];
 
 		// set default to darkMode if not theme specify
-		if (theme === null) {
+		if (theme === null)
 			theme = 'darkMode';
-			localStorage.setItem('theme', theme);
-		}
 
-		document.documentElement.setAttribute('data-theme', theme);
+		this.$store.dispatch('ui/changeTheme', theme);
 
 		this.isDarkMode = theme === 'darkMode';
 	},
@@ -56,8 +55,6 @@ export default {
 	methods: {
 		toggleTheme() {
 			const theme = this.isDarkMode ? 'darkMode' : '';
-
-			document.documentElement.setAttribute('data-theme', theme);
 
 			// Save theme in local storage
 			this.$store.dispatch('ui/changeTheme', theme);

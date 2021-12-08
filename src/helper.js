@@ -347,10 +347,10 @@ class helper {
 	/**
 	 * convert second to Date
 	 * @param second
-	 * @returns YYYY-MM-DD HH:mm:ss
+	 * @returns YYYY.MM.DD HH:mm UTC
 	 */
 	static convertSecondToDate = second => moment.utc().add(second, 's')
-		.format('YYYY-MM-DD HH:mm:ss')
+		.format('YYYY.MM.DD @ HH:mm UTC')
 
 	/**
 	 * Convert block deadline to date
@@ -358,6 +358,48 @@ class helper {
 	 * @returns YYYY-MM-DD HH:mm:ss
 	 */
 	static convertDeadlinetoDate = deadline => this.convertToUTCDate(this.networkTimestamp(deadline))
+
+	/**
+	 * Converts an HSL color value to RGB. Conversion formula
+	 * adapted from http://en.wikipedia.org/wiki/HSL_color_space.
+	 * Assumes h, s, and l are contained in the set [0, 1] and
+	 * returns r, g, and b in the set [0, 255].
+	 *
+	 * @param   {number}  h       The hue
+	 * @param   {number}  s       The saturation
+	 * @param   {number}  l       The lightness
+	 * @returns object { R: Number, G: Number, B: Number }
+	 */
+	 static hslToRgb(h, s, l) {
+		let r, g, b;
+
+		if (s === 0)
+			r = g = b = l; // achromatic
+		 else {
+			let hue2rgb = function hue2rgb(p, q, t) {
+				if (t < 0) t += 1;
+				if (t > 1) t -= 1;
+				if (t < 1 / 6) return p + (q - p) * 6 * t;
+				if (t < 1 / 2) return q;
+				if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
+				return p;
+			};
+
+			let q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+
+			let p = 2 * l - q;
+
+			r = hue2rgb(p, q, h + 1 / 3);
+			g = hue2rgb(p, q, h);
+			b = hue2rgb(p, q, h - 1 / 3);
+		}
+
+		return {
+			R: Math.round(r * 255),
+			G: Math.round(g * 255),
+			B: Math.round(b * 255)
+		};
+	}
 
 	/**
 	 * Get RGB color from hash
@@ -370,6 +412,11 @@ class helper {
 			G: 0,
 			B: 0
 		};
+		const spread = 100;
+		const saturation = 0.9;
+		const lightness = 0.8;
+
+		let totalValue = 0;
 
 		if (typeof hash !== 'string') {
 			console.error('Failed to convert hash to color. Hash is not a String');
@@ -380,38 +427,22 @@ class helper {
 			return color;
 		}
 
-		const hexToRGB = (hexString) => {
-			let totalHex = 0;
-
-			for (const hex of hexString)
-				totalHex += parseInt(hex, 16);
-
-			return Math.trunc(totalHex * 255 / (15 * hexString.length));
-		};
-
-		const charsetToRGB = (string) => {
+		if (isHex) {
+			for (const hex of hash)
+				totalValue += parseInt(hex, 16);
+		}
+		else {
 			const charset = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
 
-			let totalHex = 0;
-
-			for (const char of string)
-				totalHex += charset.indexOf(char.toLowerCase());
-
-			return Math.trunc(totalHex * 255 / ((charset.length - 1) * string.length));
+			for (const char of hash)
+				totalValue += charset.indexOf(char.toLowerCase());
 		};
 
-		const hashLength = hash.length;
-		const colorStrLength = Math.trunc(hashLength / 3);
+		const k = Math.trunc(totalValue / spread);
+		const offsetValue = totalValue - spread * k;
+		const hue = offsetValue / 100;
 
-		const strRed = hash.substring(0, colorStrLength);
-		const strGreen = hash.substring(colorStrLength, colorStrLength * 2);
-		const strBlue = hash.substring(colorStrLength * 2, colorStrLength * 3);
-
-		color.R = isHex ? hexToRGB(strRed) : charsetToRGB(strRed.substring(2, 3));
-		color.G = isHex ? hexToRGB(strGreen) : charsetToRGB(strGreen);
-		color.B = isHex ? hexToRGB(strBlue) : charsetToRGB(strBlue);
-
-		return color;
+		return this.hslToRgb(hue, saturation, lightness);
 	}
 
 	static truncString(str, strLen = 4) {
@@ -431,7 +462,14 @@ class helper {
 	 * @returns plain address - example : SB3KUBHATFCPV7UZQLWAQ2EUR6SIHBSBEOEDDDF3
 	 */
 	static resolvedAddress = async (unResolvedAddress, blockHeight) => {
-		if (!blockHeight) throw new Error('It required Block height.');
+		// Handle partial txs without block height
+		if (!blockHeight) {
+			if (unResolvedAddress instanceof NamespaceId)
+				return unResolvedAddress.id.toHex();
+
+			return unResolvedAddress.address;
+		}
+
 		if (!(unResolvedAddress instanceof NamespaceId)) return unResolvedAddress.address;
 
 		const searchCriteria = {

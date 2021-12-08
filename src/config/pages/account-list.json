@@ -19,15 +19,12 @@
                 "pagination": "server",
 				"hasFilter": true,
                 "fields": [
-                    "index",
                     "address",
                     "balance",
-                    "lastActivity",
                     "importance",
                     "accountAliasNames"
                 ],
                 "mobileFields": [
-                    "index",
                     "address",
                     "importance",
                     "info"

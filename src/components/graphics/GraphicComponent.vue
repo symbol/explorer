@@ -22,10 +22,10 @@ export default {
 	data() {
 		return {
 			// Transaction graphic
-			desktopTransactionGraphicViewbox: '140 200 700 200',
+			desktopTransactionGraphicViewbox: '140 250 700 130',
 			mobileTransactionGraphicViewbox: '380 240 200 170',
-			desktopTransactionGraphicWidth: 700,
-			desktopTransactionGraphicHeight: 200,
+			desktopTransactionGraphicWidth: 500,
+			desktopTransactionGraphicHeight: 100,
 			mobileTransactionGraphicWidth: 370,
 			mobileTransactionGraphicHeight: 150,
 
@@ -261,8 +261,8 @@ export default {
 }
 
 .message {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: bold;
-    fill: var(--blue);
+    fill: $violet-color;
 }
 </style>

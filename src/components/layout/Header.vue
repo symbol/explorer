@@ -5,7 +5,7 @@
 				<b-row>
 					<b-col md="3" class="header-left">
 						<router-link to="/" class="d-none d-md-block">
-							<img src="../../styles/img/symbol-logo-wordmark-03.svg" class="header-logo"/>
+							<img src="../../styles/img/logo-wordmark-dark-BG.png" class="header-logo"/>
 						</router-link>
 					</b-col>
 					<b-col md="6" class="header-center">
@@ -69,7 +69,7 @@ export default {
 
 .header-gradinet::before {
     content: '';
-    background-image: url(../../styles/img/header.png);
+    background-image: var(--header-bg-img);
     position: absolute;
     z-index: 0;
     top: 0;
@@ -111,9 +111,9 @@ export default {
     border-radius: 5px;
     font-weight: bold;
     font-size: 13px;
-    color: var(--card-title-text);
+    color: var(--testnet-badge-title);
     top: -10px;
-    left: -165px;
+    left: -173px;
     text-transform: uppercase;
 }
 

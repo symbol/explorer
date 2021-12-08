@@ -60,11 +60,11 @@ export default {
 
 <style lang="scss" scoped>
 .arrow-body {
-    stroke: var(--secondary);
+    stroke: #bbb;
 }
 
 .arrow-end {
-    fill: var(--secondary);
+    fill: #bbb;
 }
 
 .circle-icons-container {

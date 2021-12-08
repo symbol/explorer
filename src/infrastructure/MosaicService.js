@@ -120,11 +120,16 @@ class MosaicService {
 
    	return {
    		...mosaicInfos,
-   		data: mosaicInfos.data.map((mosaic, index) => ({
+   		data: mosaicInfos.data.map((mosaic) => ({
    			...mosaic,
-   			index: index + 1 + helper.getStartListIndex(pageNumber, pageSize),
    			ownerAddress: mosaic.address,
-   			mosaicAliasNames: this.extractMosaicNamespace(mosaic, mosaicNames)
+   			mosaicAliasNames: this.extractMosaicNamespace(mosaic, mosaicNames),
+   			mosaicFlags: {
+   				supplyMutable: mosaic.supplyMutable,
+   				transferable: mosaic.transferable,
+   				restrictable: mosaic.restrictable,
+   				revokable: mosaic.revokable
+   			}
    		}))
    	};
    }
@@ -257,7 +262,8 @@ class MosaicService {
    	duration: Number(mosaicInfo.duration.toString()),
    	supplyMutable: mosaicInfo.flags.supplyMutable,
    	transferable: mosaicInfo.flags.transferable,
-   	restrictable: mosaicInfo.flags.restrictable
+   	restrictable: mosaicInfo.flags.restrictable,
+   	revokable: mosaicInfo.flags.revokable
    })
 
    /**

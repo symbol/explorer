@@ -90,6 +90,10 @@ export default {
 		restrictable: {
 			type: Boolean,
 			required: true
+		},
+		revokable: {
+			type: Boolean,
+			required: true
 		}
 	},
 
@@ -119,7 +123,8 @@ export default {
 				duration: this.duration,
 				supplyMutable: this.supplyMutable,
 				transferable: this.transferable,
-				restrictable: this.restrictable
+				restrictable: this.restrictable,
+				revokable: this.revokable
 			};
 		}
 	}

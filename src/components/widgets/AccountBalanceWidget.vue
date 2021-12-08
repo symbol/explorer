@@ -6,19 +6,13 @@
 			<div class="body-wrapper">
 				<div class="body">
 					<div class="section">
-						<svg
-							class="account-icon"
-							viewBox="15 15 115 115"
+						<AccountIcon
 							:width="55"
 							:height="55"
-						>
-							<AccountIcon
-								:width="128"
-								:height="128"
-								:address="address"
-								hideCaption
-							/>
-						</svg>
+							:address="address"
+							class="account-icon"
+							hideCaption
+						/>
 						<div>
 							<div class="address">
 								<div>
@@ -80,7 +74,7 @@ export default {
 		},
 
 		balance() {
-			return this.data.balance || '0';
+			return this.data.mosaic?.amount || '0';
 		},
 
 		address() {
@@ -94,7 +88,16 @@ export default {
 		},
 
 		mosaicName() {
-			return this.data.mosaicName || 'XYM';
+			const mosaicAlias = this.data.mosaic?.mosaicAliasNames[0];
+
+			if (mosaicAlias) {
+				const mosaicNamespaces = mosaicAlias.split('.');
+				const mosaicLastSubnamespace = mosaicNamespaces.pop();
+
+				return mosaicLastSubnamespace;
+			}
+
+			return this.data.mosaic?.mosaicId || 'Network Currency';
 		},
 
 		loading() {
@@ -164,11 +167,7 @@ export default {
             justify-content: space-between;
 
             .account-icon {
-                border: 1px solid var(--clickable-text);
                 margin-right: 20px;
-                background: var(--sub-card-bg);
-                border-radius: 50%;
-                padding: 10px;
             }
 
             .address {
@@ -182,6 +181,7 @@ export default {
         .mosaic {
             font-size: 1.5rem;
             line-height: 2.25rem;
+            text-transform: uppercase;
         }
 
         .balance {

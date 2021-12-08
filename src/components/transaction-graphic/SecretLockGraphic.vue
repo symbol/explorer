@@ -133,11 +133,3 @@ export default {
 	}
 };
 </script>
-
-<style lang="scss" scoped>
-.message {
-    font-size: 13px;
-    font-weight: bold;
-    fill: var(--blue);
-}
-</style>
