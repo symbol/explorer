@@ -5,7 +5,7 @@
 				<b-row>
 					<b-col md="3" class="header-left">
 						<router-link to="/" class="d-none d-md-block">
-							<img src="../../styles/img/symbol-logo-wordmark-03.svg" class="header-logo"/>
+							<img src="../../styles/img/logo-wordmark-dark-BG.png" class="header-logo"/>
 						</router-link>
 					</b-col>
 					<b-col md="6" class="header-center">
