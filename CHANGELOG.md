@@ -3,7 +3,7 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [v1.1.3][v1.1.3] - 23-Nov-2021
+## [v1.1.3][v1.1.3] - 8-Dec-2021
 
 Package  | Version  | Link
 ---|---|---
@@ -19,6 +19,7 @@ SDK Core| v1.0.3 | symbol-sdk
 ### Update
 - Update transaction graphic [#976](https://github.com/symbol/symbol-explorer/pull/976)
 - Update interface enhancement [#981](https://github.com/symbol/symbol-explorer/pull/981)
+- Pagination enhancement [#985](https://github.com/symbol/symbol-explorer/pull/985)
 - Update mobile view table fields [#986](https://github.com/symbol/symbol-explorer/pull/986)
 - Footer enhancement [#990](https://github.com/symbol/symbol-explorer/pull/990)
 - Disable toggle theme [#991](https://github.com/symbol/symbol-explorer/pull/991])
