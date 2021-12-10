@@ -85,6 +85,7 @@ export default {
 	getters: {
 		...getGettersFromManagers(managers),
 		getInitialized: state => state.initialized,
+		getRecentList: state => state.timeline?.data?.filter((item, index) => index < 4) || [],
 		getCurrentMosaicId: state => state.currentMosaicId
 	},
 	mutations: {
