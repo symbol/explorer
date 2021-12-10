@@ -409,5 +409,7 @@
     "reclaimed": "Возвращенная",
     "first": "Первая",
     "last": "Последняя",
-    "mosaicFlags": "Флаги"
+    "mosaicFlags": "Флаги",
+    "recent": "Недавние",
+    "viewAll": "Просмотр всех"
 }

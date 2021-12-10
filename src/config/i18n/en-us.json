@@ -58,7 +58,7 @@
     "beforeEndHeight": "End at Height",
     "divisibility": "Divisibility",
     "supply": "Supply",
-    "ownerAddress": "Owner Address",
+    "ownerAddress": "Owner",
     "revision": "Revision",
     "supplyMutable": "Supply Mutable",
     "transferable": "Transferable",
@@ -409,5 +409,7 @@
     "reclaimed": "Reclaimed",
     "first": "First",
     "last": "Last",
-    "mosaicFlags": "Flags"
+    "mosaicFlags": "Flags",
+    "recent": "Recent",
+    "viewAll": "View All"
 }
