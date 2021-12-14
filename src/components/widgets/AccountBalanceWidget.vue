@@ -42,6 +42,7 @@ import ConnectorIcon from '../../styles/img/connector_bg_1.png';
 import helper from '../../helper';
 import Constants from '../../config/constants';
 import IconCopy from '../../styles/img/copy.png';
+import http from '../../infrastructure/http';
 
 export default {
 	props: {
@@ -97,7 +98,7 @@ export default {
 				return mosaicLastSubnamespace;
 			}
 
-			return this.data.mosaic?.mosaicId || 'Network Currency';
+			return this.data.mosaic?.mosaicId || http.networkCurrency.namespaceName.split('.').pop();
 		},
 
 		loading() {
