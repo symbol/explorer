@@ -409,5 +409,6 @@
     "reclaimed": "Reclaimed",
     "first": "First",
     "last": "Last",
-    "mosaicFlags": "Flags"
+    "mosaicFlags": "Flags",
+    "rolesIcon": "Roles"
 }
