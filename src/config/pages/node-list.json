@@ -40,7 +40,7 @@
 				"fields": [
 					"host",
 					"friendlyName",
-					"roles",
+					"rolesIcon",
 					"nodePublicKey",
 					"chainInfo",
 					"softwareVersion"

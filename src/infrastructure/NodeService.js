@@ -129,6 +129,15 @@ class NodeService {
 
                 		node['softwareVersion'] = { version: el.version };
 
+						if (el.roles) {
+							// convert Peer Voting node -> Peer Voting
+							const roles = el.roles.split(' ');
+							roles.pop();
+							node['rolesIcon'] = Object.fromEntries(roles.map(role => [role.toLowerCase(), true]))
+						}
+
+						console.log('node[] :>> ', node);
+
                 		if (el.apiStatus) {
                 			const { chainHeight, finalization, lastStatusCheck, restVersion, isHttpsEnabled } = el.apiStatus;
 
