@@ -6,10 +6,8 @@
 	},
 	"networkConfig": {
 		"namespaceName": "symbol.xym",
-		"mosaicId": "6BED913FA20223F8",
 		"namespaceId": "E74B99BA41F4AFEE",
-		"divisibility": "6",
-		"networkIdentifier": 0
+		"divisibility": "6"
 	},
 	"footer": {
 		"link": [

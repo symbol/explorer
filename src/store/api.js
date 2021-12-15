@@ -36,7 +36,7 @@ export default {
 		currentNode: localStorage.getItem('currentNode') ? helper.parseUrl(localStorage.getItem('currentNode')) : '',
 		wssEndpoint: localStorage.getItem('currentNode') |> helper.httpToWssUrl,
 		marketData: helper.parseUrl(globalConfig.endpoints.marketData),
-		networkType: globalConfig.networkConfig.networkIdentifier,
+		networkType: 0,
 		appVersion: version || '0'
 	},
 
