@@ -1,12 +1,12 @@
 <template>
 	<Card :loading="loading">
 		<template #title>
-			{{ getNameByKey(title) }}
+			{{ getKeyName(title) }}
 		</template>
 
 		<template #control>
 			<router-link :to="viewMoreLinkURL">
-				<ButtonMore> {{getNameByKey('viewAll')}} </ButtonMore>
+				<ButtonMore> {{getKeyName('viewAll')}} </ButtonMore>
 			</router-link>
 		</template>
 
@@ -29,7 +29,7 @@
 								<router-link
 									:to="getItemHref(headerField, item[headerField])"
 									class="ex-title-text"
-									:title="getNameByKey(headerField) + ': ' + item[headerField]"
+									:title="getKeyName(headerField) + ': ' + item[headerField]"
 								>
 									{{ item[headerField] }}
 								</router-link>
@@ -39,7 +39,7 @@
 									v-for="(field, index) in fields"
 									:key="`field_${index}_${item[field]}`">
 									<div class="ex-text">
-										{{ getNameByKey(field) }}
+										{{ getKeyName(field) }}
 									</div>
 
 									<router-link
@@ -67,8 +67,10 @@
 <script>
 import Card from '@/components/containers/Card.vue';
 import ButtonMore from '@/components/controls/ButtonMore.vue';
+import TableView from '@/components/tables/TableView.vue';
 
 export default {
+	extends: TableView,
 	props: {
 		title: {
 			type: String,
@@ -92,14 +94,6 @@ export default {
 		}
 	},
 
-	data() {
-		return {
-			clickableKeys: [
-				'ownerAddress'
-			]
-		};
-	},
-
 	components: {
 		Card,
 		ButtonMore
@@ -112,23 +106,6 @@ export default {
 
 		loading() {
 			return !this.recentList.length;
-		}
-	},
-
-	methods: {
-		getNameByKey(e) {
-			return this.$store.getters['ui/getNameByKey'](e);
-		},
-
-		isKeyClickable(itemKey) {
-			return this.clickableKeys.indexOf(itemKey) !== -1;
-		},
-
-		getItemHref(itemKey, item) {
-			return this.$store.getters[`ui/getPageHref`]({
-				pageName: itemKey,
-				param: item
-			});
 		}
 	}
 };
