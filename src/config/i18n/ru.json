@@ -411,5 +411,7 @@
     "last": "Последняя",
     "mosaicFlags": "Флаги",
     "recent": "Недавние",
-    "viewAll": "Просмотр всех"
+    "viewAll": "Просмотр всех",
+    "recentMosaics": "Недавние Мозаики",
+    "recentNamespaces": "Недавние Пространства имен"
 }

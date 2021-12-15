@@ -1,11 +1,11 @@
 <template>
 	<Card :loading="loading">
 		<template #title>
-			{{getNameByKey('recent')}} {{getNameByKey(title)}}
+			{{ getNameByKey(title) }}
 		</template>
 
 		<template #control>
-			<router-link :to="listingPage">
+			<router-link :to="viewMoreLinkURL">
 				<ButtonMore> {{getNameByKey('viewAll')}} </ButtonMore>
 			</router-link>
 		</template>
@@ -19,7 +19,7 @@
 						lg="6"
 						xl="12"
 						v-for="(item, index) in recentList"
-						:key="`recent_${listingPage}_${index}_${item[header]}`"
+						:key="`recent_${viewMoreLinkURL}_${index}_${item[headerField]}`"
 					>
 						<Card
 							class='card-item'
@@ -27,11 +27,11 @@
 						>
 							<template #header>
 								<router-link
-									:to="getItemHref(header, item[header])"
+									:to="getItemHref(headerField, item[headerField])"
 									class="ex-title-text"
-									:title="getNameByKey(header) + ': ' + item[header]"
+									:title="getNameByKey(headerField) + ': ' + item[headerField]"
 								>
-									{{ item[header] }}
+									{{ item[headerField] }}
 								</router-link>
 							</template>
 							<template #body>
@@ -74,7 +74,7 @@ export default {
 			type: String,
 			require: true
 		},
-		listingPage: {
+		viewMoreLinkURL: {
 			type: String,
 			require: true
 		},
@@ -82,7 +82,7 @@ export default {
 			type: String,
 			require: true
 		},
-		header: {
+		headerField: {
 			type: String,
 			require: true
 		},

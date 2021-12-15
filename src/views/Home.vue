@@ -36,9 +36,9 @@
 				:key="`recent_list_${index}`">
 				<RecentListWidget style="width: 100%;"
 					:title="list.title"
-					:listingPage="list.listingPage"
+					:viewMoreLinkURL="list.viewMoreLinkURL"
 					:dataGetter="list.dataGetter"
-					:header="list.header"
+					:headerField="list.headerField"
 					:fields="list.fields"
 				/>
 			</b-col>
@@ -67,17 +67,17 @@ export default {
 		return {
 			recentListWidgetSetup: [
 				{
-					title: 'namespaces',
-					listingPage: '/namespaces',
+					title: 'recentNamespaces',
+					viewMoreLinkURL: '/namespaces',
 					dataGetter: 'namespace/getRecentList',
-					header: 'namespaceName',
+					headerField: 'namespaceName',
 					fields: ['approximateExpired', 'ownerAddress']
 				},
 				{
-					title: 'mosaics',
-					listingPage: '/mosaics',
+					title: 'recentMosaics',
+					viewMoreLinkURL: '/mosaics',
 					dataGetter: 'mosaic/getRecentList',
-					header: 'mosaicId',
+					headerField: 'mosaicId',
 					fields: ['relativeAmount', 'ownerAddress']
 				}
 			]

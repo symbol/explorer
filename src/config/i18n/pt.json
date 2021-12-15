@@ -405,5 +405,7 @@
     "reclaimed": "Reclaimed",
     "first": "First",
     "last": "Last",
-    "mosaicFlags": "Flags"
+    "mosaicFlags": "Flags",
+    "recentMosaics": "Recent Mosaics",
+    "recentNamespaces": "Recent Namespaces"
 }

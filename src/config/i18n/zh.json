@@ -407,5 +407,7 @@
     "last": "Last",
     "mosaicFlags": "Flags",
     "recent": "Recent",
-    "viewAll": "View All"
+    "viewAll": "View All",
+    "recentMosaics": "Recent Mosaics",
+    "recentNamespaces": "Recent Namespaces"
 }

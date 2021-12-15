@@ -411,5 +411,7 @@
     "last": "最後",
     "mosaicFlags": "フラグ",
     "recent": "直近",
-    "viewAll": "すべてのを表示"
+    "viewAll": "すべてのを表示",
+    "recentMosaics": "直近モザイク",
+    "recentNamespaces": "直近ネームスペース"
 }
