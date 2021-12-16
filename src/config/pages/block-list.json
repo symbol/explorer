@@ -14,10 +14,9 @@
                 "type": "CardTable",
                 "title": "blocksTitle",
                 "managerGetter": "block/timeline",
-                "infoTextGetter": "block/infoText",
                 "pagination": "server",
                 "hasFilter": false,
-				"hasInfoText": true,
+				"hasInfoText": false,
                 "fields": [
                     "height",
                     "blockType",
