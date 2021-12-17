@@ -27,7 +27,7 @@
     "namespaceName": "Name",
     "transaction": "Transaction",
     "transactionHash": "Hash",
-    "totalTransactions": "Total Txn",
+    "totalTransactions": "Total Tx",
     "transactionType": "Type",
     "addressHeight": "Address height",
     "publicKey": "Public key",
@@ -409,5 +409,7 @@
     "reclaimed": "Reclaimed",
     "first": "First",
     "last": "Last",
-    "mosaicFlags": "Flags"
+    "mosaicFlags": "Flags",
+    "lastEpoch": "Last Epoch",
+    "currentEpoch": "Current Epoch"
 }

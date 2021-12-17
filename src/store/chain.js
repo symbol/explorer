@@ -17,9 +17,8 @@
  */
 
 import Lock from './lock';
-import { NodeService, ChainService } from '../infrastructure';
-import { RoleType } from 'symbol-sdk';
-
+import { NodeService, ChainService, BlockService, FinalizationService } from '../infrastructure';
+import helper from '../helper';
 const LOCK = Lock.create();
 
 export default {
@@ -43,8 +42,11 @@ export default {
 		chainInfo: {
 			currentHeight: 0,
 			finalizedBlockHeight: 0,
-			isVotingNode: false,
-			epoch: 0
+			epoch: 0,
+			lastEpoch: {
+				epoch: 0,
+				age: ''
+			}
 		},
 		nodeStats: {},
 		loading: true
@@ -73,11 +75,11 @@ export default {
 			state.marketData.marketCap = marketData.XEM.USD.MKTCAP;
 			state.marketData.historicalHourlyGraph = graphData;
 		},
-		setChainInfo: (state, { currentHeight, epoch, finalizedBlockHeight, isVotingNode }) => {
+		setChainInfo: (state, { currentHeight, epoch, finalizedBlockHeight, lastEpoch }) => {
 			state.chainInfo.currentHeight = currentHeight;
 			state.chainInfo.epoch = epoch;
 			state.chainInfo.finalizedBlockHeight = finalizedBlockHeight;
-			state.chainInfo.isVotingNode = isVotingNode;
+			state.chainInfo.lastEpoch = lastEpoch;
 		},
 		setNodeStats: (state, nodeStats) => {
 			state.nodeStats = {
@@ -140,16 +142,24 @@ export default {
 		},
 
 		async getChainInfo({ commit }) {
-			const [chainInfo, currentNodeInfo] = await Promise.all([
-				ChainService.getChainInfo(),
-				NodeService.getCurrentNodeInfo()
+			const [chainInfo] = await Promise.all([
+				ChainService.getChainInfo()
 			]);
+
+			const lastEpoch = chainInfo.latestFinalizedBlock.finalizationEpoch - 1;
+
+			const { height } = await FinalizationService.getFinalizationProofAtEpoch(lastEpoch);
+
+			const { timestamp } = await BlockService.getBlockByHeight(height);
 
 			commit('setChainInfo', {
 				currentHeight: chainInfo.height,
-				epoch: chainInfo.latestFinalizedBlock.finalizationEpoch,
 				finalizedBlockHeight: chainInfo.latestFinalizedBlock.height,
-				isVotingNode: currentNodeInfo.roles.indexOf(RoleType.VotingNode) !== -1
+				epoch: chainInfo.latestFinalizedBlock.finalizationEpoch,
+				lastEpoch: {
+					epoch: lastEpoch,
+					age: helper.convertToUTCDate(timestamp)
+				}
 			});
 		}
 	}

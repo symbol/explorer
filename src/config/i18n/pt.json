@@ -405,5 +405,7 @@
     "reclaimed": "Reclaimed",
     "first": "First",
     "last": "Last",
-    "mosaicFlags": "Flags"
+    "mosaicFlags": "Flags",
+    "lastEpoch": "Last Epoch",
+    "currentEpoch": "Current Epoch"
 }
