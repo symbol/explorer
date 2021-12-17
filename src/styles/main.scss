@@ -95,7 +95,7 @@ $theme-colors: map-merge(
     --table-content-text: #{$violet-color};
     --balance-green-text: #{$dark-mode-green-text-color};
     --balance-widget-bg: #{$black-color};
-    --mosaic-filed-bg: #{$violet-color};
+    --mosaic-filed-bg: #{$mosaic-filed};
     --loading-bg: #{$dark-grey-color};
     --icon-invert: invert(0);
 }
@@ -120,7 +120,7 @@ $theme-colors: map-merge(
     --table-content-text: #{$violet-color};
     --balance-green-text: #{$dark-mode-green-text-color};
     --balance-widget-bg: #{$black-color};
-    --mosaic-filed-bg: #{$violet-color};
+    --mosaic-filed-bg: #{$mosaic-filed};
     --loading-bg: #{$dark-grey-color};
     --icon-invert: invert(0);
 }
