@@ -3,7 +3,6 @@ import {
 	TransactionGroup,
 	AliasType,
 	NamespaceRegistrationType,
-	MosaicId,
 	AccountOrderBy,
 	MetadataType,
 	MosaicRestrictionEntryType,
@@ -193,7 +192,7 @@ export const account = [
 		icon: 'mdi-cash',
 		value: {
 			orderBy: AccountOrderBy.Balance,
-			mosaicId: new MosaicId(http.networkCurrency.mosaicId)
+			mosaicId: http.networkCurrency.mosaicId
 		}
 	}
 ];
