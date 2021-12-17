@@ -139,9 +139,9 @@ export default {
 		getVotingKeyList: state => state.info?.data.votingList || [],
 		getCurrentAccountAddress: state => state.currentAccountAddress,
 		balanceWidget: (state, getters) => ({
-			address: Address
+			address: state.currentAccountAddress ? Address
 				.createFromRawAddress(state.currentAccountAddress)
-				.pretty(),
+				.pretty() : '',
 			mosaic: getters.OwnedMosaic?.data[0],
 			alias: getters.info?.data?.accountAliasNames /* || Constants.Message.UNAVAILABLE */
 		})

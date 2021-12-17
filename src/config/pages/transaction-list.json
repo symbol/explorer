@@ -26,13 +26,6 @@
                     "recipient",
                     "extendGraphicValue",
                     "maxFee"
-                ],
-                "mobileFields": [
-                    "height",
-                    "age",
-                    "transactionType",
-                    "transactionHash",
-                    "signer"
                 ]
             }
         ]

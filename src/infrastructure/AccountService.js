@@ -16,7 +16,7 @@
  *
  */
 
-import { Address, TransactionType, TransactionGroup, Order, BlockOrderBy, ReceiptType, Mosaic } from 'symbol-sdk';
+import { Address, TransactionType, TransactionGroup, Order, BlockOrderBy, ReceiptType, Mosaic, MosaicId } from 'symbol-sdk';
 import nem from 'nem-sdk';
 import http from './http';
 import { Constants } from '../config';
@@ -80,9 +80,16 @@ class AccountService {
 		const searchCriteria = {
 			pageNumber,
 			pageSize,
-			order: Order.Desc,
-			...filterVaule
+			order: Order.Desc
 		};
+
+		// Prevent new MosaicId throw error if mosaicId is undefined
+		if (filterVaule.mosaicId) {
+			Object.assign(searchCriteria, {
+				...filterVaule,
+				mosaicId: new MosaicId(filterVaule.mosaicId)
+			});
+		}
 
 		const accountInfos = await this.searchAccounts(searchCriteria);
 
