@@ -55,5 +55,11 @@ export default {
         max-width: 350px;
         width: 100%;
     }
+
+    @media screen and (max-width: 420px) {
+        .dropdown-toggle {
+            max-width: 300px;
+        }
+    }
 }
 </style>

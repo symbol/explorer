@@ -114,7 +114,7 @@ export default {
 
 .social-icon {
     list-style: none;
-    justify-content: flex-start;
+    justify-content: center;
     flex-wrap: wrap;
     display: flex;
     padding: 0;

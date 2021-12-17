@@ -27,7 +27,7 @@
     "namespaceName": "Name",
     "transaction": "Transaction",
     "transactionHash": "Hash",
-    "totalTransactions": "Total Txn",
+    "totalTransactions": "Total Tx",
     "transactionType": "Type",
     "addressHeight": "Address height",
     "publicKey": "Public key",
@@ -413,5 +413,7 @@
     "recent": "Recent",
     "viewAll": "View All",
     "recentMosaics": "Recent Mosaics",
-    "recentNamespaces": "Recent Namespaces"
+    "recentNamespaces": "Recent Namespaces",
+    "lastEpoch": "Last Epoch",
+    "currentEpoch": "Current Epoch"
 }

@@ -407,5 +407,7 @@
     "last": "Last",
     "mosaicFlags": "Flags",
     "recentMosaics": "Recent Mosaics",
-    "recentNamespaces": "Recent Namespaces"
+    "recentNamespaces": "Recent Namespaces",
+    "lastEpoch": "Last Epoch",
+    "currentEpoch": "Current Epoch"
 }

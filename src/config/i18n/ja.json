@@ -413,5 +413,7 @@
     "recent": "直近",
     "viewAll": "すべてのを表示",
     "recentMosaics": "直近モザイク",
-    "recentNamespaces": "直近ネームスペース"
+    "recentNamespaces": "直近ネームスペース",
+    "lastEpoch": "Last Epoch",
+    "currentEpoch": "Current Epoch"
 }

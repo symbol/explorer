@@ -413,5 +413,7 @@
     "recent": "Недавние",
     "viewAll": "Просмотр всех",
     "recentMosaics": "Недавние Мозаики",
-    "recentNamespaces": "Недавние Пространства имен"
+    "recentNamespaces": "Недавние Пространства имен",
+    "lastEpoch": "Last Epoch",
+    "currentEpoch": "Current Epoch"
 }
