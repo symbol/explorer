@@ -9,7 +9,8 @@ export {
 	i18n,
 	Constants,
 	keyRedirects,
-	filters
+	filters,
+	inflation
 };
 
 export default {
@@ -17,5 +18,6 @@ export default {
 	i18n,
 	Constants,
 	keyRedirects,
-	filters
+	filters,
+	inflation
 };
