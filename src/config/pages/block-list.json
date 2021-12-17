@@ -19,18 +19,18 @@
 				"hasInfoText": false,
                 "fields": [
                     "height",
-                    "blockType",
                     "age",
+                    "harvester",
                     "totalTransactions",
                     "statements",
-                    "totalFee",
-                    "timestamp",
-                    "harvester"
+                    "blockReward",
+                    "totalFee"
                 ],
                 "mobileFields": [
                     "height",
                     "age",
-                    "transactions",
+                    "totalTransactions",
+                    "blockReward",
                     "totalFee"
                 ]
             }
