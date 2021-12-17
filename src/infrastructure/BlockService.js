@@ -131,9 +131,10 @@ class BlockService {
 
   	const signerAddress = blocks.data.map(block => block.signer);
 
-  	const accountInfos = await AccountService.getAccounts(signerAddress);
-
-  	const { numBlocks } = await NodeService.getStorageInfo();
+  	const [accountInfos, { numBlocks }] = await Promise.all([
+  		AccountService.getAccounts(signerAddress),
+  		NodeService.getStorageInfo()
+  	]);
 
   	return {
   		...blocks,
