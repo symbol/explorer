@@ -82,6 +82,7 @@ export default {
 	getters: {
 		getInitialized: state => state.initialized,
 		getCurrentNamespaceId: state => state.currentNamespaceId,
+		getRecentList: state => state.timeline?.data?.filter((item, index) => index < 4) || [],
 		...getGettersFromManagers(managers)
 	},
 	mutations: {
