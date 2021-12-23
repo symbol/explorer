@@ -405,5 +405,11 @@
     "reclaimed": "Reclaimed",
     "first": "First",
     "last": "Last",
-    "mosaicFlags": "Flags"
+    "mosaicFlags": "Flags",
+    "recent": "Recent",
+    "viewAll": "View All",
+    "recentMosaics": "Recent Mosaics",
+    "recentNamespaces": "Recent Namespaces",
+    "lastEpoch": "Last Epoch",
+    "currentEpoch": "Current Epoch"
 }

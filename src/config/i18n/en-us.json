@@ -27,7 +27,7 @@
     "namespaceName": "Name",
     "transaction": "Transaction",
     "transactionHash": "Hash",
-    "totalTransactions": "Total Txn",
+    "totalTransactions": "Total Tx",
     "transactionType": "Type",
     "addressHeight": "Address height",
     "publicKey": "Public key",
@@ -58,7 +58,7 @@
     "beforeEndHeight": "End at Height",
     "divisibility": "Divisibility",
     "supply": "Supply",
-    "ownerAddress": "Owner Address",
+    "ownerAddress": "Owner",
     "revision": "Revision",
     "supplyMutable": "Supply Mutable",
     "transferable": "Transferable",
@@ -409,5 +409,11 @@
     "reclaimed": "Reclaimed",
     "first": "First",
     "last": "Last",
-    "mosaicFlags": "Flags"
+    "mosaicFlags": "Flags",
+    "recent": "Recent",
+    "viewAll": "View All",
+    "recentMosaics": "Recent Mosaics",
+    "recentNamespaces": "Recent Namespaces",
+    "lastEpoch": "Last Epoch",
+    "currentEpoch": "Current Epoch"
 }

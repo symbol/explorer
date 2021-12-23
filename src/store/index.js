@@ -69,11 +69,13 @@ export default new Vuex.Store({
 			switch (route.name) {
 			// Home
 			case 'home':
-				// Home: Requires blocks, chain, and transactions.
+				// initialize data for blocks, chain, transactions, namespaces and mosaics.
 				return Promise.all([
 					helper.logError(dispatch, 'block/initialize'),
 					helper.logError(dispatch, 'chain/initialize'),
-					helper.logError(dispatch, 'transaction/initialize')
+					helper.logError(dispatch, 'transaction/initialize'),
+					helper.logError(dispatch, 'namespace/initialize'),
+					helper.logError(dispatch, 'mosaic/initialize')
 				]);
 			case 'statistics':
 				return helper.logError(dispatch, 'statistic/initialize');

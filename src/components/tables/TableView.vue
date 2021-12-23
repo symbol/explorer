@@ -99,7 +99,8 @@ export default {
 				'relativeAmount',
 				'feeMultiplier',
 				'difficulty',
-				'balance'
+				'balance',
+				'totalVotingBalance'
 			],
 			allowArrayToView: [
 				'linkedNamespace',

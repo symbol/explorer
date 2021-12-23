@@ -31,6 +31,17 @@
 			<b-col xs="12" md="12" lg="6" style="display: flex;">
 				<RecentTransactionsWidget style="width: 100%;"/>
 			</b-col>
+			<b-col xs="12" md="12" lg="6" style="display: flex;"
+				v-for="(list, index) in recentListWidgetSetup"
+				:key="`recent_list_${index}`">
+				<RecentListWidget style="width: 100%;"
+					:title="list.title"
+					:viewMoreLinkURL="list.viewMoreLinkURL"
+					:dataGetter="list.dataGetter"
+					:headerField="list.headerField"
+					:fields="list.fields"
+				/>
+			</b-col>
 		</b-row>
 	</b-container>
 </template>
@@ -39,6 +50,7 @@ import BaseInfoWidget from '@/components/widgets/BaseInfoWidget.vue';
 // import PriceChartWidget from '@/components/widgets/PriceChartWidget.vue';
 import RecentBlocksWidget from '@/components/widgets/RecentBlocksWidget.vue';
 import RecentTransactionsWidget from '@/components/widgets/RecentTransactionsWidget.vue';
+import RecentListWidget from '@/components/widgets/RecentListWidget.vue';
 
 export default {
 	name: 'Home',
@@ -47,7 +59,29 @@ export default {
 		BaseInfoWidget,
 		// PriceChartWidget,
 		RecentBlocksWidget,
-		RecentTransactionsWidget
+		RecentTransactionsWidget,
+		RecentListWidget
+	},
+
+	data() {
+		return {
+			recentListWidgetSetup: [
+				{
+					title: 'recentNamespaces',
+					viewMoreLinkURL: '/namespaces',
+					dataGetter: 'namespace/getRecentList',
+					headerField: 'namespaceName',
+					fields: ['approximateExpired', 'ownerAddress']
+				},
+				{
+					title: 'recentMosaics',
+					viewMoreLinkURL: '/mosaics',
+					dataGetter: 'mosaic/getRecentList',
+					headerField: 'mosaicId',
+					fields: ['relativeAmount', 'ownerAddress']
+				}
+			]
+		};
 	},
 
 	mounted() {

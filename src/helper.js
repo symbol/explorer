@@ -286,13 +286,13 @@ class helper {
 	 * @returns {string}
 	 */
 	static ImportanceScoreToPercent = rawScore => {
-		const totalchainimportance = http.networkConfig.TotalChainImportance;
+		const totalChainImportance = http.networkConfig.TotalChainImportance;
 		const divisibility = http.networkCurrency.divisibility;
 
 		let percent = rawScore;
 
 		if (rawScore > 0)
-			percent = rawScore / totalchainimportance;
+			percent = rawScore / totalChainImportance;
 
 		return (percent * 100).toFixed(divisibility).toString() + ' %';
 	}

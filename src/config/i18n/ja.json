@@ -409,5 +409,11 @@
     "reclaimed": "回収",
     "first": "最初",
     "last": "最後",
-    "mosaicFlags": "フラグ"
+    "mosaicFlags": "フラグ",
+    "recent": "直近",
+    "viewAll": "すべてのを表示",
+    "recentMosaics": "直近モザイク",
+    "recentNamespaces": "直近ネームスペース",
+    "lastEpoch": "Last Epoch",
+    "currentEpoch": "Current Epoch"
 }

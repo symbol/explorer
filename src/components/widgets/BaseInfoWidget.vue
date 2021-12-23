@@ -29,7 +29,7 @@
 							{{marketData.marketCap}}
 						</div>
 					</b-col> -->
-					<b-col class="ex-item" sm="3" lg="2">
+					<b-col class="ex-item" sm="2" lg="2">
 						<div class="ex-item-title">
 							{{getNameByKey('totalTransactions')}}
 						</div>
@@ -37,7 +37,7 @@
 							{{storageInfo.numTransactions}}
 						</div>
 					</b-col>
-					<b-col class="ex-item" sm="3" lg="2">
+					<b-col class="ex-item" sm="2" lg="2">
 						<div class="ex-item-title">
 							{{getNameByKey('chainHeight')}}
 						</div>
@@ -45,23 +45,32 @@
 							{{currentHeight}}
 						</div>
 					</b-col>
-					<b-col class="ex-item" sm="3" lg="4" :title="getNameByKey(votingNodeTooltips)">
+					<b-col class="ex-item" sm="2" lg="2" :title="getNameByKey('finalizedHeight')">
 						<div class="ex-item-title">
-							{{ getNameByKey('finalizedHeight') }} ({{ getNameByKey(votingNodeText) }})
+							{{ getNameByKey('finalizedHeight') }}
 						</div>
 						<div class="ex-item-value">
 							{{finalizedHeight}}
 						</div>
 					</b-col>
-					<b-col class="ex-item" sm="3" lg="2" :title="getNameByKey(votingNodeTooltips)">
+					<b-col class="ex-item" sm="2" lg="2" :title="getNameByKey('epoch')">
 						<div class="ex-item-title">
-							{{ getNameByKey('epoch') }}
+							{{ getNameByKey('lastEpoch') }}
+						</div>
+						<div class="ex-item-value">
+							{{ lastEpoch }} -
+							<Age :date="lastEpochAge"/>
+						</div>
+					</b-col>
+					<b-col class="ex-item" sm="2" lg="2" :title="getNameByKey('epoch')">
+						<div class="ex-item-title">
+							{{ getNameByKey('currentEpoch') }}
 						</div>
 						<div class="ex-item-value">
 							{{epoch}}
 						</div>
 					</b-col>
-					<b-col class="ex-item" sm="3" lg="2">
+					<b-col class="ex-item" sm="2" lg="2">
 						<div class="ex-item-title">
 							{{ getNameByKey('nodes') }}
 						</div>
@@ -78,12 +87,14 @@
 <script>
 import Card from '@/components/containers/Card.vue';
 import ButtonMore from '@/components/controls/ButtonMore.vue';
+import Age from '@/components/fields/Age.vue';
 import { mapGetters } from 'vuex';
 
 export default {
 	components: {
 		Card,
-		ButtonMore
+		ButtonMore,
+		Age
 	},
 
 	computed: {
@@ -107,12 +118,12 @@ export default {
 			return this.chainInfo.finalizedBlockHeight;
 		},
 
-		votingNodeText() {
-			return this.chainInfo.isVotingNode ? 'votingNode' : 'nonVotingNode';
+		lastEpoch() {
+			return this.chainInfo.lastEpoch.epoch;
 		},
 
-		votingNodeTooltips() {
-			return this.chainInfo.isVotingNode ? 'votingNodeTooltips' : 'nonVotingNodeTooltips';
+		lastEpochAge() {
+			return this.chainInfo.lastEpoch.age;
 		},
 
 		nodeCount() {
