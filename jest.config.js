@@ -16,5 +16,9 @@ module.exports = {
 		'**/__tests__/**/*.spec.js'
 	],
 
-	transformIgnorePatterns: ['/node_modules']
+	transformIgnorePatterns: ['/node_modules'],
+
+	moduleNameMapper: {
+		'^@/(.*)$': '<rootDir>/src/$1'
+	}
 };
