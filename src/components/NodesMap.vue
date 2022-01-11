@@ -8,10 +8,14 @@
 import 'leaflet/dist/leaflet.css';
 import leaflet from 'leaflet';
 import markerCluster from 'leaflet.markercluster'; // eslint-disable-line
-import IconOrange from '../styles/img/connector_orange.png';
-import IconBlue from '../styles/img/connector_blue.png';
-import IconGreen from '../styles/img/connector_green.png';
-import IconPink from '../styles/img/connector_pink.png';
+import IconApiVoter from '../styles/img/pin-api-voter.png'
+import IconApi from '../styles/img/pin-api.png'
+import IconPeerApiVoter from '../styles/img/pin-peer-api-voter.png'
+import IconPeerApi from '../styles/img/pin-peer-api.png'
+import IconPeerVoter from '../styles/img/pin-peer-voter.png'
+import IconPeer from '../styles/img/pin-peer.png'
+import IconVoter from '../styles/img/pin-voter.png'
+import Constants from '../config/constants';
 
 export default {
 	props: {
@@ -66,7 +70,7 @@ export default {
 		},
 
 		button1Style() {
-			return `border-radius: 3px; 
+			return `border-radius: 3px;
                 color: #fff;
                 background-color: #5200c6;
                 font-family: Noto Sans;
@@ -143,10 +147,13 @@ export default {
 				});
 			};
 
-			const iconPeer = getIcon(IconBlue);
-			const iconVoting = getIcon(IconGreen);
-			const iconApi = getIcon(IconPink);
-			const iconApiVoting = getIcon(IconOrange);
+			const iconPeer = getIcon(IconPeer);
+			const iconVoter = getIcon(IconVoter);
+			const iconApi = getIcon(IconApi);
+			const iconApiVoter = getIcon(IconApiVoter);
+			const iconPeerApiVoter = getIcon(IconPeerApiVoter);
+			const iconPeerApi = getIcon(IconPeerApi);
+			const iconPeerVoter = getIcon(IconPeerVoter);
 
 			const markerClusters = leaflet.markerClusterGroup({
 				// iconCreateFunction: this.createClusterGroup,
@@ -170,17 +177,23 @@ export default {
 					let icon = iconPeer;
 
 					switch (node.rolesRaw) {
-					case 2:
-					case 3:
+					case Constants.ROLE_TYPE_RAW.API:
 						icon = iconApi;
 						break;
-					case 4:
-					case 5:
-						icon = iconVoting;
+					case Constants.ROLE_TYPE_RAW.PEER_API:
+						icon = iconPeerApi;
 						break;
-					case 6:
-					case 7:
-						icon = iconApiVoting;
+					case Constants.ROLE_TYPE_RAW.PEER_VOTER:
+						icon = iconPeerVoter;
+						break;
+					case Constants.ROLE_TYPE_RAW.VOTER:
+						icon = iconVoter;
+						break;
+					case Constants.ROLE_TYPE_RAW.API_VOTER:
+						icon = iconApiVoter;
+						break;
+					case Constants.ROLE_TYPE_RAW.PEER_API_VOTER:
+						icon = iconPeerApiVoter;
 						break;
 					}
 
