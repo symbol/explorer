@@ -152,6 +152,16 @@ class Constants {
 		7: 'Peer Api Voting node'
 	}
 
+	static ROLE_TYPE_RAW = {
+		'PEER': 1,
+		'API': 2,
+		'PEER_API': 3,
+		'VOTER': 4,
+		'PEER_VOTER': 5,
+		'API_VOTER': 6,
+		'PEER_API_VOTER': 7
+	}
+
 	static AddressRestrictionFlag = {
 		[AddressRestrictionFlag.AllowIncomingAddress]: 'Allow Incoming Addresses',
 		[AddressRestrictionFlag.AllowOutgoingAddress]: 'Allow Outgoing Addresses',
