@@ -75,7 +75,11 @@ export default {
 		},
 
 		balance() {
-			return this.data.mosaic?.amount || '0';
+			// Only display network Currency
+			if (this.data.mosaic && http.networkCurrency.mosaicId === this.data.mosaic.mosaicId)
+				return this.data.mosaic.amount;
+
+			return '0';
 		},
 
 		address() {
@@ -89,16 +93,8 @@ export default {
 		},
 
 		mosaicName() {
-			const mosaicAlias = this.data.mosaic?.mosaicAliasNames[0];
-
-			if (mosaicAlias) {
-				const mosaicNamespaces = mosaicAlias.split('.');
-				const mosaicLastSubnamespace = mosaicNamespaces.pop();
-
-				return mosaicLastSubnamespace;
-			}
-
-			return this.data.mosaic?.mosaicId || http.networkCurrency.namespaceName.split('.').pop();
+			// Only display for network currency
+			return http.networkCurrency.namespaceName.split('.').pop();
 		},
 
 		loading() {
