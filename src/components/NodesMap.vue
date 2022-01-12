@@ -197,8 +197,17 @@ export default {
 
 					const m = leaflet.marker([node.coordinates.latitude, node.coordinates.longitude], { icon });
 
-					if (this.showPopup === true)
+					if (this.showPopup === true) {
 						m.bindPopup(popup);
+
+						m.on('mouseover', function (e) {
+							this.openPopup();
+						});
+
+						m.on('mouseout', function (e) {
+							this.closePopup();
+						});
+					}
 
 					markerClusters.addLayer(m);
 				}
