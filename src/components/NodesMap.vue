@@ -8,13 +8,13 @@
 import 'leaflet/dist/leaflet.css';
 import leaflet from 'leaflet';
 import markerCluster from 'leaflet.markercluster'; // eslint-disable-line
-import IconApiVoter from '../styles/img/pin-api-voter.png'
-import IconApi from '../styles/img/pin-api.png'
-import IconPeerApiVoter from '../styles/img/pin-peer-api-voter.png'
-import IconPeerApi from '../styles/img/pin-peer-api.png'
-import IconPeerVoter from '../styles/img/pin-peer-voter.png'
-import IconPeer from '../styles/img/pin-peer.png'
-import IconVoter from '../styles/img/pin-voter.png'
+import IconApiVoter from '../styles/img/pin-api-voter.png';
+import IconApi from '../styles/img/pin-api.png';
+import IconPeerApiVoter from '../styles/img/pin-peer-api-voter.png';
+import IconPeerApi from '../styles/img/pin-peer-api.png';
+import IconPeerVoter from '../styles/img/pin-peer-voter.png';
+import IconPeer from '../styles/img/pin-peer.png';
+import IconVoter from '../styles/img/pin-voter.png';
 import Constants from '../config/constants';
 
 export default {
@@ -164,9 +164,7 @@ export default {
 				const popup =
                     '<br/><span title="' + node.friendlyName + '"><b>' + this.getNameByKey('friendlyName') + ':</b> ' + this.formatText(node.friendlyName) +
                     '</span><br/><span title="' + node.host + '"><b>' + this.getNameByKey('host') + ':</b> ' + this.formatText(node.host) +
-                    '</span><br/><span title="' + node.host + '"><b>' + this.getNameByKey('roles') + ':</b> ' + this.formatText(node.roles) +
-                    '</span><br/><span title="' + node.network + '"><b>' + this.getNameByKey('network') + ':</b> ' + this.formatText(node.network) +
-                    '</span><br/><span title="' + node.address + '"><b>' + this.getNameByKey('address') + ':</b> ' + this.formatText(node.address) +
+                    '</span><br/><span title="' + node.address + '"><b>' + this.getNameByKey('address') + ':</b> ' + node.address +
                     '</span><br/><span title="' + node.location + '"><b>' + this.getNameByKey('location') + ':</b> ' + this.formatText(node.location) +
                     '</span><br/><span style="' + this.buttonContainerStyle + '">' +
                     '<a style="' + this.button1Style + '" href="' + this.getPageHref('node', node.publicKey) + '">' + this.getNameByKey('nodeDetailTitle') +
