@@ -143,13 +143,13 @@ class Constants {
 	}
 
 	static RoleType = {
-		1: 'Peer node',
-		2: 'Api node',
-		3: 'Peer Api node',
-		4: 'Voting node',
-		5: 'Peer Voting node',
-		6: 'Api Voting node',
-		7: 'Peer Api Voting node'
+		1: 'Peer',
+		2: 'Api',
+		3: 'Peer Api',
+		4: 'Voter',
+		5: 'Peer Voter',
+		6: 'Api Voter',
+		7: 'Peer Api Voter'
 	}
 
 	static ROLE_TYPE_RAW = {

@@ -282,7 +282,7 @@ export const mosaicRestriction = [
 
 export const nodeRoles = [
 	{
-		label: 'All Nodes',
+		label: 'Show All',
 		icon: '',
 		value: {
 			rolesRaw: null
