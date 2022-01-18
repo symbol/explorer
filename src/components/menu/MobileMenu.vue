@@ -10,7 +10,7 @@
 
 		<div class="mobile-panel navbar-hide-on-scroll">
 			<router-link to="/" class="title" :class="{'hide': isHide}">
-				<img src="../../styles/img/symbol_logo_200px.png" class="menu-logo"/>
+				<img src="../../styles/img/pitchin-logo.png" class="menu-logo"/>
 			</router-link>
 		</div>
 
@@ -18,7 +18,7 @@
 			<div v-if="showDrawer" class="menu-drawer">
 				<div class="drawer-header blue-gradinet">
 					<router-link to="/" class="logo">
-						<img src="../../styles/img/symbol_logo_200px.png" alt="symbol logo" />
+						<img src="../../styles/img/pitchin-logo.png" alt="symbol logo" />
 					</router-link>
 					<span class="title">{{getNameByKey('blockchainExplorerTitle')}}</span>
 					<LanguageSelector />
@@ -144,7 +144,7 @@ export default {
 
                 img {
                     display: inline-block;
-                    max-width: 30px;
+                    max-width: 40px;
                 }
             }
 
@@ -213,8 +213,8 @@ export default {
             letter-spacing: 1px;
 
             .menu-logo {
-                width: 30px;
-                margin: 0 15px;
+                width: 40px;
+                margin: 10px;
             }
         }
 

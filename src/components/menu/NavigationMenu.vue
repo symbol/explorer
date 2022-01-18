@@ -6,7 +6,7 @@
 	>
 		<div class="width-limiter">
 			<router-link to="/" :class="{'hide': !fixed}">
-				<img src="../../styles/img/symbol_logo_200px.png" class="menu-logo" width="30px" height="30px"/>
+				<img src="../../styles/img/pitchin-logo.png" class="menu-logo" width="30px" height="30px"/>
 			</router-link>
 			<router-link
 				v-for="item in items"
