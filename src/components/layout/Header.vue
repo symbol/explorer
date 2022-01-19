@@ -125,7 +125,7 @@ export default {
 
         .header-logo {
             width: 100%;
-            max-width: 60px;
+            max-width: 50px;
             margin: 10px;
         }
     }

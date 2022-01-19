@@ -133,18 +133,18 @@ export default {
             display: inline-block;
             position: relative;
             padding: 5px 20px;
-            padding-top: 30px;
+            padding-top: 20px;
 
             .logo {
                 display: inline-block;
                 text-decoration: none;
                 text-align: center;
                 width: 100%;
-                margin: auto;
 
                 img {
                     display: inline-block;
                     max-width: 40px;
+                    margin: auto;
                 }
             }
 
@@ -154,7 +154,7 @@ export default {
                 width: 100%;
                 text-align: center;
                 display: block;
-                margin-top: 16px;
+                margin-top: 8px;
                 margin-bottom: 5px;
                 text-transform: capitalize;
             }
