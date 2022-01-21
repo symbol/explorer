@@ -192,6 +192,9 @@ export default {
 .blue {
     border-color: $blue-color;
 }
+.pgreen {
+    border-color: $p-green-color;
+}
 
 .pink {
     border-color: $pink-color;

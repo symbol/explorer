@@ -62,12 +62,12 @@ export default {
 
     .restriction {
         display: inline-block;
-        background: $violet-color;
+        background: $p-red-color;
         color: #fff;
         border-radius: 5px;
         border-width: 1px;
         border-style: solid;
-        border-color: $violet-color;
+        border-color: $p-red-color;
         padding: 5px 10px;
         margin-right: 10px;
         white-space: nowrap;

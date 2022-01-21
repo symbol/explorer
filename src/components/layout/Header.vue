@@ -64,12 +64,12 @@ export default {
 .header-gradinet {
     background-size: 100% auto;
     position: relative;
-    background-color: #000;
+    background-color: #fff;
 }
 
 .header-gradinet::before {
     content: '';
-    background-image: var(--header-bg-img);
+    background-color: #fff;;
     position: absolute;
     z-index: 0;
     top: 0;
@@ -135,7 +135,7 @@ export default {
         margin: 5px 0;
 
         .header-title {
-            color: #fff;
+            color: #6A6A6A;
             font-weight: 500;
             text-transform: capitalize;
             font-size: 35px;

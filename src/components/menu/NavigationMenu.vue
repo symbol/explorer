@@ -66,6 +66,9 @@ export default {
 <style lang="scss" scoped>
 .header-gradinet {
     background: var(--navigation-bg);
+    border-width: 0 0 4px 0;
+    border-style: solid;
+    border-color: $p-red-color;
 }
 
 .ex-menu {
@@ -87,7 +90,7 @@ export default {
 
     .ex-menu-item {
         padding: 0 20px;
-        color: var(--light);
+        color: $grey-color;
         text-decoration: none;
         letter-spacing: 1px;
         position: relative;
@@ -106,10 +109,12 @@ export default {
     }
 
     .ex-menu-item.active {
-        color: var(--white);
+        color: $white-color;
         font-weight: 600;
         opacity: 1;
-        background-color: #250832;
+        background-color: #2fae6e;
+
+    }
     }
 
     .ex-menu-item::before {
@@ -123,12 +128,6 @@ export default {
         transition: all 0.2s ease-in-out;
         bottom: 0;
     }
-
-    .ex-menu-item.active::before {
-        background-color: #7413a4;
-        opacity: 1;
-    }
-}
 
 .ex-menu-fixed {
     position: fixed;

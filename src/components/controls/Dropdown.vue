@@ -61,7 +61,7 @@ export default {
 			variant = 'outline-';
 
 			if (this.dark === true)
-				variant += 'dark-mode-blue';
+				variant += 'dark-mode-green';
 			else
 				variant += 'info';
 

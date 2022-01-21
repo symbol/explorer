@@ -1,6 +1,6 @@
 {
-  "name": "symbol-explorer",
-  "description": "Symbol Block and Network Explorer",
+  "name": "pitchin-explorer",
+  "description": "Pitchin Blockchain and Network Explorer",
   "homepage": "https://github.com/nemgrouplimited/symbol-explorer",
   "version": "1.1.4",
   "engines": {

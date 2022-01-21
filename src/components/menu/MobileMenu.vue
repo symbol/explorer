@@ -123,7 +123,7 @@ export default {
         top: 0;
         left: 0;
         height: 100vh;
-        background: var(--navigation-bg);
+        background: #fff;
         width: 80%;
         min-width: 300px;
         box-shadow: 0 2px 10px 2px rgba(0, 0, 0, 0.2);

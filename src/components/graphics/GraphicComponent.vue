@@ -263,6 +263,6 @@ export default {
 .message {
     font-size: 14px;
     font-weight: bold;
-    fill: $violet-color;
+    fill: $p-red-color;
 }
 </style>

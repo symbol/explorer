@@ -20,7 +20,7 @@ $blue: $blue-color;
 $green: $green-color;
 $orange: $orange-color;
 $dark-white: $dark-white-color;
-$dark-mode-blue: $dark-mode-button-text-color;
+$dark-mode-green: $dark-mode-button-text-color-green;
 
 $grid-breakpoints: (
     xxxs: 0,
@@ -51,21 +51,21 @@ $theme-colors: map-merge(
         'info': $info,
         'warning': $orange,
         'title': $pink,
-        'dark-mode-blue': $dark-mode-blue
+        'dark-mode-green': $dark-mode-green
     ),
     $theme-colors
 );
 
 :root {
-    --testnet-badge-title: #{$dark-mode-text-title-color};
+    --testnet-badge-title: #{$dark-mode-red-title-color};
     --header-bg-img: url(../styles/img/mainnet-header.png);
     --footer-bg-img: url(../styles/img/mainnet-footer.png);
     --main-bg-color: #{$white-color};
     --main-grid-bg: #{$white-color};
-    --navigation-bg: #{$black-color};
+    --navigation-bg: #{$white-color};
     --theme-switch-bg: #{$dark-mode-card-bg-color};
     --text-color: #{$grey-color};
-    --clickable-text: #{$dark-mode-button-text-color};
+    --clickable-text: #{$dark-mode-button-text-color-green};
     --card-bg: #{$white-color};
     --card-border: #{$primary-color};
     --sub-card-border: #{$primary-color};
@@ -86,17 +86,17 @@ $theme-colors: map-merge(
     --main-bg-color: #{$dark-mode-main-bg};
     --main-grid-bg: #{$dark-mode-grid-bg};
     --text-color: #{$dark-mode-text-color};
-    --clickable-text: #{$dark-mode-button-text-color};
+    --clickable-text: #{$dark-mode-button-text-color-green};
     --card-bg: #{$dark-mode-card-bg-color};
-    --card-border: #{$transparent};
+    --card-border: #{$card-border-color};
     --sub-card-border: #{$dark-mode-card-border-color};
-    --sub-card-bg: #{$black-color};
-    --card-title-text: #{$dark-mode-text-title-color};
-    --table-content-text: #{$violet-color};
+    --sub-card-bg: #{$light-grey-color};
+    --card-title-text: #{$dark-mode-red-title-color};
+    --table-content-text: #{$p-red-color};
     --balance-green-text: #{$dark-mode-green-text-color};
-    --balance-widget-bg: #{$black-color};
+    --balance-widget-bg: #{$light-grey-color};
     --mosaic-filed-bg: #{$mosaic-filed};
-    --loading-bg: #{$dark-grey-color};
+    --loading-bg: #{$white-color};
     --icon-invert: invert(0);
 }
 
@@ -111,13 +111,13 @@ $theme-colors: map-merge(
     --main-bg-color: #{$testnet-dark-mode-main-bg};
     --main-grid-bg: #{$testnet-dark-mode-grid-bg};
     --text-color: #{$dark-mode-text-color};
-    --clickable-text: #{$dark-mode-button-text-color};
+    --clickable-text: #{$dark-mode-button-text-color-green};
     --card-bg: #{$black-color};
     --card-border: #{$transparent};
     --sub-card-border: #{$light-white-grey};
     --sub-card-bg: #{$black-color};
-    --card-title-text: #{$dark-mode-text-title-color};
-    --table-content-text: #{$violet-color};
+    --card-title-text: #{$dark-mode-red-title-color};
+    --table-content-text: #{$p-red-color};
     --balance-green-text: #{$dark-mode-green-text-color};
     --balance-widget-bg: #{$black-color};
     --mosaic-filed-bg: #{$mosaic-filed};

@@ -1,16 +1,19 @@
 // --- Symbol color palette ---
 
-$primary-color: #5200c6;
-$secondary-color: #44004e;
+$primary-color: #C00000;
+$secondary-color: #C00A00;
+$p-red-color:#C00A00;
+$p-green-color:#c00000;
 $red-color: red;
 $pink-color: #f0f;
 $accent-color: #f0f;
 $blue-color: #00c8ff;
 $green-color: #287326;
-$orange-color: #F4A900;
+$orange-color: #00f4e071;
 $violet-color: #9875ff;
 $black-color: #000000;
 $white-color: #ffffff;
+$light-grey-color:#fffafa93;
 $grey-color: #555;
 $dark-grey-color: #000000de;
 $transparent: #00000000;
@@ -23,21 +26,24 @@ $light-mode-card-bg-color: #fcfcfc;
 
 $dark-white-color: #f3f4f8;
 $dark-mode-button-text-color: #26C3F2;
-$dark-mode-text-title-color: #b429fa;
-$dark-mode-text-color: #CCC;
-$dark-mode-green-text-color: #287326;
-$dark-mode-card-bg-color: #0B0118;
-$dark-mode-main-bg: #221c31;
-$dark-mode-grid-bg: #2b263a66;
-$dark-mode-card-border-color: #503d86;
+$dark-mode-button-text-color-green: #006934;
+$dark-mode-text-title-color: #972020;
+$dark-mode-red-title-color: #e92929;
+$dark-mode-text-color: rgb(92, 89, 89);
+$dark-mode-green-text-color: #006934;
+$dark-mode-card-bg-color: #fff;
+$dark-mode-main-bg: #ffffff;
+$dark-mode-grid-bg: #ffffff;
+$dark-mode-card-border-color: #5c1717;
+$card-border-color: #972020;
 
 // --- General colors ---
 
-$title-text-color: $dark-mode-text-title-color;
-$link-text-color: $dark-mode-button-text-color;
+$title-text-color: $dark-mode-red-title-color;
+$link-text-color: $dark-mode-button-text-color-green;
 $card-error-text-color: #98a8b4;
 $clickable-item: #fffc;
-$mosaic-filed: #462d91;
+$mosaic-filed: #972020;
 
 // --- TableView colors
 

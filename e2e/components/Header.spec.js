@@ -5,11 +5,11 @@ describe('Symbol Explorer Header should', () => {
 
     it('contain correct logo and title', () => {
         cy.get('.header-title')
-        .contains('Symbol blockchain explorer')
+        .contains('Pitchin blockchain explorer')
 
         cy.get('.header-logo')
         .should('have.attr', 'src')
-        .and('contain', 'symbol_logo')
+        .and('contain', 'pitchin-logo')
 
     })
 

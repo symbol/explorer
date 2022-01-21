@@ -100,7 +100,7 @@ export default {
 
 .footer::before {
     content: '';
-    background-image: var(--footer-bg-img);
+    background-color: #fff;
     position: absolute;
     z-index: 0;
     bottom: 0;

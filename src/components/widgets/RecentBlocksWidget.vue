@@ -99,6 +99,7 @@ export default {
 .ex-card .card-item {
     border: 1px solid var(--sub-card-border);
     background-color: var(--sub-card-bg);
+
 }
 
 .card-item {

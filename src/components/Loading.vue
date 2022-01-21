@@ -120,7 +120,7 @@ svg:nth-child(1) circle {
 }
 
 svg:nth-child(2) circle {
-    stroke: #67b2e7;
+    stroke: #0cf900;
     stroke-dasharray: 1, 300;
     stroke-dashoffset: 0;
     -webkit-animation: strokeanim 3s calc(0.2s * (2)) ease infinite;
@@ -130,7 +130,7 @@ svg:nth-child(2) circle {
 }
 
 svg:nth-child(3) circle {
-    stroke: #f7a800;
+    stroke: #f70000;
     stroke-dasharray: 1, 300;
     stroke-dashoffset: 0;
     -webkit-animation: strokeanim 3s calc(0.2s * (3)) ease infinite;
@@ -140,7 +140,7 @@ svg:nth-child(3) circle {
 }
 
 svg:nth-child(4) circle {
-    stroke: #0997a6;
+    stroke: #09a616;
     stroke-dasharray: 1, 300;
     stroke-dashoffset: 0;
     -webkit-animation: strokeanim 3s calc(0.2s * (4)) ease infinite;

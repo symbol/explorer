@@ -8,10 +8,11 @@
 import 'leaflet/dist/leaflet.css';
 import leaflet from 'leaflet';
 import markerCluster from 'leaflet.markercluster'; // eslint-disable-line
-import IconOrange from '../styles/img/connector_orange.png';
-import IconBlue from '../styles/img/connector_blue.png';
-import IconGreen from '../styles/img/connector_green.png';
-import IconPink from '../styles/img/connector_pink.png';
+// import IconOrange from '../styles/img/connector_orange.png';
+// import IconBlue from '../styles/img/connector_blue.png';
+// import IconGreen from '../styles/img/connector_green.png';
+// import IconPink from '../styles/img/connector_pink.png';
+import IconPitchin from '../styles/img/icon-pitchin.png';
 
 export default {
 	props: {
@@ -68,7 +69,7 @@ export default {
 		button1Style() {
 			return `border-radius: 3px; 
                 color: #fff;
-                background-color: #5200c6;
+                background-color: #c53939;
                 font-family: Noto Sans;
                 font-weight: bold;
                 font-size: 13px;
@@ -143,10 +144,10 @@ export default {
 				});
 			};
 
-			const iconPeer = getIcon(IconBlue);
-			const iconVoting = getIcon(IconGreen);
-			const iconApi = getIcon(IconPink);
-			const iconApiVoting = getIcon(IconOrange);
+			const iconPeer = getIcon(IconPitchin);
+			const iconVoting = getIcon(IconPitchin);
+			const iconApi = getIcon(IconPitchin);
+			const iconApiVoting = getIcon(IconPitchin);
 
 			const markerClusters = leaflet.markerClusterGroup({
 				// iconCreateFunction: this.createClusterGroup,
