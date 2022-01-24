@@ -23,7 +23,6 @@ import helper from '../helper';
 import { Constants } from '../config';
 import { take, toArray } from 'rxjs/operators';
 import { MerkleTree } from 'merkletreejs';
-import { sha3_256 as sha3256 } from 'js-sha3';
 import NodeService from './NodeService';
 
 class BlockService {
