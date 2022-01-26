@@ -99,7 +99,7 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			width: this.transactionGraphicWidth,
 			heigth: this.transactionGraphicHeight
@@ -107,23 +107,23 @@ export default {
 	},
 
 	computed: {
-		transactionType() {
+		transactionType () {
 			return this.getTransactionTypeCaption(this.type);
 		},
 
-		circleIconsToDisplay() {
+		circleIconsToDisplay () {
 			return [true];
 		},
 
-		isLinkAction() {
-			return this.linkAction === 'Link';
+		isLinkAction () {
+			return 'Link' === this.linkAction;
 		},
 
-		subTitle() {
+		subTitle () {
 			return `. ${this.linkAction} account`;
 		},
 
-		keyLinkInfo() {
+		keyLinkInfo () {
 			return {
 				publicKey: this.linkedPublicKey,
 				startEpoch: this.startEpoch,

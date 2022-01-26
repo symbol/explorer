@@ -13,11 +13,11 @@
 
 <script>
 export default {
-	mounted() {
+	mounted () {
 		this.isLoading = false;
 	},
 
-	data() {
+	data () {
 		return {
 			searchString: '',
 			searchValidate: '',
@@ -30,7 +30,7 @@ export default {
 	computed: {},
 
 	methods: {
-		onSearch() {
+		onSearch () {
 			this.isLoading = true;
 			this.$store
 				.dispatch('ui/search', this.searchString)
@@ -44,8 +44,8 @@ export default {
 				});
 		},
 
-		fail(e) {
-			if (e.message === 'errorNisAddressNotAllowed')
+		fail (e) {
+			if ('errorNisAddressNotAllowed' === e.message)
 				alert(this.getNameByKey(e.message));
 
 			this.searchString = this.getNameByKey('errorNothingFound');
@@ -56,7 +56,7 @@ export default {
 			}, 1000);
 		},
 
-		getNameByKey(e) {
+		getNameByKey (e) {
 			return this.$store.getters['ui/getNameByKey'](e);
 		}
 	}

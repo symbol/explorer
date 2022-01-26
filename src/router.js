@@ -33,7 +33,7 @@ const pagesRoutes = pages.map(page => ({
 
 const routerConfig = {
 	mode: 'history',
-	scrollBehavior() {
+	scrollBehavior () {
 		return { x: 0, y: 0 };
 	},
 	routes: [

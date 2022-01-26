@@ -38,19 +38,19 @@ export default {
 	},
 
 	computed: {
-		text() {
+		text () {
 			return this.truncString(this.address, 5);
 		},
 
-		title() {
+		title () {
 			return this.address;
 		},
 
-		isValueExist() {
-			return typeof this._value === 'number' || typeof this._value === 'string';
+		isValueExist () {
+			return 'number' === typeof this._value || 'string' === typeof this._value;
 		},
 
-		_value() {
+		_value () {
 			return this.value || this.amount;
 		}
 	}

@@ -4,7 +4,7 @@ const CONFIG_ROUTE = '/config';
 
 export const loadConfig = () => Axios.get(window.location.origin + CONFIG_ROUTE)
 	.then(res => {
-		window.globalConfig = (res.data !== null && typeof res.data === 'object')
+		window.globalConfig = (null !== res.data && 'object' === typeof res.data)
 			? res.data
 			: undefined;
 	})

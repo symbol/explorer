@@ -57,7 +57,7 @@ export default {
 	},
 
 	computed: {
-		itemKey_() {
+		itemKey_ () {
 			return this.itemKey + '_';
 		}
 	}

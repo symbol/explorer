@@ -47,7 +47,7 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			IconRestrictable,
 			IconMutable,
@@ -57,7 +57,7 @@ export default {
 	},
 
 	computed: {
-		displayFlag() {
+		displayFlag () {
 			const filtered = Object.entries(this.value).filter(([key, value]) => value);
 
 			return Object.fromEntries(filtered);
@@ -65,11 +65,11 @@ export default {
 	},
 
 	methods: {
-		translate(value) {
+		translate (value) {
 			return this.$store.getters['ui/getNameByKey'](value);
 		},
 
-		iconUrl(icon) {
+		iconUrl (icon) {
 			switch (icon) {
 			case 'restrictable':
 				return this.IconRestrictable;

@@ -86,22 +86,22 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			id: this.getId('lock-icon')
 		};
 	},
 
 	computed: {
-		title() {
+		title () {
 			return this.getTranslation('lock') + ': ' + this.lockName;
 		},
 
-		truncatedLockName() {
+		truncatedLockName () {
 			return this.truncString(this.lockName, 8);
 		},
 
-		viewBox() {
+		viewBox () {
 			return this.hideCaption ? '115 0 16 105' : '0 0 261.333 131.313';
 		}
 	}

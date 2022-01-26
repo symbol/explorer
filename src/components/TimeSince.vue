@@ -20,7 +20,7 @@ import moment from 'moment';
 
 export default {
 	name: 'TimeSince',
-	data() {
+	data () {
 		return {
 			interval: null,
 			years: 0,
@@ -42,17 +42,17 @@ export default {
 			required: true
 		}
 	},
-	mounted() {
+	mounted () {
 		this.interval = setInterval(() => {
 			this.updateDateAge();
 		}, 1000);
 		this.updateDateAge();
 	},
-	destroyed() {
+	destroyed () {
 		clearInterval(this.interval);
 	},
 	methods: {
-		updateDateAge() {
+		updateDateAge () {
 			const now = moment(moment.utc(Date.now()).format(), 'YYYY-MM-DD HH:mm:ss').utc();
 
 			const date = moment(this.date, 'YYYY-MM-DD HH:mm:ss').utc();

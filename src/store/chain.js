@@ -90,7 +90,7 @@ export default {
 	},
 	actions: {
 		// Initialize the chain model.
-		async initialize({ commit, dispatch, getters }) {
+		async initialize ({ commit, dispatch, getters }) {
 			const callback = async () => {
 				await dispatch('initializePage');
 			};
@@ -99,14 +99,14 @@ export default {
 		},
 
 		// Uninitialize the chain model.
-		async uninitialize({ commit, dispatch, getters }) {
+		async uninitialize ({ commit, dispatch, getters }) {
 			const callback = async () => {};
 
 			await LOCK.uninitialize(callback, commit, dispatch, getters);
 		},
 
 		// Fetch data from the SDK / API and initialize the page.
-		async initializePage({ commit, dispatch }) {
+		async initializePage ({ commit, dispatch }) {
 			commit('setLoading', true);
 			const [storageInfo, /* marketData, xemGraph, */ nodeStats] = await Promise.all([
 				NodeService.getStorageInfo(),
@@ -141,7 +141,7 @@ export default {
 				commit('setNodeStats', nodeStats.nodeTypes);
 		},
 
-		async getChainInfo({ commit }) {
+		async getChainInfo ({ commit }) {
 			const [chainInfo] = await Promise.all([
 				ChainService.getChainInfo()
 			]);

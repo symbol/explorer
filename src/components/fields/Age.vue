@@ -36,10 +36,10 @@ export default {
 		date: String
 	},
 	methods: {
-		timeSince(interval) {
+		timeSince (interval) {
 			return helper.timeSince(interval);
 		},
-		getNameByKey(e) {
+		getNameByKey (e) {
 			return this.$store.getters['ui/getNameByKey'](e);
 		}
 	}

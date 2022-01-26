@@ -82,13 +82,13 @@ export default {
 			transactionList: 'transaction/getRecentList'
 		}),
 
-		loading() {
+		loading () {
 			return !this.transactionList.length;
 		}
 	},
 
 	methods: {
-		getNameByKey(e) {
+		getNameByKey (e) {
 			return this.$store.getters['ui/getNameByKey'](e);
 		}
 	}

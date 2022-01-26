@@ -21,11 +21,11 @@ import { Constants } from '../config';
 
 class LockService {
     /**
-     * Gets a hash lock from searchCriteria
-     * @param hashLockSearchCriteria Object of Search Criteria
-     * @returns formatted hash lock data with pagination info
+     * Gets a hash lock from searchCriteria.
+     * @param {object} hashLockSearchCriteria Search Criteria.
+     * @returns {object} formatted hash lock data with pagination info.
      */
-    static searchHashLocks = async (hashLockSearchCriteria) => {
+    static searchHashLocks = async hashLockSearchCriteria => {
     	const searchHashLocks = await http.createRepositoryFactory.createHashLockRepository()
   		.search(hashLockSearchCriteria)
     		.toPromise();
@@ -37,11 +37,11 @@ class LockService {
     }
 
     /**
-     * Gets hash lock from hash
-     * @param hash Transaction hash
-     * @returns formatted Hash lock info
+     * Gets hash lock from hash.
+     * @param {string} hash Transaction hash.
+     * @returns {object}formatted Hash lock info.
      */
-    static getHashLock = async (hash) => {
+    static getHashLock = async hash => {
     	const hashLock = await http.createRepositoryFactory.createHashLockRepository()
     		.getHashLock(hash)
     		.toPromise();
@@ -50,11 +50,11 @@ class LockService {
     }
 
     /**
-     * Gets a secret lock from searchCriteria
-     * @param secretLockSearchCriteria Object of Search Criteria
-     * @returns formatted secret lock data with pagination info
+     * Gets a secret lock from searchCriteria.
+     * @param {object} secretLockSearchCriteria Search Criteria.
+     * @returns {object} formatted secret lock data with pagination info.
      */
-    static searchSecretLocks = async (secretLockSearchCriteria) => {
+    static searchSecretLocks = async secretLockSearchCriteria => {
     	const searchSecretLocks = await http.createRepositoryFactory.createSecretLockRepository()
   		.search(secretLockSearchCriteria)
     		.toPromise();
@@ -66,11 +66,11 @@ class LockService {
     }
 
     /**
-     * Format secretLockInfoDTO
-     * @param secretLockInfo
-     * @returns readable secretLockInfoDTO object
+     * Format secretLockInfoDTO.
+     * @param {object} secretLockInfo secretLockInfoDTO.
+     * @returns {object} readable secretLockInfoDTO object.
      */
-    static formatSecretLockInfo = (secretLockInfo) => ({
+    static formatSecretLockInfo = secretLockInfo => ({
     	...secretLockInfo,
     	status: Constants.LockStatusType[secretLockInfo.status],
     	endHeight: Number(secretLockInfo.endHeight.toString()),
@@ -81,10 +81,10 @@ class LockService {
 
     /**
      * Format HashLockInfoDTO
-     * @param hashLockInfo
-     * @returns readable HashLockInfoDTO object
+     * @param {object} hashLockInfo hashLockInfoDTO.
+     * @returns {object} readable HashLockInfoDTO object
      */
-    static formatHashLockInfo = (hashLockInfo) => ({
+    static formatHashLockInfo = hashLockInfo => ({
     	...hashLockInfo,
     	status: Constants.LockStatusType[hashLockInfo.status],
     	endHeight: Number(hashLockInfo.endHeight.toString()),

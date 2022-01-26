@@ -31,20 +31,20 @@ import IconMoon from '../styles/img/moon.png';
 import IconSun from '../styles/img/sun.png';
 
 export default {
-	mounted() {
+	mounted () {
 		// get theme from localstorage
 		let theme = this.$store.getters['ui/theme'];
 
 		// set default to darkMode if not theme specify
-		if (theme === null)
+		if (null === theme)
 			theme = 'darkMode';
 
 		this.$store.dispatch('ui/changeTheme', theme);
 
-		this.isDarkMode = theme === 'darkMode';
+		this.isDarkMode = 'darkMode' === theme;
 	},
 
-	data() {
+	data () {
 		return {
 			isDarkMode: this.isDarkMode,
 			IconMoon,
@@ -53,7 +53,7 @@ export default {
 	},
 
 	methods: {
-		toggleTheme() {
+		toggleTheme () {
 			const theme = this.isDarkMode ? 'darkMode' : '';
 
 			// Save theme in local storage

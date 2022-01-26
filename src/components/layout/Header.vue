@@ -40,20 +40,20 @@ export default {
 		LanguageSelector
 	},
 
-	data() {
+	data () {
 		return {
 
 		};
 	},
 
 	computed: {
-		isTestnet() {
+		isTestnet () {
 			return this.$store.getters['api/isTestnet'];
 		}
 	},
 
 	methods: {
-		getNameByKey(e) {
+		getNameByKey (e) {
 			return this.$store.getters['ui/getNameByKey'](e);
 		}
 	}

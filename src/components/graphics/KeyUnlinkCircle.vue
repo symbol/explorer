@@ -72,7 +72,7 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			id: this.getId('key-circle')
 		};

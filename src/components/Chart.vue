@@ -91,14 +91,14 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {
 
 		};
 	},
 
 	computed: {
-		options() {
+		options () {
 			return {
 				chart: {
 					foreColor: '#999',
@@ -163,7 +163,7 @@ export default {
 					labels: this.intXaxis
 						? {
 							formatter: function (val) {
-								return typeof val.toFixed === 'function'
+								return 'function' === typeof val.toFixed
 									? val.toFixed(0)
 									: val;
 							}
@@ -181,7 +181,7 @@ export default {
 					labels: this.intYaxis
 						? {
 							formatter: function (val) {
-								return typeof val.toFixed === 'function'
+								return 'function' === typeof val.toFixed
 									? val.toFixed(0)
 									: val;
 							}
@@ -203,12 +203,12 @@ export default {
 			};
 		},
 
-		series() {
+		series () {
 			return this.data;
 		},
 
-		extractedColors() {
-			return this.colorIndex !== -1
+		extractedColors () {
+			return -1 !== this.colorIndex
 				? [this.colors[this.colorIndex]]
 				: this.colors;
 		}

@@ -83,15 +83,15 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			id: this.getId('mosaics-circle')
 		};
 	},
 
 	computed: {
-		hasMosaic() {
-			return this.mosaics.length > 0;
+		hasMosaic () {
+			return 0 < this.mosaics.length;
 		}
 	}
 };

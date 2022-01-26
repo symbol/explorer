@@ -106,33 +106,33 @@ export default {
 			loading: 'chain/getLoading'
 		}),
 
-		currentHeight() {
+		currentHeight () {
 			return this.chainInfo.currentHeight;
 		},
 
-		epoch() {
+		epoch () {
 			return this.chainInfo.epoch;
 		},
 
-		finalizedHeight() {
+		finalizedHeight () {
 			return this.chainInfo.finalizedBlockHeight;
 		},
 
-		lastEpoch() {
+		lastEpoch () {
 			return this.chainInfo.lastEpoch.epoch;
 		},
 
-		lastEpochAge() {
+		lastEpochAge () {
 			return this.chainInfo.lastEpoch.age;
 		},
 
-		nodeCount() {
+		nodeCount () {
 			return this.nodeStats?.total || '-';
 		}
 	},
 
 	methods: {
-		getNameByKey(e) {
+		getNameByKey (e) {
 			return this.$store.getters['ui/getNameByKey'](e);
 		}
 	}

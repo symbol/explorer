@@ -45,15 +45,16 @@ const managers = [
 	}),
 	new DataSet(
 		'info',
-		(address) => AccountService.getAccountInfo(address)
+		address => AccountService.getAccountInfo(address)
 	),
 	new DataSet(
 		'OwnedMosaic',
-		(address) => AccountService.getAccountMosaicList(address)
+		address => AccountService.getAccountMosaicList(address)
 	),
 	new Pagination({
 		name: 'OwnedNamespace',
-		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountNamespaceList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
+		fetchFunction: (pageInfo, filterValue, store) =>
+			AccountService.getAccountNamespaceList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
 		pageInfo: {
 			pageSize: 10
 		},
@@ -61,11 +62,12 @@ const managers = [
 	}),
 	new DataSet(
 		'multisig',
-		(address) => MultisigService.getMultisigAccountInfo(address)
+		address => MultisigService.getMultisigAccountInfo(address)
 	),
 	new Pagination({
 		name: 'transactions',
-		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountTransactionList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
+		fetchFunction: (pageInfo, filterValue, store) =>
+			AccountService.getAccountTransactionList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
 		pageInfo: {
 			pageSize: 10
 		},
@@ -73,14 +75,16 @@ const managers = [
 	}),
 	new Pagination({
 		name: 'harvestedBlocks',
-		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountHarvestedReceiptList(pageInfo, store.getters.getCurrentAccountAddress),
+		fetchFunction: (pageInfo, filterValue, store) =>
+			AccountService.getAccountHarvestedReceiptList(pageInfo, store.getters.getCurrentAccountAddress),
 		pageInfo: {
 			pageSize: 10
 		}
 	}),
 	new Pagination({
 		name: 'receipt',
-		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountReceiptList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
+		fetchFunction: (pageInfo, filterValue, store) =>
+			AccountService.getAccountReceiptList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
 		pageInfo: {
 			pageSize: 10
 		},
@@ -88,14 +92,16 @@ const managers = [
 	}),
 	new Pagination({
 		name: 'mosaicAddressRestrictions',
-		fetchFunction: (pageInfo, filterValue, store) => RestrictionService.getMosaicAddressRestrictionList(pageInfo, store.getters.getCurrentAccountAddress),
+		fetchFunction: (pageInfo, filterValue, store) =>
+			RestrictionService.getMosaicAddressRestrictionList(pageInfo, store.getters.getCurrentAccountAddress),
 		pageInfo: {
 			pageSize: Constants.PageSize
 		}
 	}),
 	new Pagination({
 		name: 'metadatas',
-		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountMetadataList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
+		fetchFunction: (pageInfo, filterValue, store) =>
+			AccountService.getAccountMetadataList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
 		pageInfo: {
 			pageSize: 10
 		},
@@ -103,21 +109,23 @@ const managers = [
 	}),
 	new Pagination({
 		name: 'hashLocks',
-		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountHashLockList(pageInfo, store.getters.getCurrentAccountAddress),
+		fetchFunction: (pageInfo, filterValue, store) =>
+			AccountService.getAccountHashLockList(pageInfo, store.getters.getCurrentAccountAddress),
 		pageInfo: {
 			pageSize: 10
 		}
 	}),
 	new Pagination({
 		name: 'secretLocks',
-		fetchFunction: (pageInfo, filterValue, store) => AccountService.getAccountSecretLockList(pageInfo, store.getters.getCurrentAccountAddress),
+		fetchFunction: (pageInfo, filterValue, store) =>
+			AccountService.getAccountSecretLockList(pageInfo, store.getters.getCurrentAccountAddress),
 		pageInfo: {
 			pageSize: 10
 		}
 	}),
 	new DataSet(
 		'accountRestrictions',
-		(address) => RestrictionService.getAccountRestrictionList(address)
+		address => RestrictionService.getAccountRestrictionList(address)
 	)
 ];
 
@@ -158,7 +166,7 @@ export default {
 	actions: {
 		...getActionsFromManagers(managers),
 		// Initialize the account model.
-		async initialize({ commit, dispatch, getters }) {
+		async initialize ({ commit, dispatch, getters }) {
 			const callback = async () => {
 				await dispatch('initializePage');
 			};
@@ -167,7 +175,7 @@ export default {
 		},
 
 		// Uninitialize the account model.
-		async uninitialize({ commit, dispatch, getters }) {
+		async uninitialize ({ commit, dispatch, getters }) {
 			const callback = async () => {
 				dispatch('uninitializeDetail');
  				getters.timeline?.uninitialize();
@@ -177,18 +185,17 @@ export default {
 		},
 
 		// Fetch data from the SDK and initialize the page.
-		initializePage(context) {
+		initializePage (context) {
 			context.getters.timeline.setStore(context).initialFetch();
 		},
 
 		// Fetch account data by address, publicKey or alias namespaceName
-		async fetchAccountDetail(context, payload) {
-			let address = payload.address;
+		async fetchAccountDetail (context, payload) {
+			let { address } = payload;
 
 			try {
 				address = Address.createFromRawAddress(address).plain();
-			}
-			catch (e) {
+			} catch (e) {
 				address = await helper.decodeToAddress(address);
 			}
 
@@ -209,7 +216,7 @@ export default {
 			context.getters.receipt.setStore(context).initialFetch(address);
 		},
 
-		uninitializeDetail(context) {
+		uninitializeDetail (context) {
 			context.getters.info.setStore(context).uninitialize();
 			context.getters.OwnedMosaic.setStore(context).uninitialize();
 			context.getters.OwnedNamespace.setStore(context).uninitialize();

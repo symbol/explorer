@@ -36,7 +36,7 @@ export default {
 		value: Object
 	},
 	computed: {
-		title() {
+		title () {
 			return this.getKeyName('remote') +
 			': ' + this.value.signer +
 			'\n' + this.getKeyName('main') +

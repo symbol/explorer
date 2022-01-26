@@ -17,10 +17,10 @@
  */
 
 export default class DataSet {
-	constructor(name, initialFuntion, DataType = Object) {
-		if (typeof name !== 'string')
+	constructor (name, initialFuntion, DataType = Object) {
+		if ('string' !== typeof name)
 			throw Error('Failed to construct DataSet. Name is not provided');
-		if (typeof initialFuntion !== 'function')
+		if ('function' !== typeof initialFuntion)
 			throw Error('Cannot create timeline. Initial function is not provided');
 
 		this.name = name;
@@ -31,27 +31,26 @@ export default class DataSet {
 		this.error = false;
 	}
 
-	static empty() {
+	static empty () {
 		return {
 			data: {}
 		};
 	}
 
-	setStore(store) {
+	setStore (store) {
 		this.store = store;
 		this.store.dispatch(this.name, this);
 		return this;
 	}
 
-	async initialFetch(props) {
+	async initialFetch (props) {
 		this.loading = true;
 		this.store.dispatch(this.name, this);
 
 		try {
 			this.data = await this.initialFuntion(props, this.store);
-		}
-		catch (e) {
-			console.log(e);
+		} catch (e) {
+			console.error(e);
 			this.error = true;
 		}
 		this.loading = false;
@@ -60,14 +59,14 @@ export default class DataSet {
 		return this;
 	}
 
-	uninitialize() {
+	uninitialize () {
 		this.initialized = false;
 		this.data = new this.DataType();
 		this.loading = false;
 		this.error = false;
 	}
 
-	async reset() {
+	async reset () {
 		return this.initialFetch();
 	}
 }

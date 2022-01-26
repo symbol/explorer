@@ -104,15 +104,15 @@ export default {
 	},
 
 	computed: {
-		payload() {
+		payload () {
 			return this.message.payload;
 		},
-		messageType() {
+		messageType () {
 			return this.getTranslation(`messageTypeDescriptor_${this.message.type}`);
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			id: this.getId('message-circle')
 		};

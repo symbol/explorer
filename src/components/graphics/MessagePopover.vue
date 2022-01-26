@@ -33,27 +33,26 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			isJSON: false
 		};
 	},
 
 	computed: {
-		formattedMessage() {
+		formattedMessage () {
 			try {
 				const obj = JSON.parse(this.message);
 
 				return this.JSONToHTML(obj);
-			}
-			catch (e) {
+			} catch (e) {
 				return this.message;
 			}
 		}
 	},
 
 	methods: {
-		JSONToHTML(thing) {
+		JSONToHTML (thing) {
 			const htmlEntities = string => {
 				return string
 					.replace(/&/g, '&amp;')

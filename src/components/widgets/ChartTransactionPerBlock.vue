@@ -36,13 +36,13 @@ export default {
 			loading: 'statistic/getLoadingTransactionPerBlock'
 		}),
 
-		chartData() {
+		chartData () {
 			return this.transactionPerBlockData.data;
 		}
 	},
 
 	methods: {
-		getNameByKey(e) {
+		getNameByKey (e) {
 			return this.$store.getters['ui/getNameByKey'](e);
 		}
 	}

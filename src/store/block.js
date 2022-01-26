@@ -37,14 +37,15 @@ import {
 const managers = [
 	new Pagination({
 		name: 'timeline',
-		fetchFunction: (pageInfo) => BlockService.getBlockList(pageInfo),
+		fetchFunction: pageInfo => BlockService.getBlockList(pageInfo),
 		pageInfo: {
 			pageSize: Constants.PageSize
 		}
 	}),
 	new Pagination({
 		name: 'blockTransactions',
-		fetchFunction: (pageInfo, filterValue, store) => BlockService.getBlockTransactionList(pageInfo, filterValue, store.getters.currentBlockHeight),
+		fetchFunction: (pageInfo, filterValue, store) =>
+			BlockService.getBlockTransactionList(pageInfo, filterValue, store.getters.currentBlockHeight),
 		pageInfo: {
 			pageSize: 10
 		},
@@ -52,7 +53,8 @@ const managers = [
 	}),
 	new Pagination({
 		name: 'receipt',
-		fetchFunction: (pageInfo, filterValue, store) => BlockService.getBlockReceiptList(pageInfo, filterValue, store.getters.currentBlockHeight),
+		fetchFunction: (pageInfo, filterValue, store) =>
+			BlockService.getBlockReceiptList(pageInfo, filterValue, store.getters.currentBlockHeight),
 		pageInfo: {
 			pageSize: 10
 		},
@@ -60,11 +62,11 @@ const managers = [
 	}),
 	new DataSet(
 		'blockReceipts',
-		(height) => BlockService.getBlockReceiptsInfo(height)
+		height => BlockService.getBlockReceiptsInfo(height)
 	),
 	new DataSet(
 		'info',
-		(height) => BlockService.getBlockInfo(height)
+		height => BlockService.getBlockInfo(height)
 	)
 ];
 
@@ -83,14 +85,16 @@ export default {
 	getters: {
 		...getGettersFromManagers(managers),
 		getInitialized: state => state.initialized,
-		getRecentList: state => state.timeline?.data?.filter((item, index) => index < 4) || [],
+		getRecentList: state => state.timeline?.data?.filter((item, index) => 4 > index) || [],
 		getSubscription: state => state.subscription,
 		blockInfo: state => state.info?.data?.blockInfo || {},
 		merkleInfo: state => state.info?.data?.merkleInfo || {},
 
 		resolutionStatement: state => state.blockReceipts?.data?.resolutionStatements || [],
 		currentBlockHeight: state => state.currentBlockHeight,
-		infoText: (s, g, rs, rootGetters) => rootGetters['ui/getNameByKey']('chainHeight') + ': ' + (rootGetters['chain/getChainInfo'] && rootGetters['chain/getChainInfo'].currentHeight ? rootGetters['chain/getChainInfo'].currentHeight : 0) },
+		infoText: (s, g, rs, rootGetters) =>
+			rootGetters['ui/getNameByKey']('chainHeight') + ': ' + (rootGetters['chain/getChainInfo']
+		&& rootGetters['chain/getChainInfo'].currentHeight ? rootGetters['chain/getChainInfo'].currentHeight : 0) },
 	mutations: {
 		...getMutationsFromManagers(managers),
 		setInitialized: (state, initialized) => {
@@ -105,7 +109,7 @@ export default {
 		...getActionsFromManagers(managers),
 		// Initialize the block model.
 		// First fetch the page, then subscribe.
-		async initialize({ commit, dispatch, getters }) {
+		async initialize ({ commit, dispatch, getters }) {
 			const callback = async () => {
 				await dispatch('initializePage');
 				await dispatch('subscribe');
@@ -115,7 +119,7 @@ export default {
 		},
 
 		// Uninitialize the block model.
-		async uninitialize({ commit, dispatch, getters }) {
+		async uninitialize ({ commit, dispatch, getters }) {
 			const callback = async () => {
 				dispatch('unsubscribe');
 				dispatch('uninitializeDetail');
@@ -126,10 +130,10 @@ export default {
 		},
 
 		// Subscribe to the latest blocks.
-		async subscribe({ commit, dispatch, getters, rootGetters }) {
-			if (getters.getSubscription === null) {
+		async subscribe ({ commit, dispatch, getters, rootGetters }) {
+			if (null === getters.getSubscription) {
 				const subscription = await ListenerService.subscribeNewBlock(
-					async (item) => {
+					async item => {
 						const latestBlock = await BlockService.getBlockByHeight(item.height.compact());
 
 						const { supplementalPublicKeys } = await AccountService.getAccount(latestBlock.signer);
@@ -139,7 +143,9 @@ export default {
 							age: helper.convertToUTCDate(latestBlock.timestamp),
 							harvester: {
 								signer: latestBlock.signer,
-								linkedAddress: supplementalPublicKeys.linked === Constants.Message.UNAVAILABLE ? latestBlock.signer : helper.publicKeyToAddress(supplementalPublicKeys.linked)
+								linkedAddress: supplementalPublicKeys.linked === Constants.Message.UNAVAILABLE
+									? latestBlock.signer
+									: helper.publicKeyToAddress(supplementalPublicKeys.linked)
 							}
 						}, 'height');
 
@@ -153,10 +159,10 @@ export default {
 		},
 
 		// Unsubscribe from the latest blocks.
-		unsubscribe({ commit, getters }) {
+		unsubscribe ({ commit, getters }) {
 			let subscription = getters.getSubscription;
 
-			if (subscription?.length === 2) {
+			if (2 === subscription?.length) {
 				subscription[1].unsubscribe();
 				subscription[0].close();
 				commit('setSubscription', null);
@@ -164,7 +170,7 @@ export default {
 		},
 
 		// Fetch data from the SDK and initialize the page.
-		initializePage(context) {
+		initializePage (context) {
 			context.dispatch('chain/getChainInfo', null, { root: true });
 			context.getters.timeline.setStore(context).initialFetch();
 		},
@@ -178,7 +184,7 @@ export default {
 			context.getters.receipt.setStore(context).initialFetch(payload.height);
 		},
 
-		uninitializeDetail(context) {
+		uninitializeDetail (context) {
 			context.getters.info.setStore(context).uninitialize();
 			context.getters.blockReceipts.setStore(context).uninitialize();
 			context.getters.blockTransactions.setStore(context).uninitialize();
@@ -195,7 +201,7 @@ export default {
 		},
 
 		previousBlock: ({ commit, getters, dispatch }) => {
-			if (+getters.currentBlockHeight > 1) {
+			if (1 < +getters.currentBlockHeight) {
 				dispatch('ui/openPage', {
 					pageName: 'block',
 					param: +getters.currentBlockHeight - 1

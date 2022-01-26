@@ -39,24 +39,24 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			managerGetter: 'statistic/nodeHeightStats'
 		};
 	},
 
 	computed: {
-		manager() {
+		manager () {
 			return this.getter(this.managerGetter) || {};
 		},
 
-		data() {
+		data () {
 			return this.dataGetter
 				? this.getter(this.dataGetter)
 				: this.manager.data;
 		},
 
-		title() {
+		title () {
 			const titleMap = {
 				0: this.getNameByKey('nodeHeightStatsTitle'),
 				1: this.getNameByKey('nodeFinalizedHeightStatsTitle')
@@ -65,19 +65,19 @@ export default {
 			return titleMap[this.typeIndex];
 		},
 
-		chartData() {
+		chartData () {
 			return (this.data && [this.data[this.typeIndex]]) || [];
 		},
 
-		loading() {
+		loading () {
 			return this.manager.loading;
 		},
 
-		error() {
+		error () {
 			return this.manager.error;
 		},
 
-		typeIndex() {
+		typeIndex () {
 			const typeMap = {
 				height: 0,
 				finalizedHeight: 1
@@ -86,7 +86,7 @@ export default {
 			return typeMap[this.type];
 		},
 
-		colorIndex() {
+		colorIndex () {
 			const colorMap = {
 				0: 0,
 				1: 1
@@ -95,7 +95,7 @@ export default {
 			return colorMap[this.typeIndex];
 		},
 
-		chartHeight() {
+		chartHeight () {
 			// const data = this.data || [];
 			// const heightCount = data[0]?.data?.length || 0;
 			// const finalizedHeightCount = data[1]?.data.length || 0;
@@ -115,7 +115,7 @@ export default {
 			const data = this.chartData[0]?.data || [];
 			const count = data?.length || 0;
 
-			if (count === 0)
+			if (0 === count)
 				return 200;
 
 			return 200 + count * 12;
@@ -123,11 +123,11 @@ export default {
 	},
 
 	methods: {
-		getNameByKey(e) {
+		getNameByKey (e) {
 			return this.$store.getters['ui/getNameByKey'](e);
 		},
 
-		getter(name) {
+		getter (name) {
 			return this.$store.getters[name];
 		}
 	}

@@ -68,7 +68,7 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			id: this.getId('lock-circle')
 		};

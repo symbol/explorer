@@ -27,11 +27,11 @@ import NodeService from './NodeService';
 
 class BlockService {
   /**
-   * Gets a BlockInfo for a given block height
-   * @param height - Block height
-   * @returns Formatted BlockDTO
+   * Gets a BlockInfo for a given block height.
+   * @param {number} height block height.
+   * @returns {object} Formatted BlockDTO.
    */
-  static getBlockByHeight = async (height) => {
+  static getBlockByHeight = async height => {
   	const blockInfo = await http.createRepositoryFactory.createBlockRepository()
 		  .getBlockByHeight(UInt64.fromUint(height))
 		  .toPromise();
@@ -40,26 +40,26 @@ class BlockService {
   }
 
   /**
-   * Gets a blocks from searchCriteria
-   * @param blockSearchCriteria Object of Block Search Criteria
-   * @returns formatted block data with pagination info
+   * Gets a blocks from searchCriteria.
+   * @param {object} blockSearchCriteria Block Search Criteria.
+   * @returns {object} formatted block data with pagination info.
    */
-  static searchBlocks = async (blockSearchCriteria) => {
-  	const searchblocks = await http.createRepositoryFactory.createBlockRepository()
+  static searchBlocks = async blockSearchCriteria => {
+  	const searchBlocks = await http.createRepositoryFactory.createBlockRepository()
   		.search(blockSearchCriteria)
   		.toPromise();
 
   	return {
-  		...searchblocks,
-  		data: searchblocks.data.map(block => this.formatBlock(block))
+  		...searchBlocks,
+  		data: searchBlocks.data.map(block => this.formatBlock(block))
   	};
   }
 
   /**
-   * Gets a blocks from streamer
-   * @param searchCriteria - Object  Search Criteria
-   * @param noOfBlock - Number of blocks returned.
-   * @returns formatted BlockInfo[]
+   * Gets a blocks from streamer.
+   * @param {object} searchCriteria - Object  Search Criteria.
+   * @param {number} noOfBlock - Number of blocks returned.
+   * @returns {array} formatted BlockInfos.
    */
   static streamerBlocks = async (searchCriteria, noOfBlock) => {
   	const streamerBlocks = await http.blockPaginationStreamer
@@ -71,9 +71,9 @@ class BlockService {
 
   /**
    * Gets a merkle path for merkle proof.
-   * @param height - Block height
-   * @param hash Transaction hash
-   * @returns MerkleProofInfo[]
+   * @param {number} height - block height.
+   * @param {string} hash Transaction hash.
+   * @returns {array} MerkleProofInfos
    */
   static getMerkleTransaction = async (height, hash) => {
   	const merklePath = await http.createRepositoryFactory.createBlockRepository()
@@ -85,10 +85,10 @@ class BlockService {
 
   /**
    * Gets transactions a merkle tree.
-   * @param height - Block height
-   * @returns merkleTree object
+   * @param {number} height - block height.
+   * @returns {object} merkleTree object.
    */
-  static getMerkleTransactionTree = async (height) => {
+  static getMerkleTransactionTree = async height => {
   	const searchCriteria = {
   		group: TransactionGroup.Confirmed,
   		height: UInt64.fromUint(height),
@@ -114,11 +114,11 @@ class BlockService {
   }
 
   /**
-   * Get formatted BlockInfo[] dataset into Vue Component
-   * @param pageInfo - pageNumber and pageSize
-   * @returns Block info list
+   * Get formatted BlockInfo[] dataset into Vue Component.
+   * @param {object} pageInfo - pageNumber and pageSize.
+   * @returns {object} Block info list.
    */
-  static getBlockList = async (pageInfo) => {
+  static getBlockList = async pageInfo => {
   	const { pageNumber, pageSize } = pageInfo;
   	const blockSearchCriteria = {
   		pageNumber,
@@ -146,7 +146,9 @@ class BlockService {
   				age: helper.convertToUTCDate(block.timestamp),
   				harvester: {
   					signer: block.signer,
-  					linkedAddress: supplementalPublicKeys.linked === Constants.Message.UNAVAILABLE ? block.signer : helper.publicKeyToAddress(supplementalPublicKeys.linked)
+  					linkedAddress: supplementalPublicKeys.linked === Constants.Message.UNAVAILABLE
+					  ? block.signer
+					  : helper.publicKeyToAddress(supplementalPublicKeys.linked)
 				  }
   			};
   		})
@@ -155,12 +157,12 @@ class BlockService {
 
   /**
    * Get Custom Transactions dataset into Vue Component
-   * @param pageInfo - object for page info such as pageNumber, pageSize
-   * @param filterVaule - object for search criteria
-   * @param height -  block height
-   * @returns Custom Transactions dataset
+   * @param {object} pageInfo - page info such as pageNumber, pageSize
+   * @param {object} filterValue - search criteria
+   * @param {number} height -  block height
+   * @returns {object} Custom Transactions dataset
    */
-  static getBlockTransactionList = async (pageInfo, filterVaule, height) => {
+  static getBlockTransactionList = async (pageInfo, filterValue, height) => {
   	const { pageNumber, pageSize } = pageInfo;
   	const searchCriteria = {
   		pageNumber,
@@ -169,7 +171,7 @@ class BlockService {
   		type: [],
   		group: TransactionGroup.Confirmed,
   		height: UInt64.fromUint(height),
-  		...filterVaule
+  		...filterValue
 	  };
 
   	const [blockInfo, searchTransactions] = await Promise.all([
@@ -194,17 +196,20 @@ class BlockService {
   }
 
   /**
-   * Gets formatted Receipt and Resolution statements
-   * @param height - Block height.
-   * @returns Receipt and Resolution info object
+   * Gets formatted Receipt and Resolution statements.
+   * @param {number} height - block height.
+   * @returns {object} Receipt and Resolution info object.
    */
-  static getBlockReceiptsInfo = async (height) => {
+  static getBlockReceiptsInfo = async height => {
   	const searchCriteria = {
   		order: Order.Desc,
   		height: UInt64.fromUint(height)
 	  };
 
-  	const [address, mosaic] = await Promise.all([ReceiptService.streamerAddressResolution(searchCriteria), ReceiptService.streamerMosaicResolution(searchCriteria)]);
+  	const [address, mosaic] = await Promise.all([
+			  ReceiptService.streamerAddressResolution(searchCriteria),
+			  ReceiptService.streamerMosaicResolution(searchCriteria)
+  	]);
 
   	return {
   		resolutionStatements: [...address, ...mosaic]
@@ -212,9 +217,9 @@ class BlockService {
   }
 
   /**
-   * Get formatted BlockInfo dataset into Vue Component
-   * @param height - Block height.
-   * @returns Block info object
+   * Get formatted BlockInfo dataset into Vue Component.
+   * @param {number} height - block height.
+   * @returns {object} block info object.
    */
   static getBlockInfo = async height => {
   	const block = await this.getBlockByHeight(height);
@@ -246,7 +251,9 @@ class BlockService {
   		blockHash: block.hash,
   		harvester: {
   			signer: block.signer,
-  			linkedAddress: supplementalPublicKeys.linked === Constants.Message.UNAVAILABLE ? block.signer : helper.publicKeyToAddress(supplementalPublicKeys.linked)
+  			linkedAddress: supplementalPublicKeys.linked === Constants.Message.UNAVAILABLE
+			  ? block.signer
+			  : helper.publicKeyToAddress(supplementalPublicKeys.linked)
   		},
   		merkleInfo: {
   			stateHash,
@@ -259,29 +266,34 @@ class BlockService {
 
   /**
    * Gets block receipt list into Vue Component.
-   * @param pageInfo - object for page info such as pageNumber, pageSize
-   * @param filterVaule - object for search criteria
-   * @param height - Block height.
-   * @returns formatted receipt data list
+   * @param {object} pageInfo - page info such as pageNumber, pageSize.
+   * @param {object} filterValue - search criteria.
+   * @param {number} height - block height.
+   * @returns {object} formatted receipt data list
    */
-  static getBlockReceiptList = async (pageInfo, filterVaule, height) => {
+  static getBlockReceiptList = async (pageInfo, filterValue, height) => {
   	const { pageNumber, pageSize } = pageInfo;
 
-  	const { BalanceTransferReceipt, BalanceChangeReceipt, InflationReceipt, ArtifactExpiryReceipt } = Constants.ReceiptTransactionStatamentType;
+  	const {
+		  BalanceTransferReceipt,
+		  BalanceChangeReceipt,
+		  InflationReceipt,
+		  ArtifactExpiryReceipt
+  	} = Constants.ReceiptTransactionStatementType;
 
   	const searchCriteria = {
   		pageNumber,
   		pageSize,
   		order: Order.Desc,
   		height: UInt64.fromUint(height),
-  		...filterVaule
+  		...filterValue
   	};
 
   	const receipt = await ReceiptService.searchReceipts(searchCriteria);
 
   	let formattedReceipt = [];
 
-  	switch (filterVaule.receiptTransactionStatementType) {
+  	switch (filterValue.receiptTransactionStatementType) {
   	case BalanceTransferReceipt:
   		formattedReceipt = await ReceiptService.createReceiptTransactionStatement(receipt.data.balanceTransferStatement);
   		break;
@@ -305,9 +317,9 @@ class BlockService {
   }
 
   /**
-   * Format Block to readable Block object
-   * @param BlockDTO
-   * @returns Object readable BlockDTO object
+   * Format Block to readable Block object.
+   * @param {object} block BlockDTO.
+   * @returns {object} readable BlockDTO object.
    */
   static formatBlock = block => ({
   	...block,

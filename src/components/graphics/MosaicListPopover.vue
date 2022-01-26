@@ -40,7 +40,7 @@ export default {
 	},
 
 	methods: {
-		click() {
+		click () {
 			this.$emit('click', this.mosaicId);
 		}
 	}

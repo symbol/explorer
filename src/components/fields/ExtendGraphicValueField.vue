@@ -77,14 +77,14 @@ export default {
 		ExtendMosaicGlobalRestrictionValue
 	},
 
-	data() {
+	data () {
 		return {
 			TransactionType
 		};
 	},
 
 	computed: {
-		extendGraphicComponent() {
+		extendGraphicComponent () {
 			switch (this.transactionType) {
 			case TransactionType.TRANSFER: return 'ExtendTransferValue';
 			case 'outgoing_' + TransactionType.TRANSFER: return 'ExtendTransferValue';

@@ -90,15 +90,15 @@ export default {
 	},
 
 	computed: {
-		transactionType() {
+		transactionType () {
 			return this.getTransactionTypeCaption(this.type);
 		},
 
-		circleIconsToDisplay() {
+		circleIconsToDisplay () {
 			return [true];
 		},
 
-		secretProofInfo() {
+		secretProofInfo () {
 			return {
 				secret: this.secret,
 				hashAlgorithm: this.hashAlgorithm,

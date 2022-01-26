@@ -83,56 +83,52 @@ export default {
 	},
 
 	computed: {
-		manager() {
+		manager () {
 			return this.getter(this.managerGetter) || {};
 		},
 
-		data() {
+		data () {
 			return this.getter(this.dataGetter) || this.manager.data;
 		},
 
-		loading() {
+		loading () {
 			return this.manager.loading;
 		},
 
-		error() {
+		error () {
 			return this.manager.error;
 		},
 
-		nodeList() {
+		nodeList () {
 			return this.data || [];
 		},
 
-		filterValue() {
+		filterValue () {
 			return this.manager.filterValue;
 		},
 
-		filterIndex() {
+		filterIndex () {
 			return this.manager.filterIndex;
 		},
 
-		filterOptions() {
+		filterOptions () {
 			return this.manager.filterOptions;
 		}
 	},
 
 	methods: {
-		getNameByKey(e) {
+		getNameByKey (e) {
 			return this.$store.getters['ui/getNameByKey'](e);
 		},
 
-		getter(name) {
+		getter (name) {
 			return this.$store.getters[name];
 		},
 
-		changeFilterValue(e) {
-			if (typeof this.manager.changeFilterValue === 'function')
-				this.manager.changeFilterValue(e);
-			else {
-				console.error(
-					'Failed to change filter value. "changeFilterValue" is not a function'
-				);
-			}
+		changeFilterValue (e) {
+			if ('function' === typeof this.manager.changeFilterValue)
+				this.manager.changeFilterValue(e); else
+				console.error('Failed to change filter value. "changeFilterValue" is not a function');
 		}
 	}
 };

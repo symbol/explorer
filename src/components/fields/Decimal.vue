@@ -29,7 +29,7 @@ export default {
 		value: String
 	},
 	methods: {
-		decimalSplit(value) {
+		decimalSplit (value) {
 			return value.split('.', 2);
 		}
 	}

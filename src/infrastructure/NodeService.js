@@ -24,8 +24,8 @@ import helper from '../helper';
 
 class NodeService {
     /**
-     * Get Storage Info from symbol SDK
-     * @returns StorageInfo
+     * Get Storage Info from symbol SDK.
+     * @returns {object} StorageInfo
      */
     static getStorageInfo = () => {
     	return http.createRepositoryFactory.createNodeRepository()
@@ -34,8 +34,8 @@ class NodeService {
     }
 
     /**
-     * Get Node Info from symbol SDK
-     * @returns NodeInfo
+     * Get Node Info from symbol SDK.
+     * @returns {object} NodeInfo
      */
     static getCurrentNodeInfo = () => {
     	return http.createRepositoryFactory.createNodeRepository()
@@ -44,45 +44,37 @@ class NodeService {
     }
 
     /**
-     * Get Server Info from symbol SDK
-     * @returns ServerInfo
-     */
-    static getServerInfo = () => {
-    	return http.node.getServerInfo().toPromise();
-    }
-
-    /**
-     * Get Node Peers from symbol SDK
-     * @returns NodeInfo[]
+     * Get Node Peers from symbol SDK.
+     * @returns {array} NodeInfo[]
      */
     static getNodePeers = async () => {
     	let nodePeers = [];
 
     	try {
     		nodePeers = await http.statisticServiceRestClient().getNodes();
-    	}
-    	catch (e) {
+    	} catch (e) {
     		console.error('Statistics service getNodes error: ', e);
     	}
 
-    	const formattedNodePeers = nodePeers.map(nodeInfo => this.formatNodeInfo(nodeInfo)).sort((a, b) => a.friendlyName.localeCompare(b.friendlyName));
+    	const formattedNodePeers = nodePeers
+    		.map(nodeInfo => this.formatNodeInfo(nodeInfo))
+    		.sort((a, b) => a.friendlyName.localeCompare(b.friendlyName));
 
     	return formattedNodePeers;
     }
 
     /**
      * Get node health status by endpoint.
-     * @param string api-node endpoint such as http:localhost:3000
-     * @returns boolean
+     * @param {string} currentUrl api-node endpoint such as http:localhost:3000
+     * @returns {boolean} boolean
      */
-    static isNodeActive = async (currentUrl) => {
+    static isNodeActive = async currentUrl => {
     	let status = true;
 
     	try {
     		await new symbol.NodeHttp(currentUrl).getNodeHealth()
     			.toPromise();
-    	}
-    	catch (e) {
+    	} catch (e) {
     		status = false;
     	}
 
@@ -90,9 +82,9 @@ class NodeService {
     }
 
     /**
-     * Format NodoInfoDTO to readable NodoInfo object
-     * @param NodoInfoDTO
-     * @returns Object readable NodeInfo object
+     * Format NodeInfoDTO to readable NodeInfo object.
+     * @param {object} nodeInfo NodeInfoDTO.
+     * @returns {object} readable NodeInfo.
      */
     static formatNodeInfo = nodeInfo => ({
     	...nodeInfo,
@@ -103,26 +95,27 @@ class NodeService {
     	network: Constants.NetworkType[nodeInfo.networkIdentifier],
     	version: helper.formatNodeVersion(nodeInfo.version),
     	apiEndpoint:
-            nodeInfo.roles === 2 ||
-            nodeInfo.roles === 3 ||
-            nodeInfo.roles === 6 ||
-            nodeInfo.roles === 7
+            2 === nodeInfo.roles ||
+            3 === nodeInfo.roles ||
+            6 === nodeInfo.roles ||
+            7 === nodeInfo.roles
             	? nodeInfo.apiStatus.restGatewayUrl
             	: Constants.Message.UNAVAILABLE
     })
 
     /**
-     * Format Node Peers dataset into Vue Component
-     * @returns Node peers object for Vue component
+     * Format Node Peers dataset into Vue Component.
+	 * @param {string} filter role filter.
+     * @returns {object} Node peers object for Vue component.
      */
-    static getNodePeerList = async (filter) => {
+    static getNodePeerList = async filter => {
     	let nodePeers = await this.getNodePeers();
 
     	return {
     		data:
                 nodePeers
                 	.filter(el => !filter.rolesRaw || el.rolesRaw === filter.rolesRaw)
-                	.map((el) => {
+                	.map(el => {
                 		let node = {
                 			...el
                 		};
@@ -143,9 +136,7 @@ class NodeService {
                 				restVersion,
                 				isHttpsEnabled
                 			};
-                		}
-                		else
-                			node['chainInfo'] = {};
+                		} else { node['chainInfo'] = {}; }
 
                 		if (node?.hostDetail) {
                 			node = { ...node, ...node.hostDetail };
@@ -157,29 +148,36 @@ class NodeService {
     	};
     }
 
-    static getNodeInfo = async (publicKey) => {
+    static getNodeInfo = async publicKey => {
     	let node = {};
 
     	try {
     		node = await http.statisticServiceRestClient().getNode(publicKey);
-    	}
-    	catch (e) {
+    	} catch (e) {
     		throw Error('Statistics service getNode error: ', e);
     	}
     	const formattedNode = this.formatNodeInfo(node);
 
-    	if (formattedNode.rolesRaw === 2 ||
-            formattedNode.rolesRaw === 3 ||
-            formattedNode.rolesRaw === 6 ||
-            formattedNode.rolesRaw === 7
+    	if (2 === formattedNode.rolesRaw ||
+            3 === formattedNode.rolesRaw ||
+            6 === formattedNode.rolesRaw ||
+            7 === formattedNode.rolesRaw
     	) {
-    		const { finalization, chainHeight, lastStatusCheck, nodeStatus, isAvailable, isHttpsEnabled, restVersion } = formattedNode.apiStatus;
+    		const {
+    			finalization,
+    			chainHeight,
+    			lastStatusCheck,
+    			nodeStatus,
+    			isAvailable,
+    			isHttpsEnabled,
+    			restVersion
+    		} = formattedNode.apiStatus;
 
     		// // Api status
     		formattedNode.apiStatus = {
     			connectionStatus: isAvailable,
-    			databaseStatus: nodeStatus?.db === 'up' || Constants.Message.UNAVAILABLE,
-    			apiNodeStatus: nodeStatus?.apiNode === 'up' || Constants.Message.UNAVAILABLE,
+    			databaseStatus: 'up' === nodeStatus?.db || Constants.Message.UNAVAILABLE,
+    			apiNodeStatus: 'up' === nodeStatus?.apiNode || Constants.Message.UNAVAILABLE,
     			isHttpsEnabled,
     			restVersion,
     			lastStatusCheck: moment.utc(lastStatusCheck).format('YYYY-MM-DD HH:mm:ss')
@@ -195,9 +193,7 @@ class NodeService {
     				finalizedHash: finalization?.hash,
     				lastStatusCheck: moment.utc(lastStatusCheck).format('YYYY-MM-DD HH:mm:ss')
     			};
-    		}
-    		else
-    			formattedNode.chainInfo = {};
+    		} else { formattedNode.chainInfo = {}; }
     	}
     	if (formattedNode?.peerStatus)
     		formattedNode.peerStatus.lastStatusCheck = moment(formattedNode.peerStatus.lastStatusCheck).format('YYYY-MM-DD HH:mm:ss');
@@ -207,8 +203,7 @@ class NodeService {
 	static getNodeStats = async () => {
 		try {
 			return await http.statisticServiceRestClient().getNodeStats();
-		}
-		catch (e) {
+		} catch (e) {
 			throw Error('Statistics service getNodeStats error: ', e);
 		}
 	}
@@ -227,13 +222,12 @@ class NodeService {
 					data: data.finalizedHeight.map(el => ({ x: '' + parseInt(el.value), y: parseInt(el.count) }))
 				}
 			];
-		}
-		catch (e) {
+		} catch (e) {
 			throw Error('Statistics service getNodeHeightStats error: ', e);
 		}
 	}
 
-	static getNodeListCSV = async (filter) => {
+	static getNodeListCSV = async filter => {
 		const nodes = await this.getNodePeerList(filter);
 
 		const formattedData = nodes.data.map((node, index) => ({
@@ -254,24 +248,23 @@ class NodeService {
 	}
 
 	/**
-     * Gets node list from statistics service
-	 * @param filter (optional) 'preferred | suggested'
-	 * @param limit (optional) number of records
-	 * @param ssl (optional) return ssl ready node.
-     * @returns nodes
+     * Gets node list from statistics service.
+	 * @param {string} filter (optional) 'preferred | suggested'.
+	 * @param {number} limit (optional) number of records.
+	 * @param {boolean} ssl (optional) return ssl ready node.
+     * @returns {array} nodes
      */
 	 static getNodeList = async (filter, limit, ssl) => {
     	try {
 	 		return await http.statisticServiceRestClient().getNodes(filter, limit, ssl);
-    	}
-    	catch (e) {
+    	} catch (e) {
 	 		throw Error('Statistics service getNodeHeightStats error: ', e);
 	 	}
 	 }
 
 	 /**
-     * Get API node list dataset into Vue Component
-     * @returns API Node list object for Vue component
+     * Get API node list dataset into Vue Component.
+     * @returns {array} API Node list object for Vue component.
      */
 	 static getAPINodeList = async () => {
 	 	// get 30 ssl ready nodes from statistics service the list

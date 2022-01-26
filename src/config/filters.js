@@ -17,7 +17,7 @@ const customTransactionReceiptFilter = {
 			ReceiptType.Mosaic_Rental_Fee,
 			ReceiptType.Namespace_Rental_Fee
 		],
-		receiptTransactionStatementType: Constants.ReceiptTransactionStatamentType.BalanceTransferReceipt
+		receiptTransactionStatementType: Constants.ReceiptTransactionStatementType.BalanceTransferReceipt
 	},
 	balanceChange: {
 		receiptTypes: [
@@ -29,7 +29,7 @@ const customTransactionReceiptFilter = {
 			ReceiptType.LockSecret_Completed,
 			ReceiptType.LockSecret_Expired
 		],
-		receiptTransactionStatementType: Constants.ReceiptTransactionStatamentType.BalanceChangeReceipt
+		receiptTransactionStatementType: Constants.ReceiptTransactionStatementType.BalanceChangeReceipt
 	},
 	artifactExpiry: {
 		receiptTypes: [
@@ -37,13 +37,13 @@ const customTransactionReceiptFilter = {
 			ReceiptType.Namespace_Expired,
 			ReceiptType.Namespace_Deleted
 		],
-		receiptTransactionStatementType: Constants.ReceiptTransactionStatamentType.ArtifactExpiryReceipt
+		receiptTransactionStatementType: Constants.ReceiptTransactionStatementType.ArtifactExpiryReceipt
 	},
 	inflation: {
 		receiptTypes: [
 			ReceiptType.Inflation
 		],
-		receiptTransactionStatementType: Constants.ReceiptTransactionStatamentType.InflationReceipt
+		receiptTransactionStatementType: Constants.ReceiptTransactionStatementType.InflationReceipt
 	}
 };
 
@@ -383,7 +383,7 @@ export const payouts = [
 
 export const accountTransactionReceipt = [
 	{
-		label: Constants.ReceiptTransactionStatamentType.BalanceChangeReceipt,
+		label: Constants.ReceiptTransactionStatementType.BalanceChangeReceipt,
 		icon: 'mdi-receipt',
 		value: {
 			...customTransactionReceiptFilter.balanceChange,
@@ -391,7 +391,7 @@ export const accountTransactionReceipt = [
 		}
 	},
 	{
-		label: Constants.ReceiptTransactionStatamentType.BalanceTransferReceipt,
+		label: Constants.ReceiptTransactionStatementType.BalanceTransferReceipt,
 		icon: 'mdi-receipt',
 		value: {
 			...customTransactionReceiptFilter.balanceTransfer
@@ -401,28 +401,28 @@ export const accountTransactionReceipt = [
 
 export const blockTransactionReceipt = [
 	{
-		label: Constants.ReceiptTransactionStatamentType.BalanceChangeReceipt,
+		label: Constants.ReceiptTransactionStatementType.BalanceChangeReceipt,
 		icon: 'mdi-alert',
 		value: {
 			...customTransactionReceiptFilter.balanceChange
 		}
 	},
 	{
-		label: Constants.ReceiptTransactionStatamentType.BalanceTransferReceipt,
+		label: Constants.ReceiptTransactionStatementType.BalanceTransferReceipt,
 		icon: 'mdi-alert',
 		value: {
 			...customTransactionReceiptFilter.balanceTransfer
 		}
 	},
 	{
-		label: Constants.ReceiptTransactionStatamentType.ArtifactExpiryReceipt,
+		label: Constants.ReceiptTransactionStatementType.ArtifactExpiryReceipt,
 		icon: 'mdi-alert',
 		value: {
 			...customTransactionReceiptFilter.artifactExpiry
 		}
 	},
 	{
-		label: Constants.ReceiptTransactionStatamentType.InflationReceipt,
+		label: Constants.ReceiptTransactionStatementType.InflationReceipt,
 		icon: 'mdi-alert',
 		value: {
 			...customTransactionReceiptFilter.inflation

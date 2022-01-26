@@ -60,7 +60,7 @@ export default {
 		Decimal
 	},
 
-	data() {
+	data () {
 		return {
 			ConnectorIcon,
 			IconCopy
@@ -68,13 +68,13 @@ export default {
 	},
 
 	computed: {
-		data() {
+		data () {
 			return this.dataGetter
 				? this.$store.getters[this.dataGetter]
 				: this.$store.getters[this.managerGetter].data;
 		},
 
-		balance() {
+		balance () {
 			// Only display network Currency
 			if (this.data.mosaic && http.networkCurrency.mosaicId === this.data.mosaic.mosaicId)
 				return this.data.mosaic.amount;
@@ -82,42 +82,42 @@ export default {
 			return '0';
 		},
 
-		address() {
+		address () {
 			return this.data.address;
 		},
 
-		alias() {
+		alias () {
 			return Constants.Message.UNAVAILABLE !== this.data.alias[0]
 				? this.data.alias[0]
 				: this.getNameByKey('noAlias');
 		},
 
-		mosaicName() {
+		mosaicName () {
 			// Only display for network currency
 			return http.networkCurrency.namespaceName.split('.').pop();
 		},
 
-		loading() {
+		loading () {
 			return this.$store.getters[this.managerGetter].loading;
 		},
 
-		error() {
+		error () {
 			return this.$store.getters[this.managerGetter].error;
 		}
 	},
 
 	methods: {
-		getNameByKey(e) {
+		getNameByKey (e) {
 			return this.$store.getters['ui/getNameByKey'](e);
 		},
 
-		onCopyClick() {
+		onCopyClick () {
 			helper.copyTextToClipboard(this.address)
 				.then(() => this.successMsg())
 				.catch(() => this.errorMsg());
 		},
 
-		successMsg() {
+		successMsg () {
 			this.$bvToast.toast(this.getNameByKey('addressBeenCopied'), {
 				variant: 'success',
 				solid: true,
@@ -125,7 +125,7 @@ export default {
 			});
 		},
 
-		errorMsg() {
+		errorMsg () {
 			this.$bvToast.toast(this.getNameByKey('failedToCopy'), {
 				variant: 'danger',
 				solid: true,

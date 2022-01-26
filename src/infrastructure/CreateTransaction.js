@@ -23,7 +23,7 @@ import { NamespaceService } from '../infrastructure';
 import { Address, Mosaic, MosaicId } from 'symbol-sdk';
 
 class CreateTransaction {
-    static transferTransaction = async (transactionObj) => {
+    static transferTransaction = async transactionObj => {
     	const { transactionInfo } = transactionObj;
     	const [resolvedAddress, mosaicsFieldObject] = await Promise.all([
     		helper.resolvedAddress(transactionObj.recipientAddress, transactionInfo.height),
@@ -41,7 +41,7 @@ class CreateTransaction {
     	};
     }
 
-    static namespaceRegistration = async (transactionObj) => {
+    static namespaceRegistration = async transactionObj => {
     	return {
     		...transactionObj,
   			transactionBody: {
@@ -50,13 +50,13 @@ class CreateTransaction {
   				registrationType: Constants.NamespaceRegistrationType[transactionObj.registrationType],
   				namespaceName: transactionObj.namespaceName,
   				namespaceId: transactionObj.namespaceId.toHex(),
-  				parentId: typeof transactionObj.parentId !== 'undefined' ? transactionObj.parentId?.toHex() : Constants.Message.UNAVAILABLE,
-  				duration: typeof transactionObj.duration !== 'undefined' ? transactionObj.duration?.compact() : Constants.Message.UNLIMITED
+  				parentId: 'undefined' !== typeof transactionObj.parentId ? transactionObj.parentId?.toHex() : Constants.Message.UNAVAILABLE,
+  				duration: 'undefined' !== typeof transactionObj.duration ? transactionObj.duration?.compact() : Constants.Message.UNLIMITED
   			}
     	};
     }
 
-    static addressAlias = async (transactionObj) => {
+    static addressAlias = async transactionObj => {
     	const namespaceNames = await NamespaceService.getNamespacesNames([transactionObj.namespaceId]);
     	const namespaceName = namespaceNames.find(namespace => namespace.namespaceId === transactionObj.namespaceId.toHex());
 
@@ -72,7 +72,7 @@ class CreateTransaction {
     	};
     }
 
-    static mosaicAlias = async (transactionObj) => {
+    static mosaicAlias = async transactionObj => {
     	const namespaceNames = await NamespaceService.getNamespacesNames([transactionObj.namespaceId]);
     	const namespaceName = namespaceNames.find(namespace => namespace.namespaceId === transactionObj.namespaceId.toHex());
 
@@ -88,7 +88,7 @@ class CreateTransaction {
     	};
     };
 
-    static mosaicDefinition = async (transactionObj) => {
+    static mosaicDefinition = async transactionObj => {
     	const resolvedMosaic = await helper.resolveMosaicId(transactionObj.mosaicId);
 
     	return {
@@ -108,7 +108,7 @@ class CreateTransaction {
     	};
     };
 
-    static mosaicSupplyChange = async (transactionObj) => {
+    static mosaicSupplyChange = async transactionObj => {
     	const resolvedMosaic = await helper.resolveMosaicId(transactionObj.mosaicId);
 
     	return {
@@ -122,7 +122,7 @@ class CreateTransaction {
     	};
     };
 
-  static mosaicSupplyRevocation = async (transactionObj) => {
+  static mosaicSupplyRevocation = async transactionObj => {
   	const resolvedMosaic = await helper.resolveMosaicId(transactionObj.mosaic);
   	const mosaic = new Mosaic(new MosaicId(resolvedMosaic.toHex()), transactionObj.mosaic.amount);
 
@@ -138,7 +138,7 @@ class CreateTransaction {
   	};
   };
 
-    static multisigAccountModification = async (transactionObj) => {
+    static multisigAccountModification = async transactionObj => {
     	const { transactionInfo } = transactionObj;
     	const [addressAdditions, addressDeletions] = await Promise.all([
     		Promise.all(transactionObj.addressAdditions.map(address => {
@@ -161,7 +161,7 @@ class CreateTransaction {
     	};
     }
 
-    static hashLock = async (transactionObj) => {
+    static hashLock = async transactionObj => {
     	const resolvedMosaic = await helper.resolveMosaicId(transactionObj.mosaic);
 
     	const mosaic = new Mosaic(new MosaicId(resolvedMosaic.toHex()), transactionObj.mosaic.amount);
@@ -179,7 +179,7 @@ class CreateTransaction {
     	};
     }
 
-    static secretLock = async (transactionObj) => {
+    static secretLock = async transactionObj => {
     	const { transactionInfo } = transactionObj;
     	const [mosaicsFieldObject, resolvedAddress] = await Promise.all([
     		helper.mosaicsFieldObjectBuilder([transactionObj.mosaic]),
@@ -199,7 +199,7 @@ class CreateTransaction {
     	};
     };
 
-    static secretProof = async (transactionObj) => {
+    static secretProof = async transactionObj => {
     	const { transactionInfo } = transactionObj;
     	const resolvedAddress = await helper.resolvedAddress(transactionObj.recipientAddress, transactionInfo.height);
 
@@ -215,7 +215,7 @@ class CreateTransaction {
     	};
     };
 
-    static accountAddressRestriction = async (transactionObj) => {
+    static accountAddressRestriction = async transactionObj => {
     	const { transactionInfo } = transactionObj;
     	const [addressAdditions, addressDeletions] = await Promise.all([
     		Promise.all(transactionObj.restrictionAdditions.map(address => {
@@ -237,7 +237,7 @@ class CreateTransaction {
     	};
     };
 
-    static accountMosaicRestriction = async (transactionObj) => {
+    static accountMosaicRestriction = async transactionObj => {
     	// Todo: mosaic restriction field
     	return {
     		...transactionObj,
@@ -250,7 +250,7 @@ class CreateTransaction {
     	};
     }
 
-    static accountOperationRestriction = async (transactionObj) => {
+    static accountOperationRestriction = async transactionObj => {
     	return {
     		...transactionObj,
     		transactionBody: {
@@ -262,7 +262,7 @@ class CreateTransaction {
     	};
     };
 
-    static mosaicAddressRestriction = async (transactionObj) => {
+    static mosaicAddressRestriction = async transactionObj => {
     	const { transactionInfo } = transactionObj;
     	const [resolvedMosaic, targetAddress] = await Promise.all([
     		helper.resolveMosaicId(transactionObj.mosaicId),
@@ -285,8 +285,10 @@ class CreateTransaction {
     	};
     };
 
-    static mosaicGlobalRestriction = async (transactionObj) => {
-    	const referenceMosaicId = transactionObj.referenceMosaicId.toHex() === '0000000000000000' ? transactionObj.mosaicId : transactionObj.referenceMosaicId;
+    static mosaicGlobalRestriction = async transactionObj => {
+    	const referenceMosaicId = '0000000000000000' === transactionObj.referenceMosaicId.toHex()
+    		? transactionObj.mosaicId
+    		: transactionObj.referenceMosaicId;
     	const mosaicAliasNames = await helper.getMosaicAliasNames(referenceMosaicId);
 
     	return {
@@ -304,8 +306,7 @@ class CreateTransaction {
     	};
     };
 
-    static accountMetadata = async (transactionObj) => {
-    	console.log('CreateTransaction accountMetadata :>> ', transactionObj);
+    static accountMetadata = async transactionObj => {
     	const { transactionInfo } = transactionObj;
     	const resolvedAddress = await helper.resolvedAddress(transactionObj.targetAddress, transactionInfo.height);
 
@@ -321,7 +322,7 @@ class CreateTransaction {
     	};
     };
 
-    static mosaicMetadata = async (transactionObj) => {
+    static mosaicMetadata = async transactionObj => {
     	const { transactionInfo } = transactionObj;
     	const [resolvedMosaic, resolvedAddress] = await Promise.all([
     		helper.resolveMosaicId(transactionObj.targetMosaicId),
@@ -344,7 +345,7 @@ class CreateTransaction {
     	};
     };
 
-    static namespaceMetadata = async (transactionObj) => {
+    static namespaceMetadata = async transactionObj => {
     	const { transactionInfo } = transactionObj;
     	const [namespaceName, resolvedAddress] = await Promise.all([
     		NamespaceService.getNamespacesNames([transactionObj.targetNamespaceId]),
@@ -365,7 +366,7 @@ class CreateTransaction {
     	};
     };
 
-    static votingKeyLink = async (transactionObj) => {
+    static votingKeyLink = async transactionObj => {
     	return {
     		...transactionObj,
     		transactionBody: {
@@ -378,7 +379,7 @@ class CreateTransaction {
     	};
     };
 
-    static vrfKeyLink = async (transactionObj) => {
+    static vrfKeyLink = async transactionObj => {
     	return {
     		...transactionObj,
     		transactionBody: {
@@ -390,7 +391,7 @@ class CreateTransaction {
     	};
     };
 
-    static nodeKeyLink = async (transactionObj) => {
+    static nodeKeyLink = async transactionObj => {
     	return {
     		...transactionObj,
     		transactionBody: {
@@ -402,7 +403,7 @@ class CreateTransaction {
     	};
     };
 
-    static accountKeyLink = async (transactionObj) => {
+    static accountKeyLink = async transactionObj => {
     	return {
     		...transactionObj,
     		transactionBody: {

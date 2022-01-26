@@ -83,15 +83,15 @@ export default {
 	},
 
 	computed: {
-		transactionType() {
+		transactionType () {
 			return this.getTransactionTypeCaption(this.type);
 		},
 
-		circleIconsToDisplay() {
+		circleIconsToDisplay () {
 			return [true];
 		},
 
-		restrictionAddress() {
+		restrictionAddress () {
 			return {
 				added: this.restrictionAddressAdditions,
 				removed: this.restrictionAddressDeletions

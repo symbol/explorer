@@ -34,26 +34,25 @@ export default {
 		ThemeToggle
 	},
 
-	mounted() {
-		let DesktopMenu = this.$refs.DesktopMenu;
+	mounted () {
+		let { DesktopMenu } = this.$refs;
 
 		let offset = DesktopMenu.offsetTop;
 
 		window.onscroll = () => {
 			if (window.pageYOffset > offset)
-				this.fixed = true;
-			else
+				this.fixed = true; else
 				this.fixed = false;
 		};
 	},
 
 	computed: {
-		isTestnet() {
+		isTestnet () {
 			return this.$store.getters['api/isTestnet'];
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			items: pageMenu.items,
 			fixed: false,

@@ -31,10 +31,10 @@
 <script>
 export default {
 	computed: {
-		currentYear() {
+		currentYear () {
 			return new Date().getFullYear();
 		},
-		appVersion() {
+		appVersion () {
 			return this.$store.getters['api/appVersion'];
 		}
 	}

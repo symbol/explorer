@@ -43,7 +43,7 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			IconTransfer,
 			IconTransferIncoming,
@@ -62,13 +62,15 @@ export default {
 	},
 
 	computed: {
-		iconUrl() {
+		iconUrl () {
 			switch (this.extractTransactionType(this.value)) {
 			case TransactionType.TRANSFER:
 				if (this.value.toString().toLowerCase()
-					.includes('incoming')) return this.IconTransferIncoming;
+					.includes('incoming'))
+					return this.IconTransferIncoming;
 				if (this.value.toString().toLowerCase()
-					.includes('outgoing')) return this.IconTransferOutgoing;
+					.includes('outgoing'))
+					return this.IconTransferOutgoing;
 				return this.IconTransfer;
 			case TransactionType.NAMESPACE_REGISTRATION:
 			case TransactionType.ADDRESS_ALIAS:
@@ -109,7 +111,7 @@ export default {
 			}
 		},
 
-		transactionText() {
+		transactionText () {
 			const transactionType = this.value.toString()
 				.replace('incoming_', '')
 				.replace('outgoing_', '');
@@ -119,14 +121,14 @@ export default {
 			return this.$store.getters['ui/getNameByKey'](transactionDescriptor);
 		},
 
-		iconSizeClass() {
+		iconSizeClass () {
 			return 'icon-' + this.size;
 		}
 	},
 
 	methods: {
-		extractTransactionType(value) {
-			if (typeof value === 'string')
+		extractTransactionType (value) {
+			if ('string' === typeof value)
 				return Number(value.split('_').pop());
 
 			return value;

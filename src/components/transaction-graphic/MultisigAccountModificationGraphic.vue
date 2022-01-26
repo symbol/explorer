@@ -105,7 +105,7 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			width: this.transactionGraphicWidth,
 			heigth: this.transactionGraphicHeight
@@ -113,15 +113,15 @@ export default {
 	},
 
 	computed: {
-		transactionType() {
+		transactionType () {
 			return this.getTransactionTypeCaption(this.type);
 		},
 
-		circleIconsToDisplay() {
+		circleIconsToDisplay () {
 			return [true, !!this.addressAdditions.length, !!this.addressDeletions.length];
 		},
 
-		data() {
+		data () {
 			return {
 				minRemovalDelta: this.minRemovalDelta,
 				minApprovalDelta: this.minApprovalDelta

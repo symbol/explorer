@@ -15,8 +15,8 @@ import Constants from '../config/constants';
 class RestrictionService {
   /**
    * Get Account Restriction from symbol SDK
-   * @param address - Account address to be created from PublicKey or RawAddress
-   * @returns AccountRestrictions[]
+   * @param {string} address - Account address to be created from PublicKey or RawAddress
+   * @returns {array} AccountRestrictions[]
    */
   static getAccountRestrictions = async address => {
   	let accountRestrictions;
@@ -25,8 +25,7 @@ class RestrictionService {
   		accountRestrictions = await http.createRepositoryFactory.createRestrictionAccountRepository()
   			.getAccountRestrictions(Address.createFromRawAddress(address))
   			.toPromise();
-  	}
-  	catch (e) {
+  	} catch (e) {
   		// To Catach statusCode 404 if Account restrictions are not available.
   		throw Error('Account restrictions are not available.');
 	  }
@@ -38,8 +37,8 @@ class RestrictionService {
 
   /**
    * Gets a mosaic restrictions list from searchCriteria
-   * @param restrictionMosaicSearchCriteria Object of Search Criteria
-   * @returns formatted namespace data with pagination info
+   * @param {object} restrictionMosaicSearchCriteria Object of Search Criteria
+   * @returns {object} formatted namespace data with pagination info
    */
   static searchMosaicRestrictions = async restrictionMosaicSearchCriteria => {
   	const searchMosaicRestrictions = await http.createRepositoryFactory.createRestrictionMosaicRepository()
@@ -59,9 +58,9 @@ class RestrictionService {
   }
 
   /**
-   * Format AccountRestriction to readable object
-   * @param AccountRestrictionDTO
-   * @returns Object readable AccountRestriction object
+   * Format AccountRestriction to readable object.
+   * @param {object} accountRestriction account restriction dto.
+   * @returns {object} readable AccountRestriction object.
    */
   static formatAccountRestriction = accountRestriction => {
   	switch (accountRestriction.restrictionFlags) {
@@ -89,9 +88,9 @@ class RestrictionService {
   }
 
   /**
-   * Format MosaicGlobalRestrictions to readable object
-   * @param MosaicGlobalRestrictionDTO
-   * @returns Object readable MosaicGlobalRestrictions object
+   * Format MosaicGlobalRestrictions to readable object.
+   * @param {object} mosaicRestriction mosaic global restriction dto.
+   * @returns {object } readable MosaicGlobalRestrictions object.
    */
   static formatMosaicGlobalRestriction = mosaicRestriction => {
   	let mosaicGlobalRestrictionItem = [];
@@ -110,15 +109,17 @@ class RestrictionService {
   			restrictionKey: item.key,
   			restrictionType: Constants.MosaicRestrictionType[item.restrictionType],
   			restrictionValue: item.restrictionValue,
-  			referenceMosaicId: item.referenceMosaicId.toHex() === '0000000000000000' ? mosaicRestriction.mosaicId.toHex() : item.referenceMosaicId.toHex()
+  			referenceMosaicId: '0000000000000000' === item.referenceMosaicId.toHex()
+			  ? mosaicRestriction.mosaicId.toHex()
+			  : item.referenceMosaicId.toHex()
   		}))
   	};
   }
 
   /**
-   * Format MosaicAddressRestriction to readable object
-   * @param addressRestrictionDTO
-   * @returns Custom address restriction object
+   * Format MosaicAddressRestriction to readable object.
+   * @param {object} addressRestriction address restriction dto.
+   * @returns {object} Custom address restriction object
    */
   static formatMosaicAddressRestriction = addressRestriction => {
   	let mosaicAddressRestrictionItem = [];
@@ -142,10 +143,10 @@ class RestrictionService {
 
   /**
    * Format Account Restriction list dataset into Vue component
-   * @param address - Address in string format.
-   * @returns Account Restriction list
+   * @param {string} address - Address in string format.
+   * @returns {array} Account Restriction list
    */
-  static getAccountRestrictionList = async (address) => {
+  static getAccountRestrictionList = async address => {
 	  const accountRestrictions = await this.getAccountRestrictions(address);
 
   	return accountRestrictions;
@@ -153,12 +154,12 @@ class RestrictionService {
 
   /**
    * Gets Mosaic Restriction list dataset into Vue component
-   * @param pageInfo - object for page info such as pageNumber, pageSize
-   * @param filterVaule - object for search criteria eg. mosaic global or mosaic address
-   * @param hexOrNamespace - hex value or namespace name
-   * @returns formatted mosaic restriction list
+   * @param {object} pageInfo - page info such as pageNumber, pageSize
+   * @param {object} filterValue - search criteria eg. mosaic global or mosaic address
+   * @param {string} hexOrNamespace - hex value or namespace name
+   * @returns {array} formatted mosaic restriction list
    */
-  static getMosaicRestrictionList = async (pageInfo, filterVaule, hexOrNamespace) => {
+  static getMosaicRestrictionList = async (pageInfo, filterValue, hexOrNamespace) => {
   	const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic');
 
   	const { pageNumber, pageSize } = pageInfo;
@@ -178,9 +179,9 @@ class RestrictionService {
 
   /**
    * Gets Mosaic Address Restriction list dataset into Vue component
-   * @param pageInfo - object for page info such as pageNumber, pageSize
-   * @param address - account Address
-   * @returns formatted mosaic address restriction list
+   * @param {object} pageInfo - object for page info such as pageNumber, pageSize
+   * @param {string} address - account Address
+   * @returns {array} formatted mosaic address restriction list
    */
   static getMosaicAddressRestrictionList = async (pageInfo, address) => {
   	const { pageNumber, pageSize } = pageInfo;

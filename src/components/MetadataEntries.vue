@@ -38,7 +38,7 @@ export default {
 		Card
 	},
 
-	data() {
+	data () {
 		return {
 			metadataEntries: 'metadataEntriesTitle'
 		};

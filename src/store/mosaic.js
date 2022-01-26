@@ -31,14 +31,15 @@ import {
 const managers = [
 	new Pagination({
 		name: 'timeline',
-		fetchFunction: (pageInfo) => MosaicService.getMosaicList(pageInfo),
+		fetchFunction: pageInfo => MosaicService.getMosaicList(pageInfo),
 		pageInfo: {
 			pageSize: Constants.PageSize
 		}
 	}),
 	new Pagination({
 		name: 'restrictions',
-		fetchFunction: (pageInfo, filterValue, store) => RestrictionService.getMosaicRestrictionList(pageInfo, filterValue, store.getters.getCurrentMosaicId),
+		fetchFunction: (pageInfo, filterValue, store) =>
+			RestrictionService.getMosaicRestrictionList(pageInfo, filterValue, store.getters.getCurrentMosaicId),
 		pageInfo: {
 			pageSize: Constants.PageSize
 		},
@@ -46,11 +47,12 @@ const managers = [
 	}),
 	new DataSet(
 		'info',
-		(hexOrNamespace) => MosaicService.getMosaicInfo(hexOrNamespace)
+		hexOrNamespace => MosaicService.getMosaicInfo(hexOrNamespace)
 	),
 	new Pagination({
 		name: 'metadatas',
-		fetchFunction: (pageInfo, filterValue, store) => MosaicService.getMosaicMetadataList(pageInfo, filterValue, store.getters.getCurrentMosaicId),
+		fetchFunction: (pageInfo, filterValue, store) =>
+			MosaicService.getMosaicMetadataList(pageInfo, filterValue, store.getters.getCurrentMosaicId),
 		pageInfo: {
 			pageSize: 10
 		},
@@ -58,14 +60,16 @@ const managers = [
 	}),
 	new Pagination({
 		name: 'balanceTransferReceipt',
-		fetchFunction: (pageInfo, filterValue, store) => MosaicService.getMosaicBalanceTransferReceipt(pageInfo, store.getters.getCurrentMosaicId),
+		fetchFunction: (pageInfo, filterValue, store) =>
+			MosaicService.getMosaicBalanceTransferReceipt(pageInfo, store.getters.getCurrentMosaicId),
 		pageInfo: {
 			pageSize: 10
 		}
 	}),
 	new Pagination({
 		name: 'artifactExpiryReceipt',
-		fetchFunction: (pageInfo, filterValue, store) => MosaicService.getMosaicArtifactExpiryReceipt(pageInfo, store.getters.getCurrentMosaicId),
+		fetchFunction: (pageInfo, filterValue, store) =>
+			MosaicService.getMosaicArtifactExpiryReceipt(pageInfo, store.getters.getCurrentMosaicId),
 		pageInfo: {
 			pageSize: 10
 		}
@@ -85,7 +89,7 @@ export default {
 	getters: {
 		...getGettersFromManagers(managers),
 		getInitialized: state => state.initialized,
-		getRecentList: state => state.timeline?.data?.filter((item, index) => index < 4) || [],
+		getRecentList: state => state.timeline?.data?.filter((item, index) => 4 > index) || [],
 		getCurrentMosaicId: state => state.currentMosaicId
 	},
 	mutations: {
@@ -100,7 +104,7 @@ export default {
 	actions: {
 		...getActionsFromManagers(managers),
 		// Initialize the mosaic model.
-		async initialize({ commit, dispatch, getters }) {
+		async initialize ({ commit, dispatch, getters }) {
 			const callback = async () => {
 				await dispatch('initializePage');
 			};
@@ -109,7 +113,7 @@ export default {
 		},
 
 		// Uninitialize the mosaic model.
-		async uninitialize({ commit, dispatch, getters }) {
+		async uninitialize ({ commit, dispatch, getters }) {
 			const callback = async () => {
 				dispatch('uninitializeDetail');
 				getters.timeline?.uninitialize();
@@ -119,12 +123,12 @@ export default {
 		},
 
 		// Fetch data from the SDK and initialize the page.
-		initializePage(context) {
+		initializePage (context) {
 			context.getters.timeline.setStore(context).initialFetch();
 		},
 
 		// Fetch data from the SDK.
-		fetchMosaicInfo(context, payload) {
+		fetchMosaicInfo (context, payload) {
 			context.dispatch('uninitializeDetail');
 			context.commit('setCurrentMosaicId', payload.mosaicId);
 			context.getters.info.setStore(context).initialFetch(payload.mosaicId);
@@ -134,7 +138,7 @@ export default {
 			context.getters.artifactExpiryReceipt.setStore(context).initialFetch(payload.mosaicId);
 		},
 
-		uninitializeDetail(context) {
+		uninitializeDetail (context) {
 			context.getters.info.setStore(context).uninitialize();
 			context.getters.restrictions.setStore(context).uninitialize();
 			context.getters.metadatas.setStore(context).uninitialize();

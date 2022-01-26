@@ -65,7 +65,7 @@ export default {
 		AccountIcon
 	},
 
-	data() {
+	data () {
 		return {
 			TransactionType,
 			SignatureIcon,
@@ -100,38 +100,38 @@ export default {
 	},
 
 	computed: {
-		isWidgetShown() {
+		isWidgetShown () {
 			return this.isTransactionTypeSupported(this.data.type);
 		},
 
-		isAggregate() {
+		isAggregate () {
 			return (
 				this.data.type === TransactionType.AGGREGATE_COMPLETE ||
 				this.data.type === TransactionType.AGGREGATE_BONDED
 			);
 		},
 
-		aggregateTitle() {
+		aggregateTitle () {
 			return this.getTransactionTypeCaption(this.data.type);
 		},
 
-		isMobile() {
+		isMobile () {
 			return this.$store.getters['ui/isMobile'];
 		},
 
-		aggregateContainerClass() {
-			const isMobile = this.isMobile;
+		aggregateContainerClass () {
+			const { isMobile } = this;
 
 			if (isMobile)
 				return 'aggregate-container-mobile';
 			return 'aggregate-container';
 		},
 
-		data() {
+		data () {
 			return this.$store.getters[this.managerGetter].data;
 		},
 
-		cosigners() {
+		cosigners () {
 			if (this.data.type === TransactionType.AGGREGATE_BONDED) {
 				return [
 					this.data.signer,
@@ -141,21 +141,21 @@ export default {
 			return [];
 		},
 
-		loading() {
+		loading () {
 			return this.$store.getters[this.managerGetter].loading;
 		},
 
-		error() {
+		error () {
 			return this.$store.getters[this.managerGetter].error;
 		}
 	},
 
 	methods: {
-		getNameByKey(e) {
+		getNameByKey (e) {
 			return this.$store.getters['ui/getNameByKey'](e);
 		},
 
-		isTransactionTypeSupported(type) {
+		isTransactionTypeSupported (type) {
 			return !!this.supportedTransactionTypes.find(transactionType => transactionType === type);
 		}
 	}

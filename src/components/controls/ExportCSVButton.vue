@@ -18,7 +18,7 @@ export default {
 	},
 
 	methods: {
-		async exportCSVFile() {
+		async exportCSVFile () {
 			const option = this.filterOptions;
 
 			let csv = '';
@@ -35,7 +35,7 @@ export default {
 			link.click();
 		},
 
-		getNameByKey(e) {
+		getNameByKey (e) {
 			return this.$store.getters['ui/getNameByKey'](e);
 		}
 	}

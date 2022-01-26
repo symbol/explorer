@@ -16,27 +16,26 @@ export default {
 	},
 
 	computed: {
-		languageList() {
+		languageList () {
 			return this.$store.getters['ui/languages'] || [];
 		},
 
-		options() {
+		options () {
 			let options = {};
 
 			this.languageList.forEach(lang => {
 				options[lang] = lang;
-			}
-			);
+			});
 			return options;
 		},
 
-		currentLanguage() {
+		currentLanguage () {
 			return 'Language: ' + this.$store.getters['ui/currentLanguage'];
 		}
 	},
 
 	methods: {
-		setLanguage(language) {
+		setLanguage (language) {
 			this.$store.dispatch('ui/changeLanguage', language);
 		}
 	}

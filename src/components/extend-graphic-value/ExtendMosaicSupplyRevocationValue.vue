@@ -32,9 +32,9 @@ export default {
 	},
 
 	computed: {
-		hasMosaics() {
+		hasMosaics () {
 			if (this.value.mosaics)
-				return Array.isArray(this.value.mosaics) && this.value.mosaics.length > 0;
+				return Array.isArray(this.value.mosaics) && 0 < this.value.mosaics.length;
 
 			return false;
 		}

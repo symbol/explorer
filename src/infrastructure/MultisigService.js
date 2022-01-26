@@ -22,8 +22,8 @@ import { Address } from 'symbol-sdk';
 class MultisigService {
   /**
    * Gets a MultisigAccountInfo for an account.
-   * @param address - Account Address
-   * @returns MultisigAccountInfo
+   * @param {string} address - Account Address.
+   * @returns {object} MultisigAccountInfo.
    */
   static getMultisigAccount = async address => {
   	let multisigAccountInfo;
@@ -32,9 +32,8 @@ class MultisigService {
   		multisigAccountInfo = await http.createRepositoryFactory.createMultisigRepository()
   			.getMultisigAccountInfo(Address.createFromRawAddress(address))
   			.toPromise();
-  	}
-  	catch (e) {
-  		// To Catach statusCode 404 if Address is not a multisig account.
+  	} catch (e) {
+  		// To Catch statusCode 404 if Address is not a multisig account.
   		throw Error('Address is not a multisig account.');
   	}
 
@@ -44,26 +43,26 @@ class MultisigService {
   }
 
   /**
-   * Get Customize MultisigAccountInfo for Vue component
-   * @param address - Account Address
-   * @returns customize MultisigAccountInfo
+   * Get Customize MultisigAccountInfo for Vue component.
+   * @param {string} address - Account Address.
+   * @returns {object} customize MultisigAccountInfo.
    */
   static getMultisigAccountInfo = async address => {
   	const multisigAccountInfo = await this.getMultisigAccount(address);
 
   	return {
   		...multisigAccountInfo,
-  		minApproval: multisigAccountInfo?.cosignatoryAddresses.length > 0 ? multisigAccountInfo.minApproval : null,
-  		minRemoval: multisigAccountInfo?.cosignatoryAddresses.length > 0 ? multisigAccountInfo.minRemoval : null,
+  		minApproval: 0 < multisigAccountInfo?.cosignatoryAddresses.length ? multisigAccountInfo.minApproval : null,
+  		minRemoval: 0 < multisigAccountInfo?.cosignatoryAddresses.length ? multisigAccountInfo.minRemoval : null,
   		cosignatoryAddresses: multisigAccountInfo?.cosignatoryAddresses,
   		multisigAddresses: multisigAccountInfo?.multisigAddresses
   	};
   }
 
   /**
-   * Format multisigAccountInfo DTO to readable object
-   * @param multisigAccountInfo - multisigAccountInfo DTO
-   * @returns formatted multisigAccountInfo DTO
+   * Format multisigAccountInfo DTO to readable object.
+   * @param {object} multisigAccountInfo - multisigAccountInfo DTO.
+   * @returns {object} formatted multisigAccountInfo DTO.
    */
   static formatMultisigAccountInfo = multisigAccountInfo => ({
   	...multisigAccountInfo,

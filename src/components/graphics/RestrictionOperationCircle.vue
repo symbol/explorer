@@ -70,7 +70,7 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			id: this.getId('restriction-circle')
 		};

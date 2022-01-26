@@ -40,7 +40,7 @@ const managers = [
 	),
 	new DataSet(
 		'info',
-		(publicKey) => NodeService.getNodeInfo(publicKey)
+		publicKey => NodeService.getNodeInfo(publicKey)
 	)
 ];
 
@@ -78,7 +78,7 @@ export default {
 	actions: {
 		...getActionsFromManagers(managers),
 		// Initialize the node model.
-		async initialize({ commit, dispatch, getters }) {
+		async initialize ({ commit, dispatch, getters }) {
 			const callback = async () => {
 				await dispatch('initializePage');
 			};
@@ -87,7 +87,7 @@ export default {
 		},
 
 		// Uninitialize the node model.
-		async uninitialize({ commit, dispatch, getters }) {
+		async uninitialize ({ commit, dispatch, getters }) {
 			const callback = async () => {
 				getters.timeline?.uninitialize();
 				getters.nodeStats?.uninitialize();
@@ -97,18 +97,18 @@ export default {
 		},
 
 		// Fetch data from the SDK and initialize the page.
-		async initializePage(context) {
+		async initializePage (context) {
 			await context.getters.timeline.setStore(context).initialFetch();
 			context.getters.nodeStats.setStore(context).initialFetch();
 		},
 
 		// Fetch data from the SDK.
-		async fetchNodeInfo(context, payload) {
+		async fetchNodeInfo (context, payload) {
 			context.dispatch('uninitializeDetail');
 			context.getters.info.setStore(context).initialFetch(Object.values(payload)[0]);
 		},
 
-		uninitializeDetail(context) {
+		uninitializeDetail (context) {
 			context.getters.info.setStore(context).uninitialize();
 		}
 	}

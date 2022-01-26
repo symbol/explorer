@@ -81,7 +81,7 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			width: this.transactionGraphicWidth,
 			heigth: this.transactionGraphicHeight
@@ -89,36 +89,32 @@ export default {
 	},
 
 	computed: {
-		transactionType() {
+		transactionType () {
 			return this.getTransactionTypeCaption(this.type);
 		},
 
-		circleIconsToDisplay() {
+		circleIconsToDisplay () {
 			return [this.hasMosaic, this.hasNativeMosaic];
 		},
 
-		hasNativeMosaic() {
-			return typeof this.nativeMosaic !== 'undefined';
+		hasNativeMosaic () {
+			return 'undefined' !== typeof this.nativeMosaic;
 		},
 
-		hasMosaic() {
-			return this.mosaicList.length > 0;
+		hasMosaic () {
+			return 0 < this.mosaicList.length;
 		},
 
-		mosaic() {
+		mosaic () {
 			return { mosaicId: this.mosaicId };
 		},
 
-		nativeMosaic() {
-			return this.mosaics.find(
-				mosaic => mosaic.mosaicId === this.nativeMosaicId
-			);
+		nativeMosaic () {
+			return this.mosaics.find(mosaic => mosaic.mosaicId === this.nativeMosaicId);
 		},
 
-		mosaicList() {
-			return this.mosaics.filter(
-				mosaic => mosaic.mosaicId !== this.nativeMosaicId
-			);
+		mosaicList () {
+			return this.mosaics.filter(mosaic => mosaic.mosaicId !== this.nativeMosaicId);
 		}
 	}
 };

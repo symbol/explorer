@@ -47,12 +47,12 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {};
 	},
 
 	computed: {
-		title() {
+		title () {
 			return this.translate('version') +
 			': ' + this.value.version +
 			'\n' + this.translate('restVersion') +
@@ -61,7 +61,7 @@ export default {
 	},
 
 	methods: {
-		translate(value) {
+		translate (value) {
 			return this.$store.getters['ui/getNameByKey'](value);
 		}
 	}

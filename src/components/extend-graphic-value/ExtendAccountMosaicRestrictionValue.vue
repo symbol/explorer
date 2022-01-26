@@ -35,35 +35,39 @@ export default {
 	},
 
 	computed: {
-		hasRestrictionAccountMosaicAdditions() {
+		hasRestrictionAccountMosaicAdditions () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('restrictionMosaicAdditions'))
-					return Array.isArray(item.restrictionMosaicAdditions) && item.restrictionMosaicAdditions.length > 0;
+					return Array.isArray(item.restrictionMosaicAdditions) && 0 < item.restrictionMosaicAdditions.length;
 			}
+
 			return false;
 		},
 
-		hasRestrictionAccountMosaicDeletions() {
+		hasRestrictionAccountMosaicDeletions () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('restrictionMosaicDeletions'))
-					return Array.isArray(item.restrictionMosaicDeletions) && item.restrictionMosaicDeletions.length > 0;
+					return Array.isArray(item.restrictionMosaicDeletions) && 0 < item.restrictionMosaicDeletions.length;
 			}
+
 			return false;
 		},
 
-		additionsCount() {
+		additionsCount () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('restrictionMosaicAdditions'))
 					return item.restrictionMosaicAdditions.length;
 			}
+
 			return 0;
 		},
 
-		deletionsCount() {
+		deletionsCount () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('restrictionMosaicDeletions'))
 					return item.restrictionMosaicDeletions.length;
 			}
+
 			return 0;
 		}
 	}

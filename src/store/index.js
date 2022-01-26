@@ -62,7 +62,7 @@ export default new Vuex.Store({
 		// Initialize the store (call on mount or re-initialization).
 		// This handles initialization of a dependent item based on the
 		// key provided.
-		async initialize({ dispatch }, route) {
+		async initialize ({ dispatch }, route) {
 			router.beforeEach((to, from, next) => dispatch('onRouteChange', { to, from, next }));
 			// Initialize the API.
 			await helper.logError(dispatch, 'api/initialize');
@@ -83,7 +83,7 @@ export default new Vuex.Store({
 		},
 
 		// Uninitialize the stores (call on app destroyed).
-		async uninitialize({ dispatch }) {
+		async uninitialize ({ dispatch }) {
 			await Promise.all([
 				dispatch('account/uninitialize'),
 				dispatch('block/uninitialize'),
@@ -96,8 +96,8 @@ export default new Vuex.Store({
 			]);
 		},
 
-		onRouteChange({ commit, getters, dispatch }, { to, from, next }) {
-			let destructionList = getters.destructionList;
+		onRouteChange ({ commit, getters, dispatch }, { to, from, next }) {
+			let { destructionList } = getters;
 
 			if (to.fullPath !== from.fullPath) {
 				destructionList.push({
@@ -108,9 +108,7 @@ export default new Vuex.Store({
 				});
 
 				destructionList = destructionList.filter(el => {
-					if (el.keepAliveGoTo?.includes(to.meta.group) || el.name === to.name)
-						return true;
-					else {
+					if (el.keepAliveGoTo?.includes(to.meta.group) || el.name === to.name) { return true; } else {
             el.storeNamespaces?.forEach(namespace => dispatch(`${namespace}/uninitialize`, null, { root: true }));
             return false;
 					}

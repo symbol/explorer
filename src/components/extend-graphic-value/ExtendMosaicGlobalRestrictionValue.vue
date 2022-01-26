@@ -35,19 +35,21 @@ export default {
 	},
 
 	computed: {
-		hasReferenceMosaicId() {
+		hasReferenceMosaicId () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('referenceMosaicId'))
-					return typeof item.referenceMosaicId === 'string';
+					return 'string' === typeof item.referenceMosaicId;
 			}
+
 			return false;
 		},
 
-		referenceMosaicId() {
+		referenceMosaicId () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('referenceMosaicId'))
 					return item.referenceMosaicId;
 			}
+
 			return 'N/A';
 		}
 	}

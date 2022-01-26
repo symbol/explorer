@@ -3,12 +3,10 @@ import helper from '../helper';
 import { Mosaic, ReceiptType } from 'symbol-sdk';
 
 class CreateReceiptTransaction {
-    static balanceChangeReceipt = async (transactionStatement) => {
+    static balanceChangeReceipt = async transactionStatement => {
     	let balanceChangeReceipt = [];
 
-    	const mosaics = transactionStatement.map(
-    		statement => new Mosaic(statement.mosaicId, statement.amount)
-    	);
+    	const mosaics = transactionStatement.map(statement => new Mosaic(statement.mosaicId, statement.amount));
 
     	const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder(mosaics);
 
@@ -26,12 +24,10 @@ class CreateReceiptTransaction {
     	return balanceChangeReceipt;
     }
 
-    static balanceTransferReceipt = async (transactionStatement) => {
+    static balanceTransferReceipt = async transactionStatement => {
     	let balanceTransferReceipt = [];
 
-    	const mosaics = transactionStatement.map(
-    		statement => new Mosaic(statement.mosaicId, statement.amount)
-    	);
+    	const mosaics = transactionStatement.map(statement => new Mosaic(statement.mosaicId, statement.amount));
 
     	const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder(mosaics);
 
@@ -50,12 +46,10 @@ class CreateReceiptTransaction {
     	return balanceTransferReceipt;
     }
 
-    static inflationReceipt = async (transactionStatement) => {
+    static inflationReceipt = async transactionStatement => {
     	let inflationReceipt = [];
 
-    	const mosaics = transactionStatement.map(
-    		statement => new Mosaic(statement.mosaicId, statement.amount)
-    	);
+    	const mosaics = transactionStatement.map(statement => new Mosaic(statement.mosaicId, statement.amount));
 
     	const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder(mosaics);
 
@@ -72,7 +66,7 @@ class CreateReceiptTransaction {
     	return inflationReceipt;
     }
 
-    static artifactExpiryReceipt = async (transactionStatement) => {
+    static artifactExpiryReceipt = async transactionStatement => {
     	let artifactExpiryReceipt = [];
 
     	for (const statement of transactionStatement) {

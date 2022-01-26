@@ -82,13 +82,13 @@ export default {
 			blockList: 'block/getRecentList'
 		}),
 
-		loading() {
+		loading () {
 			return !this.blockList.length;
 		}
 	},
 
 	methods: {
-		getNameByKey(e) {
+		getNameByKey (e) {
 			return this.$store.getters['ui/getNameByKey'](e);
 		}
 	}

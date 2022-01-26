@@ -21,19 +21,21 @@ export default {
 	},
 
 	computed: {
-		hasProof() {
+		hasProof () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('proof'))
-					return typeof item.proof === 'string' && item.proof.length > 0;
+					return 'string' === typeof item.proof && 0 < item.proof.length;
 			}
+
 			return false;
 		},
 
-		proof() {
+		proof () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('proof'))
 					return item.proof;
 			}
+
 			return '';
 		}
 	}

@@ -54,7 +54,7 @@ export default class http {
 	  NATIVE_NAMESPACES = await NamespaceService.getNativeNamespaces() || [];
   }
 
-  static get networkCurrency() {
+  static get networkCurrency () {
   	return {
   		namespaceName: NETWORK_CURRECY?.currency.namespaceId?.fullName || globalConfig.networkConfig.namespaceName,
   		namespaceId: NETWORK_CURRECY?.currency.namespaceId?.id?.toHex() || globalConfig.networkConfig.namespaceId,
@@ -63,23 +63,27 @@ export default class http {
   	};
   }
 
-  static get nativeNamespaces() {
+  static get nativeNamespaces () {
   	return NATIVE_NAMESPACES;
   }
 
-  static get networkProperties() {
+  static get networkProperties () {
   	return new symbol.NetworkConfiguration(NETWORK_PROPERTIES.network, NETWORK_PROPERTIES.chain, NETWORK_PROPERTIES.plugins);
   }
 
-  static get networkConfig() {
-  	const convertedTotalChainImportance = +this.networkProperties.chain.totalChainImportance.replace(/'/g, '');
-  	const convertedNamespaceGracePeriodDuration = +this.networkProperties.plugins.namespace.namespaceGracePeriodDuration.replace(/d/g, '');
-  	const convertedBlockGenerationTargetTime = +this.networkProperties.chain.blockGenerationTargetTime.replace(/s/g, '');
+  static get networkConfig () {
+  	const {
+		  chain: { totalChainImportance, blockGenerationTargetTime },
+		  plugins: { namespace, mosaic }
+  	} = this.networkProperties;
+  	const convertedTotalChainImportance = +totalChainImportance.replace(/'/g, '');
+  	const convertedNamespaceGracePeriodDuration = +namespace.namespaceGracePeriodDuration.replace(/d/g, '');
+  	const convertedBlockGenerationTargetTime = +blockGenerationTargetTime.replace(/s/g, '');
   	const blockPerday = (60 / convertedBlockGenerationTargetTime) * 60 * 24;
 
   	return {
-  		MosaicRentalSinkAddress: symbol.Address.createFromRawAddress(this.networkProperties.plugins.mosaic.mosaicRentalFeeSinkAddress),
-  		NamespaceRentalFeeSinkAddress: symbol.Address.createFromRawAddress(this.networkProperties.plugins.namespace.namespaceRentalFeeSinkAddress),
+  		MosaicRentalSinkAddress: symbol.Address.createFromRawAddress(mosaic.mosaicRentalFeeSinkAddress),
+  		NamespaceRentalFeeSinkAddress: symbol.Address.createFromRawAddress(namespace.namespaceRentalFeeSinkAddress),
   		NetworkType: this.networkType,
   		NemsisTimestamp: this.epochAdjustment,
   		TargetBlockTime: convertedBlockGenerationTargetTime,
@@ -88,82 +92,77 @@ export default class http {
   	};
   }
 
-  static get marketDataUrl() {
+  static get marketDataUrl () {
   	return MARKET_DATA_URL;
   }
 
-  static get nodeUrl() {
+  static get nodeUrl () {
   	return NODE_URL;
   }
 
-  static get generationHash() {
+  static get generationHash () {
   	return GENERATION_HASH;
   }
 
-  static get networkType() {
+  static get networkType () {
   	return NETWORK_TYPE;
   }
 
-  static get epochAdjustment() {
+  static get epochAdjustment () {
 	  return EPOCH_ADJUSTMENT;
   }
 
-  static get createRepositoryFactory() {
+  static get createRepositoryFactory () {
   	return new symbol.RepositoryFactoryHttp(this.nodeUrl, {
   		networkType: this.networkType,
   		generationHash: this.generationHash
   	});
   }
 
-  static get mosaicService() {
+  static get mosaicService () {
   	const accountRepository = this.createRepositoryFactory.createAccountRepository();
   	const mosaicRepository = this.createRepositoryFactory.createMosaicRepository();
 
   	return new symbol.MosaicService(accountRepository, mosaicRepository);
   }
 
-  static get namespaceService() {
+  static get namespaceService () {
   	const namespaceRepository = this.createRepositoryFactory.createNamespaceRepository();
 
   	return new symbol.NamespaceService(namespaceRepository);
   }
 
-  static get blockPaginationStreamer() {
+  static get blockPaginationStreamer () {
   	return new symbol.BlockPaginationStreamer(this.createRepositoryFactory.createBlockRepository());
   }
 
-  static transactionStatementPaginationStreamer() {
+  static transactionStatementPaginationStreamer () {
 	  return symbol.ReceiptPaginationStreamer.transactionStatements(this.createRepositoryFactory.createReceiptRepository());
   }
 
-  static addressResolutionStatementPaginationStreamer() {
+  static addressResolutionStatementPaginationStreamer () {
 	  return symbol.ReceiptPaginationStreamer.addressResolutionStatements(this.createRepositoryFactory.createReceiptRepository());
   }
 
-  static mosaicResolutionStatementPaginationStreamer() {
+  static mosaicResolutionStatementPaginationStreamer () {
 	  return symbol.ReceiptPaginationStreamer.mosaicResolutionStatements(this.createRepositoryFactory.createReceiptRepository());
   }
 
-  static get transactionPaginationStreamer() {
+  static get transactionPaginationStreamer () {
   	return new symbol.TransactionPaginationStreamer(this.createRepositoryFactory.createTransactionRepository());
   }
 
-  static statisticServiceRestClient() {
+  static statisticServiceRestClient () {
 	  try {
   		const statisticsServiceUrl = globalConfig.endpoints.statisticsService;
 
   		if (statisticsServiceUrl && statisticsServiceUrl.length) {
-  			return new NodeApi(
-  				new Configuration({
+  			return new NodeApi(new Configuration({
   					fetchApi: fetch,
   					basePath: statisticsServiceUrl
-  				})
-  			);
-  		}
-  		else
-  			throw Error('Statistics service endpoint is not provided');
-	  }
-  	catch (error) {
+  				}));
+  		} else { throw Error('Statistics service endpoint is not provided'); }
+	  } catch (error) {
 		  console.error(error);
 	  }
   }

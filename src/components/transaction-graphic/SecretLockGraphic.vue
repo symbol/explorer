@@ -103,15 +103,15 @@ export default {
 	},
 
 	computed: {
-		transactionType() {
+		transactionType () {
 			return this.getTransactionTypeCaption(this.type);
 		},
 
-		circleIconsToDisplay() {
+		circleIconsToDisplay () {
 			return [true, this.hasMosaic];
 		},
 
-		mosaic() {
+		mosaic () {
 			return {
 				mosaicId: this.mosaicId,
 				amount: this.amount,
@@ -119,11 +119,11 @@ export default {
 			};
 		},
 
-		hasMosaic() {
-			return this.mosaicId !== 'undefined';
+		hasMosaic () {
+			return 'undefined' !== this.mosaicId;
 		},
 
-		secretLockInfo() {
+		secretLockInfo () {
 			return {
 				duration: this.duration,
 				secret: this.secret,

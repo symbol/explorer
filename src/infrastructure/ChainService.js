@@ -21,7 +21,7 @@ import http from './http';
 class ChainService {
   /**
    * Gets chain info such as current block height, finalized block and etc
-   * @returns formatted chain info
+   * @returns {object} formatted chain info
    */
   static getChainInfo = async () => {
   	const chainInfo = await http.createRepositoryFactory.createChainRepository()

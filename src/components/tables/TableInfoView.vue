@@ -65,16 +65,16 @@ export default {
 		}
 	},
 
-	created() {
+	created () {
 		this.componentType = 'info';
 	},
 
-	mounted() {
+	mounted () {
 		// this.$store.dispatch(this.view + "/fetchInfo", this.infoId);
 	},
 
 	computed: {
-		formattedData() {
+		formattedData () {
 			let formattedData = {};
 
 			for (let key in this.data) {
@@ -85,13 +85,13 @@ export default {
 			return formattedData;
 		},
 
-		header() {
+		header () {
 			let header = ['', ''];
 
 			return header;
 		},
 
-		dataIsNotEmpty() {
+		dataIsNotEmpty () {
 			return Object.keys(this.data).length;
 		}
 	}

@@ -44,7 +44,7 @@ export default {
 	},
 
 	methods: {
-		getTranslation(key) {
+		getTranslation (key) {
 			return this.$store.getters['ui/getNameByKey'](key);
 		}
 	}

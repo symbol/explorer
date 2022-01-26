@@ -37,13 +37,13 @@ export default {
 			loading: 'statistic/getLoadingBlockTimeDifference'
 		}),
 
-		chartData() {
+		chartData () {
 			return this.blockTimeDifferenceData.data;
 		}
 	},
 
 	methods: {
-		getNameByKey(e) {
+		getNameByKey (e) {
 			return this.$store.getters['ui/getNameByKey'](e);
 		}
 	}

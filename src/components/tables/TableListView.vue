@@ -169,11 +169,11 @@ export default {
 		}
 	},
 
-	created() {
+	created () {
 		this.componentType = 'list';
 	},
 
-	data() {
+	data () {
 		return {
 			pageIndex: 0,
 			openedModal: null
@@ -181,40 +181,41 @@ export default {
 	},
 
 	computed: {
-		preparedData() {
+		preparedData () {
 			if (
 				Array.isArray(this.data) &&
-                this.pagination === true &&
+                true === this.pagination &&
                 !this.timelinePagination
 			) {
 				return this.data.slice(
 					this.pageIndex * this.pageSize,
 					this.pageIndex * this.pageSize + this.pageSize
 				);
-			}
-			else return this.data;
+			} else { return this.data; }
 		},
 
-		nextPageExist() {
+		nextPageExist () {
 			if (this.timelinePagination && this.timeline instanceof Object)
 				return this.timeline.canFetchNext;
-			else return this.pageSize * (this.pageIndex + 1) < this.data.length;
+			else
+				return this.pageSize * (this.pageIndex + 1) < this.data.length;
 		},
 
-		prevPageExist() {
+		prevPageExist () {
 			if (this.timelinePagination && this.timeline instanceof Object)
 				return this.timeline.canFetchPrevious;
-			else return this.pageIndex > 0;
+			else
+				return 0 < this.pageIndex;
 		},
 
-		pageNumber() {
+		pageNumber () {
 			if (this.timelinePagination)
 				return this.timeline.pageNumber;
 
 			return this.pageIndex + 1;
 		},
 
-		lastPage() {
+		lastPage () {
 			if (this.timelinePagination) {
 				if (!this.timeline?.totalRecords)
 					return undefined;
@@ -225,37 +226,40 @@ export default {
 			return Math.ceil(this.data.length / this.pageSize);
 		},
 
-		header() {
+		header () {
 			let header = [];
 
-			if (this.data) for (let key in this.data[0]) header.push(key);
+			if (this.data) {
+				for (let key in this.data[0])
+					header.push(key);
+			}
 			return header;
 		},
 
-		dataIsNotEmpty() {
+		dataIsNotEmpty () {
 			return this.data.length;
 		},
 
-		paginationLoading() {
-			return this.timeline?.isLoading === true;
+		paginationLoading () {
+			return true === this.timeline?.isLoading;
 		},
 
-		isRowPointerShown() {
+		isRowPointerShown () {
 			return !!this.onRowClickKey;
 		}
 	},
 
 	methods: {
-		onMoreClick() {
+		onMoreClick () {
 			this.$store.dispatch(this.nextPageAction);
 		},
 
-		fetchPage(number) {
+		fetchPage (number) {
 			const pageNumber = parseInt(number) || 1;
 
 			// handle input number over range
 			if (this.lastPage !== undefined) {
-				if (pageNumber > this.lastPage || pageNumber <= 0) {
+				if (pageNumber > this.lastPage || 0 >= pageNumber) {
 					console.error('number out of range');
 					return;
 				}
@@ -264,49 +268,54 @@ export default {
 			if (this.timelinePagination)
 				return this.timeline.fetchPage({ pageNumber });
 
-			else this.pageIndex = pageNumber;
+			else
+				this.pageIndex = pageNumber;
 		},
 
-		nextPage() {
+		nextPage () {
 			if (this.nextPageExist) {
 				if (this.timelinePagination)
 					this.timeline.fetchNext();
 
-				else this.pageIndex++;
+				else
+					this.pageIndex++;
 			}
 		},
 
-		prevPage() {
+		prevPage () {
 			if (this.prevPageExist) {
 				if (this.timelinePagination)
 					this.timeline.fetchPrevious();
 
-				else this.pageIndex--;
+				else
+					this.pageIndex--;
 			}
 		},
 
-		goFirstPage() {
+		goFirstPage () {
 			if (this.timelinePagination)
 				this.fetchPage(1);
 
-			else this.pageIndex = 0;
+			else
+				this.pageIndex = 0;
 		},
 
-		goLastPage() {
+		goLastPage () {
 			if (this.timelinePagination)
 				this.fetchPage(this.lastPage);
 
-			else this.pageIndex = this.lastPage;
+			else
+				this.pageIndex = this.lastPage;
 		},
 
-		onRowClick(row) {
+		onRowClick (row) {
 			if (this.onRowClickKey)
 				this.onItemClick(this.onRowClickKey, row[this.onRowClickKey]);
 		}
 	},
 
 	watch: {
-		preparedData() {
+		preparedData () {
 			if (this.pageIndex >= this.lastPage)
 				this.pageIndex = this.lastPage - 1;
 		}

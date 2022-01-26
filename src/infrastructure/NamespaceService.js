@@ -25,11 +25,11 @@ import globalConfig from '../config/globalConfig';
 
 class NamespaceService {
   /**
-   * Gets array of NamespaceName for different namespaceIds
-   * @param namespaceIds - Array of namespace ids
-   * @returns Formatted NamespaceName[]
+   * Gets array of NamespaceName for different namespaceIds.
+   * @param {array} namespaceIds - Array of namespace ids.
+   * @returns {array} Formatted NamespaceName.
    */
-  static getNamespacesNames = async (namespaceIds) => {
+  static getNamespacesNames = async namespaceIds => {
   	let namespaceNames = await http.createRepositoryFactory.createNamespaceRepository()
   		.getNamespacesNames(namespaceIds)
   		.toPromise();
@@ -41,10 +41,10 @@ class NamespaceService {
 
   /**
    * Get readable names for a set of mosaics Returns friendly names for mosaics.
-   * @param mosaicIds - Array of mosaic ids
-   * @returns MosaicNames[]
+   * @param {array} mosaicIds - Array of mosaic ids.
+   * @returns {array} MosaicNames.
    */
-  static getMosaicsNames = async (mosaicIds) => {
+  static getMosaicsNames = async mosaicIds => {
   	const mosaicNames = await http.createRepositoryFactory.createNamespaceRepository()
   		.getMosaicsNames(mosaicIds)
   		.toPromise();
@@ -55,10 +55,10 @@ class NamespaceService {
 
   /**
    * Returns friendly names for array of addresses.
-   * @param addresses - Array of addresses
-   * @returns AccountNames[]
+   * @param {array} addresses - Array of addresses.
+   * @returns {array} AccountNames.
    */
-  static getAccountsNames = async (addresses) => {
+  static getAccountsNames = async addresses => {
   	const accountNames = await http.createRepositoryFactory.createNamespaceRepository()
   		.getAccountsNames(addresses)
   		.toPromise();
@@ -69,11 +69,11 @@ class NamespaceService {
   }
 
   /**
-   * Get namespace info and name from namespace Id
-   * @param namespaceId - Namespace id
-   * @returns formatted namespace info and name
+   * Get namespace info and name from namespace Id.
+   * @param {number} namespaceId - Namespace id.
+   * @returns {object} formatted namespace info and name.
    */
-  static getNamespace = async (namespaceId) => {
+  static getNamespace = async namespaceId => {
   	let namespace = await http.namespaceService.namespace(namespaceId).toPromise();
 
   	let formattedNamespace = this.formatNamespace(namespace);
@@ -83,10 +83,10 @@ class NamespaceService {
 
   /**
    * Get linked address from namespace Id
-   * @param namespaceId - Namespace id
-   * @returns Address
+   * @param {object} namespaceId - Namespace id
+   * @returns {object} Address
    */
-  static getLinkedAddress = async (namespaceId) => {
+  static getLinkedAddress = async namespaceId => {
   	const address = await http.createRepositoryFactory.createNamespaceRepository()
   		.getLinkedAddress(namespaceId)
   		.toPromise();
@@ -95,11 +95,11 @@ class NamespaceService {
   }
 
   /**
-   * Get linked mosaicId from namespace Id
-   * @param namespaceId - Namespace id
-   * @returns mosaicId
+   * Get linked mosaicId from namespace Id.
+   * @param {object} namespaceId - Namespace id
+   * @returns {object} mosaicId
    */
-  static getLinkedMosaicId = async (namespaceId) => {
+  static getLinkedMosaicId = async namespaceId => {
   	const mosaicId = await http.createRepositoryFactory.createNamespaceRepository()
   		.getLinkedMosaicId(namespaceId)
   		.toPromise();
@@ -108,11 +108,11 @@ class NamespaceService {
   }
 
   /**
-   * Gets a namespace list from searchCriteria
-   * @param namespaceSearchCriteria Object of Search Criteria
-   * @returns formatted namespace data with pagination info
+   * Gets a namespace list from searchCriteria.
+   * @param {object} namespaceSearchCriteria Search Criteria
+   * @returns {object} formatted namespace data with pagination info
    */
-  static searchNamespaces = async (namespaceSearchCriteria) => {
+  static searchNamespaces = async namespaceSearchCriteria => {
   	const searchNamespaces = await http.createRepositoryFactory.createNamespaceRepository()
   		.search(namespaceSearchCriteria)
   		.toPromise();
@@ -127,11 +127,11 @@ class NamespaceService {
   }
 
   /**
-   * Get namespace info for Vue Component
-   * @param hexOrNamespace - hex value or namespace name
-   * @returns customize namespace info Object
+   * Get namespace info for Vue Component.
+   * @param {string} hexOrNamespace - hex value or namespace name.
+   * @returns {object} customize namespace info Object.
    */
-  static getNamespaceInfo = async (hexOrNamespace) => {
+  static getNamespaceInfo = async hexOrNamespace => {
   	const namespaceId = await helper.hexOrNamespaceToId(hexOrNamespace, 'namespace');
 
   	const namespace = await this.getNamespace(namespaceId);
@@ -157,13 +157,17 @@ class NamespaceService {
   		formattedNamespaceInfo.aliasMosaic = namespace.alias;
 
   	// End height disable click before expired.
-  	formattedNamespaceInfo.expiredInBlock = helper.isNativeNamespace(namespace.namespaceName) ? Constants.Message.INFINITY : expiredInBlock + ` ≈ ` + formattedNamespaceInfo.duration;
+  	formattedNamespaceInfo.expiredInBlock = helper.isNativeNamespace(namespace.namespaceName)
+	  ? Constants.Message.INFINITY
+	  : expiredInBlock + ' ≈ ' + formattedNamespaceInfo.duration;
 
   	if (isExpired)
   		delete formattedNamespaceInfo.expiredInBlock;
 
   	if (currentHeight < formattedNamespaceInfo.endHeight) {
-  		formattedNamespaceInfo.beforeEndHeight = helper.isNativeNamespace(namespace.namespaceName) ? Constants.Message.INFINITY : formattedNamespaceInfo.endHeight + ` ( ${http.networkConfig.NamespaceGraceDuration} blocks of grace period )`;
+  		formattedNamespaceInfo.beforeEndHeight = helper.isNativeNamespace(namespace.namespaceName)
+		  ? Constants.Message.INFINITY
+		  : formattedNamespaceInfo.endHeight + ` ( ${http.networkConfig.NamespaceGraceDuration} blocks of grace period )`;
 	  	delete formattedNamespaceInfo.endHeight;
   	}
 
@@ -171,11 +175,11 @@ class NamespaceService {
   }
 
   /**
-   * Gets NamespaceName list from Vue Component
-   * @param hexOrNamespace - hex value or namespace name
-   * @returns Namespace name list
+   * Gets NamespaceName list from Vue Component.
+   * @param {string} hexOrNamespace - hex value or namespace name.
+   * @returns {array} Namespace name list.
    */
-  static getNamespaceLevelList = async (hexOrNamespace) => {
+  static getNamespaceLevelList = async hexOrNamespace => {
   	let namespaceId = await helper.hexOrNamespaceToId(hexOrNamespace, 'namespace');
 
   	let namespacesName = await this.getNamespacesNames([namespaceId]);
@@ -184,18 +188,18 @@ class NamespaceService {
   }
 
   /**
-   * Get customize NamespaceInfo dataset into Vue Component
-   * @param pageInfo - pagination info
-   * @param filterVaule - object for search criteria
-   * @returns customize NamespaceInfo[]
+   * Get customize NamespaceInfo dataset into Vue Component.
+   * @param {object} pageInfo - pagination info.
+   * @param {object} filterValue - search criteria.
+   * @returns {array} customize NamespaceInfo.
    */
-  static getNamespaceList = async (pageInfo, filterVaule) => {
+  static getNamespaceList = async (pageInfo, filterValue) => {
   	const { pageNumber, pageSize } = pageInfo;
   	const searchCriteria = {
   		pageNumber,
   		pageSize,
   		order: Order.Desc,
-  		...filterVaule
+  		...filterValue
   	};
 
   	const namespaceInfos = await this.searchNamespaces(searchCriteria);
@@ -203,13 +207,16 @@ class NamespaceService {
 
   	return {
   		...namespaceInfos,
-  		data: namespaceInfos.data.map((namespace) => {
-			  const { isExpired, expiredInSecond, expiredInBlock } = helper.calculateNamespaceExpiration(currentHeight, namespace.endHeight);
+  		data: namespaceInfos.data.map(namespace => {
+			  const { isExpired, expiredInSecond, expiredInBlock }
+			  = helper.calculateNamespaceExpiration(currentHeight, namespace.endHeight);
 
   			return {
   				...namespace,
   				isExpired: isExpired,
-  				approximateExpired: helper.isNativeNamespace(namespace.namespaceName) ? Constants.Message.INFINITY : helper.convertSecondToDate(expiredInSecond),
+  				approximateExpired: helper.isNativeNamespace(namespace.namespaceName)
+				  ? Constants.Message.INFINITY
+				  : helper.convertSecondToDate(expiredInSecond),
   				expiredInBlock: expiredInBlock
   			};
   		})
@@ -217,13 +224,13 @@ class NamespaceService {
   }
 
   /**
-   * Gets namespace metadata list dataset into Vue component
-   * @param pageInfo - object for page info such as pageNumber, pageSize
-   * @param filterVaule - object for search criteria
-   * @param hexOrNamespace - hex value or namespace name
-   * @returns formatted mamespace Metadata list
+   * Gets namespace metadata list dataset into Vue component.
+   * @param {object} pageInfo - page info such as pageNumber, pageSize.
+   * @param {object} filterValue - search criteria.
+   * @param {string} hexOrNamespace - hex value or namespace name.
+   * @returns {array} formatted namespace Metadata list
    */
-  static getNamespaceMetadataList = async (pageInfo, filterVaule, hexOrNamespace) => {
+  static getNamespaceMetadataList = async (pageInfo, filterValue, hexOrNamespace) => {
   	const namespaceId = await helper.hexOrNamespaceToId(hexOrNamespace, 'namespace');
 
   	const { pageNumber, pageSize } = pageInfo;
@@ -233,7 +240,7 @@ class NamespaceService {
 	   pageSize,
 	   order: Order.Desc,
 	   targetId: namespaceId,
-	   ...filterVaule
+	   ...filterValue
   	};
   	const namespaceMetadatas = await MetadataService.searchMetadatas(searchCriteria);
 
@@ -241,10 +248,10 @@ class NamespaceService {
   }
 
   /**
-   * Gets namespace balance transfer receipt list dataset into Vue component
-   * @param pageInfo - object for page info such as pageNumber, pageSize
-   * @param hexOrNamespace - hex value or namespace name
-   * @returns formatted balance transfer receipt list
+   * Gets namespace balance transfer receipt list dataset into Vue component.
+   * @param {object} pageInfo - page info such as pageNumber, pageSize.
+   * @param {string} hexOrNamespace - hex value or namespace name.
+   * @returns {array} formatted balance transfer receipt list.
    */
   static getNamespaceBalanceTransferReceipt = async (pageInfo, hexOrNamespace) => {
   	const namespaceId = await helper.hexOrNamespaceToId(hexOrNamespace, 'namespace');
@@ -275,10 +282,10 @@ class NamespaceService {
   }
 
   /**
-   * Gets namespace artifact expiry receipt list dataset into Vue component
-   * @param pageInfo - object for page info such as pageNumber, pageSize
-   * @param hexOrNamespace - hex value or namespace name
-   * @returns formatted artifact expiry receipt list
+   * Gets namespace artifact expiry receipt list dataset into Vue component.
+   * @param {object} pageInfo - page info such as pageNumber, pageSize.
+   * @param {string} hexOrNamespace - hex value or namespace name.
+   * @returns {array} formatted artifact expiry receipt list.
    */
   static getNamespaceArtifactExpiryReceipt = async (pageInfo, hexOrNamespace) => {
   	const namespaceId = await helper.hexOrNamespaceToId(hexOrNamespace, 'namespace');
@@ -302,16 +309,17 @@ class NamespaceService {
 
   	return {
   		...artifactExpiryReceipt,
-  		data: formattedReceipt.filter(receipt => receipt.type === ReceiptType.Namespace_Expired || receipt.type === ReceiptType.Namespace_Deleted)
+  		data: formattedReceipt.filter(receipt => receipt.type === ReceiptType.Namespace_Expired
+			|| receipt.type === ReceiptType.Namespace_Deleted)
   	};
   }
 
   /**
-   * Convert NamespaceInfo[] to Namespace[]
-   * @param NamespaceInfo[] - array of NamespaceInfo
-   * @returns Namespace[]
+   * Convert NamespaceInfo[] to Namespace[].
+   * @param {array} namespaceInfos - array of NamespaceInfo.
+   * @returns {array} Namespaces.
    */
-  static toNamespaces = async (namespaceInfos) => {
+  static toNamespaces = async namespaceInfos => {
   	const namespaceIdsList = namespaceInfos.map(namespaceInfo => namespaceInfo.id);
   	const namespaceNames = await this.getNamespacesNames(namespaceIdsList);
 
@@ -324,7 +332,7 @@ class NamespaceService {
 
   /**
    * Gets native namespaces name in from nemesis transactions.
-   * @returns Namespace[]
+   * @returns {array} Namespaces
    */
   static getNativeNamespaces = async () => {
   	const namespace = globalConfig.networkConfig.namespaceName;
@@ -339,9 +347,9 @@ class NamespaceService {
   }
 
   /**
-   * Format namespaceName to readable object
-   * @param namespaceNameDTO
-   * @returns readable namespaceNameDTO
+   * Format namespaceName to readable object.
+   * @param {object} namespaceName namespaceNameDTO
+   * @returns {object} readable namespaceNameDTO.
    */
   static formatNamespaceName = namespaceName => ({
   	...namespaceName,
@@ -350,9 +358,9 @@ class NamespaceService {
   })
 
   /**
-   * Format alias to readable object
-   * @param Alias
-   * @returns readable Alias object
+   * Format alias to readable object.
+   * @param {string} alias alias type.
+   * @returns {object} readable Alias object.
    */
   static formatAlias = alias => {
   	switch (alias.type) {
@@ -377,9 +385,9 @@ class NamespaceService {
   }
 
   /**
-   * Format namespace to readable object
-   * @param namespace - namespace DTO
-   * @returns readable namespaceDTO
+   * Format namespace to readable object.
+   * @param {object} namespace - namespace DTO.
+   * @returns {object} readable namespaceDTO.
    */
   static formatNamespace = namespace => ({
   	...namespace,
@@ -393,14 +401,14 @@ class NamespaceService {
   		: Number(namespace.endHeight.toString()),
   	active: namespace.active ? Constants.Message.ACTIVE : Constants.Message.INACTIVE,
   	...this.formatAlias(namespace.alias),
-  	parentName: namespace.registrationType !== 0 ? namespace.name.split('.')[0] : '',
+  	parentName: 0 !== namespace.registrationType ? namespace.name.split('.')[0] : '',
   	levels: namespace.levels
   })
 
   /**
-   * Format mosaic name to readable object
-   * @param mosaicName - mosaicName DTO
-   * @returns readable mosaicName DTO
+   * Format mosaic name to readable object.
+   * @param {object} mosaicName - mosaicName DTO.
+   * @returns {object} readable mosaicName DTO.
    */
   static formatMosaicName = mosaicName => ({
   	...mosaicName,
@@ -408,9 +416,9 @@ class NamespaceService {
   })
 
   /**
-   * Format account name to readable object
-   * @param accountName - accountName DTO
-   * @returns readable accountName DTO
+   * Format account name to readable object.
+   * @param {object} accountName - accountName DTO.
+   * @returns {object} readable accountName DTO.
    */
   static formatAccountName = accountName => ({
   	...accountName,
@@ -419,19 +427,20 @@ class NamespaceService {
   })
 
   /**
-   * Extract full name for Namespace
-   * @param namespaceInfo - namespaceInfo DTO
-   * @param namespaceNames - NamespaceName[]
-   * @returns full name
+   * Extract full name for Namespace.
+   * @param {object} namespaceInfo - namespaceInfo DTO.
+   * @param {array} namespaceNames - NamespaceNames.
+   * @returns {string} full name.
    */
   static extractFullNamespace = (namespaceInfo, namespaceNames) => {
-  	return namespaceInfo.levels.map((level) => {
-  		const namespaceName = namespaceNames.find((name) => name.namespaceId === level.toHex());
+  	return namespaceInfo.levels.map(level => {
+  		const namespaceName = namespaceNames.find(name => name.namespaceId === level.toHex());
 
-  		if (namespaceName === undefined) throw new Error('Not found');
+  		if (namespaceName === undefined)
+  			throw new Error('Not found');
   		return namespaceName;
   	})
-  		.map((namespaceName) => namespaceName.name)
+  		.map(namespaceName => namespaceName.name)
   		.join('.');
   }
 }

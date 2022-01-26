@@ -47,27 +47,27 @@ export default {
 			default: () => {}
 		}
 	},
-	data() {
+	data () {
 		return {
 			isClick: true
 		};
 	},
 	computed: {
-		message() {
+		message () {
 			return this.value.payload;
 		},
-		messageType() {
+		messageType () {
 			return this.value.type;
 		},
-		isPlainMessage() {
+		isPlainMessage () {
 			return this.value.type === MessageType.PlainMessage || this.value.type === MessageType.RawMessage;
 		},
-		title() {
+		title () {
 			return `Click to view ${this.getKeyName(`messageTypeDescriptor_${this.messageType}`)}`;
 		}
 	},
 	methods: {
-		clickToView() {
+		clickToView () {
 			this.isClick = !this.isClick;
 		}
 	}

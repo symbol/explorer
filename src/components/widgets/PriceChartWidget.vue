@@ -38,7 +38,7 @@ export default {
 			marketData: 'chain/getMarketData'
 		}),
 
-		chartData() {
+		chartData () {
 			return [
 				{
 					name: 'Price (USD)',
@@ -47,13 +47,13 @@ export default {
 			];
 		},
 
-		loading() {
+		loading () {
 			return !this.marketData.historicalHourlyGraph.length;
 		}
 	},
 
 	methods: {
-		getNameByKey(e) {
+		getNameByKey (e) {
 			return this.$store.getters['ui/getNameByKey'](e);
 		}
 	}

@@ -83,15 +83,15 @@ export default {
 	},
 
 	computed: {
-		transactionType() {
+		transactionType () {
 			return this.getTransactionTypeCaption(this.type);
 		},
 
-		circleIconsToDisplay() {
+		circleIconsToDisplay () {
 			return [true];
 		},
 
-		restrictionMosaic() {
+		restrictionMosaic () {
 			return {
 				added: this.restrictionMosaicAdditions.map(mosaicId => ({ mosaicId, mosaicAliasName: 'N/A' })),
 				removed: this.restrictionMosaicDeletions.map(mosaicId => ({ mosaicId, mosaicAliasName: 'N/A' }))
