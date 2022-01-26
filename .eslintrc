@@ -1,0 +1,40 @@
+---
+extends:
+  - plugin:vue/essential
+  - ./default.eslintrc
+parserOptions:
+  parser: babel-eslint
+rules:
+  no-console:
+  - error
+  - allow:
+    - error
+    - warn
+    - info
+  import/extensions:
+  - 0
+  import/no-deprecated:
+  - 0
+  import/order:
+  - 0
+  import/no-absolute-path:
+  - 0
+  import/no-unresolved:
+  - 0
+  import/named:
+  - 0
+  template-curly-spacing:
+  - 0
+  vue/html-indent:
+  - error
+  - tab
+  - attribute: 1
+    baseIndent: 1
+    closeBracket: 0
+    alignAttributesVertically: false
+    ignores: []
+  indent:
+  - error
+  - tab
+  - ignoredNodes:
+    - TemplateLiteral
