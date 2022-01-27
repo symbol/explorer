@@ -366,7 +366,7 @@ class CreateTransaction {
     	};
     };
 
-    static votingKeyLink = async transactionObj => {
+    static votingKeyLink = transactionObj => {
     	return {
     		...transactionObj,
     		transactionBody: {
@@ -379,7 +379,7 @@ class CreateTransaction {
     	};
     };
 
-    static vrfKeyLink = async transactionObj => {
+    static vrfKeyLink = transactionObj => {
     	return {
     		...transactionObj,
     		transactionBody: {
@@ -391,7 +391,7 @@ class CreateTransaction {
     	};
     };
 
-    static nodeKeyLink = async transactionObj => {
+    static nodeKeyLink = transactionObj => {
     	return {
     		...transactionObj,
     		transactionBody: {
@@ -403,7 +403,7 @@ class CreateTransaction {
     	};
     };
 
-    static accountKeyLink = async transactionObj => {
+    static accountKeyLink = transactionObj => {
     	return {
     		...transactionObj,
     		transactionBody: {

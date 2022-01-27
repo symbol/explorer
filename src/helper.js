@@ -183,7 +183,7 @@ class helper {
 	 * Convert hex value or namespace name to mosaicId or namespaceId.
 	 * @param {string} hexOrNamespace - hex value or namespace name.
 	 * @param {string} toId - 'mosaic' | 'namespace'
-	 * @returns {object} MosaicId | NamespaceId
+	 * @returns {Promise<MosaicId|NamespaceId>} MosaicId | NamespaceId
 	 */
 	static hexOrNamespaceToId = async (hexOrNamespace, toId) => {
 		let Id = MosaicId | NamespaceId;
@@ -208,7 +208,7 @@ class helper {
 	/**
 	 * Decode Account Public key or Namespace name to plan Address.
 	 * @param {string} address Account publicKey string | namespace name
-	 * @returns {string} example : SB3KUBHATFCPV7UZQLWAQ2EUR6SIHBSBEOEDDDF3
+	 * @returns {Promise<string>} example : SB3KUBHATFCPV7UZQLWAQ2EUR6SIHBSBEOEDDDF3
 	 */
 	static decodeToAddress = async address => {
 		if (this.isAccountPublicKey(address))
@@ -218,8 +218,7 @@ class helper {
 			try {
 				const namespaceId = new NamespaceId(address);
 
-				const plainAddress = await NamespaceService.getLinkedAddress(namespaceId);
-				return plainAddress;
+				return await NamespaceService.getLinkedAddress(namespaceId);
 			} catch (e) {
 				console.error(e);
 			}
@@ -367,18 +366,18 @@ class helper {
 		if (0 === s) { r = g = b = l; } // achromatic
 		 else {
 			/* eslint-disable no-param-reassign */
-			const hue2rgb = (p, q, t) => {
-				if (0 > t)
-					t += 1;
-				if (1 < t)
-					t -= 1;
-				if (t < 1 / 6)
-					return p + ((q - p) * (6 * t));
+			const hue2rgb = (_p, _q, _t) => {
+				if (0 > _t)
+					_t += 1;
+				if (1 < _t)
+					_t -= 1;
+				if (_t < 1 / 6)
+					return _p + ((_q - _p) * (6 * _t));
 				if (t < 1 / 2)
 					return q;
 				if (t < 2 / 3)
-					return p + ((q - p) * (((2 / 3) - t) * 6));
-				return p;
+					return _p + ((_q - _p) * (((2 / 3) - _t) * 6));
+				return _p;
 			};
 			/* eslint-disable no-param-reassign */
 
