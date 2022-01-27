@@ -16,15 +16,7 @@
  *
  */
 
-import Vue from 'vue';
 import Lock from './lock';
-import { filters, Constants } from '../config';
-import helper from '../helper';
-import {
-	ListenerService,
-	BlockService,
-	AccountService
-} from '../infrastructure';
 import {
 	DataSet,
 	Pagination,
@@ -33,6 +25,14 @@ import {
 	getMutationsFromManagers,
 	getActionsFromManagers
 } from './manager';
+import { filters, Constants } from '../config';
+import helper from '../helper';
+import {
+	ListenerService,
+	BlockService,
+	AccountService
+} from '../infrastructure';
+import Vue from 'vue';
 
 const managers = [
 	new Pagination({

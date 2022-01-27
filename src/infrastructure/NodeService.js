@@ -18,9 +18,9 @@
 
 import http from './http';
 import Constants from '../config/constants';
-import * as symbol from 'symbol-sdk';
-import moment from 'moment';
 import helper from '../helper';
+import moment from 'moment';
+import * as symbol from 'symbol-sdk';
 
 class NodeService {
     /**

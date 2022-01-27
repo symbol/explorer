@@ -1,4 +1,4 @@
-import defaultConfig from './default.json';
+import defaultConfig from './default';
 
 const globalConfig = window.globalConfig || defaultConfig;
 

@@ -15,8 +15,8 @@
  * limitations under the License.
  *
  */
-import globalConfig from '../config/globalConfig';
 import Constants from '../config/constants';
+import globalConfig from '../config/globalConfig';
 import Axios from 'axios';
 
 class StatisticService {

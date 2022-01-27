@@ -15,14 +15,14 @@
  * limitations under the License.
  *
  */
-import Vue from 'vue';
 import Lock from './lock';
-import helper from '../helper';
-import http from '../infrastructure/http';
-import { NodeService } from '../infrastructure';
+import { version } from '../../package';
 import globalConfig from '../config/globalConfig';
-import { version } from '../../package.json';
+import helper from '../helper';
+import { NodeService } from '../infrastructure';
+import http from '../infrastructure/http';
 import * as sdk from 'symbol-sdk';
+import Vue from 'vue';
 
 const LOCK = Lock.create();
 

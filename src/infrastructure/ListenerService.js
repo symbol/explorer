@@ -16,8 +16,8 @@
  *
  */
 
-import { Listener } from 'symbol-sdk';
 import http from './http';
+import { Listener } from 'symbol-sdk';
 class ListenerService {
   /**
    * Subscribe to new blocks announced to the chain.

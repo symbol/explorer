@@ -17,11 +17,11 @@
  */
 
 import http from './http';
-import helper from '../helper';
 import Constants from '../config/constants';
+import globalConfig from '../config/globalConfig';
+import helper from '../helper';
 import { ChainService, MetadataService, ReceiptService } from '../infrastructure';
 import { Order, NamespaceId, UInt64, ReceiptType, Address } from 'symbol-sdk';
-import globalConfig from '../config/globalConfig';
 
 class NamespaceService {
   /**

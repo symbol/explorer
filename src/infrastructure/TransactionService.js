@@ -16,6 +16,15 @@
  *
  */
 
+import http from './http';
+import Constants from '../config/constants';
+import helper from '../helper';
+import {
+	BlockService,
+	LockService,
+	CreateTransaction
+} from '../infrastructure';
+import { toArray } from 'rxjs/operators';
 import {
 	TransactionType,
 	Address,
@@ -26,15 +35,6 @@ import {
 	UInt64,
 	Mosaic
 } from 'symbol-sdk';
-import Constants from '../config/constants';
-import http from './http';
-import helper from '../helper';
-import {
-	BlockService,
-	LockService,
-	CreateTransaction
-} from '../infrastructure';
-import { toArray } from 'rxjs/operators';
 
 class TransactionService {
   /**

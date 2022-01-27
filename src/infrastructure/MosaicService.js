@@ -17,10 +17,10 @@
  */
 
 import http from './http';
-import helper from '../helper';
-import { Address, MosaicId, Order, ReceiptType, UInt64 } from 'symbol-sdk';
-import { NamespaceService, MetadataService, ReceiptService } from '../infrastructure';
 import { Constants } from '../config';
+import helper from '../helper';
+import { NamespaceService, MetadataService, ReceiptService } from '../infrastructure';
+import { Address, MosaicId, Order, ReceiptType, UInt64 } from 'symbol-sdk';
 
 class MosaicService {
 	/**

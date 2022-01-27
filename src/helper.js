@@ -17,6 +17,9 @@
  */
 
 import { Constants } from './config';
+import { NamespaceService, MosaicService, ReceiptService } from './infrastructure';
+import http from './infrastructure/http';
+import moment from 'moment';
 import {
 	NetworkType,
 	MosaicId,
@@ -26,10 +29,6 @@ import {
 	NodeVersion,
 	UInt64
 } from 'symbol-sdk';
-import { NamespaceService, MosaicService, ReceiptService } from './infrastructure';
-import http from './infrastructure/http';
-import moment from 'moment';
-
 const Url = require('url-parse');
 
 const getNetworkTypeAddressFormat = {

@@ -16,14 +16,14 @@
  *
  */
 
-import { UInt64, TransactionGroup, Order, BlockOrderBy, BlockType } from 'symbol-sdk';
-import { TransactionService, ReceiptService, AccountService } from '../infrastructure';
-import http from './http';
-import helper from '../helper';
-import { Constants } from '../config';
-import { take, toArray } from 'rxjs/operators';
-import { MerkleTree } from 'merkletreejs';
 import NodeService from './NodeService';
+import http from './http';
+import { Constants } from '../config';
+import helper from '../helper';
+import { TransactionService, ReceiptService, AccountService } from '../infrastructure';
+import { MerkleTree } from 'merkletreejs';
+import { take, toArray } from 'rxjs/operators';
+import { UInt64, TransactionGroup, Order, BlockOrderBy, BlockType } from 'symbol-sdk';
 
 class BlockService {
   /**

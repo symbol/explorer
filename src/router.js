@@ -16,10 +16,10 @@
  *
  */
 
+import pages from './config/pages';
+import PageAssembler from './views/PageAssembler.vue';
 import Vue from 'vue';
 import Router from 'vue-router';
-import PageAssembler from './views/PageAssembler.vue';
-import pages from './config/pages';
 Vue.use(Router);
 
 const pagesRoutes = pages.map(page => ({

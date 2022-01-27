@@ -17,12 +17,12 @@
  */
 
 import http from './http';
-import { ReceiptType, ResolutionType } from 'symbol-sdk';
 import Constants from '../config/constants';
-import { take, toArray } from 'rxjs/operators';
 import {
 	CreateReceiptTransaction
 } from '../infrastructure';
+import { take, toArray } from 'rxjs/operators';
+import { ReceiptType, ResolutionType } from 'symbol-sdk';
 
 class ReceiptService {
 	/**

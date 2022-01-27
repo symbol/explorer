@@ -17,13 +17,6 @@
  */
 
 import Lock from './lock';
-import { Constants, filters } from '../config';
-import helper from '../helper';
-import {
-	AccountService,
-	MultisigService,
-	RestrictionService
-} from '../infrastructure';
 import {
 	DataSet,
 	Pagination,
@@ -32,6 +25,13 @@ import {
 	getMutationsFromManagers,
 	getActionsFromManagers
 } from './manager';
+import { Constants, filters } from '../config';
+import helper from '../helper';
+import {
+	AccountService,
+	MultisigService,
+	RestrictionService
+} from '../infrastructure';
 import { Address } from 'symbol-sdk';
 
 const managers = [

@@ -16,9 +16,9 @@
  *
  */
 
-import * as symbol from 'symbol-sdk';
-import { NamespaceService } from '../infrastructure';
 import globalConfig from '../config/globalConfig';
+import { NamespaceService } from '../infrastructure';
+import * as symbol from 'symbol-sdk';
 import { Configuration, NodeApi } from 'symbol-statistics-service-typescript-fetch-client';
 
 let NODE_URL;

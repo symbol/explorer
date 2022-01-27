@@ -1,4 +1,6 @@
 import http from './http';
+import Constants from '../config/constants';
+import helper from '../helper';
 import {
 	Address,
 	AddressRestrictionFlag,
@@ -9,8 +11,6 @@ import {
 	MosaicRestrictionEntryType,
 	Order
 } from 'symbol-sdk';
-import helper from '../helper';
-import Constants from '../config/constants';
 
 class RestrictionService {
   /**

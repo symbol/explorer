@@ -17,8 +17,6 @@
  */
 
 import Lock from './lock';
-import { NetworkService, StatisticService, BlockService, NodeService } from '../infrastructure';
-import { Order } from 'symbol-sdk';
 import {
 	DataSet,
 	getStateFromManagers,
@@ -26,6 +24,8 @@ import {
 	getMutationsFromManagers,
 	getActionsFromManagers
 } from './manager';
+import { NetworkService, StatisticService, BlockService, NodeService } from '../infrastructure';
+import { Order } from 'symbol-sdk';
 
 const managers = [
 	new DataSet(

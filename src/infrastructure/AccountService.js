@@ -16,19 +16,10 @@
  *
  */
 
-import {
-	Address,
-	TransactionType,
-	TransactionGroup,
-	Order,
-	BlockOrderBy,
-	ReceiptType,
-	Mosaic,
-	MosaicId
-} from 'symbol-sdk';
-import nem from 'nem-sdk';
+import NodeService from './NodeService';
 import http from './http';
 import { Constants } from '../config';
+import helper from '../helper';
 import {
 	NamespaceService,
 	TransactionService,
@@ -39,8 +30,17 @@ import {
 	MosaicService,
 	BlockService
 } from '../infrastructure';
-import helper from '../helper';
-import NodeService from './NodeService';
+import nem from 'nem-sdk';
+import {
+	Address,
+	TransactionType,
+	TransactionGroup,
+	Order,
+	BlockOrderBy,
+	ReceiptType,
+	Mosaic,
+	MosaicId
+} from 'symbol-sdk';
 
 class AccountService {
 	/**

@@ -17,8 +17,6 @@
  */
 
 import Lock from './lock';
-import { NodeService, StatisticService } from '../infrastructure';
-import { filters } from '../config';
 import {
 	Pagination,
 	DataSet,
@@ -27,6 +25,8 @@ import {
 	getMutationsFromManagers,
 	getActionsFromManagers
 } from './manager';
+import { filters } from '../config';
+import { NodeService, StatisticService } from '../infrastructure';
 
 const managers = [
 	new Pagination({

@@ -16,6 +16,8 @@
  *
  */
 
+import http from './http';
+import helper from '../helper';
 import {
 	AggregateTransaction,
 	Account,
@@ -31,8 +33,6 @@ import {
 	Deadline,
 	UInt64
 } from 'symbol-sdk';
-import http from './http';
-import helper from '../helper';
 
 class AnnounceService {
     static announceHashLock = (signedHashLockTransaction, signedTransaction) => {

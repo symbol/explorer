@@ -17,8 +17,8 @@
  */
 
 import http from './http';
-import helper from '../helper';
 import { Constants } from '../config';
+import helper from '../helper';
 import { NamespaceService } from '../infrastructure';
 import { Address, Mosaic, MosaicId } from 'symbol-sdk';
 

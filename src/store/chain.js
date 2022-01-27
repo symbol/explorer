@@ -17,8 +17,8 @@
  */
 
 import Lock from './lock';
-import { NodeService, ChainService, BlockService, FinalizationService } from '../infrastructure';
 import helper from '../helper';
+import { NodeService, ChainService, BlockService, FinalizationService } from '../infrastructure';
 const LOCK = Lock.create();
 
 export default {

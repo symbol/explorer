@@ -17,8 +17,6 @@
  */
 
 import Lock from './lock';
-import { Constants, filters } from '../config';
-import { NamespaceService } from '../infrastructure';
 import {
 	DataSet,
 	Pagination,
@@ -27,6 +25,8 @@ import {
 	getMutationsFromManagers,
 	getActionsFromManagers
 } from './manager';
+import { Constants, filters } from '../config';
+import { NamespaceService } from '../infrastructure';
 
 const LOCK = Lock.create();
 

@@ -15,12 +15,12 @@
  * limitations under the License.
  *
  */
+import { i18n, keyRedirects } from '../config';
+import helper from '../helper';
+import { NamespaceService, MosaicService, AccountService } from '../infrastructure';
 import router from '../router';
 import { Address, AccountHttp } from 'symbol-sdk';
-import { i18n, keyRedirects } from '../config';
-import { NamespaceService, MosaicService, AccountService } from '../infrastructure';
 import Vue from 'vue';
-import helper from '../helper';
 
 export default {
 	namespaced: true,
