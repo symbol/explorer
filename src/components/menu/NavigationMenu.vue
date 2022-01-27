@@ -40,9 +40,12 @@ export default {
 		let offset = DesktopMenu.offsetTop;
 
 		window.onscroll = () => {
-			if (window.pageYOffset > offset)
-				this.fixed = true; else
+			if (window.pageYOffset > offset) {
+				this.fixed = true;
+            }
+            else {
 				this.fixed = false;
+            }
 		};
 	},
 

@@ -37,7 +37,7 @@ import { Address } from 'symbol-sdk';
 const managers = [
 	new Pagination({
 		name: 'timeline',
-		fetchFunction: (pageInfo, filterVaule) => AccountService.getAccountList(pageInfo, filterVaule),
+		fetchFunction: (pageInfo, filterValue) => AccountService.getAccountList(pageInfo, filterValue),
 		pageInfo: {
 			pageSize: Constants.PageSize
 		},

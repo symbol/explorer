@@ -65,6 +65,8 @@ class helper {
 	}
 
 	static formatSeconds = _second => {
+		let second = _second;
+
 		if (!second && 0 !== second)
 			return '';
 
@@ -76,15 +78,15 @@ class helper {
 
 		if (86400 < second) {
 			d = Math.floor(second / 86400);
-			second = second % 86400; // eslint-disable-line no-param-reassign
+			second = second % 86400;
 		}
 		if (3600 < second) {
 			h = Math.floor(second / 3600);
-			second = second % 3600; // eslint-disable-line no-param-reassign
+			second = second % 3600;
 		}
 		if (60 < second) {
 			m = Math.floor(second / 60);
-			second = second % 60; // eslint-disable-line no-param-reassign
+			second = second % 60;
 		}
 		let result = '';
 
@@ -109,8 +111,8 @@ class helper {
 
 	static isAccountAddress = str =>
 		39 === str.length &&
-		str.match(`[${getNetworkTypeAddressFormat[http.networkType]}]
-			{1,1}[a-zA-Z0-9]{5,5}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{3,3}`)
+		str.match(`[${getNetworkTypeAddressFormat[http.networkType]}]` +
+			'{1,1}[a-zA-Z0-9]{5,5}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{3,3}')
 
 	static isBlockHeight = str =>
 		str.match(/^-{0,1}\d+$/)
@@ -180,7 +182,7 @@ class helper {
 	/**
 	 * Convert hex value or namespace name to mosaicId or namespaceId.
 	 * @param {string} hexOrNamespace - hex value or namespace name.
-	 * @param {object} toId - 'mosaic' | 'namespace'
+	 * @param {string} toId - 'mosaic' | 'namespace'
 	 * @returns {object} MosaicId | NamespaceId
 	 */
 	static hexOrNamespaceToId = async (hexOrNamespace, toId) => {
@@ -188,14 +190,17 @@ class helper {
 
 		const isHexadecimal = this.isMosaicOrNamespaceId(hexOrNamespace);
 
-		if (isHexadecimal)
-		{Id = 'mosaic' === toId
-			? new MosaicId(hexOrNamespace)
-			: NamespaceId.createFromEncoded(hexOrNamespace);}
+		if (isHexadecimal){
+			Id = 'mosaic' === toId
+				? new MosaicId(hexOrNamespace)
+				: NamespaceId.createFromEncoded(hexOrNamespace);
+		}
 		else
-		{Id = 'mosaic' === toId
-			? await NamespaceService.getLinkedMosaicId(new NamespaceId(hexOrNamespace))
-			: new NamespaceId(hexOrNamespace);}
+		{
+			Id = 'mosaic' === toId
+				? await NamespaceService.getLinkedMosaicId(new NamespaceId(hexOrNamespace))
+				: new NamespaceId(hexOrNamespace);
+		}
 
 		return Id;
 	}

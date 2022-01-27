@@ -33,7 +33,7 @@ const LOCK = Lock.create();
 const managers = [
 	new Pagination({
 		name: 'timeline',
-		fetchFunction: (pageInfo, filterVaule) => NamespaceService.getNamespaceList(pageInfo, filterVaule),
+		fetchFunction: (pageInfo, filterValue) => NamespaceService.getNamespaceList(pageInfo, filterValue),
 		pageInfo: {
 			pageSize: Constants.PageSize
 		},

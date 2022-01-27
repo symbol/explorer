@@ -223,7 +223,8 @@ export default {
 
 		changeFilterValue (e) {
 			if ('function' === typeof this.manager.changeFilterValue)
-				this.manager.changeFilterValue(e); else
+				this.manager.changeFilterValue(e);
+			else
 				console.error('Failed to change filter value. "changeFilterValue" is not a function');
 		},
 

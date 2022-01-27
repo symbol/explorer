@@ -56,11 +56,9 @@ class NodeService {
     		console.error('Statistics service getNodes error: ', e);
     	}
 
-    	const formattedNodePeers = nodePeers
+    	return nodePeers
     		.map(nodeInfo => this.formatNodeInfo(nodeInfo))
     		.sort((a, b) => a.friendlyName.localeCompare(b.friendlyName));
-
-    	return formattedNodePeers;
     }
 
     /**

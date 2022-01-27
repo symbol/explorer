@@ -169,7 +169,7 @@ class RestrictionService {
   		pageSize,
   		order: Order.Desc,
   		mosaicId: mosaicId,
-  		...filterVaule
+  		...filterValue
 	  };
 
   	const mosaicRestrictions = await this.searchMosaicRestrictions(searchCriteria);

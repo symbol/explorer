@@ -58,9 +58,12 @@ export default {
 
 	mounted () {
 		document.addEventListener('scroll', e => {
-			if (50 < window.pageYOffset)
-				this.isHide = true; else
+			if (50 < window.pageYOffset) {
+				this.isHide = true;
+            }
+            else {
 				this.isHide = false;
+            }
 		});
 	},
 

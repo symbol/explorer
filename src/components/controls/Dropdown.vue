@@ -61,7 +61,8 @@ export default {
 			variant = 'outline-';
 
 			if (true === this.dark)
-				variant += 'dark-mode-blue'; else
+				variant += 'dark-mode-blue';
+			else
 				variant += 'info';
 
 			if (false === this.border)

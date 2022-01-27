@@ -522,9 +522,7 @@ class AccountService {
 
 		const aliasNames = accountName.names.map(names => names.name);
 
-		const names = 0 < aliasNames.length ? aliasNames : [Constants.Message.UNAVAILABLE];
-
-		return names;
+		return 0 < aliasNames.length ? aliasNames : [Constants.Message.UNAVAILABLE];
 	}
 
 	/**

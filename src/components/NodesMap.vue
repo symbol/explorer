@@ -66,7 +66,7 @@ export default {
 		},
 
 		button1Style () {
-			return `border-radius: 3px; 
+			return `border-radius: 3px;
                 color: #fff;
                 background-color: #5200c6;
                 font-family: Noto Sans;
@@ -202,11 +202,16 @@ export default {
 			let size = 'medium';
 
 			if (5 > count)
-				size = 'xs'; else if (10 > count)
-				size = 's'; else if (20 > count)
-				size = 'm'; else if (40 > count)
-				size = 'l'; else if (80 > count)
-				size = 'xl'; else if (80 <= count)
+				size = 'xs';
+			else if (10 > count)
+				size = 's';
+			else if (20 > count)
+				size = 'm';
+			else if (40 > count)
+				size = 'l';
+			else if (80 > count)
+				size = 'xl';
+			else if (80 <= count)
 				size = 'xxl';
 
 			return leaflet.divIcon({

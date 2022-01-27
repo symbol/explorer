@@ -176,10 +176,10 @@ class TransactionService {
   /**
    * Gets array of transactions
    * @param {object} pageInfo - object for page info such as pageNumber, pageSize
-   * @param {object} filterVaule - object for search criteria
-   * @returns {array} Formatted tranctionDTO[]
+   * @param {object} filterValue - object for search criteria
+   * @returns {array} Formatted transactionDTO[]
    */
-  static getTransactionList = async (pageInfo, filterVaule) => {
+  static getTransactionList = async (pageInfo, filterValue) => {
   	const { pageNumber, pageSize } = pageInfo;
   	const searchCriteria = {
   		pageNumber,
@@ -187,7 +187,7 @@ class TransactionService {
   		order: Order.Desc,
   		type: [],
   		group: TransactionGroup.Confirmed,
-  		...filterVaule
+  		...filterValue
   	};
 
   	const searchTransactions = await this.searchTransactions(searchCriteria);
