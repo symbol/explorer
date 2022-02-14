@@ -1,0 +1,34 @@
+{
+	"apiNodePort": 3001,
+	"endpoints": {
+		"marketData": "https://min-api.cryptocompare.com/",
+		"statisticsService": "https://symbol.services"
+	},
+	"networkConfig": {
+		"namespaceName": "symbol.xym",
+		"mosaicId": "6BED913FA20223F8",
+		"namespaceId": "E74B99BA41F4AFEE",
+		"divisibility": "6",
+		"networkIdentifier": 104
+	},
+	"footer": {
+		"link": [
+			{
+				"href": "https://github.com/symbol",
+				"text": "Github",
+				"icon": "IconGithub"
+			},
+			{
+				"href": "https://discord.com/invite/xymcity",
+				"text": "Join Discord",
+				"icon": "IconDiscord"
+			},
+			{
+				"href": "https://testnet.symbol.tools/",
+				"text": "Faucet",
+				"icon": "IconHomeCurrencyUsd"
+			}
+		]
+	}
+}
+

@@ -10,6 +10,8 @@
   "scripts": {
     "dev": "vue-cli-service serve",
     "build": "vue-cli-service build",
+    "build:testnet": "bash src/scripts/setup-subdir-config.sh testnet && vue-cli-service build",
+    "build:mainnet": "bash src/scripts/setup-subdir-config.sh mainnet && vue-cli-service build",
     "start": "node server.js",
     "lint": "vue-cli-service lint",
     "lint:css": "stylelint '**/*.vue' src/styles/main.scss --syntax scss",
