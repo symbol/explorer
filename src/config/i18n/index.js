@@ -1,7 +1,8 @@
 const languages = {
 	'en-us': require('./en-us'),
 	'日本語': require('./ja'),
-	'Русский': require('./ru')
+	'Русский': require('./ru'),
+  '한국어': require('./ko')
 	// '中文': require('./zh.json'),
 	// 'Português': require('./pt.json'),
 	// 'Espanhol': require('./es.json'),
