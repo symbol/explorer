@@ -37,16 +37,16 @@ export default {
 		}
 	},
 	computed: {
-		epochStatus() {
+		epochStatus () {
 			return this.getKeyName(this.value.epochStatus.toLowerCase());
 		},
-		epochStart() {
+		epochStart () {
 			return `${this.getKeyName('epoch')} ${this.value.epochStart}`;
 		},
-		epochEnd() {
+		epochEnd () {
 			return `${this.getKeyName('epoch')} ${this.value.epochEnd}`;
 		},
-		isExpired() {
+		isExpired () {
 			return this.value.epochStatus === Constants.EpochStatus.EXPIRED;
 		}
 	}

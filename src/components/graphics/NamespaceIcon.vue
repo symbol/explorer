@@ -84,25 +84,25 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			id: this.getId('namespace-icon')
 		};
 	},
 
 	computed: {
-		title() {
+		title () {
 			return this.getTranslation('namespace') + ': ' + this.namespace.namespaceName;
 		},
-		iconColor() {
+		iconColor () {
 			return this.getIconColorFromHex(this.namespace.namespaceId);
 		},
 
-		truncatedNamespaceName() {
+		truncatedNamespaceName () {
 			return this.truncString(this.namespace.namespaceName, 5);
 		},
 
-		viewBox() {
+		viewBox () {
 			return this.hideCaption
 				? '115 0 16 105'
 				: '30 -26 211.333 180';

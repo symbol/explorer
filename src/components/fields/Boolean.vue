@@ -38,7 +38,7 @@ export default {
 		value: [Boolean, String, Number]
 	},
 
-	data() {
+	data () {
 		return {
 			IconTrue,
 			IconFalse
@@ -46,15 +46,15 @@ export default {
 	},
 
 	computed: {
-		isTrue() {
-			const value = this.value;
+		isTrue () {
+			const { value } = this;
 
-			return value === true ||
-                value === 1 ||
-                value === 'true' ||
-                value === '1' ||
-                value === 'up' ||
-                value === 'ok';
+			return true === value ||
+                1 === value ||
+                'true' === value ||
+                '1' === value ||
+                'up' === value ||
+                'ok' === value;
 		}
 	}
 };

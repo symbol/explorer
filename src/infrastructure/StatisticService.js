@@ -15,18 +15,17 @@
  * limitations under the License.
  *
  */
-import globalConfig from '../config/globalConfig';
 import Constants from '../config/constants';
+import globalConfig from '../config/globalConfig';
 import Axios from 'axios';
 
 class StatisticService {
 	/**
 	 * Gets Block Time Difference dataset.
 	 * The dataset in use for Chart.
-	 * @param blocks - streamer blocks []
-	 * @param limit - number of the block.
-	 * @param grouping - grouping block for calculation
-	 * @returns block time difference dataset.
+	 * @param {array} blocks - streamer blocks.
+	 * @param {number} grouping - grouping block for calculation.
+	 * @returns {object} block time difference dataset.
 	 */
 	static getBlockTimeDifferenceData = (blocks, grouping) => {
 		const heights = blocks.map(data => Number(data.height));
@@ -62,7 +61,7 @@ class StatisticService {
 			let average = averages[i] / 1000;
 
 			timeDifferenceDataset.push([height, difference.toFixed(2)]);
-			averagesDataset.push([height, average.toFixed(2) === 'NaN' ? null : average.toFixed(2)]);
+			averagesDataset.push([height, 'NaN' === average.toFixed(2) ? null : average.toFixed(2)]);
 		}
 
 		const sliceTimeDifferenceDataset = timeDifferenceDataset.slice(0, timeDifferenceDataset.length - grouping);
@@ -90,10 +89,9 @@ class StatisticService {
 	/**
 	 * Gets Transaction data per block dataset
 	 * The dataset in use for Chart.
-	 * @param blocks - streamer blocks []
-	 * @param limit - number of the block.
-	 * @param grouping - grouping block for calculation
-	 * @returns transaction data per block dataset.
+	 * @param {array} blocks - streamer blocks.
+	 * @param {number} grouping - grouping block for calculation
+	 * @returns {object} transaction data per block dataset.
 	 */
 	static getTransactionPerBlockData = (blocks, grouping) => {
 		const heights = blocks.map(data => Number(data.height));
@@ -123,7 +121,8 @@ class StatisticService {
 			averagesDataset.push([heights[i], averages[i] === undefined ? 0 : averages[i].toFixed(2)]);
 		}
 
-		const sliceNumTransactionsPerBlockDataset = numTransactionsPerBlockDataset.slice(0, numTransactionsPerBlockDataset.length - grouping);
+		const sliceNumTransactionsPerBlockDataset = numTransactionsPerBlockDataset
+			.slice(0, numTransactionsPerBlockDataset.length - grouping);
 		const sliceAveragesDataset = averagesDataset.slice(0, averagesDataset.length - grouping);
 
 		let dataset = [
@@ -152,7 +151,7 @@ class StatisticService {
 		return chartData.map(el => ({ ...el, name: Constants.RoleType[el.name] || el.name }));
 	}
 
-	static fetchFromStatisticsService = async (route) => {
+	static fetchFromStatisticsService = async route => {
 		if (this.isUrlProvided())
 			return (await Axios.get(globalConfig.endpoints.statisticsService + route)).data;
 
@@ -166,8 +165,8 @@ class StatisticService {
 
 		let chartData = [];
 
-		data.forEach((doc) => {
-			Object.keys(doc.values).forEach((name) => {
+		data.forEach(doc => {
+			Object.keys(doc.values).forEach(name => {
 				if (!aggreagatedData[name] && isKeyIncluded(name)) {
 					aggreagatedData[name] = {
 						data: []
@@ -191,12 +190,11 @@ class StatisticService {
 		return chartData;
 	}
 
-	static isUrlProvided() {
+	static isUrlProvided () {
 		try {
 			new URL(globalConfig?.endpoints?.statisticsService); // eslint-disable-line no-new
 			return true;
-		}
-		catch (e) {
+		} catch (e) {
 			return false;
 		}
 	}

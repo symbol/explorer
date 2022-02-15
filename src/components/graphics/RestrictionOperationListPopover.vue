@@ -47,15 +47,15 @@ export default {
 		}
 	},
 	computed: {
-		addedRestriction() {
+		addedRestriction () {
 			return this.data.added;
 		},
-		removedRestriction() {
+		removedRestriction () {
 			return this.data.removed;
 		}
 	},
 	methods: {
-		getTranslation(key) {
+		getTranslation (key) {
 			return this.$store.getters['ui/getNameByKey'](key);
 		}
 	}

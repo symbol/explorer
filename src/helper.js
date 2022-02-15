@@ -17,6 +17,9 @@
  */
 
 import { Constants } from './config';
+import { NamespaceService, MosaicService, ReceiptService } from './infrastructure';
+import http from './infrastructure/http';
+import moment from 'moment';
 import {
 	NetworkType,
 	MosaicId,
@@ -26,10 +29,6 @@ import {
 	NodeVersion,
 	UInt64
 } from 'symbol-sdk';
-import { NamespaceService, MosaicService, ReceiptService } from './infrastructure';
-import http from './infrastructure/http';
-import moment from 'moment';
-
 const Url = require('url-parse');
 
 const getNetworkTypeAddressFormat = {
@@ -42,104 +41,108 @@ const getNetworkTypeAddressFormat = {
 };
 
 class helper {
-	static timeSince(interval) {
-		if (interval.years > 1)
+	static timeSince (interval) {
+		if (1 < interval.years)
 			return interval.years + ' years';
-		else if (interval.years === 1)
+		else if (1 === interval.years)
 			return interval.years + ' year';
-		else if (interval.days > 1)
+		else if (1 < interval.days)
 			return interval.days + ' days';
-		else if (interval.days === 1)
+		else if (1 === interval.days)
 			return interval.days + ' day';
-		else if (interval.hours > 1)
+		else if (1 < interval.hours)
 			return interval.hours + ' hours';
-		else if (interval.hours === 1)
+		else if (1 === interval.hours)
 			return interval.hours + ' hour';
-		else if (interval.minutes > 1)
+		else if (1 < interval.minutes)
 			return interval.minutes + ' min';// ' minutes'
-		else if (interval.minutes === 1)
+		else if (1 === interval.minutes)
 			return interval.minutes + ' min';// ' minute'
-		else if (interval.seconds !== 1)
+		else if (1 !== interval.seconds)
 			return interval.seconds + ' sec';// ' seconds'
 		else
 			return interval.seconds + ' sec';// ' second'
 	}
 
-	static formatSeconds = second => {
-		if (!second && second !== 0) return '';
+	static formatSeconds = _second => {
+		let second = _second;
+
+		if (!second && 0 !== second)
+			return '';
+
 		let d = 0;
 
 		let h = 0;
 
 		let m = 0;
 
-		if (second > 86400) {
+		if (86400 < second) {
 			d = Math.floor(second / 86400);
 			second = second % 86400;
 		}
-		if (second > 3600) {
+		if (3600 < second) {
 			h = Math.floor(second / 3600);
 			second = second % 3600;
 		}
-		if (second > 60) {
+		if (60 < second) {
 			m = Math.floor(second / 60);
 			second = second % 60;
 		}
 		let result = '';
 
-		if (m > 0 || h > 0 || d > 0)
+		if (0 < m || 0 < h || 0 < d)
 			result = `${m} m ${result}`;
 
-		if (h > 0 || d > 0)
+		if (0 < h || 0 < d)
 			result = `${h} h ${result}`;
 
-		if (d > 0)
+		if (0 < d)
 			result = `${d} d ${result}`;
 
 		return result;
 	}
 
-	static isMosaicOrNamespaceId = (str) =>
-		str.length === 16 && /^[0-9a-fA-F]+$/.test(str);
+	static isMosaicOrNamespaceId = str =>
+		16 === str.length && /^[0-9a-fA-F]+$/.test(str);
 
-	static isAccountPublicKey = (str) =>
-		str.length === 64 &&
+	static isAccountPublicKey = str =>
+		64 === str.length &&
 		str.match('^[A-z0-9]+$')
 
-	static isAccountAddress = (str) =>
-		str.length === 39 &&
-		str.match(`[${getNetworkTypeAddressFormat[http.networkType]}]{1,1}[a-zA-Z0-9]{5,5}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{3,3}`)
+	static isAccountAddress = str =>
+		39 === str.length &&
+		str.match(`[${getNetworkTypeAddressFormat[http.networkType]}]` +
+			'{1,1}[a-zA-Z0-9]{5,5}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{3,3}')
 
-	static isBlockHeight = (str) =>
+	static isBlockHeight = str =>
 		str.match(/^-{0,1}\d+$/)
 
-	static validURL(url) {
+	static validURL (url) {
 		// All we expect is there is a valid origin for the url, IE,
 		// the origin is not 'null'.
-		return url.origin !== 'null';
+		return 'null' !== url.origin;
 	}
 
-	static parseUrl(str) {
+	static parseUrl (str) {
 		let url = new Url(str);
 
 		if (this.validURL(url))
 			return url;
 	}
 
-	static httpToWssUrl(str) {
+	static httpToWssUrl (str) {
 		let url = new Url(str);
 
 		if (this.validURL(url)) {
-			url.set('protocol', url.port === '3000' ? 'ws:' : 'wss:');
+			url.set('protocol', '3000' === url.port ? 'ws:' : 'wss:');
 			return url;
 		}
 	}
 
-	static async logError(dispatch, action, ...args) {
+	static async logError (dispatch, action, ...args) {
 		try {
 			await dispatch(action, ...args);
-		}
-		catch (e) {
+		} catch (e) {
 			console.error(`Failed to call ${action}`, e);
 		}
 	}
@@ -158,54 +161,56 @@ class helper {
 	}
 
 	static fetchData = async (fetchFunction, commit, before, error, success) => {
-		if (typeof before === 'function')
-			await before();
-		else {
+		if ('function' === typeof before) { await before(); } else {
 			commit('setLoading', true);
 			commit('setError', false);
 		}
 		try {
 			await fetchFunction();
-		}
-		catch (e) {
-			if (typeof error === 'function')
-				await error(e);
-			else {
+		} catch (e) {
+			if ('function' === typeof error) { await error(e); } else {
 				console.error(e);
 				commit('setError', true);
 			}
 		}
-		if (typeof success === 'function')
+		if ('function' === typeof success)
 			await success();
 		else
 			commit('setLoading', false);
 	}
 
 	/**
-	 * Convert hex value or namespace name to mosaicId or namespaceId
-	 * @param hexOrNamespace - hex value or namespace name
-	 * @param toId - 'mosaic' | 'namespace'
-	 * @returns MosaicId | NamespaceId
+	 * Convert hex value or namespace name to mosaicId or namespaceId.
+	 * @param {string} hexOrNamespace - hex value or namespace name.
+	 * @param {string} toId - 'mosaic' | 'namespace'
+	 * @returns {Promise<MosaicId|NamespaceId>} MosaicId | NamespaceId
 	 */
 	static hexOrNamespaceToId = async (hexOrNamespace, toId) => {
 		let Id = MosaicId | NamespaceId;
 
 		const isHexadecimal = this.isMosaicOrNamespaceId(hexOrNamespace);
 
-		if (isHexadecimal)
-			Id = toId === 'mosaic' ? new MosaicId(hexOrNamespace) : NamespaceId.createFromEncoded(hexOrNamespace);
+		if (isHexadecimal){
+			Id = 'mosaic' === toId
+				? new MosaicId(hexOrNamespace)
+				: NamespaceId.createFromEncoded(hexOrNamespace);
+		}
 		else
-			Id = toId === 'mosaic' ? await NamespaceService.getLinkedMosaicId(new NamespaceId(hexOrNamespace)) : new NamespaceId(hexOrNamespace);
+		{
+			Id = 'mosaic' === toId
+				? await NamespaceService.getLinkedMosaicId(new NamespaceId(hexOrNamespace))
+				: new NamespaceId(hexOrNamespace);
+		}
 
 		return Id;
 	}
 
 	/**
 	 * Decode Account Public key or Namespace name to plan Address.
-	 * @param address - Account publicKey string | naemspace name
-	 * @returns Plan Address - example : SB3KUBHATFCPV7UZQLWAQ2EUR6SIHBSBEOEDDDF3
+	 * @param {string} address Account publicKey string | namespace name
+	 * @returns {Promise<string>} example : SB3KUBHATFCPV7UZQLWAQ2EUR6SIHBSBEOEDDDF3
 	 */
-	static decodeToAddress = async (address) => {
+	static decodeToAddress = async address => {
 		if (this.isAccountPublicKey(address))
 			return Address.createFromPublicKey(address, http.networkType).plain();
 
@@ -213,10 +218,8 @@ class helper {
 			try {
 				const namespaceId = new NamespaceId(address);
 
-				address = await NamespaceService.getLinkedAddress(namespaceId);
-				return address.plain();
-			}
-			catch (e) {
+				return await NamespaceService.getLinkedAddress(namespaceId);
+			} catch (e) {
 				console.error(e);
 			}
 		}
@@ -226,27 +229,26 @@ class helper {
 
 	/**
 	 * Convert Mosaic amount to relative Amount with divisibility.
-	 * @param amount - number
-	 * @param divisibility - decimal
-	 * @returns relativeAmount in string
+	 * @param {number} amount - number
+	 * @param {number} divisibility - decimal
+	 * @returns {string} relativeAmount in string
 	 */
 	static formatMosaicAmountWithDivisibility = (amount, divisibility) => {
-		let relativeAmount = divisibility !== 0 ? amount / Math.pow(10, divisibility) : amount.compact();
+		let relativeAmount = 0 !== divisibility ? amount / Math.pow(10, divisibility) : amount.compact();
 
 		return relativeAmount.toLocaleString('en-US', { minimumFractionDigits: divisibility });
 	}
 
 	/**
 	 * Get network currency balance.
-	 * @param mosaics - array of formatted mosaic[]
-	 * @returns balance - formatted mosaic amount
+	 * @param {array} mosaics - formatted mosaics.
+	 * @returns {string} network currency balance.
 	 */
 	static getNetworkCurrencyBalance = mosaics => {
 		let mosaic = mosaics.find(mosaic =>
 			mosaic.id.toHex() === http.networkCurrency.mosaicId ||
 			(mosaic.id instanceof NamespaceId &&
-				mosaic.id.toHex() === http.networkCurrency.namespaceId)
-		);
+				mosaic.id.toHex() === http.networkCurrency.namespaceId));
 
 		let balance = mosaic !== undefined ? this.toNetworkCurrency(mosaic.amount) : Constants.Message.UNAVAILABLE;
 
@@ -254,75 +256,64 @@ class helper {
 	}
 
 	/**
-	 * Get last Activity height.
-	 * @param activityBucket - array of activityBucket
-	 * @returns la
-	 */
-	static getLastActivityHeight = activityBucket => {
-		let activityBucketLength = activityBucket.length;
-
-		let lastActivityHeight = activityBucketLength > 0 ? activityBucket[activityBucketLength - 1].startHeight : Constants.Message.UNAVAILABLE;
-
-		return lastActivityHeight;
-	}
-
-	/**
-	 * Convert networkTimestamp to UTC date
-	 * @param networkTimestamp
-	 * @returns UTC date with format YYYY-MM-DD HH:mm:ss
+	 * Convert networkTimestamp to UTC date.
+	 * @param {number} networkTimestamp network timestamp.
+	 * @returns {string} UTC date with format YYYY-MM-DD HH:mm:ss.
 	 */
 	static convertToUTCDate = networkTimestamp => moment.utc(networkTimestamp * 1000).format('YYYY-MM-DD HH:mm:ss')
 
 	/**
 	 * convert difficulty raw score to readable
-	 * @param difficulty - raw difficulty score
-	 * @returns difficulty - readable difficulty score
+	 * @param {UInt64} difficulty - raw difficulty score
+	 * @returns {string} difficulty - readable difficulty score
 	 */
 	static convertBlockDifficultyToReadable = difficulty => (difficulty.compact() / 1000000000000).toFixed(2).toString()
 
 	/**
-	 * Format Importance score to percentage
-	 * @param {number} rawScore
-	 * @returns {string}
+	 * Format Importance score to percentage.
+	 * @param {number} rawScore raw score.
+	 * @returns {string} importance score in percentage.
 	 */
 	static ImportanceScoreToPercent = rawScore => {
 		const totalChainImportance = http.networkConfig.TotalChainImportance;
-		const divisibility = http.networkCurrency.divisibility;
+		const { divisibility } = http.networkCurrency;
 
 		let percent = rawScore;
 
-		if (rawScore > 0)
+		if (0 < rawScore)
 			percent = rawScore / totalChainImportance;
 
 		return (percent * 100).toFixed(divisibility).toString() + ' %';
 	}
 
 	/**
-	 * Format number to Network currecy divisibility.
+	 * Format number to Network currency divisibility.
 	 * example transaction fees
-	 * @param amount - number
-	 * @returns amount - (string) with formatted divisibility
+	 * @param {number} amount - mosaic amount.
+	 * @returns {string} amount - (string) with formatted divisibility
 	 */
-	static toNetworkCurrency = amount => (amount / Math.pow(10, http.networkCurrency.divisibility)).toLocaleString('en-US', { minimumFractionDigits: http.networkCurrency.divisibility })
+	static toNetworkCurrency = amount =>
+		(amount / Math.pow(10, http.networkCurrency.divisibility))
+			.toLocaleString('en-US', { minimumFractionDigits: http.networkCurrency.divisibility })
 
 	/**
 	 * Convert public key to Address.
-	 * @param publicKey - raw public key
-	 * @returns address - address in plain format
+	 * @param {string} publicKey - raw public key
+	 * @returns {string} address - address in plain format
 	 */
 	static publicKeyToAddress = publicKey => Address.createFromPublicKey(publicKey, http.networkType).plain()
 
 	/**
-	 * convet network timestamp to world time
-	 * @param timestamp - raw timestamp
-	 * @returns timestamp - world timestamp
+	 * convert network timestamp to world time
+	 * @param {number} timestamp - raw timestamp
+	 * @returns {number} timestamp - world timestamp
 	 */
 	static networkTimestamp = timestamp => Math.round(timestamp / 1000) + http.networkConfig.NemsisTimestamp
 
 	/**
-	 * Sort Native mosaic to top of list
-	 * @param mosaics - array of mosaic
-	 * @returns mosaic[] - sort array of mosaic
+	 * Sort Native mosaic to top of list.
+	 * @param {array} mosaics - array of mosaic.
+	 * @returns {array} mosaic[] - sort array of mosaic.
 	 */
 	static sortMosaics = mosaics => {
 		let sortedMosaics = [];
@@ -330,32 +321,31 @@ class helper {
 		mosaics.forEach(mosaic =>
 			mosaic.mosaicId === http.networkCurrency.mosaicId
 				? sortedMosaics.unshift(mosaic)
-				: sortedMosaics.push(mosaic)
-		);
+				: sortedMosaics.push(mosaic));
 
 		return sortedMosaics;
 	}
 
 	/**
-	 * Convert second to time from now in second
-	 * @param second
-	 * @returns time from now in second
+	 * Convert second to time from now in second.
+	 * @param {number} second number of second.
+	 * @returns {string} time from now in second.
 	 */
 	static convertTimeFromNowInSec = second => moment.utc().add(second, 's')
 		.fromNow()
 
 	/**
-	 * convert second to Date
-	 * @param second
-	 * @returns YYYY.MM.DD HH:mm UTC
+	 * convert second to Date.
+	 * @param {number} second number of second.
+	 * @returns {string} YYYY.MM.DD HH:mm UTC.
 	 */
 	static convertSecondToDate = second => moment.utc().add(second, 's')
 		.format('YYYY.MM.DD @ HH:mm UTC')
 
 	/**
-	 * Convert block deadline to date
-	 * @param deadlineValue - deadline from block
-	 * @returns YYYY-MM-DD HH:mm:ss
+	 * Convert block deadline to date.
+	 * @param {number} deadline - deadline from block.
+	 * @returns {string} YYYY-MM-DD HH:mm:ss.
 	 */
 	static convertDeadlinetoDate = deadline => this.convertToUTCDate(this.networkTimestamp(deadline))
 
@@ -368,30 +358,36 @@ class helper {
 	 * @param   {number}  h       The hue
 	 * @param   {number}  s       The saturation
 	 * @param   {number}  l       The lightness
-	 * @returns object { R: Number, G: Number, B: Number }
+	 * @returns {object} {R: Number, G: Number, B: Number}
 	 */
-	 static hslToRgb(h, s, l) {
+	 static hslToRgb (h, s, l) {
 		let r, g, b;
 
-		if (s === 0)
-			r = g = b = l; // achromatic
+		if (0 === s) { r = g = b = l; } // achromatic
 		 else {
-			let hue2rgb = function hue2rgb(p, q, t) {
-				if (t < 0) t += 1;
-				if (t > 1) t -= 1;
-				if (t < 1 / 6) return p + (q - p) * 6 * t;
-				if (t < 1 / 2) return q;
-				if (t < 2 / 3) return p + (q - p) * (2 / 3 - t) * 6;
-				return p;
+			/* eslint-disable no-param-reassign */
+			const hue2rgb = (_p, _q, _t) => {
+				if (0 > _t)
+					_t += 1;
+				if (1 < _t)
+					_t -= 1;
+				if (_t < 1 / 6)
+					return _p + ((_q - _p) * (6 * _t));
+				if (t < 1 / 2)
+					return q;
+				if (t < 2 / 3)
+					return _p + ((_q - _p) * (((2 / 3) - _t) * 6));
+				return _p;
 			};
+			/* eslint-disable no-param-reassign */
 
-			let q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+			const q = 0.5 > l ? (l * (1 + s)) : l + s - (l * s);
 
-			let p = 2 * l - q;
+			const p = (2 * l) - q;
 
-			r = hue2rgb(p, q, h + 1 / 3);
+			r = hue2rgb(p, q, h + (1 / 3));
 			g = hue2rgb(p, q, h);
-			b = hue2rgb(p, q, h - 1 / 3);
+			b = hue2rgb(p, q, h - (1 / 3));
 		}
 
 		return {
@@ -402,9 +398,10 @@ class helper {
 	}
 
 	/**
-	 * Get RGB color from hash
-	 * @param hash - hash to be converted
-	 * @returns object { R: Number, G: Number, B: Number }
+	 * Get RGB color from hash.
+	 * @param {string} hash - hash to be converted.
+	 * @param {boolean} isHex - default true
+	 * @returns {object} { R: Number, G: Number, B: Number }
 	 */
 	static getColorFromHash = (hash, isHex = true) => {
 		const color = {
@@ -418,11 +415,11 @@ class helper {
 
 		let totalValue = 0;
 
-		if (typeof hash !== 'string') {
+		if ('string' !== typeof hash) {
 			console.error('Failed to convert hash to color. Hash is not a String');
 			return color;
 		}
-		if (hash.length < 3) {
+		if (3 > hash.length) {
 			console.error('Failed to convert hash to color. Hash string length < 3');
 			return color;
 		}
@@ -430,24 +427,27 @@ class helper {
 		if (isHex) {
 			for (const hex of hash)
 				totalValue += parseInt(hex, 16);
-		}
-		else {
-			const charset = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'];
+		} else {
+			const charset = [
+				'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
+				'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
+				'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+			];
 
 			for (const char of hash)
 				totalValue += charset.indexOf(char.toLowerCase());
 		};
 
 		const k = Math.trunc(totalValue / spread);
-		const offsetValue = totalValue - spread * k;
+		const offsetValue = totalValue - (spread * k);
 		const hue = offsetValue / 100;
 
 		return this.hslToRgb(hue, saturation, lightness);
 	}
 
-	static truncString(str, strLen = 4) {
-		if (typeof str === 'string') {
-			if (str.length > strLen * 2 + 1)
+	static truncString (str, strLen = 4) {
+		if ('string' === typeof str) {
+			if (str.length > (strLen * 2) + 1)
 				return `${str.substring(0, strLen)}...${str.substring(str.length - strLen, str.length)}`;
 			return str;
 		}
@@ -457,9 +457,9 @@ class helper {
 
 	/**
 	 * Get plain address from unResolvedAddress Object
-	 * @param unResolvedAddress - NamespaceId | Address
-	 * @param blockHeight - Block height
-	 * @returns plain address - example : SB3KUBHATFCPV7UZQLWAQ2EUR6SIHBSBEOEDDDF3
+	 * @param {NamespaceId | Address} unResolvedAddress - NamespaceId | Address
+	 * @param {number} blockHeight block height
+	 * @returns {string} example : SB3KUBHATFCPV7UZQLWAQ2EUR6SIHBSBEOEDDDF3
 	 */
 	static resolvedAddress = async (unResolvedAddress, blockHeight) => {
 		// Handle partial txs without block height
@@ -470,7 +470,8 @@ class helper {
 			return unResolvedAddress.address;
 		}
 
-		if (!(unResolvedAddress instanceof NamespaceId)) return unResolvedAddress.address;
+		if (!(unResolvedAddress instanceof NamespaceId))
+			return unResolvedAddress.address;
 
 		const searchCriteria = {
 			height: UInt64.fromUint(blockHeight)
@@ -480,20 +481,23 @@ class helper {
 
 		const addressResolutionStatements = await ReceiptService.searchAddressResolutionStatements(searchCriteria);
 
-		const address = addressResolutionStatements.data.find(item => item.unresolved === namespaceHex && item.resolutionType === 'Address')?.addressResolutionEntries[0];
+		const address = addressResolutionStatements.data.find(item => item.unresolved === namespaceHex
+			&& 'Address' === item.resolutionType)?.addressResolutionEntries[0];
 
-		if (!address) throw new Error('Failed to resolved address');
+		if (!address)
+			throw new Error('Failed to resolved address');
 
 		return address;
 	}
 
 	/**
 	 * To resolved unresolvedMosaicId.
-	 * @param unresolvedMosaicId - NamespaceId | MosaicId
-	 * @returns Id
+	 * @param {NamespaceId | MosaicId} unresolvedMosaicId - NamespaceId | MosaicId
+	 * @returns {Id} Id
 	 */
-	static resolveMosaicId = async (unresolvedMosaicId) => {
-		if (!(unresolvedMosaicId instanceof NamespaceId)) return unresolvedMosaicId.id;
+	static resolveMosaicId = async unresolvedMosaicId => {
+		if (!(unresolvedMosaicId instanceof NamespaceId))
+			return unresolvedMosaicId.id;
 
 		const mosaicId = await NamespaceService.getLinkedMosaicId(unresolvedMosaicId);
 
@@ -501,12 +505,13 @@ class helper {
 	}
 
 	/**
-	 * Build mosaic field object use in MosaicField components
-	 * @param mosaics - Mosaic[]
-	 * @returns mosaicsFieldObject - { mosaicId, amount, mosaicAliasName }
+	 * Build mosaic field object use in MosaicField components.
+	 * @param {array} mosaics - Mosaics.
+	 * @returns {object} { mosaicId, amount, mosaicAliasName }
 	 */
-	static mosaicsFieldObjectBuilder = async (mosaics) => {
-		if (mosaics.length === 0) return [];
+	static mosaicsFieldObjectBuilder = async mosaics => {
+		if (0 === mosaics.length)
+			return [];
 
 		const resolvedMosaics = await Promise.all(mosaics.map(async mosaic => {
 			const resolvedMosaic = await this.resolveMosaicId(mosaic.id);
@@ -515,13 +520,15 @@ class helper {
 			return new Mosaic(mosaicId, mosaic.amount);
 		}));
 
-		const resolvedMosaicIds = resolvedMosaics.map(mosaic => mosaic.id).filter(mosaicId => mosaicId.toHex() !== http.networkCurrency.mosaicId);
+		const resolvedMosaicIds = resolvedMosaics
+			.map(mosaic => mosaic.id)
+			.filter(mosaicId => mosaicId.toHex() !== http.networkCurrency.mosaicId);
 
 		let mosaicInfos = [];
 
 		let mosaicNames = [];
 
-		if (resolvedMosaicIds.length > 0) {
+		if (0 < resolvedMosaicIds.length) {
 			[mosaicInfos, mosaicNames] = await Promise.all([
 				MosaicService.getMosaics(resolvedMosaicIds),
 				NamespaceService.getMosaicsNames(resolvedMosaicIds)
@@ -531,12 +538,11 @@ class helper {
 		let mosaicsFieldObject = [];
 
 		for (const resolvedMosaic of resolvedMosaics) {
-			if (resolvedMosaic.id.toHex() === http.networkCurrency.mosaicId)
+			if (resolvedMosaic.id.toHex() === http.networkCurrency.mosaicId) {
 				mosaicsFieldObject.push(this.networkCurrencyMosaicBuilder(resolvedMosaic));
-
-			else {
-				if (mosaicInfos.length > 0 && mosaicNames.length > 0) {
-					let divisibility = mosaicInfos.find(info => info.mosaicId === resolvedMosaic.id.toHex()).divisibility;
+			} else {
+				if (0 < mosaicInfos.length && 0 < mosaicNames.length) {
+					let { divisibility } = mosaicInfos.find(info => info.mosaicId === resolvedMosaic.id.toHex());
 
 					mosaicsFieldObject.push({
 						...resolvedMosaic,
@@ -552,10 +558,12 @@ class helper {
 		return mosaicsFieldObject;
 	}
 
-	static networkCurrencyMosaicBuilder = (mosaic) => {
-		if (!(mosaic instanceof Mosaic)) throw new Error('It required Mosaic instance.');
+	static networkCurrencyMosaicBuilder = mosaic => {
+		if (!(mosaic instanceof Mosaic))
+			throw new Error('It required Mosaic instance.');
 
-		if (mosaic.id.toHex() !== http.networkCurrency.mosaicId) throw new Error('Mosaic id does not match network Currency.');
+		if (mosaic.id.toHex() !== http.networkCurrency.mosaicId)
+			throw new Error('Mosaic id does not match network Currency.');
 
 		return {
 			...mosaic,
@@ -568,31 +576,31 @@ class helper {
 
 	/**
 	 * Check native namespace.
-	 * @param namespaceName - namespace name in string format.
-	 * @returns boolean
+	 * @param {string} namespaceName - namespace name in string format.
+	 * @returns {boolean} boolean
 	 */
-	static isNativeNamespace = (namespaceName) => {
+	static isNativeNamespace = namespaceName => {
 		if (!http.nativeNamespaces)
 			return false;
 
 		const values = http.nativeNamespaces.map(namespace => namespace.namespaceName);
 
-		return values.indexOf(namespaceName) !== -1;
+		return -1 !== values.indexOf(namespaceName);
 	}
 
 	/**
-	 * Gets single mosaic alias name
-	 * @param mosaicId
-	 * @return mosaic alias name
+	 * Gets single mosaic alias name.
+	 * @param {MosaicId} mosaicId mosaicId.
+	 * @returns {array} mosaic alias name.
 	 */
-	static getMosaicAliasNames = async (mosaicId) => {
+	static getMosaicAliasNames = async mosaicId => {
 		const getMosaicNames = await NamespaceService.getMosaicsNames([mosaicId]);
 		const mosaicAliasNames = MosaicService.extractMosaicNamespace({ mosaicId: mosaicId.toHex() }, getMosaicNames);
 
 		return mosaicAliasNames;
 	}
 
-	static fallbackCopyTextToClipboard = (text) => {
+	static fallbackCopyTextToClipboard = text => {
 		let textArea = document.createElement('textarea');
 
 		let success = false;
@@ -610,8 +618,7 @@ class helper {
 
 		try {
 			success = document.execCommand('copy');
-		}
-		catch (err) {
+		} catch (err) {
 			console.error('Fallback: Could not copy text', err);
 		}
 
@@ -619,7 +626,7 @@ class helper {
 		return success;
 	}
 
-	static copyTextToClipboard = (text) => {
+	static copyTextToClipboard = text => {
 		return new Promise((resolve, reject) => {
 			if (!navigator.clipboard) {
 				if (this.fallbackCopyTextToClipboard(text))
@@ -636,16 +643,15 @@ class helper {
 		});
 	}
 
-	static formatNodeVersion = (rawNodeVersion) => {
+	static formatNodeVersion = rawNodeVersion => {
 		try {
 			return NodeVersion.createFromRawNodeVersion(rawNodeVersion).formatted();
-		}
-		catch (e) {
+		} catch (e) {
 			return Constants.Message.UNAVAILABLE;
 		}
 	}
 
-	static getMosaicName(mosaic) {
+	static getMosaicName (mosaic) {
 		let mosaicAliasName;
 
 		if (Array.isArray(mosaic.mosaicAliasName))
@@ -653,21 +659,22 @@ class helper {
 		else
 			mosaicAliasName = mosaic.mosaicAliasName ? mosaic.mosaicAliasName : 'N/A';
 
-		return mosaicAliasName !== 'N/A'
+		return 'N/A' !== mosaicAliasName
 			? mosaicAliasName
 			: mosaic.mosaicId;
 	}
 
 	/**
-	 * Convert dataset into CSV format
-	 * @param dataset - Array
-	 * @returns csv data in string format.
+	 * Convert dataset into CSV format.
+	 * @param {array} dataset - list of data.
+	 * @returns {string} csv data in string format.
 	 */
-	static convertArrayToCSV(dataset) {
+	static convertArrayToCSV (dataset) {
 		if (!Array.isArray(dataset))
 			throw Error('Convert dataset to CSV fail.');
 
-		if (dataset.length === 0) return 'Nothing to show';
+		if (0 === dataset.length)
+			return 'Nothing to show';
 
 		let csvContent = '';
 
@@ -677,7 +684,8 @@ class helper {
 			let row = '';
 
 			for (let prop in value) {
-				if (row !== '') row += ',';
+				if ('' !== row)
+					row += ',';
 
 				row += value[prop];
 			}
@@ -690,12 +698,12 @@ class helper {
 
 	/**
 	 * Gets first index from the list.
-	 * @param pageNumber
-	 * @param pageSize
-	 * @returns first index from the list
+	 * @param {number} pageNumber number of page.
+	 * @param {number} pageSize number of page size.
+	 * @returns {number} first index from the list
 	 */
 	static getStartListIndex = (pageNumber, pageSize) => {
-		return pageNumber === 1 ? 0 : (pageNumber - 1) * pageSize;
+		return 1 === pageNumber ? 0 : (pageNumber - 1) * pageSize;
 	}
 }
 

@@ -21,15 +21,16 @@ export default {
 	},
 
 	computed: {
-		hasAction() {
+		hasAction () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('action'))
-					return typeof item.action === 'string';
+					return 'string' === typeof item.action;
 			}
+
 			return false;
 		},
 
-		action() {
+		action () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('action'))
 					return item.action;

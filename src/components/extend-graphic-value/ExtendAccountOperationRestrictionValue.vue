@@ -49,35 +49,39 @@ export default {
 	},
 
 	computed: {
-		hasRestrictionOperationAdditions() {
+		hasRestrictionOperationAdditions () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('restrictionOperationAdditions'))
-					return Array.isArray(item.restrictionOperationAdditions) && item.restrictionOperationAdditions.length > 0;
+					return Array.isArray(item.restrictionOperationAdditions) && 0 < item.restrictionOperationAdditions.length;
 			}
+
 			return false;
 		},
 
-		hasRestrictionOperationDeletions() {
+		hasRestrictionOperationDeletions () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('restrictionOperationDeletions'))
-					return Array.isArray(item.restrictionOperationDeletions) && item.restrictionOperationDeletions.length > 0;
+					return Array.isArray(item.restrictionOperationDeletions) && 0 < item.restrictionOperationDeletions.length;
 			}
+
 			return false;
 		},
 
-		operationAdditions() {
+		operationAdditions () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('restrictionOperationAdditions'))
 					return [...new Set(item.restrictionOperationAdditions)];
 			}
+
 			return [];
 		},
 
-		operationDeletions() {
+		operationDeletions () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('restrictionOperationDeletions'))
 					return [...new Set(item.restrictionOperationDeletions)];
 			}
+
 			return [];
 		}
 	}

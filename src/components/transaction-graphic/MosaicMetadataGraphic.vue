@@ -91,7 +91,7 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			width: this.transactionGraphicWidth,
 			heigth: this.transactionGraphicHeight
@@ -99,15 +99,15 @@ export default {
 	},
 
 	computed: {
-		transactionType() {
+		transactionType () {
 			return this.getTransactionTypeCaption(this.type);
 		},
 
-		circleIconsToDisplay() {
+		circleIconsToDisplay () {
 			return [true];
 		},
 
-		metadataInfo() {
+		metadataInfo () {
 			return {
 				targetAddress: this.targetAddress,
 				metadataValue: this.metadataValue,
@@ -116,7 +116,7 @@ export default {
 			};
 		},
 
-		mosaic() {
+		mosaic () {
 			return { mosaicId: this.targetMosaicId };
 		}
 	}

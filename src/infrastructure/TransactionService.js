@@ -16,6 +16,15 @@
  *
  */
 
+import http from './http';
+import Constants from '../config/constants';
+import helper from '../helper';
+import {
+	BlockService,
+	LockService,
+	CreateTransaction
+} from '../infrastructure';
+import { toArray } from 'rxjs/operators';
 import {
 	TransactionType,
 	Address,
@@ -26,23 +35,14 @@ import {
 	UInt64,
 	Mosaic
 } from 'symbol-sdk';
-import Constants from '../config/constants';
-import http from './http';
-import helper from '../helper';
-import {
-	BlockService,
-	LockService,
-	CreateTransaction
-} from '../infrastructure';
-import { toArray } from 'rxjs/operators';
 
 class TransactionService {
   /**
    * Gets a transaction status for a transaction hash
-   * @param hash Transaction hash
-   * @returns TransactionStatus object
+   * @param {string} hash Transaction hash
+   * @returns {object} TransactionStatus object
    */
-  static getTransactionStatus = (hash) => {
+  static getTransactionStatus = hash => {
   	return new Promise((resolve, reject) => {
   		let transactionStatus = {
   			message: null,
@@ -60,7 +60,7 @@ class TransactionService {
   			.catch(error => {
 				  // handle REST error https://github.com/nemtech/catapult-rest/pull/499
 				  // Todo: Remove if statement, after REST error is fix.
-				  if (error.message.search('statusCode') === -1) {
+				  if (-1 === error.message.search('statusCode')) {
   					transactionStatus.message = error.message;
   					transactionStatus.detail = error;
   					resolve(transactionStatus);
@@ -71,9 +71,10 @@ class TransactionService {
   }
 
   /**
-   * Gets a transaction from hash
-   * @param hash Transaction hash
-   * @returns Transaction
+   * Gets a transaction from hash.
+   * @param {string} hash Transaction hash.
+   * @param {string} transactionGroup transaction status.
+   * @returns {object} Transaction.
    */
   static getTransaction = async (hash, transactionGroup) => {
   	const transaction = await http.createRepositoryFactory.createTransactionRepository()
@@ -85,10 +86,10 @@ class TransactionService {
 
   /**
    * Gets a transaction from searchCriteria
-   * @param transactionSearchCriteria Object of Search Criteria
-   * @returns transaction data with pagination info
+   * @param {object} transactionSearchCriteria Object of Search Criteria
+   * @returns {object} transaction data with pagination info
    */
-  static searchTransactions = async (transactionSearchCriteria) => {
+  static searchTransactions = async transactionSearchCriteria => {
   	const searchTransactions = await http.createRepositoryFactory.createTransactionRepository()
   		.search(transactionSearchCriteria)
   		.toPromise();
@@ -98,10 +99,10 @@ class TransactionService {
 
   /**
    * Gets a transactions from streamer
-   * @param transactionSearchCriteria Object of Search Criteria
-   * @returns Transaction[]
+   * @param {object} transactionSearchCriteria Object of Search Criteria
+   * @returns {array} Transaction[]
    */
-  static streamerTransactions = async (transactionSearchCriteria) => {
+  static streamerTransactions = async transactionSearchCriteria => {
   	const streamerTransactions = await http.transactionPaginationStreamer
   		.search(transactionSearchCriteria).pipe(toArray())
   		.toPromise();
@@ -111,10 +112,10 @@ class TransactionService {
 
   /**
    * Gets a transaction's effective paid fee
-   * @param hash Transaction hash
-   * @returns formatted effectiveFee string
+   * @param {string} hash Transaction hash
+   * @returns {string} formatted effectiveFee string
    */
-  static getTransactionEffectiveFee = async (hash) => {
+  static getTransactionEffectiveFee = async hash => {
   	let effectiveFee = await http.createRepositoryFactory.createTransactionRepository()
   		.getTransactionEffectiveFee(hash)
   		.toPromise();
@@ -124,10 +125,10 @@ class TransactionService {
 
   /**
    * Gets Formatted Transaction Info for Vue component
-   * @param hash Transaction hash
-   * @returns Custom Transaction object
+   * @param {string} hash Transaction hash
+   * @returns {object} Custom Transaction object
    */
-  static getTransactionInfo = async (hash) => {
+  static getTransactionInfo = async hash => {
   	const transactionStatus = await this.getTransactionStatus(hash);
   	const transactionGroup = transactionStatus.message;
   	const transaction = await this.getTransaction(hash, transactionGroup);
@@ -156,10 +157,10 @@ class TransactionService {
 
   /**
    * Gets Formatted Hash Lock Info for Vue component
-   * @param hash Transaction hash
-   * @returns Custom Hash Lock object
+   * @param {string} hash Transaction hash
+   * @returns {object} Custom Hash Lock object
    */
-  static getHashLockInfo = async (hash) => {
+  static getHashLockInfo = async hash => {
   	const hashInfo = await LockService.getHashLock(hash);
 
   	const mosaics = [new Mosaic(hashInfo.mosaicId, hashInfo.amount)];
@@ -174,11 +175,11 @@ class TransactionService {
 
   /**
    * Gets array of transactions
-   * @param pageInfo - object for page info such as pageNumber, pageSize
-   * @param filterVaule - object for search criteria
-   * @returns Formatted tranctionDTO[]
+   * @param {object} pageInfo - object for page info such as pageNumber, pageSize
+   * @param {object} filterValue - object for search criteria
+   * @returns {array} Formatted transactionDTO[]
    */
-  static getTransactionList = async (pageInfo, filterVaule) => {
+  static getTransactionList = async (pageInfo, filterValue) => {
   	const { pageNumber, pageSize } = pageInfo;
   	const searchCriteria = {
   		pageNumber,
@@ -186,7 +187,7 @@ class TransactionService {
   		order: Order.Desc,
   		type: [],
   		group: TransactionGroup.Confirmed,
-  		...filterVaule
+  		...filterValue
   	};
 
   	const searchTransactions = await this.searchTransactions(searchCriteria);
@@ -219,9 +220,7 @@ class TransactionService {
 
   	const blocksHeight = [...new Set(transactions.data.map(data => data.transactionInfo.height))];
 
-  	const blockInfos = await Promise.all(
-  		blocksHeight.map(height => BlockService.getBlockInfo(height))
-  	);
+  	const blockInfos = await Promise.all(blocksHeight.map(height => BlockService.getBlockInfo(height)));
 
   	// Cap data in 50 pages
   	const totalRecords = 50 * pageSize;
@@ -243,8 +242,8 @@ class TransactionService {
 
   /**
    * Format Transaction
-   * @param transactionDTO
-   * @returns readable transactionDTO object
+   * @param {object} transaction transaction object from endpoint.
+   * @returns {object} readable transactionDTO object.
    */
   static formatTransaction = transaction => ({
   	...transaction,
@@ -257,8 +256,8 @@ class TransactionService {
 
   /**
    * Format Different Type of Transaction such as TransferTransaction
-   * @param TransactionDTO
-   * @returns readable TransactionBody object
+   * @param {object} transactionBody transaction body info.
+   * @returns {object} readable TransactionBody object
    */
   static formatTransactionBody = transactionBody => {
   	switch (transactionBody.type) {
@@ -285,8 +284,8 @@ class TransactionService {
   			registrationType: Constants.NamespaceRegistrationType[transactionBody.registrationType],
   			namespaceName: transactionBody.namespaceName,
   			namespaceId: transactionBody.namespaceId.toHex(),
-  			parentId: parentIdHex === '' ? Constants.Message.UNAVAILABLE : parentIdHex,
-  			duration: duration === 0 ? Constants.Message.UNLIMITED : duration
+  			parentId: '' === parentIdHex ? Constants.Message.UNAVAILABLE : parentIdHex,
+  			duration: 0 === duration ? Constants.Message.UNLIMITED : duration
   		};
 
   	case TransactionType.ADDRESS_ALIAS:
@@ -442,7 +441,9 @@ class TransactionService {
   	case TransactionType.MOSAIC_GLOBAL_RESTRICTION:
   		return {
   			transactionType: transactionBody.type,
-  			referenceMosaicId: transactionBody.referenceMosaicId.toHex() === '0000000000000000' ? transactionBody.mosaicId.toHex() : transactionBody.referenceMosaicId.toHex(),
+  			referenceMosaicId: '0000000000000000' === transactionBody.referenceMosaicId.toHex()
+			  ? transactionBody.mosaicId.toHex()
+			  : transactionBody.referenceMosaicId.toHex(),
   			restrictionKey: transactionBody.restrictionKey.toHex(),
   			previousRestrictionType: Constants.MosaicRestrictionType[transactionBody.previousRestrictionType],
   			previousRestrictionValue: transactionBody.previousRestrictionValue.compact(),
@@ -500,9 +501,9 @@ class TransactionService {
   }
 
   /**
-   * Format transactionInfoDTO
-   * @param transactionInfoDTO
-   * @returns readable transactionInfoDTO object
+   * Format transactionInfoDTO.
+   * @param {object} transactionInfo transactionInfoDTO.
+   * @returns {object} readable transactionInfoDTO object.
    */
   static formatTransactionInfo = transactionInfo => {
   	if (transactionInfo instanceof TransactionInfo) {
@@ -523,11 +524,11 @@ class TransactionService {
 
   /**
    * extend graphic value for transaction list.
-   * @param transactionInfo
-   * @returns graphicValue []
+   * @param {object} transactionInfo formatted transaction info.
+   * @returns {array} graphicValue.
    */
   static extendGraphicValue = transactionInfo => {
-  	const transactionBody = transactionInfo.transactionBody;
+  	const { transactionBody } = transactionInfo;
 
   	switch (transactionInfo.type) {
   	case TransactionType.TRANSFER:
@@ -536,8 +537,7 @@ class TransactionService {
   			message: transactionBody.message,
   			mosaics: transactionBody.mosaics.filter(mosaic =>
   				mosaic.id !== http.networkCurrency.mosaicId &&
-				mosaic.id !== http.networkCurrency.namespaceId
-  			)
+				mosaic.id !== http.networkCurrency.namespaceId)
   		};
   	case TransactionType.NAMESPACE_REGISTRATION:
   		return [{ namespace: {
@@ -624,9 +624,9 @@ class TransactionService {
   }
 
   /**
-   * Build standalone transanction object for Vue components.
-   * @param transactionDTO - transaction dto from SDK
-   * @returns tranasctionObj
+   * Build standalone transaction object for Vue components.
+   * @param  {object} transactionDTO - transaction dto from SDK.
+   * @returns {object} formatted transactionObj.
    */
   static createStandaloneTransactionFromSDK = async transactionDTO => {
 	  const transactionObj = {
@@ -691,13 +691,15 @@ class TransactionService {
   }
 
   /**
-   * Build transanction object for Vue components.
-   * @param transactionDTO - transaction dto from SDK
-   * @returns tranasctionObj
+   * Build transaction object for Vue components.
+   * @param {object} transactionDTO - transaction dto from SDK
+   * @returns {object} transactionObj
    */
-  static createTransactionFromSDK = async (transactionDTO) => {
-	  if (transactionDTO.type === TransactionType.AGGREGATE_BONDED || transactionDTO.type === TransactionType.AGGREGATE_COMPLETE) {
-  		const innerTransactions = transactionDTO.innerTransactions ? await Promise.all(transactionDTO.innerTransactions.map(async (transaction, index) => {
+  static createTransactionFromSDK = async transactionDTO => {
+	  if (transactionDTO.type === TransactionType.AGGREGATE_BONDED
+		|| transactionDTO.type === TransactionType.AGGREGATE_COMPLETE) {
+  		const innerTransactions = transactionDTO.innerTransactions
+		  ? await Promise.all(transactionDTO.innerTransactions.map(async (transaction, index) => {
   			return {
   				index: index + 1,
   				...await this.createStandaloneTransactionFromSDK(transaction)

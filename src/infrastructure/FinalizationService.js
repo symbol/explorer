@@ -21,10 +21,10 @@ import http from './http';
 class FinalizationService {
   /**
    * Gets finalization proof for a given epoch.
-   * @param epoch - epoch number
-   * @returns formatted finalization proof
+   * @param {number} epoch - epoch number.
+   * @returns {object} formatted finalization proof.
    */
-  static getFinalizationProofAtEpoch = async (epoch) => {
+  static getFinalizationProofAtEpoch = async epoch => {
   	const finalizationProof = await http.createRepositoryFactory.createFinalizationRepository()
 	    .getFinalizationProofAtEpoch(epoch)
   		.toPromise();

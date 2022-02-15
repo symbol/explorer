@@ -98,7 +98,7 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			id: this.getId('native-mosaic-circle')
 		};

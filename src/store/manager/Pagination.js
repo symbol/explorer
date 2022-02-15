@@ -18,12 +18,12 @@
 import Constants from '../../config/constants';
 
 export default class Pagination {
-	constructor({ name, fetchFunction, pageInfo = {}, filter }) {
-		if (typeof name !== 'string')
+	constructor ({ name, fetchFunction, pageInfo = {}, filter }) {
+		if ('string' !== typeof name)
 			throw Error('Failed to construct Pagination. Name is not provided');
-		if (typeof fetchFunction !== 'function')
+		if ('function' !== typeof fetchFunction)
 			throw Error('Cannot create Pagination. Fetch function is not provided');
-		if (pageInfo === null || typeof pageInfo !== 'object')
+		if (null === pageInfo || 'object' !== typeof pageInfo)
 			throw Error('Cannot create Pagination. "pageInfo" is not an "object"');
 
 		this.name = name;
@@ -45,7 +45,7 @@ export default class Pagination {
 		this.filterIndex = 0;
 	}
 
-	static empty() {
+	static empty () {
 		return {
 			data: [],
 			canFetchNext: false,
@@ -56,48 +56,45 @@ export default class Pagination {
 		};
 	}
 
-	get data() {
+	get data () {
 		return this?.pageInfo?.data || [];
 	}
 
-	get canFetchPrevious() {
-		return this.pageInfo.pageNumber > 1 && this.loading === false;
+	get canFetchPrevious () {
+		return 1 < this.pageInfo.pageNumber && false === this.loading;
 	}
 
-	get canFetchNext() {
-		return !this.pageInfo.isLastPage && this.loading === false;
+	get canFetchNext () {
+		return !this.pageInfo.isLastPage && false === this.loading;
 	}
 
-	get isLive() {
-		return this.pageInfo.pageNumber === 1 || false;
+	get isLive () {
+		return 1 === this.pageInfo.pageNumber || false;
 	}
 
-	get pageNumber() {
+	get pageNumber () {
 		return this.pageInfo.pageNumber || 1;
 	}
 
-	get pageSize() {
+	get pageSize () {
 		return this.pageInfo.pageSize;
 	}
 
-	get totalRecords() {
+	get totalRecords () {
 		return this.pageInfo.totalRecords || undefined;
 	}
 
-	get filterOptions() {
+	get filterOptions () {
 		return Array.isArray(this.options) ? this.options : [];
 	}
 
-	get filterValue() {
+	get filterValue () {
 		return this.filterOptions[this.filterIndex]
 			? this.filterOptions[this.filterIndex].value
 			: undefined;
 	}
 
-	/** Set Vuex.Store context
-   *
-   */
-	setStore(store) {
+	setStore (store) {
 		this.store = store;
 		this.store.dispatch(this.name, this);
 		return this;
@@ -105,17 +102,18 @@ export default class Pagination {
 
 	/**
 	 * Set timeline data
-	 * @param data
+	 * @param {array} data data list from endpoint
+	 * @returns {object} this
 	 */
-	setData(data) {
+	setData (data) {
 		this.pageInfo.data = data;
 		return this;
 	}
 
-	/** Uninitialize Pagination
-   *
-   */
-	uninitialize() {
+	/**
+	 * Uninitialize Pagination
+	 */
+	uninitialize () {
 		this.initialized = false;
 		this.pageInfo.data = [];
 		this.pageInfo.pageNumber = 1;
@@ -125,10 +123,11 @@ export default class Pagination {
 		this.error = false;
 	}
 
-	/** Initialize and fetch data
-   *
-   */
-	initialFetch() {
+	/**
+	 * Initialize and fetch data.
+	 * @returns {function} fetch
+	 */
+	initialFetch () {
 		if (!this.initialized) {
 			this.reset();
 			this.initialized = true;
@@ -136,10 +135,11 @@ export default class Pagination {
 		}
 	}
 
-	/** Fetch data
-   *
-   */
-	async fetch() {
+	/**
+	 * Fetch data from endpoint.
+	 * @returns {object} this
+	 */
+	async fetch () {
 		this.loading = true;
 		this.store.dispatch(this.name, this);
 
@@ -160,8 +160,7 @@ export default class Pagination {
 					...this.capturedPageInfo,
 					isLastPage: true
 				};
-		}
-		catch (e) {
+		} catch (e) {
 			console.error(e);
 			this.error = true;
 		}
@@ -171,67 +170,67 @@ export default class Pagination {
 		return this;
 	}
 
-	/** Fetch next page of data
-   *
-   */
-	async fetchNext() {
+	/**
+	 * Fetch next page of data.
+	 * @returns {object} this
+	 */
+	async fetchNext () {
 		if (this.canFetchNext) {
 			this.store.dispatch(this.name, this);
 			this.capturePageInfo();
 			this.pageInfo.pageNumber++;
 			await this.fetch();
-		}
-		else
-			console.error('[Pagination]: cannot fetch next');
+		} else { console.error('[Pagination]: cannot fetch next'); }
 		this.loading = false;
 
 		this.store.dispatch(this.name, this);
 		return this;
 	}
 
-	/** Fetch previous page of data
-   *
-   */
-	async fetchPrevious() {
+	/**
+	 * Fetch previous page of data.
+	 * @returns {object} this.
+	 */
+	async fetchPrevious () {
 		if (this.canFetchPrevious) {
 			this.store.dispatch(this.name, this);
 			this.pageInfo.pageNumber--;
 			await this.fetch();
-		}
-		else
-			return this.reset();
+		} else { return this.reset(); }
 
 		this.store.dispatch(this.name, this);
 		return this;
 	}
 
-	/** Fetch data with specific page configuration
-   *
-   */
-	async fetchPage(pageInfo) {
+	/**
+	 * Fetch data with specific page configuration.
+	 * @param {object} pageInfo pageSize, pageNumber.
+	 * @returns {object} this
+	 */
+	async fetchPage (pageInfo) {
 		if (
-			pageInfo !== null &&
-            typeof pageInfo !== 'undefined'
+			null !== pageInfo &&
+            'undefined' !== typeof pageInfo
 		) {
 			this.store.dispatch(this.name, this);
-			if (this.pageInfo === null || typeof this.pageInfo === 'object') {
+			if (null === this.pageInfo || 'object' === typeof this.pageInfo) {
 				for (const key in pageInfo)
 					this.pageInfo[key] = pageInfo[key];
 			}
 
 			await this.fetch();
-		}
-		else
-			console.error(`[Pagination]: failed to fetchWithCriteria 'pageInfo' is not an object`);
+		} else { console.error('[Pagination]: failed to fetchWithCriteria \'pageInfo\' is not an object'); }
 
 		this.store.dispatch(this.name, this);
 		return this;
 	}
 
-	/** Change filter value by index and fetch data
-   *
-   */
-	async changeFilterValue(index) {
+	/**
+	 * Change filter value by index and fetch data.
+	 * @param {number} index - filter index.
+	 * @returns {object} this
+	 */
+	async changeFilterValue (index) {
 		this.uninitialize();
 		this.filterIndex = index;
 		await this.fetch();
@@ -239,25 +238,28 @@ export default class Pagination {
 		return this;
 	}
 
-	/** Reset Pagination and fetch data
-   *
-   */
-	async reset(pageNumber = 1) {
+	/**
+	 * Reset Pagination and fetch data
+	 * @param {number} pageNumber - page number.
+	 * @returns {function} fetch
+	 */
+	async reset (pageNumber = 1) {
 		this.pageInfo.pageNumber = pageNumber;
 		this.filterIndex = 0;
 		return this.fetch();
 	}
 
-	async capturePageInfo() {
+	async capturePageInfo () {
 		this.capturedPageInfo = { ...this.pageInfo };
 	}
 
 	// Add latest item to current.
-	addLatestItem(item, keyName) {
+	addLatestItem (item, keyName) {
 		if (this.isLive) {
 			if (this.data?.length && this.data[0][keyName] === item[keyName])
+			{
 				console.error('[Pagination]: attempted to add duplicate item as a latest item');
-			else {
+			} else {
 				const data = [item, ...this.data];
 
 				data.pop();

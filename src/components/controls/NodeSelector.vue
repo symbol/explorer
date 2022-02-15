@@ -17,27 +17,26 @@ export default {
 	},
 
 	computed: {
-		nodeList() {
+		nodeList () {
 			return this.$store.getters['api/nodes'] || [];
 		},
 
-		options() {
+		options () {
 			let options = {};
 
 			this.nodeList.forEach(node => {
 				options[node.toString()] = node.hostname;
-			}
-			);
+			});
 			return options;
 		},
 
-		currentNode() {
+		currentNode () {
 			return 'Node: ' + this.$store.getters['api/currentNodeHostname'];
 		}
 	},
 
 	methods: {
-		async setNode(url) {
+		async setNode (url) {
 			this.$emit('change', url);
 			await this.$store.dispatch('api/changeNode', url);
 		}

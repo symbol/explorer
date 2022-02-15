@@ -79,7 +79,7 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			id: this.getId('account-circle')
 		};

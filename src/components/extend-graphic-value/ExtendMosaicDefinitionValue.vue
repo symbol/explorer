@@ -36,15 +36,16 @@ export default {
 	},
 
 	computed: {
-		hasMosaicId() {
+		hasMosaicId () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('mosaicId'))
-					return typeof item.mosaicId === 'string';
+					return 'string' === typeof item.mosaicId;
 			}
+
 			return false;
 		},
 
-		mosaicId() {
+		mosaicId () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('mosaicId'))
 					return item.mosaicId;

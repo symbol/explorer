@@ -17,8 +17,6 @@
  */
 
 import Lock from './lock';
-import { NetworkService, StatisticService, BlockService, NodeService } from '../infrastructure';
-import { Order } from 'symbol-sdk';
 import {
 	DataSet,
 	getStateFromManagers,
@@ -26,6 +24,8 @@ import {
 	getMutationsFromManagers,
 	getActionsFromManagers
 } from './manager';
+import { NetworkService, StatisticService, BlockService, NodeService } from '../infrastructure';
+import { Order } from 'symbol-sdk';
 
 const managers = [
 	new DataSet(
@@ -111,7 +111,7 @@ export default {
 	actions: {
 		...getActionsFromManagers(managers),
 		// Initialize the statistics model.
-		async initialize({ commit, dispatch, getters }) {
+		async initialize ({ commit, dispatch, getters }) {
 			const callback = async () => {
 				await dispatch('initializePage');
 			};
@@ -120,7 +120,7 @@ export default {
 		},
 
 		// Uninitialize the statistics model.
-		async uninitialize({ commit, dispatch, getters }) {
+		async uninitialize ({ commit, dispatch, getters }) {
 			const callback = async () => {};
 
 			getters.nodeHeightStats?.uninitialize();
@@ -128,7 +128,7 @@ export default {
 		},
 
 		// Fetch data from the SDK / API and initialize the page.
-		async initializePage(context) {
+		async initializePage (context) {
 			context.commit('setLoading', true);
 			context.commit('setLoadingInfo', true);
 			context.commit('setLoadingBlockTimeDifference', true);
@@ -179,8 +179,7 @@ export default {
 					tpbPromise(),
 					ncsPromise()
 				]);
-			}
-			catch (e) {
+			} catch (e) {
 				console.error(e);
 				context.commit('setError', true);
 			}

@@ -15,14 +15,14 @@
  * limitations under the License.
  *
  */
-import Vue from 'vue';
 import Lock from './lock';
-import helper from '../helper';
-import http from '../infrastructure/http';
-import { NodeService } from '../infrastructure';
+import { version } from '../../package';
 import globalConfig from '../config/globalConfig';
-import { version } from '../../package.json';
+import helper from '../helper';
+import { NodeService } from '../infrastructure';
+import http from '../infrastructure/http';
 import * as sdk from 'symbol-sdk';
+import Vue from 'vue';
 
 const LOCK = Lock.create();
 
@@ -79,7 +79,7 @@ export default {
 	},
 
 	actions: {
-		async initialize({ commit, dispatch, getters }) {
+		async initialize ({ commit, dispatch, getters }) {
 			const callback = async () => {
 				await dispatch('loadNodeList');
 
@@ -100,26 +100,24 @@ export default {
 			await LOCK.initialize(callback, commit, dispatch, getters);
 		},
 
-		async changeNode({ commit, dispatch }, currentNodeUrl) {
+		async changeNode ({ commit, dispatch }, currentNodeUrl) {
 			if (helper.validURL(currentNodeUrl)) {
 				// Set the current node URL.
 				commit('currentNode', currentNodeUrl);
 				commit('setInitialized', false);
 				// Uninitialize the data and re-initialize the API.
 				location.reload();
-			}
-			else
-				throw Error('Cannot change node. URL is not valid: ' + currentNodeUrl);
+			} else { throw Error('Cannot change node. URL is not valid: ' + currentNodeUrl); }
 		},
 
 		/**
 		 * get Nodes list for node selector
 		 */
-		async loadNodeList({ commit, getters }) {
+		async loadNodeList ({ commit, getters }) {
 			let nodeUrls = [];
 			const nodes = await NodeService.getAPINodeList();
 
-			nodes.map((url) => {
+			nodes.map(url => {
 				let endpoint = helper.parseUrl(url.apiEndpoint).origin;
 
 				nodeUrls.push(endpoint);
@@ -127,12 +125,13 @@ export default {
 
 			commit('setNodes', nodeUrls);
 
+			// eslint-disable-next-line
 			const currentNode = getters['currentNode'];
 
 			const randomIndex = Math.floor(Math.random() * nodeUrls.length);
 
 			// Reset the currentNode, if currentNode not longer in list.
-			nodeUrls.indexOf(currentNode) === -1 ? commit('currentNode', helper.parseUrl(nodeUrls[randomIndex])) : void 0;
+			-1 === nodeUrls.indexOf(currentNode) ? commit('currentNode', helper.parseUrl(nodeUrls[randomIndex])) : void 0;
 		}
 	}
 };

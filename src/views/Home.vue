@@ -63,7 +63,7 @@ export default {
 		RecentListWidget
 	},
 
-	data() {
+	data () {
 		return {
 			recentListWidgetSetup: [
 				{
@@ -84,7 +84,7 @@ export default {
 		};
 	},
 
-	mounted() {
+	mounted () {
 		this.$store.dispatch('initialize', this.$route);
 	}
 };

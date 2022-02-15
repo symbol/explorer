@@ -22,15 +22,16 @@ export default {
 	},
 
 	computed: {
-		hasLinkAction() {
+		hasLinkAction () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('linkAction'))
-					return typeof item.linkAction === 'string' && item.linkAction.length > 0;
+					return 'string' === typeof item.linkAction && 0 < item.linkAction.length;
 			}
+
 			return false;
 		},
 
-		linkAction() {
+		linkAction () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('linkAction'))
 					return item.linkAction;

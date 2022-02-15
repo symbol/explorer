@@ -55,15 +55,15 @@ export default {
 	},
 
 	methods: {
-		timeSince(interval) {
+		timeSince (interval) {
 			return helper.timeSince(interval);
 		},
 
-		getItemHref(itemKey, item) {
-			return this.$store.getters[`ui/getPageHref`]({ pageName: itemKey, param: item });
+		getItemHref (itemKey, item) {
+			return this.$store.getters['ui/getPageHref']({ pageName: itemKey, param: item });
 		},
 
-		getMosaicName(mosaic) {
+		getMosaicName (mosaic) {
 			return helper.getMosaicName(mosaic);
 		}
 	}

@@ -56,11 +56,11 @@ export default {
 		TableInfoView
 	},
 
-	mounted() {
+	mounted () {
 		this.clear();
 	},
 
-	data() {
+	data () {
 		return {
 			hash: '',
 			statusStyle: {},
@@ -75,30 +75,30 @@ export default {
 			transactionStatus: 'transaction/getTransactionStatus'
 		}),
 
-		loading() {
+		loading () {
 			return !this.blockHeight;
 		}
 	},
 
 	methods: {
-		clear() {
+		clear () {
 			this.clearStatus();
 			this.hash = '';
 		},
 
-		clearStatus() {
+		clearStatus () {
 			this.statusStyle = {};
 			this.statusText = '';
 			this.statusDetail = null;
 			this.$store.dispatch('transaction/clearTransactionStatus');
 		},
 
-		getNameByKey(e) {
+		getNameByKey (e) {
 			return this.$store.getters['ui/getNameByKey'](e);
 		},
 
-		getStatus() {
-			const hash = this.hash;
+		getStatus () {
+			const { hash } = this;
 
 			this.clearStatus();
 			this.$store.dispatch('transaction/getTransactionStatus', hash);
@@ -106,7 +106,7 @@ export default {
 	},
 
 	watch: {
-		transactionStatus(status) {
+		transactionStatus (status) {
 			let color = '';
 
 			switch (status.message) {

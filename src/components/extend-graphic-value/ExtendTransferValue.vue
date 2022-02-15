@@ -77,27 +77,27 @@ export default {
 	},
 
 	computed: {
-		hasNativeMosaic() {
+		hasNativeMosaic () {
 			if (this.value.nativeMosaic)
-				return this.value.nativeMosaic !== 'N/A';
+				return 'N/A' !== this.value.nativeMosaic;
 
 			return false;
 		},
-		hasMessage() {
+		hasMessage () {
 			if (this.value.message)
-				return typeof this.value.message.payload === 'string' && this.value.message.payload.length > 0;
+				return 'string' === typeof this.value.message.payload && 0 < this.value.message.payload.length;
 
 			return false;
 		},
 
-		hasMosaics() {
+		hasMosaics () {
 			if (this.value.mosaics)
-				return Array.isArray(this.value.mosaics) && this.value.mosaics.length > 0;
+				return Array.isArray(this.value.mosaics) && 0 < this.value.mosaics.length;
 
 			return false;
 		},
 
-		nativeMosaic() {
+		nativeMosaic () {
 			if (this.value.nativeMosaic) {
 				const amount = this.value.nativeMosaic.replace(/,/g, '');
 
@@ -109,23 +109,23 @@ export default {
 			return '';
 		},
 
-		message() {
+		message () {
 			return this.value.message || '';
 		},
 
-		mosaics() {
+		mosaics () {
 			return this.value.mosaics || [];
 		},
 
-		networkCurrency() {
+		networkCurrency () {
 			return http.networkCurrency.namespaceName;
 		},
 
-		networkCurrencySub() {
+		networkCurrencySub () {
 			// eslint-disable-next-line no-constant-condition
 			if (
-				typeof http.networkCurrency.namespaceName === 'string' &&
-				http.networkCurrency.namespaceName.length > 0
+				'string' === typeof http.networkCurrency.namespaceName &&
+				0 < http.networkCurrency.namespaceName.length
 			) {
 				const namespaceLevels = http.networkCurrency.namespaceName.split('.');
 
@@ -135,10 +135,10 @@ export default {
 			return '';
 		},
 
-		amountClass() {
-			if (typeof this.transactionType === 'string' && this.transactionType.includes('incoming'))
+		amountClass () {
+			if ('string' === typeof this.transactionType && this.transactionType.includes('incoming'))
 				return 'incoming';
-			if (typeof this.transactionType === 'string' && this.transactionType.includes('outgoing'))
+			if ('string' === typeof this.transactionType && this.transactionType.includes('outgoing'))
 				return 'outgoing';
 			return '';
 		}

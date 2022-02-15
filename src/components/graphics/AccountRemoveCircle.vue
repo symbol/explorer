@@ -77,7 +77,7 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			id: this.getId('account-remove-circle')
 		};

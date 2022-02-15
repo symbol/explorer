@@ -19,38 +19,36 @@
 import AwaitLock from 'await-lock';
 
 export default class Lock {
-	constructor(lock) {
+	constructor (lock) {
 		this.lock = lock;
 	}
 
-	static create() {
+	static create () {
 		return new Lock(new AwaitLock());
 	}
 
 	// Helper method for initialize callback.
-	async initialize(callback, commit, dispatch, getters) {
+	async initialize (callback, commit, dispatch, getters) {
 		await this.lock.acquireAsync();
 		try {
 			if (!getters.getInitialized) {
 				await callback();
 				commit('setInitialized', true);
 			}
-		}
-		finally {
+		} finally {
 			this.lock.release();
 		}
 	}
 
 	// Helper method for uninitialize callback.
-	async uninitialize(callback, commit, dispatch, getters) {
+	async uninitialize (callback, commit, dispatch, getters) {
 		await this.lock.acquireAsync();
 		try {
 			if (getters.getInitialized) {
 				await callback();
 				commit('setInitialized', false);
 			}
-		}
-		finally {
+		} finally {
 			this.lock.release();
 		}
 	}

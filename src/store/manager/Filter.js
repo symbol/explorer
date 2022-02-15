@@ -17,10 +17,10 @@
  */
 
 export default class Filter {
-	constructor(name, options) {
-		if (typeof name !== 'string')
+	constructor (name, options) {
+		if ('string' !== typeof name)
 			throw Error('Failed to construct Filter. Name is not provided');
-		if (typeof options !== 'object')
+		if ('object' !== typeof options)
 			throw Error('Failed to construct Filter. Options map is not provided');
 
 		this.name = name;
@@ -29,79 +29,79 @@ export default class Filter {
 		this.store = {};
 	}
 
-	setStore(store) {
+	setStore (store) {
 		this.store = store;
 		this.store.dispatch(this.name, this);
 		return this;
 	}
 
-	get currentManager() {
+	get currentManager () {
 		return this.store?.getters ? this.store.getters[this.current] || {} : {};
 	}
 
-	get filterOptions() {
+	get filterOptions () {
 		return this.options;
 	}
 
-	get filterValue() {
+	get filterValue () {
 		return this.current;
 	}
 
-	get data() {
+	get data () {
 		return this.currentManager.data || [];
 	}
 
-	get error() {
-		return typeof this.currentManager.error === 'boolean' ? this.currentManager.error : false;
+	get error () {
+		return 'boolean' === typeof this.currentManager.error ? this.currentManager.error : false;
 	}
 
-	get loading() {
-		return typeof this.currentManager.loading === 'boolean' ? this.currentManager.loading : true;
+	get loading () {
+		return 'boolean' === typeof this.currentManager.loading ? this.currentManager.loading : true;
 	}
 
-	get canFetchPrevious() {
-		return typeof this.currentManager.canFetchPrevious === 'boolean' ? this.currentManager.canFetchPrevious : false;
+	get canFetchPrevious () {
+		return 'boolean' === typeof this.currentManager.canFetchPrevious ? this.currentManager.canFetchPrevious : false;
 	}
 
-	get canFetchNext() {
-		return typeof this.currentManager.canFetchNext === 'boolean' ? this.currentManager.canFetchNext : false;
+	get canFetchNext () {
+		return 'boolean' === typeof this.currentManager.canFetchNext ? this.currentManager.canFetchNext : false;
 	}
 
-	get index() {
-		return typeof this.currentManager.index === 'number' ? this.currentManager.index : 0;
+	get index () {
+		return 'number' === typeof this.currentManager.index ? this.currentManager.index : 0;
 	}
 
-	initialFetch() {
-		if (typeof this.currentManager.initialFetch === 'function')
+	initialFetch () {
+		if ('function' === typeof this.currentManager.initialFetch)
 			return this.currentManager.initialFetch();
 		else
 			console.error('Cannot call "initialFetch" method of', this.current);
 	}
 
-	uninitialize() {
-		if (typeof this.currentManager.uninitialize === 'function')
+	uninitialize () {
+		if ('function' === typeof this.currentManager.uninitialize)
 			return this.currentManager.uninitialize();
 	}
 
-	fetchNext() {
-		if (typeof this.currentManager.fetchNext === 'function')
+	fetchNext () {
+		if ('function' === typeof this.currentManager.fetchNext)
 			return this.currentManager.fetchNext();
 		else
 			console.error('Cannot call "fetchNext" method of', this.current);
 	}
 
-	fetchPrevious() {
-		if (typeof this.currentManager.fetchPrevious === 'function')
+	fetchPrevious () {
+		if ('function' === typeof this.currentManager.fetchPrevious)
 			return this.currentManager.fetchPrevious();
 		else
 			console.error('Cannot call "fetchPrevious" method of', this.current);
 	}
 
-	changeFilterValue(option) {
+	changeFilterValue (option) {
 		this.uninitialize();
 		this.current = option;
 
-		if (typeof this.currentManager.initialFetch === 'function')
+		if ('function' === typeof this.currentManager.initialFetch)
 			this.currentManager.initialFetch();
 		else
 			console.error('Failed to fetch selected filter option. "initialFetch" is not a function');
@@ -109,8 +109,8 @@ export default class Filter {
 		this.store.dispatch(this.name, this);
 	}
 
-	reset() {
-		if (typeof this.currentManager.reset === 'function')
+	reset () {
+		if ('function' === typeof this.currentManager.reset)
 			return this.currentManager.reset();
 		this.current = Object.keys(this.options)[0];
 		this.store.dispatch(this.name, this);

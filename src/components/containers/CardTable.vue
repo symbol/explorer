@@ -127,36 +127,31 @@ export default {
 	},
 
 	computed: {
-		manager() {
+		manager () {
 			return this.getter(this.managerGetter) || {};
 		},
 
-		data() {
+		data () {
 			const data = this.dataGetter
 				? this.getter(this.dataGetter)
 				: this.manager.data;
 
-			if (typeof data === 'undefined') {
-				throw Error(
-					'ListPage error. Manager or Data getter is not provided'
-				);
-			}
+			if ('undefined' === typeof data)
+				throw Error('ListPage error. Manager or Data getter is not provided');
 
 			if (
 				!Array.isArray(data) &&
-                data !== null &&
-                typeof data === 'object'
+                null !== data &&
+                'object' === typeof data
 			) {
 				let fields = null;
 
 				if (this.$store.getters['ui/isMobile'] && this.mobileFields?.length)
 					fields = this.mobileFields;
-				else fields = this.fields;
-				if (Array.isArray(fields) && fields.length) {
-					return Object.fromEntries(
-						fields.map(field => [field, data[field]])
-					);
-				}
+				else
+					fields = this.fields;
+				if (Array.isArray(fields) && fields.length)
+					return Object.fromEntries(fields.map(field => [field, data[field]]));
 			}
 
 			if (
@@ -174,8 +169,7 @@ export default {
 
 					return mobileRow;
 				});
-			}
-			else if (Array.isArray(data) && Array.isArray(this.fields)) {
+			} else if (Array.isArray(data) && Array.isArray(this.fields)) {
 				return data.map(row => {
 					let columnRow = {};
 
@@ -186,37 +180,36 @@ export default {
 
 					return columnRow;
 				});
-			}
-			else return data;
+			} else { return data; }
 		},
 
-		loading() {
+		loading () {
 			return this.manager.loading;
 		},
 
-		error() {
+		error () {
 			return this.manager.error;
 		},
 
-		infoText() {
-			if (typeof this.infoTextGetter === 'string')
+		infoText () {
+			if ('string' === typeof this.infoTextGetter)
 				return this.getter(this.infoTextGetter);
 			return undefined;
 		},
 
-		filterValue() {
+		filterValue () {
 			return this.manager.filterValue;
 		},
 
-		filterIndex() {
+		filterIndex () {
 			return this.manager.filterIndex;
 		},
 
-		filterOptions() {
+		filterOptions () {
 			return this.manager.filterOptions;
 		},
 
-		filterDropdownComponentName() {
+		filterDropdownComponentName () {
 			return Array.isArray(this.filterOptions)
 				? 'DropdownFilter'
 				: 'Dropdown';
@@ -224,21 +217,18 @@ export default {
 	},
 
 	methods: {
-		getNameByKey(e) {
+		getNameByKey (e) {
 			return this.$store.getters['ui/getNameByKey'](e);
 		},
 
-		changeFilterValue(e) {
-			if (typeof this.manager.changeFilterValue === 'function')
+		changeFilterValue (e) {
+			if ('function' === typeof this.manager.changeFilterValue)
 				this.manager.changeFilterValue(e);
-			else {
-				console.error(
-					'Failed to change filter value. "changeFilterValue" is not a function'
-				);
-			}
+			else
+				console.error('Failed to change filter value. "changeFilterValue" is not a function');
 		},
 
-		getter(name) {
+		getter (name) {
 			return this.$store.getters[name];
 		}
 	}

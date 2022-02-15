@@ -16,14 +16,14 @@
  *
  */
 
-import { Listener } from 'symbol-sdk';
 import http from './http';
+import { Listener } from 'symbol-sdk';
 class ListenerService {
   /**
    * Subscribe to new blocks announced to the chain.
-   * @param onAdd - Getters function
-   * @param wssEndpoint - WSS endpoint in string format.
-   * @returns Array object [Listener, Subscription]
+   * @param {function} onAdd - Getters function
+   * @param {string} wssEndpoint - WSS endpoint in string format.
+   * @returns {array} Array object [Listener, Subscription]
    */
   static subscribeNewBlock = async (onAdd, wssEndpoint) => {
   	const namespaceRepository = http.createRepositoryFactory.createNamespaceRepository();
@@ -36,7 +36,7 @@ class ListenerService {
   		.newBlock()
   		.subscribe(
   			block => onAdd(block),
-  			err => console.log(err)
+  			err => console.error(err)
   		);
 
   	return [listener, subscription];

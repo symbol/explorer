@@ -79,26 +79,26 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			id: this.getId('account-icon')
 		};
 	},
 
 	computed: {
-		title() {
+		title () {
 			return this.getTranslation('address') + ': ' + this.address;
 		},
 
-		iconColor() {
+		iconColor () {
 			return this.getIconColor(this.address);
 		},
 
-		truncatedAddress() {
+		truncatedAddress () {
 			return this.truncString(this.address);
 		},
 
-		viewBox() {
+		viewBox () {
 			return this.hideCaption
 				? '95 30 70 65'
 				: '0 0 261.333 131.313';

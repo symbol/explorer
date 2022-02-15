@@ -31,17 +31,17 @@ export default {
 	},
 
 	computed: {
-		title() {
+		title () {
 			return this.isValueExist
 				? this.getTransactionTypeCaption(this.transactionType) + ' - ' + this._value
 				: this.getTransactionTypeCaption(this.transactionType);
 		},
 
-		isValueExist() {
-			return typeof this._value === 'number' || typeof this._value === 'string';
+		isValueExist () {
+			return 'number' === typeof this._value || 'string' === typeof this._value;
 		},
 
-		_value() {
+		_value () {
 			return this.value;
 		}
 	}

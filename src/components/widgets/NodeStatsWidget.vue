@@ -59,17 +59,17 @@ export default {
 	},
 
 	computed: {
-		manager() {
+		manager () {
 			return this.getter(this.managerGetter) || {};
 		},
 
-		data() {
+		data () {
 			return this.dataGetter
 				? this.getter(this.dataGetter)
 				: this.manager.data;
 		},
 
-		nodeRoles() {
+		nodeRoles () {
 			const data = this.data?.nodeTypes;
 
 			if (!data)
@@ -126,21 +126,21 @@ export default {
 			];
 		},
 
-		loading() {
+		loading () {
 			return this.manager.loading;
 		},
 
-		error() {
+		error () {
 			return this.manager.error;
 		}
 	},
 
 	methods: {
-		getNameByKey(e) {
+		getNameByKey (e) {
 			return this.$store.getters['ui/getNameByKey'](e);
 		},
 
-		getter(name) {
+		getter (name) {
 			return this.$store.getters[name];
 		}
 	}

@@ -88,15 +88,15 @@ export default {
 	},
 
 	computed: {
-		transactionType() {
+		transactionType () {
 			return this.getTransactionTypeCaption(16718); // Namespace registration
 		},
 
-		circleIconsToDisplay() {
+		circleIconsToDisplay () {
 			return [true];
 		},
 
-		namespace() {
+		namespace () {
 			return {
 				namespaceName: this.namespaceName,
 				namespaceId: this.namespaceId,

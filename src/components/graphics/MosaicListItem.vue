@@ -47,25 +47,25 @@ export default {
 	},
 
 	computed: {
-		text() {
+		text () {
 			return this.truncString(this.getMosaicName(this.mosaic), 5);
 		},
 
-		title() {
+		title () {
 			return this.getMosaicName(this.mosaic);
 		},
 
-		isValueExist() {
-			return typeof this._value === 'number' || typeof this._value === 'string';
+		isValueExist () {
+			return 'number' === typeof this._value || 'string' === typeof this._value;
 		},
 
-		_value() {
+		_value () {
 			return this.value || this.mosaic.amount;
 		}
 	},
 
 	methods: {
-		isNativeMosaic(mosaicId) {
+		isNativeMosaic (mosaicId) {
 			return mosaicId === this.nativeMosaicId;
 		}
 	}

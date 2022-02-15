@@ -107,19 +107,19 @@ export default {
 	},
 
 	computed: {
-		title() {
+		title () {
 			return this.getTranslation('mosaic') + ': ' + ((this.aliasName || this.mosaic.aliasName) || (this.mosaicId || this.mosaic.mosaicId));
 		},
 
-		iconColor() {
+		iconColor () {
 			return this.getIconColorFromHex(this.mosaicId || this.mosaic.mosaicId);
 		},
 
-		truncatedMosaicId() {
+		truncatedMosaicId () {
 			return this.truncString(this.mosaicId || this.mosaic.mosaicId);
 		},
 
-		truncatedMosaicName() {
+		truncatedMosaicName () {
 			const aliasName = this.aliasName || this.mosaic.aliasName;
 			const mosaicId = this.mosaicId || this.mosaic.mosaicId;
 
@@ -128,7 +128,7 @@ export default {
 			return this.truncString(mosaicId);
 		},
 
-		viewBox() {
+		viewBox () {
 			return this.hideCaption
 				? '97 30 70 65'
 				: '0 0 261.333 131.313';

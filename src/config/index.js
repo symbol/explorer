@@ -1,8 +1,8 @@
-import pageMenu from './menu.json';
-import i18n from './i18n';
 import Constants from './constants';
-import keyRedirects from './key-redirects.json';
-import * as filters from './filters.js';
+import * as filters from './filters';
+import i18n from './i18n';
+import keyRedirects from './key-redirects';
+import pageMenu from './menu';
 
 export {
 	pageMenu,

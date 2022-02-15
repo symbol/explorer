@@ -35,7 +35,7 @@ export default {
     TableListView: () => import('../components/tables/TableListView'),
 		TableInfoView
 	},
-	data() {
+	data () {
 		return {
 			TransactionType: TransactionType
 		};

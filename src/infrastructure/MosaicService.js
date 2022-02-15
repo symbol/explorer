@@ -17,16 +17,16 @@
  */
 
 import http from './http';
-import helper from '../helper';
-import { Address, MosaicId, Order, ReceiptType, UInt64 } from 'symbol-sdk';
-import { NamespaceService, MetadataService, ReceiptService } from '../infrastructure';
 import { Constants } from '../config';
+import helper from '../helper';
+import { NamespaceService, MetadataService, ReceiptService } from '../infrastructure';
+import { Address, MosaicId, Order, ReceiptType, UInt64 } from 'symbol-sdk';
 
 class MosaicService {
 	/**
    * Gets MosaicInfo for different mosaicIds.
-   * @param mosaicIds[] - Array of mosaic ids
-   * @returns Formatted MosaicInfo[]
+   * @param {array} mosaicIds - Array of mosaic ids.
+   * @returns {array} Formatted MosaicInfos.
    */
    static getMosaics = async mosaicIds => {
    	const mosaics = await http.createRepositoryFactory.createMosaicRepository()
@@ -38,9 +38,9 @@ class MosaicService {
    }
 
    /**
-   * Gets the MosaicInfo for a given mosaicId
-   * @param mosaicId -  Mosaic id
-   * @returns Formatted MosaicInfo
+   * Gets the MosaicInfo for a given mosaicId.
+   * @param {object} mosaicId -  Mosaic id
+   * @returns {object} Formatted MosaicInfo
    */
    static getMosaic = async mosaicId => {
    	const mosaic = await http.createRepositoryFactory.createMosaicRepository()
@@ -53,9 +53,9 @@ class MosaicService {
    }
 
    /**
-    * Get balance mosaics in form of MosaicAmountViews for a given account address
-    * @param address - Account address
-    * @returns formatted MosaicAmountView[]
+    * Get balance mosaics in form of MosaicAmountViews for a given account address.
+    * @param {string} address - Account address
+    * @returns {array} formatted MosaicAmountViews
     */
    static getMosaicAmountView = async address => {
    	const mosaicAmountViews = await http.mosaicService.mosaicsAmountViewFromAddress(Address.createFromRawAddress(address)).toPromise();
@@ -64,11 +64,11 @@ class MosaicService {
    }
 
    /**
-   * Gets a mosaics list from searchCriteria
-   * @param mosaicSearchCriteria Object of Search Criteria
-   * @returns formatted mosaic data with pagination info
+   * Gets a mosaics list from searchCriteria.
+   * @param {object} mosaicSearchCriteria Search Criteria.
+   * @returns {object} formatted mosaic data with pagination info.
    */
-  static searchMosaics = async (mosaicSearchCriteria) => {
+  static searchMosaics = async mosaicSearchCriteria => {
   	const searchMosaics = await http.createRepositoryFactory.createMosaicRepository()
   		.search(mosaicSearchCriteria)
   		.toPromise();
@@ -80,11 +80,11 @@ class MosaicService {
   }
 
    /**
-    * Get formatted MosaicInfo dataset into Vue Component
-    * @param hexOrNamespace - hex value or namespace name
-    * @returns MosaicInfo info object
+    * Get formatted MosaicInfo dataset into Vue Component.
+    * @param {string} hexOrNamespace - hex value or namespace name.
+    * @returns {object} MosaicInfo info object.
     */
-   static getMosaicInfo = async (hexOrNamespace) => {
+   static getMosaicInfo = async hexOrNamespace => {
    	const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic');
    	const mosaicInfo = await this.getMosaic(mosaicId);
 
@@ -100,11 +100,11 @@ class MosaicService {
    }
 
    /**
-    * Get custom MosaicInfo dataset into Vue Component
-    * @param pageInfo - pagination info
-    * @returns Custom MosaicInfo[]
+    * Get custom MosaicInfo dataset into Vue Component.
+    * @param {object} pageInfo - pagination info.
+    * @returns {object} Custom MosaicInfos
     */
-   static getMosaicList = async (pageInfo) => {
+   static getMosaicList = async pageInfo => {
    	const { pageNumber, pageSize } = pageInfo;
    	const searchCriteria = {
    		pageNumber,
@@ -120,7 +120,7 @@ class MosaicService {
 
    	return {
    		...mosaicInfos,
-   		data: mosaicInfos.data.map((mosaic) => ({
+   		data: mosaicInfos.data.map(mosaic => ({
    			...mosaic,
    			ownerAddress: mosaic.address,
    			mosaicAliasNames: this.extractMosaicNamespace(mosaic, mosaicNames),
@@ -136,8 +136,8 @@ class MosaicService {
 
    /**
     * Get customize MosaicAmountView dataset for Vue component.
-    * @param address - Account address
-    * @returns customize MosaicAmountView[]
+    * @param {string} address - Account address.
+    * @returns {object} customize MosaicAmountViews.
     */
    static getMosaicAmountViewList = async address => {
    	const mosaicAmountViewInfos = await this.getMosaicAmountView(address);
@@ -152,13 +152,13 @@ class MosaicService {
    }
 
    /**
-   * Gets mosaic Metadata list dataset into Vue component
-   * @param pageInfo - object for page info such as pageNumber, pageSize
-   * @param filterVaule - object for search criteria
-   * @param hexOrNamespace - hex value or namespace name
-   * @returns formatted mosaic Metadata list
+   * Gets mosaic Metadata list dataset into Vue component.
+   * @param {object} pageInfo - page info such as pageNumber, pageSize.
+   * @param {object} filterValue - search criteria.
+   * @param {string} hexOrNamespace - hex value or namespace name.
+   * @returns {object} formatted mosaic Metadata list.
    */
-   static getMosaicMetadataList = async (pageInfo, filterVaule, hexOrNamespace) => {
+   static getMosaicMetadataList = async (pageInfo, filterValue, hexOrNamespace) => {
    	const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic');
 
    	const { pageNumber, pageSize } = pageInfo;
@@ -168,7 +168,7 @@ class MosaicService {
    		pageSize,
    		order: Order.Desc,
    		targetId: mosaicId,
-   		...filterVaule
+   		...filterValue
    	};
    	const mosaicMetadatas = await MetadataService.searchMetadatas(searchCriteria);
 
@@ -176,10 +176,10 @@ class MosaicService {
    }
 
    /**
-	* Gets mosaic balance transfer receipt list dataset into Vue component
-	* @param pageInfo - object for page info such as pageNumber, pageSize
-	* @param hexOrNamespace - hex value or namespace name
-	* @returns formatted balance transfer receipt list
+	* Gets mosaic balance transfer receipt list dataset into Vue component.
+	* @param {object} pageInfo - page info such as pageNumber, pageSize.
+	* @param {string} hexOrNamespace - hex value or namespace name.
+	* @returns {object} formatted balance transfer receipt list.
 	*/
    static getMosaicBalanceTransferReceipt = async (pageInfo, hexOrNamespace) => {
    	const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic');
@@ -210,10 +210,10 @@ class MosaicService {
    }
 
    /**
-	* Gets mosaic artifact expiry receipt list dataset into Vue component
-	* @param pageInfo - object for page info such as pageNumber, pageSize
-	* @param hexOrNamespace - hex value or namespace name
-	* @returns formatted artifact expiry receipt list
+	* Gets mosaic artifact expiry receipt list dataset into Vue component.
+	* @param {object} pageInfo - page info such as pageNumber, pageSize.
+	* @param {string} hexOrNamespace - hex value or namespace name.
+	* @returns {object} formatted artifact expiry receipt list.
 	*/
    static getMosaicArtifactExpiryReceipt = async (pageInfo, hexOrNamespace) => {
    	const mosaicId = await helper.hexOrNamespaceToId(hexOrNamespace, 'mosaic');
@@ -247,9 +247,9 @@ class MosaicService {
    }
 
    /**
-    * Format MosaicInfo to readable mosaicInfo object
-    * @param MosaicInfoDTO
-    * @returns Object readable MosaicInfoDTO object
+    * Format MosaicInfo to readable mosaicInfo object.
+    * @param {object} mosaicInfo MosaicInfoDTO.
+    * @returns {object} readable MosaicInfoDTO object.
     */
    static formatMosaicInfo = mosaicInfo => ({
    	mosaicId: mosaicInfo.id.toHex(),
@@ -267,9 +267,9 @@ class MosaicService {
    })
 
    /**
-    * format MosaicAmountView to readable object
-    * @param mosaicAmountView - mosaicAmountView DTO
-    * @returns formatted mosaicAmountView
+    * format MosaicAmountView to readable object.
+    * @param {object} mosaicAmountView - mosaicAmountView DTO.
+    * @returns {object} formatted mosaicAmountView.
     */
    static formatMosaicAmountView = mosaicAmountView => ({
    	...this.formatMosaicInfo(mosaicAmountView.mosaicInfo),
@@ -277,17 +277,17 @@ class MosaicService {
    })
 
    /**
-    * Extract Name for Mosaic
-    * @param mosaicInfo - mosaicInfo DTO
-    * @param mosaicNames - MosaicNames[]
-    * @returns mosaicNames
+    * Extract Name for Mosaic.
+    * @param {object} mosaicInfo - mosaicInfo DTO.
+    * @param {array} mosaicNames - MosaicNames[].
+    * @returns {array} mosaicNames.
     */
    static extractMosaicNamespace = (mosaicInfo, mosaicNames) => {
-   	const mosaicName = mosaicNames.find((name) => name.mosaicId === mosaicInfo.mosaicId);
+   	const mosaicName = mosaicNames.find(name => name.mosaicId === mosaicInfo.mosaicId);
 
    	const aliasNames = mosaicName.names.map(names => names.name);
 
-   	const names = aliasNames.length > 0 ? aliasNames : [Constants.Message.UNAVAILABLE];
+   	const names = 0 < aliasNames.length ? aliasNames : [Constants.Message.UNAVAILABLE];
 
    	return names;
    }

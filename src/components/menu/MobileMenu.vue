@@ -56,16 +56,18 @@ export default {
 		ThemeToggle
 	},
 
-	mounted() {
-		document.addEventListener('scroll', (e) => {
-			if (window.pageYOffset > 50)
+	mounted () {
+		document.addEventListener('scroll', e => {
+			if (50 < window.pageYOffset) {
 				this.isHide = true;
-			else
+            }
+            else {
 				this.isHide = false;
+            }
 		});
 	},
 
-	data() {
+	data () {
 		return {
 			items: pageMenu.items,
 			showDrawer: false,
@@ -75,7 +77,7 @@ export default {
 	},
 
 	methods: {
-		toggleMenu() {
+		toggleMenu () {
 			this.showDrawer = !this.showDrawer;
 		}
 	}

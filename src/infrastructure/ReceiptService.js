@@ -17,20 +17,20 @@
  */
 
 import http from './http';
-import { ReceiptType, ResolutionType } from 'symbol-sdk';
 import Constants from '../config/constants';
-import { take, toArray } from 'rxjs/operators';
 import {
 	CreateReceiptTransaction
 } from '../infrastructure';
+import { take, toArray } from 'rxjs/operators';
+import { ReceiptType, ResolutionType } from 'symbol-sdk';
 
 class ReceiptService {
 	/**
-	 * Gets a Receipts from searchCriteria
-	 * @param transactionStatementSearchCriteria Object of Block Search Criteria
-	 * @returns formatted Receipts data with pagination info
+	 * Gets a Receipts from searchCriteria.
+	 * @param {object} transactionStatementSearchCriteria Block Search Criteria.
+	 * @returns {object} formatted Receipts data with pagination info.
 	 */
-  static searchReceipts = async (transactionStatementSearchCriteria) => {
+  static searchReceipts = async transactionStatementSearchCriteria => {
   	const searchReceipts = await http.createRepositoryFactory.createReceiptRepository()
   		.searchReceipts(transactionStatementSearchCriteria)
   		.toPromise();
@@ -42,11 +42,11 @@ class ReceiptService {
   }
 
   	/**
-	 * Gets a Address Resolution from searchCriteria
-	 * @param resolutionStatementSearchCriteria Object of Block Search Criteria
-	 * @returns formatted address resolution data with pagination info
+	 * Gets a Address Resolution from searchCriteria.
+	 * @param {object} resolutionStatementSearchCriteria Block Search Criteria.
+	 * @returns {object} formatted address resolution data with pagination info.
 	 */
-  static searchAddressResolutionStatements = async (resolutionStatementSearchCriteria) => {
+  static searchAddressResolutionStatements = async resolutionStatementSearchCriteria => {
   	const searchAddressResolutionStatements = await http.createRepositoryFactory.createReceiptRepository()
   		.searchAddressResolutionStatements(resolutionStatementSearchCriteria)
   		.toPromise();
@@ -57,12 +57,12 @@ class ReceiptService {
   	};
   }
 
-    	/**
-	 * Gets a Mosaic Resolution from searchCriteria
-	 * @param resolutionStatementSearchCriteria Object of Block Search Criteria
-	 * @returns formatted mosaic resolution data with pagination info
+  /**
+	 * Gets a Mosaic Resolution from searchCriteria.
+	 * @param {object} resolutionStatementSearchCriteria Block Search Criteria.
+	 * @returns {object} formatted mosaic resolution data with pagination info.
 	 */
-  static searchMosaicResolutionStatements = async (resolutionStatementSearchCriteria) => {
+  static searchMosaicResolutionStatements = async resolutionStatementSearchCriteria => {
   	const searchMosaicResolutionStatements = await http.createRepositoryFactory.createReceiptRepository()
   		.searchMosaicResolutionStatements(resolutionStatementSearchCriteria)
   		.toPromise();
@@ -74,11 +74,11 @@ class ReceiptService {
   }
 
   /**
-   * Gets a receipts from streamer
-   * @param searchCriteria - Object Search Criteria:
-   * @returns formatted statementReceipt[]
+   * Gets a receipts from streamer.
+   * @param {object} searchCriteria - Search Criteria.
+   * @returns {array} formatted statementReceipt[]
    */
-  static streamerReceipts = async (searchCriteria) => {
+  static streamerReceipts = async searchCriteria => {
   	const streamerReceipts = await http.transactionStatementPaginationStreamer()
   		.search(searchCriteria)
   		.pipe(take(10), toArray())
@@ -88,11 +88,11 @@ class ReceiptService {
   }
 
   /**
-   * Gets a Address Resolution statement from streamer
-   * @param searchCriteria - Object Search Criteria:
-   * @returns formatted statementAddressResolution[]
+   * Gets a Address Resolution statement from streamer.
+   * @param {object} searchCriteria - Search Criteria.
+   * @returns {array} formatted statementAddressResolution[]
    */
-	static streamerAddressResolution = async (searchCriteria) => {
+	static streamerAddressResolution = async searchCriteria => {
 		const streamerAddressResolution = await http.addressResolutionStatementPaginationStreamer()
 			.search(searchCriteria)
 			.pipe(take(10), toArray())
@@ -102,11 +102,11 @@ class ReceiptService {
 	}
 
 	 /**
-   * Gets a Mosaic Resolution statement from streamer
-   * @param searchCriteria - Object Search Criteria:
-   * @returns formatted statementMosaicResolution[]
+   * Gets a Mosaic Resolution statement from streamer.
+   * @param {object} searchCriteria - Search Criteria.
+   * @returns {array} formatted statementMosaicResolution[]
    */
-	static streamerMosaicResolution = async (searchCriteria) => {
+	static streamerMosaicResolution = async searchCriteria => {
 		const streamerMosaicResolution = await http.mosaicResolutionStatementPaginationStreamer()
 			.search(searchCriteria)
 			.pipe(take(10), toArray())
@@ -115,25 +115,26 @@ class ReceiptService {
 		return this.formatResolutionStatement(streamerMosaicResolution);
 	}
 
-	static createReceiptTransactionStatement = async (transactionStatement) => {
-		switch (transactionStatement.receiptTransactionStatementType) {
-		case Constants.ReceiptTransactionStatamentType.BalanceChangeReceipt:
+	static createReceiptTransactionStatement = async transactionStatement => {
+		const { receiptTransactionStatementType } = transactionStatement;
+		switch (receiptTransactionStatementType) {
+		case Constants.ReceiptTransactionStatementType.BalanceChangeReceipt:
 			return CreateReceiptTransaction.balanceChangeReceipt(transactionStatement.data);
-		case Constants.ReceiptTransactionStatamentType.BalanceTransferReceipt:
+		case Constants.ReceiptTransactionStatementType.BalanceTransferReceipt:
 			return CreateReceiptTransaction.balanceTransferReceipt(transactionStatement.data);
-		case Constants.ReceiptTransactionStatamentType.ArtifactExpiryReceipt:
+		case Constants.ReceiptTransactionStatementType.ArtifactExpiryReceipt:
 			return CreateReceiptTransaction.artifactExpiryReceipt(transactionStatement.data);
-		case Constants.ReceiptTransactionStatamentType.InflationReceipt:
+		case Constants.ReceiptTransactionStatementType.InflationReceipt:
 			return CreateReceiptTransaction.inflationReceipt(transactionStatement.data);
 		default:
-			throw new Error('Unimplemented receipt transaction statement with type ' + transactionStatement.receiptTransactionStatementType);
+			throw new Error('Unimplemented receipt transaction statement with type ' + receiptTransactionStatementType);
 		}
 	}
 
   /**
-   * Format Receipt Statements
-   * @param TransactionStatementDTO[]
-   * @returns collection of receipts
+   * Format Receipt Statements.
+   * @param {array} transactionStatement - List of transaction statement.
+   * @returns {object} collection of receipts
    *
    */
   static groupTransactionStatement = transactionStatement => {
@@ -193,7 +194,7 @@ class ReceiptService {
   	};
   }
 
-  static transactionStatementBuilder(transactionStatement) {
+  static transactionStatementBuilder (transactionStatement) {
 	  const {
 		  balanceChangeReceipt,
 		  balanceTransferReceipt,
@@ -203,19 +204,19 @@ class ReceiptService {
 
   	return {
   		balanceChangeStatement: {
-  			receiptTransactionStatementType: Constants.ReceiptTransactionStatamentType.BalanceChangeReceipt,
+  			receiptTransactionStatementType: Constants.ReceiptTransactionStatementType.BalanceChangeReceipt,
   			data: balanceChangeReceipt
   		},
   		balanceTransferStatement: {
-  			receiptTransactionStatementType: Constants.ReceiptTransactionStatamentType.BalanceTransferReceipt,
+  			receiptTransactionStatementType: Constants.ReceiptTransactionStatementType.BalanceTransferReceipt,
   			data: balanceTransferReceipt
   		},
   		inflationStatement: {
-  			receiptTransactionStatementType: Constants.ReceiptTransactionStatamentType.InflationReceipt,
+  			receiptTransactionStatementType: Constants.ReceiptTransactionStatementType.InflationReceipt,
   			data: inflationReceipt
   		},
   		artifactExpiryStatement: {
-  			receiptTransactionStatementType: Constants.ReceiptTransactionStatamentType.ArtifactExpiryReceipt,
+  			receiptTransactionStatementType: Constants.ReceiptTransactionStatementType.ArtifactExpiryReceipt,
   			data: artifactExpiryReceipt
   		}
   	};
@@ -223,8 +224,8 @@ class ReceiptService {
 
   /**
    * Format Resolution Statements
-   * @param ResolutionStatementDTO
-   * @returns Address Resolution | Mosaic Resolution
+   * @param {array} resolutionStatement - list of resolution statement.
+   * @returns {object} Address Resolution | Mosaic Resolution
    */
   static formatResolutionStatement = resolutionStatement => {
 	  return resolutionStatement.map(statement => {

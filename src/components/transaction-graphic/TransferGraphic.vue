@@ -95,36 +95,32 @@ export default {
 	},
 
 	computed: {
-		transactionType() {
+		transactionType () {
 			return this.getTransactionTypeCaption(16724); // Transfer
 		},
 
-		circleIconsToDisplay() {
+		circleIconsToDisplay () {
 			return [this.hasMessage, this.hasMosaic, this.hasNativeMosaic];
 		},
 
-		hasMessage() {
-			return typeof this.message.payload === 'string' && this.message.payload.length > 0;
+		hasMessage () {
+			return 'string' === typeof this.message.payload && 0 < this.message.payload.length;
 		},
 
-		hasNativeMosaic() {
-			return typeof this.nativeMosaic !== 'undefined';
+		hasNativeMosaic () {
+			return 'undefined' !== typeof this.nativeMosaic;
 		},
 
-		hasMosaic() {
-			return this.mosaicList.length > 0;
+		hasMosaic () {
+			return 0 < this.mosaicList.length;
 		},
 
-		nativeMosaic() {
-			return this.mosaics.find(
-				mosaic => mosaic.mosaicId === this.nativeMosaicId
-			);
+		nativeMosaic () {
+			return this.mosaics.find(mosaic => mosaic.mosaicId === this.nativeMosaicId);
 		},
 
-		mosaicList() {
-			return this.mosaics.filter(
-				mosaic => mosaic.mosaicId !== this.nativeMosaicId
-			);
+		mosaicList () {
+			return this.mosaics.filter(mosaic => mosaic.mosaicId !== this.nativeMosaicId);
 		}
 	}
 };

@@ -67,23 +67,25 @@ export default {
 	},
 
 	computed: {
-		variant() {
+		variant () {
 			let variant = '';
 
 			variant = 'outline-';
 
-			if (this.dark === true)
+			if (true === this.dark) {
 				variant += 'dark-mode-blue';
-			else
+			}
+			else {
 				variant += 'info';
+			}
 
-			if (this.border === false)
+			if (false === this.border)
 				variant += ' border-transparent';
 
 			return variant;
 		},
 
-		_size() {
+		_size () {
 			switch (this.size) {
 			case 'small': return 'sm';
 			case 'medium': return '';
@@ -92,7 +94,7 @@ export default {
 			return '';
 		},
 
-		selectedOptionLabel() {
+		selectedOptionLabel () {
 			if (this.options && this.options[this.index] !== void 0)
 				return this.options[this.index].label;
 			return this.index;
@@ -100,7 +102,7 @@ export default {
 	},
 
 	methods: {
-		onChange(e) {
+		onChange (e) {
 			this.$emit('change', e);
 			if (this.changePageAction)
 				this.$store.dispatch(this.changePageAction, e);

@@ -21,11 +21,11 @@ import Constants from '../config/constants';
 
 class MetadataService {
   /**
-   * Gets a metadata from searchCriteria
-   * @param metadataSearchCriteria Object of Search Criteria
-   * @returns formatted metadatas with pagination info
+   * Gets a metadata from searchCriteria.
+   * @param {object} metadataSearchCriteria Search Criteria.
+   * @returns {object} formatted metadatas with pagination info.
    */
-  static searchMetadatas = async (metadataSearchCriteria) => {
+  static searchMetadatas = async metadataSearchCriteria => {
   	const searchMetadatas = await http.createRepositoryFactory.createMetadataRepository()
   		.search(metadataSearchCriteria)
   		.toPromise();
@@ -37,9 +37,9 @@ class MetadataService {
   }
 
   /**
-   * Format Metadata to readable object
-   * @param metadata - metadata DTO
-   * @returns readable Metadata object
+   * Format Metadata to readable object.
+   * @param {object} metadata - metadata DTO.
+   * @returns {object} readable Metadata object.
    */
   static formatMetadata = metadata => ({
   	metadataId: metadata.id,
@@ -47,9 +47,9 @@ class MetadataService {
   })
 
   /**
-   * Format MetadataEntry to readable object
-   * @param metadataEntry - metadataEntry DTO
-   * @returns readable metadataEntry object
+   * Format MetadataEntry to readable object.
+   * @param {object} metadataEntry - metadataEntry DTO.
+   * @returns {object} readable metadataEntry object.
    */
   static formatMetadataEntry = metadataEntry => ({
   	...metadataEntry,

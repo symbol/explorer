@@ -16,6 +16,8 @@
  *
  */
 
+import http from './http';
+import helper from '../helper';
 import {
 	AggregateTransaction,
 	Account,
@@ -31,13 +33,11 @@ import {
 	Deadline,
 	UInt64
 } from 'symbol-sdk';
-import http from './http';
-import helper from '../helper';
 
 class AnnounceService {
     static announceHashLock = (signedHashLockTransaction, signedTransaction) => {
     	return new Promise((resolve, reject) => {
-    		const nodeUrl = http.nodeUrl;
+    		const { nodeUrl } = http;
     		const repositoryFactory = new RepositoryFactoryHttp(nodeUrl);
     		// const listener = repositoryFactory.createListener()
     		const receiptHttp = repositoryFactory.createReceiptRepository();
@@ -51,12 +51,11 @@ class AnnounceService {
     				transactionService
     					.announceHashLockAggregateBonded(signedHashLockTransaction, signedTransaction, listener)
     					.subscribe(
-    						(x) => {
-    							console.log('AnnounceService', x);
+    						x => {
     							listener.close();
     							resolve(x);
     						},
-    						(err) => {
+    						err => {
     							console.error('AnnounceService', err);
     							listener.close();
     							reject(err);
@@ -94,24 +93,24 @@ class AnnounceService {
     	deletions = []
     }) => {
     	// const transactionRepository = await http.createRepositoryFactory.createTransactionRepository();
-    	const networkType = http.networkType;
+    	const { networkType } = http;
     	const networkGenerationHash = http.generationHash;
     	const account = Account.createFromPrivateKey(accountPrivateKey, networkType);
 
     	;
 
     	const addressAdditions = additions.map(addition => {
-    		if (typeof addition === 'string' && addition.length === 64)
+    		if ('string' === typeof addition && 64 === addition.length)
     			return PublicAccount.createFromPublicKey(addition, networkType).address;
-    		if (typeof addition === 'string' && addition.length === 39)
+    		if ('string' === typeof addition && 39 === addition.length)
     			return Address.createFromRawAddress(addition);
     		return addition;
     	});
 
     	const addressDeletions = deletions.map(delition => {
-    		if (typeof delition === 'string' && delition.length === 64)
+    		if ('string' === typeof delition && 64 === delition.length)
     			return PublicAccount.createFromPublicKey(delition, networkType).address;
-    		if (typeof delition === 'string' && delition.length === 39)
+    		if ('string' === typeof delition && 39 === delition.length)
     			return Address.createFromRawAddress(delition);
     		return delition;
     	});
@@ -135,7 +134,6 @@ class AnnounceService {
 
     	const signedTransaction = account.sign(aggregateTransaction, networkGenerationHash);
 
-    	console.log(signedTransaction.hash);
     	const signedHashLockTransaction = this.getSignedHashLosck(signedTransaction, account);
 
     	this.announceHashLock(signedHashLockTransaction, signedTransaction);

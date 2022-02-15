@@ -52,14 +52,14 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			LockIcon
 		};
 	},
 
 	computed: {
-		title() {
+		title () {
 			return this.translate('chainHeight') +
 			': ' + this.value.chainHeight +
 			'\n' + this.translate('finalizedHeight') +
@@ -70,7 +70,7 @@ export default {
 	},
 
 	methods: {
-		translate(value) {
+		translate (value) {
 			return this.$store.getters['ui/getNameByKey'](value);
 		}
 	}

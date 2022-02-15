@@ -81,23 +81,23 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			pageNumber: this.currentPageNumber
 		};
 	},
 
 	computed: {
-		isFirstPageDisable() {
-			return this.currentPageNumber === 1;
+		isFirstPageDisable () {
+			return 1 === this.currentPageNumber;
 		},
-		isLastPageDisable() {
+		isLastPageDisable () {
 			return this.currentPageNumber === this.lastPageNumber || this.lastPageNumber === undefined;
 		},
-		isDisableInputPage() {
+		isDisableInputPage () {
 			return this.lastPageNumber === undefined;
 		},
-		displayLastPageNumber() {
+		displayLastPageNumber () {
 			if (this.lastPageNumber !== undefined)
 				return `of ${this.lastPageNumber}`;
 
@@ -106,7 +106,7 @@ export default {
 	},
 
 	methods: {
-		nextPage() {
+		nextPage () {
 			if (this.nextPageAction)
 				this.$store.dispatch(this.nextPageAction);
 
@@ -115,7 +115,7 @@ export default {
 				this.goToTop();
 		},
 
-		previousPage() {
+		previousPage () {
 			if (this.previousPageAction)
 				this.$store.dispatch(this.previousPageAction);
 			this.$emit('previous');
@@ -123,7 +123,7 @@ export default {
 				this.goToTop();
 		},
 
-		goFirstPage() {
+		goFirstPage () {
 			if (!this.isFirstPageDisable) {
 				this.$emit('firstPage');
 				if (this.goUp)
@@ -131,7 +131,7 @@ export default {
 			}
 		},
 
-		goLastPage() {
+		goLastPage () {
 			if (!this.isLastPageDisable) {
 				this.$emit('lastPage');
 				if (this.goUp)
@@ -139,25 +139,25 @@ export default {
 			}
 		},
 
-		fetchPage() {
+		fetchPage () {
 			this.$emit('fetchPage', this.pageNumber);
 
 			if (this.goUp)
 				this.goToTop();
 		},
 
-		goToTop() {
+		goToTop () {
 			document.body.scrollTop = 0;
 			document.documentElement.scrollTop = 0;
 		},
 
-		getNameByKey(e) {
+		getNameByKey (e) {
 			return this.$store.getters['ui/getNameByKey'](e);
 		}
 	},
 
 	watch: {
-		currentPageNumber(value) {
+		currentPageNumber (value) {
 			this.pageNumber = value;
 		}
 	}

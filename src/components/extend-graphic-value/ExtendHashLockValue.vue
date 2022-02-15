@@ -29,15 +29,15 @@ export default {
 	},
 
 	computed: {
-		hasAmount() {
+		hasAmount () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('amount'))
-					return typeof item.amount === 'string' && item.amount.length > 0;
+					return 'string' === typeof item.amount && 0 < item.amount.length;
 			}
 			return false;
 		},
 
-		amount() {
+		amount () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('amount')) {
 					const amount = item.amount.replace(/,/g, '');
@@ -50,11 +50,11 @@ export default {
 			return '0';
 		},
 
-		networkCurrency() {
+		networkCurrency () {
 			// eslint-disable-next-line no-constant-condition
 			if (
-				typeof http.networkCurrency.namespaceName === 'string' &&
-				http.networkCurrency.namespaceName.length > 0
+				'string' === typeof http.networkCurrency.namespaceName &&
+				0 < http.networkCurrency.namespaceName.length
 			) {
 				const namespaceLevels = http.networkCurrency.namespaceName.split('.');
 

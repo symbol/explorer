@@ -184,9 +184,19 @@ class Constants {
 		[MosaicRestrictionType.NONE]: 'mosaicRestrictionType.NONE'
 	}
 
-	static MerkleRootsOrder = ['AccountState', 'Namespace', 'Mosaic', 'Multisig', 'HashLockInfo', 'SecretLockInfo', 'AccountRestriction', 'MosaicRestriction', 'Metadata']
+	static MerkleRootsOrder = [
+		'AccountState',
+		'Namespace',
+		'Mosaic',
+		'Multisig',
+		'HashLockInfo',
+		'SecretLockInfo',
+		'AccountRestriction',
+		'MosaicRestriction',
+		'Metadata'
+	];
 
-	static ReceiptTransactionStatamentType = {
+	static ReceiptTransactionStatementType = {
 		BalanceChangeReceipt: 'Balance Change Receipt',
 		BalanceTransferReceipt: 'Balance Transfer Receipt',
 		InflationReceipt: 'Inflation Receipt',

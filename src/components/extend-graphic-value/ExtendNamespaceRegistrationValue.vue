@@ -35,15 +35,16 @@ export default {
 	},
 
 	computed: {
-		hasNamespace() {
+		hasNamespace () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('namespace'))
-					return typeof item.namespace === 'object';
+					return 'object' === typeof item.namespace;
 			}
+
 			return false;
 		},
 
-		namespace() {
+		namespace () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('namespace'))
 					return item.namespace;

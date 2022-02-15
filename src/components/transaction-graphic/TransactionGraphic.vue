@@ -66,14 +66,14 @@ export default {
 		MultisigAccountModificationGraphic
 	},
 
-	data() {
+	data () {
 		return {
 			TransactionType
 		};
 	},
 
 	computed: {
-		graphicComponent() {
+		graphicComponent () {
 			switch (this.data?.type) {
 			case TransactionType.TRANSFER: return 'TransferGraphic';
 			case TransactionType.ADDRESS_ALIAS: return 'AddressAliasGraphic';

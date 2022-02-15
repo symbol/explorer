@@ -92,7 +92,7 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			width: this.transactionGraphicWidth,
 			heigth: this.transactionGraphicHeight
@@ -100,23 +100,23 @@ export default {
 	},
 
 	computed: {
-		transactionType() {
+		transactionType () {
 			return this.getTransactionTypeCaption(16974); // Address Alias
 		},
 
-		circleIconsToDisplay() {
+		circleIconsToDisplay () {
 			return [true];
 		},
 
-		isLinkAction() {
-			return this.aliasAction === 'Link';
+		isLinkAction () {
+			return 'Link' === this.aliasAction;
 		},
 
-		subTitle() {
+		subTitle () {
 			return `. ${this.aliasAction} namespace`;
 		},
 
-		namespace() {
+		namespace () {
 			return { namespaceId: this.namespaceId, namespaceName: this.namespaceName };
 		}
 	}

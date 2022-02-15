@@ -40,33 +40,33 @@ export default {
 		}
 	},
 
-	mounted() {
+	mounted () {
 		this.initialize();
 		this.addMarkers();
 	},
 
-	data() {
+	data () {
 		return {
 			map: {}
 		};
 	},
 
 	computed: {
-		style() {
+		style () {
 			return {
 				height: this.height + 'px'
 			};
 		},
 
-		buttonContainerStyle() {
+		buttonContainerStyle () {
 			return `display: flex;
                 justify-content: flex-end;
                 margin: 15px 0;
             `;
 		},
 
-		button1Style() {
-			return `border-radius: 3px; 
+		button1Style () {
+			return `border-radius: 3px;
                 color: #fff;
                 background-color: #5200c6;
                 font-family: Noto Sans;
@@ -81,7 +81,7 @@ export default {
             `;
 		},
 
-		button2Style() {
+		button2Style () {
 			return `border-radius: 3px;
                 border-width: 2px;
                 border-style: solid;
@@ -104,7 +104,7 @@ export default {
 	},
 
 	methods: {
-		initialize() {
+		initialize () {
 			const southWest = leaflet.latLng(-89.98155760646617, -180);
 			const northEast = leaflet.latLng(89.99346179538875, 180);
 			const bounds = leaflet.latLngBounds(southWest, northEast);
@@ -132,8 +132,8 @@ export default {
 			this.map = map;
 		},
 
-		addMarkers() {
-			const getIcon = (icon) => {
+		addMarkers () {
+			const getIcon = icon => {
 				return leaflet.icon({
 					iconUrl: icon,
 					iconRetinaUrl: icon,
@@ -186,7 +186,7 @@ export default {
 
 					const m = leaflet.marker([node.coordinates.latitude, node.coordinates.longitude], { icon });
 
-					if (this.showPopup === true)
+					if (true === this.showPopup)
 						m.bindPopup(popup);
 
 					markerClusters.addLayer(m);
@@ -196,27 +196,22 @@ export default {
 			this.map.addLayer(markerClusters);
 		},
 
-		createClusterGroup(cluster) {
+		createClusterGroup (cluster) {
 			const count = cluster.getChildCount();
 
 			let size = 'medium';
 
-			if (count < 5)
+			if (5 > count)
 				size = 'xs';
-
-			else if (count < 10)
+			else if (10 > count)
 				size = 's';
-
-			else if (count < 20)
+			else if (20 > count)
 				size = 'm';
-
-			else if (count < 40)
+			else if (40 > count)
 				size = 'l';
-
-			else if (count < 80)
+			else if (80 > count)
 				size = 'xl';
-
-			else if (count >= 80)
+			else if (80 <= count)
 				size = 'xxl';
 
 			return leaflet.divIcon({
@@ -225,22 +220,22 @@ export default {
 			});
 		},
 
-		formatText(value) {
-			return typeof value === 'string'
+		formatText (value) {
+			return 'string' === typeof value
 				? (
-					value.length > 30
+					30 < value.length
 						? (value.slice(0, 15) + '...' + value.slice(value.length - 14, value.length))
 						: value
 				)
 				: 'n/a';
 		},
 
-		getNameByKey(e) {
+		getNameByKey (e) {
 			return this.$store.getters['ui/getNameByKey'](e);
 		},
 
-		getPageHref(itemKey, item) {
-			return this.$store.getters[`ui/getPageHref`]({
+		getPageHref (itemKey, item) {
+			return this.$store.getters['ui/getPageHref']({
 				pageName: itemKey,
 				param: item
 			});

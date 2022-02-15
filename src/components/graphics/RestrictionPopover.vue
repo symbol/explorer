@@ -60,21 +60,21 @@ export default {
 	},
 
 	computed: {
-		titleGlobalRestriction() {
+		titleGlobalRestriction () {
 			return `${this.getTranslation('restrictionKey')}: ${this.data.restrictionKey}` +
 				`${this.getTranslation('newRestrictionType')}: ${this.getTranslation(this.data.newRestrictionType)}` +
 				`${this.getTranslation('newRestrictionValue')}: ${this.data.newRestrictionValue}`;
 		},
 
-		isGlobalRestriction() {
-			return this.data.type === 'mosaic.global';
+		isGlobalRestriction () {
+			return 'mosaic.global' === this.data.type;
 		},
 
-		isAddressRestriction() {
-			return this.data.type === 'mosaic.address';
+		isAddressRestriction () {
+			return 'mosaic.address' === this.data.type;
 		},
 
-		restrictionTypeText() {
+		restrictionTypeText () {
 			const restrictionType = this.data.newRestrictionType;
 
 			switch (restrictionType) {

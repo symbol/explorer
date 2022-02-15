@@ -18,14 +18,14 @@
 import Constants from '../../config/constants';
 
 export default class Timeline {
-	constructor(name, initialFuntion, fetchFunction, keyName, pageSize = Constants.PageSize) {
-		if (typeof name !== 'string')
+	constructor (name, initialFuntion, fetchFunction, keyName, pageSize = Constants.PageSize) {
+		if ('string' !== typeof name)
 			throw Error('Failed to construct Timeline. Name is not provided');
 		// if(!(store && store.state && store.getters && store.commit && store.dispatch))
 		//    throw Error('Failed to construct Timeline. Store context is not provided');
-		if (typeof initialFuntion !== 'function')
+		if ('function' !== typeof initialFuntion)
 			throw Error('Cannot create timeline. Initial function is not provided');
-		if (typeof fetchFunction !== 'function')
+		if ('function' !== typeof fetchFunction)
 			throw Error('Cannot create timeline. Fetch function is not provided');
 		if (keyName === void 0)
 			throw Error('Cannot create timeline. Key is not provided');
@@ -46,7 +46,7 @@ export default class Timeline {
 		this.initialized = false;
 	}
 
-	static empty() {
+	static empty () {
 		return {
 			data: [],
 			canFetchNext: false,
@@ -57,20 +57,20 @@ export default class Timeline {
 		};
 	}
 
-	setStore(store) {
+	setStore (store) {
 		this.store = store;
 		this.store.dispatch(this.name, this);
 		return this;
 	}
 
-	initialFetch() {
+	initialFetch () {
 		if (!this.initialized) {
 			this.initialized = true;
 			return this.fetch();
 		}
 	}
 
-	uninitialize() {
+	uninitialize () {
 		this.initialized = false;
 		this.data = [];
 		this.next = [];
@@ -80,7 +80,7 @@ export default class Timeline {
 		this.error = false;
 	}
 
-	async fetch() {
+	async fetch () {
 		this.loading = true;
 		this.store.dispatch(this.name, this);
 
@@ -96,8 +96,7 @@ export default class Timeline {
 				this.keys.push(key);
 				this.createNewKey();
 			}
-		}
-		catch (e) {
+		} catch (e) {
 			console.error(e);
 			this.error = true;
 		}
@@ -107,39 +106,37 @@ export default class Timeline {
 		return this;
 	}
 
-	get canFetchPrevious() {
-		return this.index > 0 && this.loading === false;
+	get canFetchPrevious () {
+		return 0 < this.index && false === this.loading;
 	}
 
-	get canFetchNext() {
-		return this.next?.length > 0 && this.loading === false;
+	get canFetchNext () {
+		return 0 < this.next?.length && false === this.loading;
 	}
 
-	get nextKeyValue() {
+	get nextKeyValue () {
 		if (this.next?.length)
 			return this.next[this.next.length - 1][this.keyName];
 	}
 
-	get previousKeyValue() {
+	get previousKeyValue () {
 		return this.keys[this.keys.length - 4];
 	}
 
-	get isLive() {
-		return this.index === 0;
+	get isLive () {
+		return 0 === this.index;
 	}
 
-	createNewKey() {
+	createNewKey () {
 		if (this.next?.length) {
 			const newKeyValue = this.next[this.next.length - 1][this.keyName];
 
 			this.keys.push(newKeyValue);
 			return newKeyValue;
-		}
-		else
-			this.keys.push(null);
+		} else { this.keys.push(null); }
 	}
 
-	async fetchNext() {
+	async fetchNext () {
 		if (this.canFetchNext) {
 			this.loading = true;
 			this.store.dispatch(this.name, this);
@@ -149,21 +146,18 @@ export default class Timeline {
 				this.next = await this.fetchFunction(this.nextKeyValue, this.pageSize, this.store);
 				this.createNewKey();
 				this.index++;
-			}
-			catch (e) {
+			} catch (e) {
 				this.error = true;
 				console.error(e);
 			}
-		}
-		else
-			console.error('Timeline cannot fetch next');
+		} else { console.error('Timeline cannot fetch next'); }
 		this.loading = false;
 
 		this.store.dispatch(this.name, this);
 		return this;
 	}
 
-	async fetchPrevious() {
+	async fetchPrevious () {
 		if (this.canFetchPrevious) {
 			this.loading = true;
 			this.store.dispatch(this.name, this);
@@ -173,30 +167,27 @@ export default class Timeline {
 				this.data = await this.fetchFunction(this.previousKeyValue, this.pageSize, this.store);
 				this.keys.pop();
 				this.index--;
-			}
-			catch (e) {
+			} catch (e) {
 				this.error = true;
 				console.error(e);
 			}
-		}
-		else
-			return this.fetch();
+		} else { return this.fetch(); }
 		this.loading = false;
 
 		this.store.dispatch(this.name, this);
 		return this;
 	}
 
-	async reset() {
+	async reset () {
 		return this.fetch();
 	}
 
 	// Add latest item to current.
-	addLatestItem(item, keyName = this.keyName) {
+	addLatestItem (item, keyName = this.keyName) {
 		if (this.isLive) {
-			if (this.data?.length && this.data[0][keyName] === item[keyName])
+			if (this.data?.length && this.data[0][keyName] === item[keyName]) {
 				console.error('internal error: attempted to add duplicate item to timeline.');
-			else {
+			} else {
 				const data = [item, ...this.data];
 				const next = [data.pop(), ...this.next];
 

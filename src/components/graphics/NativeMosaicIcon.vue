@@ -83,21 +83,21 @@ export default {
 	},
 
 	computed: {
-		title() {
+		title () {
 			return this.getTranslation('mosaic') + ': ' + this.nativeMosaicAliasName;
 		},
 
-		mosaicId() {
+		mosaicId () {
 			return this.nativeMosaicId;
 		},
 
-		aliasName() {
+		aliasName () {
 			return this.nativeMosaicAliasName;
 		}
 	},
 
 	methods: {
-		click() {
+		click () {
 			this.$emit('click', this.mosaicId);
 		}
 	}

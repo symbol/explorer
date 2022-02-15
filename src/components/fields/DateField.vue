@@ -36,10 +36,10 @@ export default {
 		}
 	},
 	methods: {
-		utcDate(timestamp) {
+		utcDate (timestamp) {
 			return helper.convertToUTCDate(timestamp);
 		},
-		getNameByKey(e) {
+		getNameByKey (e) {
 			return this.$store.getters['ui/getNameByKey'](e);
 		}
 	}

@@ -37,13 +37,13 @@ export default {
 			loading: 'statistic/getLoadingNodeCountSeries'
 		}),
 
-		chartData() {
+		chartData () {
 			return this.nodeCountSeries;
 		}
 	},
 
 	methods: {
-		getNameByKey(e) {
+		getNameByKey (e) {
 			return this.$store.getters['ui/getNameByKey'](e);
 		}
 	}

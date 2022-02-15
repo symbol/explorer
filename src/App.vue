@@ -51,18 +51,18 @@ export default {
 			info: 1
 		};
 	},
-	created() {
+	created () {
 		this.initialize();
 	},
-	destroyed() {
+	destroyed () {
 		this.uninitialize();
 	},
 	methods: {
-		initialize() {
+		initialize () {
 			this.$store.dispatch('api/initialize')
 				.catch(error => console.log(error));
 		},
-		uninitialize() {
+		uninitialize () {
 			this.$store.dispatch('uninitialize');
 		}
 	}

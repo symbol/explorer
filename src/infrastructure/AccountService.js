@@ -16,19 +16,37 @@
  *
  */
 
-import { Address, TransactionType, TransactionGroup, Order, BlockOrderBy, ReceiptType, Mosaic, MosaicId } from 'symbol-sdk';
-import nem from 'nem-sdk';
+import NodeService from './NodeService';
 import http from './http';
 import { Constants } from '../config';
-import { NamespaceService, TransactionService, ChainService, MetadataService, LockService, ReceiptService, MosaicService, BlockService } from '../infrastructure';
 import helper from '../helper';
-import NodeService from './NodeService';
+import {
+	NamespaceService,
+	TransactionService,
+	ChainService,
+	MetadataService,
+	LockService,
+	ReceiptService,
+	MosaicService,
+	BlockService
+} from '../infrastructure';
+import nem from 'nem-sdk';
+import {
+	Address,
+	TransactionType,
+	TransactionGroup,
+	Order,
+	BlockOrderBy,
+	ReceiptType,
+	Mosaic,
+	MosaicId
+} from 'symbol-sdk';
 
 class AccountService {
 	/**
 	 * Gets an AccountInfo for an account.
-	 * @param address
-	 * @returns Formatted AccountInfo
+	 * @param {string} address raw address.
+	 * @returns {object} Formatted AccountInfo
 	 */
 	static getAccount = async address => {
 		const account = await http.createRepositoryFactory.createAccountRepository()
@@ -42,8 +60,8 @@ class AccountService {
 
 	/**
 	 * Gets an AccountInfo for an account.
-	 * @param addresses Array
-	 * @returns Formatted AccountInfo
+	 * @param {array} addresses account addresses.
+	 * @returns {array} Formatted AccountInfos.
 	 */
 	static getAccounts = async addresses => {
 		const accounts = await http.createRepositoryFactory.createAccountRepository()
@@ -54,11 +72,11 @@ class AccountService {
 	}
 
 	/**
-	 * Gets a accounts list from searchCriteria
-	 * @param accountSearchCriteria Object of Search Criteria
-	 * @returns formatted account data with pagination info
+	 * Gets a accounts list from searchCriteria.
+	 * @param {object} accountSearchCriteria search Criteria.
+	 * @returns {object} formatted account data with pagination info.
 	 */
-	static searchAccounts = async (accountSearchCriteria) => {
+	static searchAccounts = async accountSearchCriteria => {
 		const searchAccounts = await http.createRepositoryFactory.createAccountRepository()
 			.search(accountSearchCriteria)
 			.toPromise();
@@ -71,11 +89,11 @@ class AccountService {
 
 	/**
 	 * Get custom Account list dataset into Vue Component
-	 * @param pageInfo - pagination info
-	 * @param filterVaule - object for search criteria
-	 * @returns Custom AccountInfo[]
+	 * @param {object} pageInfo - pagination info
+	 * @param {object} filterValue - search criteria
+	 * @returns {object} Custom AccountInfos
 	 */
-	static getAccountList = async (pageInfo, filterVaule) => {
+	static getAccountList = async (pageInfo, filterValue) => {
 		const { pageNumber, pageSize } = pageInfo;
 		const searchCriteria = {
 			pageNumber,
@@ -84,10 +102,10 @@ class AccountService {
 		};
 
 		// Prevent new MosaicId throw error if mosaicId is undefined
-		if (filterVaule.mosaicId) {
+		if (filterValue.mosaicId) {
 			Object.assign(searchCriteria, {
-				...filterVaule,
-				mosaicId: new MosaicId(filterVaule.mosaicId)
+				...filterValue,
+				mosaicId: new MosaicId(filterValue.mosaicId)
 			});
 		}
 
@@ -102,18 +120,20 @@ class AccountService {
 		return {
 			...accountInfos,
 			totalRecords: numAccounts,
-			data: accountInfos.data.map((account) => ({
+			data: accountInfos.data.map(account => ({
 				...account,
-				balance: helper.getNetworkCurrencyBalance(account.mosaics) !== Constants.Message.UNAVAILABLE ? helper.getNetworkCurrencyBalance(account.mosaics) : helper.toNetworkCurrency(0),
+				balance: helper.getNetworkCurrencyBalance(account.mosaics) !== Constants.Message.UNAVAILABLE
+					? helper.getNetworkCurrencyBalance(account.mosaics)
+					: helper.toNetworkCurrency(0),
 				accountAliasNames: this.extractAccountNamespace(account, accountNames)
 			}))
 		};
 	}
 
 	/**
-	 * Get custom Account info dataset into Vue Component
-	 * @param address - Account address
-	 * @returns Custom AccountInfo
+	 * Get custom Account info dataset into Vue Component.
+	 * @param {string} address - Account address.
+	 * @returns {object} Custom AccountInfo.
 	 */
 	static getAccountInfo = async address => {
 		const [ { supplementalPublicKeys, ...accountInfo }, accountNames, { latestFinalizedBlock } ] = await Promise.all([
@@ -147,12 +167,18 @@ class AccountService {
 			})),
 			supplementalPublicKeys: {
 				...supplementalPublicKeys,
-				linkedAddress: supplementalPublicKeys.linked === Constants.Message.UNAVAILABLE ? supplementalPublicKeys.linked : helper.publicKeyToAddress(supplementalPublicKeys.linked),
-				nodeAddress: supplementalPublicKeys.node === Constants.Message.UNAVAILABLE ? supplementalPublicKeys.node : helper.publicKeyToAddress(supplementalPublicKeys.node),
-				vrfAddress: supplementalPublicKeys.vrf === Constants.Message.UNAVAILABLE ? supplementalPublicKeys.vrf : helper.publicKeyToAddress(supplementalPublicKeys.vrf)
+				linkedAddress: supplementalPublicKeys.linked === Constants.Message.UNAVAILABLE
+					? supplementalPublicKeys.linked
+					: helper.publicKeyToAddress(supplementalPublicKeys.linked),
+				nodeAddress: supplementalPublicKeys.node === Constants.Message.UNAVAILABLE
+					? supplementalPublicKeys.node
+					: helper.publicKeyToAddress(supplementalPublicKeys.node),
+				vrfAddress: supplementalPublicKeys.vrf === Constants.Message.UNAVAILABLE
+					? supplementalPublicKeys.vrf
+					: helper.publicKeyToAddress(supplementalPublicKeys.vrf)
 			},
 			votingList:
-				supplementalPublicKeys.voting.length > 0 ? supplementalPublicKeys.voting.map(voting => ({
+				0 < supplementalPublicKeys.voting.length ? supplementalPublicKeys.voting.map(voting => ({
 					...voting,
 					epochInfo: {
 						epochStart: voting.startEpoch,
@@ -176,13 +202,13 @@ class AccountService {
 	}
 
 	/**
-	 * Gets custom array of confirmed transactions dataset into Vue Component
-	 * @param pageInfo - object for page info such as pageNumber, pageSize
-	 * @param filterVaule - object for search criteria
-	 * @param address - Account address
-	 * @returns Custom AggregateTransaction[]
+	 * Gets custom array of confirmed transactions dataset into Vue Component.
+	 * @param {object} pageInfo - page info such as pageNumber, pageSize.
+	 * @param {object} filterValue - search criteria.
+	 * @param {string} address - Account address.
+	 * @returns {object} Custom AggregateTransaction[]
 	 */
-	static getAccountTransactionList = async (pageInfo, filterVaule, address) => {
+	static getAccountTransactionList = async (pageInfo, filterValue, address) => {
 		const { pageNumber, pageSize } = pageInfo;
 		const searchCriteria = {
 			pageNumber,
@@ -191,7 +217,7 @@ class AccountService {
 			type: [],
 			group: TransactionGroup.Confirmed,
 			address: Address.createFromRawAddress(address),
-			...filterVaule
+			...filterValue
 		};
 
 		const searchTransactions = await TransactionService.searchTransactions(searchCriteria);
@@ -224,9 +250,7 @@ class AccountService {
 
 		const blockHeight = [...new Set(accountTransactions.data.map(data => data.transactionInfo.height))];
 
-		const blockInfos = await Promise.all(
-			blockHeight.map(height => BlockService.getBlockInfo(height))
-		);
+		const blockInfos = await Promise.all(blockHeight.map(height => BlockService.getBlockInfo(height)));
 
 		return {
 			...accountTransactions,
@@ -250,20 +274,20 @@ class AccountService {
 	}
 
 	/**
-	 * Gets custom array of confirmed transactions dataset into Vue Component
-	 * @param pageInfo - object for page info such as pageNumber, pageSize
-	 * @param filterVaule - object for search criteria
-	 * @param address - Account address
-	 * @returns Custom AggregateTransaction[]
+	 * Gets custom array of confirmed transactions dataset into Vue Component.
+	 * @param {object} pageInfo - page info such as pageNumber, pageSize.
+	 * @param {object} filterValue - search criteria.
+	 * @param {string} address - Account address.
+	 * @returns {object} Custom AggregateTransaction[]
 	 */
-	static getAccountNamespaceList = async (pageInfo, filterVaule, address) => {
+	static getAccountNamespaceList = async (pageInfo, filterValue, address) => {
 		const { pageNumber, pageSize } = pageInfo;
 		const searchCriteria = {
 			pageNumber,
 			pageSize,
 			order: Order.Desc,
 			ownerAddress: Address.createFromRawAddress(address),
-			...filterVaule
+			...filterValue
 		};
 
 		const accountNamespaces = await NamespaceService.searchNamespaces(searchCriteria);
@@ -285,10 +309,10 @@ class AccountService {
 	}
 
 	/**
-	 * Gets account harvested block receipt list dataset into Vue Component
-	 * @param pageInfo - object for page info such as pageNumber, pageSize
-	 * @param address - Account address
-	 * @returns formatted harvested blocks data list.
+	 * Gets account harvested block receipt list dataset into Vue Component.
+	 * @param {object} pageInfo - page info such as pageNumber, pageSize.
+	 * @param {string} address - Account address.
+	 * @returns {object} formatted harvested blocks data list.
 	 */
 	static getAccountHarvestedReceiptList = async (pageInfo, address) => {
 		const { pageNumber, pageSize } = pageInfo;
@@ -315,42 +339,42 @@ class AccountService {
 	}
 
 	/**
-	 * Gets account receipt list dataset into Vue Component
-	 * @param pageInfo - object for page info such as pageNumber, pageSize
-	 * @param filterVaule - object for search criteria
-	 * @param address - Account address
-	 * @returns formatted receipt data list.
+	 * Gets account receipt list dataset into Vue Component.
+	 * @param {object} pageInfo - page info such as pageNumber, pageSize.
+	 * @param {object} filterValue - search criteria.
+	 * @param {string} address - Account address.
+	 * @returns {object} formatted receipt data list.
 	 */
-	static getAccountReceiptList = async (pageInfo, filterVaule, address) => {
+	static getAccountReceiptList = async (pageInfo, filterValue, address) => {
 		const { pageNumber, pageSize } = pageInfo;
 
-		const { BalanceTransferReceipt, BalanceChangeReceipt } = Constants.ReceiptTransactionStatamentType;
+		const { BalanceTransferReceipt, BalanceChangeReceipt } = Constants.ReceiptTransactionStatementType;
 
 		let searchCriteria = {
 			pageNumber,
 			pageSize,
 			order: Order.Desc,
 			orderBy: BlockOrderBy.Height,
-			...filterVaule
+			...filterValue
 		};
 
-		if (filterVaule.receiptTransactionStatementType === BalanceTransferReceipt)
+		if (filterValue.receiptTransactionStatementType === BalanceTransferReceipt)
 			Object.assign(searchCriteria, { senderAddress: Address.createFromRawAddress(address) });
 
-		if (filterVaule.receiptTransactionStatementType === BalanceChangeReceipt)
+		if (filterValue.receiptTransactionStatementType === BalanceChangeReceipt)
 			Object.assign(searchCriteria, { targetAddress: Address.createFromRawAddress(address) });
 
 		const receipt = await ReceiptService.searchReceipts(searchCriteria);
 
 		let formattedReceipt = [];
 
-		if (filterVaule.receiptTransactionStatementType === BalanceTransferReceipt) {
+		if (filterValue.receiptTransactionStatementType === BalanceTransferReceipt) {
 			formattedReceipt = await ReceiptService.createReceiptTransactionStatement(receipt.data.balanceTransferStatement);
 			formattedReceipt = formattedReceipt.filter(receipt =>
 				receipt.senderAddress === address);
 		}
 
-		if (filterVaule.receiptTransactionStatementType === BalanceChangeReceipt) {
+		if (filterValue.receiptTransactionStatementType === BalanceChangeReceipt) {
 			formattedReceipt = await ReceiptService.createReceiptTransactionStatement(receipt.data.balanceChangeStatement);
 			formattedReceipt = formattedReceipt.filter(receipt =>
 				receipt.targetAddress === address &&
@@ -365,19 +389,19 @@ class AccountService {
 
 	/**
 	 * Gets Account Metadata list dataset into Vue component
-	 * @param pageInfo - object for page info such as pageNumber, pageSize
-	 * @param filterVaule - object for search criteria
-	 * @param address - Account address
-	 * @returns formatted account metadata list
+	 * @param {object} pageInfo - page info such as pageNumber, pageSize
+	 * @param {object} filterValue - search criteria
+	 * @param {string} address - Account address
+	 * @returns {object} formatted account metadata list
 	 */
-	static getAccountMetadataList = async (pageInfo, filterVaule, address) => {
+	static getAccountMetadataList = async (pageInfo, filterValue, address) => {
 		const { pageNumber, pageSize } = pageInfo;
 		const searchCriteria = {
 			pageNumber,
 			pageSize,
 			order: Order.Desc,
 			targetAddress: Address.createFromRawAddress(address),
-			...filterVaule
+			...filterValue
 		};
 		const accountMetadatas = await MetadataService.searchMetadatas(searchCriteria);
 
@@ -386,9 +410,9 @@ class AccountService {
 
 	/**
 	 * Gets Account Hash Lock list dataset into Vue component
-	 * @param pageInfo - object for page info such as pageNumber, pageSize
-	 * @param address - Account address
-	 * @returns formatted account hash lock list
+	 * @param {object} pageInfo - object for page info such as pageNumber, pageSize
+	 * @param {string} address - Account address
+	 * @returns {object} formatted account hash lock list
 	 */
 	static getAccountHashLockList = async (pageInfo, address) => {
 		const { pageNumber, pageSize } = pageInfo;
@@ -400,9 +424,7 @@ class AccountService {
 		};
 		const accountHashLocks = await LockService.searchHashLocks(searchCriteria);
 
-		const mosaics = accountHashLocks.data.map(
-			hashlock => new Mosaic(hashlock.mosaicId, hashlock.amount)
-		);
+		const mosaics = accountHashLocks.data.map(hashlock => new Mosaic(hashlock.mosaicId, hashlock.amount));
 
 		const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder(mosaics);
 
@@ -423,10 +445,10 @@ class AccountService {
 	}
 
 	/**
-	 * Gets Account Secret Lock list dataset into Vue component
-	 * @param pageInfo - object for page info such as pageNumber, pageSize
-	 * @param address - Account address
-	 * @returns formatted account secret lock list
+	 * Gets Account Secret Lock list dataset into Vue component.
+	 * @param {object} pageInfo - page info such as pageNumber, pageSize.
+	 * @param {string} address - Account address.
+	 * @returns {object} formatted account secret lock list.
 	 */
 	static getAccountSecretLockList = async (pageInfo, address) => {
 		const { pageNumber, pageSize } = pageInfo;
@@ -440,9 +462,7 @@ class AccountService {
 
 		const accountSecretLocks = await LockService.searchSecretLocks(searchCriteria);
 
-		const mosaics = accountSecretLocks.data.map(
-			secretlock => new Mosaic(secretlock.mosaicId, secretlock.amount)
-		);
+		const mosaics = accountSecretLocks.data.map(secretlock => new Mosaic(secretlock.mosaicId, secretlock.amount));
 
 		const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder(mosaics);
 
@@ -462,15 +482,15 @@ class AccountService {
 	}
 
 	/**
-	 * Format AccountInfo to readable accountInfo objecy
-	 * @param accountInfo - AccountInfo DTO
-	 * @returns Readable AccountInfo DTO object
+	 * Format AccountInfo to readable accountInfo object.
+	 * @param {object} accountInfo - AccountInfo DTO.
+	 * @returns {object} Readable AccountInfo DTO object.
 	 */
-	static formatAccountInfo = (accountInfo) => ({
+	static formatAccountInfo = accountInfo => ({
 		...accountInfo,
 		address: accountInfo.address.address,
 		addressHeight: accountInfo.addressHeight.compact(),
-		publicKey: accountInfo.publicKeyHeight.compact() > 0 ? accountInfo.publicKey : Constants.Message.UNKNOWN,
+		publicKey: 0 < accountInfo.publicKeyHeight.compact() ? accountInfo.publicKey : Constants.Message.UNKNOWN,
 		publicKeyHeight: accountInfo.publicKeyHeight.compact(),
 		accountType: Constants.AccountType[accountInfo.accountType],
 		supplementalPublicKeys: this.formatSupplementalPublicKeys(accountInfo.supplementalPublicKeys),
@@ -479,11 +499,11 @@ class AccountService {
 	})
 
 	/**
-	 * Format SupplementalPublicKeys to readable SupplementalPublicKeys objecy
-	 * @param supplementalPublicKeys - supplementalPublicKeys DTO
-	 * @returns Readable supplementalPublicKeys DTO object
+	 * Format SupplementalPublicKeys to readable SupplementalPublicKeys object.
+	 * @param {object} supplementalPublicKeys - supplementalPublicKeys DTO.
+	 * @returns {object} Readable supplementalPublicKeys DTO object.
 	 */
-	static formatSupplementalPublicKeys = (supplementalPublicKeys) => ({
+	static formatSupplementalPublicKeys = supplementalPublicKeys => ({
 		...supplementalPublicKeys,
 		linked: supplementalPublicKeys.linked?.publicKey || Constants.Message.UNAVAILABLE,
 		node: supplementalPublicKeys.node?.publicKey || Constants.Message.UNAVAILABLE,
@@ -492,25 +512,23 @@ class AccountService {
 	})
 
 	/**
-	 * Extract Name for Account
-	 * @param accountInfo - accountInfo DTO
-	 * @param accountNames - accountNames[]
-	 * @returns accountName
+	 * Extract Name for Account.
+	 * @param {object} accountInfo - accountInfo DTO.
+	 * @param {array} accountNames - accountNames.
+	 * @returns {array} accountNames
 	 */
 	static extractAccountNamespace = (accountInfo, accountNames) => {
-		let accountName = accountNames.find((name) => name.address === accountInfo.address);
+		let accountName = accountNames.find(name => name.address === accountInfo.address);
 
 		const aliasNames = accountName.names.map(names => names.name);
 
-		const names = aliasNames.length > 0 ? aliasNames : [Constants.Message.UNAVAILABLE];
-
-		return names;
+		return 0 < aliasNames.length ? aliasNames : [Constants.Message.UNAVAILABLE];
 	}
 
 	/**
 	 * Get customize MosaicAmountView dataset for Vue component.
-	 * @param address - Account address
-	 * @returns customize MosaicAmountView[]
+	 * @param {string} address - Account address.
+	 * @returns {array} customize MosaicAmountViews.
 	 */
 	static getAccountMosaicList = async address => {
 		const [mosaics, chainInfo] = await Promise.all([
@@ -521,7 +539,7 @@ class AccountService {
 		let nonExpiredMosaics = [];
 
 		for (const mosaic of mosaics) {
-			if (mosaic.duration === 0)
+			if (0 === mosaic.duration)
 				nonExpiredMosaics.push(mosaic);
 
 			if (chainInfo.height < (mosaic.startHeight + mosaic.duration))

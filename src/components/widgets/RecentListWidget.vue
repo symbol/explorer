@@ -100,11 +100,11 @@ export default {
 	},
 
 	computed: {
-		recentList() {
+		recentList () {
 			return this.$store.getters[this.dataGetter] || [];
 		},
 
-		loading() {
+		loading () {
 			return !this.recentList.length;
 		}
 	}

@@ -15,7 +15,7 @@ export default {
 		Modal
 	},
 
-	async mounted() {
+	async mounted () {
 		await this.$store.dispatch('initialize', this.$route);
 		if (this.storeNamespaces?.length) {
 			for (const namespace of this.storeNamespaces)

@@ -71,11 +71,11 @@ export default {
 	},
 
 	computed: {
-		footerItems() {
+		footerItems () {
 			if (this.$store.getters['api/isTestnet'])
 				return globalConfig.footer.link;
 
-			return globalConfig.footer.link.filter(item => item.text !== 'Faucet');
+			return globalConfig.footer.link.filter(item => 'Faucet' !== item.text);
 		}
 	}
 };

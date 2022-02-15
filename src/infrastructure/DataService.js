@@ -16,16 +16,16 @@
  *
  */
 
-import axios from 'axios';
 import http from './http';
+import axios from 'axios';
 
 class DataService {
   /**
    * Gets cryptocurrency market price from https://min-api.cryptocompare.com/
-   * @param cryptocurrency - name such as XEM, BTC
-   * @returns Object of data
+   * @param {string} cryptocurrency - name such as XEM, BTC
+   * @returns {object} Object of data
    */
-  static getMarketPrice = (cryptocurrency) => {
+  static getMarketPrice = cryptocurrency => {
   	return new Promise((resolve, reject) => {
   		let url = http.marketDataUrl + `data/pricemultifull?fsyms=${cryptocurrency}&tsyms=USD`;
 
@@ -43,10 +43,10 @@ class DataService {
 
   /**
    * Gets cryptocurrency historical hourly graph from https://min-api.cryptocompare.com/
-   * @param cryptocurrency - name such as XEM, BTC
-   * @returns Array of Data
+   * @param {string} cryptocurrency - name such as XEM, BTC
+   * @returns {array} Array of Data
    */
-  static getHistoricalHourlyGraph = (cryptocurrency) => {
+  static getHistoricalHourlyGraph = cryptocurrency => {
   	return new Promise((resolve, reject) => {
   		let url = http.marketDataUrl + `data/histohour?fsym=${cryptocurrency}&tsym=USD&limit=168`;
 

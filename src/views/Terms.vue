@@ -19,16 +19,16 @@ export default {
 	components: {
 		pdf
 	},
-	mounted() {
+	mounted () {
 		this.src = pdf.createLoadingTask(data);
-		this.src.promise.then((pdf) => {
+		this.src.promise.then(pdf => {
 			this.numPages = pdf.numPages;
 		});
 		this.$nextTick(() => {
 			this.show = true;
 		});
 	},
-	data() {
+	data () {
 		return {
 			ConnectorIcon,
 			data,

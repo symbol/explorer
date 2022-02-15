@@ -9,7 +9,7 @@ import IconNodes from '../../styles/img/nodes.png';
 import IconNamespaces from '../../styles/img/namespace.png';
 
 export default {
-	data() {
+	data () {
 		return {
 			IconStatistics,
 			IconMosaics,
@@ -23,11 +23,11 @@ export default {
 	},
 
 	methods: {
-		getNameByKey(e) {
+		getNameByKey (e) {
 			return this.$store.getters['ui/getNameByKey'](e);
 		},
 
-		iconUrl(icon) {
+		iconUrl (icon) {
 			switch (icon) {
 			case 'IconHome':
 				return this.IconHome;

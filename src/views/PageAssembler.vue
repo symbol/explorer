@@ -94,7 +94,7 @@ export default {
 		}
 	},
 
-	async mounted() {
+	async mounted () {
 		console.log('initialize', this.storeNamespaces);
 		await this.$store.dispatch('initialize', this.$route);
 		if (this.storeNamespaces?.length) {
@@ -108,7 +108,7 @@ export default {
 	},
 
 	computed: {
-		prop() {
+		prop () {
 			for (let key in this.$route.params)
 				return this.$route.params[key];
 			return null;
@@ -116,12 +116,12 @@ export default {
 	},
 
 	methods: {
-		getter(e) {
-			if (typeof e === 'string')
+		getter (e) {
+			if ('string' === typeof e)
 				return this.$store.getters[e];
 		},
 
-		isItemShown(item) {
+		isItemShown (item) {
 			if (this.getter(item.hideDependOnGetter)?.error)
 				return false;
 
@@ -139,12 +139,12 @@ export default {
 			return true;
 		},
 
-		getKeyName(e) {
+		getKeyName (e) {
 			return this.$store.getters['ui/getKeyName'](e);
 		},
 
-		getData(item) {
-			if (typeof item.dataGetter === 'string')
+		getData (item) {
+			if ('string' === typeof item.dataGetter)
 				return this.getter(item.dataGetter);
 			else
 				return this.getter(item.managerGetter)?.data;

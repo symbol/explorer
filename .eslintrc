@@ -1,0 +1,20 @@
+---
+extends:
+  - plugin:vue/essential
+  - ./default.eslintrc
+plugins:
+  - import
+parserOptions:
+  parser: babel-eslint
+rules:
+  no-console:
+  - error
+  - allow:
+    - error
+    - warn
+    - info
+  indent:
+  - error
+  - tab
+  - ignoredNodes:
+    - TemplateLiteral

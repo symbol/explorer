@@ -21,15 +21,16 @@ export default {
 	},
 
 	computed: {
-		hasMetadataValue() {
+		hasMetadataValue () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('metadataValue'))
-					return typeof item.metadataValue === 'string' && item.metadataValue.length > 0;
+					return 'string' === typeof item.metadataValue && 0 < item.metadataValue.length;
 			}
+
 			return false;
 		},
 
-		metadataValue() {
+		metadataValue () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('metadataValue'))
 					return item.metadataValue;

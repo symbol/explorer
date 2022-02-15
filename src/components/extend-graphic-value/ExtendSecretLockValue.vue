@@ -21,19 +21,21 @@ export default {
 	},
 
 	computed: {
-		hasSecret() {
+		hasSecret () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('secret'))
-					return typeof item.secret === 'string' && item.secret.length > 0;
+					return 'string' === typeof item.secret && 0 < item.secret.length;
 			}
+
 			return false;
 		},
 
-		secret() {
+		secret () {
 			for (const item of this.value) {
 				if (Object.keys(item).includes('secret'))
 					return item.secret;
 			}
+
 			return '';
 		}
 	}

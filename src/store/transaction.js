@@ -17,8 +17,6 @@
  */
 
 import Lock from './lock';
-import { filters, Constants } from '../config';
-import { TransactionService } from '../infrastructure';
 import {
 	DataSet,
 	Pagination,
@@ -27,6 +25,8 @@ import {
 	getMutationsFromManagers,
 	getActionsFromManagers
 } from './manager';
+import { filters, Constants } from '../config';
+import { TransactionService } from '../infrastructure';
 
 const managers = [
 	new Pagination({
@@ -39,11 +39,11 @@ const managers = [
 	}),
 	new DataSet(
 		'info',
-		(hash) => TransactionService.getTransactionInfo(hash)
+		hash => TransactionService.getTransactionInfo(hash)
 	),
 	new DataSet(
 		'hashLock',
-		(hash) => TransactionService.getHashLockInfo(hash)
+		hash => TransactionService.getHashLockInfo(hash)
 	)
 ];
 
@@ -63,7 +63,7 @@ export default {
 		transactionDetail: state => state.info?.data?.transactionBody || {},
 		aggregateInnerTransactions: state => state.info?.data?.innerTransactions || [],
 		aggregateCosignatures: state => state.info?.data?.cosignatures || [],
-		getRecentList: state => state.timeline?.data?.filter((item, index) => index < 4) || [],
+		getRecentList: state => state.timeline?.data?.filter((item, index) => 4 > index) || [],
 		transactionSchema: (state, getters) => ({
 			loading: getters.info.loading,
 			error: getters.info.error,
@@ -94,7 +94,7 @@ export default {
 		...getActionsFromManagers(managers),
 
 		// Initialize the transaction model. First fetch the page, then subscribe.
-		async initialize({ commit, dispatch, getters }) {
+		async initialize ({ commit, dispatch, getters }) {
 			const callback = async () => {
 				await dispatch('initializePage');
 				await dispatch('subscribe');
@@ -104,7 +104,7 @@ export default {
 		},
 
 		// Uninitialize the transaction model.
-		async uninitialize({ commit, dispatch, getters }) {
+		async uninitialize ({ commit, dispatch, getters }) {
 			const callback = async () => {
 				dispatch('unsubscribe');
 				dispatch('uninitializeDetail');
@@ -115,15 +115,15 @@ export default {
 		},
 
 		// Subscribe to the latest transactions.
-		async subscribe({ commit, dispatch, getters }) {
+		async subscribe ({ commit, dispatch, getters }) {
 			// TODO(ahuszagh) Implement...
 		},
 
 		// Unsubscribe from the latest transactions.
-		unsubscribe({ commit, getters }) {
+		unsubscribe ({ commit, getters }) {
 			let subscription = getters.getSubscription;
 
-			if (subscription?.length === 2) {
+			if (2 === subscription?.length) {
 				subscription[1].unsubscribe();
 				subscription[0].close();
 				commit('setSubscription', null);
@@ -131,7 +131,7 @@ export default {
 		},
 
 		// Add transaction to latest transactions.
-		add({ commit }, item) {
+		add ({ commit }, item) {
 			// TODO(ahuszagh) Also need to rework this.
 			// Need to consider transaction type.
 			//      commit('chain/setTransactionHash', item.transactionHash, { root: true })
@@ -139,17 +139,17 @@ export default {
 		},
 
 		// Fetch data from the SDK and initialize the page.
-		initializePage(context) {
+		initializePage (context) {
 			context.getters.timeline.setStore(context).initialFetch();
 		},
 
-		getTransactionInfoByHash(context, payload) {
+		getTransactionInfoByHash (context, payload) {
 			context.dispatch('uninitializeDetail');
 			context.getters.info.setStore(context).initialFetch(payload.transactionHash);
 			context.getters.hashLock.setStore(context).initialFetch(payload.transactionHash);
 		},
 
-		uninitializeDetail(context) {
+		uninitializeDetail (context) {
 			context.getters.info.setStore(context).uninitialize();
 			context.getters.hashLock.setStore(context).uninitialize();
 		}

@@ -19,7 +19,7 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			// Transaction graphic
 			desktopTransactionGraphicViewbox: '140 250 700 130',
@@ -61,87 +61,87 @@ export default {
 	},
 
 	computed: {
-		isMobile() {
+		isMobile () {
 			return this.$store.getters['ui/isMobile'];
 		},
 
-		transactionGraphicViewbox() {
+		transactionGraphicViewbox () {
 			return this.isMobile
 				? this.mobileTransactionGraphicViewbox
 				: this.desktopTransactionGraphicViewbox;
 		},
 
-		transactionGraphicWidth() {
+		transactionGraphicWidth () {
 			return this.isMobile
 				? this.mobileTransactionGraphicWidth
 				: this.desktopTransactionGraphicWidth;
 		},
 
-		transactionGraphicHeight() {
+		transactionGraphicHeight () {
 			return this.isMobile
 				? this.mobileTransactionGraphicHeight
 				: this.desktopTransactionGraphicHeight;
 		},
 
-		subjectPositionX() {
+		subjectPositionX () {
 			return this.isMobile
 				? this.mobileSubjectPositionX
 				: this.desktopSubjectPositionX;
 		},
 
-		subjectPositionY() {
+		subjectPositionY () {
 			return this.isMobile
 				? this.mobileSubjectPositionY
 				: this.desktopSubjectPositionY;
 		},
 
-		objectPositionX() {
+		objectPositionX () {
 			return this.isMobile
 				? this.mobileObjectPositionX
 				: this.desktopObjectPositionX;
 		},
 
-		objectPositionY() {
+		objectPositionY () {
 			return this.subjectPositionY;
 		},
 
-		subjectWidth() {
+		subjectWidth () {
 			return this.isMobile
 				? this.mobileSubjectWidth
 				: this.desktopSubjectWidth;
 		},
 
-		subjectHeight() {
+		subjectHeight () {
 			return this.isMobile
 				? this.mobileSubjectHeight
 				: this.desktopSubjectHeight;
 		},
 
-		nativeMosaicId() {
+		nativeMosaicId () {
 			return http.networkCurrency.mosaicId;
 		},
 
-		nativeMosaicAliasName() {
+		nativeMosaicAliasName () {
 			return http.networkCurrency.namespaceName;
 		},
 
-		_x() {
+		_x () {
 			return this.getPixels(this.x);
 		},
 
-		_y() {
+		_y () {
 			return this.getPixels(this.y);
 		},
 
-		_height() {
+		_height () {
 			return this.getPixels(this.height || '0');
 		},
 
-		_width() {
+		_width () {
 			return this.getPixels(this.width || '0');
 		},
 
-		circlesCount() {
+		circlesCount () {
 			return Array.isArray(this.circleIconsToDisplay)
 				? this.circleIconsToDisplay.reduce((acc, value) => acc + value)
 				: 0;
@@ -149,36 +149,36 @@ export default {
 	},
 
 	methods: {
-		getTranslation(key) {
+		getTranslation (key) {
 			return this.$store.getters['ui/getNameByKey'](key);
 		},
 
-		getPixels(value) {
+		getPixels (value) {
 			return value + 'px';
 		},
 
-		getIconColor(str) {
+		getIconColor (str) {
 			const color = helper.getColorFromHash(str, false);
 
 			return `RGB(${color.R},${color.G},${color.B})`;
 		},
 
-		getIconColorFromHex(str) {
+		getIconColorFromHex (str) {
 			const color = helper.getColorFromHash(str, true);
 
 			return `RGB(${color.R},${color.G},${color.B})`;
 		},
 
-		truncString(str, strLen) {
+		truncString (str, strLen) {
 			return helper.truncString(str, strLen);
 		},
 
-		getId(id) {
+		getId (id) {
 			return id + '-' + Math.floor(Math.random() * Math.floor(1000));
 		},
 
-		getCircleIconPositionX(index) {
-			const circlesCount = this.circlesCount;
+		getCircleIconPositionX (index) {
+			const { circlesCount } = this;
 
 			switch (index) {
 			case 0:
@@ -211,40 +211,40 @@ export default {
 			}
 		},
 
-		getMosaicName(mosaic) {
+		getMosaicName (mosaic) {
 			return helper.getMosaicName(mosaic);
 		},
 
-		getMosaicTitle(mosaic) {
+		getMosaicTitle (mosaic) {
 			return `Mosaic: ${this.getMosaicName(mosaic)}`;
 		},
 
-		getAddressTitle(address) {
+		getAddressTitle (address) {
 			return `Account: ${address}`;
 		},
 
-		getTransactionTypeCaption(type) {
+		getTransactionTypeCaption (type) {
 			return Constants.TransactionType[type];
 		},
 
-		onAccountClick(address) {
-			this.$store.dispatch(`ui/openPage`, {
+		onAccountClick (address) {
+			this.$store.dispatch('ui/openPage', {
 				pageName: 'account',
 				param: address
 			});
 			this.$emit('click', address);
 		},
 
-		onMosaicClick(mosaicId) {
-			this.$store.dispatch(`ui/openPage`, {
+		onMosaicClick (mosaicId) {
+			this.$store.dispatch('ui/openPage', {
 				pageName: 'mosaic',
 				param: mosaicId
 			});
 			this.$emit('click', mosaicId);
 		},
 
-		onNamespaceClick(namespaceId) {
-			this.$store.dispatch(`ui/openPage`, {
+		onNamespaceClick (namespaceId) {
+			this.$store.dispatch('ui/openPage', {
 				pageName: 'namespace',
 				param: namespaceId
 			});

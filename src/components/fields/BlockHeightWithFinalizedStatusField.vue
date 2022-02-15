@@ -45,37 +45,37 @@ export default {
 		}
 	},
 
-	data() {
+	data () {
 		return {
 			LockIcon
 		};
 	},
 
 	computed: {
-		markerIcon() {
+		markerIcon () {
 			if (this.isFinalized)
-				return `mdi-lock`;
-			return `mdi-clock-outline`;
+				return 'mdi-lock';
+			return 'mdi-clock-outline';
 		},
-		blockHeight() {
+		blockHeight () {
 			return this.value;
 		},
-		getLatestFinalizedHeight() {
-			return this.$store.getters[`chain/getChainInfo`].finalizedBlockHeight;
+		getLatestFinalizedHeight () {
+			return this.$store.getters['chain/getChainInfo'].finalizedBlockHeight;
 		},
-		isFinalized() {
+		isFinalized () {
 			return this.getLatestFinalizedHeight >= this.blockHeight;
 		},
-		isClickable() {
+		isClickable () {
 			return this.isValueClickable(this.value);
 		}
 	},
 
 	methods: {
-		getItemHref(itemKey, item) {
-			return this.$store.getters[`ui/getPageHref`]({ pageName: itemKey, param: item });
+		getItemHref (itemKey, item) {
+			return this.$store.getters['ui/getPageHref']({ pageName: itemKey, param: item });
 		},
-		getTranslation(key) {
+		getTranslation (key) {
 			return this.$store.getters['ui/getNameByKey'](key);
 		}
 	}
