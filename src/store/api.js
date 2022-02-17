@@ -100,7 +100,7 @@ export default {
 			await LOCK.initialize(callback, commit, dispatch, getters);
 		},
 
-		async changeNode ({ commit, dispatch }, currentNodeUrl) {
+		changeNode ({ commit }, currentNodeUrl) {
 			if (helper.validURL(currentNodeUrl)) {
 				// Set the current node URL.
 				commit('currentNode', currentNodeUrl);
@@ -134,9 +134,8 @@ export default {
 
 				commit('currentNode', helper.parseUrl(nodeUrls[randomIndex]));
 			} else {
-				if (-1 === nodeUrls.indexOf(currentNode)) 
+				if (-1 === nodeUrls.indexOf(currentNode))
 					nodeUrls.push(currentNode);
-				
 			}
 		}
 	}
