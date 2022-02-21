@@ -152,7 +152,8 @@ class BlockService {
   		totalRecords: numBlocks,
   		data: blocks.data.map(block => {
   			const { supplementalPublicKeys } = accountInfos.find(account => account.address === block.signer);
-  			const inflationRate = balanceTransferReceipt.data.inflationStatement.data.find(inflation => Number(inflation.height.toString()) === block.height);
+  			const inflationRate = balanceTransferReceipt.data.inflationStatement.data
+  				.find(inflation => Number(inflation.height.toString()) === block.height);
   			const blockReward = Number(inflationRate?.amount.toString()) || 0;
 
   			return {

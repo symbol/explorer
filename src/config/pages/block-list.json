@@ -16,7 +16,7 @@
                 "managerGetter": "block/timeline",
                 "pagination": "server",
                 "hasFilter": false,
-				"hasInfoText": false,
+                "hasInfoText": false,
                 "fields": [
                     "height",
                     "age",
