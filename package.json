@@ -5,8 +5,8 @@
   "scripts": {
     "build": "vue-cli-service build",
     "test:e2e": "vue-cli-service test:e2e --headless",
-    "lint": "eslint src/ __tests__ ",
-    "lint:fix": "eslint src/ __tests__ --fix",
+    "lint": "eslint src/",
+    "lint:fix": "eslint src/ --fix",
     "dev": "vue-cli-service serve",
     "lint:css": "stylelint '**/*.vue' src/styles/main.scss --syntax scss",
     "start": "node server.js",
