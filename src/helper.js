@@ -373,9 +373,9 @@ class helper {
 					_t -= 1;
 				if (_t < 1 / 6)
 					return _p + ((_q - _p) * (6 * _t));
-				if (t < 1 / 2)
-					return q;
-				if (t < 2 / 3)
+				if (_t < 1 / 2)
+					return _q;
+				if (_t < 2 / 3)
 					return _p + ((_q - _p) * (((2 / 3) - _t) * 6));
 				return _p;
 			};
