@@ -3,6 +3,6 @@ defaultCiPipeline {
 	ciBuildDockerfile = 'javascript.Dockerfile'
 
     // TODO update below with S3 bucket publisher probably
-	// publisher = 'docker'
-	// dockerImageName = 'symbolplatform/symbol-explorer'
+	publisher = 'docker'
+	dockerImageName = 'symbolplatform/symbol-explorer'
 }
