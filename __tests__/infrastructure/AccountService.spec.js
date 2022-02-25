@@ -1,6 +1,6 @@
 import { AccountService, ChainService, NamespaceService, NodeService } from '../../src/infrastructure';
 import TestHelper from '../TestHelper';
-import { stub } from 'sinon';
+import { restore, stub } from 'sinon';
 import { Mosaic, UInt64, MosaicId } from 'symbol-sdk';
 
 jest.mock('../../src/infrastructure/http', () => {
@@ -28,11 +28,7 @@ describe('Account Service', () => {
 			getAccountsNames = stub(NamespaceService, 'getAccountsNames');
 		});
 
-		afterEach(() => {
-			getAccount.restore();
-			getChainInfo.restore();
-			getAccountsNames.restore();
-		});
+		afterEach(restore);
 
 		it('return custom account object', async () => {
 			// Arrange:
@@ -92,11 +88,7 @@ describe('Account Service', () => {
 			}));
 		});
 
-		afterEach(() => {
-			searchAccounts.restore();
-			getAccountsNames.restore();
-			getStorageInfo.restore();
-		});
+		afterEach(restore);
 
 		it('return accounts', async () => {
 			// Arrange:

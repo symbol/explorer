@@ -1,6 +1,6 @@
 import { BlockService, AccountService, NodeService } from '../../src/infrastructure';
 import TestHelper from '../TestHelper';
-import { stub } from 'sinon';
+import { restore, stub } from 'sinon';
 
 jest.mock('../../src/infrastructure/http', () => {
 	return {
@@ -19,15 +19,13 @@ describe('Block Service', () => {
 		let getAccount = {};
 		let getBlockByHeight = {};
 
-		beforeAll(async () => {
+		beforeEach(async () => {
 			getAccount = stub(AccountService, 'getAccount');
 			getBlockByHeight = stub(BlockService, 'getBlockByHeight');
 		});
 
-		afterAll(() => {
-			getAccount.restore();
-			getBlockByHeight.restore();
-		});
+		afterEach(restore);
+
 		it('return normal block object', async () => {
 			// Arrange:
 			const blockHeight = 10;
@@ -97,14 +95,10 @@ describe('Block Service', () => {
 			}));
 		});
 
-		afterAll(() => {
-			getAccounts.restore();
-			searchBlocks.restore();
-			getStorageInfo.restore();
-		});
+		afterEach(restore);
 
 		it('return blocks', async () => {
-            // Arrange:
+			// Arrange:
 			const accounts = TestHelper.generateAccount(10);
 
 			const mockAccounts = accounts.map(account => {
@@ -122,10 +116,10 @@ describe('Block Service', () => {
 
 			searchBlocks.returns(Promise.resolve(mockSearchBlocks));
 
-            // Act:
+			// Act:
 			const blockList = await BlockService.getBlockList(pageInfo);
 
-            // Assert:
+			// Assert:
 			expect(blockList.totalRecords).toEqual(100);
 			expect(blockList.data[0].harvester.signer).toEqual(accounts[0].address.plain());
 			blockList.data.forEach(block => {
