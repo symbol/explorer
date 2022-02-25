@@ -1,6 +1,7 @@
 import { AccountService, ChainService, NamespaceService, NodeService } from '../../src/infrastructure';
+import TestHelper from '../TestHelper';
 import { stub } from 'sinon';
-import { NetworkType, Account, Mosaic, UInt64, MosaicId } from 'symbol-sdk';
+import { Mosaic, UInt64, MosaicId } from 'symbol-sdk';
 
 jest.mock('../../src/infrastructure/http', () => {
 	return {
@@ -13,55 +14,6 @@ jest.mock('../../src/infrastructure/http', () => {
 		}
 	};
 });
-
-/**
- * Random generate testnet account.
- * @param {number} numberOfAccount number of account.
- * @returns {array} Accounts
- */
-const stubGenerateAccount = numberOfAccount => {
-	return [...Array(numberOfAccount).keys()].map(() => Account.generateNewAccount(NetworkType.TEST_NET));
-};
-
-/**
- * Mock Account info.
- * @param {Account} account Account.
- * @returns {object} account info.
- */
-const stubMockAccountInfo = account => {
-	return {
-		version: 1,
-		address: account.address.plain(),
-		addressHeight: 1,
-		publicKey: account.publicKey,
-		publicKeyHeight: 1,
-		accountType: 'Remote',
-		activityBucket: [],
-		mosaics: [],
-		importance: '0.000000 %',
-		importanceHeight: 0,
-		supplementalPublicKeys: {
-			linked: Account.generateNewAccount(NetworkType.TEST_NET).publicKey,
-			node: 'N/A',
-			vrf: 'N/A',
-			voting: [{
-				publicKey: Account.generateNewAccount(NetworkType.TEST_NET).publicKey,
-				startEpoch: 1,
-				endEpoch:200
-			},
-			{
-				publicKey: Account.generateNewAccount(NetworkType.TEST_NET).publicKey,
-				startEpoch: 201,
-				endEpoch:400
-			},
-			{
-				publicKey: Account.generateNewAccount(NetworkType.TEST_NET).publicKey,
-				startEpoch: 401,
-				endEpoch:600
-			}]
-		}
-	};
-};
 
 describe('Account Service', () => {
 	describe('getAccountInfo should', () => {
@@ -84,8 +36,8 @@ describe('Account Service', () => {
 
 		it('return custom account object', async () => {
 			// Arrange:
-			const account = stubGenerateAccount(1)[0];
-			const mockAccountInfo = stubMockAccountInfo(account);
+			const account = TestHelper.generateAccount(1)[0];
+			const mockAccountInfo = TestHelper.mockAccountInfo(account);
 
 			const mockChainInfo = {
 				latestFinalizedBlock: {
@@ -148,13 +100,12 @@ describe('Account Service', () => {
 
 		it('return accounts', async () => {
 			// Arrange:
-			const accounts = stubGenerateAccount(2);
+			const accounts = TestHelper.generateAccount(2);
 
 			const mockSearchAccounts = {
-				pageNumber: 1,
-				pageSize: 10,
+				...pageInfo,
 				data: accounts.map(account => {
-					return stubMockAccountInfo(account);
+					return TestHelper.mockAccountInfo(account);
 				})
 			};
 
@@ -185,12 +136,12 @@ describe('Account Service', () => {
 
 		it('return accounts contain alias', async () => {
 			// Arrange:
-			const accounts = stubGenerateAccount(1);
+			const accounts = TestHelper.generateAccount(1);
 
 			const mockSearchAccounts = {
 				...pageInfo,
 				data: accounts.map(account => {
-					return stubMockAccountInfo(account);
+					return TestHelper.mockAccountInfo(account);
 				})
 			};
 
@@ -219,13 +170,13 @@ describe('Account Service', () => {
 
 		it('return accounts 0 balance given non network currency', async () => {
 			// Arrange:
-			const accounts = stubGenerateAccount(1);
+			const accounts = TestHelper.generateAccount(1);
 
 			const mockSearchAccounts = {
 				...pageInfo,
 				data: accounts.map(account => {
 					const mockAccountInfo = {
-						...stubMockAccountInfo(account),
+						...TestHelper.mockAccountInfo(account),
 						mosaics: [new Mosaic(new MosaicId('19A9CFED0C0E752C'), UInt64.fromUint(1000))]
 					};
 					return mockAccountInfo;
@@ -254,13 +205,13 @@ describe('Account Service', () => {
 
 		it('return accounts balance given network currency', async () => {
 			// Arrange:
-			const accounts = stubGenerateAccount(1);
+			const accounts = TestHelper.generateAccount(1);
 
 			const mockSearchAccounts = {
 				...pageInfo,
 				data: accounts.map(account => {
 					const mockAccountInfo = {
-						...stubMockAccountInfo(account),
+						...TestHelper.mockAccountInfo(account),
 						mosaics: [new Mosaic(new MosaicId('6BED913FA20223F8'), UInt64.fromUint(1000))]
 					};
 					return mockAccountInfo;
