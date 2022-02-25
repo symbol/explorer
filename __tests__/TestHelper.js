@@ -77,7 +77,7 @@ const TestHelper = {
 			proofGamma: '4856352320FDA6C15902FFE61A6AFAE342EF7330FA68369311D2B49C78F31480',
 			proofScalar: '9CB4C68FFDB60B1AB5F85D9CAB319C4D58AF7C32FDD2389D0A99D7FDBCBDAD05',
 			proofVerificationHash: 'E810C0DFD0537C6DEFF1EA8C7CD42E7D',
-			signature: 'F876C3C75B3B1179271396F40D9BF0186663D6B200D119E4CD6AD3529D70E5CADD1C7E1D39B728DF4D2AFF8A549DF47EEBE2448938242D9D107D07E3F74FB104',
+			signature: 'F876C3C75B3B1179271396F40D9BF0186663D6B200D119E4CD6AD3529D70E5CADD1C7E1D39B728DF4D2AFF8A549DF47EEBE2448938242D9D107D07E3F74FB104', //eslint-disable-line
 			signer: blockSigner,
 			size: 13112,
 			stateHash: 'B88F27C79D7A4C6CCE4F7F2260EAB166AEE58607AA71056241C25F5110B3730D',
@@ -103,6 +103,44 @@ const TestHelper = {
 			transactionsCount: 1,
 			type: isImportantBlock ? 33347 : 33091,
 			version: 1
+		};
+	},
+	/**
+	 * Mock Block Info.
+	 * @param {string} mosaicId mosaic id hex.
+	 * @param {string} address account address.
+	 * @param {number} startHeight start height.
+	 * @param {number} duration duration.
+	 * @returns {object} mosaic info
+	 */
+	mockMosaicInfo: (mosaicId, address, startHeight, duration) => {
+		return {
+			mosaicId: mosaicId,
+			divisibility: 0,
+			address,
+			supply: '10',
+			relativeAmount: '10',
+			revision: 1,
+			startHeight,
+			duration,
+			supplyMutable: false,
+			transferable: true,
+			restrictable: false,
+			revokable: false
+		};
+	},
+	/**
+	 * Mock mosaic alias.
+	 * @param {string} mosaicId mosaic id hex.
+	 * @param {string} name alias name for mosaic.
+	 * @returns {object} mosaic alias.
+	 */
+	mockMosaicName: (mosaicId, name) => {
+		return {
+			mosaicId,
+			names: [{
+				name
+			}]
 		};
 	}
 };
