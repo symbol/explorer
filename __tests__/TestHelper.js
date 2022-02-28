@@ -1,4 +1,4 @@
-import { NetworkType, Account } from 'symbol-sdk';
+import { NetworkType, Account, NamespaceId } from 'symbol-sdk';
 
 const TestHelper = {
 	/**
@@ -141,6 +141,55 @@ const TestHelper = {
 			names: [{
 				name
 			}]
+		};
+	},
+	/**
+	 * Mock Namespace.
+	 * @param {string} namespaceName namespace name, it support root or sub namespace.
+	 * @param {number} duration duration to expired.
+	 * @returns {object} namespace.
+	 */
+	mockNamespace: (namespaceName, duration) => {
+		let namespaceProps = {};
+		let namespaceLength = namespaceName.split('.').length;
+
+		if (2 === namespaceLength ) {
+			Object.assign(namespaceProps, {
+				registrationType: 'subNamespace',
+				parentName: namespaceName.split('.')[0],
+				parentId: new NamespaceId(namespaceName.split('.')[0]),
+				levels: [
+					new NamespaceId(namespaceName.split('.')[0]),
+					new NamespaceId(namespaceName.split('.')[1])
+				]
+			});
+		} else if (1 === namespaceLength) {
+			Object.assign(namespaceProps, {
+				registrationType: 'rootNamespace',
+				parentName: '',
+				parentId: new NamespaceId([0, 0]),
+				levels: [
+					new NamespaceId(namespaceName.split('.')[0])
+				]
+			});
+		}
+
+		return {
+			active: 'ACTIVE',
+			alias: undefined,
+			aliasType: 'N/A',
+			depth: 1,
+			endHeight: 0 === duration ? 'INFINITY' : 86400 + duration,
+			index: 0,
+			mosaicId: undefined,
+			name: namespaceName,
+			namespaceId: new NamespaceId(namespaceName).toHex(),
+			namespaceName,
+			ownerAddress: Account.generateNewAccount(NetworkType.TEST_NET).address.plain(),
+			startHeight: 1,
+			type: 0,
+			version: 1,
+			...namespaceProps
 		};
 	}
 };
