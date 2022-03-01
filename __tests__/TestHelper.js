@@ -1,4 +1,23 @@
-import { NetworkType, Account, NamespaceId } from 'symbol-sdk';
+import {
+	NetworkType,
+	Account,
+	NamespaceId,
+	SHA3Hasher,
+	Crypto,
+	Mosaic,
+	UInt64,
+	MosaicId,
+	TransactionInfo
+} from 'symbol-sdk';
+
+const generateRandomHash = (length = 32) => {
+	const seed = Crypto.randomBytes(32);
+	return SHA3Hasher.getHasher(length)
+		.create()
+		.update(seed)
+		.hex()
+		.toUpperCase();
+};
 
 const TestHelper = {
 	/**
@@ -190,6 +209,34 @@ const TestHelper = {
 			type: 0,
 			version: 1,
 			...namespaceProps
+		};
+	},
+	/**
+	 * Mock transfer transaction.
+	 * @param {number} blockHeight block height.
+	 * @returns {object} transaction.
+	 */
+	mockTransaction: blockHeight => {
+		return {
+			deadline: {
+				adjustedValue: 8266897456
+			},
+			maxFee: UInt64.fromUint(1000000),
+			type: 16724,
+			networkType: 152,
+			version: 1,
+			transactionInfo: new TransactionInfo(UInt64.fromUint(blockHeight), 1, 1, generateRandomHash()),
+			payloadSize: 176,
+			signature: generateRandomHash(64),
+			signer: {
+				address: Account.generateNewAccount(152).address
+			},
+			recipientAddress: {
+				address: Account.generateNewAccount(152).address
+			},
+			mosaics: [
+				new Mosaic(new MosaicId('7F2D26E89342D398'), UInt64.fromUint(5))
+			]
 		};
 	}
 };
