@@ -118,7 +118,7 @@ describe('Transaction Service', () => {
 			const transactionList = await TransactionService.getTransactionList(pageInfo, {});
 
 			// Assert:
-            expect(transactionList.totalRecords).toEqual(500);
+			expect(transactionList.totalRecords).toEqual(500);
 			transactionList.data.forEach(transaction => {
 				expect(transaction).toHaveProperty('transactionHash');
 				expect(transaction).toHaveProperty('transactionType');
