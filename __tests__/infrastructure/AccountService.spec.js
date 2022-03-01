@@ -18,7 +18,7 @@ describe('Account Service', () => {
 
 		afterEach(restore);
 
-		it('return custom account object', async () => {
+		it('return account', async () => {
 			// Arrange:
 			const account = TestHelper.generateAccount(1)[0];
 			const mockAccountInfo = TestHelper.mockAccountInfo(account);
@@ -78,36 +78,51 @@ describe('Account Service', () => {
 
 		afterEach(restore);
 
-		it('return accounts', async () => {
-			// Arrange:
-			const accounts = TestHelper.generateAccount(2);
+		/**
+		 * setup mock account list.
+		 * @param {array} mosaics mosaic list.
+		 * @param {boolean} isAccountAlias true to set account alias.
+		 */
+		const setupMockAccounts = (mosaics = [], isAccountAlias = false) => {
+			const accounts = TestHelper.generateAccount(1);
 
 			const mockSearchAccounts = {
 				...pageInfo,
 				data: accounts.map(account => {
-					return TestHelper.mockAccountInfo(account);
+					return {
+						...TestHelper.mockAccountInfo(account),
+						mosaics
+					};
 				})
 			};
 
-			const mockAccountsAlias = accounts.map(account => {
+			const mockAccountsAlias = accounts.map((account, index) => {
+				const name = isAccountAlias ? {
+					name: `alias_${index + 1}`
+				}  : {};
+
 				return {
 					address: account.address.plain(),
-					names: []
+					names: [name]
 				};
 			});
 
 			searchAccounts.returns(Promise.resolve(mockSearchAccounts));
 
 			getAccountsNames.returns(Promise.resolve(mockAccountsAlias));
+		};
+
+		it('return accounts', async () => {
+			// Arrange:
+			setupMockAccounts();
 
 			// Act:
 			const accountList = await AccountService.getAccountList(pageInfo, {});
 
 			// Assert:
 			expect(accountList.totalRecords).toEqual(100);
-			expect(accountList.pageNumber).toEqual(mockSearchAccounts.pageNumber);
-			expect(accountList.pageSize).toEqual(mockSearchAccounts.pageSize);
-			expect(accountList.data).toHaveLength(2);
+			expect(accountList.pageNumber).toEqual(pageInfo.pageNumber);
+			expect(accountList.pageSize).toEqual(pageInfo.pageSize);
 			accountList.data.forEach(account => {
 				expect(account).toHaveProperty('accountAliasNames');
 				expect(account).toHaveProperty('balance');
@@ -116,28 +131,7 @@ describe('Account Service', () => {
 
 		it('return accounts contain alias', async () => {
 			// Arrange:
-			const accounts = TestHelper.generateAccount(1);
-
-			const mockSearchAccounts = {
-				...pageInfo,
-				data: accounts.map(account => {
-					return TestHelper.mockAccountInfo(account);
-				})
-			};
-
-			const mockAccountsAlias = accounts.map((account, index) => {
-				const aliasIndex = index + 1;
-				return {
-					address: account.address.plain(),
-					names: [{
-						name: `alias_${aliasIndex}`
-					}]
-				};
-			});
-
-			searchAccounts.returns(Promise.resolve(mockSearchAccounts));
-
-			getAccountsNames.returns(Promise.resolve(mockAccountsAlias));
+			setupMockAccounts([], true);
 
 			// Act:
 			const accountList = await AccountService.getAccountList(pageInfo, {});
@@ -150,29 +144,9 @@ describe('Account Service', () => {
 
 		it('return accounts 0 balance given non network currency', async () => {
 			// Arrange:
-			const accounts = TestHelper.generateAccount(1);
+			const nonNativeCurrency = [new Mosaic(new MosaicId('19A9CFED0C0E752C'), UInt64.fromUint(1000))];
 
-			const mockSearchAccounts = {
-				...pageInfo,
-				data: accounts.map(account => {
-					const mockAccountInfo = {
-						...TestHelper.mockAccountInfo(account),
-						mosaics: [new Mosaic(new MosaicId('19A9CFED0C0E752C'), UInt64.fromUint(1000))]
-					};
-					return mockAccountInfo;
-				})
-			};
-
-			const mockAccountsAlias = accounts.map(account => {
-				return {
-					address: account.address.plain(),
-					names: []
-				};
-			});
-
-			searchAccounts.returns(Promise.resolve(mockSearchAccounts));
-
-			getAccountsNames.returns(Promise.resolve(mockAccountsAlias));
+			setupMockAccounts(nonNativeCurrency);
 
 			// Act:
 			const accountList = await AccountService.getAccountList(pageInfo, {});
@@ -185,29 +159,9 @@ describe('Account Service', () => {
 
 		it('return accounts balance given network currency', async () => {
 			// Arrange:
-			const accounts = TestHelper.generateAccount(1);
+			const nativeCurrency = [new Mosaic(new MosaicId('6BED913FA20223F8'), UInt64.fromUint(1000))];
 
-			const mockSearchAccounts = {
-				...pageInfo,
-				data: accounts.map(account => {
-					const mockAccountInfo = {
-						...TestHelper.mockAccountInfo(account),
-						mosaics: [new Mosaic(new MosaicId('6BED913FA20223F8'), UInt64.fromUint(1000))]
-					};
-					return mockAccountInfo;
-				})
-			};
-
-			const mockAccountsAlias = accounts.map(account => {
-				return {
-					address: account.address.plain(),
-					names: []
-				};
-			});
-
-			searchAccounts.returns(Promise.resolve(mockSearchAccounts));
-
-			getAccountsNames.returns(Promise.resolve(mockAccountsAlias));
+			setupMockAccounts(nativeCurrency);
 
 			// Act:
 			const accountList = await AccountService.getAccountList(pageInfo, {});

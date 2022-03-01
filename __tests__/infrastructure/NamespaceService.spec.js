@@ -15,11 +15,14 @@ describe('Namespace Service', () => {
 	afterEach(restore);
 
 	describe('getNamespaceInfo should', () => {
+		let getNamespace = {};
+		beforeEach(() => {
+			getNamespace = stub(NamespaceService, 'getNamespace');
+		});
+
 		it('return root namespace', async () => {
 			// Arrange:
 			const mockNamespace = TestHelper.mockNamespace('mock_name', 864000);
-
-			const getNamespace = stub(NamespaceService, 'getNamespace');
 
 			getNamespace.returns(Promise.resolve(mockNamespace));
 
@@ -36,27 +39,20 @@ describe('Namespace Service', () => {
 
 		it('return sub namespace', async () => {
 			// Arrange:
-			const mockNamespace = TestHelper.mockNamespace('mock.name', 864000);
-
-			const getNamespace = stub(NamespaceService, 'getNamespace');
+			const mockNamespace = TestHelper.mockNamespace('root.sub', 864000);
 
 			getNamespace.returns(Promise.resolve(mockNamespace));
 
 			// Act:
-			const { status, expiredInBlock, beforeEndHeight, registrationType } = await NamespaceService.getNamespaceInfo('mock.name');
+			const { registrationType } = await NamespaceService.getNamespaceInfo('root.sub');
 
 			// Assert:
-			expect(status).toEqual('ACTIVE');
-			expect(expiredInBlock).toEqual('947420 ≈ in a year');
-			expect(beforeEndHeight).toEqual('950400 ( 2880 blocks of grace period )');
 			expect(registrationType).toEqual('subNamespace');
 		});
 
 		it('return native root namespace', async () => {
 			// Arrange:
 			const mockNamespace = TestHelper.mockNamespace('symbol', 0);
-
-			const getNamespace = stub(NamespaceService, 'getNamespace');
 
 			getNamespace.returns(Promise.resolve(mockNamespace));
 

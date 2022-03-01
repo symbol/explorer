@@ -1,5 +1,3 @@
-// import 'isomorphic-fetch'
-
 /* Mock init http */
 jest.mock('../../src/infrastructure/http', () => {
 	return {
