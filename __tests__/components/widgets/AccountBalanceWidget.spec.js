@@ -3,17 +3,6 @@ import { createLocalVue, mount } from '@vue/test-utils'
 import AccountBalanceWidget from '@/components/widgets/AccountBalanceWidget.vue';
 import { i18n } from '@/config';
 
-jest.mock('../../../src/infrastructure/http', () => {
-  return {
-    networkCurrency: {
-        divisibility: 6,
-        mosaicId: "6BED913FA20223F8",
-        namespaceId: "E74B99BA41F4AFEE",
-        namespaceName: "symbol.xym"
-    }
-  }
-});
-
 const setupStoreMount = (mosaic) => {
   const accountModule = {
     namespaced: true,
