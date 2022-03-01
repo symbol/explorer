@@ -3,18 +3,6 @@ import TestHelper from '../TestHelper';
 import { restore, stub } from 'sinon';
 import { MosaicNonce, MosaicId } from 'symbol-sdk';
 
-jest.mock('../../src/infrastructure/http', () => {
-	return {
-		networkType: 152,
-		networkCurrency: {
-			divisibility: 6,
-			mosaicId: '6BED913FA20223F8',
-			namespaceId: 'E74B99BA41F4AFEE',
-			namespaceName: 'symbol.xym'
-		}
-	};
-});
-
 describe('Mosaic Service', () => {
 	let getMosaic = {};
 	let getMosaicsNames = [];

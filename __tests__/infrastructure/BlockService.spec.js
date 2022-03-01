@@ -2,18 +2,6 @@ import { BlockService, AccountService, NodeService } from '../../src/infrastruct
 import TestHelper from '../TestHelper';
 import { restore, stub } from 'sinon';
 
-jest.mock('../../src/infrastructure/http', () => {
-	return {
-		networkType: 152,
-		networkCurrency: {
-			divisibility: 6,
-			mosaicId: '6BED913FA20223F8',
-			namespaceId: 'E74B99BA41F4AFEE',
-			namespaceName: 'symbol.xym'
-		}
-	};
-});
-
 describe('Block Service', () => {
 	describe('getBlockInfo should', () => {
 		let getAccount = {};
@@ -75,7 +63,7 @@ describe('Block Service', () => {
 		});
 	});
 
-	describe.only('getBlockList should', () => {
+	describe('getBlockList should', () => {
 		const pageInfo = {
 			pageNumber: 1,
 			pageSize: 10
@@ -125,8 +113,8 @@ describe('Block Service', () => {
 			blockList.data.forEach(block => {
 				expect(block).toHaveProperty('age');
 				expect(block).toHaveProperty('harvester');
-				expect(block.harvester.signer).toHaveLength(39);
-				expect(block.harvester.linkedAddress).toHaveLength(39);
+				expect(block.harvester).toHaveProperty('signer');
+				expect(block.harvester).toHaveProperty('linkedAddress');
 			});
 		});
 	});
