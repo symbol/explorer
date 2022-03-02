@@ -58,7 +58,7 @@ class MetadataService {
   	targetAddress: metadataEntry.targetAddress.plain(),
   	metadataType: Constants.MetadataType[metadataEntry.metadataType],
   	targetId: metadataEntry.targetId ? metadataEntry.targetId.toHex() : Constants.Message.UNAVAILABLE,
-  	metadataValue: metadataEntry.value
+  	value: metadataEntry.value
   })
 }
 
