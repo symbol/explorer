@@ -411,5 +411,6 @@
     "recentMosaics": "Recent Mosaics",
     "recentNamespaces": "Recent Namespaces",
     "lastEpoch": "Last Epoch",
-    "currentEpoch": "Current Epoch"
+    "currentEpoch": "Current Epoch",
+    "value": "Value"
 }

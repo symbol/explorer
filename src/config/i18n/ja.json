@@ -89,7 +89,7 @@
     "scopedMetadataKey": "スコープメタデータキー",
     "sourceAddress": "送信者アドレス",
     "targetAddress": "対象アドレス",
-    "metadataValue": "値",
+    "metadataValue": "バリューデルタ",
     "targetId": "対象ID",
     "targetMosaicId": "対象モザイクID",
     "targetNamespaceId": "対象ネームスペースID",
@@ -415,5 +415,6 @@
     "recentMosaics": "直近モザイク",
     "recentNamespaces": "直近ネームスペース",
     "lastEpoch": "Last Epoch",
-    "currentEpoch": "Current Epoch"
+    "currentEpoch": "Current Epoch",
+    "value": "値"
 }

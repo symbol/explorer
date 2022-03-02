@@ -89,7 +89,7 @@
     "scopedMetadataKey": "Объединенный ключ метаданных",
     "sourceAddress": "Адрес отправителя",
     "targetAddress": "Целевой адрес",
-    "metadataValue": "Важность",
+    "metadataValue": "Дельта значения",
     "targetId": "Идентификатор Цели",
     "targetMosaicId": "Идентификатор Целевой Мозаики",
     "targetNamespaceId": "Идентификатор Целевого Пространства Имен",
@@ -415,5 +415,6 @@
     "recentMosaics": "Недавние Мозаики",
     "recentNamespaces": "Недавние Пространства имен",
     "lastEpoch": "Last Epoch",
-    "currentEpoch": "Current Epoch"
+    "currentEpoch": "Current Epoch",
+    "value": "Value"
 }

@@ -86,10 +86,10 @@
     "metadataId": "元数据Id",
     "compositeHash": "复合哈希",
     "metadataType": "类型",
-    "scopedMetadataKey": "作用域元数据密钥",
+    "scopedMetadataKey": "元数据键",
     "sourceAddress": "发送人地址",
     "targetAddress": "目标地址",
-    "metadataValue": "值",
+    "metadataValue": "更改值",
     "targetId": "目标Id",
     "targetMosaicId": "目标马赛克",
     "targetNamespaceId": "目标命名空间",
@@ -411,5 +411,6 @@
     "recentMosaics": "Recent Mosaics",
     "recentNamespaces": "Recent Namespaces",
     "lastEpoch": "Last Epoch",
-    "currentEpoch": "Current Epoch"
+    "currentEpoch": "Current Epoch",
+    "value": "值"
 }
