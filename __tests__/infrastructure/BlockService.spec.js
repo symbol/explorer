@@ -1,4 +1,5 @@
 import { BlockService, AccountService, NodeService } from '../../src/infrastructure';
+import Helper from '../../src/helper';
 import TestHelper from '../TestHelper';
 import { restore, stub } from 'sinon';
 
@@ -7,7 +8,7 @@ describe('Block Service', () => {
 		let getAccount = {};
 		let getBlockByHeight = {};
 
-		beforeEach(async () => {
+		beforeEach(() => {
 			getAccount = stub(AccountService, 'getAccount');
 			getBlockByHeight = stub(BlockService, 'getBlockByHeight');
 		});
@@ -87,6 +88,7 @@ describe('Block Service', () => {
 
 		it('return blocks', async () => {
 			// Arrange:
+			const epochAdjustment = 1637848847;
 			const accounts = TestHelper.generateAccount(10);
 
 			const mockAccounts = accounts.map(account => {
@@ -110,8 +112,8 @@ describe('Block Service', () => {
 			// Assert:
 			expect(blockList.totalRecords).toEqual(100);
 			expect(blockList.data[0].harvester.signer).toEqual(accounts[0].address.plain());
-			blockList.data.forEach(block => {
-				expect(block).toHaveProperty('age');
+			blockList.data.forEach((block, index) => {
+				expect(block.age).toEqual(Helper.convertToUTCDate(epochAdjustment + index + 1));
 				expect(block).toHaveProperty('harvester');
 				expect(block.harvester).toHaveProperty('signer');
 				expect(block.harvester).toHaveProperty('linkedAddress');

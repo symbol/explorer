@@ -80,6 +80,8 @@ const TestHelper = {
 			harvestingEligibleAccountsCount: 1
 		} : {};
 
+		const epochAdjustment = 1637848847;
+
 		return {
 			...importantBlock,
 			beneficiaryAddress: 'TB6AAIGRL4EAN5ZXMQ74AJPURPFK7ALD6DGEWZA',
@@ -103,8 +105,8 @@ const TestHelper = {
 			stateHashSubCacheMerkleRoots: [...Array(9).keys()].map(() => generateRandomHash()),
 			statements: 1,
 			statementsCount: 1,
-			timestamp: 1645793238,
-			timestampRaw: 29940053204,
+			timestamp: epochAdjustment + blockHeight,
+			timestampRaw: 527879569,
 			totalFee: '1.000000',
 			totalTransactions: 10,
 			totalTransactionsCount: 10,
