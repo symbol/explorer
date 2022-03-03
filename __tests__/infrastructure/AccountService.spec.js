@@ -35,7 +35,7 @@ describe('Account Service', () => {
 			const mockAccountAlias = [{
 				address: account.address.plain(),
 				names: [{
-					name: 'mockAddress'
+					name: 'alias',
 				}]
 			}];
 
@@ -53,7 +53,7 @@ describe('Account Service', () => {
 			expect(accountInfo.votingList[0].epochInfo.epochStatus).toEqual('Current');
 			expect(accountInfo.votingList[1].epochInfo.epochStatus).toEqual('Future');
 			expect(accountInfo.votingList[2].epochInfo.epochStatus).toEqual('Expired');
-			expect(accountInfo.accountAliasNames).toEqual(expect.arrayContaining(mockAccountAlias[0].names.map(names => names.name)));
+			expect(accountInfo.accountAliasNames).toEqual(['alias']);
 		});
 	});
 
@@ -84,7 +84,7 @@ describe('Account Service', () => {
 		 * @param {boolean} isAccountAlias true to set account alias.
 		 */
 		const setupMockAccounts = (mosaics = [], isAccountAlias = false) => {
-			const accounts = TestHelper.generateAccount(1);
+			const accounts = TestHelper.generateAccount(10);
 
 			const mockSearchAccounts = {
 				...pageInfo,
