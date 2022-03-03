@@ -91,7 +91,7 @@ const TestHelper = {
 			generationHash: 'FFF1E7A8491C05AEB6B116D6EABFD1ABBF5B7D543AA1A52BA9EC783DCF99D4D4',
 			hash: '45C3B9797EA67293E186B24262B1875D862B0E7CC25A56C74CEFBC4BC4EAF11F',
 			height: blockHeight,
-			networkType: 152,
+			networkType: NetworkType.TEST_NET,
 			previousBlockHash: generateRandomHash(64),
 			proofGamma: generateRandomHash(64),
 			proofScalar: generateRandomHash(64),
@@ -213,16 +213,16 @@ const TestHelper = {
 			},
 			maxFee: UInt64.fromUint(1000000),
 			type: 16724,
-			networkType: 152,
+			networkType: NetworkType.TEST_NET,
 			version: 1,
 			transactionInfo: new TransactionInfo(UInt64.fromUint(blockHeight), 1, 1, generateRandomHash()),
 			payloadSize: 176,
 			signature: generateRandomHash(64),
 			signer: {
-				address: Account.generateNewAccount(152).address
+				address: Account.generateNewAccount(NetworkType.TEST_NET).address
 			},
 			recipientAddress: {
-				address: Account.generateNewAccount(152).address
+				address: Account.generateNewAccount(NetworkType.TEST_NET).address
 			},
 			mosaics: [
 				new Mosaic(new MosaicId('7F2D26E89342D398'), UInt64.fromUint(5))
