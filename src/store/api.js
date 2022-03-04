@@ -100,7 +100,7 @@ export default {
 			await LOCK.initialize(callback, commit, dispatch, getters);
 		},
 
-		async changeNode ({ commit, dispatch }, currentNodeUrl) {
+		changeNode ({ commit }, currentNodeUrl) {
 			if (helper.validURL(currentNodeUrl)) {
 				// Set the current node URL.
 				commit('currentNode', currentNodeUrl);
@@ -128,10 +128,15 @@ export default {
 			// eslint-disable-next-line
 			const currentNode = getters['currentNode'];
 
-			const randomIndex = Math.floor(Math.random() * nodeUrls.length);
+			if (!currentNode) {
+				// random select node
+				const randomIndex = Math.floor(Math.random() * nodeUrls.length);
 
-			// Reset the currentNode, if currentNode not longer in list.
-			-1 === nodeUrls.indexOf(currentNode) ? commit('currentNode', helper.parseUrl(nodeUrls[randomIndex])) : void 0;
+				commit('currentNode', helper.parseUrl(nodeUrls[randomIndex]));
+			} else {
+				if (-1 === nodeUrls.indexOf(currentNode))
+					nodeUrls.push(currentNode);
+			}
 		}
 	}
 };
