@@ -119,6 +119,9 @@ describe('Transaction Service', () => {
 
 			// Assert:
 			expect(transactionList.totalRecords).toEqual(500);
+			expect(transactionList.pageNumber).toEqual(pageInfo.pageNumber);
+			expect(transactionList.pageSize).toEqual(pageInfo.pageSize);
+			expect(transactionList.data).toHaveLength(1);
 			transactionList.data.forEach(transaction => {
 				expect(transaction).toHaveProperty('transactionHash');
 				expect(transaction).toHaveProperty('transactionType');

@@ -111,7 +111,10 @@ describe('Block Service', () => {
 
 			// Assert:
 			expect(blockList.totalRecords).toEqual(100);
+			expect(blockList.pageNumber).toEqual(pageInfo.pageNumber);
+			expect(blockList.pageSize).toEqual(pageInfo.pageSize);
 			expect(blockList.data[0].harvester.signer).toEqual(accounts[0].address.plain());
+			expect(blockList.data).toHaveLength(10);
 			blockList.data.forEach((block, index) => {
 				expect(block.age).toEqual(Helper.convertToUTCDate(epochAdjustment + index + 1));
 				expect(block).toHaveProperty('harvester');

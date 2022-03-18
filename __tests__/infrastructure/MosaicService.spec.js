@@ -97,6 +97,9 @@ describe('Mosaic Service', () => {
 			const mosaicList = await MosaicService.getMosaicList(pageInfo);
 
 			// Assert:
+			expect(mosaicList.pageNumber).toEqual(pageInfo.pageNumber);
+			expect(mosaicList.pageSize).toEqual(pageInfo.pageSize);
+			expect(mosaicList.data).toHaveLength(2);
 			mosaicList.data.forEach((mosaic, index) => {
 				const {supplyMutable, transferable, restrictable, revokable} = mockSearchMosaics.data[index];
 

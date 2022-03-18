@@ -123,6 +123,7 @@ describe('Account Service', () => {
 			expect(accountList.totalRecords).toEqual(100);
 			expect(accountList.pageNumber).toEqual(pageInfo.pageNumber);
 			expect(accountList.pageSize).toEqual(pageInfo.pageSize);
+			expect(accountList.data).toHaveLength(10);
 			accountList.data.forEach(account => {
 				expect(account).toHaveProperty('accountAliasNames');
 				expect(account).toHaveProperty('balance');
@@ -152,6 +153,7 @@ describe('Account Service', () => {
 			const accountList = await AccountService.getAccountList(pageInfo, {});
 
 			// Assert:
+			expect(accountList.data).toHaveLength(10);
 			accountList.data.forEach(account => {
 				expect(account.balance).toEqual('0.000000');
 			});
@@ -167,6 +169,7 @@ describe('Account Service', () => {
 			const accountList = await AccountService.getAccountList(pageInfo, {});
 
 			// Assert:
+			expect(accountList.data).toHaveLength(10);
 			accountList.data.forEach(account => {
 				expect(account.balance).toEqual('0.001000');
 			});

@@ -103,6 +103,10 @@ describe('Namespace Service', () => {
 			expect(expiredNamespace.isExpired).toEqual(true);
 			expect(expiredNamespace.approximateExpired).not.toBeUndefined();
 			expect(expiredNamespace.registrationType).toEqual('subNamespace');
+
+			expect(namespaceList.pageNumber).toEqual(pageInfo.pageNumber);
+			expect(namespaceList.pageSize).toEqual(pageInfo.pageSize);
+			expect(namespaceList.data).toHaveLength(2);
 		});
 	});
 });
