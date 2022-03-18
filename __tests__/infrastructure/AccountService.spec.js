@@ -130,7 +130,7 @@ describe('Account Service', () => {
 			});
 		});
 
-		it('return accounts contain alias', async () => {
+		it('return accounts with alias', async () => {
 			// Arrange:
 			setupMockAccounts([], true);
 
