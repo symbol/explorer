@@ -17,13 +17,6 @@
  */
 
 import Lock from './lock';
-import { filters, Constants } from '../config';
-import helper from '../helper';
-import {
-	ListenerService,
-	BlockService,
-	AccountService,
-} from '../infrastructure';
 import {
 	DataSet,
 	Pagination,
@@ -32,6 +25,15 @@ import {
 	getMutationsFromManagers,
 	getActionsFromManagers
 } from './manager';
+import { filters, Constants } from '../config';
+import helper from '../helper';
+import {
+	ListenerService,
+	BlockService,
+	AccountService,
+	ReceiptService
+} from '../infrastructure';
+import { UInt64, ReceiptType } from 'symbol-sdk';
 import Vue from 'vue';
 
 const managers = [
@@ -131,7 +133,7 @@ export default {
 		async subscribe ({ commit, dispatch, getters, rootGetters }) {
 			if (null === getters.getSubscription) {
 				const subscription = await ListenerService.subscribeNewBlock(
-					async (item) => {
+					async item => {
 						const blockHeight = Number(item.height.toString());
 
 						const [latestBlock, balanceTransferReceipt] = await Promise.all([
