@@ -24,7 +24,6 @@ import { Constants } from '../config';
 import { take, toArray } from 'rxjs/operators';
 import { sha3_256 as sha3256 } from 'js-sha3';
 import { MerkleTree } from 'merkletreejs';
-import { take, toArray } from 'rxjs/operators';
 
 class BlockService {
   /**
