@@ -89,7 +89,7 @@
     "scopedMetadataKey": "메타데이터 키",
     "sourceAddress": "발신 계좌",
     "targetAddress": "수취 계좌",
-    "metadataValue": "값",
+    "metadataValue": "가치 델타",
     "targetId": "목표 Id",
     "targetMosaicId": "목표 모자이크 Id",
     "targetNamespaceId": "목표 네임스페이스 Id",
@@ -415,5 +415,6 @@
     "recentMosaics": "최근 모자이크",
     "recentNamespaces": "최근 네임스페이스",
     "lastEpoch": "마지막 Epoch",
-    "currentEpoch": "현재 Epoch"
+    "currentEpoch": "현재 Epoch",
+    "value": "값"
 }

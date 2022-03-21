@@ -20,7 +20,7 @@ import http from './http';
 import { Constants } from '../config';
 import helper from '../helper';
 import { NamespaceService } from '../infrastructure';
-import { Address, Mosaic, MosaicId } from 'symbol-sdk';
+import { Address, Mosaic, MosaicId, Convert } from 'symbol-sdk';
 
 class CreateTransaction {
     static transferTransaction = async transactionObj => {
@@ -316,7 +316,7 @@ class CreateTransaction {
     			transactionType: transactionObj.type,
     			scopedMetadataKey: transactionObj.scopedMetadataKey.toHex(),
     			targetAddress: resolvedAddress,
-    			metadataValue: transactionObj.value,
+    			metadataValue: `${Convert.uint8ToHex(transactionObj.value)} (Text: ${Convert.uint8ToUtf8(transactionObj.value)})`,
     			valueSizeDelta: transactionObj.valueSizeDelta
     		}
     	};
@@ -339,7 +339,7 @@ class CreateTransaction {
     			targetMosaicId: resolvedMosaic.toHex(),
     			targetMosaicAliasNames: mosaicAliasNames,
     			targetAddress: resolvedAddress,
-    			metadataValue: transactionObj.value,
+    			metadataValue: `${Convert.uint8ToHex(transactionObj.value)} (Text: ${Convert.uint8ToUtf8(transactionObj.value)})`,
     			valueSizeDelta: transactionObj.valueSizeDelta
     		}
     	};
@@ -360,7 +360,7 @@ class CreateTransaction {
     			targetNamespaceId: transactionObj.targetNamespaceId.toHex(),
     			namespaceName: namespaceName,
     			targetAddress: resolvedAddress,
-    			metadataValue: transactionObj.value,
+    			metadataValue: `${Convert.uint8ToHex(transactionObj.value)} (Text: ${Convert.uint8ToUtf8(transactionObj.value)})`,
     			valueSizeDelta: transactionObj.valueSizeDelta
     		}
     	};

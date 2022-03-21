@@ -189,7 +189,7 @@
 					"scopedMetadataKey",
 					"senderAddress",
 					"targetAddress",
-					"metadataValue"
+					"value"
 				]
 			},
 			{

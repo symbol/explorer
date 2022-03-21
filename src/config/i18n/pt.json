@@ -89,7 +89,7 @@
     "scopedMetadataKey": "Scoped Metadata Key",
     "sourceAddress": "Sender Address",
     "targetAddress": "Target Address",
-    "metadataValue": "Value",
+    "metadataValue": "Value Delta",
     "targetId": "Target Id",
     "targetMosaicId": "Target Mosaic Id",
     "targetNamespaceId": "Target Namespace Id",
@@ -409,5 +409,6 @@
     "recentMosaics": "Recent Mosaics",
     "recentNamespaces": "Recent Namespaces",
     "lastEpoch": "Last Epoch",
-    "currentEpoch": "Current Epoch"
+    "currentEpoch": "Current Epoch",
+    "value": "Value"
 }
