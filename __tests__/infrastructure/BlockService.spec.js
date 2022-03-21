@@ -1,27 +1,126 @@
-import { BlockService } from '../../src/infrastructure'
-import networkConfig from '../config/network.conf.json'
-import { constructHttp } from '../utils'
-
-beforeAll(async() => {
-    jest.setTimeout(10000)
-    await constructHttp()
-});
+import { BlockService, AccountService, NodeService } from '../../src/infrastructure';
+import Helper from '../../src/helper';
+import TestHelper from '../TestHelper';
+import { restore, stub } from 'sinon';
 
 describe('Block Service', () => {
+	describe('getBlockInfo should', () => {
+		let getAccount = {};
+		let getBlockByHeight = {};
 
-    describe('getBlockInfo should', () => {
+		beforeEach(() => {
+			getAccount = stub(AccountService, 'getAccount');
+			getBlockByHeight = stub(BlockService, 'getBlockByHeight');
+		});
 
-        it('return custom block object', async () => {
-            const blockInfo = await BlockService.getBlockInfo(networkConfig.testBlock.height)
-            expect(blockInfo).not.toBeNull()
-            expect(blockInfo.height).toEqual(networkConfig.testBlock.height)
-        })
-    })
+		afterEach(restore);
 
-    describe('getBlockList should', () => {
-        it('return custom block list', async () => {
-            const blockList = await BlockService.getBlockList(networkConfig.pagination.pageSize)
-            expect(blockList).not.toBeNull()
-        })
-    })
-})
+		it('return normal block object', async () => {
+			// Arrange:
+			const blockHeight = 10;
+			const account = TestHelper.generateAccount(1)[0];
+			const mockAccountInfo = TestHelper.mockAccountInfo(account);
+			const mockBlockInfo = TestHelper.mockBlockInfo(blockHeight, account.address.plain());
+
+			getAccount.returns(Promise.resolve(mockAccountInfo));
+
+			getBlockByHeight.returns(Promise.resolve(mockBlockInfo));
+
+			// Act:
+			const blockInfo = await BlockService.getBlockInfo(blockHeight);
+
+			// Assert:
+			expect(blockInfo.height).toEqual(blockHeight);
+			expect(blockInfo.symbolTime).toEqual(mockBlockInfo.timestamp);
+			expect(blockInfo.payloadSize).toEqual(mockBlockInfo.size);
+			expect(blockInfo.blockHash).toEqual(mockBlockInfo.hash);
+			expect(blockInfo.harvester.signer).toEqual(account.address.plain());
+			expect(blockInfo.harvester.linkedAddress).toHaveLength(39);
+			expect(blockInfo.merkleInfo.stateHashSubCacheMerkleRoots).toHaveLength(9);
+			expect(blockInfo.merkleInfo.stateHash).toEqual(mockBlockInfo.stateHash);
+			expect(blockInfo.merkleInfo.blockReceiptsHash).toEqual(mockBlockInfo.blockReceiptsHash);
+			expect(blockInfo.merkleInfo.blockTransactionsHash).toEqual(mockBlockInfo.blockTransactionsHash);
+		});
+
+		it('return important block object', async () => {
+			// Arrange:
+			const blockHeight = 10;
+			const account = TestHelper.generateAccount(1)[0];
+			const mockAccountInfo = TestHelper.mockAccountInfo(account);
+			const mockImportantBlockInfo = TestHelper.mockBlockInfo(blockHeight, account.address.plain(), true);
+
+			getAccount.returns(Promise.resolve(mockAccountInfo));
+
+			getBlockByHeight.returns(Promise.resolve(mockImportantBlockInfo));
+
+			// Act:
+			const blockInfo = await BlockService.getBlockInfo(blockHeight);
+
+			// Assert:
+			expect(blockInfo.totalVotingBalance).toEqual('1.000000');
+			expect(blockInfo.harvestingEligibleAccountsCount).toEqual(mockImportantBlockInfo.harvestingEligibleAccountsCount);
+			expect(blockInfo.blockType).toEqual('Importance Block');
+			expect(blockInfo.type).toEqual(33347);
+		});
+	});
+
+	describe('getBlockList should', () => {
+		const pageInfo = {
+			pageNumber: 1,
+			pageSize: 10
+		};
+
+		let getAccounts = {};
+		let searchBlocks = {};
+		let getStorageInfo = {};
+
+		beforeAll(async () => {
+			getAccounts = stub(AccountService, 'getAccounts');
+			searchBlocks = stub(BlockService, 'searchBlocks');
+			getStorageInfo = stub(NodeService, 'getStorageInfo');
+
+			getStorageInfo.returns(Promise.resolve({
+				numBlocks: 100
+			}));
+		});
+
+		afterEach(restore);
+
+		it('return blocks', async () => {
+			// Arrange:
+			const epochAdjustment = 1637848847;
+			const accounts = TestHelper.generateAccount(10);
+
+			const mockAccounts = accounts.map(account => {
+				return TestHelper.mockAccountInfo(account);
+			});
+
+			const mockSearchBlocks = {
+				...pageInfo,
+				data: accounts.map((account, index) => {
+					return TestHelper.mockBlockInfo(index + 1, account.address.plain());
+				})
+			};
+
+			getAccounts.returns(Promise.resolve(mockAccounts));
+
+			searchBlocks.returns(Promise.resolve(mockSearchBlocks));
+
+			// Act:
+			const blockList = await BlockService.getBlockList(pageInfo);
+
+			// Assert:
+			expect(blockList.totalRecords).toEqual(100);
+			expect(blockList.pageNumber).toEqual(pageInfo.pageNumber);
+			expect(blockList.pageSize).toEqual(pageInfo.pageSize);
+			expect(blockList.data[0].harvester.signer).toEqual(accounts[0].address.plain());
+			expect(blockList.data).toHaveLength(10);
+			blockList.data.forEach((block, index) => {
+				expect(block.age).toEqual(Helper.convertToUTCDate(epochAdjustment + index + 1));
+				expect(block).toHaveProperty('harvester');
+				expect(block.harvester).toHaveProperty('signer');
+				expect(block.harvester).toHaveProperty('linkedAddress');
+			});
+		});
+	});
+});
