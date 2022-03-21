@@ -230,6 +230,21 @@ const TestHelper = {
 				new Mosaic(new MosaicId('7F2D26E89342D398'), UInt64.fromUint(5))
 			]
 		};
+	},
+	/**
+	 * Mock inflation statement.
+	 * @param {number} amount reward amount.
+	 * @param {number} height block height.
+	 * @returns {object} inflation statement.
+	 */
+	mockInflationStatement: (amount, height) => {
+		return {
+			amount: UInt64.fromUint(amount),
+			height: UInt64.fromUint(height),
+			mosaicId: new MosaicId('6BED913FA20223F8'),
+			type: 20803,
+			version: 1
+		};
 	}
 };
 
