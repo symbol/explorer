@@ -29,7 +29,7 @@ const mockTransactionMetadataDTO = {
 	valueSize: 23
 };
 
-describe.only('CreateTransaction should', () => {
+describe('CreateTransaction should', () => {
 	const randomAddress = Account.generateNewAccount(NetworkType.TEST_NET).address;
 	const metadataValue = Convert.hexToUint8('00000020E6B189E5AD973B2070696E79696E3A2068C3A0');
 
@@ -53,6 +53,7 @@ describe.only('CreateTransaction should', () => {
 			valueSizeDelta: mockAccountMetadata.valueSizeDelta
 		});
 	});
+
 	it('return mosaicMetadata', async () => {
 		// Arrange:
 		const mockMosaicMetadata = {
@@ -79,6 +80,7 @@ describe.only('CreateTransaction should', () => {
 			targetMosaicAliasNames: ['N/A']
 		});
 	});
+
 	it('return namespaceMetadata', async () => {
 		// Arrange:
 		const namespace = {
