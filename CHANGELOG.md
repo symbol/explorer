@@ -3,6 +3,31 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v1.1.4][v1.1.4] - 23-Mar-2022
+
+Package  | Version  | Link
+---|---|---
+REST Core| v2.4.0 | catapult-rest
+SDK Core| v2.0.0 | symbol-sdk
+
+### Added
+- Recent Namespaces and Mosaics in home page [#999](https://github.com/symbol/explorer/issues/999)
+- New data in Base info [#1000](https://github.com/symbol/explorer/issues/1000)
+- Korean Language [#1022](https://github.com/symbol/explorer/issues/1022)
+- Jenkins migration [#1031](https://github.com/symbol/explorer/pull/1031)
+
+### Update
+- Improvement for blocks listing page [#1001](https://github.com/symbol/explorer/issues/1001)
+- Apply standard symbol Javascript linters [#1019](https://github.com/symbol/explorer/issues/1019)
+- Rewrite integration test to unit test [#1032](https://github.com/symbol/explorer/pull/1032)
+- Symbol-sdk v2.0 [#1035](https://github.com/symbol/explorer/pull/1035)
+
+### Fixed
+- Minor fix [#1012](https://github.com/symbol/explorer/issues/1012)
+- Show XYM as default for account balance card [#1016](https://github.com/symbol/explorer/issues/1016)
+- Explorer switch to different node than selected by user [#1021](https://github.com/symbol/explorer/issues/1021)
+- Update node lts [#1036](https://github.com/symbol/explorer/pull/1036)
+
 ## [v1.1.3][v1.1.3] - 8-Dec-2021
 
 Package  | Version  | Link
@@ -436,3 +461,4 @@ SDK Core| v0.20.7 | symbol-sdk
 [v1.1.1]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v1.1.1
 [v1.1.2]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v1.1.2
 [v1.1.3]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v1.1.3
+[v1.1.4]: https://github.com/symbol/explorer/releases/tag/v1.1.4
