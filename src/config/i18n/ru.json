@@ -416,5 +416,6 @@
     "recentNamespaces": "Недавние Пространства имен",
     "lastEpoch": "Last Epoch",
     "currentEpoch": "Current Epoch",
-    "value": "Value"
+    "value": "Value",
+    "blockReward": "Награда за блок"
 }

@@ -1,5 +1,5 @@
-import { BlockService, AccountService, NodeService } from '../../src/infrastructure';
 import Helper from '../../src/helper';
+import { BlockService, AccountService, NodeService, ReceiptService } from '../../src/infrastructure';
 import TestHelper from '../TestHelper';
 import { restore, stub } from 'sinon';
 
@@ -73,11 +73,13 @@ describe('Block Service', () => {
 		let getAccounts = {};
 		let searchBlocks = {};
 		let getStorageInfo = {};
+		let searchReceipts = {};
 
 		beforeAll(async () => {
 			getAccounts = stub(AccountService, 'getAccounts');
 			searchBlocks = stub(BlockService, 'searchBlocks');
 			getStorageInfo = stub(NodeService, 'getStorageInfo');
+			searchReceipts = stub(ReceiptService, 'searchReceipts');
 
 			getStorageInfo.returns(Promise.resolve({
 				numBlocks: 100
@@ -102,9 +104,23 @@ describe('Block Service', () => {
 				})
 			};
 
+			const mockBalanceTransferReceipt = {
+				data: {
+					inflationStatement: {
+						data: mockSearchBlocks.data.map(block => {
+							// mock reward amount
+							const amount = block.height * 1000000;
+							return TestHelper.mockInflationStatement(amount, block.height);
+						})
+					}
+				}
+			};
+
 			getAccounts.returns(Promise.resolve(mockAccounts));
 
 			searchBlocks.returns(Promise.resolve(mockSearchBlocks));
+
+			searchReceipts.returns(Promise.resolve(mockBalanceTransferReceipt));
 
 			// Act:
 			const blockList = await BlockService.getBlockList(pageInfo);
@@ -115,8 +131,10 @@ describe('Block Service', () => {
 			expect(blockList.pageSize).toEqual(pageInfo.pageSize);
 			expect(blockList.data[0].harvester.signer).toEqual(accounts[0].address.plain());
 			expect(blockList.data).toHaveLength(10);
+
 			blockList.data.forEach((block, index) => {
 				expect(block.age).toEqual(Helper.convertToUTCDate(epochAdjustment + index + 1));
+				expect(block.blockReward).toEqual(Helper.toNetworkCurrency(block.height * 1000000));
 				expect(block).toHaveProperty('harvester');
 				expect(block.harvester).toHaveProperty('signer');
 				expect(block.harvester).toHaveProperty('linkedAddress');

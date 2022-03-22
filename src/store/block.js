@@ -30,8 +30,10 @@ import helper from '../helper';
 import {
 	ListenerService,
 	BlockService,
-	AccountService
+	AccountService,
+	ReceiptService
 } from '../infrastructure';
+import { UInt64, ReceiptType } from 'symbol-sdk';
 import Vue from 'vue';
 
 const managers = [
@@ -91,10 +93,8 @@ export default {
 		merkleInfo: state => state.info?.data?.merkleInfo || {},
 
 		resolutionStatement: state => state.blockReceipts?.data?.resolutionStatements || [],
-		currentBlockHeight: state => state.currentBlockHeight,
-		infoText: (s, g, rs, rootGetters) =>
-			rootGetters['ui/getNameByKey']('chainHeight') + ': ' + (rootGetters['chain/getChainInfo']
-		&& rootGetters['chain/getChainInfo'].currentHeight ? rootGetters['chain/getChainInfo'].currentHeight : 0) },
+		currentBlockHeight: state => state.currentBlockHeight
+	},
 	mutations: {
 		...getMutationsFromManagers(managers),
 		setInitialized: (state, initialized) => {
@@ -134,13 +134,26 @@ export default {
 			if (null === getters.getSubscription) {
 				const subscription = await ListenerService.subscribeNewBlock(
 					async item => {
-						const latestBlock = await BlockService.getBlockByHeight(item.height.compact());
+						const blockHeight = Number(item.height.toString());
+
+						const [latestBlock, balanceTransferReceipt] = await Promise.all([
+							BlockService.getBlockByHeight(blockHeight),
+							ReceiptService.searchReceipts({
+								height: UInt64.fromUint(blockHeight),
+								receiptTypes: [ReceiptType.Inflation]
+							})
+						]);
 
 						const { supplementalPublicKeys } = await AccountService.getAccount(latestBlock.signer);
+
+						const inflationRate = balanceTransferReceipt.data.inflationStatement.data[0];
+
+						const blockReward = Number(inflationRate?.amount.toString()) || 0;
 
 						getters.timeline.addLatestItem({
 							...latestBlock,
 							age: helper.convertToUTCDate(latestBlock.timestamp),
+							blockReward: helper.toNetworkCurrency(blockReward),
 							harvester: {
 								signer: latestBlock.signer,
 								linkedAddress: supplementalPublicKeys.linked === Constants.Message.UNAVAILABLE

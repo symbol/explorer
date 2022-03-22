@@ -416,5 +416,6 @@
     "recentNamespaces": "直近ネームスペース",
     "lastEpoch": "Last Epoch",
     "currentEpoch": "Current Epoch",
-    "value": "値"
+    "value": "値",
+    "blockReward": "ブロック報酬"
 }

@@ -14,24 +14,23 @@
                 "type": "CardTable",
                 "title": "blocksTitle",
                 "managerGetter": "block/timeline",
-                "infoTextGetter": "block/infoText",
                 "pagination": "server",
                 "hasFilter": false,
-				"hasInfoText": true,
+                "hasInfoText": false,
                 "fields": [
                     "height",
-                    "blockType",
                     "age",
+                    "harvester",
                     "totalTransactions",
                     "statements",
-                    "totalFee",
-                    "timestamp",
-                    "harvester"
+                    "blockReward",
+                    "totalFee"
                 ],
                 "mobileFields": [
                     "height",
                     "age",
-                    "transactions",
+                    "totalTransactions",
+                    "blockReward",
                     "totalFee"
                 ]
             }

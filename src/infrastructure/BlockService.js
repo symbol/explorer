@@ -16,14 +16,14 @@
  *
  */
 
-import NodeService from './NodeService';
 import http from './http';
 import { Constants } from '../config';
 import helper from '../helper';
-import { TransactionService, ReceiptService, AccountService } from '../infrastructure';
+import { TransactionService, ReceiptService, AccountService, NodeService } from '../infrastructure';
+import { sha3_256 as sha3256 } from 'js-sha3';
 import { MerkleTree } from 'merkletreejs';
 import { take, toArray } from 'rxjs/operators';
-import { UInt64, TransactionGroup, Order, BlockOrderBy, BlockType } from 'symbol-sdk';
+import { UInt64, TransactionGroup, Order, BlockOrderBy, BlockType, ReceiptType } from 'symbol-sdk';
 
 class BlockService {
   /**
@@ -131,19 +131,34 @@ class BlockService {
 
   	const signerAddress = blocks.data.map(block => block.signer);
 
-  	const accountInfos = await AccountService.getAccounts(signerAddress);
+  	// Get Inflation rate
+  	const receiptSearchCriteria = {
+  		pageSize: blocks.data.length,
+  		order: Order.Desc,
+  		fromHeight: UInt64.fromUint(blocks.data[blocks.data.length - 1].height),
+  		toHeight: UInt64.fromUint(blocks.data[0].height),
+  		receiptTypes: [ReceiptType.Inflation]
+  	};
 
-  	const { numBlocks } = await NodeService.getStorageInfo();
+  	const [accountInfos, { numBlocks }, balanceTransferReceipt] = await Promise.all([
+  		AccountService.getAccounts(signerAddress),
+  		NodeService.getStorageInfo(),
+  		ReceiptService.searchReceipts(receiptSearchCriteria)
+  	]);
 
   	return {
   		...blocks,
   		totalRecords: numBlocks,
   		data: blocks.data.map(block => {
   			const { supplementalPublicKeys } = accountInfos.find(account => account.address === block.signer);
+  			const inflationRate = balanceTransferReceipt.data.inflationStatement.data
+  				.find(inflation => Number(inflation.height.toString()) === block.height);
+  			const blockReward = Number(inflationRate?.amount.toString()) || 0;
 
   			return {
   				...block,
   				age: helper.convertToUTCDate(block.timestamp),
+  				blockReward: helper.toNetworkCurrency(blockReward),
   				harvester: {
   					signer: block.signer,
   					linkedAddress: supplementalPublicKeys.linked === Constants.Message.UNAVAILABLE
