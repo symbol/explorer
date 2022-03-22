@@ -10,23 +10,29 @@ Package  | Version  | Link
 REST Core| v2.4.0 | catapult-rest
 SDK Core| v2.0.0 | symbol-sdk
 
-### Added
-- Recent Namespaces and Mosaics in home page [#999](https://github.com/symbol/explorer/issues/999)
-- New data in Base info [#1000](https://github.com/symbol/explorer/issues/1000)
-- Korean Language [#1022](https://github.com/symbol/explorer/issues/1022)
-- Jenkins migration [#1031](https://github.com/symbol/explorer/pull/1031)
+[Feature] [#999](https://github.com/symbol/explorer/issues/999): To allow user have better experience to view all listing in home page, we had added namespace and mosaic section.
 
-### Update
-- Improvement for blocks listing page [#1001](https://github.com/symbol/explorer/issues/1001)
-- Apply standard symbol Javascript linters [#1019](https://github.com/symbol/explorer/issues/1019)
-- Rewrite integration test to unit test [#1032](https://github.com/symbol/explorer/pull/1032)
-- Symbol-sdk v2.0 [#1035](https://github.com/symbol/explorer/pull/1035)
+[Feature] [#1000](https://github.com/symbol/explorer/issues/1000): To have better understanding network epoch, we added `last epoch` and `current epoch` in Base info dashboard.
 
-### Fixed
-- Minor fix [#1012](https://github.com/symbol/explorer/issues/1012)
-- Show XYM as default for account balance card [#1016](https://github.com/symbol/explorer/issues/1016)
-- Explorer switch to different node than selected by user [#1021](https://github.com/symbol/explorer/issues/1021)
-- Update node lts [#1036](https://github.com/symbol/explorer/pull/1036)
+[Feature] [#1022](https://github.com/symbol/explorer/issues/1022): Our korean community going to like it, we added `korean` language in explorer.
+
+[Feature] [#1031](https://github.com/symbol/explorer/pull/1031): We are migrate CI/CD pipeline from travis to jenkins.
+
+[Feature] [#1001](https://github.com/symbol/explorer/issues/1001): Improvement of blocks listing page. We removed `chain height` and `timestamp` because it not helpful insight, instead we added `Block Reward ('inflation')`.
+
+[Feature] [#1035](https://github.com/symbol/explorer/pull/1035): We update symbol-SDK v2.0, to ensure metadata encoding issue resolved.
+
+[Feature] [#1036](https://github.com/symbol/explorer/pull/1036): Current Dockfile using node 10, we update it to node-lts.
+
+[Feature] [#1016](https://github.com/symbol/explorer/issues/1016): Account balance card showing mosaic randomly, to prevent user confuse, we decided display XYM as default.
+
+[Bug] [#1019](https://github.com/symbol/explorer/issues/1019): To make the code more readable and maintainable, we apply standard symbol Javascript linters.
+
+[Bug] [#1032](https://github.com/symbol/explorer/pull/1032): Rewrite integration test to unit test, because current integration test is not working well.
+
+[Bug] [#1012](https://github.com/symbol/explorer/issues/1012): Update some variable to camelCase.
+
+[Bug] [#1021](https://github.com/symbol/explorer/issues/1021): Selected node always reset is cause by node list return randomly from statistic-service, to prevent the node get reset, it will always push selected node into random node list from statistic-service.
 
 ## [v1.1.3][v1.1.3] - 8-Dec-2021
 
