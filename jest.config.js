@@ -15,8 +15,7 @@ module.exports = {
 	testMatch: [
 		'**/__tests__/**/*.spec.js'
 	],
-
-	transformIgnorePatterns: ['/node_modules'],
+	transformIgnorePatterns: ['/node_modules/(?!vue-material-design-icons|leaflet)'],
 
 	moduleNameMapper: {
 		'^@/(.*)$': '<rootDir>/src/$1'

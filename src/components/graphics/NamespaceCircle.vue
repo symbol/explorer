@@ -55,7 +55,7 @@
 
 <script>
 import GraphicComponent from './GraphicComponent.vue';
-import NamespaceListPopover from './NamespaceListPopover';
+import NamespaceListPopover from './NamespaceListPopover.vue';
 
 export default {
 	extends: GraphicComponent,
