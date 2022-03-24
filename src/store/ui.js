@@ -18,8 +18,9 @@
 import { i18n, keyRedirects } from '../config';
 import helper from '../helper';
 import { NamespaceService, MosaicService, AccountService } from '../infrastructure';
+import http from '../infrastructure/http';
 import router from '../router';
-import { Address, AccountHttp } from 'symbol-sdk';
+import { Address } from 'symbol-sdk';
 import Vue from 'vue';
 
 export default {
@@ -101,7 +102,7 @@ export default {
 
 		search: ({ dispatch, rootGetters }, _searchString) => {
 			return new Promise(async (resolve, reject) => {
-				if (null !== searchString && '' !== searchString) {
+				if (null !== _searchString && '' !== _searchString) {
 					const searchString = _searchString.replace(/\s|-/g, '');
 					if (helper.isBlockHeight(searchString)) {
 						dispatch('openPage', {
@@ -109,46 +110,39 @@ export default {
 							param: searchString
 						});
 						resolve();
-					} else
+					}
+
 					if (helper.isAccountPublicKey(searchString)) {
-						// check the string is a public key of an account
-
-						const api = rootGetters['api/currentNode'];
-
-						let accountHttp = new AccountHttp(api);
-
-						let accountAddress;
-
-						let accountInfo;
-
+						// Can be public key or transaction hash
 						try {
-							accountInfo = await accountHttp
-								.getAccountInfo(new Address(searchString))
-								.toPromise();
-							accountAddress = accountInfo.address.address;
-						} catch (e) { }
-						if (accountAddress) {
-							dispatch('openPage', {
-								pageName: 'account',
-								param: accountAddress
-							});
-							resolve();
-						} else {
-							// transaction hash
+							const address = Address.createFromPublicKey(searchString, http.networkType).plain();
+							const accountInfo = await AccountService.getAccountInfo(address);
+
+							if (accountInfo) {
+								dispatch('openPage', {
+									pageName: 'account',
+									param: searchString
+								});
+
+								resolve();
+							}
+						} catch (e) {
 							dispatch('openPage', {
 								pageName: 'transaction',
 								param: searchString
 							});
 							resolve();
 						}
-					} else
+					}
+
 					if (helper.isAccountAddress(searchString)) {
 						dispatch('openPage', {
 							pageName: 'account',
 							param: searchString
 						});
 						resolve();
-					} else
+					}
+
 					if (helper.isMosaicOrNamespaceId(searchString)) {
 						let result = void 0;
 
@@ -173,15 +167,16 @@ export default {
 								});
 								resolve();
 							}
-						} catch (e) {
-							const isNisAddress = await AccountService.checkNis1Account(searchString);
-
-							if (isNisAddress)
-								reject(new Error('errorNisAddressNotAllowed'));
-
-							reject(new Error('errorNothingFound'));
-						}
+						} catch (e) {}
 					}
+
+					const isNisAddress = await AccountService.checkNis1Account(searchString);
+
+					if (isNisAddress)
+						reject(new Error('errorNisAddressNotAllowed'));
+
+					reject(new Error('errorNothingFound'));
+
 				} else { reject(new Error('errorNothingFound')); }
 			});
 		},
