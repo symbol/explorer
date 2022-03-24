@@ -3,6 +3,39 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v1.1.4][v1.1.4] - 23-Mar-2022
+
+Package  | Version  | Link
+---|---|---
+REST Core| v2.4.0 | catapult-rest
+SDK Core| v2.0.0 | symbol-sdk
+
+[Feature] [#999](https://github.com/symbol/explorer/issues/999): [UX] Namespaces and mosaics are now listed on the homepage.
+
+[Feature] [#1000](https://github.com/symbol/explorer/issues/1000): Last epoch and current epoch are now displayed on the homepage dashboard.
+
+[Feature] [#1022](https://github.com/symbol/explorer/issues/1022): Our korean community going to like it, we added `korean` language in explorer.
+
+[Feature] [#1031](https://github.com/symbol/explorer/pull/1031): We are migrate CI/CD pipeline from travis to jenkins.
+
+[Feature] [#1001](https://github.com/symbol/explorer/issues/1001): Improvement of blocks listing page. We removed `chain height` and `timestamp` because it not helpful insight, instead we added `Block Reward ('inflation')`.
+
+[Feature] [#1035](https://github.com/symbol/explorer/pull/1035): We update symbol-SDK v2.0, to ensure metadata encoding issue resolved.
+
+[Feature] [#1036](https://github.com/symbol/explorer/pull/1036): Current Dockfile using node 10, we update it to node-lts.
+
+[Feature] [#1016](https://github.com/symbol/explorer/issues/1016): Account balance card showing mosaic randomly, to prevent user confuse, we decided display XYM as default.
+
+[Bug] [#1019](https://github.com/symbol/explorer/issues/1019): To make the code more readable and maintainable, we apply standard symbol Javascript linters.
+
+[Bug] [#1032](https://github.com/symbol/explorer/pull/1032): Rewrite integration test to unit test, because current integration test is not working well.
+
+[Bug] [#1012](https://github.com/symbol/explorer/issues/1012): Update some variable to camelCase.
+
+[Bug] [#1021](https://github.com/symbol/explorer/issues/1021): Selected node always reset is cause by node list return randomly from statistic-service, to prevent the node get reset, it will always push selected node into random node list from statistic-service.
+
+[Bug] [#1042](https://github.com/symbol/explorer/pull/1042): Refactor search bar logic, and added unit test for that.
+
 ## [v1.1.3][v1.1.3] - 8-Dec-2021
 
 Package  | Version  | Link
@@ -393,14 +426,14 @@ SDK Core| v0.20.7 | symbol-sdk
 ### Milestone: catapult-server@v0.9.5.1
 
 ### Added
-- Adding Russian translation [#448](https://github.com/nemfoundation/symbol-explorer/issues/448)
-- Upgrade to testnet 0.9.5.1 with SDK v0.19.2 [#472](https://github.com/nemfoundation/symbol-explorer/issues/472)
+- Adding Russian translation [#448](https://github.com/symbol/explorer/issues/448)
+- Upgrade to testnet 0.9.5.1 with SDK v0.19.2 [#472](https://github.com/symbol/explorer/issues/472)
 
 ### Fixed
-- Network type issue in account link addresses [#434](https://github.com/nemfoundation/symbol-explorer/issues/434)
-- Failed to fetch account detail - TooManyRequests [#438](https://github.com/nemfoundation/symbol-explorer/issues/438)
-- Move filters to config file [#460](https://github.com/nemfoundation/symbol-explorer/issues/460)
-- Mosaic table relative amounts formatting consistency [#468](https://github.com/nemfoundation/symbol-explorer/issues/468)
+- Network type issue in account link addresses [#434](https://github.com/symbol/explorer/issues/434)
+- Failed to fetch account detail - TooManyRequests [#438](https://github.com/symbol/explorer/issues/438)
+- Move filters to config file [#460](https://github.com/symbol/explorer/issues/460)
+- Mosaic table relative amounts formatting consistency [#468](https://github.com/symbol/explorer/issues/468)
 
 
 ## [v0.3.0][v0.3.0]
@@ -409,30 +442,31 @@ SDK Core| v0.20.7 | symbol-sdk
 
 #### Added
 
-- Upgrade SDK to v0.18.0 [#408](https://github.com/nemfoundation/symbol-explorer/issues/408)
-- Transaction type icons [#424](https://github.com/nemfoundation/symbol-explorer/issues/424)
+- Upgrade SDK to v0.18.0 [#408](https://github.com/symbol/explorer/issues/408)
+- Transaction type icons [#424](https://github.com/symbol/explorer/issues/424)
 
 #### Fixed
-- Fixed minor bug fix [PR #421](https://github.com/nemfoundation/symbol-explorer/pull/421)
-- Fixed Missing mosaic Restriction list [#426](https://github.com/nemfoundation/symbol-explorer/issues/426)
-- Fixed Missing account metadata entries [#428](https://github.com/nemfoundation/symbol-explorer/issues/428)
-- Fixed Missing namespace Alias in Account [#433](https://github.com/nemfoundation/symbol-explorer/issues/433)
-- Fixed Network type issue in account link addresses [#434](https://github.com/nemfoundation/symbol-explorer/issues/434)
+- Fixed minor bug fix [PR #421](https://github.com/symbol/explorer/pull/421)
+- Fixed Missing mosaic Restriction list [#426](https://github.com/symbol/explorer/issues/426)
+- Fixed Missing account metadata entries [#428](https://github.com/symbol/explorer/issues/428)
+- Fixed Missing namespace Alias in Account [#433](https://github.com/symbol/explorer/issues/433)
+- Fixed Network type issue in account link addresses [#434](https://github.com/symbol/explorer/issues/434)
 
 
-[v0.3.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.3.0
-[v0.4.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.4.0
-[v0.5.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.5.0
-[v0.6.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.6.0
-[v0.6.1]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.6.1
-[v0.6.2]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.6.2
-[v0.7.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.7.0
-[v0.7.1]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.7.1
-[v0.8.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.8.0
-[v0.9.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.9.0
-[v0.10.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v0.10.0
-[v1.0.0]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v1.0.0
-[v1.0.1]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v1.0.1
-[v1.1.1]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v1.1.1
-[v1.1.2]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v1.1.2
-[v1.1.3]: https://github.com/nemfoundation/symbol-explorer/releases/tag/v1.1.3
+[v0.3.0]: https://github.com/symbol/explorer/releases/tag/v0.3.0
+[v0.4.0]: https://github.com/symbol/explorer/releases/tag/v0.4.0
+[v0.5.0]: https://github.com/symbol/explorer/releases/tag/v0.5.0
+[v0.6.0]: https://github.com/symbol/explorer/releases/tag/v0.6.0
+[v0.6.1]: https://github.com/symbol/explorer/releases/tag/v0.6.1
+[v0.6.2]: https://github.com/symbol/explorer/releases/tag/v0.6.2
+[v0.7.0]: https://github.com/symbol/explorer/releases/tag/v0.7.0
+[v0.7.1]: https://github.com/symbol/explorer/releases/tag/v0.7.1
+[v0.8.0]: https://github.com/symbol/explorer/releases/tag/v0.8.0
+[v0.9.0]: https://github.com/symbol/explorer/releases/tag/v0.9.0
+[v0.10.0]: https://github.com/symbol/explorer/releases/tag/v0.10.0
+[v1.0.0]: https://github.com/symbol/explorer/releases/tag/v1.0.0
+[v1.0.1]: https://github.com/symbol/explorer/releases/tag/v1.0.1
+[v1.1.1]: https://github.com/symbol/explorer/releases/tag/v1.1.1
+[v1.1.2]: https://github.com/symbol/explorer/releases/tag/v1.1.2
+[v1.1.3]: https://github.com/symbol/explorer/releases/tag/v1.1.3
+[v1.1.4]: https://github.com/symbol/explorer/releases/tag/v1.1.4
