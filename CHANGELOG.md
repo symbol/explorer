@@ -10,9 +10,9 @@ Package  | Version  | Link
 REST Core| v2.4.0 | catapult-rest
 SDK Core| v2.0.0 | symbol-sdk
 
-[Feature] [#999](https://github.com/symbol/explorer/issues/999): To allow user have better experience to view all listing in home page, we had added namespace and mosaic section.
+[Feature] [#999](https://github.com/symbol/explorer/issues/999): [UX] Namespaces and mosaics are now listed on the homepage.
 
-[Feature] [#1000](https://github.com/symbol/explorer/issues/1000): To have better understanding network epoch, we added `last epoch` and `current epoch` in Base info dashboard.
+[Feature] [#1000](https://github.com/symbol/explorer/issues/1000): Last epoch and current epoch are now displayed on the homepage dashboard.
 
 [Feature] [#1022](https://github.com/symbol/explorer/issues/1022): Our korean community going to like it, we added `korean` language in explorer.
 
