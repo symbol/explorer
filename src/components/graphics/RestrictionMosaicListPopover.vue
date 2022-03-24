@@ -21,7 +21,7 @@
 
 <script>
 import GraphicComponent from './GraphicComponent.vue';
-import MosaicListItem from './MosaicListItem';
+import MosaicListItem from './MosaicListItem.vue';
 
 export default {
 	extends: GraphicComponent,

@@ -32,7 +32,7 @@
 </template>
 
 <script>
-import TableView from '../tables/TableView';
+import TableView from '../tables/TableView.vue';
 import LockIcon from '../../styles/img/lock.png';
 
 export default {

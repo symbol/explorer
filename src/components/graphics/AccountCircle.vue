@@ -63,7 +63,7 @@
 
 <script>
 import GraphicComponent from './GraphicComponent.vue';
-import AccountListPopover from './AccountListPopover';
+import AccountListPopover from './AccountListPopover.vue';
 
 export default {
 	extends: GraphicComponent,

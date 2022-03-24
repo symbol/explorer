@@ -110,7 +110,7 @@ import RestrictionField from '@/components/fields/RestrictionField.vue';
 import Loading from '@/components/Loading.vue';
 import BlockHeightWithFinalizedStatusField from '@/components/fields/BlockHeightWithFinalizedStatusField.vue';
 import ExtendGraphicValueField from '@/components/fields/ExtendGraphicValueField.vue';
-import ChainInfo from '@/components/fields/ChainInfo';
+import ChainInfo from '@/components/fields/ChainInfo.vue';
 import DateField from '@/components/fields/DateField.vue';
 import SoftwareVersion from '@/components/fields/SoftwareVersion.vue';
 import Harvester from '@/components/fields/Harvester.vue';
