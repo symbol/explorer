@@ -34,6 +34,8 @@ SDK Core| v2.0.0 | symbol-sdk
 
 [Bug] [#1021](https://github.com/symbol/explorer/issues/1021): Selected node always reset is cause by node list return randomly from statistic-service, to prevent the node get reset, it will always push selected node into random node list from statistic-service.
 
+[Bug] [#1042](https://github.com/symbol/explorer/pull/1042): Refactor search bar logic, and added unit test for that.
+
 ## [v1.1.3][v1.1.3] - 8-Dec-2021
 
 Package  | Version  | Link
