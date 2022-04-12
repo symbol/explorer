@@ -98,14 +98,14 @@ class AccountService {
 		const searchCriteria = {
 			pageNumber,
 			pageSize,
-			order: Order.Desc
+			order: Order.Desc,
+			...filterValue
 		};
 
-		// Prevent new MosaicId throw error if mosaicId is undefined
-		if (filterValue.mosaicId) {
+		// set default network mosaic id
+		if ('' === filterValue.mosaicId) {
 			Object.assign(searchCriteria, {
-				...filterValue,
-				mosaicId: new MosaicId(filterValue.mosaicId)
+				mosaicId: new MosaicId(http.networkCurrency.mosaicId)
 			});
 		}
 
