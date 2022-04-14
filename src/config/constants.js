@@ -210,7 +210,7 @@ class Constants {
 
 	static BlockType = {
 		[BlockType.ImportanceBlock]: 'Importance Block',
-		[BlockType.NemesisBlock]: 'Nemesis Block',
+		[BlockType.NemesisBlock]: 'Genesis Block',
 		[BlockType.NormalBlock]: 'Normal Block'
 	}
 
