@@ -133,7 +133,7 @@ describe('Block Service', () => {
 			expect(blockList.data).toHaveLength(10);
 
 			blockList.data.forEach((block, index) => {
-				expect(block.age).toEqual(Helper.convertToUTCDate(epochAdjustment + index + 1));
+				expect(block.age).toEqual(Helper.convertTimestampToDate(epochAdjustment + index + 1));
 				expect(block.blockReward).toEqual(Helper.toNetworkCurrency(block.height * 1000000));
 				expect(block).toHaveProperty('harvester');
 				expect(block.harvester).toHaveProperty('signer');

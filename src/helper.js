@@ -263,6 +263,33 @@ class helper {
 	static convertToUTCDate = networkTimestamp => moment.utc(networkTimestamp * 1000).format('YYYY-MM-DD HH:mm:ss')
 
 	/**
+	 * Convert networkTimestamp to date.
+	 * @param {number} networkTimestamp network timestamp in seconds.
+	 * @param {'UTC' | 'Local'} type time zone 'UTC' or 'Local'.
+	 * @returns {string} Date with format YYYY-MM-DD HH:mm:ss.
+	 */
+	static convertTimestampToDate = (networkTimestamp, type = http.timezone) => {
+		// moment using milliseconds as default
+		const date = moment(networkTimestamp * 1000);
+
+		switch (type) {
+		case 'UTC':
+			date.utc();
+			break;
+
+		case 'Local':
+			date.local();
+			break;
+
+		default:
+			date.local();
+			break;
+		}
+
+		return date.format('YYYY-MM-DD HH:mm:ss');
+	}
+
+	/**
 	 * convert difficulty raw score to readable
 	 * @param {UInt64} difficulty - raw difficulty score
 	 * @returns {string} difficulty - readable difficulty score
