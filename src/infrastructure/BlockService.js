@@ -157,7 +157,7 @@ class BlockService {
 
   			return {
   				...block,
-  				age: helper.convertToUTCDate(block.timestamp),
+  				age: helper.convertTimestampToDate(block.timestamp),
   				blockReward: helper.toNetworkCurrency(blockReward),
   				harvester: {
   					signer: block.signer,

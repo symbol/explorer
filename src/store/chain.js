@@ -158,7 +158,7 @@ export default {
 				epoch: chainInfo.latestFinalizedBlock.finalizationEpoch,
 				lastEpoch: {
 					epoch: lastEpoch,
-					age: helper.convertToUTCDate(timestamp)
+					age: helper.convertTimestampToDate(timestamp)
 				}
 			});
 		}

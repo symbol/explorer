@@ -152,7 +152,7 @@ export default {
 
 						getters.timeline.addLatestItem({
 							...latestBlock,
-							age: helper.convertToUTCDate(latestBlock.timestamp),
+							age: helper.convertTimestampToDate(latestBlock.timestamp),
 							blockReward: helper.toNetworkCurrency(blockReward),
 							harvester: {
 								signer: latestBlock.signer,
