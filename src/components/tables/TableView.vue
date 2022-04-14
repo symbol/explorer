@@ -161,6 +161,10 @@ export default {
 			return -1 === this.disableClickValues.indexOf(item);
 		},
 
+		isDateField (itemKey) {
+			return 'timestamp' === itemKey || 'deadline' === itemKey;
+		},
+
 		isDecimal (itemKey) {
 			return -1 !== this.changeDecimalColor.indexOf(itemKey);
 		},
