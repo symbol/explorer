@@ -1,5 +1,4 @@
 import Constants from '../config/constants';
-import http from '../infrastructure/http';
 import {
 	TransactionType,
 	TransactionGroup,
@@ -192,7 +191,7 @@ export const account = [
 		icon: 'mdi-cash',
 		value: {
 			orderBy: AccountOrderBy.Balance,
-			mosaicId: http.networkCurrency.mosaicId
+			mosaicId: ''
 		}
 	}
 ];
