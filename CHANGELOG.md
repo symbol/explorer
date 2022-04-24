@@ -3,6 +3,17 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v1.1.5][v1.1.5] - 23-Apr-2022
+
+Package  | Version  | Link
+---|---|---
+REST Core| v2.4.0 | catapult-rest
+SDK Core| v2.0.0 | symbol-sdk
+
+[Bug] [#1044](https://github.com/symbol/explorer/pull/1044): Rich-list filter on the accounts page is working now!
+
+[Bug] [#1045](https://github.com/symbol/explorer/pull/1045): We rename Nemesis to Genesis.
+
 ## [v1.1.4][v1.1.4] - 23-Mar-2022
 
 Package  | Version  | Link
@@ -470,3 +481,4 @@ SDK Core| v0.20.7 | symbol-sdk
 [v1.1.2]: https://github.com/symbol/explorer/releases/tag/v1.1.2
 [v1.1.3]: https://github.com/symbol/explorer/releases/tag/v1.1.3
 [v1.1.4]: https://github.com/symbol/explorer/releases/tag/v1.1.4
+[v1.1.5]: https://github.com/symbol/explorer/releases/tag/v1.1.5
