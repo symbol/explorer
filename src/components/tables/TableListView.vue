@@ -56,7 +56,6 @@
 								<div
 									v-if="isKeyClickable(itemKey) && getItemHref(itemKey, item)"
 									@click.stop
-									@click.prevent
 								>
 									<router-link
 										:to="getItemHref(itemKey, item)"
