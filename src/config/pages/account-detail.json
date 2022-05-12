@@ -138,7 +138,6 @@
 				"hideOnError": true,
 				"hideDependOnGetter": "account/info",
 				"fields": [
-					"address",
 					"publicKey",
 					"epochInfo"
 				]

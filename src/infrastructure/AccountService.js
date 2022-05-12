@@ -185,7 +185,6 @@ class AccountService {
 						epochEnd: voting.endEpoch,
 						epochStatus: getVotingEpochStatus(voting.startEpoch, voting.endEpoch)
 					},
-					address: helper.publicKeyToAddress(voting.publicKey),
 					publicKey: voting.publicKey
 
 				})).sort((a, b) => {
