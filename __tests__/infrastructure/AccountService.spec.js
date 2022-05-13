@@ -35,7 +35,7 @@ describe('Account Service', () => {
 			const mockAccountAlias = [{
 				address: account.address.plain(),
 				names: [{
-					name: 'alias',
+					name: 'alias'
 				}]
 			}];
 
@@ -50,10 +50,25 @@ describe('Account Service', () => {
 
 			// Assert:
 			expect(accountInfo.address).toEqual(account.address.plain());
-			expect(accountInfo.votingList[0].epochInfo.epochStatus).toEqual('Current');
-			expect(accountInfo.votingList[1].epochInfo.epochStatus).toEqual('Future');
-			expect(accountInfo.votingList[2].epochInfo.epochStatus).toEqual('Expired');
 			expect(accountInfo.accountAliasNames).toEqual(['alias']);
+
+			const exceptedVotingInfo = [{
+				...mockAccountInfo.supplementalPublicKeys.voting[1],
+				epochStatus: 'Current'
+			}, {
+				...mockAccountInfo.supplementalPublicKeys.voting[2],
+				epochStatus: 'Future'
+			}, {
+				...mockAccountInfo.supplementalPublicKeys.voting[0],
+				epochStatus: 'Expired'
+			}];
+
+			accountInfo.votingList.forEach((voting, index) => {
+				expect(voting.epochInfo.epochStart).toEqual(exceptedVotingInfo[index].startEpoch);
+				expect(voting.epochInfo.epochEnd).toEqual(exceptedVotingInfo[index].endEpoch);
+				expect(voting.epochInfo.epochStatus).toEqual(exceptedVotingInfo[index].epochStatus);
+				expect(voting.publicKey).toEqual(exceptedVotingInfo[index].publicKey);
+			});
 		});
 	});
 
