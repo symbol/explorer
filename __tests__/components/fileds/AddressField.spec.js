@@ -5,7 +5,6 @@ import UI from '../../../src/store/ui';
 import { createLocalVue, shallowMount, RouterLinkStub } from '@vue/test-utils';
 import Vuex from 'vuex';
 
-
 const setupStoreMount = () => {
 	const uiModule = {
 		namespaced: true,
