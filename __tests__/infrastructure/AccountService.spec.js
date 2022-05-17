@@ -1,7 +1,7 @@
 import { AccountService, ChainService, NamespaceService, NodeService } from '../../src/infrastructure';
 import TestHelper from '../TestHelper';
 import { restore, stub } from 'sinon';
-import { Mosaic, UInt64, MosaicId } from 'symbol-sdk';
+import { Mosaic, UInt64, MosaicId, Account, NetworkType } from 'symbol-sdk';
 
 describe('Account Service', () => {
 	describe('getAccountInfo should', () => {
@@ -20,7 +20,8 @@ describe('Account Service', () => {
 
 		it('return account', async () => {
 			// Arrange:
-			const account = TestHelper.generateAccount(1)[0];
+			const mockPrivateKey = 'C074C68DFA5E234D801E5391757CC952B6478FCF15A2E2ED6E08EE52B4015001';
+			const account = Account.createFromPrivateKey(mockPrivateKey, NetworkType.TEST_NET);
 			const mockAccountInfo = TestHelper.mockAccountInfo(account);
 
 			const mockChainInfo = {
@@ -51,6 +52,7 @@ describe('Account Service', () => {
 			// Assert:
 			expect(accountInfo.address).toEqual(account.address.plain());
 			expect(accountInfo.accountAliasNames).toEqual(['alias']);
+			expect(accountInfo.accountLabel).toEqual('Mock Exchange');
 
 			const exceptedVotingInfo = [{
 				...mockAccountInfo.supplementalPublicKeys.voting[1],
@@ -142,6 +144,7 @@ describe('Account Service', () => {
 			accountList.data.forEach(account => {
 				expect(account).toHaveProperty('accountAliasNames');
 				expect(account).toHaveProperty('balance');
+				expect(account).toHaveProperty('accountLabel');
 			});
 		});
 

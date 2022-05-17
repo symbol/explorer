@@ -125,7 +125,8 @@ class AccountService {
 				balance: helper.getNetworkCurrencyBalance(account.mosaics) !== Constants.Message.UNAVAILABLE
 					? helper.getNetworkCurrencyBalance(account.mosaics)
 					: helper.toNetworkCurrency(0),
-				accountAliasNames: this.extractAccountNamespace(account, accountNames)
+				accountAliasNames: this.extractAccountNamespace(account, accountNames),
+				accountLabel: http.accountsLabel[account.address]
 			}))
 		};
 	}
@@ -196,7 +197,8 @@ class AccountService {
 
 					return orderStatus[a.epochInfo.epochStatus] - orderStatus[b.epochInfo.epochStatus];
 				}) : [],
-			accountAliasNames: this.extractAccountNamespace(accountInfo, accountNames)
+			accountAliasNames: this.extractAccountNamespace(accountInfo, accountNames),
+			accountLabel: http.accountsLabel[accountInfo.address]
 		};
 	}
 

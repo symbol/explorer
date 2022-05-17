@@ -22,7 +22,8 @@
                     "address",
                     "balance",
                     "importance",
-                    "accountAliasNames"
+                    "accountAliasNames",
+                    "accountLabel"
                 ],
                 "mobileFields": [
                     "address",
