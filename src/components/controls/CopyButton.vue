@@ -1,8 +1,5 @@
 <template>
-	<img
-        :src="IconCopy"
-        class="icon-copy noselect"
-        @click="onCopyClick" />
+	<img :src="IconCopy" class="icon-copy noselect" @click="onCopyClick" />
 </template>
 <script>
 import helper from '../../helper';
@@ -10,7 +7,7 @@ import IconCopy from '../../styles/img/copy.png';
 import TableView from '../../components/tables/TableView.vue';
 
 export default{
-	name: 'ButtonCopy',
+	name: 'CopyButton',
 	extends: TableView,
 	data () {
 		return {

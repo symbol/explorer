@@ -7,23 +7,23 @@
 		</div>
 
 		<span>
-			<ButtonCopy
+			<CopyButton
 				title="copy"
 				:value="value"
 				v-if="value"
-				successMessage="addressBeenCopied" />
+				successMessage="addressHasBeenCopied" />
 		</span>
 	</div>
 </template>
 <script>
-import ButtonCopy from '../../components/controls/ButtonCopy.vue';
+import CopyButton from '../../components/controls/CopyButton.vue';
 import TableView from '@/components/tables/TableView.vue';
 
 export default{
 	name: 'AddressField',
 	extends: TableView,
 	components: {
-		ButtonCopy
+		CopyButton
 	},
 	props: {
 		itemKey: {

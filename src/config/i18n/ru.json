@@ -291,7 +291,7 @@
     "aggregateCosignaturesError": "Соподписанты отсутствуют.",
     "accountBalanceTitle": "Account Balance",
     "noAlias": "No alias",
-    "addressBeenCopied": "The address was copied to the clipboard",
+    "addressHasBeenCopied": "The address was copied to the clipboard",
     "failedToCopy": "Failed to copy",
 
     "beneficiaryAddress": "Адрес Получателя",

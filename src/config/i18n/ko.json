@@ -291,7 +291,7 @@
 	"aggregateCosignaturesError": "공동서명자가 유효하지 않습니다.",
 	"accountBalanceTitle": "계좌 잔고",
 	"noAlias": "명칭 없음",
-	"addressBeenCopied": "주소가 클립보드에 복사되었습니다",
+	"addressHasBeenCopied": "주소가 클립보드에 복사되었습니다",
 	"failedToCopy": "복사 실패",
 
     "beneficiaryAddress": "수혜자 주소",

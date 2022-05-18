@@ -1,4 +1,4 @@
-import ButtonCopy from '../../../src/components/controls/ButtonCopy.vue';
+import CopyButton from '../../../src/components/controls/CopyButton.vue';
 import UI from '../../../src/store/ui';
 import { createLocalVue, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
@@ -22,7 +22,7 @@ const setupStoreMount = () => {
 		successMessage: 'success'
 	};
 
-	return shallowMount(ButtonCopy, {
+	return shallowMount(CopyButton, {
 		store,
 		localVue,
 		propsData,
@@ -37,8 +37,8 @@ const setupStoreMount = () => {
 const localVue = createLocalVue();
 localVue.use(Vuex);
 
-describe('Create ButtonCopy component', () => {
-	// Arrange
+describe('CopyButton component', () => {
+	// Arrange:
 	const wrapper = setupStoreMount();
 
 	it('processes props data', ()=> {
@@ -48,7 +48,7 @@ describe('Create ButtonCopy component', () => {
 	});
 
 	it('click on copy button', () =>{
-		// Arrange
+		// Arrange:
 		document.execCommand = jest.fn();
 
 		// Act:
