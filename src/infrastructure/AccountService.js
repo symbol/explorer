@@ -126,7 +126,7 @@ class AccountService {
 					? helper.getNetworkCurrencyBalance(account.mosaics)
 					: helper.toNetworkCurrency(0),
 				accountAliasNames: this.extractAccountNamespace(account, accountNames),
-				accountLabel: http.accountsLabel[account.address]
+				accountLabel: http.accountLabels[account.address]
 			}))
 		};
 	}
@@ -198,7 +198,7 @@ class AccountService {
 					return orderStatus[a.epochInfo.epochStatus] - orderStatus[b.epochInfo.epochStatus];
 				}) : [],
 			accountAliasNames: this.extractAccountNamespace(accountInfo, accountNames),
-			accountLabel: http.accountsLabel[accountInfo.address]
+			accountLabel: http.accountLabels[accountInfo.address]
 		};
 	}
 
