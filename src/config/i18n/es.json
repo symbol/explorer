@@ -413,5 +413,6 @@
     "lastEpoch": "Last Epoch",
     "currentEpoch": "Current Epoch",
     "value": "Value",
-    "blockReward": "Block Reward"
+    "blockReward": "Block Reward",
+    "accountLabel": "Label"
 }

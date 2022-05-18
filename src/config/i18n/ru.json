@@ -417,5 +417,6 @@
     "lastEpoch": "Last Epoch",
     "currentEpoch": "Current Epoch",
     "value": "Value",
-    "blockReward": "Награда за блок"
+    "blockReward": "Награда за блок",
+    "accountLabel": "Лейбл"
 }

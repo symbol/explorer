@@ -417,5 +417,6 @@
     "lastEpoch": "最終Epoch",
     "currentEpoch": "現在Epoch",
     "value": "値",
-    "blockReward": "ブロック報酬"
+    "blockReward": "ブロック報酬",
+    "accountLabel": "ラベル"
 }
