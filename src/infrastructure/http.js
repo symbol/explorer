@@ -16,6 +16,7 @@
  *
  */
 
+import accountLabels from '../config/accountLabels';
 import globalConfig from '../config/globalConfig';
 import { NamespaceService } from '../infrastructure';
 import * as symbol from 'symbol-sdk';
@@ -110,6 +111,10 @@ export default class http {
 
   static get epochAdjustment () {
 	  return EPOCH_ADJUSTMENT;
+  }
+
+  static get accountLabels () {
+    return accountLabels || {};
   }
 
   static get createRepositoryFactory () {
