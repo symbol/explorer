@@ -24,6 +24,9 @@ jest.mock('../../src/infrastructure/http', () => {
 			{
 				namespaceName: 'symbol.xym'
 			}
-		]
+		],
+		accountLabels: {
+			'TBNMIAJEUCUAQYUNEUP2FPULTOQ5SJ2ZTPNWXIA': 'Mock Exchange'
+		}
 	};
 });

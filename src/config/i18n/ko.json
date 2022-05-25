@@ -416,5 +416,6 @@
     "recentNamespaces": "최근 네임스페이스",
     "lastEpoch": "마지막 Epoch",
     "currentEpoch": "현재 Epoch",
-    "value": "값"
+    "value": "값",
+    "accountLabel": "라벨"
 }
