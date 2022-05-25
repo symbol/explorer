@@ -19,10 +19,10 @@ export default{
 			type: String,
 			required: true
 		},
-        successMessage: {
-            type: String,
-            default: 'value'
-        }
+		successMessage: {
+			type: String,
+			default: 'value'
+		}
 	},
 	methods: {
 		onCopyClick () {
