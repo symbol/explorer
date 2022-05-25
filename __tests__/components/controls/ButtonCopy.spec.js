@@ -1,6 +1,8 @@
 import CopyButton from '../../../src/components/controls/CopyButton.vue';
+import helper from '../../../src/helper';
 import UI from '../../../src/store/ui';
 import { createLocalVue, shallowMount } from '@vue/test-utils';
+import { stub, restore } from 'sinon';
 import Vuex from 'vuex';
 
 const setupStoreMount = () => {
@@ -19,7 +21,7 @@ const setupStoreMount = () => {
 
 	const propsData = {
 		value: 'copy text',
-		successMessage: 'success'
+		successMessage: 'addressHasBeenCopied'
 	};
 
 	return shallowMount(CopyButton, {
@@ -28,7 +30,7 @@ const setupStoreMount = () => {
 		propsData,
 		mocks: {
 			$bvToast: {
-				toast: jest.fn()
+				toast: jest.fn(message => message)
 			}
 		}
 	});
@@ -38,23 +40,69 @@ const localVue = createLocalVue();
 localVue.use(Vuex);
 
 describe('CopyButton component', () => {
-	// Arrange:
-	const wrapper = setupStoreMount();
+	let wrapper = {};
 
-	it('processes props data', ()=> {
-		// Assert:
-		expect(wrapper.vm.value).toMatch('copy text');
-		expect(wrapper.vm.successMessage).toMatch('success');
+	beforeEach(() => {
+		wrapper = setupStoreMount();
 	});
 
-	it('click on copy button', () =>{
+	afterEach(restore)
+
+	it('processes props data', () => {
+		// Assert:
+		expect(wrapper.vm.value).toMatch('copy text');
+		expect(wrapper.vm.successMessage).toMatch('addressHasBeenCopied');
+	});
+
+	it('success to copy text', async () => {
 		// Arrange:
-		document.execCommand = jest.fn();
+		stub(helper, 'copyTextToClipboard').returns(Promise.resolve());
+
+		const mockSuccessMsgMethod = jest.fn()
+		wrapper.setMethods({ successMsg: mockSuccessMsgMethod })
 
 		// Act:
-		wrapper.vm.onCopyClick();
+		await wrapper.vm.onCopyClick();
 
 		// Assert:
-		expect(document.execCommand).toHaveBeenCalledWith('copy');
+		expect(mockSuccessMsgMethod).toHaveBeenCalled();
+	});
+
+	it('fail to copy text', async () => {
+		// Arrange:
+		stub(helper, 'copyTextToClipboard').returns(Promise.reject(Error('error')));
+
+		const mockErrorMsgMethod = jest.fn()
+		wrapper.setMethods({ errorMsg: mockErrorMsgMethod })
+
+		// Act:
+		await wrapper.vm.onCopyClick();
+
+		// Assert:
+		expect(mockErrorMsgMethod).toHaveBeenCalled();
+	});
+
+	it('returns success toast message', () => {
+		// Arrange + Act:
+		wrapper.vm.successMsg();
+
+		// Assert:
+		expect(wrapper.vm.$bvToast.toast).toHaveBeenCalled();
+		expect(wrapper.vm.$bvToast.toast).toHaveBeenCalledWith(
+			'The address was copied to the clipboard',
+			{'noCloseButton': true, 'solid': true, 'variant': 'success'}
+		);
+	});
+
+	it('returns error toast message', () => {
+		// Arrange + Act:
+		wrapper.vm.errorMsg();
+
+		// Assert:
+		expect(wrapper.vm.$bvToast.toast).toHaveBeenCalled();
+		expect(wrapper.vm.$bvToast.toast).toHaveBeenCalledWith(
+			'Failed to copy',
+			{'noCloseButton': true, 'solid': true, 'variant': 'danger'}
+		);
 	});
 });

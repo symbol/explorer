@@ -26,7 +26,7 @@ export default{
 	},
 	methods: {
 		onCopyClick () {
-			helper.copyTextToClipboard(this.value)
+			return helper.copyTextToClipboard(this.value)
 				.then(() => this.successMsg())
 				.catch(() => this.errorMsg());
 		},
