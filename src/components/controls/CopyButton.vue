@@ -52,10 +52,10 @@ export default{
 </script>
 <style lang="scss" scoped>
 .icon-copy {
-	margin-top: -2px;
-	margin-left: 5px;
-	opacity: 0.5;
-	cursor: pointer;
-	padding: 0 2px;
+    margin-top: -2px;
+    margin-left: 5px;
+    opacity: 0.5;
+    cursor: pointer;
+    padding: 0 2px;
 }
 </style>

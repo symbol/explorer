@@ -45,18 +45,18 @@ export default{
 
 <style lang="scss" scoped>
 span {
-	align-items: center;
-	display: flex;
+    align-items: center;
+    display: flex;
 }
 
 .address-field {
-	width: 100%;
-	display: flex;
-	flex-direction: row;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
 }
 
 .address {
-	max-width: 340px;
-	width: 90%;
+    max-width: 340px;
+    width: 90%;
 }
 </style>
