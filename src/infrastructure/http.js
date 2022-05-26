@@ -114,7 +114,7 @@ export default class http {
   }
 
   static get accountLabels () {
-    return accountLabels || {};
+  	return accountLabels || {};
   }
 
   static get createRepositoryFactory () {
