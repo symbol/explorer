@@ -30,7 +30,7 @@
     "nem-sdk": "^1.6.8",
     "symbol-sdk": "^2.0.0",
     "symbol-statistics-service-typescript-fetch-client": "^1.1.5",
-    "url-parse": "^1.5.9",
+    "url-parse": "^1.5.10",
     "vue": "^2.6.11",
     "vue-apexcharts": "^1.6.0",
     "vue-infinite-loading": "^2.4.5",
