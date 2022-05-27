@@ -118,7 +118,7 @@ export default {
 		},
 
 		successMsg () {
-			this.$bvToast.toast(this.getNameByKey('addressBeenCopied'), {
+			this.$bvToast.toast(this.getNameByKey('addressHasBeenCopied'), {
 				variant: 'success',
 				solid: true,
 				'noCloseButton': true

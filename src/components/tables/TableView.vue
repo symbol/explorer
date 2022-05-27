@@ -130,6 +130,12 @@ export default {
 				'previousRestrictionType',
 				'restrictionType',
 				'mosaicRestrictionType'
+			],
+			Address: [
+				'address',
+				'ownerAddress',
+				'recipient',
+				'signer',
 			]
 		};
 	},
@@ -177,6 +183,10 @@ export default {
 
 		isArrayField (itemKey) {
 			return -1 !== this.allowArrayToView.indexOf(itemKey);
+		},
+
+		isAddressField (itemKey) {
+			return -1 !== this.Address.indexOf(itemKey);
 		},
 
 		isTruncate (key) {

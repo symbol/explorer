@@ -291,7 +291,7 @@
     "aggregateCosignaturesError": "連署者が有効ではありません",
     "accountBalanceTitle": "アカウント残高",
     "noAlias": "エイリアスなし",
-    "addressBeenCopied": "アドレスはクリップボードへコピーされました",
+    "addressHasBeenCopied": "アドレスはクリップボードへコピーされました",
     "failedToCopy": "コピーに失敗しました",
 
     "beneficiaryAddress": "受益者アドレス",
