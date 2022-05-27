@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@babel/plugin-proposal-optional-chaining": "^7.8.3",
-    "@babel/plugin-proposal-pipeline-operator": "^7.8.3",
+    "@babel/plugin-proposal-pipeline-operator": "^7.18.2",
     "@mdi/font": "^5.2.45",
     "apexcharts": "^3.24.0",
     "await-lock": "^2.0.1",
