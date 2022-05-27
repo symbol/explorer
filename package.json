@@ -42,7 +42,7 @@
   },
   "devDependencies": {
     "@babel/plugin-proposal-export-default-from": "^7.8.3",
-    "@vue/cli-plugin-babel": "~4.5.15",
+    "@vue/cli-plugin-babel": "~5.0.4",
     "@vue/cli-plugin-e2e-cypress": "^4.5.15",
     "@vue/cli-plugin-unit-jest": "^4.4.4",
     "@vue/cli-service": "^4.5.15",
