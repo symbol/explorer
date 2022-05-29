@@ -25,7 +25,7 @@
     "chart.js": "^2.9.4",
     "leaflet": "^1.6.0",
     "leaflet.markercluster": "^1.4.1",
-    "merkletreejs": "^0.2.9",
+    "merkletreejs": "^0.2.31",
     "moment-timezone": "^0.5.28",
     "nem-sdk": "^1.6.8",
     "symbol-sdk": "^2.0.0",
