@@ -208,7 +208,7 @@ const TestHelper = {
 	 * @param {number} blockHeight block height.
 	 * @returns {object} transaction.
 	 */
-	mockTransaction: blockHeight => {
+	mockTransaction: ({height, timestamp}) => {
 		return {
 			deadline: {
 				adjustedValue: 8266897456
@@ -217,7 +217,14 @@ const TestHelper = {
 			type: 16724,
 			networkType: NetworkType.TEST_NET,
 			version: 1,
-			transactionInfo: new TransactionInfo(UInt64.fromUint(blockHeight), 1, 1, generateRandomHash()),
+			transactionInfo: {
+				index: 1,
+				id: 1,
+				height,
+				timestamp,
+				feeMultiplier: 10,
+				hash: generateRandomHash()
+			},
 			payloadSize: 176,
 			signature: generateRandomHash(64),
 			signer: {
