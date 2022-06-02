@@ -249,15 +249,12 @@ class AccountService {
 			};
 		}
 
-		const blockHeight = [...new Set(accountTransactions.data.map(data => data.transactionInfo.height))];
-
-		const blockInfos = await Promise.all(blockHeight.map(height => BlockService.getBlockInfo(height)));
 
 		return {
 			...accountTransactions,
 			data: accountTransactions.data.map(({ deadline, ...accountTransaction }) => ({
 				...accountTransaction,
-				timestamp: blockInfos.find(block => block.height === accountTransaction.transactionInfo.height).timestamp,
+				timestamp: accountTransaction.transactionInfo.timestamp,
 				blockHeight: accountTransaction.transactionInfo.height,
 				transactionHash: accountTransaction.transactionInfo.hash,
 				transactionType: accountTransaction.type === TransactionType.TRANSFER

@@ -1,14 +1,8 @@
-import { TransactionService, BlockService} from '../../src/infrastructure';
+import { TransactionService } from '../../src/infrastructure';
 import TestHelper from '../TestHelper';
 import { restore, stub } from 'sinon';
 
 describe('Transaction Service', () => {
-	let getBlockInfo = {};
-
-	beforeEach(() => {
-		getBlockInfo = stub(BlockService, 'getBlockInfo');
-	});
-
 	afterEach(restore);
 
 	describe('getTransactionInfo should', () => {
@@ -21,14 +15,14 @@ describe('Transaction Service', () => {
 				}
 			};
 
-			const mockTransactionEffectiveFee = '0.019536';
+			const mockTransactionEffectiveFee = '0.001760';
 
 			const mockBlockInfo = {
 				height: 198327,
-				timestamp: '1646063763'
+				timestamp: 1646063763
 			};
 
-			const mockTransferTransaction = TestHelper.mockTransaction(mockBlockInfo.height);
+			const mockTransferTransaction = TestHelper.mockTransaction(mockBlockInfo);
 
 			const mockCreateTransactionFromSDK = {
 				...mockTransferTransaction,
@@ -59,11 +53,6 @@ describe('Transaction Service', () => {
 
 			const getTransaction = stub(TransactionService, 'getTransaction');
 			getTransaction.returns(Promise.resolve(mockTransferTransaction));
-
-			const getTransactionEffectiveFee = stub(TransactionService, 'getTransactionEffectiveFee');
-			getTransactionEffectiveFee.returns(Promise.resolve(mockTransactionEffectiveFee));
-
-			getBlockInfo.returns(Promise.resolve(mockBlockInfo));
 
 			const createTransactionFromSDK = stub(TransactionService, 'createTransactionFromSDK');
 			createTransactionFromSDK.returns(Promise.resolve(mockCreateTransactionFromSDK));
@@ -99,20 +88,18 @@ describe('Transaction Service', () => {
 
 			const mockBlockInfo = {
 				height: 198327,
-				timestamp: '1646063763'
+				timestamp: 1646063763
 			};
 
 			const mockSearchTransactions = {
 				...pageInfo,
 				data: [
-					TestHelper.mockTransaction(mockBlockInfo.height)
+					TestHelper.mockTransaction(mockBlockInfo)
 				]
 			};
 
 			const searchTransactions = stub(TransactionService, 'searchTransactions');
 			searchTransactions.returns(Promise.resolve(mockSearchTransactions));
-
-			getBlockInfo.returns(Promise.resolve(mockBlockInfo));
 
 			// Act:
 			const transactionList = await TransactionService.getTransactionList(pageInfo, {});

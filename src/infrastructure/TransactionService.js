@@ -20,7 +20,6 @@ import http from './http';
 import Constants from '../config/constants';
 import helper from '../helper';
 import {
-	BlockService,
 	LockService,
 	CreateTransaction
 } from '../infrastructure';
@@ -111,19 +110,6 @@ class TransactionService {
   }
 
   /**
-   * Gets a transaction's effective paid fee
-   * @param {string} hash Transaction hash
-   * @returns {string} formatted effectiveFee string
-   */
-  static getTransactionEffectiveFee = async hash => {
-  	let effectiveFee = await http.createRepositoryFactory.createTransactionRepository()
-  		.getTransactionEffectiveFee(hash)
-  		.toPromise();
-
-  	return helper.toNetworkCurrency(effectiveFee);
-  }
-
-  /**
    * Gets Formatted Transaction Info for Vue component
    * @param {string} hash Transaction hash
    * @returns {object} Custom Transaction object
@@ -133,21 +119,14 @@ class TransactionService {
   	const transactionGroup = transactionStatus.message;
   	const transaction = await this.getTransaction(hash, transactionGroup);
 
-  	const [{ timestamp }, effectiveFee] = await Promise.all([
-		  BlockService.getBlockInfo(UInt64.fromUint(transaction.transactionInfo.height))
-		  	.catch(() => ({ timestamp: null })),
-		  this.getTransactionEffectiveFee(hash)
-		  	.catch(() => null)
-	  ]);
-
   	const formattedTransaction = await this.createTransactionFromSDK(transaction);
 
   	const transactionInfo = {
 		  ...formattedTransaction,
 		  blockHeight: formattedTransaction.transactionInfo.height || undefined,
 		  transactionHash: formattedTransaction.transactionInfo.hash,
-		  effectiveFee,
-		  timestamp,
+		  effectiveFee: helper.toNetworkCurrency(formattedTransaction.payloadSize * formattedTransaction.transactionInfo.feeMultiplier),
+		  timestamp: formattedTransaction.transactionInfo.timestamp | null,
 		  status: transactionStatus.detail.code,
 		  confirm: transactionStatus.message
   	};
@@ -218,10 +197,6 @@ class TransactionService {
   		};
   	}
 
-  	const blocksHeight = [...new Set(transactions.data.map(data => data.transactionInfo.height))];
-
-  	const blockInfos = await Promise.all(blocksHeight.map(height => BlockService.getBlockInfo(height)));
-
   	// Cap data in 50 pages
   	const totalRecords = 50 * pageSize;
 
@@ -230,7 +205,7 @@ class TransactionService {
   		totalRecords,
   		data: transactions.data.map(({ deadline, ...transaction }) => ({
   			...transaction,
-  			age: helper.convertToUTCDate(blockInfos.find(block => block.height === transaction.transactionInfo.height).timestamp),
+  			age: helper.convertToUTCDate(transaction.transactionInfo.timestamp),
   			height: transaction.transactionInfo.height,
   			transactionHash: transaction.transactionInfo.hash,
   			transactionType: transaction.type,
@@ -509,7 +484,8 @@ class TransactionService {
   	if (transactionInfo instanceof TransactionInfo) {
   		return {
   			...transactionInfo,
-  			height: transactionInfo.height.compact()
+  			height: transactionInfo.height.compact(),
+  			timestamp: helper.networkTimestamp(Number(transactionInfo.timestamp.toString()))
   		};
   	}
 
