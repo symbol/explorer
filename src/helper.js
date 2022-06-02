@@ -245,14 +245,13 @@ class helper {
 	 * @returns {string} network currency balance.
 	 */
 	static getNetworkCurrencyBalance = mosaics => {
-		let mosaic = mosaics.find(mosaic =>
-			mosaic.id.toHex() === http.networkCurrency.mosaicId ||
+		const networkCurrencyMosaic = mosaics.filter(mosaic => mosaic.id.toHex() === http.networkCurrency.mosaicId ||
 			(mosaic.id instanceof NamespaceId &&
-				mosaic.id.toHex() === http.networkCurrency.namespaceId));
+			mosaic.id.toHex() === http.networkCurrency.namespaceId));
 
-		let balance = mosaic !== undefined ? this.toNetworkCurrency(mosaic.amount) : Constants.Message.UNAVAILABLE;
+		const totalNetworkCurrencyAmount = networkCurrencyMosaic.reduce((acc, cur) => acc + Number(cur.amount.toString()), 0);
 
-		return balance;
+		return 0 < networkCurrencyMosaic.length ? this.toNetworkCurrency(totalNetworkCurrencyAmount) : Constants.Message.UNAVAILABLE;
 	}
 
 	/**
@@ -508,6 +507,9 @@ class helper {
 		if (!(unresolvedMosaicId instanceof NamespaceId))
 			return unresolvedMosaicId.id;
 
+		if (unresolvedMosaicId.id.toHex() === http.networkCurrency.namespaceId)
+			return new MosaicId(http.networkCurrency.mosaicId).id;
+
 		const mosaicId = await NamespaceService.getLinkedMosaicId(unresolvedMosaicId);
 
 		return mosaicId.id;
@@ -546,41 +548,35 @@ class helper {
 
 		let mosaicsFieldObject = [];
 
-		for (const resolvedMosaic of resolvedMosaics) {
-			if (resolvedMosaic.id.toHex() === http.networkCurrency.mosaicId) {
-				mosaicsFieldObject.push(this.networkCurrencyMosaicBuilder(resolvedMosaic));
-			} else {
-				if (0 < mosaicInfos.length && 0 < mosaicNames.length) {
-					let { divisibility } = mosaicInfos.find(info => info.mosaicId === resolvedMosaic.id.toHex());
+		const uniqueMosaicIds = [...new Set(resolvedMosaics.map(mosaic => mosaic.id.toHex()))];
 
-					mosaicsFieldObject.push({
-						...resolvedMosaic,
-						rawAmount: resolvedMosaic.amount,
-						mosaicId: resolvedMosaic.id.toHex(),
-						amount: helper.formatMosaicAmountWithDivisibility(resolvedMosaic.amount, divisibility),
-						mosaicAliasName: MosaicService.extractMosaicNamespace({ mosaicId: resolvedMosaic.id.toHex() }, mosaicNames)
-					});
-				}
+		uniqueMosaicIds.forEach(idHex => {
+			const mosaics = resolvedMosaics.filter(mosaic => mosaic.id.toHex() === idHex);
+
+			const sumAmount = mosaics.reduce((acc, cur) => acc + Number(cur.amount.toString()), 0);
+
+			if (idHex === http.networkCurrency.mosaicId) {
+				mosaicsFieldObject.push({
+					...mosaics[0],
+					rawAmount: UInt64.fromUint(sumAmount),
+					mosaicId: mosaics[0].id.toHex(),
+					amount: this.formatMosaicAmountWithDivisibility(sumAmount, http.networkCurrency.divisibility),
+					mosaicAliasName: http.networkCurrency.namespaceName
+				});
+			} else {
+				const { divisibility } = mosaicInfos.find(info => info.mosaicId === mosaics[0].id.toHex());
+
+				mosaicsFieldObject.push({
+					...mosaics[0],
+					rawAmount: mosaics[0].amount,
+					mosaicId: mosaics[0].id.toHex(),
+					amount: helper.formatMosaicAmountWithDivisibility(mosaics[0].amount, divisibility),
+					mosaicAliasName: MosaicService.extractMosaicNamespace({ mosaicId: mosaics[0].id.toHex() }, mosaicNames)
+				});
 			}
-		}
+		});
 
 		return mosaicsFieldObject;
-	}
-
-	static networkCurrencyMosaicBuilder = mosaic => {
-		if (!(mosaic instanceof Mosaic))
-			throw new Error('It required Mosaic instance.');
-
-		if (mosaic.id.toHex() !== http.networkCurrency.mosaicId)
-			throw new Error('Mosaic id does not match network Currency.');
-
-		return {
-			...mosaic,
-			rawAmount: mosaic.amount,
-			mosaicId: mosaic.id.toHex(),
-			amount: this.formatMosaicAmountWithDivisibility(mosaic.amount, http.networkCurrency.divisibility),
-			mosaicAliasName: http.networkCurrency.namespaceName
-		};
 	}
 
 	/**
