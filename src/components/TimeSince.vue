@@ -17,6 +17,7 @@
 </template>
 <script>
 import moment from 'moment';
+import http from '../infrastructure/http';
 
 export default {
 	name: 'TimeSince',
@@ -53,9 +54,18 @@ export default {
 	},
 	methods: {
 		updateDateAge () {
-			const now = moment(moment.utc(Date.now()).format(), 'YYYY-MM-DD HH:mm:ss').utc();
+			let now, date;
+			switch (http.timezone) {
+				case 'UTC':
+					now = moment(Date.now()).utc();
+					date = moment(this.date).utc();
+					break;
 
-			const date = moment(this.date, 'YYYY-MM-DD HH:mm:ss').utc();
+				case 'Local':
+					now = moment(Date.now()).local();
+					date = moment(this.date).local();
+					break;
+			}
 
 			let diff = Math.max(0, now.diff(date)) || 0;
 
