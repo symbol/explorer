@@ -273,10 +273,6 @@ class helper {
 		case 'Local':
 			date.local();
 			break;
-
-		default:
-			date.local();
-			break;
 		}
 
 		return date.format('YYYY-MM-DD HH:mm:ss');
