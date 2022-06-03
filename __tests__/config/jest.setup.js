@@ -27,6 +27,7 @@ jest.mock('../../src/infrastructure/http', () => {
 		],
 		accountLabels: {
 			'TBNMIAJEUCUAQYUNEUP2FPULTOQ5SJ2ZTPNWXIA': 'Mock Exchange'
-		}
+		},
+		timezone: 'Local'
 	};
 });
