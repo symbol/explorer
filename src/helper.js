@@ -256,13 +256,6 @@ class helper {
 	}
 
 	/**
-	 * Convert networkTimestamp to UTC date.
-	 * @param {number} networkTimestamp network timestamp.
-	 * @returns {string} UTC date with format YYYY-MM-DD HH:mm:ss.
-	 */
-	static convertToUTCDate = networkTimestamp => moment.utc(networkTimestamp * 1000).format('YYYY-MM-DD HH:mm:ss')
-
-	/**
 	 * Convert networkTimestamp to date.
 	 * @param {number} networkTimestamp network timestamp in seconds.
 	 * @param {'UTC' | 'Local'} type time zone 'UTC' or 'Local'.
@@ -368,13 +361,6 @@ class helper {
 	 */
 	static convertSecondToDate = second => moment.utc().add(second, 's')
 		.format('YYYY.MM.DD @ HH:mm UTC')
-
-	/**
-	 * Convert block deadline to date.
-	 * @param {number} deadline - deadline from block.
-	 * @returns {string} YYYY-MM-DD HH:mm:ss.
-	 */
-	static convertDeadlinetoDate = deadline => this.convertToUTCDate(this.networkTimestamp(deadline))
 
 	/**
 	 * Converts an HSL color value to RGB. Conversion formula
