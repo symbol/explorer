@@ -205,7 +205,7 @@ class TransactionService {
   		totalRecords,
   		data: transactions.data.map(({ deadline, ...transaction }) => ({
   			...transaction,
-  			age: helper.convertToUTCDate(transaction.transactionInfo.timestamp),
+  			age: helper.convertTimestampToDate(transaction.transactionInfo.timestamp),
   			height: transaction.transactionInfo.height,
   			transactionHash: transaction.transactionInfo.hash,
   			transactionType: transaction.type,

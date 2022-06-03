@@ -18,7 +18,7 @@
 
 <template>
 	<div class="date-container">
-		<span :title="utcDate(timestamp)" >{{ utcDate(timestamp) }}</span>
+		<span :title="showDate(timestamp)" >{{ showDate(timestamp) }}</span>
 
 		<span v-if="isShowTimestamp" class="timestamp">{{ getNameByKey('symbolTime') }} : {{ timestamp }}</span>
 	</div>
@@ -36,8 +36,8 @@ export default {
 		}
 	},
 	methods: {
-		utcDate (timestamp) {
-			return helper.convertToUTCDate(timestamp);
+		showDate (timestamp) {
+			return helper.convertTimestampToDate(timestamp);
 		},
 		getNameByKey (e) {
 			return this.$store.getters['ui/getNameByKey'](e);
