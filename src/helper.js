@@ -565,20 +565,20 @@ class helper {
 			};
 
 			if (idHex === http.networkCurrency.mosaicId) {
-				mosaicsFieldObject.push({
-					...mosaicField,
+				Object.assign(mosaicField, {
 					amount: this.formatMosaicAmountWithDivisibility(sumAmount, http.networkCurrency.divisibility),
 					mosaicAliasName: http.networkCurrency.namespaceName
 				});
 			} else {
 				const { divisibility } = mosaicInfos.find(info => info.mosaicId === mosaics[0].id.toHex());
 
-				mosaicsFieldObject.push({
-					...mosaicField,
-					amount: helper.formatMosaicAmountWithDivisibility(sumAmount, divisibility),
+				Object.assign(mosaicField, {
+					amount: this.formatMosaicAmountWithDivisibility(sumAmount, divisibility),
 					mosaicAliasName: MosaicService.extractMosaicNamespace({ mosaicId: mosaics[0].id.toHex() }, mosaicNames)
 				});
 			}
+
+			mosaicsFieldObject.push(mosaicField);
 		});
 
 		return mosaicsFieldObject;
