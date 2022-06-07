@@ -93,6 +93,10 @@ export default class http {
   	};
   }
 
+  static get timezone () {
+	  return globalConfig.timezone || 'Local';
+  }
+
   static get marketDataUrl () {
   	return MARKET_DATA_URL;
   }

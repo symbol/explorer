@@ -17,7 +17,7 @@
 						<BlockHeightWithFinalizedStatusField v-else-if="isBlockHeightWithFinalizedStatus(itemKey)" :value="item" />
 						<Boolean v-else-if="isBoolean(itemKey)" :value="item" style="transform: scale(0.7, 0.7);"/>
 						<Age v-else-if="isAge(itemKey)" :date="item" />
-						<DateField v-else-if="itemKey === 'timestamp'" :timestamp="item" />
+						<DateField v-else-if="isDateField(itemKey)" :timestamp="item" />
 						<MessageField v-else-if="itemKey === 'message'" :value="item" />
 						<Harvester v-else-if="itemKey === 'harvester'" :value="item" />
 
