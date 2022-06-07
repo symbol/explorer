@@ -49,7 +49,7 @@ describe('DateField component', () => {
 		unregister();
 	});
 
-	it('renders date and timestamp', async () => {
+	it('renders date and timestamp when shouldShowTimestamp is true', async () => {
 		// Act:
 		await wrapper.vm.showDate(timestamp);
 
@@ -59,7 +59,7 @@ describe('DateField component', () => {
 			+ '<span class=\"timestamp\">Symbol Time : 1615853185</span></div>');
 	});
 
-	it('renders date only', async () => {
+	it('renders date only when shouldShowTimestamp is false', async () => {
 		// Arrange:
 		wrapper.setProps({
 			timestamp: 1615853185,

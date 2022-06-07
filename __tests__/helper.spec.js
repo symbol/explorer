@@ -17,7 +17,7 @@ describe('Helper', () => {
 		});
 	});
 
-	describe('convertTimestampToDate converts', () => {
+	describe('convertTimestampToDate', () => {
 		// Arrange:
 		const networkTimestamp = 1615853185;
 
@@ -34,7 +34,7 @@ describe('Helper', () => {
 			unregister();
 		});
 
-		it('timestamp in local date', () => {
+		it('converts timestamp in local date', () => {
 			// Act:
 			const date = Helper.convertTimestampToDate(networkTimestamp, 'Local');
 
@@ -42,7 +42,7 @@ describe('Helper', () => {
 			expect(date).toEqual(expectedDateTime.local);
 		});
 
-		it('timestamp in utc date', () => {
+		it('converts timestamp in utc date', () => {
 			// Act:
 			const date = Helper.convertTimestampToDate(networkTimestamp, 'UTC');
 
@@ -50,7 +50,7 @@ describe('Helper', () => {
 			expect(date).toEqual(expectedDateTime.UTC);
 		});
 
-		it('timestamp to default date (local)', () => {
+		it('converts timestamp in default date (local) when timezone type parameter is omitted', () => {
 			// Act:
 			const date = Helper.convertTimestampToDate(networkTimestamp);
 
