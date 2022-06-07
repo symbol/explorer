@@ -21,7 +21,7 @@ const setupStoreMount = () => {
 
 	const propsData = {
 		timestamp: 1615853185,
-		isShowTimestamp: true
+		shouldShowTimestamp: true
 	};
 
 	return shallowMount(DateField, {
@@ -49,19 +49,28 @@ describe('DateField component', () => {
 		unregister();
 	});
 
-	it('processes props data', ()=> {
-		// Assert:
-		expect(wrapper.vm.timestamp).toBe(timestamp);
-		expect(wrapper.vm.isShowTimestamp).toBe(true);
-	});
-
 	it('renders date and timestamp', async () => {
 		// Act:
 		await wrapper.vm.showDate(timestamp);
 
 		// Assert:
 		expect(wrapper.html()).toMatch('<div class=\"date-container\">'
-            + '<span title=\"2021-03-16 08:06:25\">2021-03-16 08:06:25</span> '
-            + '<span class=\"timestamp\">Symbol Time : 1615853185</span></div>');
+			+ '<span title=\"2021-03-16 08:06:25\">2021-03-16 08:06:25</span> '
+			+ '<span class=\"timestamp\">Symbol Time : 1615853185</span></div>');
+	});
+
+	it('renders date only', async () => {
+		// Arrange:
+		wrapper.setProps({
+			timestamp: 1615853185,
+			shouldShowTimestamp: false
+		});
+
+		// Act:
+		await wrapper.vm.showDate(timestamp);
+
+		// Assert:
+		expect(wrapper.html()).toMatch('<div class=\"date-container\">'
+			+ '<span title=\"2021-03-16 08:06:25\">2021-03-16 08:06:25</span>');
 	});
 });

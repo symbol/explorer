@@ -20,7 +20,7 @@
 	<div class="date-container">
 		<span :title="showDate(timestamp)" >{{ showDate(timestamp) }}</span>
 
-		<span v-if="isShowTimestamp" class="timestamp">{{ getNameByKey('symbolTime') }} : {{ timestamp }}</span>
+		<span v-if="shouldShowTimestamp" class="timestamp">{{ getNameByKey('symbolTime') }} : {{ timestamp }}</span>
 	</div>
 </template>
 <script>
@@ -30,7 +30,7 @@ export default {
 	name: 'DateField',
 	props: {
 		timestamp: Number,
-		isShowTimestamp: {
+		shouldShowTimestamp: {
 			type: Boolean,
 			default: false
 		}

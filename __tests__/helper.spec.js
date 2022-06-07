@@ -17,31 +17,45 @@ describe('Helper', () => {
 		});
 	});
 
-	describe('convertTimestampToDate should', () => {
+	describe('convertTimestampToDate converts', () => {
 		// Arrange:
 		const networkTimestamp = 1615853185;
+
+		const expectedDateTime = {
+			local: '2021-03-16 08:06:25',
+			UTC: '2021-03-16 00:06:25'
+		};
+
+		beforeEach(() => {
+			register('Etc/GMT-8');
+		});
 
 		afterEach(() => {
 			unregister();
 		});
 
-		it('convert timestamp in local date', () => {
-			// Arrange:
-			register('Etc/GMT-8');
-
+		it('timestamp in local date', () => {
 			// Act:
 			const date = Helper.convertTimestampToDate(networkTimestamp, 'Local');
 
 			// Assert:
-			expect(date).toEqual('2021-03-16 08:06:25');
+			expect(date).toEqual(expectedDateTime.local);
 		});
 
-		it('convert timestamp in utc date', () => {
+		it('timestamp in utc date', () => {
 			// Act:
 			const date = Helper.convertTimestampToDate(networkTimestamp, 'UTC');
 
 			// Assert:
-			expect(date).toEqual('2021-03-16 00:06:25');
+			expect(date).toEqual(expectedDateTime.UTC);
+		});
+
+		it('timestamp to default date (local)', () => {
+			// Act:
+			const date = Helper.convertTimestampToDate(networkTimestamp);
+
+			// Assert:
+			expect(date).toEqual(expectedDateTime.local);
 		});
 	});
 });
