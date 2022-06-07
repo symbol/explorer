@@ -234,7 +234,10 @@ class helper {
 	 * @returns {string} relativeAmount in string
 	 */
 	static formatMosaicAmountWithDivisibility = (amount, divisibility) => {
-		let relativeAmount = 0 !== divisibility ? amount / Math.pow(10, divisibility) : amount.compact();
+		if ('number' !== typeof amount)
+			throw new Error('amount must be a number');
+
+		let relativeAmount = amount / Math.pow(10, divisibility);
 
 		return relativeAmount.toLocaleString('en-US', { minimumFractionDigits: divisibility });
 	}
@@ -555,11 +558,15 @@ class helper {
 
 			const sumAmount = mosaics.reduce((acc, cur) => acc + Number(cur.amount.toString()), 0);
 
+			const mosaicField = {
+				...mosaics[0],
+				rawAmount: UInt64.fromUint(sumAmount),
+				mosaicId: mosaics[0].id.toHex()
+			};
+
 			if (idHex === http.networkCurrency.mosaicId) {
 				mosaicsFieldObject.push({
-					...mosaics[0],
-					rawAmount: UInt64.fromUint(sumAmount),
-					mosaicId: mosaics[0].id.toHex(),
+					...mosaicField,
 					amount: this.formatMosaicAmountWithDivisibility(sumAmount, http.networkCurrency.divisibility),
 					mosaicAliasName: http.networkCurrency.namespaceName
 				});
@@ -567,10 +574,8 @@ class helper {
 				const { divisibility } = mosaicInfos.find(info => info.mosaicId === mosaics[0].id.toHex());
 
 				mosaicsFieldObject.push({
-					...mosaics[0],
-					rawAmount: mosaics[0].amount,
-					mosaicId: mosaics[0].id.toHex(),
-					amount: helper.formatMosaicAmountWithDivisibility(mosaics[0].amount, divisibility),
+					...mosaicField,
+					amount: helper.formatMosaicAmountWithDivisibility(sumAmount, divisibility),
 					mosaicAliasName: MosaicService.extractMosaicNamespace({ mosaicId: mosaics[0].id.toHex() }, mosaicNames)
 				});
 			}

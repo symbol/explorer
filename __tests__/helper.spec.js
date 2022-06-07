@@ -1,14 +1,17 @@
 import TestHelper from './TestHelper';
 import Helper from '../src/helper';
-import { register, unregister } from 'timezone-mock';
 import { MosaicService, NamespaceService } from '../src/infrastructure';
 import http from '../src/infrastructure/http';
 import { stub, restore } from 'sinon';
-import { Mosaic, MosaicId, UInt64, NamespaceId } from 'symbol-sdk';
+import { Mosaic, MosaicId, UInt64, NamespaceId, NamespaceName } from 'symbol-sdk';
+import { register, unregister } from 'timezone-mock';
 
-const mockTestMosaicHex = '6B2E9EAF2632AEC8';
+const mockTestMosaic = {
+	idHex: '6B2E9EAF2632AEC8',
+	namespaceName: 'namespace_mosaic'
+};
 
-describe('Helper', () => {
+describe.only('Helper', () => {
 	describe('hslToRgb should', () => {
 		it('return rgb', () => {
 			// Arrange:
@@ -69,13 +72,15 @@ describe('Helper', () => {
 	describe('mosaicsFieldObjectBuilder should', () => {
 		beforeEach(() => {
 			stub(MosaicService, 'getMosaics').resolves(Promise.resolve([
-				TestHelper.mockMosaicInfo('6B2E9EAF2632AEC8', 'TC46AZWUIZYZ2WVGLVEZYNZHSIFAD3AFDPUJMEA', 10, 0)
+				TestHelper.mockMosaicInfo(mockTestMosaic.idHex, 'TC46AZWUIZYZ2WVGLVEZYNZHSIFAD3AFDPUJMEA', 10, 0)
 			]));
 
 			stub(NamespaceService, 'getMosaicsNames').resolves(Promise.resolve([{
-				mosaicId: '6B2E9EAF2632AEC8',
-				names: []
+				names: [new NamespaceName(new NamespaceId(mockTestMosaic.namespaceName), mockTestMosaic.namespaceName)],
+				mosaicId: mockTestMosaic.idHex
 			}]));
+
+			stub(NamespaceService, 'getLinkedMosaicId').resolves(Promise.resolve(new MosaicId(mockTestMosaic.idHex)));
 		});
 
 		afterEach(restore);
@@ -84,7 +89,7 @@ describe('Helper', () => {
 			// Arrange:
 			const mockMosaics = [
 				new Mosaic(new MosaicId(http.networkCurrency.mosaicId), UInt64.fromUint(1)),
-				new Mosaic(new MosaicId(mockTestMosaicHex), UInt64.fromUint(4))
+				new Mosaic(new MosaicId(mockTestMosaic.idHex), UInt64.fromUint(4))
 			];
 
 			// Act:
@@ -100,11 +105,11 @@ describe('Helper', () => {
 					rawAmount: UInt64.fromUint(1)
 				},
 				{
-					id: new MosaicId(mockTestMosaicHex).id,
+					id: new MosaicId(mockTestMosaic.idHex).id,
 					amount: '4',
 					rawAmount: UInt64.fromUint(4),
-					mosaicId: mockTestMosaicHex,
-					mosaicAliasName: ['N/A']
+					mosaicId: mockTestMosaic.idHex,
+					mosaicAliasName: [mockTestMosaic.namespaceName]
 				}
 			]);
 		});
@@ -114,7 +119,8 @@ describe('Helper', () => {
 			const mockMosaics = [
 				new Mosaic(new MosaicId(http.networkCurrency.mosaicId), UInt64.fromUint(1)),
 				new Mosaic(new NamespaceId(http.networkCurrency.namespaceName), UInt64.fromUint(2)),
-				new Mosaic(new MosaicId(mockTestMosaicHex), UInt64.fromUint(4))
+				new Mosaic(new MosaicId(mockTestMosaic.idHex), UInt64.fromUint(4)),
+				new Mosaic(new NamespaceId(mockTestMosaic.namespaceName), UInt64.fromUint(2))
 			];
 
 			// Act:
@@ -130,11 +136,11 @@ describe('Helper', () => {
 					rawAmount: UInt64.fromUint(3)
 				},
 				{
-					id: new MosaicId(mockTestMosaicHex).id,
-					amount: '4',
-					rawAmount: UInt64.fromUint(4),
-					mosaicId: mockTestMosaicHex,
-					mosaicAliasName: ['N/A']
+					id: new MosaicId(mockTestMosaic.idHex).id,
+					amount: '6',
+					rawAmount: UInt64.fromUint(6),
+					mosaicId: mockTestMosaic.idHex,
+					mosaicAliasName: [mockTestMosaic.namespaceName]
 				}
 			]);
 		});
@@ -143,7 +149,7 @@ describe('Helper', () => {
 	describe('resolveMosaicId should', () => {
 		it('returns id given MosaicId', async () => {
 			// Arrange:
-			const mockMosaicId = new MosaicId(mockTestMosaicHex);
+			const mockMosaicId = new MosaicId(mockTestMosaic.idHex);
 
 			// Act:
 			const result = await Helper.resolveMosaicId(mockMosaicId);
@@ -170,7 +176,7 @@ describe('Helper', () => {
 			const mockMosaics = [
 				new Mosaic(new MosaicId(http.networkCurrency.mosaicId), UInt64.fromUint(1)),
 				new Mosaic(new NamespaceId(http.networkCurrency.namespaceName), UInt64.fromUint(2)),
-				new Mosaic(new MosaicId(mockTestMosaicHex), UInt64.fromUint(4))
+				new Mosaic(new MosaicId(mockTestMosaic.idHex), UInt64.fromUint(4))
 			];
 
 			// Act:
@@ -178,6 +184,27 @@ describe('Helper', () => {
 
 			// Assert:
 			expect(result).toStrictEqual('0.000003');
+		});
+	});
+
+	describe('formatMosaicAmountWithDivisibility', () => {
+		it('returns balance in string', () => {
+			// Arrange:
+			const amount = UInt64.fromUint(10).compact();
+
+			// Act:
+			const result = Helper.formatMosaicAmountWithDivisibility(amount, 6);
+
+			// Assert:
+			expect(result).toStrictEqual('0.000010');
+		});
+
+		it('returns errors if amount is not number', async () => {
+			// Arrange:
+			const amount = UInt64.fromUint(10);
+
+			// Act: + Assert:
+			expect(() => Helper.formatMosaicAmountWithDivisibility(amount, 0)).toThrow('amount must be a number');
 		});
 	});
 });
