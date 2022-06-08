@@ -504,18 +504,16 @@ class helper {
 	/**
 	 * To resolved unresolvedMosaicId.
 	 * @param {NamespaceId | MosaicId} unresolvedMosaicId - NamespaceId | MosaicId
-	 * @returns {Id} Id
+	 * @returns {MosaicId} MosaicId
 	 */
 	static resolveMosaicId = async unresolvedMosaicId => {
 		if (!(unresolvedMosaicId instanceof NamespaceId))
-			return unresolvedMosaicId.id;
+			return unresolvedMosaicId;
 
 		if (unresolvedMosaicId.id.toHex() === http.networkCurrency.namespaceId)
-			return new MosaicId(http.networkCurrency.mosaicId).id;
+			return new MosaicId(http.networkCurrency.mosaicId);
 
-		const mosaicId = await NamespaceService.getLinkedMosaicId(unresolvedMosaicId);
-
-		return mosaicId.id;
+		return await NamespaceService.getLinkedMosaicId(unresolvedMosaicId);
 	}
 
 	/**
@@ -528,10 +526,9 @@ class helper {
 			return [];
 
 		const resolvedMosaics = await Promise.all(mosaics.map(async mosaic => {
-			const resolvedMosaic = await this.resolveMosaicId(mosaic.id);
-			const mosaicId = new MosaicId(resolvedMosaic.toHex()).id;
+			const resolvedMosaicId = await this.resolveMosaicId(mosaic.id);
 
-			return new Mosaic(mosaicId, mosaic.amount);
+			return new Mosaic(resolvedMosaicId, mosaic.amount);
 		}));
 
 		const resolvedMosaicIds = resolvedMosaics
@@ -549,39 +546,34 @@ class helper {
 			]);
 		}
 
-		let mosaicsFieldObject = [];
-
 		const uniqueMosaicIds = [...new Set(resolvedMosaics.map(mosaic => mosaic.id.toHex()))];
 
-		uniqueMosaicIds.forEach(idHex => {
+		return uniqueMosaicIds.map(idHex => {
 			const mosaics = resolvedMosaics.filter(mosaic => mosaic.id.toHex() === idHex);
 
 			const sumAmount = mosaics.reduce((acc, cur) => acc + Number(cur.amount.toString()), 0);
 
 			const mosaicField = {
-				...mosaics[0],
 				rawAmount: UInt64.fromUint(sumAmount),
 				mosaicId: mosaics[0].id.toHex()
 			};
 
 			if (idHex === http.networkCurrency.mosaicId) {
-				Object.assign(mosaicField, {
+				return {
+					...mosaicField,
 					amount: this.formatMosaicAmountWithDivisibility(sumAmount, http.networkCurrency.divisibility),
 					mosaicAliasName: http.networkCurrency.namespaceName
-				});
+				};
 			} else {
 				const { divisibility } = mosaicInfos.find(info => info.mosaicId === mosaics[0].id.toHex());
 
-				Object.assign(mosaicField, {
+				return {
+					...mosaicField,
 					amount: this.formatMosaicAmountWithDivisibility(sumAmount, divisibility),
-					mosaicAliasName: MosaicService.extractMosaicNamespace({ mosaicId: mosaics[0].id.toHex() }, mosaicNames)
-				});
+					mosaicAliasName: MosaicService.extractMosaicNamespace({ mosaicId: mosaics[0].id.toHex() }, mosaicNames)[0]
+				};
 			}
-
-			mosaicsFieldObject.push(mosaicField);
 		});
-
-		return mosaicsFieldObject;
 	}
 
 	/**

@@ -11,7 +11,7 @@ const mockTestMosaic = {
 	namespaceName: 'namespace_mosaic'
 };
 
-describe.only('Helper', () => {
+describe('Helper', () => {
 	describe('hslToRgb should', () => {
 		it('return rgb', () => {
 			// Arrange:
@@ -69,7 +69,7 @@ describe.only('Helper', () => {
 		});
 	});
 
-	describe('mosaicsFieldObjectBuilder should', () => {
+	describe('mosaicsFieldObjectBuilder', () => {
 		beforeEach(() => {
 			stub(MosaicService, 'getMosaics').resolves(Promise.resolve([
 				TestHelper.mockMosaicInfo(mockTestMosaic.idHex, 'TC46AZWUIZYZ2WVGLVEZYNZHSIFAD3AFDPUJMEA', 10, 0)
@@ -99,17 +99,36 @@ describe.only('Helper', () => {
 			expect(result).toStrictEqual([
 				{
 					amount: '0.000001',
-					id: new MosaicId(http.networkCurrency.mosaicId).id,
-					mosaicAliasName: http.networkCurrency.namespaceName,
+					rawAmount: UInt64.fromUint(1),
 					mosaicId: http.networkCurrency.mosaicId,
-					rawAmount: UInt64.fromUint(1)
+					mosaicAliasName: http.networkCurrency.namespaceName
 				},
 				{
-					id: new MosaicId(mockTestMosaic.idHex).id,
 					amount: '4',
 					rawAmount: UInt64.fromUint(4),
 					mosaicId: mockTestMosaic.idHex,
-					mosaicAliasName: [mockTestMosaic.namespaceName]
+					mosaicAliasName: mockTestMosaic.namespaceName
+				}
+			]);
+		});
+
+		it('returns mosaic object when only network currency', async () => {
+			// Arrange:
+			const mockMosaics = [
+				new Mosaic(new MosaicId(http.networkCurrency.mosaicId), UInt64.fromUint(10)),
+				new Mosaic(new NamespaceId(http.networkCurrency.namespaceName), UInt64.fromUint(20))
+			];
+
+			// Act:
+			const result = await Helper.mosaicsFieldObjectBuilder(mockMosaics);
+
+			// Assert:
+			expect(result).toStrictEqual([
+				{
+					amount: '0.000030',
+					rawAmount: UInt64.fromUint(30),
+					mosaicId: http.networkCurrency.mosaicId,
+					mosaicAliasName: http.networkCurrency.namespaceName
 				}
 			]);
 		});
@@ -129,24 +148,41 @@ describe.only('Helper', () => {
 			// Assert:
 			expect(result).toStrictEqual([
 				{
-					id: new MosaicId(http.networkCurrency.mosaicId).id,
 					amount: '0.000003',
-					mosaicAliasName: http.networkCurrency.namespaceName,
+					rawAmount: UInt64.fromUint(3),
 					mosaicId: http.networkCurrency.mosaicId,
-					rawAmount: UInt64.fromUint(3)
+					mosaicAliasName: http.networkCurrency.namespaceName
 				},
 				{
-					id: new MosaicId(mockTestMosaic.idHex).id,
 					amount: '6',
 					rawAmount: UInt64.fromUint(6),
 					mosaicId: mockTestMosaic.idHex,
-					mosaicAliasName: [mockTestMosaic.namespaceName]
+					mosaicAliasName: mockTestMosaic.namespaceName
 				}
 			]);
 		});
+
+		it('returns empty array when mosaics not exist', async () => {
+			// Arrange:
+			const mockMosaics = [];
+
+			// Act:
+			const result = await Helper.mosaicsFieldObjectBuilder(mockMosaics);
+
+			// Assert:
+			expect(result).toStrictEqual(mockMosaics);
+		});
 	});
 
-	describe('resolveMosaicId should', () => {
+	describe('resolveMosaicId', () => {
+		let stubGetLinkedMosaicId = {};
+
+		beforeEach(() => {
+			stubGetLinkedMosaicId = stub(NamespaceService, 'getLinkedMosaicId').resolves(Promise.resolve(new MosaicId(mockTestMosaic.idHex)));
+		});
+
+		afterEach(restore);
+
 		it('returns id given MosaicId', async () => {
 			// Arrange:
 			const mockMosaicId = new MosaicId(mockTestMosaic.idHex);
@@ -155,7 +191,8 @@ describe.only('Helper', () => {
 			const result = await Helper.resolveMosaicId(mockMosaicId);
 
 			// Assert:
-			expect(result).toStrictEqual(mockMosaicId.id);
+			expect(result).toStrictEqual(mockMosaicId);
+			expect(stubGetLinkedMosaicId.callCount).toBe(0);
 		});
 
 		it('returns network mosaic id given network NamespaceId', async () => {
@@ -166,11 +203,24 @@ describe.only('Helper', () => {
 			const result = await Helper.resolveMosaicId(mockNamespaceId);
 
 			// Assert:
-			expect(result).toStrictEqual(new MosaicId(http.networkCurrency.mosaicId).id);
+			expect(result).toStrictEqual(new MosaicId(http.networkCurrency.mosaicId));
+			expect(stubGetLinkedMosaicId.callCount).toBe(0);
+		});
+
+		it('returns mosaic id given NamespaceId', async () => {
+			// Arrange:
+			const mockNamespaceId = new NamespaceId(mockTestMosaic.namespaceName);
+
+			// Act:
+			const result = await Helper.resolveMosaicId(mockNamespaceId);
+
+			// Assert:
+			expect(result).toStrictEqual(new MosaicId(mockTestMosaic.idHex));
+			expect(stubGetLinkedMosaicId.callCount).toBe(1);
 		});
 	});
 
-	describe('getNetworkCurrencyBalance should', () => {
+	describe('getNetworkCurrencyBalance', () => {
 		it('returns network currency balance', async () => {
 			// Arrange:
 			const mockMosaics = [
@@ -185,10 +235,23 @@ describe.only('Helper', () => {
 			// Assert:
 			expect(result).toStrictEqual('0.000003');
 		});
+
+		it('returns unavailable when network currency not exist', async () => {
+			// Arrange:
+			const mockMosaics = [
+				new Mosaic(new MosaicId(mockTestMosaic.idHex), UInt64.fromUint(4))
+			];
+
+			// Act:
+			const result = await Helper.getNetworkCurrencyBalance(mockMosaics);
+
+			// Assert:
+			expect(result).toStrictEqual('N/A');
+		});
 	});
 
 	describe('formatMosaicAmountWithDivisibility', () => {
-		it('returns balance in string', () => {
+		it('returns balance as string', () => {
 			// Arrange:
 			const amount = UInt64.fromUint(10).compact();
 
@@ -199,7 +262,7 @@ describe.only('Helper', () => {
 			expect(result).toStrictEqual('0.000010');
 		});
 
-		it('returns errors if amount is not number', async () => {
+		it('throws error if amount is not number', async () => {
 			// Arrange:
 			const amount = UInt64.fromUint(10);
 
