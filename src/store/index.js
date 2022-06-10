@@ -109,8 +109,8 @@ export default new Vuex.Store({
 
 				destructionList = destructionList.filter(el => {
 					if (el.keepAliveGoTo?.includes(to.meta.group) || el.name === to.name) { return true; } else {
-            el.storeNamespaces?.forEach(namespace => dispatch(`${namespace}/uninitialize`, null, { root: true }));
-            return false;
+						el.storeNamespaces?.forEach(namespace => dispatch(`${namespace}/uninitialize`, null, { root: true }));
+						return false;
 					}
 				});
 
