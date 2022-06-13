@@ -162,7 +162,7 @@ describe('Helper', () => {
 			]);
 		});
 
-		it('returns empty array when mosaics not exist', async () => {
+		it('returns empty array when mosaics does not exist', async () => {
 			// Arrange:
 			const mockMosaics = [];
 
@@ -170,7 +170,7 @@ describe('Helper', () => {
 			const result = await Helper.mosaicsFieldObjectBuilder(mockMosaics);
 
 			// Assert:
-			expect(result).toStrictEqual(mockMosaics);
+			expect(result).toStrictEqual([]);
 		});
 	});
 
@@ -236,7 +236,7 @@ describe('Helper', () => {
 			expect(result).toStrictEqual('0.000003');
 		});
 
-		it('returns unavailable when network currency not exist', async () => {
+		it('returns unavailable when network currency does not exist', async () => {
 			// Arrange:
 			const mockMosaics = [
 				new Mosaic(new MosaicId(mockTestMosaic.idHex), UInt64.fromUint(4))

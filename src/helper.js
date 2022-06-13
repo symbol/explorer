@@ -551,17 +551,17 @@ class helper {
 		return uniqueMosaicIds.map(idHex => {
 			const mosaics = resolvedMosaics.filter(mosaic => mosaic.id.toHex() === idHex);
 
-			const sumAmount = mosaics.reduce((acc, cur) => acc + Number(cur.amount.toString()), 0);
+			const sumAmount = mosaics.reduce((acc, cur) => acc + BigInt(cur.amount.toString()), BigInt(0));
 
 			const mosaicField = {
-				rawAmount: UInt64.fromUint(sumAmount),
+				rawAmount: UInt64.fromNumericString(sumAmount.toString()),
 				mosaicId: mosaics[0].id.toHex()
 			};
 
 			if (idHex === http.networkCurrency.mosaicId) {
 				return {
 					...mosaicField,
-					amount: this.formatMosaicAmountWithDivisibility(sumAmount, http.networkCurrency.divisibility),
+					amount: this.formatMosaicAmountWithDivisibility(Number(sumAmount), http.networkCurrency.divisibility),
 					mosaicAliasName: http.networkCurrency.namespaceName
 				};
 			} else {
@@ -569,7 +569,7 @@ class helper {
 
 				return {
 					...mosaicField,
-					amount: this.formatMosaicAmountWithDivisibility(sumAmount, divisibility),
+					amount: this.formatMosaicAmountWithDivisibility(Number(sumAmount), divisibility),
 					mosaicAliasName: MosaicService.extractMosaicNamespace({ mosaicId: mosaics[0].id.toHex() }, mosaicNames)[0]
 				};
 			}
