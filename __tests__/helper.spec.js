@@ -162,7 +162,7 @@ describe('Helper', () => {
 			]);
 		});
 
-		it('returns empty array when mosaics does not exist', async () => {
+		it('returns empty array when mosaics do not exist', async () => {
 			// Arrange:
 			const mockMosaics = [];
 
