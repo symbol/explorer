@@ -256,7 +256,7 @@ class MosaicService {
    	divisibility: mosaicInfo.divisibility,
    	address: mosaicInfo.ownerAddress.plain(),
    	supply: mosaicInfo.supply.compact().toLocaleString('en-US'),
-   	relativeAmount: helper.formatMosaicAmountWithDivisibility(mosaicInfo.supply, mosaicInfo.divisibility),
+   	relativeAmount: helper.formatMosaicAmountWithDivisibility(mosaicInfo.supply.compact(), mosaicInfo.divisibility),
    	revision: mosaicInfo.revision,
    	startHeight: Number(mosaicInfo.startHeight.toString()),
    	duration: Number(mosaicInfo.duration.toString()),
@@ -273,7 +273,7 @@ class MosaicService {
     */
    static formatMosaicAmountView = mosaicAmountView => ({
    	...this.formatMosaicInfo(mosaicAmountView.mosaicInfo),
-   	amount: helper.formatMosaicAmountWithDivisibility(mosaicAmountView.amount, mosaicAmountView.mosaicInfo.divisibility)
+   	amount: helper.formatMosaicAmountWithDivisibility(mosaicAmountView.amount.compact(), mosaicAmountView.mosaicInfo.divisibility)
    })
 
    /**
