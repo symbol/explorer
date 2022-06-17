@@ -3,6 +3,28 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v1.1.6][v1.1.6] - 17-Jun-2022
+Package  | Version  | Link
+---|---|---
+REST Core| v2.4.0 | catapult-rest
+SDK Core| v2.0.1 | symbol-sdk
+
+[Bug] [#906](https://github.com/symbol/explorer/issues/906): Ctrl + click on any transaction link is working now.
+
+[Bug] [#1051](https://github.com/symbol/explorer/issues/1051): Fix invalid XYM amount display when XYM sent together with namespace alias and mosaic id.
+
+[Bug] [#1052](https://github.com/symbol/explorer/issues/1052): Removed senseless voting key address in the voting key section.
+
+[Feature] [#1055](https://github.com/symbol/explorer/pull/1055): We added a copy button beside the address on the listing page.
+
+[Feature] [#1056](https://github.com/symbol/explorer/pull/1056): We added the account label on the account listing page.
+
+[Feature] [#1057](https://github.com/symbol/explorer/pull/1057): Dependabot and auto-merge are up.
+
+[Performance] [#1068](https://github.com/symbol/explorer/pull/1068): Performance improvement for the transaction list page, reduce block requests to obtain timestamp.
+
+[Feature] [#1070](https://github.com/symbol/explorer/pull/1070): Explorer will display the local timezone now.
+
 ## [v1.1.5][v1.1.5] - 23-Apr-2022
 
 Package  | Version  | Link
@@ -482,3 +504,4 @@ SDK Core| v0.20.7 | symbol-sdk
 [v1.1.3]: https://github.com/symbol/explorer/releases/tag/v1.1.3
 [v1.1.4]: https://github.com/symbol/explorer/releases/tag/v1.1.4
 [v1.1.5]: https://github.com/symbol/explorer/releases/tag/v1.1.5
+[v1.1.6]: https://github.com/symbol/explorer/releases/tag/v1.1.6
