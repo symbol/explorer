@@ -25,6 +25,8 @@ SDK Core| v2.0.1 | symbol-sdk
 
 [Feature] [#1070](https://github.com/symbol/explorer/pull/1070): Explorer will display the local timezone now.
 
+[Bug] [#1101](https://github.com/symbol/explorer/pull/1101): Fix display wrong native namespace expiration.
+
 ## [v1.1.5][v1.1.5] - 23-Apr-2022
 
 Package  | Version  | Link
