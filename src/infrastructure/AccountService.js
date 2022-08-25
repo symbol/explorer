@@ -300,7 +300,9 @@ class AccountService {
 				return {
 					...namespaces,
 					status: namespaces.active,
-					expirationDuration: helper.convertTimeFromNowInSec(expiredInSecond) || Constants.Message.UNLIMITED
+					expirationDuration: helper.isNativeNamespace(namespaces.name)
+						? Constants.Message.INFINITY
+						: helper.convertTimeFromNowInSec(expiredInSecond)
 				};
 			})
 		};

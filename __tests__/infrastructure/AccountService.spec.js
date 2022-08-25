@@ -193,4 +193,62 @@ describe('Account Service', () => {
 			});
 		});
 	});
+
+	describe('getAccountNamespaceList', () => {
+		const pageInfo = {
+			pageNumber: 1,
+			pageSize: 10
+		};
+		let searchNamespaces = {};
+		let getChainInfo = {};
+
+		beforeEach(() => {
+			searchNamespaces = stub(NamespaceService, 'searchNamespaces');
+			getChainInfo = stub(ChainService, 'getChainInfo');
+
+			getChainInfo.returns(Promise.resolve({
+				height: 1000
+			}));
+		});
+
+		afterEach(restore);
+
+		const runBasicNamespaceExpirationTests = async (namespaces, endHeight, exceptResult) => {
+			// Arrange:
+			const mockSearchAccountNamespaces = {
+				...pageInfo,
+				data: namespaces.map(namespace => {
+					return {
+						...TestHelper.mockNamespace(namespace, endHeight),
+					};
+				})
+			};
+
+			searchNamespaces.returns(Promise.resolve(mockSearchAccountNamespaces));
+
+			// Act:
+			const namespaceList = await AccountService.getAccountNamespaceList(pageInfo, {}, 'TBQ3SOJJXFO37KTGVXK7YFJYMATGJVISV2UP56I');
+
+			// Assert:
+			expect(namespaceList.pageNumber).toEqual(pageInfo.pageNumber);
+			expect(namespaceList.pageSize).toEqual(pageInfo.pageSize);
+			expect(namespaceList.data).toHaveLength(2);
+			expect(namespaceList.data[0].namespaceName).toBe(namespaces[0]);
+			expect(namespaceList.data[0].registrationType).toBe('subNamespace');
+			expect(namespaceList.data[1].namespaceName).toBe(namespaces[1]);
+			expect(namespaceList.data[1].registrationType).toBe('rootNamespace');
+			namespaceList.data.forEach(namespace => {
+				expect(namespace.expirationDuration).toBe(exceptResult);
+				expect(namespace.active).toBe('ACTIVE');
+			});
+		}
+
+		it('returns namespace expiration in infinity when native namespace', async () => {
+			runBasicNamespaceExpirationTests(['symbol.xym', 'symbol'], 0, 'INFINITY');
+		})
+
+		it('returns namespace expiration in date when non native namespace', async () => {
+			runBasicNamespaceExpirationTests(['hello.world', 'hello'], 1000, 'in a month');
+		})
+	})
 });
