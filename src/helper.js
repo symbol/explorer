@@ -25,9 +25,9 @@ import {
 	MosaicId,
 	NamespaceId,
 	Address,
-	Mosaic,
 	NodeVersion,
-	UInt64
+	UInt64,
+	TransactionType
 } from 'symbol-sdk';
 const Url = require('url-parse');
 
@@ -518,33 +518,14 @@ class helper {
 
 	/**
 	 * Build mosaic field object use in MosaicField components.
-	 * @param {array} mosaics - Mosaics.
+	 * @param {array} resolvedMosaics - resolved mosaics.
+	 * @param {array} mosaicInfos - mosaics info.
+	 * @param {array} mosaicNames - mosaics namespace name.
 	 * @returns {object} { mosaicId, amount, mosaicAliasName }
 	 */
-	static mosaicsFieldObjectBuilder = async mosaics => {
-		if (0 === mosaics.length)
+	static mosaicsFieldObjectBuilder = (resolvedMosaics, mosaicInfos, mosaicNames) => {
+		if (0 === resolvedMosaics.length)
 			return [];
-
-		const resolvedMosaics = await Promise.all(mosaics.map(async mosaic => {
-			const resolvedMosaicId = await this.resolveMosaicId(mosaic.id);
-
-			return new Mosaic(resolvedMosaicId, mosaic.amount);
-		}));
-
-		const resolvedMosaicIds = resolvedMosaics
-			.map(mosaic => mosaic.id)
-			.filter(mosaicId => mosaicId.toHex() !== http.networkCurrency.mosaicId);
-
-		let mosaicInfos = [];
-
-		let mosaicNames = [];
-
-		if (0 < resolvedMosaicIds.length) {
-			[mosaicInfos, mosaicNames] = await Promise.all([
-				MosaicService.getMosaics(resolvedMosaicIds),
-				NamespaceService.getMosaicsNames(resolvedMosaicIds)
-			]);
-		}
 
 		const uniqueMosaicIds = [...new Set(resolvedMosaics.map(mosaic => mosaic.id.toHex()))];
 
@@ -555,7 +536,7 @@ class helper {
 
 			const mosaicField = {
 				rawAmount: UInt64.fromNumericString(sumAmount.toString()),
-				mosaicId: mosaics[0].id.toHex()
+				mosaicId: idHex
 			};
 
 			if (idHex === http.networkCurrency.mosaicId) {
