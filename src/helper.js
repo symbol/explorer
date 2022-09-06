@@ -688,6 +688,60 @@ class helper {
 	static getStartListIndex = (pageNumber, pageSize) => {
 		return 1 === pageNumber ? 0 : (pageNumber - 1) * pageSize;
 	}
+
+	static getTransactionMosaicInfoAndNamespace = async transactions => {
+		const unresolvedMosaics = [];
+
+		// collect unresolved mosaics from transactions
+		transactions.map(transactionDTO => {
+			switch (transactionDTO.type) {
+			case TransactionType.TRANSFER:
+				unresolvedMosaics.push(...transactionDTO.mosaics);
+				return;
+			case TransactionType.MOSAIC_SUPPLY_REVOCATION:
+			case TransactionType.HASH_LOCK:
+			case TransactionType.SECRET_LOCK:
+				unresolvedMosaics.push(transactionDTO.mosaic);
+				return;
+			}
+		});
+
+		const unresolvedMosaicsMap = {};
+
+		// create resolved mosaic mapping
+		const resolvedMosaics = await Promise.all(unresolvedMosaics.map(async mosaic => {
+			const resolvedMosaicId = await helper.resolveMosaicId(mosaic.id);
+
+			unresolvedMosaicsMap[mosaic.id.toHex()] = resolvedMosaicId.toHex();
+
+			return resolvedMosaicId;
+		}));
+
+		// skip networkCurrency mosaic
+		const resolvedMosaicIds = resolvedMosaics
+			.map(mosaic => mosaic.id)
+			.filter(mosaicId => mosaicId.toHex() !== http.networkCurrency.mosaicId);
+
+		// filter duplicated mosaic id
+		const uniqueMosaicIds = [...new Set(resolvedMosaicIds.map(mosaic => mosaic.toHex()))];
+
+		let mosaicInfos = [];
+		let mosaicNames = [];
+
+		// Request mosaic namespace and mosaic info
+		if (0 < uniqueMosaicIds.length) {
+			[mosaicInfos, mosaicNames] = await Promise.all([
+				MosaicService.getMosaics(uniqueMosaicIds.map(mosaic => new MosaicId(mosaic))),
+				NamespaceService.getMosaicsNames(uniqueMosaicIds.map(mosaic => new MosaicId(mosaic)))
+			]);
+		}
+
+		return {
+			mosaicInfos,
+			mosaicNames,
+			unresolvedMosaicsMap
+		};
+	}
 }
 
 export default helper;
