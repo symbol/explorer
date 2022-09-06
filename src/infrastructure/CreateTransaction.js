@@ -23,12 +23,16 @@ import { NamespaceService } from '../infrastructure';
 import { Address, Mosaic, MosaicId, Convert } from 'symbol-sdk';
 
 class CreateTransaction {
-    static transferTransaction = async transactionObj => {
+    static transferTransaction = async (transactionObj, { mosaicInfos, mosaicNames, unresolvedMosaicsMap }) => {
     	const { transactionInfo } = transactionObj;
-    	const [resolvedAddress, mosaicsFieldObject] = await Promise.all([
-    		helper.resolvedAddress(transactionObj.recipientAddress, transactionInfo.height),
-    		helper.mosaicsFieldObjectBuilder(transactionObj.mosaics)
+
+    	const [resolvedAddress] = await Promise.all([
+    		helper.resolvedAddress(transactionObj.recipientAddress, transactionInfo.height)
     	]);
+
+    	const resolvedMosaics = transactionObj.mosaics.map(mosaic => {
+    		return new Mosaic(new MosaicId(unresolvedMosaicsMap[mosaic.id.toHex()]), mosaic.amount);
+    	});
 
     	return {
     		...transactionObj,
@@ -36,7 +40,7 @@ class CreateTransaction {
     			transactionType: transactionObj.type,
     			message: transactionObj.message,
     			recipient: resolvedAddress,
-    			mosaics: mosaicsFieldObject
+    			mosaics: helper.mosaicsFieldObjectBuilder(resolvedMosaics, mosaicInfos, mosaicNames)
     		}
     	};
     }
@@ -122,21 +126,23 @@ class CreateTransaction {
     	};
     };
 
-  static mosaicSupplyRevocation = async transactionObj => {
-  	const resolvedMosaic = await helper.resolveMosaicId(transactionObj.mosaic);
-  	const mosaic = new Mosaic(new MosaicId(resolvedMosaic.toHex()), transactionObj.mosaic.amount);
+	static mosaicSupplyRevocation = async (transactionObj, { mosaicInfos, mosaicNames, unresolvedMosaicsMap }) => {
+		const resolvedMosaics = [
+			new Mosaic(
+				new MosaicId(unresolvedMosaicsMap[transactionObj.mosaic.id.toHex()]),
+				transactionObj.mosaic.amount
+			)
+		];
 
-  	const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder([mosaic]);
-
-  	return {
-  		...transactionObj,
-  		transactionBody: {
-  			transactionType: transactionObj.type,
-  			address: transactionObj.sourceAddress.address,
-  			mosaics: mosaicsFieldObject
-  		}
-  	};
-  };
+		return {
+			...transactionObj,
+			transactionBody: {
+				transactionType: transactionObj.type,
+				address: transactionObj.sourceAddress.address,
+				mosaics: helper.mosaicsFieldObjectBuilder(resolvedMosaics, mosaicInfos, mosaicNames)
+			}
+		};
+	};
 
     static multisigAccountModification = async transactionObj => {
     	const { transactionInfo } = transactionObj;
@@ -161,37 +167,45 @@ class CreateTransaction {
     	};
     }
 
-    static hashLock = async transactionObj => {
-    	const resolvedMosaic = await helper.resolveMosaicId(transactionObj.mosaic);
-
-    	const mosaic = new Mosaic(new MosaicId(resolvedMosaic.toHex()), transactionObj.mosaic.amount);
-
-    	const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder([mosaic]);
+    static hashLock = async (transactionObj, { mosaicInfos, mosaicNames, unresolvedMosaicsMap }) => {
+    	const resolvedMosaics = [
+    		new Mosaic(
+    			new MosaicId(unresolvedMosaicsMap[transactionObj.mosaic.id.toHex()]),
+    			transactionObj.mosaic.amount
+    		)
+    	];
 
     	return {
     		...transactionObj,
     		transactionBody: {
     			transactionType: transactionObj.type,
     			duration: transactionObj.duration.compact(),
-    			mosaics: mosaicsFieldObject,
+    			mosaics: helper.mosaicsFieldObjectBuilder(resolvedMosaics, mosaicInfos, mosaicNames),
     			hash: transactionObj.hash
     		}
     	};
     }
 
-    static secretLock = async transactionObj => {
+    static secretLock = async (transactionObj, { mosaicInfos, mosaicNames, unresolvedMosaicsMap }) => {
     	const { transactionInfo } = transactionObj;
-    	const [mosaicsFieldObject, resolvedAddress] = await Promise.all([
-    		helper.mosaicsFieldObjectBuilder([transactionObj.mosaic]),
+
+    	const [resolvedAddress] = await Promise.all([
     		helper.resolvedAddress(transactionObj.recipientAddress, transactionInfo.height)
     	]);
+
+    	const resolvedMosaics = [
+    		new Mosaic(
+    			new MosaicId(unresolvedMosaicsMap[transactionObj.mosaic.id.toHex()]),
+    			transactionObj.mosaic.amount
+    		)
+    	];
 
     	return {
     		...transactionObj,
     		transactionBody: {
     			transactionType: transactionObj.type,
     			duration: transactionObj.duration.compact(),
-    			mosaics: mosaicsFieldObject,
+    			mosaics: helper.mosaicsFieldObjectBuilder(resolvedMosaics, mosaicInfos, mosaicNames),
     			secret: transactionObj.secret,
     			recipient: resolvedAddress,
     			hashAlgorithm: Constants.LockHashAlgorithm[transactionObj.hashAlgorithm]

@@ -31,7 +31,6 @@ import {
 	AggregateTransactionInfo,
 	TransactionGroup,
 	Order,
-	UInt64,
 	Mosaic
 } from 'symbol-sdk';
 
@@ -604,7 +603,7 @@ class TransactionService {
    * @param  {object} transactionDTO - transaction dto from SDK.
    * @returns {object} formatted transactionObj.
    */
-  static createStandaloneTransactionFromSDK = async transactionDTO => {
+  static createStandaloneTransactionFromSDK = async (transactionDTO, { mosaicInfos, mosaicNames, unresolvedMosaicsMap }) => {
 	  const transactionObj = {
 		  ...transactionDTO,
 		  transactionType: transactionDTO.type,
@@ -616,7 +615,11 @@ class TransactionService {
 
   	switch (transactionDTO.type) {
   	case TransactionType.TRANSFER:
-  		return CreateTransaction.transferTransaction(transactionObj);
+  		return CreateTransaction.transferTransaction(transactionObj, {
+  			mosaicInfos,
+  			mosaicNames,
+  			unresolvedMosaicsMap
+  		});
   	case TransactionType.NAMESPACE_REGISTRATION:
   		return CreateTransaction.namespaceRegistration(transactionObj);
   	case TransactionType.ADDRESS_ALIAS:
@@ -628,13 +631,25 @@ class TransactionService {
   	case TransactionType.MOSAIC_SUPPLY_CHANGE:
   		return CreateTransaction.mosaicSupplyChange(transactionObj);
   	case TransactionType.MOSAIC_SUPPLY_REVOCATION:
-  		return CreateTransaction.mosaicSupplyRevocation(transactionObj);
+  		return CreateTransaction.mosaicSupplyRevocation(transactionObj, {
+  			mosaicInfos,
+  			mosaicNames,
+  			unresolvedMosaicsMap
+  		});
   	case TransactionType.MULTISIG_ACCOUNT_MODIFICATION:
   		return CreateTransaction.multisigAccountModification(transactionObj);
   	case TransactionType.HASH_LOCK:
-  		return CreateTransaction.hashLock(transactionObj);
+  		return CreateTransaction.hashLock(transactionObj, {
+  			mosaicInfos,
+  			mosaicNames,
+  			unresolvedMosaicsMap
+  		});
   	case TransactionType.SECRET_LOCK:
-  		return CreateTransaction.secretLock(transactionObj);
+  		return CreateTransaction.secretLock(transactionObj, {
+  			mosaicInfos,
+  			mosaicNames,
+  			unresolvedMosaicsMap
+  		});
   	case TransactionType.SECRET_PROOF:
   		return CreateTransaction.secretProof(transactionObj);
   	case TransactionType.ACCOUNT_ADDRESS_RESTRICTION:
@@ -674,11 +689,22 @@ class TransactionService {
   static createTransactionFromSDK = async transactionDTO => {
 	  if (transactionDTO.type === TransactionType.AGGREGATE_BONDED
 		|| transactionDTO.type === TransactionType.AGGREGATE_COMPLETE) {
+
+  		const {
+  			mosaicInfos,
+  			mosaicNames,
+  			unresolvedMosaicsMap
+  		} = await helper.getTransactionMosaicInfoAndNamespace(transactionDTO.innerTransactions);
+
   		const innerTransactions = transactionDTO.innerTransactions
 		  ? await Promise.all(transactionDTO.innerTransactions.map(async (transaction, index) => {
   			return {
   				index: index + 1,
-  				...await this.createStandaloneTransactionFromSDK(transaction)
+  				...await this.createStandaloneTransactionFromSDK(transaction, {
+  						mosaicInfos,
+  						mosaicNames,
+  						unresolvedMosaicsMap
+  					})
   			};
   		})) : [];
 
@@ -700,9 +726,19 @@ class TransactionService {
   				transactionType: transactionDTO.type
 			  }
 		  };
-	  }
+	  } else {
+  		const {
+  			mosaicInfos,
+  			mosaicNames,
+  			unresolvedMosaicsMap
+  		} = await helper.getTransactionMosaicInfoAndNamespace([transactionDTO]);
 
-	  return this.createStandaloneTransactionFromSDK(transactionDTO);
+  		return this.createStandaloneTransactionFromSDK(transactionDTO, {
+		  mosaicInfos,
+		  mosaicNames,
+		  unresolvedMosaicsMap
+  		});
+	  }
   }
 }
 
