@@ -1,14 +1,18 @@
 import Helper from '../../src/helper';
 import { CreateTransaction, NamespaceService } from '../../src/infrastructure';
-import { stub } from 'sinon';
+import { stub, restore } from 'sinon';
 import {
 	NetworkType,
 	Account,
 	NamespaceId,
 	UInt64,
 	MosaicId,
-	Convert
+	Convert,
+	Mosaic,
+	NamespaceName
 } from 'symbol-sdk';
+import TestHelper from '../TestHelper';
+import http from '../../src/infrastructure/http';
 
 /* Mock metadata transaction dto */
 const mockTransactionMetadataDTO = {
@@ -29,11 +33,13 @@ const mockTransactionMetadataDTO = {
 	valueSize: 23
 };
 
-describe('CreateTransaction should', () => {
+describe('CreateTransaction', () => {
 	const randomAddress = Account.generateNewAccount(NetworkType.TEST_NET).address;
 	const metadataValue = Convert.hexToUint8('00000020E6B189E5AD973B2070696E79696E3A2068C3A0');
 
-	it('return accountMetadata', async () => {
+	afterEach(restore)
+
+	it('returns accountMetadata', async () => {
 		// Arrange:
 		const mockAccountMetadata = {
 			...mockTransactionMetadataDTO,
@@ -54,7 +60,7 @@ describe('CreateTransaction should', () => {
 		});
 	});
 
-	it('return mosaicMetadata', async () => {
+	it('returns mosaicMetadata', async () => {
 		// Arrange:
 		const mockMosaicMetadata = {
 			...mockTransactionMetadataDTO,
@@ -81,7 +87,7 @@ describe('CreateTransaction should', () => {
 		});
 	});
 
-	it('return namespaceMetadata', async () => {
+	it('returns namespaceMetadata', async () => {
 		// Arrange:
 		const namespace = {
 			namespaceId: new NamespaceId('mock-namespace'),
@@ -113,4 +119,164 @@ describe('CreateTransaction should', () => {
 			namespaceName: [namespace]
 		});
 	});
+
+	it('resolves mosaics and addresses in transfer transaction', async () =>  {
+		// Arrange:
+		const mockTransferTransaction = {
+			...TestHelper.mockTransaction({
+				height: 1,
+				timestamp: 10
+			}),
+			mosaics: [
+				new Mosaic(new NamespaceId(http.networkCurrency.namespaceName), UInt64.fromUint(20)),
+				new Mosaic(new MosaicId(http.networkCurrency.mosaicId), UInt64.fromUint(1)),
+			]
+		}
+
+		stub(Helper, 'resolvedAddress').returns(Promise.resolve(mockTransferTransaction.recipientAddress));
+
+		// Act:
+		const transactionObject = await CreateTransaction.transferTransaction(mockTransferTransaction, {
+			mosaicInfos: [],
+			mosaicNames: [],
+			unresolvedMosaicsMap: {
+				'E74B99BA41F4AFEE': '6BED913FA20223F8',
+				'6BED913FA20223F8': '6BED913FA20223F8',
+			}
+		});
+
+		// Assert:
+		expect(transactionObject.transactionBody).toEqual({
+			transactionType: 16724,
+			message: mockTransferTransaction.message,
+			recipient: mockTransferTransaction.recipientAddress,
+			mosaics: [{
+				amount: '0.000021',
+				mosaicAliasName: 'symbol.xym',
+				mosaicId: "6BED913FA20223F8",
+				rawAmount: UInt64.fromUint(21)
+			}]
+		});
+	})
+
+	it('resolves mosaics in mosaic supply revocation transaction', async () =>  {
+		// Arrange:
+		const mockTestMosaic = {
+			idHex: '6B2E9EAF2632AEC8',
+			namespaceName: 'reclaim_mosaic'
+		};
+
+		const mockMosaicSupplyRevocationTransaction = TestHelper.mockMosaicSupplyRevocationTransaction(
+			new Mosaic(new MosaicId(mockTestMosaic.idHex), UInt64.fromUint(1)),
+		)
+
+		const mockMosaicInfos = [
+			TestHelper.mockMosaicInfo(mockTestMosaic.idHex, 'TC46AZWUIZYZ2WVGLVEZYNZHSIFAD3AFDPUJMEA', 10, 0),
+		]
+
+		const mockMosaicNames = [
+			{
+				names: [new NamespaceName(new NamespaceId(mockTestMosaic.namespaceName), mockTestMosaic.namespaceName)],
+				mosaicId: mockTestMosaic.idHex
+			}
+		]
+
+		// Act:
+		const transactionObject = await CreateTransaction.mosaicSupplyRevocation(mockMosaicSupplyRevocationTransaction, {
+			mosaicInfos: mockMosaicInfos,
+			mosaicNames: mockMosaicNames,
+			unresolvedMosaicsMap: {
+				"6B2E9EAF2632AEC8": "6B2E9EAF2632AEC8",
+			}
+		});
+
+		// Assert:
+		expect(transactionObject.transactionBody).toEqual({
+			transactionType: 17229,
+			address: mockMosaicSupplyRevocationTransaction.sourceAddress.address,
+			mosaics: [{
+				amount: '1',
+				mosaicAliasName: 'reclaim_mosaic',
+				mosaicId: "6B2E9EAF2632AEC8",
+				rawAmount: UInt64.fromUint(1)
+			}]
+		});
+	})
+
+	it('resolves mosaics in hash lock transaction', async () =>  {
+		// Arrange:
+		const mockLockFundsTransaction = TestHelper.mockLockFundsTransaction()
+
+		// Act:
+		const transactionObject = await CreateTransaction.hashLock(mockLockFundsTransaction, {
+			mosaicInfos: [],
+			mosaicNames: [],
+			unresolvedMosaicsMap: {
+				'E74B99BA41F4AFEE': '6BED913FA20223F8',
+				'6BED913FA20223F8': '6BED913FA20223F8',
+			}
+		});
+
+		// Assert:
+		expect(transactionObject.transactionBody).toEqual({
+			transactionType: 16712,
+			duration: 10,
+			hash: mockLockFundsTransaction.hash,
+			mosaics: [{
+				amount: '0.000010',
+				mosaicAliasName: 'symbol.xym',
+				mosaicId: "6BED913FA20223F8",
+				rawAmount: UInt64.fromUint(10)
+			}]
+		});
+	})
+
+	it('resolves mosaics and addresses in secret lock transaction', async () =>  {
+		// Arrange:
+		const mockTestSecretLockMosaic = {
+			idHex: '22D2D90A27738AA0',
+			namespaceName: 'secret_lock_mosaic'
+		};
+
+		const mockSecretLockTransaction = TestHelper.mockSecretLockTransaction(
+			new Mosaic(new NamespaceId(mockTestSecretLockMosaic.namespaceName), UInt64.fromUint(20)),
+		)
+
+		stub(Helper, 'resolvedAddress').returns(Promise.resolve(mockSecretLockTransaction.recipientAddress));
+
+		const mockMosaicInfos = [
+			TestHelper.mockMosaicInfo(mockTestSecretLockMosaic.idHex, 'TC46AZWUIZYZ2WVGLVEZYNZHSIFAD3AFDPUJMEA', 10, 0)
+		]
+
+		const mockMosaicNames = [
+			{
+				names: [new NamespaceName(new NamespaceId(mockTestSecretLockMosaic.namespaceName), mockTestSecretLockMosaic.namespaceName)],
+				mosaicId: mockTestSecretLockMosaic.idHex
+			}
+		]
+
+		// Act:
+		const transactionObject = await CreateTransaction.secretLock(mockSecretLockTransaction, {
+			mosaicInfos: mockMosaicInfos,
+			mosaicNames: mockMosaicNames,
+			unresolvedMosaicsMap: {
+				"DEBBC3DA600F2B48": "22D2D90A27738AA0",
+			}
+		});
+
+		// Assert:
+		expect(transactionObject.transactionBody).toEqual({
+			transactionType: 16722,
+			duration: 10,
+			hashAlgorithm: 'Sha3 256',
+			secret: mockSecretLockTransaction.secret,
+			recipient: mockSecretLockTransaction.recipientAddress,
+			mosaics: [{
+				amount: '20',
+				mosaicAliasName: 'secret_lock_mosaic',
+				mosaicId: "22D2D90A27738AA0",
+				rawAmount: UInt64.fromUint(20)
+			}]
+		});
+	})
 });

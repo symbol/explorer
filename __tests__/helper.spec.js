@@ -11,6 +11,11 @@ const mockTestMosaic = {
 	namespaceName: 'namespace_mosaic'
 };
 
+const mockTestSecretLockMosaic = {
+	idHex: '22D2D90A27738AA0',
+	namespaceName: 'secret_lock_mosaic'
+};
+
 describe('Helper', () => {
 	describe('hslToRgb should', () => {
 		it('return rgb', () => {
@@ -70,30 +75,25 @@ describe('Helper', () => {
 	});
 
 	describe('mosaicsFieldObjectBuilder', () => {
-		beforeEach(() => {
-			stub(MosaicService, 'getMosaics').resolves(Promise.resolve([
-				TestHelper.mockMosaicInfo(mockTestMosaic.idHex, 'TC46AZWUIZYZ2WVGLVEZYNZHSIFAD3AFDPUJMEA', 10, 0)
-			]));
-
-			stub(NamespaceService, 'getMosaicsNames').resolves(Promise.resolve([{
-				names: [new NamespaceName(new NamespaceId(mockTestMosaic.namespaceName), mockTestMosaic.namespaceName)],
-				mosaicId: mockTestMosaic.idHex
-			}]));
-
-			stub(NamespaceService, 'getLinkedMosaicId').resolves(Promise.resolve(new MosaicId(mockTestMosaic.idHex)));
-		});
-
 		afterEach(restore);
+
+		// Arrange:
+		const mockMosaicInfos = [TestHelper.mockMosaicInfo(mockTestMosaic.idHex, 'TC46AZWUIZYZ2WVGLVEZYNZHSIFAD3AFDPUJMEA', 10, 0)];
+
+		const mockMosaicNames = [{
+			names: [new NamespaceName(new NamespaceId(mockTestMosaic.namespaceName), mockTestMosaic.namespaceName)],
+			mosaicId: mockTestMosaic.idHex
+		}]
 
 		it('returns basic mosaic object', async () => {
 			// Arrange:
-			const mockMosaics = [
+			const mockResolvedMosaics = [
 				new Mosaic(new MosaicId(http.networkCurrency.mosaicId), UInt64.fromUint(1)),
 				new Mosaic(new MosaicId(mockTestMosaic.idHex), UInt64.fromUint(4))
 			];
 
 			// Act:
-			const result = await Helper.mosaicsFieldObjectBuilder(mockMosaics);
+			const result = await Helper.mosaicsFieldObjectBuilder(mockResolvedMosaics, mockMosaicInfos, mockMosaicNames);
 
 			// Assert:
 			expect(result).toStrictEqual([
@@ -114,13 +114,13 @@ describe('Helper', () => {
 
 		it('returns mosaic object when only network currency', async () => {
 			// Arrange:
-			const mockMosaics = [
+			const mockResolvedMosaics = [
 				new Mosaic(new MosaicId(http.networkCurrency.mosaicId), UInt64.fromUint(10)),
-				new Mosaic(new NamespaceId(http.networkCurrency.namespaceName), UInt64.fromUint(20))
+				new Mosaic(new MosaicId(http.networkCurrency.mosaicId), UInt64.fromUint(20))
 			];
 
 			// Act:
-			const result = await Helper.mosaicsFieldObjectBuilder(mockMosaics);
+			const result = await Helper.mosaicsFieldObjectBuilder(mockResolvedMosaics, [], []);
 
 			// Assert:
 			expect(result).toStrictEqual([
@@ -135,15 +135,15 @@ describe('Helper', () => {
 
 		it('returns mosaics object with total amount when mosaic id is same', async () => {
 			// Arrange:
-			const mockMosaics = [
+			const mockResolvedMosaics = [
 				new Mosaic(new MosaicId(http.networkCurrency.mosaicId), UInt64.fromUint(1)),
-				new Mosaic(new NamespaceId(http.networkCurrency.namespaceName), UInt64.fromUint(2)),
+				new Mosaic(new MosaicId(http.networkCurrency.mosaicId), UInt64.fromUint(2)),
 				new Mosaic(new MosaicId(mockTestMosaic.idHex), UInt64.fromUint(4)),
-				new Mosaic(new NamespaceId(mockTestMosaic.namespaceName), UInt64.fromUint(2))
+				new Mosaic(new MosaicId(mockTestMosaic.idHex), UInt64.fromUint(2))
 			];
 
 			// Act:
-			const result = await Helper.mosaicsFieldObjectBuilder(mockMosaics);
+			const result = await Helper.mosaicsFieldObjectBuilder(mockResolvedMosaics, mockMosaicInfos, mockMosaicNames);
 
 			// Assert:
 			expect(result).toStrictEqual([
@@ -164,10 +164,10 @@ describe('Helper', () => {
 
 		it('returns empty array when mosaics do not exist', async () => {
 			// Arrange:
-			const mockMosaics = [];
+			const mockResolvedMosaics = [];
 
 			// Act:
-			const result = await Helper.mosaicsFieldObjectBuilder(mockMosaics);
+			const result = await Helper.mosaicsFieldObjectBuilder(mockResolvedMosaics, [], []);
 
 			// Assert:
 			expect(result).toStrictEqual([]);
@@ -270,4 +270,108 @@ describe('Helper', () => {
 			expect(() => Helper.formatMosaicAmountWithDivisibility(amount, 0)).toThrow('amount must be a number');
 		});
 	});
+
+	describe('getTransactionMosaicInfoAndNamespace', () => {
+		it('returns mosaics mapping, empty mosaic info and namespace when transaction included network mosaic', async () => {
+			// Arrange:
+			const mockTransactions = [
+				{
+					...TestHelper.mockTransaction({
+						height: 1,
+						timestamp: 10
+					}),
+					mosaics: [
+						new Mosaic(new NamespaceId(http.networkCurrency.namespaceName), UInt64.fromUint(20)),
+						new Mosaic(new MosaicId(http.networkCurrency.mosaicId), UInt64.fromUint(1)),
+					]
+				},
+			]
+
+			// Act:
+			const { unresolvedMosaicsMap, mosaicInfos, mosaicNames} = await Helper.getTransactionMosaicInfoAndNamespace(mockTransactions)
+
+			// Assert:
+			expect(unresolvedMosaicsMap).toStrictEqual({
+				'E74B99BA41F4AFEE': '6BED913FA20223F8',
+				'6BED913FA20223F8': '6BED913FA20223F8',
+			});
+			expect(mosaicInfos).toStrictEqual([]);
+			expect(mosaicNames).toStrictEqual([]);
+		})
+
+		it('returns mosaics mapping, mosaic info and namespace when transaction exits', async () => {
+			// Arrange:
+			const mockTransactions = [
+				{
+					...TestHelper.mockTransaction({
+						height: 1,
+						timestamp: 10
+					}),
+					mosaics: [
+						new Mosaic(new NamespaceId(http.networkCurrency.namespaceName), UInt64.fromUint(20)),
+						new Mosaic(new MosaicId(http.networkCurrency.mosaicId), UInt64.fromUint(1)),
+					]
+				},
+				TestHelper.mockLockFundsTransaction(),
+				TestHelper.mockMosaicSupplyRevocationTransaction(
+					new Mosaic(new MosaicId(mockTestMosaic.idHex), UInt64.fromUint(1)),
+				),
+				TestHelper.mockSecretLockTransaction(
+					new Mosaic(new NamespaceId(mockTestSecretLockMosaic.namespaceName), UInt64.fromUint(20)),
+				),
+			]
+
+			const mockMosaicInfos = [
+				TestHelper.mockMosaicInfo(mockTestMosaic.idHex, 'TC46AZWUIZYZ2WVGLVEZYNZHSIFAD3AFDPUJMEA', 10, 0),
+				TestHelper.mockMosaicInfo(mockTestSecretLockMosaic.idHex, 'TC46AZWUIZYZ2WVGLVEZYNZHSIFAD3AFDPUJMEA', 10, 0)
+			]
+
+			const mockMosaicNames = [
+				{
+					names: [new NamespaceName(new NamespaceId(mockTestMosaic.namespaceName), mockTestMosaic.namespaceName)],
+					mosaicId: mockTestMosaic.idHex
+				},
+				{
+					names: [new NamespaceName(new NamespaceId(mockTestSecretLockMosaic.namespaceName), mockTestSecretLockMosaic.namespaceName)],
+					mosaicId: mockTestSecretLockMosaic.idHex
+				}
+			]
+
+			stub(MosaicService, 'getMosaics')
+				.withArgs([new MosaicId(mockTestMosaic.idHex), new MosaicId(mockTestSecretLockMosaic.idHex)])
+				.resolves(Promise.resolve(mockMosaicInfos));
+
+			stub(NamespaceService, 'getMosaicsNames')
+				.withArgs([new MosaicId(mockTestMosaic.idHex), new MosaicId(mockTestSecretLockMosaic.idHex)])
+				.resolves(Promise.resolve(mockMosaicNames));
+
+			stub(NamespaceService, 'getLinkedMosaicId').resolves(Promise.resolve(new MosaicId(mockTestSecretLockMosaic.idHex)));
+
+			// Act:
+			const { unresolvedMosaicsMap, mosaicInfos, mosaicNames} = await Helper.getTransactionMosaicInfoAndNamespace(mockTransactions)
+
+			// Assert:
+			expect(unresolvedMosaicsMap).toStrictEqual({
+				'E74B99BA41F4AFEE': '6BED913FA20223F8',
+				"6B2E9EAF2632AEC8": "6B2E9EAF2632AEC8",
+				"6BED913FA20223F8": "6BED913FA20223F8",
+				"DEBBC3DA600F2B48": "22D2D90A27738AA0",
+			});
+			expect(mosaicInfos).toStrictEqual(mockMosaicInfos);
+			expect(mosaicNames).toStrictEqual(mockMosaicNames);
+		})
+
+		it('returns empty when transactions empty', async () => {
+			// Arrange:
+			const transactions = []
+
+			// Act:
+			const {mosaicInfos, mosaicNames, unresolvedMosaicsMap} = await Helper.getTransactionMosaicInfoAndNamespace(transactions)
+
+			// Assert:
+			expect(mosaicInfos).toStrictEqual([]);
+			expect(mosaicNames).toStrictEqual([]);
+			expect(unresolvedMosaicsMap).toStrictEqual({});
+		})
+	})
 });
