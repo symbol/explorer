@@ -7,7 +7,7 @@ import {
 	Mosaic,
 	UInt64,
 	MosaicId,
-	TransactionInfo
+	TransactionType
 } from 'symbol-sdk';
 
 const generateRandomHash = (length = 32) => {
@@ -18,6 +18,28 @@ const generateRandomHash = (length = 32) => {
 		.hex()
 		.toUpperCase();
 };
+
+const transactionCommonField = {
+	deadline: {
+		adjustedValue: 8266897456
+	},
+	maxFee: UInt64.fromUint(1000000),
+	networkType: NetworkType.TEST_NET,
+	payloadSize: 176,
+	signature: generateRandomHash(64),
+	signer: {
+		address: Account.generateNewAccount(NetworkType.TEST_NET).address
+	},
+	version: 1,
+	transactionInfo: {
+		index: 1,
+		id: 1,
+		height: 198327,
+		timestamp: 1646063763,
+		feeMultiplier: 10,
+		hash: generateRandomHash()
+	},
+}
 
 const TestHelper = {
 	/**
@@ -210,13 +232,8 @@ const TestHelper = {
 	 */
 	mockTransaction: ({height, timestamp}) => {
 		return {
-			deadline: {
-				adjustedValue: 8266897456
-			},
-			maxFee: UInt64.fromUint(1000000),
-			type: 16724,
-			networkType: NetworkType.TEST_NET,
-			version: 1,
+			...transactionCommonField,
+			type: TransactionType.TRANSFER,
 			transactionInfo: {
 				index: 1,
 				id: 1,
@@ -224,11 +241,6 @@ const TestHelper = {
 				timestamp,
 				feeMultiplier: 10,
 				hash: generateRandomHash()
-			},
-			payloadSize: 176,
-			signature: generateRandomHash(64),
-			signer: {
-				address: Account.generateNewAccount(NetworkType.TEST_NET).address
 			},
 			recipientAddress: {
 				address: Account.generateNewAccount(NetworkType.TEST_NET).address
@@ -251,6 +263,37 @@ const TestHelper = {
 			mosaicId: new MosaicId('6BED913FA20223F8'),
 			type: 20803,
 			version: 1
+		};
+	},
+	mockMosaicSupplyRevocationTransaction: (mosaic) => {
+		return {
+			...transactionCommonField,
+			mosaic,
+			sourceAddress: Account.generateNewAccount(NetworkType.TEST_NET).address,
+			type: TransactionType.MOSAIC_SUPPLY_REVOCATION,
+			version: 1,
+		};
+	},
+	mockSecretLockTransaction: (mosaic) => {
+		return {
+			...transactionCommonField,
+			mosaic,
+			hashAlgorithm: 0,
+			duration: UInt64.fromUint(10),
+			type: TransactionType.SECRET_LOCK,
+			recipientAddress: {
+				address: Account.generateNewAccount(NetworkType.TEST_NET).address
+			},
+			secret: "FFF86D517ACFBCD86229CBDCECF9E7F777EF0B5FB54B15D794C68C33942A09D8"
+		};
+	},
+	mockLockFundsTransaction: () => {
+		return {
+			...transactionCommonField,
+			duration: UInt64.fromUint(10),
+			hash: "5547B43ECBCA8C90114BBD2C741D609719A0C61C7B03049125521ECE2415E376",
+			mosaic: new Mosaic(new MosaicId('6BED913FA20223F8'), UInt64.fromUint(10)),
+			type: TransactionType.HASH_LOCK,
 		};
 	}
 };
