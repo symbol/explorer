@@ -706,6 +706,10 @@ class helper {
 			}
 		});
 
+		return await helper.getMosaicInfoAndNamespace(unresolvedMosaics);
+	}
+
+	static getMosaicInfoAndNamespace = async unresolvedMosaics => {
 		const unresolvedMosaicsMap = {};
 
 		// create resolved mosaic mapping
