@@ -7,7 +7,7 @@ import {
 	Mosaic,
 	UInt64,
 	MosaicId,
-	TransactionType
+	TransactionType,
 } from 'symbol-sdk';
 
 const generateRandomHash = (length = 32) => {
@@ -39,6 +39,13 @@ const transactionCommonField = {
 		feeMultiplier: 10,
 		hash: generateRandomHash()
 	},
+}
+
+const receiptCommonField = {
+	amount: UInt64.fromUint(10000000),
+	height: UInt64.fromUint(1000),
+	mosaicId: new MosaicId('6BED913FA20223F8'),
+	version: 1
 }
 
 const TestHelper = {
@@ -323,6 +330,30 @@ const TestHelper = {
 			version: 1
 		}
 
+	},
+	mockBalanceChangeReceipt: (amount, mosaicIdHex, type) => {
+		return {
+			...receiptCommonField,
+			amount: UInt64.fromUint(amount),
+			mosaicId: new MosaicId(mosaicIdHex),
+			targetAddress: Account.generateNewAccount(NetworkType.TEST_NET).address,
+			type,
+		}
+	},
+	mockBalanceTransferReceipt: (amount, type) => {
+		return {
+			...receiptCommonField,
+			amount: UInt64.fromUint(amount),
+			recipientAddress: Account.generateNewAccount(NetworkType.TEST_NET).address,
+			senderAddress: Account.generateNewAccount(NetworkType.TEST_NET).address,
+			type,
+		}
+	},
+	mockInflationReceipt: () => {
+		return {
+			...receiptCommonField,
+			type: 20803,
+		}
 	}
 };
 
