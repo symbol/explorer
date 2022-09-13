@@ -1,11 +1,13 @@
-import { TransactionService } from '../../src/infrastructure';
+import { TransactionService, LockService } from '../../src/infrastructure';
 import TestHelper from '../TestHelper';
 import { restore, stub } from 'sinon';
+import { MosaicId, UInt64 } from 'symbol-sdk';
+import http from '../../src/infrastructure/http';
 
 describe('Transaction Service', () => {
 	afterEach(restore);
 
-	describe('getTransactionInfo should', () => {
+	describe('getTransactionInfo', () => {
 		it('return transfer transaction', async () => {
 			// Arrange:
 			const mockTransactionStatus = {
@@ -78,7 +80,7 @@ describe('Transaction Service', () => {
 		});
 	});
 
-	describe('getTransactionList should', () => {
+	describe('getTransactionList', () => {
 		it('return transactions', async () => {
 			// Arrange:
 			const pageInfo = {
@@ -117,4 +119,38 @@ describe('Transaction Service', () => {
 			});
 		});
 	});
+
+	describe('getHashLockInfo', () => {
+		it('resolves mosaics in hash lock info when transaction hash provided', async () => {
+			// Arrange:
+			const { address } = TestHelper.generateAccount(1)[0];
+
+			const mockHashLock = {
+				amount: UInt64.fromUint(10),
+				endHeight: 10,
+				hash: '41A1F78E82A80A6C6A845BE49BFC3DD3E05040ED72E598E7ED1BD80A9C691E0E',
+				mosaicId: new MosaicId(http.networkCurrency.mosaicId),
+				ownerAddress: address.plain(),
+				recordId: '631FA269464297FBEBEFE0ED',
+				status: 'Unused',
+				version: 1
+			}
+
+			stub(LockService, 'getHashLock').returns(Promise.resolve(mockHashLock));
+
+			// Act:
+			const hashLockInfo = await TransactionService.getHashLockInfo(mockHashLock.hash);
+
+			// Assert:
+			expect(hashLockInfo).toEqual({
+				...mockHashLock,
+				mosaics: [{
+					amount: '0.000010',
+					mosaicAliasName: 'symbol.xym',
+					mosaicId: "6BED913FA20223F8",
+					rawAmount: UInt64.fromUint(10)
+				}]
+			})
+		})
+	})
 });

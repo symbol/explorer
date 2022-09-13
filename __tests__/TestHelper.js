@@ -295,6 +295,34 @@ const TestHelper = {
 			mosaic: new Mosaic(new MosaicId('6BED913FA20223F8'), UInt64.fromUint(10)),
 			type: TransactionType.HASH_LOCK,
 		};
+	},
+	mockFormattedHashLockTransaction: (status) => {
+		return {
+			amount: UInt64.fromUint(10000000),
+			endHeight: 10,
+			hash: generateRandomHash(64),
+			mosaicId: new MosaicId('6BED913FA20223F8'),
+			ownerAddress: Account.generateNewAccount(NetworkType.TEST_NET).address.plain(),
+			recordId: '631FA269464297FBEBEFE0ED',
+			status,
+			version: 1
+		}
+	},
+	mockFormattedSecretLockTransaction: (mosaicIdHex, amount, status) => {
+		return {
+			amount: UInt64.fromUint(amount),
+			compositeHash: generateRandomHash(64),
+			hashAlgorithm: "Sha3 256",
+			endHeight: 10,
+			mosaicId: new MosaicId(mosaicIdHex),
+			ownerAddress: Account.generateNewAccount(NetworkType.TEST_NET).address.plain(),
+			recipient: Account.generateNewAccount(NetworkType.TEST_NET).address.plain(),
+			recordId: '631FA269464297FBEBEFE0ED',
+			secret: "112233445566",
+			status,
+			version: 1
+		}
+
 	}
 };
 

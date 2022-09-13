@@ -1,10 +1,11 @@
-import { AccountService, ChainService, NamespaceService, NodeService } from '../../src/infrastructure';
+import { AccountService, ChainService, NamespaceService, NodeService, LockService } from '../../src/infrastructure';
 import TestHelper from '../TestHelper';
 import { restore, stub } from 'sinon';
-import { Mosaic, UInt64, MosaicId, Account, NetworkType } from 'symbol-sdk';
+import { Mosaic, UInt64, MosaicId, Account, NetworkType, NamespaceName, NamespaceId } from 'symbol-sdk';
+import helper from '../../src/helper';
 
 describe('Account Service', () => {
-	describe('getAccountInfo should', () => {
+	describe('getAccountInfo', () => {
 
 		let getAccount = {};
 		let getChainInfo = {};
@@ -74,7 +75,7 @@ describe('Account Service', () => {
 		});
 	});
 
-	describe('getAccountList should', () => {
+	describe('getAccountList', () => {
 		const pageInfo = {
 			pageNumber: 1,
 			pageSize: 10
@@ -249,6 +250,119 @@ describe('Account Service', () => {
 
 		it('returns namespace expiration in date when non native namespace', async () => {
 			runBasicNamespaceExpirationTests(['hello.world', 'hello'], 1000, 'in a month');
+		})
+	})
+
+	describe('getAccountHashLockList', () => {
+		it('returns Unused and Used hash lock transaction list ', async () => {
+			// Arrange:
+			const pageInfo = {
+				pageNumber: 1,
+				pageSize: 10
+			};
+
+			const mockSearchHashLocks = {
+				...pageInfo,
+				data: [
+					TestHelper.mockFormattedHashLockTransaction('Unused'),
+					TestHelper.mockFormattedHashLockTransaction('Used'),
+				]
+			};
+
+			stub(LockService, 'searchHashLocks').returns(Promise.resolve(mockSearchHashLocks));
+
+			// Act:
+			const hashLockList = await AccountService.getAccountHashLockList(pageInfo, mockSearchHashLocks.data[0].ownerAddress);
+
+			// Assert:
+			expect(hashLockList.pageNumber).toEqual(pageInfo.pageNumber);
+			expect(hashLockList.pageSize).toEqual(pageInfo.pageSize);
+			expect(hashLockList.data).toHaveLength(2);
+			expect(hashLockList.data[0].status).toBe('Unused');
+			expect(hashLockList.data[1].status).toBe('Used');
+
+			hashLockList.data.forEach((hashLock, index) => {
+				expect(hashLock.mosaics).toEqual([{
+					amount: '10.000000',
+					mosaicAliasName: 'symbol.xym',
+					mosaicId: "6BED913FA20223F8",
+					rawAmount: UInt64.fromUint(10000000)
+				}]);
+				expect(hashLock.endHeight).toBe(10);
+				expect(hashLock.hash).toBe(mockSearchHashLocks.data[index].hash);
+				expect(hashLock.ownerAddress).toBe(mockSearchHashLocks.data[index].ownerAddress);
+			});
+		})
+	})
+
+	describe('getAccountSecretLockList', () => {
+		it('resolves mosaics in secret lock transaction list', async () => {
+			// Arrange:
+			const pageInfo = {
+				pageNumber: 1,
+				pageSize: 10
+			};
+
+			const mockTestSecretLockMosaic = {
+				idHex: '22D2D90A27738AA0',
+				namespaceName: 'secret_lock_mosaic'
+			};
+
+			const mockSearchSecretLocks = {
+				...pageInfo,
+				data: [
+					TestHelper.mockFormattedSecretLockTransaction(mockTestSecretLockMosaic.idHex, 30, 'Unused'),
+					TestHelper.mockFormattedSecretLockTransaction(mockTestSecretLockMosaic.idHex, 10, 'Used'),
+				]
+			};
+
+			const mockMosaicInfoAndNamespace = {
+				mosaicInfos: [
+					TestHelper.mockMosaicInfo(mockTestSecretLockMosaic.idHex, 'TC46AZWUIZYZ2WVGLVEZYNZHSIFAD3AFDPUJMEA', 2, 0)
+				],
+				mosaicNames: [
+					{
+						names: [new NamespaceName(new NamespaceId(mockTestSecretLockMosaic.namespaceName), mockTestSecretLockMosaic.namespaceName)],
+						mosaicId: mockTestSecretLockMosaic.idHex
+					}
+				],
+				unresolvedMosaicsMap: {
+					"22D2D90A27738AA0": '22D2D90A27738AA0'
+				}
+			}
+
+			stub(LockService, 'searchSecretLocks').returns(Promise.resolve(mockSearchSecretLocks));
+			stub(helper, 'getMosaicInfoAndNamespace').returns(Promise.resolve(mockMosaicInfoAndNamespace));
+
+			// Act:
+			const secretLockList = await AccountService.getAccountSecretLockList(pageInfo, mockSearchSecretLocks.data[0].ownerAddress);
+
+			// Assert:
+			expect(secretLockList.pageNumber).toEqual(pageInfo.pageNumber);
+			expect(secretLockList.pageSize).toEqual(pageInfo.pageSize);
+			expect(secretLockList.data).toHaveLength(2);
+
+			expect(secretLockList.data[0].status).toBe('Unused');
+			expect(secretLockList.data[0].mosaics).toEqual([{
+				amount: '30',
+				mosaicAliasName: mockTestSecretLockMosaic.namespaceName,
+				mosaicId: mockTestSecretLockMosaic.idHex,
+				rawAmount: UInt64.fromUint(30)
+			}]);
+			expect(secretLockList.data[1].status).toBe('Used');
+
+			expect(secretLockList.data[1].mosaics).toEqual([{
+				amount: '10',
+				mosaicAliasName: mockTestSecretLockMosaic.namespaceName,
+				mosaicId: mockTestSecretLockMosaic.idHex,
+				rawAmount: UInt64.fromUint(10)
+			}]);
+
+			secretLockList.data.forEach(secretLock => {
+				expect(secretLock.endHeight).toBe(10);
+				expect(secretLock.secret).toBe('112233445566');
+				expect(secretLock.hashAlgorithm).toBe('Sha3 256');
+			});
 		})
 	})
 });

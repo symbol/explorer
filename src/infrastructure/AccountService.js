@@ -27,8 +27,7 @@ import {
 	MetadataService,
 	LockService,
 	ReceiptService,
-	MosaicService,
-	BlockService
+	MosaicService
 } from '../infrastructure';
 import nem from 'nem-sdk';
 import {
@@ -470,11 +469,11 @@ class AccountService {
 			secretLocks.push({
 				...secretLock,
 				mosaics: helper.mosaicsFieldObjectBuilder([
-    				new Mosaic(
-    					new MosaicId(unresolvedMosaicsMap[secretLock.mosaicId.toHex()]),
-    					secretLock.amount
-    				)
-    			], mosaicInfos, mosaicNames),
+					new Mosaic(
+						new MosaicId(unresolvedMosaicsMap[secretLock.mosaicId.toHex()]),
+						secretLock.amount
+					)
+    			], mosaicInfos, mosaicNames)
 			});
 		}
 
