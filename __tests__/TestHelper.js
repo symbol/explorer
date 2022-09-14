@@ -354,6 +354,14 @@ const TestHelper = {
 			...receiptCommonField,
 			type: 20803,
 		}
+	},
+	mockArtifactExpiryReceipt: (artifactId, type) => {
+		return {
+			artifactId,
+			height: UInt64.fromUint(1000),
+			version: 1,
+			type
+		}
 	}
 };
 

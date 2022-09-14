@@ -5,7 +5,8 @@ import {
 	NamespaceId,
 	UInt64,
 	NamespaceName,
-    ReceiptType
+    ReceiptType,
+    MosaicId
 } from 'symbol-sdk';
 import TestHelper from '../TestHelper';
 import http from '../../src/infrastructure/http';
@@ -170,6 +171,39 @@ describe('CreateReceiptTransaction', () => {
             }])
             expect(receipts[0].receiptType).toBe('Inflation')
         })
+    })
 
+    describe('artifactExpiryReceipt', () => {
+        const runBasicArtifactExpiryReceiptTest = async (receiptType, artifactId, expectedResult) => {
+            // Arrange:
+            const mockStatement = TestHelper.mockArtifactExpiryReceipt(artifactId, receiptType);
+
+            // Act:
+            const receipts = await CreateReceiptTransaction.artifactExpiryReceipt([mockStatement]);
+
+            // Assert:
+            expect(receipts[0].height).toBe(1000)
+            expect(receipts[0].type).toBe(receiptType)
+            expect(receipts[0].version).toBe(1)
+            expect(receipts[0].receiptType).toBe(expectedResult)
+
+            if (receipts[0].type === ReceiptType.Mosaic_Expired) {
+                expect(receipts[0].mosaicArtifactId).toBe(artifactId.toHex())
+            } else {
+                expect(receipts[0].namespaceArtifactId).toBe(artifactId.toHex())
+            }
+        }
+
+        it('returns mosaic expired receipt', async () => {
+            await runBasicArtifactExpiryReceiptTest(ReceiptType.Mosaic_Expired, new MosaicId('22D2D90A27738AA0'), 'Mosaic Expired');
+        })
+
+        it('returns namespace expired receipt', async () => {
+            await runBasicArtifactExpiryReceiptTest(ReceiptType.Namespace_Expired, new NamespaceId('hello'), 'Namespace Expired');
+        })
+
+        it('returns namespace deleted receipt', async () => {
+            await runBasicArtifactExpiryReceiptTest(ReceiptType.Namespace_Deleted, new NamespaceId('hello'), 'Namespace Deleted');
+        })
     })
 })
