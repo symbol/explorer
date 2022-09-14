@@ -303,7 +303,7 @@ const TestHelper = {
 			type: TransactionType.HASH_LOCK,
 		};
 	},
-	mockFormattedHashLockTransaction: (status) => {
+	createFormattedHashLockTransaction: (status) => {
 		return {
 			amount: UInt64.fromUint(10000000),
 			endHeight: 10,
@@ -315,7 +315,7 @@ const TestHelper = {
 			version: 1
 		}
 	},
-	mockFormattedSecretLockTransaction: (mosaicIdHex, amount, status) => {
+	createFormattedSecretLockTransaction: (mosaicIdHex, amount, status) => {
 		return {
 			amount: UInt64.fromUint(amount),
 			compositeHash: generateRandomHash(64),

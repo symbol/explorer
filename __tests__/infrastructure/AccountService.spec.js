@@ -264,8 +264,8 @@ describe('Account Service', () => {
 			const mockSearchHashLocks = {
 				...pageInfo,
 				data: [
-					TestHelper.mockFormattedHashLockTransaction('Unused'),
-					TestHelper.mockFormattedHashLockTransaction('Used'),
+					TestHelper.createFormattedHashLockTransaction('Unused'),
+					TestHelper.createFormattedHashLockTransaction('Used'),
 				]
 			};
 
@@ -311,8 +311,8 @@ describe('Account Service', () => {
 			const mockSearchSecretLocks = {
 				...pageInfo,
 				data: [
-					TestHelper.mockFormattedSecretLockTransaction(mockTestSecretLockMosaic.idHex, 30, 'Unused'),
-					TestHelper.mockFormattedSecretLockTransaction(mockTestSecretLockMosaic.idHex, 10, 'Used'),
+					TestHelper.createFormattedSecretLockTransaction(mockTestSecretLockMosaic.idHex, 30, 'Unused'),
+					TestHelper.createFormattedSecretLockTransaction(mockTestSecretLockMosaic.idHex, 10, 'Used'),
 				]
 			};
 
@@ -342,16 +342,19 @@ describe('Account Service', () => {
 			expect(secretLockList.pageSize).toEqual(pageInfo.pageSize);
 			expect(secretLockList.data).toHaveLength(2);
 
-			expect(secretLockList.data[0].status).toBe('Unused');
-			expect(secretLockList.data[0].mosaics).toEqual([{
+			const UnusedData = secretLockList.data[0];
+			const UsedData = secretLockList.data[1];
+
+			expect(UnusedData.status).toBe('Unused');
+			expect(UnusedData.mosaics).toEqual([{
 				amount: '30',
 				mosaicAliasName: mockTestSecretLockMosaic.namespaceName,
 				mosaicId: mockTestSecretLockMosaic.idHex,
 				rawAmount: UInt64.fromUint(30)
 			}]);
-			expect(secretLockList.data[1].status).toBe('Used');
 
-			expect(secretLockList.data[1].mosaics).toEqual([{
+			expect(UsedData.status).toBe('Used');
+			expect(UsedData.mosaics).toEqual([{
 				amount: '10',
 				mosaicAliasName: mockTestSecretLockMosaic.namespaceName,
 				mosaicId: mockTestSecretLockMosaic.idHex,
@@ -359,6 +362,7 @@ describe('Account Service', () => {
 			}]);
 
 			secretLockList.data.forEach(secretLock => {
+				// Assert below are constants from createFormattedSecretLockTransaction
 				expect(secretLock.endHeight).toBe(10);
 				expect(secretLock.secret).toBe('112233445566');
 				expect(secretLock.hashAlgorithm).toBe('Sha3 256');

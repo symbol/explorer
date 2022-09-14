@@ -22,6 +22,7 @@ describe('CreateReceiptTransaction', () => {
             const receipts = await CreateReceiptTransaction.balanceChangeReceipt([mockStatement]);
 
             // Assert:
+            expect(receipts.length).toBe(1)
             expect(receipts[0].height).toBe(1000)
             expect(receipts[0].type).toBe(receiptType)
             expect(receipts[0].targetAddress).toBe(mockStatement.targetAddress.plain())
@@ -92,6 +93,7 @@ describe('CreateReceiptTransaction', () => {
                 const receipts = await CreateReceiptTransaction.balanceChangeReceipt([mockStatement]);
 
                 // Assert:
+                expect(receipts.length).toBe(1)
                 expect(receipts[0].height).toBe(1000)
                 expect(receipts[0].type).toBe(receiptType)
                 expect(receipts[0].targetAddress).toBe(mockStatement.targetAddress.plain())
@@ -128,6 +130,7 @@ describe('CreateReceiptTransaction', () => {
             const receipts = await CreateReceiptTransaction.balanceTransferReceipt([mockStatement]);
 
             // Assert:
+            expect(receipts.length).toBe(1)
             expect(receipts[0].height).toBe(1000)
             expect(receipts[0].type).toBe(receiptType)
             expect(receipts[0].senderAddress).toBe(mockStatement.senderAddress.plain())
@@ -160,6 +163,7 @@ describe('CreateReceiptTransaction', () => {
             const receipts = await CreateReceiptTransaction.inflationReceipt([mockStatement]);
 
             // Assert:
+            expect(receipts.length).toBe(1)
             expect(receipts[0].height).toBe(1000)
             expect(receipts[0].type).toBe(ReceiptType.Inflation)
             expect(receipts[0].version).toBe(1)
@@ -182,6 +186,7 @@ describe('CreateReceiptTransaction', () => {
             const receipts = await CreateReceiptTransaction.artifactExpiryReceipt([mockStatement]);
 
             // Assert:
+            expect(receipts.length).toBe(1)
             expect(receipts[0].height).toBe(1000)
             expect(receipts[0].type).toBe(receiptType)
             expect(receipts[0].version).toBe(1)
