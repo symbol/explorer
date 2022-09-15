@@ -2,7 +2,7 @@ import Constants from '../config/constants';
 import helper from '../helper';
 import { Mosaic, ReceiptType, MosaicId } from 'symbol-sdk';
 
-class CreateReceiptTransaction {
+class ReceiptExtractor {
     static balanceChangeReceipt = async transactionStatement => {
     	let balanceChangeReceipt = [];
 
@@ -87,4 +87,4 @@ class CreateReceiptTransaction {
     }
 }
 
-export default CreateReceiptTransaction;
+export default ReceiptExtractor;

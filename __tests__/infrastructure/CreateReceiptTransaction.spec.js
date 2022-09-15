@@ -1,5 +1,5 @@
 import Helper from '../../src/helper';
-import { CreateReceiptTransaction } from '../../src/infrastructure';
+import { ReceiptExtractor } from '../../src/infrastructure';
 import { stub, restore } from 'sinon';
 import {
 	NamespaceId,
@@ -11,7 +11,7 @@ import {
 import TestHelper from '../TestHelper';
 import http from '../../src/infrastructure/http';
 
-describe('CreateReceiptTransaction', () => {
+describe('ReceiptExtractor', () => {
 
     describe('balanceChangeReceipt', () => {
         const runBasicBalanceChangeReceiptTests = async (receiptType, expectedResult) => {
@@ -19,7 +19,7 @@ describe('CreateReceiptTransaction', () => {
             const mockStatement = TestHelper.mockBalanceChangeReceipt(10000000, http.networkCurrency.mosaicId, receiptType);
 
             // Act:
-            const receipts = await CreateReceiptTransaction.balanceChangeReceipt([mockStatement]);
+            const receipts = await ReceiptExtractor.balanceChangeReceipt([mockStatement]);
 
             // Assert:
             expect(receipts.length).toBe(1)
@@ -90,7 +90,7 @@ describe('CreateReceiptTransaction', () => {
                 stub(Helper, 'getMosaicInfoAndNamespace').returns(Promise.resolve(mockMosaicInfoAndNamespace));
 
                 // Act:
-                const receipts = await CreateReceiptTransaction.balanceChangeReceipt([mockStatement]);
+                const receipts = await ReceiptExtractor.balanceChangeReceipt([mockStatement]);
 
                 // Assert:
                 expect(receipts.length).toBe(1)
@@ -127,7 +127,7 @@ describe('CreateReceiptTransaction', () => {
             const mockStatement = TestHelper.mockBalanceTransferReceipt(10000000, receiptType);
 
             // Act:
-            const receipts = await CreateReceiptTransaction.balanceTransferReceipt([mockStatement]);
+            const receipts = await ReceiptExtractor.balanceTransferReceipt([mockStatement]);
 
             // Assert:
             expect(receipts.length).toBe(1)
@@ -160,7 +160,7 @@ describe('CreateReceiptTransaction', () => {
             const mockStatement = TestHelper.mockInflationReceipt();
 
             // Act:
-            const receipts = await CreateReceiptTransaction.inflationReceipt([mockStatement]);
+            const receipts = await ReceiptExtractor.inflationReceipt([mockStatement]);
 
             // Assert:
             expect(receipts.length).toBe(1)
@@ -183,7 +183,7 @@ describe('CreateReceiptTransaction', () => {
             const mockStatement = TestHelper.mockArtifactExpiryReceipt(artifactId, receiptType);
 
             // Act:
-            const receipts = await CreateReceiptTransaction.artifactExpiryReceipt([mockStatement]);
+            const receipts = await ReceiptExtractor.artifactExpiryReceipt([mockStatement]);
 
             // Assert:
             expect(receipts.length).toBe(1)
