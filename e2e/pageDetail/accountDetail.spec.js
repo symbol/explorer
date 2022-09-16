@@ -1,133 +1,134 @@
-import config from '../config/network.conf.json'
+/* eslint-disable import/extensions */
+import config from '../config/network.conf.json';
 
 describe('Symbol Explorer Account Detail page', () => {
-    beforeEach(() => {
-        cy.visit(`/accounts/${config.testAccount.address}`)
-    })
+	beforeEach(() => {
+		cy.visit(`/accounts/${config.testAccount.address}`);
+	});
 
-    describe('Account Detail Card should', () => {
-        it('load title', () => {
-            cy.get('[data-cy="accountDetailTitle"]').should('contain', 'Account Detail')
-        })
+	describe('Account Detail Card should', () => {
+		it('load title', () => {
+			cy.get('[data-cy="accountDetailTitle"]').should('contain', 'Account Detail');
+		});
 
-        it('render table in card', ()=> {
-            cy.renderTableInCard("accountDetailTitle")
-        })
+		it('render table in card', ()=> {
+			cy.renderTableInCard('accountDetailTitle');
+		});
 
-        it('render correct table fields.', () => {
-            const items = ['Address', 'Alias Namespace', 'Address height', 'Public key', 'Importance', 'Account type']
-            cy.renderFieldInTable("accountDetailTitle", items)
-        })
-    })
+		it('render correct table fields.', () => {
+			const items = ['Address', 'Alias Namespace', 'Address height', 'Public key', 'Importance', 'Account type'];
+			cy.renderFieldInTable('accountDetailTitle', items);
+		});
+	});
 
-    // Todo: Multisig Cosignatories
-    // describe('Multisig Cosignatories Card should', () => {
-    //     it('load title', () => {
-    //         cy.get('[data-cy="multisigCosignatoriesTitle"]').should('contain', 'Multisig Cosignatories')
-    //     })
+	// Todo: Multisig Cosignatories
+	// describe('Multisig Cosignatories Card should', () => {
+	//     it('load title', () => {
+	//         cy.get('[data-cy="multisigCosignatoriesTitle"]').should('contain', 'Multisig Cosignatories')
+	//     })
 
-    //     it('render table in card', ()=> {
-    //         cy.renderTableInCard("multisigCosignatoriesTitle")
-    //     })
+	//     it('render table in card', ()=> {
+	//         cy.renderTableInCard("multisigCosignatoriesTitle")
+	//     })
 
-    //     it('render correct table fields.', () => {
-    //         const items = ['Minimum Approval', 'Minimum Removal', 'Cosignatories']
-    //         cy.renderFieldInTable("multisigCosignatoriesTitle", items)
-    //     })
-    // })
+	//     it('render correct table fields.', () => {
+	//         const items = ['Minimum Approval', 'Minimum Removal', 'Cosignatories']
+	//         cy.renderFieldInTable("multisigCosignatoriesTitle", items)
+	//     })
+	// })
 
-    describe('Owned Mosaics Card should', () => {
-        it('load title', () => {
-            cy.get('[data-cy="ownedMosaicsTitle"]').should('contain', 'Owned Mosaics')
-        })
+	describe('Owned Mosaics Card should', () => {
+		it('load title', () => {
+			cy.get('[data-cy="ownedMosaicsTitle"]').should('contain', 'Owned Mosaics');
+		});
 
-        it('render table in card', () => {
-            cy.renderTableInCard("ownedMosaicsTitle")
-        })
+		it('render table in card', () => {
+			cy.renderTableInCard('ownedMosaicsTitle');
+		});
 
-        it('render correct table header.', () => {
-            const items = ['Mosaic ID', 'Amount', 'Alias Namespace']
-            cy.renderHeaderInTable("ownedMosaicsTitle", items)
-        })
-    })
+		it('render correct table header.', () => {
+			const items = ['Mosaic ID', 'Amount', 'Alias Namespace'];
+			cy.renderHeaderInTable('ownedMosaicsTitle', items);
+		});
+	});
 
-    describe('Owned Namespaces Card should', () => {
-        it('load title', () => {
-            cy.get('[data-cy="ownedNamespacesTitle"]').should('contain', 'Owned Namespaces')
-        })
+	describe('Owned Namespaces Card should', () => {
+		it('load title', () => {
+			cy.get('[data-cy="ownedNamespacesTitle"]').should('contain', 'Owned Namespaces');
+		});
 
-        it('render table in card', () => {
-            cy.renderTableInCard("ownedNamespacesTitle")
-        })
+		it('render table in card', () => {
+			cy.renderTableInCard('ownedNamespacesTitle');
+		});
 
-        it('render correct table header.', () => {
-            const items = ['Name', 'Status', 'Duration', 'Registration Type']
-            cy.renderHeaderInTable("ownedNamespacesTitle", items)
-        })
-    })
+		it('render correct table header.', () => {
+			const items = ['Name', 'Status', 'Duration', 'Registration Type'];
+			cy.renderHeaderInTable('ownedNamespacesTitle', items);
+		});
+	});
 
-    describe('Supplemental Keys Card should', () => {
-        it('load title', () => {
-            cy.get('[data-cy="supplementalKeysTitle"]').should('contain', 'Supplemental Keys')
-        })
+	describe('Supplemental Keys Card should', () => {
+		it('load title', () => {
+			cy.get('[data-cy="supplementalKeysTitle"]').should('contain', 'Supplemental Keys');
+		});
 
-        it('render table in card', ()=> {
-            cy.renderTableInCard("supplementalKeysTitle")
-        })
+		it('render table in card', ()=> {
+			cy.renderTableInCard('supplementalKeysTitle');
+		});
 
-        it('render correct table fields.', () => {
-            const items = ['LINKED', 'NODE', 'VRF']
-            cy.renderFieldInTable("supplementalKeysTitle", items)
-        })
-    })
+		it('render correct table fields.', () => {
+			const items = ['LINKED', 'NODE', 'VRF'];
+			cy.renderFieldInTable('supplementalKeysTitle', items);
+		});
+	});
 
-    describe('Importance History Card should', () => {
-        it('load title', () => {
-            cy.get('[data-cy="importanceHistoryTitle"]').should('contain', 'Importance History')
-        })
+	describe('Importance History Card should', () => {
+		it('load title', () => {
+			cy.get('[data-cy="importanceHistoryTitle"]').should('contain', 'Importance History');
+		});
 
-        it('render table in card', () => {
-            cy.renderTableInCard("importanceHistoryTitle")
-        })
+		it('render table in card', () => {
+			cy.renderTableInCard('importanceHistoryTitle');
+		});
 
-        it('render correct table header.', () => {
-            const items = ['Recalculation Block #', 'Total Fees Paid', 'Beneficiary Count', 'Importance Score']
-            cy.renderHeaderInTable("importanceHistoryTitle", items)
-        })
-    })
+		it('render correct table header.', () => {
+			const items = ['Recalculation Block #', 'Total Fees Paid', 'Beneficiary Count', 'Importance Score'];
+			cy.renderHeaderInTable('importanceHistoryTitle', items);
+		});
+	});
 
-    describe('Transactions Card should', () => {
-        it('load title', () => {
-            cy.get('[data-cy="accountTransactionsTitle"]').should('contain', 'Transactions')
-        })
+	describe('Transactions Card should', () => {
+		it('load title', () => {
+			cy.get('[data-cy="accountTransactionsTitle"]').should('contain', 'Transactions');
+		});
 
-        it('render table in card', () => {
-            cy.renderTableInCard("accountTransactionsTitle")
-        })
+		it('render table in card', () => {
+			cy.renderTableInCard('accountTransactionsTitle');
+		});
 
-        it('render correct table header.', () => {
-            const items = ['Deadline', 'Transaction Hash', 'Type']
-            cy.renderHeaderInTable("accountTransactionsTitle", items)
-        })
-    })
+		it('render correct table header.', () => {
+			const items = ['Deadline', 'Transaction Hash', 'Type'];
+			cy.renderHeaderInTable('accountTransactionsTitle', items);
+		});
+	});
 
-    // Todo: Harvested Blocks Card
-    // describe('Harvested Blocks Card should', () => {
-    //     it('load title', () => {
-    //         cy.get('[data-cy="harvestedBlockTitle"]').should('contain', 'Harvested Blocks')
-    //     })
+	// Todo: Harvested Blocks Card
+	// describe('Harvested Blocks Card should', () => {
+	//     it('load title', () => {
+	//         cy.get('[data-cy="harvestedBlockTitle"]').should('contain', 'Harvested Blocks')
+	//     })
 
-    //     it('render table in card', () => {
-    //         cy.renderTableInCard("harvestedBlockTitle")
-    //     })
+	//     it('render table in card', () => {
+	//         cy.renderTableInCard("harvestedBlockTitle")
+	//     })
 
-    //     it('render correct table header.', () => {
-    //         const items = ['Height', 'Age', 'Transactions', 'Total Fee', 'Date', 'Harvester']
-    //         cy.renderHeaderInTable("harvestedBlockTitle", items)
-    //     })
-    // })
+	//     it('render correct table header.', () => {
+	//         const items = ['Height', 'Age', 'Transactions', 'Total Fee', 'Date', 'Harvester']
+	//         cy.renderHeaderInTable("harvestedBlockTitle", items)
+	//     })
+	// })
 
-    // Todo: Metadata Entries
-    // Todo: Account Restriction
+	// Todo: Metadata Entries
+	// Todo: Account Restriction
 
-  })
+});
