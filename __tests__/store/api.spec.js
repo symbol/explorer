@@ -62,7 +62,11 @@ describe('store/api', () => {
 
 			// Assert:
 			expect(commit).toHaveBeenCalledTimes(1);
-			expect(commit).toHaveBeenNthCalledWith(1, 'setNodes', ['https://mock_1.com:3001', 'https://mock_2.com:3001' ,'http://localhost:3000']);
+			expect(commit).toHaveBeenNthCalledWith(
+				1,
+				'setNodes',
+				['https://mock_1.com:3001', 'https://mock_2.com:3001' ,'http://localhost:3000']
+			);
 		});
 
 		it('load node list with random node', async () => {

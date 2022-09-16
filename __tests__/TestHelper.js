@@ -38,8 +38,8 @@ const transactionCommonField = {
 		timestamp: 1646063763,
 		feeMultiplier: 10,
 		hash: generateRandomHash()
-	},
-}
+	}
+};
 
 const receiptCommonField = {
 	amount: UInt64.fromUint(10000000),
@@ -272,16 +272,16 @@ const TestHelper = {
 			version: 1
 		};
 	},
-	mockMosaicSupplyRevocationTransaction: (mosaic) => {
+	mockMosaicSupplyRevocationTransaction: mosaic => {
 		return {
 			...transactionCommonField,
 			mosaic,
 			sourceAddress: Account.generateNewAccount(NetworkType.TEST_NET).address,
 			type: TransactionType.MOSAIC_SUPPLY_REVOCATION,
-			version: 1,
+			version: 1
 		};
 	},
-	mockSecretLockTransaction: (mosaic) => {
+	mockSecretLockTransaction: mosaic => {
 		return {
 			...transactionCommonField,
 			mosaic,
@@ -291,16 +291,16 @@ const TestHelper = {
 			recipientAddress: {
 				address: Account.generateNewAccount(NetworkType.TEST_NET).address
 			},
-			secret: "FFF86D517ACFBCD86229CBDCECF9E7F777EF0B5FB54B15D794C68C33942A09D8"
+			secret: 'FFF86D517ACFBCD86229CBDCECF9E7F777EF0B5FB54B15D794C68C33942A09D8'
 		};
 	},
 	mockLockFundsTransaction: () => {
 		return {
 			...transactionCommonField,
 			duration: UInt64.fromUint(10),
-			hash: "5547B43ECBCA8C90114BBD2C741D609719A0C61C7B03049125521ECE2415E376",
+			hash: '5547B43ECBCA8C90114BBD2C741D609719A0C61C7B03049125521ECE2415E376',
 			mosaic: new Mosaic(new MosaicId('6BED913FA20223F8'), UInt64.fromUint(10)),
-			type: TransactionType.HASH_LOCK,
+			type: TransactionType.HASH_LOCK
 		};
 	},
 	createFormattedHashLockTransaction: (status) => {
