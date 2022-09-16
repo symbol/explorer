@@ -342,19 +342,19 @@ describe('Account Service', () => {
 			expect(secretLockList.pageSize).toEqual(pageInfo.pageSize);
 			expect(secretLockList.data).toHaveLength(2);
 
-			const UnusedData = secretLockList.data[0];
-			const UsedData = secretLockList.data[1];
+			const unusedData = secretLockList.data[0];
+			const usedData = secretLockList.data[1];
 
-			expect(UnusedData.status).toBe('Unused');
-			expect(UnusedData.mosaics).toEqual([{
+			expect(unusedData.status).toBe('Unused');
+			expect(unusedData.mosaics).toEqual([{
 				amount: '30',
 				mosaicAliasName: mockTestSecretLockMosaic.namespaceName,
 				mosaicId: mockTestSecretLockMosaic.idHex,
 				rawAmount: UInt64.fromUint(30)
 			}]);
 
-			expect(UsedData.status).toBe('Used');
-			expect(UsedData.mosaics).toEqual([{
+			expect(usedData.status).toBe('Used');
+			expect(usedData.mosaics).toEqual([{
 				amount: '10',
 				mosaicAliasName: mockTestSecretLockMosaic.namespaceName,
 				mosaicId: mockTestSecretLockMosaic.idHex,
