@@ -1,14 +1,14 @@
 import Constants from '../config/constants';
 import helper from '../helper';
-import { Mosaic, ReceiptType } from 'symbol-sdk';
+import { Mosaic, ReceiptType, MosaicId } from 'symbol-sdk';
 
-class CreateReceiptTransaction {
+class ReceiptExtractor {
     static balanceChangeReceipt = async transactionStatement => {
     	let balanceChangeReceipt = [];
 
     	const mosaics = transactionStatement.map(statement => new Mosaic(statement.mosaicId, statement.amount));
 
-    	const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder(mosaics);
+    	const { mosaicInfos, mosaicNames, unresolvedMosaicsMap } = await helper.getMosaicInfoAndNamespace(mosaics);
 
     	for (const statement of transactionStatement) {
     		balanceChangeReceipt.push({
@@ -16,8 +16,12 @@ class CreateReceiptTransaction {
     			height: statement.height.compact(),
   				receiptType: Constants.ReceiptType[statement.type],
   				targetAddress: statement.targetAddress.plain(),
-    			mosaics: [mosaicsFieldObject.find(mosaicFieldObject => mosaicFieldObject.mosaicId === statement.mosaicId.toHex() &&
-					statement.amount.equals(mosaicFieldObject.rawAmount))]
+    			mosaics: helper.mosaicsFieldObjectBuilder([
+    				new Mosaic(
+    					new MosaicId(unresolvedMosaicsMap[statement.mosaicId.toHex()]),
+    					statement.amount
+    				)
+    			], mosaicInfos, mosaicNames)
     		});
     	}
 
@@ -27,19 +31,16 @@ class CreateReceiptTransaction {
     static balanceTransferReceipt = async transactionStatement => {
     	let balanceTransferReceipt = [];
 
-    	const mosaics = transactionStatement.map(statement => new Mosaic(statement.mosaicId, statement.amount));
-
-    	const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder(mosaics);
-
     	for (const statement of transactionStatement) {
+    		const mosaic = new Mosaic(statement.mosaicId, statement.amount);
+
     		balanceTransferReceipt.push({
     			...statement,
     			height: statement.height.compact(),
     			receiptType: Constants.ReceiptType[statement.type],
   				senderAddress: statement.senderAddress.address,
   				recipient: statement.recipientAddress.address,
-    			mosaics: [mosaicsFieldObject.find(mosaicFieldObject => mosaicFieldObject.mosaicId === statement.mosaicId.toHex() &&
-					statement.amount.equals(mosaicFieldObject.rawAmount))]
+    			mosaics: helper.mosaicsFieldObjectBuilder([mosaic])
     		});
     	}
 
@@ -49,17 +50,14 @@ class CreateReceiptTransaction {
     static inflationReceipt = async transactionStatement => {
     	let inflationReceipt = [];
 
-    	const mosaics = transactionStatement.map(statement => new Mosaic(statement.mosaicId, statement.amount));
-
-    	const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder(mosaics);
-
     	for (const statement of transactionStatement) {
+    		const mosaic = new Mosaic(statement.mosaicId, statement.amount);
+
     		inflationReceipt.push({
     			...statement,
     			height: statement.height.compact(),
     			receiptType: Constants.ReceiptType[statement.type],
-    			mosaics: [mosaicsFieldObject.find(mosaicFieldObject => mosaicFieldObject.mosaicId === statement.mosaicId.toHex() &&
-					statement.amount.equals(mosaicFieldObject.rawAmount))]
+    			mosaics: helper.mosaicsFieldObjectBuilder([mosaic])
     		});
     	}
 
@@ -89,4 +87,4 @@ class CreateReceiptTransaction {
     }
 }
 
-export default CreateReceiptTransaction;
+export default ReceiptExtractor;

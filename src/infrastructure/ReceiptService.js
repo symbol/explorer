@@ -19,7 +19,7 @@
 import http from './http';
 import Constants from '../config/constants';
 import {
-	CreateReceiptTransaction
+	ReceiptExtractor
 } from '../infrastructure';
 import { take, toArray } from 'rxjs/operators';
 import { ReceiptType, ResolutionType } from 'symbol-sdk';
@@ -119,13 +119,13 @@ class ReceiptService {
 		const { receiptTransactionStatementType } = transactionStatement;
 		switch (receiptTransactionStatementType) {
 		case Constants.ReceiptTransactionStatementType.BalanceChangeReceipt:
-			return CreateReceiptTransaction.balanceChangeReceipt(transactionStatement.data);
+			return ReceiptExtractor.balanceChangeReceipt(transactionStatement.data);
 		case Constants.ReceiptTransactionStatementType.BalanceTransferReceipt:
-			return CreateReceiptTransaction.balanceTransferReceipt(transactionStatement.data);
+			return ReceiptExtractor.balanceTransferReceipt(transactionStatement.data);
 		case Constants.ReceiptTransactionStatementType.ArtifactExpiryReceipt:
-			return CreateReceiptTransaction.artifactExpiryReceipt(transactionStatement.data);
+			return ReceiptExtractor.artifactExpiryReceipt(transactionStatement.data);
 		case Constants.ReceiptTransactionStatementType.InflationReceipt:
-			return CreateReceiptTransaction.inflationReceipt(transactionStatement.data);
+			return ReceiptExtractor.inflationReceipt(transactionStatement.data);
 		default:
 			throw new Error('Unimplemented receipt transaction statement with type ' + receiptTransactionStatementType);
 		}

@@ -143,7 +143,7 @@ class TransactionService {
 
   	const mosaics = [new Mosaic(hashInfo.mosaicId, hashInfo.amount)];
 
-  	const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder(mosaics);
+  	const mosaicsFieldObject = helper.mosaicsFieldObjectBuilder(mosaics);
 
   	return {
 		  ...hashInfo,

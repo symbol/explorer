@@ -1,7 +1,6 @@
 import AccountService from './AccountService';
 import BlockService from './BlockService';
 import ChainService from './ChainService';
-import CreateReceiptTransaction from './CreateReceiptTransaction';
 import CreateTransaction from './CreateTransaction';
 import DataService from './DataService';
 import FinalizationService from './FinalizationService';
@@ -13,6 +12,7 @@ import MultisigService from './MultisigService';
 import NamespaceService from './NamespaceService';
 import NetworkService from './NetworkService';
 import NodeService from './NodeService';
+import ReceiptExtractor from './ReceiptExtractor';
 import ReceiptService from './ReceiptService';
 import RestrictionService from './RestrictionService';
 import StatisticService from './StatisticService';
@@ -36,6 +36,6 @@ export {
 	StatisticService,
 	LockService,
 	CreateTransaction,
-	CreateReceiptTransaction,
+	ReceiptExtractor,
 	FinalizationService
 };

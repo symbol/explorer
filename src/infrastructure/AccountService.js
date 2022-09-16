@@ -27,8 +27,7 @@ import {
 	MetadataService,
 	LockService,
 	ReceiptService,
-	MosaicService,
-	BlockService
+	MosaicService
 } from '../infrastructure';
 import nem from 'nem-sdk';
 import {
@@ -424,17 +423,15 @@ class AccountService {
 		};
 		const accountHashLocks = await LockService.searchHashLocks(searchCriteria);
 
-		const mosaics = accountHashLocks.data.map(hashlock => new Mosaic(hashlock.mosaicId, hashlock.amount));
-
-		const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder(mosaics);
-
 		let hashLocks = [];
 
 		for (const hashLock of accountHashLocks.data) {
+			const mosaics = [new Mosaic(hashLock.mosaicId, hashLock.amount)];
+
 			hashLocks.push({
 				...hashLock,
 				transactionHash: hashLock.hash,
-				mosaics: [mosaicsFieldObject.find(mosaicFieldObject => mosaicFieldObject.mosaicId === hashLock.mosaicId.toHex())]
+				mosaics: helper.mosaicsFieldObjectBuilder(mosaics)
 			});
 		}
 
@@ -464,14 +461,19 @@ class AccountService {
 
 		const mosaics = accountSecretLocks.data.map(secretlock => new Mosaic(secretlock.mosaicId, secretlock.amount));
 
-		const mosaicsFieldObject = await helper.mosaicsFieldObjectBuilder(mosaics);
+		const { mosaicInfos, mosaicNames, unresolvedMosaicsMap } = await helper.getMosaicInfoAndNamespace(mosaics);
 
 		let secretLocks = [];
 
 		for (const secretLock of accountSecretLocks.data) {
 			secretLocks.push({
 				...secretLock,
-				mosaics: [mosaicsFieldObject.find(mosaicFieldObject => mosaicFieldObject.mosaicId === secretLock.mosaicId.toHex())]
+				mosaics: helper.mosaicsFieldObjectBuilder([
+					new Mosaic(
+						new MosaicId(unresolvedMosaicsMap[secretLock.mosaicId.toHex()]),
+						secretLock.amount
+					)
+    			], mosaicInfos, mosaicNames)
 			});
 		}
 

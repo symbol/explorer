@@ -7,7 +7,7 @@ import {
 	Mosaic,
 	UInt64,
 	MosaicId,
-	TransactionType
+	TransactionType,
 } from 'symbol-sdk';
 
 const generateRandomHash = (length = 32) => {
@@ -39,6 +39,13 @@ const transactionCommonField = {
 		feeMultiplier: 10,
 		hash: generateRandomHash()
 	},
+}
+
+const receiptCommonField = {
+	amount: UInt64.fromUint(10000000),
+	height: UInt64.fromUint(1000),
+	mosaicId: new MosaicId('6BED913FA20223F8'),
+	version: 1
 }
 
 const TestHelper = {
@@ -295,6 +302,66 @@ const TestHelper = {
 			mosaic: new Mosaic(new MosaicId('6BED913FA20223F8'), UInt64.fromUint(10)),
 			type: TransactionType.HASH_LOCK,
 		};
+	},
+	createFormattedHashLockTransaction: (status) => {
+		return {
+			amount: UInt64.fromUint(10000000),
+			endHeight: 10,
+			hash: generateRandomHash(64),
+			mosaicId: new MosaicId('6BED913FA20223F8'),
+			ownerAddress: Account.generateNewAccount(NetworkType.TEST_NET).address.plain(),
+			recordId: '631FA269464297FBEBEFE0ED',
+			status,
+			version: 1
+		}
+	},
+	createFormattedSecretLockTransaction: (mosaicIdHex, amount, status) => {
+		return {
+			amount: UInt64.fromUint(amount),
+			compositeHash: generateRandomHash(64),
+			hashAlgorithm: "Sha3 256",
+			endHeight: 10,
+			mosaicId: new MosaicId(mosaicIdHex),
+			ownerAddress: Account.generateNewAccount(NetworkType.TEST_NET).address.plain(),
+			recipient: Account.generateNewAccount(NetworkType.TEST_NET).address.plain(),
+			recordId: '631FA269464297FBEBEFE0ED',
+			secret: "112233445566",
+			status,
+			version: 1
+		}
+
+	},
+	mockBalanceChangeReceipt: (amount, mosaicIdHex, type) => {
+		return {
+			...receiptCommonField,
+			amount: UInt64.fromUint(amount),
+			mosaicId: new MosaicId(mosaicIdHex),
+			targetAddress: Account.generateNewAccount(NetworkType.TEST_NET).address,
+			type,
+		}
+	},
+	mockBalanceTransferReceipt: (amount, type) => {
+		return {
+			...receiptCommonField,
+			amount: UInt64.fromUint(amount),
+			recipientAddress: Account.generateNewAccount(NetworkType.TEST_NET).address,
+			senderAddress: Account.generateNewAccount(NetworkType.TEST_NET).address,
+			type,
+		}
+	},
+	mockInflationReceipt: () => {
+		return {
+			...receiptCommonField,
+			type: 20803,
+		}
+	},
+	mockArtifactExpiryReceipt: (artifactId, type) => {
+		return {
+			artifactId,
+			height: UInt64.fromUint(1000),
+			version: 1,
+			type
+		}
 	}
 };
 
