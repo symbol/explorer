@@ -1,8 +1,8 @@
 import { TransactionService, LockService } from '../../src/infrastructure';
+import http from '../../src/infrastructure/http';
 import TestHelper from '../TestHelper';
 import { restore, stub } from 'sinon';
 import { MosaicId, UInt64 } from 'symbol-sdk';
-import http from '../../src/infrastructure/http';
 
 describe('Transaction Service', () => {
 	afterEach(restore);
@@ -134,7 +134,7 @@ describe('Transaction Service', () => {
 				recordId: '631FA269464297FBEBEFE0ED',
 				status: 'Unused',
 				version: 1
-			}
+			};
 
 			stub(LockService, 'getHashLock').returns(Promise.resolve(mockHashLock));
 
@@ -147,10 +147,10 @@ describe('Transaction Service', () => {
 				mosaics: [{
 					amount: '0.000010',
 					mosaicAliasName: 'symbol.xym',
-					mosaicId: "6BED913FA20223F8",
+					mosaicId: '6BED913FA20223F8',
 					rawAmount: UInt64.fromUint(10)
 				}]
-			})
-		})
-	})
+			});
+		});
+	});
 });

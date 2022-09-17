@@ -7,7 +7,7 @@ import {
 	Mosaic,
 	UInt64,
 	MosaicId,
-	TransactionType,
+	TransactionType
 } from 'symbol-sdk';
 
 const generateRandomHash = (length = 32) => {
@@ -46,7 +46,7 @@ const receiptCommonField = {
 	height: UInt64.fromUint(1000),
 	mosaicId: new MosaicId('6BED913FA20223F8'),
 	version: 1
-}
+};
 
 const TestHelper = {
 	/**
@@ -303,7 +303,7 @@ const TestHelper = {
 			type: TransactionType.HASH_LOCK
 		};
 	},
-	createFormattedHashLockTransaction: (status) => {
+	createFormattedHashLockTransaction: status => {
 		return {
 			amount: UInt64.fromUint(10000000),
 			endHeight: 10,
@@ -313,22 +313,22 @@ const TestHelper = {
 			recordId: '631FA269464297FBEBEFE0ED',
 			status,
 			version: 1
-		}
+		};
 	},
 	createFormattedSecretLockTransaction: (mosaicIdHex, amount, status) => {
 		return {
 			amount: UInt64.fromUint(amount),
 			compositeHash: generateRandomHash(64),
-			hashAlgorithm: "Sha3 256",
+			hashAlgorithm: 'Sha3 256',
 			endHeight: 10,
 			mosaicId: new MosaicId(mosaicIdHex),
 			ownerAddress: Account.generateNewAccount(NetworkType.TEST_NET).address.plain(),
 			recipient: Account.generateNewAccount(NetworkType.TEST_NET).address.plain(),
 			recordId: '631FA269464297FBEBEFE0ED',
-			secret: "112233445566",
+			secret: '112233445566',
 			status,
 			version: 1
-		}
+		};
 
 	},
 	mockBalanceChangeReceipt: (amount, mosaicIdHex, type) => {
@@ -337,8 +337,8 @@ const TestHelper = {
 			amount: UInt64.fromUint(amount),
 			mosaicId: new MosaicId(mosaicIdHex),
 			targetAddress: Account.generateNewAccount(NetworkType.TEST_NET).address,
-			type,
-		}
+			type
+		};
 	},
 	mockBalanceTransferReceipt: (amount, type) => {
 		return {
@@ -346,14 +346,14 @@ const TestHelper = {
 			amount: UInt64.fromUint(amount),
 			recipientAddress: Account.generateNewAccount(NetworkType.TEST_NET).address,
 			senderAddress: Account.generateNewAccount(NetworkType.TEST_NET).address,
-			type,
-		}
+			type
+		};
 	},
 	mockInflationReceipt: () => {
 		return {
 			...receiptCommonField,
-			type: 20803,
-		}
+			type: 20803
+		};
 	},
 	mockArtifactExpiryReceipt: (artifactId, type) => {
 		return {
@@ -361,7 +361,7 @@ const TestHelper = {
 			height: UInt64.fromUint(1000),
 			version: 1,
 			type
-		}
+		};
 	}
 };
 
