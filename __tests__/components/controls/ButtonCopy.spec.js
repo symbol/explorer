@@ -46,7 +46,7 @@ describe('CopyButton component', () => {
 		wrapper = setupStoreMount();
 	});
 
-	afterEach(restore)
+	afterEach(restore);
 
 	it('processes props data', () => {
 		// Assert:
@@ -58,8 +58,8 @@ describe('CopyButton component', () => {
 		// Arrange:
 		stub(helper, 'copyTextToClipboard').returns(Promise.resolve());
 
-		const mockSuccessMsgMethod = jest.fn()
-		wrapper.setMethods({ successMsg: mockSuccessMsgMethod })
+		const mockSuccessMsgMethod = jest.fn();
+		wrapper.setMethods({ successMsg: mockSuccessMsgMethod });
 
 		// Act:
 		await wrapper.vm.onCopyClick();
@@ -72,8 +72,8 @@ describe('CopyButton component', () => {
 		// Arrange:
 		stub(helper, 'copyTextToClipboard').returns(Promise.reject(Error('error')));
 
-		const mockErrorMsgMethod = jest.fn()
-		wrapper.setMethods({ errorMsg: mockErrorMsgMethod })
+		const mockErrorMsgMethod = jest.fn();
+		wrapper.setMethods({ errorMsg: mockErrorMsgMethod });
 
 		// Act:
 		await wrapper.vm.onCopyClick();

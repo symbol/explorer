@@ -1,54 +1,54 @@
 describe('Symbol Explorer Blocks list page should', () => {
-    it('load pages titles', () => {
-        cy.visit('/blocks')
-        cy.contains('Blocks')
-    })
+	it('load pages titles', () => {
+		cy.visit('/blocks');
+		cy.contains('Blocks');
+	});
 
-    it('load chain height and block height is exist', () => {
-        cy.visit('/blocks')
+	it('load chain height and block height is exist', () => {
+		cy.visit('/blocks');
 
-        cy.get('.ex-infotext')
-        .should('be.visible')
-        .should('not.empty')
-    })
+		cy.get('.ex-infotext')
+			.should('be.visible')
+			.should('not.empty');
+	});
 
-    it('render table header and table body', () => {
-        cy.visit('/blocks')
+	it('render table header and table body', () => {
+		cy.visit('/blocks');
 
-        cy.renderTable()
-    })
+		cy.renderTable();
+	});
 
-    it('render 7 items in table header', () => {
-        cy.visit('/blocks')
+	it('render 7 items in table header', () => {
+		cy.visit('/blocks');
 
-        cy.renderHeaderItem(7)
-    })
+		cy.renderHeaderItem(7);
+	});
 
-    it('render at least 1 row data in the table list', () => {
-        cy.visit('/blocks')
+	it('render at least 1 row data in the table list', () => {
+		cy.visit('/blocks');
 
-        cy.renderData()
-    })
+		cy.renderData();
+	});
 
-    it('redirect to account detail page given click on harvester address', () => {
-        cy.visit('/blocks')
+	it('redirect to account detail page given click on harvester address', () => {
+		cy.visit('/blocks');
 
-        cy.get('tbody tr .harvester')
-        .then($data => {
-            return $data[0]
-        }).click()
+		cy.get('tbody tr .harvester')
+			.then($data => {
+				return $data[0];
+			}).click();
 
-        cy.url().should('contain', '/account')
-    })
+		cy.url().should('contain', '/account');
+	});
 
-    it('redirect to block detail page given click on block height', () => {
-        cy.visit('/blocks')
+	it('redirect to block detail page given click on block height', () => {
+		cy.visit('/blocks');
 
-        cy.get('tbody tr .height')
-        .then($data => {
-            return $data[0]
-        }).click()
+		cy.get('tbody tr .height')
+			.then($data => {
+				return $data[0];
+			}).click();
 
-        cy.url().should('contain', '/block')
-    })
-  })
+		cy.url().should('contain', '/block');
+	});
+});

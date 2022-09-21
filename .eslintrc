@@ -1,7 +1,7 @@
 ---
 extends:
   - plugin:vue/essential
-  - ./default.eslintrc
+  - ./_symbol/linters/javascript/default.eslintrc
 plugins:
   - import
 parserOptions:
