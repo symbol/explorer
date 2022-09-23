@@ -22,11 +22,10 @@
 			v-for="(item, index) in value"
 			class="restriction"
 			:key="'restriction_key_' + index"
-			:title="getTranslation('restrictionType') + ': ' + getTranslation(item.restrictionType) + ' | ' + getTranslation('restrictionValue') + ': ' + item.restrictionValue"
+			:title="getTitle(item)"
 		>
-
 			<span class="restriction-content">
-				{{getTranslation('restrictionKey')}} {{ item.restrictionKey }} {{ getTranslation(item.restrictionType) || ':' }} {{ item.restrictionValue }}
+				{{ getInfo(item) }}
 			</span>
 		</span>
 	</div>
@@ -46,6 +45,24 @@ export default {
 	methods: {
 		getTranslation (key) {
 			return this.$store.getters['ui/getNameByKey'](key);
+		},
+		getTitle (item) {
+			if (item.referenceMosaicId) {
+				// global restriction
+				return `${this.getTranslation('restrictionType')}: ${this.getTranslation(item.restrictionType)} | ${this.getTranslation('restrictionValue')}: ${item.restrictionValue}`;
+			} else {
+				// address restriction
+				return `${this.getTranslation('restrictionValue')}: ${item.restrictionValue}`;
+			}
+		},
+		getInfo (item) {
+			if (item.referenceMosaicId) {
+				// global restriction
+				return `${item.referenceMosaicId} ${this.getTranslation('restrictionKey')} ${item.restrictionKey} ${this.getTranslation(item.restrictionType)} ${item.restrictionValue}`;
+			} else {
+				// address restriction
+				return `${this.getTranslation('restrictionKey')} ${item.restrictionKey} : ${item.restrictionValue}`;
+			}
 		}
 	}
 };
