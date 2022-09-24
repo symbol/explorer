@@ -30,9 +30,7 @@ class RestrictionService {
   		throw Error('Account restrictions are not available.');
 	  }
 
-  	const formattedAccountRestrictions = accountRestrictions.map(accountRestriction => this.formatAccountRestriction(accountRestriction));
-
-  	return formattedAccountRestrictions;
+  	return accountRestrictions.restrictions.map(restriction => this.formatAccountRestriction(restriction));
   }
 
   /**
