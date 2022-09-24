@@ -222,10 +222,17 @@ class MosaicService {
 
    	const { pageNumber, pageSize } = pageInfo;
 
-   	const endHeight = startHeight + duration;
+   	// Returns empty, artifact expiry receipt does not exist when duration is infinity
+   	if (0 === duration) {
+   		return {
+   			data: [],
+   			pageNumber,
+   			pageSize,
+   			isLastPage: true
+   		};
+   	}
 
-   	if (endHeight === startHeight)
-   		return {};
+   	const endHeight = startHeight + duration;
 
    	// Todo: Should filter with with ArtifactId rather than height.
    	// Bug: https://github.com/nemtech/catapult-rest/issues/517
