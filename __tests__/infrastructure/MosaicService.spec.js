@@ -147,8 +147,8 @@ describe('Mosaic Service', () => {
 				data: [],
 				...pageInfo,
 				isLastPage: true
-			})
-		})
+			});
+		});
 
 		it('returns artifact expiry receipt when duration is nonzero ', async () => {
 			// Arrange:
@@ -160,8 +160,8 @@ describe('Mosaic Service', () => {
 				data: {
 					artifactExpiryStatement: {
 						data: [TestHelper.mockArtifactExpiryReceipt(mosaicId.toHex(), 16717)],
-						receiptTransactionStatementType: "Artifact Expiry Receipt"
-					},
+						receiptTransactionStatementType: 'Artifact Expiry Receipt'
+					}
 				},
 				...pageInfo,
 				isLastPage: true
@@ -171,7 +171,7 @@ describe('Mosaic Service', () => {
 				artifactId: mosaicId.toHex(),
 				height: 1000,
 				mosaicArtifactId: mosaicId.toHex(),
-				receiptType: "Mosaic Expired",
+				receiptType: 'Mosaic Expired',
 				type: 16717,
 				version: 1
 			};
@@ -186,7 +186,7 @@ describe('Mosaic Service', () => {
 				data: [receiptDto],
 				...pageInfo,
 				isLastPage: true
-			})
-		})
-	})
+			});
+		});
+	});
 });
