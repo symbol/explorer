@@ -21,7 +21,7 @@ describe('RestrictionService', () => {
 				};
 			};
 
-			it(`returns mosaic global restriction dto with type ${restrictionType.name} and without reference mosaic`, () => {
+			it(`returns mosaic global restriction dto with type ${restrictionType.name} and with self reference mosaic`, () => {
 				// Arrange:
 				const mosaicGlobalRestriction = createMosaicGlobalRestriction(new MosaicId('0'.repeat(16)));
 
