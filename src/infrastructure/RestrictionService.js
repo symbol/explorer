@@ -93,22 +93,14 @@ class RestrictionService {
    * @returns {object } readable MosaicGlobalRestrictions object.
    */
   static formatMosaicGlobalRestriction = mosaicRestriction => {
-  	let mosaicGlobalRestrictionItem = [];
-
-  	// Convert Map<k,v> to Array
-  	mosaicRestriction.restrictions.forEach((value, key) => {
-  		mosaicGlobalRestrictionItem.push({ key, ...value });
-  		return mosaicGlobalRestrictionItem;
-  	});
-
   	return {
   		...mosaicRestriction,
   		entryType: Constants.MosaicRestrictionEntryType[mosaicRestriction.entryType],
   		mosaicId: mosaicRestriction.mosaicId.toHex(),
-  		restrictions: mosaicGlobalRestrictionItem.map(item => ({
-  			restrictionKey: item.key,
+  		restrictions: mosaicRestriction.restrictions.map(item => ({
+  			restrictionKey: item.key.toString(),
   			restrictionType: Constants.MosaicRestrictionType[item.restrictionType],
-  			restrictionValue: item.restrictionValue,
+  			restrictionValue: item.restrictionValue.toString(),
   			referenceMosaicId: '0000000000000000' === item.referenceMosaicId.toHex()
 			  ? mosaicRestriction.mosaicId.toHex()
 			  : item.referenceMosaicId.toHex()
@@ -122,21 +114,14 @@ class RestrictionService {
    * @returns {object} Custom address restriction object
    */
   static formatMosaicAddressRestriction = addressRestriction => {
-  	let mosaicAddressRestrictionItem = [];
-
-  	// Convert Map<k,v> to Array
-  	addressRestriction.restrictions.forEach((value, key) => {
-  		mosaicAddressRestrictionItem.push({ key, value });
-	  });
-
   	return {
   		...addressRestriction,
   		entryType: Constants.MosaicRestrictionEntryType[addressRestriction.entryType],
   		mosaicId: addressRestriction.mosaicId.toHex(),
   		targetAddress: addressRestriction.targetAddress.address,
-  		restrictions: mosaicAddressRestrictionItem.map(item => ({
-  			restrictionKey: item.key,
-  			restrictionValue: item.value
+  		restrictions: addressRestriction.restrictions.map(item => ({
+  			restrictionKey: item.key.toString(),
+  			restrictionValue: item.restrictionValue.toString()
   		}))
   	};
   }
