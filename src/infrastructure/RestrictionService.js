@@ -26,13 +26,11 @@ class RestrictionService {
   			.getAccountRestrictions(Address.createFromRawAddress(address))
   			.toPromise();
   	} catch (e) {
-  		// To Catach statusCode 404 if Account restrictions are not available.
+  		// To catch statusCode 404
   		throw Error('Account restrictions are not available.');
 	  }
 
-  	const formattedAccountRestrictions = accountRestrictions.map(accountRestriction => this.formatAccountRestriction(accountRestriction));
-
-  	return formattedAccountRestrictions;
+  	return accountRestrictions.restrictions.map(restriction => this.formatAccountRestriction(restriction));
   }
 
   /**
