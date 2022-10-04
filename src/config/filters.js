@@ -239,14 +239,14 @@ export const metadata = [
 		value: {}
 	},
 	{
-		label: 'Address Alias',
+		label: 'Account',
 		icon: 'mdi-account',
 		value: {
 			metadataType: MetadataType.Account
 		}
 	},
 	{
-		label: 'Mosaic Alias',
+		label: 'Mosaic',
 		icon: 'mdi-circle',
 		value: {
 			metadataType: MetadataType.Mosaic

@@ -180,14 +180,15 @@
 				"type": "CardTable",
 				"title": "metadataEntriesTitle",
 				"managerGetter": "account/metadatas",
-				"pagination": "client",
-				"pageSize": 5,
+				"pagination": "server",
 				"hideOnError": true,
 				"hasFilter":true,
 				"hideDependOnGetter": "account/info",
 				"fields": [
 					"scopedMetadataKey",
-					"senderAddress",
+					"targetId",
+					"metadataType",
+					"sourceAddress",
 					"targetAddress",
 					"value"
 				]

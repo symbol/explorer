@@ -52,13 +52,13 @@
                 "managerGetter": "namespace/metadatas",
                 "errorMessage": "metadataEntriesError",
                 "pagination": "server",
-                "hasFilter": true,
+                "hideOnError": true,
+                "hasFilter": false,
                 "fields": [
                     "scopedMetadataKey",
-                    "targetId",
-                    "senderAddress",
+                    "sourceAddress",
                     "targetAddress",
-                    "metadataValue"
+                    "value"
                 ]
             },
             {
