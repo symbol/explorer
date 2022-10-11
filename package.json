@@ -28,7 +28,7 @@
     "merkletreejs": "^0.2.31",
     "moment-timezone": "^0.5.35",
     "nem-sdk": "^1.6.8",
-    "symbol-sdk": "^2.0.1",
+    "symbol-sdk": "^2.0.2",
     "symbol-statistics-service-typescript-fetch-client": "^1.1.5",
     "url-parse": "^1.5.10",
     "vue": "^2.6.14",
