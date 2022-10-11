@@ -212,7 +212,7 @@ export default {
         }
     }
 
-    @media screen and (min-width: 80em) {
+    @media screen and (min-width: 1300px) {
         .page-content-card-f {
             padding-left: 80px;
             padding-right: 80px;
