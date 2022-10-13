@@ -75,26 +75,28 @@
 					</tr>
 				</tbody>
 			</table>
-			<div v-if="pagination || timelinePagination" class="bottom">
-				<div class="pagination-wrapper">
-					<Pagination
-						:canFetchPrevious="prevPageExist"
-						:canFetchNext="nextPageExist"
-						:goUp="false"
-						:currentPageNumber="pageNumber"
-						:lastPageNumber="lastPage"
-						class="pagination"
-						@next="nextPage"
-						@previous="prevPage"
-						@firstPage="goFirstPage"
-						@lastPage="goLastPage"
-						@fetchPage="fetchPage($event)"
-					/>
-					<Loading small v-if="paginationLoading" />
-				</div>
+		</div>
+
+		<div v-else class="empty-data">{{emptyDataMessageFormatted}}</div>
+
+		<div v-if="(pagination || timelinePagination) && dataIsNotEmpty" class="bottom">
+			<div class="pagination-wrapper">
+				<Pagination
+					:canFetchPrevious="prevPageExist"
+					:canFetchNext="nextPageExist"
+					:goUp="false"
+					:currentPageNumber="pageNumber"
+					:lastPageNumber="lastPage"
+					class="pagination"
+					@next="nextPage"
+					@previous="prevPage"
+					@firstPage="goFirstPage"
+					@lastPage="goLastPage"
+					@fetchPage="fetchPage($event)"
+				/>
+				<Loading small v-if="paginationLoading" />
 			</div>
 		</div>
-		<div v-else class="empty-data">{{emptyDataMessageFormatted}}</div>
 	</div>
 </template>
 
@@ -327,7 +329,10 @@ export default {
 
 <style lang="scss" scoped>
 .table-view {
-    overflow: auto;
+    .table-wrapper {
+        display: block;
+        overflow: auto;
+    }
 
     .pointer {
         cursor: pointer;
