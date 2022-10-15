@@ -362,6 +362,14 @@ const TestHelper = {
 			version: 1,
 			type
 		};
+	},
+	createPartialAggregateTransaction: (cosignatures = [], innerTransactions = []) => {
+		return {
+			...transactionCommonField,
+			type: TransactionType.AGGREGATE_BONDED,
+			cosignatures,
+			innerTransactions
+		};
 	}
 };
 

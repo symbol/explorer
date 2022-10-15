@@ -8,7 +8,7 @@ describe('Transaction Service', () => {
 	afterEach(restore);
 
 	describe('getTransactionInfo', () => {
-		it('return transfer transaction', async () => {
+		it('returns transfer transaction with paid fee', async () => {
 			// Arrange:
 			const mockTransactionStatus = {
 				message: 'confirmed',
@@ -16,8 +16,6 @@ describe('Transaction Service', () => {
 					code: 'Success'
 				}
 			};
-
-			const mockTransactionEffectiveFee = '0.001760';
 
 			const mockBlockInfo = {
 				height: 198327,
@@ -29,7 +27,7 @@ describe('Transaction Service', () => {
 			const mockCreateTransactionFromSDK = {
 				...mockTransferTransaction,
 				deadline: '2022-02-28 17:55:31',
-				maxFee: mockTransactionEffectiveFee,
+				maxFee: '0.005000',
 				transactionType: 16724,
 				transactionBody: {
 					transactionType: 16724,
@@ -60,7 +58,8 @@ describe('Transaction Service', () => {
 			createTransactionFromSDK.returns(Promise.resolve(mockCreateTransactionFromSDK));
 
 			// Act:
-			const { blockHeight,
+			const {
+				blockHeight,
 				transactionBody,
 				transactionHash,
 				effectiveFee,
@@ -72,11 +71,97 @@ describe('Transaction Service', () => {
 			// Assert:
 			expect(blockHeight).toEqual(mockTransferTransaction.transactionInfo.height);
 			expect(transactionHash).toEqual(mockTransferTransaction.transactionInfo.hash);
-			expect(effectiveFee).toEqual(mockTransactionEffectiveFee);
+			expect(effectiveFee).toEqual('0.001760');
 			expect(timestamp).toEqual(mockBlockInfo.timestamp);
 			expect(status).toEqual(mockTransactionStatus.detail.code);
 			expect(confirm).toEqual(mockTransactionStatus.message);
 			expect(transactionBody).toEqual(mockCreateTransactionFromSDK.transactionBody);
+		});
+
+		it('returns partial transaction with max fee', async () => {
+			// Arrange:
+			const transactionStatus = {
+				message: 'partial',
+				detail: {
+					code: 'Success'
+				}
+			};
+
+			const innerTransaction = TestHelper.mockTransaction({
+				height: 0,
+				timestamp: 0
+			});
+
+			const partialTransaction = TestHelper.createPartialAggregateTransaction([], [innerTransaction]);
+
+			const partialTransactionFromSDK = {
+				...partialTransaction,
+				deadline: 1665914320,
+				maxFee: '0.050000',
+				type: 16961,
+				innerTransactions: [
+					{
+						...innerTransaction,
+						deadline: '2022-02-28 17:55:31',
+						maxFee: 0,
+						transactionType: 16724,
+						transactionBody: {
+							transactionType: 16724,
+							message: {
+								type: -1,
+								payload: ''
+							},
+							recipient: 'TDCPHIHQPN6WKJJIUCOFISJCB4NULEZOS4NCQQQ',
+							mosaics: [
+								{
+									amount: '5',
+									mosaicId: '7F2D26E89342D398',
+									mosaicAliasName: [
+										'teria.revokable'
+									]
+								}
+							]
+						}
+					}
+				],
+				transactionInfo: {
+					height: 0,
+					index: 0,
+					timestamp: 1637848847,
+					feeMultiplier: 0,
+					hash: 'C3A9E202E14EA5890914F9884627A280CDD7571C0E3EEE0D6FF7788626136D4B',
+					merkleComponentHash: '0000000000000000000000000000000000000000000000000000000000000000'
+				},
+				transactionBody: {
+					transactionType: 16961
+				}
+			};
+
+			stub(TransactionService, 'getTransactionStatus').returns(Promise.resolve(transactionStatus));
+
+			stub(TransactionService, 'getTransaction').returns(Promise.resolve(partialTransaction));
+
+			stub(TransactionService, 'createTransactionFromSDK').returns(Promise.resolve(partialTransactionFromSDK));
+
+			// Act:
+			const {
+				blockHeight,
+				transactionBody,
+				transactionHash,
+				maxFee,
+				timestamp,
+				status,
+				confirm
+			} = await TransactionService.getTransactionInfo('C3A9E202E14EA5890914F9884627A280CDD7571C0E3EEE0D6FF7788626136D4B');
+
+			// Assert:
+			expect(blockHeight).toEqual(undefined);
+			expect(transactionHash).toEqual(partialTransactionFromSDK.transactionInfo.hash);
+			expect(maxFee).toEqual(partialTransactionFromSDK.maxFee);
+			expect(timestamp).toEqual(partialTransactionFromSDK.transactionInfo.timestamp);
+			expect(transactionBody).toEqual(partialTransactionFromSDK.transactionBody);
+			expect(status).toEqual(transactionStatus.detail.code);
+			expect(confirm).toEqual(transactionStatus.message);
 		});
 	});
 
