@@ -212,8 +212,9 @@ class TransactionService {
   	return {
   		...transactions,
   		totalRecords,
-  		data: transactions.data.map(({ deadline, ...transaction }) => ({
+  		data: transactions.data.map(({ deadline, maxFee, ...transaction }) => ({
   			...transaction,
+  			effectiveFee: helper.toNetworkCurrency(transaction.payloadSize * transaction.transactionInfo.feeMultiplier),
   			age: helper.convertTimestampToDate(transaction.transactionInfo.timestamp),
   			height: transaction.transactionInfo.height,
   			transactionHash: transaction.transactionInfo.hash,

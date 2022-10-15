@@ -2,7 +2,7 @@ import { TransactionService, LockService } from '../../src/infrastructure';
 import http from '../../src/infrastructure/http';
 import TestHelper from '../TestHelper';
 import { restore, stub } from 'sinon';
-import { MosaicId, UInt64 } from 'symbol-sdk';
+import { MosaicId, UInt64, TransactionGroup } from 'symbol-sdk';
 
 describe('Transaction Service', () => {
 	afterEach(restore);
@@ -166,42 +166,77 @@ describe('Transaction Service', () => {
 	});
 
 	describe('getTransactionList', () => {
-		it('return transactions', async () => {
-			// Arrange:
-			const pageInfo = {
-				pageNumber: 1,
-				pageSize: 10
-			};
+		const runBasicGetTransactionsListTests = (transactionGroup, blockInfo) => {
+			it(`returns ${transactionGroup} transactions`, async () => {
+				// Arrange:
+				const pageInfo = {
+					pageNumber: 1,
+					pageSize: 10
+				};
 
-			const mockBlockInfo = {
-				height: 198327,
-				timestamp: 1646063763
-			};
+				const mockSearchTransactions = {
+					...pageInfo,
+					data: [
+						TestHelper.mockTransaction(blockInfo)
+					]
+				};
 
-			const mockSearchTransactions = {
-				...pageInfo,
-				data: [
-					TestHelper.mockTransaction(mockBlockInfo)
-				]
-			};
+				const searchTransactions = stub(TransactionService, 'searchTransactions');
+				searchTransactions.returns(Promise.resolve(mockSearchTransactions));
 
-			const searchTransactions = stub(TransactionService, 'searchTransactions');
-			searchTransactions.returns(Promise.resolve(mockSearchTransactions));
+				// Act:
+				const transactionList = await TransactionService.getTransactionList(pageInfo, {
+					group: transactionGroup
+				});
 
-			// Act:
-			const transactionList = await TransactionService.getTransactionList(pageInfo, {});
+				// Assert:
+				if (transactionGroup === TransactionGroup.Confirmed)
+					expect(transactionList.totalRecords).toEqual(500);
 
-			// Assert:
-			expect(transactionList.totalRecords).toEqual(500);
-			expect(transactionList.pageNumber).toEqual(pageInfo.pageNumber);
-			expect(transactionList.pageSize).toEqual(pageInfo.pageSize);
-			expect(transactionList.data).toHaveLength(1);
-			transactionList.data.forEach(transaction => {
-				expect(transaction).toHaveProperty('transactionHash');
-				expect(transaction).toHaveProperty('transactionType');
-				expect(transaction).toHaveProperty('recipient');
-				expect(transaction).toHaveProperty('extendGraphicValue');
+				expect(transactionList.pageNumber).toEqual(pageInfo.pageNumber);
+				expect(transactionList.pageSize).toEqual(pageInfo.pageSize);
+				expect(transactionList.data).toHaveLength(1);
+				transactionList.data.forEach(transaction => {
+					expect(transaction).toHaveProperty('transactionHash');
+					expect(transaction).toHaveProperty('transactionType');
+					expect(transaction).toHaveProperty('recipient');
+					expect(transaction).toHaveProperty('extendGraphicValue');
+
+					if (transactionGroup === TransactionGroup.Confirmed) {
+						expect(transaction.effectiveFee).toBe('0.001760');
+						expect(transaction).not.toHaveProperty('maxFee');
+					} else {
+						expect(transaction.maxFee).toBe('1.000000');
+						expect(transaction).not.toHaveProperty('effectiveFee');
+					}
+				});
 			});
+		};
+
+		// Arrange:
+		[
+			{
+				transactionGroup: TransactionGroup.Confirmed,
+				blockInfo: {
+					height: UInt64.fromUint(198327),
+					timestamp: UInt64.fromUint(1646063763)
+				}
+			},
+			{
+				transactionGroup: TransactionGroup.Unconfirmed,
+				blockInfo: {
+					height: UInt64.fromUint(0),
+					timestamp: UInt64.fromUint(1646063763)
+				}
+			},
+			{
+				transactionGroup: TransactionGroup.Partial,
+				blockInfo: {
+					height: UInt64.fromUint(0),
+					timestamp: UInt64.fromUint(1646063763)
+				}
+			}].forEach(({transactionGroup, blockInfo}) => {
+			runBasicGetTransactionsListTests(transactionGroup, blockInfo);
 		});
 	});
 

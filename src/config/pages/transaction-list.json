@@ -25,7 +25,8 @@
                     "signer",
                     "recipient",
                     "extendGraphicValue",
-                    "maxFee"
+                    "maxFee",
+                    "effectiveFee"
                 ]
             }
         ]
