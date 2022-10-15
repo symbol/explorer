@@ -7,7 +7,8 @@ import {
 	Mosaic,
 	UInt64,
 	MosaicId,
-	TransactionType
+	TransactionType,
+	TransactionInfo
 } from 'symbol-sdk';
 
 const generateRandomHash = (length = 32) => {
@@ -241,14 +242,7 @@ const TestHelper = {
 		return {
 			...transactionCommonField,
 			type: TransactionType.TRANSFER,
-			transactionInfo: {
-				index: 1,
-				id: 1,
-				height,
-				timestamp,
-				feeMultiplier: 10,
-				hash: generateRandomHash()
-			},
+			transactionInfo: new TransactionInfo(height, 1, 1, timestamp, 10, generateRandomHash()),
 			recipientAddress: {
 				address: Account.generateNewAccount(NetworkType.TEST_NET).address
 			},

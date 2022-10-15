@@ -10,22 +10,20 @@ describe('Transaction Service', () => {
 	describe('getTransactionInfo', () => {
 		it('returns transfer transaction with paid fee', async () => {
 			// Arrange:
-			const mockTransactionStatus = {
+			const transactionStatus = {
 				message: 'confirmed',
 				detail: {
 					code: 'Success'
 				}
 			};
 
-			const mockBlockInfo = {
-				height: 198327,
-				timestamp: 1646063763
-			};
+			const transferTransaction = TestHelper.mockTransaction({
+				height: UInt64.fromUint(198327),
+				timestamp: UInt64.fromUint(1646063763)
+			});
 
-			const mockTransferTransaction = TestHelper.mockTransaction(mockBlockInfo);
-
-			const mockCreateTransactionFromSDK = {
-				...mockTransferTransaction,
+			const transactionFromSDK = {
+				...transferTransaction,
 				deadline: '2022-02-28 17:55:31',
 				maxFee: '0.005000',
 				transactionType: 16724,
@@ -48,14 +46,11 @@ describe('Transaction Service', () => {
 				}
 			};
 
-			const getTransactionStatus = stub(TransactionService, 'getTransactionStatus');
-			getTransactionStatus.returns(Promise.resolve(mockTransactionStatus));
+			stub(TransactionService, 'getTransactionStatus').returns(Promise.resolve(transactionStatus));
 
-			const getTransaction = stub(TransactionService, 'getTransaction');
-			getTransaction.returns(Promise.resolve(mockTransferTransaction));
+			stub(TransactionService, 'getTransaction').returns(Promise.resolve(transferTransaction));
 
-			const createTransactionFromSDK = stub(TransactionService, 'createTransactionFromSDK');
-			createTransactionFromSDK.returns(Promise.resolve(mockCreateTransactionFromSDK));
+			stub(TransactionService, 'createTransactionFromSDK').returns(Promise.resolve(transactionFromSDK));
 
 			// Act:
 			const {
@@ -69,13 +64,13 @@ describe('Transaction Service', () => {
 			} = await TransactionService.getTransactionInfo('541B506C91003C248CF09C6FB3BC94D0A26B8197B76B2827DDE3AF3A0ED3E350');
 
 			// Assert:
-			expect(blockHeight).toEqual(mockTransferTransaction.transactionInfo.height);
-			expect(transactionHash).toEqual(mockTransferTransaction.transactionInfo.hash);
+			expect(blockHeight).toEqual(transferTransaction.transactionInfo.height);
+			expect(transactionHash).toEqual(transferTransaction.transactionInfo.hash);
 			expect(effectiveFee).toEqual('0.001760');
-			expect(timestamp).toEqual(mockBlockInfo.timestamp);
-			expect(status).toEqual(mockTransactionStatus.detail.code);
-			expect(confirm).toEqual(mockTransactionStatus.message);
-			expect(transactionBody).toEqual(mockCreateTransactionFromSDK.transactionBody);
+			expect(timestamp).toEqual(1646063763);
+			expect(status).toEqual(transactionStatus.detail.code);
+			expect(confirm).toEqual(transactionStatus.message);
+			expect(transactionBody).toEqual(transactionFromSDK.transactionBody);
 		});
 
 		it('returns partial transaction with max fee', async () => {
