@@ -95,7 +95,6 @@ export default {
 	},
 
 	async mounted () {
-		console.log('initialize', this.storeNamespaces);
 		await this.$store.dispatch('initialize', this.$route);
 		if (this.storeNamespaces?.length) {
 			for (const namespace of this.storeNamespaces)
@@ -122,19 +121,23 @@ export default {
 		},
 
 		isItemShown (item) {
-			if (this.getter(item.hideDependOnGetter)?.error)
+			if (this.getter(item.hideDependOnGetter)?.error) {
 				return false;
+			}
 
-			if (item.hideEmptyData && (
-				!this.getData(item) || (
-					Array.isArray(this.getData(item)) && !this.getData(item)?.length
-				)
-			)
-			)
-				return false;
+			if (item.hideEmptyData) {
+				const data = this.getData(item);
 
-			if (item.hideOnError && this.getter(item.managerGetter)?.error)
+				if (Array.isArray(data)) {
+					return !!data.length;
+				} else {
+					return !!Object.keys(data).length
+				}
+			}
+
+			if (item.hideOnError && this.getter(item.managerGetter)?.error) {
 				return false;
+			}
 
 			return true;
 		},
