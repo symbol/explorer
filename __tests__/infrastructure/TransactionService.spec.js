@@ -66,7 +66,7 @@ describe('Transaction Service', () => {
 			// Assert:
 			expect(blockHeight).toEqual(transferTransaction.transactionInfo.height);
 			expect(transactionHash).toEqual(transferTransaction.transactionInfo.hash);
-			expect(effectiveFee).toEqual('0.001760');
+			expect(effectiveFee).toEqual(Helper.toNetworkCurrency(transferTransaction.payloadSize * transferTransaction.transactionInfo.feeMultiplier));
 			expect(timestamp).toEqual(1646063763);
 			expect(status).toEqual(transactionStatus.detail.code);
 			expect(confirm).toEqual(transactionStatus.message);
@@ -198,7 +198,7 @@ describe('Transaction Service', () => {
 					expect(transaction).toHaveProperty('extendGraphicValue');
 
 					if (transactionGroup === TransactionGroup.Confirmed) {
-						expect(transaction.effectiveFee).toBe('0.001760');
+						expect(transaction.effectiveFee).toBe(Helper.toNetworkCurrency(transaction.payloadSize * transaction.transactionInfo.feeMultiplier));
 						expect(transaction).not.toHaveProperty('maxFee');
 					} else {
 						expect(transaction.maxFee).toBe('1.000000');
