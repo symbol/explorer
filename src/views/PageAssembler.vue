@@ -125,14 +125,8 @@ export default {
 				return false;
 			}
 
-			if (item.hideEmptyData) {
-				const data = this.getData(item);
-
-				if (Array.isArray(data)) {
-					return !!data.length;
-				} else {
-					return !!Object.keys(data).length
-				}
+			if (item.hideEmptyData && Object.keys(this.getData(item)).length === 0) {
+				return false;
 			}
 
 			if (item.hideOnError && this.getter(item.managerGetter)?.error) {
