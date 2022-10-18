@@ -162,6 +162,52 @@ describe('Transaction Service', () => {
 			expect(status).toEqual(transactionStatus.detail.code);
 			expect(confirm).toEqual(transactionStatus.message);
 		});
+
+		it('returns unconfirmed transfer transaction with max fee', async () => {
+			// Arrange:
+			const transactionStatus = {
+				message: 'unconfirmed',
+				detail: {
+					code: 'Success'
+				}
+			};
+
+			const transferTransaction = TestHelper.mockTransaction({
+				height: 0,
+				timestamp: 0
+			});
+
+			const transactionFromSDK = {
+				...transferTransaction,
+				...transferTransactionFromSDK,
+			};
+
+			stub(TransactionService, 'getTransactionStatus').returns(Promise.resolve(transactionStatus));
+
+			stub(TransactionService, 'getTransaction').returns(Promise.resolve(transferTransaction));
+
+			stub(TransactionService, 'createTransactionFromSDK').returns(Promise.resolve(transactionFromSDK));
+
+			// Act:
+			const {
+				blockHeight,
+				transactionBody,
+				transactionHash,
+				maxFee,
+				timestamp,
+				status,
+				confirm
+			} = await TransactionService.getTransactionInfo('541B506C91003C248CF09C6FB3BC94D0A26B8197B76B2827DDE3AF3A0ED3E350');
+
+			// Assert:
+			expect(blockHeight).toEqual(undefined);
+			expect(transactionHash).toEqual(transferTransaction.transactionInfo.hash);
+			expect(maxFee).toEqual(transactionFromSDK.maxFee);
+			expect(timestamp).toEqual(0);
+			expect(transactionBody).toEqual(transactionFromSDK.transactionBody);
+			expect(status).toEqual(transactionStatus.detail.code);
+			expect(confirm).toEqual(transactionStatus.message);
+		});
 	});
 
 	describe('getTransactionList', () => {
