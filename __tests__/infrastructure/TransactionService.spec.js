@@ -1,7 +1,7 @@
+import Helper from '../../src/helper';
 import { TransactionService, LockService } from '../../src/infrastructure';
 import http from '../../src/infrastructure/http';
 import TestHelper from '../TestHelper';
-import Helper from '../../src/helper';
 import { restore, stub } from 'sinon';
 import { MosaicId, UInt64, TransactionGroup } from 'symbol-sdk';
 
@@ -30,7 +30,7 @@ describe('Transaction Service', () => {
 					}
 				]
 			}
-		}
+		};
 
 		it('returns transfer transaction with paid fee', async () => {
 			// Arrange:
@@ -48,7 +48,7 @@ describe('Transaction Service', () => {
 
 			const transactionFromSDK = {
 				...transferTransaction,
-				...transferTransactionFromSDK,
+				...transferTransactionFromSDK
 			};
 
 			stub(TransactionService, 'getTransactionStatus').returns(Promise.resolve(transactionStatus));
@@ -69,9 +69,11 @@ describe('Transaction Service', () => {
 			} = await TransactionService.getTransactionInfo('541B506C91003C248CF09C6FB3BC94D0A26B8197B76B2827DDE3AF3A0ED3E350');
 
 			// Assert:
-			expect(blockHeight).toEqual(transferTransaction.transactionInfo.height);
-			expect(transactionHash).toEqual(transferTransaction.transactionInfo.hash);
-			expect(effectiveFee).toEqual(Helper.toNetworkCurrency(transferTransaction.payloadSize * transferTransaction.transactionInfo.feeMultiplier));
+			const { payloadSize, transactionInfo } = transferTransaction;
+
+			expect(blockHeight).toEqual(transactionInfo.height);
+			expect(transactionHash).toEqual(transactionInfo.hash);
+			expect(effectiveFee).toEqual(Helper.toNetworkCurrency(payloadSize * transactionInfo.feeMultiplier));
 			expect(timestamp).toEqual(1646063763);
 			expect(transactionBody).toEqual(transactionFromSDK.transactionBody);
 			expect(status).toEqual(transactionStatus.detail.code);
@@ -179,7 +181,7 @@ describe('Transaction Service', () => {
 
 			const transactionFromSDK = {
 				...transferTransaction,
-				...transferTransactionFromSDK,
+				...transferTransactionFromSDK
 			};
 
 			stub(TransactionService, 'getTransactionStatus').returns(Promise.resolve(transactionStatus));
@@ -248,7 +250,8 @@ describe('Transaction Service', () => {
 					expect(transaction).toHaveProperty('extendGraphicValue');
 
 					if (transactionGroup === TransactionGroup.Confirmed) {
-						expect(transaction.effectiveFee).toBe(Helper.toNetworkCurrency(transaction.payloadSize * transaction.transactionInfo.feeMultiplier));
+						const { payloadSize, transactionInfo } = transaction;
+						expect(transaction.effectiveFee).toBe(Helper.toNetworkCurrency(payloadSize * transactionInfo.feeMultiplier));
 						expect(transaction).not.toHaveProperty('maxFee');
 					} else {
 						expect(transaction.maxFee).toBe('1.000000');
