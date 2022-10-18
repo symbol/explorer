@@ -24,8 +24,7 @@ describe('store/transaction', () => {
 
 			const isAggregateBonded = transactionType === TransactionType.AGGREGATE_BONDED;
 
-			it(`${isAggregateBonded ? '' : 'skips '}
-                fetch hash lock when transaction type is ${transactionName}`, async () => {
+			it(`${isAggregateBonded ? '' : 'skips '}fetch hash lock when transaction type is ${transactionName}`, async () => {
 				// Arrange:
 				const payload = {
 					transactionHash: '5E699B430581BE31A175952F88876166EAEE713FB05465F7CAC6B182F25B995F'

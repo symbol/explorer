@@ -1,7 +1,5 @@
 import PageAssembler from '../../src/views/PageAssembler.vue';
 import { createLocalVue, shallowMount } from '@vue/test-utils';
-import objects from 'nem-sdk/build/model/objects';
-import { restore } from 'sinon';
 import Vuex from 'vuex';
 
 const localVue = createLocalVue();
@@ -93,11 +91,11 @@ describe('views/PageAssembler', () => {
 
 			runItemShownTests(
 				{
-				    hideOnError: true
+					hideOnError: true
 				},
 				{
-				    error: true
-			    },
+					error: true
+				},
 				false
 			);
 
