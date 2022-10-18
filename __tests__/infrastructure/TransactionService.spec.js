@@ -1,6 +1,7 @@
 import { TransactionService, LockService } from '../../src/infrastructure';
 import http from '../../src/infrastructure/http';
 import TestHelper from '../TestHelper';
+import Helper from '../../src/helper';
 import { restore, stub } from 'sinon';
 import { MosaicId, UInt64, TransactionGroup } from 'symbol-sdk';
 
@@ -8,6 +9,29 @@ describe('Transaction Service', () => {
 	afterEach(restore);
 
 	describe('getTransactionInfo', () => {
+		const transferTransactionFromSDK = {
+			deadline: '2022-02-28 17:55:31',
+			maxFee: '0.005000',
+			transactionType: 16724,
+			transactionBody: {
+				transactionType: 16724,
+				message: {
+					type: -1,
+					payload: ''
+				},
+				recipient: 'TDCPHIHQPN6WKJJIUCOFISJCB4NULEZOS4NCQQQ',
+				mosaics: [
+					{
+						amount: '5',
+						mosaicId: '7F2D26E89342D398',
+						mosaicAliasName: [
+							'teria.revokable'
+						]
+					}
+				]
+			}
+		}
+
 		it('returns transfer transaction with paid fee', async () => {
 			// Arrange:
 			const transactionStatus = {
@@ -24,26 +48,7 @@ describe('Transaction Service', () => {
 
 			const transactionFromSDK = {
 				...transferTransaction,
-				deadline: '2022-02-28 17:55:31',
-				maxFee: '0.005000',
-				transactionType: 16724,
-				transactionBody: {
-					transactionType: 16724,
-					message: {
-						type: -1,
-						payload: ''
-					},
-					recipient: 'TDCPHIHQPN6WKJJIUCOFISJCB4NULEZOS4NCQQQ',
-					mosaics: [
-						{
-							amount: '5',
-							mosaicId: '7F2D26E89342D398',
-							mosaicAliasName: [
-								'teria.revokable'
-							]
-						}
-					]
-				}
+				...transferTransactionFromSDK,
 			};
 
 			stub(TransactionService, 'getTransactionStatus').returns(Promise.resolve(transactionStatus));
@@ -68,9 +73,9 @@ describe('Transaction Service', () => {
 			expect(transactionHash).toEqual(transferTransaction.transactionInfo.hash);
 			expect(effectiveFee).toEqual(Helper.toNetworkCurrency(transferTransaction.payloadSize * transferTransaction.transactionInfo.feeMultiplier));
 			expect(timestamp).toEqual(1646063763);
+			expect(transactionBody).toEqual(transactionFromSDK.transactionBody);
 			expect(status).toEqual(transactionStatus.detail.code);
 			expect(confirm).toEqual(transactionStatus.message);
-			expect(transactionBody).toEqual(transactionFromSDK.transactionBody);
 		});
 
 		it('returns partial transaction with max fee', async () => {
@@ -98,7 +103,6 @@ describe('Transaction Service', () => {
 					{
 						...innerTransaction,
 						deadline: '2022-02-28 17:55:31',
-						maxFee: 0,
 						transactionType: 16724,
 						transactionBody: {
 							transactionType: 16724,
