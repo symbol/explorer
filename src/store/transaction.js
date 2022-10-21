@@ -27,6 +27,7 @@ import {
 } from './manager';
 import { filters, Constants } from '../config';
 import { TransactionService } from '../infrastructure';
+import { TransactionType } from 'symbol-sdk';
 
 const managers = [
 	new Pagination({
@@ -143,10 +144,15 @@ export default {
 			context.getters.timeline.setStore(context).initialFetch();
 		},
 
-		getTransactionInfoByHash (context, payload) {
+		async getTransactionInfoByHash (context, payload) {
 			context.dispatch('uninitializeDetail');
-			context.getters.info.setStore(context).initialFetch(payload.transactionHash);
-			context.getters.hashLock.setStore(context).initialFetch(payload.transactionHash);
+			await context.getters.info.setStore(context).initialFetch(payload.transactionHash);
+
+			const hashLockDataSet = context.getters.hashLock.setStore(context);
+
+			// fetch Hash lock info when transaction type is aggregate bonded transaction
+			if (context.getters.transactionDetail.transactionType === TransactionType.AGGREGATE_BONDED)
+				hashLockDataSet.initialFetch(payload.transactionHash);
 		},
 
 		uninitializeDetail (context) {
