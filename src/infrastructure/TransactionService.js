@@ -118,17 +118,27 @@ class TransactionService {
   	const transactionGroup = transactionStatus.message;
   	const transaction = await this.getTransaction(hash, transactionGroup);
 
-  	const formattedTransaction = await this.createTransactionFromSDK(transaction);
+  	const {maxFee, ...formattedTransaction} = await this.createTransactionFromSDK(transaction);
 
   	const transactionInfo = {
 		  ...formattedTransaction,
 		  blockHeight: formattedTransaction.transactionInfo.height || undefined,
 		  transactionHash: formattedTransaction.transactionInfo.hash,
-		  effectiveFee: helper.toNetworkCurrency(formattedTransaction.payloadSize * formattedTransaction.transactionInfo.feeMultiplier),
 		  timestamp: formattedTransaction.transactionInfo.timestamp | null,
 		  status: transactionStatus.detail.code,
 		  confirm: transactionStatus.message
   	};
+
+  	// Display max fees if unconfirmed or partial transaction
+  	if (0 === formattedTransaction.transactionInfo.height) {
+  		Object.assign(transactionInfo, {
+  			maxFee
+  		});
+  	} else {
+  		Object.assign(transactionInfo, {
+  			effectiveFee: helper.toNetworkCurrency(formattedTransaction.payloadSize * formattedTransaction.transactionInfo.feeMultiplier)
+  		});
+  	}
 
   	return transactionInfo;
   }
@@ -202,8 +212,9 @@ class TransactionService {
   	return {
   		...transactions,
   		totalRecords,
-  		data: transactions.data.map(({ deadline, ...transaction }) => ({
+  		data: transactions.data.map(({ deadline, maxFee, ...transaction }) => ({
   			...transaction,
+  			effectiveFee: helper.toNetworkCurrency(transaction.payloadSize * transaction.transactionInfo.feeMultiplier),
   			age: helper.convertTimestampToDate(transaction.transactionInfo.timestamp),
   			height: transaction.transactionInfo.height,
   			transactionHash: transaction.transactionInfo.hash,

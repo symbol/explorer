@@ -9,7 +9,7 @@
     "relativeAmount": "Value",
     "height": "Height",
     "fee": "Fee",
-    "maxFee": "Fee",
+    "maxFee": "Max Fee",
     "totalFee": "Total Fee",
     "date": "Date",
     "deadline": "Deadline",

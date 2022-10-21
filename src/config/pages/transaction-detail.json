@@ -32,6 +32,7 @@
                     "signer",
                     "payloadSize",
                     "effectiveFee",
+                    "maxFee",
                     "signature",
                     "version"
                 ]
