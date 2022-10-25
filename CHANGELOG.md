@@ -3,6 +3,14 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v1.1.7][v1.1.7] - 25-Oct-2022
+Package  | Version  | Link
+---|---|---
+REST Core| v2.4.2 | catapult-rest
+SDK Core| v2.0.3 | symbol-sdk
+
+[Feature]: We update symbol-SDK v2.0.3.
+
 ## [v1.1.6][v1.1.6] - 17-Jun-2022
 Package  | Version  | Link
 ---|---|---
@@ -507,3 +515,4 @@ SDK Core| v0.20.7 | symbol-sdk
 [v1.1.4]: https://github.com/symbol/explorer/releases/tag/v1.1.4
 [v1.1.5]: https://github.com/symbol/explorer/releases/tag/v1.1.5
 [v1.1.6]: https://github.com/symbol/explorer/releases/tag/v1.1.6
+[v1.1.7]: https://github.com/symbol/explorer/releases/tag/v1.1.7
