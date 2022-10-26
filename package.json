@@ -1,6 +1,6 @@
 {
   "name": "symbol-explorer",
-  "version": "1.1.6",
+  "version": "1.1.7",
   "description": "Symbol Block and Network Explorer",
   "scripts": {
     "build": "vue-cli-service build",
@@ -28,7 +28,7 @@
     "merkletreejs": "^0.2.31",
     "moment-timezone": "^0.5.35",
     "nem-sdk": "^1.6.8",
-    "symbol-sdk": "^2.0.2",
+    "symbol-sdk": "^2.0.3",
     "symbol-statistics-service-typescript-fetch-client": "^1.1.5",
     "url-parse": "^1.5.10",
     "vue": "^2.6.14",
