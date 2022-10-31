@@ -3,6 +3,30 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v1.2.0][v1.2.0] - 26-Oct-2022
+Package  | Version  | Link
+---|---|---
+REST Core| v2.4.2 | catapult-rest
+SDK Core| v2.0.3 | symbol-sdk
+
+[Bug] [#1015](https://github.com/symbol/explorer/issues/1015): Fix UI bug for restriction display issue.
+
+[Bug] [#1027](https://github.com/symbol/explorer/issues/1027): Fix display big aggregate transaction problem.
+
+[Bug] [#1039](https://github.com/symbol/explorer/issues/1039): Fix horizontal scroll css issue in listing page.
+
+[Performance] [#1040](https://github.com/symbol/explorer/issues/1040): minor performance improvement for the transaction detail page, as we remove hash lock section for all transaction type expect aggregate bonded.
+
+[Bug] [#1109](https://github.com/symbol/explorer/pull/1109): Fix mosaics missing in receipts section.
+
+[Bug] [#1110](https://github.com/symbol/explorer/issues/1110): Resolved errors in chrome console.
+
+[Feature] [#1111](https://github.com/symbol/explorer/pull/1111): Apply eslint rules in tests folder.
+
+[Bug] [#1122](https://github.com/symbol/explorer/issues/1122): Update config and rename filter in metadata section.
+
+[Feature] [#1130](https://github.com/symbol/explorer/issues/1130): Display max / effective fee based on transaction status.
+
 ## [v1.1.7][v1.1.7] - 25-Oct-2022
 Package  | Version  | Link
 ---|---|---
@@ -516,3 +540,4 @@ SDK Core| v0.20.7 | symbol-sdk
 [v1.1.5]: https://github.com/symbol/explorer/releases/tag/v1.1.5
 [v1.1.6]: https://github.com/symbol/explorer/releases/tag/v1.1.6
 [v1.1.7]: https://github.com/symbol/explorer/releases/tag/v1.1.7
+[v1.2.0]: https://github.com/symbol/explorer/releases/tag/v1.2.0
