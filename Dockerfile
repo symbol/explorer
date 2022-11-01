@@ -1,4 +1,6 @@
 FROM node:lts-alpine AS builder
+RUN apk add --no-cache python3 make g++
+ENV NODE_OPTIONS=--dns-result-order=ipv4first
 WORKDIR /app
 COPY . .
 RUN npm install && npm run build
