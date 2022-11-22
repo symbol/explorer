@@ -103,7 +103,7 @@ export default {
 		search: ({ dispatch, rootGetters }, _searchString) => {
 			return new Promise(async (resolve, reject) => {
 				if (null !== _searchString && '' !== _searchString) {
-					const searchString = _searchString.replace(/\s|-/g, '');
+					const searchString = _searchString.replace(/\s/g, '');
 					if (helper.isBlockHeight(searchString)) {
 						dispatch('openPage', {
 							pageName: 'block',

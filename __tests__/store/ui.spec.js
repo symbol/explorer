@@ -1,4 +1,3 @@
-import Helper from '../../src/helper';
 import { AccountService, MosaicService, NamespaceService } from '../../src/infrastructure';
 import ui from '../../src/store/ui';
 import { stub, restore } from 'sinon';
@@ -14,6 +13,21 @@ describe('store/ui', () => {
 		});
 
 		afterEach(restore);
+
+		const assertSearchNamespace = async namespaceName => {
+			// Arrange:
+			stub(NamespaceService, 'getNamespaceInfo').returns(Promise.resolve({}));
+
+			// Act:
+			await ui.actions.search({ dispatch, rootGetters }, namespaceName);
+
+			// Assert:
+			expect(dispatch).toHaveBeenCalledTimes(1);
+			expect(dispatch).toHaveBeenNthCalledWith(1, 'openPage', {
+				pageName: 'namespace',
+				param: namespaceName
+			});
+		};
 
 		it('return block page with height', async () => {
 			// Arrange:
@@ -96,23 +110,9 @@ describe('store/ui', () => {
 			});
 		});
 
-		it('return namespace page with namespace name', async () => {
-			// Arrange:
-			const namespaceName = 'symbol.xym';
+		it('return namespace page with namespace name', async () => await assertSearchNamespace('symbol.xym'));
 
-			const getNamespaceInfoStub = stub(NamespaceService, 'getNamespaceInfo');
-			getNamespaceInfoStub.returns(Promise.resolve({}));
-
-			// Act:
-			await ui.actions.search({ dispatch, rootGetters }, namespaceName);
-
-			// Assert:
-			expect(dispatch).toHaveBeenCalledTimes(1);
-			expect(dispatch).toHaveBeenNthCalledWith(1, 'openPage', {
-				pageName: 'namespace',
-				param: namespaceName
-			});
-		});
+		it('return namespace page with namespace name contain dash', async () => await assertSearchNamespace('symbol-'));
 
 		it('throw error given Nem address', async () => {
 			// Arrange:
