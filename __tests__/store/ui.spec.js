@@ -131,25 +131,21 @@ describe('store/ui', () => {
 		});
 
 		describe('input value contain whitespace', () => {
-			const runBasicWhitespaceTests = (pageName, inputValue) => {
+			const runBasicWhitespaceTests = (pageName, inputValue, expectedResult) => {
 				it(`returns ${pageName} page`, async () => {
 					// Arrange:
-					if ('mosaic' === pageName) 
+					if ('mosaic' === pageName)
 						stub(MosaicService, 'getMosaicInfo').returns(Promise.resolve({}));
-					 else if('account' === pageName) 
+					else if('account' === pageName)
 						stub(AccountService, 'getAccountInfo').returns(Promise.resolve({}));
-					 else if ('namespace' === pageName) 
+					else if ('namespace' === pageName)
 						stub(NamespaceService, 'getNamespaceInfo').returns(Promise.resolve({}));
-					
 
 					// Act:
 					await ui.actions.search({ dispatch, rootGetters }, inputValue);
 
 					// Assert:
-					expect(dispatch).toHaveBeenNthCalledWith(1, 'openPage', {
-						pageName,
-						param: inputValue.replace(/\s/g, '')
-					});
+					expect(dispatch).toHaveBeenNthCalledWith(1, 'openPage', expectedResult);
 				});
 			};
 
@@ -181,7 +177,10 @@ describe('store/ui', () => {
 				}
 			];
 
-			inputValues.forEach(({input, pageName}) => runBasicWhitespaceTests(pageName, input));
+			inputValues.forEach(({input, pageName}) => runBasicWhitespaceTests(pageName, input, {
+				pageName,
+				param: input.replace(/\s/g, '')
+			}));
 		});
 	});
 });
