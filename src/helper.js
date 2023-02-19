@@ -17,7 +17,11 @@
  */
 
 import { Constants } from './config';
-import { NamespaceService, MosaicService, ReceiptService } from './infrastructure';
+import {
+	NamespaceService,
+	MosaicService,
+	ReceiptService
+} from './infrastructure';
 import http from './infrastructure/http';
 import moment from 'moment';
 import {
@@ -41,7 +45,7 @@ const getNetworkTypeAddressFormat = {
 };
 
 class helper {
-	static timeSince (interval) {
+	static timeSince(interval) {
 		if (1 < interval.years)
 			return interval.years + ' years';
 		else if (1 === interval.years)
@@ -55,13 +59,13 @@ class helper {
 		else if (1 === interval.hours)
 			return interval.hours + ' hour';
 		else if (1 < interval.minutes)
-			return interval.minutes + ' min';// ' minutes'
+			return interval.minutes + ' min'; // ' minutes'
 		else if (1 === interval.minutes)
-			return interval.minutes + ' min';// ' minute'
+			return interval.minutes + ' min'; // ' minute'
 		else if (1 !== interval.seconds)
-			return interval.seconds + ' sec';// ' seconds'
+			return interval.seconds + ' sec'; // ' seconds'
 		else
-			return interval.seconds + ' sec';// ' second'
+			return interval.seconds + ' sec'; // ' second'
 	}
 
 	static formatSeconds = _second => {
@@ -100,37 +104,35 @@ class helper {
 			result = `${d} d ${result}`;
 
 		return result;
-	}
+	};
 
 	static isMosaicOrNamespaceId = str =>
 		16 === str.length && /^[0-9a-fA-F]+$/.test(str);
 
 	static isAccountPublicKey = str =>
-		64 === str.length &&
-		str.match('^[A-z0-9]+$')
+		64 === str.length && str.match('^[A-z0-9]+$');
 
 	static isAccountAddress = str =>
 		39 === str.length &&
 		str.match(`[${getNetworkTypeAddressFormat[http.networkType]}]` +
-			'{1,1}[a-zA-Z0-9]{5,5}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{3,3}')
+				'{1,1}[a-zA-Z0-9]{5,5}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{6,6}[a-zA-Z0-9]{3,3}');
 
-	static isBlockHeight = str =>
-		str.match(/^-{0,1}\d+$/)
+	static isBlockHeight = str => str.match(/^-{0,1}\d+$/);
 
-	static validURL (url) {
+	static validURL(url) {
 		// All we expect is there is a valid origin for the url, IE,
 		// the origin is not 'null'.
 		return 'null' !== url.origin;
 	}
 
-	static parseUrl (str) {
+	static parseUrl(str) {
 		let url = new Url(str);
 
 		if (this.validURL(url))
 			return url;
 	}
 
-	static httpToWssUrl (str) {
+	static httpToWssUrl(str) {
 		let url = new Url(str);
 
 		if (this.validURL(url)) {
@@ -139,7 +141,7 @@ class helper {
 		}
 	}
 
-	static async logError (dispatch, action, ...args) {
+	static async logError(dispatch, action, ...args) {
 		try {
 			await dispatch(action, ...args);
 		} catch (e) {
@@ -147,28 +149,35 @@ class helper {
 		}
 	}
 
-	static convertToSecond = durationInBlocks => durationInBlocks * http.networkConfig.TargetBlockTime
+	static convertToSecond = durationInBlocks =>
+		durationInBlocks * http.networkConfig.TargetBlockTime;
 
 	static calculateNamespaceExpiration = (currentHeight, endHeight) => {
-		const expired = currentHeight > endHeight - http.networkConfig.NamespaceGraceDuration;
-		const expiredInBlock = endHeight - http.networkConfig.NamespaceGraceDuration - currentHeight;
+		const expired =
+			currentHeight > endHeight - http.networkConfig.NamespaceGraceDuration;
+		const expiredInBlock =
+			endHeight - http.networkConfig.NamespaceGraceDuration - currentHeight;
 
 		return {
 			isExpired: expired,
 			expiredInBlock: expiredInBlock,
 			expiredInSecond: this.convertToSecond(expiredInBlock)
 		};
-	}
+	};
 
 	static fetchData = async (fetchFunction, commit, before, error, success) => {
-		if ('function' === typeof before) { await before(); } else {
+		if ('function' === typeof before) {
+			await before();
+		} else {
 			commit('setLoading', true);
 			commit('setError', false);
 		}
 		try {
 			await fetchFunction();
 		} catch (e) {
-			if ('function' === typeof error) { await error(e); } else {
+			if ('function' === typeof error) {
+				await error(e);
+			} else {
 				console.error(e);
 				commit('setError', true);
 			}
@@ -177,7 +186,7 @@ class helper {
 			await success();
 		else
 			commit('setLoading', false);
-	}
+	};
 
 	/**
 	 * Convert hex value or namespace name to mosaicId or namespaceId.
@@ -190,20 +199,20 @@ class helper {
 
 		const isHexadecimal = this.isMosaicOrNamespaceId(hexOrNamespace);
 
-		if (isHexadecimal){
-			Id = 'mosaic' === toId
-				? new MosaicId(hexOrNamespace)
-				: NamespaceId.createFromEncoded(hexOrNamespace);
-		}
-		else
-		{
-			Id = 'mosaic' === toId
-				? await NamespaceService.getLinkedMosaicId(new NamespaceId(hexOrNamespace))
-				: new NamespaceId(hexOrNamespace);
+		if (isHexadecimal) {
+			Id =
+				'mosaic' === toId
+					? new MosaicId(hexOrNamespace)
+					: NamespaceId.createFromEncoded(hexOrNamespace);
+		} else {
+			Id =
+				'mosaic' === toId
+					? await NamespaceService.getLinkedMosaicId(new NamespaceId(hexOrNamespace))
+					: new NamespaceId(hexOrNamespace);
 		}
 
 		return Id;
-	}
+	};
 
 	/**
 	 * Decode Account Public key or Namespace name to plan Address.
@@ -225,7 +234,7 @@ class helper {
 		}
 
 		return address;
-	}
+	};
 
 	/**
 	 * Convert Mosaic amount to relative Amount with divisibility.
@@ -239,8 +248,10 @@ class helper {
 
 		let relativeAmount = amount / Math.pow(10, divisibility);
 
-		return relativeAmount.toLocaleString('en-US', { minimumFractionDigits: divisibility });
-	}
+		return relativeAmount.toLocaleString('en-US', {
+			minimumFractionDigits: divisibility
+		});
+	};
 
 	/**
 	 * Get network currency balance.
@@ -248,14 +259,20 @@ class helper {
 	 * @returns {string} network currency balance.
 	 */
 	static getNetworkCurrencyBalance = mosaics => {
-		const networkCurrencyMosaic = mosaics.filter(mosaic => mosaic.id.toHex() === http.networkCurrency.mosaicId ||
-			(mosaic.id instanceof NamespaceId &&
-			mosaic.id.toHex() === http.networkCurrency.namespaceId));
+		const networkCurrencyMosaic = mosaics.filter(mosaic =>
+			mosaic.id.toHex() === http.networkCurrency.mosaicId ||
+				(mosaic.id instanceof NamespaceId &&
+					mosaic.id.toHex() === http.networkCurrency.namespaceId));
 
-		const totalNetworkCurrencyAmount = networkCurrencyMosaic.reduce((acc, cur) => acc + Number(cur.amount.toString()), 0);
+		const totalNetworkCurrencyAmount = networkCurrencyMosaic.reduce(
+			(acc, cur) => acc + Number(cur.amount.toString()),
+			0
+		);
 
-		return 0 < networkCurrencyMosaic.length ? this.toNetworkCurrency(totalNetworkCurrencyAmount) : Constants.Message.UNAVAILABLE;
-	}
+		return 0 < networkCurrencyMosaic.length
+			? this.toNetworkCurrency(totalNetworkCurrencyAmount)
+			: Constants.Message.UNAVAILABLE;
+	};
 
 	/**
 	 * Convert networkTimestamp to date.
@@ -278,14 +295,15 @@ class helper {
 		}
 
 		return date.format('YYYY-MM-DD HH:mm:ss');
-	}
+	};
 
 	/**
 	 * convert difficulty raw score to readable
 	 * @param {UInt64} difficulty - raw difficulty score
 	 * @returns {string} difficulty - readable difficulty score
 	 */
-	static convertBlockDifficultyToReadable = difficulty => (difficulty.compact() / 1000000000000).toFixed(2).toString()
+	static convertBlockDifficultyToReadable = difficulty =>
+		(difficulty.compact() / 1000000000000).toFixed(2).toString();
 
 	/**
 	 * Format Importance score to percentage.
@@ -302,7 +320,7 @@ class helper {
 			percent = rawScore / totalChainImportance;
 
 		return (percent * 100).toFixed(divisibility).toString() + ' %';
-	}
+	};
 
 	/**
 	 * Format number to Network currency divisibility.
@@ -311,22 +329,26 @@ class helper {
 	 * @returns {string} amount - (string) with formatted divisibility
 	 */
 	static toNetworkCurrency = amount =>
-		(amount / Math.pow(10, http.networkCurrency.divisibility))
-			.toLocaleString('en-US', { minimumFractionDigits: http.networkCurrency.divisibility })
+		(amount / Math.pow(10, http.networkCurrency.divisibility)).toLocaleString(
+			'en-US',
+			{ minimumFractionDigits: http.networkCurrency.divisibility }
+		);
 
 	/**
 	 * Convert public key to Address.
 	 * @param {string} publicKey - raw public key
 	 * @returns {string} address - address in plain format
 	 */
-	static publicKeyToAddress = publicKey => Address.createFromPublicKey(publicKey, http.networkType).plain()
+	static publicKeyToAddress = publicKey =>
+		Address.createFromPublicKey(publicKey, http.networkType).plain();
 
 	/**
 	 * convert network timestamp to world time
 	 * @param {number} timestamp - raw timestamp
 	 * @returns {number} timestamp - world timestamp
 	 */
-	static networkTimestamp = timestamp => Math.round(timestamp / 1000) + http.networkConfig.NemsisTimestamp
+	static networkTimestamp = timestamp =>
+		Math.round(timestamp / 1000) + http.networkConfig.NemsisTimestamp;
 
 	/**
 	 * Sort Native mosaic to top of list.
@@ -342,23 +364,23 @@ class helper {
 				: sortedMosaics.push(mosaic));
 
 		return sortedMosaics;
-	}
+	};
 
 	/**
 	 * Convert second to time from now in second.
 	 * @param {number} second number of second.
 	 * @returns {string} time from now in second.
 	 */
-	static convertTimeFromNowInSec = second => moment.utc().add(second, 's')
-		.fromNow()
+	static convertTimeFromNowInSec = second =>
+		moment.utc().add(second, 's').fromNow();
 
 	/**
 	 * convert second to Date.
 	 * @param {number} second number of second.
 	 * @returns {string} YYYY.MM.DD HH:mm UTC.
 	 */
-	static convertSecondToDate = second => moment.utc().add(second, 's')
-		.format('YYYY.MM.DD @ HH:mm UTC')
+	static convertSecondToDate = second =>
+		moment.utc().add(second, 's').format('YYYY.MM.DD @ HH:mm UTC');
 
 	/**
 	 * Converts an HSL color value to RGB. Conversion formula
@@ -371,11 +393,13 @@ class helper {
 	 * @param   {number}  l       The lightness
 	 * @returns {object} {R: Number, G: Number, B: Number}
 	 */
-	 static hslToRgb (h, s, l) {
+	static hslToRgb(h, s, l) {
 		let r, g, b;
 
-		if (0 === s) { r = g = b = l; } // achromatic
-		 else {
+		if (0 === s) {
+			r = g = b = l;
+		} // achromatic
+		else {
 			/* eslint-disable no-param-reassign */
 			const hue2rgb = (_p, _q, _t) => {
 				if (0 > _t)
@@ -440,23 +464,56 @@ class helper {
 				totalValue += parseInt(hex, 16);
 		} else {
 			const charset = [
-				'0', '1', '2', '3', '4', '5', '6', '7', '8', '9',
-				'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm',
-				'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z'
+				'0',
+				'1',
+				'2',
+				'3',
+				'4',
+				'5',
+				'6',
+				'7',
+				'8',
+				'9',
+				'a',
+				'b',
+				'c',
+				'd',
+				'e',
+				'f',
+				'g',
+				'h',
+				'i',
+				'j',
+				'k',
+				'l',
+				'm',
+				'n',
+				'o',
+				'p',
+				'q',
+				'r',
+				's',
+				't',
+				'u',
+				'v',
+				'w',
+				'x',
+				'y',
+				'z'
 			];
 
 			for (const char of hash)
 				totalValue += charset.indexOf(char.toLowerCase());
-		};
+		}
 
 		const k = Math.trunc(totalValue / spread);
 		const offsetValue = totalValue - (spread * k);
 		const hue = offsetValue / 100;
 
 		return this.hslToRgb(hue, saturation, lightness);
-	}
+	};
 
-	static truncString (str, strLen = 4) {
+	static truncString(str, strLen = 4) {
 		if ('string' === typeof str) {
 			if (str.length > (strLen * 2) + 1)
 				return `${str.substring(0, strLen)}...${str.substring(str.length - strLen, str.length)}`;
@@ -490,16 +547,17 @@ class helper {
 
 		const namespaceHex = unResolvedAddress.id.toHex();
 
-		const addressResolutionStatements = await ReceiptService.searchAddressResolutionStatements(searchCriteria);
+		const addressResolutionStatements =
+			await ReceiptService.searchAddressResolutionStatements(searchCriteria);
 
-		const address = addressResolutionStatements.data.find(item => item.unresolved === namespaceHex
-			&& 'Address' === item.resolutionType)?.addressResolutionEntries[0];
+		const address = addressResolutionStatements.data.find(item =>
+			item.unresolved === namespaceHex && 'Address' === item.resolutionType)?.addressResolutionEntries[0];
 
 		if (!address)
 			throw new Error('Failed to resolved address');
 
 		return address;
-	}
+	};
 
 	/**
 	 * To resolved unresolvedMosaicId.
@@ -514,7 +572,7 @@ class helper {
 			return new MosaicId(http.networkCurrency.mosaicId);
 
 		return await NamespaceService.getLinkedMosaicId(unresolvedMosaicId);
-	}
+	};
 
 	/**
 	 * Build mosaic field object use in MosaicField components.
@@ -523,16 +581,25 @@ class helper {
 	 * @param {array} mosaicNames - mosaics namespace name.
 	 * @returns {object} { mosaicId, amount, mosaicAliasName }
 	 */
-	static mosaicsFieldObjectBuilder = (resolvedMosaics, mosaicInfos, mosaicNames) => {
+	static mosaicsFieldObjectBuilder = (
+		resolvedMosaics,
+		mosaicInfos,
+		mosaicNames
+	) => {
 		if (0 === resolvedMosaics.length)
 			return [];
 
-		const uniqueMosaicIds = [...new Set(resolvedMosaics.map(mosaic => mosaic.id.toHex()))];
+		const uniqueMosaicIds = [
+			...new Set(resolvedMosaics.map(mosaic => mosaic.id.toHex()))
+		];
 
 		return uniqueMosaicIds.map(idHex => {
 			const mosaics = resolvedMosaics.filter(mosaic => mosaic.id.toHex() === idHex);
 
-			const sumAmount = mosaics.reduce((acc, cur) => acc + BigInt(cur.amount.toString()), BigInt(0));
+			const sumAmount = mosaics.reduce(
+				(acc, cur) => acc + BigInt(cur.amount.toString()),
+				BigInt(0)
+			);
 
 			const mosaicField = {
 				rawAmount: UInt64.fromNumericString(sumAmount.toString()),
@@ -542,7 +609,10 @@ class helper {
 			if (idHex === http.networkCurrency.mosaicId) {
 				return {
 					...mosaicField,
-					amount: this.formatMosaicAmountWithDivisibility(Number(sumAmount), http.networkCurrency.divisibility),
+					amount: this.formatMosaicAmountWithDivisibility(
+						Number(sumAmount),
+						http.networkCurrency.divisibility
+					),
 					mosaicAliasName: http.networkCurrency.namespaceName
 				};
 			} else {
@@ -550,12 +620,18 @@ class helper {
 
 				return {
 					...mosaicField,
-					amount: this.formatMosaicAmountWithDivisibility(Number(sumAmount), divisibility),
-					mosaicAliasName: MosaicService.extractMosaicNamespace({ mosaicId: mosaics[0].id.toHex() }, mosaicNames)[0]
+					amount: this.formatMosaicAmountWithDivisibility(
+						Number(sumAmount),
+						divisibility
+					),
+					mosaicAliasName: MosaicService.extractMosaicNamespace(
+						{ mosaicId: mosaics[0].id.toHex() },
+						mosaicNames
+					)[0]
 				};
 			}
 		});
-	}
+	};
 
 	/**
 	 * Check native namespace.
@@ -569,7 +645,7 @@ class helper {
 		const values = http.nativeNamespaces.map(namespace => namespace.namespaceName);
 
 		return -1 !== values.indexOf(namespaceName);
-	}
+	};
 
 	/**
 	 * Gets single mosaic alias name.
@@ -578,10 +654,13 @@ class helper {
 	 */
 	static getMosaicAliasNames = async mosaicId => {
 		const getMosaicNames = await NamespaceService.getMosaicsNames([mosaicId]);
-		const mosaicAliasNames = MosaicService.extractMosaicNamespace({ mosaicId: mosaicId.toHex() }, getMosaicNames);
+		const mosaicAliasNames = MosaicService.extractMosaicNamespace(
+			{ mosaicId: mosaicId.toHex() },
+			getMosaicNames
+		);
 
 		return mosaicAliasNames;
-	}
+	};
 
 	static fallbackCopyTextToClipboard = text => {
 		let textArea = document.createElement('textarea');
@@ -607,7 +686,7 @@ class helper {
 
 		document.body.removeChild(textArea);
 		return success;
-	}
+	};
 
 	static copyTextToClipboard = text => {
 		return new Promise((resolve, reject) => {
@@ -617,14 +696,17 @@ class helper {
 				else
 					reject(Error('Could not copy text. document.execCommand() failed'));
 			}
-			navigator.clipboard.writeText(text).then(function () {
-				resolve();
-			}, function (err) {
-				console.error('Async: Could not copy text: ', err);
-				reject(Error('Async: Could not copy text: ', err));
-			});
+			navigator.clipboard.writeText(text).then(
+				function () {
+					resolve();
+				},
+				function (err) {
+					console.error('Async: Could not copy text: ', err);
+					reject(Error('Async: Could not copy text: ', err));
+				}
+			);
 		});
-	}
+	};
 
 	static formatNodeVersion = rawNodeVersion => {
 		try {
@@ -632,19 +714,19 @@ class helper {
 		} catch (e) {
 			return Constants.Message.UNAVAILABLE;
 		}
-	}
+	};
 
-	static getMosaicName (mosaic) {
+	static getMosaicName(mosaic) {
 		let mosaicAliasName;
 
 		if (Array.isArray(mosaic.mosaicAliasName))
-			mosaicAliasName = mosaic.mosaicAliasName.length ? mosaic.mosaicAliasName[0] : 'N/A';
+		{mosaicAliasName = mosaic.mosaicAliasName.length
+			? mosaic.mosaicAliasName[0]
+			: 'N/A';}
 		else
-			mosaicAliasName = mosaic.mosaicAliasName ? mosaic.mosaicAliasName : 'N/A';
+		{mosaicAliasName = mosaic.mosaicAliasName ? mosaic.mosaicAliasName : 'N/A';}
 
-		return 'N/A' !== mosaicAliasName
-			? mosaicAliasName
-			: mosaic.mosaicId;
+		return 'N/A' !== mosaicAliasName ? mosaicAliasName : mosaic.mosaicId;
 	}
 
 	/**
@@ -652,7 +734,7 @@ class helper {
 	 * @param {array} dataset - list of data.
 	 * @returns {string} csv data in string format.
 	 */
-	static convertArrayToCSV (dataset) {
+	static convertArrayToCSV(dataset) {
 		if (!Array.isArray(dataset))
 			throw Error('Convert dataset to CSV fail.');
 
@@ -687,7 +769,7 @@ class helper {
 	 */
 	static getStartListIndex = (pageNumber, pageSize) => {
 		return 1 === pageNumber ? 0 : (pageNumber - 1) * pageSize;
-	}
+	};
 
 	static getTransactionMosaicInfoAndNamespace = async transactions => {
 		const unresolvedMosaics = [];
@@ -707,7 +789,7 @@ class helper {
 		});
 
 		return await helper.getMosaicInfoAndNamespace(unresolvedMosaics);
-	}
+	};
 
 	static getMosaicInfoAndNamespace = async unresolvedMosaics => {
 		const unresolvedMosaicsMap = {};
@@ -727,7 +809,9 @@ class helper {
 			.filter(mosaicId => mosaicId.toHex() !== http.networkCurrency.mosaicId);
 
 		// filter duplicated mosaic id
-		const uniqueMosaicIds = [...new Set(resolvedMosaicIds.map(mosaic => mosaic.toHex()))];
+		const uniqueMosaicIds = [
+			...new Set(resolvedMosaicIds.map(mosaic => mosaic.toHex()))
+		];
 
 		let mosaicInfos = [];
 		let mosaicNames = [];
@@ -745,7 +829,7 @@ class helper {
 			mosaicNames,
 			unresolvedMosaicsMap
 		};
-	}
+	};
 }
 
 export default helper;

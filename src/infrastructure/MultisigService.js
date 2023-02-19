@@ -20,55 +20,64 @@ import http from './http';
 import { Address } from 'symbol-sdk';
 
 class MultisigService {
-  /**
-   * Gets a MultisigAccountInfo for an account.
-   * @param {string} address - Account Address.
-   * @returns {object} MultisigAccountInfo.
-   */
-  static getMultisigAccount = async address => {
-  	let multisigAccountInfo;
+	/**
+	 * Gets a MultisigAccountInfo for an account.
+	 * @param {string} address - Account Address.
+	 * @returns {object} MultisigAccountInfo.
+	 */
+	static getMultisigAccount = async address => {
+		let multisigAccountInfo;
 
-  	try {
-  		multisigAccountInfo = await http.createRepositoryFactory.createMultisigRepository()
-  			.getMultisigAccountInfo(Address.createFromRawAddress(address))
-  			.toPromise();
-  	} catch (e) {
-  		// To Catch statusCode 404 if Address is not a multisig account.
-  		throw Error('Address is not a multisig account.');
-  	}
+		try {
+			multisigAccountInfo = await http.createRepositoryFactory
+				.createMultisigRepository()
+				.getMultisigAccountInfo(Address.createFromRawAddress(address))
+				.toPromise();
+		} catch (e) {
+			// To Catch statusCode 404 if Address is not a multisig account.
+			throw Error('Address is not a multisig account.');
+		}
 
-  	const formattedMultisigAccount = this.formatMultisigAccountInfo(multisigAccountInfo);
+		const formattedMultisigAccount =
+			this.formatMultisigAccountInfo(multisigAccountInfo);
 
-  	return formattedMultisigAccount;
-  }
+		return formattedMultisigAccount;
+	};
 
-  /**
-   * Get Customize MultisigAccountInfo for Vue component.
-   * @param {string} address - Account Address.
-   * @returns {object} customize MultisigAccountInfo.
-   */
-  static getMultisigAccountInfo = async address => {
-  	const multisigAccountInfo = await this.getMultisigAccount(address);
+	/**
+	 * Get Customize MultisigAccountInfo for Vue component.
+	 * @param {string} address - Account Address.
+	 * @returns {object} customize MultisigAccountInfo.
+	 */
+	static getMultisigAccountInfo = async address => {
+		const multisigAccountInfo = await this.getMultisigAccount(address);
 
-  	return {
-  		...multisigAccountInfo,
-  		minApproval: 0 < multisigAccountInfo?.cosignatoryAddresses.length ? multisigAccountInfo.minApproval : null,
-  		minRemoval: 0 < multisigAccountInfo?.cosignatoryAddresses.length ? multisigAccountInfo.minRemoval : null,
-  		cosignatoryAddresses: multisigAccountInfo?.cosignatoryAddresses,
-  		multisigAddresses: multisigAccountInfo?.multisigAddresses
-  	};
-  }
+		return {
+			...multisigAccountInfo,
+			minApproval:
+				0 < multisigAccountInfo?.cosignatoryAddresses.length
+					? multisigAccountInfo.minApproval
+					: null,
+			minRemoval:
+				0 < multisigAccountInfo?.cosignatoryAddresses.length
+					? multisigAccountInfo.minRemoval
+					: null,
+			cosignatoryAddresses: multisigAccountInfo?.cosignatoryAddresses,
+			multisigAddresses: multisigAccountInfo?.multisigAddresses
+		};
+	};
 
-  /**
-   * Format multisigAccountInfo DTO to readable object.
-   * @param {object} multisigAccountInfo - multisigAccountInfo DTO.
-   * @returns {object} formatted multisigAccountInfo DTO.
-   */
-  static formatMultisigAccountInfo = multisigAccountInfo => ({
-  	...multisigAccountInfo,
-  	cosignatoryAddresses: multisigAccountInfo.cosignatoryAddresses.map(address => address.plain()),
-  	multisigAddresses: multisigAccountInfo.multisigAddresses.map(address => address.plain())
-  })
+	/**
+	 * Format multisigAccountInfo DTO to readable object.
+	 * @param {object} multisigAccountInfo - multisigAccountInfo DTO.
+	 * @returns {object} formatted multisigAccountInfo DTO.
+	 */
+	static formatMultisigAccountInfo = multisigAccountInfo => ({
+		...multisigAccountInfo,
+		cosignatoryAddresses: multisigAccountInfo.cosignatoryAddresses.map(address => address.plain()),
+		multisigAddresses: multisigAccountInfo.multisigAddresses.map(address =>
+			address.plain())
+	});
 }
 
 export default MultisigService;

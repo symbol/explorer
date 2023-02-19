@@ -20,46 +20,49 @@ import http from './http';
 import Constants from '../config/constants';
 
 class MetadataService {
-  /**
-   * Gets a metadata from searchCriteria.
-   * @param {object} metadataSearchCriteria Search Criteria.
-   * @returns {object} formatted metadatas with pagination info.
-   */
-  static searchMetadatas = async metadataSearchCriteria => {
-  	const searchMetadatas = await http.createRepositoryFactory.createMetadataRepository()
-  		.search(metadataSearchCriteria)
-  		.toPromise();
+	/**
+	 * Gets a metadata from searchCriteria.
+	 * @param {object} metadataSearchCriteria Search Criteria.
+	 * @returns {object} formatted metadatas with pagination info.
+	 */
+	static searchMetadatas = async metadataSearchCriteria => {
+		const searchMetadatas = await http.createRepositoryFactory
+			.createMetadataRepository()
+			.search(metadataSearchCriteria)
+			.toPromise();
 
-  	return {
-  		...searchMetadatas,
-  		data: searchMetadatas.data.map(metadata => this.formatMetadata(metadata))
-  	};
-  }
+		return {
+			...searchMetadatas,
+			data: searchMetadatas.data.map(metadata => this.formatMetadata(metadata))
+		};
+	};
 
-  /**
-   * Format Metadata to readable object.
-   * @param {object} metadata - metadata DTO.
-   * @returns {object} readable Metadata object.
-   */
-  static formatMetadata = metadata => ({
-  	metadataId: metadata.id,
-  	...this.formatMetadataEntry(metadata.metadataEntry)
-  })
+	/**
+	 * Format Metadata to readable object.
+	 * @param {object} metadata - metadata DTO.
+	 * @returns {object} readable Metadata object.
+	 */
+	static formatMetadata = metadata => ({
+		metadataId: metadata.id,
+		...this.formatMetadataEntry(metadata.metadataEntry)
+	});
 
-  /**
-   * Format MetadataEntry to readable object.
-   * @param {object} metadataEntry - metadataEntry DTO.
-   * @returns {object} readable metadataEntry object.
-   */
-  static formatMetadataEntry = metadataEntry => ({
-  	...metadataEntry,
-  	scopedMetadataKey: metadataEntry.scopedMetadataKey.toHex(),
-  	sourceAddress: metadataEntry.sourceAddress.plain(),
-  	targetAddress: metadataEntry.targetAddress.plain(),
-  	metadataType: Constants.MetadataType[metadataEntry.metadataType],
-  	targetId: metadataEntry.targetId ? metadataEntry.targetId.toHex() : Constants.Message.UNAVAILABLE,
-  	value: metadataEntry.value
-  })
+	/**
+	 * Format MetadataEntry to readable object.
+	 * @param {object} metadataEntry - metadataEntry DTO.
+	 * @returns {object} readable metadataEntry object.
+	 */
+	static formatMetadataEntry = metadataEntry => ({
+		...metadataEntry,
+		scopedMetadataKey: metadataEntry.scopedMetadataKey.toHex(),
+		sourceAddress: metadataEntry.sourceAddress.plain(),
+		targetAddress: metadataEntry.targetAddress.plain(),
+		metadataType: Constants.MetadataType[metadataEntry.metadataType],
+		targetId: metadataEntry.targetId
+			? metadataEntry.targetId.toHex()
+			: Constants.Message.UNAVAILABLE,
+		value: metadataEntry.value
+	});
 }
 
 export default MetadataService;
