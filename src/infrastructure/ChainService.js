@@ -19,24 +19,25 @@
 import http from './http';
 
 class ChainService {
-  /**
-   * Gets chain info such as current block height, finalized block and etc
-   * @returns {object} formatted chain info
-   */
-  static getChainInfo = async () => {
-  	const chainInfo = await http.createRepositoryFactory.createChainRepository()
-  		.getChainInfo()
-  		.toPromise();
+	/**
+	 * Gets chain info such as current block height, finalized block and etc
+	 * @returns {object} formatted chain info
+	 */
+	static getChainInfo = async () => {
+		const chainInfo = await http.createRepositoryFactory
+			.createChainRepository()
+			.getChainInfo()
+			.toPromise();
 
-  	return {
-  		...chainInfo,
-  		height: chainInfo.height.compact(),
-  		latestFinalizedBlock: {
-  			...chainInfo.latestFinalizedBlock,
-  			height: chainInfo.latestFinalizedBlock.height.compact()
-  		}
-  	};
-  }
+		return {
+			...chainInfo,
+			height: chainInfo.height.compact(),
+			latestFinalizedBlock: {
+				...chainInfo.latestFinalizedBlock,
+				height: chainInfo.latestFinalizedBlock.height.compact()
+			}
+		};
+	};
 }
 
 export default ChainService;

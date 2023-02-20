@@ -37,37 +37,39 @@ import { Address } from 'symbol-sdk';
 const managers = [
 	new Pagination({
 		name: 'timeline',
-		fetchFunction: (pageInfo, filterValue) => AccountService.getAccountList(pageInfo, filterValue),
+		fetchFunction: (pageInfo, filterValue) =>
+			AccountService.getAccountList(pageInfo, filterValue),
 		pageInfo: {
 			pageSize: Constants.PageSize
 		},
 		filter: filters.account
 	}),
-	new DataSet(
-		'info',
-		address => AccountService.getAccountInfo(address)
-	),
-	new DataSet(
-		'OwnedMosaic',
-		address => AccountService.getAccountMosaicList(address)
-	),
+	new DataSet('info', address => AccountService.getAccountInfo(address)),
+	new DataSet('OwnedMosaic', address =>
+		AccountService.getAccountMosaicList(address)),
 	new Pagination({
 		name: 'OwnedNamespace',
 		fetchFunction: (pageInfo, filterValue, store) =>
-			AccountService.getAccountNamespaceList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
+			AccountService.getAccountNamespaceList(
+				pageInfo,
+				filterValue,
+				store.getters.getCurrentAccountAddress
+			),
 		pageInfo: {
 			pageSize: 10
 		},
 		filter: filters.namespace
 	}),
-	new DataSet(
-		'multisig',
-		address => MultisigService.getMultisigAccountInfo(address)
-	),
+	new DataSet('multisig', address =>
+		MultisigService.getMultisigAccountInfo(address)),
 	new Pagination({
 		name: 'transactions',
 		fetchFunction: (pageInfo, filterValue, store) =>
-			AccountService.getAccountTransactionList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
+			AccountService.getAccountTransactionList(
+				pageInfo,
+				filterValue,
+				store.getters.getCurrentAccountAddress
+			),
 		pageInfo: {
 			pageSize: 10
 		},
@@ -76,7 +78,10 @@ const managers = [
 	new Pagination({
 		name: 'harvestedBlocks',
 		fetchFunction: (pageInfo, filterValue, store) =>
-			AccountService.getAccountHarvestedReceiptList(pageInfo, store.getters.getCurrentAccountAddress),
+			AccountService.getAccountHarvestedReceiptList(
+				pageInfo,
+				store.getters.getCurrentAccountAddress
+			),
 		pageInfo: {
 			pageSize: 10
 		}
@@ -84,7 +89,11 @@ const managers = [
 	new Pagination({
 		name: 'receipt',
 		fetchFunction: (pageInfo, filterValue, store) =>
-			AccountService.getAccountReceiptList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
+			AccountService.getAccountReceiptList(
+				pageInfo,
+				filterValue,
+				store.getters.getCurrentAccountAddress
+			),
 		pageInfo: {
 			pageSize: 10
 		},
@@ -93,7 +102,10 @@ const managers = [
 	new Pagination({
 		name: 'mosaicAddressRestrictions',
 		fetchFunction: (pageInfo, filterValue, store) =>
-			RestrictionService.getMosaicAddressRestrictionList(pageInfo, store.getters.getCurrentAccountAddress),
+			RestrictionService.getMosaicAddressRestrictionList(
+				pageInfo,
+				store.getters.getCurrentAccountAddress
+			),
 		pageInfo: {
 			pageSize: Constants.PageSize
 		}
@@ -101,7 +113,11 @@ const managers = [
 	new Pagination({
 		name: 'metadatas',
 		fetchFunction: (pageInfo, filterValue, store) =>
-			AccountService.getAccountMetadataList(pageInfo, filterValue, store.getters.getCurrentAccountAddress),
+			AccountService.getAccountMetadataList(
+				pageInfo,
+				filterValue,
+				store.getters.getCurrentAccountAddress
+			),
 		pageInfo: {
 			pageSize: 10
 		},
@@ -110,7 +126,10 @@ const managers = [
 	new Pagination({
 		name: 'hashLocks',
 		fetchFunction: (pageInfo, filterValue, store) =>
-			AccountService.getAccountHashLockList(pageInfo, store.getters.getCurrentAccountAddress),
+			AccountService.getAccountHashLockList(
+				pageInfo,
+				store.getters.getCurrentAccountAddress
+			),
 		pageInfo: {
 			pageSize: 10
 		}
@@ -118,15 +137,16 @@ const managers = [
 	new Pagination({
 		name: 'secretLocks',
 		fetchFunction: (pageInfo, filterValue, store) =>
-			AccountService.getAccountSecretLockList(pageInfo, store.getters.getCurrentAccountAddress),
+			AccountService.getAccountSecretLockList(
+				pageInfo,
+				store.getters.getCurrentAccountAddress
+			),
 		pageInfo: {
 			pageSize: 10
 		}
 	}),
-	new DataSet(
-		'accountRestrictions',
-		address => RestrictionService.getAccountRestrictionList(address)
-	)
+	new DataSet('accountRestrictions', address =>
+		RestrictionService.getAccountRestrictionList(address))
 ];
 
 const LOCK = Lock.create();
@@ -143,15 +163,18 @@ export default {
 		...getGettersFromManagers(managers),
 		getInitialized: state => state.initialized,
 		getActivityBucketList: state => state.info?.data.activityBucket || [],
-		getSupplementalPublicKeys: state => state.info?.data.supplementalPublicKeys || {},
+		getSupplementalPublicKeys: state =>
+			state.info?.data.supplementalPublicKeys || {},
 		getVotingKeyList: state => state.info?.data.votingList || [],
 		getCurrentAccountAddress: state => state.currentAccountAddress,
 		balanceWidget: (state, getters) => ({
-			address: state.currentAccountAddress ? Address
-				.createFromRawAddress(state.currentAccountAddress)
-				.pretty() : '',
+			address: state.currentAccountAddress
+				? Address.createFromRawAddress(state.currentAccountAddress).pretty()
+				: '',
 			mosaic: getters.OwnedMosaic?.data[0],
-			alias: getters.info?.data?.accountAliasNames /* || Constants.Message.UNAVAILABLE */
+			alias:
+				getters.info?.data
+					?.accountAliasNames /* || Constants.Message.UNAVAILABLE */
 		})
 	},
 	mutations: {
@@ -166,7 +189,7 @@ export default {
 	actions: {
 		...getActionsFromManagers(managers),
 		// Initialize the account model.
-		async initialize ({ commit, dispatch, getters }) {
+		async initialize({ commit, dispatch, getters }) {
 			const callback = async () => {
 				await dispatch('initializePage');
 			};
@@ -175,22 +198,22 @@ export default {
 		},
 
 		// Uninitialize the account model.
-		async uninitialize ({ commit, dispatch, getters }) {
+		async uninitialize({ commit, dispatch, getters }) {
 			const callback = async () => {
 				dispatch('uninitializeDetail');
- 				getters.timeline?.uninitialize();
+				getters.timeline?.uninitialize();
 			};
 
 			await LOCK.uninitialize(callback, commit, dispatch, getters);
 		},
 
 		// Fetch data from the SDK and initialize the page.
-		initializePage (context) {
+		initializePage(context) {
 			context.getters.timeline.setStore(context).initialFetch();
 		},
 
 		// Fetch account data by address, publicKey or alias namespaceName
-		async fetchAccountDetail (context, payload) {
+		async fetchAccountDetail(context, payload) {
 			let { address } = payload;
 
 			try {
@@ -208,22 +231,28 @@ export default {
 			context.getters.OwnedNamespace.setStore(context).initialFetch(address);
 			context.getters.multisig.setStore(context).initialFetch(address);
 			context.getters.metadatas.setStore(context).initialFetch(address);
-			context.getters.mosaicAddressRestrictions.setStore(context).initialFetch(address);
+			context.getters.mosaicAddressRestrictions
+				.setStore(context)
+				.initialFetch(address);
 			context.getters.harvestedBlocks.setStore(context).initialFetch(address);
-			context.getters.accountRestrictions.setStore(context).initialFetch(address);
+			context.getters.accountRestrictions
+				.setStore(context)
+				.initialFetch(address);
 			context.getters.hashLocks.setStore(context).initialFetch(address);
 			context.getters.secretLocks.setStore(context).initialFetch(address);
 			context.getters.receipt.setStore(context).initialFetch(address);
 		},
 
-		uninitializeDetail (context) {
+		uninitializeDetail(context) {
 			context.getters.info.setStore(context).uninitialize();
 			context.getters.OwnedMosaic.setStore(context).uninitialize();
 			context.getters.OwnedNamespace.setStore(context).uninitialize();
 			context.getters.multisig.setStore(context).uninitialize();
 			context.getters.transactions.setStore(context).uninitialize();
 			context.getters.metadatas.setStore(context).uninitialize();
-			context.getters.mosaicAddressRestrictions.setStore(context).uninitialize();
+			context.getters.mosaicAddressRestrictions
+				.setStore(context)
+				.uninitialize();
 			context.getters.harvestedBlocks.setStore(context).uninitialize();
 			context.getters.accountRestrictions.setStore(context).uninitialize();
 			context.getters.hashLocks.setStore(context).uninitialize();
