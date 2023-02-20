@@ -33,24 +33,25 @@ const LOCK = Lock.create();
 const managers = [
 	new Pagination({
 		name: 'timeline',
-		fetchFunction: (pageInfo, filterValue) => NamespaceService.getNamespaceList(pageInfo, filterValue),
+		fetchFunction: (pageInfo, filterValue) =>
+			NamespaceService.getNamespaceList(pageInfo, filterValue),
 		pageInfo: {
 			pageSize: Constants.PageSize
 		},
 		filter: filters.namespace
 	}),
-	new DataSet(
-		'info',
-		namespaceOrHex => NamespaceService.getNamespaceInfo(namespaceOrHex)
-	),
-	new DataSet(
-		'namespaceLevel',
-		namespaceOrHex => NamespaceService.getNamespaceLevelList(namespaceOrHex)
-	),
+	new DataSet('info', namespaceOrHex =>
+		NamespaceService.getNamespaceInfo(namespaceOrHex)),
+	new DataSet('namespaceLevel', namespaceOrHex =>
+		NamespaceService.getNamespaceLevelList(namespaceOrHex)),
 	new Pagination({
 		name: 'metadatas',
 		fetchFunction: (pageInfo, filterValue, store) =>
-			NamespaceService.getNamespaceMetadataList(pageInfo, filterValue, store.getters.getCurrentNamespaceId),
+			NamespaceService.getNamespaceMetadataList(
+				pageInfo,
+				filterValue,
+				store.getters.getCurrentNamespaceId
+			),
 		pageInfo: {
 			pageSize: 10
 		},
@@ -59,7 +60,10 @@ const managers = [
 	new Pagination({
 		name: 'balanceTransferReceipt',
 		fetchFunction: (pageInfo, filterValue, store) =>
-		 NamespaceService.getNamespaceBalanceTransferReceipt(pageInfo, store.getters.getCurrentNamespaceId),
+			NamespaceService.getNamespaceBalanceTransferReceipt(
+				pageInfo,
+				store.getters.getCurrentNamespaceId
+			),
 		pageInfo: {
 			pageSize: 10
 		}
@@ -67,7 +71,10 @@ const managers = [
 	new Pagination({
 		name: 'artifactExpiryReceipt',
 		fetchFunction: (pageInfo, filterValue, store) =>
-			NamespaceService.getNamespaceArtifactExpiryReceipt(pageInfo, store.getters.getCurrentNamespaceId),
+			NamespaceService.getNamespaceArtifactExpiryReceipt(
+				pageInfo,
+				store.getters.getCurrentNamespaceId
+			),
 		pageInfo: {
 			pageSize: 10
 		}
@@ -85,7 +92,8 @@ export default {
 	getters: {
 		getInitialized: state => state.initialized,
 		getCurrentNamespaceId: state => state.currentNamespaceId,
-		getRecentList: state => state.timeline?.data?.filter((item, index) => 4 > index) || [],
+		getRecentList: state =>
+			state.timeline?.data?.filter((item, index) => 4 > index) || [],
 		...getGettersFromManagers(managers)
 	},
 	mutations: {
@@ -100,7 +108,7 @@ export default {
 	actions: {
 		...getActionsFromManagers(managers),
 		// Initialize the namespace model.
-		async initialize ({ commit, dispatch, getters }) {
+		async initialize({ commit, dispatch, getters }) {
 			const callback = async () => {
 				await dispatch('initializePage');
 			};
@@ -109,7 +117,7 @@ export default {
 		},
 
 		// Uninitialize the namespace model.
-		async uninitialize ({ commit, dispatch, getters }) {
+		async uninitialize({ commit, dispatch, getters }) {
 			const callback = async () => {
 				dispatch('uninitializeDetail');
 				getters.timeline?.uninitialize();
@@ -119,22 +127,30 @@ export default {
 		},
 
 		// Fetch data from the SDK and initialize the page.
-		initializePage (context) {
+		initializePage(context) {
 			context.getters.timeline.setStore(context).initialFetch();
 		},
 
 		// Fetch data from the SDK.
-		fetchNamespaceInfo (context, payload) {
+		fetchNamespaceInfo(context, payload) {
 			context.dispatch('uninitializeDetail');
 			context.commit('setCurrentNamespaceId', payload.namespaceId);
 			context.getters.info.setStore(context).initialFetch(payload.namespaceId);
-			context.getters.namespaceLevel.setStore(context).initialFetch(payload.namespaceId);
-			context.getters.metadatas.setStore(context).initialFetch(payload.namespaceId);
-			context.getters.balanceTransferReceipt.setStore(context).initialFetch(payload.namespaceId);
-			context.getters.artifactExpiryReceipt.setStore(context).initialFetch(payload.namespaceId);
+			context.getters.namespaceLevel
+				.setStore(context)
+				.initialFetch(payload.namespaceId);
+			context.getters.metadatas
+				.setStore(context)
+				.initialFetch(payload.namespaceId);
+			context.getters.balanceTransferReceipt
+				.setStore(context)
+				.initialFetch(payload.namespaceId);
+			context.getters.artifactExpiryReceipt
+				.setStore(context)
+				.initialFetch(payload.namespaceId);
 		},
 
-		uninitializeDetail (context) {
+		uninitializeDetail(context) {
 			context.getters.info.setStore(context).uninitialize();
 			context.getters.namespaceLevel.setStore(context).uninitialize();
 			context.getters.metadatas.setStore(context).uninitialize();

@@ -19,21 +19,22 @@
 import http from './http';
 
 class FinalizationService {
-  /**
-   * Gets finalization proof for a given epoch.
-   * @param {number} epoch - epoch number.
-   * @returns {object} formatted finalization proof.
-   */
-  static getFinalizationProofAtEpoch = async epoch => {
-  	const finalizationProof = await http.createRepositoryFactory.createFinalizationRepository()
-	    .getFinalizationProofAtEpoch(epoch)
-  		.toPromise();
+	/**
+	 * Gets finalization proof for a given epoch.
+	 * @param {number} epoch - epoch number.
+	 * @returns {object} formatted finalization proof.
+	 */
+	static getFinalizationProofAtEpoch = async epoch => {
+		const finalizationProof = await http.createRepositoryFactory
+			.createFinalizationRepository()
+			.getFinalizationProofAtEpoch(epoch)
+			.toPromise();
 
-  	return {
-  		...finalizationProof,
-  		height: finalizationProof.height.compact()
-  	};
-  }
+		return {
+			...finalizationProof,
+			height: finalizationProof.height.compact()
+		};
+	};
 }
 
 export default FinalizationService;
