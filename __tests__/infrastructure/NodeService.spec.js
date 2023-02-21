@@ -51,6 +51,22 @@ describe('Node Service', () => {
 		}
 	];
 
+	const runStatisticServiceFailResponseTests = (statisticServiceMethod, NodeServiceMethod) => {
+		it('throws error when statistic services fail response', async () => {
+			// Arrange:
+			const error = new Error(`Statistics service ${statisticServiceMethod} error`);
+
+			http.statisticServiceRestClient = jest.fn().mockImplementation(() => {
+				return {
+					[statisticServiceMethod]: jest.fn().mockRejectedValue(error)
+				};
+			});
+
+			// Act + Assert:
+			await expect(NodeService[NodeServiceMethod]()).rejects.toThrow(error);
+		});
+	};
+
 	describe('getAvailableNodes', () => {
 		it('returns available node from statistic services', async () => {
 			// Arrange:
@@ -110,19 +126,7 @@ describe('Node Service', () => {
 			]);
 		});
 
-		it('throws error when statistic services fail response', async () => {
-			// Arrange:
-			const error = new Error('Statistics service getNode error');
-
-			http.statisticServiceRestClient = jest.fn().mockImplementation(() => {
-				return {
-					getNodes: jest.fn().mockRejectedValue(error)
-				};
-			});
-
-			// Act + Assert:
-			await expect(NodeService.getAvailableNodes()).rejects.toThrow(error);
-		});
+		runStatisticServiceFailResponseTests('getNodes', 'getAvailableNodes');
 	});
 
 	describe('getNodeStats', () => {
@@ -148,5 +152,78 @@ describe('Node Service', () => {
 				7: 1
 			});
 		});
+	});
+
+	describe('getNodeInfo', () => {
+		// Arrange:
+		Date.now = jest.fn(() => new Date('2023-02-21'));
+
+		const expectedPeerStatus = {
+			connectionStatus: true,
+			lastStatusCheck: '2023-02-19 12:30:16'
+		};
+
+		const expectedAPIStatus = {
+			apiNodeStatus: true,
+			connectionStatus: false,
+			databaseStatus: true,
+			isHttpsEnabled: true,
+			lastStatusCheck: '2023-02-21 00:00:00',
+			restVersion: '2.4.2'
+		};
+
+		const expectedChainInfoStatus = {
+			height: 2027193,
+			finalizedHeight: 2031992,
+			finalizationEpoch: 1413,
+			finalizationPoint: 7,
+			finalizedHash:
+				'6B687D9B689611C90A1094A7430E78914F22A2570C80D3E42D520EB08091A973',
+			lastStatusCheck: '2023-02-21 00:00:00'
+		};
+
+		const assertNodeStatus = async (node, expectedResult) => {
+			// Arrange:
+			http.statisticServiceRestClient = jest.fn().mockImplementation(() => {
+				return {
+					getNode: jest.fn().mockResolvedValue(node)
+				};
+			});
+
+			// Act:
+			const { apiStatus, chainInfo, peerStatus } =
+				await NodeService.getNodeInfo(node.publicKey);
+
+			// Assert:
+			expect(apiStatus).toEqual(expectedResult.apiStatus);
+			expect(chainInfo).toEqual(expectedResult.chainInfo);
+			expect(peerStatus).toEqual(expectedResult.peerStatus);
+		};
+
+		it('returns api node status and chain info when api status is present', async () => {
+			await assertNodeStatus(statisticServiceNodeResponse[0], {
+				peerStatus: expectedPeerStatus,
+				apiStatus: {},
+				chainInfo: {}
+			});
+		});
+
+		it('returns peer node status when peer status is present', async () => {
+			await assertNodeStatus(statisticServiceNodeResponse[1], {
+				peerStatus: {},
+				apiStatus: expectedAPIStatus,
+				chainInfo: expectedChainInfoStatus
+			});
+		});
+
+		it('returns api and peer node status when both status is present', async () => {
+			await assertNodeStatus(statisticServiceNodeResponse[2], {
+				peerStatus: expectedPeerStatus,
+				apiStatus: expectedAPIStatus,
+				chainInfo: expectedChainInfoStatus
+			});
+		});
+
+		runStatisticServiceFailResponseTests('getNode', 'getNodeInfo');
 	});
 });

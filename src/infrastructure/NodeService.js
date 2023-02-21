@@ -101,14 +101,14 @@ class NodeService {
 						return peerStatus?.isAvailable;
 					else if (3 === roles || 6 === roles || 7 === roles)
 						return apiStatus?.isAvailable && peerStatus?.isAvailable;
-					else 
+					else
 						return apiStatus?.isAvailable;
 				})
 				.map(nodeInfo => this.formatNodeInfo(nodeInfo))
 				.sort((a, b) => a.friendlyName.localeCompare(b.friendlyName));
 		} catch (e) {
 			console.error(e);
-			throw Error('Statistics service getNode error');
+			throw Error('Statistics service getNodes error');
 		}
 	};
 
@@ -165,46 +165,35 @@ class NodeService {
 	};
 
 	static getNodeInfo = async publicKey => {
-		let node = {};
-
 		try {
-			node = await http.statisticServiceRestClient().getNode(publicKey);
-		} catch (e) {
-			throw Error('Statistics service getNode error: ', e);
-		}
-		const formattedNode = this.formatNodeInfo(node);
+			const node = await http.statisticServiceRestClient().getNode(publicKey);
+			const formattedNode = this.formatNodeInfo(node);
 
-		if (
-			2 === formattedNode.rolesRaw ||
-			3 === formattedNode.rolesRaw ||
-			6 === formattedNode.rolesRaw ||
-			7 === formattedNode.rolesRaw
-		) {
-			const {
-				finalization,
-				chainHeight,
-				lastStatusCheck,
-				nodeStatus,
-				isAvailable,
-				isHttpsEnabled,
-				restVersion
-			} = formattedNode.apiStatus;
+			if (formattedNode?.apiStatus) {
+				const {
+					finalization,
+					chainHeight,
+					lastStatusCheck,
+					nodeStatus,
+					isAvailable,
+					isHttpsEnabled,
+					restVersion
+				} = formattedNode.apiStatus;
 
-			// // Api status
-			formattedNode.apiStatus = {
-				connectionStatus: isAvailable,
-				databaseStatus:
-					'up' === nodeStatus?.db || Constants.Message.UNAVAILABLE,
-				apiNodeStatus:
-					'up' === nodeStatus?.apiNode || Constants.Message.UNAVAILABLE,
-				isHttpsEnabled,
-				restVersion,
-				lastStatusCheck: moment
-					.utc(lastStatusCheck)
-					.format('YYYY-MM-DD HH:mm:ss')
-			};
+				// Api status
+				formattedNode.apiStatus = {
+					connectionStatus: isAvailable,
+					databaseStatus:
+						'up' === nodeStatus?.db || Constants.Message.UNAVAILABLE,
+					apiNodeStatus:
+						'up' === nodeStatus?.apiNode || Constants.Message.UNAVAILABLE,
+					isHttpsEnabled,
+					restVersion,
+					lastStatusCheck: moment
+						.utc(lastStatusCheck)
+						.format('YYYY-MM-DD HH:mm:ss')
+				};
 
-			if (finalization && chainHeight) {
 				// Chain info
 				formattedNode.chainInfo = {
 					height: chainHeight,
@@ -217,12 +206,28 @@ class NodeService {
 						.format('YYYY-MM-DD HH:mm:ss')
 				};
 			} else {
+				formattedNode.apiStatus = {};
 				formattedNode.chainInfo = {};
 			}
+
+			if (formattedNode?.peerStatus) {
+				const { isAvailable, lastStatusCheck } = formattedNode.peerStatus;
+
+				formattedNode.peerStatus = {
+					connectionStatus: isAvailable,
+					lastStatusCheck: moment
+						.utc(lastStatusCheck)
+						.format('YYYY-MM-DD HH:mm:ss')
+				};
+			} else {
+				formattedNode.peerStatus = {};
+			}
+
+			return formattedNode;
+		} catch (e) {
+			console.error(e);
+			throw Error('Statistics service getNode error');
 		}
-		if (formattedNode?.peerStatus)
-			formattedNode.peerStatus.lastStatusCheck = moment(formattedNode.peerStatus.lastStatusCheck).format('YYYY-MM-DD HH:mm:ss');
-		return formattedNode;
 	};
 
 	static getNodeStats = async () => {
@@ -231,7 +236,7 @@ class NodeService {
 		let nodeTypes = {};
 
 		// 7 types of roles
-		Array.from(Array(8).keys()).map(index => {
+		Array.from(Array(7).keys()).map(index => {
 			Object.assign(nodeTypes, {
 				[index + 1]: availableNodes.filter(node => node.rolesRaw === index + 1)
 					.length

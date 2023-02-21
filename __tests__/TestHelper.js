@@ -376,10 +376,19 @@ const TestHelper = {
 			isAvailable,
 			nodePublicKey: '4DA6FB57FA168EEBBCB68DA4DDC8DA7BCF41EC93FB22A33DF510DB0F2670F623',
 			chainHeight: 2027193,
-			finalization: {},
-			nodeStatus: {},
+			finalization: {
+				height: 2031992,
+				epoch: 1413,
+				point: 7,
+				hash: '6B687D9B689611C90A1094A7430E78914F22A2570C80D3E42D520EB08091A973'
+			},
+			nodeStatus: {
+				apiNode: 'up',
+				db: 'up'
+			},
 			restVersion: '2.4.2',
-			restGatewayUrl: 'localhost.com'
+			restGatewayUrl: 'localhost.com',
+			isHttpsEnabled: true
 		};
 	},
 	nodeCommonField: {
