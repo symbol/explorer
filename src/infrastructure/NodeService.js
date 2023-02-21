@@ -46,24 +46,6 @@ class NodeService {
 	};
 
 	/**
-	 * Get Node Peers from symbol SDK.
-	 * @returns {array} NodeInfo[]
-	 */
-	static getNodePeers = async () => {
-		let nodePeers = [];
-
-		try {
-			nodePeers = await http.statisticServiceRestClient().getNodes();
-		} catch (e) {
-			console.error('Statistics service getNodes error: ', e);
-		}
-
-		return nodePeers
-			.map(nodeInfo => this.formatNodeInfo(nodeInfo))
-			.sort((a, b) => a.friendlyName.localeCompare(b.friendlyName));
-	};
-
-	/**
 	 * Get node health status by endpoint.
 	 * @param {string} currentUrl api-node endpoint such as http:localhost:3000
 	 * @returns {boolean} boolean
@@ -106,15 +88,40 @@ class NodeService {
 	});
 
 	/**
-	 * Format Node Peers dataset into Vue Component.
+	 * Get available node list from statistic service.
+	 * @returns {array} NodeInfo[]
+	 */
+	static getAvailableNodes = async () => {
+		try {
+			const nodePeers = await http.statisticServiceRestClient().getNodes();
+
+			return nodePeers
+				.filter(({ apiStatus, roles, peerStatus }) => {
+					if (1 === roles || 4 === roles || 5 === roles)
+						return peerStatus?.isAvailable;
+					else if (3 === roles || 6 === roles || 7 === roles)
+						return apiStatus?.isAvailable && peerStatus?.isAvailable;
+					else 
+						return apiStatus?.isAvailable;
+				})
+				.map(nodeInfo => this.formatNodeInfo(nodeInfo))
+				.sort((a, b) => a.friendlyName.localeCompare(b.friendlyName));
+		} catch (e) {
+			console.error(e);
+			throw Error('Statistics service getNode error');
+		}
+	};
+
+	/**
+	 * Format Available Node Peers dataset into Vue Component.
 	 * @param {string} filter role filter.
 	 * @returns {object} Node peers object for Vue component.
 	 */
-	static getNodePeerList = async filter => {
-		let nodePeers = await this.getNodePeers();
+	static getAvailableNodeList = async filter => {
+		const availableNodes = await this.getAvailableNodes();
 
 		return {
-			data: nodePeers
+			data: availableNodes
 				.filter(el => !filter.rolesRaw || el.rolesRaw === filter.rolesRaw)
 				.map(el => {
 					let node = {
@@ -219,11 +226,19 @@ class NodeService {
 	};
 
 	static getNodeStats = async () => {
-		try {
-			return await http.statisticServiceRestClient().getNodeStats();
-		} catch (e) {
-			throw Error('Statistics service getNodeStats error: ', e);
-		}
+		const availableNodes = await this.getAvailableNodes();
+
+		let nodeTypes = {};
+
+		// 7 types of roles
+		Array.from(Array(8).keys()).map(index => {
+			Object.assign(nodeTypes, {
+				[index + 1]: availableNodes.filter(node => node.rolesRaw === index + 1)
+					.length
+			});
+		});
+
+		return nodeTypes;
 	};
 
 	static getNodeHeightStats = async () => {
@@ -252,7 +267,7 @@ class NodeService {
 	};
 
 	static getNodeListCSV = async filter => {
-		const nodes = await this.getNodePeerList(filter);
+		const nodes = await this.getActiveNodeList(filter);
 
 		const formattedData = nodes.data.map((node, index) => ({
 			no: index + 1,

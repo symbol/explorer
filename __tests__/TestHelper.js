@@ -364,6 +364,44 @@ const TestHelper = {
 			cosignatures,
 			innerTransactions
 		};
+	},
+	generateNodePeerStatus: isAvailable => {
+		return	{
+			isAvailable,
+			lastStatusCheck: 1676809816662
+		};
+	},
+	generateNodeApiStatus: isAvailable => {
+		return	{
+			isAvailable,
+			nodePublicKey: '4DA6FB57FA168EEBBCB68DA4DDC8DA7BCF41EC93FB22A33DF510DB0F2670F623',
+			chainHeight: 2027193,
+			finalization: {},
+			nodeStatus: {},
+			restVersion: '2.4.2',
+			restGatewayUrl: 'localhost.com'
+		};
+	},
+	nodeCommonField: {
+		version: 16777989,
+		publicKey: '016DC1622EE42EF9E4D215FA1112E89040DD7AED83007283725CE9BA550272F5',
+		networkGenerationHashSeed: '57F7DA205008026C776CB6AED843393F04CD458E0AA2D9F1D5F31A402072B2D6',
+		port: 7900,
+		networkIdentifier: 104,
+		host: 'node.com',
+		friendlyName: 'node',
+		lastAvailable: '2023-02-19T12:36:04.524Z',
+		hostDetail: {},
+		location: '',
+		ip: '127.0.0.1',
+		organization: '',
+		as: '',
+		continent: '',
+		country: '',
+		region: '',
+		city: '',
+		district: '',
+		zip: ''
 	}
 };
 
