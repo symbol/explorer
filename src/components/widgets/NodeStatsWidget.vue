@@ -38,10 +38,6 @@
 import Card from '@/components/containers/Card.vue';
 import ButtonMore from '@/components/controls/ButtonMore.vue';
 import Constants from '../../config/constants';
-import IconOrange from '../../styles/img/connector_orange.png';
-import IconBlue from '../../styles/img/connector_blue.png';
-import IconGreen from '../../styles/img/connector_green.png';
-import IconPink from '../../styles/img/connector_pink.png';
 
 export default {
 	components: {
@@ -70,7 +66,7 @@ export default {
 		},
 
 		nodeRoles () {
-			const data = this.data?.nodeTypes;
+			const data = this.data;
 
 			if (!data)
 				return [];
@@ -78,50 +74,35 @@ export default {
 			return [
 				{
 					name: this.getNameByKey('allNodes'),
-					count: Array.from(Array(8).keys()).reduce((acc, val) => acc + (data[val] || 0)),
-					icon: IconBlue
+					count: Array.from(Array(8).keys()).reduce((acc, val) => acc + (data[val] || 0))
 				},
 				{
 					name: Constants.RoleType[1],
-					count: data[1] || 0,
-					icon: IconBlue,
-					color: 'blue'
+					count: data[1] || 0
 				},
 				{
 					name: Constants.RoleType[2],
-					count: data[2] || 0,
-					icon: IconPink,
-					color: 'pink'
+					count: data[2] || 0
 				},
 				{
 					name: Constants.RoleType[3],
-					count: data[3] || 0,
-					icon: IconPink,
-					color: 'pink'
+					count: data[3] || 0
 				},
 				{
 					name: Constants.RoleType[4],
-					count: data[4] || 0,
-					icon: IconGreen,
-					color: 'green'
+					count: data[4] || 0
 				},
 				{
 					name: Constants.RoleType[5],
-					count: data[5] || 0,
-					icon: IconGreen,
-					color: 'green'
+					count: data[5] || 0
 				},
 				{
 					name: Constants.RoleType[6],
-					count: data[6] || 0,
-					icon: IconOrange,
-					color: 'orange'
+					count: data[6] || 0
 				},
 				{
 					name: Constants.RoleType[7],
-					count: data[7] || 0,
-					icon: IconOrange,
-					color: 'orange'
+					count: data[7] || 0
 				}
 			];
 		},
