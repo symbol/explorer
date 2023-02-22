@@ -177,8 +177,7 @@ describe('Node Service', () => {
 			finalizedHeight: 2031992,
 			finalizationEpoch: 1413,
 			finalizationPoint: 7,
-			finalizedHash:
-				'6B687D9B689611C90A1094A7430E78914F22A2570C80D3E42D520EB08091A973',
+			finalizedHash: '6B687D9B689611C90A1094A7430E78914F22A2570C80D3E42D520EB08091A973',
 			lastStatusCheck: '2023-02-21 00:00:00'
 		};
 

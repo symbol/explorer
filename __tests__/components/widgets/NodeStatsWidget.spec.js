@@ -97,15 +97,15 @@ describe('NodeStatsWidget', () => {
 		it('returns node types stats when data is present', () => {
 			assertNodeStatCounts(
 				{
-					1: 5,
-					2: 5,
-					3: 5,
-					4: 5,
-					5: 0,
-					6: 0,
+					1: 3,
+					2: 7,
+					3: 4,
+					4: 6,
+					5: 8,
+					6: 12,
 					7: 5
 				},
-				generateNodeStats([5, 5, 5, 5, 0, 0, 5])
+				generateNodeStats([3, 7, 4, 6, 8, 12, 5])
 			);
 		});
 
