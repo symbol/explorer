@@ -366,13 +366,13 @@ const TestHelper = {
 		};
 	},
 	generateNodePeerStatus: isAvailable => {
-		return	{
+		return {
 			isAvailable,
 			lastStatusCheck: 1676809816662
 		};
 	},
 	generateNodeApiStatus: isAvailable => {
-		return	{
+		return {
 			isAvailable,
 			nodePublicKey: '4DA6FB57FA168EEBBCB68DA4DDC8DA7BCF41EC93FB22A33DF510DB0F2670F623',
 			chainHeight: 2027193,
