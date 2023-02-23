@@ -34,6 +34,12 @@ describe('Node Service', () => {
 			...nodeCommonField
 		},
 		{
+			roles: 3,
+			peerStatus: generateNodePeerStatus(false),
+			apiStatus: generateNodeApiStatus(false),
+			...nodeCommonField
+		},
+		{
 			roles: 5,
 			peerStatus: generateNodePeerStatus(true),
 			...nodeCommonField
@@ -104,6 +110,15 @@ describe('Node Service', () => {
 					roles: 'Peer Api node',
 					rolesRaw: 3,
 					peerStatus: generateNodePeerStatus(true),
+					apiStatus: generateNodeApiStatus(false)
+				},
+				{
+					...nodeCommonField,
+					...expectNodeFormattedCommonField,
+					apiEndpoint: 'localhost.com',
+					roles: 'Peer Api node',
+					rolesRaw: 3,
+					peerStatus: generateNodePeerStatus(true),
 					apiStatus: generateNodeApiStatus(true)
 				},
 				{
@@ -145,7 +160,7 @@ describe('Node Service', () => {
 			expect(nodeStats).toEqual({
 				1: 1,
 				2: 0,
-				3: 1,
+				3: 2,
 				4: 0,
 				5: 1,
 				6: 0,
@@ -199,7 +214,7 @@ describe('Node Service', () => {
 			expect(peerStatus).toEqual(expectedResult.peerStatus);
 		};
 
-		it('returns api node status and chain info when api status is present', async () => {
+		it('returns peer node status when peer status is present', async () => {
 			await assertNodeStatus(statisticServiceNodeResponse[0], {
 				peerStatus: expectedPeerStatus,
 				apiStatus: {},
@@ -207,7 +222,7 @@ describe('Node Service', () => {
 			});
 		});
 
-		it('returns peer node status when peer status is present', async () => {
+		it('returns api node status and chain info when api status is present', async () => {
 			await assertNodeStatus(statisticServiceNodeResponse[1], {
 				peerStatus: {},
 				apiStatus: expectedAPIStatus,
@@ -215,7 +230,7 @@ describe('Node Service', () => {
 			});
 		});
 
-		it('returns api and peer node status when both status is present', async () => {
+		it('returns chain info, api and peer node status when both status is present', async () => {
 			await assertNodeStatus(statisticServiceNodeResponse[2], {
 				peerStatus: expectedPeerStatus,
 				apiStatus: expectedAPIStatus,

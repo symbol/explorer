@@ -100,7 +100,7 @@ class NodeService {
 					if (1 === roles || 4 === roles || 5 === roles)
 						return peerStatus?.isAvailable;
 					else if (3 === roles || 6 === roles || 7 === roles)
-						return apiStatus?.isAvailable && peerStatus?.isAvailable;
+						return apiStatus?.isAvailable || peerStatus?.isAvailable;
 					else
 						return apiStatus?.isAvailable;
 				})
