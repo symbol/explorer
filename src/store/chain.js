@@ -138,7 +138,7 @@ export default {
 			// commit('setMarketData', { marketData, graphData });
 
 			if (nodeStats)
-				commit('setNodeStats', nodeStats.nodeTypes);
+				commit('setNodeStats', nodeStats);
 		},
 
 		async getChainInfo ({ commit }) {
