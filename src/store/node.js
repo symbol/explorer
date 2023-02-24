@@ -31,7 +31,7 @@ import { NodeService, StatisticService } from '../infrastructure';
 const managers = [
 	new Pagination({
 		name: 'timeline',
-		fetchFunction: (pageInfo, filterValue) => NodeService.getNodePeerList(filterValue),
+		fetchFunction: (pageInfo, filterValue) => NodeService.getAvailableNodeList(filterValue),
 		filter: filters.nodeRoles
 	}),
 	new DataSet(

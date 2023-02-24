@@ -84,6 +84,20 @@
 				]
 			},
 			{
+				"layoutOptions": "adaptive",
+				"type": "CardTable",
+				"title": "nodePeerStatusTitle",
+				"managerGetter": "node/info",
+				"dataGetter": "node/peerStatus",
+				"errorMessage": "nodeDetailError",
+				"pagination": "none",
+				"hideEmptyData": true,
+				"fields": [
+					"connectionStatus",
+					"lastStatusCheck"
+				]
+			},
+			{
 				"layoutOptions": "full-width",
 				"type": "CardTable",
 				"title": "nodeChainInfoTitle",
