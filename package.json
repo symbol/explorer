@@ -59,7 +59,7 @@
     "jest": "^28.1.1",
     "prettier": "^2.5.1",
     "sass": "1.52.3",
-    "sass-loader": "^8.0.2",
+    "sass-loader": "^13.2.1",
     "sinon": "^14.0.0",
     "stylelint": "^13.13.1",
     "stylelint-config-standard": "^19.0.0",
