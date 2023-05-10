@@ -19,16 +19,16 @@
 import http from './http';
 import Constants from '../config/constants';
 import helper from '../helper';
-import { LockService, CreateTransaction } from '../infrastructure';
+import { CreateTransaction, LockService } from '../infrastructure';
 import { toArray } from 'rxjs/operators';
 import {
-	TransactionType,
 	Address,
-	TransactionInfo,
 	AggregateTransactionInfo,
-	TransactionGroup,
+	Mosaic,
 	Order,
-	Mosaic
+	TransactionGroup,
+	TransactionInfo,
+	TransactionType
 } from 'symbol-sdk';
 
 class TransactionService {

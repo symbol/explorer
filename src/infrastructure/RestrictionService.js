@@ -4,11 +4,11 @@ import helper from '../helper';
 import {
 	Address,
 	AddressRestrictionFlag,
-	MosaicRestrictionFlag,
-	OperationRestrictionFlag,
 	MosaicAddressRestriction,
 	MosaicGlobalRestriction,
 	MosaicRestrictionEntryType,
+	MosaicRestrictionFlag,
+	OperationRestrictionFlag,
 	Order
 } from 'symbol-sdk';
 

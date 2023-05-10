@@ -2,16 +2,16 @@ import Helper from '../../src/helper';
 import { CreateTransaction, NamespaceService } from '../../src/infrastructure';
 import http from '../../src/infrastructure/http';
 import TestHelper from '../TestHelper';
-import { stub, restore } from 'sinon';
+import { restore, stub } from 'sinon';
 import {
-	NetworkType,
 	Account,
-	NamespaceId,
-	UInt64,
-	MosaicId,
 	Convert,
 	Mosaic,
-	NamespaceName
+	MosaicId,
+	NamespaceId,
+	NamespaceName,
+	NetworkType,
+	UInt64
 } from 'symbol-sdk';
 
 /* Mock metadata transaction dto */

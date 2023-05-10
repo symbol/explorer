@@ -1,14 +1,14 @@
 import {
-	NetworkType,
 	Account,
-	NamespaceId,
-	SHA3Hasher,
 	Crypto,
 	Mosaic,
-	UInt64,
 	MosaicId,
+	NamespaceId,
+	NetworkType,
+	SHA3Hasher,
+	TransactionInfo,
 	TransactionType,
-	TransactionInfo
+	UInt64
 } from 'symbol-sdk';
 
 const generateRandomHash = (length = 32) => {

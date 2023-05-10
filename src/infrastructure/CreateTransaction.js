@@ -20,7 +20,7 @@ import http from './http';
 import { Constants } from '../config';
 import helper from '../helper';
 import { NamespaceService } from '../infrastructure';
-import { Address, Mosaic, MosaicId, Convert } from 'symbol-sdk';
+import { Address, Convert, Mosaic, MosaicId } from 'symbol-sdk';
 
 class CreateTransaction {
 	static transferTransaction = async (

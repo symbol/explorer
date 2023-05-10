@@ -25,7 +25,7 @@ import {
 	MetadataService,
 	ReceiptService
 } from '../infrastructure';
-import { Order, NamespaceId, UInt64, ReceiptType, Address } from 'symbol-sdk';
+import { Address, NamespaceId, Order, ReceiptType, UInt64 } from 'symbol-sdk';
 
 class NamespaceService {
 	/**

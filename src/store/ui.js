@@ -17,7 +17,7 @@
  */
 import { i18n, keyRedirects } from '../config';
 import helper from '../helper';
-import { NamespaceService, MosaicService, AccountService } from '../infrastructure';
+import { AccountService, MosaicService, NamespaceService } from '../infrastructure';
 import http from '../infrastructure/http';
 import router from '../router';
 import { Address } from 'symbol-sdk';

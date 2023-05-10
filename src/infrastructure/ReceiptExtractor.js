@@ -1,6 +1,6 @@
 import Constants from '../config/constants';
 import helper from '../helper';
-import { Mosaic, ReceiptType, MosaicId } from 'symbol-sdk';
+import { Mosaic, MosaicId, ReceiptType } from 'symbol-sdk';
 
 class ReceiptExtractor {
 	static balanceChangeReceipt = async transactionStatement => {

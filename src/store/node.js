@@ -18,12 +18,12 @@
 
 import Lock from './lock';
 import {
-	Pagination,
 	DataSet,
-	getStateFromManagers,
+	Pagination,
+	getActionsFromManagers,
 	getGettersFromManagers,
 	getMutationsFromManagers,
-	getActionsFromManagers
+	getStateFromManagers
 } from './manager';
 import { filters } from '../config';
 import { NodeService, StatisticService } from '../infrastructure';

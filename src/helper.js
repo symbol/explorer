@@ -18,20 +18,20 @@
 
 import { Constants } from './config';
 import {
-	NamespaceService,
 	MosaicService,
+	NamespaceService,
 	ReceiptService
 } from './infrastructure';
 import http from './infrastructure/http';
 import moment from 'moment';
 import {
-	NetworkType,
+	Address,
 	MosaicId,
 	NamespaceId,
-	Address,
+	NetworkType,
 	NodeVersion,
-	UInt64,
-	TransactionType
+	TransactionType,
+	UInt64
 } from 'symbol-sdk';
 const Url = require('url-parse');
 

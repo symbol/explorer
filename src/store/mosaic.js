@@ -20,10 +20,10 @@ import Lock from './lock';
 import {
 	DataSet,
 	Pagination,
-	getStateFromManagers,
+	getActionsFromManagers,
 	getGettersFromManagers,
 	getMutationsFromManagers,
-	getActionsFromManagers
+	getStateFromManagers
 } from './manager';
 import { Constants, filters } from '../config';
 import { MosaicService, RestrictionService } from '../infrastructure';
