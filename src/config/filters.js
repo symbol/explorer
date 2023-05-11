@@ -182,17 +182,17 @@ export const transaction = [
 
 export const account = [
 	{
-		label: 'Recent',
-		icon: 'mdi-clock-outline',
-		value: {}
-	},
-	{
 		label: 'Rich List',
 		icon: 'mdi-cash',
 		value: {
 			orderBy: AccountOrderBy.Balance,
 			mosaicId: ''
 		}
+	},
+	{
+		label: 'Recent',
+		icon: 'mdi-clock-outline',
+		value: {}
 	}
 ];
 
