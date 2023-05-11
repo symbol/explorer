@@ -1,13 +1,13 @@
 import Constants from '../config/constants';
 import {
-	TransactionType,
-	TransactionGroup,
-	AliasType,
-	NamespaceRegistrationType,
 	AccountOrderBy,
+	AliasType,
 	MetadataType,
 	MosaicRestrictionEntryType,
-	ReceiptType
+	NamespaceRegistrationType,
+	ReceiptType,
+	TransactionGroup,
+	TransactionType
 } from 'symbol-sdk';
 
 const customTransactionReceiptFilter = {

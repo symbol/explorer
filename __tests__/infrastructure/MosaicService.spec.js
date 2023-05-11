@@ -1,7 +1,7 @@
 import { MosaicService, NamespaceService, ReceiptService } from '../../src/infrastructure';
 import TestHelper from '../TestHelper';
 import { restore, stub } from 'sinon';
-import { MosaicNonce, MosaicId } from 'symbol-sdk';
+import { MosaicId, MosaicNonce } from 'symbol-sdk';
 
 describe('Mosaic Service', () => {
 	let getMosaic = {};

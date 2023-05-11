@@ -21,24 +21,24 @@ import http from './http';
 import { Constants } from '../config';
 import helper from '../helper';
 import {
-	NamespaceService,
-	TransactionService,
 	ChainService,
-	MetadataService,
 	LockService,
+	MetadataService,
+	MosaicService,
+	NamespaceService,
 	ReceiptService,
-	MosaicService
+	TransactionService
 } from '../infrastructure';
 import nem from 'nem-sdk';
 import {
 	Address,
-	TransactionType,
-	TransactionGroup,
-	Order,
 	BlockOrderBy,
-	ReceiptType,
 	Mosaic,
-	MosaicId
+	MosaicId,
+	Order,
+	ReceiptType,
+	TransactionGroup,
+	TransactionType
 } from 'symbol-sdk';
 
 class AccountService {

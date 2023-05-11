@@ -1,6 +1,6 @@
 import { AccountService, MosaicService, NamespaceService } from '../../src/infrastructure';
 import ui from '../../src/store/ui';
-import { stub, restore } from 'sinon';
+import { restore, stub } from 'sinon';
 
 describe('store/ui', () => {
 	describe('action search', () => {

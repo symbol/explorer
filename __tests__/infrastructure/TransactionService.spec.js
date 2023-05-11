@@ -1,9 +1,9 @@
 import Helper from '../../src/helper';
-import { TransactionService, LockService } from '../../src/infrastructure';
+import { LockService, TransactionService } from '../../src/infrastructure';
 import http from '../../src/infrastructure/http';
 import TestHelper from '../TestHelper';
 import { restore, stub } from 'sinon';
-import { MosaicId, UInt64, TransactionGroup } from 'symbol-sdk';
+import { MosaicId, TransactionGroup, UInt64 } from 'symbol-sdk';
 
 describe('Transaction Service', () => {
 	afterEach(restore);

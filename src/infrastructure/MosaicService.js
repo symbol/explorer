@@ -20,8 +20,8 @@ import http from './http';
 import { Constants } from '../config';
 import helper from '../helper';
 import {
-	NamespaceService,
 	MetadataService,
+	NamespaceService,
 	ReceiptService
 } from '../infrastructure';
 import { Address, MosaicId, Order, ReceiptType, UInt64 } from 'symbol-sdk';

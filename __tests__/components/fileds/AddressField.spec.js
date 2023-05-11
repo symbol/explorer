@@ -2,7 +2,7 @@ import CopyButton from '../../../src/components/controls/CopyButton.vue';
 import AddressField from '../../../src/components/fields/AddressField.vue';
 import { keyRedirects } from '../../../src/config';
 import UI from '../../../src/store/ui';
-import { createLocalVue, shallowMount, RouterLinkStub } from '@vue/test-utils';
+import { RouterLinkStub, createLocalVue, shallowMount } from '@vue/test-utils';
 import Vuex from 'vuex';
 
 const setupStoreMount = () => {

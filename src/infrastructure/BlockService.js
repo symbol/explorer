@@ -20,21 +20,21 @@ import http from './http';
 import { Constants } from '../config';
 import helper from '../helper';
 import {
-	TransactionService,
-	ReceiptService,
 	AccountService,
-	NodeService
+	NodeService,
+	ReceiptService,
+	TransactionService
 } from '../infrastructure';
 import { sha3_256 as sha3256 } from 'js-sha3';
 import { MerkleTree } from 'merkletreejs';
 import { take, toArray } from 'rxjs/operators';
 import {
-	UInt64,
-	TransactionGroup,
-	Order,
 	BlockOrderBy,
 	BlockType,
-	ReceiptType
+	Order,
+	ReceiptType,
+	TransactionGroup,
+	UInt64
 } from 'symbol-sdk';
 
 class BlockService {

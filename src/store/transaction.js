@@ -20,12 +20,12 @@ import Lock from './lock';
 import {
 	DataSet,
 	Pagination,
-	getStateFromManagers,
+	getActionsFromManagers,
 	getGettersFromManagers,
 	getMutationsFromManagers,
-	getActionsFromManagers
+	getStateFromManagers
 } from './manager';
-import { filters, Constants } from '../config';
+import { Constants, filters } from '../config';
 import { TransactionService } from '../infrastructure';
 import { TransactionType } from 'symbol-sdk';
 

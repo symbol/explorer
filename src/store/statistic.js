@@ -19,12 +19,12 @@
 import Lock from './lock';
 import {
 	DataSet,
-	getStateFromManagers,
+	getActionsFromManagers,
 	getGettersFromManagers,
 	getMutationsFromManagers,
-	getActionsFromManagers
+	getStateFromManagers
 } from './manager';
-import { NetworkService, StatisticService, BlockService, NodeService } from '../infrastructure';
+import { BlockService, NetworkService, NodeService, StatisticService } from '../infrastructure';
 import { Order } from 'symbol-sdk';
 
 const managers = [

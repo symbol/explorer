@@ -1,7 +1,7 @@
 import { AccountService, ChainService, NamespaceService, NodeService } from '../../src/infrastructure';
 import TestHelper from '../TestHelper';
 import { restore, stub } from 'sinon';
-import { Mosaic, UInt64, MosaicId, Account, NetworkType } from 'symbol-sdk';
+import { Account, Mosaic, MosaicId, NetworkType, UInt64 } from 'symbol-sdk';
 
 describe('Account Service', () => {
 	describe('getAccountInfo', () => {
