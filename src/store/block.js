@@ -20,20 +20,20 @@ import Lock from './lock';
 import {
 	DataSet,
 	Pagination,
-	getStateFromManagers,
+	getActionsFromManagers,
 	getGettersFromManagers,
 	getMutationsFromManagers,
-	getActionsFromManagers
+	getStateFromManagers
 } from './manager';
-import { filters, Constants } from '../config';
+import { Constants, filters } from '../config';
 import helper from '../helper';
 import {
-	ListenerService,
-	BlockService,
 	AccountService,
+	BlockService,
+	ListenerService,
 	ReceiptService
 } from '../infrastructure';
-import { UInt64, ReceiptType } from 'symbol-sdk';
+import { ReceiptType, UInt64 } from 'symbol-sdk';
 import Vue from 'vue';
 
 const managers = [

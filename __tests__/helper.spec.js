@@ -2,8 +2,8 @@ import TestHelper from './TestHelper';
 import Helper from '../src/helper';
 import { MosaicService, NamespaceService } from '../src/infrastructure';
 import http from '../src/infrastructure/http';
-import { stub, restore } from 'sinon';
-import { Mosaic, MosaicId, UInt64, NamespaceId, NamespaceName } from 'symbol-sdk';
+import { restore, stub } from 'sinon';
+import { Mosaic, MosaicId, NamespaceId, NamespaceName, UInt64 } from 'symbol-sdk';
 import { register, unregister } from 'timezone-mock';
 
 const mockTestMosaic = {

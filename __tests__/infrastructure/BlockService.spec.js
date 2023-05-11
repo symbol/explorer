@@ -1,5 +1,5 @@
 import Helper from '../../src/helper';
-import { BlockService, AccountService, NodeService, ReceiptService } from '../../src/infrastructure';
+import { AccountService, BlockService, NodeService, ReceiptService } from '../../src/infrastructure';
 import TestHelper from '../TestHelper';
 import { restore, stub } from 'sinon';
 

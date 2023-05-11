@@ -1,6 +1,6 @@
 import { RestrictionService } from '../../src/infrastructure';
 import TestHelper from '../TestHelper';
-import { MosaicId, UInt64, MosaicRestrictionType } from 'symbol-sdk';
+import { MosaicId, MosaicRestrictionType, UInt64 } from 'symbol-sdk';
 
 // Arrange:
 jest.mock('../../src/infrastructure/http', () => {

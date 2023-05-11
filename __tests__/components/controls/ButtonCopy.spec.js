@@ -2,7 +2,7 @@ import CopyButton from '../../../src/components/controls/CopyButton.vue';
 import helper from '../../../src/helper';
 import UI from '../../../src/store/ui';
 import { createLocalVue, shallowMount } from '@vue/test-utils';
-import { stub, restore } from 'sinon';
+import { restore, stub } from 'sinon';
 import Vuex from 'vuex';
 
 const setupStoreMount = () => {

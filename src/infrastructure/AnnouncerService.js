@@ -19,18 +19,18 @@
 import http from './http';
 import helper from '../helper';
 import {
-	AggregateTransaction,
 	Account,
 	Address,
-	HashLockTransaction,
-	PublicAccount,
-	Listener,
-	MosaicId,
-	Mosaic,
-	RepositoryFactoryHttp,
-	MultisigAccountModificationTransaction,
-	TransactionService,
+	AggregateTransaction,
 	Deadline,
+	HashLockTransaction,
+	Listener,
+	Mosaic,
+	MosaicId,
+	MultisigAccountModificationTransaction,
+	PublicAccount,
+	RepositoryFactoryHttp,
+	TransactionService,
 	UInt64
 } from 'symbol-sdk';
 

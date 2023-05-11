@@ -1,4 +1,4 @@
-import { NamespaceService, ChainService } from '../../src/infrastructure';
+import { ChainService, NamespaceService } from '../../src/infrastructure';
 import TestHelper from '../TestHelper';
 import { restore, stub } from 'sinon';
 

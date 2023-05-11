@@ -1,23 +1,23 @@
 import {
-	TransactionType,
+	AccountKeyTypeFlags,
+	AccountType,
+	AddressRestrictionFlag,
+	AliasAction,
+	BlockType,
+	LinkAction,
+	LockHashAlgorithm,
+	LockStatus,
+	MetadataType,
+	MosaicRestrictionEntryType,
+	MosaicRestrictionFlag,
+	MosaicRestrictionType,
 	MosaicSupplyChangeAction,
 	NamespaceRegistrationType,
-	AliasAction,
-	LinkAction,
-	AccountType,
-	AccountKeyTypeFlags,
-	LockHashAlgorithm,
 	NetworkType,
-	MetadataType,
+	OperationRestrictionFlag,
 	ReceiptType,
 	ResolutionType,
-	AddressRestrictionFlag,
-	MosaicRestrictionFlag,
-	OperationRestrictionFlag,
-	MosaicRestrictionEntryType,
-	MosaicRestrictionType,
-	LockStatus,
-	BlockType
+	TransactionType
 } from 'symbol-sdk';
 
 class Constants {

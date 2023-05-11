@@ -2,13 +2,13 @@ import Helper from '../../src/helper';
 import { ReceiptExtractor } from '../../src/infrastructure';
 import http from '../../src/infrastructure/http';
 import TestHelper from '../TestHelper';
-import { stub, restore } from 'sinon';
+import { restore, stub } from 'sinon';
 import {
+	MosaicId,
 	NamespaceId,
-	UInt64,
 	NamespaceName,
 	ReceiptType,
-	MosaicId
+	UInt64
 } from 'symbol-sdk';
 
 describe('ReceiptExtractor', () => {
