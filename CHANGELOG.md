@@ -3,6 +3,18 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v1.2.1][v1.2.1] - 16-May-2023
+Package  | Version  | Link
+---|---|---
+REST Core| v2.4.2 | catapult-rest
+SDK Core| v2.0.3 | symbol-sdk
+
+[Bug] [#1146](https://github.com/symbol/explorer/issues/1146): Fix search namespace without dash.
+
+[Bug] [#1167](https://github.com/symbol/explorer/pull/1167): Fix the peer node loading issue in the node list page.
+
+[Update] [#1183](https://github.com/symbol/explorer/pull/1183): Account listing default display rich list
+
 ## [v1.2.0][v1.2.0] - 26-Oct-2022
 Package  | Version  | Link
 ---|---|---
@@ -541,3 +553,4 @@ SDK Core| v0.20.7 | symbol-sdk
 [v1.1.6]: https://github.com/symbol/explorer/releases/tag/v1.1.6
 [v1.1.7]: https://github.com/symbol/explorer/releases/tag/v1.1.7
 [v1.2.0]: https://github.com/symbol/explorer/releases/tag/v1.2.0
+[v1.2.1]: https://github.com/symbol/explorer/releases/tag/v1.2.1
