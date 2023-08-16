@@ -169,7 +169,7 @@ export default {
 		getCurrentAccountAddress: state => state.currentAccountAddress,
 		balanceWidget: (state, getters) => ({
 			address: state.currentAccountAddress
-				? Address.createFromRawAddress(state.currentAccountAddress).pretty()
+				? Address.createFromRawAddress(state.currentAccountAddress).plain()
 				: '',
 			mosaic: getters.OwnedMosaic?.data[0],
 			alias:
