@@ -172,6 +172,7 @@ export default {
                 line-height: 1.75rem;
                 margin: 0 0 33.2px;
                 max-width: 100%;
+                word-break: break-word;
             }
         }
 
