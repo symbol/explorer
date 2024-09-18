@@ -20,6 +20,14 @@
 	<div>
 		<div v-if="isPlainMessage">
 			{{ message }}
+
+			<div v-if="isHexString">
+				<div
+					class="viewOptions"
+					@click="convertViewFormat">
+						{{ viewFormatTitle }}
+				</div>
+			</div>
 		</div>
 
 		<div v-else @click="clickToView">
@@ -36,7 +44,7 @@
 
 <script>
 import TableView from '@/components/tables/TableView.vue';
-import { MessageType } from 'symbol-sdk';
+import { MessageType, Convert } from 'symbol-sdk';
 
 export default {
 	name: 'MessageField',
@@ -49,12 +57,13 @@ export default {
 	},
 	data () {
 		return {
-			isClick: true
+			isClick: true,
+			isViewAsUTF8: false
 		};
 	},
 	computed: {
 		message () {
-			return this.value.payload;
+			return this.getMessage();
 		},
 		messageType () {
 			return this.value.type;
@@ -64,11 +73,33 @@ export default {
 		},
 		title () {
 			return `Click to view ${this.getKeyName(`messageTypeDescriptor_${this.messageType}`)}`;
+		},
+		viewFormatTitle () {
+			return this.isViewAsUTF8 ? `View as default` : `View as utf-8`;
+		},
+		isHexString () {
+			return Convert.isHexString(this.value.payload);
 		}
 	},
 	methods: {
 		clickToView () {
 			this.isClick = !this.isClick;
+		},
+		convertViewFormat () {
+			this.isViewAsUTF8 = !this.isViewAsUTF8;
+		},
+		getMessage () {
+			if (this.isViewAsUTF8) {
+                return this.convertToUtf8(this.value.payload);
+            }
+            return this.value.payload;
+		},
+		convertToUtf8 (payload) {
+			if (this.isHexString) {
+                const hexToUint8 = Convert.hexToUint8(payload);
+                return new TextDecoder('utf-8').decode(hexToUint8);
+            }
+            return payload;
 		}
 	}
 };
@@ -90,4 +121,25 @@ export default {
         text-decoration: underline;
     }
 }
+
+.viewOptions {
+	display: flex;
+	justify-content: center;
+	margin-top: 10px;
+	max-width: 150px;
+    width: 100%;
+	border-radius: 5px;
+	border-width: 1px;
+	border-style: solid;
+	padding: 5px 10px;
+
+	border-color: var(--clickable-text);
+	color: var(--clickable-text);
+
+	:hover > & {
+        cursor: pointer;
+        text-decoration: underline;
+    }
+}
+
 </style>
