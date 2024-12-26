@@ -90,16 +90,16 @@ export default {
 		},
 		getMessage () {
 			if (this.isViewAsUTF8) {
-                return this.convertToUtf8(this.value.payload);
-            }
-            return this.value.payload;
+				return this.convertToUtf8(this.value.payload);
+			}
+			return this.value.payload;
 		},
 		convertToUtf8 (payload) {
 			if (this.isHexString) {
-                const hexToUint8 = Convert.hexToUint8(payload);
-                return new TextDecoder('utf-8').decode(hexToUint8);
-            }
-            return payload;
+				const hexToUint8 = Convert.hexToUint8(payload);
+				return new TextDecoder('utf-8').decode(hexToUint8);
+			}
+			return payload;
 		}
 	}
 };
@@ -107,19 +107,19 @@ export default {
 
 <style lang="scss" scoped>
 .hideContent {
-    display: none;
+	display: none;
 }
 
 .overlay {
-    text-align: center;
-    position: absolute;
-    color: var(--clickable-text);
-    z-index: 999;
+	text-align: center;
+	position: absolute;
+	color: var(--clickable-text);
+	z-index: 999;
 
-    :hover > & {
-        cursor: pointer;
-        text-decoration: underline;
-    }
+	:hover > & {
+		cursor: pointer;
+		text-decoration: underline;
+	}
 }
 
 .viewOptions {
@@ -127,7 +127,7 @@ export default {
 	justify-content: center;
 	margin-top: 10px;
 	max-width: 150px;
-    width: 100%;
+	width: 100%;
 	border-radius: 5px;
 	border-width: 1px;
 	border-style: solid;
@@ -137,9 +137,9 @@ export default {
 	color: var(--clickable-text);
 
 	:hover > & {
-        cursor: pointer;
-        text-decoration: underline;
-    }
+		cursor: pointer;
+		text-decoration: underline;
+	}
 }
 
 </style>
