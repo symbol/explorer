@@ -53,7 +53,7 @@ import NodeSelector from '@/components/controls/NodeSelector.vue';
 
 import IconGithub from 'vue-material-design-icons/Github.vue';
 import IconNewspaper from 'vue-material-design-icons/Newspaper.vue';
-import IconDiscord from 'vue-material-design-icons/Discord.vue';
+import IconDiscord from '../../components/graphics/DiscordIcon.vue';
 import IconTwitter from 'vue-material-design-icons/Twitter.vue';
 import IconCurrencyUsd from 'vue-material-design-icons/CurrencyUsd.vue';
 import globalConfig from '../../config/globalConfig';
