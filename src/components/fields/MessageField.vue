@@ -107,39 +107,37 @@ export default {
 
 <style lang="scss" scoped>
 .hideContent {
-	display: none;
+    display: none;
 }
 
 .overlay {
-	text-align: center;
-	position: absolute;
-	color: var(--clickable-text);
-	z-index: 999;
+    text-align: center;
+    position: absolute;
+    color: var(--clickable-text);
+    z-index: 999;
 
-	:hover > & {
-		cursor: pointer;
-		text-decoration: underline;
-	}
+    :hover > & {
+        cursor: pointer;
+        text-decoration: underline;
+    }
 }
 
 .viewOptions {
-	display: flex;
-	justify-content: center;
-	margin-top: 10px;
-	max-width: 150px;
-	width: 100%;
-	border-radius: 5px;
-	border-width: 1px;
-	border-style: solid;
-	padding: 5px 10px;
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+    max-width: 150px;
+    width: 100%;
+    border-radius: 5px;
+    border-width: 1px;
+    border-style: solid;
+    padding: 5px 10px;
+    border-color: var(--clickable-text);
+    color: var(--clickable-text);
 
-	border-color: var(--clickable-text);
-	color: var(--clickable-text);
-
-	:hover > & {
-		cursor: pointer;
-		text-decoration: underline;
-	}
+    :hover > & {
+        cursor: pointer;
+        text-decoration: underline;
+    }
 }
-
 </style>
