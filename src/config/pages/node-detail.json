@@ -78,6 +78,7 @@
 					"connectionStatus",
 					"databaseStatus",
 					"apiNodeStatus",
+					"lightNodeStatus",
 					"isHttpsEnabled",
 					"restVersion",
 					"lastStatusCheck"

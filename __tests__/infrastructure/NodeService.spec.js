@@ -253,10 +253,11 @@ describe('Node Service', () => {
 
 				const expectedLightAPIStatus = {
 					...expectedAPIStatus,
-					apiNodeStatus: 'N/A',
+					lightNodeStatus: true,
 					connectionStatus: true
 				};
 				delete expectedLightAPIStatus.databaseStatus;
+				delete expectedLightAPIStatus.apiNodeStatus;
 
 				await assertNodeStatus(lightNodeResponse, {
 					peerStatus: expectedPeerStatus,

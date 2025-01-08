@@ -183,8 +183,6 @@ class NodeService {
 				// Api status
 				formattedNode.apiStatus = {
 					connectionStatus: isAvailable,
-					apiNodeStatus:
-						'up' === nodeStatus?.apiNode || Constants.Message.UNAVAILABLE,
 					isHttpsEnabled,
 					restVersion,
 					lastStatusCheck: moment
@@ -196,7 +194,14 @@ class NodeService {
 				if ([2, 3, 6, 7].includes(node.roles)) {
 					formattedNode.apiStatus = {
 						...formattedNode.apiStatus,
+						apiNodeStatus:
+							'up' === nodeStatus?.apiNode || Constants.Message.UNAVAILABLE,
 						databaseStatus: 'up' === nodeStatus?.db || Constants.Message.UNAVAILABLE
+					};
+				} else {
+					formattedNode.apiStatus = {
+						...formattedNode.apiStatus,
+						lightNodeStatus: isAvailable || Constants.Message.UNAVAILABLE,
 					};
 				}
 
