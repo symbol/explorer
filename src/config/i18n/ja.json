@@ -350,6 +350,7 @@
     "connectionStatus": "接続",
     "databaseStatus": "データベース",
     "apiNodeStatus": "API ノード",
+    "lightNodeStatus": "Light ノード",
     "isAvailable": "有効",
     "lastStatusCheck": "最終チェック",
     "nodeChainInfoTitle": "ノードチェーン情報",

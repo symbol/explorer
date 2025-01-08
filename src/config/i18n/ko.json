@@ -350,6 +350,7 @@
     "connectionStatus": "연결",
     "databaseStatus": "데이터베이스",
     "apiNodeStatus": "API 노드",
+    "lightNodeStatus": "Light 노드",
     "isAvailable": "활성",
     "lastStatusCheck": "마지막 상태 확인",
     "nodeChainInfoTitle": "노드 체인 정보",

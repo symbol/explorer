@@ -350,6 +350,7 @@
     "connectionStatus": "Соединение",
     "databaseStatus": "База данных",
     "apiNodeStatus": "API Ноды",
+    "lightNodeStatus": "Light Ноды",
     "isAvailable": "Доступные",
     "lastStatusCheck": "Последняя проверка статуса",
     "nodeChainInfoTitle": "Информация о цепочке нод",

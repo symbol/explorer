@@ -347,6 +347,7 @@
     "connectionStatus": "Connection",
     "databaseStatus": "Data Base",
     "apiNodeStatus": "API Node",
+    "lightNodeStatus": "Light Node",
     "isAvailable": "Available",
     "lastStatusCheck": "Last Status Check",
     "nodeChainInfoTitle": "Node Chain Info",
