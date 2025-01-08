@@ -201,9 +201,9 @@ class NodeService {
 				} else {
 					formattedNode.apiStatus = {
 						...formattedNode.apiStatus,
-						lightNodeStatus: isAvailable || Constants.Message.UNAVAILABLE,
+						lightNodeStatus: isAvailable || Constants.Message.UNAVAILABLE
 					};
-				}
+				};
 
 				// Chain info
 				formattedNode.chainInfo = {
