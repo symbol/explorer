@@ -183,15 +183,26 @@ class NodeService {
 				// Api status
 				formattedNode.apiStatus = {
 					connectionStatus: isAvailable,
-					databaseStatus:
-						'up' === nodeStatus?.db || Constants.Message.UNAVAILABLE,
-					apiNodeStatus:
-						'up' === nodeStatus?.apiNode || Constants.Message.UNAVAILABLE,
 					isHttpsEnabled,
 					restVersion,
 					lastStatusCheck: moment
 						.utc(lastStatusCheck)
 						.format('YYYY-MM-DD HH:mm:ss')
+				};
+
+				// Only API nodes have database status
+				if ([2, 3, 6, 7].includes(node.roles)) {
+					formattedNode.apiStatus = {
+						...formattedNode.apiStatus,
+						apiNodeStatus:
+							'up' === nodeStatus?.apiNode || Constants.Message.UNAVAILABLE,
+						databaseStatus: 'up' === nodeStatus?.db || Constants.Message.UNAVAILABLE
+					};
+				} else {
+					formattedNode.apiStatus = {
+						...formattedNode.apiStatus,
+						lightNodeStatus: isAvailable || Constants.Message.UNAVAILABLE
+					};
 				};
 
 				// Chain info

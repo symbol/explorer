@@ -233,7 +233,8 @@ export default {
                 'apiNodeStatus' === key ||
 				'databaseStatus' === key ||
 				'isHttpsEnabled' === key ||
-				'isAvailable' === key
+				'isAvailable' === key ||
+				'lightNodeStatus' === key
 			);
 		},
 

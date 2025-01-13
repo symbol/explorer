@@ -238,6 +238,37 @@ describe('Node Service', () => {
 			});
 		});
 
+		const runLightRestNodeTests = roles => {
+			it(`returns roles ${roles} node status and light rest status`, async () => {
+				// Arrange:
+				const lightNodeResponse = {
+					roles,
+					peerStatus: generateNodePeerStatus(true),
+					apiStatus: {
+						...generateNodeApiStatus(true),
+						nodeStatus: undefined
+					},
+					...nodeCommonField
+				};
+
+				const expectedLightAPIStatus = {
+					...expectedAPIStatus,
+					lightNodeStatus: true,
+					connectionStatus: true
+				};
+				delete expectedLightAPIStatus.databaseStatus;
+				delete expectedLightAPIStatus.apiNodeStatus;
+
+				await assertNodeStatus(lightNodeResponse, {
+					peerStatus: expectedPeerStatus,
+					apiStatus: expectedLightAPIStatus,
+					chainInfo: expectedChainInfoStatus
+				});
+			});
+		};
+
+		[1, 4, 5].forEach(roles => runLightRestNodeTests(roles));
+
 		runStatisticServiceFailResponseTests('getNode', 'getNodeInfo');
 	});
 });
