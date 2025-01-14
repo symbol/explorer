@@ -1,3 +1,5 @@
+import { TextDecoder, TextEncoder } from 'util';
+
 /* Mock init http */
 jest.mock('../../src/infrastructure/http', () => {
 	return {
@@ -31,3 +33,5 @@ jest.mock('../../src/infrastructure/http', () => {
 		timezone: 'Local'
 	};
 });
+
+Object.assign(global, { TextDecoder, TextEncoder });
