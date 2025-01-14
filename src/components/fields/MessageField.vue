@@ -78,7 +78,7 @@ export default {
 			return this.isViewAsUTF8 ? `View as default` : `View as utf-8`;
 		},
 		isHexString () {
-			return Convert.isHexString(this.value.payload);
+			return this.value.payload && Convert.isHexString(this.value.payload);
 		}
 	},
 	methods: {

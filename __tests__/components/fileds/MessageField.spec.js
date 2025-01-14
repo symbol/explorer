@@ -106,5 +106,12 @@ describe('MessageField component', () => {
 				payload: '48656C6F2066726F6D2073796D626F6C20736E6170'
 			});
 		});
+
+		it('does not render convert message button when plain message payload is empty', () => {
+			assertConvertFormatButtonNotRender({
+				type: 0,
+				payload: ''
+			});
+		});
 	});
 });
