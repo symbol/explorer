@@ -141,6 +141,56 @@ describe('Node Service', () => {
 			]);
 		});
 
+		it('returns available light node from statistic services', async () => {
+			// Arrange:
+			const createExpectedNode = (rolesRaw, roleName) => ({
+				...nodeCommonField,
+				...nodeFormattedCommonField,
+				apiEndpoint: 'N/A',
+				roles: roleName,
+				rolesRaw,
+				peerStatus: generateNodePeerStatus(true),
+				apiStatus: generateNodeApiStatus(true)
+			});
+
+			const statisticServiceLightNodeResponse = [
+				{
+					roles: 1,
+					peerStatus: generateNodePeerStatus(true),
+					apiStatus: generateNodeApiStatus(true),
+					...nodeCommonField
+				},
+				{
+					roles: 4,
+					peerStatus: generateNodePeerStatus(true),
+					apiStatus: generateNodeApiStatus(true),
+					...nodeCommonField
+				},
+				{
+					roles: 5,
+					peerStatus: generateNodePeerStatus(true),
+					apiStatus: generateNodeApiStatus(true),
+					...nodeCommonField
+				}
+			];
+
+			http.statisticServiceRestClient = jest.fn().mockImplementation(() => {
+				return {
+					getNodes: jest.fn().mockResolvedValue(statisticServiceLightNodeResponse)
+				};
+			});
+
+			// Act:
+			const result = await NodeService.getAvailableNodes();
+
+			// Assert:
+			expect(result).toEqual([
+				createExpectedNode(1, 'Peer node (light)'),
+				createExpectedNode(4, 'Voting node (light)'),
+				createExpectedNode(5, 'Peer Voting node (light)')
+			]);
+		});
+
 		runStatisticServiceFailResponseTests('getNodes', 'getAvailableNodes');
 	});
 
@@ -270,45 +320,5 @@ describe('Node Service', () => {
 		[1, 4, 5].forEach(roles => runLightRestNodeTests(roles));
 
 		runStatisticServiceFailResponseTests('getNode', 'getNodeInfo');
-	});
-
-	describe('getAvailableNodeList', () => {
-		const assertNodeRolesName = async (node, expectedResult) => {
-			// Arrange:
-			jest.spyOn(NodeService, 'getAvailableNodes')
-				.mockReturnValue(Promise.resolve([node]));
-
-			// Act:
-			const result = await NodeService.getAvailableNodeList({
-				rolesRaw: null
-			});
-
-			// Assert:
-			expect(result.data[0].roles).toEqual(expectedResult);
-		};
-
-		it('returns roles name with API node' , async () => {
-			[2,3,6,7].forEach(role => assertNodeRolesName({
-				...nodeCommonField,
-				...nodeFormattedCommonField,
-				apiEndpoint: 'N/A',
-				roles: 'API node',
-				rolesRaw: role,
-				peerStatus: generateNodePeerStatus(true),
-				apiStatus: generateNodeApiStatus(true)
-			}, 'API node'));
-		});
-
-		it('returns roles name with (light) keywords for Peer node', async () => {
-			[1,4,5].forEach(role => assertNodeRolesName({
-				...nodeCommonField,
-				...nodeFormattedCommonField,
-				apiEndpoint: 'N/A',
-				roles: 'Peer node',
-				rolesRaw: role,
-				peerStatus: generateNodePeerStatus(true),
-				apiStatus: generateNodeApiStatus(true)
-			}, 'Peer node (light)'));
-		});
 	});
 });
