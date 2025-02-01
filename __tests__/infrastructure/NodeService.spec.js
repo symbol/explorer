@@ -255,20 +255,27 @@ describe('Node Service', () => {
 			});
 
 			// Act:
-			const { apiStatus, chainInfo, peerStatus } =
+			const { apiStatus, chainInfo, peerStatus, mapInfo } =
 				await NodeService.getNodeInfo(node.publicKey);
 
 			// Assert:
 			expect(apiStatus).toEqual(expectedResult.apiStatus);
 			expect(chainInfo).toEqual(expectedResult.chainInfo);
 			expect(peerStatus).toEqual(expectedResult.peerStatus);
+			expect(mapInfo).toEqual(expectedResult.mapInfo);
 		};
 
 		it('returns peer node status when peer status is present', async () => {
 			await assertNodeStatus(statisticServiceNodeResponse[0], {
 				peerStatus: expectedPeerStatus,
 				apiStatus: {},
-				chainInfo: {}
+				chainInfo: {},
+				mapInfo: {
+					apiStatus: {
+						isAvailable: undefined
+					},
+					rolesRaw: 1
+				}
 			});
 		});
 
@@ -276,7 +283,13 @@ describe('Node Service', () => {
 			await assertNodeStatus(statisticServiceNodeResponse[1], {
 				peerStatus: {},
 				apiStatus: expectedAPIStatus,
-				chainInfo: expectedChainInfoStatus
+				chainInfo: expectedChainInfoStatus,
+				mapInfo: {
+					apiStatus: {
+						isAvailable: false
+					},
+					rolesRaw: 2
+				}
 			});
 		});
 
@@ -284,7 +297,13 @@ describe('Node Service', () => {
 			await assertNodeStatus(statisticServiceNodeResponse[2], {
 				peerStatus: expectedPeerStatus,
 				apiStatus: expectedAPIStatus,
-				chainInfo: expectedChainInfoStatus
+				chainInfo: expectedChainInfoStatus,
+				mapInfo: {
+					apiStatus: {
+						isAvailable: false
+					},
+					rolesRaw: 3
+				}
 			});
 		});
 
@@ -312,7 +331,13 @@ describe('Node Service', () => {
 				await assertNodeStatus(lightNodeResponse, {
 					peerStatus: expectedPeerStatus,
 					apiStatus: expectedLightAPIStatus,
-					chainInfo: expectedChainInfoStatus
+					chainInfo: expectedChainInfoStatus,
+					mapInfo: {
+						apiStatus: {
+							isAvailable: true
+						},
+						rolesRaw: roles
+					}
 				});
 			});
 		};

@@ -236,6 +236,15 @@ class NodeService {
 				formattedNode.peerStatus = {};
 			}
 
+			// Map info used for create a marker in the map
+			formattedNode.mapInfo = {
+				...formattedNode.hostDetail,
+				rolesRaw: formattedNode.rolesRaw,
+				apiStatus: {
+					isAvailable: node.apiStatus?.isAvailable
+				}
+			};
+
 			return formattedNode;
 		} catch (e) {
 			console.error(e);
