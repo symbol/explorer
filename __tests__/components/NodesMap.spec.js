@@ -5,38 +5,6 @@ import { createLocalVue, shallowMount } from '@vue/test-utils';
 import leaflet from 'leaflet';
 import Vuex from 'vuex';
 
-jest.mock('leaflet.markercluster', () => {}, { virtual: true });
-
-// Mock leaflet with L global
-global.L = {
-	markerClusterGroup: jest.fn().mockImplementation(() => ({
-		addLayer: jest.fn(),
-		addTo: jest.fn()
-	}))
-};
-
-jest.mock('leaflet', () => ({
-	icon: jest.fn().mockImplementation(params => ({
-		iconUrl: params.iconUrl
-	})),
-	marker: jest.fn().mockImplementation((coords, options) => ({
-		bindPopup: jest.fn().mockReturnValue({})
-	})),
-	markerClusterGroup: jest.fn().mockReturnValue({
-		addLayer: jest.fn()
-	}),
-	latLng: jest.fn().mockReturnValue([0, 0]),
-	latLngBounds: jest.fn().mockReturnValue({
-		extend: jest.fn()
-	}),
-	map: jest.fn().mockReturnValue({
-		addLayer: jest.fn()
-	}),
-	tileLayer: jest.fn().mockReturnValue({
-		addTo: jest.fn()
-	})
-}));
-
 jest.mock('../../src/styles/img/connector_blue.png', () => 'blue.png');
 jest.mock('../../src/styles/img/connector_blue_light.png', () => 'blue-light.png');
 jest.mock('../../src/styles/img/connector_green.png', () => 'green.png');
