@@ -37,4 +37,38 @@ jest.mock('../../src/infrastructure/http', () => {
 	};
 });
 
-Object.assign(global, { TextDecoder, TextEncoder });
+Object.assign(global, {
+	TextDecoder,
+	TextEncoder,
+	L: {
+		markerClusterGroup: jest.fn().mockImplementation(() => ({
+			addLayer: jest.fn(),
+			addTo: jest.fn()
+		}))
+	}
+});
+
+// Mock leaflet (map library)
+jest.mock('leaflet.markercluster', () => {}, { virtual: true });
+
+jest.mock('leaflet', () => ({
+	icon: jest.fn().mockImplementation(params => ({
+		iconUrl: params.iconUrl
+	})),
+	marker: jest.fn().mockImplementation((coords, options) => ({
+		bindPopup: jest.fn().mockReturnValue({})
+	})),
+	markerClusterGroup: jest.fn().mockReturnValue({
+		addLayer: jest.fn()
+	}),
+	latLng: jest.fn().mockReturnValue([0, 0]),
+	latLngBounds: jest.fn().mockReturnValue({
+		extend: jest.fn()
+	}),
+	map: jest.fn().mockReturnValue({
+		addLayer: jest.fn()
+	}),
+	tileLayer: jest.fn().mockReturnValue({
+		addTo: jest.fn()
+	})
+}));

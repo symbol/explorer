@@ -75,7 +75,9 @@ class NodeService {
 			nodeInfo.networkIdentifier
 		).plain(),
 		rolesRaw: nodeInfo.roles,
-		roles: Constants.RoleType[nodeInfo.roles],
+		roles: [1,4,5].includes(nodeInfo.roles) && nodeInfo.apiStatus?.isAvailable
+			? Constants.RoleType[nodeInfo.roles] + ' (light)'
+			: Constants.RoleType[nodeInfo.roles],
 		network: Constants.NetworkType[nodeInfo.networkIdentifier],
 		version: helper.formatNodeVersion(nodeInfo.version),
 		apiEndpoint:
@@ -233,6 +235,15 @@ class NodeService {
 			} else {
 				formattedNode.peerStatus = {};
 			}
+
+			// Map info used for create a marker in the map
+			formattedNode.mapInfo = {
+				...formattedNode.hostDetail,
+				rolesRaw: formattedNode.rolesRaw,
+				apiStatus: {
+					isAvailable: node.apiStatus?.isAvailable
+				}
+			};
 
 			return formattedNode;
 		} catch (e) {
