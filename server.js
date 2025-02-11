@@ -1,5 +1,7 @@
 const fs = require('fs');
 const http = require('http');
+const path = require('path');
+const mime = require('mime-types');
 
 const PORT = 4000;
 const CONFIG_ROUTE = '/config';
@@ -52,15 +54,19 @@ const getFile = (url, errCallback, callback) => {
 	});
 };
 
-const send = (res, data, age) => {
+const send = (res, data, age, fileUrl) => {
+	const ext = path.extname(fileUrl).toLowerCase();
+	let mimeType = mime.lookup(fileUrl) || mime.lookup(ext) || 'application/octet-stream';
+
 	res.setHeader('Cache-Control', 'public, max-age=' + age);
+	res.setHeader('Content-Type', mimeType);
 	res.writeHead(200);
 	res.end(data);
 };
 
-const sendJSON = (res, data) => {
+const sendJSON = (res, data, fileUrl) => {
 	res.setHeader('Content-Type', 'application/json');
-	send(res, JSON.stringify(data), INDEX_CACHE_AGE);
+	send(res, JSON.stringify(data), INDEX_CACHE_AGE, fileUrl);
 }
 
 const sendError = (res, err, code) => {
@@ -84,17 +90,17 @@ readConfig(res => {
 		}
 
 		if(req.url === CONFIG_ROUTE) {
-			sendJSON(res, ENV);
+			sendJSON(res, ENV, req.url);
 		}
 		else {
 			getFile(req.url,
 				() => {
 					getFile(INDEX_HTML,
 						err => sendError(res, err, 404),
-						data => send(res, data, cacheAge)
+						data => send(res, data, cacheAge, INDEX_HTML)
 					);
 				},
-				data => send(res, data, cacheAge)
+				data => send(res, data, cacheAge, req.url)
 			);
 		}
 	}).listen(ENV.PORT || PORT);

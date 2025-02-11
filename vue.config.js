@@ -33,7 +33,6 @@ module.exports = {
 				path: require.resolve('path-browserify'),
 				vm: require.resolve('vm-browserify'),
 				fs: false,
-				vm: false,
 			}
 		},
 		plugins: [
