@@ -3,6 +3,24 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
+## [v1.3.0][v1.3.0] - 9-Apr-2025
+Package  | Version  | Link
+---|---|---
+REST Core| v2.5.0 | catapult-rest
+SDK Core| v2.0.3 | symbol-sdk
+
+[Bug] [#1198](https://github.com/symbol/explorer/pull/1198): Fix mime empty issue string in header.
+
+[Feature] [#1197](https://github.com/symbol/explorer/pull/1197): Added light node icon and information.
+
+[Upgrade] [#1196](https://github.com/symbol/explorer/pull/1196): upgrade  dependencies and support node v20 environment.
+
+[Bug] [#1195](https://github.com/symbol/explorer/pull/1195): Removed database field in node status with non API roles.
+
+[Feature] [#1194](https://github.com/symbol/explorer/pull/1194): Support convert message to UTF8.
+
+[Bug] [#1193](https://github.com/symbol/explorer/pull/1193): Mosaic alias expired, cause transaction page can not load.
+
 ## [v1.2.3][v1.2.3] - 8-Sep-2023
 Package  | Version  | Link
 ---|---|---
@@ -574,3 +592,4 @@ SDK Core| v0.20.7 | symbol-sdk
 [v1.2.1]: https://github.com/symbol/explorer/releases/tag/v1.2.1
 [v1.2.2]: https://github.com/symbol/explorer/releases/tag/v1.2.2
 [v1.2.3]: https://github.com/symbol/explorer/releases/tag/v1.2.3
+[v1.3.0]: https://github.com/symbol/explorer/releases/tag/v1.3.0
