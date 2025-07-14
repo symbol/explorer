@@ -16,6 +16,7 @@
  *
  */
 
+import { NodeWatchService } from '../infrastructure';
 import http from './http';
 import Constants from '../config/constants';
 import helper from '../helper';
