@@ -175,7 +175,7 @@ export default {
 
 					switch (node.rolesRaw) {
 					case 1:
-						icon = node.apiStatus?.isAvailable ? iconPeerLight : iconPeer;
+						icon = node.isAPInode ? iconPeerLight : iconPeer;
 						break;
 					case 2:
 					case 3:
@@ -183,7 +183,7 @@ export default {
 						break;
 					case 4:
 					case 5:
-						icon = node.apiStatus?.isAvailable ? iconVotingLight : iconVoting;
+						icon = node.isAPInode ? iconVotingLight : iconVoting;
 						break;
 					case 6:
 					case 7:
