@@ -166,7 +166,7 @@ export default {
                     '</span><br/><span title="' + node.address + '"><b>' + this.getNameByKey('address') + ':</b> ' + this.formatText(node.address) +
                     '</span><br/><span title="' + node.location + '"><b>' + this.getNameByKey('location') + ':</b> ' + this.formatText(node.location) +
                     '</span><br/><span style="' + this.buttonContainerStyle + '">' +
-                    '<a style="' + this.button1Style + '" href="' + this.getPageHref('node', node.publicKey) + '">' + this.getNameByKey('nodeDetailTitle') +
+                    '<a style="' + this.button1Style + '" href="' + this.getPageHref('node', node.mainPublicKey) + '">' + this.getNameByKey('nodeDetailTitle') +
                     '</a><a style="' + this.button2Style + '" href="' + this.getPageHref('address', node.address) + '"> ' + this.getNameByKey('accountDetailTitle') + '</a>' +
                     '</span>';
 

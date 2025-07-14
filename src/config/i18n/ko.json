@@ -330,7 +330,7 @@
     "nodeDetailTitle": "노드 정보보기",
     "nodeHostDetailTitle": "호스트 정보보기",
     "nodeLocationMapTitle": "호스트 위치",
-    "nodePublicKey": "공개키",
+    "mainPublicKey": "공개키",
     "apiEndpoint": "API 엔드포인트",
     "networkGenerationHashSeed": "네트워크가 생성한 시드 해시",
     "networkIdentifier": "네트워크 구분자",

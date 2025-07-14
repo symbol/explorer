@@ -304,7 +304,7 @@ class NodeService {
 			roles: node.roles,
 			network: node.network,
 			networkGenerationHashSeed: node.networkGenerationHashSeed,
-			nodePublicKey: node.nodePublicKey,
+			mainPublicKey: node.mainPublicKey,
 			chainHeight: node.chainInfo.chainHeight,
 			finalizationHeight: node.chainInfo.finalizationHeight,
 			version: node.version

@@ -330,7 +330,7 @@
     "nodeDetailTitle": "ノード詳細",
     "nodeHostDetailTitle": "ホスト詳細",
     "nodeLocationMapTitle": "ホスト位置",
-    "nodePublicKey": "公開鍵",
+    "mainPublicKey": "公開鍵",
     "apiEndpoint": "APIエンドポイント",
     "networkGenerationHashSeed": "ネットワークジェネレーションハッシュシード",
     "networkIdentifier": "ネットワーク識別子",

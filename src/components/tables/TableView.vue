@@ -90,7 +90,7 @@ export default {
 
 				'namespaceArtifactId',
 				'mosaicArtifactId',
-				'nodePublicKey'
+				'mainPublicKey',
 			],
 			disableClickValues: [...Object.values(Constants.Message)],
 			changeDecimalColor: [
@@ -201,7 +201,6 @@ export default {
 				'recipient' === key ||
 				'publicKey' === key ||
 				'signerPublicKey' === key ||
-				'nodePublicKey' === key ||
 				'mainPublicKey' === key ||
                 'transactionHash' === key ||
                 'ownerAddress' === key ||

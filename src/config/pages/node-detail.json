@@ -27,7 +27,7 @@
 					"networkGenerationHashSeed",
 					"network",
 					"networkIdentifier",
-					"publicKey",
+					"mainPublicKey",
 					"address"
 				]
 			},
