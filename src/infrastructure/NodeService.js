@@ -16,10 +16,10 @@
  *
  */
 
+import { NodeWatchService } from '../infrastructure';
 import http from './http';
 import Constants from '../config/constants';
 import helper from '../helper';
-import moment from 'moment';
 import * as symbol from 'symbol-sdk';
 
 class NodeService {
@@ -67,27 +67,40 @@ class NodeService {
 	 * @param {object} nodeInfo NodeInfoDTO.
 	 * @returns {object} readable NodeInfo.
 	 */
-	static formatNodeInfo = nodeInfo => ({
-		...nodeInfo,
-		nodePublicKey: nodeInfo.publicKey,
-		address: symbol.Address.createFromPublicKey(
-			nodeInfo.publicKey,
-			nodeInfo.networkIdentifier
-		).plain(),
-		rolesRaw: nodeInfo.roles,
-		roles: [1,4,5].includes(nodeInfo.roles) && nodeInfo.apiStatus?.isAvailable
-			? Constants.RoleType[nodeInfo.roles] + ' (light)'
-			: Constants.RoleType[nodeInfo.roles],
-		network: Constants.NetworkType[nodeInfo.networkIdentifier],
-		version: helper.formatNodeVersion(nodeInfo.version),
-		apiEndpoint:
-			2 === nodeInfo.roles ||
-			3 === nodeInfo.roles ||
-			6 === nodeInfo.roles ||
-			7 === nodeInfo.roles
-				? nodeInfo.apiStatus.restGatewayUrl
-				: Constants.Message.UNAVAILABLE
-	});
+	static formatNodeInfo = nodeInfo => {
+		const { hostname, port } = '' !== nodeInfo.endpoint
+			? new URL(nodeInfo.endpoint)
+			: { hostname: 'N/A', port: 'N/A' };
+
+		return {
+			finalizedEpoch: nodeInfo.finalizedEpoch,
+			finalizedHash: nodeInfo.finalizedHash,
+			finalizedHeight: nodeInfo.finalizedHeight,
+			finalizedPoint: nodeInfo.finalizedPoint,
+			height: nodeInfo.height,
+			mainPublicKey: nodeInfo.mainPublicKey,
+			isHealthy: nodeInfo.isHealthy,
+			restVersion: nodeInfo.restVersion,
+			isHttpsEnabled: nodeInfo.isSslEnabled,
+			friendlyName: nodeInfo.name,
+			geoLocation: nodeInfo.geoLocation,
+			host: hostname,
+			version: nodeInfo.version,
+			port,
+			address: symbol.Address.createFromPublicKey(
+				nodeInfo.mainPublicKey,
+				http.networkType
+			).plain(),
+			rolesRaw: nodeInfo.roles,
+			roles: [1,4,5].includes(nodeInfo.roles) && null != nodeInfo.restVersion
+				? Constants.RoleType[nodeInfo.roles] + ' (light)'
+				: Constants.RoleType[nodeInfo.roles],
+			network: Constants.NetworkType[http.networkType],
+			networkIdentifier: http.networkType,
+			apiEndpoint: null != nodeInfo.restVersion ? nodeInfo.endpoint : Constants.Message.UNAVAILABLE,
+			networkGenerationHashSeed: http.generationHash
+		};
+	};
 
 	/**
 	 * Get available node list from statistic service.
@@ -95,22 +108,14 @@ class NodeService {
 	 */
 	static getAvailableNodes = async () => {
 		try {
-			const nodePeers = await http.statisticServiceRestClient().getNodes();
+			const nodePeers = await NodeWatchService.getNodes();
 
 			return nodePeers
-				.filter(({ apiStatus, roles, peerStatus }) => {
-					if (1 === roles || 4 === roles || 5 === roles)
-						return peerStatus?.isAvailable;
-					else if (3 === roles || 6 === roles || 7 === roles)
-						return apiStatus?.isAvailable || peerStatus?.isAvailable;
-					else
-						return apiStatus?.isAvailable;
-				})
 				.map(nodeInfo => this.formatNodeInfo(nodeInfo))
 				.sort((a, b) => a.friendlyName.localeCompare(b.friendlyName));
 		} catch (e) {
 			console.error(e);
-			throw Error('Statistics service getNodes error');
+			throw Error('node watch getNodes error');
 		}
 	};
 
@@ -132,33 +137,28 @@ class NodeService {
 
 					node['softwareVersion'] = { version: el.version };
 
-					if (el.apiStatus) {
-						const {
-							chainHeight,
-							finalization,
-							lastStatusCheck,
-							restVersion,
-							isHttpsEnabled
-						} = el.apiStatus;
+					node['chainInfo'] = {
+						chainHeight: el.height,
+						finalizationHeight: el.finalizedHeight
+					};
 
-						node['chainInfo'] = {
-							chainHeight,
-							finalizationHeight: finalization?.height,
-							lastStatusCheck
+					node['softwareVersion'] = {
+						...node.softwareVersion,
+						restVersion: el.restVersion,
+						isHttpsEnabled: el.isSslEnabled
+					};
+
+					if (node?.geoLocation) {
+						node = {
+							...node,
+							coordinates: {
+								latitude: node.geoLocation.lat,
+								longitude: node.geoLocation.lon
+							},
+							location: node.geoLocation.city + ', ' + node.geoLocation.region + ', ' + node.geoLocation.country,
+							isAPInode: null != node.restVersion
 						};
-
-						node['softwareVersion'] = {
-							...node.softwareVersion,
-							restVersion,
-							isHttpsEnabled
-						};
-					} else {
-						node['chainInfo'] = {};
-					}
-
-					if (node?.hostDetail) {
-						node = { ...node, ...node.hostDetail };
-						delete node.hostDetail;
+						delete node.geoLocation;
 					}
 
 					return node;
@@ -168,87 +168,70 @@ class NodeService {
 
 	static getNodeInfo = async publicKey => {
 		try {
-			const node = await http.statisticServiceRestClient().getNode(publicKey);
+			const node = await NodeWatchService.getNodeByMainPublicKey(publicKey);
+
 			const formattedNode = this.formatNodeInfo(node);
 
-			if (formattedNode?.apiStatus) {
-				const {
-					finalization,
-					chainHeight,
-					lastStatusCheck,
-					nodeStatus,
-					isAvailable,
+			const {
+				finalizedEpoch,
+				finalizedHash,
+				finalizedHeight,
+				finalizedPoint,
+				height,
+				isHealthy,
+				isHttpsEnabled,
+				restVersion
+			} = formattedNode;
+
+			// Chain info
+			formattedNode.chainInfo = {
+				height: height,
+				finalizedHeight: finalizedHeight,
+				finalizationEpoch: finalizedEpoch,
+				finalizationPoint: finalizedPoint,
+				finalizedHash: finalizedHash
+			};
+
+			formattedNode.apiStatus = {};
+
+			// Only API nodes have database status
+			if ([2, 3, 6, 7].includes(formattedNode.rolesRaw)) {
+				formattedNode.apiStatus = {
+					connectionStatus: isHealthy || Constants.Message.UNAVAILABLE,
 					isHttpsEnabled,
 					restVersion
-				} = formattedNode.apiStatus;
-
-				// Api status
-				formattedNode.apiStatus = {
-					connectionStatus: isAvailable,
-					isHttpsEnabled,
-					restVersion,
-					lastStatusCheck: moment
-						.utc(lastStatusCheck)
-						.format('YYYY-MM-DD HH:mm:ss')
-				};
-
-				// Only API nodes have database status
-				if ([2, 3, 6, 7].includes(node.roles)) {
-					formattedNode.apiStatus = {
-						...formattedNode.apiStatus,
-						apiNodeStatus:
-							'up' === nodeStatus?.apiNode || Constants.Message.UNAVAILABLE,
-						databaseStatus: 'up' === nodeStatus?.db || Constants.Message.UNAVAILABLE
-					};
-				} else {
-					formattedNode.apiStatus = {
-						...formattedNode.apiStatus,
-						lightNodeStatus: isAvailable || Constants.Message.UNAVAILABLE
-					};
-				};
-
-				// Chain info
-				formattedNode.chainInfo = {
-					height: chainHeight,
-					finalizedHeight: finalization?.height,
-					finalizationEpoch: finalization?.epoch,
-					finalizationPoint: finalization?.point,
-					finalizedHash: finalization?.hash,
-					lastStatusCheck: moment
-						.utc(lastStatusCheck)
-						.format('YYYY-MM-DD HH:mm:ss')
 				};
 			} else {
-				formattedNode.apiStatus = {};
-				formattedNode.chainInfo = {};
-			}
-
-			if (formattedNode?.peerStatus) {
-				const { isAvailable, lastStatusCheck } = formattedNode.peerStatus;
-
-				formattedNode.peerStatus = {
-					connectionStatus: isAvailable,
-					lastStatusCheck: moment
-						.utc(lastStatusCheck)
-						.format('YYYY-MM-DD HH:mm:ss')
-				};
-			} else {
-				formattedNode.peerStatus = {};
-			}
-
-			// Map info used for create a marker in the map
-			formattedNode.mapInfo = {
-				...formattedNode.hostDetail,
-				rolesRaw: formattedNode.rolesRaw,
-				apiStatus: {
-					isAvailable: node.apiStatus?.isAvailable
+				if (null != restVersion) {
+					formattedNode.apiStatus = {
+						lightNodeStatus: null != restVersion,
+						isHttpsEnabled,
+						restVersion
+					};
 				}
 			};
+
+			// Map info used for create a marker in the map
+			if (formattedNode?.geoLocation) {
+				const { lat, lon, ...geoInfo } = formattedNode.geoLocation;
+
+				formattedNode.mapInfo = {
+					...geoInfo,
+					coordinates: {
+						latitude: lat,
+						longitude: lon
+					},
+					rolesRaw: formattedNode.rolesRaw,
+					isAPInode: null != formattedNode.restVersion
+				};
+			} else {
+				formattedNode.mapInfo = {};
+			}
 
 			return formattedNode;
 		} catch (e) {
 			console.error(e);
-			throw Error('Statistics service getNode error');
+			throw Error('node watch getNodeByMainPublicKey error');
 		}
 	};
 
