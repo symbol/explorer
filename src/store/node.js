@@ -60,7 +60,7 @@ export default {
 		peerStatus: state => state.info?.data?.peerStatus,
 		apiStatus: state => state.info?.data?.apiStatus,
 		chainInfo: state => state.info?.data?.chainInfo,
-		hostDetail: state => state.info?.data?.hostDetail,
+		geoLocation: state => state.info?.data?.geoLocation,
 		hostInfoManager: (state, getters) => ({
 			loading: getters.timeline?.loading ||
 				getters.info?.loading,
