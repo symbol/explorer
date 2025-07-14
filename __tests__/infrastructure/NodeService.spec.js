@@ -1,72 +1,77 @@
-import { NodeService } from '../../src/infrastructure';
-import http from '../../src/infrastructure/http';
+import { NodeService, NodeWatchService } from '../../src/infrastructure';
 import TestHelper from '../TestHelper';
 
 describe('Node Service', () => {
 	// Arrange:
 	const {
-		generateNodePeerStatus,
-		generateNodeApiStatus,
-		nodeCommonField
+		nodeCommonField,
+		geoLocationCommonField
 	} = TestHelper;
 
-	const statisticServiceNodeResponse = [
+	const nodeWatchServiceNodeResponse = [
 		{
 			roles: 1,
-			peerStatus: generateNodePeerStatus(true),
+			restVersion: null,
+			isHealthy: null,
+			isSslEnabled: null,
 			...nodeCommonField
 		},
 		{
-			roles: 2,
-			apiStatus: generateNodeApiStatus(false),
-			...nodeCommonField
-		},
-		{
-			roles: 3,
-			peerStatus: generateNodePeerStatus(true),
-			apiStatus: generateNodeApiStatus(false),
-			...nodeCommonField
-		},
-		{
-			roles: 3,
-			peerStatus: generateNodePeerStatus(true),
-			apiStatus: generateNodeApiStatus(true),
+			roles: 1, // Peer node (light)
+			restVersion: '2.4.4',
+			isHealthy: null,
+			isSslEnabled: true,
 			...nodeCommonField
 		},
 		{
 			roles: 3,
-			peerStatus: generateNodePeerStatus(false),
-			apiStatus: generateNodeApiStatus(false),
+			restVersion: '2.4.4',
+			isHealthy: true,
+			isSslEnabled: true,
+			...nodeCommonField
+		},
+		{
+			roles: 5, // Peer Voting node (light)
+			restVersion: '2.4.4',
+			isHealthy: null,
+			isSslEnabled: true,
 			...nodeCommonField
 		},
 		{
 			roles: 5,
-			peerStatus: generateNodePeerStatus(true),
-			...nodeCommonField
-		},
-		{
-			roles: 5,
-			peerStatus: generateNodePeerStatus(false),
+			restVersion: null,
+			isHealthy: null,
+			isSslEnabled: null,
 			...nodeCommonField
 		},
 		{
 			roles: 7,
-			peerStatus: generateNodePeerStatus(true),
-			apiStatus: generateNodeApiStatus(true),
+			restVersion: '2.4.4',
+			isHealthy: true,
+			isSslEnabled: true,
 			...nodeCommonField
 		}
 	];
 
 	const nodeFormattedCommonField = {
-		network: 'MAINNET',
-		address: 'NDY2CXBR6SK3G7UWVXZT6YQTVJKHKFMPU74ZOYY',
-		nodePublicKey:
+		network: 'TESTNET',
+		networkIdentifier: 152,
+		address: 'TDY2CXBR6SK3G7UWVXZT6YQTVJKHKFMPU6UDZ6Q',
+		mainPublicKey:
 			'016DC1622EE42EF9E4D215FA1112E89040DD7AED83007283725CE9BA550272F5',
-		version: '1.0.3.5'
+		version: '1.0.3.5',
+		friendlyName: 'node',
+		finalizedEpoch: 50,
+		finalizedHash: 'finalized hash',
+		finalizedHeight: 100,
+		finalizedPoint: 1,
+		geoLocation: null,
+		height: 120,
+		host: 'node.com',
+		port: '3000',
+		networkGenerationHashSeed: '57F7DA205008026C776CB6AED843393F04CD458E0AA2D9F1D5F31A402072B2D6'
 	};
 
-	const runStatisticServiceFailResponseTests = (statisticServiceMethod, NodeServiceMethod) => {
-		it('throws error when statistic services fail response', async () => {
 			// Arrange:
 			const error = new Error(`Statistics service ${statisticServiceMethod} error`);
 
@@ -342,8 +347,35 @@ describe('Node Service', () => {
 			});
 		};
 
-		[1, 4, 5].forEach(roles => runLightRestNodeTests(roles));
+	describe('getAPINodeList', () => {
+		it('returns a list of API nodes', async () => {
+			// Arrange:
+			jest.spyOn(NodeWatchService, 'getNodes').mockResolvedValue(nodeWatchServiceNodeResponse);
 
-		runStatisticServiceFailResponseTests('getNode', 'getNodeInfo');
+			// Act:
+			const apiNodeList = await NodeService.getAPINodeList();
+
+			// Assert:
+			expect(apiNodeList).toEqual([
+				{
+					...nodeFormattedCommonField,
+					restVersion: '2.4.4',
+					isHealthy: true,
+					isHttpsEnabled: true,
+					apiEndpoint: 'http://node.com:3000',
+					roles: 'Peer Api node',
+					rolesRaw: 3
+				},
+				{
+					...nodeFormattedCommonField,
+					restVersion: '2.4.4',
+					isHealthy: true,
+					isHttpsEnabled: true,
+					apiEndpoint: 'http://node.com:3000',
+					roles: 'Peer Api Voting node',
+					rolesRaw: 7
+				}
+			]);
 	});
+	})
 });
