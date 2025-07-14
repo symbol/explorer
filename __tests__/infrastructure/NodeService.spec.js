@@ -72,14 +72,12 @@ describe('Node Service', () => {
 		networkGenerationHashSeed: '57F7DA205008026C776CB6AED843393F04CD458E0AA2D9F1D5F31A402072B2D6'
 	};
 
+	const runNodeWatchFailResponseTests = (nodeWatchMethod, NodeServiceMethod) => {
+		it('throws error when node watch fail response', async () => {
 			// Arrange:
-			const error = new Error(`Statistics service ${statisticServiceMethod} error`);
+			const error = new Error(`node watch ${nodeWatchMethod} error`);
 
-			http.statisticServiceRestClient = jest.fn().mockImplementation(() => {
-				return {
-					[statisticServiceMethod]: jest.fn().mockRejectedValue(error)
-				};
-			});
+			jest.spyOn(NodeWatchService, nodeWatchMethod).mockRejectedValue(error);
 
 			// Act + Assert:
 			await expect(NodeService[NodeServiceMethod]()).rejects.toThrow(error);
