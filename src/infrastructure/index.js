@@ -12,6 +12,7 @@ import MultisigService from './MultisigService';
 import NamespaceService from './NamespaceService';
 import NetworkService from './NetworkService';
 import NodeService from './NodeService';
+import NodeWatchService from './NodeWatchService';
 import ReceiptExtractor from './ReceiptExtractor';
 import ReceiptService from './ReceiptService';
 import RestrictionService from './RestrictionService';
@@ -20,6 +21,7 @@ import TransactionService from './TransactionService';
 
 export {
 	NodeService,
+	NodeWatchService,
 	AccountService,
 	MetadataService,
 	RestrictionService,
