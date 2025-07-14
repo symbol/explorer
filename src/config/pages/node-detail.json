@@ -54,15 +54,12 @@
 				"errorMessage": "nodeDetailError",
 				"pagination": "none",
 				"fields": [
-					"ip",
-					"organization",
-					"as",
 					"continent",
 					"country",
 					"region",
 					"city",
-					"district",
-					"zip"
+					"isp"
+
 				]
 			},
 			{
@@ -76,12 +73,9 @@
 				"hideEmptyData": true,
 				"fields": [
 					"connectionStatus",
-					"databaseStatus",
-					"apiNodeStatus",
 					"lightNodeStatus",
 					"isHttpsEnabled",
-					"restVersion",
-					"lastStatusCheck"
+					"restVersion"
 				]
 			},
 			{

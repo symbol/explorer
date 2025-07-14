@@ -57,7 +57,6 @@ export default {
 		getInitialized: state => state.initialized,
 		...getGettersFromManagers(managers),
 		mapInfo: state => [ state.info?.data?.mapInfo ],
-		peerStatus: state => state.info?.data?.peerStatus,
 		apiStatus: state => state.info?.data?.apiStatus,
 		chainInfo: state => state.info?.data?.chainInfo,
 		geoLocation: state => state.info?.data?.geoLocation,
