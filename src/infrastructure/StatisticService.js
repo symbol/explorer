@@ -16,8 +16,6 @@
  *
  */
 import Constants from '../config/constants';
-import globalConfig from '../config/globalConfig';
-import Axios from 'axios';
 
 class StatisticService {
 	/**
@@ -151,14 +149,6 @@ class StatisticService {
 		return chartData.map(el => ({ ...el, name: Constants.RoleType[el.name] || el.name }));
 	}
 
-	static fetchFromStatisticsService = async route => {
-		if (this.isUrlProvided())
-			return (await Axios.get(globalConfig.endpoints.statisticsService + route)).data;
-
-		else
-			throw Error('Statistics service endpoint is not provided');
-	}
-
 	static formatChartData = (data, includeKeys) => {
 		const aggreagatedData = {};
 		const isKeyIncluded = key => !includeKeys || includeKeys.includes(key);
@@ -188,15 +178,6 @@ class StatisticService {
 		}));
 
 		return chartData;
-	}
-
-	static isUrlProvided () {
-		try {
-			new URL(globalConfig?.endpoints?.statisticsService); // eslint-disable-line no-new
-			return true;
-		} catch (e) {
-			return false;
-		}
 	}
 }
 

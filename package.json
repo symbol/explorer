@@ -32,7 +32,6 @@
     "nem-sdk": "^1.6.8",
     "net": "^1.0.2",
     "symbol-sdk": "^2.0.3",
-    "symbol-statistics-service-typescript-fetch-client": "^1.1.5",
     "tls": "^0.0.1",
     "url-parse": "^1.5.10",
     "vue": "^2.6.14",
