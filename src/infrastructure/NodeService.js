@@ -16,10 +16,10 @@
  *
  */
 
-import { NodeWatchService } from '../infrastructure';
 import http from './http';
 import Constants from '../config/constants';
 import helper from '../helper';
+import { NodeWatchService } from '../infrastructure';
 import * as symbol from 'symbol-sdk';
 
 class NodeService {

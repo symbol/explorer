@@ -291,5 +291,5 @@ describe('Node Service', () => {
 				}
 			]);
 		});
-	})
+	});
 });
