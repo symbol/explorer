@@ -2,27 +2,26 @@ import globalConfig from '../config/globalConfig';
 import Axios from 'axios';
 
 class NodeWatchService {
-	static async getNodes(onlySSL = false, limit = 0) {
-		try {
+	static async getNodes(onlySSL = false, limit = 0, order = null) {
+		const params = `only_ssl=${onlySSL}&limit=${limit}${order ? `&order=${order}` : ''}`;
+
 			const [apiNodesResponse, peerNodesResponse] = await Promise.all([
-				Axios.get(`${globalConfig.endpoints.nodeWatch}/api/symbol/nodes/api?only_ssl=` + onlySSL + '&limit=' + limit),
-				Axios.get(`${globalConfig.endpoints.nodeWatch}/api/symbol/nodes/peer?only_ssl=` + onlySSL + '&limit=' + limit)
+			this.get(`/api/symbol/nodes/api?${params}`),
+			this.get(`/api/symbol/nodes/peer?${params}`)
 			]);
 
 			return [...apiNodesResponse.data, ...peerNodesResponse.data];
-		} catch (error) {
-			console.error('Error fetching nodes:', error);
-			throw error;
-		}
 	}
 
 	static async getNodeByMainPublicKey(mainPublicKey) {
+
+	static async get(route) {
 		try {
-			const response = await Axios.get(`${globalConfig.endpoints.nodeWatch}/api/symbol/nodes/mainPublicKey/${mainPublicKey}`);
-			return response.data;
+			const response = await Axios.get(`${globalConfig.endpoints.nodeWatch}${route}`);
+			return response;
 		} catch (error) {
-			console.error('Error fetching node by main public key:', error);
-			throw error;
+			console.error('Error fetching nodes:', error);
+			throw Error(`Error fetching from ${route}`);
 		}
 	}
 }

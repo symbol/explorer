@@ -302,7 +302,7 @@ class NodeService {
 	 */
 	static getAPINodeList = async () => {
 		// get 30 ssl ready nodes from node watch service
-		const nodes = await NodeWatchService.getNodes(true, 30);
+		const nodes = await NodeWatchService.getNodes(true, 30, 'random');
 
 		return nodes
 			.filter(node => node.isHealthy && node.isSslEnabled)

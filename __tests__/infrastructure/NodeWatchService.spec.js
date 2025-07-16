@@ -37,14 +37,14 @@ describe('Node Watch Service', () => {
 			expect(Axios.get).toHaveBeenCalledWith(`${globalConfig.endpoints.nodeWatch}/api/symbol/nodes/peer?only_ssl=false&limit=0`);
 		});
 
-		it('fetches nodes with SSL filtering and limit', async () => {
+		it('fetches nodes with SSL filtering, limit 2 and order random', async () => {
 			// Act
-			const result = await NodeWatchService.getNodes(true, 2);
+			const result = await NodeWatchService.getNodes(true, 2, 'random');
 
 			// Assert
 			expect(result).toEqual([...mockApiResponse, ...mockPeerResponse]);
-			expect(Axios.get).toHaveBeenCalledWith(`${globalConfig.endpoints.nodeWatch}/api/symbol/nodes/api?only_ssl=true&limit=2`);
-			expect(Axios.get).toHaveBeenCalledWith(`${globalConfig.endpoints.nodeWatch}/api/symbol/nodes/peer?only_ssl=true&limit=2`);
+			expect(Axios.get).toHaveBeenCalledWith(`${globalConfig.endpoints.nodeWatch}/api/symbol/nodes/api?only_ssl=true&limit=2&order=random`);
+			expect(Axios.get).toHaveBeenCalledWith(`${globalConfig.endpoints.nodeWatch}/api/symbol/nodes/peer?only_ssl=true&limit=2&order=random`);
 		});
 
 		it('handles errors when fetching nodes', async () => {
