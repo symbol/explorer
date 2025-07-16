@@ -16,6 +16,7 @@
  *
  */
 import Constants from '../config/constants';
+import { NodeWatchService } from '../infrastructure';
 
 class StatisticService {
 	/**
@@ -143,7 +144,7 @@ class StatisticService {
 	}
 
 	static getNodeCountSeries = async () => {
-		const data = await StatisticService.fetchFromStatisticsService('/timeSeries/nodeCount');
+		const data = await NodeWatchService.getNodeCount();
 		const chartData = StatisticService.formatChartData(data, ['1', '2', '3', '4', '5', '6', '7', 'total']);
 
 		return chartData.map(el => ({ ...el, name: Constants.RoleType[el.name] || el.name }));
