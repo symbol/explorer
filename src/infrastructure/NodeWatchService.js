@@ -20,7 +20,7 @@ class NodeWatchService {
 	}
 
 	static async getNodeCount() {
-		const response = await this.get(`/api/symbol/nodes/count`);
+		const response = await this.get('/api/symbol/nodes/count');
 		return response.data;
 	}
 
