@@ -5,15 +5,19 @@ class NodeWatchService {
 	static async getNodes(onlySSL = false, limit = 0, order = null) {
 		const params = `only_ssl=${onlySSL}&limit=${limit}${order ? `&order=${order}` : ''}`;
 
-			const [apiNodesResponse, peerNodesResponse] = await Promise.all([
+		const [apiNodesResponse, peerNodesResponse] = await Promise.all([
 			this.get(`/api/symbol/nodes/api?${params}`),
 			this.get(`/api/symbol/nodes/peer?${params}`)
-			]);
+		]);
 
-			return [...apiNodesResponse.data, ...peerNodesResponse.data];
+		return [...apiNodesResponse.data, ...peerNodesResponse.data];
 	}
 
 	static async getNodeByMainPublicKey(mainPublicKey) {
+		const response = await this.get(`/api/symbol/nodes/mainPublicKey/${mainPublicKey}`);
+
+		return response.data;
+	}
 
 	static async get(route) {
 		try {

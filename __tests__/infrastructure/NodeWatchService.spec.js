@@ -5,6 +5,16 @@ import Axios from 'axios';
 jest.mock('axios');
 
 describe('Node Watch Service', () => {
+	const runNodeWatchThrowErrorTests = (nodeWatchMethod, params, expectedError) => {
+		it('throws error when node watch fail response', async () => {
+			// Arrange:
+			Axios.get.mockRejectedValue(new Error());
+
+			// Act + Assert:
+			await expect(NodeWatchService[nodeWatchMethod](params)).rejects.toThrow(expectedError);
+		});
+	};
+
 	describe('getNodes', () => {
 		const mockApiResponse = [
 			{ id: 1, name: 'Node1' },
@@ -47,13 +57,7 @@ describe('Node Watch Service', () => {
 			expect(Axios.get).toHaveBeenCalledWith(`${globalConfig.endpoints.nodeWatch}/api/symbol/nodes/peer?only_ssl=true&limit=2&order=random`);
 		});
 
-		it('handles errors when fetching nodes', async () => {
-			// Arrange
-			Axios.get.mockRejectedValue(new Error('Network error'));
-
-			// Act + Assert
-			await expect(NodeWatchService.getNodes()).rejects.toThrow('Network error');
-		});
+		runNodeWatchThrowErrorTests('getNodes', undefined, 'Error fetching from /api/symbol/nodes/api?only_ssl=false&limit=0');
 	});
 
 	describe('getNodeByMainPublicKey', () => {
@@ -72,13 +76,6 @@ describe('Node Watch Service', () => {
 			expect(Axios.get).toHaveBeenCalledWith(`${globalConfig.endpoints.nodeWatch}/api/symbol/nodes/mainPublicKey/${mainPublicKey}`);
 		});
 
-		it('handles errors when fetching node by main public key', async () => {
-			// Arrange
-			const mainPublicKey = '1234567890abcdef';
-			Axios.get.mockRejectedValue(new Error('Network error'));
-
-			// Act + Assert
-			await expect(NodeWatchService.getNodeByMainPublicKey(mainPublicKey)).rejects.toThrow('Network error');
-		});
+		runNodeWatchThrowErrorTests('getNodeByMainPublicKey', '1234567890abcdef', 'Error fetching from /api/symbol/nodes/mainPublicKey/1234567890abcdef');
 	});
 });
