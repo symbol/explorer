@@ -19,6 +19,11 @@ class NodeWatchService {
 		return response.data;
 	}
 
+	static async getNodeCount() {
+		const response = await this.get(`/api/symbol/nodes/count`);
+		return response.data;
+	}
+
 	static async get(route) {
 		try {
 			const response = await Axios.get(`${globalConfig.endpoints.nodeWatch}${route}`);
