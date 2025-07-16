@@ -10,46 +10,46 @@ describe('Node Service', () => {
 
 	const nodeWatchServiceNodeResponse = [
 		{
+			...nodeCommonField,
 			roles: 1,
 			restVersion: null,
 			isHealthy: null,
-			isSslEnabled: null,
-			...nodeCommonField
+			isSslEnabled: null
 		},
 		{
+			...nodeCommonField,
 			roles: 1, // Peer node (light)
 			restVersion: '2.4.4',
 			isHealthy: null,
-			isSslEnabled: true,
-			...nodeCommonField
+			isSslEnabled: true
 		},
 		{
+			...nodeCommonField,
 			roles: 3,
 			restVersion: '2.4.4',
 			isHealthy: true,
-			isSslEnabled: true,
-			...nodeCommonField
+			isSslEnabled: true
 		},
 		{
+			...nodeCommonField,
 			roles: 5, // Peer Voting node (light)
 			restVersion: '2.4.4',
 			isHealthy: null,
-			isSslEnabled: true,
-			...nodeCommonField
+			isSslEnabled: true
 		},
 		{
+			...nodeCommonField,
 			roles: 5,
 			restVersion: null,
 			isHealthy: null,
-			isSslEnabled: null,
-			...nodeCommonField
+			isSslEnabled: null
 		},
 		{
+			...nodeCommonField,
 			roles: 7,
 			restVersion: '2.4.4',
 			isHealthy: true,
-			isSslEnabled: true,
-			...nodeCommonField
+			isSslEnabled: true
 		}
 	];
 
