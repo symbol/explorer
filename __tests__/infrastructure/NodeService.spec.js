@@ -72,15 +72,14 @@ describe('Node Service', () => {
 		networkGenerationHashSeed: '57F7DA205008026C776CB6AED843393F04CD458E0AA2D9F1D5F31A402072B2D6'
 	};
 
-	const runNodeWatchFailResponseTests = (nodeWatchMethod, NodeServiceMethod) => {
-		it('throws error when node watch fail response', async () => {
+	const runNodeServiceThrowErrorTests = (nodeServiceMethod, params, expectedError) => {
+		it('throws error when node service fail response', async () => {
 			// Arrange:
-			const error = new Error(`node watch ${nodeWatchMethod} error`);
-
-			jest.spyOn(NodeWatchService, nodeWatchMethod).mockRejectedValue(error);
+			jest.spyOn(NodeWatchService, 'getNodes').mockRejectedValue(new Error());
+			jest.spyOn(NodeWatchService, 'getNodeByMainPublicKey').mockRejectedValue(new Error());
 
 			// Act + Assert:
-			await expect(NodeService[NodeServiceMethod]()).rejects.toThrow(error);
+			await expect(NodeService[nodeServiceMethod](params)).rejects.toThrow(expectedError);
 		});
 	};
 
@@ -151,7 +150,7 @@ describe('Node Service', () => {
 			]);
 		});
 
-		runNodeWatchFailResponseTests('getNodes', 'getAvailableNodes');
+		runNodeServiceThrowErrorTests('getAvailableNodes', undefined, 'Failed to get available nodes');
 	});
 
 	describe('getNodeStats', () => {
@@ -258,7 +257,7 @@ describe('Node Service', () => {
 			nodeWatchServiceNodeResponse[3]
 		].forEach(lightNode => runLightRestNodeTests(lightNode));
 
-		runNodeWatchFailResponseTests('getNodeByMainPublicKey', 'getNodeInfo');
+		runNodeServiceThrowErrorTests('getNodeInfo', 'public key 123', 'Failed to get node info for public key public key 123');
 	});
 
 	describe('getAPINodeList', () => {
@@ -361,5 +360,7 @@ describe('Node Service', () => {
 				}
 			]);
 		});
+
+		runNodeServiceThrowErrorTests('getNodeHeightStats', undefined, 'Failed to get node height stats');
 	});
 });

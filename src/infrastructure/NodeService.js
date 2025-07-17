@@ -115,7 +115,7 @@ class NodeService {
 				.sort((a, b) => a.friendlyName.localeCompare(b.friendlyName));
 		} catch (e) {
 			console.error(e);
-			throw Error('node watch getNodes error');
+			throw Error('Failed to get available nodes');
 		}
 	};
 
@@ -231,7 +231,7 @@ class NodeService {
 			return formattedNode;
 		} catch (e) {
 			console.error(e);
-			throw Error('node watch getNodeByMainPublicKey error');
+			throw Error('Failed to get node info for public key ' + publicKey);
 		}
 	};
 
@@ -328,7 +328,7 @@ class NodeService {
 
 			return result;
 		} catch (e) {
-			throw Error('getNodeHeightStats error');
+			throw Error('Failed to get node height stats');
 		}
 	};
 
