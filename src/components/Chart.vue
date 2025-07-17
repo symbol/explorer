@@ -149,6 +149,11 @@ export default {
 						dataLabels: {
 							position: 'top'
 						}
+					},
+					bubble: {
+						zScaling: true,
+						minBubbleRadius: 10,
+						maxBubbleRadius: 50
 					}
 				},
 				title: {
@@ -189,7 +194,10 @@ export default {
 						: {}
 				},
 				tooltip: {
-					enabled: true
+					enabled: true,
+					z: {
+						title: 'Count: '
+					},
 				},
 				legend: {
 					show: true,
