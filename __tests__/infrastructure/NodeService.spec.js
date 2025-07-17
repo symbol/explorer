@@ -292,4 +292,74 @@ describe('Node Service', () => {
 			]);
 		});
 	});
+
+	describe('getNodeHeightStats', () => {
+		it('returns node height and finalized height count and group by version', async () => {
+			// Arrange:
+			const mockApiResponse = [
+				{
+					...nodeCommonField,
+					version: '1.0.3.6',
+					height: 120,
+					finalizedHeight: 100
+				},
+				{
+					...nodeCommonField,
+					version: '1.0.3.6',
+					height: 120,
+					finalizedHeight: 100
+				},
+				{
+					...nodeCommonField,
+					version: '1.0.3.5',
+					height: 120,
+					finalizedHeight: 99
+				},
+				{
+					...nodeCommonField,
+					version: '1.0.3.5',
+					height: 120,
+					finalizedHeight: 100
+				},
+				{
+					...nodeCommonField,
+					version: '1.0.3.4',
+					height: 120,
+					finalizedHeight: 100
+				}
+			];
+
+			jest.spyOn(NodeWatchService, 'getNodes').mockResolvedValue(mockApiResponse);
+
+			// Act:
+			const result = await NodeService.getNodeHeightStats();
+
+			// Assert:
+			expect(result).toEqual([
+				{
+					'data': [{'x': 120, 'y': 2, 'z': 2}],
+					'name': '1.0.3.6 - Height'
+				},
+				{
+					'data': [{'x': 100, 'y': 2, 'z': 2}],
+					'name': '1.0.3.6 - Finalized Height'},
+				{
+					'data': [{'x': 120, 'y': 2, 'z': 2}],
+					'name': '1.0.3.5 - Height'
+				},
+				{
+					'data': [{'x': 99, 'y': 1, 'z': 1}, {'x': 100, 'y': 1, 'z': 1}],
+					'name': '1.0.3.5 - Finalized Height'
+				},
+				{
+					'data': [{'x': 120, 'y': 1, 'z': 1}],
+					'name': '1.0.3.4 - Height'
+				},
+				{
+					'data': [{'x': 100, 'y': 1, 'z': 1}],
+					'name': '1.0.3.4 - Finalized Height'
+				}
+			]);
+		});
+	});
 });
