@@ -251,7 +251,7 @@ class NodeService {
 		return nodeTypes;
 	};
 
-	static getNodeHeightStats = async () => {
+	static getNodeHeightAndFinalizedHeightStats = async () => {
 		try {
 			const data = await NodeWatchService.getNodes();
 

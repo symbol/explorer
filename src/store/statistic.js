@@ -29,8 +29,8 @@ import { Order } from 'symbol-sdk';
 
 const managers = [
 	new DataSet(
-		'nodeHeightStats',
-		() => NodeService.getNodeHeightStats()
+		'nodeHeightAndFinalizedHeightStats',
+		() => NodeService.getNodeHeightAndFinalizedHeightStats()
 	)
 ];
 
@@ -123,7 +123,7 @@ export default {
 		async uninitialize ({ commit, dispatch, getters }) {
 			const callback = async () => {};
 
-			getters.nodeHeightStats?.uninitialize();
+			getters.nodeHeightAndFinalizedHeightStats?.uninitialize();
 			await LOCK.uninitialize(callback, commit, dispatch, getters);
 		},
 
@@ -134,7 +134,7 @@ export default {
 			context.commit('setLoadingBlockTimeDifference', true);
 			context.commit('setLoadingTransactionPerBlock', true);
 			context.commit('setLoadingNodeCountSeries', true);
-			context.getters.nodeHeightStats.setStore(context).initialFetch();
+			context.getters.nodeHeightAndFinalizedHeightStats.setStore(context).initialFetch();
 
 			context.commit('setError', false);
 			try {

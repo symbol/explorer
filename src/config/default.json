@@ -2,7 +2,7 @@
 	"apiNodePort": 3001,
 	"endpoints": {
 		"marketData": "https://min-api.cryptocompare.com/",
-		"nodeWatch": "https://nodewatch.symbol.tools"
+		"nodeWatch": "http://localhost:4000"
 	},
 	"networkConfig": {
 		"namespaceName": "symbol.xym",

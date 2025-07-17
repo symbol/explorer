@@ -34,7 +34,7 @@
 			</b-col>
 
 			<b-col xs="12" md="12" style="display: flex;">
-				<NodeHeightStatsWidget style="width: 100%;" />
+				<NodeHeightAndFinalizedHeightStatsWidget style="width: 100%;" />
 			</b-col>
 
 			<b-col xs="12" md="12" style="display: flex;">
@@ -48,7 +48,7 @@ import NetworkFeesWidget from '../components/widgets/NetworkFeesWidget.vue';
 import NetworkRentalFeesWidget from '../components/widgets/NetworkRentalFeesWidget.vue';
 import ChartBlockTimeDifference from '../components/widgets/ChartBlockTimeDifference.vue';
 import ChartTransactionPerBlock from '../components/widgets/ChartTransactionPerBlock.vue';
-import NodeHeightStatsWidget from '../components/widgets/NodeHeightStatsWidget.vue';
+import NodeHeightAndFinalizedHeightStatsWidget from '../components/widgets/NodeHeightAndFinalizedHeightStatsWidget.vue';
 import ChartNodeCount from '../components/widgets/ChartNodeCount.vue';
 
 export default {
@@ -58,7 +58,7 @@ export default {
 		NetworkRentalFeesWidget,
 		ChartBlockTimeDifference,
 		ChartTransactionPerBlock,
-		NodeHeightStatsWidget,
+		NodeHeightAndFinalizedHeightStatsWidget,
 		ChartNodeCount
 	},
 	mounted () {

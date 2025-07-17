@@ -292,7 +292,7 @@ describe('Node Service', () => {
 		});
 	});
 
-	describe('getNodeHeightStats', () => {
+	describe('getNodeHeightAndFinalizedHeightStats', () => {
 		it('returns node height and finalized height count and group by version', async () => {
 			// Arrange:
 			const mockApiResponse = [
@@ -331,7 +331,7 @@ describe('Node Service', () => {
 			jest.spyOn(NodeWatchService, 'getNodes').mockResolvedValue(mockApiResponse);
 
 			// Act:
-			const result = await NodeService.getNodeHeightStats();
+			const result = await NodeService.getNodeHeightAndFinalizedHeightStats();
 
 			// Assert:
 			expect(result).toEqual([
@@ -361,6 +361,6 @@ describe('Node Service', () => {
 			]);
 		});
 
-		runNodeServiceThrowErrorTests('getNodeHeightStats', undefined, 'Failed to get node height stats');
+		runNodeServiceThrowErrorTests('getNodeHeightAndFinalizedHeightStats', undefined, 'Failed to get node height stats');
 	});
 });
