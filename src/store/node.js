@@ -63,8 +63,7 @@ export default {
 		hostInfoManager: (state, getters) => ({
 			loading: getters.timeline?.loading ||
 				getters.info?.loading,
-			error: !StatisticService.isUrlProvided() ||
-				getters.timeline?.error ||
+			error: getters.timeline?.error ||
 				getters.info?.error
 		})
 	},
