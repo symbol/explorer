@@ -64,4 +64,4 @@ Licensed under the [Apache License 2.0](LICENSE)
 [self]: https://github.com/symbol/symbol-explorer
 [docs]: https://docs.symbolplatform.com
 [issues]: https://github.com/symbol/symbol-explorer/issues
-[discord]: https://discord.com/invite/xymcity
+[discord]: https://discord.gg/NMA9YQ55td
