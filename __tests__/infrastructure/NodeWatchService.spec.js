@@ -52,9 +52,10 @@ describe('Node Watch Service', () => {
 			const result = await NodeWatchService.getNodes(true, 2, 'random');
 
 			// Assert
+			const endpointUrl = `${globalConfig.endpoints.nodeWatch}/api/symbol/nodes`;
 			expect(result).toEqual([...mockApiResponse, ...mockPeerResponse]);
-			expect(Axios.get).toHaveBeenCalledWith(`${globalConfig.endpoints.nodeWatch}/api/symbol/nodes/api?only_ssl=true&limit=2&order=random`);
-			expect(Axios.get).toHaveBeenCalledWith(`${globalConfig.endpoints.nodeWatch}/api/symbol/nodes/peer?only_ssl=true&limit=2&order=random`);
+			expect(Axios.get).toHaveBeenCalledWith(`${endpointUrl}/api?only_ssl=true&limit=2&order=random`);
+			expect(Axios.get).toHaveBeenCalledWith(`${endpointUrl}/peer?only_ssl=true&limit=2&order=random`);
 		});
 
 		runNodeWatchThrowErrorTests('getNodes', undefined, 'Error fetching from /api/symbol/nodes/api?only_ssl=false&limit=0');
@@ -76,6 +77,10 @@ describe('Node Watch Service', () => {
 			expect(Axios.get).toHaveBeenCalledWith(`${globalConfig.endpoints.nodeWatch}/api/symbol/nodes/mainPublicKey/${mainPublicKey}`);
 		});
 
-		runNodeWatchThrowErrorTests('getNodeByMainPublicKey', '1234567890abcdef', 'Error fetching from /api/symbol/nodes/mainPublicKey/1234567890abcdef');
+		runNodeWatchThrowErrorTests(
+			'getNodeByMainPublicKey',
+			'1234567890abcdef',
+			'Error fetching from /api/symbol/nodes/mainPublicKey/1234567890abcdef'
+		);
 	});
 });
