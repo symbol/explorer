@@ -103,7 +103,7 @@ class NodeService {
 	};
 
 	/**
-	 * Get available node list from statistic service.
+	 * Get available node list from node watch service.
 	 * @returns {array} NodeInfo[]
 	 */
 	static getAvailableNodes = async () => {
@@ -156,7 +156,7 @@ class NodeService {
 								longitude: node.geoLocation.lon
 							},
 							location: node.geoLocation.city + ', ' + node.geoLocation.region + ', ' + node.geoLocation.country,
-							isAPInode: null != node.restVersion
+							isApiNode: null != node.restVersion
 						};
 						delete node.geoLocation;
 					}
@@ -204,7 +204,7 @@ class NodeService {
 			} else {
 				if (null != restVersion) {
 					formattedNode.apiStatus = {
-						lightNodeStatus: null != restVersion,
+						lightNodeStatus: true,
 						isHttpsEnabled,
 						restVersion
 					};
@@ -222,7 +222,7 @@ class NodeService {
 						longitude: lon
 					},
 					rolesRaw: formattedNode.rolesRaw,
-					isAPInode: null != formattedNode.restVersion
+					isApiNode: null != formattedNode.restVersion
 				};
 			} else {
 				formattedNode.mapInfo = {};

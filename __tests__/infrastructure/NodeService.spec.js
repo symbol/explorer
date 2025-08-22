@@ -225,7 +225,7 @@ describe('Node Service', () => {
 							longitude: 20.000
 						},
 						rolesRaw: 3,
-						isAPInode: true
+						isApiNode: true
 					}
 				}
 			);
