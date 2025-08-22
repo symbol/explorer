@@ -41,14 +41,14 @@
 					"host",
 					"friendlyName",
 					"roles",
-					"nodePublicKey",
+					"mainPublicKey",
 					"chainInfo",
 					"softwareVersion"
 				],
 				"mobileFields": [
 					"host",
 					"friendlyName",
-					"nodePublicKey"
+					"mainPublicKey"
 				]
 			}
 		]

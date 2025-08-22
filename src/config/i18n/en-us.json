@@ -330,7 +330,7 @@
     "nodeDetailTitle": "Node Detail",
     "nodeHostDetailTitle": "Host Detail",
     "nodeLocationMapTitle": "Host Location",
-    "nodePublicKey": "Public Key",
+    "mainPublicKey": "Public Key",
     "apiEndpoint": "API Endpoint",
     "networkGenerationHashSeed": "Network Generation Hash Seed",
     "networkIdentifier": "Network Identifier",

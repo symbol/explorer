@@ -63,5 +63,5 @@
     "namespaceArtifactId": "namespaces",
 
     "node": "nodes",
-    "nodePublicKey": "nodes"
+    "mainPublicKey": "nodes"
 }

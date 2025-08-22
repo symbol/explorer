@@ -26,7 +26,7 @@ const stubMockNode = numberOfNodes => {
 			port: 7900,
 			networkIdentifier: 152,
 			host: `mock_${nodeIndex}.com`,
-			nodePublicKey: account.publicKey,
+			mainPublicKey: account.publicKey,
 			address: account.address.plain(),
 			rolesRaw: 3,
 			network: 'TESTNET',
