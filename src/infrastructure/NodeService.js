@@ -115,7 +115,7 @@ class NodeService {
 				.sort((a, b) => a.friendlyName.localeCompare(b.friendlyName));
 		} catch (e) {
 			console.error(e);
-			throw Error('node watch getNodes error');
+			throw Error('Failed to get available nodes');
 		}
 	};
 
@@ -231,7 +231,7 @@ class NodeService {
 			return formattedNode;
 		} catch (e) {
 			console.error(e);
-			throw Error('node watch getNodeByMainPublicKey error');
+			throw Error('Failed to get node info for public key ' + publicKey);
 		}
 	};
 
@@ -251,28 +251,84 @@ class NodeService {
 		return nodeTypes;
 	};
 
-	static getNodeHeightStats = async () => {
+	static getNodeHeightAndFinalizedHeightStats = async () => {
 		try {
-			const data = await http.statisticServiceRestClient().getNodeHeightStats();
+			const data = await NodeWatchService.getNodes();
 
-			return [
-				{
-					name: 'Height',
-					data: data.height.map(el => ({
-						x: '' + parseInt(el.value),
-						y: parseInt(el.count)
-					}))
-				},
-				{
-					name: 'Finalized Height',
-					data: data.finalizedHeight.map(el => ({
-						x: '' + parseInt(el.value),
-						y: parseInt(el.count)
-					}))
+			const nodesByVersion = {};
+
+			data.forEach(node => {
+				const {version} = node;
+
+				// Initialize the array for this version if it doesn't exist yet
+				if (!nodesByVersion[version]) {
+					nodesByVersion[version] = {
+						heights: [
+							{
+								height: node.height,
+								count: 1
+							}
+						],
+						finalizedHeights: [
+							{
+								finalizedHeight: node.finalizedHeight,
+								count: 1
+							}
+						]
+					};
+				} else {
+					// Check if height already exists
+					const existingHeight = nodesByVersion[version].heights.find(h => h.height === node.height);
+					if (existingHeight) {
+						existingHeight.count++;
+					} else {
+						nodesByVersion[version].heights.push({
+							height: node.height,
+							count: 1
+						});
+					}
+
+					// Check if finalized height already exists
+					const existingFinalizedHeight = nodesByVersion[version]
+						.finalizedHeights.find(h => h.finalizedHeight === node.finalizedHeight);
+					if (existingFinalizedHeight) {
+						existingFinalizedHeight.count++;
+					} else {
+						nodesByVersion[version].finalizedHeights.push({
+							finalizedHeight: node.finalizedHeight,
+							count: 1
+						});
+					}
 				}
-			];
+			});
+
+			const result = [];
+
+			Object.keys(nodesByVersion).forEach(version => {
+				// Add height series for this version
+				result.push({
+					name: `${version} - Height`,
+					data: nodesByVersion[version].heights.map(item => ({
+						x: item.height,
+						y: item.count,
+						z: item.count
+					}))
+				});
+
+				// Add finalized height series for this version
+				result.push({
+					name: `${version} - Finalized Height`,
+					data: nodesByVersion[version].finalizedHeights.map(item => ({
+						x: item.finalizedHeight,
+						y: item.count,
+						z: item.count
+					}))
+				});
+			});
+
+			return result;
 		} catch (e) {
-			throw Error('Statistics service getNodeHeightStats error: ', e);
+			throw Error('Failed to get node height stats');
 		}
 	};
 

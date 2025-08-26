@@ -375,7 +375,10 @@ const TestHelper = {
 		finalizedPoint: 1,
 		geoLocation: null,
 		height: 120,
-		name: 'node'
+		name: 'node',
+		restVersion: null,
+		isHealthy: null,
+		isSslEnabled: null
 	},
 	geoLocationCommonField: {
 		city: 'ABC City',

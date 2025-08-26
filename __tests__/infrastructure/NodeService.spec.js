@@ -10,46 +10,46 @@ describe('Node Service', () => {
 
 	const nodeWatchServiceNodeResponse = [
 		{
+			...nodeCommonField,
 			roles: 1,
 			restVersion: null,
 			isHealthy: null,
-			isSslEnabled: null,
-			...nodeCommonField
+			isSslEnabled: null
 		},
 		{
+			...nodeCommonField,
 			roles: 1, // Peer node (light)
 			restVersion: '2.4.4',
 			isHealthy: null,
-			isSslEnabled: true,
-			...nodeCommonField
+			isSslEnabled: true
 		},
 		{
+			...nodeCommonField,
 			roles: 3,
 			restVersion: '2.4.4',
 			isHealthy: true,
-			isSslEnabled: true,
-			...nodeCommonField
+			isSslEnabled: true
 		},
 		{
+			...nodeCommonField,
 			roles: 5, // Peer Voting node (light)
 			restVersion: '2.4.4',
 			isHealthy: null,
-			isSslEnabled: true,
-			...nodeCommonField
+			isSslEnabled: true
 		},
 		{
+			...nodeCommonField,
 			roles: 5,
 			restVersion: null,
 			isHealthy: null,
-			isSslEnabled: null,
-			...nodeCommonField
+			isSslEnabled: null
 		},
 		{
+			...nodeCommonField,
 			roles: 7,
 			restVersion: '2.4.4',
 			isHealthy: true,
-			isSslEnabled: true,
-			...nodeCommonField
+			isSslEnabled: true
 		}
 	];
 
@@ -72,15 +72,14 @@ describe('Node Service', () => {
 		networkGenerationHashSeed: '57F7DA205008026C776CB6AED843393F04CD458E0AA2D9F1D5F31A402072B2D6'
 	};
 
-	const runNodeWatchFailResponseTests = (nodeWatchMethod, NodeServiceMethod) => {
-		it('throws error when node watch fail response', async () => {
+	const runNodeServiceThrowErrorTests = (nodeServiceMethod, params, expectedError) => {
+		it('throws error when node service fail response', async () => {
 			// Arrange:
-			const error = new Error(`node watch ${nodeWatchMethod} error`);
-
-			jest.spyOn(NodeWatchService, nodeWatchMethod).mockRejectedValue(error);
+			jest.spyOn(NodeWatchService, 'getNodes').mockRejectedValue(new Error());
+			jest.spyOn(NodeWatchService, 'getNodeByMainPublicKey').mockRejectedValue(new Error());
 
 			// Act + Assert:
-			await expect(NodeService[NodeServiceMethod]()).rejects.toThrow(error);
+			await expect(NodeService[nodeServiceMethod](params)).rejects.toThrow(expectedError);
 		});
 	};
 
@@ -151,7 +150,7 @@ describe('Node Service', () => {
 			]);
 		});
 
-		runNodeWatchFailResponseTests('getNodes', 'getAvailableNodes');
+		runNodeServiceThrowErrorTests('getAvailableNodes', undefined, 'Failed to get available nodes');
 	});
 
 	describe('getNodeStats', () => {
@@ -258,7 +257,7 @@ describe('Node Service', () => {
 			nodeWatchServiceNodeResponse[3]
 		].forEach(lightNode => runLightRestNodeTests(lightNode));
 
-		runNodeWatchFailResponseTests('getNodeByMainPublicKey', 'getNodeInfo');
+		runNodeServiceThrowErrorTests('getNodeInfo', 'public key 123', 'Failed to get node info for public key public key 123');
 	});
 
 	describe('getAPINodeList', () => {
@@ -291,5 +290,77 @@ describe('Node Service', () => {
 				}
 			]);
 		});
+	});
+
+	describe('getNodeHeightAndFinalizedHeightStats', () => {
+		it('returns node height and finalized height count and group by version', async () => {
+			// Arrange:
+			const mockApiResponse = [
+				{
+					...nodeCommonField,
+					version: '1.0.3.6',
+					height: 120,
+					finalizedHeight: 100
+				},
+				{
+					...nodeCommonField,
+					version: '1.0.3.6',
+					height: 120,
+					finalizedHeight: 100
+				},
+				{
+					...nodeCommonField,
+					version: '1.0.3.5',
+					height: 120,
+					finalizedHeight: 99
+				},
+				{
+					...nodeCommonField,
+					version: '1.0.3.5',
+					height: 120,
+					finalizedHeight: 100
+				},
+				{
+					...nodeCommonField,
+					version: '1.0.3.4',
+					height: 120,
+					finalizedHeight: 100
+				}
+			];
+
+			jest.spyOn(NodeWatchService, 'getNodes').mockResolvedValue(mockApiResponse);
+
+			// Act:
+			const result = await NodeService.getNodeHeightAndFinalizedHeightStats();
+
+			// Assert:
+			expect(result).toEqual([
+				{
+					'data': [{'x': 120, 'y': 2, 'z': 2}],
+					'name': '1.0.3.6 - Height'
+				},
+				{
+					'data': [{'x': 100, 'y': 2, 'z': 2}],
+					'name': '1.0.3.6 - Finalized Height'},
+				{
+					'data': [{'x': 120, 'y': 2, 'z': 2}],
+					'name': '1.0.3.5 - Height'
+				},
+				{
+					'data': [{'x': 99, 'y': 1, 'z': 1}, {'x': 100, 'y': 1, 'z': 1}],
+					'name': '1.0.3.5 - Finalized Height'
+				},
+				{
+					'data': [{'x': 120, 'y': 1, 'z': 1}],
+					'name': '1.0.3.4 - Height'
+				},
+				{
+					'data': [{'x': 100, 'y': 1, 'z': 1}],
+					'name': '1.0.3.4 - Finalized Height'
+				}
+			]);
+		});
+
+		runNodeServiceThrowErrorTests('getNodeHeightAndFinalizedHeightStats', undefined, 'Failed to get node height stats');
 	});
 });
