@@ -220,7 +220,8 @@ export default {
 				tooltip: {
 					enabled: true,
 					z: {
-						title: 'Count: '
+						formatter: () => '',
+						title: ''
 					},
 				},
 				legend: {
