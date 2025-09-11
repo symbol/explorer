@@ -365,52 +365,29 @@ const TestHelper = {
 			innerTransactions
 		};
 	},
-	generateNodePeerStatus: isAvailable => {
-		return {
-			isAvailable,
-			lastStatusCheck: 1676809816662
-		};
-	},
-	generateNodeApiStatus: isAvailable => {
-		return {
-			isAvailable,
-			nodePublicKey: '4DA6FB57FA168EEBBCB68DA4DDC8DA7BCF41EC93FB22A33DF510DB0F2670F623',
-			chainHeight: 2027193,
-			finalization: {
-				height: 2031992,
-				epoch: 1413,
-				point: 7,
-				hash: '6B687D9B689611C90A1094A7430E78914F22A2570C80D3E42D520EB08091A973'
-			},
-			nodeStatus: {
-				apiNode: 'up',
-				db: 'up'
-			},
-			restVersion: '2.4.2',
-			restGatewayUrl: 'localhost.com',
-			isHttpsEnabled: true
-		};
-	},
 	nodeCommonField: {
-		version: 16777989,
-		publicKey: '016DC1622EE42EF9E4D215FA1112E89040DD7AED83007283725CE9BA550272F5',
-		networkGenerationHashSeed: '57F7DA205008026C776CB6AED843393F04CD458E0AA2D9F1D5F31A402072B2D6',
-		port: 7900,
-		networkIdentifier: 104,
-		host: 'node.com',
-		friendlyName: 'node',
-		lastAvailable: '2023-02-19T12:36:04.524Z',
-		hostDetail: {},
-		location: '',
-		ip: '127.0.0.1',
-		organization: '',
-		as: '',
-		continent: '',
-		country: '',
-		region: '',
-		city: '',
-		district: '',
-		zip: ''
+		version: '1.0.3.5',
+		mainPublicKey: '016DC1622EE42EF9E4D215FA1112E89040DD7AED83007283725CE9BA550272F5',
+		endpoint: 'http://node.com:3000',
+		finalizedEpoch: 50,
+		finalizedHash: 'finalized hash',
+		finalizedHeight: 100,
+		finalizedPoint: 1,
+		geoLocation: null,
+		height: 120,
+		name: 'node',
+		restVersion: null,
+		isHealthy: null,
+		isSslEnabled: null
+	},
+	geoLocationCommonField: {
+		city: 'ABC City',
+		continent: 'ABC',
+		country: 'ABC',
+		isp: 'ABC Online',
+		lat: 10.000,
+		lon: 20.000,
+		region: 'SN'
 	}
 };
 

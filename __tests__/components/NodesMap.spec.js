@@ -10,7 +10,7 @@ jest.mock('../../src/styles/img/connector_blue_light.png', () => 'blue-light.png
 jest.mock('../../src/styles/img/connector_green.png', () => 'green.png');
 jest.mock('../../src/styles/img/connector_green_light.png', () => 'green-light.png');
 
-const setupStoreMount = (role, apiStatus) => {
+const setupStoreMount = (role, isApiNode) => {
 	const nodeModule = {
 		namespaced: true
 	};
@@ -36,9 +36,7 @@ const setupStoreMount = (role, apiStatus) => {
 	const propsData = {
 		nodes: [{
 			rolesRaw: role,
-			apiStatus: {
-				isAvailable: apiStatus
-			},
+			isApiNode,
 			coordinates: {
 				latitude: 1,
 				longitude: 2
@@ -58,9 +56,9 @@ localVue.use(Vuex);
 
 describe('NodesMap', () => {
 	describe('addMarkers', () => {
-		const assertMarkerIcon = (role, apiStatus, expectedIcon) => {
+		const assertMarkerIcon = (role, isApiNode, expectedIcon) => {
 			// Arrange:
-			const wrapper = setupStoreMount(role, apiStatus);
+			const wrapper = setupStoreMount(role, isApiNode);
 
 			// Act:
 			wrapper.vm.addMarkers();

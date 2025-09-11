@@ -166,7 +166,7 @@ export default {
                     '</span><br/><span title="' + node.address + '"><b>' + this.getNameByKey('address') + ':</b> ' + this.formatText(node.address) +
                     '</span><br/><span title="' + node.location + '"><b>' + this.getNameByKey('location') + ':</b> ' + this.formatText(node.location) +
                     '</span><br/><span style="' + this.buttonContainerStyle + '">' +
-                    '<a style="' + this.button1Style + '" href="' + this.getPageHref('node', node.publicKey) + '">' + this.getNameByKey('nodeDetailTitle') +
+                    '<a style="' + this.button1Style + '" href="' + this.getPageHref('node', node.mainPublicKey) + '">' + this.getNameByKey('nodeDetailTitle') +
                     '</a><a style="' + this.button2Style + '" href="' + this.getPageHref('address', node.address) + '"> ' + this.getNameByKey('accountDetailTitle') + '</a>' +
                     '</span>';
 
@@ -175,7 +175,7 @@ export default {
 
 					switch (node.rolesRaw) {
 					case 1:
-						icon = node.apiStatus?.isAvailable ? iconPeerLight : iconPeer;
+						icon = node.isApiNode ? iconPeerLight : iconPeer;
 						break;
 					case 2:
 					case 3:
@@ -183,7 +183,7 @@ export default {
 						break;
 					case 4:
 					case 5:
-						icon = node.apiStatus?.isAvailable ? iconVotingLight : iconVoting;
+						icon = node.isApiNode ? iconVotingLight : iconVoting;
 						break;
 					case 6:
 					case 7:

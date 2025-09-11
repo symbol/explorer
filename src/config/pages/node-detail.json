@@ -27,7 +27,7 @@
 					"networkGenerationHashSeed",
 					"network",
 					"networkIdentifier",
-					"publicKey",
+					"mainPublicKey",
 					"address"
 				]
 			},
@@ -49,20 +49,17 @@
 				"type": "CardTable",
 				"title": "nodeHostDetailTitle",
 				"managerGetter": "node/info",
-				"dataGetter": "node/hostDetail",
+				"dataGetter": "node/geoLocation",
 				"hideDependOnGetter": "node/hostInfoManager",
 				"errorMessage": "nodeDetailError",
 				"pagination": "none",
 				"fields": [
-					"ip",
-					"organization",
-					"as",
 					"continent",
 					"country",
 					"region",
 					"city",
-					"district",
-					"zip"
+					"isp"
+
 				]
 			},
 			{
@@ -76,26 +73,9 @@
 				"hideEmptyData": true,
 				"fields": [
 					"connectionStatus",
-					"databaseStatus",
-					"apiNodeStatus",
 					"lightNodeStatus",
 					"isHttpsEnabled",
-					"restVersion",
-					"lastStatusCheck"
-				]
-			},
-			{
-				"layoutOptions": "adaptive",
-				"type": "CardTable",
-				"title": "nodePeerStatusTitle",
-				"managerGetter": "node/info",
-				"dataGetter": "node/peerStatus",
-				"errorMessage": "nodeDetailError",
-				"pagination": "none",
-				"hideEmptyData": true,
-				"fields": [
-					"connectionStatus",
-					"lastStatusCheck"
+					"restVersion"
 				]
 			},
 			{

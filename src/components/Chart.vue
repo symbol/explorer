@@ -88,6 +88,16 @@ export default {
 		intYaxis: {
 			type: Boolean,
 			default: false
+		},
+		// Axis range configuration for bubble charts
+		xaxisRange: {
+			type: Array,
+			default: () => null
+		},
+
+		yaxisRange: {
+			type: Array,
+			default: () => null
 		}
 	},
 
@@ -114,7 +124,13 @@ export default {
 							reset: '<i class="ico-ios-refresh-outline" style="font-size: 22px;"></i>',
 							customIcons: []
 						}
-					}
+					},
+					...(this.type === 'bubble' && {
+						zoom: {
+							enabled: false,
+							type: 'x'
+						},
+					})
 				},
 				stroke: {
 					show: true,
@@ -149,13 +165,18 @@ export default {
 						dataLabels: {
 							position: 'top'
 						}
+					},
+					bubble: {
+						zScaling: true,
+						minBubbleRadius: 10,
+						maxBubbleRadius: 50
 					}
 				},
 				title: {
 					display: false
 				},
 				xaxis: {
-					type: this.xaxisType,
+					type: this.type === 'bubble' ? 'numeric' : this.xaxisType,
 					axisBorder: {
 						show: false,
 						color: '#0998a6'
@@ -168,7 +189,11 @@ export default {
 									: val;
 							}
 						}
-						: {}
+						: {},
+					...(this.xaxisRange && {
+						min: this.xaxisRange[0],
+						max: this.xaxisRange[1]
+					})
 				},
 				yaxis: {
 					tooltip: {
@@ -186,10 +211,18 @@ export default {
 									: val;
 							}
 						}
-						: {}
+						: {},
+					...(this.yaxisRange && {
+						min: this.yaxisRange[0],
+						max: this.yaxisRange[1]
+					})
 				},
 				tooltip: {
-					enabled: true
+					enabled: true,
+					z: {
+						formatter: () => '',
+						title: ''
+					},
 				},
 				legend: {
 					show: true,

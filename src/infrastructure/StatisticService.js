@@ -16,8 +16,7 @@
  *
  */
 import Constants from '../config/constants';
-import globalConfig from '../config/globalConfig';
-import Axios from 'axios';
+import { NodeWatchService } from '../infrastructure';
 
 class StatisticService {
 	/**
@@ -145,18 +144,10 @@ class StatisticService {
 	}
 
 	static getNodeCountSeries = async () => {
-		const data = await StatisticService.fetchFromStatisticsService('/timeSeries/nodeCount');
+		const data = await NodeWatchService.getNodeCount();
 		const chartData = StatisticService.formatChartData(data, ['1', '2', '3', '4', '5', '6', '7', 'total']);
 
 		return chartData.map(el => ({ ...el, name: Constants.RoleType[el.name] || el.name }));
-	}
-
-	static fetchFromStatisticsService = async route => {
-		if (this.isUrlProvided())
-			return (await Axios.get(globalConfig.endpoints.statisticsService + route)).data;
-
-		else
-			throw Error('Statistics service endpoint is not provided');
 	}
 
 	static formatChartData = (data, includeKeys) => {
@@ -188,15 +179,6 @@ class StatisticService {
 		}));
 
 		return chartData;
-	}
-
-	static isUrlProvided () {
-		try {
-			new URL(globalConfig?.endpoints?.statisticsService); // eslint-disable-line no-new
-			return true;
-		} catch (e) {
-			return false;
-		}
 	}
 }
 

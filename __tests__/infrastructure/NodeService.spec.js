@@ -1,94 +1,92 @@
-import { NodeService } from '../../src/infrastructure';
-import http from '../../src/infrastructure/http';
+import { NodeService, NodeWatchService } from '../../src/infrastructure';
 import TestHelper from '../TestHelper';
 
 describe('Node Service', () => {
 	// Arrange:
 	const {
-		generateNodePeerStatus,
-		generateNodeApiStatus,
-		nodeCommonField
+		nodeCommonField,
+		geoLocationCommonField
 	} = TestHelper;
 
-	const statisticServiceNodeResponse = [
+	const nodeWatchServiceNodeResponse = [
 		{
+			...nodeCommonField,
 			roles: 1,
-			peerStatus: generateNodePeerStatus(true),
-			...nodeCommonField
+			restVersion: null,
+			isHealthy: null,
+			isSslEnabled: null
 		},
 		{
-			roles: 2,
-			apiStatus: generateNodeApiStatus(false),
-			...nodeCommonField
+			...nodeCommonField,
+			roles: 1, // Peer node (light)
+			restVersion: '2.4.4',
+			isHealthy: null,
+			isSslEnabled: true
 		},
 		{
+			...nodeCommonField,
 			roles: 3,
-			peerStatus: generateNodePeerStatus(true),
-			apiStatus: generateNodeApiStatus(false),
-			...nodeCommonField
+			restVersion: '2.4.4',
+			isHealthy: true,
+			isSslEnabled: true
 		},
 		{
-			roles: 3,
-			peerStatus: generateNodePeerStatus(true),
-			apiStatus: generateNodeApiStatus(true),
-			...nodeCommonField
+			...nodeCommonField,
+			roles: 5, // Peer Voting node (light)
+			restVersion: '2.4.4',
+			isHealthy: null,
+			isSslEnabled: true
 		},
 		{
-			roles: 3,
-			peerStatus: generateNodePeerStatus(false),
-			apiStatus: generateNodeApiStatus(false),
-			...nodeCommonField
-		},
-		{
+			...nodeCommonField,
 			roles: 5,
-			peerStatus: generateNodePeerStatus(true),
-			...nodeCommonField
+			restVersion: null,
+			isHealthy: null,
+			isSslEnabled: null
 		},
 		{
-			roles: 5,
-			peerStatus: generateNodePeerStatus(false),
-			...nodeCommonField
-		},
-		{
+			...nodeCommonField,
 			roles: 7,
-			peerStatus: generateNodePeerStatus(true),
-			apiStatus: generateNodeApiStatus(true),
-			...nodeCommonField
+			restVersion: '2.4.4',
+			isHealthy: true,
+			isSslEnabled: true
 		}
 	];
 
 	const nodeFormattedCommonField = {
-		network: 'MAINNET',
-		address: 'NDY2CXBR6SK3G7UWVXZT6YQTVJKHKFMPU74ZOYY',
-		nodePublicKey:
+		network: 'TESTNET',
+		networkIdentifier: 152,
+		address: 'TDY2CXBR6SK3G7UWVXZT6YQTVJKHKFMPU6UDZ6Q',
+		mainPublicKey:
 			'016DC1622EE42EF9E4D215FA1112E89040DD7AED83007283725CE9BA550272F5',
-		version: '1.0.3.5'
+		version: '1.0.3.5',
+		friendlyName: 'node',
+		finalizedEpoch: 50,
+		finalizedHash: 'finalized hash',
+		finalizedHeight: 100,
+		finalizedPoint: 1,
+		geoLocation: null,
+		height: 120,
+		host: 'node.com',
+		port: '3000',
+		networkGenerationHashSeed: '57F7DA205008026C776CB6AED843393F04CD458E0AA2D9F1D5F31A402072B2D6'
 	};
 
-	const runStatisticServiceFailResponseTests = (statisticServiceMethod, NodeServiceMethod) => {
-		it('throws error when statistic services fail response', async () => {
+	const runNodeServiceThrowErrorTests = (nodeServiceMethod, params, expectedError) => {
+		it('throws error when node service fail response', async () => {
 			// Arrange:
-			const error = new Error(`Statistics service ${statisticServiceMethod} error`);
-
-			http.statisticServiceRestClient = jest.fn().mockImplementation(() => {
-				return {
-					[statisticServiceMethod]: jest.fn().mockRejectedValue(error)
-				};
-			});
+			jest.spyOn(NodeWatchService, 'getNodes').mockRejectedValue(new Error());
+			jest.spyOn(NodeWatchService, 'getNodeByMainPublicKey').mockRejectedValue(new Error());
 
 			// Act + Assert:
-			await expect(NodeService[NodeServiceMethod]()).rejects.toThrow(error);
+			await expect(NodeService[nodeServiceMethod](params)).rejects.toThrow(expectedError);
 		});
 	};
 
 	describe('getAvailableNodes', () => {
-		it('returns available node from statistic services', async () => {
+		it('returns available node from node watch services', async () => {
 			// Arrange:
-			http.statisticServiceRestClient = jest.fn().mockImplementation(() => {
-				return {
-					getNodes: jest.fn().mockResolvedValue(statisticServiceNodeResponse)
-				};
-			});
+			jest.spyOn(NodeWatchService, 'getNodes').mockResolvedValue(nodeWatchServiceNodeResponse);
 
 			// Act:
 			const result = await NodeService.getAvailableNodes();
@@ -96,123 +94,80 @@ describe('Node Service', () => {
 			// Assert:
 			expect(result).toEqual([
 				{
-					...nodeCommonField,
 					...nodeFormattedCommonField,
+					restVersion: null,
+					isHealthy: null,
+					isHttpsEnabled: null,
 					apiEndpoint: 'N/A',
 					roles: 'Peer node',
-					rolesRaw: 1,
-					peerStatus: generateNodePeerStatus(true)
+					rolesRaw: 1
 				},
 				{
-					...nodeCommonField,
 					...nodeFormattedCommonField,
-					apiEndpoint: 'localhost.com',
+					restVersion: '2.4.4',
+					isHealthy: null,
+					isHttpsEnabled: true,
+					apiEndpoint: 'http://node.com:3000',
+					roles: 'Peer node (light)',
+					rolesRaw: 1
+				},
+				{
+					...nodeFormattedCommonField,
+					restVersion: '2.4.4',
+					isHealthy: true,
+					isHttpsEnabled: true,
+					apiEndpoint: 'http://node.com:3000',
 					roles: 'Peer Api node',
-					rolesRaw: 3,
-					peerStatus: generateNodePeerStatus(true),
-					apiStatus: generateNodeApiStatus(false)
+					rolesRaw: 3
 				},
 				{
-					...nodeCommonField,
 					...nodeFormattedCommonField,
-					apiEndpoint: 'localhost.com',
-					roles: 'Peer Api node',
-					rolesRaw: 3,
-					peerStatus: generateNodePeerStatus(true),
-					apiStatus: generateNodeApiStatus(true)
+					restVersion: '2.4.4',
+					isHealthy: null,
+					isHttpsEnabled: true,
+					apiEndpoint: 'http://node.com:3000',
+					roles: 'Peer Voting node (light)',
+					rolesRaw: 5
 				},
 				{
-					...nodeCommonField,
 					...nodeFormattedCommonField,
+					restVersion: null,
+					isHealthy: null,
+					isHttpsEnabled: null,
 					apiEndpoint: 'N/A',
 					roles: 'Peer Voting node',
-					rolesRaw: 5,
-					peerStatus: generateNodePeerStatus(true)
+					rolesRaw: 5
 				},
 				{
-					...nodeCommonField,
 					...nodeFormattedCommonField,
-					apiEndpoint: 'localhost.com',
+					restVersion: '2.4.4',
+					isHealthy: true,
+					isHttpsEnabled: true,
+					apiEndpoint: 'http://node.com:3000',
 					roles: 'Peer Api Voting node',
-					rolesRaw: 7,
-					peerStatus: generateNodePeerStatus(true),
-					apiStatus: generateNodeApiStatus(true)
+					rolesRaw: 7
 				}
 			]);
 		});
 
-		it('returns available light node from statistic services', async () => {
-			// Arrange:
-			const createExpectedNode = (rolesRaw, roleName) => ({
-				...nodeCommonField,
-				...nodeFormattedCommonField,
-				apiEndpoint: 'N/A',
-				roles: roleName,
-				rolesRaw,
-				peerStatus: generateNodePeerStatus(true),
-				apiStatus: generateNodeApiStatus(true)
-			});
-
-			const statisticServiceLightNodeResponse = [
-				{
-					roles: 1,
-					peerStatus: generateNodePeerStatus(true),
-					apiStatus: generateNodeApiStatus(true),
-					...nodeCommonField
-				},
-				{
-					roles: 4,
-					peerStatus: generateNodePeerStatus(true),
-					apiStatus: generateNodeApiStatus(true),
-					...nodeCommonField
-				},
-				{
-					roles: 5,
-					peerStatus: generateNodePeerStatus(true),
-					apiStatus: generateNodeApiStatus(true),
-					...nodeCommonField
-				}
-			];
-
-			http.statisticServiceRestClient = jest.fn().mockImplementation(() => {
-				return {
-					getNodes: jest.fn().mockResolvedValue(statisticServiceLightNodeResponse)
-				};
-			});
-
-			// Act:
-			const result = await NodeService.getAvailableNodes();
-
-			// Assert:
-			expect(result).toEqual([
-				createExpectedNode(1, 'Peer node (light)'),
-				createExpectedNode(4, 'Voting node (light)'),
-				createExpectedNode(5, 'Peer Voting node (light)')
-			]);
-		});
-
-		runStatisticServiceFailResponseTests('getNodes', 'getAvailableNodes');
+		runNodeServiceThrowErrorTests('getAvailableNodes', undefined, 'Failed to get available nodes');
 	});
 
 	describe('getNodeStats', () => {
 		it('return nodes count with 7 types of roles', async () => {
 			// Arrange:
-			http.statisticServiceRestClient = jest.fn().mockImplementation(() => {
-				return {
-					getNodes: jest.fn().mockResolvedValue(statisticServiceNodeResponse)
-				};
-			});
+			jest.spyOn(NodeWatchService, 'getNodes').mockResolvedValue(nodeWatchServiceNodeResponse);
 
 			// Act:
 			const nodeStats = await NodeService.getNodeStats();
 
 			// Assert:
 			expect(nodeStats).toEqual({
-				1: 1,
+				1: 2,
 				2: 0,
-				3: 2,
+				3: 1,
 				4: 0,
-				5: 1,
+				5: 2,
 				6: 0,
 				7: 1
 			});
@@ -223,127 +178,189 @@ describe('Node Service', () => {
 		// Arrange:
 		Date.now = jest.fn(() => new Date('2023-02-21'));
 
-		const expectedPeerStatus = {
-			connectionStatus: true,
-			lastStatusCheck: '2023-02-19 12:30:16'
-		};
-
-		const expectedAPIStatus = {
-			apiNodeStatus: true,
-			connectionStatus: false,
-			databaseStatus: true,
-			isHttpsEnabled: true,
-			lastStatusCheck: '2023-02-21 00:00:00',
-			restVersion: '2.4.2'
-		};
-
 		const expectedChainInfoStatus = {
-			height: 2027193,
-			finalizedHeight: 2031992,
-			finalizationEpoch: 1413,
-			finalizationPoint: 7,
-			finalizedHash: '6B687D9B689611C90A1094A7430E78914F22A2570C80D3E42D520EB08091A973',
-			lastStatusCheck: '2023-02-21 00:00:00'
+			height: 120,
+			finalizedHeight: 100,
+			finalizationEpoch: 50,
+			finalizationPoint: 1,
+			finalizedHash: 'finalized hash'
 		};
 
 		const assertNodeStatus = async (node, expectedResult) => {
 			// Arrange:
-			http.statisticServiceRestClient = jest.fn().mockImplementation(() => {
-				return {
-					getNode: jest.fn().mockResolvedValue(node)
-				};
-			});
+			jest.spyOn(NodeWatchService, 'getNodeByMainPublicKey').mockResolvedValue(node);
 
 			// Act:
-			const { apiStatus, chainInfo, peerStatus, mapInfo } =
-				await NodeService.getNodeInfo(node.publicKey);
+			const { apiStatus, chainInfo, mapInfo } =
+				await NodeService.getNodeInfo(node.mainPublicKey);
 
 			// Assert:
 			expect(apiStatus).toEqual(expectedResult.apiStatus);
 			expect(chainInfo).toEqual(expectedResult.chainInfo);
-			expect(peerStatus).toEqual(expectedResult.peerStatus);
 			expect(mapInfo).toEqual(expectedResult.mapInfo);
 		};
 
-		it('returns peer node status when peer status is present', async () => {
-			await assertNodeStatus(statisticServiceNodeResponse[0], {
-				peerStatus: expectedPeerStatus,
-				apiStatus: {},
-				chainInfo: {},
-				mapInfo: {
+		it('returns API node status, chain info and map info', async () => {
+			await assertNodeStatus(
+				{
+					...nodeWatchServiceNodeResponse[2],
+					geoLocation: geoLocationCommonField
+				},
+				{
 					apiStatus: {
-						isAvailable: undefined
+						connectionStatus: true,
+						isHttpsEnabled: true,
+						restVersion: '2.4.4'
 					},
-					rolesRaw: 1
-				}
-			});
-		});
-
-		it('returns api node status and chain info when api status is present', async () => {
-			await assertNodeStatus(statisticServiceNodeResponse[1], {
-				peerStatus: {},
-				apiStatus: expectedAPIStatus,
-				chainInfo: expectedChainInfoStatus,
-				mapInfo: {
-					apiStatus: {
-						isAvailable: false
-					},
-					rolesRaw: 2
-				}
-			});
-		});
-
-		it('returns chain info, api and peer node status when both status is present', async () => {
-			await assertNodeStatus(statisticServiceNodeResponse[2], {
-				peerStatus: expectedPeerStatus,
-				apiStatus: expectedAPIStatus,
-				chainInfo: expectedChainInfoStatus,
-				mapInfo: {
-					apiStatus: {
-						isAvailable: false
-					},
-					rolesRaw: 3
-				}
-			});
-		});
-
-		const runLightRestNodeTests = roles => {
-			it(`returns roles ${roles} node status and light rest status`, async () => {
-				// Arrange:
-				const lightNodeResponse = {
-					roles,
-					peerStatus: generateNodePeerStatus(true),
-					apiStatus: {
-						...generateNodeApiStatus(true),
-						nodeStatus: undefined
-					},
-					...nodeCommonField
-				};
-
-				const expectedLightAPIStatus = {
-					...expectedAPIStatus,
-					lightNodeStatus: true,
-					connectionStatus: true
-				};
-				delete expectedLightAPIStatus.databaseStatus;
-				delete expectedLightAPIStatus.apiNodeStatus;
-
-				await assertNodeStatus(lightNodeResponse, {
-					peerStatus: expectedPeerStatus,
-					apiStatus: expectedLightAPIStatus,
 					chainInfo: expectedChainInfoStatus,
 					mapInfo: {
-						apiStatus: {
-							isAvailable: true
+						city: 'ABC City',
+						continent: 'ABC',
+						country: 'ABC',
+						isp: 'ABC Online',
+						region: 'SN',
+						coordinates: {
+							latitude: 10.000,
+							longitude: 20.000
 						},
-						rolesRaw: roles
+						rolesRaw: 3,
+						isApiNode: true
 					}
+				}
+			);
+		});
+
+		it('returns Peer node status info, chain info without map info', async () => {
+			await assertNodeStatus(nodeWatchServiceNodeResponse[0], {
+				apiStatus: {},
+				chainInfo: expectedChainInfoStatus,
+				mapInfo: {}
+			});
+		});
+
+		const runLightRestNodeTests = lightNode => {
+			it(`returns roles ${lightNode.roles} node status and light rest status`, async () => {
+				await assertNodeStatus(lightNode, {
+					apiStatus: {
+						lightNodeStatus: true,
+						isHttpsEnabled: true,
+						restVersion: '2.4.4'
+					},
+					chainInfo: expectedChainInfoStatus,
+					mapInfo: {}
 				});
 			});
 		};
 
-		[1, 4, 5].forEach(roles => runLightRestNodeTests(roles));
+		[
+			nodeWatchServiceNodeResponse[1],
+			nodeWatchServiceNodeResponse[3]
+		].forEach(lightNode => runLightRestNodeTests(lightNode));
 
-		runStatisticServiceFailResponseTests('getNode', 'getNodeInfo');
+		runNodeServiceThrowErrorTests('getNodeInfo', 'public key 123', 'Failed to get node info for public key public key 123');
+	});
+
+	describe('getAPINodeList', () => {
+		it('returns a list of API nodes', async () => {
+			// Arrange:
+			jest.spyOn(NodeWatchService, 'getNodes').mockResolvedValue(nodeWatchServiceNodeResponse);
+
+			// Act:
+			const apiNodeList = await NodeService.getAPINodeList();
+
+			// Assert:
+			expect(apiNodeList).toEqual([
+				{
+					...nodeFormattedCommonField,
+					restVersion: '2.4.4',
+					isHealthy: true,
+					isHttpsEnabled: true,
+					apiEndpoint: 'http://node.com:3000',
+					roles: 'Peer Api node',
+					rolesRaw: 3
+				},
+				{
+					...nodeFormattedCommonField,
+					restVersion: '2.4.4',
+					isHealthy: true,
+					isHttpsEnabled: true,
+					apiEndpoint: 'http://node.com:3000',
+					roles: 'Peer Api Voting node',
+					rolesRaw: 7
+				}
+			]);
+		});
+	});
+
+	describe('getNodeHeightAndFinalizedHeightStats', () => {
+		it('returns node height and finalized height count and group by version', async () => {
+			// Arrange:
+			const mockApiResponse = [
+				{
+					...nodeCommonField,
+					version: '1.0.3.6',
+					height: 120,
+					finalizedHeight: 100
+				},
+				{
+					...nodeCommonField,
+					version: '1.0.3.6',
+					height: 120,
+					finalizedHeight: 100
+				},
+				{
+					...nodeCommonField,
+					version: '1.0.3.5',
+					height: 120,
+					finalizedHeight: 99
+				},
+				{
+					...nodeCommonField,
+					version: '1.0.3.5',
+					height: 120,
+					finalizedHeight: 100
+				},
+				{
+					...nodeCommonField,
+					version: '1.0.3.4',
+					height: 120,
+					finalizedHeight: 100
+				}
+			];
+
+			jest.spyOn(NodeWatchService, 'getNodes').mockResolvedValue(mockApiResponse);
+
+			// Act:
+			const result = await NodeService.getNodeHeightAndFinalizedHeightStats();
+
+			// Assert:
+			expect(result).toEqual([
+				{
+					'data': [{'x': 120, 'y': 2, 'z': 2}],
+					'name': '1.0.3.6 - Height'
+				},
+				{
+					'data': [{'x': 100, 'y': 2, 'z': 2}],
+					'name': '1.0.3.6 - Finalized Height'},
+				{
+					'data': [{'x': 120, 'y': 2, 'z': 2}],
+					'name': '1.0.3.5 - Height'
+				},
+				{
+					'data': [{'x': 99, 'y': 1, 'z': 1}, {'x': 100, 'y': 1, 'z': 1}],
+					'name': '1.0.3.5 - Finalized Height'
+				},
+				{
+					'data': [{'x': 120, 'y': 1, 'z': 1}],
+					'name': '1.0.3.4 - Height'
+				},
+				{
+					'data': [{'x': 100, 'y': 1, 'z': 1}],
+					'name': '1.0.3.4 - Finalized Height'
+				}
+			]);
+		});
+
+		runNodeServiceThrowErrorTests('getNodeHeightAndFinalizedHeightStats', undefined, 'Failed to get node height stats');
 	});
 });
