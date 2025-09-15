@@ -8,7 +8,7 @@ The explorer supports searching for transactions, accounts, namespaces, mosaics,
 
 ## Requirements
 
-- Node.js 12 or above
+- Node.js v20
 
 ## Installation
 
