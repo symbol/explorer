@@ -3,9 +3,9 @@ All notable changes to this project will be documented in this file.
 
 The changelog format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
-## [v1.4.0][v1.4.0] - 16-Sep-2025
+## [v1.4.0][v1.4.0] - 23-Sep-2025
 
-### Milestone: catapult-server@v1.0.3.8
+### Milestone: catapult-server@v1.0.3.9
 
 Package  | Version  | Link
 ---|---|---
@@ -15,6 +15,8 @@ SDK Core| v2.0.6 | symbol-sdk
 [Upgrade] [#1206](https://github.com/symbol/explorer/pull/1206): Removed Statistic service and migrated to NodeWatch service
 
 [Upgrade] [#1204](https://github.com/symbol/explorer/pull/1204): Updated discord link.
+
+[Upgrade] Symbol-SDK to v2.0.6
 
 ## [v1.3.0][v1.3.0] - 9-Apr-2025
 Package  | Version  | Link
